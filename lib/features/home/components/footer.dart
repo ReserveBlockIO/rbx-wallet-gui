@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rbx_wallet/core/app_contants.dart';
 import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Footer extends BaseComponent {
@@ -39,13 +43,38 @@ class Footer extends BaseComponent {
               )
             ],
           ),
-          if (ref.read(sessionProvider).packageInfo != null)
-            Text(
-              "RBXWallet v${ref.read(sessionProvider).packageInfo!.version}",
-              style: Theme.of(context).textTheme.caption!.copyWith(
-                    fontSize: 9,
-                  ),
-            )
+          Text(
+            "RBXWallet v${APP_VERSION}",
+            style: Theme.of(context).textTheme.caption!.copyWith(
+                  fontSize: 9,
+                ),
+          ),
+          SizedBox(
+            height: 3,
+          ),
+          TextButton(
+            onPressed: () async {
+              final confirmed = await ConfirmDialog.show(
+                title: "Are you sure",
+                body:
+                    "If you don't know what this is, you probably shouldn't do it.",
+                destructive: true,
+                confirmText: "Terminate",
+                cancelText: "Cancel",
+              );
+
+              if (confirmed == true) {
+                await BridgeService().killCli();
+              }
+            },
+            child: Text(
+              "Terminate CLI",
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.danger,
+                fontSize: 10,
+              ),
+            ),
+          )
         ],
       ),
     );

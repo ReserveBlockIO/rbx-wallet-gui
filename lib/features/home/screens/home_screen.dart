@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
@@ -41,6 +39,12 @@ class HomeScreen extends BaseScreen {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  // AppButton(
+                  //   label: "kill",
+                  //   onPressed: () {
+                  //     BridgeService().killCli();
+                  //   },
+                  // ),
                   Text(
                     "General Tools",
                     style: Theme.of(context).textTheme.subtitle2,

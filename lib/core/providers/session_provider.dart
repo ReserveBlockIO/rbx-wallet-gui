@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:rbx_wallet/app.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
@@ -28,15 +27,14 @@ class SessionModel {
   final bool ready;
   final bool filteringTransactions;
   final bool cliStarted;
-  final PackageInfo? packageInfo;
 
-  const SessionModel(
-      {this.currentWallet,
-      this.startTime,
-      this.ready = false,
-      this.cliStarted = false,
-      this.filteringTransactions = false,
-      this.packageInfo});
+  const SessionModel({
+    this.currentWallet,
+    this.startTime,
+    this.ready = false,
+    this.cliStarted = false,
+    this.filteringTransactions = false,
+  });
 
   SessionModel copyWith({
     Wallet? currentWallet,
@@ -44,16 +42,15 @@ class SessionModel {
     bool? ready,
     bool? filteringTransactions,
     bool? cliStarted,
-    PackageInfo? packageInfo,
   }) {
     return SessionModel(
-        startTime: startTime ?? this.startTime,
-        currentWallet: currentWallet ?? this.currentWallet,
-        ready: ready ?? this.ready,
-        filteringTransactions:
-            filteringTransactions ?? this.filteringTransactions,
-        cliStarted: cliStarted ?? this.cliStarted,
-        packageInfo: packageInfo ?? this.packageInfo);
+      startTime: startTime ?? this.startTime,
+      currentWallet: currentWallet ?? this.currentWallet,
+      ready: ready ?? this.ready,
+      filteringTransactions:
+          filteringTransactions ?? this.filteringTransactions,
+      cliStarted: cliStarted ?? this.cliStarted,
+    );
   }
 
   String get startTimeFormatted {
@@ -75,8 +72,6 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   Future<void> init() async {
-    final packageInfo = await PackageInfo.fromPlatform();
-
     bool cliStarted = state.cliStarted;
     if (!cliStarted) {
       cliStarted = await _startCli();
@@ -91,7 +86,6 @@ class SessionProvider extends StateNotifier<SessionModel> {
       ready: true,
       startTime: now,
       cliStarted: cliStarted,
-      packageInfo: packageInfo,
     );
 
     await load();
@@ -264,6 +258,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   Future<bool> _startCli() async {
+    return true;
     const cliPath =
         '/Applications/RBXWallet.app/Contents/Resources/RBXCore/ReserveBlockCore';
     final options = ['enableapi', 'hidecli'];

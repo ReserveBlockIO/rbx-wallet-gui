@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/components/centered_loader.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
 import 'package:rbx_wallet/features/validator/providers/current_validator_provider.dart';
 import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
@@ -39,26 +41,53 @@ class ValidatorScreen extends BaseScreen {
         message: "${currentWallet.address} is not eligable to be a validator",
       );
     }
+    if (!currentWallet.isValidating) {
+      return Center(
+        child: AppButton(
+          label: "Start Validating",
+          icon: Icons.star,
+          onPressed: () async {
+            final response = await BridgeService()
+                .startValidating(validator.address, "test1234");
+            if (response == "FAIL") {
+              Toast.error();
+              return;
+            }
+
+            if (response == "Node name already taken.") {
+              Toast.error("Node name already taken.");
+            }
+
+            print(response);
+          },
+        ),
+      );
+    }
 
     return Center(
-      child: AppButton(
-        label: "Start Validating",
-        icon: Icons.star,
-        onPressed: () async {
-          final response = await BridgeService()
-              .startValidating(validator.address, "test1234");
-          if (response == "FAIL") {
-            Toast.error();
-            return;
-          }
-
-          if (response == "Node name already taken.") {
-            Toast.error("Node name already taken.");
-          }
-
-          print(response);
-        },
-      ),
-    );
+        child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          "${currentWallet.labelWithoutTruncation} is Validating...",
+          style: Theme.of(context).textTheme.headline4,
+        ),
+        Padding(
+          padding: const EdgeInsets.all(32),
+          child: SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(
+                    Theme.of(context).colorScheme.secondary),
+              )),
+        ),
+        AppButton(
+          label: "Stop Validating",
+          variant: AppColorVariant.Danger,
+          onPressed: () {},
+        ),
+      ],
+    ));
   }
 }

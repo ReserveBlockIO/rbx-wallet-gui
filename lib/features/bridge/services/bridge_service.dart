@@ -64,4 +64,8 @@ class BridgeService extends BaseService {
   Future<String> startValidating(String address, String username) async {
     return await getText("/StartValidating/$address/$username");
   }
+
+  Future<void> killCli() async {
+    await getText("/SendExit");
+  }
 }
