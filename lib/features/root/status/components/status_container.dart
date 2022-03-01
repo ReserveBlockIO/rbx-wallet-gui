@@ -1,0 +1,203 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/base_component.dart';
+import 'package:rbx_wallet/core/components/badges.dart';
+import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/bridge/providers/status_provider.dart';
+import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
+import 'package:rbx_wallet/generated/assets.gen.dart';
+
+class StatusContainer extends BaseComponent {
+  const StatusContainer({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final status = ref.watch(statusProvider);
+    final walletInfo = ref.watch(walletInfoProvider);
+
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.black38,
+        border: Border(
+          left: BorderSide(
+            width: 1,
+            color: Colors.black54,
+          ),
+        ),
+      ),
+      width: 200,
+      child: Stack(
+        children: [
+          Image.asset(
+            Assets.images.grid.path,
+            width: double.infinity,
+            height: double.infinity,
+            fit: BoxFit.cover,
+          ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Opacity(
+              opacity: 0.5,
+              child: Image.asset(
+                Assets.images.decorBottomRight.path,
+                width: 200,
+                height: 200,
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Status",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    _StatusIndicator(status),
+                  ],
+                ),
+                _DetailItem(
+                  label: "Blockchain Version",
+                  value: "1.0",
+                  icon: Icons.sentiment_very_satisfied_outlined,
+                ),
+                if (walletInfo != null)
+                  _DetailItem(
+                    label: "Block Height",
+                    value: "${walletInfo.blockHeight}",
+                    icon: Icons.summarize,
+                  ),
+                if (walletInfo != null)
+                  _DetailItem(
+                    label: "Peers (In / Out)",
+                    value: "${walletInfo.peerCount} / 6",
+                    icon: Icons.people_alt,
+                  ),
+                if (walletInfo != null)
+                  _DetailItem(
+                    label: "Wallet Started",
+                    value: ref.watch(sessionProvider).startTimeFormatted,
+                    icon: Icons.timer,
+                  ),
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: _BlockStatus(),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _BlockStatus extends StatelessWidget {
+  const _BlockStatus({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Color(0xFF050505),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.white10,
+            spreadRadius: 3,
+            blurRadius: 3,
+          ),
+        ],
+      ),
+      width: double.infinity,
+      child: Padding(
+        padding: EdgeInsets.all(6.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "Block Progress",
+              style: Theme.of(context).textTheme.caption,
+            ),
+            SizedBox(height: 8),
+            LinearProgressIndicator(
+              value: 0.5,
+              valueColor: AlwaysStoppedAnimation<Color>(
+                  Theme.of(context).colorScheme.secondary),
+            ),
+            SizedBox(height: 4),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Text(
+                "1024/10,482",
+                style: Theme.of(context).textTheme.caption,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _StatusIndicator extends StatelessWidget {
+  final BridgeStatus status;
+
+  const _StatusIndicator(this.status, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    switch (status) {
+      case BridgeStatus.Loading:
+        return AppBadge(
+          label: "Loading",
+          variant: AppColorVariant.Primary,
+        );
+      case BridgeStatus.Online:
+        return AppBadge(
+          label: "Online",
+          variant: AppColorVariant.Success,
+        );
+      case BridgeStatus.Offline:
+        return AppBadge(
+          label: "Offline",
+          variant: AppColorVariant.Danger,
+        );
+    }
+  }
+}
+
+class _DetailItem extends StatelessWidget {
+  final String label;
+  final String value;
+  final IconData icon;
+
+  const _DetailItem({
+    Key? key,
+    required this.label,
+    required this.value,
+    required this.icon,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      contentPadding: EdgeInsets.zero,
+      horizontalTitleGap: 0,
+      dense: true,
+      visualDensity: VisualDensity.compact,
+      title: Text(value),
+      subtitle: Text(label),
+      leading: Icon(icon),
+    );
+  }
+}
