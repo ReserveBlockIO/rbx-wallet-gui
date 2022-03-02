@@ -7,89 +7,14 @@
 
 import 'package:flutter/widgets.dart';
 
-class $AssetsCliGen {
-  const $AssetsCliGen();
-
-  /// File path: assets/cli/LiteDB.dll
-  String get liteDB => 'assets/cli/LiteDB.dll';
-
-  /// File path: assets/cli/Microsoft.AspNetCore.Connections.Abstractions.dll
-  String get microsoftAspNetCoreConnectionsAbstractions =>
-      'assets/cli/Microsoft.AspNetCore.Connections.Abstractions.dll';
-
-  /// File path: assets/cli/Microsoft.AspNetCore.Http.Connections.Client.dll
-  String get microsoftAspNetCoreHttpConnectionsClient =>
-      'assets/cli/Microsoft.AspNetCore.Http.Connections.Client.dll';
-
-  /// File path: assets/cli/Microsoft.AspNetCore.Http.Connections.Common.dll
-  String get microsoftAspNetCoreHttpConnectionsCommon =>
-      'assets/cli/Microsoft.AspNetCore.Http.Connections.Common.dll';
-
-  /// File path: assets/cli/Microsoft.AspNetCore.Server.Kestrel.Https.dll
-  String get microsoftAspNetCoreServerKestrelHttps =>
-      'assets/cli/Microsoft.AspNetCore.Server.Kestrel.Https.dll';
-
-  /// File path: assets/cli/Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.dll
-  String get microsoftAspNetCoreServerKestrelTransportAbstractions =>
-      'assets/cli/Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.dll';
-
-  /// File path: assets/cli/Microsoft.AspNetCore.SignalR.Client.Core.dll
-  String get microsoftAspNetCoreSignalRClientCore =>
-      'assets/cli/Microsoft.AspNetCore.SignalR.Client.Core.dll';
-
-  /// File path: assets/cli/Microsoft.AspNetCore.SignalR.Client.dll
-  String get microsoftAspNetCoreSignalRClient =>
-      'assets/cli/Microsoft.AspNetCore.SignalR.Client.dll';
-
-  /// File path: assets/cli/Microsoft.AspNetCore.SignalR.Common.dll
-  String get microsoftAspNetCoreSignalRCommon =>
-      'assets/cli/Microsoft.AspNetCore.SignalR.Common.dll';
-
-  /// File path: assets/cli/Microsoft.AspNetCore.SignalR.Protocols.Json.dll
-  String get microsoftAspNetCoreSignalRProtocolsJson =>
-      'assets/cli/Microsoft.AspNetCore.SignalR.Protocols.Json.dll';
-
-  /// File path: assets/cli/Microsoft.Extensions.Features.dll
-  String get microsoftExtensionsFeatures =>
-      'assets/cli/Microsoft.Extensions.Features.dll';
-
-  /// File path: assets/cli/Newtonsoft.Json.dll
-  String get newtonsoftJson => 'assets/cli/Newtonsoft.Json.dll';
-
-  /// File path: assets/cli/ReserveBlockCore
-  String get reserveBlockCore => 'assets/cli/ReserveBlockCore';
-
-  /// File path: assets/cli/ReserveBlockCore.dll
-  String get reserveBlockCoreDll => 'assets/cli/ReserveBlockCore.dll';
-
-  /// File path: assets/cli/ReserveBlockCore.pdb
-  String get reserveBlockCorePdb => 'assets/cli/ReserveBlockCore.pdb';
-
-  /// File path: assets/cli/ReserveBlockCore.deps.json
-  String get reserveBlockCoreDeps => 'assets/cli/ReserveBlockCore.deps.json';
-
-  /// File path: assets/cli/ReserveBlockCore.runtimeconfig.json
-  String get reserveBlockCoreRuntimeconfig =>
-      'assets/cli/ReserveBlockCore.runtimeconfig.json';
-
-  /// File path: assets/cli/Spectre.Console.dll
-  String get spectreConsole => 'assets/cli/Spectre.Console.dll';
-
-  /// File path: assets/cli/System.IO.Pipelines.dll
-  String get systemIOPipelines => 'assets/cli/System.IO.Pipelines.dll';
-
-  /// File path: assets/cli/appsettings.json
-  String get appsettings => 'assets/cli/appsettings.json';
-
-  /// File path: assets/cli/web.config
-  String get web => 'assets/cli/web.config';
-}
-
 class $AssetsEnvGen {
   const $AssetsEnvGen();
 
   /// File path: assets/env/dev_env
   String get devEnv => 'assets/env/dev_env';
+
+  /// File path: assets/env/release_env
+  String get releaseEnv => 'assets/env/release_env';
 }
 
 class $AssetsImagesGen {
@@ -137,7 +62,6 @@ class $AssetsImagesGen {
 class Assets {
   Assets._();
 
-  static const $AssetsCliGen cli = $AssetsCliGen();
   static const $AssetsEnvGen env = $AssetsEnvGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
 }

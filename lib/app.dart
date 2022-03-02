@@ -7,6 +7,7 @@ import 'package:rbx_wallet/core/components/centered_loader.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/singletons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/root/components/system_manager.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
@@ -25,29 +26,33 @@ class App extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appRouter = singleton<AppRouter>();
 
-    return MaterialApp.router(
-      restorationScopeId: "app",
-      debugShowCheckedModeBanner: false,
-      scaffoldMessengerKey: rootScaffoldMessengerKey,
-      theme: AppTheme.dark().themeData,
-      routeInformationParser:
-          appRouter.defaultRouteParser(includePrefixMatches: true),
-      routerDelegate: AutoRouterDelegate(
-        appRouter,
-        navigatorObservers: () => [AutoRouteObserver()],
-      ),
-      builder: (context, widget) {
-        if (!ref.watch(sessionProvider).ready) {
-          return const CenteredLoader();
-        }
+    return AppSystemManager(
+      child: MaterialApp.router(
+        restorationScopeId: "app",
+        debugShowCheckedModeBanner: false,
+        scaffoldMessengerKey: rootScaffoldMessengerKey,
+        theme: AppTheme.dark().themeData,
+        routeInformationParser:
+            appRouter.defaultRouteParser(includePrefixMatches: true),
+        routerDelegate: AutoRouterDelegate(
+          appRouter,
+          navigatorObservers: () => [AutoRouteObserver()],
+        ),
+        builder: (context, widget) {
+          if (!ref.watch(sessionProvider).ready) {
+            return const CenteredLoader();
+          }
 
-        return ResponsiveWrapper.builder(
-          BouncingScrollWrapper.builder(context, widget!),
-          defaultScale: true,
-          breakpoints: BreakPoints.breakpoints,
-        );
-      },
-      title: 'RBX',
+          return widget!;
+
+          return ResponsiveWrapper.builder(
+            BouncingScrollWrapper.builder(context, widget!),
+            defaultScale: true,
+            // breakpoints: BreakPoints.breakpoints,
+          );
+        },
+        title: 'RBX',
+      ),
     );
   }
 }

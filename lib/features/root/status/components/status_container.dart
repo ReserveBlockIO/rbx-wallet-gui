@@ -7,6 +7,7 @@ import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/bridge/providers/status_provider.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
+import 'package:rbx_wallet/utils/formatting.dart';
 
 class StatusContainer extends BaseComponent {
   const StatusContainer({Key? key}) : super(key: key);
@@ -99,13 +100,21 @@ class StatusContainer extends BaseComponent {
   }
 }
 
-class _BlockStatus extends StatelessWidget {
+class _BlockStatus extends BaseComponent {
   const _BlockStatus({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final walletInfo = ref.watch(walletInfoProvider);
+
+    if (walletInfo == null) {
+      return SizedBox();
+    }
+
+    final value = walletInfo.blockHeight;
+
     return Container(
       decoration: BoxDecoration(
         color: Color(0xFF050505),
@@ -138,7 +147,7 @@ class _BlockStatus extends StatelessWidget {
             Align(
               alignment: Alignment.bottomRight,
               child: Text(
-                "1024/10,482",
+                "${formatIntWithCommas(value)}/10,482",
                 style: Theme.of(context).textTheme.caption,
               ),
             ),

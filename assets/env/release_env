@@ -1,0 +1,5 @@
+ENVIRONMENT_NAME=release
+STORAGE_PREFIX=release
+API_BASE_URL=http://localhost:8080/api/V1
+LAUNCH_CLI=true
+ALLOW_VALIDATING=false

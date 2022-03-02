@@ -6,6 +6,7 @@ import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/home/components/log_window.dart';
 import 'package:rbx_wallet/features/home/components/footer.dart';
 import 'package:rbx_wallet/features/home/components/transaction_window.dart';
+import 'package:rbx_wallet/features/root/components/reload_button.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 
 class HomeScreen extends BaseScreen {
@@ -23,6 +24,7 @@ class HomeScreen extends BaseScreen {
       title: Text("Dashboard"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
+      leading: ReloadButton(),
       actions: [WalletSelector()],
     );
   }
@@ -74,10 +76,6 @@ class HomeScreen extends BaseScreen {
                   LogWindow(),
                   Divider(),
                   TransactionWindow(),
-                  Divider(),
-                  SizedBox(
-                    height: 100,
-                  ),
                 ],
               ),
             ),

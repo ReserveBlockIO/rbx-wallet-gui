@@ -1,34 +1,36 @@
 {
     "title": "RBX Wallet",
     "icon": "AppIcon.icns",
+    "background": "background.png",
+    "background-color": "#000000",
     "contents": [
         {
             "x": 400,
-            "y": 20,
+            "y": 130,
             "type": "link",
             "path": "/Applications"
         },
         {
             "x": 20,
-            "y": 20,
+            "y": 130,
             "type": "file",
             "path": "../../build/macos/Build/Products/Release/RBXWallet.app"
         },
         {
-            "x": 10000,
-            "y": 10000,
+            "x": 600,
+            "y": 600,
             "type": "position",
             "path": ".background"
         },
         {
-            "x": 10000,
-            "y": 10000,
+            "x": 600,
+            "y": 600,
             "type": "position",
             "path": ".VolumeIcon.icns"
         },
         {
-            "x": 10000,
-            "y": 10000,
+            "x": 600,
+            "y": 600,
             "type": "position",
             "path": ".DS_Store"
         }

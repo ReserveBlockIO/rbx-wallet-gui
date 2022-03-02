@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/app.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/singletons.dart';
 import 'package:rbx_wallet/core/storage.dart';
 import 'package:rbx_wallet/features/bridge/providers/status_provider.dart';
@@ -257,20 +258,26 @@ class SessionProvider extends StateNotifier<SessionModel> {
         });
   }
 
+  Future<String> _getCliPath() async {
+    //TODO OS Stuff
+    return '/Applications/RBXWallet.app/Contents/Resources/RBXCore/ReserveBlockCore';
+  }
+
   Future<bool> _startCli() async {
-    return true;
-    const cliPath =
-        '/Applications/RBXWallet.app/Contents/Resources/RBXCore/ReserveBlockCore';
-    final options = ['enableapi', 'hidecli'];
-    final cmd = '"$cliPath" ${options.join(' ')}';
-    final shell = Shell();
-    try {
-      shell.run(cmd);
-      await Future.delayed(Duration(seconds: 5));
-      return true;
-    } catch (e) {
-      return false;
+    if (Env.launchCli) {
+      final cliPath = Env.cliPathOverride ?? await _getCliPath();
+      final options = ['enableapi', 'hidecli'];
+      final cmd = '"$cliPath" ${options.join(' ')}';
+      final shell = Shell();
+      try {
+        shell.run(cmd);
+        await Future.delayed(Duration(seconds: 5));
+        return true;
+      } catch (e) {
+        return false;
+      }
     }
+    return true;
   }
 }
 

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/services/base_service.dart';
 import 'package:rbx_wallet/features/transactions/models/transaction.dart';
 
@@ -65,7 +66,15 @@ class BridgeService extends BaseService {
     return await getText("/StartValidating/$address/$username");
   }
 
-  Future<void> killCli() async {
-    await getText("/SendExit");
+  Future<bool> killCli() async {
+    if (Env.launchCli) {
+      try {
+        await getText("/SendExit");
+      } catch (e) {
+        return true;
+      }
+    }
+
+    return true;
   }
 }

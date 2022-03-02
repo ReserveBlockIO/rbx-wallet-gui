@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
 import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
@@ -12,8 +15,11 @@ class WalletInfoModel {
 
 class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
   final Reader read;
-
-  WalletInfoProvider(this.read, [WalletInfoModel? model]) : super(model);
+  Timer? timer;
+  WalletInfoProvider(this.read, [WalletInfoModel? model]) : super(model) {
+    timer = Timer.periodic(
+        Duration(seconds: REFRESH_TIMEOUT_SECONDS), (Timer t) => fetch());
+  }
 
   fetch() async {
     String data = "";
@@ -41,10 +47,6 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
     read(logProvider.notifier).append(
       LogEntry(message: "You are connected to $peerCount peers."),
     );
-
-    await Future.delayed(Duration(seconds: 20));
-
-    fetch();
   }
 }
 

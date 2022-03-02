@@ -1,4 +1,4 @@
-phony: gen, gen_watch
+phony: build_mac, package_mac
 
 gen:
 	flutter packages pub run build_runner build --delete-conflicting-outputs
@@ -7,14 +7,16 @@ gen_watch:
 	flutter packages pub run build_runner watch --delete-conflicting-outputs
 
 
-# build_mac:
-# 	rm -rf build/macos/Build/Products/Release
-# 	flutter build macos
-
-package_mac:
+build_mac:
 	rm -rf build/macos/Build/Products/Release
 	flutter build macos --release
+
+package_mac:
 	rm -f ./installers/exports/RBX-OSX-Installer.dmg
+	rm -rf ./build/macos/Build/Products/Release/RBXWallet.app/Contents/Resources/RBXCore
 	mkdir ./build/macos/Build/Products/Release/RBXWallet.app/Contents/Resources/RBXCore
 	cp -r ./installers/resources/macos-intel/RBXCore/ ./build/macos/Build/Products/Release/RBXWallet.app/Contents/Resources/RBXCore
 	appdmg ./installers/dmg/config.json ./installers/exports/RBX-OSX-Installer.dmg
+
+deploy_mac:
+	make build_mac && make package_mac

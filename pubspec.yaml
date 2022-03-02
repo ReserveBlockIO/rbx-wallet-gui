@@ -26,6 +26,8 @@ dependencies:
   url_launcher: ^6.0.20
   process_run: ^0.12.3+2
   font_awesome_flutter: ^9.2.0
+  flutter_window_close: ^0.2.1
+  desktop_window: ^0.4.0
 
 dev_dependencies:
   auto_route_generator: ^3.2.1

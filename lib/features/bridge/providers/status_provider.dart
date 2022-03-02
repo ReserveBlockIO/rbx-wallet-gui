@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
 import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
@@ -12,6 +15,7 @@ enum BridgeStatus {
 
 class StatusProvider extends StateNotifier<BridgeStatus> {
   final Reader read;
+  Timer? timer;
 
   StatusProvider(this.read, [BridgeStatus model = BridgeStatus.Loading])
       : super(model) {
@@ -21,6 +25,8 @@ class StatusProvider extends StateNotifier<BridgeStatus> {
   Future<void> _init() async {
     read(logProvider.notifier).append(LogEntry(message: "Connecting..."));
     _checkStatus();
+    timer = Timer.periodic(Duration(seconds: REFRESH_TIMEOUT_SECONDS),
+        (Timer t) => _checkStatus());
   }
 
   Future<void> _checkStatus() async {
@@ -44,9 +50,6 @@ class StatusProvider extends StateNotifier<BridgeStatus> {
         LogEntry(message: "You are disconnected"),
       );
     }
-
-    await Future.delayed(Duration(seconds: 10));
-    _checkStatus();
   }
 }
 

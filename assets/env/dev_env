@@ -1,4 +1,6 @@
 ENVIRONMENT_NAME=dev
 STORAGE_PREFIX=dev
 API_BASE_URL=http://localhost:8080/api/V1
-TEST_PRIVATE_KEY=5022b0006b8fd831f5c593b5f6482338beade47c49380901d100c8395051e9dd
+LAUNCH_CLI=true
+ALLOW_VALIDATING=false
+CLI_PATH_OVERRIDE=/Users/tylersavery/Projects/rbx/env/pre4-mac-intel/ReserveBlockCore
