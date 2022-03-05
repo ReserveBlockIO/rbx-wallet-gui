@@ -7,6 +7,7 @@ import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
+import 'package:rbx_wallet/features/health/health_service.dart';
 import 'package:rbx_wallet/features/validator/providers/current_validator_provider.dart';
 import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
 import 'package:rbx_wallet/features/wallet/components/invalid_wallet.dart';
@@ -45,24 +46,60 @@ class ValidatorScreen extends BaseScreen {
     }
     if (!currentWallet.isValidating) {
       return Center(
-        child: AppButton(
-          label: "Start Validating",
-          icon: Icons.star,
-          onPressed: () async {
-            PromptModal.show(
-                title: "Name your validator",
-                validator: (value) =>
-                    formValidatorNotEmpty(value, "Validator Name"),
-                labelText: "Validator Name",
-                onValidSubmission: (name) async {
-                  final success = await ref
-                      .read(currentValidatorProvider.notifier)
-                      .startValidating(name);
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+                "You must have port 3338 open to external networks in order to craft blocks."),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AppButton(
+                label: "Check Port",
+                type: AppButtonType.Outlined,
+                variant: AppColorVariant.Secondary,
+                onPressed: () async {
+                  final stream = await HealthService().pingPort();
 
-                  Toast.message(
-                      "$name[${currentWallet.label}] is now validating.");
-                });
-          },
+                  bool open = false;
+
+                  stream.listen((event) {
+                    if (event.summary != null) {
+                      if (event.summary!.transmitted > 0) {
+                        open = true;
+                      }
+                    }
+                  });
+                  await Future.delayed(Duration(milliseconds: 300));
+
+                  if (open) {
+                    Toast.message("Port 3338 is open!");
+                  } else {
+                    Toast.error(
+                        "Port 3338 is NOT open. Please configure your firewall.");
+                  }
+                },
+              ),
+            ),
+            AppButton(
+              label: "Start Validating",
+              icon: Icons.star,
+              onPressed: () async {
+                PromptModal.show(
+                    title: "Name your validator",
+                    validator: (value) =>
+                        formValidatorNotEmpty(value, "Validator Name"),
+                    labelText: "Validator Name",
+                    onValidSubmission: (name) async {
+                      final success = await ref
+                          .read(currentValidatorProvider.notifier)
+                          .startValidating(name);
+
+                      Toast.message(
+                          "$name[${currentWallet.label}] is now validating.");
+                    });
+              },
+            ),
+          ],
         ),
       );
     }

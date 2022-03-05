@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,6 +11,7 @@ import 'package:rbx_wallet/core/storage.dart';
 import 'package:rbx_wallet/features/bridge/providers/status_provider.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
+import 'package:rbx_wallet/features/genesis/providers/genesis_block_provider.dart';
 import 'package:rbx_wallet/features/validator/providers/current_validator_provider.dart';
 import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
@@ -28,6 +28,8 @@ class SessionModel {
   final bool ready;
   final bool filteringTransactions;
   final bool cliStarted;
+  final int? remoteBlockHeight;
+  final bool blocksAreSyncing;
 
   const SessionModel({
     this.currentWallet,
@@ -35,6 +37,8 @@ class SessionModel {
     this.ready = false,
     this.cliStarted = false,
     this.filteringTransactions = false,
+    this.remoteBlockHeight,
+    this.blocksAreSyncing = false,
   });
 
   SessionModel copyWith({
@@ -43,6 +47,8 @@ class SessionModel {
     bool? ready,
     bool? filteringTransactions,
     bool? cliStarted,
+    int? remoteBlockHeight,
+    bool? blocksAreSyncing,
   }) {
     return SessionModel(
       startTime: startTime ?? this.startTime,
@@ -51,6 +57,8 @@ class SessionModel {
       filteringTransactions:
           filteringTransactions ?? this.filteringTransactions,
       cliStarted: cliStarted ?? this.cliStarted,
+      remoteBlockHeight: remoteBlockHeight ?? this.remoteBlockHeight,
+      blocksAreSyncing: blocksAreSyncing ?? this.blocksAreSyncing,
     );
   }
 
@@ -80,6 +88,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
     if (!cliStarted) {
       print("CLI Could not start");
+      return;
     }
 
     final now = DateTime.now();
@@ -90,11 +99,6 @@ class SessionProvider extends StateNotifier<SessionModel> {
     );
 
     await load();
-  }
-
-  Future<void> load() async {
-    await _loadWallets();
-    await loadValidators();
 
     Future.delayed(Duration(milliseconds: 300)).then((_) {
       read(walletInfoProvider.notifier).fetch();
@@ -102,12 +106,34 @@ class SessionProvider extends StateNotifier<SessionModel> {
     });
   }
 
+  Future<void> load() async {
+    await _loadWallets();
+    await loadValidators();
+    await _checkBlockSyncStatus();
+  }
+
+  Future<void> _checkBlockSyncStatus() async {
+    await read(genesisBlockProvider.notifier).load();
+    if (read(genesisBlockProvider) == null) {
+      await Future.delayed(Duration(milliseconds: 300));
+      _checkBlockSyncStatus();
+      return;
+    }
+
+    final _remoteBlockHeight = read(genesisBlockProvider)!.height;
+
+    final _blocksAreSyncing = await BridgeService().blocksAreSyncing();
+
+    state = state.copyWith(
+      remoteBlockHeight: _remoteBlockHeight,
+      blocksAreSyncing: _blocksAreSyncing,
+    );
+  }
+
   Future<void> _loadWallets() async {
     final List<Wallet> wallets = [];
 
     final response = await BridgeService().wallets();
-
-    print("Response: $response");
 
     Map<String, dynamic>? names =
         singleton<Storage>().getMap(Storage.RENAMED_WALLETS_KEY);
@@ -263,16 +289,44 @@ class SessionProvider extends StateNotifier<SessionModel> {
     return '/Applications/RBXWallet.app/Contents/Resources/RBXCore/ReserveBlockCore';
   }
 
+  Future<bool> _cliIsActive() async {
+    try {
+      await BridgeService().status();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> _cliCheck([int attempt = 1, int maxAttempts = 10]) async {
+    if (attempt > maxAttempts) {
+      return false;
+    }
+
+    final isRunning = await _cliIsActive();
+    if (isRunning) {
+      return true;
+    }
+
+    await Future.delayed(Duration(seconds: 3));
+    return _cliCheck(attempt + 1, maxAttempts);
+  }
+
   Future<bool> _startCli() async {
     if (Env.launchCli) {
+      if (await _cliIsActive()) {
+        print("CLI is already running");
+        return true;
+      }
+
       final cliPath = Env.cliPathOverride ?? await _getCliPath();
       final options = ['enableapi', 'hidecli'];
       final cmd = '"$cliPath" ${options.join(' ')}';
       final shell = Shell();
       try {
         shell.run(cmd);
-        await Future.delayed(Duration(seconds: 5));
-        return true;
+        await Future.delayed(Duration(seconds: 3));
+        return await _cliCheck();
       } catch (e) {
         return false;
       }

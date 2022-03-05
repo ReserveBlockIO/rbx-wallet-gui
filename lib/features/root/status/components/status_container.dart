@@ -108,12 +108,21 @@ class _BlockStatus extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final walletInfo = ref.watch(walletInfoProvider);
+    int? remoteBlockHeight = ref.watch(sessionProvider).remoteBlockHeight;
 
-    if (walletInfo == null) {
+    if (walletInfo == null ||
+        remoteBlockHeight == null ||
+        remoteBlockHeight < 1) {
       return SizedBox();
     }
 
     final value = walletInfo.blockHeight;
+
+    if (value > remoteBlockHeight) {
+      remoteBlockHeight = value;
+    }
+
+    final fraction = value / remoteBlockHeight;
 
     return Container(
       decoration: BoxDecoration(
@@ -139,7 +148,7 @@ class _BlockStatus extends BaseComponent {
             ),
             SizedBox(height: 8),
             LinearProgressIndicator(
-              value: 0.5,
+              value: fraction,
               valueColor: AlwaysStoppedAnimation<Color>(
                   Theme.of(context).colorScheme.secondary),
             ),
@@ -147,7 +156,7 @@ class _BlockStatus extends BaseComponent {
             Align(
               alignment: Alignment.bottomRight,
               child: Text(
-                "${formatIntWithCommas(value)}/10,482",
+                "${formatIntWithCommas(value)}/${formatIntWithCommas(remoteBlockHeight)}",
                 style: Theme.of(context).textTheme.caption,
               ),
             ),

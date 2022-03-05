@@ -45,11 +45,11 @@ class App extends ConsumerWidget {
 
           return widget!;
 
-          return ResponsiveWrapper.builder(
-            BouncingScrollWrapper.builder(context, widget!),
-            defaultScale: true,
-            // breakpoints: BreakPoints.breakpoints,
-          );
+          // return ResponsiveWrapper.builder(
+          //   BouncingScrollWrapper.builder(context, widget!),
+          //   defaultScale: true,
+          //   // breakpoints: BreakPoints.breakpoints,
+          // );
         },
         title: 'RBX',
       ),

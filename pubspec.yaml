@@ -28,6 +28,8 @@ dependencies:
   font_awesome_flutter: ^9.2.0
   flutter_window_close: ^0.2.1
   desktop_window: ^0.4.0
+  dart_ipify: ^1.1.1
+  dart_ping: ^6.1.2
 
 dev_dependencies:
   auto_route_generator: ^3.2.1

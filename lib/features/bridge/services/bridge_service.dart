@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/services/base_service.dart';
+import 'package:rbx_wallet/features/genesis/models/genesis_block.dart';
 import 'package:rbx_wallet/features/transactions/models/transaction.dart';
 
 class BridgeService extends BaseService {
@@ -19,6 +20,22 @@ class BridgeService extends BaseService {
 
   Future<String> validators() async {
     return await getText('/GetValidatorAddresses');
+  }
+
+  Future<GenesisBlock?> genesisBlock() async {
+    try {
+      final response = await getText("/getgenesisblock");
+      final data = jsonDecode(response);
+      return GenesisBlock.fromJson(data);
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<bool?> blocksAreSyncing() async {
+    //TODO
+    return true;
   }
 
   Future<List<Transaction>?> transactions() async {
