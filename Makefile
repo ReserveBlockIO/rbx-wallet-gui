@@ -27,12 +27,12 @@ build_win:
 
 package_win:
 
-	rm -f ./installers/exports/RBX-WIN-Installer.dmg
-	# rm -rf ./build/windows/Build/Products/Release/___________
-	# mkdir ./build/windows/Build/Products/Release/_____________
-	# cp -r ./installers/resources/windows/RBXCore/ ./build/windows/Build/Products/Release/________
+	rm -f .\installers\exports\RBX-WIN-Installer.exe
+	# rm -rf .\build\windows\Build\Products\Release\___________
+	# mkdir .\build\windows\Build\Products\Release\_____________
+	# cp -r .\installers\resources\windows\RBXCore\ .\build\windows\Build\Products\Release\________
 	
-	flutter pub run msix:create --build_windows false
+	flutter pub run msix:create --build_windows false --output_path .\installers\exports --output_name RBX-WIN-Installer.exe
 
 deploy_win:
 	make build_win && make package_win
