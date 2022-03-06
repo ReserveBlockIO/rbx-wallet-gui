@@ -7,7 +7,7 @@ enum _Environment {
   Develop,
   Release,
 }
-const _env = _Environment.Release;
+const _env = _Environment.Develop;
 
 class Env {
   static init() async {
