@@ -4,17 +4,21 @@ import 'package:flutter_dotenv/flutter_dotenv.dart' as DotEnv;
 import 'package:rbx_wallet/generated/assets.gen.dart';
 
 enum _Environment {
-  Develop,
+  Dev,
+  MacDev,
   Release,
 }
-const _env = _Environment.Develop;
+const _env = _Environment.MacDev;
 
 class Env {
   static init() async {
     String? envPath;
     switch (_env) {
-      case _Environment.Develop:
+      case _Environment.Dev:
         envPath = Assets.env.devEnv;
+        break;
+      case _Environment.MacDev:
+        envPath = Assets.env.macDevEnv;
         break;
       case _Environment.Release:
         envPath = Assets.env.releaseEnv;

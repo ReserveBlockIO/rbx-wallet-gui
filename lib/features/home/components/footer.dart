@@ -14,68 +14,74 @@ class Footer extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Wrap(
-            spacing: 12.0,
+    return Container(
+      color: Colors.black26,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              IconButton(
-                iconSize: 16,
-                onPressed: () {
-                  launch("https://discord.com/invite/PnS2HRETDh");
-                },
-                icon: FaIcon(
-                  FontAwesomeIcons.discord,
-                  color: Colors.white,
-                ),
+              Wrap(
+                spacing: 12.0,
+                children: [
+                  IconButton(
+                    iconSize: 16,
+                    onPressed: () {
+                      launch("https://discord.com/invite/PnS2HRETDh");
+                    },
+                    icon: FaIcon(
+                      FontAwesomeIcons.discord,
+                      color: Colors.white,
+                    ),
+                  ),
+                  IconButton(
+                    iconSize: 16,
+                    onPressed: () {
+                      launch("https://github.com/ReserveBlockIO");
+                    },
+                    icon: FaIcon(
+                      FontAwesomeIcons.github,
+                      color: Colors.white,
+                    ),
+                  )
+                ],
               ),
-              IconButton(
-                iconSize: 16,
-                onPressed: () {
-                  launch("https://github.com/ReserveBlockIO");
-                },
-                icon: FaIcon(
-                  FontAwesomeIcons.github,
-                  color: Colors.white,
-                ),
-              )
+              Text(
+                "RBXWallet v$APP_VERSION",
+                style: Theme.of(context).textTheme.caption!.copyWith(
+                      fontSize: 9,
+                    ),
+              ),
+              // SizedBox(
+              //   height: 3,
+              // ),
+              // TextButton(
+              //   onPressed: () async {
+              //     final confirmed = await ConfirmDialog.show(
+              //       title: "Are you sure",
+              //       body:
+              //           "If you don't know what this is, you probably shouldn't do it.",
+              //       destructive: true,
+              //       confirmText: "Terminate",
+              //       cancelText: "Cancel",
+              //     );
+
+              //     if (confirmed == true) {
+              //       await BridgeService().killCli();
+              //     }
+              //   },
+              //   child: Text(
+              //     "Terminate CLI",
+              //     style: TextStyle(
+              //       color: Theme.of(context).colorScheme.danger,
+              //       fontSize: 10,
+              //     ),
+              //   ),
+              // )
             ],
           ),
-          Text(
-            "RBXWallet v$APP_VERSION",
-            style: Theme.of(context).textTheme.caption!.copyWith(
-                  fontSize: 9,
-                ),
-          ),
-          // SizedBox(
-          //   height: 3,
-          // ),
-          // TextButton(
-          //   onPressed: () async {
-          //     final confirmed = await ConfirmDialog.show(
-          //       title: "Are you sure",
-          //       body:
-          //           "If you don't know what this is, you probably shouldn't do it.",
-          //       destructive: true,
-          //       confirmText: "Terminate",
-          //       cancelText: "Cancel",
-          //     );
-
-          //     if (confirmed == true) {
-          //       await BridgeService().killCli();
-          //     }
-          //   },
-          //   child: Text(
-          //     "Terminate CLI",
-          //     style: TextStyle(
-          //       color: Theme.of(context).colorScheme.danger,
-          //       fontSize: 10,
-          //     ),
-          //   ),
-          // )
-        ],
+        ),
       ),
     );
   }

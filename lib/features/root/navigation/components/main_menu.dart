@@ -104,7 +104,7 @@ class MainMenu extends BaseComponent {
                 isActive: tabsRouter.activeIndex == 3,
               ),
               _NavButton(
-                title: "Validator",
+                title: "Masternode",
                 icon: Icons.check_circle,
                 onPressed: () {
                   tabsRouter.setActiveIndex(4);

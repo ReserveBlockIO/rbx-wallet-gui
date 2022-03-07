@@ -2,17 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/components/centered_loader.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
 import 'package:rbx_wallet/features/health/health_service.dart';
 import 'package:rbx_wallet/features/validator/providers/current_validator_provider.dart';
-import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
 import 'package:rbx_wallet/features/wallet/components/invalid_wallet.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
-import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 
@@ -22,7 +18,7 @@ class ValidatorScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: Text("Validator"),
+      title: Text("Masternode"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
       actions: [WalletSelector()],
@@ -80,9 +76,13 @@ class ValidatorScreen extends BaseScreen {
                 },
               ),
             ),
+            SizedBox(
+              height: 40,
+            ),
             AppButton(
               label: "Start Validating",
               icon: Icons.star,
+              variant: AppColorVariant.Success,
               onPressed: () async {
                 PromptModal.show(
                     title: "Name your validator",

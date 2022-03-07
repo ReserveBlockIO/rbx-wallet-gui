@@ -31,63 +31,51 @@ class HomeScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    return Column(
-      children: [
-        Expanded(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  // AppButton(
-                  //   label: "kill",
-                  //   onPressed: () {
-                  //     BridgeService().killCli();
-                  //   },
-                  // ),
-                  Text(
-                    "General Tools",
-                    style: Theme.of(context).textTheme.subtitle2,
-                  ),
-                  Divider(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      AppButton(
-                        label: "Print Addresses",
-                        onPressed: () {},
-                        size: AppSizeVariant.Lg,
-                      ),
-                      AppButton(
-                        label: "Show Validators",
-                        onPressed: () {},
-                        size: AppSizeVariant.Lg,
-                      ),
-                      AppButton(
-                        label: "Get Blockchain",
-                        onPressed: () {},
-                        size: AppSizeVariant.Lg,
-                      ),
-                    ],
-                  ),
-                  Divider(),
-                  LogWindow(),
-                  Divider(),
-                  TransactionWindow(),
-                ],
-              ),
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // AppButton(
+            //   label: "kill",
+            //   onPressed: () {
+            //     BridgeService().killCli();
+            //   },
+            // ),
+            Text(
+              "General Tools",
+              style: Theme.of(context).textTheme.subtitle2,
             ),
-          ),
+            Divider(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AppButton(
+                  label: "Print Addresses",
+                  onPressed: () {},
+                  size: AppSizeVariant.Lg,
+                ),
+                AppButton(
+                  label: "Show Validators",
+                  onPressed: () {},
+                  size: AppSizeVariant.Lg,
+                ),
+                AppButton(
+                  label: "Get Blockchain",
+                  onPressed: () {},
+                  size: AppSizeVariant.Lg,
+                ),
+              ],
+            ),
+            Divider(),
+            LogWindow(),
+            Divider(),
+            TransactionWindow(),
+          ],
         ),
-        Container(
-            color: Colors.black26,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Footer(),
-            ))
-      ],
+      ),
     );
   }
 }

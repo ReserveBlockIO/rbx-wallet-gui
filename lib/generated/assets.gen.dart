@@ -13,6 +13,9 @@ class $AssetsEnvGen {
   /// File path: assets/env/dev_env
   String get devEnv => 'assets/env/dev_env';
 
+  /// File path: assets/env/mac_dev_env
+  String get macDevEnv => 'assets/env/mac_dev_env';
+
   /// File path: assets/env/release_env
   String get releaseEnv => 'assets/env/release_env';
 }

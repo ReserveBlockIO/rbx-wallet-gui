@@ -143,7 +143,7 @@ class _BlockStatus extends BaseComponent {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              "Block Progress",
+              "Sync Progress",
               style: Theme.of(context).textTheme.caption,
             ),
             SizedBox(height: 8),
