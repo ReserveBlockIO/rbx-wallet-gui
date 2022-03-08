@@ -13,8 +13,8 @@ void main() async {
   await Env.init();
   await initSingletons();
 
-  await DesktopWindow.setWindowSize(Size(MIN_WIDTH, MIN_HEIGHT));
-  await DesktopWindow.setMinWindowSize(Size(MIN_WIDTH, MIN_HEIGHT));
+  // await DesktopWindow.setWindowSize(Size(MIN_WIDTH, MIN_HEIGHT));
+  // await DesktopWindow.setMinWindowSize(Size(MIN_WIDTH, MIN_HEIGHT));
 
   runApp(const RootRestorationScope(
     restorationId: "root",

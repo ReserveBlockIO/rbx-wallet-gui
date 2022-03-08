@@ -6,9 +6,10 @@ import 'package:rbx_wallet/generated/assets.gen.dart';
 enum _Environment {
   Dev,
   MacDev,
+  WinDev,
   Release,
 }
-const _env = _Environment.MacDev;
+const _env = _Environment.Release;
 
 class Env {
   static init() async {
@@ -19,6 +20,9 @@ class Env {
         break;
       case _Environment.MacDev:
         envPath = Assets.env.macDevEnv;
+        break;
+      case _Environment.WinDev:
+        envPath = Assets.env.devWinEnv;
         break;
       case _Environment.Release:
         envPath = Assets.env.releaseEnv;

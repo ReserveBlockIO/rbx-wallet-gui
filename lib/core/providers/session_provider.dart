@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -291,8 +292,19 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   Future<String> _getCliPath() async {
-    //TODO OS Stuff
+
+
+    if(Platform.isMacOS) {
     return '/Applications/RBXWallet.app/Contents/Resources/RBXCore/ReserveBlockCore';
+      
+    } else {
+      final appPath = Directory.current.path;
+      final path =  "$appPath\\RbxCore\\ReserveBlockCore";
+      print(path);
+      print("-------");
+      return path;
+    }
+    //TODO OS Stuff
   }
 
   Future<bool> _cliIsActive() async {
@@ -328,7 +340,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
       final cliPath = Env.cliPathOverride ?? await _getCliPath();
       final options = ['enableapi', 'hidecli'];
       final cmd = '"$cliPath" ${options.join(' ')}';
-      final shell = Shell();
+      final shell = Shell(runInShell: true);
       try {
         shell.run(cmd);
         await Future.delayed(Duration(seconds: 3));

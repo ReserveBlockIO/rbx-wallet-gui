@@ -32,7 +32,7 @@ package_win:
 	# mkdir .\build\windows\Build\Products\Release\_____________
 	# cp -r .\installers\resources\windows\RBXCore\ .\build\windows\Build\Products\Release\________
 	
-	flutter pub run msix:create --build_windows false --output_path .\installers\exports --output_name RBX-WIN-Installer.exe
+	flutter pub run msix:create
 
 deploy_win:
 	make build_win && make package_win
