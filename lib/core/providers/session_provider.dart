@@ -236,52 +236,58 @@ class SessionProvider extends StateNotifier<SessionModel> {
     final context = rootNavigatorKey.currentContext!;
 
     showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text("No wallets found"),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                AppButton(
-                  label: "Import Private Key",
-                  onPressed: () {
-                    PromptModal.show(
-                      title: "Import Wallet",
-                      validator: (String? value) =>
-                          formValidatorNotEmpty(value, "Private Key"),
-                      labelText: "Private Key",
-                      onValidSubmission: (value) async {
-                        await read(walletListProvider.notifier).import(value);
-                        await load();
-                        Navigator.of(context).pop();
-                      },
-                    );
-                  },
-                ),
-                SizedBox(
-                  height: 12,
-                ),
-                AppButton(
-                  label: "Create New Wallet",
-                  onPressed: () async {
-                    await read(walletListProvider.notifier).create();
-                    await load();
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop(); // do we need this? lol
-                  },
-                )
-              ],
-            ),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text("Cancel"))
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("No wallets found"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AppButton(
+                label: "Import Private Key",
+                onPressed: () {
+                  PromptModal.show(
+                    title: "Import Wallet",
+                    validator: (String? value) =>
+                        formValidatorNotEmpty(value, "Private Key"),
+                    labelText: "Private Key",
+                    onValidSubmission: (value) async {
+                      await read(walletListProvider.notifier).import(value);
+                      await load();
+                      Navigator.of(context).pop();
+                    },
+                  );
+                },
+              ),
+              SizedBox(
+                height: 12,
+              ),
+              AppButton(
+                label: "Create New Wallet",
+                onPressed: () async {
+                  await read(walletListProvider.notifier).create();
+                  await load();
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(); // do we need this? lol
+                },
+              )
             ],
-          );
-        });
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("Cancel"),
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  void setBlocksAreSyncing(bool value) {
+    state = state.copyWith(blocksAreSyncing: value);
   }
 
   Future<String> _getCliPath() async {

@@ -107,23 +107,6 @@ class _BlockStatus extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final walletInfo = ref.watch(walletInfoProvider);
-    int? remoteBlockHeight = ref.watch(sessionProvider).remoteBlockHeight;
-
-    if (walletInfo == null ||
-        remoteBlockHeight == null ||
-        remoteBlockHeight < 1) {
-      return SizedBox();
-    }
-
-    final value = walletInfo.blockHeight;
-
-    if (value > remoteBlockHeight) {
-      remoteBlockHeight = value;
-    }
-
-    final fraction = value / remoteBlockHeight;
-
     return Container(
       decoration: BoxDecoration(
         color: Color(0xFF050505),
@@ -138,31 +121,131 @@ class _BlockStatus extends BaseComponent {
       width: double.infinity,
       child: Padding(
         padding: EdgeInsets.all(6.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              "Sync Progress",
-              style: Theme.of(context).textTheme.caption,
-            ),
-            SizedBox(height: 8),
-            LinearProgressIndicator(
-              value: fraction,
-              valueColor: AlwaysStoppedAnimation<Color>(
-                  Theme.of(context).colorScheme.secondary),
-            ),
-            SizedBox(height: 4),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Text(
-                "${formatIntWithCommas(value)}/${formatIntWithCommas(remoteBlockHeight)}",
+        child: Builder(builder: (context) {
+          final walletInfo = ref.watch(walletInfoProvider);
+          int? remoteBlockHeight = ref.watch(sessionProvider).remoteBlockHeight;
+
+          // if (walletInfo == null ||
+          //     remoteBlockHeight == null ||
+          //     remoteBlockHeight < 1) {
+          //   return SizedBox();
+          // }
+
+          if (walletInfo == null) {
+            return SizedBox();
+          }
+
+          if (!walletInfo.isSyncing) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Wallet Synced",
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                  SizedBox(
+                    height: 4,
+                  ),
+                  _ProgressIndicator(
+                    fraction: 1,
+                    value: walletInfo.blockHeight,
+                    remoteBlockHeight: walletInfo.blockHeight,
+                  )
+                ],
+              ),
+            );
+          }
+
+          if (walletInfo.isSyncing) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "Syncing",
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                  SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+
+          if (remoteBlockHeight == null || remoteBlockHeight < 1) {
+            return SizedBox();
+          }
+
+          final value = walletInfo.blockHeight;
+
+          if (value > remoteBlockHeight) {
+            remoteBlockHeight = value;
+          }
+
+          final fraction = value / remoteBlockHeight;
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "Sync Progress",
                 style: Theme.of(context).textTheme.caption,
               ),
-            ),
-          ],
-        ),
+              SizedBox(height: 8),
+              _ProgressIndicator(
+                  fraction: fraction,
+                  value: value,
+                  remoteBlockHeight: remoteBlockHeight),
+            ],
+          );
+        }),
       ),
+    );
+  }
+}
+
+class _ProgressIndicator extends StatelessWidget {
+  const _ProgressIndicator({
+    Key? key,
+    required this.fraction,
+    required this.value,
+    required this.remoteBlockHeight,
+  }) : super(key: key);
+
+  final double fraction;
+  final int value;
+  final int remoteBlockHeight;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        LinearProgressIndicator(
+          value: fraction,
+          valueColor: AlwaysStoppedAnimation<Color>(
+              Theme.of(context).colorScheme.secondary),
+        ),
+        SizedBox(height: 4),
+        Align(
+          alignment: Alignment.bottomRight,
+          child: Text(
+            "${formatIntWithCommas(value)}/${formatIntWithCommas(remoteBlockHeight)}",
+            style: Theme.of(context).textTheme.caption,
+          ),
+        ),
+      ],
     );
   }
 }
