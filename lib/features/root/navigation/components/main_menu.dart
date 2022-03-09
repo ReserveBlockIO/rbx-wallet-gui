@@ -143,15 +143,15 @@ class MainMenu extends BaseComponent {
                 },
                 isActive: tabsRouter.activeIndex == 8,
               ),
-              _NavButton(
-                title: "Explorer",
-                icon: Icons.search,
-                onPressed: () {
-                  // tabsRouter.setActiveIndex(9);
-                  launch("https://rbx.network");
-                },
-                // isActive: tabsRouter.activeIndex == 9,
-              ),
+              // _NavButton(
+              //   title: "Explorer",
+              //   icon: Icons.search,
+              //   onPressed: () {
+              //     // tabsRouter.setActiveIndex(9);
+              //     launch("https://rbx.network");
+              //   },
+              //   // isActive: tabsRouter.activeIndex == 9,
+              // ),
             ],
           ),
         ],

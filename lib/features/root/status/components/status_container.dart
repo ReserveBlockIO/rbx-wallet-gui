@@ -125,12 +125,6 @@ class _BlockStatus extends BaseComponent {
           final walletInfo = ref.watch(walletInfoProvider);
           int? remoteBlockHeight = ref.watch(sessionProvider).remoteBlockHeight;
 
-          // if (walletInfo == null ||
-          //     remoteBlockHeight == null ||
-          //     remoteBlockHeight < 1) {
-          //   return SizedBox();
-          // }
-
           if (walletInfo == null) {
             return SizedBox();
           }
@@ -150,6 +144,7 @@ class _BlockStatus extends BaseComponent {
                     height: 4,
                   ),
                   _ProgressIndicator(
+                    color: Theme.of(context).colorScheme.success,
                     fraction: 1,
                     value: walletInfo.blockHeight,
                     remoteBlockHeight: walletInfo.blockHeight,
@@ -162,20 +157,37 @@ class _BlockStatus extends BaseComponent {
           if (walletInfo.isSyncing) {
             return Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
                 mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text(
-                    "Syncing",
-                    style: Theme.of(context).textTheme.caption,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "Syncing",
+                        style: Theme.of(context).textTheme.caption,
+                      ),
+                      SizedBox(
+                        width: 12,
+                        height: 12,
+                        child: CircularProgressIndicator(
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(
-                    width: 16,
-                    height: 16,
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                    ),
+                    height: 14,
+                  ),
+                  _ProgressIndicator(
+                    color: Theme.of(context).colorScheme.warning,
+                    fraction: 1,
+                    value: walletInfo.blockHeight,
+                    remoteBlockHeight: 100,
+                    unknownHeight: true,
                   ),
                 ],
               ),
@@ -204,9 +216,11 @@ class _BlockStatus extends BaseComponent {
               ),
               SizedBox(height: 8),
               _ProgressIndicator(
-                  fraction: fraction,
-                  value: value,
-                  remoteBlockHeight: remoteBlockHeight),
+                color: Theme.of(context).colorScheme.warning,
+                fraction: fraction,
+                value: value,
+                remoteBlockHeight: remoteBlockHeight,
+              ),
             ],
           );
         }),
@@ -221,11 +235,15 @@ class _ProgressIndicator extends StatelessWidget {
     required this.fraction,
     required this.value,
     required this.remoteBlockHeight,
+    required this.color,
+    this.unknownHeight = false,
   }) : super(key: key);
 
   final double fraction;
   final int value;
   final int remoteBlockHeight;
+  final Color color;
+  final bool unknownHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -234,17 +252,17 @@ class _ProgressIndicator extends StatelessWidget {
       children: [
         LinearProgressIndicator(
           value: fraction,
-          valueColor: AlwaysStoppedAnimation<Color>(
-              Theme.of(context).colorScheme.secondary),
+          valueColor: AlwaysStoppedAnimation<Color>(color),
         ),
         SizedBox(height: 4),
-        Align(
-          alignment: Alignment.bottomRight,
-          child: Text(
-            "${formatIntWithCommas(value)}/${formatIntWithCommas(remoteBlockHeight)}",
-            style: Theme.of(context).textTheme.caption,
+        if (!unknownHeight)
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Text(
+              "${formatIntWithCommas(value)}/${formatIntWithCommas(remoteBlockHeight)}",
+              style: Theme.of(context).textTheme.caption,
+            ),
           ),
-        ),
       ],
     );
   }

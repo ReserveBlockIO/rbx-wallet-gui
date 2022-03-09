@@ -9,7 +9,7 @@ enum _Environment {
   WinDev,
   Release,
 }
-const _env = _Environment.Release;
+const _env = _Environment.MacDev;
 
 class Env {
   static init() async {

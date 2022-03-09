@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 // import 'package:rbx_wallet/features/wallet/models/wallet.dart';
@@ -80,8 +81,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
     return null;
   }
 
-  String? addressValidator(String? value) =>
-      formValidatorNotEmpty(value, "Address");
+  String? addressValidator(String? value) => formValidatorRbxAddress(value);
 
   void _updateState() {
     state = state.copyWith(
@@ -112,6 +112,8 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
 
       return;
     }
+
+    if (!guardWalletIsSynced(read)) return;
 
     final confirmed = await ConfirmDialog.show(
       title: "Please Confirm",

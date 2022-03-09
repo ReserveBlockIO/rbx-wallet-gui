@@ -3,11 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
+import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
 import 'package:rbx_wallet/features/home/components/log_window.dart';
 import 'package:rbx_wallet/features/home/components/footer.dart';
 import 'package:rbx_wallet/features/home/components/transaction_window.dart';
 import 'package:rbx_wallet/features/root/components/reload_button.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
+import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 
 class HomeScreen extends BaseScreen {
   const HomeScreen({Key? key})
@@ -54,7 +57,16 @@ class HomeScreen extends BaseScreen {
               children: [
                 AppButton(
                   label: "Print Addresses",
-                  onPressed: () {},
+                  onPressed: () {
+                    final _log = ref.read(logProvider.notifier);
+
+                    _log.append(LogEntry(message: "Wallet Addresses:"));
+
+                    final wallets = ref.read(walletListProvider);
+                    for (final wallet in wallets) {
+                      _log.append(LogEntry(message: wallet.address));
+                    }
+                  },
                   size: AppSizeVariant.Lg,
                 ),
                 AppButton(

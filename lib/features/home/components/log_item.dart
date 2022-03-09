@@ -15,7 +15,7 @@ class LogItem extends StatelessWidget {
         width: double.infinity,
         child: Padding(
           padding: const EdgeInsets.all(4.0),
-          child: Text(entry.message),
+          child: SelectableText(entry.message),
         ),
       ),
     );

@@ -9,6 +9,7 @@ import 'package:rbx_wallet/features/health/health_service.dart';
 import 'package:rbx_wallet/features/validator/providers/current_validator_provider.dart';
 import 'package:rbx_wallet/features/wallet/components/invalid_wallet.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
+import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 
@@ -23,6 +24,31 @@ class ValidatorScreen extends BaseScreen {
       shadowColor: Colors.transparent,
       actions: [WalletSelector()],
     );
+  }
+
+  Future<bool> checkPort([bool withSuccessMessage = true]) async {
+    final stream = await HealthService().pingPort();
+
+    bool open = false;
+
+    stream.listen((event) {
+      if (event.summary != null) {
+        if (event.summary!.transmitted > 0) {
+          open = true;
+        }
+      }
+    });
+    await Future.delayed(Duration(milliseconds: 300));
+
+    if (open) {
+      if (withSuccessMessage) {
+        Toast.message("Port 3338 is open!");
+      }
+      return true;
+    } else {
+      Toast.error("Port 3338 is NOT open. Please configure your firewall.");
+      return false;
+    }
   }
 
   @override
@@ -46,33 +72,15 @@ class ValidatorScreen extends BaseScreen {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-                "You must have port 3338 open to external networks in order to craft blocks."),
+                "You must have port 3338 open to external networks in order to validate."),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: AppButton(
                 label: "Check Port",
                 type: AppButtonType.Outlined,
                 variant: AppColorVariant.Secondary,
-                onPressed: () async {
-                  final stream = await HealthService().pingPort();
-
-                  bool open = false;
-
-                  stream.listen((event) {
-                    if (event.summary != null) {
-                      if (event.summary!.transmitted > 0) {
-                        open = true;
-                      }
-                    }
-                  });
-                  await Future.delayed(Duration(milliseconds: 300));
-
-                  if (open) {
-                    Toast.message("Port 3338 is open!");
-                  } else {
-                    Toast.error(
-                        "Port 3338 is NOT open. Please configure your firewall.");
-                  }
+                onPressed: () {
+                  checkPort();
                 },
               ),
             ),
@@ -84,6 +92,10 @@ class ValidatorScreen extends BaseScreen {
               icon: Icons.star,
               variant: AppColorVariant.Success,
               onPressed: () async {
+                if (!guardWalletIsSynced(ref.read)) return;
+
+                if (!await checkPort(false)) return;
+
                 PromptModal.show(
                     title: "Name your validator",
                     validator: (value) =>

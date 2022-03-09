@@ -24,6 +24,18 @@ bool isValidPassword(String password) {
   //     .hasMatch(password);
 }
 
+bool isValidRbxAddress(String address) {
+  if (address.length != 34) {
+    return false;
+  }
+
+  if (address[0] != "R") {
+    return false;
+  }
+
+  return true;
+}
+
 bool isValidPhoneNumber(String value) {
   String patttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
   RegExp regExp = RegExp(patttern);
@@ -81,6 +93,18 @@ String? formValidatorPassword(String? value) {
 String? formValidatorNotEmpty(String? value, String label) {
   if (value == null || value.isEmpty) {
     return "$label is required.";
+  }
+
+  return null;
+}
+
+String? formValidatorRbxAddress(String? value) {
+  if (value == null || value.isEmpty) {
+    return "Address is required.";
+  }
+
+  if (!isValidRbxAddress(value)) {
+    return "Invalid Address.";
   }
 
   return null;
