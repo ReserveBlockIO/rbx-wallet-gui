@@ -13,6 +13,7 @@
 installers/exports/
 installers/resources/
 Databases/
+DatabasesTestNet/
 
 # IntelliJ related
 *.iml

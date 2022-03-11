@@ -32,15 +32,23 @@ class MainMenu extends BaseComponent {
               Container(
                 color: Colors.black,
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Center(
-                      child: Text(
-                    "RBXWallet",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4!
-                        .copyWith(color: Colors.white70, letterSpacing: 2),
-                  )),
+                    child: Image.asset(
+                      Assets.images.rbxWallet.path,
+                      width: 160,
+                      height: 27,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  // child: Center(
+                  //     child: Text(
+                  //   "RBXWallet",
+                  //   style: Theme.of(context)
+                  //       .textTheme
+                  //       .headline4!
+                  //       .copyWith(color: Colors.white70, letterSpacing: 2),
+                  // )),
                 ),
               ),
               Container(

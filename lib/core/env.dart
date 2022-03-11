@@ -7,9 +7,10 @@ enum _Environment {
   Dev,
   MacDev,
   WinDev,
+  MacTestNet,
   Release,
 }
-const _env = _Environment.MacDev;
+const _env = _Environment.MacTestNet;
 
 class Env {
   static init() async {
@@ -24,9 +25,11 @@ class Env {
       case _Environment.WinDev:
         envPath = Assets.env.devWinEnv;
         break;
+      case _Environment.MacTestNet:
+        envPath = Assets.env.macTestnetEnv;
+        break;
       case _Environment.Release:
         envPath = Assets.env.releaseEnv;
-
         break;
     }
 
@@ -55,5 +58,13 @@ class Env {
 
   static String? get cliPathOverride {
     return DotEnv.dotenv.env['CLI_PATH_OVERRIDE'];
+  }
+
+  static bool get isTestNet {
+    return DotEnv.dotenv.env['IS_TEST_NET'] == "true";
+  }
+
+  static String get validatorPort {
+    return DotEnv.dotenv.env['VALIDATOR_PORT'] ?? '3338';
   }
 }

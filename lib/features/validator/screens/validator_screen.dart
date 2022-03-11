@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/health/health_service.dart';
@@ -27,6 +28,8 @@ class ValidatorScreen extends BaseScreen {
   }
 
   Future<bool> checkPort([bool withSuccessMessage = true]) async {
+    final port = Env.validatorPort;
+
     final stream = await HealthService().pingPort();
 
     bool open = false;
@@ -42,11 +45,11 @@ class ValidatorScreen extends BaseScreen {
 
     if (open) {
       if (withSuccessMessage) {
-        Toast.message("Port 3338 is open!");
+        Toast.message("Port $port is open!");
       }
       return true;
     } else {
-      Toast.error("Port 3338 is NOT open. Please configure your firewall.");
+      Toast.error("Port $port is NOT open. Please configure your firewall.");
       return false;
     }
   }
@@ -67,12 +70,14 @@ class ValidatorScreen extends BaseScreen {
       );
     }
     if (!currentWallet.isValidating) {
+      final port = Env.validatorPort;
+
       return Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-                "You must have port 3338 open to external networks in order to validate."),
+                "You must have port $port open to external networks in order to validate."),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: AppButton(
