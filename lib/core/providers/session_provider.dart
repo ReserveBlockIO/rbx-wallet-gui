@@ -113,23 +113,23 @@ class SessionProvider extends StateNotifier<SessionModel> {
     // await _checkBlockSyncStatus();
   }
 
-  Future<void> _checkBlockSyncStatus() async {
-    await read(genesisBlockProvider.notifier).load();
-    if (read(genesisBlockProvider) == null) {
-      await Future.delayed(Duration(milliseconds: 300));
-      _checkBlockSyncStatus();
-      return;
-    }
+  // Future<void> _checkBlockSyncStatus() async {
+  //   await read(genesisBlockProvider.notifier).load();
+  //   if (read(genesisBlockProvider) == null) {
+  //     await Future.delayed(Duration(milliseconds: 300));
+  //     _checkBlockSyncStatus();
+  //     return;
+  //   }
 
-    final _remoteBlockHeight = read(genesisBlockProvider)!.height;
+  //   final _remoteBlockHeight = read(genesisBlockProvider)!.height;
 
-    final _blocksAreSyncing = await BridgeService().blocksAreSyncing();
+  //   final _blocksAreSyncing = await BridgeService().blocksAreSyncing();
 
-    state = state.copyWith(
-      remoteBlockHeight: _remoteBlockHeight,
-      blocksAreSyncing: _blocksAreSyncing,
-    );
-  }
+  //   state = state.copyWith(
+  //     remoteBlockHeight: _remoteBlockHeight,
+  //     blocksAreSyncing: _blocksAreSyncing,
+  //   );
+  // }
 
   Future<void> _loadWallets() async {
     final List<Wallet> wallets = [];

@@ -67,4 +67,9 @@ class Env {
   static String get validatorPort {
     return DotEnv.dotenv.env['VALIDATOR_PORT'] ?? '3338';
   }
+
+  static String get portCheckerUrl {
+    return DotEnv.dotenv.env['PORT_CHECKER_URL'] ??
+        "https://us-central1-portpingr.cloudfunctions.net/pinger";
+  }
 }

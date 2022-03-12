@@ -30,18 +30,7 @@ class ValidatorScreen extends BaseScreen {
   Future<bool> checkPort([bool withSuccessMessage = true]) async {
     final port = Env.validatorPort;
 
-    final stream = await HealthService().pingPort();
-
-    bool open = false;
-
-    stream.listen((event) {
-      if (event.summary != null) {
-        if (event.summary!.transmitted > 0) {
-          open = true;
-        }
-      }
-    });
-    await Future.delayed(Duration(milliseconds: 300));
+    final open = await HealthService().pingPort();
 
     if (open) {
       if (withSuccessMessage) {

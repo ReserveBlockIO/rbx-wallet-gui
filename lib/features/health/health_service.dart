@@ -1,5 +1,5 @@
 import 'package:dart_ipify/dart_ipify.dart';
-import 'package:dart_ping/dart_ping.dart';
+import 'package:dio/dio.dart';
 import 'package:rbx_wallet/core/env.dart';
 
 class HealthService {
@@ -7,12 +7,17 @@ class HealthService {
     return await Ipify.ipv4();
   }
 
-  Future<Stream<PingData>> pingPort() async {
+  Future<bool> pingPort() async {
     final ip = await getIp();
     final port = Env.validatorPort;
 
-    final url = "$ip -p $port";
-    final ping = Ping(url, count: 1);
-    return ping.stream;
+    final response = await Dio(BaseOptions(baseUrl: Env.portCheckerUrl))
+        .get('/', queryParameters: {'host': ip, 'port': port});
+
+    if (response.data['success'] == true) {
+      return true;
+    }
+
+    return false;
   }
 }

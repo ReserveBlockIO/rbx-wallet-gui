@@ -1,5 +1,5 @@
 ENVIRONMENT_NAME=mac_testnet
-STORAGE_PREFIX=mac_testnet1
+STORAGE_PREFIX=mac_testnet2
 API_BASE_URL=http://localhost:17292/api/V1
 VALIDATOR_PORT=13338
 IS_TEST_NET=true
