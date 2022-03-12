@@ -38,7 +38,7 @@ class WalletListProvider extends StateNotifier<List<Wallet>> {
     if (showDetails) {
       final context = rootScaffoldKey.currentContext!;
 
-      showDialog(
+      await showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
@@ -101,7 +101,7 @@ class WalletListProvider extends StateNotifier<List<Wallet>> {
       return;
     }
 
-    import(data[1], true);
+    await import(data[1], true);
   }
 
   // void saveAll() {

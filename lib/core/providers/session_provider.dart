@@ -110,26 +110,26 @@ class SessionProvider extends StateNotifier<SessionModel> {
   Future<void> load() async {
     await _loadWallets();
     await loadValidators();
-    await _checkBlockSyncStatus();
+    // await _checkBlockSyncStatus();
   }
 
-  Future<void> _checkBlockSyncStatus() async {
-    await read(genesisBlockProvider.notifier).load();
-    if (read(genesisBlockProvider) == null) {
-      await Future.delayed(Duration(milliseconds: 300));
-      _checkBlockSyncStatus();
-      return;
-    }
+  // Future<void> _checkBlockSyncStatus() async {
+  //   await read(genesisBlockProvider.notifier).load();
+  //   if (read(genesisBlockProvider) == null) {
+  //     await Future.delayed(Duration(milliseconds: 300));
+  //     _checkBlockSyncStatus();
+  //     return;
+  //   }
 
-    final _remoteBlockHeight = read(genesisBlockProvider)!.height;
+  //   final _remoteBlockHeight = read(genesisBlockProvider)!.height;
 
-    final _blocksAreSyncing = await BridgeService().blocksAreSyncing();
+  //   final _blocksAreSyncing = await BridgeService().blocksAreSyncing();
 
-    state = state.copyWith(
-      remoteBlockHeight: _remoteBlockHeight,
-      blocksAreSyncing: _blocksAreSyncing,
-    );
-  }
+  //   state = state.copyWith(
+  //     remoteBlockHeight: _remoteBlockHeight,
+  //     blocksAreSyncing: _blocksAreSyncing,
+  //   );
+  // }
 
   Future<void> _loadWallets() async {
     final List<Wallet> wallets = [];
@@ -269,7 +269,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
                   await read(walletListProvider.notifier).create();
                   await load();
                   Navigator.of(context).pop();
-                  Navigator.of(context).pop(); // do we need this? lol
+                  // Navigator.of(context).pop(); // do we need this? lol
                 },
               )
             ],
@@ -292,14 +292,11 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   Future<String> _getCliPath() async {
-
-
-    if(Platform.isMacOS) {
-    return '/Applications/RBXWallet.app/Contents/Resources/RBXCore/ReserveBlockCore';
-      
+    if (Platform.isMacOS) {
+      return '/Applications/RBXWallet.app/Contents/Resources/RBXCore/ReserveBlockCore';
     } else {
       final appPath = Directory.current.path;
-      final path =  "$appPath\\RbxCore\\ReserveBlockCore";
+      final path = "$appPath\\RbxCore\\ReserveBlockCore";
       print(path);
       print("-------");
       return path;
@@ -339,6 +336,11 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
       final cliPath = Env.cliPathOverride ?? await _getCliPath();
       final options = ['enableapi', 'hidecli'];
+       if (Env.isTestNet) {
+        options.add("testnet");
+      }
+
+
       String cmd = '"$cliPath" ${options.join(' ')}';
 
       if(Platform.isWindows) {
@@ -347,6 +349,9 @@ class SessionProvider extends StateNotifier<SessionModel> {
         print(cmd);
         print("-------");
       }
+
+
+      print(cmd);
       final shell = Shell(runInShell: true);
       try {
         shell.run(cmd);

@@ -42,8 +42,12 @@ class LogWindow extends BaseComponent {
                     controller: scrollController,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children:
-                          logEntries.map((entry) => LogItem(entry)).toList(),
+                      children: [
+                        ...logEntries.map((entry) => LogItem(entry)).toList(),
+                        SizedBox(
+                          height: 32,
+                        )
+                      ],
                     ),
                   ),
                   Align(

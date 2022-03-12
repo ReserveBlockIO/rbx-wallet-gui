@@ -1,3 +1,5 @@
+import 'package:rbx_wallet/core/env.dart';
+
 bool isValidEmail(String email) {
   return RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
       .hasMatch(email);
@@ -22,6 +24,22 @@ bool isValidPassword(String password) {
   // return RegExp(
   //         r'^(?=[^A-Z\n]*[A-Z])(?=[^a-z\n]*[a-z])(?=[^0-9\n]*[0-9])(?=[^#?!@$%^&*\n-]*[#?!@$%^&*-]).{8,}$')
   //     .hasMatch(password);
+}
+
+bool isValidRbxAddress(String address) {
+  if (address.length != 34) {
+    return false;
+  }
+
+  String firstChar = "R";
+  if (Env.isTestNet) {
+    firstChar = "x";
+  }
+  if (address[0] != firstChar) {
+    return false;
+  }
+
+  return true;
 }
 
 bool isValidPhoneNumber(String value) {
@@ -81,6 +99,18 @@ String? formValidatorPassword(String? value) {
 String? formValidatorNotEmpty(String? value, String label) {
   if (value == null || value.isEmpty) {
     return "$label is required.";
+  }
+
+  return null;
+}
+
+String? formValidatorRbxAddress(String? value) {
+  if (value == null || value.isEmpty) {
+    return "Address is required.";
+  }
+
+  if (!isValidRbxAddress(value)) {
+    return "Invalid Address.";
   }
 
   return null;

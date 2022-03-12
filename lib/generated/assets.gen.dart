@@ -19,8 +19,14 @@ class $AssetsEnvGen {
   /// File path: assets/env/mac_dev_env
   String get macDevEnv => 'assets/env/mac_dev_env';
 
+  /// File path: assets/env/mac_testnet_env
+  String get macTestnetEnv => 'assets/env/mac_testnet_env';
+
   /// File path: assets/env/release_env
   String get releaseEnv => 'assets/env/release_env';
+
+  /// File path: assets/env/win_testnet_env
+  String get winTestnetEnv => 'assets/env/win_testnet_env';
 }
 
 class $AssetsImagesGen {
@@ -59,6 +65,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/nodelines.png
   AssetGenImage get nodelines =>
       const AssetGenImage('assets/images/nodelines.png');
+
+  /// File path: assets/images/rbx_wallet.png
+  AssetGenImage get rbxWallet =>
+      const AssetGenImage('assets/images/rbx_wallet.png');
 
   /// File path: assets/images/wordmark.png
   AssetGenImage get wordmark =>

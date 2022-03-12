@@ -7,6 +7,7 @@ import 'package:rbx_wallet/core/components/centered_loader.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/singletons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/root/components/system_manager.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
@@ -43,7 +44,13 @@ class App extends ConsumerWidget {
             return const CenteredLoader();
           }
 
-          return widget!;
+          return Stack(
+            children: [
+              widget!,
+              if (ref.watch(globalLoadingProvider))
+                Container(color: Colors.black45, child: CenteredLoader())
+            ],
+          );
 
           // return ResponsiveWrapper.builder(
           //   BouncingScrollWrapper.builder(context, widget!),

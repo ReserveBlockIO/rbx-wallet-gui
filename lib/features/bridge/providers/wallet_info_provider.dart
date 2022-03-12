@@ -24,7 +24,9 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
   Timer? timer;
   WalletInfoProvider(this.read, [WalletInfoModel? model]) : super(model) {
     timer = Timer.periodic(
-        Duration(seconds: REFRESH_TIMEOUT_SECONDS), (Timer t) => fetch());
+      Duration(seconds: REFRESH_TIMEOUT_SECONDS),
+      (Timer t) => fetch(),
+    );
   }
 
   fetch() async {

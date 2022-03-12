@@ -33,11 +33,6 @@ class BridgeService extends BaseService {
     }
   }
 
-  Future<bool?> blocksAreSyncing() async {
-    //TODO
-    return true;
-  }
-
   Future<List<Transaction>?> transactions() async {
     final response = await getText('/GetAllTransactions');
     if (response.isEmpty) {
@@ -81,6 +76,25 @@ class BridgeService extends BaseService {
 
   Future<String> startValidating(String address, String username) async {
     return await getText("/StartValidating/$address/$username");
+  }
+
+  Future<String?> turnOnValidator(String id) async {
+    final message = await getText("/TurnOnValidator/$id");
+
+    if (message == "STV") {
+      return null;
+    }
+
+    return message;
+  }
+
+  Future<bool> turnOffValidator(String id) async {
+    try {
+      await getText("/TurnOffValidator/$id");
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   Future<bool> killCli() async {

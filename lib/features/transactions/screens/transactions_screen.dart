@@ -40,6 +40,14 @@ class TransactionsScreen extends BaseScreen {
             ),
           ],
         ),
+        if (ref.read(sessionProvider).blocksAreSyncing)
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              "Blocks are still syncing so not all transactions may be visible yet.",
+              style: Theme.of(context).textTheme.caption,
+            ),
+          ),
         Expanded(child: TransactionList()),
       ],
     );
