@@ -88,14 +88,13 @@ class BridgeService extends BaseService {
     return message;
   }
 
-  Future<String?> turnOffValidator(String id) async {
-    final message = await getText("/TurnOffValidator/$id");
-
-    if (message == "") {
-      return null;
+  Future<bool> turnOffValidator(String id) async {
+    try {
+      await getText("/TurnOffValidator/$id");
+      return true;
+    } catch (e) {
+      return false;
     }
-
-    return message;
   }
 
   Future<bool> killCli() async {

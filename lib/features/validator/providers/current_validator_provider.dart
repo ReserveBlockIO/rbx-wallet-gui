@@ -18,8 +18,6 @@ class CurrentValidatorProvider extends StateNotifier<Wallet?> {
       return false;
     }
 
-    print(name);
-
     if (!Env.allowValidating) {
       Toast.error("Validating disabled in this environment.");
       return false;
@@ -39,6 +37,15 @@ class CurrentValidatorProvider extends StateNotifier<Wallet?> {
     }
 
     return true;
+  }
+
+  Future<bool> stopValidating() async {
+    if (state == null) {
+      return false;
+    }
+
+    final success = await BridgeService().turnOffValidator(state!.address);
+    return success;
   }
 }
 

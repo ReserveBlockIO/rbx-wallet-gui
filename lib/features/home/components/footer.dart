@@ -5,6 +5,7 @@ import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -48,37 +49,11 @@ class Footer extends BaseComponent {
                 ],
               ),
               Text(
-                "RBXWallet v$APP_VERSION",
+                "RBXWallet v$APP_VERSION ${Env.isTestNet ? '[TESTNET]' : ''}",
                 style: Theme.of(context).textTheme.caption!.copyWith(
                       fontSize: 9,
                     ),
               ),
-              // SizedBox(
-              //   height: 3,
-              // ),
-              // TextButton(
-              //   onPressed: () async {
-              //     final confirmed = await ConfirmDialog.show(
-              //       title: "Are you sure",
-              //       body:
-              //           "If you don't know what this is, you probably shouldn't do it.",
-              //       destructive: true,
-              //       confirmText: "Terminate",
-              //       cancelText: "Cancel",
-              //     );
-
-              //     if (confirmed == true) {
-              //       await BridgeService().killCli();
-              //     }
-              //   },
-              //   child: Text(
-              //     "Terminate CLI",
-              //     style: TextStyle(
-              //       color: Theme.of(context).colorScheme.danger,
-              //       fontSize: 10,
-              //     ),
-              //   ),
-              // )
             ],
           ),
         ),

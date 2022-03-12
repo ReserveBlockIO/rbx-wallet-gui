@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
+import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -151,15 +152,6 @@ class MainMenu extends BaseComponent {
                 },
                 isActive: tabsRouter.activeIndex == 8,
               ),
-              // _NavButton(
-              //   title: "Explorer",
-              //   icon: Icons.search,
-              //   onPressed: () {
-              //     // tabsRouter.setActiveIndex(9);
-              //     launch("https://rbx.network");
-              //   },
-              //   // isActive: tabsRouter.activeIndex == 9,
-              // ),
             ],
           ),
         ],

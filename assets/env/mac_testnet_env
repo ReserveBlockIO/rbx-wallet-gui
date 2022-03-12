@@ -4,5 +4,5 @@ API_BASE_URL=http://localhost:17292/api/V1
 VALIDATOR_PORT=13338
 IS_TEST_NET=true
 LAUNCH_CLI=true
-ALLOW_VALIDATING=false
+ALLOW_VALIDATING=true
 CLI_PATH_OVERRIDE=/Users/tylersavery/Projects/rbx/env/pre8-macos-intel/ReserveBlockCore

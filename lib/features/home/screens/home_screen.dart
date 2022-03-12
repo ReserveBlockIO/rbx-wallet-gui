@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
 import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
+import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/home/components/log_window.dart';
 import 'package:rbx_wallet/features/home/components/footer.dart';
 import 'package:rbx_wallet/features/home/components/transaction_window.dart';
 import 'package:rbx_wallet/features/root/components/reload_button.dart';
+import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 
@@ -60,23 +63,61 @@ class HomeScreen extends BaseScreen {
                   onPressed: () {
                     final _log = ref.read(logProvider.notifier);
 
-                    _log.append(LogEntry(message: "Wallet Addresses:"));
+                    _log.append(LogEntry(
+                      message: "Wallet Addresses:",
+                      variant: AppColorVariant.Secondary,
+                    ));
 
                     final wallets = ref.read(walletListProvider);
                     for (final wallet in wallets) {
-                      _log.append(LogEntry(message: wallet.address));
+                      _log.append(LogEntry(
+                        message: wallet.address,
+                        variant: AppColorVariant.Success,
+                        textToCopy: wallet.address,
+                      ));
                     }
                   },
                   size: AppSizeVariant.Lg,
                 ),
                 AppButton(
-                  label: "Show Validators",
-                  onPressed: () {},
+                  label: "Print Validators",
+                  onPressed: () async {
+                    final _log = ref.read(logProvider.notifier);
+
+                    final validators = ref.read(validatorListProvider);
+
+                    if (validators.isEmpty) {
+                      _log.append(LogEntry(
+                        message: "No validators",
+                        variant: AppColorVariant.Danger,
+                      ));
+                      return;
+                    }
+                    _log.append(LogEntry(
+                      message: "Validators:",
+                      variant: AppColorVariant.Secondary,
+                    ));
+
+                    for (final validator in validators) {
+                      _log.append(
+                        LogEntry(
+                          message:
+                              "${validator.address} => ${validator.isValidating ? 'Validating' : 'Not Validating'}",
+                          variant: validator.isValidating
+                              ? AppColorVariant.Success
+                              : AppColorVariant.Info,
+                          textToCopy: validator.address,
+                        ),
+                      );
+                    }
+                  },
                   size: AppSizeVariant.Lg,
                 ),
                 AppButton(
                   label: "Get Blockchain",
-                  onPressed: () {},
+                  onPressed: () async {
+                    await ref.read(sessionProvider.notifier).load();
+                  },
                   size: AppSizeVariant.Lg,
                 ),
               ],
