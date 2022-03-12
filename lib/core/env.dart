@@ -11,7 +11,7 @@ enum _Environment {
   WinTestNet,
   Release,
 }
-const _env = _Environment.WinTestNet;
+const _env = _Environment.Release;
 
 class Env {
   static init() async {

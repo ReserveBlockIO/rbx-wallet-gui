@@ -22,11 +22,8 @@ deploy_mac:
 	make build_mac && make package_maccd
 
 build_win:
-	if exist .\build\windows\runner\Release rmdir /s /q ".\build\windows\runner\Release" && flutter build windows --release
-
-package_win:
+	if exist .\build\windows\runner\Release rmdir /s /q ".\build\windows\runner\Release"
+	flutter build windows --release
+	move ".\build\windows\runner\Release\rbx_wallet_gui.exe" ".\build\windows\runner\Release\RBXWallet.exe"
 	Xcopy ".\installers\resources\windows-64\RBXCore" ".\build\windows\runner\Release\RBXCore\" /E /Y /K
-	
-
-deploy_win:
-	make build_win && make package_win
+	powershell -command Compress-Archive -Force -Path '.\build\windows\runner\Release\' -DestinationPath '.\installers\exports\RBXWallet-win64.zip'
