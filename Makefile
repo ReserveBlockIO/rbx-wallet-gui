@@ -19,20 +19,14 @@ package_mac:
 	appdmg ./installers/dmg/config.json ./installers/exports/RBX-OSX-Installer.dmg
 
 deploy_mac:
-	make build_mac && make package_mac
+	make build_mac && make package_maccd
 
 build_win:
-	rm -rf build/windows/Build/Products/Release
-	flutter build windows --release
+	if exist .\build\windows\runner\Release rmdir /s /q ".\build\windows\runner\Release" && flutter build windows --release
 
 package_win:
-
-	rm -f .\installers\exports\RBX-WIN-Installer.exe
-	# rm -rf .\build\windows\Build\Products\Release\___________
-	# mkdir .\build\windows\Build\Products\Release\_____________
-	# cp -r .\installers\resources\windows\RBXCore\ .\build\windows\Build\Products\Release\________
+	Xcopy ".\installers\resources\windows-64\RBXCore" ".\build\windows\runner\Release\RBXCore\" /E /Y /K
 	
-	flutter pub run msix:create
 
 deploy_win:
 	make build_win && make package_win

@@ -344,10 +344,10 @@ class SessionProvider extends StateNotifier<SessionModel> {
       String cmd = '"$cliPath" ${options.join(' ')}';
 
       if(Platform.isWindows) {
-        final runHidden = cliPath.replaceAll("ReserveBlockCore", "run-hidden");
-        cmd = "$runHidden powershell -command $cliPath enableapi";
-        print(cmd);
-        print("-------");
+        // final runHidden = cliPath.replaceAll("ReserveBlockCore", "run-hidden");
+        // cmd = "$runHidden powershell -command $cliPath enableapi";
+
+        cmd = "powershell -WindowStyle Hidden -command $cmd";
       }
 
 

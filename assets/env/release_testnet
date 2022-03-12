@@ -1,0 +1,7 @@
+ENVIRONMENT_NAME=release_testnet
+STORAGE_PREFIX=release_testnet
+API_BASE_URL=http://localhost:17292/api/V1
+VALIDATOR_PORT=13338
+LAUNCH_CLI=true
+IS_TEST_NET=true
+ALLOW_VALIDATING=false
