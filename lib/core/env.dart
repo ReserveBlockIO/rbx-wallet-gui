@@ -30,7 +30,7 @@ class Env {
         envPath = Assets.env.macTestnetEnv;
         break;
       case _Environment.WinTestNet:
-        envPath = Assets.env.macTestnetEnv;
+        envPath = Assets.env.winTestnetEnv;
         break;
       case _Environment.Release:
         envPath = Assets.env.releaseEnv;
