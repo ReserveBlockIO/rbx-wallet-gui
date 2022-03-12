@@ -339,7 +339,14 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
       final cliPath = Env.cliPathOverride ?? await _getCliPath();
       final options = ['enableapi', 'hidecli'];
-      final cmd = '"$cliPath" ${options.join(' ')}';
+      String cmd = '"$cliPath" ${options.join(' ')}';
+
+      if(Platform.isWindows) {
+        final runHidden = cliPath.replaceAll("ReserveBlockCore", "run-hidden");
+        cmd = "$runHidden powershell -command $cliPath enableapi";
+        print(cmd);
+        print("-------");
+      }
       final shell = Shell(runInShell: true);
       try {
         shell.run(cmd);
