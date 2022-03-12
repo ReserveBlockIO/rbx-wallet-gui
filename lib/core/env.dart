@@ -8,6 +8,7 @@ enum _Environment {
   MacDev,
   WinDev,
   MacTestNet,
+  WinTestNet,
   Release,
 }
 const _env = _Environment.MacTestNet;
@@ -26,6 +27,9 @@ class Env {
         envPath = Assets.env.devWinEnv;
         break;
       case _Environment.MacTestNet:
+        envPath = Assets.env.macTestnetEnv;
+        break;
+      case _Environment.WinTestNet:
         envPath = Assets.env.macTestnetEnv;
         break;
       case _Environment.Release:

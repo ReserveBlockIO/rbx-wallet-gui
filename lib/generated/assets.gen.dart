@@ -24,6 +24,9 @@ class $AssetsEnvGen {
 
   /// File path: assets/env/release_env
   String get releaseEnv => 'assets/env/release_env';
+
+  /// File path: assets/env/win_testnet_env
+  String get winTestnetEnv => 'assets/env/win_testnet_env';
 }
 
 class $AssetsImagesGen {
