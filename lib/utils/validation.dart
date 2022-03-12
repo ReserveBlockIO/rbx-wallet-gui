@@ -1,3 +1,5 @@
+import 'package:rbx_wallet/core/env.dart';
+
 bool isValidEmail(String email) {
   return RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
       .hasMatch(email);
@@ -29,7 +31,11 @@ bool isValidRbxAddress(String address) {
     return false;
   }
 
-  if (address[0] != "R") {
+  String firstChar = "R";
+  if (Env.isTestNet) {
+    firstChar = "x";
+  }
+  if (address[0] != firstChar) {
     return false;
   }
 

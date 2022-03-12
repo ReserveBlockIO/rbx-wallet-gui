@@ -110,16 +110,16 @@ class ManageWalletBottomSheet extends BaseComponent {
                         Text(wallet.address),
                         Padding(
                           padding: const EdgeInsets.only(left: 6.0),
-                          child: GestureDetector(
+                          child: InkWell(
                             child: Icon(
                               Icons.copy,
                               size: 12,
                             ),
                             onTap: () async {
                               await Clipboard.setData(
-                                ClipboardData(text: wallet.privateKey),
+                                ClipboardData(text: wallet.address),
                               );
-                              Toast.message("Private Key copied to clipboard");
+                              Toast.message("Address copied to clipboard");
                             },
                           ),
                         ),
