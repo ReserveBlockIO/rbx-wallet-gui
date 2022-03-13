@@ -4,6 +4,7 @@ import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/block/latest_block.dart';
 import 'package:rbx_wallet/features/bridge/providers/status_provider.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
@@ -27,7 +28,7 @@ class StatusContainer extends BaseComponent {
           ),
         ),
       ),
-      width: 200,
+      width: 250,
       child: Stack(
         children: [
           Image.asset(
@@ -88,7 +89,16 @@ class StatusContainer extends BaseComponent {
                 Expanded(
                   child: Align(
                     alignment: Alignment.bottomCenter,
-                    child: _BlockStatus(),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        LatestBlock(),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        _BlockStatus(),
+                      ],
+                    ),
                   ),
                 )
               ],

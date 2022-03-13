@@ -291,17 +291,13 @@ class SessionProvider extends StateNotifier<SessionModel> {
     state = state.copyWith(blocksAreSyncing: value);
   }
 
-  Future<String> _getCliPath() async {
+  String getCliPath() {
     if (Platform.isMacOS) {
       return '/Applications/RBXWallet.app/Contents/Resources/RBXCore/ReserveBlockCore';
     } else {
       final appPath = Directory.current.path;
-      final path = "$appPath\\RbxCore\\ReserveBlockCore";
-      print(path);
-      print("-------");
-      return path;
+      return "$appPath\\RbxCore\\ReserveBlockCore";
     }
-    //TODO OS Stuff
   }
 
   Future<bool> _cliIsActive() async {
@@ -334,25 +330,24 @@ class SessionProvider extends StateNotifier<SessionModel> {
         return true;
       }
 
-      final cliPath = Env.cliPathOverride ?? await _getCliPath();
+      final cliPath = Env.cliPathOverride ?? getCliPath();
       final options = ['enableapi', 'hidecli'];
-       if (Env.isTestNet) {
+      if (Env.isTestNet) {
         options.add("testnet");
       }
 
-
       String cmd = '"$cliPath" ${options.join(' ')}';
 
-      if(Platform.isWindows) {
+      if (Platform.isWindows) {
         // final runHidden = cliPath.replaceAll("ReserveBlockCore", "run-hidden");
         // cmd = "$runHidden powershell -command $cliPath enableapi";
 
         cmd = "powershell -WindowStyle Hidden -command $cmd";
       }
 
-
       print(cmd);
-      final shell = Shell(runInShell: true);
+
+      final shell = Shell();
       try {
         shell.run(cmd);
         await Future.delayed(Duration(seconds: 3));

@@ -1,16 +1,11 @@
-# rbx_wallet
+https://docs.microsoft.com/en-us/dotnet/core/deploying/
 
-A new Flutter project.
+dotnet publish -c Release -r osx-x64 -p:PublishReadyToRun=true --self-contained true
 
-## Getting Started
+/Users/tylersavery/Projects/rbx/Core-CLI/ReserveBlockCore/bin/Release/net6.0/osx-x64/publish
 
-This project is a starting point for a Flutter application.
+MAC setup
 
-A few resources to get you started if this is your first Flutter project:
+https://developer.apple.com/videos/play/wwdc2019/703/
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+https://developer.apple.com/documentation/security/notarizing_macos_software_before_distribution

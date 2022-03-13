@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/services/base_service.dart';
+import 'package:rbx_wallet/features/block/block.dart';
 import 'package:rbx_wallet/features/genesis/models/genesis_block.dart';
 import 'package:rbx_wallet/features/transactions/models/transaction.dart';
 
@@ -94,6 +95,17 @@ class BridgeService extends BaseService {
       return true;
     } catch (e) {
       return false;
+    }
+  }
+
+  Future<Block?> blockInfo(int height) async {
+    final response = await getText("/SendBlock/$height");
+    try {
+      final data = jsonDecode(response);
+      return Block.fromJson(data);
+    } catch (e) {
+      print(e);
+      return null;
     }
   }
 

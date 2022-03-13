@@ -1,0 +1,1 @@
+xattr -cr /Applications/RBXWallet.app && open /Applications/RBXWallet.app

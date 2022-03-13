@@ -25,6 +25,9 @@ class $AssetsEnvGen {
   /// File path: assets/env/release_env
   String get releaseEnv => 'assets/env/release_env';
 
+  /// File path: assets/env/release_testnet
+  String get releaseTestnet => 'assets/env/release_testnet';
+
   /// File path: assets/env/win_testnet_env
   String get winTestnetEnv => 'assets/env/win_testnet_env';
 }
@@ -61,6 +64,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/grid_cropped.jpg
   AssetGenImage get gridCropped =>
       const AssetGenImage('assets/images/grid_cropped.jpg');
+
+  /// File path: assets/images/icon.png
+  AssetGenImage get icon => const AssetGenImage('assets/images/icon.png');
 
   /// File path: assets/images/nodelines.png
   AssetGenImage get nodelines =>

@@ -15,6 +15,7 @@ installers/resources/
 Databases/
 RbxCore/
 DatabasesTestNet/
+macos/Runner/Resources/RBXCore
 
 # IntelliJ related
 *.iml

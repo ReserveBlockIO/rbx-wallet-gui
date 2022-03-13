@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/features/block/block.dart';
 import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
 import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
@@ -11,11 +12,13 @@ class WalletInfoModel {
   final int blockHeight;
   final int peerCount;
   final bool isSyncing;
+  final Block? lastestBlock;
 
   const WalletInfoModel({
     required this.blockHeight,
     required this.peerCount,
     required this.isSyncing,
+    this.lastestBlock,
   });
 }
 
@@ -50,10 +53,14 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
     final peerCount = int.parse(info[1]);
     final isSyncing = info[2].toLowerCase() == "true";
 
+    final latestBlock =
+        blockHeight > 0 ? await BridgeService().blockInfo(blockHeight) : null;
+
     state = WalletInfoModel(
       blockHeight: blockHeight,
       peerCount: peerCount,
       isSyncing: isSyncing,
+      lastestBlock: latestBlock,
     );
 
     read(sessionProvider.notifier).setBlocksAreSyncing(isSyncing);
