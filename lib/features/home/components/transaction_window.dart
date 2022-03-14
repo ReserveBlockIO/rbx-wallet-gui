@@ -17,7 +17,7 @@ class TransactionWindow extends BaseComponent {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Recent Transactions",
+          "Your Recent Transactions",
           style: Theme.of(context).textTheme.subtitle2,
         ),
         SizedBox(height: 8),

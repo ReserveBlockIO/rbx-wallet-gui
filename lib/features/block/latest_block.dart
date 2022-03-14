@@ -15,7 +15,6 @@ class LatestBlock extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final latestBlock = ref.watch(walletInfoProvider)?.lastestBlock;
-    print(latestBlock);
 
     if (latestBlock == null) {
       return SizedBox();

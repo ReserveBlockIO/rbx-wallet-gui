@@ -11,7 +11,7 @@ class TransactionsScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: Text("Transactions"),
+      title: Text("Your Transactions"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
       actions: [WalletSelector()],

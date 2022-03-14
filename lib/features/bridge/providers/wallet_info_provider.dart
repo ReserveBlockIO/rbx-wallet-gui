@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/block/block.dart';
 import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
 import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
@@ -56,6 +57,9 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
     final latestBlock =
         blockHeight > 0 ? await BridgeService().blockInfo(blockHeight) : null;
 
+    final prevBlockHeight = state?.blockHeight;
+    final prevPeerCount = state?.peerCount;
+
     state = WalletInfoModel(
       blockHeight: blockHeight,
       peerCount: peerCount,
@@ -65,16 +69,25 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
 
     read(sessionProvider.notifier).setBlocksAreSyncing(isSyncing);
 
-    read(logProvider.notifier).append(
-      LogEntry(message: "Current Block Height is $blockHeight."),
-    );
+    if (blockHeight != prevBlockHeight) {
+      read(logProvider.notifier).append(
+        LogEntry(message: "Current Block Height is $blockHeight."),
+      );
+    }
 
-    read(logProvider.notifier).append(
-      LogEntry(message: "You are connected to $peerCount peers."),
-    );
+    if (peerCount != prevPeerCount) {
+      read(logProvider.notifier).append(
+        LogEntry(message: "You are connected to $peerCount peers."),
+      );
+    }
 
     if (prevIsSyncing && !isSyncing) {
-      LogEntry(message: "Your wallet is now synced. Thank you for waiting.");
+      read(logProvider.notifier).append(
+        LogEntry(
+          message: "Your wallet is now synced. Thank you for waiting.",
+          variant: AppColorVariant.Secondary,
+        ),
+      );
     }
   }
 }
