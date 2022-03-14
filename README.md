@@ -8,6 +8,8 @@ This is the new version of the RBXWallet GUI which supports both mac and windows
 - Extra the zip file and move to a safe place (ie. C:/Users/YOURNAME/documents/RBX)
 - Run RBXWallet.exe
 
+Note: we are working on providing an MSIX file for an even easier install process on win10/11
+
 ### Mac Install
 
 - Download RBX-OSX-Installer.dmg
