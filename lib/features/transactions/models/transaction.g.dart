@@ -16,7 +16,7 @@ _$_Transaction _$$_TransactionFromJson(Map<String, dynamic> json) =>
       fee: (json['Fee'] as num).toDouble(),
       timestamp: json['Timestamp'] as int,
       nftData: json['NFTData'],
-      signature: json['Signature'] as String,
+      signature: json['Signature'] as String?,
       height: json['Height'] as int,
     );
 

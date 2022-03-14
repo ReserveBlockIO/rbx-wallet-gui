@@ -17,10 +17,9 @@ _$_Block _$$_BlockFromJson(Map<String, dynamic> json) => _$_Block(
       numberOfTransactions: json['NumOfTx'] as int,
       size: json['Size'] as int,
       craftTime: json['BCraftTime'] as int,
-      transactions: (json['Transctions'] as List<dynamic>?)
-              ?.map((e) => Transaction.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
+      transactions: (json['Transactions'] as List<dynamic>)
+          .map((e) => Transaction.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$_BlockToJson(_$_Block instance) => <String, dynamic>{
@@ -34,5 +33,5 @@ Map<String, dynamic> _$$_BlockToJson(_$_Block instance) => <String, dynamic>{
       'NumOfTx': instance.numberOfTransactions,
       'Size': instance.size,
       'BCraftTime': instance.craftTime,
-      'Transctions': instance.transactions,
+      'Transactions': instance.transactions,
     };

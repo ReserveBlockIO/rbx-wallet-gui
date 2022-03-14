@@ -22,28 +22,17 @@ class _$BlockTearOff {
   const _$BlockTearOff();
 
   _Block call(
-      {@JsonKey(name: "Height")
-          required int height,
-      @JsonKey(name: "Timestamp")
-          required int timestamp,
-      @JsonKey(name: "Hash")
-          required String hash,
-      @JsonKey(name: "Validator")
-          required String validator,
-      @JsonKey(name: "NextValidators")
-          required String nextValidators,
-      @JsonKey(name: "TotalAmount")
-          required double totalAmount,
-      @JsonKey(name: "TotalReward")
-          required double totalReward,
-      @JsonKey(name: "NumOfTx")
-          required int numberOfTransactions,
-      @JsonKey(name: "Size")
-          required int size,
-      @JsonKey(name: "BCraftTime")
-          required int craftTime,
-      @JsonKey(name: "Transctions", defaultValue: [])
-          required List<Transaction> transactions}) {
+      {@JsonKey(name: "Height") required int height,
+      @JsonKey(name: "Timestamp") required int timestamp,
+      @JsonKey(name: "Hash") required String hash,
+      @JsonKey(name: "Validator") required String validator,
+      @JsonKey(name: "NextValidators") required String nextValidators,
+      @JsonKey(name: "TotalAmount") required double totalAmount,
+      @JsonKey(name: "TotalReward") required double totalReward,
+      @JsonKey(name: "NumOfTx") required int numberOfTransactions,
+      @JsonKey(name: "Size") required int size,
+      @JsonKey(name: "BCraftTime") required int craftTime,
+      @JsonKey(name: "Transactions") required List<Transaction> transactions}) {
     return _Block(
       height: height,
       timestamp: timestamp,
@@ -89,7 +78,7 @@ mixin _$Block {
   int get size => throw _privateConstructorUsedError;
   @JsonKey(name: "BCraftTime")
   int get craftTime => throw _privateConstructorUsedError;
-  @JsonKey(name: "Transctions", defaultValue: [])
+  @JsonKey(name: "Transactions")
   List<Transaction> get transactions => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -102,28 +91,17 @@ abstract class $BlockCopyWith<$Res> {
   factory $BlockCopyWith(Block value, $Res Function(Block) then) =
       _$BlockCopyWithImpl<$Res>;
   $Res call(
-      {@JsonKey(name: "Height")
-          int height,
-      @JsonKey(name: "Timestamp")
-          int timestamp,
-      @JsonKey(name: "Hash")
-          String hash,
-      @JsonKey(name: "Validator")
-          String validator,
-      @JsonKey(name: "NextValidators")
-          String nextValidators,
-      @JsonKey(name: "TotalAmount")
-          double totalAmount,
-      @JsonKey(name: "TotalReward")
-          double totalReward,
-      @JsonKey(name: "NumOfTx")
-          int numberOfTransactions,
-      @JsonKey(name: "Size")
-          int size,
-      @JsonKey(name: "BCraftTime")
-          int craftTime,
-      @JsonKey(name: "Transctions", defaultValue: [])
-          List<Transaction> transactions});
+      {@JsonKey(name: "Height") int height,
+      @JsonKey(name: "Timestamp") int timestamp,
+      @JsonKey(name: "Hash") String hash,
+      @JsonKey(name: "Validator") String validator,
+      @JsonKey(name: "NextValidators") String nextValidators,
+      @JsonKey(name: "TotalAmount") double totalAmount,
+      @JsonKey(name: "TotalReward") double totalReward,
+      @JsonKey(name: "NumOfTx") int numberOfTransactions,
+      @JsonKey(name: "Size") int size,
+      @JsonKey(name: "BCraftTime") int craftTime,
+      @JsonKey(name: "Transactions") List<Transaction> transactions});
 }
 
 /// @nodoc
@@ -203,28 +181,17 @@ abstract class _$BlockCopyWith<$Res> implements $BlockCopyWith<$Res> {
       __$BlockCopyWithImpl<$Res>;
   @override
   $Res call(
-      {@JsonKey(name: "Height")
-          int height,
-      @JsonKey(name: "Timestamp")
-          int timestamp,
-      @JsonKey(name: "Hash")
-          String hash,
-      @JsonKey(name: "Validator")
-          String validator,
-      @JsonKey(name: "NextValidators")
-          String nextValidators,
-      @JsonKey(name: "TotalAmount")
-          double totalAmount,
-      @JsonKey(name: "TotalReward")
-          double totalReward,
-      @JsonKey(name: "NumOfTx")
-          int numberOfTransactions,
-      @JsonKey(name: "Size")
-          int size,
-      @JsonKey(name: "BCraftTime")
-          int craftTime,
-      @JsonKey(name: "Transctions", defaultValue: [])
-          List<Transaction> transactions});
+      {@JsonKey(name: "Height") int height,
+      @JsonKey(name: "Timestamp") int timestamp,
+      @JsonKey(name: "Hash") String hash,
+      @JsonKey(name: "Validator") String validator,
+      @JsonKey(name: "NextValidators") String nextValidators,
+      @JsonKey(name: "TotalAmount") double totalAmount,
+      @JsonKey(name: "TotalReward") double totalReward,
+      @JsonKey(name: "NumOfTx") int numberOfTransactions,
+      @JsonKey(name: "Size") int size,
+      @JsonKey(name: "BCraftTime") int craftTime,
+      @JsonKey(name: "Transactions") List<Transaction> transactions});
 }
 
 /// @nodoc
@@ -303,28 +270,17 @@ class __$BlockCopyWithImpl<$Res> extends _$BlockCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Block extends _Block {
   _$_Block(
-      {@JsonKey(name: "Height")
-          required this.height,
-      @JsonKey(name: "Timestamp")
-          required this.timestamp,
-      @JsonKey(name: "Hash")
-          required this.hash,
-      @JsonKey(name: "Validator")
-          required this.validator,
-      @JsonKey(name: "NextValidators")
-          required this.nextValidators,
-      @JsonKey(name: "TotalAmount")
-          required this.totalAmount,
-      @JsonKey(name: "TotalReward")
-          required this.totalReward,
-      @JsonKey(name: "NumOfTx")
-          required this.numberOfTransactions,
-      @JsonKey(name: "Size")
-          required this.size,
-      @JsonKey(name: "BCraftTime")
-          required this.craftTime,
-      @JsonKey(name: "Transctions", defaultValue: [])
-          required this.transactions})
+      {@JsonKey(name: "Height") required this.height,
+      @JsonKey(name: "Timestamp") required this.timestamp,
+      @JsonKey(name: "Hash") required this.hash,
+      @JsonKey(name: "Validator") required this.validator,
+      @JsonKey(name: "NextValidators") required this.nextValidators,
+      @JsonKey(name: "TotalAmount") required this.totalAmount,
+      @JsonKey(name: "TotalReward") required this.totalReward,
+      @JsonKey(name: "NumOfTx") required this.numberOfTransactions,
+      @JsonKey(name: "Size") required this.size,
+      @JsonKey(name: "BCraftTime") required this.craftTime,
+      @JsonKey(name: "Transactions") required this.transactions})
       : super._();
 
   factory _$_Block.fromJson(Map<String, dynamic> json) =>
@@ -361,7 +317,7 @@ class _$_Block extends _Block {
   @JsonKey(name: "BCraftTime")
   final int craftTime;
   @override
-  @JsonKey(name: "Transctions", defaultValue: [])
+  @JsonKey(name: "Transactions")
   final List<Transaction> transactions;
 
   @override
@@ -440,7 +396,7 @@ abstract class _Block extends Block {
           required int size,
       @JsonKey(name: "BCraftTime")
           required int craftTime,
-      @JsonKey(name: "Transctions", defaultValue: [])
+      @JsonKey(name: "Transactions")
           required List<Transaction> transactions}) = _$_Block;
   _Block._() : super._();
 
@@ -477,7 +433,7 @@ abstract class _Block extends Block {
   @JsonKey(name: "BCraftTime")
   int get craftTime;
   @override
-  @JsonKey(name: "Transctions", defaultValue: [])
+  @JsonKey(name: "Transactions")
   List<Transaction> get transactions;
   @override
   @JsonKey(ignore: true)

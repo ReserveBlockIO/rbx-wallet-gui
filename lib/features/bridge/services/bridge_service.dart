@@ -102,6 +102,7 @@ class BridgeService extends BaseService {
     final response = await getText("/SendBlock/$height");
     try {
       final data = jsonDecode(response);
+      print(data);
       return Block.fromJson(data);
     } catch (e) {
       print(e);

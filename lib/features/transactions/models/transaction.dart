@@ -17,7 +17,7 @@ class Transaction with _$Transaction {
     @JsonKey(name: 'Fee') required double fee,
     @JsonKey(name: 'Timestamp') required int timestamp,
     @JsonKey(name: 'NFTData') required dynamic nftData,
-    @JsonKey(name: 'Signature') required String signature,
+    @JsonKey(name: 'Signature') String? signature,
     @JsonKey(name: 'Height') required int height,
   }) = _Transaction;
 

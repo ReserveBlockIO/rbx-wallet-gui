@@ -19,8 +19,7 @@ class Block with _$Block {
     @JsonKey(name: "NumOfTx") required int numberOfTransactions,
     @JsonKey(name: "Size") required int size,
     @JsonKey(name: "BCraftTime") required int craftTime,
-    @JsonKey(name: "Transctions", defaultValue: [])
-        required List<Transaction> transactions,
+    @JsonKey(name: "Transactions") required List<Transaction> transactions,
   }) = _Block;
 
   factory Block.fromJson(Map<String, dynamic> json) => _$BlockFromJson(json);

@@ -4,6 +4,7 @@ import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/block/block_transaction_list_bottom_sheet.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/utils/formatting.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -14,6 +15,7 @@ class LatestBlock extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final latestBlock = ref.watch(walletInfoProvider)?.lastestBlock;
+    print(latestBlock);
 
     if (latestBlock == null) {
       return SizedBox();
@@ -48,7 +50,8 @@ class LatestBlock extends BaseComponent {
                 Text(
                   timeago.format(
                     DateTime.fromMillisecondsSinceEpoch(
-                        latestBlock.timestamp * 1000),
+                      latestBlock.timestamp * 1000,
+                    ),
                   ),
                   style: Theme.of(context).textTheme.caption,
                 ),
@@ -86,21 +89,29 @@ class LatestBlock extends BaseComponent {
                     value: "${latestBlock.numberOfTransactions}",
                   ),
                 ),
-                Expanded(
-                  child: InkWell(
-                    onTap: () {},
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 4.0),
-                      child: Text(
-                        "View Txs",
-                        style: Theme.of(context).textTheme.caption!.copyWith(
-                            fontSize: 10,
-                            color: Theme.of(context).colorScheme.secondary,
-                            decoration: TextDecoration.underline),
+                if (latestBlock.transactions.isNotEmpty)
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return BlockTransactionListBottomSheet(
+                                  transactions: latestBlock.transactions);
+                            });
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 4.0),
+                        child: Text(
+                          "View Txs",
+                          style: Theme.of(context).textTheme.caption!.copyWith(
+                              fontSize: 10,
+                              color: Theme.of(context).colorScheme.secondary,
+                              decoration: TextDecoration.underline),
+                        ),
                       ),
                     ),
                   ),
-                ),
               ],
             ),
             Row(

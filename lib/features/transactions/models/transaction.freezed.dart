@@ -30,7 +30,7 @@ class _$TransactionTearOff {
       @JsonKey(name: 'Fee') required double fee,
       @JsonKey(name: 'Timestamp') required int timestamp,
       @JsonKey(name: 'NFTData') required dynamic nftData,
-      @JsonKey(name: 'Signature') required String signature,
+      @JsonKey(name: 'Signature') String? signature,
       @JsonKey(name: 'Height') required int height}) {
     return _Transaction(
       hash: hash,
@@ -73,7 +73,7 @@ mixin _$Transaction {
   @JsonKey(name: 'NFTData')
   dynamic get nftData => throw _privateConstructorUsedError;
   @JsonKey(name: 'Signature')
-  String get signature => throw _privateConstructorUsedError;
+  String? get signature => throw _privateConstructorUsedError;
   @JsonKey(name: 'Height')
   int get height => throw _privateConstructorUsedError;
 
@@ -97,7 +97,7 @@ abstract class $TransactionCopyWith<$Res> {
       @JsonKey(name: 'Fee') double fee,
       @JsonKey(name: 'Timestamp') int timestamp,
       @JsonKey(name: 'NFTData') dynamic nftData,
-      @JsonKey(name: 'Signature') String signature,
+      @JsonKey(name: 'Signature') String? signature,
       @JsonKey(name: 'Height') int height});
 }
 
@@ -158,7 +158,7 @@ class _$TransactionCopyWithImpl<$Res> implements $TransactionCopyWith<$Res> {
       signature: signature == freezed
           ? _value.signature
           : signature // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       height: height == freezed
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
@@ -183,7 +183,7 @@ abstract class _$TransactionCopyWith<$Res>
       @JsonKey(name: 'Fee') double fee,
       @JsonKey(name: 'Timestamp') int timestamp,
       @JsonKey(name: 'NFTData') dynamic nftData,
-      @JsonKey(name: 'Signature') String signature,
+      @JsonKey(name: 'Signature') String? signature,
       @JsonKey(name: 'Height') int height});
 }
 
@@ -246,7 +246,7 @@ class __$TransactionCopyWithImpl<$Res> extends _$TransactionCopyWithImpl<$Res>
       signature: signature == freezed
           ? _value.signature
           : signature // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       height: height == freezed
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
@@ -267,7 +267,7 @@ class _$_Transaction extends _Transaction {
       @JsonKey(name: 'Fee') required this.fee,
       @JsonKey(name: 'Timestamp') required this.timestamp,
       @JsonKey(name: 'NFTData') required this.nftData,
-      @JsonKey(name: 'Signature') required this.signature,
+      @JsonKey(name: 'Signature') this.signature,
       @JsonKey(name: 'Height') required this.height})
       : super._();
 
@@ -300,7 +300,7 @@ class _$_Transaction extends _Transaction {
   final dynamic nftData;
   @override
   @JsonKey(name: 'Signature')
-  final String signature;
+  final String? signature;
   @override
   @JsonKey(name: 'Height')
   final int height;
@@ -363,7 +363,7 @@ abstract class _Transaction extends Transaction {
       @JsonKey(name: 'Fee') required double fee,
       @JsonKey(name: 'Timestamp') required int timestamp,
       @JsonKey(name: 'NFTData') required dynamic nftData,
-      @JsonKey(name: 'Signature') required String signature,
+      @JsonKey(name: 'Signature') String? signature,
       @JsonKey(name: 'Height') required int height}) = _$_Transaction;
   _Transaction._() : super._();
 
@@ -396,7 +396,7 @@ abstract class _Transaction extends Transaction {
   dynamic get nftData;
   @override
   @JsonKey(name: 'Signature')
-  String get signature;
+  String? get signature;
   @override
   @JsonKey(name: 'Height')
   int get height;
