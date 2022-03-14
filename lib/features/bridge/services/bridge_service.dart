@@ -75,6 +75,25 @@ class BridgeService extends BaseService {
     return response.split(':');
   }
 
+  Future<bool> sendFunds({
+    required double amount,
+    required String to,
+    required String from,
+  }) async {
+    final response = await getText("SendTransaction/$from/$to/$amount");
+
+    if (response == "FAIL") {
+      return false;
+    }
+
+    if (response ==
+        "This is not a valid RBX address to send to. Please verify again.") {
+      return false;
+    }
+
+    return true;
+  }
+
   Future<String> startValidating(String address, String username) async {
     return await getText("/StartValidating/$address/$username");
   }

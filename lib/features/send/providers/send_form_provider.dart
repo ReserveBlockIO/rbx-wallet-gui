@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
 import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
@@ -129,10 +130,25 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
 
     state = state.copyWith(isProcessing: true);
 
-    await Future.delayed(Duration(seconds: 3));
+    // final amount = double.parse(state.amount);
 
-    Toast.message("$amount RBX has been sent to $address");
-    clear();
+    try {
+      final success = await BridgeService().sendFunds(
+        amount: double.parse(amount),
+        to: address,
+        from: currentWallet.address,
+      );
+
+      if (success) {
+        Toast.message("$amount RBX has been sent to $address");
+        clear();
+      } else {
+        Toast.error();
+      }
+    } catch (e) {
+      print(e);
+      Toast.error();
+    }
   }
 }
 
