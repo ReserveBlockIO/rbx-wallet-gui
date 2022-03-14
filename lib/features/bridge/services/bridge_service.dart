@@ -5,6 +5,7 @@ import 'package:rbx_wallet/core/services/base_service.dart';
 import 'package:rbx_wallet/features/block/block.dart';
 import 'package:rbx_wallet/features/genesis/models/genesis_block.dart';
 import 'package:rbx_wallet/features/transactions/models/transaction.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 class BridgeService extends BaseService {
   Future<dynamic> status() async {
@@ -75,7 +76,7 @@ class BridgeService extends BaseService {
     return response.split(':');
   }
 
-  Future<bool> sendFunds({
+  Future<String?> sendFunds({
     required int amount,
     required String to,
     required String from,
@@ -83,15 +84,18 @@ class BridgeService extends BaseService {
     final response = await getText("/SendTransaction/$from/$to/$amount");
 
     if (response == "FAIL") {
-      return false;
+      Toast.error();
+
+      return null;
     }
 
     if (response ==
         "This is not a valid RBX address to send to. Please verify again.") {
-      return false;
+      Toast.error(response);
+      return null;
     }
 
-    return true;
+    return response;
   }
 
   Future<String> startValidating(String address, String username) async {

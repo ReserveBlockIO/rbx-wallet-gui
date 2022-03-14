@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
+import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
+import 'package:rbx_wallet/features/home/components/log_item.dart';
 import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
@@ -131,18 +135,23 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
     state = state.copyWith(isProcessing: true);
 
     try {
-      final success = await BridgeService().sendFunds(
+      final message = await BridgeService().sendFunds(
         amount: int.parse(amount),
         to: address,
         from: currentWallet.address,
       );
       state = state.copyWith(isProcessing: false);
 
-      if (success) {
-        Toast.message("$amount RBX has been sent to $address");
+      if (message != null) {
+        Toast.message(
+            "$amount RBX has been sent to $address. See dashboard for TX ID.");
+        read(logProvider.notifier).append(
+          LogEntry(
+              message: message,
+              textToCopy: message.replaceAll("Success! TxId: ", ""),
+              variant: AppColorVariant.Success),
+        );
         clear();
-      } else {
-        Toast.error();
       }
     } catch (e) {
       print(e);
