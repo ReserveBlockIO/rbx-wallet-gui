@@ -76,7 +76,7 @@ class BridgeService extends BaseService {
   }
 
   Future<bool> sendFunds({
-    required double amount,
+    required int amount,
     required String to,
     required String from,
   }) async {

@@ -41,11 +41,14 @@ class StatusContainer extends BaseComponent {
             alignment: Alignment.bottomRight,
             child: Opacity(
               opacity: 0.5,
-              child: Image.asset(
-                Assets.images.decorBottomRight.path,
-                width: 200,
-                height: 200,
-                fit: BoxFit.contain,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 308.0),
+                child: Image.asset(
+                  Assets.images.decorBottomRight.path,
+                  width: 200,
+                  height: 200,
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
           ),

@@ -130,11 +130,9 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
 
     state = state.copyWith(isProcessing: true);
 
-    // final amount = double.parse(state.amount);
-
     try {
       final success = await BridgeService().sendFunds(
-        amount: double.parse(amount),
+        amount: int.parse(amount),
         to: address,
         from: currentWallet.address,
       );
