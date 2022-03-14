@@ -80,7 +80,7 @@ class BridgeService extends BaseService {
     required String to,
     required String from,
   }) async {
-    final response = await getText("SendTransaction/$from/$to/$amount");
+    final response = await getText("/SendTransaction/$from/$to/$amount");
 
     if (response == "FAIL") {
       return false;

@@ -136,6 +136,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
         to: address,
         from: currentWallet.address,
       );
+      state = state.copyWith(isProcessing: false);
 
       if (success) {
         Toast.message("$amount RBX has been sent to $address");
@@ -146,6 +147,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
     } catch (e) {
       print(e);
       Toast.error();
+      state = state.copyWith(isProcessing: false);
     }
   }
 }
