@@ -60,7 +60,7 @@ msix_config:
   publisher_display_name: ReserveBlock
   identity_name: io.reserveblock
   msix_version: 1.0.0.0
-  # logo_path: C:\path\to\logo.png
+  logo_path: C:\Users\tyler\Projects\rbx-wallet-gui\assets\images\icon.png
   capabilities: internetClient
 
 flutter_icons:
