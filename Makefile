@@ -55,5 +55,5 @@ build_win:
 	move ".\build\windows\runner\Release\rbx_wallet_gui.exe" ".\build\windows\runner\Release\RBXWallet.exe"
 	Xcopy ".\installers\resources\windows-64\RBXCore" ".\build\windows\runner\Release\RBXCore\" /E /Y /K
 	powershell -command Compress-Archive -Force -Path '.\build\windows\runner\Release\' -DestinationPath '.\installers\exports\RBXWallet-win64.zip'
-	flutter pub run msix:create
-	Xcopy '.\build\windows\runner\Release\rbx_wallet.msix' '.\installers\exports\RBXWallet-win64.msix' /E /Y /K /F
+	# flutter pub run msix:create
+	# Xcopy '.\build\windows\runner\Release\rbx_wallet.msix' '.\installers\exports\RBXWallet-win64.msix' /E /Y /K /F
