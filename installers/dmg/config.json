@@ -17,7 +17,7 @@
             "path": "../resources/Runner/RBXWallet.app"
         },
         {
-            "x": 200,
+            "x": 205,
             "y": 290,
             "type": "file",
             "path": "./install.command"
