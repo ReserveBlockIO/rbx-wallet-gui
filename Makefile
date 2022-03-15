@@ -46,6 +46,15 @@ package_mac:
 	appdmg ./installers/dmg/config.json ./installers/exports/RBX-OSX-Installer.dmg
 
 
+package_m1:
+	rm -f ./installers/exports/RBX-OSX-ARM-Installer.dmg
+	rm -rf ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
+	mkdir ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
+	cp -r ./installers/resources/macos-arm/RBXCore/ ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
+	appdmg ./installers/dmg/config.json ./installers/exports/RBX-OSX-ARM-Installer.dmg
+
+
+
 # deploy_mac:
 # 	make build_mac && make package_mac
 
