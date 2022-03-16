@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/app.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
@@ -249,6 +250,9 @@ class SessionProvider extends StateNotifier<SessionModel> {
                 onPressed: () {
                   PromptModal.show(
                     title: "Import Wallet",
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]'))
+                    ],
                     validator: (String? value) =>
                         formValidatorNotEmpty(value, "Private Key"),
                     labelText: "Private Key",

@@ -98,6 +98,9 @@ class WalletSelector extends BaseComponent {
                       validator: (String? value) =>
                           formValidatorNotEmpty(value, "Private Key"),
                       labelText: "Private Key",
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]'))
+                      ],
                       onValidSubmission: (value) async {
                         await ref
                             .read(walletListProvider.notifier)
