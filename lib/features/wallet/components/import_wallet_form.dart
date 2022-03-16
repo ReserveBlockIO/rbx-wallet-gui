@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 
 class ImportWalletForm extends StatelessWidget {
@@ -16,6 +17,9 @@ class ImportWalletForm extends StatelessWidget {
             controller: _controller,
             obscureText: true,
             decoration: InputDecoration(label: Text("Private Key")),
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]')),
+            ],
           ),
           AppButton(label: "Import")
         ],
