@@ -344,7 +344,9 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
         // cmd = "powershell -command $cmd";
 
-        cmd = '$cliPath hidecli';
+        // cmd = '$cliPath hidecli';
+        final appPath = Directory.current.path;
+        cmd = "$appPath\\RbxCore\\RBXLauncher";
         
       }
 
