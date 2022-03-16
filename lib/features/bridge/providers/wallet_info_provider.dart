@@ -89,6 +89,8 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
         ),
       );
     }
+
+    read(sessionProvider.notifier).load();
   }
 }
 

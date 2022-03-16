@@ -174,8 +174,8 @@ class SessionProvider extends StateNotifier<SessionModel> {
     if (wallets.isNotEmpty) {
       final totalBalance = wallets.map((e) => e.balance).toList().sum;
 
-      print("TOTAL BALANCE");
       print(totalBalance);
+      print("****");
 
       final currentWalletAddress =
           singleton<Storage>().getString(Storage.CURRENT_WALLET_ADDRESS_KEY);
