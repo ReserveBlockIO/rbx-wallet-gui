@@ -41,11 +41,11 @@ prep_mac:
 package_mac:
 	#TODO: invoke CLI build command
 	#TODO: invoke XCODE Build command
-	rm -f ./installers/exports/RBX-OSX-Installer.dmg
+	rm -f ./installers/exports/RBX-OSX-Intel-Installer.dmg
 	rm -rf ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
 	mkdir ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
 	cp -r ../Core-CLI/ReserveBlockCore/bin/Release/net6.0/publish/ ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
-	appdmg ./installers/dmg/config.json ./installers/exports/RBX-OSX-Installer.dmg
+	appdmg ./installers/dmg/config.json ./installers/exports/RBX-OSX-Intel-Installer.dmg
 
 
 package_m1:
