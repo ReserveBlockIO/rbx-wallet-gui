@@ -71,7 +71,7 @@ class HomeScreen extends BaseScreen {
                     final wallets = ref.read(walletListProvider);
                     for (final wallet in wallets) {
                       _log.append(LogEntry(
-                        message: wallet.address,
+                        message: "${wallet.address} (${wallet.balance} RBX)",
                         variant: AppColorVariant.Success,
                         textToCopy: wallet.address,
                       ));

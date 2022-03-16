@@ -31,6 +31,7 @@ class SessionModel {
   final bool cliStarted;
   final int? remoteBlockHeight;
   final bool blocksAreSyncing;
+  final double? totalBalance;
 
   const SessionModel({
     this.currentWallet,
@@ -40,6 +41,7 @@ class SessionModel {
     this.filteringTransactions = false,
     this.remoteBlockHeight,
     this.blocksAreSyncing = false,
+    this.totalBalance,
   });
 
   SessionModel copyWith({
@@ -50,6 +52,7 @@ class SessionModel {
     bool? cliStarted,
     int? remoteBlockHeight,
     bool? blocksAreSyncing,
+    double? totalBalance,
   }) {
     return SessionModel(
       startTime: startTime ?? this.startTime,
@@ -60,6 +63,7 @@ class SessionModel {
       cliStarted: cliStarted ?? this.cliStarted,
       remoteBlockHeight: remoteBlockHeight ?? this.remoteBlockHeight,
       blocksAreSyncing: blocksAreSyncing ?? this.blocksAreSyncing,
+      totalBalance: totalBalance ?? this.totalBalance,
     );
   }
 
@@ -168,6 +172,11 @@ class SessionProvider extends StateNotifier<SessionModel> {
     read(walletListProvider.notifier).set(wallets);
 
     if (wallets.isNotEmpty) {
+      final totalBalance = wallets.map((e) => e.balance).toList().sum;
+
+      print("TOTAL BALANCE");
+      print(totalBalance);
+
       final currentWalletAddress =
           singleton<Storage>().getString(Storage.CURRENT_WALLET_ADDRESS_KEY);
 
@@ -176,11 +185,13 @@ class SessionProvider extends StateNotifier<SessionModel> {
             (element) => element.address == currentWalletAddress);
 
         if (currentWallet != null) {
-          state = state.copyWith(currentWallet: currentWallet);
+          state = state.copyWith(
+              currentWallet: currentWallet, totalBalance: totalBalance);
           read(currentValidatorProvider.notifier).set(currentWallet);
         }
       } else {
-        state = state.copyWith(currentWallet: wallets.first);
+        state = state.copyWith(
+            currentWallet: wallets.first, totalBalance: totalBalance);
         read(currentValidatorProvider.notifier).set(wallets.first);
       }
     }
@@ -345,7 +356,6 @@ class SessionProvider extends StateNotifier<SessionModel> {
         // cmd = "powershell -command $cmd";
 
         cmd = '$cliPath hidecli';
-        
       }
 
       print(cmd);

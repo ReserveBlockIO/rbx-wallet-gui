@@ -14,6 +14,8 @@ class MainMenu extends BaseComponent {
   Widget build(BuildContext context, WidgetRef ref) {
     final tabsRouter = AutoTabsRouter.of(context);
 
+    final totalBalance = ref.watch(sessionProvider).totalBalance;
+
     return Container(
       decoration: BoxDecoration(color: Colors.black54),
       width: 200,
@@ -65,14 +67,14 @@ class MainMenu extends BaseComponent {
                   ),
                 ),
               ),
-              if (ref.watch(sessionProvider).currentWallet != null)
+              if (totalBalance != null)
                 Container(
                   color: Colors.black,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0).copyWith(top: 0),
                     child: Center(
                       child: Text(
-                        "${ref.watch(sessionProvider).currentWallet!.balance} RBX",
+                        "$totalBalance RBX",
                         style: Theme.of(context).textTheme.caption!.copyWith(
                               fontWeight: FontWeight.w600,
                             ),
