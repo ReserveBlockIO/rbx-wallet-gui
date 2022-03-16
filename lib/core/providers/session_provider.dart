@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/app.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
@@ -12,7 +13,6 @@ import 'package:rbx_wallet/core/storage.dart';
 import 'package:rbx_wallet/features/bridge/providers/status_provider.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
-import 'package:rbx_wallet/features/genesis/providers/genesis_block_provider.dart';
 import 'package:rbx_wallet/features/validator/providers/current_validator_provider.dart';
 import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
@@ -260,6 +260,9 @@ class SessionProvider extends StateNotifier<SessionModel> {
                 onPressed: () {
                   PromptModal.show(
                     title: "Import Wallet",
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]'))
+                    ],
                     validator: (String? value) =>
                         formValidatorNotEmpty(value, "Private Key"),
                     labelText: "Private Key",
@@ -355,10 +358,10 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
         // cmd = "powershell -command $cmd";
 
-        cmd = '$cliPath hidecli';
+        // cmd = '$cliPath hidecli';
+        final appPath = Directory.current.path;
+        cmd = "$appPath\\RbxCore\\RBXLauncher";
       }
-
-      print(cmd);
 
       final shell = Shell(throwOnError: false);
       try {

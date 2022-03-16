@@ -90,7 +90,7 @@ class ValidatorScreen extends BaseScreen {
               onPressed: () async {
                 if (!guardWalletIsSynced(ref.read)) return;
 
-                if (!await checkPort(false)) return;
+                // if (!await checkPort(false)) return;
 
                 ref.read(globalLoadingProvider.notifier).start();
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:rbx_wallet/app.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 
@@ -99,17 +100,17 @@ class ConfirmDialog {
 }
 
 class PromptModal {
-  static Future<List<String>?> show({
-    required String title,
-    required String? Function(String?) validator,
-    required String labelText,
-    bool obscureText = false,
-    String? cancelText,
-    String? confirmText,
-    String initialValue = "",
-    bool destructive = false,
-    Function(String)? onValidSubmission,
-  }) async {
+  static Future<List<String>?> show(
+      {required String title,
+      required String? Function(String?) validator,
+      required String labelText,
+      bool obscureText = false,
+      String? cancelText,
+      String? confirmText,
+      String initialValue = "",
+      bool destructive = false,
+      Function(String)? onValidSubmission,
+      List<FilteringTextInputFormatter> inputFormatters = const []}) async {
     // final context = rootNavigatorKey.currentContext!;
     final context = rootScaffoldKey.currentContext!;
 
@@ -136,6 +137,7 @@ class PromptModal {
                     label: Text(labelText),
                   ),
                   validator: validator,
+                  inputFormatters: inputFormatters,
                 ),
               ],
             ),
