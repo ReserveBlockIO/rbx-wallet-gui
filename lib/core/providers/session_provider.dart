@@ -331,7 +331,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
       }
 
       final cliPath = Env.cliPathOverride ?? getCliPath();
-      final options = ['enableapi', 'hidecli'];
+      final options = ['enableapi'];
       if (Env.isTestNet) {
         options.add("testnet");
       }
@@ -342,12 +342,15 @@ class SessionProvider extends StateNotifier<SessionModel> {
         // final runHidden = cliPath.replaceAll("ReserveBlockCore", "run-hidden");
         // cmd = "$runHidden powershell -command $cliPath enableapi";
 
-        cmd = "powershell -WindowStyle Hidden -command $cmd";
+        // cmd = "powershell -command $cmd";
+
+        cmd = '$cliPath hidecli';
+        
       }
 
       print(cmd);
 
-      final shell = Shell();
+      final shell = Shell(throwOnError: false);
       try {
         shell.run(cmd);
         await Future.delayed(Duration(seconds: 3));
