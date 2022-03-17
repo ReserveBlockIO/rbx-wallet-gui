@@ -7,6 +7,7 @@ import 'package:rbx_wallet/core/components/centered_loader.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/singletons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/root/components/system_manager.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -41,7 +42,23 @@ class App extends ConsumerWidget {
         ),
         builder: (context, widget) {
           if (!ref.watch(sessionProvider).ready) {
-            return const CenteredLoader();
+
+            final logs = ref.watch(logProvider);
+
+            return Material(
+              child: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    ),
+                    SizedBox(height: 32,),
+                    ...logs.map((m) => Text(m.message, style: TextStyle(fontSize: 12, color: Colors.white,),)).toList()
+                  ],
+                ),
+              ),
+            );
           }
 
           return Stack(

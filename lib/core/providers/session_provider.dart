@@ -10,6 +10,9 @@ import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/singletons.dart';
 import 'package:rbx_wallet/core/storage.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
+import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
 import 'package:rbx_wallet/features/bridge/providers/status_provider.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
@@ -86,9 +89,14 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   Future<void> init() async {
+
     bool cliStarted = state.cliStarted;
     if (!cliStarted) {
+      read(logProvider.notifier).append(LogEntry(message: "Starting RBXCore..."));
       cliStarted = await _startCli();
+    } else {
+      read(logProvider.notifier).append(LogEntry(message: "RBXCore already running."));
+
     }
 
     if (!cliStarted) {
@@ -325,13 +333,19 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
   Future<bool> _cliCheck([int attempt = 1, int maxAttempts = 10]) async {
     if (attempt > maxAttempts) {
+      read(logProvider.notifier).append(LogEntry(message: "Attempted $maxAttempts. Something went wrong."));
+
       return false;
     }
 
     final isRunning = await _cliIsActive();
     if (isRunning) {
+      read(logProvider.notifier).append(LogEntry(message: "ReserveBlockCore Started Successfully", variant: AppColorVariant.Success));
       return true;
     }
+
+    read(logProvider.notifier).append(LogEntry(message: "CLI not ready responding. Trying again in 3 seconds."));
+
 
     await Future.delayed(Duration(seconds: 3));
     return _cliCheck(attempt + 1, maxAttempts);
@@ -341,6 +355,8 @@ class SessionProvider extends StateNotifier<SessionModel> {
     if (Env.launchCli) {
       if (await _cliIsActive()) {
         print("CLI is already running");
+        read(logProvider.notifier).append(LogEntry(message: "CLI is already running!"));
+
         return true;
       }
 
@@ -362,6 +378,9 @@ class SessionProvider extends StateNotifier<SessionModel> {
         final appPath = Directory.current.path;
         cmd = "$appPath\\RbxCore\\RBXLauncher";
       }
+
+      read(logProvider.notifier).append(LogEntry(message: "Running $cmd"));
+
 
       final shell = Shell(throwOnError: false);
       try {
