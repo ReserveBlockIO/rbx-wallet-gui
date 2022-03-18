@@ -75,6 +75,9 @@ build_win:
 
 
 build_win7:
+	if exist .\build\windows\runner\Release rmdir /s /q ".\build\windows\runner\Release"
+	flutter build windows --release
+	move ".\build\windows\runner\Release\rbx_wallet_gui.exe" ".\build\windows\runner\Release\RBXWallet.exe"
 	Xcopy ".\installers\resources\win7-64\RBXCore" ".\build\windows\runner\Release\RBXCore\" /E /Y /K
 	copy ".\installers\resources\win7-64\RBXLauncher.exe" ".\build\windows\runner\Release\RBXCore\RBXLauncher.exe" 
 	copy ".\installers\resources\win7-64\msvcp140.dll" ".\build\windows\runner\Release\msvcp140.dll" 

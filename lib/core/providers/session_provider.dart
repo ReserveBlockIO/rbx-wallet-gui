@@ -346,9 +346,15 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
     final isRunning = await _cliIsActive();
     if (isRunning) {
+
       read(logProvider.notifier).append(LogEntry(
           message: "ReserveBlockCore Started Successfully",
           variant: AppColorVariant.Success));
+
+      final cliVersion = await BridgeService().getCliVersion();
+       read(logProvider.notifier).append(LogEntry(
+          message: "CLI Version: $cliVersion",
+          variant: AppColorVariant.Info));
       return true;
     }
 
