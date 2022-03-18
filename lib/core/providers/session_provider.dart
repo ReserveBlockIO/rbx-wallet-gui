@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:process/process.dart';
 import 'package:rbx_wallet/app.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
@@ -90,16 +91,17 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   Future<void> init() async {
-
-    read(logProvider.notifier).append(LogEntry(message: "Welcome to RBXWallet version $APP_VERSION"));
+    read(logProvider.notifier)
+        .append(LogEntry(message: "Welcome to RBXWallet version $APP_VERSION"));
 
     bool cliStarted = state.cliStarted;
     if (!cliStarted) {
-      read(logProvider.notifier).append(LogEntry(message: "Starting RBXCore..."));
+      read(logProvider.notifier)
+          .append(LogEntry(message: "Starting RBXCore..."));
       cliStarted = await _startCli();
     } else {
-      read(logProvider.notifier).append(LogEntry(message: "RBXCore already running."));
-
+      read(logProvider.notifier)
+          .append(LogEntry(message: "RBXCore already running."));
     }
 
     if (!cliStarted) {
@@ -336,19 +338,22 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
   Future<bool> _cliCheck([int attempt = 1, int maxAttempts = 100]) async {
     if (attempt > maxAttempts) {
-      read(logProvider.notifier).append(LogEntry(message: "Attempted $maxAttempts. Something went wrong."));
+      read(logProvider.notifier).append(
+          LogEntry(message: "Attempted $maxAttempts. Something went wrong."));
 
       return false;
     }
 
     final isRunning = await _cliIsActive();
     if (isRunning) {
-      read(logProvider.notifier).append(LogEntry(message: "ReserveBlockCore Started Successfully", variant: AppColorVariant.Success));
+      read(logProvider.notifier).append(LogEntry(
+          message: "ReserveBlockCore Started Successfully",
+          variant: AppColorVariant.Success));
       return true;
     }
 
-    read(logProvider.notifier).append(LogEntry(message: "CLI not ready responding. Trying again in 5 seconds."));
-
+    read(logProvider.notifier).append(LogEntry(
+        message: "CLI not ready responding. Trying again in 5 seconds."));
 
     await Future.delayed(Duration(seconds: 5));
     return _cliCheck(attempt + 1, maxAttempts);
@@ -358,39 +363,69 @@ class SessionProvider extends StateNotifier<SessionModel> {
     if (Env.launchCli) {
       if (await _cliIsActive()) {
         print("CLI is already running");
-        read(logProvider.notifier).append(LogEntry(message: "CLI is already running!"));
+        read(logProvider.notifier)
+            .append(LogEntry(message: "CLI is already running!"));
 
         return true;
       }
 
       final cliPath = Env.cliPathOverride ?? getCliPath();
-      final options = ['enableapi'];
+      List<String> options = ['enableapi'];
       if (Env.isTestNet) {
         options.add("testnet");
       }
 
-      String cmd = '"$cliPath" ${options.join(' ')}';
+      String cmd = '';
 
       if (Platform.isWindows) {
-        // final runHidden = cliPath.replaceAll("ReserveBlockCore", "run-hidden");
-        // cmd = "$runHidden powershell -command $cliPath enableapi";
+        ProcessManager pm = LocalProcessManager();
 
-        // cmd = "powershell -command $cmd";
+        try {
+          final appPath = Directory.current.path;
+          cmd = "$appPath\\RbxCore\\RBXLauncher";
 
-        // cmd = '$cliPath hidecli';
-        final appPath = Directory.current.path;
-        cmd = "$appPath\\RbxCore\\RBXLauncher";
-      }
+          read(logProvider.notifier).append(LogEntry(message: "Running $cmd"));
 
-      read(logProvider.notifier).append(LogEntry(message: "Running $cmd"));
+          pm.run([cmd]).then((result) {
+            read(logProvider.notifier)
+                .append(LogEntry(message: "Command ran successfully."));
+          });
+          // stdout.write(result.stdout);
+          // stderr.write(result.stderr);
 
-      final shell = Shell(throwOnError: false);
-      try {
-        shell.run(cmd);
-        await Future.delayed(Duration(seconds: 3));
-        return await _cliCheck();
-      } catch (e) {
-        return false;
+          await Future.delayed(Duration(seconds: 3));
+          return await _cliCheck();
+        } catch (e) {
+          print(e);
+          read(logProvider.notifier).append(LogEntry(
+            message: "Process Error",
+            variant: AppColorVariant.Danger,
+          ));
+
+          read(logProvider.notifier).append(LogEntry(
+            message: "$e",
+            variant: AppColorVariant.Danger,
+          ));
+          return false;
+        }
+      } else {
+        final shell = Shell(throwOnError: false);
+        cmd = '"$cliPath" ${options.join(' ')}';
+
+        read(logProvider.notifier).append(LogEntry(message: "Running $cmd"));
+
+        try {
+          shell.run(cmd);
+          await Future.delayed(Duration(seconds: 3));
+          return await _cliCheck();
+        } catch (e) {
+          read(logProvider.notifier).append(LogEntry(
+              message: "Process Error.", variant: AppColorVariant.Danger));
+          read(logProvider.notifier)
+              .append(LogEntry(message: "$e", variant: AppColorVariant.Danger));
+
+          return false;
+        }
       }
     }
     return true;
