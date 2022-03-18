@@ -44,6 +44,13 @@ class App extends ConsumerWidget {
           if (!ref.watch(sessionProvider).ready) {
 
             final logs = ref.watch(logProvider);
+            int start = 0;
+            const maxLogs = 7;
+            if(logs.length >= maxLogs) {
+              start = logs.length - maxLogs;
+            }
+
+            final truncatedLogs = logs.getRange(start, logs.length - 1);
 
             return Material(
               child: Center(
@@ -54,7 +61,7 @@ class App extends ConsumerWidget {
                       valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                     ),
                     SizedBox(height: 32,),
-                    ...logs.map((m) => Text(m.message, style: TextStyle(fontSize: 12, color: Colors.white,),)).toList()
+                    ...truncatedLogs.map((m) => Text(m.message, style: TextStyle(fontSize: 12, color: Colors.white,),)).toList()
                   ],
                 ),
               ),

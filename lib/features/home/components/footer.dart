@@ -49,7 +49,7 @@ class Footer extends BaseComponent {
                 ],
               ),
               Text(
-                "RBXWallet v$APP_VERSION ${Env.isTestNet ? '[TESTNET]' : ''}",
+                "RBXWallet version $APP_VERSION ${Env.isTestNet ? '[TESTNET]' : ''}",
                 style: Theme.of(context).textTheme.caption!.copyWith(
                       fontSize: 9,
                     ),

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/app.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/env.dart';
@@ -89,6 +90,8 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   Future<void> init() async {
+
+    read(logProvider.notifier).append(LogEntry(message: "Welcome to RBXWallet version $APP_VERSION"));
 
     bool cliStarted = state.cliStarted;
     if (!cliStarted) {
@@ -331,7 +334,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
     }
   }
 
-  Future<bool> _cliCheck([int attempt = 1, int maxAttempts = 10]) async {
+  Future<bool> _cliCheck([int attempt = 1, int maxAttempts = 100]) async {
     if (attempt > maxAttempts) {
       read(logProvider.notifier).append(LogEntry(message: "Attempted $maxAttempts. Something went wrong."));
 
@@ -344,10 +347,10 @@ class SessionProvider extends StateNotifier<SessionModel> {
       return true;
     }
 
-    read(logProvider.notifier).append(LogEntry(message: "CLI not ready responding. Trying again in 3 seconds."));
+    read(logProvider.notifier).append(LogEntry(message: "CLI not ready responding. Trying again in 5 seconds."));
 
 
-    await Future.delayed(Duration(seconds: 3));
+    await Future.delayed(Duration(seconds: 5));
     return _cliCheck(attempt + 1, maxAttempts);
   }
 
@@ -380,7 +383,6 @@ class SessionProvider extends StateNotifier<SessionModel> {
       }
 
       read(logProvider.notifier).append(LogEntry(message: "Running $cmd"));
-
 
       final shell = Shell(throwOnError: false);
       try {
