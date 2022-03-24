@@ -1,4 +1,4 @@
 // ignore_for_file: constant_identifier_names
 
-const APP_VERSION = "pre11.0";
+const APP_VERSION = "pre12.0";
 const REFRESH_TIMEOUT_SECONDS = 10;

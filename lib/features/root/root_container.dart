@@ -17,6 +17,7 @@ class RootContainer extends StatelessWidget {
       ReceiveTabRouter(),
       TransactionsTabRouter(),
       ValidatorTabRouter(),
+      NodesTabsRouter(),
       DatanodeTabRouter(),
       NftTabRouter(),
       SmartContractsTabRouter(),

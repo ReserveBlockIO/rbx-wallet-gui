@@ -11,26 +11,27 @@
 // ignore_for_file: type=lint
 
 import 'package:auto_route/auto_route.dart' as _i2;
-import 'package:flutter/material.dart' as _i13;
+import 'package:flutter/material.dart' as _i14;
 import 'package:rbx_wallet/features/datanode/screens/datanode_screen.dart'
-    as _i8;
-import 'package:rbx_wallet/features/dsts/screens/dst_screen.dart' as _i11;
+    as _i9;
+import 'package:rbx_wallet/features/dsts/screens/dst_screen.dart' as _i12;
 import 'package:rbx_wallet/features/explorer/screens/explorer_screen.dart'
-    as _i12;
+    as _i13;
 import 'package:rbx_wallet/features/home/screens/home_screen.dart' as _i3;
-import 'package:rbx_wallet/features/nft/screens/nft_screen.dart' as _i9;
+import 'package:rbx_wallet/features/nft/screens/nft_screen.dart' as _i10;
+import 'package:rbx_wallet/features/node/screens/node_list_screen.dart' as _i8;
 import 'package:rbx_wallet/features/receive/screens/receive_screen.dart' as _i5;
 import 'package:rbx_wallet/features/root/root_container.dart' as _i1;
 import 'package:rbx_wallet/features/send/screens/send_screen.dart' as _i4;
 import 'package:rbx_wallet/features/smart_contracts/screens/smart_contracts_screen.dart'
-    as _i10;
+    as _i11;
 import 'package:rbx_wallet/features/transactions/screens/transactions_screen.dart'
     as _i6;
 import 'package:rbx_wallet/features/validator/screens/validator_screen.dart'
     as _i7;
 
 class AppRouter extends _i2.RootStackRouter {
-  AppRouter([_i13.GlobalKey<_i13.NavigatorState>? navigatorKey])
+  AppRouter([_i14.GlobalKey<_i14.NavigatorState>? navigatorKey])
       : super(navigatorKey);
 
   @override
@@ -56,6 +57,10 @@ class AppRouter extends _i2.RootStackRouter {
           routeData: routeData, child: const _i2.EmptyRouterPage());
     },
     ValidatorTabRouter.name: (routeData) {
+      return _i2.AdaptivePage<dynamic>(
+          routeData: routeData, child: const _i2.EmptyRouterPage());
+    },
+    NodesTabsRouter.name: (routeData) {
       return _i2.AdaptivePage<dynamic>(
           routeData: routeData, child: const _i2.EmptyRouterPage());
     },
@@ -99,25 +104,29 @@ class AppRouter extends _i2.RootStackRouter {
       return _i2.AdaptivePage<dynamic>(
           routeData: routeData, child: const _i7.ValidatorScreen());
     },
+    NodeListScreenRoute.name: (routeData) {
+      return _i2.AdaptivePage<dynamic>(
+          routeData: routeData, child: const _i8.NodeListScreen());
+    },
     DataNodeScreenRoute.name: (routeData) {
       return _i2.AdaptivePage<dynamic>(
-          routeData: routeData, child: const _i8.DataNodeScreen());
+          routeData: routeData, child: const _i9.DataNodeScreen());
     },
     NftScreenRoute.name: (routeData) {
       return _i2.AdaptivePage<dynamic>(
-          routeData: routeData, child: const _i9.NftScreen());
+          routeData: routeData, child: const _i10.NftScreen());
     },
     SmartContractsScreenRoute.name: (routeData) {
       return _i2.AdaptivePage<dynamic>(
-          routeData: routeData, child: const _i10.SmartContractsScreen());
+          routeData: routeData, child: const _i11.SmartContractsScreen());
     },
     DstsScreenRoute.name: (routeData) {
       return _i2.AdaptivePage<dynamic>(
-          routeData: routeData, child: const _i11.DstsScreen());
+          routeData: routeData, child: const _i12.DstsScreen());
     },
     ExplorerScreenRoute.name: (routeData) {
       return _i2.AdaptivePage<dynamic>(
-          routeData: routeData, child: const _i12.ExplorerScreen());
+          routeData: routeData, child: const _i13.ExplorerScreen());
     }
   };
 
@@ -158,6 +167,13 @@ class AppRouter extends _i2.RootStackRouter {
               children: [
                 _i2.RouteConfig(ValidatorScreenRoute.name,
                     path: '', parent: ValidatorTabRouter.name)
+              ]),
+          _i2.RouteConfig(NodesTabsRouter.name,
+              path: 'nodes',
+              parent: RootContainerRoute.name,
+              children: [
+                _i2.RouteConfig(NodeListScreenRoute.name,
+                    path: '', parent: NodesTabsRouter.name)
               ]),
           _i2.RouteConfig(DatanodeTabRouter.name,
               path: 'datanode',
@@ -257,6 +273,15 @@ class ValidatorTabRouter extends _i2.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i2.EmptyRouterPage]
+class NodesTabsRouter extends _i2.PageRouteInfo<void> {
+  const NodesTabsRouter({List<_i2.PageRouteInfo>? children})
+      : super(NodesTabsRouter.name, path: 'nodes', initialChildren: children);
+
+  static const String name = 'NodesTabsRouter';
+}
+
+/// generated route for
+/// [_i2.EmptyRouterPage]
 class DatanodeTabRouter extends _i2.PageRouteInfo<void> {
   const DatanodeTabRouter({List<_i2.PageRouteInfo>? children})
       : super(DatanodeTabRouter.name,
@@ -345,7 +370,15 @@ class ValidatorScreenRoute extends _i2.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i8.DataNodeScreen]
+/// [_i8.NodeListScreen]
+class NodeListScreenRoute extends _i2.PageRouteInfo<void> {
+  const NodeListScreenRoute() : super(NodeListScreenRoute.name, path: '');
+
+  static const String name = 'NodeListScreenRoute';
+}
+
+/// generated route for
+/// [_i9.DataNodeScreen]
 class DataNodeScreenRoute extends _i2.PageRouteInfo<void> {
   const DataNodeScreenRoute() : super(DataNodeScreenRoute.name, path: '');
 
@@ -353,7 +386,7 @@ class DataNodeScreenRoute extends _i2.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i9.NftScreen]
+/// [_i10.NftScreen]
 class NftScreenRoute extends _i2.PageRouteInfo<void> {
   const NftScreenRoute() : super(NftScreenRoute.name, path: '');
 
@@ -361,7 +394,7 @@ class NftScreenRoute extends _i2.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i10.SmartContractsScreen]
+/// [_i11.SmartContractsScreen]
 class SmartContractsScreenRoute extends _i2.PageRouteInfo<void> {
   const SmartContractsScreenRoute()
       : super(SmartContractsScreenRoute.name, path: '');
@@ -370,7 +403,7 @@ class SmartContractsScreenRoute extends _i2.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i11.DstsScreen]
+/// [_i12.DstsScreen]
 class DstsScreenRoute extends _i2.PageRouteInfo<void> {
   const DstsScreenRoute() : super(DstsScreenRoute.name, path: '');
 
@@ -378,7 +411,7 @@ class DstsScreenRoute extends _i2.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i12.ExplorerScreen]
+/// [_i13.ExplorerScreen]
 class ExplorerScreenRoute extends _i2.PageRouteInfo<void> {
   const ExplorerScreenRoute() : super(ExplorerScreenRoute.name, path: '');
 

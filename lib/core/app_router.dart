@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:rbx_wallet/features/datanode/screens/datanode_screen.dart';
 import 'package:rbx_wallet/features/dsts/screens/dst_screen.dart';
 import 'package:rbx_wallet/features/explorer/screens/explorer_screen.dart';
+import 'package:rbx_wallet/features/node/screens/node_list_screen.dart';
 import 'package:rbx_wallet/features/root/root_container.dart';
 import 'package:rbx_wallet/features/home/screens/home_screen.dart';
 import 'package:rbx_wallet/features/nft/screens/nft_screen.dart';
@@ -55,6 +56,14 @@ const List<AutoRoute> appRoutes = [
         page: EmptyRouterPage,
         children: [
           AutoRoute(path: "", page: ValidatorScreen),
+        ],
+      ),
+      AutoRoute(
+        path: "nodes",
+        name: "NodesTabsRouter",
+        page: EmptyRouterPage,
+        children: [
+          AutoRoute(path: "", page: NodeListScreen),
         ],
       ),
       AutoRoute(

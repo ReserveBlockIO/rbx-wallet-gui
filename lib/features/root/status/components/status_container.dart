@@ -18,6 +18,8 @@ class StatusContainer extends BaseComponent {
     final status = ref.watch(statusProvider);
     final walletInfo = ref.watch(walletInfoProvider);
 
+    final cliVersion = ref.read(sessionProvider).cliVersion;
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.black38,
@@ -71,6 +73,12 @@ class StatusContainer extends BaseComponent {
                   value: "1.0",
                   icon: Icons.sentiment_very_satisfied_outlined,
                 ),
+                if (cliVersion != null)
+                  _DetailItem(
+                    label: "CLI Version",
+                    value: cliVersion,
+                    icon: Icons.code,
+                  ),
                 if (walletInfo != null)
                   _DetailItem(
                     label: "Block Height",
@@ -324,12 +332,15 @@ class _DetailItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: EdgeInsets.zero,
-      horizontalTitleGap: 0,
+      horizontalTitleGap: 8,
       dense: true,
       visualDensity: VisualDensity.compact,
       title: Text(value),
       subtitle: Text(label),
-      leading: Icon(icon),
+      leading: Icon(
+        icon,
+        size: 30,
+      ),
     );
   }
 }
