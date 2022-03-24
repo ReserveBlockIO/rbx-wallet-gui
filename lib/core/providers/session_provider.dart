@@ -382,8 +382,8 @@ class SessionProvider extends StateNotifier<SessionModel> {
       return true;
     }
 
-    read(logProvider.notifier).append(LogEntry(
-        message: "CLI not ready responding. Trying again in 5 seconds."));
+    read(logProvider.notifier).append(
+        LogEntry(message: "CLI not ready yet. Trying again in 5 seconds."));
 
     await Future.delayed(Duration(seconds: 5));
     return _cliCheck(attempt + 1, maxAttempts);
@@ -414,14 +414,13 @@ class SessionProvider extends StateNotifier<SessionModel> {
           final appPath = Directory.current.path;
           cmd = "$appPath\\RbxCore\\RBXLauncher";
 
-          read(logProvider.notifier).append(LogEntry(message: "Running $cmd"));
+          read(logProvider.notifier)
+              .append(LogEntry(message: "Launching $cmd in the background."));
 
           pm.run([cmd]).then((result) {
             read(logProvider.notifier)
                 .append(LogEntry(message: "Command ran successfully."));
           });
-          // stdout.write(result.stdout);
-          // stderr.write(result.stderr);
 
           await Future.delayed(Duration(seconds: 3));
           return await _cliCheck();
@@ -442,7 +441,8 @@ class SessionProvider extends StateNotifier<SessionModel> {
         final shell = Shell(throwOnError: false);
         cmd = '"$cliPath" ${options.join(' ')}';
 
-        read(logProvider.notifier).append(LogEntry(message: "Running $cmd"));
+        read(logProvider.notifier)
+            .append(LogEntry(message: "Launching $cmd in the background."));
 
         try {
           shell.run(cmd);
