@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:rbx_wallet/features/node/models/node_info.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 class NodeInfoCard extends StatelessWidget {
   final NodeInfo node;
@@ -68,22 +67,6 @@ class NodeInfoCard extends StatelessWidget {
                 ],
               ),
             ],
-          ),
-        ),
-      ),
-    );
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(0),
-        child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 300),
-          child: ListTile(
-            dense: true,
-            title: Text(node.ip),
-            subtitle: Text("Height: ${node.height} | Latency: ${node.latency}"),
-            trailing: node.lastCheked != null
-                ? Text(timeago.format(node.lastCheked!))
-                : null,
           ),
         ),
       ),
