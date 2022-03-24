@@ -19,12 +19,12 @@ class NodeListScreen extends BaseScreen {
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
       actions: [WalletSelector()],
-      leading: IconButton(
-        icon: Icon(Icons.refresh),
-        onPressed: () {
-          ref.read(nodeListProvider.notifier).load();
-        },
-      ),
+      // leading: IconButton(
+      //   icon: Icon(Icons.refresh),
+      //   onPressed: () {
+      //     ref.read(nodeListProvider.notifier).load();
+      //   },
+      // ),
     );
   }
 

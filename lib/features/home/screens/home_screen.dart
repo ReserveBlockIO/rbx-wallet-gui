@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
 import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/home/components/log_window.dart';
-import 'package:rbx_wallet/features/home/components/footer.dart';
 import 'package:rbx_wallet/features/home/components/transaction_window.dart';
 import 'package:rbx_wallet/features/root/components/reload_button.dart';
 import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
@@ -44,12 +43,6 @@ class HomeScreen extends BaseScreen {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // AppButton(
-            //   label: "kill",
-            //   onPressed: () {
-            //     BridgeService().killCli();
-            //   },
-            // ),
             Text(
               "General Tools",
               style: Theme.of(context).textTheme.subtitle2,
@@ -119,6 +112,25 @@ class HomeScreen extends BaseScreen {
                     await ref.read(sessionProvider.notifier).load();
                   },
                   size: AppSizeVariant.Lg,
+                ),
+                AppButton(
+                  label: "Restart CLI",
+                  // variant: AppColorVariant.Warning,
+                  onPressed: () async {
+                    // BridgeService().killCli();
+
+                    final confirmed = await ConfirmDialog.show(
+                      title: "Restart",
+                      body: "Are you sure you want to restart the CLI?",
+                      confirmText: "Restart",
+                      cancelText: "Cancel",
+                      destructive: true,
+                    );
+
+                    if (confirmed) {
+                      ref.read(sessionProvider.notifier).restartCli();
+                    }
+                  },
                 ),
               ],
             ),

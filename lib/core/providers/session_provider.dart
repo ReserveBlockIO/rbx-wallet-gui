@@ -137,6 +137,19 @@ class SessionProvider extends StateNotifier<SessionModel> {
     // await _checkBlockSyncStatus();
   }
 
+  Future<void> restartCli() async {
+    read(logProvider.notifier).clear();
+    state = state = _initial;
+    read(logProvider.notifier)
+        .append(LogEntry(message: "Shutting down CLI..."));
+    await BridgeService().killCli();
+    read(logProvider.notifier).append(LogEntry(message: "CLI terminated."));
+
+    await Future.delayed(Duration(milliseconds: 300));
+
+    init();
+  }
+
   // Future<void> _checkBlockSyncStatus() async {
   //   await read(genesisBlockProvider.notifier).load();
   //   if (read(genesisBlockProvider) == null) {
