@@ -23,4 +23,11 @@ class Block with _$Block {
   }) = _Block;
 
   factory Block.fromJson(Map<String, dynamic> json) => _$BlockFromJson(json);
+
+  List<String> get nextValidatorsList {
+    if (nextValidators.isEmpty) {
+      return [];
+    }
+    return nextValidators.split(":");
+  }
 }

@@ -59,6 +59,7 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
 
     final prevBlockHeight = state?.blockHeight;
     final prevPeerCount = state?.peerCount;
+    final prevLatestBlock = state?.lastestBlock;
 
     state = WalletInfoModel(
       blockHeight: blockHeight,
@@ -89,6 +90,18 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
         ),
       );
     }
+
+    // if (prevLatestBlock != null &&
+    //     latestBlock != null &&
+    //     prevLatestBlock.hash != latestBlock.hash) {
+    //   read(logProvider.notifier).append(
+    //     LogEntry(
+    //       message: "New block with hash of ${latestBlock.hash}",
+    //       variant: AppColorVariant.Secondary,
+    //       textToCopy: latestBlock.hash,
+    //     ),
+    //   );
+    // }
 
     read(sessionProvider.notifier).load();
   }

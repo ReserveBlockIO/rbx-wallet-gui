@@ -123,36 +123,44 @@ class MainMenu extends BaseComponent {
                 isActive: tabsRouter.activeIndex == 4,
               ),
               _NavButton(
-                title: "Datanode",
-                icon: Icons.storage,
+                title: "Validator Pool",
+                icon: Icons.wifi,
                 onPressed: () {
                   tabsRouter.setActiveIndex(5);
                 },
                 isActive: tabsRouter.activeIndex == 5,
               ),
               _NavButton(
-                title: "NFTs",
-                icon: Icons.lightbulb_outline,
+                title: "Datanode",
+                icon: Icons.storage,
                 onPressed: () {
                   tabsRouter.setActiveIndex(6);
                 },
                 isActive: tabsRouter.activeIndex == 6,
               ),
               _NavButton(
-                title: "Smart Contracts",
-                icon: Icons.receipt_long,
+                title: "NFTs",
+                icon: Icons.lightbulb_outline,
                 onPressed: () {
                   tabsRouter.setActiveIndex(7);
                 },
                 isActive: tabsRouter.activeIndex == 7,
               ),
               _NavButton(
-                title: "DSTs",
-                icon: Icons.leak_add,
+                title: "Smart Contracts",
+                icon: Icons.receipt_long,
                 onPressed: () {
                   tabsRouter.setActiveIndex(8);
                 },
                 isActive: tabsRouter.activeIndex == 8,
+              ),
+              _NavButton(
+                title: "DSTs",
+                icon: Icons.leak_add,
+                onPressed: () {
+                  tabsRouter.setActiveIndex(9);
+                },
+                isActive: tabsRouter.activeIndex == 9,
               ),
             ],
           ),

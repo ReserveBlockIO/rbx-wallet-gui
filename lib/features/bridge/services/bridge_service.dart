@@ -4,6 +4,8 @@ import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/services/base_service.dart';
 import 'package:rbx_wallet/features/block/block.dart';
 import 'package:rbx_wallet/features/genesis/models/genesis_block.dart';
+import 'package:rbx_wallet/features/node/models/node.dart';
+import 'package:rbx_wallet/features/node/models/node_info.dart';
 import 'package:rbx_wallet/features/transactions/models/transaction.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
@@ -133,6 +135,75 @@ class BridgeService extends BaseService {
     } catch (e) {
       print(e);
       return null;
+    }
+  }
+
+  Future<List<Node>> getMasterNodes() async {
+    final response = await getText("/GetMasternodes");
+    try {
+      final items = jsonDecode(response);
+      final List<Node> nodes = [];
+      for (final item in items) {
+        nodes.add(Node.fromJson(item));
+      }
+      return nodes;
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  Future<List<NodeInfo>> getPeerInfo() async {
+    // return [
+    //   NodeInfo(
+    //     ip: "127.0.0.1",
+    //     height: 1001,
+    //     latency: 322,
+    //     lastCheked: DateTime.fromMillisecondsSinceEpoch(1648126610 * 1000),
+    //   ),
+    //   NodeInfo(
+    //     ip: "127.0.0.1",
+    //     height: 1005,
+    //     latency: 322,
+    //     lastCheked: DateTime.fromMillisecondsSinceEpoch(1648126610 * 1000),
+    //   ),
+    //   NodeInfo(
+    //     ip: "127.0.0.1",
+    //     height: 1201,
+    //     latency: 122,
+    //     lastCheked: DateTime.fromMillisecondsSinceEpoch(1648126610 * 1000),
+    //   ),
+    //   NodeInfo(
+    //     ip: "127.0.0.1",
+    //     height: 1001,
+    //     latency: 322,
+    //     lastCheked: DateTime.fromMillisecondsSinceEpoch(1648126610 * 1000),
+    //   ),
+    //   NodeInfo(
+    //     ip: "127.0.0.1",
+    //     height: 1005,
+    //     latency: 322,
+    //     lastCheked: DateTime.fromMillisecondsSinceEpoch(1648126610 * 1000),
+    //   ),
+    //   NodeInfo(
+    //     ip: "127.0.0.1",
+    //     height: 1201,
+    //     latency: 122,
+    //     lastCheked: DateTime.fromMillisecondsSinceEpoch(1648126610 * 1000),
+    //   ),
+    // ];
+
+    final response = await getText("/GetPeerInfo");
+    try {
+      final items = jsonDecode(response);
+      final List<NodeInfo> nodeInfos = [];
+      for (final item in items) {
+        nodeInfos.add(NodeInfo.fromJson(item));
+      }
+      return nodeInfos;
+    } catch (e) {
+      print(e);
+      return [];
     }
   }
 

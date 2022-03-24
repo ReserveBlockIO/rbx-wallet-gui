@@ -18,6 +18,8 @@ import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
 import 'package:rbx_wallet/features/bridge/providers/status_provider.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
+import 'package:rbx_wallet/features/node/providers/node_info_provider.dart';
+import 'package:rbx_wallet/features/node/providers/node_list_provider.dart';
 import 'package:rbx_wallet/features/validator/providers/current_validator_provider.dart';
 import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
@@ -37,17 +39,18 @@ class SessionModel {
   final int? remoteBlockHeight;
   final bool blocksAreSyncing;
   final double? totalBalance;
+  final String? cliVersion;
 
-  const SessionModel({
-    this.currentWallet,
-    this.startTime,
-    this.ready = false,
-    this.cliStarted = false,
-    this.filteringTransactions = false,
-    this.remoteBlockHeight,
-    this.blocksAreSyncing = false,
-    this.totalBalance,
-  });
+  const SessionModel(
+      {this.currentWallet,
+      this.startTime,
+      this.ready = false,
+      this.cliStarted = false,
+      this.filteringTransactions = false,
+      this.remoteBlockHeight,
+      this.blocksAreSyncing = false,
+      this.totalBalance,
+      this.cliVersion});
 
   SessionModel copyWith({
     Wallet? currentWallet,
@@ -58,18 +61,19 @@ class SessionModel {
     int? remoteBlockHeight,
     bool? blocksAreSyncing,
     double? totalBalance,
+    String? cliVersion,
   }) {
     return SessionModel(
-      startTime: startTime ?? this.startTime,
-      currentWallet: currentWallet ?? this.currentWallet,
-      ready: ready ?? this.ready,
-      filteringTransactions:
-          filteringTransactions ?? this.filteringTransactions,
-      cliStarted: cliStarted ?? this.cliStarted,
-      remoteBlockHeight: remoteBlockHeight ?? this.remoteBlockHeight,
-      blocksAreSyncing: blocksAreSyncing ?? this.blocksAreSyncing,
-      totalBalance: totalBalance ?? this.totalBalance,
-    );
+        startTime: startTime ?? this.startTime,
+        currentWallet: currentWallet ?? this.currentWallet,
+        ready: ready ?? this.ready,
+        filteringTransactions:
+            filteringTransactions ?? this.filteringTransactions,
+        cliStarted: cliStarted ?? this.cliStarted,
+        remoteBlockHeight: remoteBlockHeight ?? this.remoteBlockHeight,
+        blocksAreSyncing: blocksAreSyncing ?? this.blocksAreSyncing,
+        totalBalance: totalBalance ?? this.totalBalance,
+        cliVersion: cliVersion ?? this.cliVersion);
   }
 
   String get startTimeFormatted {
@@ -127,6 +131,9 @@ class SessionProvider extends StateNotifier<SessionModel> {
   Future<void> load() async {
     await _loadWallets();
     await loadValidators();
+    await loadMasterNodes();
+    await loadPeerInfo();
+
     // await _checkBlockSyncStatus();
   }
 
@@ -187,9 +194,6 @@ class SessionProvider extends StateNotifier<SessionModel> {
     if (wallets.isNotEmpty) {
       final totalBalance = wallets.map((e) => e.balance).toList().sum;
 
-      print(totalBalance);
-      print("****");
-
       final currentWalletAddress =
           singleton<Storage>().getString(Storage.CURRENT_WALLET_ADDRESS_KEY);
 
@@ -230,6 +234,14 @@ class SessionProvider extends StateNotifier<SessionModel> {
     }
 
     read(validatorListProvider.notifier).set(wallets);
+  }
+
+  Future<void> loadMasterNodes() async {
+    await read(nodeListProvider.notifier).load();
+  }
+
+  Future<void> loadPeerInfo() async {
+    await read(nodeInfoProvider.notifier).load();
   }
 
   void setCurrentWallet(Wallet wallet) {
@@ -346,15 +358,14 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
     final isRunning = await _cliIsActive();
     if (isRunning) {
-
       read(logProvider.notifier).append(LogEntry(
           message: "ReserveBlockCore Started Successfully",
           variant: AppColorVariant.Success));
 
       final cliVersion = await BridgeService().getCliVersion();
-       read(logProvider.notifier).append(LogEntry(
-          message: "CLI Version: $cliVersion",
-          variant: AppColorVariant.Info));
+      read(logProvider.notifier).append(LogEntry(
+          message: "CLI Version: $cliVersion", variant: AppColorVariant.Info));
+      state = state.copyWith(cliVersion: cliVersion);
       return true;
     }
 
