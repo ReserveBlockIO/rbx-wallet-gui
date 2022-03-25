@@ -127,8 +127,8 @@ class BridgeService extends BaseService {
     }
   }
 
-  Future<Block?> blockInfo(int height) async {
-    final response = await getText("/SendBlock/$height");
+  Future<Block?> blockInfo() async {
+    final response = await getText("/GetLastBlock");
     try {
       final data = jsonDecode(response);
       return Block.fromJson(data);
