@@ -30,4 +30,12 @@ class Block with _$Block {
     }
     return nextValidators.split(":");
   }
+
+  String? get nextValidator {
+    if (nextValidatorsList.isEmpty) {
+      return null;
+    }
+
+    return nextValidatorsList.first;
+  }
 }

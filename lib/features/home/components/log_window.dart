@@ -34,7 +34,7 @@ class LogWindow extends BaseComponent {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
             child: SizedBox(
-              height: 200,
+              height: 150,
               width: double.infinity,
               child: Stack(
                 children: [
@@ -42,12 +42,8 @@ class LogWindow extends BaseComponent {
                     controller: scrollController,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ...logEntries.map((entry) => LogItem(entry)).toList(),
-                        SizedBox(
-                          height: 32,
-                        )
-                      ],
+                      children:
+                          logEntries.map((entry) => LogItem(entry)).toList(),
                     ),
                   ),
                   Align(
