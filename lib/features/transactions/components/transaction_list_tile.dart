@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/badges.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/transactions/models/transaction.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
@@ -118,9 +119,21 @@ class _TransactionListTileState
                       SizedBox(
                         height: 4,
                       ),
-                      Text(
-                        "Amount: ${widget.transaction.amount} RBX",
-                        style: Theme.of(context).textTheme.bodyText2,
+                      RichText(
+                        text: TextSpan(
+                          style: Theme.of(context).textTheme.bodyText2,
+                          children: [
+                            TextSpan(text: "Amount: "),
+                            TextSpan(
+                              text: "${widget.transaction.amount} RBX",
+                              style: TextStyle(
+                                color: widget.transaction.amount < 0
+                                    ? Theme.of(context).colorScheme.danger
+                                    : Theme.of(context).colorScheme.success,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       Divider(),
                       Text(

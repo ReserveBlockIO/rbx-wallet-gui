@@ -43,6 +43,7 @@ class BridgeService extends BaseService {
 
   Future<List<Transaction>?> transactions() async {
     final response = await getText('/GetAllTransactions');
+
     if (response.isEmpty) {
       return null;
     }
@@ -127,8 +128,8 @@ class BridgeService extends BaseService {
     }
   }
 
-  Future<Block?> blockInfo() async {
-    final response = await getText("/GetLastBlock");
+  Future<Block?> blockInfo(int height) async {
+    final response = await getText("/SendBlock/$height");
     try {
       final data = jsonDecode(response);
       return Block.fromJson(data);
@@ -154,45 +155,6 @@ class BridgeService extends BaseService {
   }
 
   Future<List<NodeInfo>> getPeerInfo() async {
-    // return [
-    //   NodeInfo(
-    //     ip: "127.0.0.1",
-    //     height: 1001,
-    //     latency: 322,
-    //     lastCheked: DateTime.fromMillisecondsSinceEpoch(1648126610 * 1000),
-    //   ),
-    //   NodeInfo(
-    //     ip: "127.0.0.1",
-    //     height: 1005,
-    //     latency: 322,
-    //     lastCheked: DateTime.fromMillisecondsSinceEpoch(1648126610 * 1000),
-    //   ),
-    //   NodeInfo(
-    //     ip: "127.0.0.1",
-    //     height: 1201,
-    //     latency: 122,
-    //     lastCheked: DateTime.fromMillisecondsSinceEpoch(1648126610 * 1000),
-    //   ),
-    //   NodeInfo(
-    //     ip: "127.0.0.1",
-    //     height: 1001,
-    //     latency: 322,
-    //     lastCheked: DateTime.fromMillisecondsSinceEpoch(1648126610 * 1000),
-    //   ),
-    //   NodeInfo(
-    //     ip: "127.0.0.1",
-    //     height: 1005,
-    //     latency: 322,
-    //     lastCheked: DateTime.fromMillisecondsSinceEpoch(1648126610 * 1000),
-    //   ),
-    //   NodeInfo(
-    //     ip: "127.0.0.1",
-    //     height: 1201,
-    //     latency: 122,
-    //     lastCheked: DateTime.fromMillisecondsSinceEpoch(1648126610 * 1000),
-    //   ),
-    // ];
-
     final response = await getText("/GetPeerInfo");
     try {
       final items = jsonDecode(response);

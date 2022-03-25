@@ -55,7 +55,7 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
     final isSyncing = info[2].toLowerCase() == "true";
 
     final latestBlock =
-        blockHeight > 0 ? await BridgeService().blockInfo() : null;
+        blockHeight > 0 ? await BridgeService().blockInfo(blockHeight) : null;
 
     final prevBlockHeight = state?.blockHeight;
     final prevPeerCount = state?.peerCount;

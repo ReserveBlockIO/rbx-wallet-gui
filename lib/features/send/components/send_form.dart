@@ -39,6 +39,18 @@ class SendForm extends BaseComponent {
                 ),
               ),
               ListTile(
+                leading: SizedBox(width: leadingWidth, child: Text("To:")),
+                title: TextFormField(
+                  controller: formProvider.addressController,
+                  validator: formProvider.addressValidator,
+                  decoration:
+                      InputDecoration(hintText: "Recipient's Wallet Address"),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]')),
+                  ],
+                ),
+              ),
+              ListTile(
                 leading: SizedBox(width: leadingWidth, child: Text("Amount:")),
                 title: TextFormField(
                   controller: formProvider.amountController,
@@ -47,15 +59,6 @@ class SendForm extends BaseComponent {
                   decoration:
                       InputDecoration(hintText: "Amount of RBX to send"),
                   keyboardType: TextInputType.number,
-                ),
-              ),
-              ListTile(
-                leading: SizedBox(width: leadingWidth, child: Text("To:")),
-                title: TextFormField(
-                  controller: formProvider.addressController,
-                  validator: formProvider.addressValidator,
-                  decoration:
-                      InputDecoration(hintText: "Recipient's Wallet Address"),
                 ),
               ),
               Padding(
