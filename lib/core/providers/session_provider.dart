@@ -20,6 +20,7 @@ import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
 import 'package:rbx_wallet/features/node/providers/node_info_provider.dart';
 import 'package:rbx_wallet/features/node/providers/node_list_provider.dart';
+import 'package:rbx_wallet/features/transactions/providers/transaction_list_provider.dart';
 import 'package:rbx_wallet/features/validator/providers/current_validator_provider.dart';
 import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
@@ -133,6 +134,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
     await loadValidators();
     await loadMasterNodes();
     await loadPeerInfo();
+    await loadTransactions();
 
     // await _checkBlockSyncStatus();
   }
@@ -255,6 +257,10 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
   Future<void> loadPeerInfo() async {
     await read(nodeInfoProvider.notifier).load();
+  }
+
+  Future<void> loadTransactions() async {
+    await read(transactionListProvider.notifier).load();
   }
 
   void setCurrentWallet(Wallet wallet) {

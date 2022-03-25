@@ -62,7 +62,7 @@ class BridgeService extends BaseService {
       transactions.add(Transaction.fromJson(item));
     }
 
-    return transactions;
+    return transactions.reversed.toList();
   }
 
   Future<Map<String, dynamic>?> importPrivateKey(String key) async {
