@@ -17,8 +17,10 @@ class NodeCard extends BaseComponent {
     final isLatest =
         (latestBlock != null && latestBlock.validator == node.address);
 
-    final isNext = (latestBlock != null &&
-        latestBlock.nextValidatorsList.contains(node.address));
+    final isNext =
+        (latestBlock != null && latestBlock.nextValidator == node.address);
+
+    print(latestBlock?.nextValidator ?? "NONE");
 
     final myAddresses =
         ref.read(validatorListProvider).map((w) => w.address).toList();

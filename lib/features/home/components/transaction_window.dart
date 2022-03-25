@@ -1,7 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/features/transactions/components/compact_transaction_list_tile.dart';
+import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/features/transactions/components/transaction_list_tile.dart';
 import 'package:rbx_wallet/features/transactions/providers/transaction_list_provider.dart';
 
@@ -11,6 +12,8 @@ class TransactionWindow extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final transactions = ref.watch(transactionListProvider);
+
+    final recentTransactions = transactions.take(5);
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -26,7 +29,7 @@ class TransactionWindow extends BaseComponent {
           child: SizedBox(
             height: 200,
             width: double.infinity,
-            child: transactions.isEmpty
+            child: recentTransactions.isEmpty
                 ? Center(
                     child: Text(
                       "No Transactions Found",
@@ -36,7 +39,7 @@ class TransactionWindow extends BaseComponent {
                 : SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: transactions
+                      children: recentTransactions
                           .map((tx) => TransactionListTile(
                                 tx,
                                 compact: true,
@@ -46,6 +49,18 @@ class TransactionWindow extends BaseComponent {
                   ),
           ),
         ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Center(
+            child: AppButton(
+              label: "View All",
+              onPressed: () {
+                final tabsRouter = AutoTabsRouter.of(context);
+                tabsRouter.setActiveIndex(3);
+              },
+            ),
+          ),
+        )
       ],
     );
   }
