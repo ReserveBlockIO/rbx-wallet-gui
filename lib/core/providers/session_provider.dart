@@ -424,6 +424,10 @@ class SessionProvider extends StateNotifier<SessionModel> {
           read(logProvider.notifier)
               .append(LogEntry(message: "Launching $cmd in the background."));
 
+          read(logProvider.notifier).append(LogEntry(
+              message:
+                  "This update may take longer than usual. Expect a few minutes."));
+
           pm.run([cmd]).then((result) {
             read(logProvider.notifier)
                 .append(LogEntry(message: "Command ran successfully."));
