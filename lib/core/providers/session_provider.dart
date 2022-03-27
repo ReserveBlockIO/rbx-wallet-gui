@@ -65,16 +65,17 @@ class SessionModel {
     String? cliVersion,
   }) {
     return SessionModel(
-        startTime: startTime ?? this.startTime,
-        currentWallet: currentWallet ?? this.currentWallet,
-        ready: ready ?? this.ready,
-        filteringTransactions:
-            filteringTransactions ?? this.filteringTransactions,
-        cliStarted: cliStarted ?? this.cliStarted,
-        remoteBlockHeight: remoteBlockHeight ?? this.remoteBlockHeight,
-        blocksAreSyncing: blocksAreSyncing ?? this.blocksAreSyncing,
-        totalBalance: totalBalance ?? this.totalBalance,
-        cliVersion: cliVersion ?? this.cliVersion);
+      startTime: startTime ?? this.startTime,
+      currentWallet: currentWallet ?? this.currentWallet,
+      ready: ready ?? this.ready,
+      filteringTransactions:
+          filteringTransactions ?? this.filteringTransactions,
+      cliStarted: cliStarted ?? this.cliStarted,
+      remoteBlockHeight: remoteBlockHeight ?? this.remoteBlockHeight,
+      blocksAreSyncing: blocksAreSyncing ?? this.blocksAreSyncing,
+      totalBalance: totalBalance ?? this.totalBalance,
+      cliVersion: cliVersion ?? this.cliVersion,
+    );
   }
 
   String get startTimeFormatted {
