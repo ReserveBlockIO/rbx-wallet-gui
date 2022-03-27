@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
@@ -8,12 +9,14 @@ import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
 import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
+import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
 import 'package:rbx_wallet/features/home/components/log_window.dart';
 import 'package:rbx_wallet/features/home/components/transaction_window.dart';
 import 'package:rbx_wallet/features/root/components/reload_button.dart';
 import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 class HomeScreen extends BaseScreen {
   const HomeScreen({Key? key})
@@ -112,6 +115,77 @@ class HomeScreen extends BaseScreen {
                   onPressed: () async {
                     await ref.read(sessionProvider.notifier).load();
                   },
+                  size: AppSizeVariant.Lg,
+                ),
+                AppButton(
+                  label: "Show Debug Data",
+                  onPressed: () async {
+                    final data = await BridgeService().getDebugInfo();
+                    InfoDialog.show(
+                      title: "Debug Data",
+                      content: Container(
+                        color: Colors.black54,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                AppButton(
+                                  label: "Copy",
+                                  icon: Icons.copy,
+                                  variant: AppColorVariant.Success,
+                                  onPressed: () async {
+                                    await Clipboard.setData(
+                                        ClipboardData(text: data));
+                                    Toast.message(
+                                        "Debug data copied to clipboard");
+                                  },
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                SelectableText(
+                                  data,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontFamily: "Courier",
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  // onPressed: () async {
+
+                  //   final lines = await BridgeService().getDebugInfo();
+
+                  //   for (final l in lines) {
+                  //     bool print = true;
+
+                  //     if (l ==
+                  //         "---------------------------------------------------------------------") {
+                  //       print = false;
+                  //     }
+
+                  //     if (print) {
+                  //       ref.read(logProvider.notifier).append(
+                  //             LogEntry(
+                  //               message: l,
+                  //               variant: AppColorVariant.Warning,
+                  //             ),
+                  //           );
+                  //     }
+                  //   }
+
+                  //   ref
+                  //       .read(sessionProvider.notifier)
+                  //       .setLogWindowExpanded(true);
+                  // },
                   size: AppSizeVariant.Lg,
                 ),
                 AppButton(

@@ -41,17 +41,20 @@ class SessionModel {
   final bool blocksAreSyncing;
   final double? totalBalance;
   final String? cliVersion;
+  final bool logWindowExpanded;
 
-  const SessionModel(
-      {this.currentWallet,
-      this.startTime,
-      this.ready = false,
-      this.cliStarted = false,
-      this.filteringTransactions = false,
-      this.remoteBlockHeight,
-      this.blocksAreSyncing = false,
-      this.totalBalance,
-      this.cliVersion});
+  const SessionModel({
+    this.currentWallet,
+    this.startTime,
+    this.ready = false,
+    this.cliStarted = false,
+    this.filteringTransactions = false,
+    this.remoteBlockHeight,
+    this.blocksAreSyncing = false,
+    this.totalBalance,
+    this.cliVersion,
+    this.logWindowExpanded = false,
+  });
 
   SessionModel copyWith({
     Wallet? currentWallet,
@@ -63,6 +66,7 @@ class SessionModel {
     bool? blocksAreSyncing,
     double? totalBalance,
     String? cliVersion,
+    bool? logWindowExpanded,
   }) {
     return SessionModel(
       startTime: startTime ?? this.startTime,
@@ -75,6 +79,7 @@ class SessionModel {
       blocksAreSyncing: blocksAreSyncing ?? this.blocksAreSyncing,
       totalBalance: totalBalance ?? this.totalBalance,
       cliVersion: cliVersion ?? this.cliVersion,
+      logWindowExpanded: logWindowExpanded ?? this.logWindowExpanded,
     );
   }
 
@@ -348,6 +353,10 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
   void setBlocksAreSyncing(bool value) {
     state = state.copyWith(blocksAreSyncing: value);
+  }
+
+  void setLogWindowExpanded(bool value) {
+    state = state.copyWith(logWindowExpanded: value);
   }
 
   String getCliPath() {

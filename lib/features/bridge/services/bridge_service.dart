@@ -169,6 +169,10 @@ class BridgeService extends BaseService {
     }
   }
 
+  Future<String> getDebugInfo() async {
+    return await getText("/GetDebugInfo");
+  }
+
   Future<bool> killCli() async {
     if (Env.launchCli) {
       try {

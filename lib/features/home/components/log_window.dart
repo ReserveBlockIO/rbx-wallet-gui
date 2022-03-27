@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
 import 'package:rbx_wallet/features/home/components/log_item.dart';
@@ -34,7 +35,7 @@ class LogWindow extends BaseComponent {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
             child: SizedBox(
-              height: 150,
+              height: ref.watch(sessionProvider).logWindowExpanded ? 600 : 200,
               width: double.infinity,
               child: Stack(
                 children: [
@@ -48,16 +49,29 @@ class LogWindow extends BaseComponent {
                   ),
                   Align(
                     alignment: Alignment.bottomRight,
-                    child: AppButton(
-                      label: "Clear",
-                      onPressed: () {
-                        ref.read(logProvider.notifier).clear();
-                      },
-                      variant: AppColorVariant.Info,
-                      size: AppSizeVariant.Sm,
-                      type: AppButtonType.Text,
-                      icon: Icons.clear,
-                    ),
+                    child: ref.watch(sessionProvider).logWindowExpanded
+                        ? AppButton(
+                            label: "Collapse",
+                            onPressed: () {
+                              ref
+                                  .read(sessionProvider.notifier)
+                                  .setLogWindowExpanded(false);
+                            },
+                            variant: AppColorVariant.Info,
+                            size: AppSizeVariant.Sm,
+                            type: AppButtonType.Text,
+                            icon: Icons.arrow_upward_rounded,
+                          )
+                        : AppButton(
+                            label: "Clear",
+                            onPressed: () {
+                              ref.read(logProvider.notifier).clear();
+                            },
+                            variant: AppColorVariant.Info,
+                            size: AppSizeVariant.Sm,
+                            type: AppButtonType.Text,
+                            icon: Icons.clear,
+                          ),
                   ),
                 ],
               ),
