@@ -89,6 +89,7 @@ class ValidatorScreen extends BaseScreen {
               variant: AppColorVariant.Success,
               onPressed: () async {
                 if (!guardWalletIsSynced(ref.read)) return;
+                if (!guardWalletIsNotResyncing(ref.read)) return;
 
                 // if (!await checkPort(false)) return;
 

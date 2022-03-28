@@ -9,6 +9,7 @@ import 'package:rbx_wallet/core/storage.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
 import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
+import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:collection/collection.dart';
 
@@ -23,6 +24,8 @@ class WalletListProvider extends StateNotifier<List<Wallet>> {
   }
 
   Future<void> import(String privateKey, [bool showDetails = false]) async {
+    if (!guardWalletIsNotResyncing(read)) return;
+
     final data = await BridgeService().importPrivateKey(privateKey);
 
     if (data == null) {
@@ -95,6 +98,8 @@ class WalletListProvider extends StateNotifier<List<Wallet>> {
   }
 
   Future<void> create() async {
+    if (!guardWalletIsNotResyncing(read)) return;
+
     final data = await BridgeService().newAddress();
     if (data == null || data.length < 2) {
       Toast.error("An error occurred");

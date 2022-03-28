@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:process_run/shell.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
@@ -9,14 +13,19 @@ import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
 import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
+import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
+import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/home/components/log_window.dart';
 import 'package:rbx_wallet/features/home/components/transaction_window.dart';
 import 'package:rbx_wallet/features/root/components/reload_button.dart';
 import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
+import 'package:rbx_wallet/features/wallet/providers/wallet_detail_provider.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
+import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/toast.dart';
+import 'package:rbx_wallet/utils/validation.dart';
 
 class HomeScreen extends BaseScreen {
   const HomeScreen({Key? key})
@@ -52,8 +61,12 @@ class HomeScreen extends BaseScreen {
               style: Theme.of(context).textTheme.subtitle2,
             ),
             Divider(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Wrap(
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              // runAlignment: WrapAlignment.spaceBetween,
+              alignment: WrapAlignment.spaceEvenly,
+              spacing: 12.0,
+              runSpacing: 12.0,
               children: [
                 AppButton(
                   label: "Print Addresses",
@@ -160,32 +173,70 @@ class HomeScreen extends BaseScreen {
                       ),
                     );
                   },
-                  // onPressed: () async {
+                  size: AppSizeVariant.Lg,
+                ),
+                AppButton(
+                  label: "Open DB Folder",
+                  onPressed: () async {
+                    final shell = Shell(throwOnError: false);
 
-                  //   final lines = await BridgeService().getDebugInfo();
+                    Directory appDocDir =
+                        await getApplicationDocumentsDirectory();
+                    String appDocPath = appDocDir.path;
 
-                  //   for (final l in lines) {
-                  //     bool print = true;
+                    String cmd = "";
+                    if (Platform.isMacOS) {
+                      appDocPath = appDocPath.replaceAll("/Documents", "/rbx");
+                      cmd = "open $appDocPath";
+                    } else {
+                      appDocPath =
+                          appDocPath.replaceAll("\\Documents", "\\rbx");
+                      cmd = "start $appDocPath";
+                    }
 
-                  //     if (l ==
-                  //         "---------------------------------------------------------------------") {
-                  //       print = false;
-                  //     }
+                    shell.run(cmd);
+                  },
+                  size: AppSizeVariant.Lg,
+                ),
+                AppButton(
+                  label: "Rollback Blocks",
+                  onPressed: () {
+                    if (!guardWalletIsNotResyncing(ref.read)) return;
 
-                  //     if (print) {
-                  //       ref.read(logProvider.notifier).append(
-                  //             LogEntry(
-                  //               message: l,
-                  //               variant: AppColorVariant.Warning,
-                  //             ),
-                  //           );
-                  //     }
-                  //   }
+                    PromptModal.show(
+                      title: "Rollback Blocks",
+                      validator: (value) =>
+                          formValidatorNotEmpty(value, "Number of blocks"),
+                      labelText: "Number of blocks to rollback",
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      onValidSubmission: (value) async {
+                        Toast.message("Rolling back $value blocks...");
+                        ref.read(logProvider.notifier).append(
+                              LogEntry(
+                                message: "Rolling back $value blocks...",
+                                variant: AppColorVariant.Danger,
+                              ),
+                            );
+                        ref.read(walletInfoProvider.notifier).fetch();
 
-                  //   ref
-                  //       .read(sessionProvider.notifier)
-                  //       .setLogWindowExpanded(true);
-                  // },
+                        final success = await BridgeService().rollback(value);
+
+                        if (success) {
+                          ref.read(walletInfoProvider.notifier).fetch();
+                          final msg = "Rolled back $value blocks";
+                          Toast.message(msg);
+                          ref.read(logProvider.notifier).append(
+                                LogEntry(
+                                  message: msg,
+                                  variant: AppColorVariant.Danger,
+                                ),
+                              );
+                        } else {
+                          Toast.error();
+                        }
+                      },
+                    );
+                  },
                   size: AppSizeVariant.Lg,
                 ),
                 AppButton(
@@ -206,6 +257,7 @@ class HomeScreen extends BaseScreen {
                       ref.read(sessionProvider.notifier).restartCli();
                     }
                   },
+                  size: AppSizeVariant.Lg,
                 ),
               ],
             ),

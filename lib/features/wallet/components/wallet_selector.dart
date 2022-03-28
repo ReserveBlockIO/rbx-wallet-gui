@@ -8,6 +8,7 @@ import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/features/wallet/components/import_wallet_form.dart';
 import 'package:rbx_wallet/features/wallet/components/manage_wallet_bottom_sheet.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
+import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 
@@ -93,6 +94,8 @@ class WalletSelector extends BaseComponent {
                 PopupMenuItem(
                   child: Text("Import Wallet"),
                   onTap: () {
+                    if (!guardWalletIsNotResyncing(ref.read)) return;
+
                     PromptModal.show(
                       title: "Import Wallet",
                       validator: (String? value) =>

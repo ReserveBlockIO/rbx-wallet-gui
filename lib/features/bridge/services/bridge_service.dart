@@ -173,6 +173,17 @@ class BridgeService extends BaseService {
     return await getText("/GetDebugInfo");
   }
 
+  Future<bool> rollback(String id) async {
+    try {
+      final response = await getText("/GetRollbackBlocks/$id");
+      print(response);
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
   Future<bool> killCli() async {
     if (Env.launchCli) {
       try {

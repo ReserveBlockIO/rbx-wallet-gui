@@ -29,6 +29,7 @@ import 'package:collection/collection.dart';
 
 import 'package:intl/intl.dart';
 import 'package:process_run/shell.dart';
+import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 
 class SessionModel {
@@ -39,6 +40,7 @@ class SessionModel {
   final bool cliStarted;
   final int? remoteBlockHeight;
   final bool blocksAreSyncing;
+  final bool blocksAreResyncing;
   final double? totalBalance;
   final String? cliVersion;
   final bool logWindowExpanded;
@@ -51,6 +53,7 @@ class SessionModel {
     this.filteringTransactions = false,
     this.remoteBlockHeight,
     this.blocksAreSyncing = false,
+    this.blocksAreResyncing = false,
     this.totalBalance,
     this.cliVersion,
     this.logWindowExpanded = false,
@@ -64,6 +67,7 @@ class SessionModel {
     bool? cliStarted,
     int? remoteBlockHeight,
     bool? blocksAreSyncing,
+    bool? blocksAreResyncing,
     double? totalBalance,
     String? cliVersion,
     bool? logWindowExpanded,
@@ -77,6 +81,7 @@ class SessionModel {
       cliStarted: cliStarted ?? this.cliStarted,
       remoteBlockHeight: remoteBlockHeight ?? this.remoteBlockHeight,
       blocksAreSyncing: blocksAreSyncing ?? this.blocksAreSyncing,
+      blocksAreResyncing: blocksAreResyncing ?? this.blocksAreResyncing,
       totalBalance: totalBalance ?? this.totalBalance,
       cliVersion: cliVersion ?? this.cliVersion,
       logWindowExpanded: logWindowExpanded ?? this.logWindowExpanded,
@@ -295,6 +300,8 @@ class SessionProvider extends StateNotifier<SessionModel> {
       return;
     }
 
+    if (!guardWalletIsNotResyncing(read, false)) return;
+
     final context = rootNavigatorKey.currentContext!;
 
     showDialog(
@@ -308,6 +315,8 @@ class SessionProvider extends StateNotifier<SessionModel> {
               AppButton(
                 label: "Import Private Key",
                 onPressed: () {
+                  if (!guardWalletIsNotResyncing(read)) return;
+
                   PromptModal.show(
                     title: "Import Wallet",
                     inputFormatters: [
@@ -353,6 +362,10 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
   void setBlocksAreSyncing(bool value) {
     state = state.copyWith(blocksAreSyncing: value);
+  }
+
+  void setBlocksAreResyncing(bool value) {
+    state = state.copyWith(blocksAreResyncing: value);
   }
 
   void setLogWindowExpanded(bool value) {

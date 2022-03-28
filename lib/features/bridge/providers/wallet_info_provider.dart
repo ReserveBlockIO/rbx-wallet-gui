@@ -13,12 +13,14 @@ class WalletInfoModel {
   final int blockHeight;
   final int peerCount;
   final bool isSyncing;
+  final bool isResyncing;
   final Block? lastestBlock;
 
   const WalletInfoModel({
     required this.blockHeight,
     required this.peerCount,
     required this.isSyncing,
+    required this.isResyncing,
     this.lastestBlock,
   });
 }
@@ -53,6 +55,9 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
     final blockHeight = int.parse(info[0]);
     final peerCount = int.parse(info[1]);
     final isSyncing = info[2].toLowerCase() == "true";
+    final isResyncing = info[3].toLowerCase() == "true";
+
+    print(info);
 
     final latestBlock =
         blockHeight > 0 ? await BridgeService().blockInfo(blockHeight) : null;
@@ -66,9 +71,11 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
       peerCount: peerCount,
       isSyncing: isSyncing,
       lastestBlock: latestBlock,
+      isResyncing: isResyncing,
     );
 
     read(sessionProvider.notifier).setBlocksAreSyncing(isSyncing);
+    read(sessionProvider.notifier).setBlocksAreResyncing(isResyncing);
 
     if (blockHeight != prevBlockHeight) {
       read(logProvider.notifier).append(

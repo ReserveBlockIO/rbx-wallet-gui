@@ -110,7 +110,7 @@ class PromptModal {
       String initialValue = "",
       bool destructive = false,
       Function(String)? onValidSubmission,
-      List<FilteringTextInputFormatter> inputFormatters = const []}) async {
+      List<TextInputFormatter> inputFormatters = const []}) async {
     // final context = rootNavigatorKey.currentContext!;
     final context = rootScaffoldKey.currentContext!;
 

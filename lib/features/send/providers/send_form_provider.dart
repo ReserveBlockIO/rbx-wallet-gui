@@ -119,6 +119,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
     }
 
     if (!guardWalletIsSynced(read)) return;
+    if (!guardWalletIsNotResyncing(read)) return;
 
     final confirmed = await ConfirmDialog.show(
       title: "Please Confirm",

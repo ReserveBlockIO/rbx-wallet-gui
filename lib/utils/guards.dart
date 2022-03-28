@@ -10,3 +10,14 @@ bool guardWalletIsSynced(Reader read) {
 
   return true;
 }
+
+bool guardWalletIsNotResyncing(Reader read, [bool showMessage = true]) {
+  if (read(sessionProvider).blocksAreResyncing) {
+    if (showMessage) {
+      Toast.error("Please wait until your wallet is resynced with the network");
+    }
+    return false;
+  }
+
+  return true;
+}

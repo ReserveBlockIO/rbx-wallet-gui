@@ -33,6 +33,11 @@ class AppButton extends StatelessWidget {
         return ElevatedButton.styleFrom(
           primary: Theme.of(context).colorScheme.primaryButtonBg,
           onPrimary: Theme.of(context).colorScheme.primaryButtonFg,
+          textStyle: TextStyle(
+            //TODO: this is a temp hack. make better :)
+            fontSize: size == AppSizeVariant.Lg ? 17 : null,
+            fontWeight: size == AppSizeVariant.Lg ? FontWeight.w500 : null,
+          ),
         );
 
       case AppColorVariant.Secondary:
@@ -222,7 +227,9 @@ class AppButton extends StatelessWidget {
           const SizedBox(
             width: 6,
           ),
-          Text(label),
+          Text(
+            label,
+          ),
         ],
       );
     }
