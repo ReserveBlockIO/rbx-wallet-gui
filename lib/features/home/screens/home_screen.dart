@@ -189,8 +189,13 @@ class HomeScreen extends BaseScreen {
                       appDocPath = appDocPath.replaceAll("/Documents", "/rbx");
                       cmd = "open $appDocPath";
                     } else {
+                      appDocDir =
+                        await getApplicationSupportDirectory();
+                  
+                     appDocPath = appDocDir.path;
+
                       appDocPath =
-                          appDocPath.replaceAll("\\Documents", "\\rbx");
+                          appDocPath.replaceAll("\\Roaming\\com.example\\rbx_wallet_gui", "\\Local\\rbx");
                       cmd = "start $appDocPath";
                     }
 
