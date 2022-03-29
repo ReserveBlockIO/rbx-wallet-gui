@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 
 class ReloadButton extends BaseStatefulComponent {
   const ReloadButton({Key? key}) : super(key: key);
@@ -29,7 +30,7 @@ class _ReloadButtonState extends BaseComponentState<ReloadButton> {
           setState(() {
             _isLoading = true;
           });
-          await ref.read(sessionProvider.notifier).load();
+          await ref.read(walletInfoProvider.notifier).fetch();
           await Future.delayed(Duration(milliseconds: 300));
           setState(() {
             _isLoading = false;

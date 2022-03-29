@@ -126,7 +126,7 @@ class HomeScreen extends BaseScreen {
                 AppButton(
                   label: "Get Blockchain",
                   onPressed: () async {
-                    await ref.read(sessionProvider.notifier).load();
+                    await ref.read(walletInfoProvider.notifier).fetch();
                   },
                   size: AppSizeVariant.Lg,
                 ),

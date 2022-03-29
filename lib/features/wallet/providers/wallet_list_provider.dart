@@ -6,6 +6,7 @@ import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/singletons.dart';
 import 'package:rbx_wallet/core/storage.dart';
+import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
 import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
@@ -36,7 +37,9 @@ class WalletListProvider extends StateNotifier<List<Wallet>> {
     final wallet = Wallet.fromJson(data);
     state = [...state, wallet];
     read(sessionProvider.notifier).setCurrentWallet(wallet);
-    read(sessionProvider.notifier).load();
+    // read(sessionProvider.notifier).load();
+    read(walletInfoProvider.notifier).fetch();
+
 
     if (showDetails) {
       final context = rootScaffoldKey.currentContext!;
