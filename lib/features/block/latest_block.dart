@@ -40,7 +40,7 @@ class LatestBlock extends BaseComponent {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Latest Block",
+                  "Block ${latestBlock.height}",
                   style: Theme.of(context)
                       .textTheme
                       .caption!

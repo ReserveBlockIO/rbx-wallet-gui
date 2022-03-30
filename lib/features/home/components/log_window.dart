@@ -35,7 +35,7 @@ class LogWindow extends BaseComponent {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
             child: SizedBox(
-              height: ref.watch(sessionProvider).logWindowExpanded ? 600 : 200,
+              height: ref.watch(sessionProvider).logWindowExpanded ? 600 : 150,
               width: double.infinity,
               child: Stack(
                 children: [
