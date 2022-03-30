@@ -150,26 +150,41 @@ class _BlockStatus extends BaseComponent {
             return SizedBox();
           }
 
-          if (!walletInfo.isSyncing) {
+          if (walletInfo.isResyncing) {
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text(
-                    "Wallet Synced",
-                    style: Theme.of(context).textTheme.caption,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "Resyncing",
+                        style: Theme.of(context).textTheme.caption,
+                      ),
+                      SizedBox(
+                        width: 12,
+                        height: 12,
+                        child: CircularProgressIndicator(
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(
-                    height: 4,
+                    height: 14,
                   ),
                   _ProgressIndicator(
-                    color: Theme.of(context).colorScheme.success,
+                    color: Theme.of(context).colorScheme.danger,
                     fraction: 1,
                     value: walletInfo.blockHeight,
-                    remoteBlockHeight: walletInfo.blockHeight,
-                  )
+                    remoteBlockHeight: 100,
+                    unknownHeight: true,
+                  ),
                 ],
               ),
             );
@@ -215,35 +230,60 @@ class _BlockStatus extends BaseComponent {
             );
           }
 
-          if (remoteBlockHeight == null || remoteBlockHeight < 1) {
-            return SizedBox();
-          }
-
-          final value = walletInfo.blockHeight;
-
-          if (value > remoteBlockHeight) {
-            remoteBlockHeight = value;
-          }
-
-          final fraction = value / remoteBlockHeight;
-
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                "Sync Progress",
-                style: Theme.of(context).textTheme.caption,
-              ),
-              SizedBox(height: 8),
-              _ProgressIndicator(
-                color: Theme.of(context).colorScheme.warning,
-                fraction: fraction,
-                value: value,
-                remoteBlockHeight: remoteBlockHeight,
-              ),
-            ],
+          // if (!walletInfo.isSyncing) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Wallet Synced",
+                  style: Theme.of(context).textTheme.caption,
+                ),
+                SizedBox(
+                  height: 4,
+                ),
+                _ProgressIndicator(
+                  color: Theme.of(context).colorScheme.success,
+                  fraction: 1,
+                  value: walletInfo.blockHeight,
+                  remoteBlockHeight: walletInfo.blockHeight,
+                )
+              ],
+            ),
           );
+          // }
+
+          // if (remoteBlockHeight == null || remoteBlockHeight < 1) {
+          //   return SizedBox();
+          // }
+
+          // final value = walletInfo.blockHeight;
+
+          // if (value > remoteBlockHeight) {
+          //   remoteBlockHeight = value;
+          // }
+
+          // final fraction = value / remoteBlockHeight;
+
+          // return Column(
+          //   crossAxisAlignment: CrossAxisAlignment.start,
+          //   mainAxisSize: MainAxisSize.min,
+          //   children: [
+          //     Text(
+          //       "Sync Progress",
+          //       style: Theme.of(context).textTheme.caption,
+          //     ),
+          //     SizedBox(height: 8),
+          //     _ProgressIndicator(
+          //       color: Theme.of(context).colorScheme.warning,
+          //       fraction: fraction,
+          //       value: value,
+          //       remoteBlockHeight: remoteBlockHeight,
+          //     ),
+          //   ],
+          // );
         }),
       ),
     );
