@@ -7,27 +7,17 @@ part of 'node.dart';
 // **************************************************************************
 
 _$_Node _$$_NodeFromJson(Map<String, dynamic> json) => _$_Node(
-      id: json['Id'] as int,
       address: json['Address'] as String,
       uniqueName: json['UniqueName'] as String,
-      position: json['Position'] as int,
-      amount: (json['Amount'] as num).toDouble(),
-      signature: json['Signature'] as String,
-      isActive: json['IsActive'] as bool,
-      failCount: json['FailCount'] as int,
-      nodeIp: json['NodeIP'] as String,
-      nodeReferenceId: json['NodeReferenceId'] as String,
+      connectionId: json['ConnectionId'] as int,
+      ipAddress: json['IpAddress'] as String,
+      connectDate: DateTime.parse(json['ConnectDate'] as String),
     );
 
 Map<String, dynamic> _$$_NodeToJson(_$_Node instance) => <String, dynamic>{
-      'Id': instance.id,
       'Address': instance.address,
       'UniqueName': instance.uniqueName,
-      'Position': instance.position,
-      'Amount': instance.amount,
-      'Signature': instance.signature,
-      'IsActive': instance.isActive,
-      'FailCount': instance.failCount,
-      'NodeIP': instance.nodeIp,
-      'NodeReferenceId': instance.nodeReferenceId,
+      'ConnectionId': instance.connectionId,
+      'IpAddress': instance.ipAddress,
+      'ConnectDate': instance.connectDate.toIso8601String(),
     };

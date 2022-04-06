@@ -22,27 +22,17 @@ class _$NodeTearOff {
   const _$NodeTearOff();
 
   _Node call(
-      {@JsonKey(name: 'Id') required int id,
-      @JsonKey(name: 'Address') required String address,
+      {@JsonKey(name: 'Address') required String address,
       @JsonKey(name: 'UniqueName') required String uniqueName,
-      @JsonKey(name: 'Position') required int position,
-      @JsonKey(name: 'Amount') required double amount,
-      @JsonKey(name: 'Signature') required String signature,
-      @JsonKey(name: 'IsActive') required bool isActive,
-      @JsonKey(name: 'FailCount') required int failCount,
-      @JsonKey(name: 'NodeIP') required String nodeIp,
-      @JsonKey(name: 'NodeReferenceId') required String nodeReferenceId}) {
+      @JsonKey(name: 'ConnectionId') required int connectionId,
+      @JsonKey(name: 'IpAddress') required String ipAddress,
+      @JsonKey(name: 'ConnectDate') required DateTime connectDate}) {
     return _Node(
-      id: id,
       address: address,
       uniqueName: uniqueName,
-      position: position,
-      amount: amount,
-      signature: signature,
-      isActive: isActive,
-      failCount: failCount,
-      nodeIp: nodeIp,
-      nodeReferenceId: nodeReferenceId,
+      connectionId: connectionId,
+      ipAddress: ipAddress,
+      connectDate: connectDate,
     );
   }
 
@@ -56,26 +46,16 @@ const $Node = _$NodeTearOff();
 
 /// @nodoc
 mixin _$Node {
-  @JsonKey(name: 'Id')
-  int get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'Address')
   String get address => throw _privateConstructorUsedError;
   @JsonKey(name: 'UniqueName')
   String get uniqueName => throw _privateConstructorUsedError;
-  @JsonKey(name: 'Position')
-  int get position => throw _privateConstructorUsedError;
-  @JsonKey(name: 'Amount')
-  double get amount => throw _privateConstructorUsedError;
-  @JsonKey(name: 'Signature')
-  String get signature => throw _privateConstructorUsedError;
-  @JsonKey(name: 'IsActive')
-  bool get isActive => throw _privateConstructorUsedError;
-  @JsonKey(name: 'FailCount')
-  int get failCount => throw _privateConstructorUsedError;
-  @JsonKey(name: 'NodeIP')
-  String get nodeIp => throw _privateConstructorUsedError;
-  @JsonKey(name: 'NodeReferenceId')
-  String get nodeReferenceId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'ConnectionId')
+  int get connectionId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'IpAddress')
+  String get ipAddress => throw _privateConstructorUsedError;
+  @JsonKey(name: 'ConnectDate')
+  DateTime get connectDate => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -87,16 +67,11 @@ abstract class $NodeCopyWith<$Res> {
   factory $NodeCopyWith(Node value, $Res Function(Node) then) =
       _$NodeCopyWithImpl<$Res>;
   $Res call(
-      {@JsonKey(name: 'Id') int id,
-      @JsonKey(name: 'Address') String address,
+      {@JsonKey(name: 'Address') String address,
       @JsonKey(name: 'UniqueName') String uniqueName,
-      @JsonKey(name: 'Position') int position,
-      @JsonKey(name: 'Amount') double amount,
-      @JsonKey(name: 'Signature') String signature,
-      @JsonKey(name: 'IsActive') bool isActive,
-      @JsonKey(name: 'FailCount') int failCount,
-      @JsonKey(name: 'NodeIP') String nodeIp,
-      @JsonKey(name: 'NodeReferenceId') String nodeReferenceId});
+      @JsonKey(name: 'ConnectionId') int connectionId,
+      @JsonKey(name: 'IpAddress') String ipAddress,
+      @JsonKey(name: 'ConnectDate') DateTime connectDate});
 }
 
 /// @nodoc
@@ -109,22 +84,13 @@ class _$NodeCopyWithImpl<$Res> implements $NodeCopyWith<$Res> {
 
   @override
   $Res call({
-    Object? id = freezed,
     Object? address = freezed,
     Object? uniqueName = freezed,
-    Object? position = freezed,
-    Object? amount = freezed,
-    Object? signature = freezed,
-    Object? isActive = freezed,
-    Object? failCount = freezed,
-    Object? nodeIp = freezed,
-    Object? nodeReferenceId = freezed,
+    Object? connectionId = freezed,
+    Object? ipAddress = freezed,
+    Object? connectDate = freezed,
   }) {
     return _then(_value.copyWith(
-      id: id == freezed
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
       address: address == freezed
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -133,34 +99,18 @@ class _$NodeCopyWithImpl<$Res> implements $NodeCopyWith<$Res> {
           ? _value.uniqueName
           : uniqueName // ignore: cast_nullable_to_non_nullable
               as String,
-      position: position == freezed
-          ? _value.position
-          : position // ignore: cast_nullable_to_non_nullable
+      connectionId: connectionId == freezed
+          ? _value.connectionId
+          : connectionId // ignore: cast_nullable_to_non_nullable
               as int,
-      amount: amount == freezed
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as double,
-      signature: signature == freezed
-          ? _value.signature
-          : signature // ignore: cast_nullable_to_non_nullable
+      ipAddress: ipAddress == freezed
+          ? _value.ipAddress
+          : ipAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      isActive: isActive == freezed
-          ? _value.isActive
-          : isActive // ignore: cast_nullable_to_non_nullable
-              as bool,
-      failCount: failCount == freezed
-          ? _value.failCount
-          : failCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      nodeIp: nodeIp == freezed
-          ? _value.nodeIp
-          : nodeIp // ignore: cast_nullable_to_non_nullable
-              as String,
-      nodeReferenceId: nodeReferenceId == freezed
-          ? _value.nodeReferenceId
-          : nodeReferenceId // ignore: cast_nullable_to_non_nullable
-              as String,
+      connectDate: connectDate == freezed
+          ? _value.connectDate
+          : connectDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -171,16 +121,11 @@ abstract class _$NodeCopyWith<$Res> implements $NodeCopyWith<$Res> {
       __$NodeCopyWithImpl<$Res>;
   @override
   $Res call(
-      {@JsonKey(name: 'Id') int id,
-      @JsonKey(name: 'Address') String address,
+      {@JsonKey(name: 'Address') String address,
       @JsonKey(name: 'UniqueName') String uniqueName,
-      @JsonKey(name: 'Position') int position,
-      @JsonKey(name: 'Amount') double amount,
-      @JsonKey(name: 'Signature') String signature,
-      @JsonKey(name: 'IsActive') bool isActive,
-      @JsonKey(name: 'FailCount') int failCount,
-      @JsonKey(name: 'NodeIP') String nodeIp,
-      @JsonKey(name: 'NodeReferenceId') String nodeReferenceId});
+      @JsonKey(name: 'ConnectionId') int connectionId,
+      @JsonKey(name: 'IpAddress') String ipAddress,
+      @JsonKey(name: 'ConnectDate') DateTime connectDate});
 }
 
 /// @nodoc
@@ -194,22 +139,13 @@ class __$NodeCopyWithImpl<$Res> extends _$NodeCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? id = freezed,
     Object? address = freezed,
     Object? uniqueName = freezed,
-    Object? position = freezed,
-    Object? amount = freezed,
-    Object? signature = freezed,
-    Object? isActive = freezed,
-    Object? failCount = freezed,
-    Object? nodeIp = freezed,
-    Object? nodeReferenceId = freezed,
+    Object? connectionId = freezed,
+    Object? ipAddress = freezed,
+    Object? connectDate = freezed,
   }) {
     return _then(_Node(
-      id: id == freezed
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
       address: address == freezed
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -218,34 +154,18 @@ class __$NodeCopyWithImpl<$Res> extends _$NodeCopyWithImpl<$Res>
           ? _value.uniqueName
           : uniqueName // ignore: cast_nullable_to_non_nullable
               as String,
-      position: position == freezed
-          ? _value.position
-          : position // ignore: cast_nullable_to_non_nullable
+      connectionId: connectionId == freezed
+          ? _value.connectionId
+          : connectionId // ignore: cast_nullable_to_non_nullable
               as int,
-      amount: amount == freezed
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as double,
-      signature: signature == freezed
-          ? _value.signature
-          : signature // ignore: cast_nullable_to_non_nullable
+      ipAddress: ipAddress == freezed
+          ? _value.ipAddress
+          : ipAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      isActive: isActive == freezed
-          ? _value.isActive
-          : isActive // ignore: cast_nullable_to_non_nullable
-              as bool,
-      failCount: failCount == freezed
-          ? _value.failCount
-          : failCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      nodeIp: nodeIp == freezed
-          ? _value.nodeIp
-          : nodeIp // ignore: cast_nullable_to_non_nullable
-              as String,
-      nodeReferenceId: nodeReferenceId == freezed
-          ? _value.nodeReferenceId
-          : nodeReferenceId // ignore: cast_nullable_to_non_nullable
-              as String,
+      connectDate: connectDate == freezed
+          ? _value.connectDate
+          : connectDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -254,23 +174,15 @@ class __$NodeCopyWithImpl<$Res> extends _$NodeCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Node extends _Node {
   _$_Node(
-      {@JsonKey(name: 'Id') required this.id,
-      @JsonKey(name: 'Address') required this.address,
+      {@JsonKey(name: 'Address') required this.address,
       @JsonKey(name: 'UniqueName') required this.uniqueName,
-      @JsonKey(name: 'Position') required this.position,
-      @JsonKey(name: 'Amount') required this.amount,
-      @JsonKey(name: 'Signature') required this.signature,
-      @JsonKey(name: 'IsActive') required this.isActive,
-      @JsonKey(name: 'FailCount') required this.failCount,
-      @JsonKey(name: 'NodeIP') required this.nodeIp,
-      @JsonKey(name: 'NodeReferenceId') required this.nodeReferenceId})
+      @JsonKey(name: 'ConnectionId') required this.connectionId,
+      @JsonKey(name: 'IpAddress') required this.ipAddress,
+      @JsonKey(name: 'ConnectDate') required this.connectDate})
       : super._();
 
   factory _$_Node.fromJson(Map<String, dynamic> json) => _$$_NodeFromJson(json);
 
-  @override
-  @JsonKey(name: 'Id')
-  final int id;
   @override
   @JsonKey(name: 'Address')
   final String address;
@@ -278,30 +190,18 @@ class _$_Node extends _Node {
   @JsonKey(name: 'UniqueName')
   final String uniqueName;
   @override
-  @JsonKey(name: 'Position')
-  final int position;
+  @JsonKey(name: 'ConnectionId')
+  final int connectionId;
   @override
-  @JsonKey(name: 'Amount')
-  final double amount;
+  @JsonKey(name: 'IpAddress')
+  final String ipAddress;
   @override
-  @JsonKey(name: 'Signature')
-  final String signature;
-  @override
-  @JsonKey(name: 'IsActive')
-  final bool isActive;
-  @override
-  @JsonKey(name: 'FailCount')
-  final int failCount;
-  @override
-  @JsonKey(name: 'NodeIP')
-  final String nodeIp;
-  @override
-  @JsonKey(name: 'NodeReferenceId')
-  final String nodeReferenceId;
+  @JsonKey(name: 'ConnectDate')
+  final DateTime connectDate;
 
   @override
   String toString() {
-    return 'Node(id: $id, address: $address, uniqueName: $uniqueName, position: $position, amount: $amount, signature: $signature, isActive: $isActive, failCount: $failCount, nodeIp: $nodeIp, nodeReferenceId: $nodeReferenceId)';
+    return 'Node(address: $address, uniqueName: $uniqueName, connectionId: $connectionId, ipAddress: $ipAddress, connectDate: $connectDate)';
   }
 
   @override
@@ -309,33 +209,24 @@ class _$_Node extends _Node {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _Node &&
-            const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.address, address) &&
             const DeepCollectionEquality()
                 .equals(other.uniqueName, uniqueName) &&
-            const DeepCollectionEquality().equals(other.position, position) &&
-            const DeepCollectionEquality().equals(other.amount, amount) &&
-            const DeepCollectionEquality().equals(other.signature, signature) &&
-            const DeepCollectionEquality().equals(other.isActive, isActive) &&
-            const DeepCollectionEquality().equals(other.failCount, failCount) &&
-            const DeepCollectionEquality().equals(other.nodeIp, nodeIp) &&
             const DeepCollectionEquality()
-                .equals(other.nodeReferenceId, nodeReferenceId));
+                .equals(other.connectionId, connectionId) &&
+            const DeepCollectionEquality().equals(other.ipAddress, ipAddress) &&
+            const DeepCollectionEquality()
+                .equals(other.connectDate, connectDate));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(id),
       const DeepCollectionEquality().hash(address),
       const DeepCollectionEquality().hash(uniqueName),
-      const DeepCollectionEquality().hash(position),
-      const DeepCollectionEquality().hash(amount),
-      const DeepCollectionEquality().hash(signature),
-      const DeepCollectionEquality().hash(isActive),
-      const DeepCollectionEquality().hash(failCount),
-      const DeepCollectionEquality().hash(nodeIp),
-      const DeepCollectionEquality().hash(nodeReferenceId));
+      const DeepCollectionEquality().hash(connectionId),
+      const DeepCollectionEquality().hash(ipAddress),
+      const DeepCollectionEquality().hash(connectDate));
 
   @JsonKey(ignore: true)
   @override
@@ -350,24 +241,15 @@ class _$_Node extends _Node {
 
 abstract class _Node extends Node {
   factory _Node(
-          {@JsonKey(name: 'Id') required int id,
-          @JsonKey(name: 'Address') required String address,
-          @JsonKey(name: 'UniqueName') required String uniqueName,
-          @JsonKey(name: 'Position') required int position,
-          @JsonKey(name: 'Amount') required double amount,
-          @JsonKey(name: 'Signature') required String signature,
-          @JsonKey(name: 'IsActive') required bool isActive,
-          @JsonKey(name: 'FailCount') required int failCount,
-          @JsonKey(name: 'NodeIP') required String nodeIp,
-          @JsonKey(name: 'NodeReferenceId') required String nodeReferenceId}) =
-      _$_Node;
+      {@JsonKey(name: 'Address') required String address,
+      @JsonKey(name: 'UniqueName') required String uniqueName,
+      @JsonKey(name: 'ConnectionId') required int connectionId,
+      @JsonKey(name: 'IpAddress') required String ipAddress,
+      @JsonKey(name: 'ConnectDate') required DateTime connectDate}) = _$_Node;
   _Node._() : super._();
 
   factory _Node.fromJson(Map<String, dynamic> json) = _$_Node.fromJson;
 
-  @override
-  @JsonKey(name: 'Id')
-  int get id;
   @override
   @JsonKey(name: 'Address')
   String get address;
@@ -375,26 +257,14 @@ abstract class _Node extends Node {
   @JsonKey(name: 'UniqueName')
   String get uniqueName;
   @override
-  @JsonKey(name: 'Position')
-  int get position;
+  @JsonKey(name: 'ConnectionId')
+  int get connectionId;
   @override
-  @JsonKey(name: 'Amount')
-  double get amount;
+  @JsonKey(name: 'IpAddress')
+  String get ipAddress;
   @override
-  @JsonKey(name: 'Signature')
-  String get signature;
-  @override
-  @JsonKey(name: 'IsActive')
-  bool get isActive;
-  @override
-  @JsonKey(name: 'FailCount')
-  int get failCount;
-  @override
-  @JsonKey(name: 'NodeIP')
-  String get nodeIp;
-  @override
-  @JsonKey(name: 'NodeReferenceId')
-  String get nodeReferenceId;
+  @JsonKey(name: 'ConnectDate')
+  DateTime get connectDate;
   @override
   @JsonKey(ignore: true)
   _$NodeCopyWith<_Node> get copyWith => throw _privateConstructorUsedError;

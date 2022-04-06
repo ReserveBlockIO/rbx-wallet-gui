@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:intl/intl.dart';
 
 part 'node.freezed.dart';
 part 'node.g.dart';
@@ -8,17 +9,16 @@ class Node with _$Node {
   const Node._();
 
   factory Node({
-    @JsonKey(name: 'Id') required int id,
     @JsonKey(name: 'Address') required String address,
     @JsonKey(name: 'UniqueName') required String uniqueName,
-    @JsonKey(name: 'Position') required int position,
-    @JsonKey(name: 'Amount') required double amount,
-    @JsonKey(name: 'Signature') required String signature,
-    @JsonKey(name: 'IsActive') required bool isActive,
-    @JsonKey(name: 'FailCount') required int failCount,
-    @JsonKey(name: 'NodeIP') required String nodeIp,
-    @JsonKey(name: 'NodeReferenceId') required String nodeReferenceId,
+    @JsonKey(name: 'ConnectionId') required int connectionId,
+    @JsonKey(name: 'IpAddress') required String ipAddress,
+    @JsonKey(name: 'ConnectDate') required DateTime connectDate,
   }) = _Node;
 
   factory Node.fromJson(Map<String, dynamic> json) => _$NodeFromJson(json);
+
+  String get connectDateFormatted {
+    return DateFormat('MM/dd – kk:mm').format(connectDate);
+  }
 }

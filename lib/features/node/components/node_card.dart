@@ -50,15 +50,15 @@ class NodeCard extends BaseComponent {
               child: ListTile(
                 horizontalTitleGap: 0,
                 dense: true,
-                leading: Text(
-                  "${node.position}",
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    color: Colors.white54,
-                  ),
-                ),
+                // leading: Text(
+                //   "${node.connectionId}",
+                //   style: TextStyle(
+                //     fontSize: 18.0,
+                //     color: Colors.white54,
+                //   ),
+                // ),
                 title: Text(
-                  "${node.uniqueName} [${node.nodeIp}]",
+                  "${node.uniqueName} [${node.ipAddress}]",
                 ),
                 subtitle: Text(
                   node.address,
@@ -66,15 +66,7 @@ class NodeCard extends BaseComponent {
                 trailing: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      node.isActive ? "Active" : "Inactive",
-                      style: TextStyle(
-                        color: node.isActive
-                            ? Theme.of(context).colorScheme.success
-                            : Theme.of(context).colorScheme.danger,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                    Text("Connected: ${node.connectDateFormatted}"),
                     // Padding(
                     //   padding: const EdgeInsets.only(top: 3.0),
                     //   child: Text(
