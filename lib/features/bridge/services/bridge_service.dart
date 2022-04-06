@@ -141,6 +141,8 @@ class BridgeService extends BaseService {
 
   Future<List<Node>> getMasterNodes() async {
     final response = await getText("/GetMasternodes");
+      print(response);
+      print("-----");
     try {
       final items = jsonDecode(response);
       final List<Node> nodes = [];

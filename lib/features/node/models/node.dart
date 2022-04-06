@@ -11,7 +11,7 @@ class Node with _$Node {
   factory Node({
     @JsonKey(name: 'Address') required String address,
     @JsonKey(name: 'UniqueName') required String uniqueName,
-    @JsonKey(name: 'ConnectionId') required int connectionId,
+    @JsonKey(name: 'ConnectionId') required String connectionId,
     @JsonKey(name: 'IpAddress') required String ipAddress,
     @JsonKey(name: 'ConnectDate') required DateTime connectDate,
   }) = _Node;

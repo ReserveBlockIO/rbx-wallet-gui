@@ -9,7 +9,7 @@ part of 'node.dart';
 _$_Node _$$_NodeFromJson(Map<String, dynamic> json) => _$_Node(
       address: json['Address'] as String,
       uniqueName: json['UniqueName'] as String,
-      connectionId: json['ConnectionId'] as int,
+      connectionId: json['ConnectionId'] as String,
       ipAddress: json['IpAddress'] as String,
       connectDate: DateTime.parse(json['ConnectDate'] as String),
     );

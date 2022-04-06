@@ -24,7 +24,7 @@ class _$NodeTearOff {
   _Node call(
       {@JsonKey(name: 'Address') required String address,
       @JsonKey(name: 'UniqueName') required String uniqueName,
-      @JsonKey(name: 'ConnectionId') required int connectionId,
+      @JsonKey(name: 'ConnectionId') required String connectionId,
       @JsonKey(name: 'IpAddress') required String ipAddress,
       @JsonKey(name: 'ConnectDate') required DateTime connectDate}) {
     return _Node(
@@ -51,7 +51,7 @@ mixin _$Node {
   @JsonKey(name: 'UniqueName')
   String get uniqueName => throw _privateConstructorUsedError;
   @JsonKey(name: 'ConnectionId')
-  int get connectionId => throw _privateConstructorUsedError;
+  String get connectionId => throw _privateConstructorUsedError;
   @JsonKey(name: 'IpAddress')
   String get ipAddress => throw _privateConstructorUsedError;
   @JsonKey(name: 'ConnectDate')
@@ -69,7 +69,7 @@ abstract class $NodeCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: 'Address') String address,
       @JsonKey(name: 'UniqueName') String uniqueName,
-      @JsonKey(name: 'ConnectionId') int connectionId,
+      @JsonKey(name: 'ConnectionId') String connectionId,
       @JsonKey(name: 'IpAddress') String ipAddress,
       @JsonKey(name: 'ConnectDate') DateTime connectDate});
 }
@@ -102,7 +102,7 @@ class _$NodeCopyWithImpl<$Res> implements $NodeCopyWith<$Res> {
       connectionId: connectionId == freezed
           ? _value.connectionId
           : connectionId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       ipAddress: ipAddress == freezed
           ? _value.ipAddress
           : ipAddress // ignore: cast_nullable_to_non_nullable
@@ -123,7 +123,7 @@ abstract class _$NodeCopyWith<$Res> implements $NodeCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: 'Address') String address,
       @JsonKey(name: 'UniqueName') String uniqueName,
-      @JsonKey(name: 'ConnectionId') int connectionId,
+      @JsonKey(name: 'ConnectionId') String connectionId,
       @JsonKey(name: 'IpAddress') String ipAddress,
       @JsonKey(name: 'ConnectDate') DateTime connectDate});
 }
@@ -157,7 +157,7 @@ class __$NodeCopyWithImpl<$Res> extends _$NodeCopyWithImpl<$Res>
       connectionId: connectionId == freezed
           ? _value.connectionId
           : connectionId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       ipAddress: ipAddress == freezed
           ? _value.ipAddress
           : ipAddress // ignore: cast_nullable_to_non_nullable
@@ -191,7 +191,7 @@ class _$_Node extends _Node {
   final String uniqueName;
   @override
   @JsonKey(name: 'ConnectionId')
-  final int connectionId;
+  final String connectionId;
   @override
   @JsonKey(name: 'IpAddress')
   final String ipAddress;
@@ -243,7 +243,7 @@ abstract class _Node extends Node {
   factory _Node(
       {@JsonKey(name: 'Address') required String address,
       @JsonKey(name: 'UniqueName') required String uniqueName,
-      @JsonKey(name: 'ConnectionId') required int connectionId,
+      @JsonKey(name: 'ConnectionId') required String connectionId,
       @JsonKey(name: 'IpAddress') required String ipAddress,
       @JsonKey(name: 'ConnectDate') required DateTime connectDate}) = _$_Node;
   _Node._() : super._();
@@ -258,7 +258,7 @@ abstract class _Node extends Node {
   String get uniqueName;
   @override
   @JsonKey(name: 'ConnectionId')
-  int get connectionId;
+  String get connectionId;
   @override
   @JsonKey(name: 'IpAddress')
   String get ipAddress;

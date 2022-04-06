@@ -45,6 +45,7 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
       return;
     }
 
+
     if (data.isEmpty) {
       return;
     }
@@ -57,7 +58,6 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
     final isSyncing = info[2].toLowerCase() == "true";
     final isResyncing = info[3].toLowerCase() == "true";
 
-    print(info);
 
     final latestBlock =
         blockHeight > 0 ? await BridgeService().blockInfo(blockHeight) : null;
