@@ -130,9 +130,6 @@ class LatestBlock extends BaseComponent {
               ],
             ),
             _DetailItem(label: "Validated By", value: latestBlock.validator),
-            if (latestBlock.nextValidator != null)
-              _DetailItem(
-                  label: "Next Validator", value: latestBlock.nextValidator!)
           ],
         ),
       ),

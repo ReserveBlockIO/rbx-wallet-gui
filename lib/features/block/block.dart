@@ -10,10 +10,17 @@ class Block with _$Block {
 
   factory Block({
     @JsonKey(name: "Height") required int height,
+    @JsonKey(name: "ChainRefId") required String chainRefId,
     @JsonKey(name: "Timestamp") required int timestamp,
     @JsonKey(name: "Hash") required String hash,
+    @JsonKey(name: "PrevHash") required String prevHash,
+    @JsonKey(name: "MerkleRoot") required String merkleRoot,
+    @JsonKey(name: "StateRoot") required String stateRoot,
     @JsonKey(name: "Validator") required String validator,
-    @JsonKey(name: "NextValidators") required String nextValidators,
+    @JsonKey(name: "ValidatorSignature") required String validatorSignature,
+    @JsonKey(name: "ValidatorAnswer") required String validatorAnswer,
+    @JsonKey(name: "TotalValidators") required int totalValidators,
+    @JsonKey(name: "Version") required int version,
     @JsonKey(name: "TotalAmount") required double totalAmount,
     @JsonKey(name: "TotalReward") required double totalReward,
     @JsonKey(name: "NumOfTx") required int numberOfTransactions,
@@ -23,19 +30,4 @@ class Block with _$Block {
   }) = _Block;
 
   factory Block.fromJson(Map<String, dynamic> json) => _$BlockFromJson(json);
-
-  List<String> get nextValidatorsList {
-    if (nextValidators.isEmpty) {
-      return [];
-    }
-    return nextValidators.split(":");
-  }
-
-  String? get nextValidator {
-    if (nextValidatorsList.isEmpty) {
-      return null;
-    }
-
-    return nextValidatorsList.first;
-  }
 }
