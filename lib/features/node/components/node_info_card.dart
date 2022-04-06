@@ -55,7 +55,7 @@ class NodeInfoCard extends StatelessWidget {
                     style: TextStyle(fontSize: 12),
                   ),
                   Text(
-                    "${node.latencyNormalized}",
+                    "${node.latency}",
                     style: TextStyle(fontSize: 12),
                   ),
                   Text(

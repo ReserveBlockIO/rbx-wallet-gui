@@ -16,8 +16,4 @@ class NodeInfo with _$NodeInfo {
 
   factory NodeInfo.fromJson(Map<String, dynamic> json) =>
       _$NodeInfoFromJson(json);
-
-  double get latencyNormalized {
-    return latency / 10;
-  }
 }
