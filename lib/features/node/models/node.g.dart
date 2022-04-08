@@ -11,7 +11,7 @@ _$_Node _$$_NodeFromJson(Map<String, dynamic> json) => _$_Node(
       uniqueName: json['UniqueName'] as String,
       connectionId: json['ConnectionId'] as String,
       ipAddress: json['IpAddress'] as String,
-      walletVersion: json['WalletVersion'] as String,
+      walletVersion: json['WalletVersion'] as String?,
       connectDate: DateTime.parse(json['ConnectDate'] as String),
     );
 

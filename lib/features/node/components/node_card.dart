@@ -60,7 +60,8 @@ class NodeCard extends BaseComponent {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text("Connected: ${node.connectDateFormatted}"),
-                    Text("Wallet Version: ${node.walletVersion}"),
+
+                    Text("Wallet Version: ${node.walletVersion ?? '-'}"),
                     // Padding(
                     //   padding: const EdgeInsets.only(top: 3.0),
                     //   child: Text(

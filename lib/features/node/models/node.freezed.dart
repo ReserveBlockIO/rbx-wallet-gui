@@ -26,7 +26,7 @@ class _$NodeTearOff {
       @JsonKey(name: 'UniqueName') required String uniqueName,
       @JsonKey(name: 'ConnectionId') required String connectionId,
       @JsonKey(name: 'IpAddress') required String ipAddress,
-      @JsonKey(name: 'WalletVersion') required String walletVersion,
+      @JsonKey(name: 'WalletVersion') required String? walletVersion,
       @JsonKey(name: 'ConnectDate') required DateTime connectDate}) {
     return _Node(
       address: address,
@@ -57,7 +57,7 @@ mixin _$Node {
   @JsonKey(name: 'IpAddress')
   String get ipAddress => throw _privateConstructorUsedError;
   @JsonKey(name: 'WalletVersion')
-  String get walletVersion => throw _privateConstructorUsedError;
+  String? get walletVersion => throw _privateConstructorUsedError;
   @JsonKey(name: 'ConnectDate')
   DateTime get connectDate => throw _privateConstructorUsedError;
 
@@ -75,7 +75,7 @@ abstract class $NodeCopyWith<$Res> {
       @JsonKey(name: 'UniqueName') String uniqueName,
       @JsonKey(name: 'ConnectionId') String connectionId,
       @JsonKey(name: 'IpAddress') String ipAddress,
-      @JsonKey(name: 'WalletVersion') String walletVersion,
+      @JsonKey(name: 'WalletVersion') String? walletVersion,
       @JsonKey(name: 'ConnectDate') DateTime connectDate});
 }
 
@@ -116,7 +116,7 @@ class _$NodeCopyWithImpl<$Res> implements $NodeCopyWith<$Res> {
       walletVersion: walletVersion == freezed
           ? _value.walletVersion
           : walletVersion // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       connectDate: connectDate == freezed
           ? _value.connectDate
           : connectDate // ignore: cast_nullable_to_non_nullable
@@ -135,7 +135,7 @@ abstract class _$NodeCopyWith<$Res> implements $NodeCopyWith<$Res> {
       @JsonKey(name: 'UniqueName') String uniqueName,
       @JsonKey(name: 'ConnectionId') String connectionId,
       @JsonKey(name: 'IpAddress') String ipAddress,
-      @JsonKey(name: 'WalletVersion') String walletVersion,
+      @JsonKey(name: 'WalletVersion') String? walletVersion,
       @JsonKey(name: 'ConnectDate') DateTime connectDate});
 }
 
@@ -177,7 +177,7 @@ class __$NodeCopyWithImpl<$Res> extends _$NodeCopyWithImpl<$Res>
       walletVersion: walletVersion == freezed
           ? _value.walletVersion
           : walletVersion // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       connectDate: connectDate == freezed
           ? _value.connectDate
           : connectDate // ignore: cast_nullable_to_non_nullable
@@ -214,7 +214,7 @@ class _$_Node extends _Node {
   final String ipAddress;
   @override
   @JsonKey(name: 'WalletVersion')
-  final String walletVersion;
+  final String? walletVersion;
   @override
   @JsonKey(name: 'ConnectDate')
   final DateTime connectDate;
@@ -268,7 +268,7 @@ abstract class _Node extends Node {
       @JsonKey(name: 'UniqueName') required String uniqueName,
       @JsonKey(name: 'ConnectionId') required String connectionId,
       @JsonKey(name: 'IpAddress') required String ipAddress,
-      @JsonKey(name: 'WalletVersion') required String walletVersion,
+      @JsonKey(name: 'WalletVersion') required String? walletVersion,
       @JsonKey(name: 'ConnectDate') required DateTime connectDate}) = _$_Node;
   _Node._() : super._();
 
@@ -288,7 +288,7 @@ abstract class _Node extends Node {
   String get ipAddress;
   @override
   @JsonKey(name: 'WalletVersion')
-  String get walletVersion;
+  String? get walletVersion;
   @override
   @JsonKey(name: 'ConnectDate')
   DateTime get connectDate;
