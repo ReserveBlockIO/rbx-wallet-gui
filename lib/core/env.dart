@@ -10,6 +10,7 @@ enum _Environment {
   MacTestNet,
   WinTestNet,
   Release,
+  BlockExplorer,
 }
 const _env = _Environment.Release;
 
@@ -31,6 +32,9 @@ class Env {
         break;
       case _Environment.WinTestNet:
         envPath = Assets.env.winTestnetEnv;
+        break;
+      case _Environment.BlockExplorer:
+        envPath = Assets.env.blockExplorerEnv;
         break;
       case _Environment.Release:
         envPath = Assets.env.releaseEnv;

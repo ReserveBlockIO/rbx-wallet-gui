@@ -16,6 +16,7 @@ Databases/
 RbxCore/
 DatabasesTestNet/
 macos/Runner/Resources/RBXCore
+assets/env/block_explorer_env
 
 # IntelliJ related
 *.iml

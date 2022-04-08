@@ -10,6 +10,9 @@ import 'package:flutter/widgets.dart';
 class $AssetsEnvGen {
   const $AssetsEnvGen();
 
+  /// File path: assets/env/block_explorer_env
+  String get blockExplorerEnv => 'assets/env/block_explorer_env';
+
   /// File path: assets/env/dev_env
   String get devEnv => 'assets/env/dev_env';
 
