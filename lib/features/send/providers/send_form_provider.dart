@@ -137,7 +137,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
 
     try {
       final message = await BridgeService().sendFunds(
-        amount: int.parse(amount),
+        amount: double.parse(amount),
         to: address,
         from: currentWallet.address,
       );
