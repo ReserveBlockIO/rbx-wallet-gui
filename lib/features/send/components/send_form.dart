@@ -34,7 +34,6 @@ class SendForm extends BaseComponent {
     const leadingWidth = 60.0;
 
     final formProvider = ref.read(sendFormProvider.notifier);
-    final formModel = ref.watch(sendFormProvider);
 
     String pasteMessage = "Use ctrl+v to paste or click ";
 
@@ -105,7 +104,7 @@ class SendForm extends BaseComponent {
                   controller: formProvider.amountController,
                   validator: formProvider.amountValidator,
                   inputFormatters: [
-                    FilteringTextInputFormatter.allow(r"[0-9.]")
+                    FilteringTextInputFormatter.allow(RegExp("[0-9.]"))
                   ],
                   decoration:
                       InputDecoration(hintText: "Amount of RBX to send"),
@@ -131,17 +130,21 @@ class SendForm extends BaseComponent {
                         formProvider.clear();
                       },
                     ),
-                    AppButton(
-                      label: "Send",
-                      type: AppButtonType.Elevated,
-                      processing: formModel.isProcessing,
-                      onPressed: () {
-                        if (!_formKey.currentState!.validate()) {
-                          return;
-                        }
-                        formProvider.submit();
-                      },
-                    ),
+                    Consumer(builder: (context, ref, _) {
+                      final formModel = ref.watch(sendFormProvider);
+
+                      return AppButton(
+                        label: "Send",
+                        type: AppButtonType.Elevated,
+                        processing: formModel.isProcessing,
+                        onPressed: () {
+                          if (!_formKey.currentState!.validate()) {
+                            return;
+                          }
+                          formProvider.submit();
+                        },
+                      );
+                    }),
                   ],
                 ),
               )
