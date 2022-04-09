@@ -104,7 +104,9 @@ class SendForm extends BaseComponent {
                 title: TextFormField(
                   controller: formProvider.amountController,
                   validator: formProvider.amountValidator,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(r"[0-9.]")
+                  ],
                   decoration:
                       InputDecoration(hintText: "Amount of RBX to send"),
                   keyboardType: TextInputType.number,

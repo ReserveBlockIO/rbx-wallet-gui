@@ -4,6 +4,7 @@ import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/features/transactions/components/transaction_list.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
+import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 
 class TransactionsScreen extends BaseScreen {
   const TransactionsScreen({Key? key}) : super(key: key);
@@ -24,22 +25,23 @@ class TransactionsScreen extends BaseScreen {
 
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Text("Filter by Active Wallet"),
-            Switch(
-              value: filtering,
-              inactiveThumbColor: Theme.of(context).colorScheme.primary,
-              activeColor: Theme.of(context).colorScheme.secondary,
-              onChanged: (val) {
-                ref
-                    .read(sessionProvider.notifier)
-                    .setFilteringTransactions(!filtering);
-              },
-            ),
-          ],
-        ),
+        if (ref.watch(walletListProvider).length > 1)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text("Filter by Active Wallet"),
+              Switch(
+                value: filtering,
+                inactiveThumbColor: Theme.of(context).colorScheme.primary,
+                activeColor: Theme.of(context).colorScheme.secondary,
+                onChanged: (val) {
+                  ref
+                      .read(sessionProvider.notifier)
+                      .setFilteringTransactions(!filtering);
+                },
+              ),
+            ],
+          ),
         if (ref.read(sessionProvider).blocksAreSyncing)
           Padding(
             padding: const EdgeInsets.all(16.0),

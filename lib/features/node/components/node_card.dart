@@ -5,7 +5,6 @@ import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/node/models/node.dart';
 import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 
 class NodeCard extends BaseComponent {
   final Node node;

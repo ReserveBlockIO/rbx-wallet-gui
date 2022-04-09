@@ -4,6 +4,7 @@ import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/features/node/components/node_info_list.dart';
 import 'package:rbx_wallet/features/node/components/node_list.dart';
 import 'package:rbx_wallet/features/node/providers/node_list_provider.dart';
+import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 
 class NodeListScreen extends BaseScreen {
@@ -30,6 +31,17 @@ class NodeListScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
+    if (ref.read(validatorListProvider).isEmpty ||
+        ref
+            .read(validatorListProvider)
+            .where((element) => element.isValidating)
+            .toList()
+            .isEmpty) {
+      return Center(
+        child: Text("You must be validating to view the Validator Pool"),
+      );
+    }
+
     return Column(
       children: [
         Padding(
