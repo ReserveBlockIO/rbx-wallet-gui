@@ -143,13 +143,16 @@ class ManageWalletBottomSheet extends BaseComponent {
                                       children: [
                                         ListTile(
                                           leading: Icon(Icons.security),
-                                          title: TextFormField(
-                                            initialValue: wallet.privateKey,
-                                            decoration: InputDecoration(
-                                              label: Text("Private Key"),
+                                          title: SizedBox(
+                                            width: 500,
+                                            child: TextFormField(
+                                              initialValue: wallet.privateKey,
+                                              decoration: InputDecoration(
+                                                label: Text("Private Key"),
+                                              ),
+                                              style: TextStyle(fontSize: 12),
+                                              readOnly: true,
                                             ),
-                                            style: TextStyle(fontSize: 13),
-                                            readOnly: true,
                                           ),
                                           trailing: IconButton(
                                             icon: Icon(Icons.copy),
