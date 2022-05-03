@@ -50,6 +50,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.2.3"
+  awesome_select:
+    dependency: "direct main"
+    description:
+      name: awesome_select
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.2.0"
   boolean_selector:
     dependency: transitive
     description:

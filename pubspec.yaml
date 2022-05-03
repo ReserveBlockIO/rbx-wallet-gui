@@ -31,6 +31,7 @@ dependencies:
   dart_ipify: ^1.1.1
   flutter_launcher_icons: ^0.9.2
   process: ^4.2.4
+  awesome_select: ^5.2.0
   path_provider: ^2.0.9
 
 dev_dependencies:
