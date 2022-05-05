@@ -4,7 +4,11 @@ import 'package:rbx_wallet/app.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_header.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/modals/rarity_modal.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_form_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_modal.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty_form_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty_modal.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/feature.dart';
 
 class FeatureChooserModal extends BaseComponent {
@@ -16,17 +20,41 @@ class FeatureChooserModal extends BaseComponent {
       children: [
         FormGroupHeader("Add a Feature"),
         ...Feature.allTypes()
-            .map((ft) => _FeatureOptionCard(
-                feature: Feature(type: ft),
+            .asMap()
+            .entries
+            .map((entry) => _FeatureOptionCard(
+                feature: Feature(type: entry.value),
                 onPressed: (Feature f) {
                   Navigator.of(context).pop();
+                  Widget? modal;
+
+                  switch (f.type) {
+                    case FeatureType.royalty:
+                      ref.read(royaltyFormProvider.notifier).clear();
+                      modal = RoyaltyModal();
+                      break;
+                    case FeatureType.evolution:
+                      ref.read(evolveFormProvider.notifier).clear();
+                      modal = EvolveModal();
+                      break;
+                    default:
+                      return ModalContainer(
+                        children: [Text("Not implemented.")],
+                      );
+                  }
+
                   showModalBottomSheet(
                     backgroundColor: Colors.transparent,
                     context: rootNavigatorKey.currentContext!,
                     isScrollControlled: true,
                     isDismissible: true,
                     builder: (context) {
-                      return RarityModal();
+                      if (modal != null) {
+                        return modal;
+                      }
+                      return ModalContainer(
+                        children: [Text("Not implemented.")],
+                      );
                     },
                   );
                 }))
@@ -55,7 +83,7 @@ class _FeatureOptionCard extends StatelessWidget {
         contentPadding: EdgeInsets.zero,
         leading: Icon(feature.icon),
         title: Text(feature.nameLabel),
-        subtitle: Text(feature.descriptionLabel),
+        subtitle: Text(feature.genericDescription),
         trailing: Icon(Icons.chevron_right),
         onTap: () {
           onPressed(feature);

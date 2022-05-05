@@ -1,4 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/feature.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/rarity.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/stat.dart';
@@ -16,7 +18,22 @@ class SmartContract with _$SmartContract {
     @Default("") String description,
     @Default("") String thumbnail,
     @Default([]) List<Rarity> rarities,
-    @Default([]) List<Feature> features,
+    // @Default([]) List<Feature> features,
     @Default([]) List<Stat> stats,
+    @Default([]) List<Royalty> royalties,
+    @Default([]) List<Evolve> evolves,
   }) = _SmartContract;
+
+  List<Feature> get features {
+    List<Feature> features = [];
+    for (final item in royalties) {
+      features.add(Feature(type: FeatureType.royalty, data: item.toJson()));
+    }
+
+    for (final item in evolves) {
+      features.add(Feature(type: FeatureType.evolution, data: item.toJson()));
+    }
+
+    return features;
+  }
 }

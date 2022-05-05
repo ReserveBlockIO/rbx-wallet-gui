@@ -12,6 +12,7 @@ import 'package:rbx_wallet/features/smart_contracts/models/feature.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/rarity.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/stat.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/create_sc_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/providers/stat_form_provider.dart';
 
 class StatsFormGroup extends BaseComponent {
   const StatsFormGroup({Key? key}) : super(key: key);
@@ -27,7 +28,11 @@ class StatsFormGroup extends BaseComponent {
         mainAxisSize: MainAxisSize.min,
         children: [
           FormGroupHeader("Stats"),
-          ..._model.stats.map((s) => _StatCard(s)).toList(),
+          ..._model.stats
+              .asMap()
+              .entries
+              .map((entry) => _StatCard(entry.value, entry.key))
+              .toList(),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -42,7 +47,8 @@ class StatsFormGroup extends BaseComponent {
                       isScrollControlled: true,
                       isDismissible: true,
                       builder: (context) {
-                        return StatModal();
+                        return StatModal(
+                            ref.read(createScProvider).stats.length);
                       },
                     );
                   },
@@ -58,16 +64,18 @@ class StatsFormGroup extends BaseComponent {
   }
 }
 
-class _StatCard extends StatelessWidget {
+class _StatCard extends BaseComponent {
   final Stat stat;
+  final int index;
 
   const _StatCard(
-    this.stat, {
+    this.stat,
+    this.index, {
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Card(
       child: ListTile(
         leading: Icon(FontAwesomeIcons.trophy),
@@ -79,7 +87,20 @@ class _StatCard extends StatelessWidget {
             AppButton(
               label: "Edit",
               icon: Icons.edit,
-              onPressed: () {},
+              onPressed: () {
+                final _provider = ref.read(statFormProvider(index).notifier);
+                _provider.setStat(stat);
+
+                showModalBottomSheet(
+                  backgroundColor: Colors.transparent,
+                  context: rootNavigatorKey.currentContext!,
+                  isScrollControlled: true,
+                  isDismissible: true,
+                  builder: (context) {
+                    return StatModal(index);
+                  },
+                );
+              },
             ),
             SizedBox(width: 6),
             AppButton(

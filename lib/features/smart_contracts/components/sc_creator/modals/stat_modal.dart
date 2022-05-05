@@ -5,114 +5,110 @@ import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_header.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_bottom_actions.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/stat.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/create_sc_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/providers/stat_form_provider.dart';
 
 class StatModal extends BaseComponent {
-  final Stat? initialStat;
-  const StatModal({
+  final int index;
+  const StatModal(
+    this.index, {
     Key? key,
-    this.initialStat,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _provider = ref.read(createScProvider.notifier);
-    final _model = ref.watch(createScProvider);
+    final _provider = ref.read(statFormProvider(index).notifier);
+    final _model = ref.watch(statFormProvider(index));
+    final GlobalKey<FormState> _formKey = GlobalKey();
 
-    return ModalContainer(
-      children: [
-        FormGroupHeader(initialStat == null ? "Create Stat" : "Edit Stat"),
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      label: Text(
-                        "Label",
-                        style: TextStyle(color: Colors.white),
+    return Form(
+      key: _formKey,
+      child: ModalContainer(
+        children: [
+          FormGroupHeader("Stat"),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      controller: _provider.labelController,
+                      decoration: InputDecoration(
+                        label: Text(
+                          "Label",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(width: 16),
-                Expanded(
-                  child: SmartSelect<StatType>.single(
-                    title: "Stat Type",
-                    modalType: S2ModalType.bottomSheet,
-                    selectedValue: initialStat != null
-                        ? initialStat!.type
-                        : StatType.string,
-                    onChange: (option) {
-                      print(option.value);
-                    },
-                    choiceItems: Stat.allTypes()
-                        .map(
-                          (s) => S2Choice<StatType>(
-                            value: s,
-                            title: Stat.typeToString(s),
-                          ),
-                        )
-                        .toList(),
+                  SizedBox(width: 16),
+                  Expanded(
+                    child: SmartSelect<StatType>.single(
+                      title: "Stat Type",
+                      modalType: S2ModalType.bottomSheet,
+                      selectedValue: _model.type,
+                      onChange: (option) {
+                        print(option.value);
+                      },
+                      choiceItems: Stat.allTypes()
+                          .map(
+                            (s) => S2Choice<StatType>(
+                              value: s,
+                              title: Stat.typeToString(s),
+                            ),
+                          )
+                          .toList(),
+                    ),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: 32),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Expanded(
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      label: Text(
-                        "Value",
-                        style: TextStyle(color: Colors.white),
+                ],
+              ),
+              SizedBox(height: 32),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      controller: _provider.valueController,
+                      decoration: InputDecoration(
+                        label: Text(
+                          "Value",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(width: 16),
-                Expanded(
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      label: Text(
-                        "Description",
-                        style: TextStyle(color: Colors.white),
+                  SizedBox(width: 16),
+                  Expanded(
+                    child: TextFormField(
+                      controller: _provider.descriptionController,
+                      decoration: InputDecoration(
+                        label: Text(
+                          "Description",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
+                      minLines: 1,
+                      maxLines: 3,
                     ),
-                    minLines: 1,
-                    maxLines: 3,
                   ),
-                ),
-              ],
-            ),
-            Divider(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AppButton(
-                  label: "Cancel",
-                  type: AppButtonType.Text,
-                  variant: AppColorVariant.Info,
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-                AppButton(
-                  label: "Save",
-                  icon: Icons.check,
-                  onPressed: () {},
-                ),
-              ],
-            )
-          ],
-        )
-      ],
+                ],
+              ),
+              ModalBottomActions(
+                confirmText: "Save",
+                onConfirm: () {
+                  _provider.save();
+
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 }

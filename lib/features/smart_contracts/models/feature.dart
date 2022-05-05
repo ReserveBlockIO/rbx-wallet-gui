@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
 
 part 'feature.freezed.dart';
 
@@ -29,8 +31,8 @@ abstract class Feature with _$Feature {
     return typeToName(type);
   }
 
-  String get descriptionLabel {
-    return typeToDescription(type);
+  String get genericDescription {
+    return "Lorem ipsim";
   }
 
   IconData get icon {
@@ -50,6 +52,19 @@ abstract class Feature with _$Feature {
       FeatureType.pair,
       FeatureType.wrap,
     ];
+  }
+
+  String get description {
+    switch (type) {
+      case FeatureType.royalty:
+        final royalty = Royalty.fromJson(data);
+        return "${royalty.typeLabel} ${royalty.amountWithSuffix} [${royalty.address}]";
+      case FeatureType.evolution:
+        final evolve = Evolve.fromJson(data);
+        return "${evolve.typeLabel} (${evolve.phases.length} phase${evolve.phases.length == 1 ? '' : 's'})";
+      default:
+        return "Not implemented";
+    }
   }
 
   static String typeToName(FeatureType type) {
@@ -75,10 +90,6 @@ abstract class Feature with _$Feature {
       case FeatureType.wrap:
         return "Wrap with Off-Platform NFT";
     }
-  }
-
-  static String typeToDescription(FeatureType type) {
-    return "Vivamus suscipit tortor eget felis porttitor volutpat. Proin eget tortor risus.";
   }
 
   static IconData typeToIcon(FeatureType type) {

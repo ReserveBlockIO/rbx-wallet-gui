@@ -115,3 +115,23 @@ String? formValidatorRbxAddress(String? value) {
 
   return null;
 }
+
+String? formPercentValidator(String? val) {
+  if (val == null || val.isEmpty) {
+    return "Required";
+  }
+  final amount = double.tryParse(val);
+  if (amount == null) {
+    return "Invalid";
+  }
+
+  if (amount > 100) {
+    return "Can not be more than 100%";
+  }
+
+  if (amount <= 0) {
+    return "Must be more than 0%";
+  }
+
+  return null;
+}
