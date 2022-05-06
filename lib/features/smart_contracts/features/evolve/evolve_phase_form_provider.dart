@@ -9,6 +9,8 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
   final int index;
   late final TextEditingController nameController;
   late final TextEditingController descriptionController;
+  late final TextEditingController dateController;
+  late final TextEditingController timeController;
 
   EvolvePhaseFormProvider(
     this.read,
@@ -17,6 +19,9 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
   ]) : super(model) {
     nameController = TextEditingController(text: model.name);
     descriptionController = TextEditingController(text: model.description);
+
+    dateController = TextEditingController(text: model.dateLabel);
+    timeController = TextEditingController(text: model.timeLabel);
   }
 
   String? nameValidator(String? val) => formValidatorNotEmpty(val, "Name");
@@ -37,6 +42,33 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
 
     read(evolveFormProvider.notifier).updatePhase(index, state);
     return true;
+  }
+
+  updateDate(DateTime date) {
+    final existing = state.dateTime;
+
+    final d = existing == null
+        ? date
+        : DateTime(
+            date.year, date.month, date.day, existing.hour, existing.minute);
+
+    state = state.copyWith(dateTime: d);
+
+    dateController.text = state.dateLabel;
+  }
+
+  updateTime(TimeOfDay time) {
+    final existing = state.dateTime;
+    final now = DateTime.now();
+
+    final d = existing == null
+        ? DateTime(now.year, now.month, now.day, time.hour, time.minute)
+        : DateTime(existing.year, existing.month, existing.day, time.hour,
+            time.minute);
+
+    state = state.copyWith(dateTime: d);
+
+    timeController.text = state.timeLabel;
   }
 
   clear() {

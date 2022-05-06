@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket.dart';
 
 part 'feature.freezed.dart';
 
 enum FeatureType {
   royalty,
   evolution,
+  ticket,
   tokenization,
   music,
   additionalOwners,
@@ -43,6 +45,7 @@ abstract class Feature with _$Feature {
     return [
       FeatureType.royalty,
       FeatureType.evolution,
+      FeatureType.ticket,
       FeatureType.tokenization,
       FeatureType.music,
       FeatureType.additionalOwners,
@@ -62,6 +65,9 @@ abstract class Feature with _$Feature {
       case FeatureType.evolution:
         final evolve = Evolve.fromJson(data);
         return "${evolve.typeLabel} (${evolve.phases.length} phase${evolve.phases.length == 1 ? '' : 's'})";
+      case FeatureType.ticket:
+        final ticket = Ticket.fromJson(data);
+        return "${ticket.typeLabel} ${ticket.description}";
       default:
         return "Not implemented";
     }
@@ -73,6 +79,8 @@ abstract class Feature with _$Feature {
         return "Royalty";
       case FeatureType.evolution:
         return "Evolving";
+      case FeatureType.ticket:
+        return "Ticketing";
       case FeatureType.tokenization:
         return "Tokenization of Physical/Digital Good";
       case FeatureType.music:

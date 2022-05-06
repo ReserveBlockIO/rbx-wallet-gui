@@ -102,31 +102,39 @@ class _EvolvePhaseContainer extends BaseComponent {
     this.canDelete = false,
   }) : super(key: key);
 
-  void _showDatePicker(BuildContext context) {
-    showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(
-        Duration(days: 365 * 100),
-      ),
-    );
-  }
-
-  void _showTimePicker(BuildContext context) {
-    showTimePicker(
-      context: context,
-      initialEntryMode: TimePickerEntryMode.input,
-      initialTime: TimeOfDay(hour: 0, minute: 0),
-    );
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final GlobalKey<FormState> _formKey = GlobalKey();
 
     final _evolveProvider = ref.read(evolveFormProvider.notifier);
     final _provider = ref.read(evolvePhaseFormProvider(index).notifier);
+
+    Future<void> _showDatePicker() async {
+      final d = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime.now(),
+        lastDate: DateTime.now().add(
+          Duration(days: 365 * 100),
+        ),
+      );
+
+      if (d != null) {
+        _provider.updateDate(d);
+      }
+    }
+
+    Future<void> _showTimePicker() async {
+      final t = await showTimePicker(
+        context: context,
+        initialEntryMode: TimePickerEntryMode.input,
+        initialTime: TimeOfDay(hour: 0, minute: 0),
+      );
+
+      if (t != null) {
+        _provider.updateTime(t);
+      }
+    }
 
     bool _save() {
       if (!_formKey.currentState!.validate()) return false;
@@ -165,8 +173,9 @@ class _EvolvePhaseContainer extends BaseComponent {
                         children: [
                           Expanded(
                             child: TextFormField(
+                              controller: _provider.dateController,
                               onTap: () {
-                                _showDatePicker(context);
+                                _showDatePicker();
                               },
                               decoration: InputDecoration(
                                 label: Text(
@@ -178,7 +187,7 @@ class _EvolvePhaseContainer extends BaseComponent {
                                 suffixIcon: IconButton(
                                   icon: Icon(Icons.calendar_month),
                                   onPressed: () {
-                                    _showDatePicker(context);
+                                    _showDatePicker();
                                   },
                                 ),
                               ),
@@ -187,8 +196,9 @@ class _EvolvePhaseContainer extends BaseComponent {
                           SizedBox(width: 8),
                           Expanded(
                             child: TextFormField(
+                              controller: _provider.timeController,
                               onTap: () {
-                                _showTimePicker(context);
+                                _showTimePicker();
                               },
                               decoration: InputDecoration(
                                 label: Text(
@@ -200,7 +210,7 @@ class _EvolvePhaseContainer extends BaseComponent {
                                 suffixIcon: IconButton(
                                   icon: Icon(Icons.watch),
                                   onPressed: () {
-                                    _showTimePicker(context);
+                                    _showTimePicker();
                                   },
                                 ),
                               ),

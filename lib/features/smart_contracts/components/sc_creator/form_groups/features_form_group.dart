@@ -15,6 +15,9 @@ import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_modal
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty_form_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty_modal.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket_form_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket_modal.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/feature.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/create_sc_provider.dart';
 
@@ -120,6 +123,11 @@ class _FeatureCard extends BaseComponent {
                     final evolve = Evolve.fromJson(feature.data);
                     ref.read(evolveFormProvider.notifier).setEvolve(evolve);
                     showEditModal(EvolveModal());
+                    break;
+                  case FeatureType.ticket:
+                    final ticket = Ticket.fromJson(feature.data);
+                    ref.read(ticketFormProvider.notifier).setTicket(ticket);
+                    showEditModal(TicketModal());
                     break;
                   default:
                     print("Not implemented");

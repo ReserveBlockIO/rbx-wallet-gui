@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/rarity.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/smart_contract.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/stat.dart';
@@ -80,6 +81,29 @@ class CreateScProvider extends StateNotifier<SmartContract> {
   void removeEvolve(Evolve evolve) {
     final index = state.evolves.indexWhere((e) => e.id == evolve.id);
     state = state.copyWith(evolves: state.evolves..removeAt(index));
+  }
+
+  void saveTicket(Ticket ticket) {
+    final exists = state.tickets.firstWhereOrNull((t) => t.id == ticket.id);
+
+    if (exists == null) {
+      state = state.copyWith(tickets: [...state.tickets, ticket]);
+    } else {
+      final index = state.tickets.indexWhere((t) => t.id == ticket.id);
+      _updateTicket(ticket, index);
+    }
+  }
+
+  void _updateTicket(Ticket ticket, int index) {
+    final updatedTickets = [...state.tickets];
+    updatedTickets.removeAt(index);
+    updatedTickets.insert(index, ticket);
+    state = state.copyWith(tickets: updatedTickets);
+  }
+
+  void removeTicket(Ticket ticket) {
+    final index = state.tickets.indexWhere((t) => t.id == ticket.id);
+    state = state.copyWith(tickets: state.tickets..removeAt(index));
   }
 }
 

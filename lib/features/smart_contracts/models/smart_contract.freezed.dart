@@ -25,7 +25,8 @@ class _$SmartContractTearOff {
       List<Rarity> rarities = const [],
       List<Stat> stats = const [],
       List<Royalty> royalties = const [],
-      List<Evolve> evolves = const []}) {
+      List<Evolve> evolves = const [],
+      List<Ticket> tickets = const []}) {
     return _SmartContract(
       owner: owner,
       name: name,
@@ -35,6 +36,7 @@ class _$SmartContractTearOff {
       stats: stats,
       royalties: royalties,
       evolves: evolves,
+      tickets: tickets,
     );
   }
 }
@@ -53,6 +55,7 @@ mixin _$SmartContract {
   List<Stat> get stats => throw _privateConstructorUsedError;
   List<Royalty> get royalties => throw _privateConstructorUsedError;
   List<Evolve> get evolves => throw _privateConstructorUsedError;
+  List<Ticket> get tickets => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SmartContractCopyWith<SmartContract> get copyWith =>
@@ -72,7 +75,8 @@ abstract class $SmartContractCopyWith<$Res> {
       List<Rarity> rarities,
       List<Stat> stats,
       List<Royalty> royalties,
-      List<Evolve> evolves});
+      List<Evolve> evolves,
+      List<Ticket> tickets});
 
   $WalletCopyWith<$Res> get owner;
 }
@@ -96,6 +100,7 @@ class _$SmartContractCopyWithImpl<$Res>
     Object? stats = freezed,
     Object? royalties = freezed,
     Object? evolves = freezed,
+    Object? tickets = freezed,
   }) {
     return _then(_value.copyWith(
       owner: owner == freezed
@@ -130,6 +135,10 @@ class _$SmartContractCopyWithImpl<$Res>
           ? _value.evolves
           : evolves // ignore: cast_nullable_to_non_nullable
               as List<Evolve>,
+      tickets: tickets == freezed
+          ? _value.tickets
+          : tickets // ignore: cast_nullable_to_non_nullable
+              as List<Ticket>,
     ));
   }
 
@@ -156,7 +165,8 @@ abstract class _$SmartContractCopyWith<$Res>
       List<Rarity> rarities,
       List<Stat> stats,
       List<Royalty> royalties,
-      List<Evolve> evolves});
+      List<Evolve> evolves,
+      List<Ticket> tickets});
 
   @override
   $WalletCopyWith<$Res> get owner;
@@ -183,6 +193,7 @@ class __$SmartContractCopyWithImpl<$Res>
     Object? stats = freezed,
     Object? royalties = freezed,
     Object? evolves = freezed,
+    Object? tickets = freezed,
   }) {
     return _then(_SmartContract(
       owner: owner == freezed
@@ -217,6 +228,10 @@ class __$SmartContractCopyWithImpl<$Res>
           ? _value.evolves
           : evolves // ignore: cast_nullable_to_non_nullable
               as List<Evolve>,
+      tickets: tickets == freezed
+          ? _value.tickets
+          : tickets // ignore: cast_nullable_to_non_nullable
+              as List<Ticket>,
     ));
   }
 }
@@ -232,7 +247,8 @@ class _$_SmartContract extends _SmartContract {
       this.rarities = const [],
       this.stats = const [],
       this.royalties = const [],
-      this.evolves = const []})
+      this.evolves = const [],
+      this.tickets = const []})
       : super._();
 
   @override
@@ -258,10 +274,13 @@ class _$_SmartContract extends _SmartContract {
   @JsonKey(defaultValue: const [])
   @override
   final List<Evolve> evolves;
+  @JsonKey(defaultValue: const [])
+  @override
+  final List<Ticket> tickets;
 
   @override
   String toString() {
-    return 'SmartContract(owner: $owner, name: $name, description: $description, thumbnail: $thumbnail, rarities: $rarities, stats: $stats, royalties: $royalties, evolves: $evolves)';
+    return 'SmartContract(owner: $owner, name: $name, description: $description, thumbnail: $thumbnail, rarities: $rarities, stats: $stats, royalties: $royalties, evolves: $evolves, tickets: $tickets)';
   }
 
   @override
@@ -277,7 +296,8 @@ class _$_SmartContract extends _SmartContract {
             const DeepCollectionEquality().equals(other.rarities, rarities) &&
             const DeepCollectionEquality().equals(other.stats, stats) &&
             const DeepCollectionEquality().equals(other.royalties, royalties) &&
-            const DeepCollectionEquality().equals(other.evolves, evolves));
+            const DeepCollectionEquality().equals(other.evolves, evolves) &&
+            const DeepCollectionEquality().equals(other.tickets, tickets));
   }
 
   @override
@@ -290,7 +310,8 @@ class _$_SmartContract extends _SmartContract {
       const DeepCollectionEquality().hash(rarities),
       const DeepCollectionEquality().hash(stats),
       const DeepCollectionEquality().hash(royalties),
-      const DeepCollectionEquality().hash(evolves));
+      const DeepCollectionEquality().hash(evolves),
+      const DeepCollectionEquality().hash(tickets));
 
   @JsonKey(ignore: true)
   @override
@@ -307,7 +328,8 @@ abstract class _SmartContract extends SmartContract {
       List<Rarity> rarities,
       List<Stat> stats,
       List<Royalty> royalties,
-      List<Evolve> evolves}) = _$_SmartContract;
+      List<Evolve> evolves,
+      List<Ticket> tickets}) = _$_SmartContract;
   _SmartContract._() : super._();
 
   @override
@@ -326,6 +348,8 @@ abstract class _SmartContract extends SmartContract {
   List<Royalty> get royalties;
   @override
   List<Evolve> get evolves;
+  @override
+  List<Ticket> get tickets;
   @override
   @JsonKey(ignore: true)
   _$SmartContractCopyWith<_SmartContract> get copyWith =>

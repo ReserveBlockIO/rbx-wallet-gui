@@ -74,7 +74,6 @@ class RoyaltyFormProvider extends StateNotifier<Royalty> {
 
   clear() {
     final id = uniqueId();
-    print(id);
     state = Royalty(id: id);
     amountController.text = "";
     addressController.text = "";

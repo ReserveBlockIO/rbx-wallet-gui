@@ -9,6 +9,8 @@ import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_modal
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty_form_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty_modal.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket_form_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket_modal.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/feature.dart';
 
 class FeatureChooserModal extends BaseComponent {
@@ -36,6 +38,10 @@ class FeatureChooserModal extends BaseComponent {
                     case FeatureType.evolution:
                       ref.read(evolveFormProvider.notifier).clear();
                       modal = EvolveModal();
+                      break;
+                    case FeatureType.ticket:
+                      ref.read(ticketFormProvider.notifier).clear();
+                      modal = TicketModal();
                       break;
                     default:
                       return ModalContainer(
