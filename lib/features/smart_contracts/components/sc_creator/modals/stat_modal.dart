@@ -5,6 +5,7 @@ import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_header.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_bottom_actions.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/stat.dart';
@@ -38,11 +39,11 @@ class StatModal extends BaseComponent {
                     child: TextFormField(
                       controller: _provider.labelController,
                       decoration: InputDecoration(
-                        label: Text(
-                          "Label",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
+                          label: Text(
+                            "Label",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          suffixIcon: HelpButton(HelpType.unknown)),
                     ),
                   ),
                   SizedBox(width: 16),
@@ -74,11 +75,11 @@ class StatModal extends BaseComponent {
                     child: TextFormField(
                       controller: _provider.valueController,
                       decoration: InputDecoration(
-                        label: Text(
-                          "Value",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
+                          label: Text(
+                            "Value",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          suffixIcon: HelpButton(HelpType.unknown)),
                     ),
                   ),
                   SizedBox(width: 16),
@@ -86,11 +87,11 @@ class StatModal extends BaseComponent {
                     child: TextFormField(
                       controller: _provider.descriptionController,
                       decoration: InputDecoration(
-                        label: Text(
-                          "Description",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
+                          label: Text(
+                            "Description",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          suffixIcon: HelpButton(HelpType.unknown)),
                       minLines: 1,
                       maxLines: 3,
                     ),

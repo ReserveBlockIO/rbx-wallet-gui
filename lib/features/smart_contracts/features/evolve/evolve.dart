@@ -4,7 +4,7 @@ import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase
 part 'evolve.freezed.dart';
 part 'evolve.g.dart';
 
-enum EvolveType { time, variable }
+enum EvolveType { time, numericVariable, stringVariable }
 
 @freezed
 abstract class Evolve with _$Evolve {
@@ -23,15 +23,21 @@ abstract class Evolve with _$Evolve {
   }
 
   static List<EvolveType> allTypes() {
-    return [EvolveType.time, EvolveType.variable];
+    return [
+      EvolveType.time,
+      EvolveType.numericVariable,
+      EvolveType.stringVariable,
+    ];
   }
 
   static typeToString(EvolveType type) {
     switch (type) {
       case EvolveType.time:
         return "Time";
-      case EvolveType.variable:
-        return "Variable";
+      case EvolveType.numericVariable:
+        return "Numberic Variable";
+      case EvolveType.stringVariable:
+        return "String Variable";
     }
   }
 

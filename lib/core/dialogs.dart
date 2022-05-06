@@ -9,6 +9,7 @@ class InfoDialog {
     String? body,
     Widget? content,
     String? closeText,
+    IconData? icon,
   }) async {
     final context = rootNavigatorKey.currentContext!;
 
@@ -16,7 +17,20 @@ class InfoDialog {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text(title),
+          title: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (icon != null)
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Icon(
+                    icon,
+                    color: Colors.white38,
+                  ),
+                ),
+              Text(title),
+            ],
+          ),
           content: body != null ? Text(body) : content,
           actions: [
             TextButton(

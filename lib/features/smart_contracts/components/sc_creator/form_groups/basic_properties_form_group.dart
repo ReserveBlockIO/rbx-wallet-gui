@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_container.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_header.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/create_sc_provider.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
@@ -21,7 +22,10 @@ class BasicPropertiesFormGroup extends BaseComponent {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          FormGroupHeader("Basic Properties"),
+          FormGroupHeader(
+            "Basic Properties",
+            helpType: HelpType.unknown,
+          ),
           Row(
             children: [
               Expanded(
@@ -31,6 +35,7 @@ class BasicPropertiesFormGroup extends BaseComponent {
                       "Smart Contract Name",
                       style: TextStyle(color: Colors.white),
                     ),
+                    suffixIcon: HelpButton(HelpType.smartContractName),
                   ),
                   onChanged: (val) {
                     _provider.setName(val);
@@ -57,6 +62,7 @@ class BasicPropertiesFormGroup extends BaseComponent {
                       .toList(),
                 ),
               ),
+              HelpButton(HelpType.ownerAddress),
               // SizedBox(width: 8),
               // Expanded(
               //   child: Card(
@@ -77,6 +83,7 @@ class BasicPropertiesFormGroup extends BaseComponent {
                 "Description",
                 style: TextStyle(color: Colors.white),
               ),
+              suffixIcon: HelpButton(HelpType.unknown),
             ),
             minLines: 3,
             maxLines: 6,

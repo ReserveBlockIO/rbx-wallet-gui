@@ -26,5 +26,6 @@ Map<String, dynamic> _$$_EvolveToJson(_$_Evolve instance) => <String, dynamic>{
 
 const _$EvolveTypeEnumMap = {
   EvolveType.time: 'time',
-  EvolveType.variable: 'variable',
+  EvolveType.numericVariable: 'numericVariable',
+  EvolveType.stringVariable: 'stringVariable',
 };

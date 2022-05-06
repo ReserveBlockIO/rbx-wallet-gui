@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
@@ -49,20 +50,20 @@ class EvolveModal extends BaseComponent {
               ),
             ],
           ),
-          Row(
-            children: [
-              if (_model.type == EvolveType.variable)
-                Expanded(
-                  child: TextFormField(
-                    controller: _provider.urlController,
-                    decoration: InputDecoration(
-                      label: Text("Metadata / API URL"),
-                      labelStyle: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                )
-            ],
-          ),
+          // Row(
+          //   children: [
+          //     if (_model.type == EvolveType.variable)
+          //       Expanded(
+          //         child: TextFormField(
+          //           controller: _provider.urlController,
+          //           decoration: InputDecoration(
+          //             label: Text("Metadata / API URL"),
+          //             labelStyle: TextStyle(color: Colors.white),
+          //           ),
+          //         ),
+          //       )
+          //   ],
+          // ),
           ..._model.phases.asMap().entries.map((entry) {
             final index = entry.key;
             final phase = entry.value;
@@ -207,11 +208,20 @@ class _EvolvePhaseContainer extends BaseComponent {
                           )
                         ],
                       ),
-                    if (type == EvolveType.variable)
+                    if (type == EvolveType.numericVariable ||
+                        type == EvolveType.stringVariable)
                       Row(
                         children: [
                           Expanded(
                             child: TextFormField(
+                              inputFormatters:
+                                  type == EvolveType.numericVariable
+                                      ? [
+                                          FilteringTextInputFormatter.allow(
+                                            RegExp("[0-9.]"),
+                                          )
+                                        ]
+                                      : [],
                               decoration: InputDecoration(
                                 label: Text(
                                   "Expected Value",
