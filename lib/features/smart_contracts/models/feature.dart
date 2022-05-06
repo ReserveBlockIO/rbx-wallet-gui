@@ -34,11 +34,26 @@ abstract class Feature with _$Feature {
   }
 
   String get genericDescription {
+    if (!isAvailable) {
+      return "Activating soon...";
+    }
+
     return "Lorem ipsim";
   }
 
   IconData get icon {
     return typeToIcon(type);
+  }
+
+  bool get isAvailable {
+    switch (type) {
+      case FeatureType.royalty:
+      case FeatureType.evolution:
+      case FeatureType.ticket:
+        return true;
+      default:
+        return false;
+    }
   }
 
   static List<FeatureType> allTypes() {
@@ -67,7 +82,7 @@ abstract class Feature with _$Feature {
         return "${evolve.typeLabel} (${evolve.phases.length} phase${evolve.phases.length == 1 ? '' : 's'})";
       case FeatureType.ticket:
         final ticket = Ticket.fromJson(data);
-        return "${ticket.typeLabel} ${ticket.description}";
+        return "${ticket.typeLabel}: ${ticket.eventName} (${ticket.dateTimeLabel})";
       default:
         return "Not implemented";
     }

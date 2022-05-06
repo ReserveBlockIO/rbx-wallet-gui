@@ -38,6 +38,12 @@ abstract class Ticket with _$Ticket {
     return DateFormat.Hms().format(eventDate!);
   }
 
+  String get dateTimeLabel {
+    if (eventDate == null) return "";
+
+    return "$dateLabel $timeLabel";
+  }
+
   static typeToString(TicketType type) {
     switch (type) {
       case TicketType.physicalEvent:

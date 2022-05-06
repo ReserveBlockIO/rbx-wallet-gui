@@ -6,7 +6,6 @@ import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_form_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_modal.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty_form_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty_modal.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket_form_provider.dart';
@@ -85,15 +84,17 @@ class _FeatureOptionCard extends StatelessWidget {
     return Card(
       color: Colors.transparent,
       child: ListTile(
-        dense: false,
+        dense: !feature.isAvailable,
         contentPadding: EdgeInsets.zero,
         leading: Icon(feature.icon),
         title: Text(feature.nameLabel),
         subtitle: Text(feature.genericDescription),
-        trailing: Icon(Icons.chevron_right),
-        onTap: () {
-          onPressed(feature);
-        },
+        trailing: feature.isAvailable ? Icon(Icons.chevron_right) : null,
+        onTap: feature.isAvailable
+            ? () {
+                onPressed(feature);
+              }
+            : null,
       ),
     );
   }
