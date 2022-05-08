@@ -3,4 +3,4 @@ STORAGE_PREFIX=dev
 API_BASE_URL=http://localhost:7292/api/V1
 LAUNCH_CLI=true
 ALLOW_VALIDATING=true
-CLI_PATH_OVERRIDE=/Users/tylersavery/Projects/rbx/Core-CLI/ReserveBlockCore/bin/Release/net6.0/osx-x64/publish//ReserveBlockCore
+CLI_PATH_OVERRIDE=/Users/tylersavery/Projects/rbx/env/pre6-macos-intel/ReserveBlockCore

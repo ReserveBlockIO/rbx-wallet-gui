@@ -6,6 +6,8 @@ import 'package:rbx_wallet/features/block/block.dart';
 import 'package:rbx_wallet/features/genesis/models/genesis_block.dart';
 import 'package:rbx_wallet/features/node/models/node.dart';
 import 'package:rbx_wallet/features/node/models/node_info.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/compiled_smart_contract.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/compiler_payload.dart';
 import 'package:rbx_wallet/features/transactions/models/transaction.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
@@ -18,8 +20,10 @@ class BridgeService extends BaseService {
     return await getText("/GetCLIVersion");
   }
 
-  Future<String> walletInfo() async {
-    return await getText('/GetWalletInfo');
+  Future<Map<String, dynamic>> walletInfo() async {
+    final d = await getText('/GetWalletInfo');
+    final a = jsonDecode(d);
+    return a[0];
   }
 
   Future<String> wallets() async {
@@ -194,5 +198,23 @@ class BridgeService extends BaseService {
     }
 
     return true;
+  }
+
+  Future<CompiledSmartContract?> compileSmartContract(
+      CompilerPayload payload) async {
+    try {
+      final response = await postJson(
+        "/todo",
+        params: payload.toJson(),
+      );
+
+      final csc = CompiledSmartContract.fromJson(response);
+
+      print(response);
+      return csc; //TODO: dynamic based on success
+    } catch (e) {
+      print(e);
+      return null;
+    }
   }
 }

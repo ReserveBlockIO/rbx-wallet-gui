@@ -67,32 +67,32 @@ class BaseService {
     }
   }
 
-  // Future<Map<String, dynamic>> postHttp(
-  //   String path, {
-  //   Map<String, dynamic> params = const {},
-  //   bool auth = true,
-  // }) async {
-  //   try {
-  //     var response = await Dio(_options(auth: auth)).post(
-  //       _cleanPath(path),
-  //       data: params,
-  //     );
+  Future<Map<String, dynamic>> postJson(
+    String path, {
+    Map<String, dynamic> params = const {},
+    bool auth = true,
+  }) async {
+    try {
+      var response = await Dio(_options(auth: auth)).post(
+        _cleanPath(path),
+        data: params,
+      );
 
-  //     if (response.statusCode == 204) {
-  //       return {};
-  //     }
-  //     if (response.data == null) {
-  //       return {};
-  //     }
+      if (response.statusCode == 204) {
+        return {};
+      }
+      if (response.data == null) {
+        return {};
+      }
 
-  //     if (response.data.runtimeType == String) {
-  //       return {};
-  //     }
-  //     return response.data;
-  //   } catch (e) {
-  //     rethrow;
-  //   }
-  // }
+      if (response.data.runtimeType == String) {
+        return {};
+      }
+      return response.data;
+    } catch (e) {
+      rethrow;
+    }
+  }
 
   // Future<Map<String, dynamic>> patchHttp(
   //   String path, {

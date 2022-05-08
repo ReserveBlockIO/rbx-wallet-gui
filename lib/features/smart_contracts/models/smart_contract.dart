@@ -1,7 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/compiler_payload.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/feature.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/rarity.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/stat.dart';
@@ -41,5 +43,12 @@ class SmartContract with _$SmartContract {
     }
 
     return features;
+  }
+
+  CompilerPayload serializeForCompiler() {
+    final List<Map<String, dynamic>> features = [];
+    final payload = CompilerPayload(name: name, features: features);
+
+    return payload;
   }
 }

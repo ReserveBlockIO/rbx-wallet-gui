@@ -1,13 +1,17 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/features/bridge/providers/status_provider.dart';
+import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/compiled_smart_contract.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/rarity.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/smart_contract.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/stat.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:collection/collection.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 class CreateScProvider extends StateNotifier<SmartContract> {
   final Reader read;
@@ -104,6 +108,33 @@ class CreateScProvider extends StateNotifier<SmartContract> {
   void removeTicket(Ticket ticket) {
     final index = state.tickets.indexWhere((t) => t.id == ticket.id);
     state = state.copyWith(tickets: state.tickets..removeAt(index));
+  }
+
+  // --compile --
+
+  bool isValidForCompile() {
+    return true; //TODO: validate stuff
+  }
+
+  Future<CompiledSmartContract?> compile() async {
+    if (!isValidForCompile()) {
+      //TODO: show validation issues
+      Toast.error("Invalid smart contract");
+      return null;
+    }
+
+    final payload = state.serializeForCompiler();
+
+    final csc = await BridgeService().compileSmartContract(payload);
+
+    if (csc == null) {
+      Toast.error();
+      return null;
+    }
+
+    Toast.message("Smart Contract compiled successfully.");
+
+    return csc;
   }
 }
 
