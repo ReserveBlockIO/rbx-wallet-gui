@@ -189,14 +189,42 @@ class HomeScreen extends BaseScreen {
                       appDocPath = appDocPath.replaceAll("/Documents", "/rbx");
                       cmd = "open $appDocPath";
                     } else {
-                      appDocDir =
-                        await getApplicationSupportDirectory();
-                  
-                     appDocPath = appDocDir.path;
+                      appDocDir = await getApplicationSupportDirectory();
 
-                      appDocPath =
-                          appDocPath.replaceAll("\\Roaming\\com.example\\rbx_wallet_gui", "\\Local\\rbx");
+                      appDocPath = appDocDir.path;
+
+                      appDocPath = appDocPath.replaceAll(
+                          "\\Roaming\\com.example\\rbx_wallet_gui",
+                          "\\Local\\rbx");
                       cmd = "start $appDocPath";
+                    }
+
+                    shell.run(cmd);
+                  },
+                  size: AppSizeVariant.Lg,
+                ),
+                AppButton(
+                  label: "Open Log",
+                  onPressed: () async {
+                    final shell = Shell(throwOnError: false);
+
+                    Directory appDocDir =
+                        await getApplicationDocumentsDirectory();
+                    String appDocPath = appDocDir.path;
+
+                    String cmd = "";
+                    if (Platform.isMacOS) {
+                      appDocPath = appDocPath.replaceAll("/Documents", "/rbx");
+                      cmd = "open $appDocPath/Databases/rbxlog.txt";
+                    } else {
+                      appDocDir = await getApplicationSupportDirectory();
+
+                      appDocPath = appDocDir.path;
+
+                      appDocPath = appDocPath.replaceAll(
+                          "\\Roaming\\com.example\\rbx_wallet_gui",
+                          "\\Local\\rbx");
+                      cmd = "start $appDocPath\\Databases\\rbxlog";
                     }
 
                     shell.run(cmd);

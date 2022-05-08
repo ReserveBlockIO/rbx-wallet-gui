@@ -8,7 +8,9 @@ abstract class CompiledSmartContract with _$CompiledSmartContract {
   const CompiledSmartContract._();
 
   factory CompiledSmartContract({
-    required String uuid,
+    // @JsonKey(name: "SmartContractCode") required String code,
+    @JsonKey(name: "Success") required bool success,
+    // @JsonKey(name: "SmartContractMain") required Map<String, dynamic> main,
   }) = _CompiledSmartContract;
 
   factory CompiledSmartContract.fromJson(Map<String, dynamic> json) =>

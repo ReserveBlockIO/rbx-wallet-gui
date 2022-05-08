@@ -45,10 +45,24 @@ class SmartContract with _$SmartContract {
     return features;
   }
 
-  CompilerPayload serializeForCompiler() {
+  Map<String, dynamic> serializeForCompiler() {
     final List<Map<String, dynamic>> features = [];
-    final payload = CompilerPayload(name: name, features: features);
 
-    return payload;
+    for (final r in royalties) {
+      features.add({"FeatureName": 1});
+    }
+
+    final payload = CompilerPayload(
+      name: name,
+      description: description,
+      address: owner.address,
+      assetId: "123",
+      features: features,
+      uuid: "00000000-0000-0000-0000-000000000000",
+      signature: null,
+      isPublic: true,
+    );
+
+    return payload.toJson();
   }
 }

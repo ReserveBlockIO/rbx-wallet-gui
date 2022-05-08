@@ -9,6 +9,7 @@ import 'package:rbx_wallet/features/smart_contracts/models/compiled_smart_contra
 import 'package:rbx_wallet/features/smart_contracts/models/rarity.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/smart_contract.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/stat.dart';
+import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:collection/collection.dart';
 import 'package:rbx_wallet/utils/toast.dart';
@@ -125,7 +126,10 @@ class CreateScProvider extends StateNotifier<SmartContract> {
 
     final payload = state.serializeForCompiler();
 
-    final csc = await BridgeService().compileSmartContract(payload);
+    print("payload:");
+    print(payload);
+
+    final csc = await SmartContractService().compileSmartContract(payload);
 
     if (csc == null) {
       Toast.error();
@@ -151,6 +155,8 @@ final createScProvider = StateNotifierProvider<CreateScProvider, SmartContract>(
     ];
 
     final initial = SmartContract(
+      name: "Test Contract",
+      description: "Super Test",
       owner: ref.read(sessionProvider).currentWallet!,
       rarities: rarities,
       royalties: [

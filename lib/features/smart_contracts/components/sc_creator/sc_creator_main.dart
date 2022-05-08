@@ -9,6 +9,7 @@ import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/form_g
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/form_groups/rarities_form_group.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/form_groups/stats_form_group.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/form_groups/thumbnail_form_group.dart';
+import 'package:rbx_wallet/features/smart_contracts/providers/create_sc_provider.dart';
 
 class ScCreatorMain extends BaseComponent {
   const ScCreatorMain({Key? key}) : super(key: key);
@@ -58,7 +59,9 @@ class ScCreatorMain extends BaseComponent {
                 ),
                 AppButton(
                   label: "Compile",
-                  onPressed: () {},
+                  onPressed: () async {
+                    await ref.read(createScProvider.notifier).compile();
+                  },
                   icon: Icons.computer,
                 ),
                 AppButton(

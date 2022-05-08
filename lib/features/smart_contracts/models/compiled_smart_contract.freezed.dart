@@ -22,9 +22,10 @@ CompiledSmartContract _$CompiledSmartContractFromJson(
 class _$CompiledSmartContractTearOff {
   const _$CompiledSmartContractTearOff();
 
-  _CompiledSmartContract call({required String uuid}) {
+  _CompiledSmartContract call(
+      {@JsonKey(name: "Success") required bool success}) {
     return _CompiledSmartContract(
-      uuid: uuid,
+      success: success,
     );
   }
 
@@ -38,7 +39,9 @@ const $CompiledSmartContract = _$CompiledSmartContractTearOff();
 
 /// @nodoc
 mixin _$CompiledSmartContract {
-  String get uuid => throw _privateConstructorUsedError;
+// @JsonKey(name: "SmartContractCode") required String code,
+  @JsonKey(name: "Success")
+  bool get success => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -51,7 +54,7 @@ abstract class $CompiledSmartContractCopyWith<$Res> {
   factory $CompiledSmartContractCopyWith(CompiledSmartContract value,
           $Res Function(CompiledSmartContract) then) =
       _$CompiledSmartContractCopyWithImpl<$Res>;
-  $Res call({String uuid});
+  $Res call({@JsonKey(name: "Success") bool success});
 }
 
 /// @nodoc
@@ -65,13 +68,13 @@ class _$CompiledSmartContractCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? uuid = freezed,
+    Object? success = freezed,
   }) {
     return _then(_value.copyWith(
-      uuid: uuid == freezed
-          ? _value.uuid
-          : uuid // ignore: cast_nullable_to_non_nullable
-              as String,
+      success: success == freezed
+          ? _value.success
+          : success // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -83,7 +86,7 @@ abstract class _$CompiledSmartContractCopyWith<$Res>
           $Res Function(_CompiledSmartContract) then) =
       __$CompiledSmartContractCopyWithImpl<$Res>;
   @override
-  $Res call({String uuid});
+  $Res call({@JsonKey(name: "Success") bool success});
 }
 
 /// @nodoc
@@ -99,13 +102,13 @@ class __$CompiledSmartContractCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? uuid = freezed,
+    Object? success = freezed,
   }) {
     return _then(_CompiledSmartContract(
-      uuid: uuid == freezed
-          ? _value.uuid
-          : uuid // ignore: cast_nullable_to_non_nullable
-              as String,
+      success: success == freezed
+          ? _value.success
+          : success // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -113,17 +116,19 @@ class __$CompiledSmartContractCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_CompiledSmartContract extends _CompiledSmartContract {
-  _$_CompiledSmartContract({required this.uuid}) : super._();
+  _$_CompiledSmartContract({@JsonKey(name: "Success") required this.success})
+      : super._();
 
   factory _$_CompiledSmartContract.fromJson(Map<String, dynamic> json) =>
       _$$_CompiledSmartContractFromJson(json);
 
-  @override
-  final String uuid;
+  @override // @JsonKey(name: "SmartContractCode") required String code,
+  @JsonKey(name: "Success")
+  final bool success;
 
   @override
   String toString() {
-    return 'CompiledSmartContract(uuid: $uuid)';
+    return 'CompiledSmartContract(success: $success)';
   }
 
   @override
@@ -131,12 +136,12 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _CompiledSmartContract &&
-            const DeepCollectionEquality().equals(other.uuid, uuid));
+            const DeepCollectionEquality().equals(other.success, success));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(uuid));
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(success));
 
   @JsonKey(ignore: true)
   @override
@@ -151,15 +156,17 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
 }
 
 abstract class _CompiledSmartContract extends CompiledSmartContract {
-  factory _CompiledSmartContract({required String uuid}) =
+  factory _CompiledSmartContract(
+          {@JsonKey(name: "Success") required bool success}) =
       _$_CompiledSmartContract;
   _CompiledSmartContract._() : super._();
 
   factory _CompiledSmartContract.fromJson(Map<String, dynamic> json) =
       _$_CompiledSmartContract.fromJson;
 
-  @override
-  String get uuid;
+  @override // @JsonKey(name: "SmartContractCode") required String code,
+  @JsonKey(name: "Success")
+  bool get success;
   @override
   @JsonKey(ignore: true)
   _$CompiledSmartContractCopyWith<_CompiledSmartContract> get copyWith =>
