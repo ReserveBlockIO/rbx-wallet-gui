@@ -127,11 +127,7 @@ abstract class SmartContract with _$SmartContract {
     );
 
     final json = payload.toJson();
-    print("--JSON PAYLOAD--");
-    print(json);
-    print("----");
 
-    // print(json);
     return json;
   }
 }

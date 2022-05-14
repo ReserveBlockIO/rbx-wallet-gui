@@ -7,6 +7,7 @@ import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/features/bridge/providers/status_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
+import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket.dart';
@@ -207,8 +208,6 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
 
     final payload = state.serializeForCompiler();
 
-    print(payload);
-
     final csc = await SmartContractService().compileSmartContract(payload);
 
     if (csc == null) {
@@ -222,7 +221,18 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
     }
 
     Toast.message("Smart Contract compiled successfully.");
+
+    final details = await SmartContractService().retrieve(csc.smartContract.id);
+
     read(mySmartContractsProvider.notifier).load();
+    read(nftListProvider.notifier).load();
+
+    if (details != null) {
+      final wallets = read(walletListProvider);
+      final sc = SmartContract.fromCompiled(details, wallets);
+      read(createSmartContractProvider.notifier)
+          .setSmartContract(sc.copyWith(isCompiled: true));
+    }
 
     return csc.smartContract;
   }

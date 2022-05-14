@@ -90,7 +90,7 @@ abstract class Evolve with _$Evolve {
         'EvolutionState': 0, //TODO: do we need to set this?
         'EvolveParamaterType': typeToInt(type),
         'EvolveParamater':
-            type == EvolveType.time ? p.dateTime : p.expectedValue,
+            type == EvolveType.time ? p.dateTime.toString() : p.expectedValue,
         //TODO: asset
       };
       return data;

@@ -1,14 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'compiled_smart_contract.dart';
+part of 'nft.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_CompiledSmartContract _$$_CompiledSmartContractFromJson(
-        Map<String, dynamic> json) =>
-    _$_CompiledSmartContract(
+_$_Nft _$$_NftFromJson(Map<String, dynamic> json) => _$_Nft(
       name: json['Name'] as String,
       description: json['Description'] as String,
       address: json['Address'] as String,
@@ -20,12 +18,11 @@ _$_CompiledSmartContract _$$_CompiledSmartContractFromJson(
       features: (json['Features'] as List<dynamic>?)
               ?.map((e) => e as Map<String, dynamic>)
               .toList() ??
-          const [],
+          [],
+      code: json['code'] as String?,
     );
 
-Map<String, dynamic> _$$_CompiledSmartContractToJson(
-        _$_CompiledSmartContract instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$$_NftToJson(_$_Nft instance) => <String, dynamic>{
       'Name': instance.name,
       'Description': instance.description,
       'Address': instance.address,
@@ -34,4 +31,5 @@ Map<String, dynamic> _$$_CompiledSmartContractToJson(
       'SmartContractAsset': instance.primaryAsset,
       'IsPublic': instance.isPublic,
       'Features': instance.features,
+      'code': instance.code,
     };

@@ -18,7 +18,7 @@ import 'package:rbx_wallet/features/dsts/screens/dst_screen.dart' as _i15;
 import 'package:rbx_wallet/features/explorer/screens/explorer_screen.dart'
     as _i16;
 import 'package:rbx_wallet/features/home/screens/home_screen.dart' as _i6;
-import 'package:rbx_wallet/features/nft/screens/nft_screen.dart' as _i13;
+import 'package:rbx_wallet/features/nft/screens/nft_list_screen.dart' as _i13;
 import 'package:rbx_wallet/features/node/screens/node_list_screen.dart' as _i11;
 import 'package:rbx_wallet/features/receive/screens/receive_screen.dart' as _i8;
 import 'package:rbx_wallet/features/root/root_container.dart' as _i1;
@@ -133,9 +133,9 @@ class AppRouter extends _i5.RootStackRouter {
       return _i5.AdaptivePage<dynamic>(
           routeData: routeData, child: const _i12.DataNodeScreen());
     },
-    NftScreenRoute.name: (routeData) {
+    NftListScreenRoute.name: (routeData) {
       return _i5.AdaptivePage<dynamic>(
-          routeData: routeData, child: const _i13.NftScreen());
+          routeData: routeData, child: const _i13.NftListScreen());
     },
     SmartContractsScreenRoute.name: (routeData) {
       return _i5.AdaptivePage<dynamic>(
@@ -211,7 +211,7 @@ class AppRouter extends _i5.RootStackRouter {
               path: 'nft',
               parent: RootContainerRoute.name,
               children: [
-                _i5.RouteConfig(NftScreenRoute.name,
+                _i5.RouteConfig(NftListScreenRoute.name,
                     path: '', parent: NftTabRouter.name)
               ]),
           _i5.RouteConfig(SmartContractsTabRouter.name,
@@ -457,11 +457,11 @@ class DataNodeScreenRoute extends _i5.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i13.NftScreen]
-class NftScreenRoute extends _i5.PageRouteInfo<void> {
-  const NftScreenRoute() : super(NftScreenRoute.name, path: '');
+/// [_i13.NftListScreen]
+class NftListScreenRoute extends _i5.PageRouteInfo<void> {
+  const NftListScreenRoute() : super(NftListScreenRoute.name, path: '');
 
-  static const String name = 'NftScreenRoute';
+  static const String name = 'NftListScreenRoute';
 }
 
 /// generated route for

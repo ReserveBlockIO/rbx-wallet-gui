@@ -10,7 +10,7 @@ abstract class Storage {
   static const CURRENT_WALLET_ADDRESS_KEY = "CURRENT_WALLET_ADDRESS_KEY";
   static const DELETED_WALLETS_KEY = "DELETED_WALLETS";
   static const RENAMED_WALLETS_KEY = "RENAMED_WALLETS";
-  static const LOCAL_SMART_CONTRACTS = "LOCAL_SMART_CONTRACTS1";
+  static const LOCAL_SMART_CONTRACTS = "LOCAL_SMART_CONTRACTS2";
 
   bool isInitialized = false;
 

@@ -19,6 +19,7 @@ enum FeatureType {
   fractionalization,
   pair,
   wrap,
+  notImplemented,
 }
 
 @freezed
@@ -32,6 +33,23 @@ abstract class Feature with _$Feature {
 
   factory Feature.fromJson(Map<String, dynamic> json) =>
       _$FeatureFromJson(json);
+
+  factory Feature.fromCompiler(Map<String, dynamic> f) {
+    switch (f['FeatureName']) {
+      case Evolve.compilerEnum:
+        return Feature(
+          type: FeatureType.evolution,
+          data: Evolve.fromCompiler(f['FeatureFeatures']).toJson(),
+        );
+      case Royalty.compilerEnum:
+        return Feature(
+          type: FeatureType.royalty,
+          data: Royalty.fromCompiler(f['FeatureFeatures']).toJson(),
+        );
+      default:
+        return Feature(type: FeatureType.notImplemented, data: {});
+    }
+  }
 
   String get nameLabel {
     return typeToName(type);
@@ -116,6 +134,8 @@ abstract class Feature with _$Feature {
         return "Pair with Existing RBX NFT";
       case FeatureType.wrap:
         return "Wrap with Off-Platform NFT";
+      case FeatureType.notImplemented:
+        return "Not implemented";
     }
   }
 

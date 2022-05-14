@@ -11,7 +11,7 @@ abstract class CompilerResponse with _$CompilerResponse {
   factory CompilerResponse({
     @JsonKey(name: "Success") required bool success,
     @JsonKey(name: "SmartContractCode") required String code,
-    @JsonKey(name: "SmartContractMain")
+    @JsonKey(name: "SmartContract")
         required CompiledSmartContract smartContract,
   }) = _CompilerResponse;
 

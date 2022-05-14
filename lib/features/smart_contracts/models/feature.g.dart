@@ -30,4 +30,5 @@ const _$FeatureTypeEnumMap = {
   FeatureType.fractionalization: 'fractionalization',
   FeatureType.pair: 'pair',
   FeatureType.wrap: 'wrap',
+  FeatureType.notImplemented: 'notImplemented',
 };

@@ -6,6 +6,7 @@ import 'package:process_run/shell.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
+import 'package:rbx_wallet/utils/files.dart';
 
 class FileSelector extends StatelessWidget {
   final bool transparentBackground;
@@ -94,12 +95,7 @@ class FileSelector extends StatelessWidget {
                         label: "Reveal",
                         icon: Icons.folder_open,
                         onPressed: () {
-                          final shell = Shell(throwOnError: false);
-                          String cmd = "start '${asset!.location}'";
-                          if (Platform.isMacOS) {
-                            cmd = "open '${asset!.location}'";
-                          }
-                          shell.run(cmd);
+                          openFile(asset!.location);
                         },
                       ),
                       SizedBox(width: 6),

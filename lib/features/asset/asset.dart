@@ -53,4 +53,8 @@ abstract class Asset with _$Asset {
   File get file {
     return File(location);
   }
+
+  String get folder {
+    return File(location).parent.path;
+  }
 }

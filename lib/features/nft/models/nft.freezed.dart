@@ -2,7 +2,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of 'compiled_smart_contract.dart';
+part of 'nft.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -13,16 +13,15 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-CompiledSmartContract _$CompiledSmartContractFromJson(
-    Map<String, dynamic> json) {
-  return _CompiledSmartContract.fromJson(json);
+Nft _$NftFromJson(Map<String, dynamic> json) {
+  return _Nft.fromJson(json);
 }
 
 /// @nodoc
-class _$CompiledSmartContractTearOff {
-  const _$CompiledSmartContractTearOff();
+class _$NftTearOff {
+  const _$NftTearOff();
 
-  _CompiledSmartContract call(
+  _Nft call(
       {@JsonKey(name: "Name")
           required String name,
       @JsonKey(name: "Description")
@@ -37,9 +36,10 @@ class _$CompiledSmartContractTearOff {
           required Asset primaryAsset,
       @JsonKey(name: "IsPublic")
           required bool isPublic,
-      @JsonKey(name: "Features")
-          List<Map<String, dynamic>> features = const []}) {
-    return _CompiledSmartContract(
+      @JsonKey(name: "Features", defaultValue: [])
+          required List<Map<String, dynamic>> features,
+      String? code}) {
+    return _Nft(
       name: name,
       description: description,
       address: address,
@@ -48,19 +48,20 @@ class _$CompiledSmartContractTearOff {
       primaryAsset: primaryAsset,
       isPublic: isPublic,
       features: features,
+      code: code,
     );
   }
 
-  CompiledSmartContract fromJson(Map<String, Object?> json) {
-    return CompiledSmartContract.fromJson(json);
+  Nft fromJson(Map<String, Object?> json) {
+    return Nft.fromJson(json);
   }
 }
 
 /// @nodoc
-const $CompiledSmartContract = _$CompiledSmartContractTearOff();
+const $Nft = _$NftTearOff();
 
 /// @nodoc
-mixin _$CompiledSmartContract {
+mixin _$Nft {
   @JsonKey(name: "Name")
   String get name => throw _privateConstructorUsedError;
   @JsonKey(name: "Description")
@@ -75,41 +76,48 @@ mixin _$CompiledSmartContract {
   Asset get primaryAsset => throw _privateConstructorUsedError;
   @JsonKey(name: "IsPublic")
   bool get isPublic => throw _privateConstructorUsedError;
-  @JsonKey(name: "Features")
+  @JsonKey(name: "Features", defaultValue: [])
   List<Map<String, dynamic>> get features => throw _privateConstructorUsedError;
+  String? get code => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $CompiledSmartContractCopyWith<CompiledSmartContract> get copyWith =>
-      throw _privateConstructorUsedError;
+  $NftCopyWith<Nft> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CompiledSmartContractCopyWith<$Res> {
-  factory $CompiledSmartContractCopyWith(CompiledSmartContract value,
-          $Res Function(CompiledSmartContract) then) =
-      _$CompiledSmartContractCopyWithImpl<$Res>;
+abstract class $NftCopyWith<$Res> {
+  factory $NftCopyWith(Nft value, $Res Function(Nft) then) =
+      _$NftCopyWithImpl<$Res>;
   $Res call(
-      {@JsonKey(name: "Name") String name,
-      @JsonKey(name: "Description") String description,
-      @JsonKey(name: "Address") String address,
-      @JsonKey(name: "SmartContractUID") String id,
-      @JsonKey(name: "Signature") String? signature,
-      @JsonKey(name: "SmartContractAsset") Asset primaryAsset,
-      @JsonKey(name: "IsPublic") bool isPublic,
-      @JsonKey(name: "Features") List<Map<String, dynamic>> features});
+      {@JsonKey(name: "Name")
+          String name,
+      @JsonKey(name: "Description")
+          String description,
+      @JsonKey(name: "Address")
+          String address,
+      @JsonKey(name: "SmartContractUID")
+          String id,
+      @JsonKey(name: "Signature")
+          String? signature,
+      @JsonKey(name: "SmartContractAsset")
+          Asset primaryAsset,
+      @JsonKey(name: "IsPublic")
+          bool isPublic,
+      @JsonKey(name: "Features", defaultValue: [])
+          List<Map<String, dynamic>> features,
+      String? code});
 
   $AssetCopyWith<$Res> get primaryAsset;
 }
 
 /// @nodoc
-class _$CompiledSmartContractCopyWithImpl<$Res>
-    implements $CompiledSmartContractCopyWith<$Res> {
-  _$CompiledSmartContractCopyWithImpl(this._value, this._then);
+class _$NftCopyWithImpl<$Res> implements $NftCopyWith<$Res> {
+  _$NftCopyWithImpl(this._value, this._then);
 
-  final CompiledSmartContract _value;
+  final Nft _value;
   // ignore: unused_field
-  final $Res Function(CompiledSmartContract) _then;
+  final $Res Function(Nft) _then;
 
   @override
   $Res call({
@@ -121,6 +129,7 @@ class _$CompiledSmartContractCopyWithImpl<$Res>
     Object? primaryAsset = freezed,
     Object? isPublic = freezed,
     Object? features = freezed,
+    Object? code = freezed,
   }) {
     return _then(_value.copyWith(
       name: name == freezed
@@ -155,6 +164,10 @@ class _$CompiledSmartContractCopyWithImpl<$Res>
           ? _value.features
           : features // ignore: cast_nullable_to_non_nullable
               as List<Map<String, dynamic>>,
+      code: code == freezed
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 
@@ -167,36 +180,41 @@ class _$CompiledSmartContractCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$CompiledSmartContractCopyWith<$Res>
-    implements $CompiledSmartContractCopyWith<$Res> {
-  factory _$CompiledSmartContractCopyWith(_CompiledSmartContract value,
-          $Res Function(_CompiledSmartContract) then) =
-      __$CompiledSmartContractCopyWithImpl<$Res>;
+abstract class _$NftCopyWith<$Res> implements $NftCopyWith<$Res> {
+  factory _$NftCopyWith(_Nft value, $Res Function(_Nft) then) =
+      __$NftCopyWithImpl<$Res>;
   @override
   $Res call(
-      {@JsonKey(name: "Name") String name,
-      @JsonKey(name: "Description") String description,
-      @JsonKey(name: "Address") String address,
-      @JsonKey(name: "SmartContractUID") String id,
-      @JsonKey(name: "Signature") String? signature,
-      @JsonKey(name: "SmartContractAsset") Asset primaryAsset,
-      @JsonKey(name: "IsPublic") bool isPublic,
-      @JsonKey(name: "Features") List<Map<String, dynamic>> features});
+      {@JsonKey(name: "Name")
+          String name,
+      @JsonKey(name: "Description")
+          String description,
+      @JsonKey(name: "Address")
+          String address,
+      @JsonKey(name: "SmartContractUID")
+          String id,
+      @JsonKey(name: "Signature")
+          String? signature,
+      @JsonKey(name: "SmartContractAsset")
+          Asset primaryAsset,
+      @JsonKey(name: "IsPublic")
+          bool isPublic,
+      @JsonKey(name: "Features", defaultValue: [])
+          List<Map<String, dynamic>> features,
+      String? code});
 
   @override
   $AssetCopyWith<$Res> get primaryAsset;
 }
 
 /// @nodoc
-class __$CompiledSmartContractCopyWithImpl<$Res>
-    extends _$CompiledSmartContractCopyWithImpl<$Res>
-    implements _$CompiledSmartContractCopyWith<$Res> {
-  __$CompiledSmartContractCopyWithImpl(_CompiledSmartContract _value,
-      $Res Function(_CompiledSmartContract) _then)
-      : super(_value, (v) => _then(v as _CompiledSmartContract));
+class __$NftCopyWithImpl<$Res> extends _$NftCopyWithImpl<$Res>
+    implements _$NftCopyWith<$Res> {
+  __$NftCopyWithImpl(_Nft _value, $Res Function(_Nft) _then)
+      : super(_value, (v) => _then(v as _Nft));
 
   @override
-  _CompiledSmartContract get _value => super._value as _CompiledSmartContract;
+  _Nft get _value => super._value as _Nft;
 
   @override
   $Res call({
@@ -208,8 +226,9 @@ class __$CompiledSmartContractCopyWithImpl<$Res>
     Object? primaryAsset = freezed,
     Object? isPublic = freezed,
     Object? features = freezed,
+    Object? code = freezed,
   }) {
-    return _then(_CompiledSmartContract(
+    return _then(_Nft(
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -242,14 +261,18 @@ class __$CompiledSmartContractCopyWithImpl<$Res>
           ? _value.features
           : features // ignore: cast_nullable_to_non_nullable
               as List<Map<String, dynamic>>,
+      code: code == freezed
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$_CompiledSmartContract extends _CompiledSmartContract {
-  _$_CompiledSmartContract(
+class _$_Nft extends _Nft {
+  _$_Nft(
       {@JsonKey(name: "Name") required this.name,
       @JsonKey(name: "Description") required this.description,
       @JsonKey(name: "Address") required this.address,
@@ -257,11 +280,11 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
       @JsonKey(name: "Signature") this.signature,
       @JsonKey(name: "SmartContractAsset") required this.primaryAsset,
       @JsonKey(name: "IsPublic") required this.isPublic,
-      @JsonKey(name: "Features") this.features = const []})
+      @JsonKey(name: "Features", defaultValue: []) required this.features,
+      this.code})
       : super._();
 
-  factory _$_CompiledSmartContract.fromJson(Map<String, dynamic> json) =>
-      _$$_CompiledSmartContractFromJson(json);
+  factory _$_Nft.fromJson(Map<String, dynamic> json) => _$$_NftFromJson(json);
 
   @override
   @JsonKey(name: "Name")
@@ -285,19 +308,21 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
   @JsonKey(name: "IsPublic")
   final bool isPublic;
   @override
-  @JsonKey(name: "Features")
+  @JsonKey(name: "Features", defaultValue: [])
   final List<Map<String, dynamic>> features;
+  @override
+  final String? code;
 
   @override
   String toString() {
-    return 'CompiledSmartContract(name: $name, description: $description, address: $address, id: $id, signature: $signature, primaryAsset: $primaryAsset, isPublic: $isPublic, features: $features)';
+    return 'Nft(name: $name, description: $description, address: $address, id: $id, signature: $signature, primaryAsset: $primaryAsset, isPublic: $isPublic, features: $features, code: $code)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _CompiledSmartContract &&
+            other is _Nft &&
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality()
                 .equals(other.description, description) &&
@@ -307,7 +332,8 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
             const DeepCollectionEquality()
                 .equals(other.primaryAsset, primaryAsset) &&
             const DeepCollectionEquality().equals(other.isPublic, isPublic) &&
-            const DeepCollectionEquality().equals(other.features, features));
+            const DeepCollectionEquality().equals(other.features, features) &&
+            const DeepCollectionEquality().equals(other.code, code));
   }
 
   @override
@@ -320,35 +346,42 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
       const DeepCollectionEquality().hash(signature),
       const DeepCollectionEquality().hash(primaryAsset),
       const DeepCollectionEquality().hash(isPublic),
-      const DeepCollectionEquality().hash(features));
+      const DeepCollectionEquality().hash(features),
+      const DeepCollectionEquality().hash(code));
 
   @JsonKey(ignore: true)
   @override
-  _$CompiledSmartContractCopyWith<_CompiledSmartContract> get copyWith =>
-      __$CompiledSmartContractCopyWithImpl<_CompiledSmartContract>(
-          this, _$identity);
+  _$NftCopyWith<_Nft> get copyWith =>
+      __$NftCopyWithImpl<_Nft>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_CompiledSmartContractToJson(this);
+    return _$$_NftToJson(this);
   }
 }
 
-abstract class _CompiledSmartContract extends CompiledSmartContract {
-  factory _CompiledSmartContract(
-          {@JsonKey(name: "Name") required String name,
-          @JsonKey(name: "Description") required String description,
-          @JsonKey(name: "Address") required String address,
-          @JsonKey(name: "SmartContractUID") required String id,
-          @JsonKey(name: "Signature") String? signature,
-          @JsonKey(name: "SmartContractAsset") required Asset primaryAsset,
-          @JsonKey(name: "IsPublic") required bool isPublic,
-          @JsonKey(name: "Features") List<Map<String, dynamic>> features}) =
-      _$_CompiledSmartContract;
-  _CompiledSmartContract._() : super._();
+abstract class _Nft extends Nft {
+  factory _Nft(
+      {@JsonKey(name: "Name")
+          required String name,
+      @JsonKey(name: "Description")
+          required String description,
+      @JsonKey(name: "Address")
+          required String address,
+      @JsonKey(name: "SmartContractUID")
+          required String id,
+      @JsonKey(name: "Signature")
+          String? signature,
+      @JsonKey(name: "SmartContractAsset")
+          required Asset primaryAsset,
+      @JsonKey(name: "IsPublic")
+          required bool isPublic,
+      @JsonKey(name: "Features", defaultValue: [])
+          required List<Map<String, dynamic>> features,
+      String? code}) = _$_Nft;
+  _Nft._() : super._();
 
-  factory _CompiledSmartContract.fromJson(Map<String, dynamic> json) =
-      _$_CompiledSmartContract.fromJson;
+  factory _Nft.fromJson(Map<String, dynamic> json) = _$_Nft.fromJson;
 
   @override
   @JsonKey(name: "Name")
@@ -372,10 +405,11 @@ abstract class _CompiledSmartContract extends CompiledSmartContract {
   @JsonKey(name: "IsPublic")
   bool get isPublic;
   @override
-  @JsonKey(name: "Features")
+  @JsonKey(name: "Features", defaultValue: [])
   List<Map<String, dynamic>> get features;
   @override
+  String? get code;
+  @override
   @JsonKey(ignore: true)
-  _$CompiledSmartContractCopyWith<_CompiledSmartContract> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$NftCopyWith<_Nft> get copyWith => throw _privateConstructorUsedError;
 }

@@ -5,7 +5,7 @@ import 'package:rbx_wallet/features/explorer/screens/explorer_screen.dart';
 import 'package:rbx_wallet/features/node/screens/node_list_screen.dart';
 import 'package:rbx_wallet/features/root/root_container.dart';
 import 'package:rbx_wallet/features/home/screens/home_screen.dart';
-import 'package:rbx_wallet/features/nft/screens/nft_screen.dart';
+import 'package:rbx_wallet/features/nft/screens/nft_list_screen.dart';
 import 'package:rbx_wallet/features/receive/screens/receive_screen.dart';
 import 'package:rbx_wallet/features/send/screens/send_screen.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/sc_creator_main.dart';
@@ -83,7 +83,7 @@ const List<AutoRoute> appRoutes = [
         name: "NftTabRouter",
         page: EmptyRouterPage,
         children: [
-          AutoRoute(path: "", page: NftScreen),
+          AutoRoute(path: "", page: NftListScreen),
         ],
       ),
       AutoRoute(

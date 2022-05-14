@@ -100,7 +100,9 @@ class BaseService {
         data: params,
       );
 
-      return jsonDecode(response.toString());
+      final data = jsonDecode(response.toString());
+
+      return {'data': data};
 
       // if (response.statusCode == 204) {
       //   return {};

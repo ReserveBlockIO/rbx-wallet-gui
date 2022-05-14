@@ -26,7 +26,7 @@ class _$CompilerResponseTearOff {
           required bool success,
       @JsonKey(name: "SmartContractCode")
           required String code,
-      @JsonKey(name: "SmartContractMain")
+      @JsonKey(name: "SmartContract")
           required CompiledSmartContract smartContract}) {
     return _CompilerResponse(
       success: success,
@@ -49,7 +49,7 @@ mixin _$CompilerResponse {
   bool get success => throw _privateConstructorUsedError;
   @JsonKey(name: "SmartContractCode")
   String get code => throw _privateConstructorUsedError;
-  @JsonKey(name: "SmartContractMain")
+  @JsonKey(name: "SmartContract")
   CompiledSmartContract get smartContract => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -66,7 +66,7 @@ abstract class $CompilerResponseCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: "Success") bool success,
       @JsonKey(name: "SmartContractCode") String code,
-      @JsonKey(name: "SmartContractMain") CompiledSmartContract smartContract});
+      @JsonKey(name: "SmartContract") CompiledSmartContract smartContract});
 
   $CompiledSmartContractCopyWith<$Res> get smartContract;
 }
@@ -120,7 +120,7 @@ abstract class _$CompilerResponseCopyWith<$Res>
   $Res call(
       {@JsonKey(name: "Success") bool success,
       @JsonKey(name: "SmartContractCode") String code,
-      @JsonKey(name: "SmartContractMain") CompiledSmartContract smartContract});
+      @JsonKey(name: "SmartContract") CompiledSmartContract smartContract});
 
   @override
   $CompiledSmartContractCopyWith<$Res> get smartContract;
@@ -166,7 +166,7 @@ class _$_CompilerResponse extends _CompilerResponse {
   _$_CompilerResponse(
       {@JsonKey(name: "Success") required this.success,
       @JsonKey(name: "SmartContractCode") required this.code,
-      @JsonKey(name: "SmartContractMain") required this.smartContract})
+      @JsonKey(name: "SmartContract") required this.smartContract})
       : super._();
 
   factory _$_CompilerResponse.fromJson(Map<String, dynamic> json) =>
@@ -179,7 +179,7 @@ class _$_CompilerResponse extends _CompilerResponse {
   @JsonKey(name: "SmartContractCode")
   final String code;
   @override
-  @JsonKey(name: "SmartContractMain")
+  @JsonKey(name: "SmartContract")
   final CompiledSmartContract smartContract;
 
   @override
@@ -222,7 +222,7 @@ abstract class _CompilerResponse extends CompilerResponse {
           required bool success,
       @JsonKey(name: "SmartContractCode")
           required String code,
-      @JsonKey(name: "SmartContractMain")
+      @JsonKey(name: "SmartContract")
           required CompiledSmartContract smartContract}) = _$_CompilerResponse;
   _CompilerResponse._() : super._();
 
@@ -236,7 +236,7 @@ abstract class _CompilerResponse extends CompilerResponse {
   @JsonKey(name: "SmartContractCode")
   String get code;
   @override
-  @JsonKey(name: "SmartContractMain")
+  @JsonKey(name: "SmartContract")
   CompiledSmartContract get smartContract;
   @override
   @JsonKey(ignore: true)
