@@ -5,7 +5,7 @@ import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_container.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_header.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/create_sc_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 
@@ -14,8 +14,8 @@ class BasicPropertiesFormGroup extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _provider = ref.read(createScProvider.notifier);
-    final _model = ref.watch(createScProvider);
+    final _provider = ref.read(createSmartContractProvider.notifier);
+    final _model = ref.watch(createSmartContractProvider);
 
     return FormGroupContainer(
       child: Column(
@@ -30,6 +30,8 @@ class BasicPropertiesFormGroup extends BaseComponent {
             children: [
               Expanded(
                 child: TextFormField(
+                  readOnly: _model.isCompiled,
+                  controller: _provider.nameController,
                   decoration: InputDecoration(
                     label: Text(
                       "Smart Contract Name",
@@ -44,40 +46,33 @@ class BasicPropertiesFormGroup extends BaseComponent {
               ),
               SizedBox(width: 8),
               Expanded(
-                child: SmartSelect<Wallet>.single(
-                  title: "Owner Address",
-                  modalType: S2ModalType.bottomSheet,
-                  selectedValue: _model.owner,
-                  onChange: (option) {
-                    _provider.setOwner(option.value!);
-                  },
-                  choiceItems: ref
-                      .read(walletListProvider)
-                      .map(
-                        (w) => S2Choice<Wallet>(
-                          value: w,
-                          title: w.label,
-                        ),
-                      )
-                      .toList(),
+                child: IgnorePointer(
+                  ignoring: _model.isCompiled,
+                  child: SmartSelect<Wallet>.single(
+                    title: "Owner Address",
+                    modalType: S2ModalType.bottomSheet,
+                    selectedValue: _model.owner,
+                    onChange: (option) {
+                      _provider.setOwner(option.value!);
+                    },
+                    choiceItems: ref
+                        .read(walletListProvider)
+                        .map(
+                          (w) => S2Choice<Wallet>(
+                            value: w,
+                            title: w.label,
+                          ),
+                        )
+                        .toList(),
+                  ),
                 ),
               ),
               HelpButton(HelpType.ownerAddress),
-              // SizedBox(width: 8),
-              // Expanded(
-              //   child: Card(
-              //     child: ListTile(
-              //       leading: Icon(Icons.image),
-              //       title: Text("Thumbnail"),
-              //       subtitle: Text("Choose File"),
-              //       trailing: Icon(Icons.upload),
-              //       onTap: () {},
-              //     ),
-              //   ),
-              // )
             ],
           ),
           TextFormField(
+            readOnly: _model.isCompiled,
+            controller: _provider.descriptionController,
             decoration: InputDecoration(
               label: Text(
                 "Description",

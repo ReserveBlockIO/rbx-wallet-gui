@@ -9,7 +9,7 @@ import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_bottom_actions.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/stat.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/create_sc_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/stat_form_provider.dart';
 
 class StatModal extends BaseComponent {

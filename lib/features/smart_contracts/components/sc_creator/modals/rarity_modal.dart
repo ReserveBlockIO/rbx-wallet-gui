@@ -3,11 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/file_selector.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_header.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/rarity.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/create_sc_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
 
 class RarityModal extends BaseComponent {
   final Rarity? initialRarity;
@@ -18,8 +19,8 @@ class RarityModal extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _provider = ref.read(createScProvider.notifier);
-    final _model = ref.watch(createScProvider);
+    final _provider = ref.read(createSmartContractProvider.notifier);
+    final _model = ref.watch(createSmartContractProvider);
 
     return ModalContainer(
       children: [
@@ -119,6 +120,7 @@ class RarityModal extends BaseComponent {
               child: FileSelector(
                 transparentBackground: true,
                 title: "Primary Asset Override",
+                onChange: (Asset? asset) {},
               ),
             ),
             SizedBox(width: 16),
@@ -126,6 +128,7 @@ class RarityModal extends BaseComponent {
               child: FileSelector(
                 transparentBackground: true,
                 title: "Thumbnail Override",
+                onChange: (Asset? asset) {},
               ),
             )
           ],

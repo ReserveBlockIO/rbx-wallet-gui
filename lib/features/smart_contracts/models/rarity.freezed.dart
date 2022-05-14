@@ -13,6 +13,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+Rarity _$RarityFromJson(Map<String, dynamic> json) {
+  return _Rarity.fromJson(json);
+}
+
 /// @nodoc
 class _$RarityTearOff {
   const _$RarityTearOff();
@@ -23,6 +27,10 @@ class _$RarityTearOff {
       weight: weight,
       description: description,
     );
+  }
+
+  Rarity fromJson(Map<String, Object?> json) {
+    return Rarity.fromJson(json);
   }
 }
 
@@ -35,6 +43,7 @@ mixin _$Rarity {
   double get weight => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $RarityCopyWith<Rarity> get copyWith => throw _privateConstructorUsedError;
 }
@@ -118,10 +127,13 @@ class __$RarityCopyWithImpl<$Res> extends _$RarityCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_Rarity extends _Rarity {
   _$_Rarity({this.name = "", this.weight = 1, this.description = ""})
       : super._();
+
+  factory _$_Rarity.fromJson(Map<String, dynamic> json) =>
+      _$$_RarityFromJson(json);
 
   @JsonKey(defaultValue: "")
   @override
@@ -160,11 +172,18 @@ class _$_Rarity extends _Rarity {
   @override
   _$RarityCopyWith<_Rarity> get copyWith =>
       __$RarityCopyWithImpl<_Rarity>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_RarityToJson(this);
+  }
 }
 
 abstract class _Rarity extends Rarity {
   factory _Rarity({String name, double weight, String description}) = _$_Rarity;
   _Rarity._() : super._();
+
+  factory _Rarity.fromJson(Map<String, dynamic> json) = _$_Rarity.fromJson;
 
   @override
   String get name;

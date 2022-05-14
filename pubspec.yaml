@@ -34,6 +34,7 @@ dependencies:
   awesome_select: ^5.2.0
   path_provider: ^2.0.9
   uuid: ^3.0.6
+  file_picker: ^4.5.1
 
 dev_dependencies:
   auto_route_generator: ^3.2.1
@@ -55,6 +56,12 @@ flutter:
     # Add assets from the images directory to the application.
     - assets/images/
     - assets/env/
+    - assets/fonts/
+
+  fonts:
+    - family: RobotoMono
+      fonts:
+        - asset: assets/fonts/RobotoMono-Regular.ttf
 
 flutter_gen:
   output: lib/generated

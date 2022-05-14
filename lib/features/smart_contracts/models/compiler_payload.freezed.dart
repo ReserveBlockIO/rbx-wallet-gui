@@ -25,7 +25,7 @@ class _$CompilerPayloadTearOff {
       {@JsonKey(name: "Name") required String name,
       @JsonKey(name: "Description") required String description,
       @JsonKey(name: "Address") required String address,
-      @JsonKey(name: "AssetId") required String assetId,
+      @JsonKey(name: "SmartContractAsset") required Asset asset,
       @JsonKey(name: "IsPublic", defaultValue: true) required bool isPublic,
       @JsonKey(name: "SmartContractUID") String? uuid,
       @JsonKey(name: "Signature") String? signature,
@@ -34,7 +34,7 @@ class _$CompilerPayloadTearOff {
       name: name,
       description: description,
       address: address,
-      assetId: assetId,
+      asset: asset,
       isPublic: isPublic,
       uuid: uuid,
       signature: signature,
@@ -58,8 +58,8 @@ mixin _$CompilerPayload {
   String get description => throw _privateConstructorUsedError;
   @JsonKey(name: "Address")
   String get address => throw _privateConstructorUsedError;
-  @JsonKey(name: "AssetId")
-  String get assetId => throw _privateConstructorUsedError; // TODO: asset stuff
+  @JsonKey(name: "SmartContractAsset")
+  Asset get asset => throw _privateConstructorUsedError;
   @JsonKey(name: "IsPublic", defaultValue: true)
   bool get isPublic => throw _privateConstructorUsedError;
   @JsonKey(name: "SmartContractUID")
@@ -85,11 +85,13 @@ abstract class $CompilerPayloadCopyWith<$Res> {
       {@JsonKey(name: "Name") String name,
       @JsonKey(name: "Description") String description,
       @JsonKey(name: "Address") String address,
-      @JsonKey(name: "AssetId") String assetId,
+      @JsonKey(name: "SmartContractAsset") Asset asset,
       @JsonKey(name: "IsPublic", defaultValue: true) bool isPublic,
       @JsonKey(name: "SmartContractUID") String? uuid,
       @JsonKey(name: "Signature") String? signature,
       @JsonKey(name: "Features") List<Map<String, dynamic>>? features});
+
+  $AssetCopyWith<$Res> get asset;
 }
 
 /// @nodoc
@@ -106,7 +108,7 @@ class _$CompilerPayloadCopyWithImpl<$Res>
     Object? name = freezed,
     Object? description = freezed,
     Object? address = freezed,
-    Object? assetId = freezed,
+    Object? asset = freezed,
     Object? isPublic = freezed,
     Object? uuid = freezed,
     Object? signature = freezed,
@@ -125,10 +127,10 @@ class _$CompilerPayloadCopyWithImpl<$Res>
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as String,
-      assetId: assetId == freezed
-          ? _value.assetId
-          : assetId // ignore: cast_nullable_to_non_nullable
-              as String,
+      asset: asset == freezed
+          ? _value.asset
+          : asset // ignore: cast_nullable_to_non_nullable
+              as Asset,
       isPublic: isPublic == freezed
           ? _value.isPublic
           : isPublic // ignore: cast_nullable_to_non_nullable
@@ -147,6 +149,13 @@ class _$CompilerPayloadCopyWithImpl<$Res>
               as List<Map<String, dynamic>>?,
     ));
   }
+
+  @override
+  $AssetCopyWith<$Res> get asset {
+    return $AssetCopyWith<$Res>(_value.asset, (value) {
+      return _then(_value.copyWith(asset: value));
+    });
+  }
 }
 
 /// @nodoc
@@ -160,11 +169,14 @@ abstract class _$CompilerPayloadCopyWith<$Res>
       {@JsonKey(name: "Name") String name,
       @JsonKey(name: "Description") String description,
       @JsonKey(name: "Address") String address,
-      @JsonKey(name: "AssetId") String assetId,
+      @JsonKey(name: "SmartContractAsset") Asset asset,
       @JsonKey(name: "IsPublic", defaultValue: true) bool isPublic,
       @JsonKey(name: "SmartContractUID") String? uuid,
       @JsonKey(name: "Signature") String? signature,
       @JsonKey(name: "Features") List<Map<String, dynamic>>? features});
+
+  @override
+  $AssetCopyWith<$Res> get asset;
 }
 
 /// @nodoc
@@ -183,7 +195,7 @@ class __$CompilerPayloadCopyWithImpl<$Res>
     Object? name = freezed,
     Object? description = freezed,
     Object? address = freezed,
-    Object? assetId = freezed,
+    Object? asset = freezed,
     Object? isPublic = freezed,
     Object? uuid = freezed,
     Object? signature = freezed,
@@ -202,10 +214,10 @@ class __$CompilerPayloadCopyWithImpl<$Res>
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as String,
-      assetId: assetId == freezed
-          ? _value.assetId
-          : assetId // ignore: cast_nullable_to_non_nullable
-              as String,
+      asset: asset == freezed
+          ? _value.asset
+          : asset // ignore: cast_nullable_to_non_nullable
+              as Asset,
       isPublic: isPublic == freezed
           ? _value.isPublic
           : isPublic // ignore: cast_nullable_to_non_nullable
@@ -227,13 +239,14 @@ class __$CompilerPayloadCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_CompilerPayload extends _CompilerPayload {
   _$_CompilerPayload(
       {@JsonKey(name: "Name") required this.name,
       @JsonKey(name: "Description") required this.description,
       @JsonKey(name: "Address") required this.address,
-      @JsonKey(name: "AssetId") required this.assetId,
+      @JsonKey(name: "SmartContractAsset") required this.asset,
       @JsonKey(name: "IsPublic", defaultValue: true) required this.isPublic,
       @JsonKey(name: "SmartContractUID") this.uuid,
       @JsonKey(name: "Signature") this.signature,
@@ -253,9 +266,9 @@ class _$_CompilerPayload extends _CompilerPayload {
   @JsonKey(name: "Address")
   final String address;
   @override
-  @JsonKey(name: "AssetId")
-  final String assetId;
-  @override // TODO: asset stuff
+  @JsonKey(name: "SmartContractAsset")
+  final Asset asset;
+  @override
   @JsonKey(name: "IsPublic", defaultValue: true)
   final bool isPublic;
   @override
@@ -270,7 +283,7 @@ class _$_CompilerPayload extends _CompilerPayload {
 
   @override
   String toString() {
-    return 'CompilerPayload(name: $name, description: $description, address: $address, assetId: $assetId, isPublic: $isPublic, uuid: $uuid, signature: $signature, features: $features)';
+    return 'CompilerPayload(name: $name, description: $description, address: $address, asset: $asset, isPublic: $isPublic, uuid: $uuid, signature: $signature, features: $features)';
   }
 
   @override
@@ -282,7 +295,7 @@ class _$_CompilerPayload extends _CompilerPayload {
             const DeepCollectionEquality()
                 .equals(other.description, description) &&
             const DeepCollectionEquality().equals(other.address, address) &&
-            const DeepCollectionEquality().equals(other.assetId, assetId) &&
+            const DeepCollectionEquality().equals(other.asset, asset) &&
             const DeepCollectionEquality().equals(other.isPublic, isPublic) &&
             const DeepCollectionEquality().equals(other.uuid, uuid) &&
             const DeepCollectionEquality().equals(other.signature, signature) &&
@@ -295,7 +308,7 @@ class _$_CompilerPayload extends _CompilerPayload {
       const DeepCollectionEquality().hash(name),
       const DeepCollectionEquality().hash(description),
       const DeepCollectionEquality().hash(address),
-      const DeepCollectionEquality().hash(assetId),
+      const DeepCollectionEquality().hash(asset),
       const DeepCollectionEquality().hash(isPublic),
       const DeepCollectionEquality().hash(uuid),
       const DeepCollectionEquality().hash(signature),
@@ -317,7 +330,7 @@ abstract class _CompilerPayload extends CompilerPayload {
           {@JsonKey(name: "Name") required String name,
           @JsonKey(name: "Description") required String description,
           @JsonKey(name: "Address") required String address,
-          @JsonKey(name: "AssetId") required String assetId,
+          @JsonKey(name: "SmartContractAsset") required Asset asset,
           @JsonKey(name: "IsPublic", defaultValue: true) required bool isPublic,
           @JsonKey(name: "SmartContractUID") String? uuid,
           @JsonKey(name: "Signature") String? signature,
@@ -338,9 +351,9 @@ abstract class _CompilerPayload extends CompilerPayload {
   @JsonKey(name: "Address")
   String get address;
   @override
-  @JsonKey(name: "AssetId")
-  String get assetId;
-  @override // TODO: asset stuff
+  @JsonKey(name: "SmartContractAsset")
+  Asset get asset;
+  @override
   @JsonKey(name: "IsPublic", defaultValue: true)
   bool get isPublic;
   @override

@@ -9,7 +9,7 @@ import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/modals/rarity_modal.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/rarity.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/create_sc_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
 import 'package:rbx_wallet/features/wallet/components/manage_wallet_bottom_sheet.dart';
 
 class RaritiesFormGroup extends BaseComponent {
@@ -17,8 +17,8 @@ class RaritiesFormGroup extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _provider = ref.read(createScProvider.notifier);
-    final _model = ref.watch(createScProvider);
+    final _provider = ref.read(createSmartContractProvider.notifier);
+    final _model = ref.watch(createSmartContractProvider);
 
     return FormGroupContainer(
       child: Column(

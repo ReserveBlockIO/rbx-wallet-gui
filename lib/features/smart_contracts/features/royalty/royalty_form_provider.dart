@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/create_sc_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
 import 'package:rbx_wallet/utils/generators.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
@@ -67,7 +67,7 @@ class RoyaltyFormProvider extends StateNotifier<Royalty> {
 
     state = state.copyWith(amount: amount, address: address);
 
-    read(createScProvider.notifier).saveRoyalty(state);
+    read(createSmartContractProvider.notifier).saveRoyalty(state);
 
     clear();
   }

@@ -6,6 +6,7 @@ import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/components/dropdowns.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/file_selector.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_header.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_bottom_actions.dart';
@@ -224,6 +225,7 @@ class _EvolvePhaseContainer extends BaseComponent {
                         children: [
                           Expanded(
                             child: TextFormField(
+                              controller: _provider.valueController,
                               inputFormatters:
                                   type == EvolveType.numericVariable
                                       ? [
@@ -263,6 +265,7 @@ class _EvolvePhaseContainer extends BaseComponent {
                           child: FileSelector(
                             title: "Stage Asset",
                             transparentBackground: true,
+                            onChange: (Asset? asset) {},
                           ),
                         )
                       ],

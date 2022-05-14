@@ -1,32 +1,83 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
+import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/compiled_smart_contract.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/compiler_payload.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/detailed_smart_contract.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/feature.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/rarity.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/stat.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 
 part 'smart_contract.freezed.dart';
+part 'smart_contract.g.dart';
 
 @freezed
-class SmartContract with _$SmartContract {
+abstract class SmartContract with _$SmartContract {
   const SmartContract._();
 
   factory SmartContract({
     required Wallet owner,
+    @Default("") String draftId,
     @Default("") String name,
     @Default("") String description,
     @Default("") String thumbnail,
+    Asset? primaryAsset,
     @Default([]) List<Rarity> rarities,
     // @Default([]) List<Feature> features,
     @Default([]) List<Stat> stats,
     @Default([]) List<Royalty> royalties,
     @Default([]) List<Evolve> evolves,
     @Default([]) List<Ticket> tickets,
+    @Default("") String code,
+    @Default(false) bool isCompiled,
   }) = _SmartContract;
+
+  factory SmartContract.fromJson(Map<String, dynamic> json) =>
+      _$SmartContractFromJson(json);
+
+  factory SmartContract.fromCompiled(
+    DetailedSmartContract details,
+    List<Wallet> wallets,
+  ) {
+    final sc = details.smartContract;
+
+    final owner = wallets.firstWhere(
+      (w) => w.address == sc.address,
+    );
+
+    final List<Evolve> evolves = [];
+    final List<Royalty> royalties = [];
+
+    for (final f in sc.features) {
+      if (f.keys.contains('FeatureName')) {
+        switch (f['FeatureName']) {
+          case Evolve.compilerEnum:
+            final item = Evolve.fromCompiler(f['FeatureFeatures']);
+            evolves.add(item);
+            break;
+          case Royalty.compilerEnum:
+            final item = Royalty.fromCompiler(f['FeatureFeatures']);
+            royalties.add(item);
+
+            break;
+        }
+      }
+    }
+
+    return SmartContract(
+      owner: owner,
+      name: sc.name,
+      description: sc.description,
+      primaryAsset: sc.primaryAsset,
+      royalties: royalties,
+      evolves: evolves,
+      code: details.code,
+      isCompiled: true,
+    );
+  }
 
   List<Feature> get features {
     List<Feature> features = [];
@@ -49,20 +100,38 @@ class SmartContract with _$SmartContract {
     final List<Map<String, dynamic>> features = [];
 
     for (final r in royalties) {
-      features.add({"FeatureName": 1});
+      final f = {
+        'FeatureName': Royalty.compilerEnum,
+        'FeatureFeatures': r.serializeForCompiler()
+      };
+      features.add(f);
+    }
+
+    for (final e in evolves) {
+      final f = {
+        'FeatureName': Evolve.compilerEnum,
+        'FeatureFeatures': e.serializeForCompiler()
+      };
+      features.add(f);
     }
 
     final payload = CompilerPayload(
       name: name,
       description: description,
       address: owner.address,
-      assetId: "123",
+      asset: primaryAsset!,
       features: features,
       uuid: "00000000-0000-0000-0000-000000000000",
       signature: null,
       isPublic: true,
     );
 
-    return payload.toJson();
+    final json = payload.toJson();
+    print("--JSON PAYLOAD--");
+    print(json);
+    print("----");
+
+    // print(json);
+    return json;
   }
 }

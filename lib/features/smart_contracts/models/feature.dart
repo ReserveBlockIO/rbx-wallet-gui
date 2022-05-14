@@ -5,6 +5,7 @@ import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dar
 import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket.dart';
 
 part 'feature.freezed.dart';
+part 'feature.g.dart';
 
 enum FeatureType {
   royalty,
@@ -28,6 +29,9 @@ abstract class Feature with _$Feature {
     @Default(FeatureType.royalty) FeatureType type,
     @Default({}) Map<String, dynamic> data,
   }) = _Feature;
+
+  factory Feature.fromJson(Map<String, dynamic> json) =>
+      _$FeatureFromJson(json);
 
   String get nameLabel {
     return typeToName(type);

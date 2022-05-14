@@ -12,7 +12,7 @@ import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/modals
 import 'package:rbx_wallet/features/smart_contracts/models/feature.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/rarity.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/stat.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/create_sc_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/stat_form_provider.dart';
 
 class StatsFormGroup extends BaseComponent {
@@ -20,8 +20,8 @@ class StatsFormGroup extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _provider = ref.read(createScProvider.notifier);
-    final _model = ref.watch(createScProvider);
+    final _provider = ref.read(createSmartContractProvider.notifier);
+    final _model = ref.watch(createSmartContractProvider);
 
     return FormGroupContainer(
       child: Column(
@@ -52,7 +52,7 @@ class StatsFormGroup extends BaseComponent {
                       isDismissible: true,
                       builder: (context) {
                         return StatModal(
-                            ref.read(createScProvider).stats.length);
+                            ref.read(createSmartContractProvider).stats.length);
                       },
                     );
                   },

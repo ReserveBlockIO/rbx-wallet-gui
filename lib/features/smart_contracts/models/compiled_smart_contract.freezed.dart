@@ -23,9 +23,31 @@ class _$CompiledSmartContractTearOff {
   const _$CompiledSmartContractTearOff();
 
   _CompiledSmartContract call(
-      {@JsonKey(name: "Success") required bool success}) {
+      {@JsonKey(name: "Name")
+          required String name,
+      @JsonKey(name: "Description")
+          required String description,
+      @JsonKey(name: "Address")
+          required String address,
+      @JsonKey(name: "SmartContractUID")
+          required String id,
+      @JsonKey(name: "Signature")
+          String? signature,
+      @JsonKey(name: "SmartContractAsset")
+          required Asset primaryAsset,
+      @JsonKey(name: "IsPublic")
+          required bool isPublic,
+      @JsonKey(name: "Features", defaultValue: [])
+          required List<Map<String, dynamic>> features}) {
     return _CompiledSmartContract(
-      success: success,
+      name: name,
+      description: description,
+      address: address,
+      id: id,
+      signature: signature,
+      primaryAsset: primaryAsset,
+      isPublic: isPublic,
+      features: features,
     );
   }
 
@@ -39,9 +61,22 @@ const $CompiledSmartContract = _$CompiledSmartContractTearOff();
 
 /// @nodoc
 mixin _$CompiledSmartContract {
-// @JsonKey(name: "SmartContractCode") required String code,
-  @JsonKey(name: "Success")
-  bool get success => throw _privateConstructorUsedError;
+  @JsonKey(name: "Name")
+  String get name => throw _privateConstructorUsedError;
+  @JsonKey(name: "Description")
+  String get description => throw _privateConstructorUsedError;
+  @JsonKey(name: "Address")
+  String get address => throw _privateConstructorUsedError;
+  @JsonKey(name: "SmartContractUID")
+  String get id => throw _privateConstructorUsedError;
+  @JsonKey(name: "Signature")
+  String? get signature => throw _privateConstructorUsedError;
+  @JsonKey(name: "SmartContractAsset")
+  Asset get primaryAsset => throw _privateConstructorUsedError;
+  @JsonKey(name: "IsPublic")
+  bool get isPublic => throw _privateConstructorUsedError;
+  @JsonKey(name: "Features", defaultValue: [])
+  List<Map<String, dynamic>> get features => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -54,7 +89,25 @@ abstract class $CompiledSmartContractCopyWith<$Res> {
   factory $CompiledSmartContractCopyWith(CompiledSmartContract value,
           $Res Function(CompiledSmartContract) then) =
       _$CompiledSmartContractCopyWithImpl<$Res>;
-  $Res call({@JsonKey(name: "Success") bool success});
+  $Res call(
+      {@JsonKey(name: "Name")
+          String name,
+      @JsonKey(name: "Description")
+          String description,
+      @JsonKey(name: "Address")
+          String address,
+      @JsonKey(name: "SmartContractUID")
+          String id,
+      @JsonKey(name: "Signature")
+          String? signature,
+      @JsonKey(name: "SmartContractAsset")
+          Asset primaryAsset,
+      @JsonKey(name: "IsPublic")
+          bool isPublic,
+      @JsonKey(name: "Features", defaultValue: [])
+          List<Map<String, dynamic>> features});
+
+  $AssetCopyWith<$Res> get primaryAsset;
 }
 
 /// @nodoc
@@ -68,14 +121,56 @@ class _$CompiledSmartContractCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? success = freezed,
+    Object? name = freezed,
+    Object? description = freezed,
+    Object? address = freezed,
+    Object? id = freezed,
+    Object? signature = freezed,
+    Object? primaryAsset = freezed,
+    Object? isPublic = freezed,
+    Object? features = freezed,
   }) {
     return _then(_value.copyWith(
-      success: success == freezed
-          ? _value.success
-          : success // ignore: cast_nullable_to_non_nullable
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: description == freezed
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      address: address == freezed
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String,
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      signature: signature == freezed
+          ? _value.signature
+          : signature // ignore: cast_nullable_to_non_nullable
+              as String?,
+      primaryAsset: primaryAsset == freezed
+          ? _value.primaryAsset
+          : primaryAsset // ignore: cast_nullable_to_non_nullable
+              as Asset,
+      isPublic: isPublic == freezed
+          ? _value.isPublic
+          : isPublic // ignore: cast_nullable_to_non_nullable
               as bool,
+      features: features == freezed
+          ? _value.features
+          : features // ignore: cast_nullable_to_non_nullable
+              as List<Map<String, dynamic>>,
     ));
+  }
+
+  @override
+  $AssetCopyWith<$Res> get primaryAsset {
+    return $AssetCopyWith<$Res>(_value.primaryAsset, (value) {
+      return _then(_value.copyWith(primaryAsset: value));
+    });
   }
 }
 
@@ -86,7 +181,26 @@ abstract class _$CompiledSmartContractCopyWith<$Res>
           $Res Function(_CompiledSmartContract) then) =
       __$CompiledSmartContractCopyWithImpl<$Res>;
   @override
-  $Res call({@JsonKey(name: "Success") bool success});
+  $Res call(
+      {@JsonKey(name: "Name")
+          String name,
+      @JsonKey(name: "Description")
+          String description,
+      @JsonKey(name: "Address")
+          String address,
+      @JsonKey(name: "SmartContractUID")
+          String id,
+      @JsonKey(name: "Signature")
+          String? signature,
+      @JsonKey(name: "SmartContractAsset")
+          Asset primaryAsset,
+      @JsonKey(name: "IsPublic")
+          bool isPublic,
+      @JsonKey(name: "Features", defaultValue: [])
+          List<Map<String, dynamic>> features});
+
+  @override
+  $AssetCopyWith<$Res> get primaryAsset;
 }
 
 /// @nodoc
@@ -102,13 +216,48 @@ class __$CompiledSmartContractCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? success = freezed,
+    Object? name = freezed,
+    Object? description = freezed,
+    Object? address = freezed,
+    Object? id = freezed,
+    Object? signature = freezed,
+    Object? primaryAsset = freezed,
+    Object? isPublic = freezed,
+    Object? features = freezed,
   }) {
     return _then(_CompiledSmartContract(
-      success: success == freezed
-          ? _value.success
-          : success // ignore: cast_nullable_to_non_nullable
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: description == freezed
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      address: address == freezed
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String,
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      signature: signature == freezed
+          ? _value.signature
+          : signature // ignore: cast_nullable_to_non_nullable
+              as String?,
+      primaryAsset: primaryAsset == freezed
+          ? _value.primaryAsset
+          : primaryAsset // ignore: cast_nullable_to_non_nullable
+              as Asset,
+      isPublic: isPublic == freezed
+          ? _value.isPublic
+          : isPublic // ignore: cast_nullable_to_non_nullable
               as bool,
+      features: features == freezed
+          ? _value.features
+          : features // ignore: cast_nullable_to_non_nullable
+              as List<Map<String, dynamic>>,
     ));
   }
 }
@@ -116,19 +265,48 @@ class __$CompiledSmartContractCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_CompiledSmartContract extends _CompiledSmartContract {
-  _$_CompiledSmartContract({@JsonKey(name: "Success") required this.success})
+  _$_CompiledSmartContract(
+      {@JsonKey(name: "Name") required this.name,
+      @JsonKey(name: "Description") required this.description,
+      @JsonKey(name: "Address") required this.address,
+      @JsonKey(name: "SmartContractUID") required this.id,
+      @JsonKey(name: "Signature") this.signature,
+      @JsonKey(name: "SmartContractAsset") required this.primaryAsset,
+      @JsonKey(name: "IsPublic") required this.isPublic,
+      @JsonKey(name: "Features", defaultValue: []) required this.features})
       : super._();
 
   factory _$_CompiledSmartContract.fromJson(Map<String, dynamic> json) =>
       _$$_CompiledSmartContractFromJson(json);
 
-  @override // @JsonKey(name: "SmartContractCode") required String code,
-  @JsonKey(name: "Success")
-  final bool success;
+  @override
+  @JsonKey(name: "Name")
+  final String name;
+  @override
+  @JsonKey(name: "Description")
+  final String description;
+  @override
+  @JsonKey(name: "Address")
+  final String address;
+  @override
+  @JsonKey(name: "SmartContractUID")
+  final String id;
+  @override
+  @JsonKey(name: "Signature")
+  final String? signature;
+  @override
+  @JsonKey(name: "SmartContractAsset")
+  final Asset primaryAsset;
+  @override
+  @JsonKey(name: "IsPublic")
+  final bool isPublic;
+  @override
+  @JsonKey(name: "Features", defaultValue: [])
+  final List<Map<String, dynamic>> features;
 
   @override
   String toString() {
-    return 'CompiledSmartContract(success: $success)';
+    return 'CompiledSmartContract(name: $name, description: $description, address: $address, id: $id, signature: $signature, primaryAsset: $primaryAsset, isPublic: $isPublic, features: $features)';
   }
 
   @override
@@ -136,12 +314,29 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _CompiledSmartContract &&
-            const DeepCollectionEquality().equals(other.success, success));
+            const DeepCollectionEquality().equals(other.name, name) &&
+            const DeepCollectionEquality()
+                .equals(other.description, description) &&
+            const DeepCollectionEquality().equals(other.address, address) &&
+            const DeepCollectionEquality().equals(other.id, id) &&
+            const DeepCollectionEquality().equals(other.signature, signature) &&
+            const DeepCollectionEquality()
+                .equals(other.primaryAsset, primaryAsset) &&
+            const DeepCollectionEquality().equals(other.isPublic, isPublic) &&
+            const DeepCollectionEquality().equals(other.features, features));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(success));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(name),
+      const DeepCollectionEquality().hash(description),
+      const DeepCollectionEquality().hash(address),
+      const DeepCollectionEquality().hash(id),
+      const DeepCollectionEquality().hash(signature),
+      const DeepCollectionEquality().hash(primaryAsset),
+      const DeepCollectionEquality().hash(isPublic),
+      const DeepCollectionEquality().hash(features));
 
   @JsonKey(ignore: true)
   @override
@@ -157,16 +352,52 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
 
 abstract class _CompiledSmartContract extends CompiledSmartContract {
   factory _CompiledSmartContract(
-          {@JsonKey(name: "Success") required bool success}) =
+          {@JsonKey(name: "Name")
+              required String name,
+          @JsonKey(name: "Description")
+              required String description,
+          @JsonKey(name: "Address")
+              required String address,
+          @JsonKey(name: "SmartContractUID")
+              required String id,
+          @JsonKey(name: "Signature")
+              String? signature,
+          @JsonKey(name: "SmartContractAsset")
+              required Asset primaryAsset,
+          @JsonKey(name: "IsPublic")
+              required bool isPublic,
+          @JsonKey(name: "Features", defaultValue: [])
+              required List<Map<String, dynamic>> features}) =
       _$_CompiledSmartContract;
   _CompiledSmartContract._() : super._();
 
   factory _CompiledSmartContract.fromJson(Map<String, dynamic> json) =
       _$_CompiledSmartContract.fromJson;
 
-  @override // @JsonKey(name: "SmartContractCode") required String code,
-  @JsonKey(name: "Success")
-  bool get success;
+  @override
+  @JsonKey(name: "Name")
+  String get name;
+  @override
+  @JsonKey(name: "Description")
+  String get description;
+  @override
+  @JsonKey(name: "Address")
+  String get address;
+  @override
+  @JsonKey(name: "SmartContractUID")
+  String get id;
+  @override
+  @JsonKey(name: "Signature")
+  String? get signature;
+  @override
+  @JsonKey(name: "SmartContractAsset")
+  Asset get primaryAsset;
+  @override
+  @JsonKey(name: "IsPublic")
+  bool get isPublic;
+  @override
+  @JsonKey(name: "Features", defaultValue: [])
+  List<Map<String, dynamic>> get features;
   @override
   @JsonKey(ignore: true)
   _$CompiledSmartContractCopyWith<_CompiledSmartContract> get copyWith =>

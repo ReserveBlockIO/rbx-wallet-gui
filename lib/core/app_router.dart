@@ -9,8 +9,10 @@ import 'package:rbx_wallet/features/nft/screens/nft_screen.dart';
 import 'package:rbx_wallet/features/receive/screens/receive_screen.dart';
 import 'package:rbx_wallet/features/send/screens/send_screen.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/sc_creator_main.dart';
+import 'package:rbx_wallet/features/smart_contracts/screens/my_smart_contracts_screen.dart';
 import 'package:rbx_wallet/features/smart_contracts/screens/smart_contract_creator_container_screen.dart';
 import 'package:rbx_wallet/features/smart_contracts/screens/smart_contracts_screen.dart';
+import 'package:rbx_wallet/features/smart_contracts/screens/template_chooser_screen.dart';
 import 'package:rbx_wallet/features/transactions/screens/transactions_screen.dart';
 import 'package:rbx_wallet/features/validator/screens/validator_screen.dart';
 
@@ -109,6 +111,14 @@ const List<AutoRoute> appRoutes = [
         ],
       ),
     ],
+  ),
+  AutoRoute(
+    path: "my-smart-contracts",
+    page: MySmartContractsScreen,
+  ),
+  AutoRoute(
+    path: "smart-contract-templates",
+    page: TemplateChooserScreen,
   ),
   AutoRoute(
     path: "create-smart-contract",

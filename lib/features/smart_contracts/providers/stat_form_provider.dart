@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/stat.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/create_sc_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
 
 class StatFormProvider extends StateNotifier<Stat> {
   final Reader read;
@@ -35,13 +35,13 @@ class StatFormProvider extends StateNotifier<Stat> {
       description: descriptionController.text,
     );
 
-    if (index >= read(createScProvider).stats.length) {
-      read(createScProvider.notifier).addStat(state);
+    if (index >= read(createSmartContractProvider).stats.length) {
+      read(createSmartContractProvider.notifier).addStat(state);
     } else {
-      final updatedStats = [...read(createScProvider).stats];
+      final updatedStats = [...read(createSmartContractProvider).stats];
       updatedStats.removeAt(index);
       updatedStats.insert(index, state);
-      read(createScProvider.notifier).setStats(updatedStats);
+      read(createSmartContractProvider.notifier).setStats(updatedStats);
     }
   }
 }

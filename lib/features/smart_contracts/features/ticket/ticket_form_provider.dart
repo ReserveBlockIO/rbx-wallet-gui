@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/create_sc_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
 import 'package:rbx_wallet/utils/generators.dart';
 
 class TicketFormProvider extends StateNotifier<Ticket> {
@@ -81,7 +81,7 @@ class TicketFormProvider extends StateNotifier<Ticket> {
       description: descriptionController.text,
     );
 
-    read(createScProvider.notifier).saveTicket(state);
+    read(createSmartContractProvider.notifier).saveTicket(state);
 
     clear();
   }

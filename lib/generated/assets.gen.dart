@@ -35,6 +35,13 @@ class $AssetsEnvGen {
   String get winTestnetEnv => 'assets/env/win_testnet_env';
 }
 
+class $AssetsFontsGen {
+  const $AssetsFontsGen();
+
+  /// File path: assets/fonts/RobotoMono-Regular.ttf
+  String get robotoMonoRegular => 'assets/fonts/RobotoMono-Regular.ttf';
+}
+
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
@@ -88,6 +95,7 @@ class Assets {
   Assets._();
 
   static const $AssetsEnvGen env = $AssetsEnvGen();
+  static const $AssetsFontsGen fonts = $AssetsFontsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
 }
 

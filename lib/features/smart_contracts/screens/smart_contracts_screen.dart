@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/screens/smart_contract_creator_container_screen.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 
@@ -33,7 +34,9 @@ class SmartContractsScreen extends BaseScreen {
               iconData: FontAwesomeIcons.magic,
               body:
                   "Donec sollicitudin molestie malesuada. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Donec sollicitudin molestie malesuada.",
-              onPressed: () {},
+              onPressed: () {
+                AutoRouter.of(context).push(TemplateChooserScreenRoute());
+              },
             ),
             _BigButton(
               title: "Create Custom",
@@ -41,6 +44,9 @@ class SmartContractsScreen extends BaseScreen {
               body:
                   "Donec sollicitudin molestie malesuada. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Donec sollicitudin molestie malesuada.",
               onPressed: () {
+                ref
+                    .read(createSmartContractProvider.notifier)
+                    .clearSmartContract();
                 AutoRouter.of(context)
                     .push(SmartContractCreatorContainerScreenRoute());
               },
@@ -57,7 +63,9 @@ class SmartContractsScreen extends BaseScreen {
               iconData: Icons.folder,
               body:
                   "Donec sollicitudin molestie malesuada. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Donec sollicitudin molestie malesuada.",
-              onPressed: () {},
+              onPressed: () {
+                AutoRouter.of(context).push(MySmartContractsScreenRoute());
+              },
             ),
           ],
         ),

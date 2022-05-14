@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/features/asset/asset.dart';
 
 part 'compiled_smart_contract.freezed.dart';
 part 'compiled_smart_contract.g.dart';
@@ -8,9 +9,15 @@ abstract class CompiledSmartContract with _$CompiledSmartContract {
   const CompiledSmartContract._();
 
   factory CompiledSmartContract({
-    // @JsonKey(name: "SmartContractCode") required String code,
-    @JsonKey(name: "Success") required bool success,
-    // @JsonKey(name: "SmartContractMain") required Map<String, dynamic> main,
+    @JsonKey(name: "Name") required String name,
+    @JsonKey(name: "Description") required String description,
+    @JsonKey(name: "Address") required String address,
+    @JsonKey(name: "SmartContractUID") required String id,
+    @JsonKey(name: "Signature") String? signature,
+    @JsonKey(name: "SmartContractAsset") required Asset primaryAsset,
+    @JsonKey(name: "IsPublic") required bool isPublic,
+    @JsonKey(name: "Features", defaultValue: [])
+        required List<Map<String, dynamic>> features,
   }) = _CompiledSmartContract;
 
   factory CompiledSmartContract.fromJson(Map<String, dynamic> json) =>

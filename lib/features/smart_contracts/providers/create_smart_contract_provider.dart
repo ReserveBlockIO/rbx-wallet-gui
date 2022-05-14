@@ -1,5 +1,10 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/features/bridge/providers/status_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
@@ -9,15 +14,40 @@ import 'package:rbx_wallet/features/smart_contracts/models/compiled_smart_contra
 import 'package:rbx_wallet/features/smart_contracts/models/rarity.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/smart_contract.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/stat.dart';
+import 'package:rbx_wallet/features/smart_contracts/providers/draft_smart_contracts_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/providers/my_smart_contracts_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:collection/collection.dart';
+import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
-class CreateScProvider extends StateNotifier<SmartContract> {
+class CreateSmartContractProvider extends StateNotifier<SmartContract> {
   final Reader read;
 
-  CreateScProvider(this.read, SmartContract model) : super(model);
+  late final TextEditingController nameController;
+  late final TextEditingController descriptionController;
+
+  CreateSmartContractProvider(this.read, SmartContract model) : super(model) {
+    nameController = TextEditingController(text: model.name);
+    descriptionController = TextEditingController(text: model.description);
+    clearSmartContract();
+  }
+
+  void setSmartContract(SmartContract smartContract) {
+    state = smartContract;
+
+    nameController.text = state.name;
+    descriptionController.text = state.description;
+  }
+
+  void clearSmartContract() {
+    final sc = SmartContract(
+      owner: read(sessionProvider).currentWallet!,
+    );
+
+    setSmartContract(sc);
+  }
 
   void setOwner(Wallet wallet) {
     state = state.copyWith(owner: wallet);
@@ -31,14 +61,15 @@ class CreateScProvider extends StateNotifier<SmartContract> {
     state = state.copyWith(name: value);
   }
 
+  void setPrimaryAsset(Asset? asset) {
+    state = state.copyWith(primaryAsset: asset);
+  }
+
   void addStat(Stat stat) {
-    print('adding');
     state = state.copyWith(stats: [...state.stats, stat]);
   }
 
   void setStats(List<Stat> stats) {
-    print('setting');
-
     state = state.copyWith(stats: stats);
   }
 
@@ -111,22 +142,71 @@ class CreateScProvider extends StateNotifier<SmartContract> {
     state = state.copyWith(tickets: state.tickets..removeAt(index));
   }
 
+  // Future<Asset> initAsset(String filePath) async {
+  //   final name = filePath.split("/").last;
+  //   final extension = name.split(".").last;
+  //   final fileSize = (await File(filePath).readAsBytes()).length;
+
+  //   return Asset(
+  //     id: "00000000-0000-0000-0000-000000000000",
+  //     name: name,
+  //     location: filePath,
+  //     extension: extension,
+  //     fileSize: fileSize,
+  //   );
+  // }
+
+  // saving
+
+  void _preSave() {
+    state = state.copyWith(
+      name: nameController.text,
+      description: descriptionController.text,
+    );
+  }
+
+  void saveDraft() {
+    _preSave();
+    SmartContractService().saveToStorage(state);
+
+    read(draftsSmartContractProvider.notifier).load();
+  }
+
   // --compile --
 
-  bool isValidForCompile() {
-    return true; //TODO: validate stuff
+  List<String> isValidForCompile() {
+    final List<String> errors = [];
+
+    if (state.primaryAsset == null) {
+      errors.add("- Primary asset is required");
+    }
+    if (state.name.isEmpty) {
+      errors.add("- Name is required");
+    }
+
+    if (state.description.isEmpty) {
+      errors.add("- Description is required");
+    }
+
+    return errors;
   }
 
   Future<CompiledSmartContract?> compile() async {
-    if (!isValidForCompile()) {
-      //TODO: show validation issues
-      Toast.error("Invalid smart contract");
+    _preSave();
+
+    final errors = isValidForCompile();
+    if (errors.isNotEmpty) {
+      InfoDialog.show(
+        title: "Invalid Smart Contract",
+        body: errors.join("\n"),
+        closeText: "Okay",
+      );
+
       return null;
     }
 
     final payload = state.serializeForCompiler();
 
-    print("payload:");
     print(payload);
 
     final csc = await SmartContractService().compileSmartContract(payload);
@@ -136,34 +216,24 @@ class CreateScProvider extends StateNotifier<SmartContract> {
       return null;
     }
 
-    Toast.message("Smart Contract compiled successfully.");
+    if (!csc.success) {
+      Toast.error();
+      return null;
+    }
 
-    return csc;
+    Toast.message("Smart Contract compiled successfully.");
+    read(mySmartContractsProvider.notifier).load();
+
+    return csc.smartContract;
   }
 }
 
-final createScProvider = StateNotifierProvider<CreateScProvider, SmartContract>(
+final createSmartContractProvider =
+    StateNotifierProvider<CreateSmartContractProvider, SmartContract>(
   (ref) {
-    final List<Rarity> rarities = [
-      Rarity(name: "Basic", weight: 0.9, description: "Lorem ipsum"),
-      Rarity(name: "Gold", weight: 0.1, description: "Lorem ipsum doller"),
-    ];
-
-    final List<Stat> stats = [
-      Stat(label: "Background", value: "#CCCCCC", type: StatType.color),
-      Stat(label: "HP", value: "100", type: StatType.color),
-    ];
-
     final initial = SmartContract(
-      name: "Test Contract",
-      description: "Super Test",
       owner: ref.read(sessionProvider).currentWallet!,
-      rarities: rarities,
-      royalties: [
-        Royalty(type: RoyaltyType.percent, amount: 0.1, address: "abc123")
-      ],
-      stats: stats,
     );
-    return CreateScProvider(ref.read, initial);
+    return CreateSmartContractProvider(ref.read, initial);
   },
 );

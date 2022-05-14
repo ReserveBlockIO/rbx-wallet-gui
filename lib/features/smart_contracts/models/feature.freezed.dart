@@ -13,6 +13,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+Feature _$FeatureFromJson(Map<String, dynamic> json) {
+  return _Feature.fromJson(json);
+}
+
 /// @nodoc
 class _$FeatureTearOff {
   const _$FeatureTearOff();
@@ -25,6 +29,10 @@ class _$FeatureTearOff {
       data: data,
     );
   }
+
+  Feature fromJson(Map<String, Object?> json) {
+    return Feature.fromJson(json);
+  }
 }
 
 /// @nodoc
@@ -35,6 +43,7 @@ mixin _$Feature {
   FeatureType get type => throw _privateConstructorUsedError;
   Map<String, dynamic> get data => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $FeatureCopyWith<Feature> get copyWith => throw _privateConstructorUsedError;
 }
@@ -108,10 +117,13 @@ class __$FeatureCopyWithImpl<$Res> extends _$FeatureCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_Feature extends _Feature {
   _$_Feature({this.type = FeatureType.royalty, this.data = const {}})
       : super._();
+
+  factory _$_Feature.fromJson(Map<String, dynamic> json) =>
+      _$$_FeatureFromJson(json);
 
   @JsonKey(defaultValue: FeatureType.royalty)
   @override
@@ -144,11 +156,18 @@ class _$_Feature extends _Feature {
   @override
   _$FeatureCopyWith<_Feature> get copyWith =>
       __$FeatureCopyWithImpl<_Feature>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_FeatureToJson(this);
+  }
 }
 
 abstract class _Feature extends Feature {
   factory _Feature({FeatureType type, Map<String, dynamic> data}) = _$_Feature;
   _Feature._() : super._();
+
+  factory _Feature.fromJson(Map<String, dynamic> json) = _$_Feature.fromJson;
 
   @override
   FeatureType get type;

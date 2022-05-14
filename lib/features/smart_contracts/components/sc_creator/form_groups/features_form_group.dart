@@ -19,15 +19,15 @@ import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket.dart'
 import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket_form_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket_modal.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/feature.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/create_sc_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
 
 class FeaturesFormGroup extends BaseComponent {
   const FeaturesFormGroup({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _provider = ref.read(createScProvider.notifier);
-    final _model = ref.watch(createScProvider);
+    final _provider = ref.read(createSmartContractProvider.notifier);
+    final _model = ref.watch(createSmartContractProvider);
 
     return FormGroupContainer(
       child: Column(
@@ -41,7 +41,11 @@ class FeaturesFormGroup extends BaseComponent {
           ..._model.features
               .asMap()
               .entries
-              .map((entry) => _FeatureCard(entry.value, entry.key))
+              .map((entry) => _FeatureCard(
+                    entry.value,
+                    entry.key,
+                    readOnly: _model.isCompiled,
+                  ))
               .toList(),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -50,17 +54,19 @@ class FeaturesFormGroup extends BaseComponent {
                 padding: const EdgeInsets.all(8.0),
                 child: AppButton(
                   label: "Add Feature",
-                  onPressed: () {
-                    showModalBottomSheet(
-                      backgroundColor: Colors.transparent,
-                      context: rootNavigatorKey.currentContext!,
-                      isScrollControlled: true,
-                      isDismissible: true,
-                      builder: (context) {
-                        return FeatureChooserModal();
-                      },
-                    );
-                  },
+                  onPressed: _model.isCompiled
+                      ? null
+                      : () {
+                          showModalBottomSheet(
+                            backgroundColor: Colors.transparent,
+                            context: rootNavigatorKey.currentContext!,
+                            isScrollControlled: true,
+                            isDismissible: true,
+                            builder: (context) {
+                              return FeatureChooserModal();
+                            },
+                          );
+                        },
                   icon: Icons.add,
                   variant: AppColorVariant.Success,
                 ),
@@ -76,10 +82,12 @@ class FeaturesFormGroup extends BaseComponent {
 class _FeatureCard extends BaseComponent {
   final Feature feature;
   final int index;
+  final bool readOnly;
 
   const _FeatureCard(
     this.feature,
     this.index, {
+    this.readOnly = false,
     Key? key,
   }) : super(key: key);
 
@@ -112,57 +120,71 @@ class _FeatureCard extends BaseComponent {
             AppButton(
               label: "Edit",
               icon: Icons.edit,
-              onPressed: () {
-                switch (feature.type) {
-                  case FeatureType.royalty:
-                    final royalty = Royalty.fromJson(feature.data);
-                    ref.read(royaltyFormProvider.notifier).setRoyalty(royalty);
-                    showEditModal(RoyaltyModal());
-                    break;
-                  case FeatureType.evolution:
-                    final evolve = Evolve.fromJson(feature.data);
-                    ref.read(evolveFormProvider.notifier).setEvolve(evolve);
-                    showEditModal(EvolveModal());
-                    break;
-                  case FeatureType.ticket:
-                    final ticket = Ticket.fromJson(feature.data);
-                    ref.read(ticketFormProvider.notifier).setTicket(ticket);
-                    showEditModal(TicketModal());
-                    break;
-                  default:
-                    print("Not implemented");
-                    break;
-                }
-              },
+              onPressed: readOnly
+                  ? null
+                  : () {
+                      switch (feature.type) {
+                        case FeatureType.royalty:
+                          final royalty = Royalty.fromJson(feature.data);
+                          ref
+                              .read(royaltyFormProvider.notifier)
+                              .setRoyalty(royalty);
+                          showEditModal(RoyaltyModal());
+                          break;
+                        case FeatureType.evolution:
+                          final evolve = Evolve.fromJson(feature.data);
+                          ref
+                              .read(evolveFormProvider.notifier)
+                              .setEvolve(evolve);
+                          showEditModal(EvolveModal());
+                          break;
+                        case FeatureType.ticket:
+                          final ticket = Ticket.fromJson(feature.data);
+                          ref
+                              .read(ticketFormProvider.notifier)
+                              .setTicket(ticket);
+                          showEditModal(TicketModal());
+                          break;
+                        default:
+                          print("Not implemented");
+                          break;
+                      }
+                    },
             ),
             SizedBox(width: 6),
             AppButton(
               label: "Remove",
               icon: Icons.delete,
               variant: AppColorVariant.Danger,
-              onPressed: () async {
-                final confirmed = await ConfirmDialog.show(
-                    title: "Delete?",
-                    body: "Are you sure you want to delete this?",
-                    confirmText: "Delete",
-                    destructive: true);
+              onPressed: readOnly
+                  ? null
+                  : () async {
+                      final confirmed = await ConfirmDialog.show(
+                          title: "Delete?",
+                          body: "Are you sure you want to delete this?",
+                          confirmText: "Delete",
+                          destructive: true);
 
-                if (confirmed != true) return;
+                      if (confirmed != true) return;
 
-                switch (feature.type) {
-                  case FeatureType.royalty:
-                    final royalty = Royalty.fromJson(feature.data);
-                    ref.read(createScProvider.notifier).removeRoyalty(royalty);
-                    break;
-                  case FeatureType.evolution:
-                    final evolve = Evolve.fromJson(feature.data);
-                    ref.read(createScProvider.notifier).removeEvolve(evolve);
-                    break;
-                  default:
-                    print("Not implemented");
-                    break;
-                }
-              },
+                      switch (feature.type) {
+                        case FeatureType.royalty:
+                          final royalty = Royalty.fromJson(feature.data);
+                          ref
+                              .read(createSmartContractProvider.notifier)
+                              .removeRoyalty(royalty);
+                          break;
+                        case FeatureType.evolution:
+                          final evolve = Evolve.fromJson(feature.data);
+                          ref
+                              .read(createSmartContractProvider.notifier)
+                              .removeEvolve(evolve);
+                          break;
+                        default:
+                          print("Not implemented");
+                          break;
+                      }
+                    },
             ),
           ],
         ),

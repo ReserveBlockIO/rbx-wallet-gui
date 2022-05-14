@@ -12,6 +12,8 @@ enum RoyaltyType {
 class Royalty with _$Royalty {
   const Royalty._();
 
+  static const int compilerEnum = 1;
+
   const factory Royalty({
     @Default("") String id,
     @Default(RoyaltyType.fixed) RoyaltyType type,
@@ -36,15 +38,50 @@ class Royalty with _$Royalty {
     return [RoyaltyType.percent, RoyaltyType.fixed];
   }
 
-  static typeToString(RoyaltyType type) {
+  static String typeToString(RoyaltyType type) {
     switch (type) {
       case RoyaltyType.fixed:
-        return "Fixed";
+        return "Flat";
       case RoyaltyType.percent:
         return "Percent";
     }
   }
 
+  static int typeToInt(RoyaltyType type) {
+    switch (type) {
+      case RoyaltyType.fixed:
+        return 0;
+      case RoyaltyType.percent:
+        return 1;
+    }
+  }
+
+  static RoyaltyType intToType(int val) {
+    switch (val) {
+      case 0:
+        return RoyaltyType.fixed;
+      case 1:
+      default:
+        return RoyaltyType.percent;
+    }
+  }
+
   factory Royalty.fromJson(Map<String, dynamic> json) =>
       _$RoyaltyFromJson(json);
+
+  factory Royalty.fromCompiler(dynamic json) {
+    return Royalty(
+      amount: json['RoyaltyAmount'],
+      address: json['RoyaltyPayToAddress'],
+      type: intToType(json['RoyaltyType']),
+    );
+  }
+
+  Map<String, dynamic> serializeForCompiler() {
+    return {
+      'RoyaltyAmount': amount,
+      'RoyaltyPayToAddress': address,
+      'RoyaltyType': typeToInt(type),
+    };
+  }
 }

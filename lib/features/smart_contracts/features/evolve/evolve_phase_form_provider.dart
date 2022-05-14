@@ -9,6 +9,7 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
   final int index;
   late final TextEditingController nameController;
   late final TextEditingController descriptionController;
+  late final TextEditingController valueController;
   late final TextEditingController dateController;
   late final TextEditingController timeController;
 
@@ -20,6 +21,7 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
     nameController = TextEditingController(text: model.name);
     descriptionController = TextEditingController(text: model.description);
 
+    valueController = TextEditingController(text: model.expectedValue);
     dateController = TextEditingController(text: model.dateLabel);
     timeController = TextEditingController(text: model.timeLabel);
   }
@@ -38,6 +40,7 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
     state = state.copyWith(
       name: nameController.text,
       description: descriptionController.text,
+      expectedValue: valueController.text,
     );
 
     read(evolveFormProvider.notifier).updatePhase(index, state);
@@ -74,6 +77,7 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
   clear() {
     nameController.text = "";
     descriptionController.text = "";
+    valueController.text = "";
   }
 }
 

@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase_form_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/create_sc_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
 import 'package:rbx_wallet/utils/generators.dart';
 
 class EvolveFormProvider extends StateNotifier<Evolve> {
@@ -45,7 +45,7 @@ class EvolveFormProvider extends StateNotifier<Evolve> {
   }
 
   complete() {
-    read(createScProvider.notifier).saveEvolve(state);
+    read(createSmartContractProvider.notifier).saveEvolve(state);
   }
 
   clear() {

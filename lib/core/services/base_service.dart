@@ -5,9 +5,13 @@ import 'package:dio/dio.dart';
 import 'package:rbx_wallet/core/env.dart';
 
 class BaseService {
+  final String? hostOverride;
   final String? apiBasePathOverride;
 
-  BaseService({this.apiBasePathOverride});
+  BaseService({
+    this.apiBasePathOverride,
+    this.hostOverride,
+  });
 
   Map<String, dynamic> _headers([bool auth = true, bool json = false]) {
     return json
@@ -22,9 +26,14 @@ class BaseService {
     bool auth = true,
     bool json = false,
   }) {
+    String host = Env.apiBaseUrl;
+    if (hostOverride != null) {
+      host = hostOverride!;
+    }
+
     final baseUrl = apiBasePathOverride == null
-        ? Env.apiBaseUrl
-        : Env.apiBaseUrl.replaceAll("/api/V1", apiBasePathOverride!);
+        ? host
+        : host.replaceAll("/api/V1", apiBasePathOverride!);
     return BaseOptions(baseUrl: baseUrl, headers: _headers(auth, json));
   }
 

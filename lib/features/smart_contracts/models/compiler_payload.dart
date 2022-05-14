@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/features/asset/asset.dart';
 
 part 'compiler_payload.freezed.dart';
 part 'compiler_payload.g.dart';
@@ -7,6 +8,7 @@ part 'compiler_payload.g.dart';
 abstract class CompilerPayload with _$CompilerPayload {
   const CompilerPayload._();
 
+  @JsonSerializable(explicitToJson: true)
   factory CompilerPayload({
     @JsonKey(name: "Name")
         required String name,
@@ -14,8 +16,8 @@ abstract class CompilerPayload with _$CompilerPayload {
         required String description,
     @JsonKey(name: "Address")
         required String address,
-    @JsonKey(name: "AssetId")
-        required String assetId, // TODO: asset stuff
+    @JsonKey(name: "SmartContractAsset")
+        required Asset asset,
     @JsonKey(name: "IsPublic", defaultValue: true)
         required bool isPublic,
     @JsonKey(

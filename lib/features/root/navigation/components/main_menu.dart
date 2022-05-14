@@ -130,14 +130,14 @@ class MainMenu extends BaseComponent {
                 },
                 isActive: tabsRouter.activeIndex == 5,
               ),
-              _NavButton(
-                title: "Datanode",
-                icon: Icons.storage,
-                onPressed: () {
-                  tabsRouter.setActiveIndex(6);
-                },
-                isActive: tabsRouter.activeIndex == 6,
-              ),
+              // _NavButton(
+              //   title: "Datanode",
+              //   icon: Icons.storage,
+              //   onPressed: () {
+              //     tabsRouter.setActiveIndex(6);
+              //   },
+              //   isActive: tabsRouter.activeIndex == 6,
+              // ),
               _NavButton(
                 title: "NFTs",
                 icon: Icons.lightbulb_outline,
