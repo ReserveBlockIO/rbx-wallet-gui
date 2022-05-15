@@ -64,7 +64,7 @@ class EvolveModal extends BaseComponent {
                   },
                   options: [true, false]
                       .map((val) => AppDropdownOption(
-                          label: val ? "Dynamic" : "User Controlled",
+                          label: val ? "Owner Controlled" : "Minter Controlled",
                           value: val))
                       .toList(),
                 ),

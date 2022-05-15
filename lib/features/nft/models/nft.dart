@@ -69,6 +69,7 @@ abstract class Nft with _$Nft {
     for (final feature in featureList) {
       if (feature.type == FeatureType.evolution) {
         final evolve = Evolve.fromCompiler(feature.data);
+        print("IS DYNAMIC? ${evolve.isDynamic}");
         if (evolve.type != EvolveType.time && !evolve.isDynamic) {
           return true;
         }
@@ -90,6 +91,7 @@ abstract class Nft with _$Nft {
     return EvolvePhase(
       name: "Base",
       description: description,
+      asset: primaryAsset,
       evolutionState: 0,
       isCurrentState:
           evolutionPhases.firstWhereOrNull((p) => p.isCurrentState == true) ==

@@ -102,7 +102,7 @@ abstract class Feature with _$Feature {
         return "${royalty.typeLabel} ${royalty.amountWithSuffix} [${royalty.address}]";
       case FeatureType.evolution:
         final evolve = Evolve.fromJson(data);
-        return "${evolve.typeLabel} (${evolve.phases.length} phase${evolve.phases.length == 1 ? '' : 's'})";
+        return "${evolve.type == EvolveType.variable ? evolve.isDynamic ? 'User Controlled ' : 'Minter Controlled ' : ''}${evolve.typeLabel}  (${evolve.phases.length} phase${evolve.phases.length == 1 ? '' : 's'})";
       case FeatureType.ticket:
         final ticket = Ticket.fromJson(data);
         return "${ticket.typeLabel}: ${ticket.eventName} (${ticket.dateTimeLabel})";

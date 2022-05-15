@@ -185,21 +185,28 @@ class _EvolutionStateRow extends StatelessWidget {
                       child: Stack(
                         alignment: Alignment.bottomCenter,
                         children: [
-                          Image.network(
-                            "https://placekitten.com/300/300",
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.cover,
-                          ),
+                          if (phase.asset != null && phase.asset!.isImage)
+                            Image.file(
+                              phase.asset!.file,
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
+                            ),
+                          if (phase.asset == null)
+                            SizedBox(
+                              width: 100,
+                              height: 100,
+                            ),
                           Container(
                             color: Colors.black38,
                           ),
-                          AppButton(
-                            label: "Open File",
-                            type: AppButtonType.Text,
-                            variant: AppColorVariant.Light,
-                            onPressed: () {},
-                          )
+                          if (phase.asset != null)
+                            AppButton(
+                              label: "Open File",
+                              type: AppButtonType.Text,
+                              variant: AppColorVariant.Light,
+                              onPressed: () {},
+                            )
                         ],
                       ),
                     ),
