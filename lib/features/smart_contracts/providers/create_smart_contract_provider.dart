@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
@@ -230,8 +231,11 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
     if (details != null) {
       final wallets = read(walletListProvider);
       final sc = SmartContract.fromCompiled(details, wallets);
-      read(createSmartContractProvider.notifier)
-          .setSmartContract(sc.copyWith(isCompiled: true));
+      read(createSmartContractProvider.notifier).setSmartContract(
+        sc.copyWith(
+          isCompiled: ALLOW_DOUBLE_MINTES ? false : true,
+        ),
+      );
     }
 
     return csc.smartContract;

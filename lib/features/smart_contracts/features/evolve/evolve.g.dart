@@ -15,6 +15,10 @@ _$_Evolve _$$_EvolveFromJson(Map<String, dynamic> json) => _$_Evolve(
               ?.map((e) => EvolvePhase.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
+      isDynamic: json['isDynamic'] as bool? ?? false,
+      asset: json['asset'] == null
+          ? null
+          : Asset.fromJson(json['asset'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_EvolveToJson(_$_Evolve instance) => <String, dynamic>{
@@ -22,10 +26,11 @@ Map<String, dynamic> _$$_EvolveToJson(_$_Evolve instance) => <String, dynamic>{
       'type': _$EvolveTypeEnumMap[instance.type],
       'url': instance.url,
       'phases': instance.phases.map((e) => e.toJson()).toList(),
+      'isDynamic': instance.isDynamic,
+      'asset': instance.asset?.toJson(),
     };
 
 const _$EvolveTypeEnumMap = {
   EvolveType.time: 'time',
-  EvolveType.numericVariable: 'numericVariable',
-  EvolveType.stringVariable: 'stringVariable',
+  EvolveType.variable: 'variable',
 };

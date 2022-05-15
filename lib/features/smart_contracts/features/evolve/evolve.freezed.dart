@@ -25,12 +25,16 @@ class _$EvolveTearOff {
       {String id = "",
       EvolveType type = EvolveType.time,
       String url = "",
-      List<EvolvePhase> phases = const []}) {
+      List<EvolvePhase> phases = const [],
+      bool isDynamic = false,
+      Asset? asset}) {
     return _Evolve(
       id: id,
       type: type,
       url: url,
       phases: phases,
+      isDynamic: isDynamic,
+      asset: asset,
     );
   }
 
@@ -48,6 +52,8 @@ mixin _$Evolve {
   EvolveType get type => throw _privateConstructorUsedError;
   String get url => throw _privateConstructorUsedError;
   List<EvolvePhase> get phases => throw _privateConstructorUsedError;
+  bool get isDynamic => throw _privateConstructorUsedError;
+  Asset? get asset => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -58,7 +64,15 @@ mixin _$Evolve {
 abstract class $EvolveCopyWith<$Res> {
   factory $EvolveCopyWith(Evolve value, $Res Function(Evolve) then) =
       _$EvolveCopyWithImpl<$Res>;
-  $Res call({String id, EvolveType type, String url, List<EvolvePhase> phases});
+  $Res call(
+      {String id,
+      EvolveType type,
+      String url,
+      List<EvolvePhase> phases,
+      bool isDynamic,
+      Asset? asset});
+
+  $AssetCopyWith<$Res>? get asset;
 }
 
 /// @nodoc
@@ -75,6 +89,8 @@ class _$EvolveCopyWithImpl<$Res> implements $EvolveCopyWith<$Res> {
     Object? type = freezed,
     Object? url = freezed,
     Object? phases = freezed,
+    Object? isDynamic = freezed,
+    Object? asset = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -93,7 +109,26 @@ class _$EvolveCopyWithImpl<$Res> implements $EvolveCopyWith<$Res> {
           ? _value.phases
           : phases // ignore: cast_nullable_to_non_nullable
               as List<EvolvePhase>,
+      isDynamic: isDynamic == freezed
+          ? _value.isDynamic
+          : isDynamic // ignore: cast_nullable_to_non_nullable
+              as bool,
+      asset: asset == freezed
+          ? _value.asset
+          : asset // ignore: cast_nullable_to_non_nullable
+              as Asset?,
     ));
+  }
+
+  @override
+  $AssetCopyWith<$Res>? get asset {
+    if (_value.asset == null) {
+      return null;
+    }
+
+    return $AssetCopyWith<$Res>(_value.asset!, (value) {
+      return _then(_value.copyWith(asset: value));
+    });
   }
 }
 
@@ -102,7 +137,16 @@ abstract class _$EvolveCopyWith<$Res> implements $EvolveCopyWith<$Res> {
   factory _$EvolveCopyWith(_Evolve value, $Res Function(_Evolve) then) =
       __$EvolveCopyWithImpl<$Res>;
   @override
-  $Res call({String id, EvolveType type, String url, List<EvolvePhase> phases});
+  $Res call(
+      {String id,
+      EvolveType type,
+      String url,
+      List<EvolvePhase> phases,
+      bool isDynamic,
+      Asset? asset});
+
+  @override
+  $AssetCopyWith<$Res>? get asset;
 }
 
 /// @nodoc
@@ -120,6 +164,8 @@ class __$EvolveCopyWithImpl<$Res> extends _$EvolveCopyWithImpl<$Res>
     Object? type = freezed,
     Object? url = freezed,
     Object? phases = freezed,
+    Object? isDynamic = freezed,
+    Object? asset = freezed,
   }) {
     return _then(_Evolve(
       id: id == freezed
@@ -138,6 +184,14 @@ class __$EvolveCopyWithImpl<$Res> extends _$EvolveCopyWithImpl<$Res>
           ? _value.phases
           : phases // ignore: cast_nullable_to_non_nullable
               as List<EvolvePhase>,
+      isDynamic: isDynamic == freezed
+          ? _value.isDynamic
+          : isDynamic // ignore: cast_nullable_to_non_nullable
+              as bool,
+      asset: asset == freezed
+          ? _value.asset
+          : asset // ignore: cast_nullable_to_non_nullable
+              as Asset?,
     ));
   }
 }
@@ -150,7 +204,9 @@ class _$_Evolve extends _Evolve {
       {this.id = "",
       this.type = EvolveType.time,
       this.url = "",
-      this.phases = const []})
+      this.phases = const [],
+      this.isDynamic = false,
+      this.asset})
       : super._();
 
   factory _$_Evolve.fromJson(Map<String, dynamic> json) =>
@@ -168,10 +224,15 @@ class _$_Evolve extends _Evolve {
   @JsonKey(defaultValue: const [])
   @override
   final List<EvolvePhase> phases;
+  @JsonKey(defaultValue: false)
+  @override
+  final bool isDynamic;
+  @override
+  final Asset? asset;
 
   @override
   String toString() {
-    return 'Evolve(id: $id, type: $type, url: $url, phases: $phases)';
+    return 'Evolve(id: $id, type: $type, url: $url, phases: $phases, isDynamic: $isDynamic, asset: $asset)';
   }
 
   @override
@@ -182,7 +243,9 @@ class _$_Evolve extends _Evolve {
             const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.type, type) &&
             const DeepCollectionEquality().equals(other.url, url) &&
-            const DeepCollectionEquality().equals(other.phases, phases));
+            const DeepCollectionEquality().equals(other.phases, phases) &&
+            const DeepCollectionEquality().equals(other.isDynamic, isDynamic) &&
+            const DeepCollectionEquality().equals(other.asset, asset));
   }
 
   @override
@@ -191,7 +254,9 @@ class _$_Evolve extends _Evolve {
       const DeepCollectionEquality().hash(id),
       const DeepCollectionEquality().hash(type),
       const DeepCollectionEquality().hash(url),
-      const DeepCollectionEquality().hash(phases));
+      const DeepCollectionEquality().hash(phases),
+      const DeepCollectionEquality().hash(isDynamic),
+      const DeepCollectionEquality().hash(asset));
 
   @JsonKey(ignore: true)
   @override
@@ -209,7 +274,9 @@ abstract class _Evolve extends Evolve {
       {String id,
       EvolveType type,
       String url,
-      List<EvolvePhase> phases}) = _$_Evolve;
+      List<EvolvePhase> phases,
+      bool isDynamic,
+      Asset? asset}) = _$_Evolve;
   const _Evolve._() : super._();
 
   factory _Evolve.fromJson(Map<String, dynamic> json) = _$_Evolve.fromJson;
@@ -222,6 +289,10 @@ abstract class _Evolve extends Evolve {
   String get url;
   @override
   List<EvolvePhase> get phases;
+  @override
+  bool get isDynamic;
+  @override
+  Asset? get asset;
   @override
   @JsonKey(ignore: true)
   _$EvolveCopyWith<_Evolve> get copyWith => throw _privateConstructorUsedError;

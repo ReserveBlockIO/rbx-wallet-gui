@@ -2,3 +2,5 @@
 
 const APP_VERSION = "pre19.0";
 const REFRESH_TIMEOUT_SECONDS = 10;
+
+const ALLOW_DOUBLE_MINTES = true;

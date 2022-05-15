@@ -11,7 +11,7 @@ class EvolvePhase with _$EvolvePhase {
   const factory EvolvePhase({
     @Default("") String name,
     DateTime? dateTime,
-    @Default("") String expectedValue,
+    // @Default("") String expectedValue,
     @Default("") String description,
   }) = _EvolvePhase;
 
@@ -26,5 +26,9 @@ class EvolvePhase with _$EvolvePhase {
   String get timeLabel {
     if (dateTime == null) return "";
     return DateFormat.Hms().format(dateTime!);
+  }
+
+  String? get dateTimeForCompiler {
+    return dateTime != null ? dateTime!.toIso8601String() : null;
   }
 }

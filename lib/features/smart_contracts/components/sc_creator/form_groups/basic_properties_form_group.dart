@@ -60,7 +60,7 @@ class BasicPropertiesFormGroup extends BaseComponent {
                         .map(
                           (w) => S2Choice<Wallet>(
                             value: w,
-                            title: w.label,
+                            title: w.fullLabel,
                           ),
                         )
                         .toList(),

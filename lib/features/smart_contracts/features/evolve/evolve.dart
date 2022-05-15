@@ -1,10 +1,11 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
 
 part 'evolve.freezed.dart';
 part 'evolve.g.dart';
 
-enum EvolveType { time, numericVariable, stringVariable }
+enum EvolveType { time, variable }
 
 @freezed
 abstract class Evolve with _$Evolve {
@@ -18,6 +19,8 @@ abstract class Evolve with _$Evolve {
     @Default(EvolveType.time) EvolveType type,
     @Default("") String url,
     @Default([]) List<EvolvePhase> phases,
+    @Default(false) bool isDynamic,
+    Asset? asset,
   }) = _Evolve;
 
   String get typeLabel {
@@ -27,8 +30,7 @@ abstract class Evolve with _$Evolve {
   static List<EvolveType> allTypes() {
     return [
       EvolveType.time,
-      EvolveType.numericVariable,
-      EvolveType.stringVariable,
+      EvolveType.variable,
     ];
   }
 
@@ -36,10 +38,8 @@ abstract class Evolve with _$Evolve {
     switch (type) {
       case EvolveType.time:
         return "Time";
-      case EvolveType.numericVariable:
-        return "Numberic Variable";
-      case EvolveType.stringVariable:
-        return "String Variable";
+      case EvolveType.variable:
+        return "Variable";
     }
   }
 
@@ -48,10 +48,8 @@ abstract class Evolve with _$Evolve {
       case 0:
         return EvolveType.time;
       case 1:
-        return EvolveType.stringVariable;
-      case 2:
       default:
-        return EvolveType.numericVariable;
+        return EvolveType.variable;
     }
   }
 
@@ -59,39 +57,33 @@ abstract class Evolve with _$Evolve {
     switch (type) {
       case EvolveType.time:
         return 0;
-      case EvolveType.stringVariable:
+      case EvolveType.variable:
         return 1;
-      case EvolveType.numericVariable:
-        return 2;
     }
   }
 
   factory Evolve.fromCompiler(dynamic json) {
-    try {
-      return Evolve(
-        type: intToType(json['EvolveParamaterType']),
-      );
-    } catch (e) {
-      print(e);
-      //TODO: Fix this when aaron is ready
-      return Evolve(type: EvolveType.numericVariable, phases: [
-        EvolvePhase(
-          expectedValue: '10',
-          name: "Test Phase",
-          description: "Test 123",
-        )
-      ]);
-    }
+    return Evolve(
+      type: intToType(json['EvolveParamaterType']),
+    );
   }
 
   List<Map<String, dynamic>> serializeForCompiler() {
-    final List<Map<String, dynamic>> items = phases.map((p) {
+    final List<Map<String, dynamic>> items =
+        phases.asMap().entries.map((entry) {
+      final p = entry.value;
+
       final Map<String, dynamic> data = {
-        'EvolutionState': 0, //TODO: do we need to set this?
-        'EvolveParamaterType': typeToInt(type),
-        'EvolveParamater':
-            type == EvolveType.time ? p.dateTime.toString() : p.expectedValue,
-        //TODO: asset
+        'Name': p.name,
+        'Description': p.description,
+        'IsDynamic': isDynamic,
+        'EvolutionState': entry.key + 1,
+        'IsCurrentState': false,
+        // 'EvolveParamaterType': typeToInt(type),
+        // 'EvolveParamater':
+        //     type == EvolveType.time ? p.dateTime.toString() : p.expectedValue,
+        'SmartContractAsset': null,
+        'EvolveDate': p.dateTimeForCompiler
       };
       return data;
     }).toList();

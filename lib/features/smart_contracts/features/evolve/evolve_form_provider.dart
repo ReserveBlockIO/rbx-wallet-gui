@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase_form_provider.dart';
@@ -28,6 +29,10 @@ class EvolveFormProvider extends StateNotifier<Evolve> {
     state = state.copyWith(type: type);
   }
 
+  updateMode(bool value) {
+    state = state.copyWith(isDynamic: value);
+  }
+
   addPhase() {
     final phase = EvolvePhase();
     state = state.copyWith(phases: [...state.phases, phase]);
@@ -35,6 +40,10 @@ class EvolveFormProvider extends StateNotifier<Evolve> {
 
   removePhase(int index) {
     state = state.copyWith(phases: state.phases..removeAt(index));
+  }
+
+  setAsset(Asset? asset) {
+    state = state.copyWith(asset: asset);
   }
 
   updatePhase(int index, EvolvePhase phase) {

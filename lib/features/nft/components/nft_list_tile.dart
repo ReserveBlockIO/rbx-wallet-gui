@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
+import 'package:rbx_wallet/features/nft/screens/nft_management_screen.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 class NftListTile extends StatelessWidget {
   final Nft nft;
-  const NftListTile(this.nft, {Key? key}) : super(key: key);
+  final bool manageOnPress;
+
+  const NftListTile(
+    this.nft, {
+    Key? key,
+    this.manageOnPress = false,
+  }) : super(key: key);
 
   Future<void> _showDetails(BuildContext context) async {
     final details = await NftService().retrieve(nft.id);
@@ -15,14 +22,23 @@ class NftListTile extends StatelessWidget {
       return;
     }
     final _nft = nft.copyWith(code: details.code);
-
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) {
-          return NftDetailScreen(_nft);
-        },
-      ),
-    );
+    if (manageOnPress) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) {
+            return NftMangementScreen(_nft);
+          },
+        ),
+      );
+    } else {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) {
+            return NftDetailScreen(_nft);
+          },
+        ),
+      );
+    }
   }
 
   @override

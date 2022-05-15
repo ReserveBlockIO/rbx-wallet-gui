@@ -32,6 +32,28 @@ class NftService extends BaseService {
     }
   }
 
+  Future<List<Nft>> minted() async {
+    final response = await getText(
+      "/GetMintedSmartContracts",
+    );
+    if (response == 'null') {
+      return [];
+    }
+
+    try {
+      final items = jsonDecode(response);
+
+      final List<Nft> smartContracts = [];
+      for (final item in items) {
+        smartContracts.add(Nft.fromJson(item));
+      }
+      return smartContracts;
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
   Future<DetailedSmartContract?> retrieve(String id) async {
     try {
       final response = await getText('/GetSingleSmartContract/$id');

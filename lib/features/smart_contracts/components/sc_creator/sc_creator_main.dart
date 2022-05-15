@@ -33,7 +33,7 @@ class ScCreatorMain extends BaseComponent {
                 Row(
                   children: [
                     Expanded(child: PrimaryAssetFormGroup()),
-                    Expanded(child: ThumbnailAssetFormGroup()),
+                    // Expanded(child: ThumbnailAssetFormGroup()),
                   ],
                 ),
                 FeaturesFormGroup(),
@@ -104,11 +104,11 @@ class ScCreatorMain extends BaseComponent {
                         },
                   icon: Icons.computer,
                 ),
-                AppButton(
-                  label: "Publish to Library",
-                  onPressed: () {},
-                  icon: Icons.publish,
-                ),
+                // AppButton(
+                //   label: "Publish to Library",
+                //   onPressed: () {},
+                //   icon: Icons.publish,
+                // ),
                 AppButton(
                   label: "Delete",
                   onPressed: _model.isCompiled ? null : () {},

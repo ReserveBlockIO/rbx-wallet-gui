@@ -49,6 +49,30 @@ class NftListScreen extends BaseScreen {
   Widget body(BuildContext context, WidgetRef ref) {
     final isGrid = ref.watch(nftListViewProvider);
 
-    return isGrid ? NftGrid() : NftList();
+    return DefaultTabController(
+        length: 2,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TabBar(
+              tabs: [
+                Tab(
+                  child: Text("My NFTs"),
+                ),
+                Tab(
+                  child: Text("Manage Minted NFTs"),
+                ),
+              ],
+            ),
+            Expanded(
+              child: TabBarView(
+                children: [
+                  isGrid ? NftGrid() : NftList(),
+                  isGrid ? NftGrid(minted: true) : NftList(minted: true),
+                ],
+              ),
+            ),
+          ],
+        ));
   }
 }

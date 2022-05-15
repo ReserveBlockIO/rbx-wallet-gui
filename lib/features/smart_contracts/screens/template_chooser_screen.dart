@@ -35,6 +35,19 @@ class TemplateChooserScreen extends BaseScreen {
     ;
     final templates = [
       SmartContractTemplate(
+        name: "Basic NFT",
+        description: "Lorem ipsum",
+        init: () {
+          final smartContract = SmartContract(
+            owner: ref.read(sessionProvider).currentWallet!,
+            name: "My Basic NFT",
+            description: "Write some good stuff here...",
+          );
+
+          _provider.setSmartContract(smartContract);
+        },
+      ),
+      SmartContractTemplate(
         name: "Evolving NFT",
         description: "Lorem ipsum",
         init: () {

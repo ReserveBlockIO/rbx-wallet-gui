@@ -22,14 +22,10 @@ class _$EvolvePhaseTearOff {
   const _$EvolvePhaseTearOff();
 
   _EvolvePhase call(
-      {String name = "",
-      DateTime? dateTime,
-      String expectedValue = "",
-      String description = ""}) {
+      {String name = "", DateTime? dateTime, String description = ""}) {
     return _EvolvePhase(
       name: name,
       dateTime: dateTime,
-      expectedValue: expectedValue,
       description: description,
     );
   }
@@ -45,8 +41,8 @@ const $EvolvePhase = _$EvolvePhaseTearOff();
 /// @nodoc
 mixin _$EvolvePhase {
   String get name => throw _privateConstructorUsedError;
-  DateTime? get dateTime => throw _privateConstructorUsedError;
-  String get expectedValue => throw _privateConstructorUsedError;
+  DateTime? get dateTime =>
+      throw _privateConstructorUsedError; // @Default("") String expectedValue,
   String get description => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -60,11 +56,7 @@ abstract class $EvolvePhaseCopyWith<$Res> {
   factory $EvolvePhaseCopyWith(
           EvolvePhase value, $Res Function(EvolvePhase) then) =
       _$EvolvePhaseCopyWithImpl<$Res>;
-  $Res call(
-      {String name,
-      DateTime? dateTime,
-      String expectedValue,
-      String description});
+  $Res call({String name, DateTime? dateTime, String description});
 }
 
 /// @nodoc
@@ -79,7 +71,6 @@ class _$EvolvePhaseCopyWithImpl<$Res> implements $EvolvePhaseCopyWith<$Res> {
   $Res call({
     Object? name = freezed,
     Object? dateTime = freezed,
-    Object? expectedValue = freezed,
     Object? description = freezed,
   }) {
     return _then(_value.copyWith(
@@ -91,10 +82,6 @@ class _$EvolvePhaseCopyWithImpl<$Res> implements $EvolvePhaseCopyWith<$Res> {
           ? _value.dateTime
           : dateTime // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      expectedValue: expectedValue == freezed
-          ? _value.expectedValue
-          : expectedValue // ignore: cast_nullable_to_non_nullable
-              as String,
       description: description == freezed
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -110,11 +97,7 @@ abstract class _$EvolvePhaseCopyWith<$Res>
           _EvolvePhase value, $Res Function(_EvolvePhase) then) =
       __$EvolvePhaseCopyWithImpl<$Res>;
   @override
-  $Res call(
-      {String name,
-      DateTime? dateTime,
-      String expectedValue,
-      String description});
+  $Res call({String name, DateTime? dateTime, String description});
 }
 
 /// @nodoc
@@ -131,7 +114,6 @@ class __$EvolvePhaseCopyWithImpl<$Res> extends _$EvolvePhaseCopyWithImpl<$Res>
   $Res call({
     Object? name = freezed,
     Object? dateTime = freezed,
-    Object? expectedValue = freezed,
     Object? description = freezed,
   }) {
     return _then(_EvolvePhase(
@@ -143,10 +125,6 @@ class __$EvolvePhaseCopyWithImpl<$Res> extends _$EvolvePhaseCopyWithImpl<$Res>
           ? _value.dateTime
           : dateTime // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      expectedValue: expectedValue == freezed
-          ? _value.expectedValue
-          : expectedValue // ignore: cast_nullable_to_non_nullable
-              as String,
       description: description == freezed
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -158,11 +136,7 @@ class __$EvolvePhaseCopyWithImpl<$Res> extends _$EvolvePhaseCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_EvolvePhase extends _EvolvePhase {
-  const _$_EvolvePhase(
-      {this.name = "",
-      this.dateTime,
-      this.expectedValue = "",
-      this.description = ""})
+  const _$_EvolvePhase({this.name = "", this.dateTime, this.description = ""})
       : super._();
 
   factory _$_EvolvePhase.fromJson(Map<String, dynamic> json) =>
@@ -174,15 +148,12 @@ class _$_EvolvePhase extends _EvolvePhase {
   @override
   final DateTime? dateTime;
   @JsonKey(defaultValue: "")
-  @override
-  final String expectedValue;
-  @JsonKey(defaultValue: "")
-  @override
+  @override // @Default("") String expectedValue,
   final String description;
 
   @override
   String toString() {
-    return 'EvolvePhase(name: $name, dateTime: $dateTime, expectedValue: $expectedValue, description: $description)';
+    return 'EvolvePhase(name: $name, dateTime: $dateTime, description: $description)';
   }
 
   @override
@@ -193,8 +164,6 @@ class _$_EvolvePhase extends _EvolvePhase {
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality().equals(other.dateTime, dateTime) &&
             const DeepCollectionEquality()
-                .equals(other.expectedValue, expectedValue) &&
-            const DeepCollectionEquality()
                 .equals(other.description, description));
   }
 
@@ -203,7 +172,6 @@ class _$_EvolvePhase extends _EvolvePhase {
       runtimeType,
       const DeepCollectionEquality().hash(name),
       const DeepCollectionEquality().hash(dateTime),
-      const DeepCollectionEquality().hash(expectedValue),
       const DeepCollectionEquality().hash(description));
 
   @JsonKey(ignore: true)
@@ -219,10 +187,7 @@ class _$_EvolvePhase extends _EvolvePhase {
 
 abstract class _EvolvePhase extends EvolvePhase {
   const factory _EvolvePhase(
-      {String name,
-      DateTime? dateTime,
-      String expectedValue,
-      String description}) = _$_EvolvePhase;
+      {String name, DateTime? dateTime, String description}) = _$_EvolvePhase;
   const _EvolvePhase._() : super._();
 
   factory _EvolvePhase.fromJson(Map<String, dynamic> json) =
@@ -232,9 +197,7 @@ abstract class _EvolvePhase extends EvolvePhase {
   String get name;
   @override
   DateTime? get dateTime;
-  @override
-  String get expectedValue;
-  @override
+  @override // @Default("") String expectedValue,
   String get description;
   @override
   @JsonKey(ignore: true)

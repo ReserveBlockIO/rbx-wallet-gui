@@ -12,7 +12,6 @@ _$_EvolvePhase _$$_EvolvePhaseFromJson(Map<String, dynamic> json) =>
       dateTime: json['dateTime'] == null
           ? null
           : DateTime.parse(json['dateTime'] as String),
-      expectedValue: json['expectedValue'] as String? ?? '',
       description: json['description'] as String? ?? '',
     );
 
@@ -20,6 +19,5 @@ Map<String, dynamic> _$$_EvolvePhaseToJson(_$_EvolvePhase instance) =>
     <String, dynamic>{
       'name': instance.name,
       'dateTime': instance.dateTime?.toIso8601String(),
-      'expectedValue': instance.expectedValue,
       'description': instance.description,
     };

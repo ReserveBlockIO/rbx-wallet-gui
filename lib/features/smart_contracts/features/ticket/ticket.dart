@@ -13,6 +13,8 @@ enum TicketType {
 abstract class Ticket with _$Ticket {
   const Ticket._();
 
+  static const compilerEnum = 11;
+
   const factory Ticket({
     @Default("") String id,
     @Default(TicketType.physicalEvent) TicketType type,
@@ -20,6 +22,13 @@ abstract class Ticket with _$Ticket {
     DateTime? eventDate,
     @Default("") String eventAddress,
     @Default("") String description,
+
+    /// NEW STUFF vvvv
+    @Default("") String eventCode,
+    @Default(1) int quantity,
+    @Default(false) bool evolveOnRedeem,
+    @Default("") String seatInfo,
+    DateTime? expireDate,
   }) = _Ticket;
 
   factory Ticket.fromJson(Map<String, dynamic> json) => _$TicketFromJson(json);
@@ -44,6 +53,30 @@ abstract class Ticket with _$Ticket {
     return "$dateLabel $timeLabel";
   }
 
+  String? get dateTimeForCompiler {
+    return eventDate != null ? eventDate!.toIso8601String() : null;
+  }
+
+  String get expireDateLabel {
+    if (expireDate == null) return "";
+    return DateFormat.yMd().format(expireDate!);
+  }
+
+  String get expireTimeLabel {
+    if (expireDate == null) return "";
+    return DateFormat.Hms().format(expireDate!);
+  }
+
+  String get expireDateTimeLabel {
+    if (expireDate == null) return "";
+
+    return "$dateLabel $timeLabel";
+  }
+
+  String? get expireDateTimeForCompiler {
+    return expireDate != null ? expireDate!.toIso8601String() : null;
+  }
+
   static typeToString(TicketType type) {
     switch (type) {
       case TicketType.physicalEvent:
@@ -58,5 +91,22 @@ abstract class Ticket with _$Ticket {
       TicketType.physicalEvent,
       TicketType.onlineEvent,
     ];
+  }
+
+  Map<String, dynamic> serializeForCompiler() {
+    return {
+      'RedeemCode': '', //TODO: not sure how this will work
+      'Quantity': quantity,
+      'EventName': eventName,
+      'EventDescription': description,
+      'EventLocation': type == TicketType.onlineEvent ? '' : eventAddress,
+      'EventDate': dateTimeForCompiler,
+      'EventCode': eventCode,
+      'EventWebsite': type == TicketType.onlineEvent ? eventAddress : '',
+      'IsRedeemed': false,
+      'EvolveOnRedeem': evolveOnRedeem,
+      'SeatInfo': seatInfo,
+      'ExpireDate': expireDateTimeForCompiler,
+    };
   }
 }

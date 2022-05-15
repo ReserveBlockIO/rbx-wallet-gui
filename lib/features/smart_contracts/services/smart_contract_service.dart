@@ -58,10 +58,6 @@ class SmartContractService extends BaseService {
         params: payload,
       );
 
-      print('-----');
-      print(response['data'][0]);
-      print('-----');
-
       final csc = CompilerResponse.fromJson(response['data'][0]);
       return csc; //TODO: dynamic based on success
     } catch (e, stackTrace) {

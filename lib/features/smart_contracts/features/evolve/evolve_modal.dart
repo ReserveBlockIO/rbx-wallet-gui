@@ -49,6 +49,25 @@ class EvolveModal extends BaseComponent {
                         label: Evolve.typeToString(type), value: type))
                     .toList(),
               ),
+              SizedBox(
+                width: 16,
+              ),
+              if (_model.type != EvolveType.time)
+                AppDropdown<bool>(
+                  label: "Variable Mode",
+                  selectedValue: _model.isDynamic,
+                  selectedLabel: _model.isDynamic
+                      ? "Owner Controlled"
+                      : "Minter Controlled",
+                  onChange: (val) {
+                    _provider.updateMode(val);
+                  },
+                  options: [true, false]
+                      .map((val) => AppDropdownOption(
+                          label: val ? "Dynamic" : "User Controlled",
+                          value: val))
+                      .toList(),
+                ),
             ],
           ),
           // Row(
@@ -109,6 +128,8 @@ class _EvolvePhaseContainer extends BaseComponent {
 
     final _evolveProvider = ref.read(evolveFormProvider.notifier);
     final _provider = ref.read(evolvePhaseFormProvider(index).notifier);
+
+    final canAddPhase = index < 24;
 
     Future<void> _showDatePicker() async {
       final d = await showDatePicker(
@@ -219,33 +240,33 @@ class _EvolvePhaseContainer extends BaseComponent {
                           )
                         ],
                       ),
-                    if (type == EvolveType.numericVariable ||
-                        type == EvolveType.stringVariable)
-                      Row(
-                        children: [
-                          Expanded(
-                            child: TextFormField(
-                              controller: _provider.valueController,
-                              inputFormatters:
-                                  type == EvolveType.numericVariable
-                                      ? [
-                                          FilteringTextInputFormatter.allow(
-                                            RegExp("[0-9.]"),
-                                          )
-                                        ]
-                                      : [],
-                              decoration: InputDecoration(
-                                label: Text(
-                                  "Expected Value",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                    // if (type == EvolveType.numericVariable ||
+                    //     type == EvolveType.stringVariable)
+                    //   Row(
+                    //     children: [
+                    //       Expanded(
+                    //         child: TextFormField(
+                    //           controller: _provider.valueController,
+                    //           inputFormatters:
+                    //               type == EvolveType.numericVariable
+                    //                   ? [
+                    //                       FilteringTextInputFormatter.allow(
+                    //                         RegExp("[0-9.]"),
+                    //                       )
+                    //                     ]
+                    //                   : [],
+                    //           decoration: InputDecoration(
+                    //             label: Text(
+                    //               "Expected Value",
+                    //               style: TextStyle(
+                    //                 color: Colors.white,
+                    //               ),
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
                     SizedBox(height: 16),
                     Row(
                       children: [
@@ -320,15 +341,16 @@ class _EvolvePhaseContainer extends BaseComponent {
                               SizedBox(
                                 width: 4,
                               ),
-                              AppButton(
-                                label: "Add Phase",
-                                onPressed: () {
-                                  final success = _save();
-                                  if (success == true) {
-                                    _evolveProvider.addPhase();
-                                  }
-                                },
-                              ),
+                              if (canAddPhase)
+                                AppButton(
+                                  label: "Add Phase",
+                                  onPressed: () {
+                                    final success = _save();
+                                    if (success == true) {
+                                      _evolveProvider.addPhase();
+                                    }
+                                  },
+                                ),
                             ],
                           )
                         ],

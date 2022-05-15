@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
@@ -7,13 +9,23 @@ import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/nft/components/nft_grid.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
+import 'package:rbx_wallet/features/nft/screens/nft_management_screen.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/modals/code_modal.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 import 'package:rbx_wallet/utils/files.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 
 class NftDetailScreen extends BaseScreen {
   final Nft nft;
   const NftDetailScreen(this.nft, {Key? key}) : super(key: key);
+
+  void copyToClipboard(String val) async {
+    await Clipboard.setData(
+      ClipboardData(text: val),
+    );
+    Toast.message("$val copied to clipboard");
+  }
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
@@ -44,25 +56,71 @@ class NftDetailScreen extends BaseScreen {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            "Name: ${nft.name}",
-            style: Theme.of(context)
-                .textTheme
-                .headline5!
-                .copyWith(color: Colors.white),
-          ),
-          Text(
-            "Description: ${nft.description}",
-            style: Theme.of(context).textTheme.bodyLarge,
+          // Text(
+          //   "Name: ${nft.name}",
+          //   style: Theme.of(context)
+          //       .textTheme
+          //       .headline5!
+          //       .copyWith(color: Colors.white),
+          // ),
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Icon(Icons.info),
+              ),
+              Expanded(
+                child: Text(
+                  nft.description,
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+              ),
+            ],
           ),
           Divider(),
-          SelectableText(
-            "Identifier: ${nft.id}",
-            style: Theme.of(context).textTheme.caption,
-          ),
-          SelectableText(
-            "Owner: ${nft.address}",
-            style: Theme.of(context).textTheme.caption,
+          Row(
+            children: [
+              Expanded(
+                child: ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(nft.id),
+                  subtitle: Text("Identifier Address"),
+                  leading: IconButton(
+                    icon: Icon(Icons.copy),
+                    onPressed: () {
+                      copyToClipboard(nft.id);
+                    },
+                  ),
+                ),
+              ),
+              if (nft.minterAddress.isNotEmpty)
+                Expanded(
+                  child: ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(nft.minterAddress),
+                    subtitle: Text("Minter Address"),
+                    leading: IconButton(
+                      icon: Icon(Icons.copy),
+                      onPressed: () {
+                        copyToClipboard(nft.minterAddress);
+                      },
+                    ),
+                  ),
+                ),
+              Expanded(
+                child: ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(nft.address),
+                  subtitle: Text("Owner Address"),
+                  leading: IconButton(
+                    icon: Icon(Icons.copy),
+                    onPressed: () {
+                      copyToClipboard(nft.address);
+                    },
+                  ),
+                ),
+              ),
+            ],
           ),
           Divider(),
           Text("Asset:", style: Theme.of(context).textTheme.headline5),
@@ -82,9 +140,29 @@ class NftDetailScreen extends BaseScreen {
                             fit: BoxFit.contain,
                           )
                         : Icon(Icons.file_present_outlined),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            leading: Icon(nft.primaryAsset.icon),
+                            title: Text(nft.primaryAsset.fileType),
+                            subtitle: Text("File Type"),
+                          ),
+                        ),
+                        Expanded(
+                          child: ListTile(
+                            leading: Icon(Icons.line_weight),
+                            contentPadding: EdgeInsets.zero,
+                            title: Text(nft.primaryAsset.filesizeLabel),
+                            subtitle: Text("File Size"),
+                          ),
+                        ),
+                      ],
+                    ),
                     Divider(),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         AppButton(
                           label: "Open Folder",
@@ -129,7 +207,7 @@ class NftDetailScreen extends BaseScreen {
           Padding(
             padding: const EdgeInsets.all(4.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 AppButton(
                   label: "Transfer",
@@ -147,13 +225,34 @@ class NftDetailScreen extends BaseScreen {
                     );
                   },
                 ),
-                SizedBox(width: 4),
-                AppButton(
-                  label: "Evolve",
-                  icon: Icons.upgrade,
-                  variant: AppColorVariant.Secondary,
-                ),
-                SizedBox(width: 4),
+                if (!nft.manageable)
+                  AppButton(
+                    label: "Manage",
+                    icon: Icons.settings,
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return NftMangementScreen(nft);
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                if (nft.code != null)
+                  AppButton(
+                    label: "View Code",
+                    icon: Icons.code,
+                    variant: AppColorVariant.Primary,
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (context) {
+                          return CodeModal(nft.code!);
+                        },
+                      );
+                    },
+                  ),
                 AppButton(
                   label: "Burn",
                   icon: Icons.fire_hydrant,

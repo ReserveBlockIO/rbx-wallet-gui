@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
@@ -75,7 +78,7 @@ abstract class SmartContract with _$SmartContract {
       royalties: royalties,
       evolves: evolves,
       code: details.code,
-      isCompiled: true,
+      isCompiled: ALLOW_DOUBLE_MINTES ? false : true,
     );
   }
 
@@ -115,6 +118,14 @@ abstract class SmartContract with _$SmartContract {
       features.add(f);
     }
 
+    for (final t in tickets) {
+      final f = {
+        'FeatureName': Ticket.compilerEnum,
+        'FeatureFeatures': t.serializeForCompiler(),
+      };
+      features.add(f);
+    }
+
     final payload = CompilerPayload(
       name: name,
       description: description,
@@ -126,8 +137,12 @@ abstract class SmartContract with _$SmartContract {
       isPublic: true,
     );
 
-    final json = payload.toJson();
+    final data = payload.toJson();
 
-    return json;
+    print("!!-------!!!");
+    print(jsonEncode(data));
+    print("!!-------!!!");
+
+    return data;
   }
 }
