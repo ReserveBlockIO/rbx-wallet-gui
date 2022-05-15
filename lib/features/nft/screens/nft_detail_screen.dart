@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/nft/components/nft_grid.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/nft/screens/nft_management_screen.dart';
+import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
+import 'package:rbx_wallet/features/nft/modals/nft_management_modal.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/modals/code_modal.dart';
-import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 import 'package:rbx_wallet/utils/files.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 
 class NftDetailScreen extends BaseScreen {
-  final Nft nft;
-  const NftDetailScreen(this.nft, {Key? key}) : super(key: key);
+  // final Nft nft;
+  final String id;
+  const NftDetailScreen(this.id, {Key? key}) : super(key: key);
 
   void copyToClipboard(String val) async {
     await Clipboard.setData(
@@ -29,28 +29,38 @@ class NftDetailScreen extends BaseScreen {
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
+    final nft = ref.watch(nftDetailProvider(id));
+
     return AppBar(
-      title: Text(nft.name),
+      title: nft != null ? Text(nft.name) : Text("NFT"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
       actions: [
-        Center(
-          child: Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: AppBadge(
-              label: nft.isPublic ? "Public" : "Private",
-              variant: nft.isPublic
-                  ? AppColorVariant.Success
-                  : AppColorVariant.Danger,
+        if (nft != null)
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: AppBadge(
+                label: nft.isPublic ? "Public" : "Private",
+                variant: nft.isPublic
+                    ? AppColorVariant.Success
+                    : AppColorVariant.Danger,
+              ),
             ),
-          ),
-        )
+          )
       ],
     );
   }
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
+    final _provider = ref.watch(nftDetailProvider(id).notifier);
+    final nft = ref.watch(nftDetailProvider(id));
+
+    if (nft == null) {
+      return Container();
+    }
+
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -230,15 +240,26 @@ class NftDetailScreen extends BaseScreen {
                     label: "Manage",
                     icon: Icons.settings,
                     onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return NftMangementScreen(nft);
-                          },
-                        ),
+                      showModalBottomSheet(
+                        isScrollControlled: true,
+                        backgroundColor: Colors.black87,
+                        context: context,
+                        builder: (context) {
+                          return ModalContainer(
+                            color: Colors.black26,
+                            children: [NftMangementModal(nft.id)],
+                          );
+                        },
                       );
                     },
                   ),
+                AppButton(
+                  label: nft.isPublic ? "Make Private" : "Make Public",
+                  icon: nft.isPublic ? Icons.visibility_off : Icons.visibility,
+                  onPressed: () {
+                    _provider.togglePrivate();
+                  },
+                ),
                 if (nft.code != null)
                   AppButton(
                     label: "View Code",

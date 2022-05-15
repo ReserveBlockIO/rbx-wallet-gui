@@ -22,11 +22,19 @@ class _$EvolvePhaseTearOff {
   const _$EvolvePhaseTearOff();
 
   _EvolvePhase call(
-      {String name = "", DateTime? dateTime, String description = ""}) {
+      {String name = "",
+      DateTime? dateTime,
+      String description = "",
+      int evolutionState = 0,
+      bool isCurrentState = false,
+      Asset? asset}) {
     return _EvolvePhase(
       name: name,
       dateTime: dateTime,
       description: description,
+      evolutionState: evolutionState,
+      isCurrentState: isCurrentState,
+      asset: asset,
     );
   }
 
@@ -44,6 +52,9 @@ mixin _$EvolvePhase {
   DateTime? get dateTime =>
       throw _privateConstructorUsedError; // @Default("") String expectedValue,
   String get description => throw _privateConstructorUsedError;
+  int get evolutionState => throw _privateConstructorUsedError;
+  bool get isCurrentState => throw _privateConstructorUsedError;
+  Asset? get asset => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -56,7 +67,15 @@ abstract class $EvolvePhaseCopyWith<$Res> {
   factory $EvolvePhaseCopyWith(
           EvolvePhase value, $Res Function(EvolvePhase) then) =
       _$EvolvePhaseCopyWithImpl<$Res>;
-  $Res call({String name, DateTime? dateTime, String description});
+  $Res call(
+      {String name,
+      DateTime? dateTime,
+      String description,
+      int evolutionState,
+      bool isCurrentState,
+      Asset? asset});
+
+  $AssetCopyWith<$Res>? get asset;
 }
 
 /// @nodoc
@@ -72,6 +91,9 @@ class _$EvolvePhaseCopyWithImpl<$Res> implements $EvolvePhaseCopyWith<$Res> {
     Object? name = freezed,
     Object? dateTime = freezed,
     Object? description = freezed,
+    Object? evolutionState = freezed,
+    Object? isCurrentState = freezed,
+    Object? asset = freezed,
   }) {
     return _then(_value.copyWith(
       name: name == freezed
@@ -86,7 +108,30 @@ class _$EvolvePhaseCopyWithImpl<$Res> implements $EvolvePhaseCopyWith<$Res> {
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      evolutionState: evolutionState == freezed
+          ? _value.evolutionState
+          : evolutionState // ignore: cast_nullable_to_non_nullable
+              as int,
+      isCurrentState: isCurrentState == freezed
+          ? _value.isCurrentState
+          : isCurrentState // ignore: cast_nullable_to_non_nullable
+              as bool,
+      asset: asset == freezed
+          ? _value.asset
+          : asset // ignore: cast_nullable_to_non_nullable
+              as Asset?,
     ));
+  }
+
+  @override
+  $AssetCopyWith<$Res>? get asset {
+    if (_value.asset == null) {
+      return null;
+    }
+
+    return $AssetCopyWith<$Res>(_value.asset!, (value) {
+      return _then(_value.copyWith(asset: value));
+    });
   }
 }
 
@@ -97,7 +142,16 @@ abstract class _$EvolvePhaseCopyWith<$Res>
           _EvolvePhase value, $Res Function(_EvolvePhase) then) =
       __$EvolvePhaseCopyWithImpl<$Res>;
   @override
-  $Res call({String name, DateTime? dateTime, String description});
+  $Res call(
+      {String name,
+      DateTime? dateTime,
+      String description,
+      int evolutionState,
+      bool isCurrentState,
+      Asset? asset});
+
+  @override
+  $AssetCopyWith<$Res>? get asset;
 }
 
 /// @nodoc
@@ -115,6 +169,9 @@ class __$EvolvePhaseCopyWithImpl<$Res> extends _$EvolvePhaseCopyWithImpl<$Res>
     Object? name = freezed,
     Object? dateTime = freezed,
     Object? description = freezed,
+    Object? evolutionState = freezed,
+    Object? isCurrentState = freezed,
+    Object? asset = freezed,
   }) {
     return _then(_EvolvePhase(
       name: name == freezed
@@ -129,14 +186,33 @@ class __$EvolvePhaseCopyWithImpl<$Res> extends _$EvolvePhaseCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      evolutionState: evolutionState == freezed
+          ? _value.evolutionState
+          : evolutionState // ignore: cast_nullable_to_non_nullable
+              as int,
+      isCurrentState: isCurrentState == freezed
+          ? _value.isCurrentState
+          : isCurrentState // ignore: cast_nullable_to_non_nullable
+              as bool,
+      asset: asset == freezed
+          ? _value.asset
+          : asset // ignore: cast_nullable_to_non_nullable
+              as Asset?,
     ));
   }
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_EvolvePhase extends _EvolvePhase {
-  const _$_EvolvePhase({this.name = "", this.dateTime, this.description = ""})
+  const _$_EvolvePhase(
+      {this.name = "",
+      this.dateTime,
+      this.description = "",
+      this.evolutionState = 0,
+      this.isCurrentState = false,
+      this.asset})
       : super._();
 
   factory _$_EvolvePhase.fromJson(Map<String, dynamic> json) =>
@@ -150,10 +226,18 @@ class _$_EvolvePhase extends _EvolvePhase {
   @JsonKey(defaultValue: "")
   @override // @Default("") String expectedValue,
   final String description;
+  @JsonKey(defaultValue: 0)
+  @override
+  final int evolutionState;
+  @JsonKey(defaultValue: false)
+  @override
+  final bool isCurrentState;
+  @override
+  final Asset? asset;
 
   @override
   String toString() {
-    return 'EvolvePhase(name: $name, dateTime: $dateTime, description: $description)';
+    return 'EvolvePhase(name: $name, dateTime: $dateTime, description: $description, evolutionState: $evolutionState, isCurrentState: $isCurrentState, asset: $asset)';
   }
 
   @override
@@ -164,7 +248,12 @@ class _$_EvolvePhase extends _EvolvePhase {
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality().equals(other.dateTime, dateTime) &&
             const DeepCollectionEquality()
-                .equals(other.description, description));
+                .equals(other.description, description) &&
+            const DeepCollectionEquality()
+                .equals(other.evolutionState, evolutionState) &&
+            const DeepCollectionEquality()
+                .equals(other.isCurrentState, isCurrentState) &&
+            const DeepCollectionEquality().equals(other.asset, asset));
   }
 
   @override
@@ -172,7 +261,10 @@ class _$_EvolvePhase extends _EvolvePhase {
       runtimeType,
       const DeepCollectionEquality().hash(name),
       const DeepCollectionEquality().hash(dateTime),
-      const DeepCollectionEquality().hash(description));
+      const DeepCollectionEquality().hash(description),
+      const DeepCollectionEquality().hash(evolutionState),
+      const DeepCollectionEquality().hash(isCurrentState),
+      const DeepCollectionEquality().hash(asset));
 
   @JsonKey(ignore: true)
   @override
@@ -187,7 +279,12 @@ class _$_EvolvePhase extends _EvolvePhase {
 
 abstract class _EvolvePhase extends EvolvePhase {
   const factory _EvolvePhase(
-      {String name, DateTime? dateTime, String description}) = _$_EvolvePhase;
+      {String name,
+      DateTime? dateTime,
+      String description,
+      int evolutionState,
+      bool isCurrentState,
+      Asset? asset}) = _$_EvolvePhase;
   const _EvolvePhase._() : super._();
 
   factory _EvolvePhase.fromJson(Map<String, dynamic> json) =
@@ -199,6 +296,12 @@ abstract class _EvolvePhase extends EvolvePhase {
   DateTime? get dateTime;
   @override // @Default("") String expectedValue,
   String get description;
+  @override
+  int get evolutionState;
+  @override
+  bool get isCurrentState;
+  @override
+  Asset? get asset;
   @override
   @JsonKey(ignore: true)
   _$EvolvePhaseCopyWith<_EvolvePhase> get copyWith =>

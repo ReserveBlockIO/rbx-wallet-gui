@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/feature.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
@@ -30,6 +31,9 @@ abstract class Nft with _$Nft {
   factory Nft.fromJson(Map<String, dynamic> json) => _$NftFromJson(json);
 
   List<Feature> get featureList {
+    print("------%%%");
+    print(features);
+    print("------%%%");
     return features.map((f) => Feature.fromCompiler(f)).toList();
   }
 
@@ -59,31 +63,64 @@ abstract class Nft with _$Nft {
     return false;
   }
 
-  // List<Evolve> get evolves {
-  //   final List<Evolve> items = [];
-  //   for (final f in features) {
-  //     if (f.keys.contains('FeatureName')) {
-  //       if (f['FeatureName'] == Evolve.compilerEnum) {
-  //         final item = Evolve.fromCompiler(f['FeatureFeatures']);
-  //         items.add(item);
-  //       }
-  //     }
-  //   }
+  bool get canManageEvolve {
+    if (!isMinter) return false;
 
-  //   return items;
-  // }
+    for (final feature in featureList) {
+      if (feature.type == FeatureType.evolution) {
+        final evolve = Evolve.fromCompiler(feature.data);
+        if (evolve.type != EvolveType.time && !evolve.isDynamic) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 
-  // List<Royalty> get royalties {
-  //   final List<Royalty> items = [];
-  //   for (final f in features) {
-  //     if (f.keys.contains('FeatureName')) {
-  //       if (f['FeatureName'] == Evolve.compilerEnum) {
-  //         final item = Royalty.fromCompiler(f['FeatureFeatures']);
-  //         items.add(item);
-  //       }
-  //     }
-  //   }
+  bool get canEvolve {
+    for (final feature in featureList) {
+      if (feature.type == FeatureType.evolution) {
+        return true;
+      }
+    }
+    return false;
+  }
 
-  //   return items;
-  // }
+  EvolvePhase get baseEvolutionPhase {
+    return EvolvePhase(
+      name: "Base",
+      description: description,
+      evolutionState: 0,
+      isCurrentState:
+          evolutionPhases.firstWhereOrNull((p) => p.isCurrentState == true) ==
+                  null
+              ? true
+              : false,
+    );
+  }
+
+  List<EvolvePhase> get evolutionPhases {
+    if (!canEvolve) {
+      return [];
+    }
+
+    final evolveFeature =
+        featureList.firstWhereOrNull((f) => f.type == FeatureType.evolution);
+    if (evolveFeature != null) {
+      final evolve = Evolve.fromCompiler(evolveFeature.data);
+      return evolve.phases;
+    }
+
+    return [];
+  }
+
+  EvolvePhase get currentEvolvePhase {
+    final current =
+        evolutionPhases.firstWhereOrNull((p) => p.isCurrentState == true);
+    if (current == null) {
+      return baseEvolutionPhase;
+    }
+
+    return current;
+  }
 }

@@ -13,6 +13,11 @@ _$_EvolvePhase _$$_EvolvePhaseFromJson(Map<String, dynamic> json) =>
           ? null
           : DateTime.parse(json['dateTime'] as String),
       description: json['description'] as String? ?? '',
+      evolutionState: json['evolutionState'] as int? ?? 0,
+      isCurrentState: json['isCurrentState'] as bool? ?? false,
+      asset: json['asset'] == null
+          ? null
+          : Asset.fromJson(json['asset'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_EvolvePhaseToJson(_$_EvolvePhase instance) =>
@@ -20,4 +25,7 @@ Map<String, dynamic> _$$_EvolvePhaseToJson(_$_EvolvePhase instance) =>
       'name': instance.name,
       'dateTime': instance.dateTime?.toIso8601String(),
       'description': instance.description,
+      'evolutionState': instance.evolutionState,
+      'isCurrentState': instance.isCurrentState,
+      'asset': instance.asset?.toJson(),
     };

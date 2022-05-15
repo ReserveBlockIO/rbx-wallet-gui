@@ -285,8 +285,12 @@ class _EvolvePhaseContainer extends BaseComponent {
                         Expanded(
                           child: FileSelector(
                             title: "Stage Asset",
+                            asset:
+                                ref.watch(evolvePhaseFormProvider(index)).asset,
                             transparentBackground: true,
-                            onChange: (Asset? asset) {},
+                            onChange: (Asset? asset) {
+                              _provider.setAsset(asset);
+                            },
                           ),
                         )
                       ],

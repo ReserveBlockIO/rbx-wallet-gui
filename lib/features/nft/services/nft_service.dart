@@ -54,14 +54,26 @@ class NftService extends BaseService {
     }
   }
 
-  Future<DetailedSmartContract?> retrieve(String id) async {
+  Future<Nft?> retrieve(String id) async {
     try {
       final response = await getText('/GetSingleSmartContract/$id');
       final data = jsonDecode(response);
-      return DetailedSmartContract.fromJson(data[0]);
+      Nft nft = Nft.fromJson(data[0]['SmartContract']);
+      nft = nft.copyWith(code: data[0]['SmartContractCode']);
+      return nft;
     } catch (e) {
       print(e);
       return null;
+    }
+  }
+
+  Future<bool> togglePrivate(String id) async {
+    try {
+      final response = await getText('/PublishSmartContract/$id');
+      print(response);
+      return true;
+    } catch (e) {
+      return false;
     }
   }
 }

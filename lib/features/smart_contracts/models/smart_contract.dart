@@ -58,7 +58,8 @@ abstract class SmartContract with _$SmartContract {
       if (f.keys.contains('FeatureName')) {
         switch (f['FeatureName']) {
           case Evolve.compilerEnum:
-            final item = Evolve.fromCompiler(f['FeatureFeatures']);
+            final item = Evolve.fromCompiler({'phases': f['FeatureFeatures']});
+
             evolves.add(item);
             break;
           case Royalty.compilerEnum:

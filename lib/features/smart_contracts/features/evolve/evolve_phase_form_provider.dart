@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_form_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
 import 'package:rbx_wallet/utils/validation.dart';
@@ -45,6 +46,11 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
 
     read(evolveFormProvider.notifier).updatePhase(index, state);
     return true;
+  }
+
+  setAsset(Asset? asset) {
+    print(asset);
+    state = state.copyWith(asset: asset);
   }
 
   updateDate(DateTime date) {

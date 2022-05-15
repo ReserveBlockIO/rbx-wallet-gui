@@ -30,7 +30,9 @@ class NftList extends BaseComponent {
     return ListView.builder(
       itemCount: _model.length,
       itemBuilder: (context, index) {
-        final nft = _model[index];
+        final nft = _model[int.parse(index.toString())];
+
+        print(nft);
 
         return NftListTile(
           nft,

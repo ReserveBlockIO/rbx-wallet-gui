@@ -62,9 +62,36 @@ abstract class Evolve with _$Evolve {
     }
   }
 
-  factory Evolve.fromCompiler(dynamic json) {
+  factory Evolve.fromCompiler(dynamic data) {
+    final phases = data['phases'];
+
+    final List<EvolvePhase> _phases = [];
+    for (final p in phases!) {
+      print(p);
+      print("********");
+      _phases.add(
+        //TODO parse date time
+        EvolvePhase(
+          name: p['Name'] ?? p['name'],
+          description: p['Description'] ?? p['description'],
+          dateTime: p['DateTime'] ?? p['dateTime'],
+          evolutionState: p['EvolutionState'] ?? p['evolutionState'],
+          isCurrentState: p['IsCurrentState'] ?? p['isCurrentState'],
+          asset:
+              p['SmartContractAsset'] != null || p['smartContractAsset'] != null
+                  ? Asset.fromJson(
+                      p['SmartContractAsset'] ?? ['smartContractAsset'])
+                  : null,
+        ),
+      );
+    }
+
     return Evolve(
-      type: intToType(json['EvolveParamaterType']),
+      type: _phases.first.dateTime == null
+          ? EvolveType.variable
+          : EvolveType.time,
+      isDynamic: phases[0]['IsDynamic'] ?? phases[0]['isDynamic'] ?? false,
+      phases: _phases,
     );
   }
 
@@ -82,9 +109,10 @@ abstract class Evolve with _$Evolve {
         // 'EvolveParamaterType': typeToInt(type),
         // 'EvolveParamater':
         //     type == EvolveType.time ? p.dateTime.toString() : p.expectedValue,
-        'SmartContractAsset': null,
+        'SmartContractAsset': p.asset != null ? p.asset!.toJson() : null,
         'EvolveDate': p.dateTimeForCompiler
       };
+
       return data;
     }).toList();
 

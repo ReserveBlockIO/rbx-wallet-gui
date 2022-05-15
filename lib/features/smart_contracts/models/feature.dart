@@ -37,9 +37,10 @@ abstract class Feature with _$Feature {
   factory Feature.fromCompiler(Map<String, dynamic> f) {
     switch (f['FeatureName']) {
       case Evolve.compilerEnum:
+        final payload = {'phases': f['FeatureFeatures']};
         return Feature(
           type: FeatureType.evolution,
-          data: Evolve.fromCompiler(f['FeatureFeatures']).toJson(),
+          data: Evolve.fromCompiler(payload).toJson(),
         );
       case Royalty.compilerEnum:
         return Feature(

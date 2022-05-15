@@ -18,6 +18,8 @@ class NftGrid extends BaseComponent {
         minted ? mintedNftListProvider.notifier : nftListProvider.notifier);
     final _model = ref.watch(minted ? mintedNftListProvider : nftListProvider);
 
+    print(_model);
+
     if (_model.isEmpty) {
       return Center(
         child: Text(minted
