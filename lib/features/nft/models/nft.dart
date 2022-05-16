@@ -31,9 +31,6 @@ abstract class Nft with _$Nft {
   factory Nft.fromJson(Map<String, dynamic> json) => _$NftFromJson(json);
 
   List<Feature> get featureList {
-    print("------%%%");
-    print(features);
-    print("------%%%");
     return features.map((f) => Feature.fromCompiler(f)).toList();
   }
 
@@ -50,7 +47,7 @@ abstract class Nft with _$Nft {
 
     for (final feature in featureList) {
       if (feature.type == FeatureType.evolution) {
-        final evolve = Evolve.fromCompiler(feature.data);
+        final evolve = Evolve.fromCompiler({'phases': feature.data['phases']});
         if (evolve.type != EvolveType.time && !evolve.isDynamic) {
           return true;
         }
@@ -68,8 +65,7 @@ abstract class Nft with _$Nft {
 
     for (final feature in featureList) {
       if (feature.type == FeatureType.evolution) {
-        final evolve = Evolve.fromCompiler(feature.data);
-        print("IS DYNAMIC? ${evolve.isDynamic}");
+        final evolve = Evolve.fromCompiler({'phases': feature.data['phases']});
         if (evolve.type != EvolveType.time && !evolve.isDynamic) {
           return true;
         }
@@ -82,6 +78,23 @@ abstract class Nft with _$Nft {
     for (final feature in featureList) {
       if (feature.type == FeatureType.evolution) {
         return true;
+      }
+    }
+    return false;
+  }
+
+  bool get evolveIsDynamic {
+    if (!canEvolve) {
+      return false;
+    }
+    for (final feature in featureList) {
+      if (feature.type == FeatureType.evolution) {
+        if (feature.data['IsDynamic'] == true) {
+          return true;
+        }
+        if (feature.data['isDynamic'] == true) {
+          return true;
+        }
       }
     }
     return false;
@@ -109,7 +122,7 @@ abstract class Nft with _$Nft {
     final evolveFeature =
         featureList.firstWhereOrNull((f) => f.type == FeatureType.evolution);
     if (evolveFeature != null) {
-      final evolve = Evolve.fromCompiler(evolveFeature.data);
+      final evolve = Evolve.fromCompiler({'phases': evolveFeature.data});
       return evolve.phases;
     }
 

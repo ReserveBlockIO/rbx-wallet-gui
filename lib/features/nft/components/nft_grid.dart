@@ -16,9 +16,8 @@ class NftGrid extends BaseComponent {
   Widget body(BuildContext context, WidgetRef ref) {
     final _provider = ref.read(
         minted ? mintedNftListProvider.notifier : nftListProvider.notifier);
-    final _model = ref.watch(minted ? mintedNftListProvider : nftListProvider);
 
-    print(_model);
+    final _model = ref.watch(minted ? mintedNftListProvider : nftListProvider);
 
     if (_model.isEmpty) {
       return Center(

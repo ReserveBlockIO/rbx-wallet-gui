@@ -7,6 +7,7 @@ import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
+import 'package:rbx_wallet/utils/files.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 
 class NftMangementModal extends BaseComponent {
@@ -46,6 +47,14 @@ class NftMangementModal extends BaseComponent {
               ),
             ),
           ),
+          Text(
+            "Managing ${nft.name}",
+            style: Theme.of(context)
+                .textTheme
+                .headline4!
+                .copyWith(color: Colors.white),
+          ),
+          Divider(),
           if (nft.canEvolve)
             Column(
               mainAxisSize: MainAxisSize.min,
@@ -62,16 +71,16 @@ class NftMangementModal extends BaseComponent {
                 ),
               ],
             ),
-          if (nft.canManageEvolve)
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Divider(),
-                Text(
-                  "Manage Evolution",
-                  style: Theme.of(context).textTheme.headline5,
-                ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Divider(),
+              Text(
+                nft.evolveIsDynamic ? "Evolution" : "Manage Evolution",
+                style: Theme.of(context).textTheme.headline5,
+              ),
+              if (!nft.evolveIsDynamic)
                 Card(
                   color: Colors.white10,
                   child: Padding(
@@ -136,12 +145,14 @@ class NftMangementModal extends BaseComponent {
                     ),
                   ),
                 ),
-                _EvolutionStateRow(nft.baseEvolutionPhase),
-                ...nft.evolutionPhases
-                    .map((e) => _EvolutionStateRow(e))
-                    .toList(),
-              ],
-            ),
+              _EvolutionStateRow(nft.baseEvolutionPhase,
+                  isDynamic: nft.evolveIsDynamic),
+              ...nft.evolutionPhases
+                  .map((e) =>
+                      _EvolutionStateRow(e, isDynamic: nft.evolveIsDynamic))
+                  .toList(),
+            ],
+          ),
         ],
       ),
     );
@@ -150,14 +161,16 @@ class NftMangementModal extends BaseComponent {
 
 class _EvolutionStateRow extends StatelessWidget {
   final EvolvePhase phase;
-  const _EvolutionStateRow(this.phase, {Key? key}) : super(key: key);
+  final bool isDynamic;
+  const _EvolutionStateRow(this.phase, {Key? key, required this.isDynamic})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 4.0),
       child: Container(
-        color: phase.isCurrentState
+        color: phase.isCurrentState && !isDynamic
             ? Theme.of(context).colorScheme.success
             : Colors.transparent,
         child: Padding(
@@ -205,7 +218,9 @@ class _EvolutionStateRow extends StatelessWidget {
                               label: "Open File",
                               type: AppButtonType.Text,
                               variant: AppColorVariant.Light,
-                              onPressed: () {},
+                              onPressed: () {
+                                openFile(phase.asset!.location);
+                              },
                             )
                         ],
                       ),
@@ -229,26 +244,27 @@ class _EvolutionStateRow extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      width: 100,
-                      child: AppButton(
-                        label: "Evolve",
-                        onPressed: phase.isCurrentState
-                            ? null
-                            : () async {
-                                final confirmed = await ConfirmDialog.show(
-                                  title: "Evolve?",
-                                  body:
-                                      "Are you sure you want to evolve to stage 1?",
-                                  confirmText: "Evolve",
-                                  cancelText: "Cancel",
-                                );
-                                if (confirmed == true) {
-                                  //TODO: evolve that bad boy
-                                }
-                              },
-                      ),
-                    )
+                    if (!isDynamic)
+                      SizedBox(
+                        width: 100,
+                        child: AppButton(
+                          label: "Evolve",
+                          onPressed: phase.isCurrentState
+                              ? null
+                              : () async {
+                                  final confirmed = await ConfirmDialog.show(
+                                    title: "Evolve?",
+                                    body:
+                                        "Are you sure you want to evolve to stage 1?",
+                                    confirmText: "Evolve",
+                                    cancelText: "Cancel",
+                                  );
+                                  if (confirmed == true) {
+                                    //TODO: evolve that bad boy
+                                  }
+                                },
+                        ),
+                      )
                   ],
                 ),
               ),

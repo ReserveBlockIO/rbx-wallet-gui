@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
@@ -62,28 +64,78 @@ abstract class Evolve with _$Evolve {
     }
   }
 
+  static Map<String, dynamic> getPhase(dynamic data) {
+    if (data.runtimeType == Map) {
+      if (data.containsKey('phases')) {
+        return getPhase(data['phases']);
+      }
+    }
+    return data;
+  }
+
   factory Evolve.fromCompiler(dynamic data) {
     print(data);
     print("********=======");
-    final phases = data['phases'];
+
+    List<dynamic> phases = [];
+    try {
+      phases = data['phases'];
+    } catch (e) {
+      print(e);
+      phases = [data];
+    }
 
     final List<EvolvePhase> _phases = [];
-    for (final p in phases!) {
-      print(p);
-      print("********");
+    bool isDynamic = false;
+    for (final Map<String, dynamic> _p in phases) {
+      // THIS SHIT IS SUPER FUCKED because of the whole "FeatureFeatures" can be a list or a map
+
+      var p = _p.containsKey('phases') ? _p['phases'] : _p;
+      p = p.containsKey('phases') ? p['phases'] : p;
+      if (p.runtimeType == List<Map<String, dynamic>>) {
+        p = p.first;
+      }
+      if (p.runtimeType == List<Map<String, dynamic>>) {
+        p = p.first;
+      }
+
+      p = p as Map<String, dynamic>;
+
+      if (p.containsKey('isDynamic') && p['isDynamic'] == true) {
+        isDynamic = true;
+      }
+
+      if (p.containsKey('IsDynamic') && p['IsDynamic'] == true) {
+        isDynamic = true;
+      }
+
+      Asset? asset;
+
+      if (p.containsKey('SmartContractAsset') &&
+          p['SmartContractAsset'] != null) {
+        asset = Asset.fromJson(p['SmartContractAsset']);
+      } else if (p.containsKey('smartContractAsset') &&
+          p['smartContractAsset'] != null) {
+        asset = Asset.fromJson(p['smartContractAsset']);
+      } else if (p.containsKey('asset') && p['asset'] != null) {
+        asset = Asset.fromJson(p['asset']);
+      }
+
       _phases.add(
         //TODO parse date time
         EvolvePhase(
-          name: p['Name'] ?? p['name'],
-          description: p['Description'] ?? p['description'],
-          dateTime: p['DateTime'] ?? p['dateTime'],
-          evolutionState: p['EvolutionState'] ?? p['evolutionState'],
-          isCurrentState: p['IsCurrentState'] ?? p['isCurrentState'],
-          asset:
-              p['SmartContractAsset'] != null || p['smartContractAsset'] != null
-                  ? Asset.fromJson(
-                      p['SmartContractAsset'] ?? ['smartContractAsset'])
-                  : null,
+          name: p.containsKey("Name") ? p['Name'] : p['name'],
+          description: p.containsKey("Description")
+              ? p['Description']
+              : p['description'],
+          dateTime: p.containsKey("DateTime") ? p['DateTime'] : p['dateTime'],
+          evolutionState: p.containsKey("EvolutionState")
+              ? p['EvolutionState']
+              : p['evolutionState'],
+          isCurrentState: p.containsKey("IsCurrentState")
+              ? p['IsCurrentState']
+              : p['isCurrentState'],
+          asset: asset,
         ),
       );
     }
@@ -92,11 +144,15 @@ abstract class Evolve with _$Evolve {
     print(phases[0]['IsDynamic']);
     print("-----------");
 
+    print("_Phases:");
+    print(_phases);
+    print(_phases.first);
+
     return Evolve(
       type: _phases.first.dateTime == null
           ? EvolveType.variable
           : EvolveType.time,
-      isDynamic: phases[0]['IsDynamic'] ?? phases[0]['isDynamic'] ?? false,
+      isDynamic: isDynamic,
       phases: _phases,
     );
   }

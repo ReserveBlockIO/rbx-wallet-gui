@@ -73,19 +73,12 @@ class NftDetailScreen extends BaseScreen {
           //       .headline5!
           //       .copyWith(color: Colors.white),
           // ),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Icon(Icons.info),
-              ),
-              Expanded(
-                child: Text(
-                  nft.description,
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-              ),
-            ],
+          Text(
+            nft.description,
+            style: Theme.of(context)
+                .textTheme
+                .headline6!
+                .copyWith(color: Colors.white),
           ),
           Divider(),
           Row(

@@ -135,7 +135,7 @@ abstract class SmartContract with _$SmartContract {
       features: features,
       uuid: "00000000-0000-0000-0000-000000000000",
       signature: null,
-      isPublic: true,
+      isPublic: false,
     );
 
     final data = payload.toJson();
