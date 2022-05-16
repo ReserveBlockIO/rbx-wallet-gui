@@ -303,7 +303,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
       return;
     }
 
-    if (!guardWalletIsNotResyncing(read, false)) return;
+    // if (!guardWalletIsNotResyncing(read, false)) return;
 
     final context = rootNavigatorKey.currentContext!;
 

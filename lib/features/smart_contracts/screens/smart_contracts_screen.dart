@@ -8,6 +8,7 @@ import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/screens/smart_contract_creator_container_screen.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SmartContractsScreen extends BaseScreen {
   const SmartContractsScreen({Key? key}) : super(key: key);
@@ -56,7 +57,9 @@ class SmartContractsScreen extends BaseScreen {
               iconData: Icons.code,
               body:
                   "Donec sollicitudin molestie malesuada. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Donec sollicitudin molestie malesuada.",
-              onPressed: () {},
+              onPressed: () {
+                launch("https://trillium.rbx.network/");
+              },
             ),
             _BigButton(
               title: "My Smart Contracts",

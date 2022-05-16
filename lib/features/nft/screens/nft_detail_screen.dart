@@ -86,8 +86,8 @@ class NftDetailScreen extends BaseScreen {
               Expanded(
                 child: ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text(nft.id),
-                  subtitle: Text("Contract Address"),
+                  title: Text(nft.address),
+                  subtitle: Text("Smart Contract Address"),
                   leading: IconButton(
                     icon: Icon(Icons.copy),
                     onPressed: () {
@@ -110,19 +110,19 @@ class NftDetailScreen extends BaseScreen {
                     ),
                   ),
                 ),
-              Expanded(
-                child: ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  title: Text(nft.address),
-                  subtitle: Text("Owner Address"),
-                  leading: IconButton(
-                    icon: Icon(Icons.copy),
-                    onPressed: () {
-                      copyToClipboard(nft.address);
-                    },
-                  ),
-                ),
-              ),
+              // Expanded(
+              //   child: ListTile(
+              //     contentPadding: EdgeInsets.zero,
+              //     title: Text(nft.address),
+              //     subtitle: Text("Owner Address"),
+              //     leading: IconButton(
+              //       icon: Icon(Icons.copy),
+              //       onPressed: () {
+              //         copyToClipboard(nft.address);
+              //       },
+              //     ),
+              //   ),
+              // ),
             ],
           ),
           Divider(),
