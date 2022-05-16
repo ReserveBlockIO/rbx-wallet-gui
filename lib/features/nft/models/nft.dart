@@ -121,8 +121,14 @@ abstract class Nft with _$Nft {
 
     final evolveFeature =
         featureList.firstWhereOrNull((f) => f.type == FeatureType.evolution);
+
     if (evolveFeature != null) {
-      final evolve = Evolve.fromCompiler({'phases': evolveFeature.data});
+      print("---!!!!!!!!-------");
+      print(evolveFeature.data);
+      print("---!!!!!!!!-------");
+
+      final evolve =
+          Evolve.fromCompiler({'phases': evolveFeature.data['phases']});
       return evolve.phases;
     }
 

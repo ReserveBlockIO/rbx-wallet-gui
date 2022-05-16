@@ -6,6 +6,7 @@ import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
+import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
 import 'package:rbx_wallet/utils/files.dart';
 import 'package:rbx_wallet/utils/validation.dart';
@@ -36,17 +37,37 @@ class NftMangementModal extends BaseComponent {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Center(
-            child: TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text(
-                "Close",
-                style: TextStyle(color: Colors.white70),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  "Close",
+                  style: TextStyle(color: Colors.white70),
+                ),
               ),
-            ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return NftDetailScreen(nft.id);
+                      },
+                    ),
+                  );
+                },
+                child: Text(
+                  "View NFT",
+                  style: TextStyle(color: Colors.white70),
+                ),
+              ),
+            ],
           ),
+          SizedBox(height: 8),
           Text(
             "Managing ${nft.name}",
             style: Theme.of(context)
@@ -66,8 +87,8 @@ class NftMangementModal extends BaseComponent {
                 ),
                 ListTile(
                   leading: Icon(Icons.star),
-                  title: Text("Stage 1 (Stage Name)"),
-                  subtitle: Text("01/01/2022 12:03 AM"),
+                  title: Text("Stage 0 (Base)"),
+                  subtitle: Text("05/15/2022 4:03 PM"),
                 ),
               ],
             ),
@@ -105,7 +126,7 @@ class NftMangementModal extends BaseComponent {
                                     //TODO: devolve that bad boy
                                   }
                                 }
-                              : null,
+                              : () {}, //TODO: make this null but jay loves red
                         ),
                         AppButton(
                           label: "Evolve",

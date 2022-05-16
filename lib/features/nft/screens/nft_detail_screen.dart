@@ -87,7 +87,7 @@ class NftDetailScreen extends BaseScreen {
                 child: ListTile(
                   contentPadding: EdgeInsets.zero,
                   title: Text(nft.id),
-                  subtitle: Text("Identifier Address"),
+                  subtitle: Text("Contract Address"),
                   leading: IconButton(
                     icon: Icon(Icons.copy),
                     onPressed: () {

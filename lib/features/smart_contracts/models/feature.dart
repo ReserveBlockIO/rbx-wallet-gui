@@ -38,9 +38,6 @@ abstract class Feature with _$Feature {
     switch (f['FeatureName']) {
       case Evolve.compilerEnum:
         final payload = {'phases': f['FeatureFeatures']};
-        print("-----PAYLOAD-----");
-        print(payload);
-        print("-----END PAYLOAD-----");
 
         return Feature(
           type: FeatureType.evolution,

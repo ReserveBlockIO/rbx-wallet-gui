@@ -74,9 +74,6 @@ abstract class Evolve with _$Evolve {
   }
 
   factory Evolve.fromCompiler(dynamic data) {
-    print(data);
-    print("********=======");
-
     List<dynamic> phases = [];
     try {
       phases = data['phases'];
@@ -84,6 +81,8 @@ abstract class Evolve with _$Evolve {
       print(e);
       phases = [data];
     }
+
+    print(phases);
 
     final List<EvolvePhase> _phases = [];
     bool isDynamic = false;
@@ -139,14 +138,6 @@ abstract class Evolve with _$Evolve {
         ),
       );
     }
-    print("--------isDynamic---");
-
-    print(phases[0]['IsDynamic']);
-    print("-----------");
-
-    print("_Phases:");
-    print(_phases);
-    print(_phases.first);
 
     return Evolve(
       type: _phases.first.dateTime == null
