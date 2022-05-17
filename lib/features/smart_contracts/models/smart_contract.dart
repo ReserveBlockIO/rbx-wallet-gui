@@ -36,6 +36,7 @@ abstract class SmartContract with _$SmartContract {
     @Default([]) List<Ticket> tickets,
     @Default("") String code,
     @Default(false) bool isCompiled,
+    @Default(false) bool isPublished,
   }) = _SmartContract;
 
   factory SmartContract.fromJson(Map<String, dynamic> json) =>

@@ -19,6 +19,18 @@ class FeatureChooserModal extends BaseComponent {
   Widget build(BuildContext context, WidgetRef ref) {
     return ModalContainer(
       children: [
+        Align(
+          alignment: Alignment.centerRight,
+          child: TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text("Close"),
+            style: TextButton.styleFrom(
+              primary: Colors.white,
+            ),
+          ),
+        ),
         FormGroupHeader("Add a Feature"),
         ...Feature.allTypes()
             .asMap()

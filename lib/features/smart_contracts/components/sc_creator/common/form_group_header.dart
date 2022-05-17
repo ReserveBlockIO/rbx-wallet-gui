@@ -12,15 +12,25 @@ class FormGroupHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          title,
-          style: Theme.of(context).textTheme.headline5,
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.black54,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Row(
+          // mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              title,
+              style: Theme.of(context).textTheme.headline5!.copyWith(
+                    color: Colors.white,
+                  ),
+            ),
+            if (helpType != null) HelpButton(helpType!)
+          ],
         ),
-        if (helpType != null) HelpButton(helpType!)
-      ],
+      ),
     );
   }
 }

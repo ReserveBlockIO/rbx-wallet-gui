@@ -86,10 +86,6 @@ class $AssetsImagesGen {
   AssetGenImage get rbxWallet =>
       const AssetGenImage('assets/images/rbx_wallet.png');
 
-  /// File path: assets/images/template_basic.png
-  AssetGenImage get templateBasic =>
-      const AssetGenImage('assets/images/template_basic.png');
-
   /// File path: assets/images/template_basic_1.jpg
   AssetGenImage get templateBasic1 =>
       const AssetGenImage('assets/images/template_basic_1.jpg');
@@ -101,14 +97,6 @@ class $AssetsImagesGen {
   /// File path: assets/images/template_basic_3.jpg
   AssetGenImage get templateBasic3 =>
       const AssetGenImage('assets/images/template_basic_3.jpg');
-
-  /// File path: assets/images/template_basic_bg.jpg
-  AssetGenImage get templateBasicBg =>
-      const AssetGenImage('assets/images/template_basic_bg.jpg');
-
-  /// File path: assets/images/template_evolve.png
-  AssetGenImage get templateEvolve =>
-      const AssetGenImage('assets/images/template_evolve.png');
 
   /// File path: assets/images/template_evolve_1.jpg
   AssetGenImage get templateEvolve1 =>
@@ -122,14 +110,6 @@ class $AssetsImagesGen {
   AssetGenImage get templateEvolve3 =>
       const AssetGenImage('assets/images/template_evolve_3.jpg');
 
-  /// File path: assets/images/template_evolve_bg.jpg
-  AssetGenImage get templateEvolveBg =>
-      const AssetGenImage('assets/images/template_evolve_bg.jpg');
-
-  /// File path: assets/images/template_royalty.png
-  AssetGenImage get templateRoyalty =>
-      const AssetGenImage('assets/images/template_royalty.png');
-
   /// File path: assets/images/template_royalty_1.jpg
   AssetGenImage get templateRoyalty1 =>
       const AssetGenImage('assets/images/template_royalty_1.jpg');
@@ -141,10 +121,6 @@ class $AssetsImagesGen {
   /// File path: assets/images/template_royalty_3.jpg
   AssetGenImage get templateRoyalty3 =>
       const AssetGenImage('assets/images/template_royalty_3.jpg');
-
-  /// File path: assets/images/template_royalty_bg.jpg
-  AssetGenImage get templateRoyaltyBg =>
-      const AssetGenImage('assets/images/template_royalty_bg.jpg');
 
   /// File path: assets/images/wordmark.png
   AssetGenImage get wordmark =>

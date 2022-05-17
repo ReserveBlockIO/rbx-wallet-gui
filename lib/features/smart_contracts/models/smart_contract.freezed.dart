@@ -34,7 +34,8 @@ class _$SmartContractTearOff {
       List<Evolve> evolves = const [],
       List<Ticket> tickets = const [],
       String code = "",
-      bool isCompiled = false}) {
+      bool isCompiled = false,
+      bool isPublished = false}) {
     return _SmartContract(
       owner: owner,
       draftId: draftId,
@@ -49,6 +50,7 @@ class _$SmartContractTearOff {
       tickets: tickets,
       code: code,
       isCompiled: isCompiled,
+      isPublished: isPublished,
     );
   }
 
@@ -76,6 +78,7 @@ mixin _$SmartContract {
   List<Ticket> get tickets => throw _privateConstructorUsedError;
   String get code => throw _privateConstructorUsedError;
   bool get isCompiled => throw _privateConstructorUsedError;
+  bool get isPublished => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -101,7 +104,8 @@ abstract class $SmartContractCopyWith<$Res> {
       List<Evolve> evolves,
       List<Ticket> tickets,
       String code,
-      bool isCompiled});
+      bool isCompiled,
+      bool isPublished});
 
   $WalletCopyWith<$Res> get owner;
   $AssetCopyWith<$Res>? get primaryAsset;
@@ -131,6 +135,7 @@ class _$SmartContractCopyWithImpl<$Res>
     Object? tickets = freezed,
     Object? code = freezed,
     Object? isCompiled = freezed,
+    Object? isPublished = freezed,
   }) {
     return _then(_value.copyWith(
       owner: owner == freezed
@@ -185,6 +190,10 @@ class _$SmartContractCopyWithImpl<$Res>
           ? _value.isCompiled
           : isCompiled // ignore: cast_nullable_to_non_nullable
               as bool,
+      isPublished: isPublished == freezed
+          ? _value.isPublished
+          : isPublished // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 
@@ -227,7 +236,8 @@ abstract class _$SmartContractCopyWith<$Res>
       List<Evolve> evolves,
       List<Ticket> tickets,
       String code,
-      bool isCompiled});
+      bool isCompiled,
+      bool isPublished});
 
   @override
   $WalletCopyWith<$Res> get owner;
@@ -261,6 +271,7 @@ class __$SmartContractCopyWithImpl<$Res>
     Object? tickets = freezed,
     Object? code = freezed,
     Object? isCompiled = freezed,
+    Object? isPublished = freezed,
   }) {
     return _then(_SmartContract(
       owner: owner == freezed
@@ -315,6 +326,10 @@ class __$SmartContractCopyWithImpl<$Res>
           ? _value.isCompiled
           : isCompiled // ignore: cast_nullable_to_non_nullable
               as bool,
+      isPublished: isPublished == freezed
+          ? _value.isPublished
+          : isPublished // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -335,7 +350,8 @@ class _$_SmartContract extends _SmartContract {
       this.evolves = const [],
       this.tickets = const [],
       this.code = "",
-      this.isCompiled = false})
+      this.isCompiled = false,
+      this.isPublished = false})
       : super._();
 
   factory _$_SmartContract.fromJson(Map<String, dynamic> json) =>
@@ -378,10 +394,13 @@ class _$_SmartContract extends _SmartContract {
   @JsonKey(defaultValue: false)
   @override
   final bool isCompiled;
+  @JsonKey(defaultValue: false)
+  @override
+  final bool isPublished;
 
   @override
   String toString() {
-    return 'SmartContract(owner: $owner, draftId: $draftId, name: $name, description: $description, thumbnail: $thumbnail, primaryAsset: $primaryAsset, rarities: $rarities, stats: $stats, royalties: $royalties, evolves: $evolves, tickets: $tickets, code: $code, isCompiled: $isCompiled)';
+    return 'SmartContract(owner: $owner, draftId: $draftId, name: $name, description: $description, thumbnail: $thumbnail, primaryAsset: $primaryAsset, rarities: $rarities, stats: $stats, royalties: $royalties, evolves: $evolves, tickets: $tickets, code: $code, isCompiled: $isCompiled, isPublished: $isPublished)';
   }
 
   @override
@@ -404,7 +423,9 @@ class _$_SmartContract extends _SmartContract {
             const DeepCollectionEquality().equals(other.tickets, tickets) &&
             const DeepCollectionEquality().equals(other.code, code) &&
             const DeepCollectionEquality()
-                .equals(other.isCompiled, isCompiled));
+                .equals(other.isCompiled, isCompiled) &&
+            const DeepCollectionEquality()
+                .equals(other.isPublished, isPublished));
   }
 
   @override
@@ -422,7 +443,8 @@ class _$_SmartContract extends _SmartContract {
       const DeepCollectionEquality().hash(evolves),
       const DeepCollectionEquality().hash(tickets),
       const DeepCollectionEquality().hash(code),
-      const DeepCollectionEquality().hash(isCompiled));
+      const DeepCollectionEquality().hash(isCompiled),
+      const DeepCollectionEquality().hash(isPublished));
 
   @JsonKey(ignore: true)
   @override
@@ -449,7 +471,8 @@ abstract class _SmartContract extends SmartContract {
       List<Evolve> evolves,
       List<Ticket> tickets,
       String code,
-      bool isCompiled}) = _$_SmartContract;
+      bool isCompiled,
+      bool isPublished}) = _$_SmartContract;
   _SmartContract._() : super._();
 
   factory _SmartContract.fromJson(Map<String, dynamic> json) =
@@ -481,6 +504,8 @@ abstract class _SmartContract extends SmartContract {
   String get code;
   @override
   bool get isCompiled;
+  @override
+  bool get isPublished;
   @override
   @JsonKey(ignore: true)
   _$SmartContractCopyWith<_SmartContract> get copyWith =>

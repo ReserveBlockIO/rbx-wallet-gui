@@ -51,7 +51,7 @@ class FeaturesFormGroup extends BaseComponent {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0).copyWith(right: 0),
                 child: AppButton(
                   label: "Add Feature",
                   onPressed: _model.isCompiled

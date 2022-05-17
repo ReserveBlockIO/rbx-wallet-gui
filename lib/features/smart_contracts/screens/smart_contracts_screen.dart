@@ -4,9 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/screens/smart_contract_creator_container_screen.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -34,7 +32,7 @@ class SmartContractsScreen extends BaseScreen {
               title: "Use Template",
               iconData: FontAwesomeIcons.magic,
               body:
-                  "Donec sollicitudin molestie malesuada. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Donec sollicitudin molestie malesuada.",
+                  "Start with a smart contract template to get up and running quickly.",
               onPressed: () {
                 AutoRouter.of(context).push(TemplateChooserScreenRoute());
               },
@@ -43,7 +41,7 @@ class SmartContractsScreen extends BaseScreen {
               title: "Create Custom",
               iconData: Icons.create,
               body:
-                  "Donec sollicitudin molestie malesuada. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Donec sollicitudin molestie malesuada.",
+                  "Start with a blank slate and add all the features you like.",
               onPressed: () {
                 ref
                     .read(createSmartContractProvider.notifier)
@@ -56,7 +54,7 @@ class SmartContractsScreen extends BaseScreen {
               title: "Launch IDE",
               iconData: Icons.code,
               body:
-                  "Donec sollicitudin molestie malesuada. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Donec sollicitudin molestie malesuada.",
+                  "Open the online IDE (Integrated Development Environment) to write your own Trilliam code for your smart contract.",
               onPressed: () {
                 launch("https://trillium.rbx.network/");
               },
@@ -65,7 +63,7 @@ class SmartContractsScreen extends BaseScreen {
               title: "My Smart Contracts",
               iconData: Icons.folder,
               body:
-                  "Donec sollicitudin molestie malesuada. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Donec sollicitudin molestie malesuada.",
+                  "View existing smart contracts that you have compiled or continue where you left off with a saved draft.",
               onPressed: () {
                 AutoRouter.of(context).push(MySmartContractsScreenRoute());
               },
@@ -126,10 +124,13 @@ class _BigButton extends StatelessWidget {
                       style: Theme.of(context).textTheme.headline3,
                     ),
                   ),
-                  Text(
-                    body,
-                    style: Theme.of(context).textTheme.bodyText2,
-                    textAlign: TextAlign.center,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 32),
+                    child: Text(
+                      body,
+                      style: Theme.of(context).textTheme.bodyText2,
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ],
               ),

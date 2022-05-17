@@ -38,6 +38,7 @@ _$_SmartContract _$$_SmartContractFromJson(Map<String, dynamic> json) =>
           [],
       code: json['code'] as String? ?? '',
       isCompiled: json['isCompiled'] as bool? ?? false,
+      isPublished: json['isPublished'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$_SmartContractToJson(_$_SmartContract instance) =>
@@ -55,4 +56,5 @@ Map<String, dynamic> _$$_SmartContractToJson(_$_SmartContract instance) =>
       'tickets': instance.tickets,
       'code': instance.code,
       'isCompiled': instance.isCompiled,
+      'isPublished': instance.isPublished,
     };

@@ -16,7 +16,8 @@ class HelpButton extends StatelessWidget {
     return IconButton(
       icon: Icon(
         Icons.help,
-        color: Colors.white38,
+        color: Theme.of(context).colorScheme.secondary,
+        size: 18,
       ),
       onPressed: () {
         InfoDialog.show(

@@ -9,23 +9,63 @@ class CodeModal extends StatelessWidget {
   Widget build(BuildContext context) {
     return ModalContainer(
       children: [
-        Center(
+        Align(
+          alignment: Alignment.centerRight,
           child: TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
               child: Text(
                 "Close",
-                style: TextStyle(color: Colors.white70),
+                style: TextStyle(color: Colors.white),
               )),
         ),
-        TextFormField(
-          readOnly: true,
-          minLines: 24,
-          maxLines: 64,
-          initialValue: code,
-          decoration: InputDecoration(),
-          style: TextStyle(fontFamily: "RobotoMono"),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 30,
+              color: Theme.of(context).colorScheme.primary,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: code
+                    .split("\n")
+                    .asMap()
+                    .entries
+                    .map((e) => Padding(
+                          padding: const EdgeInsets.only(right: 3.0),
+                          child: Text(
+                            "${e.key + 1}",
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                                fontFamily: "RobotoMono",
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ))
+                    .toList(),
+              ),
+            ),
+            // Expanded(
+            //   child: TextFormField(
+            //     readOnly: true,
+            //     minLines: 24,
+            //     maxLines: 64,
+            //     initialValue: code,
+            //     decoration: InputDecoration(),
+            //     style: TextStyle(fontFamily: "RobotoMono", fontSize: 16),
+            //   ),
+            // ),
+            SizedBox(
+              width: 8,
+            ),
+            Expanded(
+              child: SelectableText(
+                code,
+                style: TextStyle(fontFamily: "RobotoMono", fontSize: 16),
+              ),
+            )
+          ],
         )
       ],
     );

@@ -23,7 +23,7 @@ import 'package:rbx_wallet/features/node/screens/node_list_screen.dart' as _i11;
 import 'package:rbx_wallet/features/receive/screens/receive_screen.dart' as _i8;
 import 'package:rbx_wallet/features/root/root_container.dart' as _i1;
 import 'package:rbx_wallet/features/send/screens/send_screen.dart' as _i7;
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/sc_creator_main.dart'
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/smart_contract_creator_main.dart'
     as _i17;
 import 'package:rbx_wallet/features/smart_contracts/screens/my_smart_contracts_screen.dart'
     as _i2;
@@ -149,9 +149,9 @@ class AppRouter extends _i5.RootStackRouter {
       return _i5.AdaptivePage<dynamic>(
           routeData: routeData, child: const _i16.ExplorerScreen());
     },
-    ScCreatorMainRoute.name: (routeData) {
+    SmartContractCreatorMainRoute.name: (routeData) {
       return _i5.AdaptivePage<dynamic>(
-          routeData: routeData, child: const _i17.ScCreatorMain());
+          routeData: routeData, child: const _i17.SmartContractCreatorMain());
     }
   };
 
@@ -248,7 +248,7 @@ class AppRouter extends _i5.RootStackRouter {
                   parent: SmartContractCreatorContainerScreenRoute.name,
                   redirectTo: 'main',
                   fullMatch: true),
-              _i5.RouteConfig(ScCreatorMainRoute.name,
+              _i5.RouteConfig(SmartContractCreatorMainRoute.name,
                   path: 'main',
                   parent: SmartContractCreatorContainerScreenRoute.name)
             ])
@@ -490,9 +490,10 @@ class ExplorerScreenRoute extends _i5.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i17.ScCreatorMain]
-class ScCreatorMainRoute extends _i5.PageRouteInfo<void> {
-  const ScCreatorMainRoute() : super(ScCreatorMainRoute.name, path: 'main');
+/// [_i17.SmartContractCreatorMain]
+class SmartContractCreatorMainRoute extends _i5.PageRouteInfo<void> {
+  const SmartContractCreatorMainRoute()
+      : super(SmartContractCreatorMainRoute.name, path: 'main');
 
-  static const String name = 'ScCreatorMainRoute';
+  static const String name = 'SmartContractCreatorMainRoute';
 }
