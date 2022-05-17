@@ -58,60 +58,73 @@ List<SmartContractTemplate> getSmartContractTemplates(
     _provider.setSmartContract(smartContract);
   }
 
+  final learnMorePlaceholder = [
+    LearnMoreStep(
+      title: "Heading",
+      description:
+          "Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec rutrum congue leo eget malesuada.",
+    ),
+    LearnMoreStep(
+      title: "Heading",
+      description:
+          "Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec rutrum congue leo eget malesuada.",
+    ),
+    LearnMoreStep(
+      title: "Heading",
+      description:
+          "Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec rutrum congue leo eget malesuada.",
+    ),
+  ];
+
   final templates = [
     SmartContractTemplate(
-        name: "Baseline Smart Contract",
-        color: Theme.of(context).colorScheme.primary,
-        description:
-            "Create a basic smart contract with an asset and metadata and deploy it to the network.",
-        images: [
-          Assets.images.templateBasic1.path,
-          Assets.images.templateBasic2.path,
-          Assets.images.templateBasic3.path,
-        ],
-        init: _createBaseline,
-        learnMoreContent: LearnMoreContent(
-          onCreate: _createBaseline,
-          steps: [
-            LearnMoreStep(
-              title: "Heading",
-              description:
-                  "Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec rutrum congue leo eget malesuada.",
-            ),
-            LearnMoreStep(
-              title: "Heading",
-              description:
-                  "Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec rutrum congue leo eget malesuada.",
-            ),
-            LearnMoreStep(
-              title: "Heading",
-              description:
-                  "Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec rutrum congue leo eget malesuada.",
-            ),
-          ],
-        )),
+      name: "Baseline Smart Contract",
+      color: Theme.of(context).colorScheme.primary,
+      description:
+          "Create a basic smart contract with an asset and metadata and deploy it to the network.",
+      images: [
+        Assets.images.templateBasic1.path,
+        Assets.images.templateBasic2.path,
+        Assets.images.templateBasic3.path,
+      ],
+      init: _createBaseline,
+      learnMoreContent: LearnMoreContent(
+        onCreate: _createBaseline,
+        steps: learnMorePlaceholder,
+      ),
+    ),
     SmartContractTemplate(
-        name: "Evolving Smart Contract",
-        description:
-            "Generate a smart contract that can evolve based on time or network controlled variables.",
-        images: [
-          Assets.images.templateEvolve1.path,
-          Assets.images.templateEvolve2.path,
-          Assets.images.templateEvolve3.path,
-        ],
-        color: Theme.of(context).colorScheme.primary,
-        init: _createEvolving),
+      name: "Evolving Smart Contract",
+      description:
+          "Generate a smart contract that can evolve based on time or network controlled variables.",
+      images: [
+        Assets.images.templateEvolve1.path,
+        Assets.images.templateEvolve2.path,
+        Assets.images.templateEvolve3.path,
+      ],
+      learnMoreContent: LearnMoreContent(
+        onCreate: _createEvolving,
+        steps: learnMorePlaceholder,
+      ),
+      color: Theme.of(context).colorScheme.primary,
+      init: _createEvolving,
+    ),
     SmartContractTemplate(
-        name: "Royalty Smart Contract",
-        description:
-            "Create a smart contract that includes a royalty that is enforced by the network on all future sales.",
-        color: Theme.of(context).colorScheme.primary,
-        images: [
-          Assets.images.templateRoyalty1.path,
-          Assets.images.templateRoyalty2.path,
-          Assets.images.templateRoyalty3.path,
-        ],
-        init: _createRoyalty),
+      name: "Royalty Smart Contract",
+      description:
+          "Create a smart contract that includes a royalty that is enforced by the network on all future sales.",
+      color: Theme.of(context).colorScheme.primary,
+      images: [
+        Assets.images.templateRoyalty1.path,
+        Assets.images.templateRoyalty2.path,
+        Assets.images.templateRoyalty3.path,
+      ],
+      learnMoreContent: LearnMoreContent(
+        onCreate: _createRoyalty,
+        steps: learnMorePlaceholder,
+      ),
+      init: _createRoyalty,
+    ),
   ];
 
   return templates;

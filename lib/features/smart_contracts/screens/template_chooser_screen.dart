@@ -253,12 +253,13 @@ class _TemplateCardState extends BaseComponentState<_TemplateCard> {
                         height: 45,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              primary: Colors.white,
-                              onPrimary: Colors.black,
-                              textStyle: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                              )),
+                            primary: Colors.white,
+                            onPrimary: Colors.black,
+                            textStyle: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                           onPressed: _handleCreate,
                           child: Text("Create"),
                         ),
@@ -273,6 +274,7 @@ class _TemplateCardState extends BaseComponentState<_TemplateCard> {
                           onPressed: () {
                             showModalBottomSheet(
                                 context: context,
+                                isScrollControlled: true,
                                 builder: (context) {
                                   return ModalContainer(
                                     withClose: true,

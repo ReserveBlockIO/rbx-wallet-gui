@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/app.dart';
 import 'package:rbx_wallet/core/base_component.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_header.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_form_provider.dart';
@@ -98,7 +99,10 @@ class _FeatureOptionCard extends StatelessWidget {
       child: ListTile(
         dense: !feature.isAvailable,
         contentPadding: EdgeInsets.zero,
-        leading: Icon(feature.icon),
+        leading: Icon(
+          feature.icon,
+          color: Theme.of(context).colorScheme.warning,
+        ),
         title: Text(feature.nameLabel),
         subtitle: Text(feature.genericDescription),
         trailing: feature.isAvailable ? Icon(Icons.chevron_right) : null,
