@@ -35,6 +35,7 @@ dependencies:
   path_provider: ^2.0.9
   uuid: ^3.0.6
   file_picker: ^4.5.1
+  qr_flutter: ^4.0.0
 
 dev_dependencies:
   auto_route_generator: ^3.2.1

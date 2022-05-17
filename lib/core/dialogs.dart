@@ -4,13 +4,13 @@ import 'package:rbx_wallet/app.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 
 class InfoDialog {
-  static show({
-    required String title,
-    String? body,
-    Widget? content,
-    String? closeText,
-    IconData? icon,
-  }) async {
+  static show(
+      {required String title,
+      String? body,
+      Widget? content,
+      String? closeText,
+      IconData? icon,
+      Color? headerColor = Colors.white38}) async {
     final context = rootNavigatorKey.currentContext!;
 
     return await showDialog(
@@ -25,10 +25,15 @@ class InfoDialog {
                   padding: const EdgeInsets.only(right: 8.0),
                   child: Icon(
                     icon,
-                    color: Colors.white38,
+                    color: headerColor,
                   ),
                 ),
-              Text(title),
+              Text(
+                title,
+                style: TextStyle(
+                  color: headerColor,
+                ),
+              ),
             ],
           ),
           content: body != null ? Text(body) : content,
@@ -45,7 +50,9 @@ class InfoDialog {
               },
               child: Text(
                 closeText ?? "Close",
-                style: TextStyle(color: Theme.of(context).colorScheme.info),
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.secondary,
+                ),
               ),
             )
           ],

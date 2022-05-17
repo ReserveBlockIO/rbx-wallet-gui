@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -8,12 +7,9 @@ import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/smart_contract.dart';
+import 'package:rbx_wallet/features/nft/data/templates.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/smart_contract_template.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
@@ -41,82 +37,7 @@ class TemplateChooserScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final _provider = ref.read(createSmartContractProvider.notifier);
-
-    final templates = [
-      SmartContractTemplate(
-        name: "Baseline Smart Contract",
-        color: Theme.of(context).colorScheme.primary,
-        description:
-            "Create a basic smart contract with an asset and metadata and deploy it to the network.",
-        images: [
-          Assets.images.templateBasic1.path,
-          Assets.images.templateBasic2.path,
-          Assets.images.templateBasic3.path,
-        ],
-        init: () {
-          final smartContract = SmartContract(
-            owner: ref.read(sessionProvider).currentWallet!,
-            name: "My Basic NFT",
-            description: "Write some good stuff here...",
-          );
-
-          _provider.setSmartContract(smartContract);
-        },
-      ),
-      SmartContractTemplate(
-        name: "Evolving Smart Contract",
-        description:
-            "Generate a smart contract that can evolve based on time or network controlled variables.",
-        images: [
-          Assets.images.templateEvolve1.path,
-          Assets.images.templateEvolve2.path,
-          Assets.images.templateEvolve3.path,
-        ],
-        color: Theme.of(context).colorScheme.primary,
-        init: () {
-          final evolve = Evolve(phases: [
-            EvolvePhase(
-              name: "First Phase",
-              description: "Write something here.",
-            )
-          ]);
-          final smartContract = SmartContract(
-              owner: ref.read(sessionProvider).currentWallet!,
-              name: "My Evolving NFT",
-              description: "Write some good stuff here...",
-              evolves: [evolve]);
-
-          _provider.setSmartContract(smartContract);
-        },
-      ),
-      SmartContractTemplate(
-        name: "Royalty Smart Contract",
-        description:
-            "Create a smart contract that includes a royalty that is enforced by the network on all future sales.",
-        color: Theme.of(context).colorScheme.primary,
-        images: [
-          Assets.images.templateRoyalty1.path,
-          Assets.images.templateRoyalty2.path,
-          Assets.images.templateRoyalty3.path,
-        ],
-        init: () {
-          final royalty = Royalty(
-            amount: 0.3,
-            type: RoyaltyType.percent,
-            address: ref.read(sessionProvider).currentWallet!.address,
-          );
-          final smartContract = SmartContract(
-            owner: ref.read(sessionProvider).currentWallet!,
-            name: "My Royalty NFT",
-            description: "Write some good stuff here...",
-            royalties: [royalty],
-          );
-
-          _provider.setSmartContract(smartContract);
-        },
-      ),
-    ];
+    final templates = getSmartContractTemplates(context, ref);
 
     return Stack(
       children: [
@@ -161,23 +82,6 @@ class TemplateChooserScreen extends BaseScreen {
                   ).toList(),
                 ),
               ),
-              // Column(
-              //   mainAxisSize: MainAxisSize.min,
-              //   children: [
-              //     AppButton(
-              //       label: "Create Custom",
-              //       onPressed: () {
-              //         ref
-              //             .read(createSmartContractProvider.notifier)
-              //             .clearSmartContract();
-              //         AutoRouter.of(context)
-              //             .push(SmartContractCreatorContainerScreenRoute());
-              //       },
-              //       type: AppButtonType.Elevated,
-              //       variant: AppColorVariant.Light,
-              //     ),
-              //   ],
-              // )
             ],
           ),
         ),
@@ -286,12 +190,6 @@ class _TemplateCardState extends BaseComponentState<_TemplateCard> {
                         children: [
                           AnimatedSwitcher(
                             duration: Duration(milliseconds: 400),
-                            // transitionBuilder: (child, animation) {
-                            //   return ScaleTransition(
-                            //     scale: animation,
-                            //     child: child,
-                            //   );
-                            // },
                             child: Image.asset(
                               widget.template.images[
                                   _index % widget.template.images.length],
@@ -349,15 +247,7 @@ class _TemplateCardState extends BaseComponentState<_TemplateCard> {
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // AppButton(
-                      //   label: "Create",
-                      //   icon: Icons.edit,
-                      //   onPressed: _handleCreate,
-                      //   type: AppButtonType.Elevated,
-                      //   variant: AppColorVariant.Light,
-                      // ),
                       SizedBox(
                         width: 150,
                         height: 45,
@@ -376,13 +266,25 @@ class _TemplateCardState extends BaseComponentState<_TemplateCard> {
                       SizedBox(
                         height: 8,
                       ),
-                      AppButton(
-                        label: "Learn More",
-                        icon: Icons.help,
-                        onPressed: () {},
-                        type: AppButtonType.Text,
-                        variant: AppColorVariant.Light,
-                      ),
+                      if (widget.template.learnMoreContent != null)
+                        AppButton(
+                          label: "Learn More",
+                          icon: Icons.help,
+                          onPressed: () {
+                            showModalBottomSheet(
+                                context: context,
+                                builder: (context) {
+                                  return ModalContainer(
+                                    withClose: true,
+                                    children: [
+                                      widget.template.learnMoreContent!,
+                                    ],
+                                  );
+                                });
+                          },
+                          type: AppButtonType.Text,
+                          variant: AppColorVariant.Light,
+                        ),
                     ],
                   ),
                 )

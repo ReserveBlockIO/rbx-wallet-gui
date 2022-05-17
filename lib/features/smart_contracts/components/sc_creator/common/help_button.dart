@@ -25,6 +25,7 @@ class HelpButton extends StatelessWidget {
           body: _body,
           closeText: _closeText,
           icon: Icons.help,
+          headerColor: Theme.of(context).colorScheme.secondary,
         );
       },
     );

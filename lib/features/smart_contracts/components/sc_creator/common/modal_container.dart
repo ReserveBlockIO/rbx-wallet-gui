@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 class ModalContainer extends StatelessWidget {
   final List<Widget> children;
   final Color color;
-  const ModalContainer(
-      {Key? key, this.color = Colors.black, this.children = const []})
-      : super(key: key);
+  final bool withClose;
+  const ModalContainer({
+    Key? key,
+    this.color = Colors.black,
+    this.children = const [],
+    this.withClose = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +22,24 @@ class ModalContainer extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: children,
+              children: [
+                if (withClose)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          "Close",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ),
+                ...children
+              ],
             ),
           ),
         ),

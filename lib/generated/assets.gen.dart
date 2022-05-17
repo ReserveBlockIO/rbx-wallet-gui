@@ -94,9 +94,9 @@ class $AssetsImagesGen {
   AssetGenImage get templateBasic2 =>
       const AssetGenImage('assets/images/template_basic_2.jpg');
 
-  /// File path: assets/images/template_basic_3.jpg
+  /// File path: assets/images/template_basic_3.gif
   AssetGenImage get templateBasic3 =>
-      const AssetGenImage('assets/images/template_basic_3.jpg');
+      const AssetGenImage('assets/images/template_basic_3.gif');
 
   /// File path: assets/images/template_evolve_1.jpg
   AssetGenImage get templateEvolve1 =>

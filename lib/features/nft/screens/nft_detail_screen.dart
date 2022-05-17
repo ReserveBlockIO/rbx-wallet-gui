@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/nft/components/nft_qr_code.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
 import 'package:rbx_wallet/features/nft/modals/nft_management_modal.dart';
@@ -126,72 +128,116 @@ class NftDetailScreen extends BaseScreen {
             ],
           ),
           Divider(),
-          Text("Asset:", style: Theme.of(context).textTheme.headline5),
-          ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 512),
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
+          Wrap(
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Asset:", style: Theme.of(context).textTheme.headline5),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 512),
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            nft.primaryAsset.isImage
+                                ? Image.file(
+                                    nft.primaryAsset.file,
+                                    width: double.infinity,
+                                    fit: BoxFit.contain,
+                                  )
+                                : Icon(Icons.file_present_outlined),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: ListTile(
+                                    contentPadding: EdgeInsets.zero,
+                                    leading: Icon(nft.primaryAsset.icon),
+                                    title: Text(nft.primaryAsset.fileType),
+                                    subtitle: Text("File Type"),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: ListTile(
+                                    leading: Icon(Icons.line_weight),
+                                    contentPadding: EdgeInsets.zero,
+                                    title: Text(nft.primaryAsset.filesizeLabel),
+                                    subtitle: Text("File Size"),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Divider(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                AppButton(
+                                  label: "Open Folder",
+                                  icon: Icons.folder_open,
+                                  onPressed: () {
+                                    openFile(nft.primaryAsset.folder);
+                                  },
+                                ),
+                                SizedBox(width: 4),
+                                AppButton(
+                                  label: "Open Asset",
+                                  icon: Icons.file_open,
+                                  onPressed: () {
+                                    openFile(nft.primaryAsset.location);
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 400),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    nft.primaryAsset.isImage
-                        ? Image.file(
-                            nft.primaryAsset.file,
-                            width: double.infinity,
-                            fit: BoxFit.contain,
-                          )
-                        : Icon(Icons.file_present_outlined),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: ListTile(
-                            contentPadding: EdgeInsets.zero,
-                            leading: Icon(nft.primaryAsset.icon),
-                            title: Text(nft.primaryAsset.fileType),
-                            subtitle: Text("File Type"),
-                          ),
-                        ),
-                        Expanded(
-                          child: ListTile(
-                            leading: Icon(Icons.line_weight),
-                            contentPadding: EdgeInsets.zero,
-                            title: Text(nft.primaryAsset.filesizeLabel),
-                            subtitle: Text("File Size"),
-                          ),
-                        ),
-                      ],
+                    Text(
+                      "QR Code:",
+                      style: Theme.of(context).textTheme.headline5,
                     ),
-                    Divider(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        AppButton(
-                          label: "Open Folder",
-                          icon: Icons.folder_open,
-                          onPressed: () {
-                            openFile(nft.primaryAsset.folder);
-                          },
-                        ),
-                        SizedBox(width: 4),
-                        AppButton(
-                          label: "Open Asset",
-                          icon: Icons.file_open,
-                          onPressed: () {
-                            openFile(nft.primaryAsset.location);
-                          },
-                        ),
-                      ],
-                    ),
+                    NftQrCode(data: nft.address),
                   ],
                 ),
-              ),
-            ),
+              )
+            ],
           ),
+
           Divider(),
           Text("Features:", style: Theme.of(context).textTheme.headline5),
-          if (nft.features.isEmpty) Text("No features"),
+          if (nft.features.isEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.cancel,
+                    size: 16,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4.0),
+                    child: Text(
+                      "No features",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,

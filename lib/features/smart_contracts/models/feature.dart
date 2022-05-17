@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
@@ -58,11 +59,17 @@ abstract class Feature with _$Feature {
   }
 
   String get genericDescription {
-    if (!isAvailable) {
-      return "Activating soon...";
+    if (isAvailable) {
+      switch (type) {
+        case FeatureType.royalty:
+          return "Include a royalty that is enforced by the network on all future sales.";
+        case FeatureType.evolution:
+          return "Allow the smart contract to evolve based on time or network controlled variables.";
+        default:
+          break;
+      }
     }
-
-    return "Lorem ipsim";
+    return "Activating soon...";
   }
 
   IconData get icon {
@@ -73,7 +80,7 @@ abstract class Feature with _$Feature {
     switch (type) {
       case FeatureType.royalty:
       case FeatureType.evolution:
-      case FeatureType.ticket:
+        // case FeatureType.ticket:
         return true;
       default:
         return false;
@@ -142,6 +149,32 @@ abstract class Feature with _$Feature {
   }
 
   static IconData typeToIcon(FeatureType type) {
-    return Icons.star;
+    switch (type) {
+      case FeatureType.royalty:
+        return FontAwesomeIcons.moneyBill;
+      case FeatureType.evolution:
+        return FontAwesomeIcons.adjust;
+      case FeatureType.ticket:
+        return FontAwesomeIcons.ticketAlt;
+      case FeatureType.tokenization:
+        return FontAwesomeIcons.trophy;
+      case FeatureType.music:
+        return FontAwesomeIcons.music;
+      case FeatureType.additionalOwners:
+        return FontAwesomeIcons.users;
+      case FeatureType.selfDestructive:
+        return FontAwesomeIcons.fire;
+      case FeatureType.consumable:
+        return FontAwesomeIcons.boxOpen;
+      case FeatureType.fractionalization:
+        return FontAwesomeIcons.divide;
+      case FeatureType.pair:
+        return FontAwesomeIcons.arrowsAltH;
+      case FeatureType.wrap:
+        return FontAwesomeIcons.gift;
+
+      default:
+        return Icons.star;
+    }
   }
 }

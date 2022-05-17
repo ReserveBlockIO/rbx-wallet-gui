@@ -6,6 +6,7 @@ class SmartContractTemplate {
   final List<String> images;
   final Color color;
   final Function() init;
+  final Widget? learnMoreContent;
 
   SmartContractTemplate({
     required this.name,
@@ -13,5 +14,6 @@ class SmartContractTemplate {
     required this.init,
     required this.color,
     required this.images,
+    this.learnMoreContent,
   });
 }
