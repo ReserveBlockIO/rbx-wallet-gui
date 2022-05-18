@@ -24,6 +24,7 @@ class _$EvolvePhaseTearOff {
   _EvolvePhase call(
       {String name = "",
       DateTime? dateTime,
+      int? blockHeight,
       String description = "",
       int evolutionState = 0,
       bool isCurrentState = false,
@@ -31,6 +32,7 @@ class _$EvolvePhaseTearOff {
     return _EvolvePhase(
       name: name,
       dateTime: dateTime,
+      blockHeight: blockHeight,
       description: description,
       evolutionState: evolutionState,
       isCurrentState: isCurrentState,
@@ -49,7 +51,8 @@ const $EvolvePhase = _$EvolvePhaseTearOff();
 /// @nodoc
 mixin _$EvolvePhase {
   String get name => throw _privateConstructorUsedError;
-  DateTime? get dateTime =>
+  DateTime? get dateTime => throw _privateConstructorUsedError;
+  int? get blockHeight =>
       throw _privateConstructorUsedError; // @Default("") String expectedValue,
   String get description => throw _privateConstructorUsedError;
   int get evolutionState => throw _privateConstructorUsedError;
@@ -70,6 +73,7 @@ abstract class $EvolvePhaseCopyWith<$Res> {
   $Res call(
       {String name,
       DateTime? dateTime,
+      int? blockHeight,
       String description,
       int evolutionState,
       bool isCurrentState,
@@ -90,6 +94,7 @@ class _$EvolvePhaseCopyWithImpl<$Res> implements $EvolvePhaseCopyWith<$Res> {
   $Res call({
     Object? name = freezed,
     Object? dateTime = freezed,
+    Object? blockHeight = freezed,
     Object? description = freezed,
     Object? evolutionState = freezed,
     Object? isCurrentState = freezed,
@@ -104,6 +109,10 @@ class _$EvolvePhaseCopyWithImpl<$Res> implements $EvolvePhaseCopyWith<$Res> {
           ? _value.dateTime
           : dateTime // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      blockHeight: blockHeight == freezed
+          ? _value.blockHeight
+          : blockHeight // ignore: cast_nullable_to_non_nullable
+              as int?,
       description: description == freezed
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -145,6 +154,7 @@ abstract class _$EvolvePhaseCopyWith<$Res>
   $Res call(
       {String name,
       DateTime? dateTime,
+      int? blockHeight,
       String description,
       int evolutionState,
       bool isCurrentState,
@@ -168,6 +178,7 @@ class __$EvolvePhaseCopyWithImpl<$Res> extends _$EvolvePhaseCopyWithImpl<$Res>
   $Res call({
     Object? name = freezed,
     Object? dateTime = freezed,
+    Object? blockHeight = freezed,
     Object? description = freezed,
     Object? evolutionState = freezed,
     Object? isCurrentState = freezed,
@@ -182,6 +193,10 @@ class __$EvolvePhaseCopyWithImpl<$Res> extends _$EvolvePhaseCopyWithImpl<$Res>
           ? _value.dateTime
           : dateTime // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      blockHeight: blockHeight == freezed
+          ? _value.blockHeight
+          : blockHeight // ignore: cast_nullable_to_non_nullable
+              as int?,
       description: description == freezed
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -209,6 +224,7 @@ class _$_EvolvePhase extends _EvolvePhase {
   const _$_EvolvePhase(
       {this.name = "",
       this.dateTime,
+      this.blockHeight,
       this.description = "",
       this.evolutionState = 0,
       this.isCurrentState = false,
@@ -223,6 +239,8 @@ class _$_EvolvePhase extends _EvolvePhase {
   final String name;
   @override
   final DateTime? dateTime;
+  @override
+  final int? blockHeight;
   @JsonKey(defaultValue: "")
   @override // @Default("") String expectedValue,
   final String description;
@@ -237,7 +255,7 @@ class _$_EvolvePhase extends _EvolvePhase {
 
   @override
   String toString() {
-    return 'EvolvePhase(name: $name, dateTime: $dateTime, description: $description, evolutionState: $evolutionState, isCurrentState: $isCurrentState, asset: $asset)';
+    return 'EvolvePhase(name: $name, dateTime: $dateTime, blockHeight: $blockHeight, description: $description, evolutionState: $evolutionState, isCurrentState: $isCurrentState, asset: $asset)';
   }
 
   @override
@@ -247,6 +265,8 @@ class _$_EvolvePhase extends _EvolvePhase {
             other is _EvolvePhase &&
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality().equals(other.dateTime, dateTime) &&
+            const DeepCollectionEquality()
+                .equals(other.blockHeight, blockHeight) &&
             const DeepCollectionEquality()
                 .equals(other.description, description) &&
             const DeepCollectionEquality()
@@ -261,6 +281,7 @@ class _$_EvolvePhase extends _EvolvePhase {
       runtimeType,
       const DeepCollectionEquality().hash(name),
       const DeepCollectionEquality().hash(dateTime),
+      const DeepCollectionEquality().hash(blockHeight),
       const DeepCollectionEquality().hash(description),
       const DeepCollectionEquality().hash(evolutionState),
       const DeepCollectionEquality().hash(isCurrentState),
@@ -281,6 +302,7 @@ abstract class _EvolvePhase extends EvolvePhase {
   const factory _EvolvePhase(
       {String name,
       DateTime? dateTime,
+      int? blockHeight,
       String description,
       int evolutionState,
       bool isCurrentState,
@@ -294,6 +316,8 @@ abstract class _EvolvePhase extends EvolvePhase {
   String get name;
   @override
   DateTime? get dateTime;
+  @override
+  int? get blockHeight;
   @override // @Default("") String expectedValue,
   String get description;
   @override

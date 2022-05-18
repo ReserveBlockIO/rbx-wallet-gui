@@ -9,16 +9,12 @@ import 'package:rbx_wallet/utils/generators.dart';
 
 class EvolveFormProvider extends StateNotifier<Evolve> {
   final Reader read;
-  late final TextEditingController urlController;
 
   EvolveFormProvider(this.read, [Evolve model = const Evolve()])
-      : super(model) {
-    urlController = TextEditingController(text: model.url);
-  }
+      : super(model) {}
 
   setEvolve(Evolve evolve) {
     state = evolve;
-    urlController.text = evolve.url;
 
     for (var i = 0; i < evolve.phases.length; i++) {
       read(evolvePhaseFormProvider(i).notifier).setPhase(evolve.phases[i]);

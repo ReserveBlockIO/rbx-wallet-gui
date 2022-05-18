@@ -21,6 +21,7 @@ Map<String, dynamic> _$$_FeatureToJson(_$_Feature instance) =>
 const _$FeatureTypeEnumMap = {
   FeatureType.royalty: 'royalty',
   FeatureType.evolution: 'evolution',
+  FeatureType.multiAsset: 'multiAsset',
   FeatureType.ticket: 'ticket',
   FeatureType.tokenization: 'tokenization',
   FeatureType.music: 'music',

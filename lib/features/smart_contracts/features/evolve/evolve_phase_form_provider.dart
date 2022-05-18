@@ -10,7 +10,7 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
   final int index;
   late final TextEditingController nameController;
   late final TextEditingController descriptionController;
-  // late final TextEditingController valueController;
+  late final TextEditingController blockHeightController;
   late final TextEditingController dateController;
   late final TextEditingController timeController;
 
@@ -22,7 +22,8 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
     nameController = TextEditingController(text: model.name);
     descriptionController = TextEditingController(text: model.description);
 
-    // valueController = TextEditingController(text: model.expectedValue);
+    blockHeightController =
+        TextEditingController(text: model.blockHeight.toString());
     dateController = TextEditingController(text: model.dateLabel);
     timeController = TextEditingController(text: model.timeLabel);
   }
@@ -35,13 +36,15 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
     state = phase;
     nameController.text = phase.name;
     descriptionController.text = phase.description;
+    blockHeightController.text = phase.blockHeight.toString();
   }
 
   bool save() {
-    state = state.copyWith(
+    final bh = state = state.copyWith(
       name: nameController.text,
       description: descriptionController.text,
       // expectedValue: valueController.text,
+      blockHeight: int.tryParse(blockHeightController.text),
     );
 
     read(evolveFormProvider.notifier).updatePhase(index, state);
@@ -49,7 +52,6 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
   }
 
   setAsset(Asset? asset) {
-    print(asset);
     state = state.copyWith(asset: asset);
   }
 
@@ -83,7 +85,7 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
   clear() {
     nameController.text = "";
     descriptionController.text = "";
-    // valueController.text = "";
+    blockHeightController.text = "";
     setAsset(null);
   }
 }

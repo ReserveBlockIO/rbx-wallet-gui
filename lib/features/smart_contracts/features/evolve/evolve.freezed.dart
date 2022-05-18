@@ -24,14 +24,12 @@ class _$EvolveTearOff {
   _Evolve call(
       {String id = "",
       EvolveType type = EvolveType.time,
-      String url = "",
       List<EvolvePhase> phases = const [],
       bool isDynamic = false,
       Asset? asset}) {
     return _Evolve(
       id: id,
       type: type,
-      url: url,
       phases: phases,
       isDynamic: isDynamic,
       asset: asset,
@@ -50,7 +48,6 @@ const $Evolve = _$EvolveTearOff();
 mixin _$Evolve {
   String get id => throw _privateConstructorUsedError;
   EvolveType get type => throw _privateConstructorUsedError;
-  String get url => throw _privateConstructorUsedError;
   List<EvolvePhase> get phases => throw _privateConstructorUsedError;
   bool get isDynamic => throw _privateConstructorUsedError;
   Asset? get asset => throw _privateConstructorUsedError;
@@ -67,7 +64,6 @@ abstract class $EvolveCopyWith<$Res> {
   $Res call(
       {String id,
       EvolveType type,
-      String url,
       List<EvolvePhase> phases,
       bool isDynamic,
       Asset? asset});
@@ -87,7 +83,6 @@ class _$EvolveCopyWithImpl<$Res> implements $EvolveCopyWith<$Res> {
   $Res call({
     Object? id = freezed,
     Object? type = freezed,
-    Object? url = freezed,
     Object? phases = freezed,
     Object? isDynamic = freezed,
     Object? asset = freezed,
@@ -101,10 +96,6 @@ class _$EvolveCopyWithImpl<$Res> implements $EvolveCopyWith<$Res> {
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as EvolveType,
-      url: url == freezed
-          ? _value.url
-          : url // ignore: cast_nullable_to_non_nullable
-              as String,
       phases: phases == freezed
           ? _value.phases
           : phases // ignore: cast_nullable_to_non_nullable
@@ -140,7 +131,6 @@ abstract class _$EvolveCopyWith<$Res> implements $EvolveCopyWith<$Res> {
   $Res call(
       {String id,
       EvolveType type,
-      String url,
       List<EvolvePhase> phases,
       bool isDynamic,
       Asset? asset});
@@ -162,7 +152,6 @@ class __$EvolveCopyWithImpl<$Res> extends _$EvolveCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? type = freezed,
-    Object? url = freezed,
     Object? phases = freezed,
     Object? isDynamic = freezed,
     Object? asset = freezed,
@@ -176,10 +165,6 @@ class __$EvolveCopyWithImpl<$Res> extends _$EvolveCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as EvolveType,
-      url: url == freezed
-          ? _value.url
-          : url // ignore: cast_nullable_to_non_nullable
-              as String,
       phases: phases == freezed
           ? _value.phases
           : phases // ignore: cast_nullable_to_non_nullable
@@ -203,7 +188,6 @@ class _$_Evolve extends _Evolve {
   const _$_Evolve(
       {this.id = "",
       this.type = EvolveType.time,
-      this.url = "",
       this.phases = const [],
       this.isDynamic = false,
       this.asset})
@@ -218,9 +202,6 @@ class _$_Evolve extends _Evolve {
   @JsonKey(defaultValue: EvolveType.time)
   @override
   final EvolveType type;
-  @JsonKey(defaultValue: "")
-  @override
-  final String url;
   @JsonKey(defaultValue: const [])
   @override
   final List<EvolvePhase> phases;
@@ -232,7 +213,7 @@ class _$_Evolve extends _Evolve {
 
   @override
   String toString() {
-    return 'Evolve(id: $id, type: $type, url: $url, phases: $phases, isDynamic: $isDynamic, asset: $asset)';
+    return 'Evolve(id: $id, type: $type, phases: $phases, isDynamic: $isDynamic, asset: $asset)';
   }
 
   @override
@@ -242,7 +223,6 @@ class _$_Evolve extends _Evolve {
             other is _Evolve &&
             const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.type, type) &&
-            const DeepCollectionEquality().equals(other.url, url) &&
             const DeepCollectionEquality().equals(other.phases, phases) &&
             const DeepCollectionEquality().equals(other.isDynamic, isDynamic) &&
             const DeepCollectionEquality().equals(other.asset, asset));
@@ -253,7 +233,6 @@ class _$_Evolve extends _Evolve {
       runtimeType,
       const DeepCollectionEquality().hash(id),
       const DeepCollectionEquality().hash(type),
-      const DeepCollectionEquality().hash(url),
       const DeepCollectionEquality().hash(phases),
       const DeepCollectionEquality().hash(isDynamic),
       const DeepCollectionEquality().hash(asset));
@@ -273,7 +252,6 @@ abstract class _Evolve extends Evolve {
   const factory _Evolve(
       {String id,
       EvolveType type,
-      String url,
       List<EvolvePhase> phases,
       bool isDynamic,
       Asset? asset}) = _$_Evolve;
@@ -285,8 +263,6 @@ abstract class _Evolve extends Evolve {
   String get id;
   @override
   EvolveType get type;
-  @override
-  String get url;
   @override
   List<EvolvePhase> get phases;
   @override

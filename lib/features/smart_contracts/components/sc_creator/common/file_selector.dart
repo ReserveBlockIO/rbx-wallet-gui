@@ -24,7 +24,7 @@ class FileSelector extends StatelessWidget {
     required this.onChange,
     this.asset,
     this.readOnly = false,
-    this.withAuthorName = false,
+    this.withAuthorName = true,
   }) : super(key: key);
 
   Future<void> _handleUpload() async {
@@ -69,6 +69,10 @@ class FileSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     String? _title = asset != null ? asset!.fileName : title;
     String? _subtitle = asset != null ? "Type: ${asset!.fileType}" : null;
+
+    if (asset != null && asset!.authorName.isNotEmpty) {
+      _title = "$_title (Author: ${asset!.authorName})";
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

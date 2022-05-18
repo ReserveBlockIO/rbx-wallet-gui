@@ -7,7 +7,7 @@ import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase
 part 'evolve.freezed.dart';
 part 'evolve.g.dart';
 
-enum EvolveType { time, variable }
+enum EvolveType { time, blockHeight, manualOnly }
 
 @freezed
 abstract class Evolve with _$Evolve {
@@ -19,7 +19,6 @@ abstract class Evolve with _$Evolve {
   const factory Evolve({
     @Default("") String id,
     @Default(EvolveType.time) EvolveType type,
-    @Default("") String url,
     @Default([]) List<EvolvePhase> phases,
     @Default(false) bool isDynamic,
     Asset? asset,
@@ -32,7 +31,8 @@ abstract class Evolve with _$Evolve {
   static List<EvolveType> allTypes() {
     return [
       EvolveType.time,
-      EvolveType.variable,
+      EvolveType.blockHeight,
+      EvolveType.manualOnly,
     ];
   }
 
@@ -40,29 +40,34 @@ abstract class Evolve with _$Evolve {
     switch (type) {
       case EvolveType.time:
         return "Time";
-      case EvolveType.variable:
-        return "Variable";
+      case EvolveType.blockHeight:
+        return "Block Height";
+      case EvolveType.manualOnly:
+        return "Manual Only";
     }
   }
 
-  static EvolveType intToType(int val) {
-    switch (val) {
-      case 0:
-        return EvolveType.time;
-      case 1:
-      default:
-        return EvolveType.variable;
-    }
-  }
+  // static EvolveType intToType(int val) {
+  //   switch (val) {
+  //     case 0:
+  //       return EvolveType.time;
+  //     case 1:
+  //       return EvolveType.blockHeight;
+  //     default:
+  //       return EvolveType.variable;
+  //   }
+  // }
 
-  static int typeToInt(EvolveType type) {
-    switch (type) {
-      case EvolveType.time:
-        return 0;
-      case EvolveType.variable:
-        return 1;
-    }
-  }
+  // static int typeToInt(EvolveType type) {
+  //   switch (type) {
+  //     case EvolveType.time:
+  //       return 0;
+  //     case EvolveType.blockHeight:
+  //       return 1;
+  //     case EvolveType.variable:
+  //       return 2;
+  //   }
+  // }
 
   static Map<String, dynamic> getPhase(dynamic data) {
     if (data.runtimeType == Map) {
@@ -81,8 +86,6 @@ abstract class Evolve with _$Evolve {
       print(e);
       phases = [data];
     }
-
-    print(phases);
 
     final List<EvolvePhase> _phases = [];
     bool isDynamic = false;
@@ -141,7 +144,7 @@ abstract class Evolve with _$Evolve {
 
     return Evolve(
       type: _phases.first.dateTime == null
-          ? EvolveType.variable
+          ? EvolveType.manualOnly
           : EvolveType.time,
       isDynamic: isDynamic,
       phases: _phases,
@@ -163,7 +166,9 @@ abstract class Evolve with _$Evolve {
         // 'EvolveParamater':
         //     type == EvolveType.time ? p.dateTime.toString() : p.expectedValue,
         'SmartContractAsset': p.asset != null ? p.asset!.toJson() : null,
-        'EvolveDate': p.dateTimeForCompiler
+        'EvolveDate': type == EvolveType.time ? p.dateTimeForCompiler : null,
+        'EvolveBlockHeight':
+            type == EvolveType.blockHeight ? p.blockHeight : null,
       };
 
       return data;

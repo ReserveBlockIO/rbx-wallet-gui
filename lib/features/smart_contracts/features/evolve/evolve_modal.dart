@@ -33,7 +33,30 @@ class EvolveModal extends BaseComponent {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              FormGroupHeader("Evolve"),
+              FormGroupHeader(
+                "Evolve",
+                withBg: false,
+              ),
+              SizedBox(
+                width: 16,
+              ),
+              AppDropdown<bool>(
+                label: "Evolving Mode",
+                selectedValue: _model.isDynamic,
+                selectedLabel:
+                    _model.isDynamic ? "Owner Controlled" : "Minter Controlled",
+                onChange: (val) {
+                  _provider.updateMode(val);
+                },
+                options: [false, true]
+                    .map(
+                      (val) => AppDropdownOption(
+                        label: val ? "Owner Controlled" : "Minter Controlled",
+                        value: val,
+                      ),
+                    )
+                    .toList(),
+              ),
               SizedBox(
                 width: 16,
               ),
@@ -49,25 +72,6 @@ class EvolveModal extends BaseComponent {
                         label: Evolve.typeToString(type), value: type))
                     .toList(),
               ),
-              SizedBox(
-                width: 16,
-              ),
-              if (_model.type != EvolveType.time)
-                AppDropdown<bool>(
-                  label: "Variable Mode",
-                  selectedValue: _model.isDynamic,
-                  selectedLabel: _model.isDynamic
-                      ? "Owner Controlled"
-                      : "Minter Controlled",
-                  onChange: (val) {
-                    _provider.updateMode(val);
-                  },
-                  options: [true, false]
-                      .map((val) => AppDropdownOption(
-                          label: val ? "Owner Controlled" : "Minter Controlled",
-                          value: val))
-                      .toList(),
-                ),
             ],
           ),
           // Row(
@@ -240,34 +244,29 @@ class _EvolvePhaseContainer extends BaseComponent {
                           )
                         ],
                       ),
-                    // if (type == EvolveType.numericVariable ||
-                    //     type == EvolveType.stringVariable)
-                    //   Row(
-                    //     children: [
-                    //       Expanded(
-                    //         child: TextFormField(
-                    //           controller: _provider.valueController,
-                    //           inputFormatters:
-                    //               type == EvolveType.numericVariable
-                    //                   ? [
-                    //                       FilteringTextInputFormatter.allow(
-                    //                         RegExp("[0-9.]"),
-                    //                       )
-                    //                     ]
-                    //                   : [],
-                    //           decoration: InputDecoration(
-                    //             label: Text(
-                    //               "Expected Value",
-                    //               style: TextStyle(
-                    //                 color: Colors.white,
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    SizedBox(height: 16),
+                    if (type == EvolveType.blockHeight)
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              controller: _provider.blockHeightController,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                  RegExp("[0-9]"),
+                                )
+                              ],
+                              decoration: InputDecoration(
+                                label: Text(
+                                  "Block Height Value",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     Row(
                       children: [
                         Expanded(

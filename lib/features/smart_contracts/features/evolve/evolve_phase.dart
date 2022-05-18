@@ -13,6 +13,7 @@ class EvolvePhase with _$EvolvePhase {
   const factory EvolvePhase({
     @Default("") String name,
     DateTime? dateTime,
+    int? blockHeight,
     // @Default("") String expectedValue,
     @Default("") String description,
     @Default(0) int evolutionState,

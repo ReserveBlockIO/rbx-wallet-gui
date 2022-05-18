@@ -11,6 +11,7 @@ part 'feature.g.dart';
 enum FeatureType {
   royalty,
   evolution,
+  multiAsset,
   ticket,
   tokenization,
   music,
@@ -110,7 +111,7 @@ abstract class Feature with _$Feature {
         return "${royalty.typeLabel} ${royalty.amountWithSuffix} [${royalty.address}]";
       case FeatureType.evolution:
         final evolve = Evolve.fromJson(data);
-        return "${evolve.type == EvolveType.variable ? evolve.isDynamic ? 'User Controlled ' : 'Minter Controlled ' : ''}${evolve.typeLabel}  (${evolve.phases.length + 1} phase${evolve.phases.length + 1 == 1 ? '' : 's'})";
+        return "${evolve.isDynamic ? 'User Controlled ' : 'Minter Controlled '}${evolve.typeLabel} (${evolve.phases.length + 1} phase${evolve.phases.length + 1 == 1 ? '' : 's'})";
       case FeatureType.ticket:
         final ticket = Ticket.fromJson(data);
         return "${ticket.typeLabel}: ${ticket.eventName} (${ticket.dateTimeLabel})";
@@ -125,6 +126,8 @@ abstract class Feature with _$Feature {
         return "Royalty";
       case FeatureType.evolution:
         return "Evolving";
+      case FeatureType.multiAsset:
+        return "Multi Asset";
       case FeatureType.ticket:
         return "Ticketing";
       case FeatureType.tokenization:
@@ -154,6 +157,8 @@ abstract class Feature with _$Feature {
         return FontAwesomeIcons.moneyBill;
       case FeatureType.evolution:
         return FontAwesomeIcons.adjust;
+      case FeatureType.multiAsset:
+        return Icons.browse_gallery;
       case FeatureType.ticket:
         return FontAwesomeIcons.ticketAlt;
       case FeatureType.tokenization:

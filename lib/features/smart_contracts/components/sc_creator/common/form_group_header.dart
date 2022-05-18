@@ -4,20 +4,22 @@ import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common
 class FormGroupHeader extends StatelessWidget {
   final String title;
   final HelpType? helpType;
+  final bool withBg;
   const FormGroupHeader(
     this.title, {
     Key? key,
     this.helpType,
+    this.withBg = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.black54,
+        color: withBg ? Colors.black54 : Colors.transparent,
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
+        padding: EdgeInsets.symmetric(horizontal: withBg ? 8 : 0),
         child: Row(
           // mainAxisSize: MainAxisSize.min,
           children: [
