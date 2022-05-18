@@ -9,6 +9,7 @@ part of 'compiler_payload.dart';
 _$_CompilerPayload _$$_CompilerPayloadFromJson(Map<String, dynamic> json) =>
     _$_CompilerPayload(
       name: json['Name'] as String,
+      minterName: json['MinterName'] as String,
       description: json['Description'] as String,
       address: json['Address'] as String,
       asset: Asset.fromJson(json['SmartContractAsset'] as Map<String, dynamic>),
@@ -23,6 +24,7 @@ _$_CompilerPayload _$$_CompilerPayloadFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_CompilerPayloadToJson(_$_CompilerPayload instance) =>
     <String, dynamic>{
       'Name': instance.name,
+      'MinterName': instance.minterName,
       'Description': instance.description,
       'Address': instance.address,
       'SmartContractAsset': instance.asset.toJson(),

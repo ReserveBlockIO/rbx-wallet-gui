@@ -4,9 +4,11 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:process_run/shell.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/utils/files.dart';
+import 'package:rbx_wallet/utils/validation.dart';
 
 class FileSelector extends StatelessWidget {
   final bool transparentBackground;
@@ -14,6 +16,7 @@ class FileSelector extends StatelessWidget {
   final Function(Asset? asset) onChange;
   final Asset? asset;
   final bool readOnly;
+  final bool withAuthorName;
   const FileSelector({
     Key? key,
     this.transparentBackground = false,
@@ -21,6 +24,7 @@ class FileSelector extends StatelessWidget {
     required this.onChange,
     this.asset,
     this.readOnly = false,
+    this.withAuthorName = false,
   }) : super(key: key);
 
   Future<void> _handleUpload() async {
@@ -38,13 +42,25 @@ class FileSelector extends StatelessWidget {
     final extension = name.split(".").last;
     final fileSize = (await File(filePath).readAsBytes()).length;
 
-    final asset = Asset(
+    Asset asset = Asset(
       id: "00000000-0000-0000-0000-000000000000",
       name: name,
+      authorName: "",
       location: filePath,
       extension: extension,
       fileSize: fileSize,
     );
+    if (withAuthorName) {
+      final authorName = await PromptModal.show(
+        title: "Author Name",
+        validator: (value) => formValidatorNotEmpty(value, "Name"),
+        labelText: "Name",
+      );
+
+      if (authorName != null) {
+        asset = asset.copyWith(authorName: authorName);
+      }
+    }
 
     onChange(asset);
   }

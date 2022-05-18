@@ -25,6 +25,8 @@ class _$CompiledSmartContractTearOff {
   _CompiledSmartContract call(
       {@JsonKey(name: "Name")
           required String name,
+      @JsonKey(name: "MinterName")
+          required String minterName,
       @JsonKey(name: "Description")
           required String description,
       @JsonKey(name: "Address")
@@ -41,6 +43,7 @@ class _$CompiledSmartContractTearOff {
           List<Map<String, dynamic>> features = const []}) {
     return _CompiledSmartContract(
       name: name,
+      minterName: minterName,
       description: description,
       address: address,
       id: id,
@@ -63,6 +66,8 @@ const $CompiledSmartContract = _$CompiledSmartContractTearOff();
 mixin _$CompiledSmartContract {
   @JsonKey(name: "Name")
   String get name => throw _privateConstructorUsedError;
+  @JsonKey(name: "MinterName")
+  String get minterName => throw _privateConstructorUsedError;
   @JsonKey(name: "Description")
   String get description => throw _privateConstructorUsedError;
   @JsonKey(name: "Address")
@@ -91,6 +96,7 @@ abstract class $CompiledSmartContractCopyWith<$Res> {
       _$CompiledSmartContractCopyWithImpl<$Res>;
   $Res call(
       {@JsonKey(name: "Name") String name,
+      @JsonKey(name: "MinterName") String minterName,
       @JsonKey(name: "Description") String description,
       @JsonKey(name: "Address") String address,
       @JsonKey(name: "SmartContractUID") String id,
@@ -114,6 +120,7 @@ class _$CompiledSmartContractCopyWithImpl<$Res>
   @override
   $Res call({
     Object? name = freezed,
+    Object? minterName = freezed,
     Object? description = freezed,
     Object? address = freezed,
     Object? id = freezed,
@@ -126,6 +133,10 @@ class _$CompiledSmartContractCopyWithImpl<$Res>
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      minterName: minterName == freezed
+          ? _value.minterName
+          : minterName // ignore: cast_nullable_to_non_nullable
               as String,
       description: description == freezed
           ? _value.description
@@ -175,6 +186,7 @@ abstract class _$CompiledSmartContractCopyWith<$Res>
   @override
   $Res call(
       {@JsonKey(name: "Name") String name,
+      @JsonKey(name: "MinterName") String minterName,
       @JsonKey(name: "Description") String description,
       @JsonKey(name: "Address") String address,
       @JsonKey(name: "SmartContractUID") String id,
@@ -201,6 +213,7 @@ class __$CompiledSmartContractCopyWithImpl<$Res>
   @override
   $Res call({
     Object? name = freezed,
+    Object? minterName = freezed,
     Object? description = freezed,
     Object? address = freezed,
     Object? id = freezed,
@@ -213,6 +226,10 @@ class __$CompiledSmartContractCopyWithImpl<$Res>
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      minterName: minterName == freezed
+          ? _value.minterName
+          : minterName // ignore: cast_nullable_to_non_nullable
               as String,
       description: description == freezed
           ? _value.description
@@ -251,6 +268,7 @@ class __$CompiledSmartContractCopyWithImpl<$Res>
 class _$_CompiledSmartContract extends _CompiledSmartContract {
   _$_CompiledSmartContract(
       {@JsonKey(name: "Name") required this.name,
+      @JsonKey(name: "MinterName") required this.minterName,
       @JsonKey(name: "Description") required this.description,
       @JsonKey(name: "Address") required this.address,
       @JsonKey(name: "SmartContractUID") required this.id,
@@ -266,6 +284,9 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
   @override
   @JsonKey(name: "Name")
   final String name;
+  @override
+  @JsonKey(name: "MinterName")
+  final String minterName;
   @override
   @JsonKey(name: "Description")
   final String description;
@@ -290,7 +311,7 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
 
   @override
   String toString() {
-    return 'CompiledSmartContract(name: $name, description: $description, address: $address, id: $id, signature: $signature, primaryAsset: $primaryAsset, isPublic: $isPublic, features: $features)';
+    return 'CompiledSmartContract(name: $name, minterName: $minterName, description: $description, address: $address, id: $id, signature: $signature, primaryAsset: $primaryAsset, isPublic: $isPublic, features: $features)';
   }
 
   @override
@@ -299,6 +320,8 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
         (other.runtimeType == runtimeType &&
             other is _CompiledSmartContract &&
             const DeepCollectionEquality().equals(other.name, name) &&
+            const DeepCollectionEquality()
+                .equals(other.minterName, minterName) &&
             const DeepCollectionEquality()
                 .equals(other.description, description) &&
             const DeepCollectionEquality().equals(other.address, address) &&
@@ -314,6 +337,7 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(name),
+      const DeepCollectionEquality().hash(minterName),
       const DeepCollectionEquality().hash(description),
       const DeepCollectionEquality().hash(address),
       const DeepCollectionEquality().hash(id),
@@ -337,6 +361,7 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
 abstract class _CompiledSmartContract extends CompiledSmartContract {
   factory _CompiledSmartContract(
           {@JsonKey(name: "Name") required String name,
+          @JsonKey(name: "MinterName") required String minterName,
           @JsonKey(name: "Description") required String description,
           @JsonKey(name: "Address") required String address,
           @JsonKey(name: "SmartContractUID") required String id,
@@ -353,6 +378,9 @@ abstract class _CompiledSmartContract extends CompiledSmartContract {
   @override
   @JsonKey(name: "Name")
   String get name;
+  @override
+  @JsonKey(name: "MinterName")
+  String get minterName;
   @override
   @JsonKey(name: "Description")
   String get description;

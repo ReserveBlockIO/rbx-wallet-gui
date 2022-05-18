@@ -121,7 +121,7 @@ class ConfirmDialog {
 }
 
 class PromptModal {
-  static Future<List<String>?> show(
+  static Future<String?> show(
       {required String title,
       required String? Function(String?) validator,
       required String labelText,
@@ -195,6 +195,8 @@ class PromptModal {
                   onValidSubmission(value);
                   Navigator.of(context).pop();
                   return;
+                } else {
+                  Navigator.of(context).pop(value);
                 }
               },
               child: Text(confirmText ?? "Submit",

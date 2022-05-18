@@ -11,6 +11,7 @@ _$_Nft _$$_NftFromJson(Map<String, dynamic> json) => _$_Nft(
       description: json['Description'] as String,
       address: json['Address'] as String,
       minterAddress: json['MinterAddress'] as String? ?? "",
+      minterName: json['MinterName'] as String? ?? "",
       id: json['SmartContractUID'] as String,
       signature: json['Signature'] as String?,
       primaryAsset:
@@ -29,6 +30,7 @@ Map<String, dynamic> _$$_NftToJson(_$_Nft instance) => <String, dynamic>{
       'Description': instance.description,
       'Address': instance.address,
       'MinterAddress': instance.minterAddress,
+      'MinterName': instance.minterName,
       'SmartContractUID': instance.id,
       'Signature': instance.signature,
       'SmartContractAsset': instance.primaryAsset,

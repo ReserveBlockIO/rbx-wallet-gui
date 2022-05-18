@@ -46,6 +46,23 @@ class BasicPropertiesFormGroup extends BaseComponent {
               ),
               SizedBox(width: 8),
               Expanded(
+                child: TextFormField(
+                  readOnly: _model.isCompiled,
+                  controller: _provider.minterNameController,
+                  decoration: InputDecoration(
+                    label: Text(
+                      "Minter Name",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    suffixIcon: HelpButton(HelpType.unknown),
+                  ),
+                  onChanged: (val) {
+                    _provider.setName(val);
+                  },
+                ),
+              ),
+              SizedBox(width: 8),
+              Expanded(
                 child: IgnorePointer(
                   ignoring: _model.isCompiled,
                   child: SmartSelect<Wallet>.single(

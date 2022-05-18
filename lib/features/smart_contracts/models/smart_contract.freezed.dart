@@ -25,6 +25,7 @@ class _$SmartContractTearOff {
       {required Wallet owner,
       String draftId = "",
       String name = "",
+      String minterName = "",
       String description = "",
       String thumbnail = "",
       Asset? primaryAsset,
@@ -40,6 +41,7 @@ class _$SmartContractTearOff {
       owner: owner,
       draftId: draftId,
       name: name,
+      minterName: minterName,
       description: description,
       thumbnail: thumbnail,
       primaryAsset: primaryAsset,
@@ -67,6 +69,7 @@ mixin _$SmartContract {
   Wallet get owner => throw _privateConstructorUsedError;
   String get draftId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  String get minterName => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   String get thumbnail => throw _privateConstructorUsedError;
   Asset? get primaryAsset => throw _privateConstructorUsedError;
@@ -95,6 +98,7 @@ abstract class $SmartContractCopyWith<$Res> {
       {Wallet owner,
       String draftId,
       String name,
+      String minterName,
       String description,
       String thumbnail,
       Asset? primaryAsset,
@@ -125,6 +129,7 @@ class _$SmartContractCopyWithImpl<$Res>
     Object? owner = freezed,
     Object? draftId = freezed,
     Object? name = freezed,
+    Object? minterName = freezed,
     Object? description = freezed,
     Object? thumbnail = freezed,
     Object? primaryAsset = freezed,
@@ -149,6 +154,10 @@ class _$SmartContractCopyWithImpl<$Res>
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      minterName: minterName == freezed
+          ? _value.minterName
+          : minterName // ignore: cast_nullable_to_non_nullable
               as String,
       description: description == freezed
           ? _value.description
@@ -227,6 +236,7 @@ abstract class _$SmartContractCopyWith<$Res>
       {Wallet owner,
       String draftId,
       String name,
+      String minterName,
       String description,
       String thumbnail,
       Asset? primaryAsset,
@@ -261,6 +271,7 @@ class __$SmartContractCopyWithImpl<$Res>
     Object? owner = freezed,
     Object? draftId = freezed,
     Object? name = freezed,
+    Object? minterName = freezed,
     Object? description = freezed,
     Object? thumbnail = freezed,
     Object? primaryAsset = freezed,
@@ -285,6 +296,10 @@ class __$SmartContractCopyWithImpl<$Res>
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      minterName: minterName == freezed
+          ? _value.minterName
+          : minterName // ignore: cast_nullable_to_non_nullable
               as String,
       description: description == freezed
           ? _value.description
@@ -341,6 +356,7 @@ class _$_SmartContract extends _SmartContract {
       {required this.owner,
       this.draftId = "",
       this.name = "",
+      this.minterName = "",
       this.description = "",
       this.thumbnail = "",
       this.primaryAsset,
@@ -365,6 +381,9 @@ class _$_SmartContract extends _SmartContract {
   @JsonKey(defaultValue: "")
   @override
   final String name;
+  @JsonKey(defaultValue: "")
+  @override
+  final String minterName;
   @JsonKey(defaultValue: "")
   @override
   final String description;
@@ -400,7 +419,7 @@ class _$_SmartContract extends _SmartContract {
 
   @override
   String toString() {
-    return 'SmartContract(owner: $owner, draftId: $draftId, name: $name, description: $description, thumbnail: $thumbnail, primaryAsset: $primaryAsset, rarities: $rarities, stats: $stats, royalties: $royalties, evolves: $evolves, tickets: $tickets, code: $code, isCompiled: $isCompiled, isPublished: $isPublished)';
+    return 'SmartContract(owner: $owner, draftId: $draftId, name: $name, minterName: $minterName, description: $description, thumbnail: $thumbnail, primaryAsset: $primaryAsset, rarities: $rarities, stats: $stats, royalties: $royalties, evolves: $evolves, tickets: $tickets, code: $code, isCompiled: $isCompiled, isPublished: $isPublished)';
   }
 
   @override
@@ -411,6 +430,8 @@ class _$_SmartContract extends _SmartContract {
             const DeepCollectionEquality().equals(other.owner, owner) &&
             const DeepCollectionEquality().equals(other.draftId, draftId) &&
             const DeepCollectionEquality().equals(other.name, name) &&
+            const DeepCollectionEquality()
+                .equals(other.minterName, minterName) &&
             const DeepCollectionEquality()
                 .equals(other.description, description) &&
             const DeepCollectionEquality().equals(other.thumbnail, thumbnail) &&
@@ -434,6 +455,7 @@ class _$_SmartContract extends _SmartContract {
       const DeepCollectionEquality().hash(owner),
       const DeepCollectionEquality().hash(draftId),
       const DeepCollectionEquality().hash(name),
+      const DeepCollectionEquality().hash(minterName),
       const DeepCollectionEquality().hash(description),
       const DeepCollectionEquality().hash(thumbnail),
       const DeepCollectionEquality().hash(primaryAsset),
@@ -462,6 +484,7 @@ abstract class _SmartContract extends SmartContract {
       {required Wallet owner,
       String draftId,
       String name,
+      String minterName,
       String description,
       String thumbnail,
       Asset? primaryAsset,
@@ -484,6 +507,8 @@ abstract class _SmartContract extends SmartContract {
   String get draftId;
   @override
   String get name;
+  @override
+  String get minterName;
   @override
   String get description;
   @override

@@ -49,6 +49,10 @@ class $AssetsImagesGen {
   AssetGenImage get animatedCube =>
       const AssetGenImage('assets/images/animated_cube.gif');
 
+  /// File path: assets/images/animated_cube_fast.gif
+  AssetGenImage get animatedCubeFast =>
+      const AssetGenImage('assets/images/animated_cube_fast.gif');
+
   /// File path: assets/images/decor_bottom.png
   AssetGenImage get decorBottom =>
       const AssetGenImage('assets/images/decor_bottom.png');
@@ -86,41 +90,41 @@ class $AssetsImagesGen {
   AssetGenImage get rbxWallet =>
       const AssetGenImage('assets/images/rbx_wallet.png');
 
-  /// File path: assets/images/template_basic_1.jpg
-  AssetGenImage get templateBasic1 =>
-      const AssetGenImage('assets/images/template_basic_1.jpg');
+  /// File path: assets/images/template_basic_1a.jpg
+  AssetGenImage get templateBasic1a =>
+      const AssetGenImage('assets/images/template_basic_1a.jpg');
 
-  /// File path: assets/images/template_basic_2.jpg
-  AssetGenImage get templateBasic2 =>
-      const AssetGenImage('assets/images/template_basic_2.jpg');
+  /// File path: assets/images/template_basic_2a.jpg
+  AssetGenImage get templateBasic2a =>
+      const AssetGenImage('assets/images/template_basic_2a.jpg');
 
-  /// File path: assets/images/template_basic_3.gif
-  AssetGenImage get templateBasic3 =>
-      const AssetGenImage('assets/images/template_basic_3.gif');
+  /// File path: assets/images/template_basic_3a.jpg
+  AssetGenImage get templateBasic3a =>
+      const AssetGenImage('assets/images/template_basic_3a.jpg');
 
-  /// File path: assets/images/template_evolve_1.jpg
-  AssetGenImage get templateEvolve1 =>
-      const AssetGenImage('assets/images/template_evolve_1.jpg');
+  /// File path: assets/images/template_evolving_1a.jpg
+  AssetGenImage get templateEvolving1a =>
+      const AssetGenImage('assets/images/template_evolving_1a.jpg');
 
-  /// File path: assets/images/template_evolve_2.jpg
-  AssetGenImage get templateEvolve2 =>
-      const AssetGenImage('assets/images/template_evolve_2.jpg');
+  /// File path: assets/images/template_evolving_2a.gif
+  AssetGenImage get templateEvolving2a =>
+      const AssetGenImage('assets/images/template_evolving_2a.gif');
 
-  /// File path: assets/images/template_evolve_3.jpg
-  AssetGenImage get templateEvolve3 =>
-      const AssetGenImage('assets/images/template_evolve_3.jpg');
+  /// File path: assets/images/template_evolving_3a.jpg
+  AssetGenImage get templateEvolving3a =>
+      const AssetGenImage('assets/images/template_evolving_3a.jpg');
 
-  /// File path: assets/images/template_royalty_1.jpg
-  AssetGenImage get templateRoyalty1 =>
-      const AssetGenImage('assets/images/template_royalty_1.jpg');
+  /// File path: assets/images/template_royalty_1a.jpg
+  AssetGenImage get templateRoyalty1a =>
+      const AssetGenImage('assets/images/template_royalty_1a.jpg');
 
-  /// File path: assets/images/template_royalty_2.jpg
-  AssetGenImage get templateRoyalty2 =>
-      const AssetGenImage('assets/images/template_royalty_2.jpg');
+  /// File path: assets/images/template_royalty_2a.jpg
+  AssetGenImage get templateRoyalty2a =>
+      const AssetGenImage('assets/images/template_royalty_2a.jpg');
 
-  /// File path: assets/images/template_royalty_3.jpg
-  AssetGenImage get templateRoyalty3 =>
-      const AssetGenImage('assets/images/template_royalty_3.jpg');
+  /// File path: assets/images/template_royalty_3a.jpg
+  AssetGenImage get templateRoyalty3a =>
+      const AssetGenImage('assets/images/template_royalty_3a.jpg');
 
   /// File path: assets/images/wordmark.png
   AssetGenImage get wordmark =>

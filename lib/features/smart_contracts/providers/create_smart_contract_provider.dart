@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/app.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
@@ -9,6 +11,7 @@ import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/features/bridge/providers/status_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/compile_animation.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket.dart';
@@ -28,11 +31,13 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
   final Reader read;
 
   late final TextEditingController nameController;
+  late final TextEditingController minterNameController;
   late final TextEditingController descriptionController;
 
   CreateSmartContractProvider(this.read, SmartContract model) : super(model) {
     nameController = TextEditingController(text: model.name);
     descriptionController = TextEditingController(text: model.description);
+    minterNameController = TextEditingController(text: model.minterName);
     clearSmartContract();
   }
 
@@ -41,6 +46,7 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
 
     nameController.text = state.name;
     descriptionController.text = state.description;
+    minterNameController.text = state.minterName;
   }
 
   void clearSmartContract() {
@@ -57,6 +63,10 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
 
   void setName(String value) {
     state = state.copyWith(name: value);
+  }
+
+  void setMinterName(String value) {
+    state = state.copyWith(minterName: value);
   }
 
   void setDescription(String value) {
@@ -163,6 +173,7 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
   void _preSave() {
     state = state.copyWith(
       name: nameController.text,
+      minterName: minterNameController.text,
       description: descriptionController.text,
     );
   }
@@ -184,6 +195,10 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
     }
     if (state.name.isEmpty) {
       errors.add("- Name is required");
+    }
+
+    if (state.minterName.isEmpty) {
+      errors.add("- Minter name is required");
     }
 
     if (state.description.isEmpty) {
@@ -239,6 +254,40 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
     }
 
     return csc.smartContract;
+  }
+
+  void showCompileAnimation(
+    BuildContext context,
+    Completer<BuildContext> completer,
+  ) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      // barrierColor: Colors.transparent,
+      builder: (dialogContext) {
+        if (!completer.isCompleted) {
+          completer.complete(dialogContext);
+        }
+        return Center(child: CompileAnimation());
+      },
+    );
+  }
+
+  void showCompileComplete(
+    BuildContext context,
+    Completer<BuildContext> completer,
+  ) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      // barrierColor: Colors.transparent,
+      builder: (dialogContext) {
+        if (!completer.isCompleted) {
+          completer.complete(dialogContext);
+        }
+        return Center(child: CompileAnimationComplete());
+      },
+    );
   }
 }
 

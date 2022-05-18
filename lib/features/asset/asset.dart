@@ -16,6 +16,8 @@ abstract class Asset with _$Asset {
   factory Asset({
     @JsonKey(name: "AssetId") required String id,
     @JsonKey(name: "Name") required String name,
+    @JsonKey(name: "AssetAuthorName", defaultValue: "")
+        required String authorName,
     @JsonKey(name: "Location") required String location,
     @JsonKey(name: "Extension") required String extension,
     @JsonKey(name: "FileSize") required int fileSize,

@@ -30,6 +30,8 @@ class _$NftTearOff {
           required String address,
       @JsonKey(name: "MinterAddress")
           String minterAddress = "",
+      @JsonKey(name: "MinterName")
+          String minterName = "",
       @JsonKey(name: "SmartContractUID")
           required String id,
       @JsonKey(name: "Signature")
@@ -48,6 +50,7 @@ class _$NftTearOff {
       description: description,
       address: address,
       minterAddress: minterAddress,
+      minterName: minterName,
       id: id,
       signature: signature,
       primaryAsset: primaryAsset,
@@ -76,6 +79,8 @@ mixin _$Nft {
   String get address => throw _privateConstructorUsedError;
   @JsonKey(name: "MinterAddress")
   String get minterAddress => throw _privateConstructorUsedError;
+  @JsonKey(name: "MinterName")
+  String get minterName => throw _privateConstructorUsedError;
   @JsonKey(name: "SmartContractUID")
   String get id => throw _privateConstructorUsedError;
   @JsonKey(name: "Signature")
@@ -108,6 +113,8 @@ abstract class $NftCopyWith<$Res> {
           String address,
       @JsonKey(name: "MinterAddress")
           String minterAddress,
+      @JsonKey(name: "MinterName")
+          String minterName,
       @JsonKey(name: "SmartContractUID")
           String id,
       @JsonKey(name: "Signature")
@@ -139,6 +146,7 @@ class _$NftCopyWithImpl<$Res> implements $NftCopyWith<$Res> {
     Object? description = freezed,
     Object? address = freezed,
     Object? minterAddress = freezed,
+    Object? minterName = freezed,
     Object? id = freezed,
     Object? signature = freezed,
     Object? primaryAsset = freezed,
@@ -163,6 +171,10 @@ class _$NftCopyWithImpl<$Res> implements $NftCopyWith<$Res> {
       minterAddress: minterAddress == freezed
           ? _value.minterAddress
           : minterAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      minterName: minterName == freezed
+          ? _value.minterName
+          : minterName // ignore: cast_nullable_to_non_nullable
               as String,
       id: id == freezed
           ? _value.id
@@ -217,6 +229,8 @@ abstract class _$NftCopyWith<$Res> implements $NftCopyWith<$Res> {
           String address,
       @JsonKey(name: "MinterAddress")
           String minterAddress,
+      @JsonKey(name: "MinterName")
+          String minterName,
       @JsonKey(name: "SmartContractUID")
           String id,
       @JsonKey(name: "Signature")
@@ -250,6 +264,7 @@ class __$NftCopyWithImpl<$Res> extends _$NftCopyWithImpl<$Res>
     Object? description = freezed,
     Object? address = freezed,
     Object? minterAddress = freezed,
+    Object? minterName = freezed,
     Object? id = freezed,
     Object? signature = freezed,
     Object? primaryAsset = freezed,
@@ -274,6 +289,10 @@ class __$NftCopyWithImpl<$Res> extends _$NftCopyWithImpl<$Res>
       minterAddress: minterAddress == freezed
           ? _value.minterAddress
           : minterAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      minterName: minterName == freezed
+          ? _value.minterName
+          : minterName // ignore: cast_nullable_to_non_nullable
               as String,
       id: id == freezed
           ? _value.id
@@ -315,6 +334,7 @@ class _$_Nft extends _Nft {
       @JsonKey(name: "Description") required this.description,
       @JsonKey(name: "Address") required this.address,
       @JsonKey(name: "MinterAddress") this.minterAddress = "",
+      @JsonKey(name: "MinterName") this.minterName = "",
       @JsonKey(name: "SmartContractUID") required this.id,
       @JsonKey(name: "Signature") this.signature,
       @JsonKey(name: "SmartContractAsset") required this.primaryAsset,
@@ -339,6 +359,9 @@ class _$_Nft extends _Nft {
   @JsonKey(name: "MinterAddress")
   final String minterAddress;
   @override
+  @JsonKey(name: "MinterName")
+  final String minterName;
+  @override
   @JsonKey(name: "SmartContractUID")
   final String id;
   @override
@@ -361,7 +384,7 @@ class _$_Nft extends _Nft {
 
   @override
   String toString() {
-    return 'Nft(name: $name, description: $description, address: $address, minterAddress: $minterAddress, id: $id, signature: $signature, primaryAsset: $primaryAsset, isPublic: $isPublic, isMinter: $isMinter, features: $features, code: $code)';
+    return 'Nft(name: $name, description: $description, address: $address, minterAddress: $minterAddress, minterName: $minterName, id: $id, signature: $signature, primaryAsset: $primaryAsset, isPublic: $isPublic, isMinter: $isMinter, features: $features, code: $code)';
   }
 
   @override
@@ -375,6 +398,8 @@ class _$_Nft extends _Nft {
             const DeepCollectionEquality().equals(other.address, address) &&
             const DeepCollectionEquality()
                 .equals(other.minterAddress, minterAddress) &&
+            const DeepCollectionEquality()
+                .equals(other.minterName, minterName) &&
             const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.signature, signature) &&
             const DeepCollectionEquality()
@@ -392,6 +417,7 @@ class _$_Nft extends _Nft {
       const DeepCollectionEquality().hash(description),
       const DeepCollectionEquality().hash(address),
       const DeepCollectionEquality().hash(minterAddress),
+      const DeepCollectionEquality().hash(minterName),
       const DeepCollectionEquality().hash(id),
       const DeepCollectionEquality().hash(signature),
       const DeepCollectionEquality().hash(primaryAsset),
@@ -421,6 +447,8 @@ abstract class _Nft extends Nft {
           required String address,
       @JsonKey(name: "MinterAddress")
           String minterAddress,
+      @JsonKey(name: "MinterName")
+          String minterName,
       @JsonKey(name: "SmartContractUID")
           required String id,
       @JsonKey(name: "Signature")
@@ -450,6 +478,9 @@ abstract class _Nft extends Nft {
   @override
   @JsonKey(name: "MinterAddress")
   String get minterAddress;
+  @override
+  @JsonKey(name: "MinterName")
+  String get minterName;
   @override
   @JsonKey(name: "SmartContractUID")
   String get id;

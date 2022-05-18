@@ -10,6 +10,7 @@ abstract class CompiledSmartContract with _$CompiledSmartContract {
 
   factory CompiledSmartContract({
     @JsonKey(name: "Name") required String name,
+    @JsonKey(name: "MinterName") required String minterName,
     @JsonKey(name: "Description") required String description,
     @JsonKey(name: "Address") required String address,
     @JsonKey(name: "SmartContractUID") required String id,

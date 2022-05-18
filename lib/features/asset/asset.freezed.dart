@@ -22,14 +22,22 @@ class _$AssetTearOff {
   const _$AssetTearOff();
 
   _Asset call(
-      {@JsonKey(name: "AssetId") required String id,
-      @JsonKey(name: "Name") required String name,
-      @JsonKey(name: "Location") required String location,
-      @JsonKey(name: "Extension") required String extension,
-      @JsonKey(name: "FileSize") required int fileSize}) {
+      {@JsonKey(name: "AssetId")
+          required String id,
+      @JsonKey(name: "Name")
+          required String name,
+      @JsonKey(name: "AssetAuthorName", defaultValue: "")
+          required String authorName,
+      @JsonKey(name: "Location")
+          required String location,
+      @JsonKey(name: "Extension")
+          required String extension,
+      @JsonKey(name: "FileSize")
+          required int fileSize}) {
     return _Asset(
       id: id,
       name: name,
+      authorName: authorName,
       location: location,
       extension: extension,
       fileSize: fileSize,
@@ -50,6 +58,8 @@ mixin _$Asset {
   String get id => throw _privateConstructorUsedError;
   @JsonKey(name: "Name")
   String get name => throw _privateConstructorUsedError;
+  @JsonKey(name: "AssetAuthorName", defaultValue: "")
+  String get authorName => throw _privateConstructorUsedError;
   @JsonKey(name: "Location")
   String get location => throw _privateConstructorUsedError;
   @JsonKey(name: "Extension")
@@ -69,6 +79,7 @@ abstract class $AssetCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: "AssetId") String id,
       @JsonKey(name: "Name") String name,
+      @JsonKey(name: "AssetAuthorName", defaultValue: "") String authorName,
       @JsonKey(name: "Location") String location,
       @JsonKey(name: "Extension") String extension,
       @JsonKey(name: "FileSize") int fileSize});
@@ -86,6 +97,7 @@ class _$AssetCopyWithImpl<$Res> implements $AssetCopyWith<$Res> {
   $Res call({
     Object? id = freezed,
     Object? name = freezed,
+    Object? authorName = freezed,
     Object? location = freezed,
     Object? extension = freezed,
     Object? fileSize = freezed,
@@ -98,6 +110,10 @@ class _$AssetCopyWithImpl<$Res> implements $AssetCopyWith<$Res> {
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      authorName: authorName == freezed
+          ? _value.authorName
+          : authorName // ignore: cast_nullable_to_non_nullable
               as String,
       location: location == freezed
           ? _value.location
@@ -123,6 +139,7 @@ abstract class _$AssetCopyWith<$Res> implements $AssetCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: "AssetId") String id,
       @JsonKey(name: "Name") String name,
+      @JsonKey(name: "AssetAuthorName", defaultValue: "") String authorName,
       @JsonKey(name: "Location") String location,
       @JsonKey(name: "Extension") String extension,
       @JsonKey(name: "FileSize") int fileSize});
@@ -141,6 +158,7 @@ class __$AssetCopyWithImpl<$Res> extends _$AssetCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? name = freezed,
+    Object? authorName = freezed,
     Object? location = freezed,
     Object? extension = freezed,
     Object? fileSize = freezed,
@@ -153,6 +171,10 @@ class __$AssetCopyWithImpl<$Res> extends _$AssetCopyWithImpl<$Res>
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      authorName: authorName == freezed
+          ? _value.authorName
+          : authorName // ignore: cast_nullable_to_non_nullable
               as String,
       location: location == freezed
           ? _value.location
@@ -175,11 +197,18 @@ class __$AssetCopyWithImpl<$Res> extends _$AssetCopyWithImpl<$Res>
 @JsonSerializable(explicitToJson: true)
 class _$_Asset extends _Asset {
   _$_Asset(
-      {@JsonKey(name: "AssetId") required this.id,
-      @JsonKey(name: "Name") required this.name,
-      @JsonKey(name: "Location") required this.location,
-      @JsonKey(name: "Extension") required this.extension,
-      @JsonKey(name: "FileSize") required this.fileSize})
+      {@JsonKey(name: "AssetId")
+          required this.id,
+      @JsonKey(name: "Name")
+          required this.name,
+      @JsonKey(name: "AssetAuthorName", defaultValue: "")
+          required this.authorName,
+      @JsonKey(name: "Location")
+          required this.location,
+      @JsonKey(name: "Extension")
+          required this.extension,
+      @JsonKey(name: "FileSize")
+          required this.fileSize})
       : super._();
 
   factory _$_Asset.fromJson(Map<String, dynamic> json) =>
@@ -192,6 +221,9 @@ class _$_Asset extends _Asset {
   @JsonKey(name: "Name")
   final String name;
   @override
+  @JsonKey(name: "AssetAuthorName", defaultValue: "")
+  final String authorName;
+  @override
   @JsonKey(name: "Location")
   final String location;
   @override
@@ -203,7 +235,7 @@ class _$_Asset extends _Asset {
 
   @override
   String toString() {
-    return 'Asset(id: $id, name: $name, location: $location, extension: $extension, fileSize: $fileSize)';
+    return 'Asset(id: $id, name: $name, authorName: $authorName, location: $location, extension: $extension, fileSize: $fileSize)';
   }
 
   @override
@@ -213,6 +245,8 @@ class _$_Asset extends _Asset {
             other is _Asset &&
             const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.name, name) &&
+            const DeepCollectionEquality()
+                .equals(other.authorName, authorName) &&
             const DeepCollectionEquality().equals(other.location, location) &&
             const DeepCollectionEquality().equals(other.extension, extension) &&
             const DeepCollectionEquality().equals(other.fileSize, fileSize));
@@ -223,6 +257,7 @@ class _$_Asset extends _Asset {
       runtimeType,
       const DeepCollectionEquality().hash(id),
       const DeepCollectionEquality().hash(name),
+      const DeepCollectionEquality().hash(authorName),
       const DeepCollectionEquality().hash(location),
       const DeepCollectionEquality().hash(extension),
       const DeepCollectionEquality().hash(fileSize));
@@ -240,11 +275,18 @@ class _$_Asset extends _Asset {
 
 abstract class _Asset extends Asset {
   factory _Asset(
-      {@JsonKey(name: "AssetId") required String id,
-      @JsonKey(name: "Name") required String name,
-      @JsonKey(name: "Location") required String location,
-      @JsonKey(name: "Extension") required String extension,
-      @JsonKey(name: "FileSize") required int fileSize}) = _$_Asset;
+      {@JsonKey(name: "AssetId")
+          required String id,
+      @JsonKey(name: "Name")
+          required String name,
+      @JsonKey(name: "AssetAuthorName", defaultValue: "")
+          required String authorName,
+      @JsonKey(name: "Location")
+          required String location,
+      @JsonKey(name: "Extension")
+          required String extension,
+      @JsonKey(name: "FileSize")
+          required int fileSize}) = _$_Asset;
   _Asset._() : super._();
 
   factory _Asset.fromJson(Map<String, dynamic> json) = _$_Asset.fromJson;
@@ -255,6 +297,9 @@ abstract class _Asset extends Asset {
   @override
   @JsonKey(name: "Name")
   String get name;
+  @override
+  @JsonKey(name: "AssetAuthorName", defaultValue: "")
+  String get authorName;
   @override
   @JsonKey(name: "Location")
   String get location;

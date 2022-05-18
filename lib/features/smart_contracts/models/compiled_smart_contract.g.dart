@@ -10,6 +10,7 @@ _$_CompiledSmartContract _$$_CompiledSmartContractFromJson(
         Map<String, dynamic> json) =>
     _$_CompiledSmartContract(
       name: json['Name'] as String,
+      minterName: json['MinterName'] as String,
       description: json['Description'] as String,
       address: json['Address'] as String,
       id: json['SmartContractUID'] as String,
@@ -27,6 +28,7 @@ Map<String, dynamic> _$$_CompiledSmartContractToJson(
         _$_CompiledSmartContract instance) =>
     <String, dynamic>{
       'Name': instance.name,
+      'MinterName': instance.minterName,
       'Description': instance.description,
       'Address': instance.address,
       'SmartContractUID': instance.id,

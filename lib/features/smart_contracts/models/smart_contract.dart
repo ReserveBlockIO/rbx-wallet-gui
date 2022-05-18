@@ -25,6 +25,7 @@ abstract class SmartContract with _$SmartContract {
     required Wallet owner,
     @Default("") String draftId,
     @Default("") String name,
+    @Default("") String minterName,
     @Default("") String description,
     @Default("") String thumbnail,
     Asset? primaryAsset,
@@ -76,6 +77,7 @@ abstract class SmartContract with _$SmartContract {
       owner: owner,
       name: sc.name,
       description: sc.description,
+      minterName: sc.minterName,
       primaryAsset: sc.primaryAsset,
       royalties: royalties,
       evolves: evolves,
@@ -130,6 +132,7 @@ abstract class SmartContract with _$SmartContract {
 
     final payload = CompilerPayload(
       name: name,
+      minterName: minterName,
       description: description,
       address: owner.address,
       asset: primaryAsset!,
@@ -140,10 +143,6 @@ abstract class SmartContract with _$SmartContract {
     );
 
     final data = payload.toJson();
-
-    print("!!-------!!!");
-    print(jsonEncode(data));
-    print("!!-------!!!");
 
     return data;
   }

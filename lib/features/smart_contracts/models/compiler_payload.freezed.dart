@@ -23,6 +23,7 @@ class _$CompilerPayloadTearOff {
 
   _CompilerPayload call(
       {@JsonKey(name: "Name") required String name,
+      @JsonKey(name: "MinterName") required String minterName,
       @JsonKey(name: "Description") required String description,
       @JsonKey(name: "Address") required String address,
       @JsonKey(name: "SmartContractAsset") required Asset asset,
@@ -32,6 +33,7 @@ class _$CompilerPayloadTearOff {
       @JsonKey(name: "Features") List<Map<String, dynamic>>? features}) {
     return _CompilerPayload(
       name: name,
+      minterName: minterName,
       description: description,
       address: address,
       asset: asset,
@@ -54,6 +56,8 @@ const $CompilerPayload = _$CompilerPayloadTearOff();
 mixin _$CompilerPayload {
   @JsonKey(name: "Name")
   String get name => throw _privateConstructorUsedError;
+  @JsonKey(name: "MinterName")
+  String get minterName => throw _privateConstructorUsedError;
   @JsonKey(name: "Description")
   String get description => throw _privateConstructorUsedError;
   @JsonKey(name: "Address")
@@ -83,6 +87,7 @@ abstract class $CompilerPayloadCopyWith<$Res> {
       _$CompilerPayloadCopyWithImpl<$Res>;
   $Res call(
       {@JsonKey(name: "Name") String name,
+      @JsonKey(name: "MinterName") String minterName,
       @JsonKey(name: "Description") String description,
       @JsonKey(name: "Address") String address,
       @JsonKey(name: "SmartContractAsset") Asset asset,
@@ -106,6 +111,7 @@ class _$CompilerPayloadCopyWithImpl<$Res>
   @override
   $Res call({
     Object? name = freezed,
+    Object? minterName = freezed,
     Object? description = freezed,
     Object? address = freezed,
     Object? asset = freezed,
@@ -118,6 +124,10 @@ class _$CompilerPayloadCopyWithImpl<$Res>
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      minterName: minterName == freezed
+          ? _value.minterName
+          : minterName // ignore: cast_nullable_to_non_nullable
               as String,
       description: description == freezed
           ? _value.description
@@ -167,6 +177,7 @@ abstract class _$CompilerPayloadCopyWith<$Res>
   @override
   $Res call(
       {@JsonKey(name: "Name") String name,
+      @JsonKey(name: "MinterName") String minterName,
       @JsonKey(name: "Description") String description,
       @JsonKey(name: "Address") String address,
       @JsonKey(name: "SmartContractAsset") Asset asset,
@@ -193,6 +204,7 @@ class __$CompilerPayloadCopyWithImpl<$Res>
   @override
   $Res call({
     Object? name = freezed,
+    Object? minterName = freezed,
     Object? description = freezed,
     Object? address = freezed,
     Object? asset = freezed,
@@ -205,6 +217,10 @@ class __$CompilerPayloadCopyWithImpl<$Res>
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      minterName: minterName == freezed
+          ? _value.minterName
+          : minterName // ignore: cast_nullable_to_non_nullable
               as String,
       description: description == freezed
           ? _value.description
@@ -244,6 +260,7 @@ class __$CompilerPayloadCopyWithImpl<$Res>
 class _$_CompilerPayload extends _CompilerPayload {
   _$_CompilerPayload(
       {@JsonKey(name: "Name") required this.name,
+      @JsonKey(name: "MinterName") required this.minterName,
       @JsonKey(name: "Description") required this.description,
       @JsonKey(name: "Address") required this.address,
       @JsonKey(name: "SmartContractAsset") required this.asset,
@@ -259,6 +276,9 @@ class _$_CompilerPayload extends _CompilerPayload {
   @override
   @JsonKey(name: "Name")
   final String name;
+  @override
+  @JsonKey(name: "MinterName")
+  final String minterName;
   @override
   @JsonKey(name: "Description")
   final String description;
@@ -283,7 +303,7 @@ class _$_CompilerPayload extends _CompilerPayload {
 
   @override
   String toString() {
-    return 'CompilerPayload(name: $name, description: $description, address: $address, asset: $asset, isPublic: $isPublic, uuid: $uuid, signature: $signature, features: $features)';
+    return 'CompilerPayload(name: $name, minterName: $minterName, description: $description, address: $address, asset: $asset, isPublic: $isPublic, uuid: $uuid, signature: $signature, features: $features)';
   }
 
   @override
@@ -292,6 +312,8 @@ class _$_CompilerPayload extends _CompilerPayload {
         (other.runtimeType == runtimeType &&
             other is _CompilerPayload &&
             const DeepCollectionEquality().equals(other.name, name) &&
+            const DeepCollectionEquality()
+                .equals(other.minterName, minterName) &&
             const DeepCollectionEquality()
                 .equals(other.description, description) &&
             const DeepCollectionEquality().equals(other.address, address) &&
@@ -306,6 +328,7 @@ class _$_CompilerPayload extends _CompilerPayload {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(name),
+      const DeepCollectionEquality().hash(minterName),
       const DeepCollectionEquality().hash(description),
       const DeepCollectionEquality().hash(address),
       const DeepCollectionEquality().hash(asset),
@@ -328,6 +351,7 @@ class _$_CompilerPayload extends _CompilerPayload {
 abstract class _CompilerPayload extends CompilerPayload {
   factory _CompilerPayload(
           {@JsonKey(name: "Name") required String name,
+          @JsonKey(name: "MinterName") required String minterName,
           @JsonKey(name: "Description") required String description,
           @JsonKey(name: "Address") required String address,
           @JsonKey(name: "SmartContractAsset") required Asset asset,
@@ -344,6 +368,9 @@ abstract class _CompilerPayload extends CompilerPayload {
   @override
   @JsonKey(name: "Name")
   String get name;
+  @override
+  @JsonKey(name: "MinterName")
+  String get minterName;
   @override
   @JsonKey(name: "Description")
   String get description;

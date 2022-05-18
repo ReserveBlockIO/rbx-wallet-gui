@@ -2,9 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/feature.dart';
-import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 
 part 'nft.freezed.dart';
 part 'nft.g.dart';
@@ -18,6 +16,7 @@ abstract class Nft with _$Nft {
     @JsonKey(name: "Description") required String description,
     @JsonKey(name: "Address") required String address,
     @JsonKey(name: "MinterAddress") @Default("") String minterAddress,
+    @JsonKey(name: "MinterName") @Default("") String minterName,
     @JsonKey(name: "SmartContractUID") required String id,
     @JsonKey(name: "Signature") String? signature,
     @JsonKey(name: "SmartContractAsset") required Asset primaryAsset,

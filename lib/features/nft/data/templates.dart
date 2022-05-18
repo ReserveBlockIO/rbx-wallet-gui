@@ -83,9 +83,9 @@ List<SmartContractTemplate> getSmartContractTemplates(
       description:
           "Create a basic smart contract with an asset and metadata and deploy it to the network.",
       images: [
-        Assets.images.templateBasic1.path,
-        Assets.images.templateBasic2.path,
-        Assets.images.templateBasic3.path,
+        Assets.images.templateBasic1a.path,
+        Assets.images.templateBasic2a.path,
+        Assets.images.templateBasic3a.path,
       ],
       init: _createBaseline,
       learnMoreContent: LearnMoreContent(
@@ -98,9 +98,9 @@ List<SmartContractTemplate> getSmartContractTemplates(
       description:
           "Generate a smart contract that can evolve based on time or network controlled variables.",
       images: [
-        Assets.images.templateEvolve1.path,
-        Assets.images.templateEvolve2.path,
-        Assets.images.templateEvolve3.path,
+        Assets.images.templateEvolving1a.path,
+        Assets.images.templateEvolving2a.path,
+        Assets.images.templateEvolving3a.path,
       ],
       learnMoreContent: LearnMoreContent(
         onCreate: _createEvolving,
@@ -115,9 +115,9 @@ List<SmartContractTemplate> getSmartContractTemplates(
           "Create a smart contract that includes a royalty that is enforced by the network on all future sales.",
       color: Theme.of(context).colorScheme.primary,
       images: [
-        Assets.images.templateRoyalty1.path,
-        Assets.images.templateRoyalty2.path,
-        Assets.images.templateRoyalty3.path,
+        Assets.images.templateRoyalty1a.path,
+        Assets.images.templateRoyalty2a.path,
+        Assets.images.templateRoyalty3a.path,
       ],
       learnMoreContent: LearnMoreContent(
         onCreate: _createRoyalty,

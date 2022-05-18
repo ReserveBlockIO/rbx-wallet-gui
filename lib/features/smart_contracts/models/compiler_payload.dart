@@ -12,6 +12,8 @@ abstract class CompilerPayload with _$CompilerPayload {
   factory CompilerPayload({
     @JsonKey(name: "Name")
         required String name,
+    @JsonKey(name: "MinterName")
+        required String minterName,
     @JsonKey(name: "Description")
         required String description,
     @JsonKey(name: "Address")
