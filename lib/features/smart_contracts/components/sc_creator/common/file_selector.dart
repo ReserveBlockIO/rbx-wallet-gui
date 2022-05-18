@@ -17,6 +17,7 @@ class FileSelector extends StatelessWidget {
   final Asset? asset;
   final bool readOnly;
   final bool withAuthorName;
+  final bool allowReplace;
   const FileSelector({
     Key? key,
     this.transparentBackground = false,
@@ -25,6 +26,7 @@ class FileSelector extends StatelessWidget {
     this.asset,
     this.readOnly = false,
     this.withAuthorName = true,
+    this.allowReplace = true,
   }) : super(key: key);
 
   Future<void> _handleUpload() async {
@@ -119,12 +121,15 @@ class FileSelector extends StatelessWidget {
                           openFile(asset!.location);
                         },
                       ),
-                      SizedBox(width: 6),
-                      AppButton(
-                        label: "Replace",
-                        icon: Icons.upload,
-                        onPressed: readOnly ? null : _handleUpload,
-                      ),
+                      if (allowReplace)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 6.0),
+                          child: AppButton(
+                            label: "Replace",
+                            icon: Icons.upload,
+                            onPressed: readOnly ? null : _handleUpload,
+                          ),
+                        ),
                       SizedBox(width: 6),
                       AppButton(
                         label: "Remove",

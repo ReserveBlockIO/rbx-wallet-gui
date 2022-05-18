@@ -66,6 +66,8 @@ abstract class Feature with _$Feature {
           return "Include a royalty that is enforced by the network on all future sales.";
         case FeatureType.evolution:
           return "Allow the smart contract to evolve based on time or network controlled variables.";
+        case FeatureType.multiAsset:
+          return "Allow multiple assets to be compiled into the smart contract";
         default:
           break;
       }
@@ -81,7 +83,7 @@ abstract class Feature with _$Feature {
     switch (type) {
       case FeatureType.royalty:
       case FeatureType.evolution:
-        // case FeatureType.ticket:
+      case FeatureType.multiAsset:
         return true;
       default:
         return false;
@@ -92,6 +94,7 @@ abstract class Feature with _$Feature {
     return [
       FeatureType.royalty,
       FeatureType.evolution,
+      FeatureType.multiAsset,
       FeatureType.ticket,
       FeatureType.tokenization,
       FeatureType.music,
@@ -158,7 +161,7 @@ abstract class Feature with _$Feature {
       case FeatureType.evolution:
         return FontAwesomeIcons.adjust;
       case FeatureType.multiAsset:
-        return Icons.browse_gallery;
+        return FontAwesomeIcons.listAlt;
       case FeatureType.ticket:
         return FontAwesomeIcons.ticketAlt;
       case FeatureType.tokenization:
