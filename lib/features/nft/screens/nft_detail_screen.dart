@@ -13,6 +13,7 @@ import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
 import 'package:rbx_wallet/features/nft/modals/nft_management_modal.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/modals/code_modal.dart';
+import 'package:rbx_wallet/features/smart_contracts/providers/my_smart_contracts_provider.dart';
 import 'package:rbx_wallet/utils/files.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
@@ -242,9 +243,14 @@ class NftDetailScreen extends BaseScreen {
                       validator: (value) => formValidatorRbxAddress(value),
                       labelText: "RBX Address",
                       confirmText: "Transfer",
-                      onValidSubmission: (val) {
-                        print(val);
-                        //TODO: handle transfer
+                      onValidSubmission: (address) async {
+                        final success = await _provider.transfer(address);
+                        if (success) {
+                          Toast.message(
+                              "Transfer transaction sent successfully!");
+                        } else {
+                          Toast.error();
+                        }
                       },
                     );
                   },
@@ -301,7 +307,15 @@ class NftDetailScreen extends BaseScreen {
                         cancelText: "Cancel");
 
                     if (confirmed == true) {
-                      //TODO: handle burn
+                      final success = await _provider.burn();
+
+                      if (success) {
+                        Toast.message("Burn transaction sent successfully!");
+                        ref.read(mySmartContractsProvider.notifier).load();
+                        Navigator.of(context).pop();
+                      } else {
+                        Toast.error();
+                      }
                     }
                   },
                 ),

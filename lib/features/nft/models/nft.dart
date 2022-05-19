@@ -141,6 +141,12 @@ abstract class Nft with _$Nft {
     return current;
   }
 
+  int get currentEvolvePhaseIndex {
+    final current = evolutionPhases.indexWhere((p) => p.isCurrentState == true);
+
+    return current;
+  }
+
   List<Asset> get additionalAssets {
     final List<Asset> assets = [];
 

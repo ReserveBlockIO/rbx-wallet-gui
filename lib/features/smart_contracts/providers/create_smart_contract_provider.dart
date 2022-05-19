@@ -248,16 +248,12 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
     final csc = await SmartContractService().compileSmartContract(payload);
 
     if (csc == null) {
-      Toast.error();
       return null;
     }
 
     if (!csc.success) {
-      Toast.error();
       return null;
     }
-
-    Toast.message("Smart Contract compiled successfully.");
 
     final details = await SmartContractService().retrieve(csc.smartContract.id);
 
@@ -277,10 +273,15 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
     return csc.smartContract;
   }
 
+  Future<bool> mint() async {
+    return await SmartContractService().mint(state.id);
+  }
+
   void showCompileAnimation(
     BuildContext context,
-    Completer<BuildContext> completer,
-  ) {
+    Completer<BuildContext> completer, [
+    bool mint = false,
+  ]) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -289,15 +290,16 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
         if (!completer.isCompleted) {
           completer.complete(dialogContext);
         }
-        return Center(child: CompileAnimation());
+        return Center(child: CompileAnimation(mint));
       },
     );
   }
 
   void showCompileComplete(
     BuildContext context,
-    Completer<BuildContext> completer,
-  ) {
+    Completer<BuildContext> completer, [
+    bool mint = false,
+  ]) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -306,7 +308,7 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
         if (!completer.isCompleted) {
           completer.complete(dialogContext);
         }
-        return Center(child: CompileAnimationComplete());
+        return Center(child: CompileAnimationComplete(mint));
       },
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/features/asset/asset_card.dart';
 
@@ -22,10 +23,23 @@ class AssetThumbnail extends StatelessWidget {
               child: Card(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Container(
+                  child: SizedBox(
                     width: 400,
-                    // height: 600,
-                    child: AssetCard(asset),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(
+                            "Close",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        AssetCard(asset),
+                      ],
+                    ),
                   ),
                 ),
               ),

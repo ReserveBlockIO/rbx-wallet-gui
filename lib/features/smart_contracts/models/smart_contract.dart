@@ -25,6 +25,7 @@ abstract class SmartContract with _$SmartContract {
   factory SmartContract({
     required Wallet owner,
     @Default("") String draftId,
+    @Default("") String id,
     @Default("") String name,
     @Default("") String minterName,
     @Default("") String description,
@@ -81,6 +82,7 @@ abstract class SmartContract with _$SmartContract {
 
     return SmartContract(
       owner: owner,
+      id: details.smartContract.id,
       name: sc.name,
       description: sc.description,
       minterName: sc.minterName ?? "",

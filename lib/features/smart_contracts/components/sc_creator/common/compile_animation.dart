@@ -6,7 +6,8 @@ import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
 
 class CompileAnimation extends StatefulWidget {
-  const CompileAnimation({Key? key}) : super(key: key);
+  final bool mint;
+  const CompileAnimation(this.mint, {Key? key}) : super(key: key);
 
   @override
   State<CompileAnimation> createState() => _CompileAnimationState();
@@ -70,7 +71,7 @@ class _CompileAnimationState extends State<CompileAnimation>
                 ),
                 SizedBox(height: 8),
                 Text(
-                  "Compiling…",
+                  widget.mint ? "Minting…" : "Compiling…",
                   style: Theme.of(context)
                       .textTheme
                       .headline6!
@@ -86,7 +87,8 @@ class _CompileAnimationState extends State<CompileAnimation>
 }
 
 class CompileAnimationComplete extends StatefulWidget {
-  const CompileAnimationComplete({Key? key}) : super(key: key);
+  final bool mint;
+  const CompileAnimationComplete(this.mint, {Key? key}) : super(key: key);
 
   @override
   State<CompileAnimationComplete> createState() =>
@@ -153,7 +155,7 @@ class _CompileAnimationCompleteState extends State<CompileAnimationComplete>
                   clockwise: false,
                 ),
                 Text(
-                  "Compiled!",
+                  widget.mint ? "Minted!" : "Compiled!",
                   style: Theme.of(context)
                       .textTheme
                       .headline6!

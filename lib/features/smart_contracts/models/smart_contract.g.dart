@@ -10,6 +10,7 @@ _$_SmartContract _$$_SmartContractFromJson(Map<String, dynamic> json) =>
     _$_SmartContract(
       owner: Wallet.fromJson(json['owner'] as Map<String, dynamic>),
       draftId: json['draftId'] as String? ?? '',
+      id: json['id'] as String? ?? '',
       name: json['name'] as String? ?? '',
       minterName: json['minterName'] as String? ?? '',
       description: json['description'] as String? ?? '',
@@ -50,6 +51,7 @@ Map<String, dynamic> _$$_SmartContractToJson(_$_SmartContract instance) =>
     <String, dynamic>{
       'owner': instance.owner,
       'draftId': instance.draftId,
+      'id': instance.id,
       'name': instance.name,
       'minterName': instance.minterName,
       'description': instance.description,

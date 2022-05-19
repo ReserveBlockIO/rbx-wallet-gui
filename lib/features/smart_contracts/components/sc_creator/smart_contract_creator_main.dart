@@ -48,27 +48,27 @@ class SmartContractCreatorMain extends BaseComponent {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: AppButton(
-            label: "Compile Test Button",
-            onPressed: () async {
-              final compileAnimation = Completer<BuildContext>();
-              _provider.showCompileAnimation(context, compileAnimation);
-              final dialogContext = await compileAnimation.future;
-              await Future.delayed(Duration(seconds: 5));
-              Navigator.pop(dialogContext);
+        // Padding(
+        //   padding: const EdgeInsets.all(8.0),
+        //   child: AppButton(
+        //     label: "Compile Test Button",
+        //     onPressed: () async {
+        //       final compileAnimation = Completer<BuildContext>();
+        //       _provider.showCompileAnimation(context, compileAnimation);
+        //       final dialogContext = await compileAnimation.future;
+        //       await Future.delayed(Duration(seconds: 5));
+        //       Navigator.pop(dialogContext);
 
-              // await Future.delayed(Duration(milliseconds: 150));
+        //       // await Future.delayed(Duration(milliseconds: 150));
 
-              final completeAnimation = Completer<BuildContext>();
-              _provider.showCompileComplete(context, completeAnimation);
-              final completedDialogContext = await completeAnimation.future;
-              await Future.delayed(Duration(seconds: 3));
-              Navigator.pop(completedDialogContext);
-            },
-          ),
-        ),
+        //       final completeAnimation = Completer<BuildContext>();
+        //       _provider.showCompileComplete(context, completeAnimation);
+        //       final completedDialogContext = await completeAnimation.future;
+        //       await Future.delayed(Duration(seconds: 3));
+        //       Navigator.pop(completedDialogContext);
+        //     },
+        //   ),
+        // ),
         Container(
           width: double.infinity,
           decoration: BoxDecoration(
@@ -109,7 +109,7 @@ class SmartContractCreatorMain extends BaseComponent {
                   AppButton(
                     label: "Compile",
                     onPressed: () async {
-                      final success = await ConfirmDialog.show(
+                      final confirmed = await ConfirmDialog.show(
                         title: "Compile Smart Contract?",
                         body:
                             "Are you sure you want to proceed?\nOnce compiled you will not be able to make any changes.",
@@ -117,10 +117,28 @@ class SmartContractCreatorMain extends BaseComponent {
                         cancelText: "Cancel",
                       );
 
-                      if (success == true) {
-                        await ref
+                      if (confirmed == true) {
+                        final compileAnimation = Completer<BuildContext>();
+                        _provider.showCompileAnimation(
+                            context, compileAnimation);
+                        final dialogContext = await compileAnimation.future;
+                        final sc = await ref
                             .read(createSmartContractProvider.notifier)
                             .compile();
+
+                        await Future.delayed(Duration(seconds: 3));
+                        if (sc != null) {
+                          Navigator.pop(dialogContext);
+                          final completeAnimation = Completer<BuildContext>();
+                          _provider.showCompileComplete(
+                              context, completeAnimation);
+                          final completedDialogContext =
+                              await completeAnimation.future;
+                          await Future.delayed(Duration(seconds: 3));
+                          Navigator.pop(completedDialogContext);
+                          Toast.message(
+                              "Smart Contract compiled successfully.");
+                        }
                       }
                     },
                     icon: Icons.computer,
@@ -131,17 +149,39 @@ class SmartContractCreatorMain extends BaseComponent {
                     onPressed: _model.isPublished
                         ? null
                         : () async {
-                            final success = await ConfirmDialog.show(
+                            final confirmed = await ConfirmDialog.show(
                               title: "Mint Smart Contract?",
                               body:
-                                  "Are you sure you want to mint this smart contract to the chain?",
+                                  "Are you sure you want to mint this smart contract on the chain?",
                               confirmText: "Mint",
                               cancelText: "Cancel",
                             );
 
-                            if (success == true) {
-                              print("not implemented");
-                              //TODO: implement
+                            if (confirmed == true) {
+                              final compileAnimation =
+                                  Completer<BuildContext>();
+                              _provider.showCompileAnimation(
+                                  context, compileAnimation, true);
+                              final dialogContext =
+                                  await compileAnimation.future;
+                              final success = await ref
+                                  .read(createSmartContractProvider.notifier)
+                                  .mint();
+
+                              await Future.delayed(Duration(seconds: 3));
+                              if (success) {
+                                Navigator.pop(dialogContext);
+                                final completeAnimation =
+                                    Completer<BuildContext>();
+                                _provider.showCompileComplete(
+                                    context, completeAnimation, true);
+                                final completedDialogContext =
+                                    await completeAnimation.future;
+                                await Future.delayed(Duration(seconds: 3));
+                                Navigator.pop(completedDialogContext);
+                                Toast.message(
+                                    "Smart Contract minted successfully.");
+                              }
                             }
                           },
                     icon: Icons.publish,

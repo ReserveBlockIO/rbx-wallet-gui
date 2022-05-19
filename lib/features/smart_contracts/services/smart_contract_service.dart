@@ -114,4 +114,44 @@ class SmartContractService extends BaseService {
 
     singleton<Storage>().setList(Storage.LOCAL_SMART_CONTRACTS, updated);
   }
+
+  Future<bool> mint(String id) async {
+    try {
+      await getText("/MintSmartContract/$id");
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> transfer(String id, String address) async {
+    try {
+      await getText("/TransferNFT/$id/$address");
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> evolve(String id, int stage) async {
+    try {
+      await getText("/EvolveSpecific/$id/$stage");
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> burn(String id) async {
+    try {
+      await getText("/Burn/$id");
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
 }

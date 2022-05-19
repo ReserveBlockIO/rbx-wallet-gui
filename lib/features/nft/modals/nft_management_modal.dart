@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/base_component.dart';
@@ -9,21 +10,63 @@ import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
 import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
 import 'package:rbx_wallet/utils/files.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 
 class NftMangementModal extends BaseComponent {
   final String id;
   const NftMangementModal(this.id, {Key? key}) : super(key: key);
 
-  // @override
-  // AppBar? appBar(BuildContext context, WidgetRef ref) {
-  //   final nft = ref.watch(nftDetailProvider(id));
-  //   return AppBar(
-  //     title: Text("Manage ${nft != null ? nft.name : 'NFT'}"),
-  //     backgroundColor: Colors.black12,
-  //     shadowColor: Colors.transparent,
-  //   );
-  // }
+  void evolve(BuildContext context, WidgetRef ref) async {
+    final confirmed = await ConfirmDialog.show(
+      title: "Evolve?",
+      body: "Are you sure you want to evolve this NFT one stage?",
+      confirmText: "Evolve",
+      cancelText: "Cancel",
+    );
+    if (confirmed == true) {
+      final _provider = ref.read(nftDetailProvider(id).notifier);
+      final success = await _provider.evolve();
+      if (success) {
+        Toast.message("Evolve transaction sent successfully!");
+      } else {
+        Toast.error();
+      }
+    }
+  }
+
+  void devolve(BuildContext context, WidgetRef ref) async {
+    final confirmed = await ConfirmDialog.show(
+      title: "Devolve?",
+      body: "Are you sure you want to devolve this NFT one stage?",
+      confirmText: "Devolve",
+      cancelText: "Cancel",
+    );
+    if (confirmed == true) {
+      final _provider = ref.read(nftDetailProvider(id).notifier);
+      final success = await _provider.devolve();
+      if (success) {
+        Toast.message("Devolve transaction sent successfully!");
+      } else {
+        Toast.error();
+      }
+    }
+  }
+
+  void setEvolve(
+    BuildContext context,
+    WidgetRef ref,
+    int stage,
+  ) async {
+    final _provider = ref.read(nftDetailProvider(id).notifier);
+
+    final success = await _provider.setEvolve(stage);
+    if (success) {
+      Toast.message("Evolve transaction sent successfully!");
+    } else {
+      Toast.error();
+    }
+  }
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
@@ -115,16 +158,7 @@ class NftMangementModal extends BaseComponent {
                           icon: FontAwesomeIcons.chevronCircleDown,
                           onPressed: nft.currentEvolvePhase.evolutionState > 0
                               ? () async {
-                                  final confirmed = await ConfirmDialog.show(
-                                    title: "Devolve?",
-                                    body:
-                                        "Are you sure you want to devolve this NFT one stage?",
-                                    confirmText: "Devolve",
-                                    cancelText: "Cancel",
-                                  );
-                                  if (confirmed == true) {
-                                    //TODO: devolve that bad boy
-                                  }
+                                  devolve(context, ref);
                                 }
                               : () {}, //TODO: make this null but jay loves red
                         ),
@@ -135,16 +169,7 @@ class NftMangementModal extends BaseComponent {
                           onPressed: nft.currentEvolvePhase.evolutionState <
                                   nft.evolutionPhases.length
                               ? () async {
-                                  final confirmed = await ConfirmDialog.show(
-                                    title: "Evolve?",
-                                    body:
-                                        "Are you sure you want to evolve this NFT one stage?",
-                                    confirmText: "Evolve",
-                                    cancelText: "Cancel",
-                                  );
-                                  if (confirmed == true) {
-                                    //TODO: evolve that bad boy
-                                  }
+                                  evolve(context, ref);
                                 }
                               : null,
                         ),
@@ -158,7 +183,17 @@ class NftMangementModal extends BaseComponent {
                               validator: (value) =>
                                   formValidatorNotEmpty(value, "Value"),
                               labelText: "Value",
-                              onValidSubmission: (val) async {},
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                  RegExp("[0-9]"),
+                                )
+                              ],
+                              onValidSubmission: (val) async {
+                                final i = int.tryParse(val);
+                                if (i != null) {
+                                  setEvolve(context, ref, i);
+                                }
+                              },
                             );
                           },
                         ),
@@ -166,11 +201,21 @@ class NftMangementModal extends BaseComponent {
                     ),
                   ),
                 ),
-              _EvolutionStateRow(nft.baseEvolutionPhase,
-                  isDynamic: nft.evolveIsDynamic),
+              _EvolutionStateRow(
+                nft.baseEvolutionPhase,
+                nftId: id,
+                isDynamic: nft.evolveIsDynamic,
+                index: 0,
+              ),
               ...nft.evolutionPhases
-                  .map((e) =>
-                      _EvolutionStateRow(e, isDynamic: nft.evolveIsDynamic))
+                  .asMap()
+                  .entries
+                  .map((entry) => _EvolutionStateRow(
+                        entry.value,
+                        nftId: id,
+                        isDynamic: nft.evolveIsDynamic,
+                        index: entry.key + 1,
+                      ))
                   .toList(),
             ],
           ),
@@ -180,14 +225,21 @@ class NftMangementModal extends BaseComponent {
   }
 }
 
-class _EvolutionStateRow extends StatelessWidget {
+class _EvolutionStateRow extends BaseComponent {
+  final String nftId;
   final EvolvePhase phase;
+  final int index;
   final bool isDynamic;
-  const _EvolutionStateRow(this.phase, {Key? key, required this.isDynamic})
-      : super(key: key);
+  const _EvolutionStateRow(
+    this.phase, {
+    Key? key,
+    required this.nftId,
+    required this.isDynamic,
+    required this.index,
+  }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 4.0),
       child: Container(
@@ -276,12 +328,23 @@ class _EvolutionStateRow extends StatelessWidget {
                                   final confirmed = await ConfirmDialog.show(
                                     title: "Evolve?",
                                     body:
-                                        "Are you sure you want to evolve to stage 1?",
+                                        "Are you sure you want to evolve to stage $index?",
                                     confirmText: "Evolve",
                                     cancelText: "Cancel",
                                   );
                                   if (confirmed == true) {
-                                    //TODO: evolve that bad boy
+                                    final _provider = ref.read(
+                                        nftDetailProvider(nftId).notifier);
+
+                                    final success =
+                                        await _provider.setEvolve(index);
+
+                                    if (success) {
+                                      Toast.message(
+                                          "Evolve transaction sent successfully!");
+                                    } else {
+                                      Toast.error();
+                                    }
                                   }
                                 },
                         ),

@@ -24,6 +24,7 @@ class _$SmartContractTearOff {
   _SmartContract call(
       {required Wallet owner,
       String draftId = "",
+      String id = "",
       String name = "",
       String minterName = "",
       String description = "",
@@ -41,6 +42,7 @@ class _$SmartContractTearOff {
     return _SmartContract(
       owner: owner,
       draftId: draftId,
+      id: id,
       name: name,
       minterName: minterName,
       description: description,
@@ -70,6 +72,7 @@ const $SmartContract = _$SmartContractTearOff();
 mixin _$SmartContract {
   Wallet get owner => throw _privateConstructorUsedError;
   String get draftId => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get minterName => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
@@ -100,6 +103,7 @@ abstract class $SmartContractCopyWith<$Res> {
   $Res call(
       {Wallet owner,
       String draftId,
+      String id,
       String name,
       String minterName,
       String description,
@@ -132,6 +136,7 @@ class _$SmartContractCopyWithImpl<$Res>
   $Res call({
     Object? owner = freezed,
     Object? draftId = freezed,
+    Object? id = freezed,
     Object? name = freezed,
     Object? minterName = freezed,
     Object? description = freezed,
@@ -155,6 +160,10 @@ class _$SmartContractCopyWithImpl<$Res>
       draftId: draftId == freezed
           ? _value.draftId
           : draftId // ignore: cast_nullable_to_non_nullable
+              as String,
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
               as String,
       name: name == freezed
           ? _value.name
@@ -244,6 +253,7 @@ abstract class _$SmartContractCopyWith<$Res>
   $Res call(
       {Wallet owner,
       String draftId,
+      String id,
       String name,
       String minterName,
       String description,
@@ -280,6 +290,7 @@ class __$SmartContractCopyWithImpl<$Res>
   $Res call({
     Object? owner = freezed,
     Object? draftId = freezed,
+    Object? id = freezed,
     Object? name = freezed,
     Object? minterName = freezed,
     Object? description = freezed,
@@ -303,6 +314,10 @@ class __$SmartContractCopyWithImpl<$Res>
       draftId: draftId == freezed
           ? _value.draftId
           : draftId // ignore: cast_nullable_to_non_nullable
+              as String,
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
               as String,
       name: name == freezed
           ? _value.name
@@ -370,6 +385,7 @@ class _$_SmartContract extends _SmartContract {
   _$_SmartContract(
       {required this.owner,
       this.draftId = "",
+      this.id = "",
       this.name = "",
       this.minterName = "",
       this.description = "",
@@ -394,6 +410,9 @@ class _$_SmartContract extends _SmartContract {
   @JsonKey(defaultValue: "")
   @override
   final String draftId;
+  @JsonKey(defaultValue: "")
+  @override
+  final String id;
   @JsonKey(defaultValue: "")
   @override
   final String name;
@@ -438,7 +457,7 @@ class _$_SmartContract extends _SmartContract {
 
   @override
   String toString() {
-    return 'SmartContract(owner: $owner, draftId: $draftId, name: $name, minterName: $minterName, description: $description, thumbnail: $thumbnail, primaryAsset: $primaryAsset, rarities: $rarities, stats: $stats, royalties: $royalties, evolves: $evolves, tickets: $tickets, multiAssets: $multiAssets, code: $code, isCompiled: $isCompiled, isPublished: $isPublished)';
+    return 'SmartContract(owner: $owner, draftId: $draftId, id: $id, name: $name, minterName: $minterName, description: $description, thumbnail: $thumbnail, primaryAsset: $primaryAsset, rarities: $rarities, stats: $stats, royalties: $royalties, evolves: $evolves, tickets: $tickets, multiAssets: $multiAssets, code: $code, isCompiled: $isCompiled, isPublished: $isPublished)';
   }
 
   @override
@@ -448,6 +467,7 @@ class _$_SmartContract extends _SmartContract {
             other is _SmartContract &&
             const DeepCollectionEquality().equals(other.owner, owner) &&
             const DeepCollectionEquality().equals(other.draftId, draftId) &&
+            const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality()
                 .equals(other.minterName, minterName) &&
@@ -475,6 +495,7 @@ class _$_SmartContract extends _SmartContract {
       runtimeType,
       const DeepCollectionEquality().hash(owner),
       const DeepCollectionEquality().hash(draftId),
+      const DeepCollectionEquality().hash(id),
       const DeepCollectionEquality().hash(name),
       const DeepCollectionEquality().hash(minterName),
       const DeepCollectionEquality().hash(description),
@@ -505,6 +526,7 @@ abstract class _SmartContract extends SmartContract {
   factory _SmartContract(
       {required Wallet owner,
       String draftId,
+      String id,
       String name,
       String minterName,
       String description,
@@ -528,6 +550,8 @@ abstract class _SmartContract extends SmartContract {
   Wallet get owner;
   @override
   String get draftId;
+  @override
+  String get id;
   @override
   String get name;
   @override
