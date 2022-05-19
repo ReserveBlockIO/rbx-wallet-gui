@@ -54,10 +54,11 @@ class FileSelector extends StatelessWidget {
     );
     if (withAuthorName) {
       final authorName = await PromptModal.show(
-        title: "Creator Name",
-        validator: (value) => formValidatorNotEmpty(value, "Name"),
-        labelText: "Name",
-      );
+          title: "Creator Name",
+          validator: (value) => formValidatorNotEmpty(value, "Name"),
+          labelText: "Name",
+          allowCancel: false,
+          confirmText: "Save");
 
       if (authorName != null) {
         asset = asset.copyWith(authorName: authorName);

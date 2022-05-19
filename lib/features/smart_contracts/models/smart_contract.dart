@@ -10,6 +10,7 @@ import 'package:rbx_wallet/features/smart_contracts/models/compiled_smart_contra
 import 'package:rbx_wallet/features/smart_contracts/models/compiler_payload.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/detailed_smart_contract.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/feature.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/multi_asset.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/rarity.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/stat.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
@@ -35,6 +36,7 @@ abstract class SmartContract with _$SmartContract {
     @Default([]) List<Royalty> royalties,
     @Default([]) List<Evolve> evolves,
     @Default([]) List<Ticket> tickets,
+    @Default([]) List<MultiAsset> multiAssets,
     @Default("") String code,
     @Default(false) bool isCompiled,
     @Default(false) bool isPublished,
@@ -55,6 +57,7 @@ abstract class SmartContract with _$SmartContract {
 
     final List<Evolve> evolves = [];
     final List<Royalty> royalties = [];
+    final List<MultiAsset> multiAssets = [];
 
     for (final f in sc.features) {
       if (f.keys.contains('FeatureName')) {
@@ -69,6 +72,9 @@ abstract class SmartContract with _$SmartContract {
             royalties.add(item);
 
             break;
+          case MultiAsset.compilerEnum:
+            final item = MultiAsset.fromCompiler(f['FeatureFeatures']);
+            multiAssets.add(item);
         }
       }
     }
@@ -81,6 +87,7 @@ abstract class SmartContract with _$SmartContract {
       primaryAsset: sc.primaryAsset,
       royalties: royalties,
       evolves: evolves,
+      multiAssets: multiAssets,
       code: details.code,
       isCompiled: ALLOW_DOUBLE_MINTES ? false : true,
     );
@@ -98,6 +105,10 @@ abstract class SmartContract with _$SmartContract {
 
     for (final item in tickets) {
       features.add(Feature(type: FeatureType.ticket, data: item.toJson()));
+    }
+
+    for (final item in multiAssets) {
+      features.add(Feature(type: FeatureType.multiAsset, data: item.toJson()));
     }
 
     return features;
@@ -126,6 +137,14 @@ abstract class SmartContract with _$SmartContract {
       final f = {
         'FeatureName': Ticket.compilerEnum,
         'FeatureFeatures': t.serializeForCompiler(),
+      };
+      features.add(f);
+    }
+
+    for (final m in multiAssets) {
+      final f = {
+        'FeatureName': MultiAsset.compilerEnum,
+        'FeatureFeatures': m.serializeForCompiler()
       };
       features.add(f);
     }

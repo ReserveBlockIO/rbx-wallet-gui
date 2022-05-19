@@ -34,6 +34,7 @@ class _$SmartContractTearOff {
       List<Royalty> royalties = const [],
       List<Evolve> evolves = const [],
       List<Ticket> tickets = const [],
+      List<MultiAsset> multiAssets = const [],
       String code = "",
       bool isCompiled = false,
       bool isPublished = false}) {
@@ -50,6 +51,7 @@ class _$SmartContractTearOff {
       royalties: royalties,
       evolves: evolves,
       tickets: tickets,
+      multiAssets: multiAssets,
       code: code,
       isCompiled: isCompiled,
       isPublished: isPublished,
@@ -79,6 +81,7 @@ mixin _$SmartContract {
   List<Royalty> get royalties => throw _privateConstructorUsedError;
   List<Evolve> get evolves => throw _privateConstructorUsedError;
   List<Ticket> get tickets => throw _privateConstructorUsedError;
+  List<MultiAsset> get multiAssets => throw _privateConstructorUsedError;
   String get code => throw _privateConstructorUsedError;
   bool get isCompiled => throw _privateConstructorUsedError;
   bool get isPublished => throw _privateConstructorUsedError;
@@ -107,6 +110,7 @@ abstract class $SmartContractCopyWith<$Res> {
       List<Royalty> royalties,
       List<Evolve> evolves,
       List<Ticket> tickets,
+      List<MultiAsset> multiAssets,
       String code,
       bool isCompiled,
       bool isPublished});
@@ -138,6 +142,7 @@ class _$SmartContractCopyWithImpl<$Res>
     Object? royalties = freezed,
     Object? evolves = freezed,
     Object? tickets = freezed,
+    Object? multiAssets = freezed,
     Object? code = freezed,
     Object? isCompiled = freezed,
     Object? isPublished = freezed,
@@ -191,6 +196,10 @@ class _$SmartContractCopyWithImpl<$Res>
           ? _value.tickets
           : tickets // ignore: cast_nullable_to_non_nullable
               as List<Ticket>,
+      multiAssets: multiAssets == freezed
+          ? _value.multiAssets
+          : multiAssets // ignore: cast_nullable_to_non_nullable
+              as List<MultiAsset>,
       code: code == freezed
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
@@ -245,6 +254,7 @@ abstract class _$SmartContractCopyWith<$Res>
       List<Royalty> royalties,
       List<Evolve> evolves,
       List<Ticket> tickets,
+      List<MultiAsset> multiAssets,
       String code,
       bool isCompiled,
       bool isPublished});
@@ -280,6 +290,7 @@ class __$SmartContractCopyWithImpl<$Res>
     Object? royalties = freezed,
     Object? evolves = freezed,
     Object? tickets = freezed,
+    Object? multiAssets = freezed,
     Object? code = freezed,
     Object? isCompiled = freezed,
     Object? isPublished = freezed,
@@ -333,6 +344,10 @@ class __$SmartContractCopyWithImpl<$Res>
           ? _value.tickets
           : tickets // ignore: cast_nullable_to_non_nullable
               as List<Ticket>,
+      multiAssets: multiAssets == freezed
+          ? _value.multiAssets
+          : multiAssets // ignore: cast_nullable_to_non_nullable
+              as List<MultiAsset>,
       code: code == freezed
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
@@ -365,6 +380,7 @@ class _$_SmartContract extends _SmartContract {
       this.royalties = const [],
       this.evolves = const [],
       this.tickets = const [],
+      this.multiAssets = const [],
       this.code = "",
       this.isCompiled = false,
       this.isPublished = false})
@@ -407,6 +423,9 @@ class _$_SmartContract extends _SmartContract {
   @JsonKey(defaultValue: const [])
   @override
   final List<Ticket> tickets;
+  @JsonKey(defaultValue: const [])
+  @override
+  final List<MultiAsset> multiAssets;
   @JsonKey(defaultValue: "")
   @override
   final String code;
@@ -419,7 +438,7 @@ class _$_SmartContract extends _SmartContract {
 
   @override
   String toString() {
-    return 'SmartContract(owner: $owner, draftId: $draftId, name: $name, minterName: $minterName, description: $description, thumbnail: $thumbnail, primaryAsset: $primaryAsset, rarities: $rarities, stats: $stats, royalties: $royalties, evolves: $evolves, tickets: $tickets, code: $code, isCompiled: $isCompiled, isPublished: $isPublished)';
+    return 'SmartContract(owner: $owner, draftId: $draftId, name: $name, minterName: $minterName, description: $description, thumbnail: $thumbnail, primaryAsset: $primaryAsset, rarities: $rarities, stats: $stats, royalties: $royalties, evolves: $evolves, tickets: $tickets, multiAssets: $multiAssets, code: $code, isCompiled: $isCompiled, isPublished: $isPublished)';
   }
 
   @override
@@ -442,6 +461,8 @@ class _$_SmartContract extends _SmartContract {
             const DeepCollectionEquality().equals(other.royalties, royalties) &&
             const DeepCollectionEquality().equals(other.evolves, evolves) &&
             const DeepCollectionEquality().equals(other.tickets, tickets) &&
+            const DeepCollectionEquality()
+                .equals(other.multiAssets, multiAssets) &&
             const DeepCollectionEquality().equals(other.code, code) &&
             const DeepCollectionEquality()
                 .equals(other.isCompiled, isCompiled) &&
@@ -464,6 +485,7 @@ class _$_SmartContract extends _SmartContract {
       const DeepCollectionEquality().hash(royalties),
       const DeepCollectionEquality().hash(evolves),
       const DeepCollectionEquality().hash(tickets),
+      const DeepCollectionEquality().hash(multiAssets),
       const DeepCollectionEquality().hash(code),
       const DeepCollectionEquality().hash(isCompiled),
       const DeepCollectionEquality().hash(isPublished));
@@ -493,6 +515,7 @@ abstract class _SmartContract extends SmartContract {
       List<Royalty> royalties,
       List<Evolve> evolves,
       List<Ticket> tickets,
+      List<MultiAsset> multiAssets,
       String code,
       bool isCompiled,
       bool isPublished}) = _$_SmartContract;
@@ -525,6 +548,8 @@ abstract class _SmartContract extends SmartContract {
   List<Evolve> get evolves;
   @override
   List<Ticket> get tickets;
+  @override
+  List<MultiAsset> get multiAssets;
   @override
   String get code;
   @override

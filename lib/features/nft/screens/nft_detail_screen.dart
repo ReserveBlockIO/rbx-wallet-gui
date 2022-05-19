@@ -123,19 +123,6 @@ class NftDetailScreen extends BaseScreen {
                     ),
                   ),
                 ),
-              // Expanded(
-              //   child: ListTile(
-              //     contentPadding: EdgeInsets.zero,
-              //     title: Text(nft.address),
-              //     subtitle: Text("Owner Address"),
-              //     leading: IconButton(
-              //       icon: Icon(Icons.copy),
-              //       onPressed: () {
-              //         copyToClipboard(nft.address);
-              //       },
-              //     ),
-              //   ),
-              // ),
             ],
           ),
           Divider(),

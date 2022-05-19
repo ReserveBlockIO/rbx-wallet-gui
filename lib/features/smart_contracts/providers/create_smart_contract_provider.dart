@@ -13,6 +13,7 @@ import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart'
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/compiled_smart_contract.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/multi_asset.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/smart_contract.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/stat.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/draft_smart_contracts_provider.dart';
@@ -148,6 +149,30 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
   void removeTicket(Ticket ticket) {
     final index = state.tickets.indexWhere((t) => t.id == ticket.id);
     state = state.copyWith(tickets: state.tickets..removeAt(index));
+  }
+
+  void saveMultiAsset(MultiAsset multiAsset) {
+    final exists =
+        state.multiAssets.firstWhereOrNull((m) => m.id == multiAsset.id);
+
+    if (exists == null) {
+      state = state.copyWith(multiAssets: [...state.multiAssets, multiAsset]);
+    } else {
+      final index = state.multiAssets.indexWhere((m) => m.id == multiAsset.id);
+      _updateMultiAsset(multiAsset, index);
+    }
+  }
+
+  void _updateMultiAsset(MultiAsset multiAsset, int index) {
+    final updatedMultiAssets = [...state.multiAssets];
+    updatedMultiAssets.removeAt(index);
+    updatedMultiAssets.insert(index, multiAsset);
+    state = state.copyWith(multiAssets: updatedMultiAssets);
+  }
+
+  void removeMultiAsset(MultiAsset multiAsset) {
+    final index = state.multiAssets.indexWhere((m) => m.id == multiAsset.id);
+    state = state.copyWith(multiAssets: state.multiAssets..removeAt(index));
   }
 
   // Future<Asset> initAsset(String filePath) async {

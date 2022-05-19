@@ -4,6 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/multi_asset.dart';
 
 part 'feature.freezed.dart';
 part 'feature.g.dart';
@@ -49,6 +50,11 @@ abstract class Feature with _$Feature {
         return Feature(
           type: FeatureType.royalty,
           data: Royalty.fromCompiler(f['FeatureFeatures']).toJson(),
+        );
+      case MultiAsset.compilerEnum:
+        return Feature(
+          type: FeatureType.multiAsset,
+          data: MultiAsset.fromCompiler(f['FeatureFeatures']).toJson(),
         );
       default:
         return Feature(type: FeatureType.notImplemented, data: {});

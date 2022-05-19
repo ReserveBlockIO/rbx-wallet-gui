@@ -15,7 +15,7 @@ abstract class Asset with _$Asset {
   @JsonSerializable(explicitToJson: true)
   factory Asset({
     @JsonKey(name: "AssetId") required String id,
-    @JsonKey(name: "Name") required String name,
+    @JsonKey(name: "Name") String? name,
     @JsonKey(name: "AssetAuthorName") String? authorName,
     @JsonKey(name: "Location") required String location,
     @JsonKey(name: "Extension") required String extension,

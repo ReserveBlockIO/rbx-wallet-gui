@@ -13,7 +13,7 @@ enum TicketType {
 abstract class Ticket with _$Ticket {
   const Ticket._();
 
-  static const compilerEnum = 11;
+  static const compilerEnum = 12;
 
   const factory Ticket({
     @Default("") String id,

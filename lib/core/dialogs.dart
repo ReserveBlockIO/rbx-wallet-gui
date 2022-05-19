@@ -121,17 +121,19 @@ class ConfirmDialog {
 }
 
 class PromptModal {
-  static Future<String?> show(
-      {required String title,
-      required String? Function(String?) validator,
-      required String labelText,
-      bool obscureText = false,
-      String? cancelText,
-      String? confirmText,
-      String initialValue = "",
-      bool destructive = false,
-      Function(String)? onValidSubmission,
-      List<TextInputFormatter> inputFormatters = const []}) async {
+  static Future<String?> show({
+    required String title,
+    required String? Function(String?) validator,
+    required String labelText,
+    bool obscureText = false,
+    String? cancelText,
+    String? confirmText,
+    String initialValue = "",
+    bool destructive = false,
+    bool allowCancel = true,
+    Function(String)? onValidSubmission,
+    List<TextInputFormatter> inputFormatters = const [],
+  }) async {
     // final context = rootNavigatorKey.currentContext!;
     final context = rootScaffoldKey.currentContext!;
 
@@ -142,6 +144,7 @@ class PromptModal {
 
     return await showDialog(
       context: context,
+      barrierDismissible: allowCancel,
       builder: (context) {
         return AlertDialog(
           title: Text(title),
@@ -164,21 +167,22 @@ class PromptModal {
             ),
           ),
           actions: [
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.info,
+            if (allowCancel)
+              TextButton(
+                style: TextButton.styleFrom(
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.info,
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  cancelText ?? "Cancel",
+                  style: TextStyle(color: Theme.of(context).colorScheme.info),
                 ),
               ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text(
-                cancelText ?? "Cancel",
-                style: TextStyle(color: Theme.of(context).colorScheme.info),
-              ),
-            ),
             TextButton(
               style: TextButton.styleFrom(
                 primary: destructive

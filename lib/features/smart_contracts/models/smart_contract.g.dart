@@ -37,6 +37,10 @@ _$_SmartContract _$$_SmartContractFromJson(Map<String, dynamic> json) =>
               ?.map((e) => Ticket.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
+      multiAssets: (json['multiAssets'] as List<dynamic>?)
+              ?.map((e) => MultiAsset.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
       code: json['code'] as String? ?? '',
       isCompiled: json['isCompiled'] as bool? ?? false,
       isPublished: json['isPublished'] as bool? ?? false,
@@ -56,6 +60,7 @@ Map<String, dynamic> _$$_SmartContractToJson(_$_SmartContract instance) =>
       'royalties': instance.royalties,
       'evolves': instance.evolves,
       'tickets': instance.tickets,
+      'multiAssets': instance.multiAssets,
       'code': instance.code,
       'isCompiled': instance.isCompiled,
       'isPublished': instance.isPublished,

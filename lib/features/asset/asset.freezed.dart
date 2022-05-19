@@ -23,7 +23,7 @@ class _$AssetTearOff {
 
   _Asset call(
       {@JsonKey(name: "AssetId") required String id,
-      @JsonKey(name: "Name") required String name,
+      @JsonKey(name: "Name") String? name,
       @JsonKey(name: "AssetAuthorName") String? authorName,
       @JsonKey(name: "Location") required String location,
       @JsonKey(name: "Extension") required String extension,
@@ -51,7 +51,7 @@ mixin _$Asset {
   @JsonKey(name: "AssetId")
   String get id => throw _privateConstructorUsedError;
   @JsonKey(name: "Name")
-  String get name => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
   @JsonKey(name: "AssetAuthorName")
   String? get authorName => throw _privateConstructorUsedError;
   @JsonKey(name: "Location")
@@ -72,7 +72,7 @@ abstract class $AssetCopyWith<$Res> {
       _$AssetCopyWithImpl<$Res>;
   $Res call(
       {@JsonKey(name: "AssetId") String id,
-      @JsonKey(name: "Name") String name,
+      @JsonKey(name: "Name") String? name,
       @JsonKey(name: "AssetAuthorName") String? authorName,
       @JsonKey(name: "Location") String location,
       @JsonKey(name: "Extension") String extension,
@@ -104,7 +104,7 @@ class _$AssetCopyWithImpl<$Res> implements $AssetCopyWith<$Res> {
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       authorName: authorName == freezed
           ? _value.authorName
           : authorName // ignore: cast_nullable_to_non_nullable
@@ -132,7 +132,7 @@ abstract class _$AssetCopyWith<$Res> implements $AssetCopyWith<$Res> {
   @override
   $Res call(
       {@JsonKey(name: "AssetId") String id,
-      @JsonKey(name: "Name") String name,
+      @JsonKey(name: "Name") String? name,
       @JsonKey(name: "AssetAuthorName") String? authorName,
       @JsonKey(name: "Location") String location,
       @JsonKey(name: "Extension") String extension,
@@ -165,7 +165,7 @@ class __$AssetCopyWithImpl<$Res> extends _$AssetCopyWithImpl<$Res>
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       authorName: authorName == freezed
           ? _value.authorName
           : authorName // ignore: cast_nullable_to_non_nullable
@@ -192,7 +192,7 @@ class __$AssetCopyWithImpl<$Res> extends _$AssetCopyWithImpl<$Res>
 class _$_Asset extends _Asset {
   _$_Asset(
       {@JsonKey(name: "AssetId") required this.id,
-      @JsonKey(name: "Name") required this.name,
+      @JsonKey(name: "Name") this.name,
       @JsonKey(name: "AssetAuthorName") this.authorName,
       @JsonKey(name: "Location") required this.location,
       @JsonKey(name: "Extension") required this.extension,
@@ -207,7 +207,7 @@ class _$_Asset extends _Asset {
   final String id;
   @override
   @JsonKey(name: "Name")
-  final String name;
+  final String? name;
   @override
   @JsonKey(name: "AssetAuthorName")
   final String? authorName;
@@ -264,7 +264,7 @@ class _$_Asset extends _Asset {
 abstract class _Asset extends Asset {
   factory _Asset(
       {@JsonKey(name: "AssetId") required String id,
-      @JsonKey(name: "Name") required String name,
+      @JsonKey(name: "Name") String? name,
       @JsonKey(name: "AssetAuthorName") String? authorName,
       @JsonKey(name: "Location") required String location,
       @JsonKey(name: "Extension") required String extension,
@@ -278,7 +278,7 @@ abstract class _Asset extends Asset {
   String get id;
   @override
   @JsonKey(name: "Name")
-  String get name;
+  String? get name;
   @override
   @JsonKey(name: "AssetAuthorName")
   String? get authorName;

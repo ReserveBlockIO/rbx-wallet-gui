@@ -12,6 +12,8 @@ import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/modals
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_form_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_modal.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/multi_asset/multi_asset_modal.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/multi_asset/multi_asset_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty_form_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty_modal.dart';
@@ -19,6 +21,7 @@ import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket.dart'
 import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket_form_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket_modal.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/feature.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/multi_asset.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
 
 class FeaturesFormGroup extends BaseComponent {
@@ -145,6 +148,16 @@ class _FeatureCard extends BaseComponent {
                               .setTicket(ticket);
                           showEditModal(TicketModal());
                           break;
+                        case FeatureType.multiAsset:
+                          print("-------");
+                          print(feature.data);
+                          final multiAsset = MultiAsset.fromJson(feature.data);
+                          print(multiAsset);
+                          ref
+                              .read(multiAssetFormProvider.notifier)
+                              .setMultiAsset(multiAsset);
+                          showEditModal(MultiAssetModal());
+                          break;
                         default:
                           print("Not implemented");
                           break;
@@ -179,6 +192,12 @@ class _FeatureCard extends BaseComponent {
                           ref
                               .read(createSmartContractProvider.notifier)
                               .removeEvolve(evolve);
+                          break;
+                        case FeatureType.multiAsset:
+                          final multiAsset = MultiAsset.fromJson(feature.data);
+                          ref
+                              .read(createSmartContractProvider.notifier)
+                              .removeMultiAsset(multiAsset);
                           break;
                         default:
                           print("Not implemented");
