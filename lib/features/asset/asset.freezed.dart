@@ -22,18 +22,12 @@ class _$AssetTearOff {
   const _$AssetTearOff();
 
   _Asset call(
-      {@JsonKey(name: "AssetId")
-          required String id,
-      @JsonKey(name: "Name")
-          required String name,
-      @JsonKey(name: "AssetAuthorName", defaultValue: "")
-          required String authorName,
-      @JsonKey(name: "Location")
-          required String location,
-      @JsonKey(name: "Extension")
-          required String extension,
-      @JsonKey(name: "FileSize")
-          required int fileSize}) {
+      {@JsonKey(name: "AssetId") required String id,
+      @JsonKey(name: "Name") required String name,
+      @JsonKey(name: "AssetAuthorName") String? authorName,
+      @JsonKey(name: "Location") required String location,
+      @JsonKey(name: "Extension") required String extension,
+      @JsonKey(name: "FileSize") required int fileSize}) {
     return _Asset(
       id: id,
       name: name,
@@ -58,8 +52,8 @@ mixin _$Asset {
   String get id => throw _privateConstructorUsedError;
   @JsonKey(name: "Name")
   String get name => throw _privateConstructorUsedError;
-  @JsonKey(name: "AssetAuthorName", defaultValue: "")
-  String get authorName => throw _privateConstructorUsedError;
+  @JsonKey(name: "AssetAuthorName")
+  String? get authorName => throw _privateConstructorUsedError;
   @JsonKey(name: "Location")
   String get location => throw _privateConstructorUsedError;
   @JsonKey(name: "Extension")
@@ -79,7 +73,7 @@ abstract class $AssetCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: "AssetId") String id,
       @JsonKey(name: "Name") String name,
-      @JsonKey(name: "AssetAuthorName", defaultValue: "") String authorName,
+      @JsonKey(name: "AssetAuthorName") String? authorName,
       @JsonKey(name: "Location") String location,
       @JsonKey(name: "Extension") String extension,
       @JsonKey(name: "FileSize") int fileSize});
@@ -114,7 +108,7 @@ class _$AssetCopyWithImpl<$Res> implements $AssetCopyWith<$Res> {
       authorName: authorName == freezed
           ? _value.authorName
           : authorName // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       location: location == freezed
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
@@ -139,7 +133,7 @@ abstract class _$AssetCopyWith<$Res> implements $AssetCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: "AssetId") String id,
       @JsonKey(name: "Name") String name,
-      @JsonKey(name: "AssetAuthorName", defaultValue: "") String authorName,
+      @JsonKey(name: "AssetAuthorName") String? authorName,
       @JsonKey(name: "Location") String location,
       @JsonKey(name: "Extension") String extension,
       @JsonKey(name: "FileSize") int fileSize});
@@ -175,7 +169,7 @@ class __$AssetCopyWithImpl<$Res> extends _$AssetCopyWithImpl<$Res>
       authorName: authorName == freezed
           ? _value.authorName
           : authorName // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       location: location == freezed
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
@@ -197,18 +191,12 @@ class __$AssetCopyWithImpl<$Res> extends _$AssetCopyWithImpl<$Res>
 @JsonSerializable(explicitToJson: true)
 class _$_Asset extends _Asset {
   _$_Asset(
-      {@JsonKey(name: "AssetId")
-          required this.id,
-      @JsonKey(name: "Name")
-          required this.name,
-      @JsonKey(name: "AssetAuthorName", defaultValue: "")
-          required this.authorName,
-      @JsonKey(name: "Location")
-          required this.location,
-      @JsonKey(name: "Extension")
-          required this.extension,
-      @JsonKey(name: "FileSize")
-          required this.fileSize})
+      {@JsonKey(name: "AssetId") required this.id,
+      @JsonKey(name: "Name") required this.name,
+      @JsonKey(name: "AssetAuthorName") this.authorName,
+      @JsonKey(name: "Location") required this.location,
+      @JsonKey(name: "Extension") required this.extension,
+      @JsonKey(name: "FileSize") required this.fileSize})
       : super._();
 
   factory _$_Asset.fromJson(Map<String, dynamic> json) =>
@@ -221,8 +209,8 @@ class _$_Asset extends _Asset {
   @JsonKey(name: "Name")
   final String name;
   @override
-  @JsonKey(name: "AssetAuthorName", defaultValue: "")
-  final String authorName;
+  @JsonKey(name: "AssetAuthorName")
+  final String? authorName;
   @override
   @JsonKey(name: "Location")
   final String location;
@@ -275,18 +263,12 @@ class _$_Asset extends _Asset {
 
 abstract class _Asset extends Asset {
   factory _Asset(
-      {@JsonKey(name: "AssetId")
-          required String id,
-      @JsonKey(name: "Name")
-          required String name,
-      @JsonKey(name: "AssetAuthorName", defaultValue: "")
-          required String authorName,
-      @JsonKey(name: "Location")
-          required String location,
-      @JsonKey(name: "Extension")
-          required String extension,
-      @JsonKey(name: "FileSize")
-          required int fileSize}) = _$_Asset;
+      {@JsonKey(name: "AssetId") required String id,
+      @JsonKey(name: "Name") required String name,
+      @JsonKey(name: "AssetAuthorName") String? authorName,
+      @JsonKey(name: "Location") required String location,
+      @JsonKey(name: "Extension") required String extension,
+      @JsonKey(name: "FileSize") required int fileSize}) = _$_Asset;
   _Asset._() : super._();
 
   factory _Asset.fromJson(Map<String, dynamic> json) = _$_Asset.fromJson;
@@ -298,8 +280,8 @@ abstract class _Asset extends Asset {
   @JsonKey(name: "Name")
   String get name;
   @override
-  @JsonKey(name: "AssetAuthorName", defaultValue: "")
-  String get authorName;
+  @JsonKey(name: "AssetAuthorName")
+  String? get authorName;
   @override
   @JsonKey(name: "Location")
   String get location;

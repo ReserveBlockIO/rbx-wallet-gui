@@ -39,7 +39,7 @@ abstract class Evolve with _$Evolve {
   static String typeToString(EvolveType type) {
     switch (type) {
       case EvolveType.time:
-        return "Time";
+        return "Date/Time";
       case EvolveType.blockHeight:
         return "Block Height";
       case EvolveType.manualOnly:

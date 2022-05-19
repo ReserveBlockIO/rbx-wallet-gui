@@ -76,22 +76,22 @@ class NftMangementModal extends BaseComponent {
                 .copyWith(color: Colors.white),
           ),
           Divider(),
-          if (nft.canEvolve)
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Evolution History",
-                  style: Theme.of(context).textTheme.headline5,
-                ),
-                ListTile(
-                  leading: Icon(Icons.star),
-                  title: Text("Stage 0 (Base)"),
-                  subtitle: Text("05/15/2022 4:03 PM"),
-                ),
-              ],
-            ),
+          // if (nft.canEvolve)
+          //   Column(
+          //     mainAxisSize: MainAxisSize.min,
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     children: [
+          //       Text(
+          //         "Evolution History",
+          //         style: Theme.of(context).textTheme.headline5,
+          //       ),
+          //       ListTile(
+          //         leading: Icon(Icons.star),
+          //         title: Text("Stage 0 (Base)"),
+          //         subtitle: Text("05/15/2022 4:03 PM"),
+          //       ),
+          //     ],
+          //   ),
           Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,

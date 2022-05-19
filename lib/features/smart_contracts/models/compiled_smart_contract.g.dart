@@ -10,7 +10,7 @@ _$_CompiledSmartContract _$$_CompiledSmartContractFromJson(
         Map<String, dynamic> json) =>
     _$_CompiledSmartContract(
       name: json['Name'] as String,
-      minterName: json['MinterName'] as String,
+      minterName: json['MinterName'] as String?,
       description: json['Description'] as String,
       address: json['Address'] as String,
       id: json['SmartContractUID'] as String,

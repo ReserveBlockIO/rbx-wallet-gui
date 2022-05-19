@@ -17,7 +17,7 @@ List<SmartContractTemplate> getSmartContractTemplates(
   void _createBaseline() {
     final smartContract = SmartContract(
       owner: ref.read(sessionProvider).currentWallet!,
-      name: "My Basic Smart Contract",
+      name: "My Baseline Smart Contract",
       description: "Write a description about this smart contract here.",
     );
 
@@ -27,8 +27,8 @@ List<SmartContractTemplate> getSmartContractTemplates(
   void _createEvolving() {
     final evolve = Evolve(phases: [
       EvolvePhase(
-        name: "Phase 2",
-        description: "Write a description about this phase.",
+        name: "Evolve Stage 2",
+        description: "Write a description about this stage.",
       )
     ]);
     final smartContract = SmartContract(
@@ -81,7 +81,7 @@ List<SmartContractTemplate> getSmartContractTemplates(
       name: "Baseline Smart Contract",
       color: Theme.of(context).colorScheme.primary,
       description:
-          "Create a basic smart contract with an asset and metadata and deploy it to the network.",
+          "Create a baseline smart contract with an asset and metadata and mint it to the chain",
       images: [
         Assets.images.templateBasic1a.path,
         Assets.images.templateBasic2a.path,
@@ -96,7 +96,7 @@ List<SmartContractTemplate> getSmartContractTemplates(
     SmartContractTemplate(
       name: "Evolving Smart Contract",
       description:
-          "Generate a smart contract that can evolve based on time or network controlled variables.",
+          "Generate a smart contract that can evolve based on time or network variables",
       images: [
         Assets.images.templateEvolving1a.path,
         Assets.images.templateEvolving2a.path,
@@ -112,7 +112,7 @@ List<SmartContractTemplate> getSmartContractTemplates(
     SmartContractTemplate(
       name: "Royalty Smart Contract",
       description:
-          "Create a smart contract that includes a royalty that is enforced by the network on all future sales.",
+          "Create a smart contract that includes a royalty that is enforced on chain upon any trade",
       color: Theme.of(context).colorScheme.primary,
       images: [
         Assets.images.templateRoyalty1a.path,

@@ -77,7 +77,7 @@ abstract class SmartContract with _$SmartContract {
       owner: owner,
       name: sc.name,
       description: sc.description,
-      minterName: sc.minterName,
+      minterName: sc.minterName ?? "",
       primaryAsset: sc.primaryAsset,
       royalties: royalties,
       evolves: evolves,

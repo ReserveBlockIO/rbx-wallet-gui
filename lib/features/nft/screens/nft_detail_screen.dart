@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/nft/components/nft_qr_code.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
 import 'package:rbx_wallet/features/nft/modals/nft_management_modal.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
@@ -18,7 +16,6 @@ import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 
 class NftDetailScreen extends BaseScreen {
-  // final Nft nft;
   final String id;
   const NftDetailScreen(this.id, {Key? key}) : super(key: key);
 
@@ -68,19 +65,33 @@ class NftDetailScreen extends BaseScreen {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Text(
-          //   "Name: ${nft.name}",
-          //   style: Theme.of(context)
-          //       .textTheme
-          //       .headline5!
-          //       .copyWith(color: Colors.white),
-          // ),
           Text(
-            nft.description,
+            nft.name,
             style: Theme.of(context)
                 .textTheme
-                .headline6!
+                .headline4!
                 .copyWith(color: Colors.white),
+          ),
+          SizedBox(
+            height: 4,
+          ),
+          if (nft.minterName.isNotEmpty)
+            Text(
+              "Minted By: ${nft.minterName}",
+              style: Theme.of(context)
+                  .textTheme
+                  .headline5!
+                  .copyWith(color: Colors.white),
+            ),
+          SizedBox(
+            height: 4,
+          ),
+          Text(
+            nft.description,
+            style: Theme.of(context).textTheme.headline6!.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w400,
+                ),
           ),
           Divider(),
           Row(
@@ -151,6 +162,19 @@ class NftDetailScreen extends BaseScreen {
                                     fit: BoxFit.contain,
                                   )
                                 : Icon(Icons.file_present_outlined),
+                            if (nft.primaryAsset.authorName != null &&
+                                nft.primaryAsset.authorName!.isNotEmpty)
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 4),
+                                child: Text(
+                                  "Creator: ${nft.primaryAsset.authorName}",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .caption!
+                                      .copyWith(fontSize: 14),
+                                ),
+                              ),
                             Row(
                               children: [
                                 Expanded(
@@ -215,7 +239,6 @@ class NftDetailScreen extends BaseScreen {
               )
             ],
           ),
-
           Divider(),
           Text("Features:", style: Theme.of(context).textTheme.headline5),
           if (nft.features.isEmpty)

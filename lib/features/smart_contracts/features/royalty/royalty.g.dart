@@ -9,7 +9,7 @@ part of 'royalty.dart';
 _$_Royalty _$$_RoyaltyFromJson(Map<String, dynamic> json) => _$_Royalty(
       id: json['id'] as String? ?? '',
       type: $enumDecodeNullable(_$RoyaltyTypeEnumMap, json['type']) ??
-          RoyaltyType.fixed,
+          RoyaltyType.percent,
       amount: (json['amount'] as num?)?.toDouble() ?? 0,
       address: json['address'] as String? ?? '',
     );

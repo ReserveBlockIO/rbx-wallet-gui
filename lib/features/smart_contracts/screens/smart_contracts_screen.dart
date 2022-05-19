@@ -29,10 +29,9 @@ class SmartContractsScreen extends BaseScreen {
           mainAxisSize: MainAxisSize.min,
           children: [
             _BigButton(
-              title: "Use Template",
+              title: "Templated Smart Contract",
               iconData: FontAwesomeIcons.magic,
-              body:
-                  "Start with a smart contract template to get up and running quickly.",
+              body: "Start with a predefined smart contract template",
               onPressed: () {
                 AutoRouter.of(context).push(TemplateChooserScreenRoute());
               },
@@ -41,7 +40,7 @@ class SmartContractsScreen extends BaseScreen {
               title: "Create Custom",
               iconData: Icons.create,
               body:
-                  "Start with a blank slate and add all the features you like.",
+                  "Compile a smart contract from scratch and customize the features you like",
               onPressed: () {
                 ref
                     .read(createSmartContractProvider.notifier)
@@ -54,7 +53,7 @@ class SmartContractsScreen extends BaseScreen {
               title: "Launch IDE",
               iconData: Icons.code,
               body:
-                  "Open the online IDE (Integrated Development Environment) to write your own Trilliam code for your smart contract.",
+                  "Open the online IDE (Integrated Development Environment) to write your own Trilliam code for your smart contract",
               onPressed: () {
                 launch("https://trillium.rbx.network/");
               },
@@ -63,7 +62,7 @@ class SmartContractsScreen extends BaseScreen {
               title: "My Smart Contracts",
               iconData: Icons.folder,
               body:
-                  "View existing smart contracts that you have compiled or continue where you left off with a saved draft.",
+                  "View existing smart contracts that you have compiled or continue where you left off with a saved draft",
               onPressed: () {
                 AutoRouter.of(context).push(MySmartContractsScreenRoute());
               },

@@ -54,7 +54,7 @@ class FileSelector extends StatelessWidget {
     );
     if (withAuthorName) {
       final authorName = await PromptModal.show(
-        title: "Author Name",
+        title: "Creator Name",
         validator: (value) => formValidatorNotEmpty(value, "Name"),
         labelText: "Name",
       );
@@ -72,7 +72,9 @@ class FileSelector extends StatelessWidget {
     String? _title = asset != null ? asset!.fileName : title;
     String? _subtitle = asset != null ? "Type: ${asset!.fileType}" : null;
 
-    if (asset != null && asset!.authorName.isNotEmpty) {
+    if (asset != null &&
+        asset!.authorName != null &&
+        asset!.authorName!.isNotEmpty) {
       _title = "$_title (Author: ${asset!.authorName})";
     }
 

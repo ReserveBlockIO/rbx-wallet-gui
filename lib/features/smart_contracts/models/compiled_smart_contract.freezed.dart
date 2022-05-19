@@ -26,7 +26,7 @@ class _$CompiledSmartContractTearOff {
       {@JsonKey(name: "Name")
           required String name,
       @JsonKey(name: "MinterName")
-          required String minterName,
+          String? minterName,
       @JsonKey(name: "Description")
           required String description,
       @JsonKey(name: "Address")
@@ -67,7 +67,7 @@ mixin _$CompiledSmartContract {
   @JsonKey(name: "Name")
   String get name => throw _privateConstructorUsedError;
   @JsonKey(name: "MinterName")
-  String get minterName => throw _privateConstructorUsedError;
+  String? get minterName => throw _privateConstructorUsedError;
   @JsonKey(name: "Description")
   String get description => throw _privateConstructorUsedError;
   @JsonKey(name: "Address")
@@ -96,7 +96,7 @@ abstract class $CompiledSmartContractCopyWith<$Res> {
       _$CompiledSmartContractCopyWithImpl<$Res>;
   $Res call(
       {@JsonKey(name: "Name") String name,
-      @JsonKey(name: "MinterName") String minterName,
+      @JsonKey(name: "MinterName") String? minterName,
       @JsonKey(name: "Description") String description,
       @JsonKey(name: "Address") String address,
       @JsonKey(name: "SmartContractUID") String id,
@@ -137,7 +137,7 @@ class _$CompiledSmartContractCopyWithImpl<$Res>
       minterName: minterName == freezed
           ? _value.minterName
           : minterName // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       description: description == freezed
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -186,7 +186,7 @@ abstract class _$CompiledSmartContractCopyWith<$Res>
   @override
   $Res call(
       {@JsonKey(name: "Name") String name,
-      @JsonKey(name: "MinterName") String minterName,
+      @JsonKey(name: "MinterName") String? minterName,
       @JsonKey(name: "Description") String description,
       @JsonKey(name: "Address") String address,
       @JsonKey(name: "SmartContractUID") String id,
@@ -230,7 +230,7 @@ class __$CompiledSmartContractCopyWithImpl<$Res>
       minterName: minterName == freezed
           ? _value.minterName
           : minterName // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       description: description == freezed
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -268,7 +268,7 @@ class __$CompiledSmartContractCopyWithImpl<$Res>
 class _$_CompiledSmartContract extends _CompiledSmartContract {
   _$_CompiledSmartContract(
       {@JsonKey(name: "Name") required this.name,
-      @JsonKey(name: "MinterName") required this.minterName,
+      @JsonKey(name: "MinterName") this.minterName,
       @JsonKey(name: "Description") required this.description,
       @JsonKey(name: "Address") required this.address,
       @JsonKey(name: "SmartContractUID") required this.id,
@@ -286,7 +286,7 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
   final String name;
   @override
   @JsonKey(name: "MinterName")
-  final String minterName;
+  final String? minterName;
   @override
   @JsonKey(name: "Description")
   final String description;
@@ -361,7 +361,7 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
 abstract class _CompiledSmartContract extends CompiledSmartContract {
   factory _CompiledSmartContract(
           {@JsonKey(name: "Name") required String name,
-          @JsonKey(name: "MinterName") required String minterName,
+          @JsonKey(name: "MinterName") String? minterName,
           @JsonKey(name: "Description") required String description,
           @JsonKey(name: "Address") required String address,
           @JsonKey(name: "SmartContractUID") required String id,
@@ -380,7 +380,7 @@ abstract class _CompiledSmartContract extends CompiledSmartContract {
   String get name;
   @override
   @JsonKey(name: "MinterName")
-  String get minterName;
+  String? get minterName;
   @override
   @JsonKey(name: "Description")
   String get description;

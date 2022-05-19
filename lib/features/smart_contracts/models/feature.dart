@@ -63,9 +63,9 @@ abstract class Feature with _$Feature {
     if (isAvailable) {
       switch (type) {
         case FeatureType.royalty:
-          return "Include a royalty that is enforced by the network on all future sales.";
+          return "Include a royalty that is enforced on chain upon any trade";
         case FeatureType.evolution:
-          return "Allow the smart contract to evolve based on time or network controlled variables.";
+          return "Allow the smart contract to evolve based on time or network variables";
         case FeatureType.multiAsset:
           return "Allow multiple assets to be compiled into the smart contract";
         default:
@@ -114,7 +114,7 @@ abstract class Feature with _$Feature {
         return "${royalty.typeLabel} ${royalty.amountWithSuffix} [${royalty.address}]";
       case FeatureType.evolution:
         final evolve = Evolve.fromJson(data);
-        return "${evolve.isDynamic ? 'User Controlled ' : 'Minter Controlled '}${evolve.typeLabel} (${evolve.phases.length + 1} phase${evolve.phases.length + 1 == 1 ? '' : 's'})";
+        return "${evolve.isDynamic ? 'Owner Controlled ' : 'Issuer/Chain Controlled '}${evolve.typeLabel} (${evolve.phases.length + 1} phase${evolve.phases.length + 1 == 1 ? '' : 's'})";
       case FeatureType.ticket:
         final ticket = Ticket.fromJson(data);
         return "${ticket.typeLabel}: ${ticket.eventName} (${ticket.dateTimeLabel})";
@@ -146,7 +146,7 @@ abstract class Feature with _$Feature {
       case FeatureType.fractionalization:
         return "Fractionalization";
       case FeatureType.pair:
-        return "Pair with Existing RBX NFT";
+        return "Pair with Existing NFT";
       case FeatureType.wrap:
         return "Wrap with Off-Platform NFT";
       case FeatureType.notImplemented:

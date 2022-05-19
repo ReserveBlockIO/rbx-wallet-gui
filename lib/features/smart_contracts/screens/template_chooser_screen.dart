@@ -65,8 +65,10 @@ class TemplateChooserScreen extends BaseScreen {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
-                "Choose a Template",
-                style: Theme.of(context).textTheme.headline2,
+                "Choose a Smart Contract & Add Features",
+                style: Theme.of(context).textTheme.headline2!.copyWith(
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
               ),
               SizedBox(
                 width: double.infinity,

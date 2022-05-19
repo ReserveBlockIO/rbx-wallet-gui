@@ -16,7 +16,7 @@ class Royalty with _$Royalty {
 
   const factory Royalty({
     @Default("") String id,
-    @Default(RoyaltyType.fixed) RoyaltyType type,
+    @Default(RoyaltyType.percent) RoyaltyType type,
     @Default(0) double amount,
     @Default("") String address,
   }) = _Royalty;

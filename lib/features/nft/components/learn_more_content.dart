@@ -146,19 +146,29 @@ class LearnMoreContent extends BaseComponent {
                 type: AppButtonType.Text,
                 icon: Icons.cancel,
               ),
-              AppButton(
-                label: "Create",
-                onPressed: () {
-                  ref
-                      .read(createSmartContractProvider.notifier)
-                      .clearSmartContract();
-                  onCreate();
+              SizedBox(
+                width: 150,
+                height: 45,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.white,
+                    onPrimary: Colors.black,
+                    textStyle: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  onPressed: () {
+                    ref
+                        .read(createSmartContractProvider.notifier)
+                        .clearSmartContract();
+                    onCreate();
 
-                  AutoRouter.of(context)
-                      .push(SmartContractCreatorContainerScreenRoute());
-                },
-                variant: AppColorVariant.Primary,
-                icon: Icons.edit,
+                    AutoRouter.of(context)
+                        .push(SmartContractCreatorContainerScreenRoute());
+                  },
+                  child: Text("Create"),
+                ),
               ),
             ],
           )

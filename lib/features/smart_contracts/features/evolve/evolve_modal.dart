@@ -43,15 +43,18 @@ class EvolveModal extends BaseComponent {
               AppDropdown<bool>(
                 label: "Evolving Mode",
                 selectedValue: _model.isDynamic,
-                selectedLabel:
-                    _model.isDynamic ? "Owner Controlled" : "Minter Controlled",
+                selectedLabel: _model.isDynamic
+                    ? "Owner Controlled"
+                    : "Issuer/Chain Controlled",
                 onChange: (val) {
                   _provider.updateMode(val);
                 },
                 options: [false, true]
                     .map(
                       (val) => AppDropdownOption(
-                        label: val ? "Owner Controlled" : "Minter Controlled",
+                        label: val
+                            ? "Owner Controlled"
+                            : "Issuer/Chain Controlled",
                         value: val,
                       ),
                     )
@@ -179,7 +182,7 @@ class _EvolvePhaseContainer extends BaseComponent {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4.0),
               child: Text(
-                "Phase ${index + 1}",
+                "Evolve Stage ${index + 1}",
                 style: Theme.of(context).textTheme.headline6,
               ),
             ),
@@ -275,7 +278,7 @@ class _EvolvePhaseContainer extends BaseComponent {
                             validator: _provider.nameValidator,
                             decoration: InputDecoration(
                               label: Text(
-                                "Stage Name",
+                                "Evolve Stage Name",
                                 style: TextStyle(color: Colors.white),
                               ),
                             ),
@@ -283,7 +286,7 @@ class _EvolvePhaseContainer extends BaseComponent {
                         ),
                         Expanded(
                           child: FileSelector(
-                            title: "Stage Asset",
+                            title: "Evolve Stage Asset",
                             asset:
                                 ref.watch(evolvePhaseFormProvider(index)).asset,
                             transparentBackground: true,
@@ -299,7 +302,7 @@ class _EvolvePhaseContainer extends BaseComponent {
                       validator: _provider.descriptionValidator,
                       decoration: InputDecoration(
                         label: Text(
-                          "Stage Description",
+                          "Evolve Stage Description",
                           style: TextStyle(color: Colors.white),
                         ),
                       ),

@@ -9,7 +9,7 @@ part of 'asset.dart';
 _$_Asset _$$_AssetFromJson(Map<String, dynamic> json) => _$_Asset(
       id: json['AssetId'] as String,
       name: json['Name'] as String,
-      authorName: json['AssetAuthorName'] as String? ?? '',
+      authorName: json['AssetAuthorName'] as String?,
       location: json['Location'] as String,
       extension: json['Extension'] as String,
       fileSize: json['FileSize'] as int,

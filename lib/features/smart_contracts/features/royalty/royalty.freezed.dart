@@ -23,7 +23,7 @@ class _$RoyaltyTearOff {
 
   _Royalty call(
       {String id = "",
-      RoyaltyType type = RoyaltyType.fixed,
+      RoyaltyType type = RoyaltyType.percent,
       double amount = 0,
       String address = ""}) {
     return _Royalty(
@@ -147,7 +147,7 @@ class __$RoyaltyCopyWithImpl<$Res> extends _$RoyaltyCopyWithImpl<$Res>
 class _$_Royalty extends _Royalty {
   const _$_Royalty(
       {this.id = "",
-      this.type = RoyaltyType.fixed,
+      this.type = RoyaltyType.percent,
       this.amount = 0,
       this.address = ""})
       : super._();
@@ -158,7 +158,7 @@ class _$_Royalty extends _Royalty {
   @JsonKey(defaultValue: "")
   @override
   final String id;
-  @JsonKey(defaultValue: RoyaltyType.fixed)
+  @JsonKey(defaultValue: RoyaltyType.percent)
   @override
   final RoyaltyType type;
   @JsonKey(defaultValue: 0)
