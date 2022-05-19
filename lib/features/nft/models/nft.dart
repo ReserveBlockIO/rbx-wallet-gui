@@ -3,6 +3,7 @@ import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/feature.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/multi_asset.dart';
 
 part 'nft.freezed.dart';
 part 'nft.g.dart';
@@ -138,5 +139,20 @@ abstract class Nft with _$Nft {
     }
 
     return current;
+  }
+
+  List<Asset> get additionalAssets {
+    final List<Asset> assets = [];
+
+    for (final feature in featureList) {
+      if (feature.type == FeatureType.multiAsset) {
+        final multiAsset = MultiAsset.fromCompiler(feature.data['assets']);
+        for (final a in multiAsset.assets) {
+          assets.add(a);
+        }
+      }
+    }
+
+    return assets;
   }
 }

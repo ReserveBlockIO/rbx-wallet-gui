@@ -6,6 +6,8 @@ import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/asset/asset_card.dart';
+import 'package:rbx_wallet/features/asset/asset_thumbnail.dart';
 import 'package:rbx_wallet/features/nft/components/nft_qr_code.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
 import 'package:rbx_wallet/features/nft/modals/nft_management_modal.dart';
@@ -142,67 +144,30 @@ class NftDetailScreen extends BaseScreen {
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            nft.primaryAsset.isImage
-                                ? Image.file(
-                                    nft.primaryAsset.file,
-                                    width: double.infinity,
-                                    fit: BoxFit.contain,
-                                  )
-                                : Icon(Icons.file_present_outlined),
-                            if (nft.primaryAsset.authorName != null &&
-                                nft.primaryAsset.authorName!.isNotEmpty)
+                            AssetCard(nft.primaryAsset),
+                            if (nft.additionalAssets.isNotEmpty)
                               Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 4),
-                                child: Text(
-                                  "Creator: ${nft.primaryAsset.authorName}",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .caption!
-                                      .copyWith(fontSize: 14),
+                                padding: const EdgeInsets.only(top: 8),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Divider(),
+                                    Text(
+                                      "Additional Assets",
+                                      style:
+                                          Theme.of(context).textTheme.headline5,
+                                    ),
+                                    Wrap(
+                                      children: nft.additionalAssets
+                                          .map(
+                                            (a) => AssetThumbnail(a),
+                                          )
+                                          .toList(),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: ListTile(
-                                    contentPadding: EdgeInsets.zero,
-                                    leading: Icon(nft.primaryAsset.icon),
-                                    title: Text(nft.primaryAsset.fileType),
-                                    subtitle: Text("File Type"),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: ListTile(
-                                    leading: Icon(Icons.line_weight),
-                                    contentPadding: EdgeInsets.zero,
-                                    title: Text(nft.primaryAsset.filesizeLabel),
-                                    subtitle: Text("File Size"),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Divider(),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                AppButton(
-                                  label: "Open Folder",
-                                  icon: Icons.folder_open,
-                                  onPressed: () {
-                                    openFile(nft.primaryAsset.folder);
-                                  },
-                                ),
-                                SizedBox(width: 4),
-                                AppButton(
-                                  label: "Open Asset",
-                                  icon: Icons.file_open,
-                                  onPressed: () {
-                                    openFile(nft.primaryAsset.location);
-                                  },
-                                ),
-                              ],
-                            ),
+                              )
                           ],
                         ),
                       ),

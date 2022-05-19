@@ -124,6 +124,10 @@ abstract class Feature with _$Feature {
       case FeatureType.ticket:
         final ticket = Ticket.fromJson(data);
         return "${ticket.typeLabel}: ${ticket.eventName} (${ticket.dateTimeLabel})";
+      case FeatureType.multiAsset:
+        final multiAsset = MultiAsset.fromJson(data);
+        return "${multiAsset.assets.length} asset${multiAsset.assets.length == 1 ? '' : 's'}";
+
       default:
         return "Not implemented";
     }
