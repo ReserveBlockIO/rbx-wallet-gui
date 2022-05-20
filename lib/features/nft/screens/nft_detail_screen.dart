@@ -64,270 +64,280 @@ class NftDetailScreen extends BaseScreen {
       return Container();
     }
 
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            nft.name,
-            style: Theme.of(context)
-                .textTheme
-                .headline4!
-                .copyWith(color: Colors.white),
-          ),
-          SizedBox(
-            height: 4,
-          ),
-          if (nft.minterName.isNotEmpty)
-            Text(
-              "Minted By: ${nft.minterName}",
-              style: Theme.of(context)
-                  .textTheme
-                  .headline5!
-                  .copyWith(color: Colors.white),
-            ),
-          SizedBox(
-            height: 4,
-          ),
-          Text(
-            nft.description,
-            style: Theme.of(context).textTheme.headline6!.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w400,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  nft.name,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline4!
+                      .copyWith(color: Colors.white),
                 ),
-          ),
-          Divider(),
-          Row(
-            children: [
-              Expanded(
-                child: ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  title: Text(nft.address),
-                  subtitle: Text("Smart Contract Address"),
-                  leading: IconButton(
-                    icon: Icon(Icons.copy),
-                    onPressed: () {
-                      copyToClipboard(nft.id);
-                    },
+                SizedBox(
+                  height: 4,
+                ),
+                if (nft.minterName.isNotEmpty)
+                  Text(
+                    "Minted By: ${nft.minterName}",
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline5!
+                        .copyWith(color: Colors.white),
                   ),
+                SizedBox(
+                  height: 4,
                 ),
-              ),
-              if (nft.minterAddress.isNotEmpty)
-                Expanded(
-                  child: ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    title: Text(nft.minterAddress),
-                    subtitle: Text("Minter Address"),
-                    leading: IconButton(
-                      icon: Icon(Icons.copy),
-                      onPressed: () {
-                        copyToClipboard(nft.minterAddress);
-                      },
-                    ),
-                  ),
+                Text(
+                  nft.description,
+                  style: Theme.of(context).textTheme.headline6!.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w400,
+                      ),
                 ),
-            ],
-          ),
-          Divider(),
-          Wrap(
-            children: [
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Asset:", style: Theme.of(context).textTheme.headline5),
-                  ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: 512),
-                    child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            AssetCard(nft.primaryAsset),
-                            if (nft.additionalAssets.isNotEmpty)
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Divider(),
-                                    Text(
-                                      "Additional Assets",
-                                      style:
-                                          Theme.of(context).textTheme.headline5,
-                                    ),
-                                    Wrap(
-                                      children: nft.additionalAssets
-                                          .map(
-                                            (a) => AssetThumbnail(a),
-                                          )
-                                          .toList(),
-                                    ),
-                                  ],
-                                ),
-                              )
-                          ],
+                Divider(),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        title: Text(nft.address),
+                        subtitle: Text("Smart Contract Address"),
+                        leading: IconButton(
+                          icon: Icon(Icons.copy),
+                          onPressed: () {
+                            copyToClipboard(nft.id);
+                          },
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 400),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "QR Code:",
-                      style: Theme.of(context).textTheme.headline5,
-                    ),
-                    NftQrCode(data: nft.explorerUrl),
+                    if (nft.minterAddress.isNotEmpty)
+                      Expanded(
+                        child: ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          title: Text(nft.minterAddress),
+                          subtitle: Text("Minter Address"),
+                          leading: IconButton(
+                            icon: Icon(Icons.copy),
+                            onPressed: () {
+                              copyToClipboard(nft.minterAddress);
+                            },
+                          ),
+                        ),
+                      ),
                   ],
                 ),
-              )
-            ],
-          ),
-          Divider(),
-          Text("Features:", style: Theme.of(context).textTheme.headline5),
-          if (nft.features.isEmpty)
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.cancel,
-                    size: 16,
-                  ),
+                Divider(),
+                Wrap(
+                  children: [
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Asset:",
+                            style: Theme.of(context).textTheme.headline5),
+                        ConstrainedBox(
+                          constraints: BoxConstraints(maxWidth: 512),
+                          child: Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  AssetCard(nft.primaryAsset),
+                                  if (nft.additionalAssets.isNotEmpty)
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Divider(),
+                                          Text(
+                                            "Additional Assets",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headline5,
+                                          ),
+                                          Wrap(
+                                            children: nft.additionalAssets
+                                                .map(
+                                                  (a) => AssetThumbnail(a),
+                                                )
+                                                .toList(),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    ConstrainedBox(
+                      constraints: BoxConstraints(maxWidth: 400),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "QR Code:",
+                            style: Theme.of(context).textTheme.headline5,
+                          ),
+                          NftQrCode(data: nft.explorerUrl),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                Divider(),
+                Text("Features:", style: Theme.of(context).textTheme.headline5),
+                if (nft.features.isEmpty)
                   Padding(
-                    padding: const EdgeInsets.only(left: 4.0),
-                    child: Text(
-                      "No features",
-                      style: TextStyle(fontSize: 16),
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.cancel,
+                          size: 16,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 4.0),
+                          child: Text(
+                            "No features",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: nft.featureList
+                      .map(
+                        (f) => ListTile(
+                          leading: Icon(f.icon),
+                          title: Text(f.nameLabel),
+                          subtitle: Text(f.description),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ],
             ),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: nft.featureList
-                .map(
-                  (f) => ListTile(
-                    leading: Icon(f.icon),
-                    title: Text(f.nameLabel),
-                    subtitle: Text(f.description),
-                  ),
-                )
-                .toList(),
           ),
-          Divider(),
-          Text("Actions:", style: Theme.of(context).textTheme.headline5),
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
+        ),
+        Divider(),
+        Text("Actions:", style: Theme.of(context).textTheme.headline5),
+        Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              AppButton(
+                label: "Transfer",
+                helpType: HelpType.transfer,
+                icon: Icons.send,
+                onPressed: () {
+                  PromptModal.show(
+                    title: "Transfer NFT",
+                    validator: (value) => formValidatorRbxAddress(value),
+                    labelText: "RBX Address",
+                    confirmText: "Transfer",
+                    onValidSubmission: (address) async {
+                      final success = await _provider.transfer(address);
+                      if (success) {
+                        Toast.message(
+                            "Transfer transaction sent successfully!");
+                      } else {
+                        Toast.error();
+                      }
+                    },
+                  );
+                },
+              ),
+              if (!nft.manageable)
                 AppButton(
-                  label: "Transfer",
-                  helpType: HelpType.transfer,
-                  icon: Icons.send,
+                  label: "Manage",
+                  icon: Icons.settings,
                   onPressed: () {
-                    PromptModal.show(
-                      title: "Transfer NFT",
-                      validator: (value) => formValidatorRbxAddress(value),
-                      labelText: "RBX Address",
-                      confirmText: "Transfer",
-                      onValidSubmission: (address) async {
-                        final success = await _provider.transfer(address);
-                        if (success) {
-                          Toast.message(
-                              "Transfer transaction sent successfully!");
-                        } else {
-                          Toast.error();
-                        }
+                    showModalBottomSheet(
+                      isScrollControlled: true,
+                      backgroundColor: Colors.black87,
+                      context: context,
+                      builder: (context) {
+                        return ModalContainer(
+                          color: Colors.black26,
+                          children: [NftMangementModal(nft.id)],
+                        );
                       },
                     );
                   },
                 ),
-                if (!nft.manageable)
-                  AppButton(
-                    label: "Manage",
-                    icon: Icons.settings,
-                    onPressed: () {
-                      showModalBottomSheet(
-                        isScrollControlled: true,
-                        backgroundColor: Colors.black87,
-                        context: context,
-                        builder: (context) {
-                          return ModalContainer(
-                            color: Colors.black26,
-                            children: [NftMangementModal(nft.id)],
-                          );
-                        },
-                      );
-                    },
-                  ),
+              AppButton(
+                label: nft.isPublic ? "Make Private" : "Make Public",
+                icon: nft.isPublic ? Icons.visibility_off : Icons.visibility,
+                onPressed: () {
+                  _provider.togglePrivate();
+                },
+              ),
+              if (nft.code != null)
                 AppButton(
-                  label: nft.isPublic ? "Make Private" : "Make Public",
-                  icon: nft.isPublic ? Icons.visibility_off : Icons.visibility,
+                  label: "View Code",
+                  icon: Icons.code,
+                  variant: AppColorVariant.Primary,
                   onPressed: () {
-                    _provider.togglePrivate();
-                  },
-                ),
-                if (nft.code != null)
-                  AppButton(
-                    label: "View Code",
-                    icon: Icons.code,
-                    variant: AppColorVariant.Primary,
-                    onPressed: () {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (context) {
-                          return CodeModal(nft.code!);
-                        },
-                      );
-                    },
-                  ),
-                AppButton(
-                  label: "Burn",
-                  icon: Icons.fire_hydrant,
-                  helpType: HelpType.burn,
-                  variant: AppColorVariant.Danger,
-                  onPressed: () async {
-                    final confirmed = await ConfirmDialog.show(
-                      title: "Burn NFT?",
-                      body: "Are you sure you want to burn ${nft.name}",
-                      destructive: true,
-                      confirmText: "Burn",
-                      cancelText: "Cancel",
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return CodeModal(nft.code!);
+                      },
                     );
-
-                    if (confirmed == true) {
-                      final success = await _provider.burn();
-
-                      if (success) {
-                        Toast.message("Burn transaction sent successfully!");
-                        ref.read(mySmartContractsProvider.notifier).load();
-                        Navigator.of(context).pop();
-                      } else {
-                        Toast.error();
-                      }
-                    }
                   },
                 ),
-              ],
-            ),
-          )
-        ],
-      ),
+              AppButton(
+                label: "Burn",
+                icon: Icons.fire_hydrant,
+                helpType: HelpType.burn,
+                variant: AppColorVariant.Danger,
+                onPressed: () async {
+                  final confirmed = await ConfirmDialog.show(
+                    title: "Burn NFT?",
+                    body: "Are you sure you want to burn ${nft.name}",
+                    destructive: true,
+                    confirmText: "Burn",
+                    cancelText: "Cancel",
+                  );
+
+                  if (confirmed == true) {
+                    final success = await _provider.burn();
+
+                    if (success) {
+                      Toast.message("Burn transaction sent successfully!");
+                      ref.read(mySmartContractsProvider.notifier).load();
+                      Navigator.of(context).pop();
+                    } else {
+                      Toast.error();
+                    }
+                  }
+                },
+              ),
+            ],
+          ),
+        )
+      ],
     );
   }
 }

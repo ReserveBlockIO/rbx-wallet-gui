@@ -69,7 +69,7 @@ class NftService extends BaseService {
 
   Future<bool> togglePrivate(String id) async {
     try {
-      final response = await getText('/PublishSmartContract/$id');
+      final response = await getText('/ChangeNFTPublicState/$id');
       print(response);
       return true;
     } catch (e) {
