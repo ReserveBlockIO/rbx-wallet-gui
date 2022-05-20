@@ -225,26 +225,28 @@ class HomeScreen extends BaseScreen {
                     shell.run(cmd);
                   },
                 ),
-                // AppButton(
-                //   label: "Clear Log",
-                //   onPressed: () async {
-                //     final confirmed = await ConfirmDialog.show(
-                //         title: "Clear Log",
-                //         body: "Are you sure you want to clear the log?",
-                //         destructive: true,
-                //         confirmText: "Clear",
-                //         cancelText: "Cancel");
+                if (Platform.isWindows)
+                  AppButton(
+                    label: "Clear Log",
+                    onPressed: () async {
+                      final confirmed = await ConfirmDialog.show(
+                        title: "Clear Log",
+                        body: "Are you sure you want to clear the log?",
+                        destructive: true,
+                        confirmText: "Clear",
+                        cancelText: "Cancel",
+                      );
 
-                //     if (confirmed == true) {
-                //       final success = await BridgeService().clearLog();
-                //       if (success) {
-                //         Toast.message("Log cleared");
-                //       } else {
-                //         Toast.error();
-                //       }
-                //     }
-                //   },
-                // ),
+                      if (confirmed == true) {
+                        final success = await BridgeService().clearLog();
+                        if (success) {
+                          Toast.message("Log cleared");
+                        } else {
+                          Toast.error();
+                        }
+                      }
+                    },
+                  ),
                 AppButton(
                   label: "Rollback Blocks",
                   onPressed: () {
