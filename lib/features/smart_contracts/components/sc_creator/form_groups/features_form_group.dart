@@ -23,6 +23,7 @@ import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket_modal
 import 'package:rbx_wallet/features/smart_contracts/models/feature.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/multi_asset.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
+import 'package:collection/collection.dart';
 
 class FeaturesFormGroup extends BaseComponent {
   const FeaturesFormGroup({Key? key}) : super(key: key);
@@ -63,13 +64,30 @@ class FeaturesFormGroup extends BaseComponent {
                   onPressed: _model.isCompiled
                       ? null
                       : () {
+                          final canAddRoyalty = _model.features
+                                  .firstWhereOrNull(
+                                      (f) => f.type == FeatureType.royalty) ==
+                              null;
+                          final canAddEvolve = _model.features.firstWhereOrNull(
+                                  (f) => f.type == FeatureType.evolution) ==
+                              null;
+
+                          final canAddMultiAsset = _model.features
+                                  .firstWhereOrNull((f) =>
+                                      f.type == FeatureType.multiAsset) ==
+                              null;
+
                           showModalBottomSheet(
                             backgroundColor: Colors.transparent,
                             context: rootNavigatorKey.currentContext!,
                             isScrollControlled: true,
                             isDismissible: true,
                             builder: (context) {
-                              return FeatureChooserModal();
+                              return FeatureChooserModal(
+                                canAddRoyalty: canAddRoyalty,
+                                canAddEvolve: canAddEvolve,
+                                canAddMultiAsset: canAddMultiAsset,
+                              );
                             },
                           );
                         },

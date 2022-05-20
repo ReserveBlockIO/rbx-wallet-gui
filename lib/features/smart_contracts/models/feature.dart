@@ -69,7 +69,7 @@ abstract class Feature with _$Feature {
     if (isAvailable) {
       switch (type) {
         case FeatureType.royalty:
-          return "Include a royalty that is enforced on chain upon any trade";
+          return "Include a royalty that is enforced on-chain upon any trade";
         case FeatureType.evolution:
           return "Allow the smart contract to evolve based on time or network variables";
         case FeatureType.multiAsset:
@@ -120,7 +120,7 @@ abstract class Feature with _$Feature {
         return "${royalty.typeLabel} ${royalty.amountWithSuffix} [${royalty.address}]";
       case FeatureType.evolution:
         final evolve = Evolve.fromJson(data);
-        return "${evolve.isDynamic ? 'Owner Controlled ' : 'Issuer/Chain Controlled '}${evolve.typeLabel} (${evolve.phases.length + 1} phase${evolve.phases.length + 1 == 1 ? '' : 's'})";
+        return "${evolve.isDynamic ? 'Automated/Application Controlled ' : 'Issuer/Minter Controlled '}${evolve.typeLabel} (${evolve.phases.length + 1} phase${evolve.phases.length + 1 == 1 ? '' : 's'})";
       case FeatureType.ticket:
         final ticket = Ticket.fromJson(data);
         return "${ticket.typeLabel}: ${ticket.eventName} (${ticket.dateTimeLabel})";

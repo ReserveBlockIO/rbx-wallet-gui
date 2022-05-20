@@ -49,8 +49,8 @@ class EvolveModal extends BaseComponent {
                 label: "Evolving Mode",
                 selectedValue: _model.isDynamic,
                 selectedLabel: _model.isDynamic
-                    ? "Owner Controlled"
-                    : "Issuer/Chain Controlled",
+                    ? "Automated/Application Controlled"
+                    : "Issuer/Minter Controlled",
                 onChange: (val) {
                   _provider.updateMode(val);
                 },
@@ -58,8 +58,8 @@ class EvolveModal extends BaseComponent {
                     .map(
                       (val) => AppDropdownOption(
                         label: val
-                            ? "Owner Controlled"
-                            : "Issuer/Chain Controlled",
+                            ? "Automated/Application Controlled"
+                            : "Issuer/Minter Controlled",
                         value: val,
                       ),
                     )

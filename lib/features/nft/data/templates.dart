@@ -82,7 +82,7 @@ List<SmartContractTemplate> getSmartContractTemplates(
           LearnMoreStep(
             title: "Primary Asset",
             description:
-                "Choose the primary asset for the smart contract. This can be an image, audio file, video, or any digital asset.",
+                "Choose the primary asset for the smart contract. This can be an image, audio file, video, or any digital file.",
             imagePath: Assets.images.tutBasic2.path,
           ),
           LearnMoreStep(
@@ -97,7 +97,7 @@ List<SmartContractTemplate> getSmartContractTemplates(
     SmartContractTemplate(
       name: "Evolving Smart Contract",
       description:
-          "Generate a smart contract that can evolve based on time or network variables",
+          "Generate a smart contract that can evolve based on time or on-chain variables",
       images: [
         Assets.images.templateEvolving1a.path,
         Assets.images.templateEvolving2a.path,
@@ -132,7 +132,7 @@ List<SmartContractTemplate> getSmartContractTemplates(
     SmartContractTemplate(
       name: "Royalty Smart Contract",
       description:
-          "Create a smart contract that includes a royalty that is enforced on chain upon any trade",
+          "Create a smart contract that includes a royalty that is enforced on-chain upon any trade",
       color: Theme.of(context).colorScheme.primary,
       images: [
         Assets.images.templateRoyalty1a.path,
@@ -151,13 +151,13 @@ List<SmartContractTemplate> getSmartContractTemplates(
           LearnMoreStep(
             title: "Amount & Address",
             description:
-                "Input the amount (percent of amount of RBX) to be paid to the RBX address inputted in the next field.",
+                "Input the percentage amount to be paid to the RBX address defined in the next field.",
             imagePath: Assets.images.tutRoyalty2.path,
           ),
           LearnMoreStep(
             title: "Royalty Fee",
             description:
-                "The fee is taken out of the sale (not added on top) so the maximum percent is 100%. For flat fees, the NFT can't be sold for less than the enforced royalty.",
+                "The fee is calculated from the sale proceeds and settled on transaction finality. For flat fees, the NFT can't be sold for less than the enforced royalty.",
             imagePath: Assets.images.tutRoyalty3.path,
           ),
         ],

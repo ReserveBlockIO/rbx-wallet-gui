@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/app.dart';
 import 'package:rbx_wallet/core/base_component.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_header.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
@@ -16,7 +17,15 @@ import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket_modal
 import 'package:rbx_wallet/features/smart_contracts/models/feature.dart';
 
 class FeatureChooserModal extends BaseComponent {
-  const FeatureChooserModal({Key? key}) : super(key: key);
+  final bool canAddRoyalty;
+  final bool canAddEvolve;
+  final bool canAddMultiAsset;
+  const FeatureChooserModal({
+    Key? key,
+    this.canAddRoyalty = true,
+    this.canAddEvolve = true,
+    this.canAddMultiAsset = true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -46,14 +55,35 @@ class FeatureChooserModal extends BaseComponent {
 
                   switch (f.type) {
                     case FeatureType.royalty:
+                      if (!canAddRoyalty) {
+                        InfoDialog.show(
+                            title: "Can't add Royalty",
+                            body:
+                                "You already have a royalty feature in this smart contract.");
+                        return null;
+                      }
                       ref.read(royaltyFormProvider.notifier).clear();
                       modal = RoyaltyModal();
                       break;
                     case FeatureType.evolution:
+                      if (!canAddEvolve) {
+                        InfoDialog.show(
+                            title: "Can't add Evolve",
+                            body:
+                                "You already have an evolve feature in this smart contract. Edit the existing evolving feature to add more stages.");
+                        return null;
+                      }
                       ref.read(evolveFormProvider.notifier).clear();
                       modal = EvolveModal();
                       break;
                     case FeatureType.multiAsset:
+                      if (!canAddMultiAsset) {
+                        InfoDialog.show(
+                            title: "Can't add Multi Asset",
+                            body:
+                                "You already have a multi asset feature in this smart contract. Edit the existing multi asset feature to add more assets.");
+                        return null;
+                      }
                       ref.read(multiAssetFormProvider.notifier).clear();
                       modal = MultiAssetModal();
                       break;

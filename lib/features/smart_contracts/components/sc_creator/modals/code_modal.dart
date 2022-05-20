@@ -24,7 +24,7 @@ class CodeModal extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              width: 30,
+              width: 50,
               color: Theme.of(context).colorScheme.primary,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -38,9 +38,11 @@ class CodeModal extends StatelessWidget {
                             "${e.key + 1}",
                             textAlign: TextAlign.right,
                             style: TextStyle(
-                                fontFamily: "RobotoMono",
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
+                              fontFamily: "RobotoMono",
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            softWrap: false,
                           ),
                         ))
                     .toList(),
@@ -60,9 +62,13 @@ class CodeModal extends StatelessWidget {
               width: 8,
             ),
             Expanded(
-              child: SelectableText(
+              child: Text(
                 code,
-                style: TextStyle(fontFamily: "RobotoMono", fontSize: 16),
+                style: TextStyle(
+                  fontFamily: "RobotoMono",
+                  fontSize: 16,
+                ),
+                softWrap: false,
               ),
             )
           ],

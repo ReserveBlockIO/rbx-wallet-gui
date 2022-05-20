@@ -25,6 +25,8 @@ enum HelpType {
   compile,
   mint,
   delete,
+  burn,
+  transfer,
 }
 
 class HelpButton extends StatelessWidget {
@@ -108,6 +110,10 @@ class HelpButton extends StatelessWidget {
         return "Mint";
       case HelpType.delete:
         return "Delete";
+      case HelpType.burn:
+        return "Burn NFT";
+      case HelpType.transfer:
+        return "Transfer NFT";
     }
   }
 
@@ -118,7 +124,7 @@ class HelpButton extends StatelessWidget {
       case HelpType.smartContractName:
         return "Name your smart contract. This field is required and is publicly visible.";
       case HelpType.ownerAddress:
-        return "This the wallet that will be used to compile and mint the smart contract.";
+        return "This should be the wallet address that will be used to compile and mint the smart contract.";
       case HelpType.description:
         return "Provide a text-based description of your smart contract/NFT. This field is required and will be publicly visible.";
       case HelpType.baselineProperties:
@@ -130,13 +136,13 @@ class HelpButton extends StatelessWidget {
       case HelpType.features:
         return "Add a feature to your smart contract such as royalties or evolving functionality.";
       case HelpType.royaltyPercent:
-        return "Type in the percent that will be paid to the address provided and is enforced on chain upon any trade. This fee comes out of the sale so 100% is the maximum value.";
+        return "Type in the percent that will be paid to the address provided and is enforced on-chain upon any trade. This fee is remitted to the royalty holder upon transaction finality.";
       case HelpType.royaltyFlat:
-        return "Type in the amount of RBX that will be paid to the address provided and is enforced on chain upon any trade. This fee comes out of the sale so it won't be able to be sold for less than this amount.";
+        return "Type in the amount of RBX that will be paid to the address provided and is enforced on-chain upon any trade. This fee is remitted to the royalty holder upon transaction finality.";
       case HelpType.royaltyAddress:
-        return "Provide the RBX public address that the royalty will be paid to upon trade.";
+        return "Provide the RBX public address that the royalty will be paid to upon transaction finality.";
       case HelpType.evolveMode:
-        return "Decide how will the evolution will be controlled.\n\nIssuer/Chain Controlled: The minter will be able to evolve/devolve the smart contract at any point.\n\nOwner Controlled: Allow this owner (or other applications) to control evolution state.";
+        return "You decide how the evolution will be controlled.\n\nIssuer/Minter Controlled: The minter will be able to evolve/devolve the smart contract at any point.\n\nAutomated/Application Controlled: Automatically evolves based on time/date, on-chain variables, and/or application induced variables.";
       case HelpType.evolveType:
         return "Choose the variable type that can dynamically affect the evolution state.\n\nDate/Time: The smart contract will automatically evolve at a certain point of time.\n\nBlock Height: The smart contract will evolve when the chain reaches a particular block height.\n\nManual Only: The smart contract will not evolve unless manually told to by the issuer or user/application (depending on which mode is selected).";
       case HelpType.evolveBlockHeight:
@@ -154,15 +160,20 @@ class HelpButton extends StatelessWidget {
       case HelpType.saveAsDraft:
         return "Save your smart contract as a draft locally to come back and work on it later.";
       case HelpType.compile:
-        return "Compile the Trilliam code based on the parameters you've configured.";
+        return "Compile the Trilliam code based on the parameters you've configured and then mint when ready.";
       case HelpType.mint:
         return "Mint and deploy the smart contract to the chain.";
       case HelpType.delete:
         return "Delete your smart contract";
+      case HelpType.burn:
+        return "Burn (destroy) this NFT permanently.";
+      case HelpType.transfer:
+        return "Transfer this NFT to another wallet.";
     }
   }
 
   String get _closeText {
+    return "Close";
     final list = [
       'Thanks!',
       'Close',

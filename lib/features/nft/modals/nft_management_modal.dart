@@ -160,7 +160,7 @@ class NftMangementModal extends BaseComponent {
                               ? () async {
                                   devolve(context, ref);
                                 }
-                              : () {}, //TODO: make this null but jay loves red
+                              : null,
                         ),
                         AppButton(
                           label: "Evolve",

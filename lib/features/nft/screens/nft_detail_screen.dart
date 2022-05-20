@@ -11,6 +11,7 @@ import 'package:rbx_wallet/features/asset/asset_thumbnail.dart';
 import 'package:rbx_wallet/features/nft/components/nft_qr_code.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
 import 'package:rbx_wallet/features/nft/modals/nft_management_modal.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/modals/code_modal.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/my_smart_contracts_provider.dart';
@@ -236,6 +237,7 @@ class NftDetailScreen extends BaseScreen {
               children: [
                 AppButton(
                   label: "Transfer",
+                  helpType: HelpType.transfer,
                   icon: Icons.send,
                   onPressed: () {
                     PromptModal.show(
@@ -297,14 +299,16 @@ class NftDetailScreen extends BaseScreen {
                 AppButton(
                   label: "Burn",
                   icon: Icons.fire_hydrant,
+                  helpType: HelpType.burn,
                   variant: AppColorVariant.Danger,
                   onPressed: () async {
                     final confirmed = await ConfirmDialog.show(
-                        title: "Burn NFT?",
-                        body: "Are you sure you want to burn ${nft.name}",
-                        destructive: true,
-                        confirmText: "Burn",
-                        cancelText: "Cancel");
+                      title: "Burn NFT?",
+                      body: "Are you sure you want to burn ${nft.name}",
+                      destructive: true,
+                      confirmText: "Burn",
+                      cancelText: "Cancel",
+                    );
 
                     if (confirmed == true) {
                       final success = await _provider.burn();
