@@ -23,7 +23,7 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
     descriptionController = TextEditingController(text: model.description);
 
     blockHeightController =
-        TextEditingController(text: model.blockHeight.toString());
+        TextEditingController(text: "${model.blockHeight ?? '0'}");
     dateController = TextEditingController(text: model.dateLabel);
     timeController = TextEditingController(text: model.timeLabel);
   }
@@ -40,7 +40,7 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
   }
 
   bool save() {
-    final bh = state = state.copyWith(
+    state = state.copyWith(
       name: nameController.text,
       description: descriptionController.text,
       // expectedValue: valueController.text,

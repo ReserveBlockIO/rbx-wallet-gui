@@ -87,7 +87,7 @@ abstract class Evolve with _$Evolve {
       phases = [data];
     }
 
-    final List<EvolvePhase> _phases = [];
+    List<EvolvePhase> _phases = [];
     bool isDynamic = false;
     for (final Map<String, dynamic> _p in phases) {
       // THIS SHIT IS SUPER FUCKED because of the whole "FeatureFeatures" can be a list or a map
@@ -128,8 +128,8 @@ abstract class Evolve with _$Evolve {
         EvolvePhase(
           name: p.containsKey("Name") ? p['Name'] : p['name'],
           description: p.containsKey("Description")
-              ? p['Description']
-              : p['description'],
+              ? p['Description'] ?? ""
+              : p['description'] ?? "",
           dateTime: p.containsKey("DateTime") ? p['DateTime'] : p['dateTime'],
           evolutionState: p.containsKey("EvolutionState")
               ? p['EvolutionState']
@@ -152,8 +152,17 @@ abstract class Evolve with _$Evolve {
   }
 
   List<Map<String, dynamic>> serializeForCompiler() {
+    List<EvolvePhase> _phases = [...phases];
+
+    if (type == EvolveType.time) {
+      _phases = _phases..sort((a, b) => a.dateTime!.compareTo(b.dateTime!));
+    } else if (type == EvolveType.blockHeight) {
+      _phases = _phases
+        ..sort((a, b) => a.blockHeight!.compareTo(b.blockHeight!));
+    }
+
     final List<Map<String, dynamic>> items =
-        phases.asMap().entries.map((entry) {
+        _phases.asMap().entries.map((entry) {
       final p = entry.value;
 
       final Map<String, dynamic> data = {
