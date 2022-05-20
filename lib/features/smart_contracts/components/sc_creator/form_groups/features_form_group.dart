@@ -68,6 +68,7 @@ class FeaturesFormGroup extends BaseComponent {
                                   .firstWhereOrNull(
                                       (f) => f.type == FeatureType.royalty) ==
                               null;
+
                           final canAddEvolve = _model.features.firstWhereOrNull(
                                   (f) => f.type == FeatureType.evolution) ==
                               null;

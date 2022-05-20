@@ -161,4 +161,8 @@ abstract class Nft with _$Nft {
 
     return assets;
   }
+
+  String get explorerUrl {
+    return "https://rbx.network/nft/$id";
+  }
 }

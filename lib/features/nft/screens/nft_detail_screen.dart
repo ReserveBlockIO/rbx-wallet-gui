@@ -187,7 +187,7 @@ class NftDetailScreen extends BaseScreen {
                       "QR Code:",
                       style: Theme.of(context).textTheme.headline5,
                     ),
-                    NftQrCode(data: nft.address),
+                    NftQrCode(data: nft.explorerUrl),
                   ],
                 ),
               )
