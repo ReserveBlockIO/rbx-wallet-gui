@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
 import 'package:rbx_wallet/features/node/models/node.dart';
+import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
 
 class NodeListProvider extends StateNotifier<List<Node>> {
   final Reader read;
@@ -13,7 +14,15 @@ class NodeListProvider extends StateNotifier<List<Node>> {
   }
 
   Future<void> load() async {
-    state = await BridgeService().getMasterNodes();
+    final items = await BridgeService().getMasterNodes();
+
+    final myAddresses =
+        read(validatorListProvider).map((w) => w.address).toList();
+
+    final myItems =
+        items.where((node) => myAddresses.contains(node.address)).toList();
+
+    state = myItems;
   }
 }
 

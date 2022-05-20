@@ -13,88 +13,90 @@ class NodeList extends BaseComponent {
     final nodes = ref.watch(nodeListProvider);
     return Column(
       children: [
-        Row(
-          children: [
-            Text(
-              "Validator Pool",
-              style: Theme.of(context).textTheme.headline5,
-            ),
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    "Legend:",
-                    style: Theme.of(context).textTheme.caption,
-                  ),
-                  SizedBox(width: 4),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .warning
-                            .withOpacity(0.5),
-                        width: 2,
-                      ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 2, horizontal: 4),
-                      child: Text(
-                        "Next",
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 4),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .success
-                            .withOpacity(0.5),
-                        width: 2,
-                      ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 2, horizontal: 4),
-                      child: Text(
-                        "Last Block",
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 4),
-                  Container(
-                    color: Theme.of(context).colorScheme.primary,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 4, horizontal: 8),
-                      child: Text(
-                        "My Validator",
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-        SizedBox(
-          height: 4,
-        ),
+        // Row(
+        //   children: [
+        //     Text(
+        //       "Validator",
+        //       style: Theme.of(context).textTheme.headline5,
+        //     ),
+        //     Expanded(
+        //       child: Row(
+        //         mainAxisAlignment: MainAxisAlignment.end,
+        //         children: [
+        //           Text(
+        //             "Legend:",
+        //             style: Theme.of(context).textTheme.caption,
+        //           ),
+        //           SizedBox(width: 4),
+        //           Container(
+        //             decoration: BoxDecoration(
+        //               border: Border.all(
+        //                 color: Theme.of(context)
+        //                     .colorScheme
+        //                     .warning
+        //                     .withOpacity(0.5),
+        //                 width: 2,
+        //               ),
+        //             ),
+        //             child: Padding(
+        //               padding: const EdgeInsets.symmetric(
+        //                   vertical: 2, horizontal: 4),
+        //               child: Text(
+        //                 "Next",
+        //                 style: TextStyle(fontSize: 12),
+        //               ),
+        //             ),
+        //           ),
+        //           SizedBox(width: 4),
+        //           Container(
+        //             decoration: BoxDecoration(
+        //               border: Border.all(
+        //                 color: Theme.of(context)
+        //                     .colorScheme
+        //                     .success
+        //                     .withOpacity(0.5),
+        //                 width: 2,
+        //               ),
+        //             ),
+        //             child: Padding(
+        //               padding: const EdgeInsets.symmetric(
+        //                   vertical: 2, horizontal: 4),
+        //               child: Text(
+        //                 "Last Block",
+        //                 style: TextStyle(fontSize: 12),
+        //               ),
+        //             ),
+        //           ),
+        //           SizedBox(width: 4),
+        //           Container(
+        //             color: Theme.of(context).colorScheme.primary,
+        //             child: Padding(
+        //               padding: const EdgeInsets.symmetric(
+        //                   vertical: 4, horizontal: 8),
+        //               child: Text(
+        //                 "My Validator",
+        //                 style: TextStyle(fontSize: 12),
+        //               ),
+        //             ),
+        //           ),
+        //         ],
+        //       ),
+        //     ),
+        //   ],
+        // ),
+        // SizedBox(
+        //   height: 4,
+        // ),
         Expanded(
-          child: ListView.builder(
-            itemCount: nodes.length,
-            itemBuilder: (context, index) {
-              final node = nodes[index];
-              return NodeCard(node);
-            },
-          ),
+          child: nodes.isEmpty
+              ? Text("You are not validating.")
+              : ListView.builder(
+                  itemCount: nodes.length,
+                  itemBuilder: (context, index) {
+                    final node = nodes[index];
+                    return NodeCard(node);
+                  },
+                ),
         ),
       ],
     );

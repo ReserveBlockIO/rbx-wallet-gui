@@ -17,8 +17,8 @@ List<SmartContractTemplate> getSmartContractTemplates(
   void _createBaseline() {
     final smartContract = SmartContract(
       owner: ref.read(sessionProvider).currentWallet!,
-      name: "My Baseline Smart Contract",
-      description: "Write a description about this smart contract here.",
+      name: "",
+      description: "",
     );
 
     _provider.setSmartContract(smartContract);
@@ -27,15 +27,14 @@ List<SmartContractTemplate> getSmartContractTemplates(
   void _createEvolving() {
     final evolve = Evolve(phases: [
       EvolvePhase(
-        name: "Evolve Stage 2",
-        description: "Write a description about this stage.",
+        name: "",
+        description: "",
       )
     ]);
     final smartContract = SmartContract(
         owner: ref.read(sessionProvider).currentWallet!,
-        name: "My Evolving Smart Contract",
-        description:
-            "Write a description about this evolving smart contract here.",
+        name: "",
+        description: "",
         evolves: [evolve]);
 
     _provider.setSmartContract(smartContract);
@@ -43,15 +42,14 @@ List<SmartContractTemplate> getSmartContractTemplates(
 
   void _createRoyalty() {
     final royalty = Royalty(
-      amount: 0.3,
+      amount: 0.05,
       type: RoyaltyType.percent,
       address: ref.read(sessionProvider).currentWallet!.address,
     );
     final smartContract = SmartContract(
       owner: ref.read(sessionProvider).currentWallet!,
-      name: "My Royalty Smart Contract",
-      description:
-          "Write a description about this royalty enforced smart contract here.",
+      name: "",
+      description: "",
       royalties: [royalty],
     );
 

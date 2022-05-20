@@ -98,29 +98,28 @@ class NodeListScreen extends BaseScreen {
             ),
           ),
         ),
-
-        // Padding(
-        //   padding: const EdgeInsets.only(bottom: 8.0),
-        //   child: NodeInfoList(),
-        // ),
-        // Expanded(
-        //   child: Builder(
-        //     builder: (context) {
-        //       if (ref.read(validatorListProvider).isEmpty ||
-        //           ref
-        //               .read(validatorListProvider)
-        //               .where((element) => element.isValidating)
-        //               .toList()
-        //               .isEmpty) {
-        //         return Center(
-        //           child:
-        //               Text("You must be validating to view the Validator Pool"),
-        //         );
-        //       }
-        //       return NodeList();
-        //     },
-        //   ),
-        // ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12.0),
+          child: NodeInfoList(),
+        ),
+        Expanded(
+          child: Builder(
+            builder: (context) {
+              if (ref.read(validatorListProvider).isEmpty ||
+                  ref
+                      .read(validatorListProvider)
+                      .where((element) => element.isValidating)
+                      .toList()
+                      .isEmpty) {
+                return Center(
+                  child:
+                      Text("You must be validating to view the Validator Pool"),
+                );
+              }
+              return NodeList();
+            },
+          ),
+        ),
       ],
     );
   }
