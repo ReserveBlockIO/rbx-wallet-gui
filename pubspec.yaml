@@ -31,7 +31,14 @@ dependencies:
   dart_ipify: ^1.1.1
   flutter_launcher_icons: ^0.9.2
   process: ^4.2.4
+  awesome_select: ^5.2.0
   path_provider: ^2.0.9
+  uuid: ^3.0.6
+  file_picker: ^4.5.1
+  qr_flutter: ^4.0.0
+  particles_flutter: ^0.1.4
+  animate_icons: ^2.0.0
+  gif_view: ^0.0.1
 
 dev_dependencies:
   auto_route_generator: ^3.2.1
@@ -53,6 +60,12 @@ flutter:
     # Add assets from the images directory to the application.
     - assets/images/
     - assets/env/
+    - assets/fonts/
+
+  fonts:
+    - family: RobotoMono
+      fonts:
+        - asset: assets/fonts/RobotoMono-Regular.ttf
 
 flutter_gen:
   output: lib/generated

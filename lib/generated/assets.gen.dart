@@ -35,12 +35,23 @@ class $AssetsEnvGen {
   String get winTestnetEnv => 'assets/env/win_testnet_env';
 }
 
+class $AssetsFontsGen {
+  const $AssetsFontsGen();
+
+  /// File path: assets/fonts/RobotoMono-Regular.ttf
+  String get robotoMonoRegular => 'assets/fonts/RobotoMono-Regular.ttf';
+}
+
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
   /// File path: assets/images/animated_cube.gif
   AssetGenImage get animatedCube =>
       const AssetGenImage('assets/images/animated_cube.gif');
+
+  /// File path: assets/images/animated_cube_fast.gif
+  AssetGenImage get animatedCubeFast =>
+      const AssetGenImage('assets/images/animated_cube_fast.gif');
 
   /// File path: assets/images/decor_bottom.png
   AssetGenImage get decorBottom =>
@@ -79,6 +90,78 @@ class $AssetsImagesGen {
   AssetGenImage get rbxWallet =>
       const AssetGenImage('assets/images/rbx_wallet.png');
 
+  /// File path: assets/images/template_basic_1a.jpg
+  AssetGenImage get templateBasic1a =>
+      const AssetGenImage('assets/images/template_basic_1a.jpg');
+
+  /// File path: assets/images/template_basic_2a.jpg
+  AssetGenImage get templateBasic2a =>
+      const AssetGenImage('assets/images/template_basic_2a.jpg');
+
+  /// File path: assets/images/template_basic_3a.jpg
+  AssetGenImage get templateBasic3a =>
+      const AssetGenImage('assets/images/template_basic_3a.jpg');
+
+  /// File path: assets/images/template_evolving_1a.jpg
+  AssetGenImage get templateEvolving1a =>
+      const AssetGenImage('assets/images/template_evolving_1a.jpg');
+
+  /// File path: assets/images/template_evolving_2a.gif
+  AssetGenImage get templateEvolving2a =>
+      const AssetGenImage('assets/images/template_evolving_2a.gif');
+
+  /// File path: assets/images/template_evolving_3a.jpg
+  AssetGenImage get templateEvolving3a =>
+      const AssetGenImage('assets/images/template_evolving_3a.jpg');
+
+  /// File path: assets/images/template_royalty_1a.jpg
+  AssetGenImage get templateRoyalty1a =>
+      const AssetGenImage('assets/images/template_royalty_1a.jpg');
+
+  /// File path: assets/images/template_royalty_2a.jpg
+  AssetGenImage get templateRoyalty2a =>
+      const AssetGenImage('assets/images/template_royalty_2a.jpg');
+
+  /// File path: assets/images/template_royalty_3a.jpg
+  AssetGenImage get templateRoyalty3a =>
+      const AssetGenImage('assets/images/template_royalty_3a.jpg');
+
+  /// File path: assets/images/tut_basic_1.gif
+  AssetGenImage get tutBasic1 =>
+      const AssetGenImage('assets/images/tut_basic_1.gif');
+
+  /// File path: assets/images/tut_basic_2.gif
+  AssetGenImage get tutBasic2 =>
+      const AssetGenImage('assets/images/tut_basic_2.gif');
+
+  /// File path: assets/images/tut_basic_3.gif
+  AssetGenImage get tutBasic3 =>
+      const AssetGenImage('assets/images/tut_basic_3.gif');
+
+  /// File path: assets/images/tut_evolve_1.gif
+  AssetGenImage get tutEvolve1 =>
+      const AssetGenImage('assets/images/tut_evolve_1.gif');
+
+  /// File path: assets/images/tut_evolve_2.gif
+  AssetGenImage get tutEvolve2 =>
+      const AssetGenImage('assets/images/tut_evolve_2.gif');
+
+  /// File path: assets/images/tut_evolve_3.gif
+  AssetGenImage get tutEvolve3 =>
+      const AssetGenImage('assets/images/tut_evolve_3.gif');
+
+  /// File path: assets/images/tut_royalty_1.gif
+  AssetGenImage get tutRoyalty1 =>
+      const AssetGenImage('assets/images/tut_royalty_1.gif');
+
+  /// File path: assets/images/tut_royalty_2.gif
+  AssetGenImage get tutRoyalty2 =>
+      const AssetGenImage('assets/images/tut_royalty_2.gif');
+
+  /// File path: assets/images/tut_royalty_3.gif
+  AssetGenImage get tutRoyalty3 =>
+      const AssetGenImage('assets/images/tut_royalty_3.gif');
+
   /// File path: assets/images/wordmark.png
   AssetGenImage get wordmark =>
       const AssetGenImage('assets/images/wordmark.png');
@@ -88,6 +171,7 @@ class Assets {
   Assets._();
 
   static const $AssetsEnvGen env = $AssetsEnvGen();
+  static const $AssetsFontsGen fonts = $AssetsFontsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
 }
 

@@ -10,6 +10,7 @@ import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/env.dart';
+import 'package:rbx_wallet/core/providers/ready_provider.dart';
 import 'package:rbx_wallet/core/singletons.dart';
 import 'package:rbx_wallet/core/storage.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
@@ -35,7 +36,7 @@ import 'package:rbx_wallet/utils/validation.dart';
 class SessionModel {
   final Wallet? currentWallet;
   final DateTime? startTime;
-  final bool ready;
+  // final bool ready;
   final bool filteringTransactions;
   final bool cliStarted;
   final int? remoteBlockHeight;
@@ -48,7 +49,7 @@ class SessionModel {
   const SessionModel({
     this.currentWallet,
     this.startTime,
-    this.ready = false,
+    // this.ready = false,
     this.cliStarted = false,
     this.filteringTransactions = false,
     this.remoteBlockHeight,
@@ -62,7 +63,7 @@ class SessionModel {
   SessionModel copyWith({
     Wallet? currentWallet,
     DateTime? startTime,
-    bool? ready,
+    // bool? ready,
     bool? filteringTransactions,
     bool? cliStarted,
     int? remoteBlockHeight,
@@ -75,7 +76,7 @@ class SessionModel {
     return SessionModel(
       startTime: startTime ?? this.startTime,
       currentWallet: currentWallet ?? this.currentWallet,
-      ready: ready ?? this.ready,
+      // ready: ready ?? this.ready,
       filteringTransactions:
           filteringTransactions ?? this.filteringTransactions,
       cliStarted: cliStarted ?? this.cliStarted,
@@ -107,6 +108,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   Future<void> init() async {
+    print("init");
     read(logProvider.notifier)
         .append(LogEntry(message: "Welcome to RBXWallet version $APP_VERSION"));
 
@@ -126,8 +128,9 @@ class SessionProvider extends StateNotifier<SessionModel> {
     }
 
     final now = DateTime.now();
+    read(readyProvider.notifier).setReady(true);
     state = state.copyWith(
-      ready: true,
+      // ready: true,
       startTime: now,
       cliStarted: cliStarted,
     );
@@ -300,7 +303,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
       return;
     }
 
-    if (!guardWalletIsNotResyncing(read, false)) return;
+    // if (!guardWalletIsNotResyncing(read, false)) return;
 
     final context = rootNavigatorKey.currentContext!;
 

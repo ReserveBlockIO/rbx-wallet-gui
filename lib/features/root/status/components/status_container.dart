@@ -190,7 +190,7 @@ class _BlockStatus extends BaseComponent {
             );
           }
 
-          if (walletInfo.isSyncing) {
+          if (!walletInfo.isChainSynced) {
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(

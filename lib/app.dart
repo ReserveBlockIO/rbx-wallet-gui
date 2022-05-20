@@ -2,15 +2,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/core/breakpoints.dart';
+import 'package:rbx_wallet/core/components/boot_container.dart';
 import 'package:rbx_wallet/core/components/centered_loader.dart';
+import 'package:rbx_wallet/core/providers/ready_provider.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/singletons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/root/components/system_manager.dart';
-import 'package:responsive_framework/responsive_framework.dart';
 
 final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
@@ -28,6 +27,10 @@ class App extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appRouter = singleton<AppRouter>();
 
+    ref.read(sessionProvider.notifier);
+
+    print("App Build");
+
     return AppSystemManager(
       child: MaterialApp.router(
         restorationScopeId: "app",
@@ -41,30 +44,9 @@ class App extends ConsumerWidget {
           navigatorObservers: () => [AutoRouteObserver()],
         ),
         builder: (context, widget) {
-          if (!ref.watch(sessionProvider).ready) {
-
-            final logs = ref.watch(logProvider);
-            int start = 0;
-            const maxLogs = 7;
-            if(logs.length >= maxLogs) {
-              start = logs.length - maxLogs;
-            }
-
-            final truncatedLogs = logs.getRange(start, logs.length - 1);
-
+          if (!ref.watch(readyProvider)) {
             return Material(
-              child: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                    ),
-                    SizedBox(height: 32,),
-                    ...truncatedLogs.map((m) => Text(m.message, style: TextStyle(fontSize: 12, color: Colors.white,),)).toList()
-                  ],
-                ),
-              ),
+              child: Center(child: BootContainer()),
             );
           }
 

@@ -18,8 +18,10 @@ class BridgeService extends BaseService {
     return await getText("/GetCLIVersion");
   }
 
-  Future<String> walletInfo() async {
-    return await getText('/GetWalletInfo');
+  Future<Map<String, dynamic>> walletInfo() async {
+    final d = await getText('/GetWalletInfo');
+    final a = jsonDecode(d);
+    return a[0];
   }
 
   Future<String> wallets() async {

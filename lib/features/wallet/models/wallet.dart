@@ -38,4 +38,13 @@ class Wallet with _$Wallet {
 
     return address;
   }
+
+  String get fullLabel {
+    String value = address;
+    if (friendlyName != null) {
+      value = "$value [$friendlyName]";
+    }
+
+    return value;
+  }
 }

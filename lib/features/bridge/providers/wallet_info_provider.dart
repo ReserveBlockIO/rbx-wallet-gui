@@ -14,6 +14,7 @@ class WalletInfoModel {
   final int peerCount;
   final bool isSyncing;
   final bool isResyncing;
+  final bool isChainSynced;
   final Block? lastestBlock;
 
   const WalletInfoModel({
@@ -21,6 +22,7 @@ class WalletInfoModel {
     required this.peerCount,
     required this.isSyncing,
     required this.isResyncing,
+    required this.isChainSynced,
     this.lastestBlock,
   });
 }
@@ -36,7 +38,7 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
   }
 
   fetch() async {
-    String data = "";
+    Map<String, dynamic> data = {};
     try {
       data = await BridgeService().walletInfo();
     } catch (e) {
@@ -45,26 +47,26 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
       return;
     }
 
-
     if (data.isEmpty) {
       return;
     }
 
     final prevIsSyncing = state == null ? true : state!.isSyncing;
 
-    final info = data.split(':');
-    final blockHeight = int.parse(info[0]);
-    final peerCount = int.parse(info[1]);
-    final isSyncing = info[2].toLowerCase() == "true";
-    final isResyncing = info[3].toLowerCase() == "true";
-
+    final int blockHeight = int.parse(data['BlockHeight']);
+    final int peerCount = int.parse(data['PeerCount']);
+    final bool isSyncing =
+        data['BlocksDownloading'].toString().toLowerCase() == "true";
+    final bool isChainSynced =
+        data['IsChainSynced'].toString().toLowerCase() == "true";
+    final bool isResyncing =
+        data['IsResyncing'].toString().toLowerCase() == "true";
 
     final latestBlock =
         blockHeight > 0 ? await BridgeService().blockInfo(blockHeight) : null;
 
     final prevBlockHeight = state?.blockHeight;
     final prevPeerCount = state?.peerCount;
-    final prevLatestBlock = state?.lastestBlock;
 
     state = WalletInfoModel(
       blockHeight: blockHeight,
@@ -72,6 +74,7 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
       isSyncing: isSyncing,
       lastestBlock: latestBlock,
       isResyncing: isResyncing,
+      isChainSynced: isChainSynced,
     );
 
     read(sessionProvider.notifier).setBlocksAreSyncing(isSyncing);

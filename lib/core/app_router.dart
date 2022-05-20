@@ -5,10 +5,14 @@ import 'package:rbx_wallet/features/explorer/screens/explorer_screen.dart';
 import 'package:rbx_wallet/features/node/screens/node_list_screen.dart';
 import 'package:rbx_wallet/features/root/root_container.dart';
 import 'package:rbx_wallet/features/home/screens/home_screen.dart';
-import 'package:rbx_wallet/features/nft/screens/nft_screen.dart';
+import 'package:rbx_wallet/features/nft/screens/nft_list_screen.dart';
 import 'package:rbx_wallet/features/receive/screens/receive_screen.dart';
 import 'package:rbx_wallet/features/send/screens/send_screen.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/smart_contract_creator_main.dart';
+import 'package:rbx_wallet/features/smart_contracts/screens/my_smart_contracts_screen.dart';
+import 'package:rbx_wallet/features/smart_contracts/screens/smart_contract_creator_container_screen.dart';
 import 'package:rbx_wallet/features/smart_contracts/screens/smart_contracts_screen.dart';
+import 'package:rbx_wallet/features/smart_contracts/screens/template_chooser_screen.dart';
 import 'package:rbx_wallet/features/transactions/screens/transactions_screen.dart';
 import 'package:rbx_wallet/features/validator/screens/validator_screen.dart';
 
@@ -79,7 +83,7 @@ const List<AutoRoute> appRoutes = [
         name: "NftTabRouter",
         page: EmptyRouterPage,
         children: [
-          AutoRoute(path: "", page: NftScreen),
+          AutoRoute(path: "", page: NftListScreen),
         ],
       ),
       AutoRoute(
@@ -105,6 +109,25 @@ const List<AutoRoute> appRoutes = [
         children: [
           AutoRoute(path: "", page: ExplorerScreen),
         ],
+      ),
+    ],
+  ),
+  AutoRoute(
+    path: "my-smart-contracts",
+    page: MySmartContractsScreen,
+  ),
+  AutoRoute(
+    path: "smart-contract-templates",
+    page: TemplateChooserScreen,
+  ),
+  AutoRoute(
+    path: "create-smart-contract",
+    page: SmartContractCreatorContainerScreen,
+    children: [
+      AutoRoute(
+        path: "main",
+        page: SmartContractCreatorMain,
+        initial: true,
       ),
     ],
   ),

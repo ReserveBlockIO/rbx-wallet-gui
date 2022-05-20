@@ -9,6 +9,8 @@ class InfoDialog {
     String? body,
     Widget? content,
     String? closeText,
+    IconData? icon,
+    Color? headerColor = Colors.white38,
   }) async {
     final context = rootNavigatorKey.currentContext!;
 
@@ -16,8 +18,31 @@ class InfoDialog {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text(title),
-          content: body != null ? Text(body) : content,
+          title: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (icon != null)
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Icon(
+                    icon,
+                    color: headerColor,
+                  ),
+                ),
+              Text(
+                title,
+                style: TextStyle(
+                  color: headerColor,
+                ),
+              ),
+            ],
+          ),
+          content: body != null
+              ? ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: 400),
+                  child: Text(body),
+                )
+              : content,
           actions: [
             TextButton(
               style: TextButton.styleFrom(
@@ -31,7 +56,9 @@ class InfoDialog {
               },
               child: Text(
                 closeText ?? "Close",
-                style: TextStyle(color: Theme.of(context).colorScheme.info),
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.secondary,
+                ),
               ),
             )
           ],
@@ -87,9 +114,10 @@ class ConfirmDialog {
               child: Text(
                 confirmText ?? "Yes",
                 style: TextStyle(
-                    color: destructive
-                        ? Theme.of(context).colorScheme.danger
-                        : Theme.of(context).colorScheme.info),
+                  color: destructive
+                      ? Theme.of(context).colorScheme.danger
+                      : Colors.white,
+                ),
               ),
             )
           ],
@@ -100,17 +128,19 @@ class ConfirmDialog {
 }
 
 class PromptModal {
-  static Future<List<String>?> show(
-      {required String title,
-      required String? Function(String?) validator,
-      required String labelText,
-      bool obscureText = false,
-      String? cancelText,
-      String? confirmText,
-      String initialValue = "",
-      bool destructive = false,
-      Function(String)? onValidSubmission,
-      List<TextInputFormatter> inputFormatters = const []}) async {
+  static Future<String?> show({
+    required String title,
+    required String? Function(String?) validator,
+    required String labelText,
+    bool obscureText = false,
+    String? cancelText,
+    String? confirmText,
+    String initialValue = "",
+    bool destructive = false,
+    bool allowCancel = true,
+    Function(String)? onValidSubmission,
+    List<TextInputFormatter> inputFormatters = const [],
+  }) async {
     // final context = rootNavigatorKey.currentContext!;
     final context = rootScaffoldKey.currentContext!;
 
@@ -121,6 +151,7 @@ class PromptModal {
 
     return await showDialog(
       context: context,
+      barrierDismissible: allowCancel,
       builder: (context) {
         return AlertDialog(
           title: Text(title),
@@ -143,21 +174,22 @@ class PromptModal {
             ),
           ),
           actions: [
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.info,
+            if (allowCancel)
+              TextButton(
+                style: TextButton.styleFrom(
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.info,
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  cancelText ?? "Cancel",
+                  style: TextStyle(color: Theme.of(context).colorScheme.info),
                 ),
               ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text(
-                cancelText ?? "Cancel",
-                style: TextStyle(color: Theme.of(context).colorScheme.info),
-              ),
-            ),
             TextButton(
               style: TextButton.styleFrom(
                 primary: destructive
@@ -174,6 +206,8 @@ class PromptModal {
                   onValidSubmission(value);
                   Navigator.of(context).pop();
                   return;
+                } else {
+                  Navigator.of(context).pop(value);
                 }
               },
               child: Text(confirmText ?? "Submit",

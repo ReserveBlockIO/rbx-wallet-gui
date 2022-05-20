@@ -1,18 +1,40 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:rbx_wallet/core/env.dart';
 
 class BaseService {
-  Map<String, dynamic> _headers([bool auth = true]) {
-    return {
-      // HttpHeaders.contentTypeHeader: "application/json",
-      // HttpHeaders.acceptHeader: "application/json",
-    };
+  final String? hostOverride;
+  final String? apiBasePathOverride;
+
+  BaseService({
+    this.apiBasePathOverride,
+    this.hostOverride,
+  });
+
+  Map<String, dynamic> _headers([bool auth = true, bool json = false]) {
+    return json
+        ? {
+            HttpHeaders.contentTypeHeader: "application/json",
+            HttpHeaders.acceptHeader: "application/json",
+          }
+        : {};
   }
 
-  BaseOptions _options({bool auth = true}) {
-    return BaseOptions(baseUrl: Env.apiBaseUrl, headers: _headers(auth));
+  BaseOptions _options({
+    bool auth = true,
+    bool json = false,
+  }) {
+    String host = Env.apiBaseUrl;
+    if (hostOverride != null) {
+      host = hostOverride!;
+    }
+
+    final baseUrl = apiBasePathOverride == null
+        ? host
+        : host.replaceAll("/api/V1", apiBasePathOverride!);
+    return BaseOptions(baseUrl: baseUrl, headers: _headers(auth, json));
   }
 
   String _cleanPath(String path) {
@@ -67,32 +89,36 @@ class BaseService {
     }
   }
 
-  // Future<Map<String, dynamic>> postHttp(
-  //   String path, {
-  //   Map<String, dynamic> params = const {},
-  //   bool auth = true,
-  // }) async {
-  //   try {
-  //     var response = await Dio(_options(auth: auth)).post(
-  //       _cleanPath(path),
-  //       data: params,
-  //     );
+  Future<Map<String, dynamic>> postJson(
+    String path, {
+    Map<String, dynamic> params = const {},
+    bool auth = true,
+  }) async {
+    try {
+      var response = await Dio(_options(auth: auth, json: true)).post(
+        _cleanPath(path),
+        data: params,
+      );
 
-  //     if (response.statusCode == 204) {
-  //       return {};
-  //     }
-  //     if (response.data == null) {
-  //       return {};
-  //     }
+      final data = jsonDecode(response.toString());
 
-  //     if (response.data.runtimeType == String) {
-  //       return {};
-  //     }
-  //     return response.data;
-  //   } catch (e) {
-  //     rethrow;
-  //   }
-  // }
+      return {'data': data};
+
+      // if (response.statusCode == 204) {
+      //   return {};
+      // }
+      // if (response.data == null) {
+      //   return {};
+      // }
+
+      // if (response.data.runtimeType == String) {
+      //   return {};
+      // }
+      // return response.data;
+    } catch (e) {
+      rethrow;
+    }
+  }
 
   // Future<Map<String, dynamic>> patchHttp(
   //   String path, {
