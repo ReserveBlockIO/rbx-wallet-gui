@@ -4,13 +4,14 @@ import 'package:rbx_wallet/app.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 
 class InfoDialog {
-  static show(
-      {required String title,
-      String? body,
-      Widget? content,
-      String? closeText,
-      IconData? icon,
-      Color? headerColor = Colors.white38}) async {
+  static show({
+    required String title,
+    String? body,
+    Widget? content,
+    String? closeText,
+    IconData? icon,
+    Color? headerColor = Colors.white38,
+  }) async {
     final context = rootNavigatorKey.currentContext!;
 
     return await showDialog(
@@ -36,7 +37,12 @@ class InfoDialog {
               ),
             ],
           ),
-          content: body != null ? Text(body) : content,
+          content: body != null
+              ? ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: 400),
+                  child: Text(body),
+                )
+              : content,
           actions: [
             TextButton(
               style: TextButton.styleFrom(
@@ -108,9 +114,10 @@ class ConfirmDialog {
               child: Text(
                 confirmText ?? "Yes",
                 style: TextStyle(
-                    color: destructive
-                        ? Theme.of(context).colorScheme.danger
-                        : Theme.of(context).colorScheme.info),
+                  color: destructive
+                      ? Theme.of(context).colorScheme.danger
+                      : Colors.white,
+                ),
               ),
             )
           ],

@@ -46,18 +46,18 @@ class MySmartContractsScreen extends BaseScreen {
           TabBar(
             tabs: [
               Tab(
-                child: Text("Drafts"),
+                child: Text("Compiled"),
               ),
               Tab(
-                child: Text("Compiled"),
+                child: Text("Drafts"),
               ),
             ],
           ),
           Expanded(
               child: TabBarView(
             children: [
-              _DraftList(),
               _CompiledList(),
+              _DraftList(),
             ],
           ))
         ],

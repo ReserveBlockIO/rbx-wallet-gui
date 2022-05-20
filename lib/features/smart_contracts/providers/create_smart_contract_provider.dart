@@ -218,9 +218,9 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
       errors.add("- Name is required");
     }
 
-    if (state.minterName.isEmpty) {
-      errors.add("- Minter name is required");
-    }
+    // if (state.minterName.isEmpty) {
+    //   errors.add("- Minter name is required");
+    // }
 
     if (state.description.isEmpty) {
       errors.add("- Description is required");

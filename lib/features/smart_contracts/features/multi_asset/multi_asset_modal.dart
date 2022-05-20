@@ -16,7 +16,10 @@ class MultiAssetModal extends BaseComponent {
     final _model = ref.watch(multiAssetFormProvider);
 
     return ModalContainer(children: [
-      FormGroupHeader("Assets"),
+      FormGroupHeader(
+        "Assets",
+        withBg: false,
+      ),
       ListView.builder(
         shrinkWrap: true,
         itemCount: _model.assets.length + 1,

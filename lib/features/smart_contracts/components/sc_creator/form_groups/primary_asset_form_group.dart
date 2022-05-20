@@ -22,7 +22,7 @@ class PrimaryAssetFormGroup extends BaseComponent {
         children: [
           FormGroupHeader(
             "Primary Asset",
-            helpType: HelpType.unknown,
+            helpType: HelpType.primaryAsset,
           ),
           FileSelector(
             readOnly: _model.isCompiled,

@@ -126,6 +126,42 @@ class $AssetsImagesGen {
   AssetGenImage get templateRoyalty3a =>
       const AssetGenImage('assets/images/template_royalty_3a.jpg');
 
+  /// File path: assets/images/tut_basic_1.gif
+  AssetGenImage get tutBasic1 =>
+      const AssetGenImage('assets/images/tut_basic_1.gif');
+
+  /// File path: assets/images/tut_basic_2.gif
+  AssetGenImage get tutBasic2 =>
+      const AssetGenImage('assets/images/tut_basic_2.gif');
+
+  /// File path: assets/images/tut_basic_3.gif
+  AssetGenImage get tutBasic3 =>
+      const AssetGenImage('assets/images/tut_basic_3.gif');
+
+  /// File path: assets/images/tut_evolve_1.gif
+  AssetGenImage get tutEvolve1 =>
+      const AssetGenImage('assets/images/tut_evolve_1.gif');
+
+  /// File path: assets/images/tut_evolve_2.gif
+  AssetGenImage get tutEvolve2 =>
+      const AssetGenImage('assets/images/tut_evolve_2.gif');
+
+  /// File path: assets/images/tut_evolve_3.gif
+  AssetGenImage get tutEvolve3 =>
+      const AssetGenImage('assets/images/tut_evolve_3.gif');
+
+  /// File path: assets/images/tut_royalty_1.gif
+  AssetGenImage get tutRoyalty1 =>
+      const AssetGenImage('assets/images/tut_royalty_1.gif');
+
+  /// File path: assets/images/tut_royalty_2.gif
+  AssetGenImage get tutRoyalty2 =>
+      const AssetGenImage('assets/images/tut_royalty_2.gif');
+
+  /// File path: assets/images/tut_royalty_3.gif
+  AssetGenImage get tutRoyalty3 =>
+      const AssetGenImage('assets/images/tut_royalty_3.gif');
+
   /// File path: assets/images/wordmark.png
   AssetGenImage get wordmark =>
       const AssetGenImage('assets/images/wordmark.png');

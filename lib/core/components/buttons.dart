@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
 
 enum AppButtonType { Elevated, Outlined, Text }
 
@@ -14,6 +15,7 @@ class AppButton extends StatelessWidget {
   final bool processing;
   final IconData? icon;
   final bool iconTrails;
+  final HelpType? helpType;
 
   const AppButton({
     Key? key,
@@ -25,6 +27,7 @@ class AppButton extends StatelessWidget {
     this.processing = false,
     this.icon,
     this.iconTrails = false,
+    this.helpType,
   }) : super(key: key);
 
   ButtonStyle _styleElevated(BuildContext context) {
@@ -239,25 +242,40 @@ class AppButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    switch (type) {
-      case AppButtonType.Elevated:
-        return ElevatedButton(
-          onPressed: processing ? () {} : onPressed,
-          child: _child(context),
-          style: _styleElevated(context),
-        );
-      case AppButtonType.Outlined:
-        return OutlinedButton(
-          onPressed: processing ? () {} : onPressed,
-          child: _child(context),
-          style: _styleOutlined(context),
-        );
-      case AppButtonType.Text:
-        return TextButton(
-          onPressed: processing ? () {} : onPressed,
-          child: _child(context),
-          style: _styleText(context),
-        );
-    }
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Builder(
+          builder: (context) {
+            switch (type) {
+              case AppButtonType.Elevated:
+                return ElevatedButton(
+                  onPressed: processing ? () {} : onPressed,
+                  child: _child(context),
+                  style: _styleElevated(context),
+                );
+              case AppButtonType.Outlined:
+                return OutlinedButton(
+                  onPressed: processing ? () {} : onPressed,
+                  child: _child(context),
+                  style: _styleOutlined(context),
+                );
+              case AppButtonType.Text:
+                return TextButton(
+                  onPressed: processing ? () {} : onPressed,
+                  child: _child(context),
+                  style: _styleText(context),
+                );
+            }
+          },
+        ),
+        if (helpType != null)
+          HelpButton(
+            helpType!,
+            subtle: true,
+            color: Theme.of(context).colorScheme.secondary,
+          ),
+      ],
+    );
   }
 }

@@ -58,24 +58,6 @@ List<SmartContractTemplate> getSmartContractTemplates(
     _provider.setSmartContract(smartContract);
   }
 
-  final learnMorePlaceholder = [
-    LearnMoreStep(
-      title: "Heading",
-      description:
-          "Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec rutrum congue leo eget malesuada.",
-    ),
-    LearnMoreStep(
-      title: "Heading",
-      description:
-          "Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec rutrum congue leo eget malesuada.",
-    ),
-    LearnMoreStep(
-      title: "Heading",
-      description:
-          "Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec rutrum congue leo eget malesuada.",
-    ),
-  ];
-
   final templates = [
     SmartContractTemplate(
       name: "Baseline Smart Contract",
@@ -90,7 +72,26 @@ List<SmartContractTemplate> getSmartContractTemplates(
       init: _createBaseline,
       learnMoreContent: LearnMoreContent(
         onCreate: _createBaseline,
-        steps: learnMorePlaceholder,
+        steps: [
+          LearnMoreStep(
+            title: "Metadata",
+            description:
+                "Start by providing the name, minter, and description of the smart contract.",
+            imagePath: Assets.images.tutBasic1.path,
+          ),
+          LearnMoreStep(
+            title: "Primary Asset",
+            description:
+                "Choose the primary asset for the smart contract. This can be an image, audio file, video, or any digital asset.",
+            imagePath: Assets.images.tutBasic2.path,
+          ),
+          LearnMoreStep(
+            title: "Mint",
+            description:
+                "Click the compile button to generate the Trilliam code that represents the smart contract then click mint to deploy it to the chain.",
+            imagePath: Assets.images.tutBasic3.path,
+          ),
+        ],
       ),
     ),
     SmartContractTemplate(
@@ -104,7 +105,26 @@ List<SmartContractTemplate> getSmartContractTemplates(
       ],
       learnMoreContent: LearnMoreContent(
         onCreate: _createEvolving,
-        steps: learnMorePlaceholder,
+        steps: [
+          LearnMoreStep(
+            title: "Evolution Mode",
+            description:
+                "Decide whether you want the evolution to be controlled by the issuer or by the owner of the NFT.",
+            imagePath: Assets.images.tutEvolve1.path,
+          ),
+          LearnMoreStep(
+            title: "Evolution Type",
+            description:
+                "Configure whether you want the NFT to evolve automatically by date/time, block height, or only manually.",
+            imagePath: Assets.images.tutEvolve2.path,
+          ),
+          LearnMoreStep(
+            title: "Evolution Stages",
+            description:
+                "Create multiple evolution stages based on the variables provided previously. Give each stage a name, description and optionally override the asset.",
+            imagePath: Assets.images.tutEvolve3.path,
+          ),
+        ],
       ),
       color: Theme.of(context).colorScheme.primary,
       init: _createEvolving,
@@ -121,7 +141,26 @@ List<SmartContractTemplate> getSmartContractTemplates(
       ],
       learnMoreContent: LearnMoreContent(
         onCreate: _createRoyalty,
-        steps: learnMorePlaceholder,
+        steps: [
+          LearnMoreStep(
+            title: "Royalty Type",
+            description:
+                "Choose either a flat fee or percentage based royalty enforced by the on the chain upon any trade.",
+            imagePath: Assets.images.tutRoyalty1.path,
+          ),
+          LearnMoreStep(
+            title: "Amount & Address",
+            description:
+                "Input the amount (percent of amount of RBX) to be paid to the RBX address inputted in the next field.",
+            imagePath: Assets.images.tutRoyalty2.path,
+          ),
+          LearnMoreStep(
+            title: "Royalty Fee",
+            description:
+                "The fee is taken out of the sale (not added on top) so the maximum percent is 100%. For flat fees, the NFT can't be sold for less than the enforced royalty.",
+            imagePath: Assets.images.tutRoyalty3.path,
+          ),
+        ],
       ),
       init: _createRoyalty,
     ),

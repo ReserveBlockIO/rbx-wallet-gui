@@ -108,7 +108,7 @@ class FileSelector extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       AppButton(
-                        label: "Choose",
+                        label: "Choose File",
                         icon: Icons.upload,
                         onPressed: readOnly ? null : _handleUpload,
                       ),

@@ -23,8 +23,8 @@ class BasicPropertiesFormGroup extends BaseComponent {
         mainAxisSize: MainAxisSize.min,
         children: [
           FormGroupHeader(
-            "Basic Properties",
-            helpType: HelpType.unknown,
+            "Baseline Properties",
+            helpType: HelpType.baselineProperties,
           ),
           Row(
             children: [
@@ -51,10 +51,10 @@ class BasicPropertiesFormGroup extends BaseComponent {
                   controller: _provider.minterNameController,
                   decoration: InputDecoration(
                     label: Text(
-                      "Minter Name",
+                      "Minter Name (optional)",
                       style: TextStyle(color: Colors.white),
                     ),
-                    suffixIcon: HelpButton(HelpType.unknown),
+                    suffixIcon: HelpButton(HelpType.minterName),
                   ),
                   onChanged: (val) {
                     _provider.setName(val);
@@ -95,7 +95,7 @@ class BasicPropertiesFormGroup extends BaseComponent {
                 "Description",
                 style: TextStyle(color: Colors.white),
               ),
-              suffixIcon: HelpButton(HelpType.unknown),
+              suffixIcon: HelpButton(HelpType.description),
             ),
             minLines: 3,
             maxLines: 6,

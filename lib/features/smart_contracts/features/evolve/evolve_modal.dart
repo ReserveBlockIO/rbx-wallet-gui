@@ -9,6 +9,7 @@ import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/file_selector.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_header.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_bottom_actions.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
@@ -40,6 +41,10 @@ class EvolveModal extends BaseComponent {
               SizedBox(
                 width: 16,
               ),
+              HelpButton(
+                HelpType.evolveMode,
+                subtle: true,
+              ),
               AppDropdown<bool>(
                 label: "Evolving Mode",
                 selectedValue: _model.isDynamic,
@@ -62,6 +67,10 @@ class EvolveModal extends BaseComponent {
               ),
               SizedBox(
                 width: 16,
+              ),
+              HelpButton(
+                HelpType.evolveType,
+                subtle: true,
               ),
               AppDropdown<EvolveType>(
                 label: "Evolution Type",
@@ -207,6 +216,10 @@ class _EvolvePhaseContainer extends BaseComponent {
                                 _showDatePicker();
                               },
                               decoration: InputDecoration(
+                                prefixIcon: HelpButton(
+                                  HelpType.evolveDatetime,
+                                  subtle: true,
+                                ),
                                 label: Text(
                                   "Evolution Date",
                                   style: TextStyle(
@@ -230,6 +243,10 @@ class _EvolvePhaseContainer extends BaseComponent {
                                 _showTimePicker();
                               },
                               decoration: InputDecoration(
+                                prefixIcon: HelpButton(
+                                  HelpType.evolveDatetime,
+                                  subtle: true,
+                                ),
                                 label: Text(
                                   "Evolution Time",
                                   style: TextStyle(
@@ -259,6 +276,10 @@ class _EvolvePhaseContainer extends BaseComponent {
                                 )
                               ],
                               decoration: InputDecoration(
+                                prefixIcon: HelpButton(
+                                  HelpType.evolveBlockHeight,
+                                  subtle: true,
+                                ),
                                 label: Text(
                                   "Block Height Value",
                                   style: TextStyle(
@@ -277,6 +298,10 @@ class _EvolvePhaseContainer extends BaseComponent {
                             controller: _provider.nameController,
                             validator: _provider.nameValidator,
                             decoration: InputDecoration(
+                              prefixIcon: HelpButton(
+                                HelpType.evolveStageName,
+                                subtle: true,
+                              ),
                               label: Text(
                                 "Evolve Stage Name",
                                 style: TextStyle(color: Colors.white),
@@ -294,13 +319,21 @@ class _EvolvePhaseContainer extends BaseComponent {
                               _provider.setAsset(asset);
                             },
                           ),
-                        )
+                        ),
+                        HelpButton(
+                          HelpType.evolveAsset,
+                          subtle: true,
+                        ),
                       ],
                     ),
                     TextFormField(
                       controller: _provider.descriptionController,
                       validator: _provider.descriptionValidator,
                       decoration: InputDecoration(
+                        prefixIcon: HelpButton(
+                          HelpType.evolveStageDescription,
+                          subtle: true,
+                        ),
                         label: Text(
                           "Evolve Stage Description",
                           style: TextStyle(color: Colors.white),
@@ -318,9 +351,9 @@ class _EvolvePhaseContainer extends BaseComponent {
                             onPressed: canDelete
                                 ? () async {
                                     final confirmed = await ConfirmDialog.show(
-                                      title: "Delete Phase",
+                                      title: "Delete Stage",
                                       body:
-                                          "Are you sure you want to delete this phase?",
+                                          "Are you sure you want to delete this stage?",
                                       confirmText: "Delete",
                                       destructive: true,
                                     );
@@ -338,15 +371,15 @@ class _EvolvePhaseContainer extends BaseComponent {
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              AppButton(
-                                label: "Save",
-                                onPressed: () {
-                                  _save();
-                                },
-                              ),
-                              SizedBox(
-                                width: 4,
-                              ),
+                              // AppButton(
+                              //   label: "Save",
+                              //   onPressed: () {
+                              //     _save();
+                              //   },
+                              // ),
+                              // SizedBox(
+                              //   width: 4,
+                              // ),
                               if (canAddPhase)
                                 AppButton(
                                   label: "Add Phase",

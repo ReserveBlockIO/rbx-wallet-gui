@@ -10,10 +10,12 @@ import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contr
 class LearnMoreStep {
   final String title;
   final String description;
+  final String? imagePath;
 
   const LearnMoreStep({
     required this.description,
     required this.title,
+    this.imagePath,
   });
 }
 
@@ -34,13 +36,17 @@ class LearnMoreContent extends BaseComponent {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          SizedBox(
+            height: 12,
+          ),
           Wrap(
             alignment: WrapAlignment.spaceEvenly,
+            crossAxisAlignment: WrapCrossAlignment.start,
             runSpacing: 32,
             children: steps.asMap().entries.map((entry) {
               final step = entry.value;
               return ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 400),
+                constraints: BoxConstraints(maxWidth: 400, minHeight: 370),
                 child: Container(
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.white30, width: 2),
@@ -60,70 +66,96 @@ class LearnMoreContent extends BaseComponent {
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
-                      mainAxisSize: MainAxisSize.min,
+                      // mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        Column(
                           children: [
-                            Container(
-                              width: 50,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.secondary,
-                                borderRadius: BorderRadius.circular(25.0),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Center(
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: 50,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                    borderRadius: BorderRadius.circular(25.0),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Center(
+                                      child: Text(
+                                        "${entry.key + 1}",
+                                        textAlign: TextAlign.center,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline3!
+                                            .copyWith(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 16.0),
                                   child: Text(
-                                    "${entry.key + 1}",
+                                    step.title,
                                     textAlign: TextAlign.center,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline3!
+                                        .headline4!
                                         .copyWith(
                                           color: Theme.of(context)
                                               .colorScheme
-                                              .primary,
+                                              .secondary,
                                           fontWeight: FontWeight.bold,
                                         ),
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(left: 16.0),
-                              child: Text(
-                                step.title,
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline4!
-                                    .copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              child: Divider(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .secondary
+                                    .withOpacity(0.4),
+                                thickness: 2,
                               ),
+                            ),
+                            Text(
+                              step.description,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 18, height: 1.3),
                             ),
                           ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Divider(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .secondary
-                                .withOpacity(0.4),
-                            thickness: 2,
+                        if (step.imagePath != null &&
+                            step.imagePath!.isNotEmpty)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 16),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.white10,
+                                  width: 2,
+                                ),
+                              ),
+                              child: Image.asset(
+                                step.imagePath!,
+                                width: double.infinity,
+                                height: 140,
+                                fit: BoxFit.contain,
+                              ),
+                            ),
                           ),
-                        ),
-                        Text(
-                          step.description,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 18, height: 1.3),
-                        ),
                       ],
                     ),
                   ),
@@ -132,7 +164,7 @@ class LearnMoreContent extends BaseComponent {
             }).toList(),
           ),
           SizedBox(
-            height: 12,
+            height: 20,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

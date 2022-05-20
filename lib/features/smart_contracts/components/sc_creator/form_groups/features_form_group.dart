@@ -39,7 +39,7 @@ class FeaturesFormGroup extends BaseComponent {
         children: [
           FormGroupHeader(
             "Features",
-            helpType: HelpType.unknown,
+            helpType: HelpType.features,
           ),
           ..._model.features
               .asMap()
@@ -50,6 +50,9 @@ class FeaturesFormGroup extends BaseComponent {
                     readOnly: _model.isCompiled,
                   ))
               .toList(),
+          SizedBox(
+            height: 12,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [

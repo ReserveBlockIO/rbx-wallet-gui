@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
 
 class SmartContractCreatorContainerScreen extends BaseScreen {
@@ -19,8 +20,8 @@ class SmartContractCreatorContainerScreen extends BaseScreen {
       leading: IconButton(
         onPressed: () async {
           final confirmed = await ConfirmDialog.show(
-              title:
-                  "Are you sure you want to close the Smart Contract creator?");
+            title: "Are you sure you want to close the smart contract creator?",
+          );
 
           if (confirmed == true) {
             AutoRouter.of(context).pop();
@@ -28,6 +29,7 @@ class SmartContractCreatorContainerScreen extends BaseScreen {
         },
         icon: Icon(Icons.close),
       ),
+      actions: [HelpButton(HelpType.smartContract)],
     );
   }
 

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/dropdowns.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_header.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_bottom_actions.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
@@ -21,7 +22,10 @@ class RoyaltyModal extends BaseComponent {
 
     return ModalContainer(
       children: [
-        FormGroupHeader("Royalty"),
+        FormGroupHeader(
+          "Royalty",
+          withBg: false,
+        ),
         Form(
           key: _formKey,
           child: Row(
@@ -49,8 +53,13 @@ class RoyaltyModal extends BaseComponent {
                   decoration: InputDecoration(
                       label: Text("Amount"),
                       labelStyle: TextStyle(color: Colors.white),
-                      suffixText:
+                      suffix: Text(
                           _model.type == RoyaltyType.percent ? "%" : "RBX"),
+                      prefixIcon: HelpButton(
+                          _model.type == RoyaltyType.percent
+                              ? HelpType.royaltyPercent
+                              : HelpType.royaltyFlat,
+                          subtle: true)),
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(RegExp("[0-9.]"))
                   ],
@@ -62,9 +71,10 @@ class RoyaltyModal extends BaseComponent {
                 child: TextFormField(
                   controller: _provider.addressController,
                   decoration: InputDecoration(
-                    label: Text("Address"),
-                    labelStyle: TextStyle(color: Colors.white),
-                  ),
+                      label: Text("Address"),
+                      labelStyle: TextStyle(color: Colors.white),
+                      prefixIcon:
+                          HelpButton(HelpType.royaltyAddress, subtle: true)),
                   validator: _provider.addressValidator,
                 ),
               ),
