@@ -5,6 +5,7 @@ import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MainMenu extends BaseComponent {
@@ -142,6 +143,10 @@ class MainMenu extends BaseComponent {
                 title: "NFTs",
                 icon: Icons.lightbulb_outline,
                 onPressed: () {
+                   if(ref.read(sessionProvider).currentWallet == null) {
+                    Toast.error("A wallet is required to access this section.");
+                    return;
+                  }
                   tabsRouter.setActiveIndex(7);
                 },
                 isActive: tabsRouter.activeIndex == 7,
@@ -150,6 +155,10 @@ class MainMenu extends BaseComponent {
                 title: "Smart Contracts",
                 icon: Icons.receipt_long,
                 onPressed: () {
+                  if(ref.read(sessionProvider).currentWallet == null) {
+                    Toast.error("A wallet is required to access this section.");
+                    return;
+                  }
                   tabsRouter.setActiveIndex(8);
                 },
                 isActive: tabsRouter.activeIndex == 8,
