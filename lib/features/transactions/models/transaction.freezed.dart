@@ -25,17 +25,19 @@ class _$TransactionTearOff {
       {@JsonKey(name: 'Hash') required String hash,
       @JsonKey(name: 'ToAddress') required String toAddress,
       @JsonKey(name: 'FromAddress') required String fromAddress,
+      @JsonKey(name: 'TransactionType') required int type,
       @JsonKey(name: 'Amount') required double amount,
       @JsonKey(name: 'Nonce') required int nonce,
       @JsonKey(name: 'Fee') required double fee,
       @JsonKey(name: 'Timestamp') required int timestamp,
-      @JsonKey(name: 'NFTData') required dynamic nftData,
+      @JsonKey(name: 'Data') required dynamic nftData,
       @JsonKey(name: 'Signature') String? signature,
       @JsonKey(name: 'Height') required int height}) {
     return _Transaction(
       hash: hash,
       toAddress: toAddress,
       fromAddress: fromAddress,
+      type: type,
       amount: amount,
       nonce: nonce,
       fee: fee,
@@ -62,6 +64,8 @@ mixin _$Transaction {
   String get toAddress => throw _privateConstructorUsedError;
   @JsonKey(name: 'FromAddress')
   String get fromAddress => throw _privateConstructorUsedError;
+  @JsonKey(name: 'TransactionType')
+  int get type => throw _privateConstructorUsedError;
   @JsonKey(name: 'Amount')
   double get amount => throw _privateConstructorUsedError;
   @JsonKey(name: 'Nonce')
@@ -70,7 +74,7 @@ mixin _$Transaction {
   double get fee => throw _privateConstructorUsedError;
   @JsonKey(name: 'Timestamp')
   int get timestamp => throw _privateConstructorUsedError;
-  @JsonKey(name: 'NFTData')
+  @JsonKey(name: 'Data')
   dynamic get nftData => throw _privateConstructorUsedError;
   @JsonKey(name: 'Signature')
   String? get signature => throw _privateConstructorUsedError;
@@ -92,11 +96,12 @@ abstract class $TransactionCopyWith<$Res> {
       {@JsonKey(name: 'Hash') String hash,
       @JsonKey(name: 'ToAddress') String toAddress,
       @JsonKey(name: 'FromAddress') String fromAddress,
+      @JsonKey(name: 'TransactionType') int type,
       @JsonKey(name: 'Amount') double amount,
       @JsonKey(name: 'Nonce') int nonce,
       @JsonKey(name: 'Fee') double fee,
       @JsonKey(name: 'Timestamp') int timestamp,
-      @JsonKey(name: 'NFTData') dynamic nftData,
+      @JsonKey(name: 'Data') dynamic nftData,
       @JsonKey(name: 'Signature') String? signature,
       @JsonKey(name: 'Height') int height});
 }
@@ -114,6 +119,7 @@ class _$TransactionCopyWithImpl<$Res> implements $TransactionCopyWith<$Res> {
     Object? hash = freezed,
     Object? toAddress = freezed,
     Object? fromAddress = freezed,
+    Object? type = freezed,
     Object? amount = freezed,
     Object? nonce = freezed,
     Object? fee = freezed,
@@ -135,6 +141,10 @@ class _$TransactionCopyWithImpl<$Res> implements $TransactionCopyWith<$Res> {
           ? _value.fromAddress
           : fromAddress // ignore: cast_nullable_to_non_nullable
               as String,
+      type: type == freezed
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as int,
       amount: amount == freezed
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -178,11 +188,12 @@ abstract class _$TransactionCopyWith<$Res>
       {@JsonKey(name: 'Hash') String hash,
       @JsonKey(name: 'ToAddress') String toAddress,
       @JsonKey(name: 'FromAddress') String fromAddress,
+      @JsonKey(name: 'TransactionType') int type,
       @JsonKey(name: 'Amount') double amount,
       @JsonKey(name: 'Nonce') int nonce,
       @JsonKey(name: 'Fee') double fee,
       @JsonKey(name: 'Timestamp') int timestamp,
-      @JsonKey(name: 'NFTData') dynamic nftData,
+      @JsonKey(name: 'Data') dynamic nftData,
       @JsonKey(name: 'Signature') String? signature,
       @JsonKey(name: 'Height') int height});
 }
@@ -202,6 +213,7 @@ class __$TransactionCopyWithImpl<$Res> extends _$TransactionCopyWithImpl<$Res>
     Object? hash = freezed,
     Object? toAddress = freezed,
     Object? fromAddress = freezed,
+    Object? type = freezed,
     Object? amount = freezed,
     Object? nonce = freezed,
     Object? fee = freezed,
@@ -223,6 +235,10 @@ class __$TransactionCopyWithImpl<$Res> extends _$TransactionCopyWithImpl<$Res>
           ? _value.fromAddress
           : fromAddress // ignore: cast_nullable_to_non_nullable
               as String,
+      type: type == freezed
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as int,
       amount: amount == freezed
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -262,11 +278,12 @@ class _$_Transaction extends _Transaction {
       {@JsonKey(name: 'Hash') required this.hash,
       @JsonKey(name: 'ToAddress') required this.toAddress,
       @JsonKey(name: 'FromAddress') required this.fromAddress,
+      @JsonKey(name: 'TransactionType') required this.type,
       @JsonKey(name: 'Amount') required this.amount,
       @JsonKey(name: 'Nonce') required this.nonce,
       @JsonKey(name: 'Fee') required this.fee,
       @JsonKey(name: 'Timestamp') required this.timestamp,
-      @JsonKey(name: 'NFTData') required this.nftData,
+      @JsonKey(name: 'Data') required this.nftData,
       @JsonKey(name: 'Signature') this.signature,
       @JsonKey(name: 'Height') required this.height})
       : super._();
@@ -284,6 +301,9 @@ class _$_Transaction extends _Transaction {
   @JsonKey(name: 'FromAddress')
   final String fromAddress;
   @override
+  @JsonKey(name: 'TransactionType')
+  final int type;
+  @override
   @JsonKey(name: 'Amount')
   final double amount;
   @override
@@ -296,7 +316,7 @@ class _$_Transaction extends _Transaction {
   @JsonKey(name: 'Timestamp')
   final int timestamp;
   @override
-  @JsonKey(name: 'NFTData')
+  @JsonKey(name: 'Data')
   final dynamic nftData;
   @override
   @JsonKey(name: 'Signature')
@@ -307,7 +327,7 @@ class _$_Transaction extends _Transaction {
 
   @override
   String toString() {
-    return 'Transaction(hash: $hash, toAddress: $toAddress, fromAddress: $fromAddress, amount: $amount, nonce: $nonce, fee: $fee, timestamp: $timestamp, nftData: $nftData, signature: $signature, height: $height)';
+    return 'Transaction(hash: $hash, toAddress: $toAddress, fromAddress: $fromAddress, type: $type, amount: $amount, nonce: $nonce, fee: $fee, timestamp: $timestamp, nftData: $nftData, signature: $signature, height: $height)';
   }
 
   @override
@@ -319,6 +339,7 @@ class _$_Transaction extends _Transaction {
             const DeepCollectionEquality().equals(other.toAddress, toAddress) &&
             const DeepCollectionEquality()
                 .equals(other.fromAddress, fromAddress) &&
+            const DeepCollectionEquality().equals(other.type, type) &&
             const DeepCollectionEquality().equals(other.amount, amount) &&
             const DeepCollectionEquality().equals(other.nonce, nonce) &&
             const DeepCollectionEquality().equals(other.fee, fee) &&
@@ -334,6 +355,7 @@ class _$_Transaction extends _Transaction {
       const DeepCollectionEquality().hash(hash),
       const DeepCollectionEquality().hash(toAddress),
       const DeepCollectionEquality().hash(fromAddress),
+      const DeepCollectionEquality().hash(type),
       const DeepCollectionEquality().hash(amount),
       const DeepCollectionEquality().hash(nonce),
       const DeepCollectionEquality().hash(fee),
@@ -358,11 +380,12 @@ abstract class _Transaction extends Transaction {
       {@JsonKey(name: 'Hash') required String hash,
       @JsonKey(name: 'ToAddress') required String toAddress,
       @JsonKey(name: 'FromAddress') required String fromAddress,
+      @JsonKey(name: 'TransactionType') required int type,
       @JsonKey(name: 'Amount') required double amount,
       @JsonKey(name: 'Nonce') required int nonce,
       @JsonKey(name: 'Fee') required double fee,
       @JsonKey(name: 'Timestamp') required int timestamp,
-      @JsonKey(name: 'NFTData') required dynamic nftData,
+      @JsonKey(name: 'Data') required dynamic nftData,
       @JsonKey(name: 'Signature') String? signature,
       @JsonKey(name: 'Height') required int height}) = _$_Transaction;
   _Transaction._() : super._();
@@ -380,6 +403,9 @@ abstract class _Transaction extends Transaction {
   @JsonKey(name: 'FromAddress')
   String get fromAddress;
   @override
+  @JsonKey(name: 'TransactionType')
+  int get type;
+  @override
   @JsonKey(name: 'Amount')
   double get amount;
   @override
@@ -392,7 +418,7 @@ abstract class _Transaction extends Transaction {
   @JsonKey(name: 'Timestamp')
   int get timestamp;
   @override
-  @JsonKey(name: 'NFTData')
+  @JsonKey(name: 'Data')
   dynamic get nftData;
   @override
   @JsonKey(name: 'Signature')

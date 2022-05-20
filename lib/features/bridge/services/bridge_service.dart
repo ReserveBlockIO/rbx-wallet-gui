@@ -197,4 +197,13 @@ class BridgeService extends BaseService {
 
     return true;
   }
+
+  Future<bool> clearLog() async {
+    try {
+      await getText("/ClearRBXLog");
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 }

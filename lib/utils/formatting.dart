@@ -1,9 +1,10 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:intl/intl.dart';
 
 String formatIntWithCommas(int number) {
-  NumberFormat numberFormat = NumberFormat('#,##,000');
+  NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
   return numberFormat.format(number);
 }
 
@@ -15,4 +16,9 @@ String readableFileSize(int value, {bool base1024 = true}) {
   return NumberFormat("#,##0.#").format(value / pow(base, digitGroups)) +
       " " +
       units[digitGroups];
+}
+
+String getPrettyJSONString(jsonObject) {
+  var encoder = JsonEncoder.withIndent("     ");
+  return encoder.convert(jsonObject);
 }

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/badges.dart';
+import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/transactions/components/nft_data_modal.dart';
 import 'package:rbx_wallet/features/transactions/models/transaction.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
@@ -116,9 +118,7 @@ class _TransactionListTileState
                           ),
                         ],
                       ),
-                      SizedBox(
-                        height: 4,
-                      ),
+                      SizedBox(height: 4),
                       RichText(
                         text: TextSpan(
                           style: Theme.of(context).textTheme.bodyText2,
@@ -135,24 +135,65 @@ class _TransactionListTileState
                           ],
                         ),
                       ),
+                      SizedBox(height: 4),
+                      RichText(
+                        text: TextSpan(
+                          style: Theme.of(context).textTheme.bodyText2,
+                          children: [
+                            TextSpan(text: "Type: "),
+                            TextSpan(
+                              text: widget.transaction.typeLabel,
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.warning,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       Divider(),
-                      Text(
-                        "To: ${widget.transaction.toAddress}${toWallet != null && toWallet.friendlyName != null ? ' (${toWallet.friendlyName})' : ''}",
-                        style: Theme.of(context).textTheme.caption,
-                      ),
-                      SizedBox(
-                        height: 4,
-                      ),
-                      Text(
-                        "From: ${widget.transaction.fromAddress}${fromWallet != null && fromWallet.friendlyName != null ? ' (${fromWallet.friendlyName})' : ''}",
-                        style: Theme.of(context).textTheme.caption,
-                      ),
-                      SizedBox(
-                        height: 4,
-                      ),
-                      Text(
-                        "Date: ${widget.transaction.parseTimeStamp}",
-                        style: Theme.of(context).textTheme.caption,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                              child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "To: ${widget.transaction.toAddress}${toWallet != null && toWallet.friendlyName != null ? ' (${toWallet.friendlyName})' : ''}",
+                                style: Theme.of(context).textTheme.caption,
+                              ),
+                              SizedBox(
+                                height: 4,
+                              ),
+                              Text(
+                                "From: ${widget.transaction.fromAddress}${fromWallet != null && fromWallet.friendlyName != null ? ' (${fromWallet.friendlyName})' : ''}",
+                                style: Theme.of(context).textTheme.caption,
+                              ),
+                              SizedBox(
+                                height: 4,
+                              ),
+                              Text(
+                                "Date: ${widget.transaction.parseTimeStamp}",
+                                style: Theme.of(context).textTheme.caption,
+                              ),
+                            ],
+                          )),
+                          if (widget.transaction.nftData != null)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 6.0),
+                              child: AppButton(
+                                label: "View Data",
+                                onPressed: () {
+                                  showModalBottomSheet(
+                                      context: context,
+                                      builder: (context) {
+                                        return NftDataModal(
+                                            widget.transaction.nftData);
+                                      });
+                                },
+                              ),
+                            ),
+                        ],
                       ),
                       if (_expanded)
                         Column(

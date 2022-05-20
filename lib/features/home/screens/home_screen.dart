@@ -87,7 +87,6 @@ class HomeScreen extends BaseScreen {
                       ));
                     }
                   },
-                  size: AppSizeVariant.Lg,
                 ),
                 AppButton(
                   label: "Print Validators",
@@ -121,14 +120,12 @@ class HomeScreen extends BaseScreen {
                       );
                     }
                   },
-                  size: AppSizeVariant.Lg,
                 ),
                 AppButton(
                   label: "Get Blockchain",
                   onPressed: () async {
                     await ref.read(walletInfoProvider.notifier).fetch();
                   },
-                  size: AppSizeVariant.Lg,
                 ),
                 AppButton(
                   label: "Show Debug Data",
@@ -173,7 +170,6 @@ class HomeScreen extends BaseScreen {
                       ),
                     );
                   },
-                  size: AppSizeVariant.Lg,
                 ),
                 AppButton(
                   label: "Open DB Folder",
@@ -201,7 +197,6 @@ class HomeScreen extends BaseScreen {
 
                     shell.run(cmd);
                   },
-                  size: AppSizeVariant.Lg,
                 ),
                 AppButton(
                   label: "Open Log",
@@ -224,13 +219,32 @@ class HomeScreen extends BaseScreen {
                       appDocPath = appDocPath.replaceAll(
                           "\\Roaming\\com.example\\rbx_wallet_gui",
                           "\\Local\\rbx");
-                      cmd = "start $appDocPath\\Databases\\rbxlog";
+                      cmd = "start $appDocPath\\Databases\\rbxlog.txt";
                     }
 
                     shell.run(cmd);
                   },
-                  size: AppSizeVariant.Lg,
                 ),
+                // AppButton(
+                //   label: "Clear Log",
+                //   onPressed: () async {
+                //     final confirmed = await ConfirmDialog.show(
+                //         title: "Clear Log",
+                //         body: "Are you sure you want to clear the log?",
+                //         destructive: true,
+                //         confirmText: "Clear",
+                //         cancelText: "Cancel");
+
+                //     if (confirmed == true) {
+                //       final success = await BridgeService().clearLog();
+                //       if (success) {
+                //         Toast.message("Log cleared");
+                //       } else {
+                //         Toast.error();
+                //       }
+                //     }
+                //   },
+                // ),
                 AppButton(
                   label: "Rollback Blocks",
                   onPressed: () {
@@ -270,7 +284,6 @@ class HomeScreen extends BaseScreen {
                       },
                     );
                   },
-                  size: AppSizeVariant.Lg,
                 ),
                 AppButton(
                   label: "Restart CLI",
@@ -290,7 +303,6 @@ class HomeScreen extends BaseScreen {
                       ref.read(sessionProvider.notifier).restartCli();
                     }
                   },
-                  size: AppSizeVariant.Lg,
                 ),
               ],
             ),
