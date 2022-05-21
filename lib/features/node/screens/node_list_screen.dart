@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
+import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/node/components/masternode_card.dart';
+import 'package:rbx_wallet/features/node/components/node_card.dart';
 import 'package:rbx_wallet/features/node/components/node_info_list.dart';
 import 'package:rbx_wallet/features/node/components/node_list.dart';
 import 'package:rbx_wallet/features/node/providers/masternode_list_provider.dart';
 import 'package:rbx_wallet/features/node/providers/node_list_provider.dart';
 import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
+import 'package:collection/collection.dart';
 
 class NodeListScreen extends BaseScreen {
   const NodeListScreen({Key? key})
@@ -37,6 +40,9 @@ class NodeListScreen extends BaseScreen {
   Widget body(BuildContext context, WidgetRef ref) {
     final _searchProvider = ref.read(masternodeListProvider.notifier);
     final _searchModel = ref.watch(masternodeListProvider);
+
+    final _validators = ref.watch(validatorListProvider);
+    final _nodes = ref.read(nodeListProvider);
     return Column(
       children: [
         Row(
@@ -102,24 +108,61 @@ class NodeListScreen extends BaseScreen {
           padding: const EdgeInsets.symmetric(vertical: 12.0),
           child: NodeInfoList(),
         ),
-        Expanded(
-          child: Builder(
-            builder: (context) {
-              if (ref.read(validatorListProvider).isEmpty ||
-                  ref
-                      .read(validatorListProvider)
-                      .where((element) => element.isValidating)
-                      .toList()
-                      .isEmpty) {
-                return Center(
-                  child:
-                      Text("You must be validating to view the Validator Pool"),
-                );
-              }
-              return NodeList();
-            },
+        if (_validators.isNotEmpty)
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "Validator",
+              style: Theme.of(context).textTheme.headline5,
+            ),
           ),
-        ),
+        if (_validators.isNotEmpty)
+          Expanded(
+            child: ListView.builder(
+              itemCount: _validators.length,
+              itemBuilder: (context, index) {
+                final w = _validators[index];
+
+                final node =
+                    _nodes.firstWhereOrNull((n) => n.address == w.address);
+
+                if (node != null) {
+                  return NodeCard(node);
+                }
+
+                return ListTile(
+                  title: Text(w.labelWithoutTruncation),
+                  leading: w.isValidating
+                      ? AppBadge(
+                          label: "Active",
+                          variant: AppColorVariant.Success,
+                        )
+                      : AppBadge(
+                          label: "Inactive",
+                          variant: AppColorVariant.Danger,
+                        ),
+                );
+              },
+            ),
+          )
+        // Expanded(
+        //   child: Builder(
+        //     builder: (context) {
+        //       if (ref.read(validatorListProvider).isEmpty ||
+        //           ref
+        //               .read(validatorListProvider)
+        //               .where((element) => element.isValidating)
+        //               .toList()
+        //               .isEmpty) {
+        //         return Center(
+        //           child:
+        //               Text("You must be validating to view the Validator Pool"),
+        //         );
+        //       }
+        //       return NodeList();
+        //     },
+        //   ),
+        // ),
       ],
     );
   }
