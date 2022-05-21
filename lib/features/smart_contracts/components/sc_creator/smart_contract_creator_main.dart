@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/form_groups/basic_properties_form_group.dart';
@@ -109,7 +110,11 @@ class SmartContractCreatorMain extends BaseComponent {
                   AppButton(
                     label: "Compile",
                     helpType: HelpType.compile,
+                    disabled: ref.watch(sessionProvider).isMintingOrCompiling,
                     onPressed: () async {
+                      ref
+                          .read(sessionProvider.notifier)
+                          .setIsMintingOrCompiling(true);
                       final confirmed = await ConfirmDialog.show(
                         title: "Compile Smart Contract?",
                         body:
@@ -142,6 +147,9 @@ class SmartContractCreatorMain extends BaseComponent {
                               "Smart Contract compiled successfully.");
                         }
                       }
+                      ref
+                          .read(sessionProvider.notifier)
+                          .setIsMintingOrCompiling(false);
                     },
                     icon: Icons.computer,
                   ),
@@ -149,9 +157,13 @@ class SmartContractCreatorMain extends BaseComponent {
                   AppButton(
                     label: "Mint",
                     helpType: HelpType.mint,
+                    disabled: ref.watch(sessionProvider).isMintingOrCompiling,
                     onPressed: _model.isPublished
                         ? null
                         : () async {
+                            ref
+                                .read(sessionProvider.notifier)
+                                .setIsMintingOrCompiling(true);
                             final confirmed = await ConfirmDialog.show(
                               title: "Mint Smart Contract?",
                               body:
@@ -186,6 +198,9 @@ class SmartContractCreatorMain extends BaseComponent {
                                     "Smart Contract minted successfully.");
                               }
                             }
+                            ref
+                                .read(sessionProvider.notifier)
+                                .setIsMintingOrCompiling(false);
                           },
                     icon: Icons.publish,
                   ),

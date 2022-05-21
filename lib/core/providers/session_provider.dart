@@ -45,6 +45,7 @@ class SessionModel {
   final double? totalBalance;
   final String? cliVersion;
   final bool logWindowExpanded;
+  final bool isMintingOrCompiling;
 
   const SessionModel({
     this.currentWallet,
@@ -58,6 +59,7 @@ class SessionModel {
     this.totalBalance,
     this.cliVersion,
     this.logWindowExpanded = false,
+    this.isMintingOrCompiling = false,
   });
 
   SessionModel copyWith({
@@ -72,6 +74,7 @@ class SessionModel {
     double? totalBalance,
     String? cliVersion,
     bool? logWindowExpanded,
+    bool? isMintingOrCompiling,
   }) {
     return SessionModel(
       startTime: startTime ?? this.startTime,
@@ -86,6 +89,7 @@ class SessionModel {
       totalBalance: totalBalance ?? this.totalBalance,
       cliVersion: cliVersion ?? this.cliVersion,
       logWindowExpanded: logWindowExpanded ?? this.logWindowExpanded,
+      isMintingOrCompiling: isMintingOrCompiling ?? this.isMintingOrCompiling,
     );
   }
 
@@ -495,6 +499,10 @@ class SessionProvider extends StateNotifier<SessionModel> {
       }
     }
     return true;
+  }
+
+  void setIsMintingOrCompiling(bool value) {
+    state = state.copyWith(isMintingOrCompiling: value);
   }
 }
 
