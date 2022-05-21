@@ -12,7 +12,7 @@ enum _Environment {
   Release,
   BlockExplorer,
 }
-const _env = _Environment.Release;
+const _env = _Environment.BlockExplorer;
 
 class Env {
   static init() async {

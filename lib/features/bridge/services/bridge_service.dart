@@ -69,7 +69,7 @@ class BridgeService extends BaseService {
   }
 
   Future<Map<String, dynamic>?> importPrivateKey(String key) async {
-    final response = await getText("/ImportPrivateKey/$key");
+    final response = await getText("/ImportPrivateKey/${key.trim()}");
     if (response == "NAC") {
       return null;
     }
@@ -77,12 +77,12 @@ class BridgeService extends BaseService {
     return jsonDecode(response);
   }
 
-  Future<List<String>?> newAddress() async {
+  Future<String?> newAddress() async {
     final response = await getText("/GetNewAddress");
     if (response == "Fail") {
       return null;
     }
-    return response.split(':');
+    return response;
   }
 
   Future<String?> sendFunds({

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -39,7 +41,6 @@ class WalletListProvider extends StateNotifier<List<Wallet>> {
     read(sessionProvider.notifier).setCurrentWallet(wallet);
     // read(sessionProvider.notifier).load();
     read(walletInfoProvider.notifier).fetch();
-
 
     if (showDetails) {
       final context = rootScaffoldKey.currentContext!;
@@ -104,12 +105,15 @@ class WalletListProvider extends StateNotifier<List<Wallet>> {
     if (!guardWalletIsNotResyncing(read)) return;
 
     final data = await BridgeService().newAddress();
-    if (data == null || data.length < 2) {
+
+    if (data == null) {
       Toast.error("An error occurred");
       return;
     }
+    final json = jsonDecode(data);
+    final privateKey = json[0]['PrivateKey'];
 
-    await import(data[1], true);
+    await import(privateKey, true);
   }
 
   // void saveAll() {
