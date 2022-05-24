@@ -121,7 +121,7 @@ class FileSelector extends StatelessWidget {
                         label: "Reveal",
                         icon: Icons.folder_open,
                         onPressed: () {
-                          openFile(asset!.location);
+                          openFile(asset!.file);
                         },
                       ),
                       if (allowReplace)

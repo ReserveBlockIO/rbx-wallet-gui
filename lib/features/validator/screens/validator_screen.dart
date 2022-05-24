@@ -139,7 +139,7 @@ class ValidatorScreen extends BaseScreen {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          "${currentWallet.labelWithoutTruncation} is Validating...",
+          "${currentWallet.labelWithoutTruncation}  is Validating...",
           style: Theme.of(context).textTheme.headline4,
         ),
         Padding(
@@ -172,6 +172,28 @@ class ValidatorScreen extends BaseScreen {
             ref.read(globalLoadingProvider.notifier).complete();
           },
         ),
+        SizedBox(
+          height: 8,
+        ),
+        AppButton(
+            label: "Rename Validator",
+            variant: AppColorVariant.Primary,
+            onPressed: () async {
+              final name = await PromptModal.show(
+                title: "Validator Name",
+                validator: (val) => formValidatorNotEmpty(val, "Name"),
+                labelText: "New Validator Name",
+              );
+
+              if (name != null && name.isNotEmpty) {
+                final success = await BridgeService().renameValidator(name);
+                if (success) {
+                  Toast.message("Validator name changed to $name.");
+                } else {
+                  Toast.error();
+                }
+              }
+            }),
       ],
     ));
   }

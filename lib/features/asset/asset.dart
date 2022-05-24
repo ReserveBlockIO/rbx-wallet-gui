@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rbx_wallet/utils/formatting.dart';
+import 'package:path/path.dart' as p;
 
 part 'asset.freezed.dart';
 part 'asset.g.dart';
@@ -77,12 +78,20 @@ abstract class Asset with _$Asset {
     }
   }
 
-  File get file {
-    return File(location);
+  String get fixedLocation {
+    if (Platform.isWindows) {
+      return location;
+    }
+
+    return location.replaceAll("/Volumes/Macintosh HD/", '/');
   }
 
-  String get folder {
-    return File(location).parent.path;
+  File get file {
+    return File(fixedLocation);
+  }
+
+  File get folder {
+    return File(File(fixedLocation).parent.path);
   }
 
   String get filesizeLabel {

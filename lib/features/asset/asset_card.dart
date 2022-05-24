@@ -68,7 +68,7 @@ class AssetCard extends StatelessWidget {
               label: "Open Asset",
               icon: Icons.file_open,
               onPressed: () {
-                openFile(asset.location);
+                openFile(asset.file);
               },
             ),
           ],

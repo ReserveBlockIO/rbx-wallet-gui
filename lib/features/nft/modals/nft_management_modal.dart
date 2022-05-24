@@ -292,7 +292,7 @@ class _EvolutionStateRow extends BaseComponent {
                               type: AppButtonType.Text,
                               variant: AppColorVariant.Light,
                               onPressed: () {
-                                openFile(phase.asset!.location);
+                                openFile(phase.asset!.file);
                               },
                             )
                         ],

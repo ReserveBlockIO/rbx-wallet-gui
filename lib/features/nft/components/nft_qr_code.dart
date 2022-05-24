@@ -8,6 +8,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/utils/files.dart';
 import 'package:rbx_wallet/utils/toast.dart';
+import 'package:path/path.dart' as p;
 
 class NftQrCode extends StatelessWidget {
   final String data;
@@ -67,7 +68,8 @@ class NftQrCode extends StatelessWidget {
                 Directory tempDir = await getTemporaryDirectory();
                 String tempPath = tempDir.path;
                 final ts = DateTime.now().millisecondsSinceEpoch.toString();
-                String path = '$tempPath/$ts.png';
+                String path =
+                    '$tempPath${Platform.isWindows ? '\\' : '/'}$ts.png';
 
                 final picData = await painter.toImageData(2048,
                     format: ImageByteFormat.png);
@@ -76,7 +78,7 @@ class NftQrCode extends StatelessWidget {
                 }
 
                 await writeToFile(picData, path);
-                openFile(path);
+                openFile(File(path));
               },
               icon: Icons.download,
             )

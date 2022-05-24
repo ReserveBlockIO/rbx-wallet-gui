@@ -206,4 +206,14 @@ class BridgeService extends BaseService {
       return false;
     }
   }
+
+  Future<bool> renameValidator(String name) async {
+    try {
+      await getText("/ChangeValidatorName/${name.trim()}");
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
 }

@@ -23,6 +23,7 @@ import 'package:rbx_wallet/features/validator/providers/validator_list_provider.
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_detail_provider.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
+import 'package:rbx_wallet/utils/files.dart';
 import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
@@ -174,28 +175,39 @@ class HomeScreen extends BaseScreen {
                 AppButton(
                   label: "Open DB Folder",
                   onPressed: () async {
-                    final shell = Shell(throwOnError: false);
+                    // final shell = Shell(throwOnError: false);
 
                     Directory appDocDir =
                         await getApplicationDocumentsDirectory();
                     String appDocPath = appDocDir.path;
 
-                    String cmd = "";
                     if (Platform.isMacOS) {
                       appDocPath = appDocPath.replaceAll("/Documents", "/rbx");
-                      cmd = "open $appDocPath";
                     } else {
-                      appDocDir = await getApplicationSupportDirectory();
-
                       appDocPath = appDocDir.path;
-
                       appDocPath = appDocPath.replaceAll(
                           "\\Roaming\\com.example\\rbx_wallet_gui",
                           "\\Local\\rbx");
-                      cmd = "start $appDocPath";
                     }
 
-                    shell.run(cmd);
+                    openFile(File(appDocPath));
+
+                    // String cmd = "";
+                    // if (Platform.isMacOS) {
+                    //   appDocPath = appDocPath.replaceAll("/Documents", "/rbx");
+                    //   cmd = "open $appDocPath";
+                    // } else {
+                    //   appDocDir = await getApplicationSupportDirectory();
+
+                    //   appDocPath = appDocDir.path;
+
+                    //   appDocPath = appDocPath.replaceAll(
+                    //       "\\Roaming\\com.example\\rbx_wallet_gui",
+                    //       "\\Local\\rbx");
+                    //   cmd = "start $appDocPath";
+                    // }
+
+                    // shell.run(cmd);
                   },
                 ),
                 AppButton(
