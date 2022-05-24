@@ -11,6 +11,7 @@ abstract class Storage {
   static const DELETED_WALLETS_KEY = "DELETED_WALLETS";
   static const RENAMED_WALLETS_KEY = "RENAMED_WALLETS";
   static const LOCAL_SMART_CONTRACTS = "LOCAL_SMART_CONTRACTS2";
+  static const MANAGABLE_NFT_IDS = "MANAGABLE_NFT_IDS";
 
   bool isInitialized = false;
 
@@ -31,6 +32,9 @@ abstract class Storage {
 
   List<dynamic>? getList(String key);
   void setList(String key, List<dynamic> value);
+
+  List<String>? getStringList(String key);
+  void setStringList(String key, List<String> value);
 }
 
 class StorageImplementation extends Storage {
@@ -94,6 +98,28 @@ class StorageImplementation extends Storage {
 
   @override
   void setList(String key, List<dynamic> value) {
+    final str = jsonEncode(value);
+    _instance.setString(key, str);
+  }
+
+  @override
+  List<String>? getStringList(String key) {
+    final str = _instance.getString(key);
+    print(str);
+    print("---------");
+    if (str == null) {
+      return null;
+    }
+    final List<dynamic> data = jsonDecode(str);
+
+    final List<String> items = data.map((item) => item.toString()).toList();
+    print(items);
+    print(items.runtimeType);
+    return items;
+  }
+
+  @override
+  void setStringList(String key, List<dynamic> value) {
     final str = jsonEncode(value);
     _instance.setString(key, str);
   }

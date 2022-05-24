@@ -16,14 +16,13 @@ class SmartContractService extends BaseService {
   // http://localhost:7292/scapi/scv1/GetAllSmartContracts
 
   Future<List<CompiledSmartContract>> listSmartContracts() async {
-    final response = await getText(
-      "/GetAllSmartContracts",
-    );
-    if (response == 'null') {
-      return [];
-    }
-
     try {
+      final response = await getText(
+        "/GetAllSmartContracts",
+      );
+      if (response == 'null') {
+        return [];
+      }
       final items = jsonDecode(response);
 
       final List<CompiledSmartContract> smartContracts = [];
@@ -57,6 +56,8 @@ class SmartContractService extends BaseService {
         test ? "/SCPassTest" : "/CreateSmartContract",
         params: payload,
       );
+
+      print(response);
 
       final csc = CompilerResponse.fromJson(response['data'][0]);
       return csc; //TODO: dynamic based on success

@@ -4,8 +4,7 @@ import 'package:rbx_wallet/core/services/base_service.dart';
 import 'package:rbx_wallet/core/singletons.dart';
 import 'package:rbx_wallet/core/storage.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/compiler_response.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/detailed_smart_contract.dart';
+import 'package:collection/collection.dart';
 
 class NftService extends BaseService {
   NftService() : super(apiBasePathOverride: "/scapi/scv1");
@@ -75,5 +74,38 @@ class NftService extends BaseService {
     } catch (e) {
       return false;
     }
+  }
+
+  List<String> loadSavedIds() {
+    return singleton<Storage>().getStringList(Storage.MANAGABLE_NFT_IDS) ?? [];
+  }
+
+  void saveId(String id) {
+    final saved =
+        singleton<Storage>().getStringList(Storage.MANAGABLE_NFT_IDS) ?? [];
+
+    final exists = saved.firstWhereOrNull((i) => i == id) != null;
+
+    if (!exists) {
+      singleton<Storage>().setStringList(
+        Storage.MANAGABLE_NFT_IDS,
+        [...saved, id],
+      );
+    }
+  }
+
+  Future<List<Nft>> getSaved() async {
+    final ids = loadSavedIds();
+
+    final List<Nft> nfts = [];
+    for (final id in ids) {
+      final data = await getText('/GetSmartContractData/$id');
+
+      if (data.isNotEmpty) {
+        nfts.add(Nft.fromJson(jsonDecode(data)));
+      }
+    }
+
+    return nfts;
   }
 }

@@ -7,7 +7,10 @@ import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
+import 'package:rbx_wallet/features/nft/models/nft.dart';
+import 'package:rbx_wallet/features/nft/providers/minted_nft_list_provider.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
+import 'package:rbx_wallet/features/nft/services/nft_service.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/compile_animation.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
@@ -206,6 +209,11 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
     read(draftsSmartContractProvider.notifier).load();
   }
 
+  void saveMintedNft(String id) {
+    NftService().saveId(id);
+    read(mintedNftListProvider.notifier).load();
+  }
+
   // --compile --
 
   List<String> isValidForCompile() {
@@ -274,7 +282,13 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
   }
 
   Future<bool> mint() async {
-    return await SmartContractService().mint(state.id);
+    final success = await SmartContractService().mint(state.id);
+
+    if (success) {
+      saveMintedNft(state.id);
+    }
+
+    return success;
   }
 
   void showCompileAnimation(
