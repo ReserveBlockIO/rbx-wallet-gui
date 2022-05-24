@@ -12,7 +12,7 @@ enum _Environment {
   Release,
   BlockExplorer,
 }
-const _env = _Environment.MacDev;
+const _env = _Environment.Release;
 
 class Env {
   static init() async {
