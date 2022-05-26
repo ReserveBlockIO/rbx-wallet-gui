@@ -165,10 +165,16 @@ abstract class Evolve with _$Evolve {
         _phases.asMap().entries.map((entry) {
       final p = entry.value;
 
+      bool _isDynamic = isDynamic;
+
+      if (p.dateTime != null || p.blockHeight != null) {
+        _isDynamic = true;
+      }
+
       final Map<String, dynamic> data = {
         'Name': p.name,
         'Description': p.description,
-        'IsDynamic': isDynamic,
+        'IsDynamic': _isDynamic,
         'EvolutionState': entry.key + 1,
         'IsCurrentState': false,
         // 'EvolveParamaterType': typeToInt(type),

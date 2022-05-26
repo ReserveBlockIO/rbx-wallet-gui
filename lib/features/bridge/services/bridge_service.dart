@@ -177,8 +177,7 @@ class BridgeService extends BaseService {
 
   Future<bool> rollback(String id) async {
     try {
-      final response = await getText("/GetRollbackBlocks/$id");
-      print(response);
+      await getText("/GetRollbackBlocks/$id");
       return true;
     } catch (e) {
       print(e);

@@ -105,16 +105,14 @@ class StorageImplementation extends Storage {
   @override
   List<String>? getStringList(String key) {
     final str = _instance.getString(key);
-    print(str);
-    print("---------");
+
     if (str == null) {
       return null;
     }
     final List<dynamic> data = jsonDecode(str);
 
     final List<String> items = data.map((item) => item.toString()).toList();
-    print(items);
-    print(items.runtimeType);
+
     return items;
   }
 

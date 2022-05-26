@@ -132,6 +132,7 @@ abstract class SmartContract with _$SmartContract {
         'FeatureName': Evolve.compilerEnum,
         'FeatureFeatures': e.serializeForCompiler()
       };
+
       features.add(f);
     }
 

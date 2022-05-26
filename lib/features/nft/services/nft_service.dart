@@ -57,6 +57,7 @@ class NftService extends BaseService {
     try {
       final response = await getText('/GetSingleSmartContract/$id');
       final data = jsonDecode(response);
+
       Nft nft = Nft.fromJson(data[0]['SmartContract']);
       nft = nft.copyWith(code: data[0]['SmartContractCode']);
       return nft;
@@ -68,8 +69,7 @@ class NftService extends BaseService {
 
   Future<bool> togglePrivate(String id) async {
     try {
-      final response = await getText('/ChangeNFTPublicState/$id');
-      print(response);
+      await getText('/ChangeNFTPublicState/$id');
       return true;
     } catch (e) {
       return false;

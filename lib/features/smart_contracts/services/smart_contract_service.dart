@@ -57,8 +57,6 @@ class SmartContractService extends BaseService {
         params: payload,
       );
 
-      print(response);
-
       final csc = CompilerResponse.fromJson(response['data'][0]);
       return csc; //TODO: dynamic based on success
     } catch (e, stackTrace) {
@@ -118,8 +116,12 @@ class SmartContractService extends BaseService {
 
   Future<bool> mint(String id) async {
     try {
-      await getText("/MintSmartContract/$id");
-      return true;
+      final response = await getText("/MintSmartContract/$id");
+
+      if (response == "Smart contract has been published to mempool") {
+        return true;
+      }
+      return false;
     } catch (e) {
       print(e);
       return false;
@@ -128,7 +130,8 @@ class SmartContractService extends BaseService {
 
   Future<bool> transfer(String id, String address) async {
     try {
-      await getText("/TransferNFT/$id/$address");
+      final response = await getText("/TransferNFT/$id/$address");
+      print(response);
       return true;
     } catch (e) {
       print(e);
@@ -136,9 +139,11 @@ class SmartContractService extends BaseService {
     }
   }
 
-  Future<bool> evolve(String id, int stage) async {
+  Future<bool> evolve(String id, String toAddress, int stage) async {
     try {
-      await getText("/EvolveSpecific/$id/$stage");
+      final response = await getText("/EvolveSpecific/$id/$toAddress/$stage");
+      print(response);
+
       return true;
     } catch (e) {
       print(e);

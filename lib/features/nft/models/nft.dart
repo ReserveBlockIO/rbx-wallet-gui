@@ -62,7 +62,9 @@ abstract class Nft with _$Nft {
 
   bool get canManageEvolve {
     if (!isMinter) return false;
+    return true;
 
+    // not using this for now
     for (final feature in featureList) {
       if (feature.type == FeatureType.evolution) {
         final evolve = Evolve.fromCompiler({'phases': feature.data['phases']});
@@ -84,14 +86,18 @@ abstract class Nft with _$Nft {
   }
 
   bool get evolveIsDynamic {
+    // return false;
     if (!canEvolve) {
       return false;
     }
+    return false;
+    //
     for (final feature in featureList) {
       if (feature.type == FeatureType.evolution) {
         if (feature.data['IsDynamic'] == true) {
           return true;
         }
+
         if (feature.data['isDynamic'] == true) {
           return true;
         }
@@ -125,6 +131,7 @@ abstract class Nft with _$Nft {
     if (evolveFeature != null) {
       final evolve =
           Evolve.fromCompiler({'phases': evolveFeature.data['phases']});
+
       return evolve.phases;
     }
 
@@ -145,6 +152,38 @@ abstract class Nft with _$Nft {
     final current = evolutionPhases.indexWhere((p) => p.isCurrentState == true);
 
     return current;
+  }
+
+  Asset get currentEvolveAsset {
+    if (!canEvolve) {
+      return primaryAsset;
+    }
+
+    if (currentEvolvePhase.asset != null) {
+      return currentEvolvePhase.asset!;
+    }
+
+    return primaryAsset;
+  }
+
+  String get currentEvolveName {
+    if (!canEvolve) {
+      return name;
+    }
+
+    if (currentEvolvePhaseIndex == -1) {
+      return name;
+    }
+
+    return "$name: ${currentEvolvePhase.name}";
+  }
+
+  String get currentEvolveDescription {
+    if (!canEvolve) {
+      return description;
+    }
+
+    return currentEvolvePhase.description;
   }
 
   List<Asset> get additionalAssets {

@@ -52,9 +52,7 @@ class StatModal extends BaseComponent {
                       title: "Stat Type",
                       modalType: S2ModalType.bottomSheet,
                       selectedValue: _model.type,
-                      onChange: (option) {
-                        print(option.value);
-                      },
+                      onChange: (option) {},
                       choiceItems: Stat.allTypes()
                           .map(
                             (s) => S2Choice<StatType>(

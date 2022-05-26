@@ -52,19 +52,19 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     return success;
   }
 
-  Future<bool> setEvolve(int stage) async {
-    final success = await SmartContractService().evolve(id, stage);
+  Future<bool> setEvolve(int stage, String toAddress) async {
+    final success = await SmartContractService().evolve(id, toAddress, stage);
     return success;
   }
 
   Future<bool> evolve() async {
     final stage = state!.currentEvolvePhaseIndex + 1;
-    return await setEvolve(stage);
+    return await setEvolve(stage, state!.address);
   }
 
   Future<bool> devolve() async {
     final stage = state!.currentEvolvePhaseIndex - 1;
-    return await setEvolve(stage);
+    return await setEvolve(stage, state!.address);
   }
 
   Future<bool> burn() async {

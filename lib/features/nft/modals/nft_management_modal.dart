@@ -59,8 +59,8 @@ class NftMangementModal extends BaseComponent {
     int stage,
   ) async {
     final _provider = ref.read(nftDetailProvider(id).notifier);
-
-    final success = await _provider.setEvolve(stage);
+    final _model = ref.read(nftDetailProvider(id));
+    final success = await _provider.setEvolve(stage, _model!.address);
     if (success) {
       Toast.message("Evolve transaction sent successfully!");
     } else {
@@ -210,12 +210,14 @@ class NftMangementModal extends BaseComponent {
               ...nft.evolutionPhases
                   .asMap()
                   .entries
-                  .map((entry) => _EvolutionStateRow(
-                        entry.value,
-                        nftId: id,
-                        isDynamic: nft.evolveIsDynamic,
-                        index: entry.key + 1,
-                      ))
+                  .map(
+                    (entry) => _EvolutionStateRow(
+                      entry.value,
+                      nftId: id,
+                      isDynamic: nft.evolveIsDynamic,
+                      index: entry.key + 1,
+                    ),
+                  )
                   .toList(),
             ],
           ),
@@ -335,9 +337,13 @@ class _EvolutionStateRow extends BaseComponent {
                                   if (confirmed == true) {
                                     final _provider = ref.read(
                                         nftDetailProvider(nftId).notifier);
+                                    final _model =
+                                        ref.read(nftDetailProvider(nftId));
 
-                                    final success =
-                                        await _provider.setEvolve(index);
+                                    final success = await _provider.setEvolve(
+                                      index,
+                                      _model!.address,
+                                    );
 
                                     if (success) {
                                       Toast.message(

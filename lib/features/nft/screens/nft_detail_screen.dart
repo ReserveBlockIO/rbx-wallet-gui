@@ -35,7 +35,7 @@ class NftDetailScreen extends BaseScreen {
     final nft = ref.watch(nftDetailProvider(id));
 
     return AppBar(
-      title: nft != null ? Text(nft.name) : Text("NFT"),
+      title: nft != null ? Text(nft.currentEvolveName) : Text("NFT"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
       actions: [
@@ -74,7 +74,7 @@ class NftDetailScreen extends BaseScreen {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  nft.name,
+                  nft.currentEvolveName,
                   style: Theme.of(context)
                       .textTheme
                       .headline4!
@@ -95,7 +95,7 @@ class NftDetailScreen extends BaseScreen {
                   height: 4,
                 ),
                 Text(
-                  nft.description,
+                  nft.currentEvolveDescription,
                   style: Theme.of(context).textTheme.headline6!.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.w400,
@@ -151,7 +151,7 @@ class NftDetailScreen extends BaseScreen {
                                 mainAxisSize: MainAxisSize.min,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  AssetCard(nft.primaryAsset),
+                                  AssetCard(nft.currentEvolveAsset),
                                   if (nft.additionalAssets.isNotEmpty)
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8),

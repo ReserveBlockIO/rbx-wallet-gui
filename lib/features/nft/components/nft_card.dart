@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
+import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
 import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
 import 'package:rbx_wallet/features/nft/modals/nft_management_modal.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
-class NftCard extends StatelessWidget {
+class NftCard extends BaseComponent {
   final Nft nft;
   final bool manageOnPress;
 
@@ -19,13 +22,15 @@ class NftCard extends StatelessWidget {
     this.manageOnPress = false,
   }) : super(key: key);
 
-  Future<void> _showDetails(BuildContext context) async {
+  Future<void> _showDetails(BuildContext context, WidgetRef ref) async {
     // final details = await NftService().retrieve(nft.id);
     // if (details == null) {
     //   Toast.error();
     //   return;
     // }
     // final _nft = nft.copyWith(code: details.code);
+
+    ref.read(nftDetailProvider(nft.id).notifier).init();
 
     if (manageOnPress) {
       showModalBottomSheet(
@@ -51,7 +56,7 @@ class NftCard extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     // return ListTile(
     //   onTap: () {
     //     _showDetails(context);
@@ -76,17 +81,17 @@ class NftCard extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        _showDetails(context);
+        _showDetails(context, ref);
       },
       child: Card(
         child: Stack(
           alignment: Alignment.center,
           children: [
-            nft.primaryAsset.isImage
+            nft.currentEvolveAsset.isImage
                 ? AspectRatio(
                     aspectRatio: 1,
                     child: Image.file(
-                      nft.primaryAsset.file,
+                      nft.currentEvolveAsset.file,
                       width: double.infinity,
                       fit: BoxFit.cover,
                     ),
@@ -102,7 +107,7 @@ class NftCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    nft.name,
+                    nft.currentEvolveName,
                     style: Theme.of(context).textTheme.displaySmall!.copyWith(
                       shadows: [
                         Shadow(
@@ -164,81 +169,6 @@ class NftCard extends StatelessWidget {
               ),
             ),
           ],
-        ),
-      ),
-    );
-
-    return InkWell(
-      onTap: () async {
-        _showDetails(context);
-      },
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                nft.name,
-                style: Theme.of(context).textTheme.headline5,
-              ),
-              Text(
-                nft.description,
-                style: Theme.of(context).textTheme.subtitle1,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              Divider(),
-              Text(
-                "Asset type: ${nft.primaryAsset.fileType}",
-                style: Theme.of(context).textTheme.caption,
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              Container(
-                // color: Colors.black87,
-                child: nft.primaryAsset.isImage
-                    ? AspectRatio(
-                        aspectRatio: 3,
-                        child: Image.file(
-                          nft.primaryAsset.file,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                        ),
-                      )
-                    : Icon(Icons.file_present_outlined),
-              ),
-              Divider(),
-              // Text("Features:", style: Theme.of(context).textTheme.bodyMedium),
-              // if (nft.features.isEmpty) Text("No features"),
-              SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: nft.featureList
-                      .map(
-                        (f) => ListTile(
-                          dense: true,
-                          visualDensity: VisualDensity.compact,
-                          contentPadding: EdgeInsets.zero,
-                          // leading: Icon(f.icon),
-                          title: Text(f.nameLabel),
-                          subtitle: Text(f.description),
-                        ),
-                      )
-                      .toList(),
-                ),
-              ),
-              // AppButton(
-              //   label: "View",
-              //   onPressed: () {
-              //     _showDetails(context);
-              //   },
-              // ),
-            ],
-          ),
         ),
       ),
     );

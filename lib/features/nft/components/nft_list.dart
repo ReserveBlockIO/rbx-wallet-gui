@@ -32,8 +32,6 @@ class NftList extends BaseComponent {
       itemBuilder: (context, index) {
         final nft = _model[int.parse(index.toString())];
 
-        print(nft);
-
         return NftListTile(
           nft,
           manageOnPress: minted,

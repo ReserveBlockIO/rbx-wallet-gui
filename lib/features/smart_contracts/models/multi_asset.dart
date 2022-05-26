@@ -20,8 +20,6 @@ abstract class MultiAsset with _$MultiAsset {
       _$MultiAssetFromJson(json);
 
   factory MultiAsset.fromCompiler(dynamic json) {
-    print(json.runtimeType);
-    print("-------");
     final List<Asset> assets = [];
     for (final asset in json) {
       assets.add(Asset.fromJson(asset));

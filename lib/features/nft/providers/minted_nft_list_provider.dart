@@ -16,7 +16,6 @@ class MintedNftListProvider extends StateNotifier<List<Nft>> {
 
   Future<void> load() async {
     final saved = await NftService().getSaved();
-    print(saved);
     final nfts = await NftService().minted()
       ..where((nft) => nft.manageable == true).toList();
 

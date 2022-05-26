@@ -171,10 +171,7 @@ class _FeatureCard extends BaseComponent {
                           showEditModal(TicketModal());
                           break;
                         case FeatureType.multiAsset:
-                          print("-------");
-                          print(feature.data);
                           final multiAsset = MultiAsset.fromJson(feature.data);
-                          print(multiAsset);
                           ref
                               .read(multiAssetFormProvider.notifier)
                               .setMultiAsset(multiAsset);

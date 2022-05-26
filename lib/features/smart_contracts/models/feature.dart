@@ -41,7 +41,6 @@ abstract class Feature with _$Feature {
     switch (f['FeatureName']) {
       case Evolve.compilerEnum:
         final payload = {'phases': f['FeatureFeatures']};
-
         return Feature(
           type: FeatureType.evolution,
           data: Evolve.fromCompiler(payload).toJson(),
@@ -120,7 +119,7 @@ abstract class Feature with _$Feature {
         return "${royalty.typeLabel} ${royalty.amountWithSuffix} [${royalty.address}]";
       case FeatureType.evolution:
         final evolve = Evolve.fromJson(data);
-        return "${evolve.isDynamic ? 'Automated/Application Controlled ' : 'Issuer/Minter Controlled '}${evolve.typeLabel} (${evolve.phases.length + 1} phase${evolve.phases.length + 1 == 1 ? '' : 's'})";
+        return "${evolve.phases.length + 1} phase${evolve.phases.length + 1 == 1 ? '' : 's'}";
       case FeatureType.ticket:
         final ticket = Ticket.fromJson(data);
         return "${ticket.typeLabel}: ${ticket.eventName} (${ticket.dateTimeLabel})";
