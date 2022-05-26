@@ -39,6 +39,8 @@ class _$CompiledSmartContractTearOff {
           required Asset primaryAsset,
       @JsonKey(name: "IsPublic")
           required bool isPublic,
+      @JsonKey(name: "IsPublished")
+          required bool isPublished,
       @JsonKey(name: "Features")
           List<Map<String, dynamic>> features = const []}) {
     return _CompiledSmartContract(
@@ -50,6 +52,7 @@ class _$CompiledSmartContractTearOff {
       signature: signature,
       primaryAsset: primaryAsset,
       isPublic: isPublic,
+      isPublished: isPublished,
       features: features,
     );
   }
@@ -80,6 +83,8 @@ mixin _$CompiledSmartContract {
   Asset get primaryAsset => throw _privateConstructorUsedError;
   @JsonKey(name: "IsPublic")
   bool get isPublic => throw _privateConstructorUsedError;
+  @JsonKey(name: "IsPublished")
+  bool get isPublished => throw _privateConstructorUsedError;
   @JsonKey(name: "Features")
   List<Map<String, dynamic>> get features => throw _privateConstructorUsedError;
 
@@ -103,6 +108,7 @@ abstract class $CompiledSmartContractCopyWith<$Res> {
       @JsonKey(name: "Signature") String? signature,
       @JsonKey(name: "SmartContractAsset") Asset primaryAsset,
       @JsonKey(name: "IsPublic") bool isPublic,
+      @JsonKey(name: "IsPublished") bool isPublished,
       @JsonKey(name: "Features") List<Map<String, dynamic>> features});
 
   $AssetCopyWith<$Res> get primaryAsset;
@@ -127,6 +133,7 @@ class _$CompiledSmartContractCopyWithImpl<$Res>
     Object? signature = freezed,
     Object? primaryAsset = freezed,
     Object? isPublic = freezed,
+    Object? isPublished = freezed,
     Object? features = freezed,
   }) {
     return _then(_value.copyWith(
@@ -162,6 +169,10 @@ class _$CompiledSmartContractCopyWithImpl<$Res>
           ? _value.isPublic
           : isPublic // ignore: cast_nullable_to_non_nullable
               as bool,
+      isPublished: isPublished == freezed
+          ? _value.isPublished
+          : isPublished // ignore: cast_nullable_to_non_nullable
+              as bool,
       features: features == freezed
           ? _value.features
           : features // ignore: cast_nullable_to_non_nullable
@@ -193,6 +204,7 @@ abstract class _$CompiledSmartContractCopyWith<$Res>
       @JsonKey(name: "Signature") String? signature,
       @JsonKey(name: "SmartContractAsset") Asset primaryAsset,
       @JsonKey(name: "IsPublic") bool isPublic,
+      @JsonKey(name: "IsPublished") bool isPublished,
       @JsonKey(name: "Features") List<Map<String, dynamic>> features});
 
   @override
@@ -220,6 +232,7 @@ class __$CompiledSmartContractCopyWithImpl<$Res>
     Object? signature = freezed,
     Object? primaryAsset = freezed,
     Object? isPublic = freezed,
+    Object? isPublished = freezed,
     Object? features = freezed,
   }) {
     return _then(_CompiledSmartContract(
@@ -255,6 +268,10 @@ class __$CompiledSmartContractCopyWithImpl<$Res>
           ? _value.isPublic
           : isPublic // ignore: cast_nullable_to_non_nullable
               as bool,
+      isPublished: isPublished == freezed
+          ? _value.isPublished
+          : isPublished // ignore: cast_nullable_to_non_nullable
+              as bool,
       features: features == freezed
           ? _value.features
           : features // ignore: cast_nullable_to_non_nullable
@@ -275,6 +292,7 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
       @JsonKey(name: "Signature") this.signature,
       @JsonKey(name: "SmartContractAsset") required this.primaryAsset,
       @JsonKey(name: "IsPublic") required this.isPublic,
+      @JsonKey(name: "IsPublished") required this.isPublished,
       @JsonKey(name: "Features") this.features = const []})
       : super._();
 
@@ -306,12 +324,15 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
   @JsonKey(name: "IsPublic")
   final bool isPublic;
   @override
+  @JsonKey(name: "IsPublished")
+  final bool isPublished;
+  @override
   @JsonKey(name: "Features")
   final List<Map<String, dynamic>> features;
 
   @override
   String toString() {
-    return 'CompiledSmartContract(name: $name, minterName: $minterName, description: $description, address: $address, id: $id, signature: $signature, primaryAsset: $primaryAsset, isPublic: $isPublic, features: $features)';
+    return 'CompiledSmartContract(name: $name, minterName: $minterName, description: $description, address: $address, id: $id, signature: $signature, primaryAsset: $primaryAsset, isPublic: $isPublic, isPublished: $isPublished, features: $features)';
   }
 
   @override
@@ -330,6 +351,8 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
             const DeepCollectionEquality()
                 .equals(other.primaryAsset, primaryAsset) &&
             const DeepCollectionEquality().equals(other.isPublic, isPublic) &&
+            const DeepCollectionEquality()
+                .equals(other.isPublished, isPublished) &&
             const DeepCollectionEquality().equals(other.features, features));
   }
 
@@ -344,6 +367,7 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
       const DeepCollectionEquality().hash(signature),
       const DeepCollectionEquality().hash(primaryAsset),
       const DeepCollectionEquality().hash(isPublic),
+      const DeepCollectionEquality().hash(isPublished),
       const DeepCollectionEquality().hash(features));
 
   @JsonKey(ignore: true)
@@ -368,6 +392,7 @@ abstract class _CompiledSmartContract extends CompiledSmartContract {
           @JsonKey(name: "Signature") String? signature,
           @JsonKey(name: "SmartContractAsset") required Asset primaryAsset,
           @JsonKey(name: "IsPublic") required bool isPublic,
+          @JsonKey(name: "IsPublished") required bool isPublished,
           @JsonKey(name: "Features") List<Map<String, dynamic>> features}) =
       _$_CompiledSmartContract;
   _CompiledSmartContract._() : super._();
@@ -399,6 +424,9 @@ abstract class _CompiledSmartContract extends CompiledSmartContract {
   @override
   @JsonKey(name: "IsPublic")
   bool get isPublic;
+  @override
+  @JsonKey(name: "IsPublished")
+  bool get isPublished;
   @override
   @JsonKey(name: "Features")
   List<Map<String, dynamic>> get features;

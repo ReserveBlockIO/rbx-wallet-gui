@@ -17,6 +17,7 @@ _$_Nft _$$_NftFromJson(Map<String, dynamic> json) => _$_Nft(
       primaryAsset:
           Asset.fromJson(json['SmartContractAsset'] as Map<String, dynamic>),
       isPublic: json['IsPublic'] as bool,
+      isPublished: json['IsPublished'] as bool,
       isMinter: json['IsMinter'] as bool,
       features: (json['Features'] as List<dynamic>?)
               ?.map((e) => e as Map<String, dynamic>)
@@ -35,6 +36,7 @@ Map<String, dynamic> _$$_NftToJson(_$_Nft instance) => <String, dynamic>{
       'Signature': instance.signature,
       'SmartContractAsset': instance.primaryAsset,
       'IsPublic': instance.isPublic,
+      'IsPublished': instance.isPublished,
       'IsMinter': instance.isMinter,
       'Features': instance.features,
       'code': instance.code,

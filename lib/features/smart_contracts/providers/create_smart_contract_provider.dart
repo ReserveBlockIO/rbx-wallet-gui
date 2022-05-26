@@ -288,6 +288,21 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
       saveMintedNft(state.id);
     }
 
+    final details = await SmartContractService().retrieve(state.id);
+
+    read(mySmartContractsProvider.notifier).load();
+    read(nftListProvider.notifier).load();
+
+    if (details != null) {
+      final wallets = read(walletListProvider);
+      final sc = SmartContract.fromCompiled(details, wallets);
+      read(createSmartContractProvider.notifier).setSmartContract(
+        sc.copyWith(
+          isPublished: true,
+        ),
+      );
+    }
+
     return success;
   }
 

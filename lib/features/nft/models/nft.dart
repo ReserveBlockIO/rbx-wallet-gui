@@ -22,6 +22,7 @@ abstract class Nft with _$Nft {
     @JsonKey(name: "Signature") String? signature,
     @JsonKey(name: "SmartContractAsset") required Asset primaryAsset,
     @JsonKey(name: "IsPublic") required bool isPublic,
+    @JsonKey(name: "IsPublished") required bool isPublished,
     @JsonKey(name: "IsMinter") required bool isMinter,
     @JsonKey(name: "Features", defaultValue: [])
         required List<Map<String, dynamic>> features,
@@ -44,6 +45,7 @@ abstract class Nft with _$Nft {
 
   bool get manageable {
     if (!isMinter) return false;
+    if (!isPublished) return false;
 
     for (final feature in featureList) {
       if (feature.type == FeatureType.evolution) {

@@ -17,6 +17,7 @@ abstract class CompiledSmartContract with _$CompiledSmartContract {
     @JsonKey(name: "Signature") String? signature,
     @JsonKey(name: "SmartContractAsset") required Asset primaryAsset,
     @JsonKey(name: "IsPublic") required bool isPublic,
+    @JsonKey(name: "IsPublished") required bool isPublished,
     @JsonKey(name: "Features") @Default([]) List<Map<String, dynamic>> features,
   }) = _CompiledSmartContract;
 

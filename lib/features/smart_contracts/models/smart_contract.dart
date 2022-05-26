@@ -92,6 +92,7 @@ abstract class SmartContract with _$SmartContract {
       multiAssets: multiAssets,
       code: details.code,
       isCompiled: ALLOW_DOUBLE_MINTES ? false : true,
+      isPublished: details.smartContract.isPublished,
     );
   }
 

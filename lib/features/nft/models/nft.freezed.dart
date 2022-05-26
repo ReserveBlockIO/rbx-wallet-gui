@@ -40,6 +40,8 @@ class _$NftTearOff {
           required Asset primaryAsset,
       @JsonKey(name: "IsPublic")
           required bool isPublic,
+      @JsonKey(name: "IsPublished")
+          required bool isPublished,
       @JsonKey(name: "IsMinter")
           required bool isMinter,
       @JsonKey(name: "Features", defaultValue: [])
@@ -55,6 +57,7 @@ class _$NftTearOff {
       signature: signature,
       primaryAsset: primaryAsset,
       isPublic: isPublic,
+      isPublished: isPublished,
       isMinter: isMinter,
       features: features,
       code: code,
@@ -89,6 +92,8 @@ mixin _$Nft {
   Asset get primaryAsset => throw _privateConstructorUsedError;
   @JsonKey(name: "IsPublic")
   bool get isPublic => throw _privateConstructorUsedError;
+  @JsonKey(name: "IsPublished")
+  bool get isPublished => throw _privateConstructorUsedError;
   @JsonKey(name: "IsMinter")
   bool get isMinter => throw _privateConstructorUsedError;
   @JsonKey(name: "Features", defaultValue: [])
@@ -123,6 +128,8 @@ abstract class $NftCopyWith<$Res> {
           Asset primaryAsset,
       @JsonKey(name: "IsPublic")
           bool isPublic,
+      @JsonKey(name: "IsPublished")
+          bool isPublished,
       @JsonKey(name: "IsMinter")
           bool isMinter,
       @JsonKey(name: "Features", defaultValue: [])
@@ -151,6 +158,7 @@ class _$NftCopyWithImpl<$Res> implements $NftCopyWith<$Res> {
     Object? signature = freezed,
     Object? primaryAsset = freezed,
     Object? isPublic = freezed,
+    Object? isPublished = freezed,
     Object? isMinter = freezed,
     Object? features = freezed,
     Object? code = freezed,
@@ -191,6 +199,10 @@ class _$NftCopyWithImpl<$Res> implements $NftCopyWith<$Res> {
       isPublic: isPublic == freezed
           ? _value.isPublic
           : isPublic // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isPublished: isPublished == freezed
+          ? _value.isPublished
+          : isPublished // ignore: cast_nullable_to_non_nullable
               as bool,
       isMinter: isMinter == freezed
           ? _value.isMinter
@@ -239,6 +251,8 @@ abstract class _$NftCopyWith<$Res> implements $NftCopyWith<$Res> {
           Asset primaryAsset,
       @JsonKey(name: "IsPublic")
           bool isPublic,
+      @JsonKey(name: "IsPublished")
+          bool isPublished,
       @JsonKey(name: "IsMinter")
           bool isMinter,
       @JsonKey(name: "Features", defaultValue: [])
@@ -269,6 +283,7 @@ class __$NftCopyWithImpl<$Res> extends _$NftCopyWithImpl<$Res>
     Object? signature = freezed,
     Object? primaryAsset = freezed,
     Object? isPublic = freezed,
+    Object? isPublished = freezed,
     Object? isMinter = freezed,
     Object? features = freezed,
     Object? code = freezed,
@@ -310,6 +325,10 @@ class __$NftCopyWithImpl<$Res> extends _$NftCopyWithImpl<$Res>
           ? _value.isPublic
           : isPublic // ignore: cast_nullable_to_non_nullable
               as bool,
+      isPublished: isPublished == freezed
+          ? _value.isPublished
+          : isPublished // ignore: cast_nullable_to_non_nullable
+              as bool,
       isMinter: isMinter == freezed
           ? _value.isMinter
           : isMinter // ignore: cast_nullable_to_non_nullable
@@ -339,6 +358,7 @@ class _$_Nft extends _Nft {
       @JsonKey(name: "Signature") this.signature,
       @JsonKey(name: "SmartContractAsset") required this.primaryAsset,
       @JsonKey(name: "IsPublic") required this.isPublic,
+      @JsonKey(name: "IsPublished") required this.isPublished,
       @JsonKey(name: "IsMinter") required this.isMinter,
       @JsonKey(name: "Features", defaultValue: []) required this.features,
       this.code})
@@ -374,6 +394,9 @@ class _$_Nft extends _Nft {
   @JsonKey(name: "IsPublic")
   final bool isPublic;
   @override
+  @JsonKey(name: "IsPublished")
+  final bool isPublished;
+  @override
   @JsonKey(name: "IsMinter")
   final bool isMinter;
   @override
@@ -384,7 +407,7 @@ class _$_Nft extends _Nft {
 
   @override
   String toString() {
-    return 'Nft(name: $name, description: $description, address: $address, minterAddress: $minterAddress, minterName: $minterName, id: $id, signature: $signature, primaryAsset: $primaryAsset, isPublic: $isPublic, isMinter: $isMinter, features: $features, code: $code)';
+    return 'Nft(name: $name, description: $description, address: $address, minterAddress: $minterAddress, minterName: $minterName, id: $id, signature: $signature, primaryAsset: $primaryAsset, isPublic: $isPublic, isPublished: $isPublished, isMinter: $isMinter, features: $features, code: $code)';
   }
 
   @override
@@ -405,6 +428,8 @@ class _$_Nft extends _Nft {
             const DeepCollectionEquality()
                 .equals(other.primaryAsset, primaryAsset) &&
             const DeepCollectionEquality().equals(other.isPublic, isPublic) &&
+            const DeepCollectionEquality()
+                .equals(other.isPublished, isPublished) &&
             const DeepCollectionEquality().equals(other.isMinter, isMinter) &&
             const DeepCollectionEquality().equals(other.features, features) &&
             const DeepCollectionEquality().equals(other.code, code));
@@ -422,6 +447,7 @@ class _$_Nft extends _Nft {
       const DeepCollectionEquality().hash(signature),
       const DeepCollectionEquality().hash(primaryAsset),
       const DeepCollectionEquality().hash(isPublic),
+      const DeepCollectionEquality().hash(isPublished),
       const DeepCollectionEquality().hash(isMinter),
       const DeepCollectionEquality().hash(features),
       const DeepCollectionEquality().hash(code));
@@ -457,6 +483,8 @@ abstract class _Nft extends Nft {
           required Asset primaryAsset,
       @JsonKey(name: "IsPublic")
           required bool isPublic,
+      @JsonKey(name: "IsPublished")
+          required bool isPublished,
       @JsonKey(name: "IsMinter")
           required bool isMinter,
       @JsonKey(name: "Features", defaultValue: [])
@@ -493,6 +521,9 @@ abstract class _Nft extends Nft {
   @override
   @JsonKey(name: "IsPublic")
   bool get isPublic;
+  @override
+  @JsonKey(name: "IsPublished")
+  bool get isPublished;
   @override
   @JsonKey(name: "IsMinter")
   bool get isMinter;

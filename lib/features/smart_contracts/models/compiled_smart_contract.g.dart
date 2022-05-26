@@ -18,6 +18,7 @@ _$_CompiledSmartContract _$$_CompiledSmartContractFromJson(
       primaryAsset:
           Asset.fromJson(json['SmartContractAsset'] as Map<String, dynamic>),
       isPublic: json['IsPublic'] as bool,
+      isPublished: json['IsPublished'] as bool,
       features: (json['Features'] as List<dynamic>?)
               ?.map((e) => e as Map<String, dynamic>)
               .toList() ??
@@ -35,5 +36,6 @@ Map<String, dynamic> _$$_CompiledSmartContractToJson(
       'Signature': instance.signature,
       'SmartContractAsset': instance.primaryAsset,
       'IsPublic': instance.isPublic,
+      'IsPublished': instance.isPublished,
       'Features': instance.features,
     };

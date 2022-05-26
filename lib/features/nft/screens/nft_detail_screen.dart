@@ -250,25 +250,27 @@ class NftDetailScreen extends BaseScreen {
                 label: "Transfer",
                 helpType: HelpType.transfer,
                 icon: Icons.send,
-                onPressed: () {
-                  PromptModal.show(
-                    title: "Transfer NFT",
-                    validator: (value) => formValidatorRbxAddress(value),
-                    labelText: "RBX Address",
-                    confirmText: "Transfer",
-                    onValidSubmission: (address) async {
-                      final success = await _provider.transfer(address);
-                      if (success) {
-                        Toast.message(
-                            "Transfer transaction sent successfully!");
-                      } else {
-                        Toast.error();
+                onPressed: nft.isPublished
+                    ? () {
+                        PromptModal.show(
+                          title: "Transfer NFT",
+                          validator: (value) => formValidatorRbxAddress(value),
+                          labelText: "RBX Address",
+                          confirmText: "Transfer",
+                          onValidSubmission: (address) async {
+                            final success = await _provider.transfer(address);
+                            if (success) {
+                              Toast.message(
+                                  "Transfer transaction sent successfully!");
+                            } else {
+                              Toast.error();
+                            }
+                          },
+                        );
                       }
-                    },
-                  );
-                },
+                    : null,
               ),
-              if (!nft.manageable)
+              if (nft.manageable)
                 AppButton(
                   label: "Manage",
                   icon: Icons.settings,
@@ -312,27 +314,30 @@ class NftDetailScreen extends BaseScreen {
                 icon: Icons.fire_hydrant,
                 helpType: HelpType.burn,
                 variant: AppColorVariant.Danger,
-                onPressed: () async {
-                  final confirmed = await ConfirmDialog.show(
-                    title: "Burn NFT?",
-                    body: "Are you sure you want to burn ${nft.name}",
-                    destructive: true,
-                    confirmText: "Burn",
-                    cancelText: "Cancel",
-                  );
+                onPressed: nft.isPublished
+                    ? () async {
+                        final confirmed = await ConfirmDialog.show(
+                          title: "Burn NFT?",
+                          body: "Are you sure you want to burn ${nft.name}",
+                          destructive: true,
+                          confirmText: "Burn",
+                          cancelText: "Cancel",
+                        );
 
-                  if (confirmed == true) {
-                    final success = await _provider.burn();
+                        if (confirmed == true) {
+                          final success = await _provider.burn();
 
-                    if (success) {
-                      Toast.message("Burn transaction sent successfully!");
-                      ref.read(mySmartContractsProvider.notifier).load();
-                      Navigator.of(context).pop();
-                    } else {
-                      Toast.error();
-                    }
-                  }
-                },
+                          if (success) {
+                            Toast.message(
+                                "Burn transaction sent successfully!");
+                            ref.read(mySmartContractsProvider.notifier).load();
+                            Navigator.of(context).pop();
+                          } else {
+                            Toast.error();
+                          }
+                        }
+                      }
+                    : null,
               ),
             ],
           ),
