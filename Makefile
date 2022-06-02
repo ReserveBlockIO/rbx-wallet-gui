@@ -18,23 +18,23 @@ gen_watch:
 # 	cp -r ./installers/resources/macos-intel/RBXCore/ ./build/macos/Build/Products/Release/RBXWallet.app/Contents/Resources/RBXCore
 # 	appdmg ./installers/dmg/config.json ./installers/exports/RBX-OSX-Installer.dmg
 
-prep_mac:
-	# cd ../Core-Cli && dotnet publish -c Release -r osx-x64 -p:PublishReadyToRun=true --self-contained true
-	# cd ../rbx_wallet
+# prep_mac:
+# 	# cd ../Core-Cli && dotnet publish -c Release -r osx-x64 -p:PublishReadyToRun=true --self-contained true
+# 	# cd ../rbx_wallet
 
-	cp -rf installers/resources/macos-intel/RBXCore2/ ./macos/Runner/Resources/RBXCore
+# 	cp -rf installers/resources/macos-intel/RBXCore2/ ./macos/Runner/Resources/RBXCore
 	
-	# cp -rf ../Core-CLI/ReserveBlockCore/bin/Release/net6.0/osx-x64/publish ./macos/Runner/Resources/RBXCore
-	# rm ./macos/Runner/Resources/RBXCore/createdump
-	# cp -rf ./installers/resources/macos-intel/RBXCore/ ./macos/Runner/Resources/RBXCore/
-	# cp -rf ./installers/resources/macos-intel/RBXCore ./macos/Runner/Resources/RBXCore
-	codesign --force --timestamp --options=runtime -s "Developer ID Application: The Young Astronauts Inc. (X3F8QAUJZ3)" ./macos/Runner/Resources/RBXCore/ReserveBlockCore
-	# codesign --force --timestamp --options=runtime -s "Developer ID Application: The Young Astronauts Inc. (X3F8QAUJZ3)" ./macos/Runner/Resources/RBXCore/createdump
+# 	# cp -rf ../Core-CLI/ReserveBlockCore/bin/Release/net6.0/osx-x64/publish ./macos/Runner/Resources/RBXCore
+# 	# rm ./macos/Runner/Resources/RBXCore/createdump
+# 	# cp -rf ./installers/resources/macos-intel/RBXCore/ ./macos/Runner/Resources/RBXCore/
+# 	# cp -rf ./installers/resources/macos-intel/RBXCore ./macos/Runner/Resources/RBXCore
+# 	codesign --force --timestamp --options=runtime -s "Developer ID Application: The Young Astronauts Inc. (X3F8QAUJZ3)" ./macos/Runner/Resources/RBXCore/ReserveBlockCore
+# 	# codesign --force --timestamp --options=runtime -s "Developer ID Application: The Young Astronauts Inc. (X3F8QAUJZ3)" ./macos/Runner/Resources/RBXCore/createdump
 
-	# codesign -d --force --options runtime --verbose=4 -s "Developer ID Application: The Young Astronauts Inc. (X3F8QAUJZ3)" --entitlements "./macos/Runner/ReserveBlockCore.entitlements" ./macos/Runner/Resources/RBXCore/ReserveBlockCore
-	# codesign -d --force --timestamp --options runtime -s "Developer ID Application: The Young Astronauts Inc. (X3F8QAUJZ3)" --entitlements "./macos/Runner/createdump.entitlements" ./macos/Runner/Resources/RBXCore/createdump
-	# codesign --remove-signature ./macos/Runner/Resources/RBXCore/ReserveBlockCore
-	# codesign --remove-signature ./macos/Runner/Resources/RBXCore/createdump
+# 	# codesign -d --force --options runtime --verbose=4 -s "Developer ID Application: The Young Astronauts Inc. (X3F8QAUJZ3)" --entitlements "./macos/Runner/ReserveBlockCore.entitlements" ./macos/Runner/Resources/RBXCore/ReserveBlockCore
+# 	# codesign -d --force --timestamp --options runtime -s "Developer ID Application: The Young Astronauts Inc. (X3F8QAUJZ3)" --entitlements "./macos/Runner/createdump.entitlements" ./macos/Runner/Resources/RBXCore/createdump
+# 	# codesign --remove-signature ./macos/Runner/Resources/RBXCore/ReserveBlockCore
+# 	# codesign --remove-signature ./macos/Runner/Resources/RBXCore/createdump
 	
 
 
@@ -46,6 +46,11 @@ package_mac:
 	mkdir ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
 	cp -r ../Core-CLI/ReserveBlockCore/bin/Release/net6.0/osx-x64/publish/ ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
 	appdmg ./installers/dmg/config.json ./installers/exports/RBX-OSX-Intel-Installer.dmg
+	cp -rf ../Core-CLI/ReserveBlockCore/bin/Release/net6.0/osx-x64/publish/ ./installers/resources/macos-intel/RBXCore/
+	rm -f ./installers/exports/rbx-corecli-mac-intel.zip
+	cd ./installers/resources/Runner/RBXWallet.app/Contents/Resources/
+	zip -r /Users/tylersavery/Projects/rbx/rbx_wallet/installers/exports/rbx-corecli-mac-intel.zip ./RBXCore/
+	cd /Users/tylersavery/Projects/rbx/rbx_wallet/
 
 
 package_m1:
@@ -56,6 +61,10 @@ package_m1:
 	mkdir ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
 	cp -r ../Core-CLI/ReserveBlockCore/bin/Release/net6.0/osx-x64/publish/ ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
 	appdmg ./installers/dmg/config.json ./installers/exports/RBX-OSX-ARM-Installer.dmg
+	rm -f ./installers/exports/rbx-corecli-mac-arm.zip
+	cd ./installers/resources/Runner/RBXWallet.app/Contents/Resources/
+	zip -r /Users/tylersavery/Projects/rbx/rbx_wallet/installers/exports/rbx-corecli-mac-arm.zip ./RBXCore/
+	cd /Users/tylersavery/Projects/rbx/rbx_wallet/
 	
 
 
