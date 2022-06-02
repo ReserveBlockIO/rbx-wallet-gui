@@ -184,7 +184,8 @@ class HomeScreen extends BaseScreen {
                     if (Platform.isMacOS) {
                       appDocPath = appDocPath.replaceAll("/Documents", "/rbx");
                     } else {
-                      appDocPath = appDocDir.path;
+                    final winDir = await getApplicationSupportDirectory();
+                      appDocPath = winDir.path;
                       appDocPath = appDocPath.replaceAll(
                           "\\Roaming\\com.example\\rbx_wallet_gui",
                           "\\Local\\rbx");
