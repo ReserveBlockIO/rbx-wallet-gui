@@ -25,7 +25,7 @@ class FileSelector extends StatelessWidget {
     required this.onChange,
     this.asset,
     this.readOnly = false,
-    this.withAuthorName = true,
+    this.withAuthorName = false,
     this.allowReplace = true,
   }) : super(key: key);
 

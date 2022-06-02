@@ -39,6 +39,7 @@ dependencies:
   particles_flutter: ^0.1.4
   animate_icons: ^2.0.0
   gif_view: ^0.0.1
+  open_file: ^3.2.1
 
 dev_dependencies:
   auto_route_generator: ^3.2.1

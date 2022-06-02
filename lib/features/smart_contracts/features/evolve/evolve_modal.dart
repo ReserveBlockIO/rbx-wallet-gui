@@ -107,17 +107,19 @@ class EvolveModal extends BaseComponent {
               type: _model.type,
               phase: phase,
               index: index,
-              canDelete: index + 1 == _model.phases.length,
+              isLast: index + 1 == _model.phases.length,
             );
           }).toList(),
-          ModalBottomActions(onConfirm: () {
-            for (var i = 0; i < _model.phases.length; i++) {
-              ref.read(evolvePhaseFormProvider(i).notifier).save();
-            }
+          ModalBottomActions(
+              showConfirm: false,
+              onConfirm: () {
+                for (var i = 0; i < _model.phases.length; i++) {
+                  ref.read(evolvePhaseFormProvider(i).notifier).save();
+                }
 
-            _provider.complete();
-            Navigator.of(context).pop();
-          })
+                _provider.complete();
+                Navigator.of(context).pop();
+              })
         ],
       ),
     );
@@ -128,14 +130,14 @@ class _EvolvePhaseContainer extends BaseComponent {
   final EvolveType type;
   final EvolvePhase phase;
   final int index;
-  final bool canDelete;
+  final bool isLast;
 
   const _EvolvePhaseContainer({
     Key? key,
     required this.type,
     required this.phase,
     required this.index,
-    this.canDelete = false,
+    this.isLast = false,
   }) : super(key: key);
 
   @override
@@ -177,6 +179,22 @@ class _EvolvePhaseContainer extends BaseComponent {
     bool _save() {
       if (!_formKey.currentState!.validate()) return false;
 
+      // if(_provider.nameController.text.isEmpty) {
+
+      // }
+
+      //   final _evolveModel = ref.read(evolveFormProvider);
+      // final _model = ref.read(evolvePhaseFormProvider(index));
+
+      // switch(_evolveModel.type) {
+      //   case EvolveType.blockHeight:
+      //     if()
+      // }
+
+      // if(_evolveModel.type == EvolveType.blockHeight){
+
+      // }
+
       return _provider.save();
     }
 
@@ -212,6 +230,7 @@ class _EvolvePhaseContainer extends BaseComponent {
                           Expanded(
                             child: TextFormField(
                               controller: _provider.dateController,
+                              validator: _provider.dateTimeValidator,
                               onTap: () {
                                 _showDatePicker();
                               },
@@ -239,6 +258,7 @@ class _EvolvePhaseContainer extends BaseComponent {
                           Expanded(
                             child: TextFormField(
                               controller: _provider.timeController,
+                              validator: _provider.dateTimeValidator,
                               onTap: () {
                                 _showTimePicker();
                               },
@@ -270,6 +290,7 @@ class _EvolvePhaseContainer extends BaseComponent {
                           Expanded(
                             child: TextFormField(
                               controller: _provider.blockHeightController,
+                              validator: _provider.blockHeightValidator,
                               inputFormatters: [
                                 FilteringTextInputFormatter.allow(
                                   RegExp("[0-9]"),
@@ -342,59 +363,67 @@ class _EvolvePhaseContainer extends BaseComponent {
                       minLines: 3,
                       maxLines: 6,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          IconButton(
-                            onPressed: canDelete
-                                ? () async {
-                                    final confirmed = await ConfirmDialog.show(
-                                      title: "Delete Stage",
-                                      body:
-                                          "Are you sure you want to delete this stage?",
-                                      confirmText: "Delete",
-                                      destructive: true,
-                                    );
+                    if (isLast)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            IconButton(
+                              onPressed: () async {
+                                final confirmed = await ConfirmDialog.show(
+                                  title: "Delete Stage",
+                                  body:
+                                      "Are you sure you want to delete this stage?",
+                                  confirmText: "Delete",
+                                  destructive: true,
+                                );
 
-                                    if (confirmed == true) {
-                                      _evolveProvider.removePhase(index);
-                                    }
-                                  }
-                                : null,
-                            icon: Icon(
-                              Icons.delete,
-                              color: Theme.of(context).colorScheme.danger,
+                                if (confirmed == true) {
+                                  _evolveProvider.removePhase(index);
+                                }
+                              },
+                              icon: Icon(
+                                Icons.delete,
+                                color: Theme.of(context).colorScheme.danger,
+                              ),
                             ),
-                          ),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              // AppButton(
-                              //   label: "Save",
-                              //   onPressed: () {
-                              //     _save();
-                              //   },
-                              // ),
-                              // SizedBox(
-                              //   width: 4,
-                              // ),
-                              if (canAddPhase)
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                if (canAddPhase)
+                                  AppButton(
+                                    label: "Create New Phase",
+                                    icon: Icons.add,
+                                    variant: AppColorVariant.Light,
+                                    onPressed: () {
+                                      final success = _save();
+                                      if (success == true) {
+                                        _evolveProvider.addPhase();
+                                      }
+                                    },
+                                  ),
+                                SizedBox(
+                                  width: 4,
+                                ),
                                 AppButton(
-                                  label: "Add Phase",
+                                  label: "Save and Close",
+                                  icon: Icons.save,
+                                  variant: AppColorVariant.Success,
                                   onPressed: () {
                                     final success = _save();
                                     if (success == true) {
-                                      _evolveProvider.addPhase();
+                                      // _evolveProvider.addPhase();
+                                      _evolveProvider.complete();
+                                      Navigator.of(context).pop();
                                     }
                                   },
                                 ),
-                            ],
-                          )
-                        ],
-                      ),
-                    )
+                              ],
+                            )
+                          ],
+                        ),
+                      )
                   ],
                 ),
               ),

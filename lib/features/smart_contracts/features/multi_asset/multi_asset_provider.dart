@@ -28,7 +28,11 @@ class MultiAssetFormProvider extends StateNotifier<MultiAsset> {
   }
 
   void complete() {
-    read(createSmartContractProvider.notifier).saveMultiAsset(state);
+    if (state.assets.isEmpty) {
+      read(createSmartContractProvider.notifier).removeMultiAsset(state);
+    } else {
+      read(createSmartContractProvider.notifier).saveMultiAsset(state);
+    }
     clear();
   }
 }

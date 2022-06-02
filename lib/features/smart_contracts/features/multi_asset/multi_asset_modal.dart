@@ -43,6 +43,13 @@ class MultiAssetModal extends BaseComponent {
       ),
       ModalBottomActions(
         onConfirm: () {
+          // if (_model.assets.isEmpty) {
+          //   Navigator.of(context).pop();
+          //   _provider.clear();
+
+          //   return;
+          // }
+
           _provider.complete();
           Navigator.of(context).pop();
         },

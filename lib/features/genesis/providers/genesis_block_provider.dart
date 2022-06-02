@@ -10,7 +10,6 @@ class GenesisBlockProvider extends StateNotifier<GenesisBlock?> {
 
   Future<void> load() async {
     final gb = await BridgeService().genesisBlock();
-    print(gb);
     state = gb;
   }
 }

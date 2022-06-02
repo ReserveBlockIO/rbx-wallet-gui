@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
+import 'package:rbx_wallet/features/nft/providers/burned_provider.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
 import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
 import 'package:rbx_wallet/features/nft/modals/nft_management_modal.dart';
@@ -46,11 +47,15 @@ class NftListTile extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isBurned = ref.watch(burnedProvider).contains(nft.id);
+
     return ListTile(
-      onTap: () {
-        _showDetails(context, ref);
-      },
-      title: Text(nft.currentEvolveName),
+      onTap: isBurned
+          ? null
+          : () {
+              _showDetails(context, ref);
+            },
+      title: Text("${nft.currentEvolveName}${isBurned ? ' (Burned)' : ''}"),
       subtitle: Text(nft.currentEvolveDescription),
       leading: Builder(
         builder: (context) {

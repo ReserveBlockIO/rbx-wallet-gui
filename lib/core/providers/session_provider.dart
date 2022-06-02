@@ -19,8 +19,13 @@ import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
 import 'package:rbx_wallet/features/bridge/providers/status_provider.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
+import 'package:rbx_wallet/features/nft/providers/minted_nft_list_provider.dart';
+import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
+import 'package:rbx_wallet/features/nft/providers/nft_list_view_provider.dart';
 import 'package:rbx_wallet/features/node/providers/node_info_provider.dart';
 import 'package:rbx_wallet/features/node/providers/node_list_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/providers/draft_smart_contracts_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/providers/my_smart_contracts_provider.dart';
 import 'package:rbx_wallet/features/transactions/providers/transaction_list_provider.dart';
 import 'package:rbx_wallet/features/validator/providers/current_validator_provider.dart';
 import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
@@ -153,6 +158,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
     await loadMasterNodes();
     await loadPeerInfo();
     await loadTransactions();
+    await loadSmartContracts();
 
     // await _checkBlockSyncStatus();
   }
@@ -279,6 +285,14 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
   Future<void> loadTransactions() async {
     await read(transactionListProvider.notifier).load();
+  }
+
+  Future<void> loadSmartContracts() async {
+    print("loadSmartContracts()");
+    await read(mySmartContractsProvider.notifier).load();
+    await read(nftListProvider.notifier).load();
+    await read(mintedNftListProvider.notifier).load();
+    await read(draftsSmartContractProvider.notifier).load();
   }
 
   void setCurrentWallet(Wallet wallet) {
@@ -478,7 +492,10 @@ class SessionProvider extends StateNotifier<SessionModel> {
           return false;
         }
       } else {
-        final shell = Shell(throwOnError: false);
+        var stdOutController = ShellLinesController();
+        final shell = Shell(
+            throwOnError: false,
+            stdout: Env.hideCliOutput ? stdOutController.sink : null);
         cmd = '"$cliPath" ${options.join(' ')}';
 
         read(logProvider.notifier)

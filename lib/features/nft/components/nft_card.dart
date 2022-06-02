@@ -5,6 +5,7 @@ import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
+import 'package:rbx_wallet/features/nft/providers/burned_provider.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
 import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
 import 'package:rbx_wallet/features/nft/modals/nft_management_modal.dart';
@@ -79,10 +80,14 @@ class NftCard extends BaseComponent {
     //   trailing: Icon(Icons.chevron_right),
     // );
 
+    final isBurned = ref.watch(burnedProvider).contains(nft.id);
+
     return InkWell(
-      onTap: () {
-        _showDetails(context, ref);
-      },
+      onTap: isBurned
+          ? null
+          : () {
+              _showDetails(context, ref);
+            },
       child: Card(
         child: Stack(
           alignment: Alignment.center,
@@ -182,6 +187,18 @@ class NftCard extends BaseComponent {
                 ),
               ),
             ),
+            if (isBurned)
+              Container(
+                color: Colors.black54,
+                child: Center(
+                    child: Text(
+                  "Burned",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )),
+              )
           ],
         ),
       ),

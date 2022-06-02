@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_form_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
 import 'package:rbx_wallet/utils/validation.dart';
@@ -32,11 +33,41 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
   String? descriptionValidator(String? val) =>
       formValidatorNotEmpty(val, "Description");
 
+  String? dateTimeValidator(String? val) {
+    if (read(evolveFormProvider).type != EvolveType.time) {
+      return null;
+    }
+
+    if (val == null || val.isEmpty) {
+      return "Required for Date/Time evolution.";
+    }
+
+    return null;
+  }
+
+  String? blockHeightValidator(String? val) {
+    if (read(evolveFormProvider).type != EvolveType.blockHeight) {
+      return null;
+    }
+
+    if (val == null || val.isEmpty) {
+      return "Required for Block Height evolution.";
+    }
+
+    final parsed = int.tryParse(val);
+    if (parsed == null) {
+      return "Invalid value";
+    }
+
+    return null;
+  }
+
   void setPhase(EvolvePhase phase) {
     state = phase;
     nameController.text = phase.name;
     descriptionController.text = phase.description;
-    blockHeightController.text = phase.blockHeight.toString();
+    blockHeightController.text =
+        phase.blockHeight == null ? '' : phase.blockHeight.toString();
   }
 
   bool save() {

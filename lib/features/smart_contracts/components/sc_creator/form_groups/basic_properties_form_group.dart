@@ -8,6 +8,7 @@ import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common
 import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
+import 'package:rbx_wallet/utils/validation.dart';
 
 class BasicPropertiesFormGroup extends BaseComponent {
   const BasicPropertiesFormGroup({Key? key}) : super(key: key);
@@ -49,9 +50,11 @@ class BasicPropertiesFormGroup extends BaseComponent {
                 child: TextFormField(
                   readOnly: _model.isCompiled,
                   controller: _provider.minterNameController,
+                  validator: (val) =>
+                      formValidatorNotEmpty(val, "Minter/Creator Name"),
                   decoration: InputDecoration(
                     label: Text(
-                      "Minter Name (optional)",
+                      "Minter/Creator Name",
                       style: TextStyle(color: Colors.white),
                     ),
                     suffixIcon: HelpButton(HelpType.minterName),

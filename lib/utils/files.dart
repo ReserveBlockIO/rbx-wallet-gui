@@ -1,6 +1,7 @@
 import 'dart:io';
 
 // import 'package:process_run/shell.dart';
+import 'package:open_file/open_file.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // openFile(String path) {
@@ -14,7 +15,9 @@ import 'package:url_launcher/url_launcher.dart';
 // }
 
 Future<void> openFile(File file) async {
-  final path = file.path;
+  final path = File.fromUri(file.uri).path;
 
-  launch("file://$path");
+  OpenFile.open(path);
+
+  // launch("file://$path");
 }

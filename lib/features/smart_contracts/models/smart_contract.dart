@@ -131,7 +131,7 @@ abstract class SmartContract with _$SmartContract {
     for (final e in evolves) {
       final f = {
         'FeatureName': Evolve.compilerEnum,
-        'FeatureFeatures': e.serializeForCompiler()
+        'FeatureFeatures': e.serializeForCompiler(minterName)
       };
 
       features.add(f);
@@ -158,7 +158,7 @@ abstract class SmartContract with _$SmartContract {
       minterName: minterName,
       description: description,
       address: owner.address,
-      asset: primaryAsset!,
+      asset: primaryAsset!.copyWith(authorName: minterName),
       features: features,
       uuid: "00000000-0000-0000-0000-000000000000",
       signature: null,

@@ -88,6 +88,19 @@ class SmartContractService extends BaseService {
     return smartContracts;
   }
 
+  void deleteFromStorage(SmartContract smartContract) {
+    print(smartContract.draftId);
+    print("!!!!!!!");
+    final existing = loadRawFromStorage();
+
+    final updated = [
+      ...existing
+        ..removeWhere((element) => element['draftId'] == smartContract.draftId)
+    ];
+
+    singleton<Storage>().setList(Storage.LOCAL_SMART_CONTRACTS, updated);
+  }
+
   void saveToStorage(SmartContract smartContract) {
     final existing = loadRawFromStorage();
 
@@ -130,8 +143,7 @@ class SmartContractService extends BaseService {
 
   Future<bool> transfer(String id, String address) async {
     try {
-      final response = await getText("/TransferNFT/$id/$address");
-      print(response);
+      await getText("/TransferNFT/$id/$address");
       return true;
     } catch (e) {
       print(e);
@@ -141,8 +153,7 @@ class SmartContractService extends BaseService {
 
   Future<bool> evolve(String id, String toAddress, int stage) async {
     try {
-      final response = await getText("/EvolveSpecific/$id/$toAddress/$stage");
-      print(response);
+      await getText("/EvolveSpecific/$id/$toAddress/$stage");
 
       return true;
     } catch (e) {

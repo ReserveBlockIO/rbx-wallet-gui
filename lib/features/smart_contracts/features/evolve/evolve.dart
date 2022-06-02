@@ -83,7 +83,7 @@ abstract class Evolve with _$Evolve {
     try {
       phases = data['phases'];
     } catch (e) {
-      print(e);
+      // print(e);
       phases = [data];
     }
 
@@ -151,7 +151,7 @@ abstract class Evolve with _$Evolve {
     );
   }
 
-  List<Map<String, dynamic>> serializeForCompiler() {
+  List<Map<String, dynamic>> serializeForCompiler(String minterName) {
     List<EvolvePhase> _phases = [...phases];
 
     if (type == EvolveType.time) {
@@ -180,7 +180,9 @@ abstract class Evolve with _$Evolve {
         // 'EvolveParamaterType': typeToInt(type),
         // 'EvolveParamater':
         //     type == EvolveType.time ? p.dateTime.toString() : p.expectedValue,
-        'SmartContractAsset': p.asset != null ? p.asset!.toJson() : null,
+        'SmartContractAsset': p.asset != null
+            ? p.asset!.copyWith(authorName: minterName).toJson()
+            : null,
         'EvolveDate': type == EvolveType.time ? p.dateTimeForCompiler : null,
         'EvolveBlockHeight':
             type == EvolveType.blockHeight ? p.blockHeight : null,

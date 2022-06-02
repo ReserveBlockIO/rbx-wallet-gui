@@ -71,7 +71,8 @@ class _CompileAnimationState extends State<CompileAnimation>
                 ),
                 SizedBox(height: 8),
                 Text(
-                  widget.mint ? "Minting…" : "Compiling…",
+                  widget.mint ? "Minting…" : "Compiling & Minting…",
+                  textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme
                       .headline6!

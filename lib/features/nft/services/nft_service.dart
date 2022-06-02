@@ -99,17 +99,21 @@ class NftService extends BaseService {
 
     final List<Nft> nfts = [];
     for (final id in ids) {
-      final response = await getText('/GetSmartContractData/$id');
+      try {
+        final response = await getText('/GetSmartContractData/$id');
 
-      if (response.isNotEmpty) {
-        try {
-          final data = jsonDecode(response);
-          Nft nft = Nft.fromJson(data);
-          nfts.add(nft);
-        } catch (e) {
-          print('problem loading nft from json');
-          print(e);
+        if (response.isNotEmpty) {
+          try {
+            final data = jsonDecode(response);
+            Nft nft = Nft.fromJson(data);
+            nfts.add(nft);
+          } catch (e) {
+            print('problem loading nft from json');
+            print(e);
+          }
         }
+      } catch (e) {
+        print("Could not fetch data for $id");
       }
     }
 

@@ -6,6 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/core/singletons.dart';
+import 'package:rbx_wallet/core/storage.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/providers/minted_nft_list_provider.dart';
@@ -25,6 +27,7 @@ import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_serv
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:collection/collection.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
+import 'package:rbx_wallet/utils/generators.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 class CreateSmartContractProvider extends StateNotifier<SmartContract> {
@@ -194,7 +197,7 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
 
   // saving
 
-  void _preSave() {
+  void preSave() {
     state = state.copyWith(
       name: nameController.text,
       minterName: minterNameController.text,
@@ -203,7 +206,12 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
   }
 
   void saveDraft() {
-    _preSave();
+    preSave();
+
+    if (state.draftId.isEmpty) {
+      state = state.copyWith(draftId: uniqueId());
+    }
+
     SmartContractService().saveToStorage(state);
 
     read(draftsSmartContractProvider.notifier).load();
@@ -226,9 +234,9 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
       errors.add("- Name is required");
     }
 
-    // if (state.minterName.isEmpty) {
-    //   errors.add("- Minter name is required");
-    // }
+    if (state.minterName.isEmpty) {
+      errors.add("- Minter name is required");
+    }
 
     if (state.description.isEmpty) {
       errors.add("- Description is required");
@@ -238,19 +246,6 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
   }
 
   Future<CompiledSmartContract?> compile() async {
-    _preSave();
-
-    final errors = isValidForCompile();
-    if (errors.isNotEmpty) {
-      InfoDialog.show(
-        title: "Invalid Smart Contract",
-        body: errors.join("\n"),
-        closeText: "Okay",
-      );
-
-      return null;
-    }
-
     final payload = state.serializeForCompiler();
 
     final csc = await SmartContractService().compileSmartContract(payload);
@@ -269,6 +264,7 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
     read(nftListProvider.notifier).load();
 
     if (details != null) {
+      deleteDraft();
       final wallets = read(walletListProvider);
       final sc = SmartContract.fromCompiled(details, wallets);
       read(createSmartContractProvider.notifier).setSmartContract(
@@ -340,6 +336,11 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
         return Center(child: CompileAnimationComplete(mint));
       },
     );
+  }
+
+  void deleteDraft() {
+    SmartContractService().deleteFromStorage(state);
+    read(draftsSmartContractProvider.notifier).load();
   }
 }
 

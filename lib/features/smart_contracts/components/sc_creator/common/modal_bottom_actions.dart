@@ -4,6 +4,7 @@ import 'package:rbx_wallet/core/theme/app_theme.dart';
 
 class ModalBottomActions extends StatelessWidget {
   final String confirmText;
+  final bool showConfirm;
   final Function() onConfirm;
   final Function()? onCancel;
   const ModalBottomActions({
@@ -11,6 +12,7 @@ class ModalBottomActions extends StatelessWidget {
     this.confirmText = "Save",
     required this.onConfirm,
     this.onCancel,
+    this.showConfirm = true,
   }) : super(key: key);
 
   @override
@@ -31,11 +33,12 @@ class ModalBottomActions extends StatelessWidget {
                 Navigator.of(context).pop();
               },
             ),
-            AppButton(
-              label: confirmText,
-              icon: Icons.check,
-              onPressed: onConfirm,
-            ),
+            if (showConfirm)
+              AppButton(
+                label: confirmText,
+                icon: Icons.check,
+                onPressed: onConfirm,
+              ),
           ],
         ),
       ],

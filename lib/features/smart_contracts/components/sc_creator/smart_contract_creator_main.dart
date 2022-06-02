@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
@@ -13,6 +14,8 @@ import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/form_g
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/form_groups/primary_asset_form_group.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/modals/code_modal.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/providers/draft_smart_contracts_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/providers/my_smart_contracts_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 class SmartContractCreatorMain extends BaseComponent {
@@ -48,27 +51,6 @@ class SmartContractCreatorMain extends BaseComponent {
             ),
           ),
         ),
-        // Padding(
-        //   padding: const EdgeInsets.all(8.0),
-        //   child: AppButton(
-        //     label: "Compile Test Button",
-        //     onPressed: () async {
-        //       final compileAnimation = Completer<BuildContext>();
-        //       _provider.showCompileAnimation(context, compileAnimation);
-        //       final dialogContext = await compileAnimation.future;
-        //       await Future.delayed(Duration(seconds: 5));
-        //       Navigator.pop(dialogContext);
-
-        //       // await Future.delayed(Duration(milliseconds: 150));
-
-        //       final completeAnimation = Completer<BuildContext>();
-        //       _provider.showCompileComplete(context, completeAnimation);
-        //       final completedDialogContext = await completeAnimation.future;
-        //       await Future.delayed(Duration(seconds: 3));
-        //       Navigator.pop(completedDialogContext);
-        //     },
-        //   ),
-        // ),
         Container(
           width: double.infinity,
           decoration: BoxDecoration(
@@ -106,116 +88,190 @@ class SmartContractCreatorMain extends BaseComponent {
                   icon: Icons.save,
                   helpType: HelpType.saveAsDraft,
                 ),
-                if (!_model.isCompiled)
-                  AppButton(
-                    label: "Compile",
-                    helpType: HelpType.compile,
-                    disabled: ref.watch(sessionProvider).isMintingOrCompiling,
-                    onPressed: () async {
-                      ref
-                          .read(sessionProvider.notifier)
-                          .setIsMintingOrCompiling(true);
-                      final confirmed = await ConfirmDialog.show(
-                        title: "Compile Smart Contract?",
-                        body:
-                            "Are you sure you want to proceed?\nOnce compiled you will not be able to make any changes.",
-                        confirmText: "Compile",
-                        cancelText: "Cancel",
-                      );
+                // if (!_model.isCompiled)
+                AppButton(
+                  label: "Compile & Mint",
+                  helpType: HelpType.compile,
+                  disabled: ref.watch(sessionProvider).isMintingOrCompiling,
+                  onPressed: _model.isPublished
+                      ? null
+                      : () async {
+                          _provider.preSave();
 
-                      if (confirmed == true) {
-                        final sc = await ref
-                            .read(createSmartContractProvider.notifier)
-                            .compile();
+                          final errors = _provider.isValidForCompile();
+                          if (errors.isNotEmpty) {
+                            InfoDialog.show(
+                              title: "Invalid Smart Contract",
+                              body: errors.join("\n"),
+                              closeText: "Okay",
+                            );
 
-                        if (sc != null) {
-                          final compileAnimation = Completer<BuildContext>();
-                          _provider.showCompileAnimation(
-                              context, compileAnimation);
+                            return;
+                          }
 
-                          final dialogContext = await compileAnimation.future;
-                          await Future.delayed(Duration(seconds: 3));
-                          Navigator.pop(dialogContext);
-                          final completeAnimation = Completer<BuildContext>();
-                          _provider.showCompileComplete(
-                              context, completeAnimation);
-                          final completedDialogContext =
-                              await completeAnimation.future;
-                          await Future.delayed(Duration(seconds: 3));
-                          Navigator.pop(completedDialogContext);
-                          Toast.message(
-                              "Smart Contract compiled successfully.");
-                        }
-                      }
-                      ref
-                          .read(sessionProvider.notifier)
-                          .setIsMintingOrCompiling(false);
-                    },
-                    icon: Icons.computer,
-                  ),
-                if (_model.isCompiled)
-                  AppButton(
-                    label: "Mint",
-                    helpType: HelpType.mint,
-                    disabled: ref.watch(sessionProvider).isMintingOrCompiling,
-                    onPressed: _model.isPublished
-                        ? null
-                        : () async {
+                          final confirmed = await ConfirmDialog.show(
+                            title: "Compile & Mint Smart Contract?",
+                            body:
+                                "Are you sure you want to proceed?\nOnce compiled you will not be able to make any changes and the smart contract will be deployed to the chain.",
+                            confirmText: "Compile & Mint",
+                            cancelText: "Cancel",
+                          );
+
+                          if (confirmed == true) {
                             ref
                                 .read(sessionProvider.notifier)
                                 .setIsMintingOrCompiling(true);
-                            final confirmed = await ConfirmDialog.show(
-                              title: "Mint Smart Contract?",
-                              body:
-                                  "Are you sure you want to mint this smart contract on the chain?",
-                              confirmText: "Mint",
-                              cancelText: "Cancel",
-                            );
 
-                            if (confirmed == true) {
-                              final success = await ref
+                            final compileAnimation = Completer<BuildContext>();
+                            _provider.showCompileAnimation(
+                                context, compileAnimation);
+                            final dialogContext = await compileAnimation.future;
+
+                            try {
+                              final sc = await ref
                                   .read(createSmartContractProvider.notifier)
-                                  .mint();
+                                  .compile();
 
-                              if (success) {
-                                final compileAnimation =
-                                    Completer<BuildContext>();
-                                _provider.showCompileAnimation(
-                                    context, compileAnimation, true);
-                                await Future.delayed(Duration(seconds: 3));
-                                final dialogContext =
-                                    await compileAnimation.future;
+                              if (sc != null) {
+                                final success = await ref
+                                    .read(createSmartContractProvider.notifier)
+                                    .mint();
+
+                                if (success) {
+                                  await Future.delayed(Duration(seconds: 3));
+                                  Navigator.pop(dialogContext);
+                                  final completeAnimation =
+                                      Completer<BuildContext>();
+                                  _provider.showCompileComplete(
+                                      context, completeAnimation);
+                                  final completedDialogContext =
+                                      await completeAnimation.future;
+                                  await Future.delayed(Duration(seconds: 3));
+                                  Navigator.pop(completedDialogContext);
+                                  Toast.message(
+                                      "Smart Contract minted successfully.");
+                                } else {
+                                  Navigator.pop(dialogContext);
+
+                                  Toast.error(
+                                      "A problem occurred minting this smart contract.");
+                                }
+                              } else {
                                 Navigator.pop(dialogContext);
-                                final completeAnimation =
-                                    Completer<BuildContext>();
-                                _provider.showCompileComplete(
-                                    context, completeAnimation, true);
-                                final completedDialogContext =
-                                    await completeAnimation.future;
-                                await Future.delayed(Duration(seconds: 3));
-                                Navigator.pop(completedDialogContext);
-                                Toast.message(
-                                    "Smart Contract minted successfully.");
+
+                                Toast.error(
+                                    "A problem occurred compiling this smart contract.");
                               }
+                            } catch (e) {
+                              Navigator.pop(dialogContext);
+
+                              print(e);
+                              ref
+                                  .read(sessionProvider.notifier)
+                                  .setIsMintingOrCompiling(false);
                             }
-                            ref
-                                .read(sessionProvider.notifier)
-                                .setIsMintingOrCompiling(false);
-                          },
-                    icon: Icons.publish,
-                  ),
+                          }
+                          ref
+                              .read(sessionProvider.notifier)
+                              .setIsMintingOrCompiling(false);
+                        },
+                  icon: Icons.computer,
+                ),
+                // if (_model.isCompiled)
+                //   AppButton(
+                //     label: "Mint",
+                //     helpType: HelpType.mint,
+                //     disabled: ref.watch(sessionProvider).isMintingOrCompiling,
+                //     onPressed: _model.isPublished
+                //         ? null
+                //         : () async {
+                //             ref
+                //                 .read(sessionProvider.notifier)
+                //                 .setIsMintingOrCompiling(true);
+                //             final confirmed = await ConfirmDialog.show(
+                //               title: "Mint Smart Contract?",
+                //               body:
+                //                   "Are you sure you want to mint this smart contract on the chain?",
+                //               confirmText: "Mint",
+                //               cancelText: "Cancel",
+                //             );
+
+                //             if (confirmed == true) {
+                //               try {
+                //                 final success = await ref
+                //                     .read(createSmartContractProvider.notifier)
+                //                     .mint();
+
+                //                 if (success) {
+                //                   final compileAnimation =
+                //                       Completer<BuildContext>();
+                //                   _provider.showCompileAnimation(
+                //                       context, compileAnimation, true);
+                //                   await Future.delayed(Duration(seconds: 3));
+                //                   final dialogContext =
+                //                       await compileAnimation.future;
+                //                   Navigator.pop(dialogContext);
+                //                   final completeAnimation =
+                //                       Completer<BuildContext>();
+                //                   _provider.showCompileComplete(
+                //                       context, completeAnimation, true);
+                //                   final completedDialogContext =
+                //                       await completeAnimation.future;
+                //                   await Future.delayed(Duration(seconds: 3));
+                //                   Navigator.pop(completedDialogContext);
+                //                   Toast.message(
+                //                       "Smart Contract minted successfully.");
+                //                 }
+                //               } catch (e) {
+                //                 print(e);
+                //                 ref
+                //                     .read(sessionProvider.notifier)
+                //                     .setIsMintingOrCompiling(false);
+                //               }
+                //             }
+                //             ref
+                //                 .read(sessionProvider.notifier)
+                //                 .setIsMintingOrCompiling(false);
+                //           },
+                //     icon: Icons.publish,
+                //   ),
                 // AppButton(
                 //   label: "Publish to Library",
                 //   onPressed: () {},
                 //   icon: Icons.publish,
                 // ),
-                // AppButton(
-                //   label: "Delete",
-                //   helpType: HelpType.delete,
-                //   onPressed: _model.isCompiled ? null : () {},
-                //   icon: Icons.delete,
-                //   variant: AppColorVariant.Danger,
-                // ),
+                if (!_model.isCompiled)
+                  AppButton(
+                    label: "Delete",
+                    helpType: HelpType.delete,
+                    onPressed: _model.isCompiled
+                        ? null
+                        : () async {
+                            final confirmed = await ConfirmDialog.show(
+                              title: "Delete Draft",
+                              body:
+                                  "Are you sure you wan't to delete this smart contract draft?",
+                              destructive: true,
+                              confirmText: "Delete",
+                              cancelText: "Cancel",
+                            );
+
+                            if (!confirmed) {
+                              return;
+                            }
+
+                            _provider.deleteDraft();
+                            ref
+                                .read(draftsSmartContractProvider.notifier)
+                                .load();
+
+                            Toast.message("Draft Delete");
+
+                            AutoRouter.of(context).pop();
+                          },
+                    icon: Icons.delete,
+                    variant: AppColorVariant.Danger,
+                  ),
               ],
             ),
           ),

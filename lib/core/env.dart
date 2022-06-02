@@ -80,4 +80,8 @@ class Env {
     return DotEnv.dotenv.env['PORT_CHECKER_URL'] ??
         "https://us-central1-portpingr.cloudfunctions.net/pinger";
   }
+
+  static bool get hideCliOutput {
+    return DotEnv.dotenv.env['HIDE_CLI_OUTPUT'] == "true";
+  }
 }
