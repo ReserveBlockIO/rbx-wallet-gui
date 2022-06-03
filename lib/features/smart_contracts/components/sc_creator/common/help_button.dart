@@ -27,6 +27,7 @@ enum HelpType {
   delete,
   burn,
   transfer,
+  minting,
 }
 
 class HelpButton extends StatelessWidget {
@@ -114,6 +115,8 @@ class HelpButton extends StatelessWidget {
         return "Burn NFT";
       case HelpType.transfer:
         return "Transfer NFT";
+      case HelpType.minting:
+        return "Minting";
     }
   }
 
@@ -169,6 +172,8 @@ class HelpButton extends StatelessWidget {
         return "Burn (destroy) this NFT permanently.";
       case HelpType.transfer:
         return "Transfer this NFT to another wallet.";
+      case HelpType.minting:
+        return "This action occurs after you have successfully compiled and minted but requires the transaction to be authenticated by the network which takes approximately 30 seconds for finality as well as your wallet to be synced with the block that includes this transaction.";
     }
   }
 

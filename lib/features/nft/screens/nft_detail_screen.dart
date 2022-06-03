@@ -49,13 +49,15 @@ class NftDetailScreen extends BaseScreen {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
+                if (!nft.isPublished) HelpButton(HelpType.minting),
                 Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: AppBadge(
-                    label: nft.isPublished ? "Minted" : "Local",
+                    label: nft.isPublished ? "Minted" : "Minting...",
                     variant: nft.isPublished
                         ? AppColorVariant.Success
-                        : AppColorVariant.Danger,
+                        : AppColorVariant.Warning,
+                    progressAnimation: !nft.isPublished,
                   ),
                 ),
                 Padding(
@@ -64,7 +66,7 @@ class NftDetailScreen extends BaseScreen {
                     label: nft.isPublic ? "Public" : "Private",
                     variant: nft.isPublic
                         ? AppColorVariant.Success
-                        : AppColorVariant.Danger,
+                        : AppColorVariant.Primary,
                   ),
                 ),
               ],

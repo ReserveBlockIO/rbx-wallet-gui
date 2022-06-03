@@ -169,10 +169,10 @@ class NftCard extends BaseComponent {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     AppBadge(
-                      label: nft.isPublished ? "Minted" : "Local",
+                      label: nft.isPublished ? "Minted" : "Minting...",
                       variant: nft.isPublished
                           ? AppColorVariant.Success
-                          : AppColorVariant.Danger,
+                          : AppColorVariant.Warning,
                     ),
                     SizedBox(
                       width: 4,
@@ -181,7 +181,7 @@ class NftCard extends BaseComponent {
                       label: nft.isPublic ? "Public" : "Private",
                       variant: nft.isPublic
                           ? AppColorVariant.Success
-                          : AppColorVariant.Danger,
+                          : AppColorVariant.Primary,
                     ),
                   ],
                 ),
