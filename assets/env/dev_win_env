@@ -1,6 +1,6 @@
-ENVIRONMENT_NAME=dev
-STORAGE_PREFIX=dev
+ENVIRONMENT_NAME=devwin
+STORAGE_PREFIX=devwin
 API_BASE_URL=http://localhost:7292/api/V1
 LAUNCH_CLI=true
 ALLOW_VALIDATING=false
-CLI_PATH_OVERRIDE=C:\Users\tyler\Projects\rbx-cli\ReserveBlockCore
+CLI_PATH_OVERRIDE="C:\Program Files (x86)\RBXWallet\RBXCore\ReserveBlockCore"
