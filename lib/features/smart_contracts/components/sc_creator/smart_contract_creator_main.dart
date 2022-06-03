@@ -8,6 +8,8 @@ import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
+import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/form_groups/basic_properties_form_group.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/form_groups/features_form_group.dart';
@@ -21,10 +23,39 @@ import 'package:rbx_wallet/utils/toast.dart';
 class SmartContractCreatorMain extends BaseComponent {
   const SmartContractCreatorMain({Key? key}) : super(key: key);
 
+  void mintedComplete(
+    String id,
+    BuildContext context,
+    WidgetRef ref,
+  ) {
+    print('completed');
+    // final tabsRouter = AutoTabsRouter.of(context);
+    // tabsRouter.setActiveIndex(6);
+
+    // Future.delayed(Duration(milliseconds: 300)).then((value) {
+    // Navigator.of(context).pop();
+    // Navigator.of(context).pop();
+
+    // AutoRouter.of(context).popAndPush(NftDetailScreen(id))
+    ref.read(nftDetailProvider(id).notifier).init();
+
+    AutoRouter.of(context).pop(id);
+
+    // Navigator.of(context).pushReplacement(
+    //   MaterialPageRoute(
+    //     builder: (context) {
+    //       return NftDetailScreen(id, fromCreator: true);
+    //     },
+    //   ),
+    // );
+    // });
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final _provider = ref.read(createSmartContractProvider.notifier);
     final _model = ref.watch(createSmartContractProvider);
+
     return Column(
       children: [
         Expanded(
@@ -61,20 +92,20 @@ class SmartContractCreatorMain extends BaseComponent {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                AppButton(
-                  label: "View Code",
-                  onPressed: _model.code.isNotEmpty
-                      ? () {
-                          showModalBottomSheet(
-                            context: context,
-                            builder: (context) {
-                              return CodeModal(_model.code);
-                            },
-                          );
-                        }
-                      : null,
-                  icon: Icons.code,
-                ),
+                // AppButton(
+                //   label: "View Code",
+                //   onPressed: _model.code.isNotEmpty
+                //       ? () {
+                //           showModalBottomSheet(
+                //             context: context,
+                //             builder: (context) {
+                //               return CodeModal(_model.code);
+                //             },
+                //           );
+                //         }
+                //       : null,
+                //   icon: Icons.code,
+                // ),
                 AppButton(
                   label: "Save as Draft",
                   onPressed: _model.isCompiled
@@ -150,6 +181,8 @@ class SmartContractCreatorMain extends BaseComponent {
                                   Navigator.pop(completedDialogContext);
                                   Toast.message(
                                       "Smart Contract minted successfully.");
+
+                                  mintedComplete(sc.id, context, ref);
                                 } else {
                                   Navigator.pop(dialogContext);
 

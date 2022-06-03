@@ -68,22 +68,28 @@ class EvolveModal extends BaseComponent {
               SizedBox(
                 width: 16,
               ),
-              HelpButton(
-                HelpType.evolveType,
-                subtle: true,
-              ),
-              AppDropdown<EvolveType>(
-                label: "Evolution Type",
-                selectedValue: _model.type,
-                selectedLabel: _model.typeLabel,
-                onChange: (val) {
-                  _provider.updateType(val);
-                },
-                options: Evolve.allTypes()
-                    .map((type) => AppDropdownOption(
-                        label: Evolve.typeToString(type), value: type))
-                    .toList(),
-              ),
+              if (!_model.isDynamic)
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    HelpButton(
+                      HelpType.evolveType,
+                      subtle: true,
+                    ),
+                    AppDropdown<EvolveType>(
+                      label: "Evolution Type",
+                      selectedValue: _model.type,
+                      selectedLabel: _model.typeLabel,
+                      onChange: (val) {
+                        _provider.updateType(val);
+                      },
+                      options: Evolve.allTypes()
+                          .map((type) => AppDropdownOption(
+                              label: Evolve.typeToString(type), value: type))
+                          .toList(),
+                    ),
+                  ],
+                ),
             ],
           ),
           // Row(

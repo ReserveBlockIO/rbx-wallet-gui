@@ -21,7 +21,12 @@ import 'package:rbx_wallet/utils/validation.dart';
 
 class NftDetailScreen extends BaseScreen {
   final String id;
-  const NftDetailScreen(this.id, {Key? key}) : super(key: key);
+  final bool fromCreator;
+  const NftDetailScreen(
+    this.id, {
+    Key? key,
+    this.fromCreator = false,
+  }) : super(key: key);
 
   void copyToClipboard(String val) async {
     await Clipboard.setData(
@@ -41,14 +46,28 @@ class NftDetailScreen extends BaseScreen {
       actions: [
         if (nft != null)
           Center(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: AppBadge(
-                label: nft.isPublic ? "Public" : "Private",
-                variant: nft.isPublic
-                    ? AppColorVariant.Success
-                    : AppColorVariant.Danger,
-              ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: AppBadge(
+                    label: nft.isPublished ? "Minted" : "Local",
+                    variant: nft.isPublished
+                        ? AppColorVariant.Success
+                        : AppColorVariant.Danger,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: AppBadge(
+                    label: nft.isPublic ? "Public" : "Private",
+                    variant: nft.isPublic
+                        ? AppColorVariant.Success
+                        : AppColorVariant.Danger,
+                  ),
+                ),
+              ],
             ),
           )
       ],

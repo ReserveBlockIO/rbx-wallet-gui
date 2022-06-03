@@ -4,7 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
+import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
+import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/smart_contract_creator_main.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/screens/smart_contract_creator_container_screen.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -28,45 +32,57 @@ class SmartContractsScreen extends BaseScreen {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            // _BigButton(
+            //   title: "Templated Smart Contract",
+            //   iconData: FontAwesomeIcons.magic,
+            //   body: "Start with a predefined smart contract template",
+            //   onPressed: () {
+            //     AutoRouter.of(context).push(TemplateChooserScreenRoute());
+            //   },
+            // ),
             _BigButton(
-              title: "Templated Smart Contract",
-              iconData: FontAwesomeIcons.magic,
-              body: "Start with a predefined smart contract template",
-              onPressed: () {
-                AutoRouter.of(context).push(TemplateChooserScreenRoute());
-              },
-            ),
-            _BigButton(
-              title: "Create Custom",
+              title: "Create a Smart Contract & Mint",
               iconData: Icons.create,
               body:
-                  "Compile a smart contract from scratch and customize the features you like",
-              onPressed: () {
-                ref
-                    .read(createSmartContractProvider.notifier)
-                    .clearSmartContract();
-                AutoRouter.of(context)
+                  "Start with a basline smart contract and add customized features",
+              onPressed: () async {
+                final id = await AutoRouter.of(context)
                     .push(SmartContractCreatorContainerScreenRoute());
+
+                if (id != null) {
+                  ref.read(nftDetailProvider("$id").notifier).init();
+                  ref
+                      .read(createSmartContractProvider.notifier)
+                      .clearSmartContract();
+
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return NftDetailScreen("$id");
+                      },
+                    ),
+                  );
+                }
               },
             ),
             _BigButton(
               title: "Launch IDE",
               iconData: Icons.code,
               body:
-                  "Open the online IDE (Integrated Development Environment) to write your own Trilliam code for your smart contract",
+                  "Open the online IDE to write your own Trillium code for your smart contract",
               onPressed: () {
                 launch("https://trillium.rbx.network/");
               },
             ),
-            _BigButton(
-              title: "My Smart Contracts",
-              iconData: Icons.folder,
-              body:
-                  "View existing smart contracts that you have compiled or continue where you left off with a saved draft",
-              onPressed: () {
-                AutoRouter.of(context).push(MySmartContractsScreenRoute());
-              },
-            ),
+            // _BigButton(
+            //   title: "My Smart Contracts",
+            //   iconData: Icons.folder,
+            //   body:
+            //       "View existing smart contracts that you have compiled or continue where you left off with a saved draft",
+            //   onPressed: () {
+            //     AutoRouter.of(context).push(MySmartContractsScreenRoute());
+            //   },
+            // ),
           ],
         ),
       ),
@@ -108,7 +124,10 @@ class _BigButton extends StatelessWidget {
           child: InkWell(
             onTap: onPressed,
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 20,
+              ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [

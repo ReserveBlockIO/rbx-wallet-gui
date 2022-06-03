@@ -264,7 +264,10 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
     read(nftListProvider.notifier).load();
 
     if (details != null) {
-      deleteDraft();
+      if (DELETE_DRAFT_ON_MINT) {
+        deleteDraft();
+      }
+
       final wallets = read(walletListProvider);
       final sc = SmartContract.fromCompiled(details, wallets);
       read(createSmartContractProvider.notifier).setSmartContract(
