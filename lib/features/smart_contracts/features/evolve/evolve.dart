@@ -160,7 +160,8 @@ abstract class Evolve with _$Evolve {
     );
   }
 
-  List<Map<String, dynamic>> serializeForCompiler(String minterName) {
+  List<Map<String, dynamic>> serializeForCompiler(
+      String minterName, String timezoneName) {
     List<EvolvePhase> _phases = [...phases];
 
     if (type == EvolveType.time) {
@@ -192,7 +193,9 @@ abstract class Evolve with _$Evolve {
         'SmartContractAsset': p.asset != null
             ? p.asset!.copyWith(authorName: minterName).toJson()
             : null,
-        'EvolveDate': type == EvolveType.time ? p.dateTimeForCompiler : null,
+        'EvolveDate': type == EvolveType.time
+            ? p.dateTimeForCompiler(timezoneName)
+            : null,
         'EvolveBlockHeight':
             type == EvolveType.blockHeight ? p.blockHeight : null,
       };

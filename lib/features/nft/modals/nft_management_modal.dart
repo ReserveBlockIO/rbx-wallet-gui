@@ -101,17 +101,15 @@ class NftMangementModal extends BaseComponent {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              InkWell(
-                onTap: () {
+              AppButton(
+                label: "Close",
+                onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text(
-                  "Close",
-                  style: TextStyle(color: Colors.white70),
-                ),
               ),
-              InkWell(
-                onTap: () {
+              AppButton(
+                label: "View NFT",
+                onPressed: () {
                   Navigator.of(context).pop();
                   Navigator.of(context).push(
                     MaterialPageRoute(
@@ -121,14 +119,10 @@ class NftMangementModal extends BaseComponent {
                     ),
                   );
                 },
-                child: Text(
-                  "View NFT",
-                  style: TextStyle(color: Colors.white70),
-                ),
               ),
             ],
           ),
-          SizedBox(height: 8),
+          Divider(),
           Text(
             "Managing ${nft.name}",
             style: Theme.of(context)

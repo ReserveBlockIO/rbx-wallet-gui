@@ -22,6 +22,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     state = await NftService().retrieve(id);
 
     pollForUpdate();
+    pollForGeneralUpdate();
   }
 
   Future<void> pollForUpdate() async {
@@ -50,6 +51,18 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     }
 
     pollForEvolutionUpdate(stage);
+  }
+
+  Future<void> pollForGeneralUpdate() async {
+    if (state == null) return;
+    await Future.delayed(Duration(seconds: 10));
+
+    final updated = await NftService().retrieve(id);
+    if (updated != null) {
+      state = updated;
+    }
+
+    pollForGeneralUpdate();
   }
 
   Future<void> togglePrivate() async {

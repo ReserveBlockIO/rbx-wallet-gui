@@ -246,7 +246,8 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
   }
 
   Future<CompiledSmartContract?> compile() async {
-    final payload = state.serializeForCompiler();
+    final payload =
+        state.serializeForCompiler(read(sessionProvider).timezoneName);
 
     final csc = await SmartContractService().compileSmartContract(payload);
 

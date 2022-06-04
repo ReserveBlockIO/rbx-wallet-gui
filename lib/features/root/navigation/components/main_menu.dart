@@ -143,11 +143,12 @@ class MainMenu extends BaseComponent {
                 title: "NFTs",
                 icon: Icons.lightbulb_outline,
                 onPressed: () {
-                   if(ref.read(sessionProvider).currentWallet == null) {
+                  if (ref.read(sessionProvider).currentWallet == null) {
                     Toast.error("A wallet is required to access this section.");
                     return;
                   }
                   tabsRouter.setActiveIndex(7);
+                  tabsRouter.popTop();
                 },
                 isActive: tabsRouter.activeIndex == 7,
               ),
@@ -155,11 +156,12 @@ class MainMenu extends BaseComponent {
                 title: "Smart Contracts",
                 icon: Icons.receipt_long,
                 onPressed: () {
-                  if(ref.read(sessionProvider).currentWallet == null) {
+                  if (ref.read(sessionProvider).currentWallet == null) {
                     Toast.error("A wallet is required to access this section.");
                     return;
                   }
                   tabsRouter.setActiveIndex(8);
+                  tabsRouter.popTop();
                 },
                 isActive: tabsRouter.activeIndex == 8,
               ),

@@ -278,7 +278,7 @@ class _EvolvePhaseContainer extends BaseComponent {
                                   subtle: true,
                                 ),
                                 label: Text(
-                                  "Evolution Time (UTC)",
+                                  "Evolution Time (${DateTime.now().timeZoneName.toString()})",
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),

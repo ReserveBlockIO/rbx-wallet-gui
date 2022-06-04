@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:process/process.dart';
 import 'package:rbx_wallet/app.dart';
@@ -51,6 +52,7 @@ class SessionModel {
   final String? cliVersion;
   final bool logWindowExpanded;
   final bool isMintingOrCompiling;
+  final String timezoneName;
 
   const SessionModel({
     this.currentWallet,
@@ -65,6 +67,7 @@ class SessionModel {
     this.cliVersion,
     this.logWindowExpanded = false,
     this.isMintingOrCompiling = false,
+    this.timezoneName = "America/Los_Angeles",
   });
 
   SessionModel copyWith({
@@ -80,6 +83,7 @@ class SessionModel {
     String? cliVersion,
     bool? logWindowExpanded,
     bool? isMintingOrCompiling,
+    String? timezoneName,
   }) {
     return SessionModel(
       startTime: startTime ?? this.startTime,
@@ -95,6 +99,7 @@ class SessionModel {
       cliVersion: cliVersion ?? this.cliVersion,
       logWindowExpanded: logWindowExpanded ?? this.logWindowExpanded,
       isMintingOrCompiling: isMintingOrCompiling ?? this.isMintingOrCompiling,
+      timezoneName: timezoneName ?? this.timezoneName,
     );
   }
 
@@ -138,11 +143,12 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
     final now = DateTime.now();
     read(readyProvider.notifier).setReady(true);
+    final timezoneName = await FlutterNativeTimezone.getLocalTimezone();
     state = state.copyWith(
-      // ready: true,
-      startTime: now,
-      cliStarted: cliStarted,
-    );
+        // ready: true,
+        startTime: now,
+        cliStarted: cliStarted,
+        timezoneName: timezoneName);
 
     await load();
 
