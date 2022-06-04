@@ -28,8 +28,12 @@ class EvolveFormProvider extends StateNotifier<Evolve> {
   updateMode(bool value) {
     state = state.copyWith(isDynamic: value);
 
-    if (value == true) {
+    if (value == false) {
       updateType(EvolveType.manualOnly);
+    } else {
+      if (state.type == EvolveType.manualOnly) {
+        updateType(EvolveType.time);
+      }
     }
   }
 

@@ -23,7 +23,7 @@ class _$EvolveTearOff {
 
   _Evolve call(
       {String id = "",
-      EvolveType type = EvolveType.time,
+      EvolveType type = EvolveType.manualOnly,
       List<EvolvePhase> phases = const [],
       bool isDynamic = false,
       Asset? asset}) {
@@ -187,7 +187,7 @@ class __$EvolveCopyWithImpl<$Res> extends _$EvolveCopyWithImpl<$Res>
 class _$_Evolve extends _Evolve {
   const _$_Evolve(
       {this.id = "",
-      this.type = EvolveType.time,
+      this.type = EvolveType.manualOnly,
       this.phases = const [],
       this.isDynamic = false,
       this.asset})
@@ -199,7 +199,7 @@ class _$_Evolve extends _Evolve {
   @JsonKey(defaultValue: "")
   @override
   final String id;
-  @JsonKey(defaultValue: EvolveType.time)
+  @JsonKey(defaultValue: EvolveType.manualOnly)
   @override
   final EvolveType type;
   @JsonKey(defaultValue: const [])

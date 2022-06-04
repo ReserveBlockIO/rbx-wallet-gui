@@ -68,28 +68,32 @@ class EvolveModal extends BaseComponent {
               SizedBox(
                 width: 16,
               ),
-              if (!_model.isDynamic)
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    HelpButton(
-                      HelpType.evolveType,
-                      subtle: true,
-                    ),
-                    AppDropdown<EvolveType>(
-                      label: "Evolution Type",
-                      selectedValue: _model.type,
-                      selectedLabel: _model.typeLabel,
-                      onChange: (val) {
-                        _provider.updateType(val);
-                      },
-                      options: Evolve.allTypes()
-                          .map((type) => AppDropdownOption(
-                              label: Evolve.typeToString(type), value: type))
-                          .toList(),
-                    ),
-                  ],
-                ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  HelpButton(
+                    HelpType.evolveType,
+                    subtle: true,
+                  ),
+                  AppDropdown<EvolveType>(
+                    label: "Evolution Type",
+                    selectedValue: _model.type,
+                    selectedLabel: _model.typeLabel,
+                    onChange: (val) {
+                      _provider.updateType(val);
+                    },
+                    options: (!_model.isDynamic
+                            ? [EvolveType.manualOnly]
+                            : [
+                                EvolveType.time,
+                                EvolveType.blockHeight,
+                              ])
+                        .map((type) => AppDropdownOption(
+                            label: Evolve.typeToString(type), value: type))
+                        .toList(),
+                  ),
+                ],
+              ),
             ],
           ),
           // Row(
@@ -274,7 +278,7 @@ class _EvolvePhaseContainer extends BaseComponent {
                                   subtle: true,
                                 ),
                                 label: Text(
-                                  "Evolution Time",
+                                  "Evolution Time (UTC)",
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),

@@ -75,6 +75,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/grid.jpg
   AssetGenImage get grid => const AssetGenImage('assets/images/grid.jpg');
 
+  /// File path: assets/images/grid_bg.gif
+  AssetGenImage get gridBg => const AssetGenImage('assets/images/grid_bg.gif');
+
   /// File path: assets/images/grid_cropped.jpg
   AssetGenImage get gridCropped =>
       const AssetGenImage('assets/images/grid_cropped.jpg');

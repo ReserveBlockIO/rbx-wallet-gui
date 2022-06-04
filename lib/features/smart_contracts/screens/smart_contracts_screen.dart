@@ -10,10 +10,16 @@ import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/smart_
 import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/screens/smart_contract_creator_container_screen.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
+import 'package:rbx_wallet/generated/assets.gen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SmartContractsScreen extends BaseScreen {
-  const SmartContractsScreen({Key? key}) : super(key: key);
+  const SmartContractsScreen({Key? key})
+      : super(
+          key: key,
+          verticalPadding: 0,
+          horizontalPadding: 0,
+        );
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
@@ -27,65 +33,86 @@ class SmartContractsScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    return Center(
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // _BigButton(
-            //   title: "Templated Smart Contract",
-            //   iconData: FontAwesomeIcons.magic,
-            //   body: "Start with a predefined smart contract template",
-            //   onPressed: () {
-            //     AutoRouter.of(context).push(TemplateChooserScreenRoute());
-            //   },
-            // ),
-            _BigButton(
-              title: "Create a Smart Contract & Mint",
-              iconData: Icons.create,
-              body:
-                  "Start with a basline smart contract and add customized features",
-              onPressed: () async {
-                final id = await AutoRouter.of(context)
-                    .push(SmartContractCreatorContainerScreenRoute());
-
-                if (id != null) {
-                  ref.read(nftDetailProvider("$id").notifier).init();
-                  ref
-                      .read(createSmartContractProvider.notifier)
-                      .clearSmartContract();
-
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return NftDetailScreen("$id");
-                      },
-                    ),
-                  );
-                }
-              },
-            ),
-            _BigButton(
-              title: "Launch IDE",
-              iconData: Icons.code,
-              body:
-                  "Open the online IDE to write your own Trillium code for your smart contract",
-              onPressed: () {
-                launch("https://trillium.rbx.network/");
-              },
-            ),
-            // _BigButton(
-            //   title: "My Smart Contracts",
-            //   iconData: Icons.folder,
-            //   body:
-            //       "View existing smart contracts that you have compiled or continue where you left off with a saved draft",
-            //   onPressed: () {
-            //     AutoRouter.of(context).push(MySmartContractsScreenRoute());
-            //   },
-            // ),
-          ],
+    return Stack(
+      children: [
+        Image.asset(
+          Assets.images.gridBg.path,
+          width: double.infinity,
+          height: double.infinity,
+          fit: BoxFit.cover,
         ),
-      ),
+        Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: BoxDecoration(
+            color: Colors.black38,
+            border: Border(
+              top: BorderSide(color: Colors.white30, width: 2),
+              bottom: BorderSide(color: Colors.white30, width: 2),
+            ),
+          ),
+        ),
+        Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // _BigButton(
+                //   title: "Templated Smart Contract",
+                //   iconData: FontAwesomeIcons.magic,
+                //   body: "Start with a predefined smart contract template",
+                //   onPressed: () {
+                //     AutoRouter.of(context).push(TemplateChooserScreenRoute());
+                //   },
+                // ),
+                _BigButton(
+                  title: "Create a Smart Contract & Mint",
+                  iconData: Icons.create,
+                  body:
+                      "Start with a basline smart contract and add customized features",
+                  onPressed: () async {
+                    final id = await AutoRouter.of(context)
+                        .push(SmartContractCreatorContainerScreenRoute());
+
+                    if (id != null) {
+                      ref.read(nftDetailProvider("$id").notifier).init();
+                      ref
+                          .read(createSmartContractProvider.notifier)
+                          .clearSmartContract();
+
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return NftDetailScreen("$id");
+                          },
+                        ),
+                      );
+                    }
+                  },
+                ),
+                _BigButton(
+                  title: "Launch IDE",
+                  iconData: Icons.code,
+                  body:
+                      "Open the online IDE to write your own Trillium code for your smart contract",
+                  onPressed: () {
+                    launch("https://trillium.rbx.network/");
+                  },
+                ),
+                // _BigButton(
+                //   title: "My Smart Contracts",
+                //   iconData: Icons.folder,
+                //   body:
+                //       "View existing smart contracts that you have compiled or continue where you left off with a saved draft",
+                //   onPressed: () {
+                //     AutoRouter.of(context).push(MySmartContractsScreenRoute());
+                //   },
+                // ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -110,7 +137,8 @@ class _BigButton extends StatelessWidget {
       child: Container(
         width: 600,
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.primary,
+          // color: Theme.of(context).colorScheme.primary,
+          color: Colors.black.withOpacity(0.6),
           borderRadius: BorderRadius.circular(10.0),
           border: Border.all(
               color: Theme.of(context).colorScheme.secondary.withOpacity(0.2),

@@ -18,7 +18,7 @@ abstract class Evolve with _$Evolve {
   @JsonSerializable(explicitToJson: true)
   const factory Evolve({
     @Default("") String id,
-    @Default(EvolveType.time) EvolveType type,
+    @Default(EvolveType.manualOnly) EvolveType type,
     @Default([]) List<EvolvePhase> phases,
     @Default(false) bool isDynamic,
     Asset? asset,
@@ -123,14 +123,23 @@ abstract class Evolve with _$Evolve {
         asset = Asset.fromJson(p['asset']);
       }
 
+      String? dateTimeString =
+          p.containsKey("DateTime") ? p['DateTime'] : p['dateTime'];
+      dateTimeString ??= p['EvolveDate'];
+
+      DateTime? dateTime;
+      if (dateTimeString != null) {
+        dateTime = DateTime.parse(dateTimeString);
+      }
+
       _phases.add(
-        //TODO parse date time
         EvolvePhase(
           name: p.containsKey("Name") ? p['Name'] : p['name'],
           description: p.containsKey("Description")
               ? p['Description'] ?? ""
               : p['description'] ?? "",
-          dateTime: p.containsKey("DateTime") ? p['DateTime'] : p['dateTime'],
+          dateTime: dateTime,
+          blockHeight: p['EvolveBlockHeight'] ?? p['blockHeight'],
           evolutionState: p.containsKey("EvolutionState")
               ? p['EvolutionState']
               : p['evolutionState'],

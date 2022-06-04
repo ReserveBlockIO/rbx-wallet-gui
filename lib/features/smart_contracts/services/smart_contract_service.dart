@@ -89,8 +89,6 @@ class SmartContractService extends BaseService {
   }
 
   void deleteFromStorage(SmartContract smartContract) {
-    print(smartContract.draftId);
-    print("!!!!!!!");
     final existing = loadRawFromStorage();
 
     final updated = [

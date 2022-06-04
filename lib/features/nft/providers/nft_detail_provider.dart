@@ -39,6 +39,19 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     }
   }
 
+  Future<void> pollForEvolutionUpdate(int stage) async {
+    if (state == null) return;
+    await Future.delayed(Duration(seconds: 5));
+
+    final updated = await NftService().retrieve(id);
+    if (updated != null && updated.currentEvolvePhaseIndex + 1 == stage) {
+      state = updated;
+      return;
+    }
+
+    pollForEvolutionUpdate(stage);
+  }
+
   Future<void> togglePrivate() async {
     if (state == null) return;
     final success = await NftService().togglePrivate(id);
@@ -47,27 +60,6 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     } else {
       Toast.error();
     }
-  }
-
-  Future<void> incrementEvolve() async {
-    // if (state == null) return;
-
-    // final i = state!.currentEvolvePhase.evolutionState;
-
-    // final phases = [...state!.evolutionPhases];
-    // final _phases = [];
-    // for (final p in phases) {
-    //   _phases.add(p.copyWith(isCurrentState: false));
-    // }
-
-    // _phases.removeAt(i);
-    // _phases.insert(i, phases[i].copyWith(isCurrentState: true));
-
-    // state = state.copyWith(phases: _phases);
-
-    // state.evolutionPhases
-
-    // state = state.copyWith()
   }
 
   bool canTransact([bool mustBeOwner = true]) {
@@ -113,16 +105,20 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     if (!canTransact()) return false;
 
     final success = await SmartContractService().evolve(id, toAddress, stage);
+    if (success == true) {
+      state = state!.copyWith(isProcessing: true);
+      pollForEvolutionUpdate(stage);
+    }
     return success;
   }
 
   Future<bool> evolve() async {
-    final stage = state!.currentEvolvePhaseIndex + 1;
+    final stage = state!.currentEvolvePhaseIndex + 2;
     return await setEvolve(stage, state!.address);
   }
 
   Future<bool> devolve() async {
-    final stage = state!.currentEvolvePhaseIndex - 1;
+    final stage = state!.currentEvolvePhaseIndex;
     return await setEvolve(stage, state!.address);
   }
 

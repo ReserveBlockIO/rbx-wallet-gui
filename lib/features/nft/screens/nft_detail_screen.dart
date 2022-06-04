@@ -104,6 +104,10 @@ class NftDetailScreen extends BaseScreen {
                 SizedBox(
                   height: 4,
                 ),
+                Text("ID: ${nft.id}"),
+                SizedBox(
+                  height: 4,
+                ),
                 if (nft.minterName.isNotEmpty)
                   Text(
                     "Minted By: ${nft.minterName}",

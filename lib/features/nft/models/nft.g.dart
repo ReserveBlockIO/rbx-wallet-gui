@@ -23,6 +23,7 @@ _$_Nft _$$_NftFromJson(Map<String, dynamic> json) => _$_Nft(
               ?.map((e) => e as Map<String, dynamic>)
               .toList() ??
           [],
+      isProcessing: json['isProcessing'] as bool? ?? false,
       code: json['code'] as String?,
     );
 
@@ -39,5 +40,6 @@ Map<String, dynamic> _$$_NftToJson(_$_Nft instance) => <String, dynamic>{
       'IsPublished': instance.isPublished,
       'IsMinter': instance.isMinter,
       'Features': instance.features,
+      'isProcessing': instance.isProcessing,
       'code': instance.code,
     };

@@ -28,6 +28,7 @@ enum HelpType {
   burn,
   transfer,
   minting,
+  setEvolution
 }
 
 class HelpButton extends StatelessWidget {
@@ -117,6 +118,8 @@ class HelpButton extends StatelessWidget {
         return "Transfer NFT";
       case HelpType.minting:
         return "Minting";
+      case HelpType.setEvolution:
+        return "Set Evolution";
     }
   }
 
@@ -174,6 +177,8 @@ class HelpButton extends StatelessWidget {
         return "Transfer this NFT to another wallet.";
       case HelpType.minting:
         return "This action occurs after you have successfully compiled and minted but requires the transaction to be authenticated by the network which takes approximately 30 seconds for finality as well as your wallet to be synced with the block that includes this transaction.";
+      case HelpType.setEvolution:
+        return "With an NFT that has more than 2 phases the user can go directly from one stage to another with the “Set Evolution” button instead of evolving and devolving stage by stage";
     }
   }
 

@@ -26,6 +26,7 @@ abstract class Nft with _$Nft {
     @JsonKey(name: "IsMinter") required bool isMinter,
     @JsonKey(name: "Features", defaultValue: [])
         required List<Map<String, dynamic>> features,
+    @JsonKey(defaultValue: false) required bool isProcessing,
     String? code,
   }) = _Nft;
 
@@ -49,10 +50,11 @@ abstract class Nft with _$Nft {
 
     for (final feature in featureList) {
       if (feature.type == FeatureType.evolution) {
-        final evolve = Evolve.fromCompiler({'phases': feature.data['phases']});
-        if (evolve.type != EvolveType.time && !evolve.isDynamic) {
-          return true;
-        }
+        // final evolve = Evolve.fromCompiler({'phases': feature.data['phases']});
+        // if (evolve.type != EvolveType.time && !evolve.isDynamic) {
+        //   return true;
+        // }
+        return true;
       }
       if (feature.type == FeatureType.fractionalization) {
         return true;
@@ -64,14 +66,17 @@ abstract class Nft with _$Nft {
 
   bool get canManageEvolve {
     if (!isMinter) return false;
-    return true;
+    // return true;
 
     // not using this for now
     for (final feature in featureList) {
       if (feature.type == FeatureType.evolution) {
         final evolve = Evolve.fromCompiler({'phases': feature.data['phases']});
-        if (evolve.type != EvolveType.time && !evolve.isDynamic) {
-          return true;
+
+        for (final phase in evolve.phases) {
+          if (phase.dateTime == null && phase.blockHeight == null) {
+            return true;
+          }
         }
       }
     }
