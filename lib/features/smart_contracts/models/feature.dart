@@ -89,6 +89,7 @@ abstract class Feature with _$Feature {
       case FeatureType.royalty:
       case FeatureType.evolution:
       case FeatureType.multiAsset:
+        // case FeatureType.ticket:
         return true;
       default:
         return false;
