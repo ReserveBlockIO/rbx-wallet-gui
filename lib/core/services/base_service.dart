@@ -58,9 +58,6 @@ class BaseService {
 
       return response.data;
     } catch (e) {
-      print("------");
-      print(e);
-      print("------");
       rethrow;
     }
   }

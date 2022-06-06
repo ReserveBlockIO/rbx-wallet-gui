@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -243,10 +242,6 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
   Future<CompiledSmartContract?> compile() async {
     final payload =
         state.serializeForCompiler(read(sessionProvider).timezoneName);
-
-    print("-=========----");
-    print(jsonEncode(payload));
-    print("-=========----");
 
     final csc = await SmartContractService().compileSmartContract(payload);
 

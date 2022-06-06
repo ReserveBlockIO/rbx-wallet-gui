@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:process/process.dart';
 import 'package:rbx_wallet/app.dart';
@@ -22,7 +21,6 @@ import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
 import 'package:rbx_wallet/features/nft/providers/minted_nft_list_provider.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
-import 'package:rbx_wallet/features/nft/providers/nft_list_view_provider.dart';
 import 'package:rbx_wallet/features/node/providers/node_info_provider.dart';
 import 'package:rbx_wallet/features/node/providers/node_list_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/draft_smart_contracts_provider.dart';
@@ -142,23 +140,17 @@ class SessionProvider extends StateNotifier<SessionModel> {
     }
 
     final now = DateTime.now();
-    print("NOW!!!!");
-    print(now);
+
     read(readyProvider.notifier).setReady(true);
 
-  
-
-  // final   timezoneName = await FlutterNativeTimezone.getLocalTimezone();
-//  print(timezoneName);
-
-  final timezoneName = DateTime.now().timeZoneName .toString();
+    final timezoneName = DateTime.now().timeZoneName.toString();
 
     state = state.copyWith(
-        // ready: true,
-        startTime: now,
-        cliStarted: cliStarted,
-        timezoneName: timezoneName,
-      );
+      // ready: true,
+      startTime: now,
+      cliStarted: cliStarted,
+      timezoneName: timezoneName,
+    );
 
     // mainLoop();
     await load();
@@ -182,7 +174,6 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   Future<void> load() async {
-    print("Load...");
     await _loadWallets();
     await loadValidators();
     // await loadMasterNodes();
@@ -191,7 +182,6 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   Future<void> smartContractLoop() async {
-    print('sc loop...');
     read(mySmartContractsProvider.notifier).load();
     read(nftListProvider.notifier).load();
     read(mintedNftListProvider.notifier).load();

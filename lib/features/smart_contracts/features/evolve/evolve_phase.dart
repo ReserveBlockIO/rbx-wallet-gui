@@ -1,8 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
-import 'package:timezone/standalone.dart';
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 
 part 'evolve_phase.freezed.dart';
 part 'evolve_phase.g.dart';
@@ -40,20 +38,6 @@ class EvolvePhase with _$EvolvePhase {
     if (dateTime == null) {
       return null;
     }
-
-    // final d = TZDateTime.from(dateTime!, getLocation(timezoneName)).toUtc();
-
-    // final d = TZDateTime.local(
-    //   dateTime!.year,
-    //   dateTime!.month,
-    //   dateTime!.day,
-    //   dateTime!.hour,
-    //   dateTime!.minute,
-    //   dateTime!.second,
-    // );
-    print("------------------------------");
-    print(dateTime!.toUtc().toIso8601String());
-    print("------------------------------");
 
     return dateTime!.toUtc().toIso8601String();
   }
