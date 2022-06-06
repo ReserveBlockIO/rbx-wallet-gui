@@ -27,9 +27,12 @@ class WalletListProvider extends StateNotifier<List<Wallet>> {
   }
 
   Future<void> import(String privateKey, [bool showDetails = false]) async {
-    if (!guardWalletIsNotResyncing(read)) return;
+    // if (!guardWalletIsNotResyncing(read)) return;
 
+    print(privateKey);
     final data = await BridgeService().importPrivateKey(privateKey);
+
+    print(data);
 
     if (data == null) {
       Toast.error("No account found");

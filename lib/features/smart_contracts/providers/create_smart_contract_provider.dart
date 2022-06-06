@@ -1,15 +1,11 @@
 import 'dart:async';
-import 'dart:io';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/singletons.dart';
-import 'package:rbx_wallet/core/storage.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/providers/minted_nft_list_provider.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
@@ -28,7 +24,6 @@ import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:collection/collection.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/utils/generators.dart';
-import 'package:rbx_wallet/utils/toast.dart';
 
 class CreateSmartContractProvider extends StateNotifier<SmartContract> {
   final Reader read;
@@ -248,6 +243,10 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
   Future<CompiledSmartContract?> compile() async {
     final payload =
         state.serializeForCompiler(read(sessionProvider).timezoneName);
+
+    print("-=========----");
+    print(jsonEncode(payload));
+    print("-=========----");
 
     final csc = await SmartContractService().compileSmartContract(payload);
 

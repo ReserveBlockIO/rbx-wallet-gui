@@ -150,7 +150,9 @@ class SessionProvider extends StateNotifier<SessionModel> {
         cliStarted: cliStarted,
         timezoneName: timezoneName);
 
+    // mainLoop();
     await load();
+    smartContractLoop();
 
     Future.delayed(Duration(milliseconds: 300)).then((_) {
       read(walletInfoProvider.notifier).fetch();
@@ -158,15 +160,35 @@ class SessionProvider extends StateNotifier<SessionModel> {
     });
   }
 
-  Future<void> load() async {
-    await _loadWallets();
-    await loadValidators();
-    await loadMasterNodes();
-    await loadPeerInfo();
-    await loadTransactions();
-    await loadSmartContracts();
+  Future<void> mainLoop() async {
+    print('main loop...');
+    await load();
+
+    await Future.delayed(Duration(seconds: REFRESH_TIMEOUT_SECONDS));
+    mainLoop();
+    // await loadSmartContracts();
 
     // await _checkBlockSyncStatus();
+  }
+
+  Future<void> load() async {
+    print("Load...");
+    await _loadWallets();
+    await loadValidators();
+    // await loadMasterNodes();
+    // await loadPeerInfo();
+    await loadTransactions();
+  }
+
+  Future<void> smartContractLoop() async {
+    print('sc loop...');
+    read(mySmartContractsProvider.notifier).load();
+    read(nftListProvider.notifier).load();
+    read(mintedNftListProvider.notifier).load();
+    read(draftsSmartContractProvider.notifier).load();
+
+    await Future.delayed(Duration(seconds: 30));
+    smartContractLoop();
   }
 
   Future<void> restartCli() async {
@@ -293,13 +315,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
     await read(transactionListProvider.notifier).load();
   }
 
-  Future<void> loadSmartContracts() async {
-    print("loadSmartContracts()");
-    await read(mySmartContractsProvider.notifier).load();
-    await read(nftListProvider.notifier).load();
-    await read(mintedNftListProvider.notifier).load();
-    await read(draftsSmartContractProvider.notifier).load();
-  }
+  Future<void> loadSmartContracts() async {}
 
   void setCurrentWallet(Wallet wallet) {
     state = state.copyWith(currentWallet: wallet);

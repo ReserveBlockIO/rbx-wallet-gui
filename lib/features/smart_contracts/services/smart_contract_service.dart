@@ -48,17 +48,15 @@ class SmartContractService extends BaseService {
   }
 
   Future<CompilerResponse?> compileSmartContract(
-    Map<String, dynamic> payload, {
-    bool test = false,
-  }) async {
+      Map<String, dynamic> payload) async {
     try {
       final response = await postJson(
-        test ? "/SCPassTest" : "/CreateSmartContract",
+        "/CreateSmartContract",
         params: payload,
       );
 
       final csc = CompilerResponse.fromJson(response['data'][0]);
-      return csc; //TODO: dynamic based on success
+      return csc;
     } catch (e, stackTrace) {
       print('compileSmartContract error');
       print(e);

@@ -29,7 +29,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     if (state == null) return;
 
     if (!state!.isPublished) {
-      await Future.delayed(Duration(seconds: 5));
+      await Future.delayed(Duration(seconds: 10));
       final updated = await NftService().retrieve(id);
       if (updated != null && updated.isPublished) {
         state = updated;
@@ -42,7 +42,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
 
   Future<void> pollForEvolutionUpdate(int stage) async {
     if (state == null) return;
-    await Future.delayed(Duration(seconds: 5));
+    await Future.delayed(Duration(seconds: 10));
 
     final updated = await NftService().retrieve(id);
     if (updated != null && updated.currentEvolvePhaseIndex + 1 == stage) {
@@ -55,7 +55,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
 
   Future<void> pollForGeneralUpdate() async {
     if (state == null) return;
-    await Future.delayed(Duration(seconds: 10));
+    await Future.delayed(Duration(seconds: 30));
 
     final updated = await NftService().retrieve(id);
     if (updated != null) {

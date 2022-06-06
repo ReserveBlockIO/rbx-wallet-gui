@@ -30,7 +30,7 @@ class _ReloadButtonState extends BaseComponentState<ReloadButton> {
           setState(() {
             _isLoading = true;
           });
-          await ref.read(walletInfoProvider.notifier).fetch();
+          ref.read(walletInfoProvider.notifier).fetch();
           await Future.delayed(Duration(milliseconds: 300));
           setState(() {
             _isLoading = false;

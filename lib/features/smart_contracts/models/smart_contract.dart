@@ -148,7 +148,7 @@ abstract class SmartContract with _$SmartContract {
     for (final m in multiAssets) {
       final f = {
         'FeatureName': MultiAsset.compilerEnum,
-        'FeatureFeatures': m.serializeForCompiler()
+        'FeatureFeatures': m.serializeForCompiler(minterName)
       };
       features.add(f);
     }

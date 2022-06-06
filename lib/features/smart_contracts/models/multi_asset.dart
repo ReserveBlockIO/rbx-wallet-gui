@@ -28,7 +28,16 @@ abstract class MultiAsset with _$MultiAsset {
     return MultiAsset(assets: assets);
   }
 
-  List<Map<String, dynamic>> serializeForCompiler() {
-    return assets.map((a) => a.toJson()).toList();
+  List<Map<String, dynamic>> serializeForCompiler(String minterName) {
+    return assets.map((a) {
+      final b = a.toJson();
+
+      b['FileName'] = b['Name'];
+      b['AssetAuthorName'] = minterName;
+
+      b.remove('Name');
+
+      return b;
+    }).toList();
   }
 }

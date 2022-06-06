@@ -35,6 +35,8 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
       Duration(seconds: REFRESH_TIMEOUT_SECONDS),
       (Timer t) => fetch(),
     );
+
+    // fetch();
   }
 
   fetch() async {
