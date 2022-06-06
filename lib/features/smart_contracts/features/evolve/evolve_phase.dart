@@ -41,7 +41,7 @@ class EvolvePhase with _$EvolvePhase {
       return null;
     }
 
-    final d = TZDateTime.from(dateTime!, getLocation(timezoneName)).toUtc();
+    // final d = TZDateTime.from(dateTime!, getLocation(timezoneName)).toUtc();
 
     // final d = TZDateTime.local(
     //   dateTime!.year,
@@ -51,9 +51,10 @@ class EvolvePhase with _$EvolvePhase {
     //   dateTime!.minute,
     //   dateTime!.second,
     // );
+    print("------------------------------");
+    print(dateTime!.toUtc().toIso8601String());
+    print("------------------------------");
 
-    print(d.toIso8601String());
-
-    return d.toIso8601String();
+    return dateTime!.toUtc().toIso8601String();
   }
 }
