@@ -15,20 +15,22 @@ class MintedNftListProvider extends StateNotifier<List<Nft>> {
   }
 
   Future<void> load() async {
-    final saved = (await NftService().getSaved())
-        .where((nft) => nft.manageable == true && nft.isPublished)
-        .toList();
+    // REMOVING THE SAVED STUFF for now at least...
+
+    // final saved = (await NftService().getSaved())
+    //     .where((nft) => nft.manageable == true && nft.isPublished)
+    //     .toList();
     final nfts = (await NftService().minted())
         .where((nft) => nft.manageable == true && nft.isPublished)
         .toList();
 
     List<Nft> output = [...nfts];
-    for (final s in saved) {
-      final exists = nfts.firstWhereOrNull((n) => n.id == s.id) != null;
-      if (!exists) {
-        output.add(s);
-      }
-    }
+    // for (final s in saved) {
+    //   final exists = nfts.firstWhereOrNull((n) => n.id == s.id) != null;
+    //   if (!exists) {
+    //     output.add(s);
+    //   }
+    // }
 
     state = output;
   }

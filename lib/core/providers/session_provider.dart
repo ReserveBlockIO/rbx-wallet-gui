@@ -29,6 +29,7 @@ import 'package:rbx_wallet/features/transactions/providers/transaction_list_prov
 import 'package:rbx_wallet/features/validator/providers/current_validator_provider.dart';
 import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
+import 'package:rbx_wallet/features/wallet/providers/wallet_detail_provider.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:collection/collection.dart';
 
@@ -168,9 +169,6 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
     await Future.delayed(Duration(seconds: REFRESH_TIMEOUT_SECONDS));
     mainLoop();
-    // await loadSmartContracts();
-
-    // await _checkBlockSyncStatus();
   }
 
   Future<void> load() async {
@@ -182,10 +180,12 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   Future<void> smartContractLoop() async {
-    read(mySmartContractsProvider.notifier).load();
-    read(nftListProvider.notifier).load();
-    read(mintedNftListProvider.notifier).load();
-    read(draftsSmartContractProvider.notifier).load();
+    if (state.currentWallet != null) {
+      read(mySmartContractsProvider.notifier).load();
+      read(nftListProvider.notifier).load();
+      read(mintedNftListProvider.notifier).load();
+      read(draftsSmartContractProvider.notifier).load();
+    }
 
     await Future.delayed(Duration(seconds: 30));
     smartContractLoop();
@@ -282,6 +282,9 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   Future<void> loadValidators() async {
+    if (state.currentWallet == null) {
+      return;
+    }
     final response = await BridgeService().validators();
     if (response.isEmpty) {
       return;
@@ -312,10 +315,12 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   Future<void> loadTransactions() async {
+    if (state.currentWallet == null) {
+      return;
+    }
+
     await read(transactionListProvider.notifier).load();
   }
-
-  Future<void> loadSmartContracts() async {}
 
   void setCurrentWallet(Wallet wallet) {
     state = state.copyWith(currentWallet: wallet);
@@ -519,6 +524,8 @@ class SessionProvider extends StateNotifier<SessionModel> {
             throwOnError: false,
             stdout: Env.hideCliOutput ? stdOutController.sink : null);
         cmd = '"$cliPath" ${options.join(' ')}';
+
+        print("CMD: $cmd");
 
         read(logProvider.notifier)
             .append(LogEntry(message: "Launching $cmd in the background."));
