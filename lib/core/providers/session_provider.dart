@@ -142,13 +142,23 @@ class SessionProvider extends StateNotifier<SessionModel> {
     }
 
     final now = DateTime.now();
+    print("NOW!!!!");
+    print(now);
     read(readyProvider.notifier).setReady(true);
-    final timezoneName = await FlutterNativeTimezone.getLocalTimezone();
+
+  
+
+  // final   timezoneName = await FlutterNativeTimezone.getLocalTimezone();
+//  print(timezoneName);
+
+  final timezoneName = DateTime.now().timeZoneName .toString();
+
     state = state.copyWith(
         // ready: true,
         startTime: now,
         cliStarted: cliStarted,
-        timezoneName: timezoneName);
+        timezoneName: timezoneName,
+      );
 
     // mainLoop();
     await load();

@@ -100,7 +100,7 @@ class WalletSelector extends BaseComponent {
                       title: "Import Wallet",
                       validator: (String? value) =>
                           formValidatorNotEmpty(value, "Private Key"),
-                      labelText: "Private Key1",
+                      labelText: "Private Key",
                       inputFormatters: [
                         FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]'))
                       ],
