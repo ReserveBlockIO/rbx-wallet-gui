@@ -81,6 +81,7 @@ class RoyaltyModal extends BaseComponent {
                         icon: Icon(
                           FontAwesomeIcons.folderOpen,
                           size: 16,
+                          color: Colors.white,
                         ),
                         onPressed: () async {
                           final wallets = ref.read(walletListProvider);
@@ -103,6 +104,8 @@ class RoyaltyModal extends BaseComponent {
                                   ],
                                   content: Column(
                                     mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: wallets
                                         .map(
                                           (w) => TextButton(

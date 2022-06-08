@@ -38,8 +38,11 @@ class SmartContractCreatorMain extends BaseComponent {
 
     // AutoRouter.of(context).popAndPush(NftDetailScreen(id))
     ref.read(nftDetailProvider(id).notifier).init();
+    ref.read(createSmartContractProvider.notifier).clearSmartContract();
 
-    AutoRouter.of(context).pop(id);
+    Future.delayed(Duration(milliseconds: 300)).then((_) {
+      AutoRouter.of(context).pop(id);
+    });
 
     // Navigator.of(context).pushReplacement(
     //   MaterialPageRoute(

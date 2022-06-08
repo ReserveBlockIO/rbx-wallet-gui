@@ -62,9 +62,12 @@ class EvolveFormProvider extends StateNotifier<Evolve> {
   }
 
   clear() {
+    for (int i = 0; i < state.phases.length; i++) {
+      read(evolvePhaseFormProvider(i).notifier).clear();
+    }
+
     final id = uniqueId();
     state = Evolve(id: id, phases: [EvolvePhase()]);
-    read(evolvePhaseFormProvider(0).notifier).clear();
   }
 }
 

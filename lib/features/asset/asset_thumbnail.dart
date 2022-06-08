@@ -9,7 +9,7 @@ class AssetThumbnail extends StatelessWidget {
   const AssetThumbnail(
     this.asset, {
     Key? key,
-    this.size = 200.0,
+    this.size = 150.0,
   }) : super(key: key);
 
   @override
@@ -54,7 +54,7 @@ class AssetThumbnail extends StatelessWidget {
             ? Image.file(
                 asset.file,
                 width: double.infinity,
-                fit: BoxFit.contain,
+                fit: BoxFit.cover,
               )
             : Icon(Icons.file_present_outlined),
       ),

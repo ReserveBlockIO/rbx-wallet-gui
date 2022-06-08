@@ -10,7 +10,10 @@ import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/compile_animation.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_form_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/multi_asset/multi_asset_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty_form_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/compiled_smart_contract.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/multi_asset.dart';
@@ -47,6 +50,10 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
   }
 
   void clearSmartContract() {
+    read(evolveFormProvider.notifier).clear();
+    read(royaltyFormProvider.notifier).clear();
+    read(multiAssetFormProvider.notifier).clear();
+
     final sc = SmartContract(
       owner: read(sessionProvider).currentWallet!,
     );

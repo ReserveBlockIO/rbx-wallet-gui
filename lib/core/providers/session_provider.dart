@@ -187,7 +187,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
       read(draftsSmartContractProvider.notifier).load();
     }
 
-    await Future.delayed(Duration(seconds: 30));
+    await Future.delayed(Duration(seconds: 45));
     smartContractLoop();
   }
 

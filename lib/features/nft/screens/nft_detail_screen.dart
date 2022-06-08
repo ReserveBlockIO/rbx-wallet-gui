@@ -195,7 +195,12 @@ class NftDetailScreen extends BaseScreen {
                                           Wrap(
                                             children: nft.additionalAssets
                                                 .map(
-                                                  (a) => AssetThumbnail(a),
+                                                  (a) => Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 6.0),
+                                                    child: AssetThumbnail(a),
+                                                  ),
                                                 )
                                                 .toList(),
                                           ),
