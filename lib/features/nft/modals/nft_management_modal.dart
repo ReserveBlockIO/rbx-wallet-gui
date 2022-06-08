@@ -30,6 +30,7 @@ class NftMangementModal extends BaseComponent {
       final success = await _provider.evolve();
       if (success) {
         Toast.message("Evolve transaction sent successfully!");
+        showEvolveMessage();
       } else {
         Toast.error();
       }
@@ -48,6 +49,7 @@ class NftMangementModal extends BaseComponent {
       final success = await _provider.devolve();
       if (success) {
         Toast.message("Devolve transaction sent successfully!");
+        showEvolveMessage();
       } else {
         Toast.error();
       }
@@ -64,9 +66,18 @@ class NftMangementModal extends BaseComponent {
     final success = await _provider.setEvolve(stage, _model!.address);
     if (success) {
       Toast.message("Evolve transaction sent successfully!");
+      showEvolveMessage();
     } else {
       Toast.error();
     }
+  }
+
+  void showEvolveMessage() {
+    InfoDialog.show(
+      title: "Evolve transaction sent successfully",
+      body:
+          "This screen will reflect the change once the block is crafted and your block height has synced with this transaction.",
+    );
   }
 
   @override
@@ -81,23 +92,23 @@ class NftMangementModal extends BaseComponent {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (nft.isProcessing)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 16,
-                  height: 16,
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                  ),
-                ),
-                SizedBox(
-                  width: 8,
-                ),
-                Text("Evolve Transaction Processing..."),
-              ],
-            ),
+          // if (nft.isProcessing)
+          //   Row(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: [
+          //       SizedBox(
+          //         width: 16,
+          //         height: 16,
+          //         child: CircularProgressIndicator(
+          //           valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+          //         ),
+          //       ),
+          //       SizedBox(
+          //         width: 8,
+          //       ),
+          //       Text("Evolve Transaction Processing..."),
+          //     ],
+          //   ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -147,99 +158,92 @@ class NftMangementModal extends BaseComponent {
           //       ),
           //     ],
           //   ),
-          Opacity(
-            opacity: nft.isProcessing ? 0.5 : 1,
-            child: IgnorePointer(
-              ignoring: nft.isProcessing,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Divider(),
-                  Text(
-                    nft.evolveIsDynamic ? "Evolution" : "Manage Evolution",
-                    style: Theme.of(context).textTheme.headline5,
-                  ),
-                  if (nft.canManageEvolve)
-                    Card(
-                      color: Colors.white10,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            AppButton(
-                              label: "Devolve",
-                              variant: AppColorVariant.Danger,
-                              icon: FontAwesomeIcons.chevronCircleDown,
-                              onPressed:
-                                  nft.currentEvolvePhase.evolutionState > 0
-                                      ? () async {
-                                          devolve(context, ref);
-                                        }
-                                      : null,
-                            ),
-                            AppButton(
-                              label: "Evolve",
-                              variant: AppColorVariant.Success,
-                              icon: FontAwesomeIcons.chevronCircleUp,
-                              onPressed: nft.currentEvolvePhase.evolutionState <
-                                      nft.evolutionPhases.length
-                                  ? () async {
-                                      evolve(context, ref);
-                                    }
-                                  : null,
-                            ),
-                            AppButton(
-                              label: "Set Evolution",
-                              variant: AppColorVariant.Primary,
-                              icon: FontAwesomeIcons.chevronCircleUp,
-                              helpType: HelpType.setEvolution,
-                              onPressed: () {
-                                PromptModal.show(
-                                  title: "Evolve To",
-                                  validator: (value) =>
-                                      formValidatorNotEmpty(value, "Value"),
-                                  labelText: "Value",
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.allow(
-                                      RegExp("[0-9]"),
-                                    )
-                                  ],
-                                  onValidSubmission: (val) async {
-                                    final i = int.tryParse(val);
-                                    if (i != null) {
-                                      setEvolve(context, ref, i);
-                                    }
-                                  },
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  _EvolutionStateRow(
-                    nft.baseEvolutionPhase,
-                    nftId: id,
-                    canManageEvolve: nft.canManageEvolve,
-                    index: 0,
-                  ),
-                  ...nft.evolutionPhases
-                      .asMap()
-                      .entries
-                      .map(
-                        (entry) => _EvolutionStateRow(
-                          entry.value,
-                          nftId: id,
-                          canManageEvolve: nft.canManageEvolve,
-                          index: entry.key + 1,
-                        ),
-                      )
-                      .toList(),
-                ],
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Divider(),
+              Text(
+                nft.evolveIsDynamic ? "Evolution" : "Manage Evolution",
+                style: Theme.of(context).textTheme.headline5,
               ),
-            ),
+              if (nft.canManageEvolve)
+                Card(
+                  color: Colors.white10,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        AppButton(
+                          label: "Devolve",
+                          variant: AppColorVariant.Danger,
+                          icon: FontAwesomeIcons.chevronCircleDown,
+                          onPressed: nft.currentEvolvePhase.evolutionState > 0
+                              ? () async {
+                                  devolve(context, ref);
+                                }
+                              : null,
+                        ),
+                        AppButton(
+                          label: "Evolve",
+                          variant: AppColorVariant.Success,
+                          icon: FontAwesomeIcons.chevronCircleUp,
+                          onPressed: nft.currentEvolvePhase.evolutionState <
+                                  nft.evolutionPhases.length
+                              ? () async {
+                                  evolve(context, ref);
+                                }
+                              : null,
+                        ),
+                        AppButton(
+                          label: "Set Evolution",
+                          variant: AppColorVariant.Primary,
+                          icon: FontAwesomeIcons.chevronCircleUp,
+                          helpType: HelpType.setEvolution,
+                          onPressed: () {
+                            PromptModal.show(
+                              title: "Evolve To",
+                              validator: (value) =>
+                                  formValidatorNotEmpty(value, "Value"),
+                              labelText: "Value",
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                  RegExp("[0-9]"),
+                                )
+                              ],
+                              onValidSubmission: (val) async {
+                                final i = int.tryParse(val);
+                                if (i != null) {
+                                  setEvolve(context, ref, i);
+                                }
+                              },
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              _EvolutionStateRow(
+                nft.baseEvolutionPhase,
+                nftId: id,
+                canManageEvolve: nft.canManageEvolve,
+                index: 0,
+              ),
+              ...nft.evolutionPhases
+                  .asMap()
+                  .entries
+                  .map(
+                    (entry) => _EvolutionStateRow(
+                      entry.value,
+                      nftId: id,
+                      canManageEvolve: nft.canManageEvolve,
+                      index: entry.key + 1,
+                    ),
+                  )
+                  .toList(),
+            ],
           ),
         ],
       ),
@@ -259,6 +263,14 @@ class _EvolutionStateRow extends BaseComponent {
     required this.canManageEvolve,
     required this.index,
   }) : super(key: key);
+
+  void showEvolveMessage() {
+    InfoDialog.show(
+      title: "Evolve transaction sent successfully",
+      body:
+          "This screen will reflect the change once the block is crafted and your block height has synced with this transaction.",
+    );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -378,6 +390,7 @@ class _EvolutionStateRow extends BaseComponent {
                                     if (success) {
                                       Toast.message(
                                           "Evolve transaction sent successfully!");
+                                      showEvolveMessage();
                                     } else {
                                       Toast.error();
                                     }

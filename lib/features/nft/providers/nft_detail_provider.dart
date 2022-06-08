@@ -118,10 +118,10 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     if (!canTransact()) return false;
 
     final success = await SmartContractService().evolve(id, toAddress, stage);
-    if (success == true) {
-      state = state!.copyWith(isProcessing: true);
-      pollForEvolutionUpdate(stage);
-    }
+    // if (success == true) {
+    //   state = state!.copyWith(isProcessing: true);
+    //   pollForEvolutionUpdate(stage);
+    // }
     return success;
   }
 
