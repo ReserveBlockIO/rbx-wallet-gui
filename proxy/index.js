@@ -9,8 +9,8 @@ const app = express();
 app.use(cors());
 
 // Configuration
-const PORT = 3000;
-const HOST = "localhost";
+const PORT = process.env.CLIENT_PORT;
+const HOST = process.env.CLIENT_HOST;
 const API_SERVICE_URL = `${process.env.SERVICE_URL}:${process.env.SERVICE_PORT}`;
 
 app.use(morgan("dev"));
