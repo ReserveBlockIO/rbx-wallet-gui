@@ -96,3 +96,7 @@ build_win7:
 
 	
 	C:\"Program Files (x86)"\"Inno Setup 6"\ISCC .\installers\resources\WindowsInstallerScript-win7.iss
+
+
+deploy_proxy:
+	git subtree push --prefix proxy heroku main
