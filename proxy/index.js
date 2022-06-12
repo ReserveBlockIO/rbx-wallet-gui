@@ -9,7 +9,7 @@ const app = express();
 app.use(cors());
 
 // Configuration
-const PORT = process.env.CLIENT_PORT;
+const PORT = process.env.PORT || process.env.CLIENT_PORT;
 const HOST = process.env.CLIENT_HOST;
 const API_SERVICE_URL = `${process.env.SERVICE_URL}:${process.env.SERVICE_PORT}`;
 
