@@ -100,3 +100,7 @@ build_win7:
 
 deploy_proxy:
 	git subtree push --prefix proxy heroku main
+
+deploy_web:
+	flutter build web
+	firebase deploy --only hosting

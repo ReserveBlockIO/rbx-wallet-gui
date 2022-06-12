@@ -31,6 +31,9 @@ class $AssetsEnvGen {
   /// File path: assets/env/release_testnet
   String get releaseTestnet => 'assets/env/release_testnet';
 
+  /// File path: assets/env/web_dev_env
+  String get webDevEnv => 'assets/env/web_dev_env';
+
   /// File path: assets/env/web_env
   String get webEnv => 'assets/env/web_env';
 

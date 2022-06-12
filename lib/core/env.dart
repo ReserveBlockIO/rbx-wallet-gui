@@ -12,6 +12,7 @@ enum _Environment {
   Release,
   BlockExplorer,
   Web,
+  WebDev,
 }
 const _env = _Environment.Web;
 
@@ -42,6 +43,10 @@ class Env {
         break;
       case _Environment.Web:
         envPath = Assets.env.webEnv;
+        break;
+      case _Environment.WebDev:
+        envPath = Assets.env.webDevEnv;
+        break;
     }
 
     await DotEnv.dotenv.load(fileName: envPath);
