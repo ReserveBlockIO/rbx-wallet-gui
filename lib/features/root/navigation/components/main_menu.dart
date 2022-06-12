@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
@@ -115,22 +116,24 @@ class MainMenu extends BaseComponent {
                 },
                 isActive: tabsRouter.activeIndex == 3,
               ),
-              _NavButton(
-                title: "Masternode",
-                icon: Icons.check_circle,
-                onPressed: () {
-                  tabsRouter.setActiveIndex(4);
-                },
-                isActive: tabsRouter.activeIndex == 4,
-              ),
-              _NavButton(
-                title: "Validator Pool",
-                icon: Icons.wifi,
-                onPressed: () {
-                  tabsRouter.setActiveIndex(5);
-                },
-                isActive: tabsRouter.activeIndex == 5,
-              ),
+              if (!kIsWeb)
+                _NavButton(
+                  title: "Masternode",
+                  icon: Icons.check_circle,
+                  onPressed: () {
+                    tabsRouter.setActiveIndex(4);
+                  },
+                  isActive: tabsRouter.activeIndex == 4,
+                ),
+              if (!kIsWeb)
+                _NavButton(
+                  title: "Validator Pool",
+                  icon: Icons.wifi,
+                  onPressed: () {
+                    tabsRouter.setActiveIndex(5);
+                  },
+                  isActive: tabsRouter.activeIndex == 5,
+                ),
               // _NavButton(
               //   title: "Datanode",
               //   icon: Icons.storage,

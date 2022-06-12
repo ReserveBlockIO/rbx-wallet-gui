@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/app.dart';
@@ -15,7 +16,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Env.init();
   await initSingletons();
-  if (Platform.isMacOS) {
+
+  if (!kIsWeb && Platform.isMacOS) {
     await DesktopWindow.setWindowSize(Size(MIN_WIDTH, MIN_HEIGHT));
     await DesktopWindow.setMinWindowSize(Size(MIN_WIDTH, MIN_HEIGHT));
   }

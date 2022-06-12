@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -37,7 +38,7 @@ class SendForm extends BaseComponent {
 
     String pasteMessage = "Use ctrl+v to paste or click ";
 
-    if (Platform.isMacOS) {
+    if (!kIsWeb && Platform.isMacOS) {
       pasteMessage = pasteMessage.replaceAll("ctrl+v", "cmd+v");
     }
 

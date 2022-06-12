@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -421,6 +422,10 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   String getCliPath() {
+    if (kIsWeb) {
+      print("no cli path for web");
+      return '';
+    }
     if (Platform.isMacOS) {
       return '/Applications/RBXWallet.app/Contents/Resources/RBXCore/ReserveBlockCore';
     } else {

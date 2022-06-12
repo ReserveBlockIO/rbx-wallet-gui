@@ -11,8 +11,9 @@ enum _Environment {
   WinTestNet,
   Release,
   BlockExplorer,
+  Web,
 }
-const _env = _Environment.Release;
+const _env = _Environment.Web;
 
 class Env {
   static init() async {
@@ -39,6 +40,8 @@ class Env {
       case _Environment.Release:
         envPath = Assets.env.releaseEnv;
         break;
+      case _Environment.Web:
+        envPath = Assets.env.webEnv;
     }
 
     await DotEnv.dotenv.load(fileName: envPath);
@@ -83,5 +86,9 @@ class Env {
 
   static bool get hideCliOutput {
     return DotEnv.dotenv.env['HIDE_CLI_OUTPUT'] == "true";
+  }
+
+  static bool get isWeb {
+    return DotEnv.dotenv.env['IS_WEB'] == "true";
   }
 }

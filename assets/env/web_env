@@ -1,0 +1,6 @@
+ENVIRONMENT_NAME=web
+STORAGE_PREFIX=web
+API_BASE_URL=http://localhost:3000/api/V1
+LAUNCH_CLI=false
+ALLOW_VALIDATING=false
+IS_WEB=true
