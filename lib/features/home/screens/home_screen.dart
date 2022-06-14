@@ -19,6 +19,10 @@ import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/home/components/log_window.dart';
 import 'package:rbx_wallet/features/home/components/transaction_window.dart';
+
+import 'package:rbx_wallet/features/keygen/components/keygen_cta.dart'
+    if (dart.library.io) 'package:rbx_wallet/features/keygen/components/keygen_cta_mock.dart';
+
 import 'package:rbx_wallet/features/root/components/reload_button.dart';
 import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
@@ -58,6 +62,13 @@ class HomeScreen extends BaseScreen {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            if (kIsWeb)
+              Text(
+                "Keys",
+                style: Theme.of(context).textTheme.subtitle2,
+              ),
+            if (kIsWeb) Divider(),
+            if (kIsWeb) KeygenCta(),
             if (!kIsWeb)
               Text(
                 "General Tools",

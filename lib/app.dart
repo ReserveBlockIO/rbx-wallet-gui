@@ -67,7 +67,18 @@ class AppContainer extends ConsumerWidget {
           children: [
             widget!,
             if (ref.watch(globalLoadingProvider))
-              Container(color: Colors.black45, child: CenteredLoader())
+              Container(
+                color: Colors.black54,
+                child: Center(
+                  child: Text(
+                    "Loading...",
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                ),
+              )
           ],
         );
       },

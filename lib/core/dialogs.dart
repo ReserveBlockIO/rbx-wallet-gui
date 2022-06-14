@@ -138,6 +138,7 @@ class PromptModal {
     String initialValue = "",
     bool destructive = false,
     bool allowCancel = true,
+    int? lines,
     Function(String)? onValidSubmission,
     List<TextInputFormatter> inputFormatters = const [],
   }) async {
@@ -164,6 +165,8 @@ class PromptModal {
                   controller: _controller,
                   obscureText: obscureText,
                   autofocus: true,
+                  minLines: lines,
+                  maxLines: lines,
                   decoration: InputDecoration(
                     label: Text(labelText),
                   ),

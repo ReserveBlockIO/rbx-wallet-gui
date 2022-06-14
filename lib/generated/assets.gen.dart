@@ -176,12 +176,20 @@ class $AssetsImagesGen {
       const AssetGenImage('assets/images/wordmark.png');
 }
 
+class $AssetsJsGen {
+  const $AssetsJsGen();
+
+  /// File path: assets/js/keygen.js
+  String get keygen => 'assets/js/keygen.js';
+}
+
 class Assets {
   Assets._();
 
   static const $AssetsEnvGen env = $AssetsEnvGen();
   static const $AssetsFontsGen fonts = $AssetsFontsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsJsGen js = $AssetsJsGen();
 }
 
 class AssetGenImage extends AssetImage {
