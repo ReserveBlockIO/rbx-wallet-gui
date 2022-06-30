@@ -10,7 +10,6 @@ import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
 import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
-import 'package:rbx_wallet/features/home/components/log_item.dart';
 import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
 import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/toast.dart';
@@ -180,7 +179,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
         final confirmed = await ConfirmDialog.show(
           title: "Valid Transaction",
           body:
-              "This transaction is valid and is ready to send. Are you sure you want to proceed?${txFee != null ? '\n\n TX Fee: $txFee RBX' : ''}",
+              "This transaction is valid and is ready to send. Are you sure you want to proceed?\n\nTo:$address\n\nAmount:$amount${txFee != null ? '\nTX Fee: $txFee RBX\nTotal:${amount + txFee} RBX' : ''}",
           confirmText: "Send",
           cancelText: "Cancel",
         );
@@ -194,7 +193,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
           if (tx != null) {
             if (tx['data']['Result'] == "Success") {
               Toast.message("$amount RBX sent to $address");
-              state = SendFormModel(
+              state = const SendFormModel(
                 address: "",
                 amount: "",
               );

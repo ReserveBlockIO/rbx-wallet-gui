@@ -22,10 +22,10 @@ class ValidatorScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: Text("Masternode"),
+      title: const Text("Masternode"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      actions: [WalletSelector()],
+      actions: const [WalletSelector()],
     );
   }
 
@@ -50,7 +50,7 @@ class ValidatorScreen extends BaseScreen {
     final currentWallet = ref.watch(sessionProvider).currentWallet;
 
     if (currentWallet == null) {
-      return InvalidWallet(message: "No wallet selected");
+      return const InvalidWallet(message: "No wallet selected");
     }
 
     final validator = ref.watch(currentValidatorProvider);
@@ -80,7 +80,7 @@ class ValidatorScreen extends BaseScreen {
                 },
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 40,
             ),
             AppButton(
@@ -142,8 +142,8 @@ class ValidatorScreen extends BaseScreen {
           "${currentWallet.labelWithoutTruncation}  is Validating...",
           style: Theme.of(context).textTheme.headline4,
         ),
-        Padding(
-          padding: const EdgeInsets.all(32),
+        const Padding(
+          padding: EdgeInsets.all(32),
           child: SizedBox(
               width: 20,
               height: 20,
@@ -172,7 +172,7 @@ class ValidatorScreen extends BaseScreen {
             ref.read(globalLoadingProvider.notifier).complete();
           },
         ),
-        SizedBox(
+        const SizedBox(
           height: 8,
         ),
         AppButton(

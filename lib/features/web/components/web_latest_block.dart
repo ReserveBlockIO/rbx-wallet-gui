@@ -13,34 +13,31 @@ class WebLatestBlock extends BaseComponent {
     final block = ref.watch(webLatestBlockProvider);
 
     if (block == null) {
-      return Container(
+      return const SizedBox(
         height: 200,
         child: CenteredLoader(),
       );
     }
 
-    return Container(
-      // color: Theme.of(context).colorScheme.primary,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Text(
-            //   "Latest Block",
-            //   style: Theme.of(context)
-            //       .textTheme
-            //       .caption!
-            //       .copyWith(color: Colors.white),
-            // ),
-            // SizedBox(height: 8),
-            LatestBlock(
-              blockOverride: block.toNativeBlock(),
-              // backgroundColor: Theme.of(context).colorScheme.primary,
-            ),
-          ],
-        ),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Text(
+          //   "Latest Block",
+          //   style: Theme.of(context)
+          //       .textTheme
+          //       .caption!
+          //       .copyWith(color: Colors.white),
+          // ),
+          // SizedBox(height: 8),
+          LatestBlock(
+            blockOverride: block.toNativeBlock(),
+            // backgroundColor: Theme.of(context).colorScheme.primary,
+          ),
+        ],
       ),
     );
   }

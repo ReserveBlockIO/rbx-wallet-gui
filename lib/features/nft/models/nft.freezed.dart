@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'nft.dart';
@@ -11,69 +12,11 @@ part of 'nft.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 Nft _$NftFromJson(Map<String, dynamic> json) {
   return _Nft.fromJson(json);
 }
-
-/// @nodoc
-class _$NftTearOff {
-  const _$NftTearOff();
-
-  _Nft call(
-      {@JsonKey(name: "Name")
-          required String name,
-      @JsonKey(name: "Description")
-          required String description,
-      @JsonKey(name: "Address")
-          required String address,
-      @JsonKey(name: "MinterAddress")
-          String minterAddress = "",
-      @JsonKey(name: "MinterName")
-          String minterName = "",
-      @JsonKey(name: "SmartContractUID")
-          required String id,
-      @JsonKey(name: "Signature")
-          String? signature,
-      @JsonKey(name: "SmartContractAsset")
-          required Asset primaryAsset,
-      @JsonKey(name: "IsPublic")
-          required bool isPublic,
-      @JsonKey(name: "IsPublished")
-          required bool isPublished,
-      @JsonKey(name: "IsMinter")
-          required bool isMinter,
-      @JsonKey(name: "Features", defaultValue: [])
-          required List<Map<String, dynamic>> features,
-      @JsonKey(defaultValue: false)
-          required bool isProcessing,
-      String? code}) {
-    return _Nft(
-      name: name,
-      description: description,
-      address: address,
-      minterAddress: minterAddress,
-      minterName: minterName,
-      id: id,
-      signature: signature,
-      primaryAsset: primaryAsset,
-      isPublic: isPublic,
-      isPublished: isPublished,
-      isMinter: isMinter,
-      features: features,
-      isProcessing: isProcessing,
-      code: code,
-    );
-  }
-
-  Nft fromJson(Map<String, Object?> json) {
-    return Nft.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $Nft = _$NftTearOff();
 
 /// @nodoc
 mixin _$Nft {
@@ -240,9 +183,9 @@ class _$NftCopyWithImpl<$Res> implements $NftCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$NftCopyWith<$Res> implements $NftCopyWith<$Res> {
-  factory _$NftCopyWith(_Nft value, $Res Function(_Nft) then) =
-      __$NftCopyWithImpl<$Res>;
+abstract class _$$_NftCopyWith<$Res> implements $NftCopyWith<$Res> {
+  factory _$$_NftCopyWith(_$_Nft value, $Res Function(_$_Nft) then) =
+      __$$_NftCopyWithImpl<$Res>;
   @override
   $Res call(
       {@JsonKey(name: "Name")
@@ -278,13 +221,13 @@ abstract class _$NftCopyWith<$Res> implements $NftCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$NftCopyWithImpl<$Res> extends _$NftCopyWithImpl<$Res>
-    implements _$NftCopyWith<$Res> {
-  __$NftCopyWithImpl(_Nft _value, $Res Function(_Nft) _then)
-      : super(_value, (v) => _then(v as _Nft));
+class __$$_NftCopyWithImpl<$Res> extends _$NftCopyWithImpl<$Res>
+    implements _$$_NftCopyWith<$Res> {
+  __$$_NftCopyWithImpl(_$_Nft _value, $Res Function(_$_Nft) _then)
+      : super(_value, (v) => _then(v as _$_Nft));
 
   @override
-  _Nft get _value => super._value as _Nft;
+  _$_Nft get _value => super._value as _$_Nft;
 
   @override
   $Res call({
@@ -303,7 +246,7 @@ class __$NftCopyWithImpl<$Res> extends _$NftCopyWithImpl<$Res>
     Object? isProcessing = freezed,
     Object? code = freezed,
   }) {
-    return _then(_Nft(
+    return _then(_$_Nft(
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -349,7 +292,7 @@ class __$NftCopyWithImpl<$Res> extends _$NftCopyWithImpl<$Res>
           : isMinter // ignore: cast_nullable_to_non_nullable
               as bool,
       features: features == freezed
-          ? _value.features
+          ? _value._features
           : features // ignore: cast_nullable_to_non_nullable
               as List<Map<String, dynamic>>,
       isProcessing: isProcessing == freezed
@@ -368,21 +311,35 @@ class __$NftCopyWithImpl<$Res> extends _$NftCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Nft extends _Nft {
   _$_Nft(
-      {@JsonKey(name: "Name") required this.name,
-      @JsonKey(name: "Description") required this.description,
-      @JsonKey(name: "Address") required this.address,
-      @JsonKey(name: "MinterAddress") this.minterAddress = "",
-      @JsonKey(name: "MinterName") this.minterName = "",
-      @JsonKey(name: "SmartContractUID") required this.id,
-      @JsonKey(name: "Signature") this.signature,
-      @JsonKey(name: "SmartContractAsset") required this.primaryAsset,
-      @JsonKey(name: "IsPublic") required this.isPublic,
-      @JsonKey(name: "IsPublished") required this.isPublished,
-      @JsonKey(name: "IsMinter") required this.isMinter,
-      @JsonKey(name: "Features", defaultValue: []) required this.features,
-      @JsonKey(defaultValue: false) required this.isProcessing,
+      {@JsonKey(name: "Name")
+          required this.name,
+      @JsonKey(name: "Description")
+          required this.description,
+      @JsonKey(name: "Address")
+          required this.address,
+      @JsonKey(name: "MinterAddress")
+          this.minterAddress = "",
+      @JsonKey(name: "MinterName")
+          this.minterName = "",
+      @JsonKey(name: "SmartContractUID")
+          required this.id,
+      @JsonKey(name: "Signature")
+          this.signature,
+      @JsonKey(name: "SmartContractAsset")
+          required this.primaryAsset,
+      @JsonKey(name: "IsPublic")
+          required this.isPublic,
+      @JsonKey(name: "IsPublished")
+          required this.isPublished,
+      @JsonKey(name: "IsMinter")
+          required this.isMinter,
+      @JsonKey(name: "Features", defaultValue: [])
+          required final List<Map<String, dynamic>> features,
+      @JsonKey(defaultValue: false)
+          required this.isProcessing,
       this.code})
-      : super._();
+      : _features = features,
+        super._();
 
   factory _$_Nft.fromJson(Map<String, dynamic> json) => _$$_NftFromJson(json);
 
@@ -419,9 +376,14 @@ class _$_Nft extends _Nft {
   @override
   @JsonKey(name: "IsMinter")
   final bool isMinter;
+  final List<Map<String, dynamic>> _features;
   @override
   @JsonKey(name: "Features", defaultValue: [])
-  final List<Map<String, dynamic>> features;
+  List<Map<String, dynamic>> get features {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_features);
+  }
+
   @override
   @JsonKey(defaultValue: false)
   final bool isProcessing;
@@ -437,7 +399,7 @@ class _$_Nft extends _Nft {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Nft &&
+            other is _$_Nft &&
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality()
                 .equals(other.description, description) &&
@@ -454,12 +416,13 @@ class _$_Nft extends _Nft {
             const DeepCollectionEquality()
                 .equals(other.isPublished, isPublished) &&
             const DeepCollectionEquality().equals(other.isMinter, isMinter) &&
-            const DeepCollectionEquality().equals(other.features, features) &&
+            const DeepCollectionEquality().equals(other._features, _features) &&
             const DeepCollectionEquality()
                 .equals(other.isProcessing, isProcessing) &&
             const DeepCollectionEquality().equals(other.code, code));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -474,14 +437,14 @@ class _$_Nft extends _Nft {
       const DeepCollectionEquality().hash(isPublic),
       const DeepCollectionEquality().hash(isPublished),
       const DeepCollectionEquality().hash(isMinter),
-      const DeepCollectionEquality().hash(features),
+      const DeepCollectionEquality().hash(_features),
       const DeepCollectionEquality().hash(isProcessing),
       const DeepCollectionEquality().hash(code));
 
   @JsonKey(ignore: true)
   @override
-  _$NftCopyWith<_Nft> get copyWith =>
-      __$NftCopyWithImpl<_Nft>(this, _$identity);
+  _$$_NftCopyWith<_$_Nft> get copyWith =>
+      __$$_NftCopyWithImpl<_$_Nft>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -492,78 +455,78 @@ class _$_Nft extends _Nft {
 abstract class _Nft extends Nft {
   factory _Nft(
       {@JsonKey(name: "Name")
-          required String name,
+          required final String name,
       @JsonKey(name: "Description")
-          required String description,
+          required final String description,
       @JsonKey(name: "Address")
-          required String address,
+          required final String address,
       @JsonKey(name: "MinterAddress")
-          String minterAddress,
+          final String minterAddress,
       @JsonKey(name: "MinterName")
-          String minterName,
+          final String minterName,
       @JsonKey(name: "SmartContractUID")
-          required String id,
+          required final String id,
       @JsonKey(name: "Signature")
-          String? signature,
+          final String? signature,
       @JsonKey(name: "SmartContractAsset")
-          required Asset primaryAsset,
+          required final Asset primaryAsset,
       @JsonKey(name: "IsPublic")
-          required bool isPublic,
+          required final bool isPublic,
       @JsonKey(name: "IsPublished")
-          required bool isPublished,
+          required final bool isPublished,
       @JsonKey(name: "IsMinter")
-          required bool isMinter,
+          required final bool isMinter,
       @JsonKey(name: "Features", defaultValue: [])
-          required List<Map<String, dynamic>> features,
+          required final List<Map<String, dynamic>> features,
       @JsonKey(defaultValue: false)
-          required bool isProcessing,
-      String? code}) = _$_Nft;
+          required final bool isProcessing,
+      final String? code}) = _$_Nft;
   _Nft._() : super._();
 
   factory _Nft.fromJson(Map<String, dynamic> json) = _$_Nft.fromJson;
 
   @override
   @JsonKey(name: "Name")
-  String get name;
+  String get name => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "Description")
-  String get description;
+  String get description => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "Address")
-  String get address;
+  String get address => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "MinterAddress")
-  String get minterAddress;
+  String get minterAddress => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "MinterName")
-  String get minterName;
+  String get minterName => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "SmartContractUID")
-  String get id;
+  String get id => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "Signature")
-  String? get signature;
+  String? get signature => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "SmartContractAsset")
-  Asset get primaryAsset;
+  Asset get primaryAsset => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "IsPublic")
-  bool get isPublic;
+  bool get isPublic => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "IsPublished")
-  bool get isPublished;
+  bool get isPublished => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "IsMinter")
-  bool get isMinter;
+  bool get isMinter => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "Features", defaultValue: [])
-  List<Map<String, dynamic>> get features;
+  List<Map<String, dynamic>> get features => throw _privateConstructorUsedError;
   @override
   @JsonKey(defaultValue: false)
-  bool get isProcessing;
+  bool get isProcessing => throw _privateConstructorUsedError;
   @override
-  String? get code;
+  String? get code => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$NftCopyWith<_Nft> get copyWith => throw _privateConstructorUsedError;
+  _$$_NftCopyWith<_$_Nft> get copyWith => throw _privateConstructorUsedError;
 }

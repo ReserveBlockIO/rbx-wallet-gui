@@ -1,7 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/app.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
@@ -22,10 +20,10 @@ class WebAuthScreen extends BaseStatefulScreen {
         );
 
   @override
-  _WebAuthScreenScreenState createState() => _WebAuthScreenScreenState();
+  WebAuthScreenScreenState createState() => WebAuthScreenScreenState();
 }
 
-class _WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
+class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
   @override
   void initState() {
     super.initState();
@@ -92,7 +90,7 @@ class _WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                   fit: BoxFit.contain,
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -137,7 +135,7 @@ class _WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                     },
                     variant: AppColorVariant.Light,
                   ),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   AppButton(
                     label: "Import Wallet",
                     icon: Icons.upload,

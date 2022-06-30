@@ -20,16 +20,16 @@ class BootContainer extends BaseComponent {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        CircularProgressIndicator(
+        const CircularProgressIndicator(
           valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
         ),
-        SizedBox(
+        const SizedBox(
           height: 32,
         ),
         ...truncatedLogs
             .map((m) => Text(
                   m.message,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 12,
                     color: Colors.white,
                   ),

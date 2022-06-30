@@ -18,7 +18,7 @@ class LogWindow extends BaseComponent {
 
     ref.listen(logProvider, (_, __) {
       scrollController.animateTo(scrollController.position.maxScrollExtent,
-          duration: Duration(milliseconds: 500), curve: Curves.ease);
+          duration: const Duration(milliseconds: 500), curve: Curves.ease);
     });
 
     return Column(
@@ -29,7 +29,7 @@ class LogWindow extends BaseComponent {
           "Status Log",
           style: Theme.of(context).textTheme.subtitle2,
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Card(
           margin: EdgeInsets.zero,
           child: Padding(
@@ -78,7 +78,7 @@ class LogWindow extends BaseComponent {
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 2,
         ),
       ],

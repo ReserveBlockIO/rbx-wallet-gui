@@ -20,7 +20,7 @@ class PrimaryAssetFormGroup extends BaseComponent {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          FormGroupHeader(
+          const FormGroupHeader(
             "Primary Asset",
             helpType: HelpType.primaryAsset,
           ),

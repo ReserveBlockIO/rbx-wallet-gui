@@ -15,7 +15,7 @@ class CodeModal extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text(
+              child: const Text(
                 "Close",
                 style: TextStyle(color: Colors.white),
               )),
@@ -37,7 +37,7 @@ class CodeModal extends StatelessWidget {
                           child: Text(
                             "${e.key + 1}",
                             textAlign: TextAlign.right,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontFamily: "RobotoMono",
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -58,13 +58,13 @@ class CodeModal extends StatelessWidget {
             //     style: TextStyle(fontFamily: "RobotoMono", fontSize: 16),
             //   ),
             // ),
-            SizedBox(
+            const SizedBox(
               width: 8,
             ),
             Expanded(
               child: Text(
                 code,
-                style: TextStyle(
+                style: const TextStyle(
                   fontFamily: "RobotoMono",
                   fontSize: 16,
                 ),

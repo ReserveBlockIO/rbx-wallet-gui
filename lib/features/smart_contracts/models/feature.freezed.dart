@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'feature.dart';
@@ -11,32 +12,11 @@ part of 'feature.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 Feature _$FeatureFromJson(Map<String, dynamic> json) {
   return _Feature.fromJson(json);
 }
-
-/// @nodoc
-class _$FeatureTearOff {
-  const _$FeatureTearOff();
-
-  _Feature call(
-      {FeatureType type = FeatureType.royalty,
-      Map<String, dynamic> data = const {}}) {
-    return _Feature(
-      type: type,
-      data: data,
-    );
-  }
-
-  Feature fromJson(Map<String, Object?> json) {
-    return Feature.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $Feature = _$FeatureTearOff();
 
 /// @nodoc
 mixin _$Feature {
@@ -82,34 +62,35 @@ class _$FeatureCopyWithImpl<$Res> implements $FeatureCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$FeatureCopyWith<$Res> implements $FeatureCopyWith<$Res> {
-  factory _$FeatureCopyWith(_Feature value, $Res Function(_Feature) then) =
-      __$FeatureCopyWithImpl<$Res>;
+abstract class _$$_FeatureCopyWith<$Res> implements $FeatureCopyWith<$Res> {
+  factory _$$_FeatureCopyWith(
+          _$_Feature value, $Res Function(_$_Feature) then) =
+      __$$_FeatureCopyWithImpl<$Res>;
   @override
   $Res call({FeatureType type, Map<String, dynamic> data});
 }
 
 /// @nodoc
-class __$FeatureCopyWithImpl<$Res> extends _$FeatureCopyWithImpl<$Res>
-    implements _$FeatureCopyWith<$Res> {
-  __$FeatureCopyWithImpl(_Feature _value, $Res Function(_Feature) _then)
-      : super(_value, (v) => _then(v as _Feature));
+class __$$_FeatureCopyWithImpl<$Res> extends _$FeatureCopyWithImpl<$Res>
+    implements _$$_FeatureCopyWith<$Res> {
+  __$$_FeatureCopyWithImpl(_$_Feature _value, $Res Function(_$_Feature) _then)
+      : super(_value, (v) => _then(v as _$_Feature));
 
   @override
-  _Feature get _value => super._value as _Feature;
+  _$_Feature get _value => super._value as _$_Feature;
 
   @override
   $Res call({
     Object? type = freezed,
     Object? data = freezed,
   }) {
-    return _then(_Feature(
+    return _then(_$_Feature(
       type: type == freezed
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as FeatureType,
       data: data == freezed
-          ? _value.data
+          ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
     ));
@@ -119,18 +100,25 @@ class __$FeatureCopyWithImpl<$Res> extends _$FeatureCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Feature extends _Feature {
-  _$_Feature({this.type = FeatureType.royalty, this.data = const {}})
-      : super._();
+  _$_Feature(
+      {this.type = FeatureType.royalty,
+      final Map<String, dynamic> data = const {}})
+      : _data = data,
+        super._();
 
   factory _$_Feature.fromJson(Map<String, dynamic> json) =>
       _$$_FeatureFromJson(json);
 
-  @JsonKey(defaultValue: FeatureType.royalty)
   @override
+  @JsonKey()
   final FeatureType type;
-  @JsonKey(defaultValue: const {})
+  final Map<String, dynamic> _data;
   @override
-  final Map<String, dynamic> data;
+  @JsonKey()
+  Map<String, dynamic> get data {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_data);
+  }
 
   @override
   String toString() {
@@ -141,21 +129,22 @@ class _$_Feature extends _Feature {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Feature &&
+            other is _$_Feature &&
             const DeepCollectionEquality().equals(other.type, type) &&
-            const DeepCollectionEquality().equals(other.data, data));
+            const DeepCollectionEquality().equals(other._data, _data));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(type),
-      const DeepCollectionEquality().hash(data));
+      const DeepCollectionEquality().hash(_data));
 
   @JsonKey(ignore: true)
   @override
-  _$FeatureCopyWith<_Feature> get copyWith =>
-      __$FeatureCopyWithImpl<_Feature>(this, _$identity);
+  _$$_FeatureCopyWith<_$_Feature> get copyWith =>
+      __$$_FeatureCopyWithImpl<_$_Feature>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -164,17 +153,18 @@ class _$_Feature extends _Feature {
 }
 
 abstract class _Feature extends Feature {
-  factory _Feature({FeatureType type, Map<String, dynamic> data}) = _$_Feature;
+  factory _Feature({final FeatureType type, final Map<String, dynamic> data}) =
+      _$_Feature;
   _Feature._() : super._();
 
   factory _Feature.fromJson(Map<String, dynamic> json) = _$_Feature.fromJson;
 
   @override
-  FeatureType get type;
+  FeatureType get type => throw _privateConstructorUsedError;
   @override
-  Map<String, dynamic> get data;
+  Map<String, dynamic> get data => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$FeatureCopyWith<_Feature> get copyWith =>
+  _$$_FeatureCopyWith<_$_Feature> get copyWith =>
       throw _privateConstructorUsedError;
 }

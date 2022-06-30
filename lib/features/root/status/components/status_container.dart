@@ -21,7 +21,7 @@ class StatusContainer extends BaseComponent {
     final cliVersion = ref.read(sessionProvider).cliVersion;
 
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.black38,
         border: Border(
           left: BorderSide(
@@ -61,14 +61,14 @@ class StatusContainer extends BaseComponent {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       "Status",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     _StatusIndicator(status),
                   ],
                 ),
-                _DetailItem(
+                const _DetailItem(
                   label: "Blockchain Version",
                   value: "1.0",
                   icon: Icons.sentiment_very_satisfied_outlined,
@@ -102,7 +102,7 @@ class StatusContainer extends BaseComponent {
                     alignment: Alignment.bottomCenter,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
-                      children: [
+                      children: const [
                         LatestBlock(),
                         SizedBox(
                           height: 8,
@@ -129,7 +129,7 @@ class _BlockStatus extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Color(0xFF050505),
         boxShadow: [
           BoxShadow(
@@ -141,13 +141,12 @@ class _BlockStatus extends BaseComponent {
       ),
       width: double.infinity,
       child: Padding(
-        padding: EdgeInsets.all(6.0),
+        padding: const EdgeInsets.all(6.0),
         child: Builder(builder: (context) {
           final walletInfo = ref.watch(walletInfoProvider);
-          int? remoteBlockHeight = ref.watch(sessionProvider).remoteBlockHeight;
 
           if (walletInfo == null) {
-            return SizedBox();
+            return const SizedBox();
           }
 
           if (walletInfo.isResyncing) {
@@ -165,7 +164,7 @@ class _BlockStatus extends BaseComponent {
                         "Resyncing",
                         style: Theme.of(context).textTheme.caption,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 12,
                         height: 12,
                         child: CircularProgressIndicator(
@@ -175,7 +174,7 @@ class _BlockStatus extends BaseComponent {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 14,
                   ),
                   _ProgressIndicator(
@@ -205,7 +204,7 @@ class _BlockStatus extends BaseComponent {
                         "Syncing",
                         style: Theme.of(context).textTheme.caption,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 12,
                         height: 12,
                         child: CircularProgressIndicator(
@@ -215,7 +214,7 @@ class _BlockStatus extends BaseComponent {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 14,
                   ),
                   _ProgressIndicator(
@@ -241,7 +240,7 @@ class _BlockStatus extends BaseComponent {
                   "Wallet Synced",
                   style: Theme.of(context).textTheme.caption,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 4,
                 ),
                 _ProgressIndicator(
@@ -315,7 +314,7 @@ class _ProgressIndicator extends StatelessWidget {
           value: fraction,
           valueColor: AlwaysStoppedAnimation<Color>(color),
         ),
-        SizedBox(height: 4),
+        const SizedBox(height: 4),
         if (!unknownHeight)
           Align(
             alignment: Alignment.bottomRight,
@@ -338,17 +337,17 @@ class _StatusIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (status) {
       case BridgeStatus.Loading:
-        return AppBadge(
+        return const AppBadge(
           label: "Loading",
           variant: AppColorVariant.Primary,
         );
       case BridgeStatus.Online:
-        return AppBadge(
+        return const AppBadge(
           label: "Online",
           variant: AppColorVariant.Success,
         );
       case BridgeStatus.Offline:
-        return AppBadge(
+        return const AppBadge(
           label: "Offline",
           variant: AppColorVariant.Danger,
         );

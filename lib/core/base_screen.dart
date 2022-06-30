@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/breakpoints.dart';
-import 'package:rbx_wallet/features/root/navigation/components/main_drawer.dart';
 import 'package:rbx_wallet/features/root/navigation/components/web_drawer.dart';
 
 abstract class BaseScreen extends ConsumerWidget {

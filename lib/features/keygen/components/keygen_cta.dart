@@ -30,7 +30,7 @@ class KeygenCta extends BaseComponent {
   Future<void> handleCreate(BuildContext context, WidgetRef ref) async {
     ref.read(globalLoadingProvider.notifier).start();
 
-    await Future.delayed(Duration(milliseconds: 300));
+    await Future.delayed(const Duration(milliseconds: 300));
 
     final keypair = await KeygenService.generate();
     if (keypair == null) {
@@ -53,7 +53,7 @@ class KeygenCta extends BaseComponent {
       onValidSubmission: (value) async {
         ref.read(globalLoadingProvider.notifier).start();
 
-        await Future.delayed(Duration(milliseconds: 300));
+        await Future.delayed(const Duration(milliseconds: 300));
 
         final keypair = await KeygenService.recover(value.trim());
 
@@ -78,30 +78,30 @@ class KeygenCta extends BaseComponent {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("Key Genrated"),
+          title: const Text("Key Genrated"),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Align(
+              const Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                     "Here is your wallet details. Please ensure to back up your private key in a safe place."),
               ),
               if (keypair.mneumonic != null)
                 ListTile(
-                  leading: Icon(FontAwesomeIcons.paragraph),
+                  leading: const Icon(FontAwesomeIcons.paragraph),
                   title: TextFormField(
                     initialValue: keypair.mneumonic!,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       label: Text("Recovery Mneumonic"),
                     ),
-                    style: TextStyle(fontSize: 16),
+                    style: const TextStyle(fontSize: 16),
                     readOnly: true,
                     minLines: 3,
                     maxLines: 3,
                   ),
                   trailing: IconButton(
-                    icon: Icon(Icons.copy),
+                    icon: const Icon(Icons.copy),
                     onPressed: () async {
                       await Clipboard.setData(
                           ClipboardData(text: keypair.mneumonic));
@@ -110,15 +110,15 @@ class KeygenCta extends BaseComponent {
                   ),
                 ),
               ListTile(
-                leading: Icon(Icons.account_balance_wallet),
+                leading: const Icon(Icons.account_balance_wallet),
                 title: TextFormField(
                   initialValue: keypair.public,
-                  decoration: InputDecoration(label: Text("Address")),
+                  decoration: const InputDecoration(label: Text("Address")),
                   readOnly: true,
-                  style: TextStyle(fontSize: 13),
+                  style: const TextStyle(fontSize: 13),
                 ),
                 trailing: IconButton(
-                  icon: Icon(Icons.copy),
+                  icon: const Icon(Icons.copy),
                   onPressed: () async {
                     await Clipboard.setData(
                         ClipboardData(text: keypair.public));
@@ -127,17 +127,17 @@ class KeygenCta extends BaseComponent {
                 ),
               ),
               ListTile(
-                leading: Icon(Icons.security),
+                leading: const Icon(Icons.security),
                 title: TextFormField(
                   initialValue: keypair.private,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     label: Text("Private Key"),
                   ),
-                  style: TextStyle(fontSize: 13),
+                  style: const TextStyle(fontSize: 13),
                   readOnly: true,
                 ),
                 trailing: IconButton(
-                  icon: Icon(Icons.copy),
+                  icon: const Icon(Icons.copy),
                   onPressed: () async {
                     await Clipboard.setData(
                         ClipboardData(text: keypair.private));
@@ -147,7 +147,7 @@ class KeygenCta extends BaseComponent {
               ),
               // if (keypair.mneumonic != null) Text(keypair.mneumonic!),
 
-              Divider(),
+              const Divider(),
               AppButton(
                 label: "Done",
                 onPressed: () {
@@ -171,7 +171,7 @@ class KeygenCta extends BaseComponent {
             handleImport(context, ref);
           },
         ),
-        SizedBox(
+        const SizedBox(
           width: 8,
         ),
         AppButton(
@@ -180,7 +180,7 @@ class KeygenCta extends BaseComponent {
             handleCreate(context, ref);
           },
         ),
-        SizedBox(
+        const SizedBox(
           width: 8,
         ),
         AppButton(

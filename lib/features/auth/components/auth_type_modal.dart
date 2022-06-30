@@ -23,36 +23,36 @@ class AuthTypeModal extends StatelessWidget {
       color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
       children: [
         ListTile(
-          leading: Icon(FontAwesomeIcons.paragraph),
-          title: Text(
+          leading: const Icon(FontAwesomeIcons.paragraph),
+          title: const Text(
             "With Mneumonic",
           ),
-          trailing: Icon(
+          trailing: const Icon(
             Icons.chevron_right,
             size: 32,
           ),
           onTap: handleMneumonic,
         ),
-        Divider(height: 1),
+        const Divider(height: 1),
         ListTile(
-          leading: Icon(Icons.email),
-          title: Text(
+          leading: const Icon(Icons.email),
+          title: const Text(
             "With Email & Password",
           ),
-          trailing: Icon(
+          trailing: const Icon(
             Icons.chevron_right,
             size: 32,
           ),
           onTap: handleUsername,
         ),
-        if (handlePrivateKey != null) Divider(height: 1),
+        if (handlePrivateKey != null) const Divider(height: 1),
         if (handlePrivateKey != null)
           ListTile(
-            leading: Icon(FontAwesomeIcons.key),
-            title: Text(
+            leading: const Icon(FontAwesomeIcons.key),
+            title: const Text(
               "With Private Key",
             ),
-            trailing: Icon(
+            trailing: const Icon(
               Icons.chevron_right,
               size: 32,
             ),

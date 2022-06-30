@@ -8,12 +8,12 @@ part of 'evolve_phase.dart';
 
 _$_EvolvePhase _$$_EvolvePhaseFromJson(Map<String, dynamic> json) =>
     _$_EvolvePhase(
-      name: json['name'] as String? ?? '',
+      name: json['name'] as String? ?? "",
       dateTime: json['dateTime'] == null
           ? null
           : DateTime.parse(json['dateTime'] as String),
       blockHeight: json['blockHeight'] as int?,
-      description: json['description'] as String? ?? '',
+      description: json['description'] as String? ?? "",
       evolutionState: json['evolutionState'] as int? ?? 0,
       isCurrentState: json['isCurrentState'] as bool? ?? false,
       asset: json['asset'] == null

@@ -18,12 +18,12 @@ class MySmartContractsScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: Text("My Smart Contracts"),
+      title: const Text("My Smart Contracts"),
       leading: IconButton(
         onPressed: () async {
           AutoRouter.of(context).pop();
         },
-        icon: Icon(Icons.close),
+        icon: const Icon(Icons.close),
       ),
       actions: [
         IconButton(
@@ -31,7 +31,7 @@ class MySmartContractsScreen extends BaseScreen {
               ref.read(mySmartContractsProvider.notifier).load();
               ref.read(draftsSmartContractProvider.notifier).load();
             },
-            icon: Icon(Icons.refresh))
+            icon: const Icon(Icons.refresh))
       ],
     );
   }
@@ -42,7 +42,7 @@ class MySmartContractsScreen extends BaseScreen {
       length: 2,
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: [
+        children: const [
           TabBar(
             tabs: [
               Tab(
@@ -71,11 +71,10 @@ class _DraftList extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _provider = ref.read(draftsSmartContractProvider.notifier);
     final _model = ref.watch(draftsSmartContractProvider);
 
     if (_model.isEmpty) {
-      return Center(
+      return const Center(
         child: Text("No Smart Contracts Drafts Found"),
       );
     }
@@ -84,19 +83,19 @@ class _DraftList extends BaseComponent {
       itemBuilder: (context, index) {
         final sc = _model[index];
         return ListTile(
-          leading: Icon(Icons.document_scanner_sharp),
+          leading: const Icon(Icons.document_scanner_sharp),
           title: Text(sc.name),
           subtitle: Text(
             sc.description,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
-          trailing: Icon(Icons.chevron_right),
+          trailing: const Icon(Icons.chevron_right),
           onTap: () async {
             ref.read(createSmartContractProvider.notifier).setSmartContract(sc);
 
             AutoRouter.of(context)
-                .push(SmartContractCreatorContainerScreenRoute());
+                .push(const SmartContractCreatorContainerScreenRoute());
           },
         );
       },
@@ -109,11 +108,10 @@ class _CompiledList extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _provider = ref.read(mySmartContractsProvider.notifier);
     final _model = ref.watch(mySmartContractsProvider);
 
     if (_model.isEmpty) {
-      return Center(
+      return const Center(
         child: Text("No Smart Contracts Found"),
       );
     }
@@ -122,10 +120,10 @@ class _CompiledList extends BaseComponent {
       itemBuilder: (context, index) {
         final sc = _model[index];
         return ListTile(
-          leading: Icon(Icons.document_scanner_sharp),
+          leading: const Icon(Icons.document_scanner_sharp),
           title: Text(sc.name),
           subtitle: Text(sc.id),
-          trailing: Icon(Icons.chevron_right),
+          trailing: const Icon(Icons.chevron_right),
           onTap: () async {
             final wallets = ref.read(walletListProvider);
             final details = await SmartContractService().retrieve(sc.id);
@@ -138,7 +136,7 @@ class _CompiledList extends BaseComponent {
                 .read(createSmartContractProvider.notifier)
                 .setSmartContract(smartContract);
             AutoRouter.of(context)
-                .push(SmartContractCreatorContainerScreenRoute());
+                .push(const SmartContractCreatorContainerScreenRoute());
           },
         );
       },

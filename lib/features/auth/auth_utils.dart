@@ -93,7 +93,7 @@ Future<void> handleCreateWithMnemonic(
     BuildContext context, WidgetRef ref) async {
   ref.read(globalLoadingProvider.notifier).start();
 
-  await Future.delayed(Duration(milliseconds: 300));
+  await Future.delayed(const Duration(milliseconds: 300));
 
   final keypair = await KeygenService.generate();
   if (keypair == null) {
@@ -119,7 +119,7 @@ Future<dynamic> handleRecoverFromMnemonic(
     onValidSubmission: (value) async {
       ref.read(globalLoadingProvider.notifier).start();
 
-      await Future.delayed(Duration(milliseconds: 300));
+      await Future.delayed(const Duration(milliseconds: 300));
 
       final keypair = await KeygenService.recover(value.trim());
 
@@ -149,30 +149,30 @@ Future<void> showKeys(
     barrierDismissible: false,
     builder: (context) {
       return AlertDialog(
-        title: Text("Key Genrated"),
+        title: const Text("Key Genrated"),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Align(
+            const Align(
               alignment: Alignment.centerLeft,
               child: Text(
                   "Here is your wallet details. Please ensure to back up your private key in a safe place."),
             ),
             if (keypair.mneumonic != null)
               ListTile(
-                leading: Icon(FontAwesomeIcons.paragraph),
+                leading: const Icon(FontAwesomeIcons.paragraph),
                 title: TextFormField(
                   initialValue: keypair.mneumonic!,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     label: Text("Recovery Mneumonic"),
                   ),
-                  style: TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16),
                   readOnly: true,
                   minLines: 3,
                   maxLines: 3,
                 ),
                 trailing: IconButton(
-                  icon: Icon(Icons.copy),
+                  icon: const Icon(Icons.copy),
                   onPressed: () async {
                     await Clipboard.setData(
                         ClipboardData(text: keypair.mneumonic));
@@ -181,15 +181,15 @@ Future<void> showKeys(
                 ),
               ),
             ListTile(
-              leading: Icon(Icons.account_balance_wallet),
+              leading: const Icon(Icons.account_balance_wallet),
               title: TextFormField(
                 initialValue: keypair.public,
-                decoration: InputDecoration(label: Text("Address")),
+                decoration: const InputDecoration(label: Text("Address")),
                 readOnly: true,
-                style: TextStyle(fontSize: 13),
+                style: const TextStyle(fontSize: 13),
               ),
               trailing: IconButton(
-                icon: Icon(Icons.copy),
+                icon: const Icon(Icons.copy),
                 onPressed: () async {
                   await Clipboard.setData(ClipboardData(text: keypair.public));
                   Toast.message("Public key copied to clipboard");
@@ -197,17 +197,17 @@ Future<void> showKeys(
               ),
             ),
             ListTile(
-              leading: Icon(Icons.security),
+              leading: const Icon(Icons.security),
               title: TextFormField(
                 initialValue: keypair.private,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   label: Text("Private Key"),
                 ),
-                style: TextStyle(fontSize: 13),
+                style: const TextStyle(fontSize: 13),
                 readOnly: true,
               ),
               trailing: IconButton(
-                icon: Icon(Icons.copy),
+                icon: const Icon(Icons.copy),
                 onPressed: () async {
                   await Clipboard.setData(ClipboardData(text: keypair.private));
                   Toast.message("Private key copied to clipboard");
@@ -216,7 +216,7 @@ Future<void> showKeys(
             ),
             // if (keypair.mneumonic != null) Text(keypair.mneumonic!),
 
-            Divider(),
+            const Divider(),
             AppButton(
               label: "Done",
               onPressed: () {
@@ -233,5 +233,5 @@ Future<void> showKeys(
 Future<void> logout(BuildContext context, WidgetRef ref) async {
   await ref.read(webSessionProvider.notifier).logout();
 
-  AutoRouter.of(context).replace(WebAuthRouter());
+  AutoRouter.of(context).replace(const WebAuthRouter());
 }

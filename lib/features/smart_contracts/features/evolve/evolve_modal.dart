@@ -34,14 +34,14 @@ class EvolveModal extends BaseComponent {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              FormGroupHeader(
+              const FormGroupHeader(
                 "Evolve",
                 withBg: false,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 16,
               ),
-              HelpButton(
+              const HelpButton(
                 HelpType.evolveMode,
                 subtle: true,
               ),
@@ -65,13 +65,13 @@ class EvolveModal extends BaseComponent {
                     )
                     .toList(),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 16,
               ),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  HelpButton(
+                  const HelpButton(
                     HelpType.evolveType,
                     subtle: true,
                   ),
@@ -165,7 +165,7 @@ class _EvolvePhaseContainer extends BaseComponent {
         initialDate: DateTime.now(),
         firstDate: DateTime.now(),
         lastDate: DateTime.now().add(
-          Duration(days: 365 * 100),
+          const Duration(days: 365 * 100),
         ),
       );
 
@@ -178,7 +178,7 @@ class _EvolvePhaseContainer extends BaseComponent {
       final t = await showTimePicker(
         context: context,
         initialEntryMode: TimePickerEntryMode.input,
-        initialTime: TimeOfDay(hour: 0, minute: 0),
+        initialTime: const TimeOfDay(hour: 0, minute: 0),
       );
 
       if (t != null) {
@@ -245,18 +245,18 @@ class _EvolvePhaseContainer extends BaseComponent {
                                 _showDatePicker();
                               },
                               decoration: InputDecoration(
-                                prefixIcon: HelpButton(
+                                prefixIcon: const HelpButton(
                                   HelpType.evolveDatetime,
                                   subtle: true,
                                 ),
-                                label: Text(
+                                label: const Text(
                                   "Evolution Date",
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),
                                 ),
                                 suffixIcon: IconButton(
-                                  icon: Icon(Icons.calendar_month),
+                                  icon: const Icon(Icons.calendar_month),
                                   onPressed: () {
                                     _showDatePicker();
                                   },
@@ -264,7 +264,7 @@ class _EvolvePhaseContainer extends BaseComponent {
                               ),
                             ),
                           ),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           Expanded(
                             child: TextFormField(
                               controller: _provider.timeController,
@@ -273,18 +273,18 @@ class _EvolvePhaseContainer extends BaseComponent {
                                 _showTimePicker();
                               },
                               decoration: InputDecoration(
-                                prefixIcon: HelpButton(
+                                prefixIcon: const HelpButton(
                                   HelpType.evolveDatetime,
                                   subtle: true,
                                 ),
                                 label: Text(
                                   "Evolution Time (${DateTime.now().timeZoneName.toString()})",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.white,
                                   ),
                                 ),
                                 suffixIcon: IconButton(
-                                  icon: Icon(Icons.watch),
+                                  icon: const Icon(Icons.watch),
                                   onPressed: () {
                                     _showTimePicker();
                                   },
@@ -306,7 +306,7 @@ class _EvolvePhaseContainer extends BaseComponent {
                                   RegExp("[0-9]"),
                                 )
                               ],
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 prefixIcon: HelpButton(
                                   HelpType.evolveBlockHeight,
                                   subtle: true,
@@ -328,7 +328,7 @@ class _EvolvePhaseContainer extends BaseComponent {
                           child: TextFormField(
                             controller: _provider.nameController,
                             validator: _provider.nameValidator,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               prefixIcon: HelpButton(
                                 HelpType.evolveStageName,
                                 subtle: true,
@@ -351,7 +351,7 @@ class _EvolvePhaseContainer extends BaseComponent {
                             },
                           ),
                         ),
-                        HelpButton(
+                        const HelpButton(
                           HelpType.evolveAsset,
                           subtle: true,
                         ),
@@ -360,7 +360,7 @@ class _EvolvePhaseContainer extends BaseComponent {
                     TextFormField(
                       controller: _provider.descriptionController,
                       validator: _provider.descriptionValidator,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         prefixIcon: HelpButton(
                           HelpType.evolveStageDescription,
                           subtle: true,
@@ -413,7 +413,7 @@ class _EvolvePhaseContainer extends BaseComponent {
                                       }
                                     },
                                   ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 4,
                                 ),
                                 AppButton(

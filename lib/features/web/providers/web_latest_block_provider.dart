@@ -20,7 +20,7 @@ class WebLatestBlockProvider extends StateNotifier<WebBlock?> {
       state = block;
     }
 
-    await Future.delayed(Duration(seconds: 30));
+    await Future.delayed(const Duration(seconds: 30));
     _update();
   }
 }

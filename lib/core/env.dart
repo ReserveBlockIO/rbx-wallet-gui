@@ -14,7 +14,7 @@ enum _Environment {
   Web,
   WebDev,
 }
-const _env = _Environment.WebDev;
+const _env = _Environment.BlockExplorer;
 
 class Env {
   static init() async {

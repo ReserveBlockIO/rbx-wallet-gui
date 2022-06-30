@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/badges.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/node/components/masternode_card.dart';
 import 'package:rbx_wallet/features/node/components/node_card.dart';
 import 'package:rbx_wallet/features/node/components/node_info_list.dart';
-import 'package:rbx_wallet/features/node/components/node_list.dart';
 import 'package:rbx_wallet/features/node/providers/masternode_list_provider.dart';
 import 'package:rbx_wallet/features/node/providers/node_list_provider.dart';
 import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
@@ -23,12 +21,12 @@ class NodeListScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: Text("Validator Pool"),
+      title: const Text("Validator Pool"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      actions: [WalletSelector()],
+      actions: const [WalletSelector()],
       leading: IconButton(
-        icon: Icon(Icons.refresh),
+        icon: const Icon(Icons.refresh),
         onPressed: () {
           ref.read(nodeListProvider.notifier).load();
         },
@@ -57,7 +55,7 @@ class NodeListScreen extends BaseScreen {
                 decoration: InputDecoration(
                   hintText: "Search for validator...",
                   suffixIcon: IconButton(
-                    icon: Icon(Icons.clear, color: Colors.white70),
+                    icon: const Icon(Icons.clear, color: Colors.white70),
                     onPressed: () {
                       _searchProvider.clear();
                     },
@@ -69,7 +67,7 @@ class NodeListScreen extends BaseScreen {
               onPressed: () {
                 _searchProvider.search();
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.search,
               ),
             )
@@ -85,7 +83,7 @@ class NodeListScreen extends BaseScreen {
           ],
         ),
         ConstrainedBox(
-          constraints: BoxConstraints(maxHeight: 500),
+          constraints: const BoxConstraints(maxHeight: 500),
           child: SingleChildScrollView(
             child: ListView.builder(
               // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -133,11 +131,11 @@ class NodeListScreen extends BaseScreen {
                 return ListTile(
                   title: Text(w.labelWithoutTruncation),
                   leading: w.isValidating
-                      ? AppBadge(
+                      ? const AppBadge(
                           label: "Active",
                           variant: AppColorVariant.Success,
                         )
-                      : AppBadge(
+                      : const AppBadge(
                           label: "Inactive",
                           variant: AppColorVariant.Danger,
                         ),

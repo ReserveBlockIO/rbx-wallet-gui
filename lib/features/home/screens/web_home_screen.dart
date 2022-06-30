@@ -3,11 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/web/components/web_latest_block.dart';
 import 'package:rbx_wallet/features/web/components/web_wallet_details.dart';
-import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
 
 class WebHomeScreen extends BaseScreen {
@@ -23,7 +21,7 @@ class WebHomeScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: Text("RBX Web Wallet"),
+      title: const Text("RBX Web Wallet"),
       backgroundColor: Colors.black,
       shadowColor: Colors.transparent,
     );
@@ -38,15 +36,15 @@ class WebHomeScreen extends BaseScreen {
           padding: const EdgeInsets.all(0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            children: [
+            children: const [
               WebWalletDetails(),
               SizedBox(height: 32),
             ],
           ),
         ),
-        _Brand(),
-        _Actions(),
-        WebLatestBlock(),
+        const _Brand(),
+        const _Actions(),
+        const WebLatestBlock(),
       ],
     );
   }

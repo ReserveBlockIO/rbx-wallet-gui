@@ -23,7 +23,7 @@ class TransactionWindow extends BaseComponent {
           "Your Recent Transactions",
           style: Theme.of(context).textTheme.subtitle2,
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Card(
           margin: EdgeInsets.zero,
           child: SizedBox(

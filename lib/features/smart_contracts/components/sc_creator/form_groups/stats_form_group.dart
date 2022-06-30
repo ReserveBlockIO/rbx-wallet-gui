@@ -9,8 +9,6 @@ import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_header.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/modals/stat_modal.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/feature.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/rarity.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/stat.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/stat_form_provider.dart';
@@ -20,7 +18,6 @@ class StatsFormGroup extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _provider = ref.read(createSmartContractProvider.notifier);
     final _model = ref.watch(createSmartContractProvider);
 
     return FormGroupContainer(
@@ -28,7 +25,7 @@ class StatsFormGroup extends BaseComponent {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          FormGroupHeader(
+          const FormGroupHeader(
             "Stats",
             helpType: HelpType.unknown,
           ),
@@ -82,9 +79,9 @@ class _StatCard extends BaseComponent {
   Widget build(BuildContext context, WidgetRef ref) {
     return Card(
       child: ListTile(
-        leading: Icon(FontAwesomeIcons.trophy),
+        leading: const Icon(FontAwesomeIcons.trophy),
         title: Text("${stat.label}: ${stat.value}"),
-        subtitle: Text("Type: String"),
+        subtitle: const Text("Type: String"),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -106,7 +103,7 @@ class _StatCard extends BaseComponent {
                 );
               },
             ),
-            SizedBox(width: 6),
+            const SizedBox(width: 6),
             AppButton(
               label: "Remove",
               icon: Icons.delete,

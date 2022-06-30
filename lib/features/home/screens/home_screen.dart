@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,7 +15,6 @@ import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
 import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/home/components/log_window.dart';
 import 'package:rbx_wallet/features/home/components/transaction_window.dart';
 
@@ -26,7 +24,6 @@ import 'package:rbx_wallet/features/keygen/components/keygen_cta.dart'
 import 'package:rbx_wallet/features/root/components/reload_button.dart';
 import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_detail_provider.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/utils/files.dart';
 import 'package:rbx_wallet/utils/guards.dart';
@@ -45,11 +42,11 @@ class HomeScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: Text("Dashboard"),
+      title: const Text("Dashboard"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      leading: ReloadButton(),
-      actions: [WalletSelector()],
+      leading: const ReloadButton(),
+      actions: const [WalletSelector()],
     );
   }
 
@@ -67,14 +64,14 @@ class HomeScreen extends BaseScreen {
                 "Keys",
                 style: Theme.of(context).textTheme.subtitle2,
               ),
-            if (kIsWeb) Divider(),
-            if (kIsWeb) KeygenCta(),
+            if (kIsWeb) const Divider(),
+            if (kIsWeb) const KeygenCta(),
             if (!kIsWeb)
               Text(
                 "General Tools",
                 style: Theme.of(context).textTheme.subtitle2,
               ),
-            if (!kIsWeb) Divider(),
+            if (!kIsWeb) const Divider(),
             if (!kIsWeb)
               Wrap(
                 // mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -168,12 +165,12 @@ class HomeScreen extends BaseScreen {
                                           "Debug data copied to clipboard");
                                     },
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 8,
                                   ),
                                   SelectableText(
                                     data,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 12,
                                       fontFamily: "Courier",
                                     ),
@@ -341,10 +338,10 @@ class HomeScreen extends BaseScreen {
                   ),
                 ],
               ),
-            Divider(),
-            LogWindow(),
-            Divider(),
-            TransactionWindow(),
+            const Divider(),
+            const LogWindow(),
+            const Divider(),
+            const TransactionWindow(),
           ],
         ),
       ),

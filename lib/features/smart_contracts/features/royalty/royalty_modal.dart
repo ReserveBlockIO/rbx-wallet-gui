@@ -4,8 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/dropdowns.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_header.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_bottom_actions.dart';
@@ -26,7 +24,7 @@ class RoyaltyModal extends BaseComponent {
 
     return ModalContainer(
       children: [
-        FormGroupHeader(
+        const FormGroupHeader(
           "Royalty",
           withBg: false,
         ),
@@ -50,13 +48,13 @@ class RoyaltyModal extends BaseComponent {
                     )
                     .toList(),
               ),
-              SizedBox(width: 32),
+              const SizedBox(width: 32),
               Expanded(
                 child: TextFormField(
                   controller: _provider.amountController,
                   decoration: InputDecoration(
-                      label: Text("Amount"),
-                      labelStyle: TextStyle(color: Colors.white),
+                      label: const Text("Amount"),
+                      labelStyle: const TextStyle(color: Colors.white),
                       suffix: Text(
                           _model.type == RoyaltyType.percent ? "%" : "RBX"),
                       prefixIcon: HelpButton(
@@ -70,15 +68,15 @@ class RoyaltyModal extends BaseComponent {
                   validator: _provider.amountValidator,
                 ),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Expanded(
                 child: TextFormField(
                   controller: _provider.addressController,
                   decoration: InputDecoration(
-                      label: Text("Address"),
-                      labelStyle: TextStyle(color: Colors.white),
+                      label: const Text("Address"),
+                      labelStyle: const TextStyle(color: Colors.white),
                       suffixIcon: IconButton(
-                        icon: Icon(
+                        icon: const Icon(
                           FontAwesomeIcons.folderOpen,
                           size: 16,
                           color: Colors.white,
@@ -90,13 +88,13 @@ class RoyaltyModal extends BaseComponent {
                               context: context,
                               builder: (context) {
                                 return AlertDialog(
-                                  title: Text("Choose an address"),
+                                  title: const Text("Choose an address"),
                                   actions: [
                                     TextButton(
                                       onPressed: () {
                                         Navigator.of(context).pop(null);
                                       },
-                                      child: Text(
+                                      child: const Text(
                                         "Cancel",
                                         style: TextStyle(color: Colors.white60),
                                       ),
@@ -115,7 +113,7 @@ class RoyaltyModal extends BaseComponent {
                                             },
                                             child: Text(
                                               w.fullLabel,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   color: Colors.white,
                                                   decoration:
                                                       TextDecoration.underline),
@@ -132,7 +130,7 @@ class RoyaltyModal extends BaseComponent {
                         },
                       ),
                       prefixIcon:
-                          HelpButton(HelpType.royaltyAddress, subtle: true)),
+                          const HelpButton(HelpType.royaltyAddress, subtle: true)),
                   validator: _provider.addressValidator,
                 ),
               ),

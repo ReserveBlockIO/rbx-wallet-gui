@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'compiler_payload.dart';
@@ -11,46 +12,11 @@ part of 'compiler_payload.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 CompilerPayload _$CompilerPayloadFromJson(Map<String, dynamic> json) {
   return _CompilerPayload.fromJson(json);
 }
-
-/// @nodoc
-class _$CompilerPayloadTearOff {
-  const _$CompilerPayloadTearOff();
-
-  _CompilerPayload call(
-      {@JsonKey(name: "Name") required String name,
-      @JsonKey(name: "MinterName") required String minterName,
-      @JsonKey(name: "Description") required String description,
-      @JsonKey(name: "Address") required String address,
-      @JsonKey(name: "SmartContractAsset") required Asset asset,
-      @JsonKey(name: "IsPublic", defaultValue: true) required bool isPublic,
-      @JsonKey(name: "SmartContractUID") String? uuid,
-      @JsonKey(name: "Signature") String? signature,
-      @JsonKey(name: "Features") List<Map<String, dynamic>>? features}) {
-    return _CompilerPayload(
-      name: name,
-      minterName: minterName,
-      description: description,
-      address: address,
-      asset: asset,
-      isPublic: isPublic,
-      uuid: uuid,
-      signature: signature,
-      features: features,
-    );
-  }
-
-  CompilerPayload fromJson(Map<String, Object?> json) {
-    return CompilerPayload.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $CompilerPayload = _$CompilerPayloadTearOff();
 
 /// @nodoc
 mixin _$CompilerPayload {
@@ -169,11 +135,11 @@ class _$CompilerPayloadCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$CompilerPayloadCopyWith<$Res>
+abstract class _$$_CompilerPayloadCopyWith<$Res>
     implements $CompilerPayloadCopyWith<$Res> {
-  factory _$CompilerPayloadCopyWith(
-          _CompilerPayload value, $Res Function(_CompilerPayload) then) =
-      __$CompilerPayloadCopyWithImpl<$Res>;
+  factory _$$_CompilerPayloadCopyWith(
+          _$_CompilerPayload value, $Res Function(_$_CompilerPayload) then) =
+      __$$_CompilerPayloadCopyWithImpl<$Res>;
   @override
   $Res call(
       {@JsonKey(name: "Name") String name,
@@ -191,15 +157,15 @@ abstract class _$CompilerPayloadCopyWith<$Res>
 }
 
 /// @nodoc
-class __$CompilerPayloadCopyWithImpl<$Res>
+class __$$_CompilerPayloadCopyWithImpl<$Res>
     extends _$CompilerPayloadCopyWithImpl<$Res>
-    implements _$CompilerPayloadCopyWith<$Res> {
-  __$CompilerPayloadCopyWithImpl(
-      _CompilerPayload _value, $Res Function(_CompilerPayload) _then)
-      : super(_value, (v) => _then(v as _CompilerPayload));
+    implements _$$_CompilerPayloadCopyWith<$Res> {
+  __$$_CompilerPayloadCopyWithImpl(
+      _$_CompilerPayload _value, $Res Function(_$_CompilerPayload) _then)
+      : super(_value, (v) => _then(v as _$_CompilerPayload));
 
   @override
-  _CompilerPayload get _value => super._value as _CompilerPayload;
+  _$_CompilerPayload get _value => super._value as _$_CompilerPayload;
 
   @override
   $Res call({
@@ -213,7 +179,7 @@ class __$CompilerPayloadCopyWithImpl<$Res>
     Object? signature = freezed,
     Object? features = freezed,
   }) {
-    return _then(_CompilerPayload(
+    return _then(_$_CompilerPayload(
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -247,7 +213,7 @@ class __$CompilerPayloadCopyWithImpl<$Res>
           : signature // ignore: cast_nullable_to_non_nullable
               as String?,
       features: features == freezed
-          ? _value.features
+          ? _value._features
           : features // ignore: cast_nullable_to_non_nullable
               as List<Map<String, dynamic>>?,
     ));
@@ -267,8 +233,9 @@ class _$_CompilerPayload extends _CompilerPayload {
       @JsonKey(name: "IsPublic", defaultValue: true) required this.isPublic,
       @JsonKey(name: "SmartContractUID") this.uuid,
       @JsonKey(name: "Signature") this.signature,
-      @JsonKey(name: "Features") this.features})
-      : super._();
+      @JsonKey(name: "Features") final List<Map<String, dynamic>>? features})
+      : _features = features,
+        super._();
 
   factory _$_CompilerPayload.fromJson(Map<String, dynamic> json) =>
       _$$_CompilerPayloadFromJson(json);
@@ -297,9 +264,15 @@ class _$_CompilerPayload extends _CompilerPayload {
   @override
   @JsonKey(name: "Signature")
   final String? signature;
+  final List<Map<String, dynamic>>? _features;
   @override
   @JsonKey(name: "Features")
-  final List<Map<String, dynamic>>? features;
+  List<Map<String, dynamic>>? get features {
+    final value = _features;
+    if (value == null) return null;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
@@ -310,7 +283,7 @@ class _$_CompilerPayload extends _CompilerPayload {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _CompilerPayload &&
+            other is _$_CompilerPayload &&
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality()
                 .equals(other.minterName, minterName) &&
@@ -321,9 +294,10 @@ class _$_CompilerPayload extends _CompilerPayload {
             const DeepCollectionEquality().equals(other.isPublic, isPublic) &&
             const DeepCollectionEquality().equals(other.uuid, uuid) &&
             const DeepCollectionEquality().equals(other.signature, signature) &&
-            const DeepCollectionEquality().equals(other.features, features));
+            const DeepCollectionEquality().equals(other._features, _features));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -335,12 +309,12 @@ class _$_CompilerPayload extends _CompilerPayload {
       const DeepCollectionEquality().hash(isPublic),
       const DeepCollectionEquality().hash(uuid),
       const DeepCollectionEquality().hash(signature),
-      const DeepCollectionEquality().hash(features));
+      const DeepCollectionEquality().hash(_features));
 
   @JsonKey(ignore: true)
   @override
-  _$CompilerPayloadCopyWith<_CompilerPayload> get copyWith =>
-      __$CompilerPayloadCopyWithImpl<_CompilerPayload>(this, _$identity);
+  _$$_CompilerPayloadCopyWith<_$_CompilerPayload> get copyWith =>
+      __$$_CompilerPayloadCopyWithImpl<_$_CompilerPayload>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -350,16 +324,24 @@ class _$_CompilerPayload extends _CompilerPayload {
 
 abstract class _CompilerPayload extends CompilerPayload {
   factory _CompilerPayload(
-          {@JsonKey(name: "Name") required String name,
-          @JsonKey(name: "MinterName") required String minterName,
-          @JsonKey(name: "Description") required String description,
-          @JsonKey(name: "Address") required String address,
-          @JsonKey(name: "SmartContractAsset") required Asset asset,
-          @JsonKey(name: "IsPublic", defaultValue: true) required bool isPublic,
-          @JsonKey(name: "SmartContractUID") String? uuid,
-          @JsonKey(name: "Signature") String? signature,
-          @JsonKey(name: "Features") List<Map<String, dynamic>>? features}) =
-      _$_CompilerPayload;
+      {@JsonKey(name: "Name")
+          required final String name,
+      @JsonKey(name: "MinterName")
+          required final String minterName,
+      @JsonKey(name: "Description")
+          required final String description,
+      @JsonKey(name: "Address")
+          required final String address,
+      @JsonKey(name: "SmartContractAsset")
+          required final Asset asset,
+      @JsonKey(name: "IsPublic", defaultValue: true)
+          required final bool isPublic,
+      @JsonKey(name: "SmartContractUID")
+          final String? uuid,
+      @JsonKey(name: "Signature")
+          final String? signature,
+      @JsonKey(name: "Features")
+          final List<Map<String, dynamic>>? features}) = _$_CompilerPayload;
   _CompilerPayload._() : super._();
 
   factory _CompilerPayload.fromJson(Map<String, dynamic> json) =
@@ -367,33 +349,34 @@ abstract class _CompilerPayload extends CompilerPayload {
 
   @override
   @JsonKey(name: "Name")
-  String get name;
+  String get name => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "MinterName")
-  String get minterName;
+  String get minterName => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "Description")
-  String get description;
+  String get description => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "Address")
-  String get address;
+  String get address => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "SmartContractAsset")
-  Asset get asset;
+  Asset get asset => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "IsPublic", defaultValue: true)
-  bool get isPublic;
+  bool get isPublic => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "SmartContractUID")
-  String? get uuid;
+  String? get uuid => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "Signature")
-  String? get signature;
+  String? get signature => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "Features")
-  List<Map<String, dynamic>>? get features;
+  List<Map<String, dynamic>>? get features =>
+      throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$CompilerPayloadCopyWith<_CompilerPayload> get copyWith =>
+  _$$_CompilerPayloadCopyWith<_$_CompilerPayload> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -3,6 +3,7 @@
 /// The serialization contains a checksum, if the calculated checksum doesn't
 /// match the stored checksum this exception is thrown.
 class InvalidChecksum implements Exception {
+  @override
   String toString() => "Checksum verification failed";
 }
 
@@ -10,6 +11,7 @@ class InvalidChecksum implements Exception {
 ///
 /// Retry with an other child number.
 class KeyZero implements Exception {
+  @override
   String toString() => "Key is zero";
 }
 
@@ -17,11 +19,13 @@ class KeyZero implements Exception {
 ///
 /// Retry with an other child number.
 class KeyBiggerThanOrder implements Exception {
+  @override
   String toString() => "Integer is bigger than order of curve";
 }
 
 /// Thrown when trying to derive a public key with a hardened child number.
 class InvalidChildNumber implements Exception {
+  @override
   String toString() => "Child number is bigger than hardened child number";
 }
 
@@ -29,6 +33,7 @@ class InvalidChildNumber implements Exception {
 ///
 /// Retry with an other child number.
 class KeyInfinite implements Exception {
+  @override
   String toString() => "ECPoint is infinite";
 }
 
@@ -37,6 +42,7 @@ class InvalidPath implements Exception {
   String message;
   InvalidPath(this.message);
 
+  @override
   String toString() => message;
 }
 
@@ -47,6 +53,7 @@ class InvalidKeyLength implements Exception {
 
   InvalidKeyLength(this.actual, this.expected);
 
+  @override
   String toString() =>
       "Key length not correct. Should be $expected, is $actual";
 }

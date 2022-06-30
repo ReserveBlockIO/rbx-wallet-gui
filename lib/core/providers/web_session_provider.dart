@@ -1,12 +1,9 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/app.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/providers/ready_provider.dart';
 import 'package:rbx_wallet/core/services/explorer_service.dart';
 import 'package:rbx_wallet/core/singletons.dart';
 import 'package:rbx_wallet/core/storage.dart';
-import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/keygen/models/keypair.dart';
 
 class WebSessionModel {
@@ -63,7 +60,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
 
   void loop() async {
     getBalance();
-    await Future.delayed(Duration(seconds: REFRESH_TIMEOUT_SECONDS));
+    await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
     loop();
   }
 
@@ -80,7 +77,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     singleton<Storage>().remove(Storage.WEB_KEYPAIR);
     state = _initial;
 
-    await Future.delayed(Duration(milliseconds: 150));
+    await Future.delayed(const Duration(milliseconds: 150));
   }
 }
 

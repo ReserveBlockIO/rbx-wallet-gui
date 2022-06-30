@@ -4,6 +4,7 @@ import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart'
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/feature.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/multi_asset.dart';
+import 'package:collection/collection.dart';
 
 part 'nft.freezed.dart';
 part 'nft.g.dart';
@@ -93,22 +94,8 @@ abstract class Nft with _$Nft {
   }
 
   bool get evolveIsDynamic {
-    // return false;
     if (!canEvolve) {
       return false;
-    }
-    return false;
-    //
-    for (final feature in featureList) {
-      if (feature.type == FeatureType.evolution) {
-        if (feature.data['IsDynamic'] == true) {
-          return true;
-        }
-
-        if (feature.data['isDynamic'] == true) {
-          return true;
-        }
-      }
     }
     return false;
   }

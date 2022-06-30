@@ -41,7 +41,7 @@ class InfoDialog {
           ),
           content: body != null
               ? ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: 400),
+                  constraints: const BoxConstraints(maxWidth: 400),
                   child: Text(body),
                 )
               : content,
@@ -162,13 +162,13 @@ class PromptModal {
           title: Text(title),
           titlePadding: tightPadding
               ? const EdgeInsets.all(12.0)
-              : EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 20),
+              : const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 20),
           contentPadding: tightPadding
               ? const EdgeInsets.all(12.0)
               : const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0),
           insetPadding: tightPadding
-              ? EdgeInsets.all(8.0)
-              : EdgeInsets.symmetric(horizontal: 40.0, vertical: 24.0),
+              ? const EdgeInsets.all(8.0)
+              : const EdgeInsets.symmetric(horizontal: 40.0, vertical: 24.0),
           content: Form(
             key: _formKey,
             child: Column(
@@ -279,7 +279,7 @@ class AuthModal {
                 TextFormField(
                   controller: _emailController,
                   autofocus: true,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     label: Text("Email Address"),
                   ),
                   validator: formValidatorEmail,
@@ -288,7 +288,7 @@ class AuthModal {
                 TextFormField(
                   controller: _passwordController,
                   obscureText: true,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     label: Text("Password"),
                   ),
                   validator: formValidatorPassword,
@@ -298,7 +298,7 @@ class AuthModal {
                   TextFormField(
                     controller: _confirmPasswordController,
                     obscureText: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       label: Text("Confirm Password"),
                     ),
                     validator: formValidatorPassword,

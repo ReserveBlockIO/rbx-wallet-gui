@@ -6,19 +6,17 @@ class ExplorerScreen extends BaseStatefulScreen {
   const ExplorerScreen({Key? key}) : super(key: key);
 
   @override
-  _ExplorerScreenState createState() => _ExplorerScreenState();
+  ExplorerScreenState createState() => ExplorerScreenState();
 }
 
-class _ExplorerScreenState extends BaseScreenState<ExplorerScreen> {
-  bool _ready = false;
-
+class ExplorerScreenState extends BaseScreenState<ExplorerScreen> {
   @override
   AppBar? appBar(BuildContext context) {
     return AppBar(
-      title: Text("Explorer"),
+      title: const Text("Explorer"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      actions: [WalletSelector()],
+      actions: const [WalletSelector()],
     );
   }
 

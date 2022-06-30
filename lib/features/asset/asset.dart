@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rbx_wallet/utils/formatting.dart';
-import 'package:path/path.dart' as p;
 
 part 'asset.freezed.dart';
 part 'asset.g.dart';

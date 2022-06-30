@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/transactions/components/nft_data_modal.dart';
@@ -21,11 +20,10 @@ class TransactionListTile extends BaseStatefulComponent {
   }) : super(key: key);
 
   @override
-  _TransactionListTileState createState() => _TransactionListTileState();
+  TransactionListTileState createState() => TransactionListTileState();
 }
 
-class _TransactionListTileState
-    extends BaseComponentState<TransactionListTile> {
+class TransactionListTileState extends BaseComponentState<TransactionListTile> {
   bool _expanded = false;
   Future<void> _copy(String value, String name) async {
     await Clipboard.setData(
@@ -50,7 +48,7 @@ class _TransactionListTileState
     return Card(
       margin: widget.compact
           ? EdgeInsets.zero
-          : EdgeInsets.symmetric(vertical: 4, horizontal: 0),
+          : const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -64,18 +62,18 @@ class _TransactionListTileState
                   padding: const EdgeInsets.only(right: 8.0),
                   child: Builder(builder: (context) {
                     if (toMe && fromMe) {
-                      return Icon(Icons.refresh);
+                      return const Icon(Icons.refresh);
                     }
 
                     if (toMe) {
-                      return Icon(Icons.move_to_inbox);
+                      return const Icon(Icons.move_to_inbox);
                     }
 
                     if (fromMe) {
-                      return Icon(Icons.outbox);
+                      return const Icon(Icons.outbox);
                     }
 
-                    return Icon(Icons.star, color: Colors.transparent);
+                    return const Icon(Icons.star, color: Colors.transparent);
                   }),
                 ),
                 Expanded(
@@ -90,40 +88,40 @@ class _TransactionListTileState
                             "Hash: ${widget.transaction.hash}",
                             style: Theme.of(context).textTheme.bodyText1,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 4,
                           ),
                           InkWell(
                             onTap: () {
                               _copy(widget.transaction.hash, "Hash");
                             },
-                            child: Icon(
+                            child: const Icon(
                               Icons.copy,
                               size: 12,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 4,
                           ),
                           InkWell(
                             onTap: () async {
                               final url =
                                   "https://rbx.network/transaction/${widget.transaction.hash}";
-                              await launch(url);
+                              await launchUrl(Uri.parse(url));
                             },
-                            child: Icon(
+                            child: const Icon(
                               Icons.open_in_new,
                               size: 12,
                             ),
                           ),
                         ],
                       ),
-                      SizedBox(height: 4),
+                      const SizedBox(height: 4),
                       RichText(
                         text: TextSpan(
                           style: Theme.of(context).textTheme.bodyText2,
                           children: [
-                            TextSpan(text: "Amount: "),
+                            const TextSpan(text: "Amount: "),
                             TextSpan(
                               text: "${widget.transaction.amount} RBX",
                               style: TextStyle(
@@ -135,12 +133,12 @@ class _TransactionListTileState
                           ],
                         ),
                       ),
-                      SizedBox(height: 4),
+                      const SizedBox(height: 4),
                       RichText(
                         text: TextSpan(
                           style: Theme.of(context).textTheme.bodyText2,
                           children: [
-                            TextSpan(text: "Type: "),
+                            const TextSpan(text: "Type: "),
                             TextSpan(
                               text: widget.transaction.typeLabel,
                               style: TextStyle(
@@ -150,7 +148,7 @@ class _TransactionListTileState
                           ],
                         ),
                       ),
-                      Divider(),
+                      const Divider(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -162,14 +160,14 @@ class _TransactionListTileState
                                 "To: ${widget.transaction.toAddress}${toWallet != null && toWallet.friendlyName != null ? ' (${toWallet.friendlyName})' : ''}",
                                 style: Theme.of(context).textTheme.caption,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 4,
                               ),
                               Text(
                                 "From: ${widget.transaction.fromAddress}${fromWallet != null && fromWallet.friendlyName != null ? ' (${fromWallet.friendlyName})' : ''}",
                                 style: Theme.of(context).textTheme.caption,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 4,
                               ),
                               Text(
@@ -199,39 +197,39 @@ class _TransactionListTileState
                         Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Divider(),
+                            const Divider(),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("Block Number"),
+                                const Text("Block Number"),
                                 Text("${widget.transaction.height}"),
                               ],
                             ),
-                            Divider(),
+                            const Divider(),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("Fee"),
+                                const Text("Fee"),
                                 Text("${widget.transaction.fee}"),
                               ],
                             ),
-                            Divider(),
+                            const Divider(),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("Nonce"),
+                                const Text("Nonce"),
                                 Text("${widget.transaction.nonce}"),
                               ],
                             ),
-                            Divider(),
+                            const Divider(),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
+                              children: const [
                                 Text("Data"),
                                 Text("-"),
                               ],
                             ),
-                            Divider(),
+                            const Divider(),
                           ],
                         )
                     ],

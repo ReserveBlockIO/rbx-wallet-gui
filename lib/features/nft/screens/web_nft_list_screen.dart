@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/nft/providers/web_nft_list_provider.dart';
-import 'package:rbx_wallet/features/nft/screens/web_nft_detail_screen.dart';
 
 class WebNftListScreen extends BaseScreen {
   const WebNftListScreen({Key? key}) : super(key: key);
@@ -12,7 +11,7 @@ class WebNftListScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: Text("NFTs"),
+      title: const Text("NFTs"),
       shadowColor: Colors.transparent,
       backgroundColor: Colors.black,
     );
@@ -33,7 +32,7 @@ class WebNftListScreen extends BaseScreen {
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
-            trailing: Icon(Icons.chevron_right),
+            trailing: const Icon(Icons.chevron_right),
             onTap: () {
               AutoRouter.of(context)
                   .push(WebNftDetailScreenRoute(identifier: nft.id));

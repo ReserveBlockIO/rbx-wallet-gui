@@ -3,11 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
 import 'package:rbx_wallet/utils/toast.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class MainMenu extends BaseComponent {
   const MainMenu({Key? key}) : super(key: key);
@@ -19,7 +17,7 @@ class MainMenu extends BaseComponent {
     final totalBalance = ref.watch(sessionProvider).totalBalance;
 
     return Container(
-      decoration: BoxDecoration(color: Colors.black54),
+      decoration: const BoxDecoration(color: Colors.black54),
       width: 200,
       child: Stack(
         children: [
@@ -205,7 +203,7 @@ class _NavButton extends StatelessWidget {
         : Theme.of(context).textTheme.bodyText1!.color;
 
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         border: Border(
           bottom: BorderSide(color: Colors.white10, width: 1),
         ),

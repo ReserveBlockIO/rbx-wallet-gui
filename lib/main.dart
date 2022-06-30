@@ -21,8 +21,8 @@ void main() async {
   await initSingletons();
 
   if (!kIsWeb && Platform.isMacOS) {
-    await DesktopWindow.setWindowSize(Size(MIN_WIDTH, MIN_HEIGHT));
-    await DesktopWindow.setMinWindowSize(Size(MIN_WIDTH, MIN_HEIGHT));
+    await DesktopWindow.setWindowSize(const Size(MIN_WIDTH, MIN_HEIGHT));
+    await DesktopWindow.setMinWindowSize(const Size(MIN_WIDTH, MIN_HEIGHT));
   }
 
   tz.initializeTimeZones();

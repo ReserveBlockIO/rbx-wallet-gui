@@ -7,9 +7,9 @@ part of 'stat.dart';
 // **************************************************************************
 
 _$_Stat _$$_StatFromJson(Map<String, dynamic> json) => _$_Stat(
-      label: json['label'] as String? ?? '',
-      value: json['value'] as String? ?? '',
-      description: json['description'] as String? ?? '',
+      label: json['label'] as String? ?? "",
+      value: json['value'] as String? ?? "",
+      description: json['description'] as String? ?? "",
       type: $enumDecodeNullable(_$StatTypeEnumMap, json['type']) ??
           StatType.string,
     );

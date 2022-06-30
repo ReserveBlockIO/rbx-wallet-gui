@@ -9,7 +9,7 @@ class Toast {
     final snackBar = SnackBar(
       content: Text(
         message,
-        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
       ),
       backgroundColor: Theme.of(context).colorScheme.success,
     );

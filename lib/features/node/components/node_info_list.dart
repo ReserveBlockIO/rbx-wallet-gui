@@ -14,7 +14,7 @@ class NodeInfoList extends BaseComponent {
     final nodes = ref.watch(nodeInfoProvider);
 
     if (nodes.isEmpty) {
-      return SizedBox();
+      return const SizedBox();
     }
 
     return Column(
@@ -25,7 +25,7 @@ class NodeInfoList extends BaseComponent {
           "Peer Info",
           style: Theme.of(context).textTheme.headline5,
         ),
-        SizedBox(
+        const SizedBox(
           height: 4,
         ),
         Container(
@@ -33,7 +33,7 @@ class NodeInfoList extends BaseComponent {
           color: Colors.black38,
           width: double.infinity,
           child: Scrollbar(
-            isAlwaysShown: true,
+            thumbVisibility: true,
             controller: _scrollController,
             child: ListView.builder(
               controller: _scrollController,

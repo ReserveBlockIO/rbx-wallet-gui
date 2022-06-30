@@ -19,7 +19,6 @@ class RarityModal extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _provider = ref.read(createSmartContractProvider.notifier);
     final _model = ref.watch(createSmartContractProvider);
 
     return ModalContainer(
@@ -34,7 +33,7 @@ class RarityModal extends BaseComponent {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   TextFormField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       label: Text(
                         "Label",
                         style: TextStyle(color: Colors.white),
@@ -42,7 +41,7 @@ class RarityModal extends BaseComponent {
                     ),
                   ),
                   TextFormField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       label: Text(
                         "Rareness",
                         style: TextStyle(color: Colors.white),
@@ -51,7 +50,7 @@ class RarityModal extends BaseComponent {
                     ),
                   ),
                   TextFormField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       label: Text(
                         "Description",
                         style: TextStyle(color: Colors.white),
@@ -63,7 +62,7 @@ class RarityModal extends BaseComponent {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 16,
             ),
             Expanded(
@@ -71,11 +70,11 @@ class RarityModal extends BaseComponent {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     "Stats Override",
                     style: TextStyle(fontSize: 16),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Container(
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.primary,
@@ -112,7 +111,7 @@ class RarityModal extends BaseComponent {
             ),
           ],
         ),
-        SizedBox(height: 32),
+        const SizedBox(height: 32),
         Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -123,7 +122,7 @@ class RarityModal extends BaseComponent {
                 onChange: (Asset? asset) {},
               ),
             ),
-            SizedBox(width: 16),
+            const SizedBox(width: 16),
             Expanded(
               child: FileSelector(
                 transparentBackground: true,
@@ -133,7 +132,7 @@ class RarityModal extends BaseComponent {
             )
           ],
         ),
-        Divider(),
+        const Divider(),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

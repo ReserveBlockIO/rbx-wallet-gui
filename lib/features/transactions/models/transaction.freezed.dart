@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'transaction.dart';
@@ -11,50 +12,11 @@ part of 'transaction.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 Transaction _$TransactionFromJson(Map<String, dynamic> json) {
   return _Transaction.fromJson(json);
 }
-
-/// @nodoc
-class _$TransactionTearOff {
-  const _$TransactionTearOff();
-
-  _Transaction call(
-      {@JsonKey(name: 'Hash') required String hash,
-      @JsonKey(name: 'ToAddress') required String toAddress,
-      @JsonKey(name: 'FromAddress') required String fromAddress,
-      @JsonKey(name: 'TransactionType') required int type,
-      @JsonKey(name: 'Amount') required double amount,
-      @JsonKey(name: 'Nonce') required int nonce,
-      @JsonKey(name: 'Fee') required double fee,
-      @JsonKey(name: 'Timestamp') required int timestamp,
-      @JsonKey(name: 'Data') required dynamic nftData,
-      @JsonKey(name: 'Signature') String? signature,
-      @JsonKey(name: 'Height') required int height}) {
-    return _Transaction(
-      hash: hash,
-      toAddress: toAddress,
-      fromAddress: fromAddress,
-      type: type,
-      amount: amount,
-      nonce: nonce,
-      fee: fee,
-      timestamp: timestamp,
-      nftData: nftData,
-      signature: signature,
-      height: height,
-    );
-  }
-
-  Transaction fromJson(Map<String, Object?> json) {
-    return Transaction.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $Transaction = _$TransactionTearOff();
 
 /// @nodoc
 mixin _$Transaction {
@@ -178,11 +140,11 @@ class _$TransactionCopyWithImpl<$Res> implements $TransactionCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$TransactionCopyWith<$Res>
+abstract class _$$_TransactionCopyWith<$Res>
     implements $TransactionCopyWith<$Res> {
-  factory _$TransactionCopyWith(
-          _Transaction value, $Res Function(_Transaction) then) =
-      __$TransactionCopyWithImpl<$Res>;
+  factory _$$_TransactionCopyWith(
+          _$_Transaction value, $Res Function(_$_Transaction) then) =
+      __$$_TransactionCopyWithImpl<$Res>;
   @override
   $Res call(
       {@JsonKey(name: 'Hash') String hash,
@@ -199,14 +161,14 @@ abstract class _$TransactionCopyWith<$Res>
 }
 
 /// @nodoc
-class __$TransactionCopyWithImpl<$Res> extends _$TransactionCopyWithImpl<$Res>
-    implements _$TransactionCopyWith<$Res> {
-  __$TransactionCopyWithImpl(
-      _Transaction _value, $Res Function(_Transaction) _then)
-      : super(_value, (v) => _then(v as _Transaction));
+class __$$_TransactionCopyWithImpl<$Res> extends _$TransactionCopyWithImpl<$Res>
+    implements _$$_TransactionCopyWith<$Res> {
+  __$$_TransactionCopyWithImpl(
+      _$_Transaction _value, $Res Function(_$_Transaction) _then)
+      : super(_value, (v) => _then(v as _$_Transaction));
 
   @override
-  _Transaction get _value => super._value as _Transaction;
+  _$_Transaction get _value => super._value as _$_Transaction;
 
   @override
   $Res call({
@@ -222,7 +184,7 @@ class __$TransactionCopyWithImpl<$Res> extends _$TransactionCopyWithImpl<$Res>
     Object? signature = freezed,
     Object? height = freezed,
   }) {
-    return _then(_Transaction(
+    return _then(_$_Transaction(
       hash: hash == freezed
           ? _value.hash
           : hash // ignore: cast_nullable_to_non_nullable
@@ -334,7 +296,7 @@ class _$_Transaction extends _Transaction {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Transaction &&
+            other is _$_Transaction &&
             const DeepCollectionEquality().equals(other.hash, hash) &&
             const DeepCollectionEquality().equals(other.toAddress, toAddress) &&
             const DeepCollectionEquality()
@@ -349,6 +311,7 @@ class _$_Transaction extends _Transaction {
             const DeepCollectionEquality().equals(other.height, height));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -366,8 +329,8 @@ class _$_Transaction extends _Transaction {
 
   @JsonKey(ignore: true)
   @override
-  _$TransactionCopyWith<_Transaction> get copyWith =>
-      __$TransactionCopyWithImpl<_Transaction>(this, _$identity);
+  _$$_TransactionCopyWith<_$_Transaction> get copyWith =>
+      __$$_TransactionCopyWithImpl<_$_Transaction>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -377,17 +340,17 @@ class _$_Transaction extends _Transaction {
 
 abstract class _Transaction extends Transaction {
   factory _Transaction(
-      {@JsonKey(name: 'Hash') required String hash,
-      @JsonKey(name: 'ToAddress') required String toAddress,
-      @JsonKey(name: 'FromAddress') required String fromAddress,
-      @JsonKey(name: 'TransactionType') required int type,
-      @JsonKey(name: 'Amount') required double amount,
-      @JsonKey(name: 'Nonce') required int nonce,
-      @JsonKey(name: 'Fee') required double fee,
-      @JsonKey(name: 'Timestamp') required int timestamp,
-      @JsonKey(name: 'Data') required dynamic nftData,
-      @JsonKey(name: 'Signature') String? signature,
-      @JsonKey(name: 'Height') required int height}) = _$_Transaction;
+      {@JsonKey(name: 'Hash') required final String hash,
+      @JsonKey(name: 'ToAddress') required final String toAddress,
+      @JsonKey(name: 'FromAddress') required final String fromAddress,
+      @JsonKey(name: 'TransactionType') required final int type,
+      @JsonKey(name: 'Amount') required final double amount,
+      @JsonKey(name: 'Nonce') required final int nonce,
+      @JsonKey(name: 'Fee') required final double fee,
+      @JsonKey(name: 'Timestamp') required final int timestamp,
+      @JsonKey(name: 'Data') required final dynamic nftData,
+      @JsonKey(name: 'Signature') final String? signature,
+      @JsonKey(name: 'Height') required final int height}) = _$_Transaction;
   _Transaction._() : super._();
 
   factory _Transaction.fromJson(Map<String, dynamic> json) =
@@ -395,39 +358,39 @@ abstract class _Transaction extends Transaction {
 
   @override
   @JsonKey(name: 'Hash')
-  String get hash;
+  String get hash => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'ToAddress')
-  String get toAddress;
+  String get toAddress => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'FromAddress')
-  String get fromAddress;
+  String get fromAddress => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'TransactionType')
-  int get type;
+  int get type => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'Amount')
-  double get amount;
+  double get amount => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'Nonce')
-  int get nonce;
+  int get nonce => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'Fee')
-  double get fee;
+  double get fee => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'Timestamp')
-  int get timestamp;
+  int get timestamp => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'Data')
-  dynamic get nftData;
+  dynamic get nftData => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'Signature')
-  String? get signature;
+  String? get signature => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'Height')
-  int get height;
+  int get height => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$TransactionCopyWith<_Transaction> get copyWith =>
+  _$$_TransactionCopyWith<_$_Transaction> get copyWith =>
       throw _privateConstructorUsedError;
 }

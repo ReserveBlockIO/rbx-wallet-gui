@@ -82,7 +82,6 @@ class NftMangementModal extends BaseComponent {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final _provider = ref.read(nftDetailProvider(id).notifier);
     final nft = ref.watch(nftDetailProvider(id));
 
     if (nft == null) return Container();
@@ -133,7 +132,7 @@ class NftMangementModal extends BaseComponent {
               ),
             ],
           ),
-          Divider(),
+          const Divider(),
           Text(
             "Managing ${nft.name}",
             style: Theme.of(context)
@@ -141,7 +140,7 @@ class NftMangementModal extends BaseComponent {
                 .headline4!
                 .copyWith(color: Colors.white),
           ),
-          Divider(),
+          const Divider(),
           // if (nft.canEvolve)
           //   Column(
           //     mainAxisSize: MainAxisSize.min,
@@ -162,7 +161,7 @@ class NftMangementModal extends BaseComponent {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Divider(),
+              const Divider(),
               Text(
                 nft.evolveIsDynamic ? "Evolution" : "Manage Evolution",
                 style: Theme.of(context).textTheme.headline5,
@@ -178,7 +177,7 @@ class NftMangementModal extends BaseComponent {
                         AppButton(
                           label: "Devolve",
                           variant: AppColorVariant.Danger,
-                          icon: FontAwesomeIcons.chevronCircleDown,
+                          icon: FontAwesomeIcons.circleChevronDown,
                           onPressed: nft.currentEvolvePhase.evolutionState > 0
                               ? () async {
                                   devolve(context, ref);
@@ -188,7 +187,7 @@ class NftMangementModal extends BaseComponent {
                         AppButton(
                           label: "Evolve",
                           variant: AppColorVariant.Success,
-                          icon: FontAwesomeIcons.chevronCircleUp,
+                          icon: FontAwesomeIcons.circleChevronUp,
                           onPressed: nft.currentEvolvePhase.evolutionState <
                                   nft.evolutionPhases.length
                               ? () async {
@@ -199,7 +198,7 @@ class NftMangementModal extends BaseComponent {
                         AppButton(
                           label: "Set Evolution",
                           variant: AppColorVariant.Primary,
-                          icon: FontAwesomeIcons.chevronCircleUp,
+                          icon: FontAwesomeIcons.circleChevronUp,
                           helpType: HelpType.setEvolution,
                           onPressed: () {
                             PromptModal.show(
@@ -323,7 +322,7 @@ class _EvolutionStateRow extends BaseComponent {
                               fit: BoxFit.cover,
                             ),
                           if (phase.asset == null)
-                            SizedBox(
+                            const SizedBox(
                               width: 100,
                               height: 100,
                             ),

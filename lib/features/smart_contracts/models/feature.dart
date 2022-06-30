@@ -169,11 +169,11 @@ abstract class Feature with _$Feature {
       case FeatureType.royalty:
         return FontAwesomeIcons.moneyBill;
       case FeatureType.evolution:
-        return FontAwesomeIcons.adjust;
+        return FontAwesomeIcons.circleHalfStroke;
       case FeatureType.multiAsset:
-        return FontAwesomeIcons.listAlt;
+        return FontAwesomeIcons.rectangleList;
       case FeatureType.ticket:
-        return FontAwesomeIcons.ticketAlt;
+        return FontAwesomeIcons.ticketSimple;
       case FeatureType.tokenization:
         return FontAwesomeIcons.trophy;
       case FeatureType.music:
@@ -187,7 +187,7 @@ abstract class Feature with _$Feature {
       case FeatureType.fractionalization:
         return FontAwesomeIcons.divide;
       case FeatureType.pair:
-        return FontAwesomeIcons.arrowsAltH;
+        return FontAwesomeIcons.leftRight;
       case FeatureType.wrap:
         return FontAwesomeIcons.gift;
 

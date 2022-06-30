@@ -15,10 +15,10 @@ class SendScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: Text("Send RBX"),
+      title: const Text("Send RBX"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      actions: [WalletSelector()],
+      actions: const [WalletSelector()],
     );
   }
 
@@ -26,7 +26,7 @@ class SendScreen extends BaseScreen {
   Widget body(BuildContext context, WidgetRef ref) {
     final currentWallet = ref.watch(sessionProvider).currentWallet;
     if (currentWallet == null) {
-      return InvalidWallet(message: "No wallet selected");
+      return const InvalidWallet(message: "No wallet selected");
     }
 
     return SendForm(wallet: currentWallet);

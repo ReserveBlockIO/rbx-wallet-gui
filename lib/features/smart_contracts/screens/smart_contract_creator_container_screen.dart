@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
 
 class SmartContractCreatorContainerScreen extends BaseScreen {
@@ -35,15 +34,15 @@ class SmartContractCreatorContainerScreen extends BaseScreen {
               AutoRouter.of(context).pop();
             }
           },
-          icon: Icon(Icons.close),
+          icon: const Icon(Icons.close),
         ),
         // actions: [HelpButton(HelpType.smartContract)],
         actions: [
           TextButton(
             onPressed: () {
-              AutoRouter.of(context).push(SmartContractDraftsScreenRoute());
+              AutoRouter.of(context).push(const SmartContractDraftsScreenRoute());
             },
-            child: Text(
+            child: const Text(
               "My Drafts",
               style: TextStyle(
                 color: Colors.white,
@@ -55,6 +54,6 @@ class SmartContractCreatorContainerScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    return Padding(padding: const EdgeInsets.all(0), child: AutoRouter());
+    return const Padding(padding: EdgeInsets.all(0), child: AutoRouter());
   }
 }

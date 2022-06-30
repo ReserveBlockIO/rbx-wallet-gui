@@ -1,11 +1,8 @@
 // ignore_for_file: dead_code
 
 import 'dart:convert';
-import 'dart:math';
 import 'dart:typed_data';
 import 'package:hex/hex.dart';
-import 'package:pointycastle/pointycastle.dart' as PC;
-import 'package:pointycastle/random/fortuna_random.dart';
 import 'package:rbx_wallet/core/services/transaction_service.dart';
 import 'package:rbx_wallet/features/keygen/models/keypair.dart';
 import 'package:crypto/crypto.dart';
@@ -245,17 +242,6 @@ class RawTransaction {
     };
   }
 
-  static PC.SecureRandom _getSecureRandom() {
-    var secureRandom = FortunaRandom();
-    var random = Random.secure();
-    List<int> seeds = [];
-    for (int i = 0; i < 32; i++) {
-      seeds.add(random.nextInt(255));
-    }
-    secureRandom.seed(PC.KeyParameter(new Uint8List.fromList(seeds)));
-    return secureRandom;
-  }
-
   static String base58Encode(List<int> array) {
     const String ALPHABET =
         "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
@@ -364,33 +350,4 @@ class RawTransaction {
 
     return data;
   }
-
-  // static BigInt bytesToBigInt(Uint8List bytes) {
-  //   BigInt read(int start, int end) {
-  //     if (end - start <= 4) {
-  //       int result = 0;
-  //       for (int i = end - 1; i >= start; i--) {
-  //         result = result * 256 + bytes[i];
-  //       }
-  //       return new BigInt.from(result);
-  //     }
-  //     int mid = start + ((end - start) >> 1);
-  //     var result = read(start, mid) +
-  //         read(mid, end) * (BigInt.one << ((mid - start) * 8));
-  //     return result;
-  //   }
-
-  //   return read(0, bytes.length);
-  // }
-  // static Uint8List bigIntToUint8List(BigInt number) {
-  //   // Not handling negative numbers. Decide how you want to do that.
-  //   int bytes = (number.bitLength + 7) >> 3;
-  //   var b256 = BigInt.from(256);
-  //   var result = Uint8List(bytes);
-  //   for (int i = 0; i < bytes; i++) {
-  //     result[i] = number.remainder(b256).toInt();
-  //     number = number >> 8;
-  //   }
-  //   return result;
-  // }
 }

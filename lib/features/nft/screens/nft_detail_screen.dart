@@ -15,7 +15,6 @@ import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/modals/code_modal.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/my_smart_contracts_provider.dart';
-import 'package:rbx_wallet/utils/files.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 
@@ -40,7 +39,7 @@ class NftDetailScreen extends BaseScreen {
     final nft = ref.watch(nftDetailProvider(id));
 
     return AppBar(
-      title: nft != null ? Text(nft.currentEvolveName) : Text("NFT"),
+      title: nft != null ? Text(nft.currentEvolveName) : const Text("NFT"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
       actions: [
@@ -49,7 +48,7 @@ class NftDetailScreen extends BaseScreen {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (!nft.isPublished) HelpButton(HelpType.minting),
+                if (!nft.isPublished) const HelpButton(HelpType.minting),
                 Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: AppBadge(
@@ -101,11 +100,11 @@ class NftDetailScreen extends BaseScreen {
                       .headline4!
                       .copyWith(color: Colors.white),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 4,
                 ),
                 Text("ID: ${nft.id}"),
-                SizedBox(
+                const SizedBox(
                   height: 4,
                 ),
                 if (nft.minterName.isNotEmpty)
@@ -116,7 +115,7 @@ class NftDetailScreen extends BaseScreen {
                         .headline5!
                         .copyWith(color: Colors.white),
                   ),
-                SizedBox(
+                const SizedBox(
                   height: 4,
                 ),
                 Text(
@@ -126,16 +125,16 @@ class NftDetailScreen extends BaseScreen {
                         fontWeight: FontWeight.w400,
                       ),
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   children: [
                     Expanded(
                       child: ListTile(
                         contentPadding: EdgeInsets.zero,
                         title: Text(nft.address),
-                        subtitle: Text("Smart Contract Address"),
+                        subtitle: const Text("Smart Contract Address"),
                         leading: IconButton(
-                          icon: Icon(Icons.copy),
+                          icon: const Icon(Icons.copy),
                           onPressed: () {
                             copyToClipboard(nft.id);
                           },
@@ -147,9 +146,9 @@ class NftDetailScreen extends BaseScreen {
                         child: ListTile(
                           contentPadding: EdgeInsets.zero,
                           title: Text(nft.minterAddress),
-                          subtitle: Text("Minter Address"),
+                          subtitle: const Text("Minter Address"),
                           leading: IconButton(
-                            icon: Icon(Icons.copy),
+                            icon: const Icon(Icons.copy),
                             onPressed: () {
                               copyToClipboard(nft.minterAddress);
                             },
@@ -158,7 +157,7 @@ class NftDetailScreen extends BaseScreen {
                       ),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Wrap(
                   children: [
                     Column(
@@ -168,7 +167,7 @@ class NftDetailScreen extends BaseScreen {
                         Text("Asset:",
                             style: Theme.of(context).textTheme.headline5),
                         ConstrainedBox(
-                          constraints: BoxConstraints(maxWidth: 512),
+                          constraints: const BoxConstraints(maxWidth: 512),
                           child: Card(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -185,7 +184,7 @@ class NftDetailScreen extends BaseScreen {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Divider(),
+                                          const Divider(),
                                           Text(
                                             "Additional Assets",
                                             style: Theme.of(context)
@@ -215,7 +214,7 @@ class NftDetailScreen extends BaseScreen {
                       ],
                     ),
                     ConstrainedBox(
-                      constraints: BoxConstraints(maxWidth: 400),
+                      constraints: const BoxConstraints(maxWidth: 400),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -230,20 +229,20 @@ class NftDetailScreen extends BaseScreen {
                     )
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Text("Features:", style: Theme.of(context).textTheme.headline5),
                 if (nft.features.isEmpty)
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
-                      children: [
+                      children: const [
                         Icon(
                           Icons.cancel,
                           size: 16,
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 4.0),
+                          padding: EdgeInsets.only(left: 4.0),
                           child: Text(
                             "No features",
                             style: TextStyle(fontSize: 16),
@@ -269,7 +268,7 @@ class NftDetailScreen extends BaseScreen {
             ),
           ),
         ),
-        Divider(),
+        const Divider(),
         Text("Actions:", style: Theme.of(context).textTheme.headline5),
         Padding(
           padding: const EdgeInsets.all(4.0),

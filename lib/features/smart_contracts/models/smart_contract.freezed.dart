@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'smart_contract.dart';
@@ -11,62 +12,11 @@ part of 'smart_contract.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 SmartContract _$SmartContractFromJson(Map<String, dynamic> json) {
   return _SmartContract.fromJson(json);
 }
-
-/// @nodoc
-class _$SmartContractTearOff {
-  const _$SmartContractTearOff();
-
-  _SmartContract call(
-      {required Wallet owner,
-      String draftId = "",
-      String id = "",
-      String name = "",
-      String minterName = "",
-      String description = "",
-      String thumbnail = "",
-      Asset? primaryAsset,
-      List<Rarity> rarities = const [],
-      List<Stat> stats = const [],
-      List<Royalty> royalties = const [],
-      List<Evolve> evolves = const [],
-      List<Ticket> tickets = const [],
-      List<MultiAsset> multiAssets = const [],
-      String code = "",
-      bool isCompiled = false,
-      bool isPublished = false}) {
-    return _SmartContract(
-      owner: owner,
-      draftId: draftId,
-      id: id,
-      name: name,
-      minterName: minterName,
-      description: description,
-      thumbnail: thumbnail,
-      primaryAsset: primaryAsset,
-      rarities: rarities,
-      stats: stats,
-      royalties: royalties,
-      evolves: evolves,
-      tickets: tickets,
-      multiAssets: multiAssets,
-      code: code,
-      isCompiled: isCompiled,
-      isPublished: isPublished,
-    );
-  }
-
-  SmartContract fromJson(Map<String, Object?> json) {
-    return SmartContract.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $SmartContract = _$SmartContractTearOff();
 
 /// @nodoc
 mixin _$SmartContract {
@@ -244,11 +194,11 @@ class _$SmartContractCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$SmartContractCopyWith<$Res>
+abstract class _$$_SmartContractCopyWith<$Res>
     implements $SmartContractCopyWith<$Res> {
-  factory _$SmartContractCopyWith(
-          _SmartContract value, $Res Function(_SmartContract) then) =
-      __$SmartContractCopyWithImpl<$Res>;
+  factory _$$_SmartContractCopyWith(
+          _$_SmartContract value, $Res Function(_$_SmartContract) then) =
+      __$$_SmartContractCopyWithImpl<$Res>;
   @override
   $Res call(
       {Wallet owner,
@@ -276,15 +226,15 @@ abstract class _$SmartContractCopyWith<$Res>
 }
 
 /// @nodoc
-class __$SmartContractCopyWithImpl<$Res>
+class __$$_SmartContractCopyWithImpl<$Res>
     extends _$SmartContractCopyWithImpl<$Res>
-    implements _$SmartContractCopyWith<$Res> {
-  __$SmartContractCopyWithImpl(
-      _SmartContract _value, $Res Function(_SmartContract) _then)
-      : super(_value, (v) => _then(v as _SmartContract));
+    implements _$$_SmartContractCopyWith<$Res> {
+  __$$_SmartContractCopyWithImpl(
+      _$_SmartContract _value, $Res Function(_$_SmartContract) _then)
+      : super(_value, (v) => _then(v as _$_SmartContract));
 
   @override
-  _SmartContract get _value => super._value as _SmartContract;
+  _$_SmartContract get _value => super._value as _$_SmartContract;
 
   @override
   $Res call({
@@ -306,7 +256,7 @@ class __$SmartContractCopyWithImpl<$Res>
     Object? isCompiled = freezed,
     Object? isPublished = freezed,
   }) {
-    return _then(_SmartContract(
+    return _then(_$_SmartContract(
       owner: owner == freezed
           ? _value.owner
           : owner // ignore: cast_nullable_to_non_nullable
@@ -340,27 +290,27 @@ class __$SmartContractCopyWithImpl<$Res>
           : primaryAsset // ignore: cast_nullable_to_non_nullable
               as Asset?,
       rarities: rarities == freezed
-          ? _value.rarities
+          ? _value._rarities
           : rarities // ignore: cast_nullable_to_non_nullable
               as List<Rarity>,
       stats: stats == freezed
-          ? _value.stats
+          ? _value._stats
           : stats // ignore: cast_nullable_to_non_nullable
               as List<Stat>,
       royalties: royalties == freezed
-          ? _value.royalties
+          ? _value._royalties
           : royalties // ignore: cast_nullable_to_non_nullable
               as List<Royalty>,
       evolves: evolves == freezed
-          ? _value.evolves
+          ? _value._evolves
           : evolves // ignore: cast_nullable_to_non_nullable
               as List<Evolve>,
       tickets: tickets == freezed
-          ? _value.tickets
+          ? _value._tickets
           : tickets // ignore: cast_nullable_to_non_nullable
               as List<Ticket>,
       multiAssets: multiAssets == freezed
-          ? _value.multiAssets
+          ? _value._multiAssets
           : multiAssets // ignore: cast_nullable_to_non_nullable
               as List<MultiAsset>,
       code: code == freezed
@@ -391,68 +341,106 @@ class _$_SmartContract extends _SmartContract {
       this.description = "",
       this.thumbnail = "",
       this.primaryAsset,
-      this.rarities = const [],
-      this.stats = const [],
-      this.royalties = const [],
-      this.evolves = const [],
-      this.tickets = const [],
-      this.multiAssets = const [],
+      final List<Rarity> rarities = const [],
+      final List<Stat> stats = const [],
+      final List<Royalty> royalties = const [],
+      final List<Evolve> evolves = const [],
+      final List<Ticket> tickets = const [],
+      final List<MultiAsset> multiAssets = const [],
       this.code = "",
       this.isCompiled = false,
       this.isPublished = false})
-      : super._();
+      : _rarities = rarities,
+        _stats = stats,
+        _royalties = royalties,
+        _evolves = evolves,
+        _tickets = tickets,
+        _multiAssets = multiAssets,
+        super._();
 
   factory _$_SmartContract.fromJson(Map<String, dynamic> json) =>
       _$$_SmartContractFromJson(json);
 
   @override
   final Wallet owner;
-  @JsonKey(defaultValue: "")
   @override
+  @JsonKey()
   final String draftId;
-  @JsonKey(defaultValue: "")
   @override
+  @JsonKey()
   final String id;
-  @JsonKey(defaultValue: "")
   @override
+  @JsonKey()
   final String name;
-  @JsonKey(defaultValue: "")
   @override
+  @JsonKey()
   final String minterName;
-  @JsonKey(defaultValue: "")
   @override
+  @JsonKey()
   final String description;
-  @JsonKey(defaultValue: "")
   @override
+  @JsonKey()
   final String thumbnail;
   @override
   final Asset? primaryAsset;
-  @JsonKey(defaultValue: const [])
+  final List<Rarity> _rarities;
   @override
-  final List<Rarity> rarities;
-  @JsonKey(defaultValue: const [])
-  @override // @Default([]) List<Feature> features,
-  final List<Stat> stats;
-  @JsonKey(defaultValue: const [])
+  @JsonKey()
+  List<Rarity> get rarities {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_rarities);
+  }
+
+// @Default([]) List<Feature> features,
+  final List<Stat> _stats;
+// @Default([]) List<Feature> features,
   @override
-  final List<Royalty> royalties;
-  @JsonKey(defaultValue: const [])
+  @JsonKey()
+  List<Stat> get stats {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_stats);
+  }
+
+  final List<Royalty> _royalties;
   @override
-  final List<Evolve> evolves;
-  @JsonKey(defaultValue: const [])
+  @JsonKey()
+  List<Royalty> get royalties {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_royalties);
+  }
+
+  final List<Evolve> _evolves;
   @override
-  final List<Ticket> tickets;
-  @JsonKey(defaultValue: const [])
+  @JsonKey()
+  List<Evolve> get evolves {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_evolves);
+  }
+
+  final List<Ticket> _tickets;
   @override
-  final List<MultiAsset> multiAssets;
-  @JsonKey(defaultValue: "")
+  @JsonKey()
+  List<Ticket> get tickets {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_tickets);
+  }
+
+  final List<MultiAsset> _multiAssets;
   @override
+  @JsonKey()
+  List<MultiAsset> get multiAssets {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_multiAssets);
+  }
+
+  @override
+  @JsonKey()
   final String code;
-  @JsonKey(defaultValue: false)
   @override
+  @JsonKey()
   final bool isCompiled;
-  @JsonKey(defaultValue: false)
   @override
+  @JsonKey()
   final bool isPublished;
 
   @override
@@ -464,7 +452,7 @@ class _$_SmartContract extends _SmartContract {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _SmartContract &&
+            other is _$_SmartContract &&
             const DeepCollectionEquality().equals(other.owner, owner) &&
             const DeepCollectionEquality().equals(other.draftId, draftId) &&
             const DeepCollectionEquality().equals(other.id, id) &&
@@ -476,13 +464,14 @@ class _$_SmartContract extends _SmartContract {
             const DeepCollectionEquality().equals(other.thumbnail, thumbnail) &&
             const DeepCollectionEquality()
                 .equals(other.primaryAsset, primaryAsset) &&
-            const DeepCollectionEquality().equals(other.rarities, rarities) &&
-            const DeepCollectionEquality().equals(other.stats, stats) &&
-            const DeepCollectionEquality().equals(other.royalties, royalties) &&
-            const DeepCollectionEquality().equals(other.evolves, evolves) &&
-            const DeepCollectionEquality().equals(other.tickets, tickets) &&
+            const DeepCollectionEquality().equals(other._rarities, _rarities) &&
+            const DeepCollectionEquality().equals(other._stats, _stats) &&
             const DeepCollectionEquality()
-                .equals(other.multiAssets, multiAssets) &&
+                .equals(other._royalties, _royalties) &&
+            const DeepCollectionEquality().equals(other._evolves, _evolves) &&
+            const DeepCollectionEquality().equals(other._tickets, _tickets) &&
+            const DeepCollectionEquality()
+                .equals(other._multiAssets, _multiAssets) &&
             const DeepCollectionEquality().equals(other.code, code) &&
             const DeepCollectionEquality()
                 .equals(other.isCompiled, isCompiled) &&
@@ -490,6 +479,7 @@ class _$_SmartContract extends _SmartContract {
                 .equals(other.isPublished, isPublished));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -501,20 +491,20 @@ class _$_SmartContract extends _SmartContract {
       const DeepCollectionEquality().hash(description),
       const DeepCollectionEquality().hash(thumbnail),
       const DeepCollectionEquality().hash(primaryAsset),
-      const DeepCollectionEquality().hash(rarities),
-      const DeepCollectionEquality().hash(stats),
-      const DeepCollectionEquality().hash(royalties),
-      const DeepCollectionEquality().hash(evolves),
-      const DeepCollectionEquality().hash(tickets),
-      const DeepCollectionEquality().hash(multiAssets),
+      const DeepCollectionEquality().hash(_rarities),
+      const DeepCollectionEquality().hash(_stats),
+      const DeepCollectionEquality().hash(_royalties),
+      const DeepCollectionEquality().hash(_evolves),
+      const DeepCollectionEquality().hash(_tickets),
+      const DeepCollectionEquality().hash(_multiAssets),
       const DeepCollectionEquality().hash(code),
       const DeepCollectionEquality().hash(isCompiled),
       const DeepCollectionEquality().hash(isPublished));
 
   @JsonKey(ignore: true)
   @override
-  _$SmartContractCopyWith<_SmartContract> get copyWith =>
-      __$SmartContractCopyWithImpl<_SmartContract>(this, _$identity);
+  _$$_SmartContractCopyWith<_$_SmartContract> get copyWith =>
+      __$$_SmartContractCopyWithImpl<_$_SmartContract>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -524,64 +514,64 @@ class _$_SmartContract extends _SmartContract {
 
 abstract class _SmartContract extends SmartContract {
   factory _SmartContract(
-      {required Wallet owner,
-      String draftId,
-      String id,
-      String name,
-      String minterName,
-      String description,
-      String thumbnail,
-      Asset? primaryAsset,
-      List<Rarity> rarities,
-      List<Stat> stats,
-      List<Royalty> royalties,
-      List<Evolve> evolves,
-      List<Ticket> tickets,
-      List<MultiAsset> multiAssets,
-      String code,
-      bool isCompiled,
-      bool isPublished}) = _$_SmartContract;
+      {required final Wallet owner,
+      final String draftId,
+      final String id,
+      final String name,
+      final String minterName,
+      final String description,
+      final String thumbnail,
+      final Asset? primaryAsset,
+      final List<Rarity> rarities,
+      final List<Stat> stats,
+      final List<Royalty> royalties,
+      final List<Evolve> evolves,
+      final List<Ticket> tickets,
+      final List<MultiAsset> multiAssets,
+      final String code,
+      final bool isCompiled,
+      final bool isPublished}) = _$_SmartContract;
   _SmartContract._() : super._();
 
   factory _SmartContract.fromJson(Map<String, dynamic> json) =
       _$_SmartContract.fromJson;
 
   @override
-  Wallet get owner;
+  Wallet get owner => throw _privateConstructorUsedError;
   @override
-  String get draftId;
+  String get draftId => throw _privateConstructorUsedError;
   @override
-  String get id;
+  String get id => throw _privateConstructorUsedError;
   @override
-  String get name;
+  String get name => throw _privateConstructorUsedError;
   @override
-  String get minterName;
+  String get minterName => throw _privateConstructorUsedError;
   @override
-  String get description;
+  String get description => throw _privateConstructorUsedError;
   @override
-  String get thumbnail;
+  String get thumbnail => throw _privateConstructorUsedError;
   @override
-  Asset? get primaryAsset;
+  Asset? get primaryAsset => throw _privateConstructorUsedError;
   @override
-  List<Rarity> get rarities;
+  List<Rarity> get rarities => throw _privateConstructorUsedError;
   @override // @Default([]) List<Feature> features,
-  List<Stat> get stats;
+  List<Stat> get stats => throw _privateConstructorUsedError;
   @override
-  List<Royalty> get royalties;
+  List<Royalty> get royalties => throw _privateConstructorUsedError;
   @override
-  List<Evolve> get evolves;
+  List<Evolve> get evolves => throw _privateConstructorUsedError;
   @override
-  List<Ticket> get tickets;
+  List<Ticket> get tickets => throw _privateConstructorUsedError;
   @override
-  List<MultiAsset> get multiAssets;
+  List<MultiAsset> get multiAssets => throw _privateConstructorUsedError;
   @override
-  String get code;
+  String get code => throw _privateConstructorUsedError;
   @override
-  bool get isCompiled;
+  bool get isCompiled => throw _privateConstructorUsedError;
   @override
-  bool get isPublished;
+  bool get isPublished => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$SmartContractCopyWith<_SmartContract> get copyWith =>
+  _$$_SmartContractCopyWith<_$_SmartContract> get copyWith =>
       throw _privateConstructorUsedError;
 }

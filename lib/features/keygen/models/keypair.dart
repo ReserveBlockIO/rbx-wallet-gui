@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pointycastle/pointycastle.dart';
 
 part 'keypair.freezed.dart';
 part 'keypair.g.dart';

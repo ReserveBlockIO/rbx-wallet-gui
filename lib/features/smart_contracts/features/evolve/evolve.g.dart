@@ -7,13 +7,13 @@ part of 'evolve.dart';
 // **************************************************************************
 
 _$_Evolve _$$_EvolveFromJson(Map<String, dynamic> json) => _$_Evolve(
-      id: json['id'] as String? ?? '',
+      id: json['id'] as String? ?? "",
       type: $enumDecodeNullable(_$EvolveTypeEnumMap, json['type']) ??
           EvolveType.manualOnly,
       phases: (json['phases'] as List<dynamic>?)
               ?.map((e) => EvolvePhase.fromJson(e as Map<String, dynamic>))
               .toList() ??
-          [],
+          const [],
       isDynamic: json['isDynamic'] as bool? ?? false,
       asset: json['asset'] == null
           ? null

@@ -245,7 +245,7 @@ abstract class ExtendedKey {
   ///
   /// Works for both private and public keys.
   factory ExtendedKey.deserialize(String key) {
-    var decodedKey = Base58Codec(alphabet).decode(key);
+    var decodedKey = const Base58Codec(alphabet).decode(key);
     if (decodedKey.length != lengthOfSerializedKey + lengthOfChecksum) {
       throw InvalidKeyLength(
           decodedKey.length, lengthOfSerializedKey + lengthOfChecksum);
@@ -298,7 +298,7 @@ abstract class ExtendedKey {
     var payload = _serialize();
     payload.addAll(_checksum());
 
-    return Base58Codec(alphabet).encode(payload);
+    return const Base58Codec(alphabet).encode(payload);
   }
 
   String privateKeyHex() {

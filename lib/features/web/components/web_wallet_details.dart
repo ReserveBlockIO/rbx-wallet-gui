@@ -34,8 +34,8 @@ class WebWalletDetails extends BaseComponent {
           children: [
             InkWell(
                 onTap: () {},
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
+                child: const Padding(
+                  padding: EdgeInsets.all(4.0),
                   child: Icon(
                     Icons.copy,
                     size: 20,
@@ -43,8 +43,8 @@ class WebWalletDetails extends BaseComponent {
                 )),
             InkWell(
                 onTap: () {},
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
+                child: const Padding(
+                  padding: EdgeInsets.all(4.0),
                   child: Icon(
                     Icons.remove_red_eye,
                     size: 20,
@@ -52,50 +52,6 @@ class WebWalletDetails extends BaseComponent {
                 )),
           ],
         ),
-      ),
-    );
-
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SelectableText(
-                keypair.public,
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
-              Row(
-                children: [
-                  InkWell(
-                      onTap: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Icon(
-                          Icons.copy,
-                          size: 20,
-                        ),
-                      )),
-                  InkWell(
-                      onTap: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Icon(
-                          Icons.remove_red_eye,
-                          size: 20,
-                        ),
-                      )),
-                ],
-              ),
-            ],
-          ),
-          if (sessionModel.balance != null)
-            Text(
-              "${sessionModel.balance} RBX",
-              style: Theme.of(context).textTheme.caption,
-            ),
-        ]),
       ),
     );
   }

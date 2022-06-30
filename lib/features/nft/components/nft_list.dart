@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/features/nft/components/nft_card.dart';
 import 'package:rbx_wallet/features/nft/components/nft_list_tile.dart';
 import 'package:rbx_wallet/features/nft/providers/minted_nft_list_provider.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
@@ -13,8 +12,6 @@ class NftList extends BaseComponent {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final _provider = ref.read(
-        minted ? mintedNftListProvider.notifier : nftListProvider.notifier);
     final _model = ref.watch(minted ? mintedNftListProvider : nftListProvider);
 
     if (_model.isEmpty) {

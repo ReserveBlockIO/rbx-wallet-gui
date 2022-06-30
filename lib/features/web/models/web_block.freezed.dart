@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'web_block.dart';
@@ -11,53 +12,11 @@ part of 'web_block.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 WebBlock _$WebBlockFromJson(Map<String, dynamic> json) {
   return _WebBlock.fromJson(json);
 }
-
-/// @nodoc
-class _$WebBlockTearOff {
-  const _$WebBlockTearOff();
-
-  _WebBlock call(
-      {required int height,
-      required int timestamp,
-      required String hash,
-      required String validator,
-      @JsonKey(name: "total_amount")
-          required double totalAmount,
-      @JsonKey(name: "total_reward")
-          required double totalReward,
-      @JsonKey(name: "number_of_transactions")
-          required int numberOfTransactions,
-      required int size,
-      @JsonKey(name: "craft_time")
-          required int craftTime,
-      @JsonKey(name: "prev_hash")
-          required String prevHash}) {
-    return _WebBlock(
-      height: height,
-      timestamp: timestamp,
-      hash: hash,
-      validator: validator,
-      totalAmount: totalAmount,
-      totalReward: totalReward,
-      numberOfTransactions: numberOfTransactions,
-      size: size,
-      craftTime: craftTime,
-      prevHash: prevHash,
-    );
-  }
-
-  WebBlock fromJson(Map<String, Object?> json) {
-    return WebBlock.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $WebBlock = _$WebBlockTearOff();
 
 /// @nodoc
 mixin _$WebBlock {
@@ -167,9 +126,10 @@ class _$WebBlockCopyWithImpl<$Res> implements $WebBlockCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$WebBlockCopyWith<$Res> implements $WebBlockCopyWith<$Res> {
-  factory _$WebBlockCopyWith(_WebBlock value, $Res Function(_WebBlock) then) =
-      __$WebBlockCopyWithImpl<$Res>;
+abstract class _$$_WebBlockCopyWith<$Res> implements $WebBlockCopyWith<$Res> {
+  factory _$$_WebBlockCopyWith(
+          _$_WebBlock value, $Res Function(_$_WebBlock) then) =
+      __$$_WebBlockCopyWithImpl<$Res>;
   @override
   $Res call(
       {int height,
@@ -185,13 +145,14 @@ abstract class _$WebBlockCopyWith<$Res> implements $WebBlockCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$WebBlockCopyWithImpl<$Res> extends _$WebBlockCopyWithImpl<$Res>
-    implements _$WebBlockCopyWith<$Res> {
-  __$WebBlockCopyWithImpl(_WebBlock _value, $Res Function(_WebBlock) _then)
-      : super(_value, (v) => _then(v as _WebBlock));
+class __$$_WebBlockCopyWithImpl<$Res> extends _$WebBlockCopyWithImpl<$Res>
+    implements _$$_WebBlockCopyWith<$Res> {
+  __$$_WebBlockCopyWithImpl(
+      _$_WebBlock _value, $Res Function(_$_WebBlock) _then)
+      : super(_value, (v) => _then(v as _$_WebBlock));
 
   @override
-  _WebBlock get _value => super._value as _WebBlock;
+  _$_WebBlock get _value => super._value as _$_WebBlock;
 
   @override
   $Res call({
@@ -206,7 +167,7 @@ class __$WebBlockCopyWithImpl<$Res> extends _$WebBlockCopyWithImpl<$Res>
     Object? craftTime = freezed,
     Object? prevHash = freezed,
   }) {
-    return _then(_WebBlock(
+    return _then(_$_WebBlock(
       height: height == freezed
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
@@ -310,7 +271,7 @@ class _$_WebBlock extends _WebBlock {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _WebBlock &&
+            other is _$_WebBlock &&
             const DeepCollectionEquality().equals(other.height, height) &&
             const DeepCollectionEquality().equals(other.timestamp, timestamp) &&
             const DeepCollectionEquality().equals(other.hash, hash) &&
@@ -326,6 +287,7 @@ class _$_WebBlock extends _WebBlock {
             const DeepCollectionEquality().equals(other.prevHash, prevHash));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -342,8 +304,8 @@ class _$_WebBlock extends _WebBlock {
 
   @JsonKey(ignore: true)
   @override
-  _$WebBlockCopyWith<_WebBlock> get copyWith =>
-      __$WebBlockCopyWithImpl<_WebBlock>(this, _$identity);
+  _$$_WebBlockCopyWith<_$_WebBlock> get copyWith =>
+      __$$_WebBlockCopyWithImpl<_$_WebBlock>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -353,52 +315,52 @@ class _$_WebBlock extends _WebBlock {
 
 abstract class _WebBlock extends WebBlock {
   factory _WebBlock(
-      {required int height,
-      required int timestamp,
-      required String hash,
-      required String validator,
+      {required final int height,
+      required final int timestamp,
+      required final String hash,
+      required final String validator,
       @JsonKey(name: "total_amount")
-          required double totalAmount,
+          required final double totalAmount,
       @JsonKey(name: "total_reward")
-          required double totalReward,
+          required final double totalReward,
       @JsonKey(name: "number_of_transactions")
-          required int numberOfTransactions,
-      required int size,
+          required final int numberOfTransactions,
+      required final int size,
       @JsonKey(name: "craft_time")
-          required int craftTime,
+          required final int craftTime,
       @JsonKey(name: "prev_hash")
-          required String prevHash}) = _$_WebBlock;
+          required final String prevHash}) = _$_WebBlock;
   _WebBlock._() : super._();
 
   factory _WebBlock.fromJson(Map<String, dynamic> json) = _$_WebBlock.fromJson;
 
   @override
-  int get height;
+  int get height => throw _privateConstructorUsedError;
   @override
-  int get timestamp;
+  int get timestamp => throw _privateConstructorUsedError;
   @override
-  String get hash;
+  String get hash => throw _privateConstructorUsedError;
   @override
-  String get validator;
+  String get validator => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "total_amount")
-  double get totalAmount;
+  double get totalAmount => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "total_reward")
-  double get totalReward;
+  double get totalReward => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "number_of_transactions")
-  int get numberOfTransactions;
+  int get numberOfTransactions => throw _privateConstructorUsedError;
   @override
-  int get size;
+  int get size => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "craft_time")
-  int get craftTime;
+  int get craftTime => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "prev_hash")
-  String get prevHash;
+  String get prevHash => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$WebBlockCopyWith<_WebBlock> get copyWith =>
+  _$$_WebBlockCopyWith<_$_WebBlock> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -14,9 +14,9 @@ class WebDashboardContainer extends StatelessWidget {
   WebDashboardContainer({Key? key}) : super(key: key);
 
   final List<PageRouteInfo> routes = [
-    WebHomeTabRouter(),
-    WebSendTabRouter(),
-    WebNftTabRouter()
+    const WebHomeTabRouter(),
+    const WebSendTabRouter(),
+    const WebNftTabRouter()
   ];
 
   @override

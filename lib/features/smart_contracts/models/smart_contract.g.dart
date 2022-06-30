@@ -9,40 +9,40 @@ part of 'smart_contract.dart';
 _$_SmartContract _$$_SmartContractFromJson(Map<String, dynamic> json) =>
     _$_SmartContract(
       owner: Wallet.fromJson(json['owner'] as Map<String, dynamic>),
-      draftId: json['draftId'] as String? ?? '',
-      id: json['id'] as String? ?? '',
-      name: json['name'] as String? ?? '',
-      minterName: json['minterName'] as String? ?? '',
-      description: json['description'] as String? ?? '',
-      thumbnail: json['thumbnail'] as String? ?? '',
+      draftId: json['draftId'] as String? ?? "",
+      id: json['id'] as String? ?? "",
+      name: json['name'] as String? ?? "",
+      minterName: json['minterName'] as String? ?? "",
+      description: json['description'] as String? ?? "",
+      thumbnail: json['thumbnail'] as String? ?? "",
       primaryAsset: json['primaryAsset'] == null
           ? null
           : Asset.fromJson(json['primaryAsset'] as Map<String, dynamic>),
       rarities: (json['rarities'] as List<dynamic>?)
               ?.map((e) => Rarity.fromJson(e as Map<String, dynamic>))
               .toList() ??
-          [],
+          const [],
       stats: (json['stats'] as List<dynamic>?)
               ?.map((e) => Stat.fromJson(e as Map<String, dynamic>))
               .toList() ??
-          [],
+          const [],
       royalties: (json['royalties'] as List<dynamic>?)
               ?.map((e) => Royalty.fromJson(e as Map<String, dynamic>))
               .toList() ??
-          [],
+          const [],
       evolves: (json['evolves'] as List<dynamic>?)
               ?.map((e) => Evolve.fromJson(e as Map<String, dynamic>))
               .toList() ??
-          [],
+          const [],
       tickets: (json['tickets'] as List<dynamic>?)
               ?.map((e) => Ticket.fromJson(e as Map<String, dynamic>))
               .toList() ??
-          [],
+          const [],
       multiAssets: (json['multiAssets'] as List<dynamic>?)
               ?.map((e) => MultiAsset.fromJson(e as Map<String, dynamic>))
               .toList() ??
-          [],
-      code: json['code'] as String? ?? '',
+          const [],
+      code: json['code'] as String? ?? "",
       isCompiled: json['isCompiled'] as bool? ?? false,
       isPublished: json['isPublished'] as bool? ?? false,
     );

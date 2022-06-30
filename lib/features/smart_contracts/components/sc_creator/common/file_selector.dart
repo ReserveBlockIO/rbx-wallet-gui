@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:process_run/shell.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
@@ -98,7 +97,7 @@ class FileSelector extends StatelessWidget {
                     fit: BoxFit.cover,
                   );
                 }
-                return Icon(Icons.file_present_outlined);
+                return const Icon(Icons.file_present_outlined);
               },
             ),
             title: Text(_title ?? ""),
@@ -133,7 +132,7 @@ class FileSelector extends StatelessWidget {
                             onPressed: readOnly ? null : _handleUpload,
                           ),
                         ),
-                      SizedBox(width: 6),
+                      const SizedBox(width: 6),
                       AppButton(
                         label: "Remove",
                         icon: Icons.delete,

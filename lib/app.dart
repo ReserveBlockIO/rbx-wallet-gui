@@ -34,12 +34,12 @@ class App extends ConsumerWidget {
 
     if (kIsWeb) {
       ref.read(webSessionProvider.notifier);
-      return AppContainer();
+      return const AppContainer();
     } else {
       ref.read(sessionProvider.notifier);
     }
 
-    return AppSystemManager(child: AppContainer());
+    return const AppSystemManager(child: AppContainer());
   }
 }
 
@@ -67,10 +67,10 @@ class AppContainer extends ConsumerWidget {
       builder: (context, widget) {
         if (!ref.watch(readyProvider)) {
           if (kIsWeb) {
-            return CenteredLoader();
+            return const CenteredLoader();
           }
 
-          return Material(
+          return const Material(
             child: Center(child: BootContainer()),
           );
         }

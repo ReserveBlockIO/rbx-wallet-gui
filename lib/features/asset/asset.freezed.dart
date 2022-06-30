@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'asset.dart';
@@ -11,40 +12,11 @@ part of 'asset.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 Asset _$AssetFromJson(Map<String, dynamic> json) {
   return _Asset.fromJson(json);
 }
-
-/// @nodoc
-class _$AssetTearOff {
-  const _$AssetTearOff();
-
-  _Asset call(
-      {@JsonKey(name: "AssetId") required String id,
-      @JsonKey(name: "Name") String? name,
-      @JsonKey(name: "AssetAuthorName") String? authorName,
-      @JsonKey(name: "Location") required String location,
-      @JsonKey(name: "Extension") required String extension,
-      @JsonKey(name: "FileSize") required int fileSize}) {
-    return _Asset(
-      id: id,
-      name: name,
-      authorName: authorName,
-      location: location,
-      extension: extension,
-      fileSize: fileSize,
-    );
-  }
-
-  Asset fromJson(Map<String, Object?> json) {
-    return Asset.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $Asset = _$AssetTearOff();
 
 /// @nodoc
 mixin _$Asset {
@@ -126,9 +98,9 @@ class _$AssetCopyWithImpl<$Res> implements $AssetCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$AssetCopyWith<$Res> implements $AssetCopyWith<$Res> {
-  factory _$AssetCopyWith(_Asset value, $Res Function(_Asset) then) =
-      __$AssetCopyWithImpl<$Res>;
+abstract class _$$_AssetCopyWith<$Res> implements $AssetCopyWith<$Res> {
+  factory _$$_AssetCopyWith(_$_Asset value, $Res Function(_$_Asset) then) =
+      __$$_AssetCopyWithImpl<$Res>;
   @override
   $Res call(
       {@JsonKey(name: "AssetId") String id,
@@ -140,13 +112,13 @@ abstract class _$AssetCopyWith<$Res> implements $AssetCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$AssetCopyWithImpl<$Res> extends _$AssetCopyWithImpl<$Res>
-    implements _$AssetCopyWith<$Res> {
-  __$AssetCopyWithImpl(_Asset _value, $Res Function(_Asset) _then)
-      : super(_value, (v) => _then(v as _Asset));
+class __$$_AssetCopyWithImpl<$Res> extends _$AssetCopyWithImpl<$Res>
+    implements _$$_AssetCopyWith<$Res> {
+  __$$_AssetCopyWithImpl(_$_Asset _value, $Res Function(_$_Asset) _then)
+      : super(_value, (v) => _then(v as _$_Asset));
 
   @override
-  _Asset get _value => super._value as _Asset;
+  _$_Asset get _value => super._value as _$_Asset;
 
   @override
   $Res call({
@@ -157,7 +129,7 @@ class __$AssetCopyWithImpl<$Res> extends _$AssetCopyWithImpl<$Res>
     Object? extension = freezed,
     Object? fileSize = freezed,
   }) {
-    return _then(_Asset(
+    return _then(_$_Asset(
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -230,7 +202,7 @@ class _$_Asset extends _Asset {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Asset &&
+            other is _$_Asset &&
             const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality()
@@ -240,6 +212,7 @@ class _$_Asset extends _Asset {
             const DeepCollectionEquality().equals(other.fileSize, fileSize));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -252,8 +225,8 @@ class _$_Asset extends _Asset {
 
   @JsonKey(ignore: true)
   @override
-  _$AssetCopyWith<_Asset> get copyWith =>
-      __$AssetCopyWithImpl<_Asset>(this, _$identity);
+  _$$_AssetCopyWith<_$_Asset> get copyWith =>
+      __$$_AssetCopyWithImpl<_$_Asset>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -263,35 +236,36 @@ class _$_Asset extends _Asset {
 
 abstract class _Asset extends Asset {
   factory _Asset(
-      {@JsonKey(name: "AssetId") required String id,
-      @JsonKey(name: "Name") String? name,
-      @JsonKey(name: "AssetAuthorName") String? authorName,
-      @JsonKey(name: "Location") required String location,
-      @JsonKey(name: "Extension") required String extension,
-      @JsonKey(name: "FileSize") required int fileSize}) = _$_Asset;
+      {@JsonKey(name: "AssetId") required final String id,
+      @JsonKey(name: "Name") final String? name,
+      @JsonKey(name: "AssetAuthorName") final String? authorName,
+      @JsonKey(name: "Location") required final String location,
+      @JsonKey(name: "Extension") required final String extension,
+      @JsonKey(name: "FileSize") required final int fileSize}) = _$_Asset;
   _Asset._() : super._();
 
   factory _Asset.fromJson(Map<String, dynamic> json) = _$_Asset.fromJson;
 
   @override
   @JsonKey(name: "AssetId")
-  String get id;
+  String get id => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "Name")
-  String? get name;
+  String? get name => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "AssetAuthorName")
-  String? get authorName;
+  String? get authorName => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "Location")
-  String get location;
+  String get location => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "Extension")
-  String get extension;
+  String get extension => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "FileSize")
-  int get fileSize;
+  int get fileSize => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$AssetCopyWith<_Asset> get copyWith => throw _privateConstructorUsedError;
+  _$$_AssetCopyWith<_$_Asset> get copyWith =>
+      throw _privateConstructorUsedError;
 }

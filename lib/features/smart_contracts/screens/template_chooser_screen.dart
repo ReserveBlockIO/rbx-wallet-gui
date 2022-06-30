@@ -25,12 +25,12 @@ class TemplateChooserScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: Text("Smart Contracts Templates"),
+      title: const Text("Smart Contracts Templates"),
       leading: IconButton(
         onPressed: () async {
           AutoRouter.of(context).pop();
         },
-        icon: Icon(Icons.close),
+        icon: const Icon(Icons.close),
       ),
     );
   }
@@ -50,7 +50,7 @@ class TemplateChooserScreen extends BaseScreen {
           ),
         ),
         Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.bottomCenter,
               end: Alignment.topCenter,
@@ -115,7 +115,7 @@ class _TemplateCardState extends BaseComponentState<_TemplateCard> {
   void initState() {
     super.initState();
     Future.delayed(Duration(milliseconds: widget.delay)).then((value) {
-      timer = Timer.periodic(Duration(seconds: 3), (timer) {
+      timer = Timer.periodic(const Duration(seconds: 3), (timer) {
         setState(() => _index++);
       });
     });
@@ -134,7 +134,7 @@ class _TemplateCardState extends BaseComponentState<_TemplateCard> {
     void _handleCreate() {
       _provider.clearSmartContract();
       widget.template.init();
-      AutoRouter.of(context).push(SmartContractCreatorContainerScreenRoute());
+      AutoRouter.of(context).push(const SmartContractCreatorContainerScreenRoute());
     }
 
     return InkWell(
@@ -148,10 +148,10 @@ class _TemplateCardState extends BaseComponentState<_TemplateCard> {
         width: 350,
         height: 500,
         child: AnimatedContainer(
-          duration: Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 300),
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(
+            borderRadius: const BorderRadius.all(
               Radius.circular(8.0),
             ),
             // border: Border.all(color: Colors.white10, width: 3),
@@ -191,7 +191,7 @@ class _TemplateCardState extends BaseComponentState<_TemplateCard> {
                         alignment: Alignment.center,
                         children: [
                           AnimatedSwitcher(
-                            duration: Duration(milliseconds: 400),
+                            duration: const Duration(milliseconds: 400),
                             child: Image.asset(
                               widget.template.images[
                                   _index % widget.template.images.length],
@@ -257,16 +257,16 @@ class _TemplateCardState extends BaseComponentState<_TemplateCard> {
                           style: ElevatedButton.styleFrom(
                             primary: Colors.white,
                             onPrimary: Colors.black,
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                           onPressed: _handleCreate,
-                          child: Text("Create"),
+                          child: const Text("Create"),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       if (widget.template.learnMoreContent != null)

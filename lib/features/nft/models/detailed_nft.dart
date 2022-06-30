@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/compiled_smart_contract.dart';
 
 part 'detailed_nft.freezed.dart';
 part 'detailed_nft.g.dart';

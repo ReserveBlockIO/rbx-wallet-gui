@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'detailed_nft.dart';
@@ -11,34 +12,11 @@ part of 'detailed_nft.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 DetailedNft _$DetailedNftFromJson(Map<String, dynamic> json) {
   return _DetailedNft.fromJson(json);
 }
-
-/// @nodoc
-class _$DetailedNftTearOff {
-  const _$DetailedNftTearOff();
-
-  _DetailedNft call(
-      {@JsonKey(name: "SmartContract")
-          required Nft nft,
-      @JsonKey(name: "SmartContractCode", defaultValue: "")
-          required String code}) {
-    return _DetailedNft(
-      nft: nft,
-      code: code,
-    );
-  }
-
-  DetailedNft fromJson(Map<String, Object?> json) {
-    return DetailedNft.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $DetailedNft = _$DetailedNftTearOff();
 
 /// @nodoc
 mixin _$DetailedNft {
@@ -99,11 +77,11 @@ class _$DetailedNftCopyWithImpl<$Res> implements $DetailedNftCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$DetailedNftCopyWith<$Res>
+abstract class _$$_DetailedNftCopyWith<$Res>
     implements $DetailedNftCopyWith<$Res> {
-  factory _$DetailedNftCopyWith(
-          _DetailedNft value, $Res Function(_DetailedNft) then) =
-      __$DetailedNftCopyWithImpl<$Res>;
+  factory _$$_DetailedNftCopyWith(
+          _$_DetailedNft value, $Res Function(_$_DetailedNft) then) =
+      __$$_DetailedNftCopyWithImpl<$Res>;
   @override
   $Res call(
       {@JsonKey(name: "SmartContract") Nft nft,
@@ -114,21 +92,21 @@ abstract class _$DetailedNftCopyWith<$Res>
 }
 
 /// @nodoc
-class __$DetailedNftCopyWithImpl<$Res> extends _$DetailedNftCopyWithImpl<$Res>
-    implements _$DetailedNftCopyWith<$Res> {
-  __$DetailedNftCopyWithImpl(
-      _DetailedNft _value, $Res Function(_DetailedNft) _then)
-      : super(_value, (v) => _then(v as _DetailedNft));
+class __$$_DetailedNftCopyWithImpl<$Res> extends _$DetailedNftCopyWithImpl<$Res>
+    implements _$$_DetailedNftCopyWith<$Res> {
+  __$$_DetailedNftCopyWithImpl(
+      _$_DetailedNft _value, $Res Function(_$_DetailedNft) _then)
+      : super(_value, (v) => _then(v as _$_DetailedNft));
 
   @override
-  _DetailedNft get _value => super._value as _DetailedNft;
+  _$_DetailedNft get _value => super._value as _$_DetailedNft;
 
   @override
   $Res call({
     Object? nft = freezed,
     Object? code = freezed,
   }) {
-    return _then(_DetailedNft(
+    return _then(_$_DetailedNft(
       nft: nft == freezed
           ? _value.nft
           : nft // ignore: cast_nullable_to_non_nullable
@@ -168,11 +146,12 @@ class _$_DetailedNft extends _DetailedNft {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _DetailedNft &&
+            other is _$_DetailedNft &&
             const DeepCollectionEquality().equals(other.nft, nft) &&
             const DeepCollectionEquality().equals(other.code, code));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -181,8 +160,8 @@ class _$_DetailedNft extends _DetailedNft {
 
   @JsonKey(ignore: true)
   @override
-  _$DetailedNftCopyWith<_DetailedNft> get copyWith =>
-      __$DetailedNftCopyWithImpl<_DetailedNft>(this, _$identity);
+  _$$_DetailedNftCopyWith<_$_DetailedNft> get copyWith =>
+      __$$_DetailedNftCopyWithImpl<_$_DetailedNft>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -193,9 +172,9 @@ class _$_DetailedNft extends _DetailedNft {
 abstract class _DetailedNft extends DetailedNft {
   factory _DetailedNft(
       {@JsonKey(name: "SmartContract")
-          required Nft nft,
+          required final Nft nft,
       @JsonKey(name: "SmartContractCode", defaultValue: "")
-          required String code}) = _$_DetailedNft;
+          required final String code}) = _$_DetailedNft;
   _DetailedNft._() : super._();
 
   factory _DetailedNft.fromJson(Map<String, dynamic> json) =
@@ -203,12 +182,12 @@ abstract class _DetailedNft extends DetailedNft {
 
   @override
   @JsonKey(name: "SmartContract")
-  Nft get nft;
+  Nft get nft => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "SmartContractCode", defaultValue: "")
-  String get code;
+  String get code => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$DetailedNftCopyWith<_DetailedNft> get copyWith =>
+  _$$_DetailedNftCopyWith<_$_DetailedNft> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
@@ -10,8 +9,7 @@ import 'package:rbx_wallet/utils/generators.dart';
 class EvolveFormProvider extends StateNotifier<Evolve> {
   final Reader read;
 
-  EvolveFormProvider(this.read, [Evolve model = const Evolve()])
-      : super(model) {}
+  EvolveFormProvider(this.read, [Evolve model = const Evolve()]) : super(model);
 
   setEvolve(Evolve evolve) {
     state = evolve;
@@ -38,7 +36,7 @@ class EvolveFormProvider extends StateNotifier<Evolve> {
   }
 
   addPhase() {
-    final phase = EvolvePhase();
+    const phase = EvolvePhase();
     state = state.copyWith(phases: [...state.phases, phase]);
   }
 
@@ -67,7 +65,7 @@ class EvolveFormProvider extends StateNotifier<Evolve> {
     }
 
     final id = uniqueId();
-    state = Evolve(id: id, phases: [EvolvePhase()]);
+    state = Evolve(id: id, phases: [const EvolvePhase()]);
   }
 }
 

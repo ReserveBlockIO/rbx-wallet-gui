@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'block.dart';
@@ -11,64 +12,11 @@ part of 'block.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 Block _$BlockFromJson(Map<String, dynamic> json) {
   return _Block.fromJson(json);
 }
-
-/// @nodoc
-class _$BlockTearOff {
-  const _$BlockTearOff();
-
-  _Block call(
-      {@JsonKey(name: "Height") required int height,
-      @JsonKey(name: "ChainRefId") required String chainRefId,
-      @JsonKey(name: "Timestamp") required int timestamp,
-      @JsonKey(name: "Hash") required String hash,
-      @JsonKey(name: "PrevHash") required String prevHash,
-      @JsonKey(name: "MerkleRoot") required String merkleRoot,
-      @JsonKey(name: "StateRoot") required String stateRoot,
-      @JsonKey(name: "Validator") required String validator,
-      @JsonKey(name: "ValidatorSignature") required String validatorSignature,
-      @JsonKey(name: "ValidatorAnswer") required String validatorAnswer,
-      @JsonKey(name: "TotalValidators") required int totalValidators,
-      @JsonKey(name: "Version") required int version,
-      @JsonKey(name: "TotalAmount") required double totalAmount,
-      @JsonKey(name: "TotalReward") required double totalReward,
-      @JsonKey(name: "NumOfTx") required int numberOfTransactions,
-      @JsonKey(name: "Size") required int size,
-      @JsonKey(name: "BCraftTime") required int craftTime,
-      @JsonKey(name: "Transactions") required List<Transaction> transactions}) {
-    return _Block(
-      height: height,
-      chainRefId: chainRefId,
-      timestamp: timestamp,
-      hash: hash,
-      prevHash: prevHash,
-      merkleRoot: merkleRoot,
-      stateRoot: stateRoot,
-      validator: validator,
-      validatorSignature: validatorSignature,
-      validatorAnswer: validatorAnswer,
-      totalValidators: totalValidators,
-      version: version,
-      totalAmount: totalAmount,
-      totalReward: totalReward,
-      numberOfTransactions: numberOfTransactions,
-      size: size,
-      craftTime: craftTime,
-      transactions: transactions,
-    );
-  }
-
-  Block fromJson(Map<String, Object?> json) {
-    return Block.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $Block = _$BlockTearOff();
 
 /// @nodoc
 mixin _$Block {
@@ -246,9 +194,9 @@ class _$BlockCopyWithImpl<$Res> implements $BlockCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$BlockCopyWith<$Res> implements $BlockCopyWith<$Res> {
-  factory _$BlockCopyWith(_Block value, $Res Function(_Block) then) =
-      __$BlockCopyWithImpl<$Res>;
+abstract class _$$_BlockCopyWith<$Res> implements $BlockCopyWith<$Res> {
+  factory _$$_BlockCopyWith(_$_Block value, $Res Function(_$_Block) then) =
+      __$$_BlockCopyWithImpl<$Res>;
   @override
   $Res call(
       {@JsonKey(name: "Height") int height,
@@ -272,13 +220,13 @@ abstract class _$BlockCopyWith<$Res> implements $BlockCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$BlockCopyWithImpl<$Res> extends _$BlockCopyWithImpl<$Res>
-    implements _$BlockCopyWith<$Res> {
-  __$BlockCopyWithImpl(_Block _value, $Res Function(_Block) _then)
-      : super(_value, (v) => _then(v as _Block));
+class __$$_BlockCopyWithImpl<$Res> extends _$BlockCopyWithImpl<$Res>
+    implements _$$_BlockCopyWith<$Res> {
+  __$$_BlockCopyWithImpl(_$_Block _value, $Res Function(_$_Block) _then)
+      : super(_value, (v) => _then(v as _$_Block));
 
   @override
-  _Block get _value => super._value as _Block;
+  _$_Block get _value => super._value as _$_Block;
 
   @override
   $Res call({
@@ -301,7 +249,7 @@ class __$BlockCopyWithImpl<$Res> extends _$BlockCopyWithImpl<$Res>
     Object? craftTime = freezed,
     Object? transactions = freezed,
   }) {
-    return _then(_Block(
+    return _then(_$_Block(
       height: height == freezed
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
@@ -371,7 +319,7 @@ class __$BlockCopyWithImpl<$Res> extends _$BlockCopyWithImpl<$Res>
           : craftTime // ignore: cast_nullable_to_non_nullable
               as int,
       transactions: transactions == freezed
-          ? _value.transactions
+          ? _value._transactions
           : transactions // ignore: cast_nullable_to_non_nullable
               as List<Transaction>,
     ));
@@ -382,25 +330,44 @@ class __$BlockCopyWithImpl<$Res> extends _$BlockCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Block extends _Block {
   _$_Block(
-      {@JsonKey(name: "Height") required this.height,
-      @JsonKey(name: "ChainRefId") required this.chainRefId,
-      @JsonKey(name: "Timestamp") required this.timestamp,
-      @JsonKey(name: "Hash") required this.hash,
-      @JsonKey(name: "PrevHash") required this.prevHash,
-      @JsonKey(name: "MerkleRoot") required this.merkleRoot,
-      @JsonKey(name: "StateRoot") required this.stateRoot,
-      @JsonKey(name: "Validator") required this.validator,
-      @JsonKey(name: "ValidatorSignature") required this.validatorSignature,
-      @JsonKey(name: "ValidatorAnswer") required this.validatorAnswer,
-      @JsonKey(name: "TotalValidators") required this.totalValidators,
-      @JsonKey(name: "Version") required this.version,
-      @JsonKey(name: "TotalAmount") required this.totalAmount,
-      @JsonKey(name: "TotalReward") required this.totalReward,
-      @JsonKey(name: "NumOfTx") required this.numberOfTransactions,
-      @JsonKey(name: "Size") required this.size,
-      @JsonKey(name: "BCraftTime") required this.craftTime,
-      @JsonKey(name: "Transactions") required this.transactions})
-      : super._();
+      {@JsonKey(name: "Height")
+          required this.height,
+      @JsonKey(name: "ChainRefId")
+          required this.chainRefId,
+      @JsonKey(name: "Timestamp")
+          required this.timestamp,
+      @JsonKey(name: "Hash")
+          required this.hash,
+      @JsonKey(name: "PrevHash")
+          required this.prevHash,
+      @JsonKey(name: "MerkleRoot")
+          required this.merkleRoot,
+      @JsonKey(name: "StateRoot")
+          required this.stateRoot,
+      @JsonKey(name: "Validator")
+          required this.validator,
+      @JsonKey(name: "ValidatorSignature")
+          required this.validatorSignature,
+      @JsonKey(name: "ValidatorAnswer")
+          required this.validatorAnswer,
+      @JsonKey(name: "TotalValidators")
+          required this.totalValidators,
+      @JsonKey(name: "Version")
+          required this.version,
+      @JsonKey(name: "TotalAmount")
+          required this.totalAmount,
+      @JsonKey(name: "TotalReward")
+          required this.totalReward,
+      @JsonKey(name: "NumOfTx")
+          required this.numberOfTransactions,
+      @JsonKey(name: "Size")
+          required this.size,
+      @JsonKey(name: "BCraftTime")
+          required this.craftTime,
+      @JsonKey(name: "Transactions")
+          required final List<Transaction> transactions})
+      : _transactions = transactions,
+        super._();
 
   factory _$_Block.fromJson(Map<String, dynamic> json) =>
       _$$_BlockFromJson(json);
@@ -456,9 +423,13 @@ class _$_Block extends _Block {
   @override
   @JsonKey(name: "BCraftTime")
   final int craftTime;
+  final List<Transaction> _transactions;
   @override
   @JsonKey(name: "Transactions")
-  final List<Transaction> transactions;
+  List<Transaction> get transactions {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_transactions);
+  }
 
   @override
   String toString() {
@@ -469,7 +440,7 @@ class _$_Block extends _Block {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Block &&
+            other is _$_Block &&
             const DeepCollectionEquality().equals(other.height, height) &&
             const DeepCollectionEquality()
                 .equals(other.chainRefId, chainRefId) &&
@@ -496,9 +467,10 @@ class _$_Block extends _Block {
             const DeepCollectionEquality().equals(other.size, size) &&
             const DeepCollectionEquality().equals(other.craftTime, craftTime) &&
             const DeepCollectionEquality()
-                .equals(other.transactions, transactions));
+                .equals(other._transactions, _transactions));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -519,12 +491,12 @@ class _$_Block extends _Block {
       const DeepCollectionEquality().hash(numberOfTransactions),
       const DeepCollectionEquality().hash(size),
       const DeepCollectionEquality().hash(craftTime),
-      const DeepCollectionEquality().hash(transactions));
+      const DeepCollectionEquality().hash(_transactions));
 
   @JsonKey(ignore: true)
   @override
-  _$BlockCopyWith<_Block> get copyWith =>
-      __$BlockCopyWithImpl<_Block>(this, _$identity);
+  _$$_BlockCopyWith<_$_Block> get copyWith =>
+      __$$_BlockCopyWithImpl<_$_Block>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -535,100 +507,101 @@ class _$_Block extends _Block {
 abstract class _Block extends Block {
   factory _Block(
       {@JsonKey(name: "Height")
-          required int height,
+          required final int height,
       @JsonKey(name: "ChainRefId")
-          required String chainRefId,
+          required final String chainRefId,
       @JsonKey(name: "Timestamp")
-          required int timestamp,
+          required final int timestamp,
       @JsonKey(name: "Hash")
-          required String hash,
+          required final String hash,
       @JsonKey(name: "PrevHash")
-          required String prevHash,
+          required final String prevHash,
       @JsonKey(name: "MerkleRoot")
-          required String merkleRoot,
+          required final String merkleRoot,
       @JsonKey(name: "StateRoot")
-          required String stateRoot,
+          required final String stateRoot,
       @JsonKey(name: "Validator")
-          required String validator,
+          required final String validator,
       @JsonKey(name: "ValidatorSignature")
-          required String validatorSignature,
+          required final String validatorSignature,
       @JsonKey(name: "ValidatorAnswer")
-          required String validatorAnswer,
+          required final String validatorAnswer,
       @JsonKey(name: "TotalValidators")
-          required int totalValidators,
+          required final int totalValidators,
       @JsonKey(name: "Version")
-          required int version,
+          required final int version,
       @JsonKey(name: "TotalAmount")
-          required double totalAmount,
+          required final double totalAmount,
       @JsonKey(name: "TotalReward")
-          required double totalReward,
+          required final double totalReward,
       @JsonKey(name: "NumOfTx")
-          required int numberOfTransactions,
+          required final int numberOfTransactions,
       @JsonKey(name: "Size")
-          required int size,
+          required final int size,
       @JsonKey(name: "BCraftTime")
-          required int craftTime,
+          required final int craftTime,
       @JsonKey(name: "Transactions")
-          required List<Transaction> transactions}) = _$_Block;
+          required final List<Transaction> transactions}) = _$_Block;
   _Block._() : super._();
 
   factory _Block.fromJson(Map<String, dynamic> json) = _$_Block.fromJson;
 
   @override
   @JsonKey(name: "Height")
-  int get height;
+  int get height => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "ChainRefId")
-  String get chainRefId;
+  String get chainRefId => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "Timestamp")
-  int get timestamp;
+  int get timestamp => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "Hash")
-  String get hash;
+  String get hash => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "PrevHash")
-  String get prevHash;
+  String get prevHash => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "MerkleRoot")
-  String get merkleRoot;
+  String get merkleRoot => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "StateRoot")
-  String get stateRoot;
+  String get stateRoot => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "Validator")
-  String get validator;
+  String get validator => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "ValidatorSignature")
-  String get validatorSignature;
+  String get validatorSignature => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "ValidatorAnswer")
-  String get validatorAnswer;
+  String get validatorAnswer => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "TotalValidators")
-  int get totalValidators;
+  int get totalValidators => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "Version")
-  int get version;
+  int get version => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "TotalAmount")
-  double get totalAmount;
+  double get totalAmount => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "TotalReward")
-  double get totalReward;
+  double get totalReward => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "NumOfTx")
-  int get numberOfTransactions;
+  int get numberOfTransactions => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "Size")
-  int get size;
+  int get size => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "BCraftTime")
-  int get craftTime;
+  int get craftTime => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "Transactions")
-  List<Transaction> get transactions;
+  List<Transaction> get transactions => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$BlockCopyWith<_Block> get copyWith => throw _privateConstructorUsedError;
+  _$$_BlockCopyWith<_$_Block> get copyWith =>
+      throw _privateConstructorUsedError;
 }

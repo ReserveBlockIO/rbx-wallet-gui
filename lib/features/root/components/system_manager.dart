@@ -7,15 +7,15 @@ class AppSystemManager extends StatefulWidget {
   const AppSystemManager({Key? key, required this.child}) : super(key: key);
 
   @override
-  _AppSystemManagerState createState() => _AppSystemManagerState();
+  AppSystemManagerState createState() => AppSystemManagerState();
 }
 
-class _AppSystemManagerState extends State<AppSystemManager>
+class AppSystemManagerState extends State<AppSystemManager>
     with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
 
     FlutterWindowClose.setWindowShouldCloseHandler(() async {
       await BridgeService().killCli();
@@ -25,7 +25,7 @@ class _AppSystemManagerState extends State<AppSystemManager>
 
   @override
   void dispose() {
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 

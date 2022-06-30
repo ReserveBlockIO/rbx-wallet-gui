@@ -9,7 +9,7 @@ part of 'feature.dart';
 _$_Feature _$$_FeatureFromJson(Map<String, dynamic> json) => _$_Feature(
       type: $enumDecodeNullable(_$FeatureTypeEnumMap, json['type']) ??
           FeatureType.royalty,
-      data: json['data'] as Map<String, dynamic>? ?? {},
+      data: json['data'] as Map<String, dynamic>? ?? const {},
     );
 
 Map<String, dynamic> _$$_FeatureToJson(_$_Feature instance) =>

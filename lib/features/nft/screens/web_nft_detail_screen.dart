@@ -10,12 +10,9 @@ import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/nft/modals/nft_management_modal.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/providers/web_nft_detail_provider.dart';
-import 'package:rbx_wallet/features/nft/providers/web_nft_list_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/modals/code_modal.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/my_smart_contracts_provider.dart';
-import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 
 class WebNftDetailScreen extends BaseScreen {
@@ -29,7 +26,7 @@ class WebNftDetailScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: Text("NFTs"),
+      title: const Text("NFTs"),
       shadowColor: Colors.transparent,
       backgroundColor: Colors.black,
     );
@@ -40,9 +37,9 @@ class WebNftDetailScreen extends BaseScreen {
     final data = ref.watch(webNftDetailProvider(identifier));
 
     return data.when(
-        loading: () => CenteredLoader(),
-        data: (nft) => nft != null ? _NftDetail(nft) : Text("Error."),
-        error: (_, __) => Text("Error"));
+        loading: () => const CenteredLoader(),
+        data: (nft) => nft != null ? _NftDetail(nft) : const Text("Error."),
+        error: (_, __) => const Text("Error"));
   }
 }
 
@@ -66,24 +63,24 @@ class _NftDetail extends BaseComponent {
               ),
         ),
         Text(nft.description),
-        Divider(),
+        const Divider(),
         Text("Minted by: ${nft.minterName}"),
         Text("Minter Address: ${nft.minterAddress}"),
         Text("Owner Address: ${nft.address}"),
-        Divider(),
+        const Divider(),
         Text("Features:", style: Theme.of(context).textTheme.headline5),
         if (nft.features.isEmpty)
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: Row(
               mainAxisSize: MainAxisSize.min,
-              children: [
+              children: const [
                 Icon(
                   Icons.cancel,
                   size: 16,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 4.0),
+                  padding: EdgeInsets.only(left: 4.0),
                   child: Text(
                     "No features",
                     style: TextStyle(fontSize: 16),
@@ -105,7 +102,7 @@ class _NftDetail extends BaseComponent {
               )
               .toList(),
         ),
-        Divider(),
+        const Divider(),
         Text("Actions:", style: Theme.of(context).textTheme.headline5),
         Padding(
           padding: const EdgeInsets.all(4.0),

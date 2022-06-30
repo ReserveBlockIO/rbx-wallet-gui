@@ -13,12 +13,10 @@ String readableFileSize(int value, {bool base1024 = true}) {
   if (value <= 0) return "0";
   final units = ["B", "kB", "MB", "GB", "TB"];
   int digitGroups = (log(value) / log(base)).round();
-  return NumberFormat("#,##0.#").format(value / pow(base, digitGroups)) +
-      " " +
-      units[digitGroups];
+  return "${NumberFormat("#,##0.#").format(value / pow(base, digitGroups))} ${units[digitGroups]}";
 }
 
 String getPrettyJSONString(jsonObject) {
-  var encoder = JsonEncoder.withIndent("     ");
+  var encoder = const JsonEncoder.withIndent("     ");
   return encoder.convert(jsonObject);
 }

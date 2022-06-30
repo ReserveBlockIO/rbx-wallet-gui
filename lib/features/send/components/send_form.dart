@@ -61,7 +61,7 @@ class SendForm extends BaseComponent {
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
-                leading: SizedBox(width: leadingWidth, child: Text("From:")),
+                leading: const SizedBox(width: leadingWidth, child: Text("From:")),
                 title: Text(isWeb ? keypair!.public : wallet!.address),
                 subtitle: isWeb
                     ? Text("$balance RBX")
@@ -74,12 +74,12 @@ class SendForm extends BaseComponent {
                     : null,
               ),
               ListTile(
-                leading: SizedBox(width: leadingWidth, child: Text("To:")),
+                leading: const SizedBox(width: leadingWidth, child: Text("To:")),
                 title: TextFormField(
                   controller: formProvider.addressController,
                   validator: formProvider.addressValidator,
                   decoration:
-                      InputDecoration(hintText: "Recipient's Wallet Address"),
+                      const InputDecoration(hintText: "Recipient's Wallet Address"),
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]')),
                   ],
@@ -102,19 +102,19 @@ class SendForm extends BaseComponent {
                           ),
                         ),
                       ),
-                      Text("."),
+                      const Text("."),
                     ],
                   ),
                 ),
                 trailing: IconButton(
-                  icon: Icon(Icons.paste),
+                  icon: const Icon(Icons.paste),
                   onPressed: () {
                     _pasteAddress(formProvider);
                   },
                 ),
               ),
               ListTile(
-                leading: SizedBox(width: leadingWidth, child: Text("Amount:")),
+                leading: const SizedBox(width: leadingWidth, child: Text("Amount:")),
                 title: TextFormField(
                   controller: formProvider.amountController,
                   validator: formProvider.amountValidator,
@@ -122,13 +122,13 @@ class SendForm extends BaseComponent {
                     FilteringTextInputFormatter.allow(RegExp("[0-9.]"))
                   ],
                   decoration:
-                      InputDecoration(hintText: "Amount of RBX to send"),
+                      const InputDecoration(hintText: "Amount of RBX to send"),
                   keyboardType: TextInputType.number,
                 ),
               ),
-              Padding(
+              const Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: Divider(),
               ),
               Padding(

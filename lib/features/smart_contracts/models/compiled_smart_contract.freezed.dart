@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'compiled_smart_contract.dart';
@@ -11,59 +12,12 @@ part of 'compiled_smart_contract.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 CompiledSmartContract _$CompiledSmartContractFromJson(
     Map<String, dynamic> json) {
   return _CompiledSmartContract.fromJson(json);
 }
-
-/// @nodoc
-class _$CompiledSmartContractTearOff {
-  const _$CompiledSmartContractTearOff();
-
-  _CompiledSmartContract call(
-      {@JsonKey(name: "Name")
-          required String name,
-      @JsonKey(name: "MinterName")
-          String? minterName,
-      @JsonKey(name: "Description")
-          required String description,
-      @JsonKey(name: "Address")
-          required String address,
-      @JsonKey(name: "SmartContractUID")
-          required String id,
-      @JsonKey(name: "Signature")
-          String? signature,
-      @JsonKey(name: "SmartContractAsset")
-          required Asset primaryAsset,
-      @JsonKey(name: "IsPublic")
-          required bool isPublic,
-      @JsonKey(name: "IsPublished")
-          required bool isPublished,
-      @JsonKey(name: "Features")
-          List<Map<String, dynamic>> features = const []}) {
-    return _CompiledSmartContract(
-      name: name,
-      minterName: minterName,
-      description: description,
-      address: address,
-      id: id,
-      signature: signature,
-      primaryAsset: primaryAsset,
-      isPublic: isPublic,
-      isPublished: isPublished,
-      features: features,
-    );
-  }
-
-  CompiledSmartContract fromJson(Map<String, Object?> json) {
-    return CompiledSmartContract.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $CompiledSmartContract = _$CompiledSmartContractTearOff();
 
 /// @nodoc
 mixin _$CompiledSmartContract {
@@ -189,11 +143,11 @@ class _$CompiledSmartContractCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$CompiledSmartContractCopyWith<$Res>
+abstract class _$$_CompiledSmartContractCopyWith<$Res>
     implements $CompiledSmartContractCopyWith<$Res> {
-  factory _$CompiledSmartContractCopyWith(_CompiledSmartContract value,
-          $Res Function(_CompiledSmartContract) then) =
-      __$CompiledSmartContractCopyWithImpl<$Res>;
+  factory _$$_CompiledSmartContractCopyWith(_$_CompiledSmartContract value,
+          $Res Function(_$_CompiledSmartContract) then) =
+      __$$_CompiledSmartContractCopyWithImpl<$Res>;
   @override
   $Res call(
       {@JsonKey(name: "Name") String name,
@@ -212,15 +166,16 @@ abstract class _$CompiledSmartContractCopyWith<$Res>
 }
 
 /// @nodoc
-class __$CompiledSmartContractCopyWithImpl<$Res>
+class __$$_CompiledSmartContractCopyWithImpl<$Res>
     extends _$CompiledSmartContractCopyWithImpl<$Res>
-    implements _$CompiledSmartContractCopyWith<$Res> {
-  __$CompiledSmartContractCopyWithImpl(_CompiledSmartContract _value,
-      $Res Function(_CompiledSmartContract) _then)
-      : super(_value, (v) => _then(v as _CompiledSmartContract));
+    implements _$$_CompiledSmartContractCopyWith<$Res> {
+  __$$_CompiledSmartContractCopyWithImpl(_$_CompiledSmartContract _value,
+      $Res Function(_$_CompiledSmartContract) _then)
+      : super(_value, (v) => _then(v as _$_CompiledSmartContract));
 
   @override
-  _CompiledSmartContract get _value => super._value as _CompiledSmartContract;
+  _$_CompiledSmartContract get _value =>
+      super._value as _$_CompiledSmartContract;
 
   @override
   $Res call({
@@ -235,7 +190,7 @@ class __$CompiledSmartContractCopyWithImpl<$Res>
     Object? isPublished = freezed,
     Object? features = freezed,
   }) {
-    return _then(_CompiledSmartContract(
+    return _then(_$_CompiledSmartContract(
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -273,7 +228,7 @@ class __$CompiledSmartContractCopyWithImpl<$Res>
           : isPublished // ignore: cast_nullable_to_non_nullable
               as bool,
       features: features == freezed
-          ? _value.features
+          ? _value._features
           : features // ignore: cast_nullable_to_non_nullable
               as List<Map<String, dynamic>>,
     ));
@@ -284,17 +239,28 @@ class __$CompiledSmartContractCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_CompiledSmartContract extends _CompiledSmartContract {
   _$_CompiledSmartContract(
-      {@JsonKey(name: "Name") required this.name,
-      @JsonKey(name: "MinterName") this.minterName,
-      @JsonKey(name: "Description") required this.description,
-      @JsonKey(name: "Address") required this.address,
-      @JsonKey(name: "SmartContractUID") required this.id,
-      @JsonKey(name: "Signature") this.signature,
-      @JsonKey(name: "SmartContractAsset") required this.primaryAsset,
-      @JsonKey(name: "IsPublic") required this.isPublic,
-      @JsonKey(name: "IsPublished") required this.isPublished,
-      @JsonKey(name: "Features") this.features = const []})
-      : super._();
+      {@JsonKey(name: "Name")
+          required this.name,
+      @JsonKey(name: "MinterName")
+          this.minterName,
+      @JsonKey(name: "Description")
+          required this.description,
+      @JsonKey(name: "Address")
+          required this.address,
+      @JsonKey(name: "SmartContractUID")
+          required this.id,
+      @JsonKey(name: "Signature")
+          this.signature,
+      @JsonKey(name: "SmartContractAsset")
+          required this.primaryAsset,
+      @JsonKey(name: "IsPublic")
+          required this.isPublic,
+      @JsonKey(name: "IsPublished")
+          required this.isPublished,
+      @JsonKey(name: "Features")
+          final List<Map<String, dynamic>> features = const []})
+      : _features = features,
+        super._();
 
   factory _$_CompiledSmartContract.fromJson(Map<String, dynamic> json) =>
       _$$_CompiledSmartContractFromJson(json);
@@ -326,9 +292,13 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
   @override
   @JsonKey(name: "IsPublished")
   final bool isPublished;
+  final List<Map<String, dynamic>> _features;
   @override
   @JsonKey(name: "Features")
-  final List<Map<String, dynamic>> features;
+  List<Map<String, dynamic>> get features {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_features);
+  }
 
   @override
   String toString() {
@@ -339,7 +309,7 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _CompiledSmartContract &&
+            other is _$_CompiledSmartContract &&
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality()
                 .equals(other.minterName, minterName) &&
@@ -353,9 +323,10 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
             const DeepCollectionEquality().equals(other.isPublic, isPublic) &&
             const DeepCollectionEquality()
                 .equals(other.isPublished, isPublished) &&
-            const DeepCollectionEquality().equals(other.features, features));
+            const DeepCollectionEquality().equals(other._features, _features));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -368,12 +339,12 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
       const DeepCollectionEquality().hash(primaryAsset),
       const DeepCollectionEquality().hash(isPublic),
       const DeepCollectionEquality().hash(isPublished),
-      const DeepCollectionEquality().hash(features));
+      const DeepCollectionEquality().hash(_features));
 
   @JsonKey(ignore: true)
   @override
-  _$CompiledSmartContractCopyWith<_CompiledSmartContract> get copyWith =>
-      __$CompiledSmartContractCopyWithImpl<_CompiledSmartContract>(
+  _$$_CompiledSmartContractCopyWith<_$_CompiledSmartContract> get copyWith =>
+      __$$_CompiledSmartContractCopyWithImpl<_$_CompiledSmartContract>(
           this, _$identity);
 
   @override
@@ -384,16 +355,26 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
 
 abstract class _CompiledSmartContract extends CompiledSmartContract {
   factory _CompiledSmartContract(
-          {@JsonKey(name: "Name") required String name,
-          @JsonKey(name: "MinterName") String? minterName,
-          @JsonKey(name: "Description") required String description,
-          @JsonKey(name: "Address") required String address,
-          @JsonKey(name: "SmartContractUID") required String id,
-          @JsonKey(name: "Signature") String? signature,
-          @JsonKey(name: "SmartContractAsset") required Asset primaryAsset,
-          @JsonKey(name: "IsPublic") required bool isPublic,
-          @JsonKey(name: "IsPublished") required bool isPublished,
-          @JsonKey(name: "Features") List<Map<String, dynamic>> features}) =
+          {@JsonKey(name: "Name")
+              required final String name,
+          @JsonKey(name: "MinterName")
+              final String? minterName,
+          @JsonKey(name: "Description")
+              required final String description,
+          @JsonKey(name: "Address")
+              required final String address,
+          @JsonKey(name: "SmartContractUID")
+              required final String id,
+          @JsonKey(name: "Signature")
+              final String? signature,
+          @JsonKey(name: "SmartContractAsset")
+              required final Asset primaryAsset,
+          @JsonKey(name: "IsPublic")
+              required final bool isPublic,
+          @JsonKey(name: "IsPublished")
+              required final bool isPublished,
+          @JsonKey(name: "Features")
+              final List<Map<String, dynamic>> features}) =
       _$_CompiledSmartContract;
   _CompiledSmartContract._() : super._();
 
@@ -402,36 +383,36 @@ abstract class _CompiledSmartContract extends CompiledSmartContract {
 
   @override
   @JsonKey(name: "Name")
-  String get name;
+  String get name => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "MinterName")
-  String? get minterName;
+  String? get minterName => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "Description")
-  String get description;
+  String get description => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "Address")
-  String get address;
+  String get address => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "SmartContractUID")
-  String get id;
+  String get id => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "Signature")
-  String? get signature;
+  String? get signature => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "SmartContractAsset")
-  Asset get primaryAsset;
+  Asset get primaryAsset => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "IsPublic")
-  bool get isPublic;
+  bool get isPublic => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "IsPublished")
-  bool get isPublished;
+  bool get isPublished => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "Features")
-  List<Map<String, dynamic>> get features;
+  List<Map<String, dynamic>> get features => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$CompiledSmartContractCopyWith<_CompiledSmartContract> get copyWith =>
+  _$$_CompiledSmartContractCopyWith<_$_CompiledSmartContract> get copyWith =>
       throw _privateConstructorUsedError;
 }

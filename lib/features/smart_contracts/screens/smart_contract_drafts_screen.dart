@@ -11,25 +11,24 @@ class SmartContractDraftsScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: Text("My Smart Contracts"),
+      title: const Text("My Smart Contracts"),
       actions: [
         IconButton(
             onPressed: () {
               ref.read(mySmartContractsProvider.notifier).load();
               ref.read(draftsSmartContractProvider.notifier).load();
             },
-            icon: Icon(Icons.refresh))
+            icon: const Icon(Icons.refresh))
       ],
     );
   }
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final _provider = ref.read(draftsSmartContractProvider.notifier);
     final _model = ref.watch(draftsSmartContractProvider);
 
     if (_model.isEmpty) {
-      return Center(
+      return const Center(
         child: Text("No Smart Contracts Drafts Found"),
       );
     }
@@ -45,14 +44,14 @@ class SmartContractDraftsScreen extends BaseScreen {
                   height: 32,
                   fit: BoxFit.cover,
                 )
-              : Icon(Icons.document_scanner),
+              : const Icon(Icons.document_scanner),
           title: Text(sc.name),
           subtitle: Text(
             sc.description,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
-          trailing: Icon(Icons.chevron_right),
+          trailing: const Icon(Icons.chevron_right),
           onTap: () async {
             ref.read(createSmartContractProvider.notifier).setSmartContract(sc);
             Navigator.of(context).pop();

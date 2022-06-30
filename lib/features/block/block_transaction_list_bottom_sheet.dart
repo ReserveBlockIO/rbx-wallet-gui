@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/features/block/block.dart';
 import 'package:rbx_wallet/features/transactions/models/transaction.dart';
 
 class BlockTransactionListBottomSheet extends BaseComponent {

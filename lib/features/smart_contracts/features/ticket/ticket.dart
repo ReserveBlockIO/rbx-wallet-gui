@@ -95,7 +95,7 @@ abstract class Ticket with _$Ticket {
 
   Map<String, dynamic> serializeForCompiler() {
     return {
-      'RedeemCode': '', //TODO: not sure how this will work
+      'RedeemCode': '',
       'Quantity': quantity,
       'EventName': eventName,
       'EventDescription': description,
