@@ -22,10 +22,14 @@ class _$KeypairTearOff {
   const _$KeypairTearOff();
 
   _Keypair call(
-      {required String private, required String public, String? mneumonic}) {
+      {required String private,
+      required String public,
+      required String publicInflated,
+      String? mneumonic}) {
     return _Keypair(
       private: private,
       public: public,
+      publicInflated: publicInflated,
       mneumonic: mneumonic,
     );
   }
@@ -42,6 +46,8 @@ const $Keypair = _$KeypairTearOff();
 mixin _$Keypair {
   String get private => throw _privateConstructorUsedError;
   String get public => throw _privateConstructorUsedError;
+  String get publicInflated =>
+      throw _privateConstructorUsedError; // @JsonKey(toJson: null) ECPrivateKey? ecPrivateKey,
   String? get mneumonic => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -53,7 +59,11 @@ mixin _$Keypair {
 abstract class $KeypairCopyWith<$Res> {
   factory $KeypairCopyWith(Keypair value, $Res Function(Keypair) then) =
       _$KeypairCopyWithImpl<$Res>;
-  $Res call({String private, String public, String? mneumonic});
+  $Res call(
+      {String private,
+      String public,
+      String publicInflated,
+      String? mneumonic});
 }
 
 /// @nodoc
@@ -68,6 +78,7 @@ class _$KeypairCopyWithImpl<$Res> implements $KeypairCopyWith<$Res> {
   $Res call({
     Object? private = freezed,
     Object? public = freezed,
+    Object? publicInflated = freezed,
     Object? mneumonic = freezed,
   }) {
     return _then(_value.copyWith(
@@ -78,6 +89,10 @@ class _$KeypairCopyWithImpl<$Res> implements $KeypairCopyWith<$Res> {
       public: public == freezed
           ? _value.public
           : public // ignore: cast_nullable_to_non_nullable
+              as String,
+      publicInflated: publicInflated == freezed
+          ? _value.publicInflated
+          : publicInflated // ignore: cast_nullable_to_non_nullable
               as String,
       mneumonic: mneumonic == freezed
           ? _value.mneumonic
@@ -92,7 +107,11 @@ abstract class _$KeypairCopyWith<$Res> implements $KeypairCopyWith<$Res> {
   factory _$KeypairCopyWith(_Keypair value, $Res Function(_Keypair) then) =
       __$KeypairCopyWithImpl<$Res>;
   @override
-  $Res call({String private, String public, String? mneumonic});
+  $Res call(
+      {String private,
+      String public,
+      String publicInflated,
+      String? mneumonic});
 }
 
 /// @nodoc
@@ -108,6 +127,7 @@ class __$KeypairCopyWithImpl<$Res> extends _$KeypairCopyWithImpl<$Res>
   $Res call({
     Object? private = freezed,
     Object? public = freezed,
+    Object? publicInflated = freezed,
     Object? mneumonic = freezed,
   }) {
     return _then(_Keypair(
@@ -118,6 +138,10 @@ class __$KeypairCopyWithImpl<$Res> extends _$KeypairCopyWithImpl<$Res>
       public: public == freezed
           ? _value.public
           : public // ignore: cast_nullable_to_non_nullable
+              as String,
+      publicInflated: publicInflated == freezed
+          ? _value.publicInflated
+          : publicInflated // ignore: cast_nullable_to_non_nullable
               as String,
       mneumonic: mneumonic == freezed
           ? _value.mneumonic
@@ -130,7 +154,11 @@ class __$KeypairCopyWithImpl<$Res> extends _$KeypairCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Keypair extends _Keypair {
-  _$_Keypair({required this.private, required this.public, this.mneumonic})
+  _$_Keypair(
+      {required this.private,
+      required this.public,
+      required this.publicInflated,
+      this.mneumonic})
       : super._();
 
   factory _$_Keypair.fromJson(Map<String, dynamic> json) =>
@@ -141,11 +169,13 @@ class _$_Keypair extends _Keypair {
   @override
   final String public;
   @override
+  final String publicInflated;
+  @override // @JsonKey(toJson: null) ECPrivateKey? ecPrivateKey,
   final String? mneumonic;
 
   @override
   String toString() {
-    return 'Keypair(private: $private, public: $public, mneumonic: $mneumonic)';
+    return 'Keypair(private: $private, public: $public, publicInflated: $publicInflated, mneumonic: $mneumonic)';
   }
 
   @override
@@ -155,6 +185,8 @@ class _$_Keypair extends _Keypair {
             other is _Keypair &&
             const DeepCollectionEquality().equals(other.private, private) &&
             const DeepCollectionEquality().equals(other.public, public) &&
+            const DeepCollectionEquality()
+                .equals(other.publicInflated, publicInflated) &&
             const DeepCollectionEquality().equals(other.mneumonic, mneumonic));
   }
 
@@ -163,6 +195,7 @@ class _$_Keypair extends _Keypair {
       runtimeType,
       const DeepCollectionEquality().hash(private),
       const DeepCollectionEquality().hash(public),
+      const DeepCollectionEquality().hash(publicInflated),
       const DeepCollectionEquality().hash(mneumonic));
 
   @JsonKey(ignore: true)
@@ -180,6 +213,7 @@ abstract class _Keypair extends Keypair {
   factory _Keypair(
       {required String private,
       required String public,
+      required String publicInflated,
       String? mneumonic}) = _$_Keypair;
   _Keypair._() : super._();
 
@@ -190,6 +224,8 @@ abstract class _Keypair extends Keypair {
   @override
   String get public;
   @override
+  String get publicInflated;
+  @override // @JsonKey(toJson: null) ECPrivateKey? ecPrivateKey,
   String? get mneumonic;
   @override
   @JsonKey(ignore: true)

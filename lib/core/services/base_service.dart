@@ -49,10 +49,11 @@ class BaseService {
     String path, {
     Map<String, dynamic> params = const {},
     bool auth = true,
+    bool cleanPath = true,
   }) async {
     try {
       var response = await Dio(_options(auth: auth)).get(
-        _cleanPath(path),
+        cleanPath ? _cleanPath(path) : path,
         queryParameters: params,
       );
 
@@ -66,10 +67,12 @@ class BaseService {
     String path, {
     Map<String, dynamic> params = const {},
     bool auth = true,
+    bool cleanPath = true,
   }) async {
     try {
+      final url = cleanPath ? _cleanPath(path) : path;
       var response = await Dio(_options(auth: auth)).get(
-        _cleanPath(path),
+        url,
         queryParameters: params,
       );
 
@@ -80,7 +83,7 @@ class BaseService {
         return {};
       }
       if (response.data.runtimeType == String) {
-        return {};
+        return jsonDecode(response.data);
       }
 
       return response.data;

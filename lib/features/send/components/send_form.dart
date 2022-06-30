@@ -7,14 +7,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/keygen/models/keypair.dart';
 import 'package:rbx_wallet/features/send/providers/send_form_provider.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 class SendForm extends BaseComponent {
-  final Wallet wallet;
-  SendForm({Key? key, required this.wallet}) : super(key: key);
+  final Wallet? wallet;
+  final Keypair? keypair;
+  SendForm({Key? key, this.wallet, this.keypair}) : super(key: key) {
+    // assert(wallet != null && keypair != null);
+  }
 
   final GlobalKey<FormState> _formKey = GlobalKey();
 
@@ -32,6 +37,8 @@ class SendForm extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    bool isWeb = keypair != null;
+
     const leadingWidth = 60.0;
 
     final formProvider = ref.read(sendFormProvider.notifier);
@@ -41,6 +48,9 @@ class SendForm extends BaseComponent {
     if (!kIsWeb && Platform.isMacOS) {
       pasteMessage = pasteMessage.replaceAll("ctrl+v", "cmd+v");
     }
+
+    final balance =
+        isWeb ? ref.read(webSessionProvider).balance : wallet!.balance;
 
     return Form(
       key: _formKey,
@@ -52,12 +62,16 @@ class SendForm extends BaseComponent {
             children: [
               ListTile(
                 leading: SizedBox(width: leadingWidth, child: Text("From:")),
-                title: Text(wallet.address),
-                subtitle: Text(wallet.friendlyName ?? ""),
-                trailing: AppBadge(
-                  label: "${wallet.balance} RBX",
-                  variant: AppColorVariant.Light,
-                ),
+                title: Text(isWeb ? keypair!.public : wallet!.address),
+                subtitle: isWeb
+                    ? Text("$balance RBX")
+                    : Text(wallet!.friendlyName ?? ""),
+                trailing: !isWeb
+                    ? AppBadge(
+                        label: "$balance RBX",
+                        variant: AppColorVariant.Light,
+                      )
+                    : null,
               ),
               ListTile(
                 leading: SizedBox(width: leadingWidth, child: Text("To:")),

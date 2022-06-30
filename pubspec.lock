@@ -246,6 +246,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
+  dart_bip66:
+    dependency: "direct main"
+    description:
+      name: dart_bip66
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
   dart_console:
     dependency: transitive
     description:
@@ -617,7 +624,7 @@ packages:
       name: path_provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.9"
+    version: "2.0.11"
   path_provider_android:
     dependency: transitive
     description:
@@ -751,6 +758,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
+  secp256k1:
+    dependency: "direct main"
+    description:
+      path: "/Users/tylersavery/Projects/open-source/dart-secp256k1"
+      relative: false
+    source: path
+    version: "0.3.1"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -1008,6 +1022,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.0"
+  url_strategy:
+    dependency: "direct main"
+    description:
+      name: url_strategy
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.0"
   uuid:
     dependency: "direct main"
     description:

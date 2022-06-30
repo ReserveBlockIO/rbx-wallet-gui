@@ -5,10 +5,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/components/boot_container.dart';
 import 'package:rbx_wallet/core/components/centered_loader.dart';
+import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/providers/ready_provider.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/singletons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/root/components/system_manager.dart';
 
@@ -17,8 +20,9 @@ final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
 
 final GlobalKey<ScaffoldState> rootScaffoldKey = GlobalKey<ScaffoldState>();
 
-GlobalKey<NavigatorState> rootNavigatorKey =
-    singleton<AppRouter>().navigatorKey;
+GlobalKey<NavigatorState> rootNavigatorKey = Env.isWeb
+    ? singleton<WebRouter>().navigatorKey
+    : singleton<AppRouter>().navigatorKey;
 
 class App extends ConsumerWidget {
   const App({Key? key}) : super(key: key);
@@ -26,12 +30,13 @@ class App extends ConsumerWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.read(sessionProvider.notifier);
-
     print("App Build");
 
     if (kIsWeb) {
+      ref.read(webSessionProvider.notifier);
       return AppContainer();
+    } else {
+      ref.read(sessionProvider.notifier);
     }
 
     return AppSystemManager(child: AppContainer());
@@ -44,6 +49,9 @@ class AppContainer extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appRouter = singleton<AppRouter>();
+    final webRouter = singleton<WebRouter>();
+
+    final router = Env.isWeb ? webRouter : appRouter;
 
     return MaterialApp.router(
       restorationScopeId: "app",
@@ -51,13 +59,17 @@ class AppContainer extends ConsumerWidget {
       scaffoldMessengerKey: rootScaffoldMessengerKey,
       theme: AppTheme.dark().themeData,
       routeInformationParser:
-          appRouter.defaultRouteParser(includePrefixMatches: true),
+          router.defaultRouteParser(includePrefixMatches: true),
       routerDelegate: AutoRouterDelegate(
-        appRouter,
+        router,
         navigatorObservers: () => [AutoRouteObserver()],
       ),
       builder: (context, widget) {
         if (!ref.watch(readyProvider)) {
+          if (kIsWeb) {
+            return CenteredLoader();
+          }
+
           return Material(
             child: Center(child: BootContainer()),
           );

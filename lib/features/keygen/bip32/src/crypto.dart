@@ -82,10 +82,22 @@ ExtendedPrivateKey deriveExtendedPrivateChildKey(
       : _derivePublicMessage(parent.publicKey(), childNumber);
   var hash = hmacSha512(parent.chainCode!, message);
 
+  print("-------------");
+  print("");
+
+  print("Hash ($childNumber) ${hex.encode(hash)}");
+
+  var left = _leftFrom(hash);
+  print("left: ${hex.encode(left)}");
   var leftSide = utils.decodeBigIntWithSign(1, _leftFrom(hash));
   if (leftSide >= curve.n) {
     throw KeyBiggerThanOrder();
   }
+  print("curve.n ${curve.n}");
+
+  print("left BigInt: $leftSide");
+  print("parent. bigint ${parent.key!}");
+  print("parent. hex ${parent.key!.toRadixString(16)}");
 
   var childPrivateKey = (leftSide + parent.key!) % curve.n;
   if (childPrivateKey == BigInt.zero) {
@@ -93,9 +105,18 @@ ExtendedPrivateKey deriveExtendedPrivateChildKey(
   }
 
   var chainCode = _rightFrom(hash);
+  print("chainCode : ${hex.encode(chainCode)}");
+
+  print("childPrivateKey ${childPrivateKey.toRadixString(16)}");
+
+  print("-------------");
+  print("");
 
   return ExtendedPrivateKey(
     key: childPrivateKey,
+
+    /// this seems to solve issues BUT AARON to confirm
+    // key: leftSide,
     chainCode: chainCode,
     childNumber: childNumber,
     depth: parent.depth! + 1,

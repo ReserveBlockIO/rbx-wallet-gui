@@ -14,7 +14,7 @@ enum _Environment {
   Web,
   WebDev,
 }
-const _env = _Environment.Web;
+const _env = _Environment.WebDev;
 
 class Env {
   static init() async {
@@ -62,6 +62,16 @@ class Env {
 
   static String get apiBaseUrl {
     return DotEnv.dotenv.env['API_BASE_URL'] ?? 'https://domain.com/api';
+  }
+
+  static String get explorerApiBaseUrl {
+    return DotEnv.dotenv.env['EXPLORER_API_BASE_URL'] ??
+        'https://rbx-explorer-service.herokuapp.com/api';
+  }
+
+  static String get transactionApiBaseUrl {
+    return DotEnv.dotenv.env['TRANSACTION_API_BASE_URL'] ??
+        'http://localhost:7292/txapi/txV1';
   }
 
   static bool get launchCli {
