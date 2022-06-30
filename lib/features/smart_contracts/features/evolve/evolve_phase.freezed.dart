@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'evolve_phase.dart';
@@ -11,42 +12,11 @@ part of 'evolve_phase.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 EvolvePhase _$EvolvePhaseFromJson(Map<String, dynamic> json) {
   return _EvolvePhase.fromJson(json);
 }
-
-/// @nodoc
-class _$EvolvePhaseTearOff {
-  const _$EvolvePhaseTearOff();
-
-  _EvolvePhase call(
-      {String name = "",
-      DateTime? dateTime,
-      int? blockHeight,
-      String description = "",
-      int evolutionState = 0,
-      bool isCurrentState = false,
-      Asset? asset}) {
-    return _EvolvePhase(
-      name: name,
-      dateTime: dateTime,
-      blockHeight: blockHeight,
-      description: description,
-      evolutionState: evolutionState,
-      isCurrentState: isCurrentState,
-      asset: asset,
-    );
-  }
-
-  EvolvePhase fromJson(Map<String, Object?> json) {
-    return EvolvePhase.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $EvolvePhase = _$EvolvePhaseTearOff();
 
 /// @nodoc
 mixin _$EvolvePhase {
@@ -145,11 +115,11 @@ class _$EvolvePhaseCopyWithImpl<$Res> implements $EvolvePhaseCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$EvolvePhaseCopyWith<$Res>
+abstract class _$$_EvolvePhaseCopyWith<$Res>
     implements $EvolvePhaseCopyWith<$Res> {
-  factory _$EvolvePhaseCopyWith(
-          _EvolvePhase value, $Res Function(_EvolvePhase) then) =
-      __$EvolvePhaseCopyWithImpl<$Res>;
+  factory _$$_EvolvePhaseCopyWith(
+          _$_EvolvePhase value, $Res Function(_$_EvolvePhase) then) =
+      __$$_EvolvePhaseCopyWithImpl<$Res>;
   @override
   $Res call(
       {String name,
@@ -165,14 +135,14 @@ abstract class _$EvolvePhaseCopyWith<$Res>
 }
 
 /// @nodoc
-class __$EvolvePhaseCopyWithImpl<$Res> extends _$EvolvePhaseCopyWithImpl<$Res>
-    implements _$EvolvePhaseCopyWith<$Res> {
-  __$EvolvePhaseCopyWithImpl(
-      _EvolvePhase _value, $Res Function(_EvolvePhase) _then)
-      : super(_value, (v) => _then(v as _EvolvePhase));
+class __$$_EvolvePhaseCopyWithImpl<$Res> extends _$EvolvePhaseCopyWithImpl<$Res>
+    implements _$$_EvolvePhaseCopyWith<$Res> {
+  __$$_EvolvePhaseCopyWithImpl(
+      _$_EvolvePhase _value, $Res Function(_$_EvolvePhase) _then)
+      : super(_value, (v) => _then(v as _$_EvolvePhase));
 
   @override
-  _EvolvePhase get _value => super._value as _EvolvePhase;
+  _$_EvolvePhase get _value => super._value as _$_EvolvePhase;
 
   @override
   $Res call({
@@ -184,7 +154,7 @@ class __$EvolvePhaseCopyWithImpl<$Res> extends _$EvolvePhaseCopyWithImpl<$Res>
     Object? isCurrentState = freezed,
     Object? asset = freezed,
   }) {
-    return _then(_EvolvePhase(
+    return _then(_$_EvolvePhase(
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -234,21 +204,22 @@ class _$_EvolvePhase extends _EvolvePhase {
   factory _$_EvolvePhase.fromJson(Map<String, dynamic> json) =>
       _$$_EvolvePhaseFromJson(json);
 
-  @JsonKey(defaultValue: "")
   @override
+  @JsonKey()
   final String name;
   @override
   final DateTime? dateTime;
   @override
   final int? blockHeight;
-  @JsonKey(defaultValue: "")
-  @override // @Default("") String expectedValue,
+// @Default("") String expectedValue,
+  @override
+  @JsonKey()
   final String description;
-  @JsonKey(defaultValue: 0)
   @override
+  @JsonKey()
   final int evolutionState;
-  @JsonKey(defaultValue: false)
   @override
+  @JsonKey()
   final bool isCurrentState;
   @override
   final Asset? asset;
@@ -262,7 +233,7 @@ class _$_EvolvePhase extends _EvolvePhase {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _EvolvePhase &&
+            other is _$_EvolvePhase &&
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality().equals(other.dateTime, dateTime) &&
             const DeepCollectionEquality()
@@ -276,6 +247,7 @@ class _$_EvolvePhase extends _EvolvePhase {
             const DeepCollectionEquality().equals(other.asset, asset));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -289,8 +261,8 @@ class _$_EvolvePhase extends _EvolvePhase {
 
   @JsonKey(ignore: true)
   @override
-  _$EvolvePhaseCopyWith<_EvolvePhase> get copyWith =>
-      __$EvolvePhaseCopyWithImpl<_EvolvePhase>(this, _$identity);
+  _$$_EvolvePhaseCopyWith<_$_EvolvePhase> get copyWith =>
+      __$$_EvolvePhaseCopyWithImpl<_$_EvolvePhase>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -300,34 +272,34 @@ class _$_EvolvePhase extends _EvolvePhase {
 
 abstract class _EvolvePhase extends EvolvePhase {
   const factory _EvolvePhase(
-      {String name,
-      DateTime? dateTime,
-      int? blockHeight,
-      String description,
-      int evolutionState,
-      bool isCurrentState,
-      Asset? asset}) = _$_EvolvePhase;
+      {final String name,
+      final DateTime? dateTime,
+      final int? blockHeight,
+      final String description,
+      final int evolutionState,
+      final bool isCurrentState,
+      final Asset? asset}) = _$_EvolvePhase;
   const _EvolvePhase._() : super._();
 
   factory _EvolvePhase.fromJson(Map<String, dynamic> json) =
       _$_EvolvePhase.fromJson;
 
   @override
-  String get name;
+  String get name => throw _privateConstructorUsedError;
   @override
-  DateTime? get dateTime;
+  DateTime? get dateTime => throw _privateConstructorUsedError;
   @override
-  int? get blockHeight;
+  int? get blockHeight => throw _privateConstructorUsedError;
   @override // @Default("") String expectedValue,
-  String get description;
+  String get description => throw _privateConstructorUsedError;
   @override
-  int get evolutionState;
+  int get evolutionState => throw _privateConstructorUsedError;
   @override
-  bool get isCurrentState;
+  bool get isCurrentState => throw _privateConstructorUsedError;
   @override
-  Asset? get asset;
+  Asset? get asset => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$EvolvePhaseCopyWith<_EvolvePhase> get copyWith =>
+  _$$_EvolvePhaseCopyWith<_$_EvolvePhase> get copyWith =>
       throw _privateConstructorUsedError;
 }

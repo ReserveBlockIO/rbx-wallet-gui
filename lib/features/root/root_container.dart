@@ -12,17 +12,17 @@ class RootContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<PageRouteInfo> routes = [
-      HomeTabRouter(),
-      SendTabRouter(),
-      ReceiveTabRouter(),
-      TransactionsTabRouter(),
-      ValidatorTabRouter(),
-      NodesTabsRouter(),
-      DatanodeTabRouter(),
-      NftTabRouter(),
-      SmartContractsTabRouter(),
-      DstsTabRouter(),
-      ExplorerTabRouter(),
+      const HomeTabRouter(),
+      const SendTabRouter(),
+      const ReceiveTabRouter(),
+      const TransactionsTabRouter(),
+      const ValidatorTabRouter(),
+      const NodesTabsRouter(),
+      const DatanodeTabRouter(),
+      const NftTabRouter(),
+      const SmartContractsTabRouter(),
+      const DstsTabRouter(),
+      const ExplorerTabRouter(),
     ];
 
     return AutoTabsScaffold(
@@ -31,15 +31,15 @@ class RootContainer extends StatelessWidget {
       builder: (context, child, animated) {
         return Row(
           children: [
-            MainMenu(),
+            const MainMenu(),
             Expanded(
                 child: Column(
               children: [
                 Expanded(child: child),
-                Footer(),
+                const Footer(),
               ],
             )),
-            StatusContainer(),
+            const StatusContainer(),
           ],
         );
       },

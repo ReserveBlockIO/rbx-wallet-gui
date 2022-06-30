@@ -56,7 +56,7 @@ class HelpButton extends StatelessWidget {
         InfoDialog.show(
             title: _title,
             body: _body,
-            closeText: _closeText,
+            closeText: "Close",
             icon: Icons.help,
             headerColor: Theme.of(context).colorScheme.secondary);
       },
@@ -180,18 +180,5 @@ class HelpButton extends StatelessWidget {
       case HelpType.setEvolution:
         return "With an NFT that has more than 2 phases the user can go directly from one stage to another with the “Set Evolution” button instead of evolving and devolving stage by stage";
     }
-  }
-
-  String get _closeText {
-    return "Close";
-    final list = [
-      'Thanks!',
-      'Close',
-      "Alright",
-      "Cheers!",
-      "Ok",
-      "Okay",
-    ];
-    return (list..shuffle()).first;
   }
 }

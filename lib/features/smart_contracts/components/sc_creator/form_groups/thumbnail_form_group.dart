@@ -13,7 +13,6 @@ class ThumbnailAssetFormGroup extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _provider = ref.read(createSmartContractProvider.notifier);
     final _model = ref.watch(createSmartContractProvider);
 
     return FormGroupContainer(
@@ -21,7 +20,7 @@ class ThumbnailAssetFormGroup extends BaseComponent {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          FormGroupHeader(
+          const FormGroupHeader(
             "Thumbnail",
             helpType: HelpType.unknown,
           ),

@@ -37,13 +37,13 @@ class FeatureChooserModal extends BaseComponent {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text("Close"),
             style: TextButton.styleFrom(
               primary: Colors.white,
             ),
+            child: const Text("Close"),
           ),
         ),
-        FormGroupHeader("Add a Feature"),
+        const FormGroupHeader("Add a Feature"),
         ...Feature.allTypes()
             .asMap()
             .entries
@@ -63,7 +63,7 @@ class FeatureChooserModal extends BaseComponent {
                         return null;
                       }
                       ref.read(royaltyFormProvider.notifier).clear();
-                      modal = RoyaltyModal();
+                      modal = const RoyaltyModal();
                       break;
                     case FeatureType.evolution:
                       if (!canAddEvolve) {
@@ -74,7 +74,7 @@ class FeatureChooserModal extends BaseComponent {
                         return null;
                       }
                       ref.read(evolveFormProvider.notifier).clear();
-                      modal = EvolveModal();
+                      modal = const EvolveModal();
                       break;
                     case FeatureType.multiAsset:
                       if (!canAddMultiAsset) {
@@ -85,14 +85,14 @@ class FeatureChooserModal extends BaseComponent {
                         return null;
                       }
                       ref.read(multiAssetFormProvider.notifier).clear();
-                      modal = MultiAssetModal();
+                      modal = const MultiAssetModal();
                       break;
                     case FeatureType.ticket:
                       ref.read(ticketFormProvider.notifier).clear();
-                      modal = TicketModal();
+                      modal = const TicketModal();
                       break;
                     default:
-                      return ModalContainer(
+                      return const ModalContainer(
                         children: [Text("Not implemented.")],
                       );
                   }
@@ -106,7 +106,7 @@ class FeatureChooserModal extends BaseComponent {
                       if (modal != null) {
                         return modal;
                       }
-                      return ModalContainer(
+                      return const ModalContainer(
                         children: [Text("Not implemented.")],
                       );
                     },
@@ -141,7 +141,7 @@ class _FeatureOptionCard extends StatelessWidget {
         ),
         title: Text(feature.nameLabel),
         subtitle: Text(feature.genericDescription),
-        trailing: feature.isAvailable ? Icon(Icons.chevron_right) : null,
+        trailing: feature.isAvailable ? const Icon(Icons.chevron_right) : null,
         onTap: feature.isAvailable
             ? () {
                 onPressed(feature);

@@ -14,9 +14,6 @@ class NftGrid extends BaseComponent {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final _provider = ref.read(
-        minted ? mintedNftListProvider.notifier : nftListProvider.notifier);
-
     final _model = ref.watch(minted ? mintedNftListProvider : nftListProvider);
 
     if (_model.isEmpty) {
@@ -28,7 +25,7 @@ class NftGrid extends BaseComponent {
     }
 
     return GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         childAspectRatio: 1,
         crossAxisSpacing: 8.0,

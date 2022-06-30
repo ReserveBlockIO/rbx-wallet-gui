@@ -7,15 +7,18 @@ import 'package:rbx_wallet/features/wallet/components/invalid_wallet.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 
 class SendScreen extends BaseScreen {
-  const SendScreen({Key? key}) : super(key: key);
+  const SendScreen({Key? key})
+      : super(
+          key: key,
+        );
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: Text("Send RBX"),
+      title: const Text("Send RBX"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      actions: [WalletSelector()],
+      actions: const [WalletSelector()],
     );
   }
 
@@ -23,7 +26,7 @@ class SendScreen extends BaseScreen {
   Widget body(BuildContext context, WidgetRef ref) {
     final currentWallet = ref.watch(sessionProvider).currentWallet;
     if (currentWallet == null) {
-      return InvalidWallet(message: "No wallet selected");
+      return const InvalidWallet(message: "No wallet selected");
     }
 
     return SendForm(wallet: currentWallet);

@@ -6,52 +6,62 @@ publish_to: "none"
 version: 2.0.0+1
 
 environment:
-  sdk: ">=2.15.1 <3.0.0"
+  sdk: ">=2.17.3 <3.0.0"
 
 dependencies:
-  auto_route: ^3.2.2
-  cupertino_icons: ^1.0.2
-  dio: ^4.0.4
+  auto_route: ^4.2.0
+  cupertino_icons: ^1.0.5
+  dio: ^4.0.6
   flutter:
     sdk: flutter
   flutter_dotenv: ^5.0.2
-  flutter_riverpod: ^1.0.3
+  flutter_riverpod: ^1.0.4
   get_it: ^7.2.0
   intl: ^0.17.0
-  json_annotation: ^4.4.0
+  json_annotation: ^4.5.0
   logger: ^1.1.0
-  responsive_framework: ^0.1.5
-  shared_preferences: ^2.0.11
+  responsive_framework: ^0.2.0
+  shared_preferences: ^2.0.15
   timeago: ^3.2.2
-  url_launcher: ^6.0.20
+  url_launcher: ^6.1.4
   process_run: ^0.12.3+2
-  font_awesome_flutter: ^9.2.0
-  flutter_window_close: ^0.2.1
+  font_awesome_flutter: ^10.1.0
+  flutter_window_close: ^0.2.2
   desktop_window: ^0.4.0
   dart_ipify: ^1.1.1
-  flutter_launcher_icons: ^0.9.2
+  flutter_launcher_icons: ^0.9.3
   process: ^4.2.4
   awesome_select: ^5.2.0
-  path_provider: ^2.0.9
+  path_provider: ^2.0.11
   uuid: ^3.0.6
-  file_picker: ^4.5.1
+  file_picker: ^4.6.1
   qr_flutter: ^4.0.0
   particles_flutter: ^0.1.4
   animate_icons: ^2.0.0
-  gif_view: ^0.0.1
+  gif_view: ^0.1.0
   open_file: ^3.2.1
   timezone: ^0.8.0
+  bip39: ^1.0.6
+  bip32: ^2.0.0
+  hex: ^0.2.0
+  pointycastle: ^3.6.0
+  base58check: ^2.0.0
+  convert: ^3.0.2
+  url_strategy: ^0.2.0
+  dart_bip66: ^2.0.1
+  secp256k1:
+    path: /Users/tylersavery/Projects/open-source/dart-secp256k1
 
 dev_dependencies:
-  auto_route_generator: ^3.2.1
-  build_runner: null
-  flutter_gen_runner: null
-  flutter_lints: ^1.0.4
+  auto_route_generator: ^4.2.0
+  build_runner: 2.1.11
+  flutter_gen_runner: 4.3.0
+  flutter_lints: ^2.0.1
   flutter_test:
     sdk: flutter
-  freezed: 1.0.2
-  json_serializable: ^6.1.3
-  msix: ^3.3.1
+  freezed: 2.0.3+1
+  json_serializable: ^6.2.0
+  msix: ^3.6.2
 
 flutter:
   uses-material-design: true
@@ -63,6 +73,7 @@ flutter:
     - assets/images/
     - assets/env/
     - assets/fonts/
+    - assets/js/
 
   fonts:
     - family: RobotoMono

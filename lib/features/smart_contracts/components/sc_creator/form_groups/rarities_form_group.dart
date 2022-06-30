@@ -10,14 +10,12 @@ import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/rarity_modal.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/rarity.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
-import 'package:rbx_wallet/features/wallet/components/manage_wallet_bottom_sheet.dart';
 
 class RaritiesFormGroup extends BaseComponent {
   const RaritiesFormGroup({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _provider = ref.read(createSmartContractProvider.notifier);
     final _model = ref.watch(createSmartContractProvider);
 
     return FormGroupContainer(
@@ -25,7 +23,7 @@ class RaritiesFormGroup extends BaseComponent {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          FormGroupHeader(
+          const FormGroupHeader(
             "Rarities",
             helpType: HelpType.unknown,
           ),
@@ -44,7 +42,7 @@ class RaritiesFormGroup extends BaseComponent {
                       isScrollControlled: true,
                       isDismissible: true,
                       builder: (context) {
-                        return RarityModal();
+                        return const RarityModal();
                       },
                     );
                   },
@@ -93,7 +91,7 @@ class _RarityCard extends StatelessWidget {
               icon: Icons.edit,
               onPressed: () {},
             ),
-            SizedBox(width: 6),
+            const SizedBox(width: 6),
             AppButton(
               label: "Remove",
               icon: Icons.delete,

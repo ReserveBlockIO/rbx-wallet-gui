@@ -1,14 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
 import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/smart_contract_creator_main.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/screens/smart_contract_creator_container_screen.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -24,10 +21,10 @@ class SmartContractsScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: Text("Smart Contracts"),
+      title: const Text("Smart Contracts"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      actions: [WalletSelector()],
+      actions: const [WalletSelector()],
     );
   }
 
@@ -44,7 +41,7 @@ class SmartContractsScreen extends BaseScreen {
         Container(
           width: double.infinity,
           height: double.infinity,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.black38,
             border: Border(
               top: BorderSide(color: Colors.white30, width: 2),
@@ -72,7 +69,7 @@ class SmartContractsScreen extends BaseScreen {
                       "Start with a basline smart contract and add customized features",
                   onPressed: () async {
                     final id = await AutoRouter.of(context)
-                        .push(SmartContractCreatorContainerScreenRoute());
+                        .push(const SmartContractCreatorContainerScreenRoute());
 
                     if (id != null) {
                       ref.read(nftDetailProvider("$id").notifier).init();
@@ -96,7 +93,7 @@ class SmartContractsScreen extends BaseScreen {
                   body:
                       "Open the online IDE to write your own Trillium code for your smart contract",
                   onPressed: () {
-                    launch("https://trillium.rbx.network/");
+                    launchUrl(Uri.parse("https://trillium.rbx.network/"));
                   },
                 ),
                 // _BigButton(
@@ -143,7 +140,7 @@ class _BigButton extends StatelessWidget {
           border: Border.all(
               color: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
               width: 3),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(blurRadius: 12.0, color: Colors.white12),
           ],
         ),

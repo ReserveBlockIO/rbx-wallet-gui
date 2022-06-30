@@ -87,7 +87,7 @@ class AppTheme {
         primarySwatch: createMaterialColor(_primaryColor),
         accentColor: _secondaryColor,
       ),
-      inputDecorationTheme: InputDecorationTheme(
+      inputDecorationTheme: const InputDecorationTheme(
         labelStyle: TextStyle(color: _secondaryColor),
         floatingLabelStyle: TextStyle(
           color: _secondaryColor,
@@ -106,8 +106,8 @@ class AppTheme {
         primarySwatch: createMaterialColor(_primaryColor),
         accentColor: _secondaryColor,
       ),
-      textSelectionTheme: TextSelectionThemeData(cursorColor: _secondaryColor),
-      inputDecorationTheme: InputDecorationTheme(
+      textSelectionTheme: const TextSelectionThemeData(cursorColor: _secondaryColor),
+      inputDecorationTheme: const InputDecorationTheme(
         labelStyle: TextStyle(color: _secondaryColor),
         floatingLabelStyle: TextStyle(
           color: _secondaryColor,

@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'compiler_response.dart';
@@ -11,37 +12,11 @@ part of 'compiler_response.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 CompilerResponse _$CompilerResponseFromJson(Map<String, dynamic> json) {
   return _CompilerResponse.fromJson(json);
 }
-
-/// @nodoc
-class _$CompilerResponseTearOff {
-  const _$CompilerResponseTearOff();
-
-  _CompilerResponse call(
-      {@JsonKey(name: "Success")
-          required bool success,
-      @JsonKey(name: "SmartContractCode")
-          required String code,
-      @JsonKey(name: "SmartContract")
-          required CompiledSmartContract smartContract}) {
-    return _CompilerResponse(
-      success: success,
-      code: code,
-      smartContract: smartContract,
-    );
-  }
-
-  CompilerResponse fromJson(Map<String, Object?> json) {
-    return CompilerResponse.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $CompilerResponse = _$CompilerResponseTearOff();
 
 /// @nodoc
 mixin _$CompilerResponse {
@@ -111,11 +86,11 @@ class _$CompilerResponseCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$CompilerResponseCopyWith<$Res>
+abstract class _$$_CompilerResponseCopyWith<$Res>
     implements $CompilerResponseCopyWith<$Res> {
-  factory _$CompilerResponseCopyWith(
-          _CompilerResponse value, $Res Function(_CompilerResponse) then) =
-      __$CompilerResponseCopyWithImpl<$Res>;
+  factory _$$_CompilerResponseCopyWith(
+          _$_CompilerResponse value, $Res Function(_$_CompilerResponse) then) =
+      __$$_CompilerResponseCopyWithImpl<$Res>;
   @override
   $Res call(
       {@JsonKey(name: "Success") bool success,
@@ -127,15 +102,15 @@ abstract class _$CompilerResponseCopyWith<$Res>
 }
 
 /// @nodoc
-class __$CompilerResponseCopyWithImpl<$Res>
+class __$$_CompilerResponseCopyWithImpl<$Res>
     extends _$CompilerResponseCopyWithImpl<$Res>
-    implements _$CompilerResponseCopyWith<$Res> {
-  __$CompilerResponseCopyWithImpl(
-      _CompilerResponse _value, $Res Function(_CompilerResponse) _then)
-      : super(_value, (v) => _then(v as _CompilerResponse));
+    implements _$$_CompilerResponseCopyWith<$Res> {
+  __$$_CompilerResponseCopyWithImpl(
+      _$_CompilerResponse _value, $Res Function(_$_CompilerResponse) _then)
+      : super(_value, (v) => _then(v as _$_CompilerResponse));
 
   @override
-  _CompilerResponse get _value => super._value as _CompilerResponse;
+  _$_CompilerResponse get _value => super._value as _$_CompilerResponse;
 
   @override
   $Res call({
@@ -143,7 +118,7 @@ class __$CompilerResponseCopyWithImpl<$Res>
     Object? code = freezed,
     Object? smartContract = freezed,
   }) {
-    return _then(_CompilerResponse(
+    return _then(_$_CompilerResponse(
       success: success == freezed
           ? _value.success
           : success // ignore: cast_nullable_to_non_nullable
@@ -191,13 +166,14 @@ class _$_CompilerResponse extends _CompilerResponse {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _CompilerResponse &&
+            other is _$_CompilerResponse &&
             const DeepCollectionEquality().equals(other.success, success) &&
             const DeepCollectionEquality().equals(other.code, code) &&
             const DeepCollectionEquality()
                 .equals(other.smartContract, smartContract));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -207,8 +183,8 @@ class _$_CompilerResponse extends _CompilerResponse {
 
   @JsonKey(ignore: true)
   @override
-  _$CompilerResponseCopyWith<_CompilerResponse> get copyWith =>
-      __$CompilerResponseCopyWithImpl<_CompilerResponse>(this, _$identity);
+  _$$_CompilerResponseCopyWith<_$_CompilerResponse> get copyWith =>
+      __$$_CompilerResponseCopyWithImpl<_$_CompilerResponse>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -218,12 +194,13 @@ class _$_CompilerResponse extends _CompilerResponse {
 
 abstract class _CompilerResponse extends CompilerResponse {
   factory _CompilerResponse(
-      {@JsonKey(name: "Success")
-          required bool success,
-      @JsonKey(name: "SmartContractCode")
-          required String code,
-      @JsonKey(name: "SmartContract")
-          required CompiledSmartContract smartContract}) = _$_CompilerResponse;
+          {@JsonKey(name: "Success")
+              required final bool success,
+          @JsonKey(name: "SmartContractCode")
+              required final String code,
+          @JsonKey(name: "SmartContract")
+              required final CompiledSmartContract smartContract}) =
+      _$_CompilerResponse;
   _CompilerResponse._() : super._();
 
   factory _CompilerResponse.fromJson(Map<String, dynamic> json) =
@@ -231,15 +208,15 @@ abstract class _CompilerResponse extends CompilerResponse {
 
   @override
   @JsonKey(name: "Success")
-  bool get success;
+  bool get success => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "SmartContractCode")
-  String get code;
+  String get code => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "SmartContract")
-  CompiledSmartContract get smartContract;
+  CompiledSmartContract get smartContract => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$CompilerResponseCopyWith<_CompilerResponse> get copyWith =>
+  _$$_CompilerResponseCopyWith<_$_CompilerResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }

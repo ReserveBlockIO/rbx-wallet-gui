@@ -6,12 +6,14 @@ class ModalContainer extends StatelessWidget {
   final Color color;
   final bool withClose;
   final bool withDecor;
+  final double padding;
   const ModalContainer({
     Key? key,
     this.color = Colors.black,
     this.children = const [],
     this.withClose = false,
     this.withDecor = true,
+    this.padding = 32.0,
   }) : super(key: key);
 
   @override
@@ -33,7 +35,7 @@ class ModalContainer extends StatelessWidget {
             ),
           SafeArea(
             child: Padding(
-              padding: const EdgeInsets.all(32.0),
+              padding: EdgeInsets.all(padding),
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -47,7 +49,7 @@ class ModalContainer extends StatelessWidget {
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
-                            child: Text(
+                            child: const Text(
                               "Close",
                               style: TextStyle(color: Colors.white),
                             ),

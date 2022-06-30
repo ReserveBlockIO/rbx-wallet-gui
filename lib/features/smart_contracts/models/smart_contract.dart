@@ -1,12 +1,9 @@
-import 'dart:convert';
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/compiled_smart_contract.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/compiler_payload.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/detailed_smart_contract.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/feature.dart';

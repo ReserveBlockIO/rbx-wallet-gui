@@ -24,7 +24,7 @@ class MasternodeCard extends StatelessWidget {
                       ? AppColorVariant.Success
                       : AppColorVariant.Danger,
                 ),
-                SizedBox(width: 12),
+                const SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,7 +43,7 @@ class MasternodeCard extends StatelessWidget {
                 )
               ],
             ),
-            Divider(),
+            const Divider(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

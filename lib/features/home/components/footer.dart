@@ -3,11 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Footer extends BaseComponent {
@@ -29,9 +25,10 @@ class Footer extends BaseComponent {
                   IconButton(
                     iconSize: 16,
                     onPressed: () {
-                      launch("https://discord.com/invite/PnS2HRETDh");
+                      launchUrl(
+                          Uri.parse("https://discord.com/invite/PnS2HRETDh"));
                     },
-                    icon: FaIcon(
+                    icon: const FaIcon(
                       FontAwesomeIcons.discord,
                       color: Colors.white,
                     ),
@@ -39,9 +36,9 @@ class Footer extends BaseComponent {
                   IconButton(
                     iconSize: 16,
                     onPressed: () {
-                      launch("https://github.com/ReserveBlockIO");
+                      launchUrl(Uri.parse("https://github.com/ReserveBlockIO"));
                     },
-                    icon: FaIcon(
+                    icon: const FaIcon(
                       FontAwesomeIcons.github,
                       color: Colors.white,
                     ),

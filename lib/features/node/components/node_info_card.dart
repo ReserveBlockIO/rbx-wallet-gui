@@ -20,7 +20,7 @@ class NodeInfoCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
-                children: [
+                children: const [
                   Text(
                     "IP:",
                     style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
@@ -39,7 +39,7 @@ class NodeInfoCard extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 width: 16,
               ),
               Column(
@@ -48,21 +48,21 @@ class NodeInfoCard extends StatelessWidget {
                 children: [
                   Text(
                     node.ip,
-                    style: TextStyle(fontSize: 12),
+                    style: const TextStyle(fontSize: 12),
                   ),
                   Text(
                     "${node.height}",
-                    style: TextStyle(fontSize: 12),
+                    style: const TextStyle(fontSize: 12),
                   ),
                   Text(
                     "${node.latency}",
-                    style: TextStyle(fontSize: 12),
+                    style: const TextStyle(fontSize: 12),
                   ),
                   Text(
                     node.lastCheked != null
                         ? DateFormat('hh:mm a').format(node.lastCheked!)
                         : "-",
-                    style: TextStyle(fontSize: 12),
+                    style: const TextStyle(fontSize: 12),
                   ),
                 ],
               ),

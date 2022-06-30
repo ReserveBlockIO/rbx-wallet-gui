@@ -13,6 +13,7 @@ abstract class Storage {
   static const LOCAL_SMART_CONTRACTS = "LOCAL_SMART_CONTRACTS2";
   static const MANAGABLE_NFT_IDS = "MANAGABLE_NFT_IDS";
   static const BURNED_NFT_IDS = "BURNED_NFT_IDS";
+  static const WEB_KEYPAIR = "WEB_KEYPAIR";
 
   bool isInitialized = false;
 
@@ -75,7 +76,7 @@ class StorageImplementation extends Storage {
 
   @override
   Map<String, dynamic>? getMap(String key) {
-    final str = _instance.getString(key);
+    final str = _instance.getString(_buildKey(key));
     if (str == null) {
       return null;
     }
@@ -85,7 +86,7 @@ class StorageImplementation extends Storage {
   @override
   void setMap(String key, Map<String, dynamic> value) {
     final str = jsonEncode(value);
-    _instance.setString(key, str);
+    _instance.setString(_buildKey(key), str);
   }
 
   @override

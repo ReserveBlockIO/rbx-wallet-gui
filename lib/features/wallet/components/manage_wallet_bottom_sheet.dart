@@ -7,8 +7,6 @@ import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/singletons.dart';
 import 'package:rbx_wallet/core/storage.dart';
-import 'package:rbx_wallet/features/wallet/components/wallet_context_menu.dart';
-import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_detail_provider.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
@@ -66,7 +64,7 @@ class ManageWalletBottomSheet extends BaseComponent {
               final wallet = wallets[index];
 
               return Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
                       width: 1,
@@ -77,7 +75,7 @@ class ManageWalletBottomSheet extends BaseComponent {
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 4),
                   child: ListTile(
-                    leading: Icon(Icons.account_balance_wallet_outlined),
+                    leading: const Icon(Icons.account_balance_wallet_outlined),
                     title: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -97,7 +95,7 @@ class ManageWalletBottomSheet extends BaseComponent {
                               },
                             );
                           },
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.edit,
                             size: 12,
                           ),
@@ -111,7 +109,7 @@ class ManageWalletBottomSheet extends BaseComponent {
                         Padding(
                           padding: const EdgeInsets.only(left: 6.0),
                           child: InkWell(
-                            child: Icon(
+                            child: const Icon(
                               Icons.copy,
                               size: 12,
                             ),
@@ -137,25 +135,25 @@ class ManageWalletBottomSheet extends BaseComponent {
                                 context: context,
                                 builder: (context) {
                                   return AlertDialog(
-                                    title: Text("Private Key"),
+                                    title: const Text("Private Key"),
                                     content: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         ListTile(
-                                          leading: Icon(Icons.security),
+                                          leading: const Icon(Icons.security),
                                           title: SizedBox(
                                             width: 500,
                                             child: TextFormField(
                                               initialValue: wallet.privateKey,
-                                              decoration: InputDecoration(
+                                              decoration: const InputDecoration(
                                                 label: Text("Private Key"),
                                               ),
-                                              style: TextStyle(fontSize: 12),
+                                              style: const TextStyle(fontSize: 12),
                                               readOnly: true,
                                             ),
                                           ),
                                           trailing: IconButton(
-                                            icon: Icon(Icons.copy),
+                                            icon: const Icon(Icons.copy),
                                             onPressed: () async {
                                               await Clipboard.setData(
                                                   ClipboardData(
@@ -165,7 +163,7 @@ class ManageWalletBottomSheet extends BaseComponent {
                                             },
                                           ),
                                         ),
-                                        Divider(),
+                                        const Divider(),
                                         AppButton(
                                           label: "Close",
                                           onPressed: () {

@@ -25,7 +25,7 @@ List<SmartContractTemplate> getSmartContractTemplates(
   }
 
   void _createEvolving() {
-    final evolve = Evolve(phases: [
+    const evolve = Evolve(phases: [
       EvolvePhase(
         name: "",
         description: "",

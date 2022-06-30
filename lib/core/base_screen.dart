@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/breakpoints.dart';
-import 'package:rbx_wallet/features/root/navigation/components/main_drawer.dart';
+import 'package:rbx_wallet/features/root/navigation/components/web_drawer.dart';
 
 abstract class BaseScreen extends ConsumerWidget {
   const BaseScreen({
     Key? key,
     this.verticalPadding = 8.0,
     this.horizontalPadding = 8.0,
-    // this.includeMainDrawer = false,
+    this.includeWebDrawer = false,
+    this.backgroundColor,
   }) : super(key: key);
 
   final double verticalPadding;
   final double horizontalPadding;
-  // final bool includeMainDrawer;
+  final Color? backgroundColor;
+  final bool includeWebDrawer;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: appBar(context, ref),
-      // drawer: includeMainDrawer ? const MainDrawer() : null,
+      drawer: includeWebDrawer ? const WebDrawer() : null,
       floatingActionButton: floatingActionButton(context, ref),
       body: Padding(
         padding: EdgeInsets.symmetric(
@@ -58,11 +61,13 @@ abstract class BaseStatefulScreen extends ConsumerStatefulWidget {
     this.verticalPadding = 8.0,
     this.horizontalPadding = 8.0,
     this.includeMainDrawer = false,
+    this.backgroundColor,
   }) : super(key: key);
 
   final double verticalPadding;
   final double horizontalPadding;
   final bool includeMainDrawer;
+  final Color? backgroundColor;
 
   @override
   BaseScreenState createState() => BaseScreenState();
@@ -78,6 +83,8 @@ class BaseScreenState<T extends BaseStatefulScreen> extends ConsumerState<T> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(context),
+      backgroundColor: widget.backgroundColor,
+
       // drawer: widget.includeMainDrawer ? const MainDrawer() : null,
       floatingActionButton: floatingActionButton(context),
       body: Padding(

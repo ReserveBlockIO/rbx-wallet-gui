@@ -41,7 +41,7 @@ class AppDropdown<T> extends StatelessWidget {
               Text(selectedLabel),
             ],
           ),
-          Icon(Icons.arrow_drop_down),
+          const Icon(Icons.arrow_drop_down),
         ],
       ),
       onSelected: (option) {

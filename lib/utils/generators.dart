@@ -1,6 +1,6 @@
 import 'package:uuid/uuid.dart';
 
 String uniqueId() {
-  final uuid = Uuid();
+  const uuid = Uuid();
   return uuid.v4();
 }

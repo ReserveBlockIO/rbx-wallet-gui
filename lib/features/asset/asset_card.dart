@@ -20,7 +20,7 @@ class AssetCard extends StatelessWidget {
                 width: double.infinity,
                 fit: BoxFit.contain,
               )
-            : Icon(Icons.file_present_outlined),
+            : const Icon(Icons.file_present_outlined),
         if (asset.authorName != null && asset.authorName!.isNotEmpty)
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
@@ -38,21 +38,21 @@ class AssetCard extends StatelessWidget {
                 contentPadding: EdgeInsets.zero,
                 leading: Icon(asset.icon),
                 title: Text(asset.fileType),
-                subtitle: Text("File Type"),
+                subtitle: const Text("File Type"),
               ),
             ),
             SizedBox(
               width: 200,
               child: ListTile(
-                leading: Icon(Icons.line_weight),
+                leading: const Icon(Icons.line_weight),
                 contentPadding: EdgeInsets.zero,
                 title: Text(asset.filesizeLabel),
-                subtitle: Text("File Size"),
+                subtitle: const Text("File Size"),
               ),
             ),
           ],
         ),
-        Divider(),
+        const Divider(),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -63,7 +63,7 @@ class AssetCard extends StatelessWidget {
                 openFile(asset.folder);
               },
             ),
-            SizedBox(width: 4),
+            const SizedBox(width: 4),
             AppButton(
               label: "Open Asset",
               icon: Icons.file_open,

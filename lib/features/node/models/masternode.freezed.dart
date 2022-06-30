@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'masternode.dart';
@@ -11,40 +12,11 @@ part of 'masternode.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 Masternode _$MasternodeFromJson(Map<String, dynamic> json) {
   return _Masternode.fromJson(json);
 }
-
-/// @nodoc
-class _$MasternodeTearOff {
-  const _$MasternodeTearOff();
-
-  _Masternode call(
-      {required String address,
-      @JsonKey(name: 'unique_name') required String uniqueName,
-      @JsonKey(name: 'connect_date') required DateTime connectDate,
-      @JsonKey(name: 'is_active') required bool isActive,
-      @JsonKey(name: 'block_count') required int blockCount,
-      required dynamic location}) {
-    return _Masternode(
-      address: address,
-      uniqueName: uniqueName,
-      connectDate: connectDate,
-      isActive: isActive,
-      blockCount: blockCount,
-      location: location,
-    );
-  }
-
-  Masternode fromJson(Map<String, Object?> json) {
-    return Masternode.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $Masternode = _$MasternodeTearOff();
 
 /// @nodoc
 mixin _$Masternode {
@@ -126,10 +98,11 @@ class _$MasternodeCopyWithImpl<$Res> implements $MasternodeCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$MasternodeCopyWith<$Res> implements $MasternodeCopyWith<$Res> {
-  factory _$MasternodeCopyWith(
-          _Masternode value, $Res Function(_Masternode) then) =
-      __$MasternodeCopyWithImpl<$Res>;
+abstract class _$$_MasternodeCopyWith<$Res>
+    implements $MasternodeCopyWith<$Res> {
+  factory _$$_MasternodeCopyWith(
+          _$_Masternode value, $Res Function(_$_Masternode) then) =
+      __$$_MasternodeCopyWithImpl<$Res>;
   @override
   $Res call(
       {String address,
@@ -141,14 +114,14 @@ abstract class _$MasternodeCopyWith<$Res> implements $MasternodeCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$MasternodeCopyWithImpl<$Res> extends _$MasternodeCopyWithImpl<$Res>
-    implements _$MasternodeCopyWith<$Res> {
-  __$MasternodeCopyWithImpl(
-      _Masternode _value, $Res Function(_Masternode) _then)
-      : super(_value, (v) => _then(v as _Masternode));
+class __$$_MasternodeCopyWithImpl<$Res> extends _$MasternodeCopyWithImpl<$Res>
+    implements _$$_MasternodeCopyWith<$Res> {
+  __$$_MasternodeCopyWithImpl(
+      _$_Masternode _value, $Res Function(_$_Masternode) _then)
+      : super(_value, (v) => _then(v as _$_Masternode));
 
   @override
-  _Masternode get _value => super._value as _Masternode;
+  _$_Masternode get _value => super._value as _$_Masternode;
 
   @override
   $Res call({
@@ -159,7 +132,7 @@ class __$MasternodeCopyWithImpl<$Res> extends _$MasternodeCopyWithImpl<$Res>
     Object? blockCount = freezed,
     Object? location = freezed,
   }) {
-    return _then(_Masternode(
+    return _then(_$_Masternode(
       address: address == freezed
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -229,7 +202,7 @@ class _$_Masternode extends _Masternode {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Masternode &&
+            other is _$_Masternode &&
             const DeepCollectionEquality().equals(other.address, address) &&
             const DeepCollectionEquality()
                 .equals(other.uniqueName, uniqueName) &&
@@ -241,6 +214,7 @@ class _$_Masternode extends _Masternode {
             const DeepCollectionEquality().equals(other.location, location));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -253,8 +227,8 @@ class _$_Masternode extends _Masternode {
 
   @JsonKey(ignore: true)
   @override
-  _$MasternodeCopyWith<_Masternode> get copyWith =>
-      __$MasternodeCopyWithImpl<_Masternode>(this, _$identity);
+  _$$_MasternodeCopyWith<_$_Masternode> get copyWith =>
+      __$$_MasternodeCopyWithImpl<_$_Masternode>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -264,35 +238,35 @@ class _$_Masternode extends _Masternode {
 
 abstract class _Masternode extends Masternode {
   factory _Masternode(
-      {required String address,
-      @JsonKey(name: 'unique_name') required String uniqueName,
-      @JsonKey(name: 'connect_date') required DateTime connectDate,
-      @JsonKey(name: 'is_active') required bool isActive,
-      @JsonKey(name: 'block_count') required int blockCount,
-      required dynamic location}) = _$_Masternode;
+      {required final String address,
+      @JsonKey(name: 'unique_name') required final String uniqueName,
+      @JsonKey(name: 'connect_date') required final DateTime connectDate,
+      @JsonKey(name: 'is_active') required final bool isActive,
+      @JsonKey(name: 'block_count') required final int blockCount,
+      required final dynamic location}) = _$_Masternode;
   _Masternode._() : super._();
 
   factory _Masternode.fromJson(Map<String, dynamic> json) =
       _$_Masternode.fromJson;
 
   @override
-  String get address;
+  String get address => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'unique_name')
-  String get uniqueName;
+  String get uniqueName => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'connect_date')
-  DateTime get connectDate;
+  DateTime get connectDate => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'is_active')
-  bool get isActive;
+  bool get isActive => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'block_count')
-  int get blockCount;
+  int get blockCount => throw _privateConstructorUsedError;
   @override
-  dynamic get location;
+  dynamic get location => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$MasternodeCopyWith<_Masternode> get copyWith =>
+  _$$_MasternodeCopyWith<_$_Masternode> get copyWith =>
       throw _privateConstructorUsedError;
 }

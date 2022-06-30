@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'wallet.dart';
@@ -11,44 +12,11 @@ part of 'wallet.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 Wallet _$WalletFromJson(Map<String, dynamic> json) {
   return _Wallet.fromJson(json);
 }
-
-/// @nodoc
-class _$WalletTearOff {
-  const _$WalletTearOff();
-
-  _Wallet call(
-      {@JsonKey(name: 'Id') required int id,
-      @JsonKey(name: 'PublicKey') required String publicKey,
-      @JsonKey(name: 'PrivateKey') required String privateKey,
-      @JsonKey(name: 'Address') required String address,
-      String? friendlyName,
-      @JsonKey(name: 'Balance') required double balance,
-      @JsonKey(name: 'IsValidating') required bool isValidating,
-      @JsonKey(name: 'IsEncrypted') required bool isEncrypted}) {
-    return _Wallet(
-      id: id,
-      publicKey: publicKey,
-      privateKey: privateKey,
-      address: address,
-      friendlyName: friendlyName,
-      balance: balance,
-      isValidating: isValidating,
-      isEncrypted: isEncrypted,
-    );
-  }
-
-  Wallet fromJson(Map<String, Object?> json) {
-    return Wallet.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $Wallet = _$WalletTearOff();
 
 /// @nodoc
 mixin _$Wallet {
@@ -145,9 +113,9 @@ class _$WalletCopyWithImpl<$Res> implements $WalletCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$WalletCopyWith<$Res> implements $WalletCopyWith<$Res> {
-  factory _$WalletCopyWith(_Wallet value, $Res Function(_Wallet) then) =
-      __$WalletCopyWithImpl<$Res>;
+abstract class _$$_WalletCopyWith<$Res> implements $WalletCopyWith<$Res> {
+  factory _$$_WalletCopyWith(_$_Wallet value, $Res Function(_$_Wallet) then) =
+      __$$_WalletCopyWithImpl<$Res>;
   @override
   $Res call(
       {@JsonKey(name: 'Id') int id,
@@ -161,13 +129,13 @@ abstract class _$WalletCopyWith<$Res> implements $WalletCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$WalletCopyWithImpl<$Res> extends _$WalletCopyWithImpl<$Res>
-    implements _$WalletCopyWith<$Res> {
-  __$WalletCopyWithImpl(_Wallet _value, $Res Function(_Wallet) _then)
-      : super(_value, (v) => _then(v as _Wallet));
+class __$$_WalletCopyWithImpl<$Res> extends _$WalletCopyWithImpl<$Res>
+    implements _$$_WalletCopyWith<$Res> {
+  __$$_WalletCopyWithImpl(_$_Wallet _value, $Res Function(_$_Wallet) _then)
+      : super(_value, (v) => _then(v as _$_Wallet));
 
   @override
-  _Wallet get _value => super._value as _Wallet;
+  _$_Wallet get _value => super._value as _$_Wallet;
 
   @override
   $Res call({
@@ -180,7 +148,7 @@ class __$WalletCopyWithImpl<$Res> extends _$WalletCopyWithImpl<$Res>
     Object? isValidating = freezed,
     Object? isEncrypted = freezed,
   }) {
-    return _then(_Wallet(
+    return _then(_$_Wallet(
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -267,7 +235,7 @@ class _$_Wallet extends _Wallet {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Wallet &&
+            other is _$_Wallet &&
             const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.publicKey, publicKey) &&
             const DeepCollectionEquality()
@@ -282,6 +250,7 @@ class _$_Wallet extends _Wallet {
                 .equals(other.isEncrypted, isEncrypted));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -296,8 +265,8 @@ class _$_Wallet extends _Wallet {
 
   @JsonKey(ignore: true)
   @override
-  _$WalletCopyWith<_Wallet> get copyWith =>
-      __$WalletCopyWithImpl<_Wallet>(this, _$identity);
+  _$$_WalletCopyWith<_$_Wallet> get copyWith =>
+      __$$_WalletCopyWithImpl<_$_Wallet>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -307,42 +276,44 @@ class _$_Wallet extends _Wallet {
 
 abstract class _Wallet extends Wallet {
   factory _Wallet(
-      {@JsonKey(name: 'Id') required int id,
-      @JsonKey(name: 'PublicKey') required String publicKey,
-      @JsonKey(name: 'PrivateKey') required String privateKey,
-      @JsonKey(name: 'Address') required String address,
-      String? friendlyName,
-      @JsonKey(name: 'Balance') required double balance,
-      @JsonKey(name: 'IsValidating') required bool isValidating,
-      @JsonKey(name: 'IsEncrypted') required bool isEncrypted}) = _$_Wallet;
+          {@JsonKey(name: 'Id') required final int id,
+          @JsonKey(name: 'PublicKey') required final String publicKey,
+          @JsonKey(name: 'PrivateKey') required final String privateKey,
+          @JsonKey(name: 'Address') required final String address,
+          final String? friendlyName,
+          @JsonKey(name: 'Balance') required final double balance,
+          @JsonKey(name: 'IsValidating') required final bool isValidating,
+          @JsonKey(name: 'IsEncrypted') required final bool isEncrypted}) =
+      _$_Wallet;
   _Wallet._() : super._();
 
   factory _Wallet.fromJson(Map<String, dynamic> json) = _$_Wallet.fromJson;
 
   @override
   @JsonKey(name: 'Id')
-  int get id;
+  int get id => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'PublicKey')
-  String get publicKey;
+  String get publicKey => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'PrivateKey')
-  String get privateKey;
+  String get privateKey => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'Address')
-  String get address;
+  String get address => throw _privateConstructorUsedError;
   @override
-  String? get friendlyName;
+  String? get friendlyName => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'Balance')
-  double get balance;
+  double get balance => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'IsValidating')
-  bool get isValidating;
+  bool get isValidating => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'IsEncrypted')
-  bool get isEncrypted;
+  bool get isEncrypted => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$WalletCopyWith<_Wallet> get copyWith => throw _privateConstructorUsedError;
+  _$$_WalletCopyWith<_$_Wallet> get copyWith =>
+      throw _privateConstructorUsedError;
 }

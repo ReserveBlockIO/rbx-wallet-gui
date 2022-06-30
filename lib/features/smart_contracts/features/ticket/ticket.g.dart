@@ -7,19 +7,19 @@ part of 'ticket.dart';
 // **************************************************************************
 
 _$_Ticket _$$_TicketFromJson(Map<String, dynamic> json) => _$_Ticket(
-      id: json['id'] as String? ?? '',
+      id: json['id'] as String? ?? "",
       type: $enumDecodeNullable(_$TicketTypeEnumMap, json['type']) ??
           TicketType.physicalEvent,
-      eventName: json['eventName'] as String? ?? '',
+      eventName: json['eventName'] as String? ?? "",
       eventDate: json['eventDate'] == null
           ? null
           : DateTime.parse(json['eventDate'] as String),
-      eventAddress: json['eventAddress'] as String? ?? '',
-      description: json['description'] as String? ?? '',
-      eventCode: json['eventCode'] as String? ?? '',
+      eventAddress: json['eventAddress'] as String? ?? "",
+      description: json['description'] as String? ?? "",
+      eventCode: json['eventCode'] as String? ?? "",
       quantity: json['quantity'] as int? ?? 1,
       evolveOnRedeem: json['evolveOnRedeem'] as bool? ?? false,
-      seatInfo: json['seatInfo'] as String? ?? '',
+      seatInfo: json['seatInfo'] as String? ?? "",
       expireDate: json['expireDate'] == null
           ? null
           : DateTime.parse(json['expireDate'] as String),

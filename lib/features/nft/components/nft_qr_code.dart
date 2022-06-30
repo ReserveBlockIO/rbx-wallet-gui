@@ -8,7 +8,6 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/utils/files.dart';
 import 'package:rbx_wallet/utils/toast.dart';
-import 'package:path/path.dart' as p;
 
 class NftQrCode extends StatelessWidget {
   final String data;
@@ -39,7 +38,7 @@ class NftQrCode extends StatelessWidget {
                 size: 200.0,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             AppButton(

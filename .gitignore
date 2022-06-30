@@ -9,6 +9,10 @@
 .history
 .svn/
 
+# firebase
+.firebaserc
+.firebase/
+
 # installer resources
 installers/exports/
 installers/resources/

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,7 +30,6 @@ import 'package:rbx_wallet/features/transactions/providers/transaction_list_prov
 import 'package:rbx_wallet/features/validator/providers/current_validator_provider.dart';
 import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_detail_provider.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:collection/collection.dart';
 
@@ -157,7 +157,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
     await load();
     smartContractLoop();
 
-    Future.delayed(Duration(milliseconds: 300)).then((_) {
+    Future.delayed(const Duration(milliseconds: 300)).then((_) {
       read(walletInfoProvider.notifier).fetch();
       _onboardWallet();
     });
@@ -167,7 +167,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
     print('main loop...');
     await load();
 
-    await Future.delayed(Duration(seconds: REFRESH_TIMEOUT_SECONDS));
+    await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
     mainLoop();
   }
 
@@ -187,7 +187,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
       read(draftsSmartContractProvider.notifier).load();
     }
 
-    await Future.delayed(Duration(seconds: 45));
+    await Future.delayed(const Duration(seconds: 45));
     smartContractLoop();
   }
 
@@ -199,7 +199,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
     await BridgeService().killCli();
     read(logProvider.notifier).append(LogEntry(message: "CLI terminated."));
 
-    await Future.delayed(Duration(milliseconds: 300));
+    await Future.delayed(const Duration(milliseconds: 300));
 
     init();
   }
@@ -356,7 +356,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("No wallets found"),
+          title: const Text("No wallets found"),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -381,7 +381,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
                   );
                 },
               ),
-              SizedBox(
+              const SizedBox(
                 height: 12,
               ),
               AppButton(
@@ -400,7 +400,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text("Cancel"),
+              child: const Text("Cancel"),
             )
           ],
         );
@@ -421,6 +421,10 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   String getCliPath() {
+    if (kIsWeb) {
+      print("no cli path for web");
+      return '';
+    }
     if (Platform.isMacOS) {
       return '/Applications/RBXWallet.app/Contents/Resources/RBXCore/ReserveBlockCore';
     } else {
@@ -462,7 +466,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
     read(logProvider.notifier).append(
         LogEntry(message: "CLI not ready yet. Trying again in 5 seconds."));
 
-    await Future.delayed(Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: 5));
     return _cliCheck(attempt + 1, maxAttempts);
   }
 
@@ -485,7 +489,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
       String cmd = '';
 
       if (Platform.isWindows) {
-        ProcessManager pm = LocalProcessManager();
+        ProcessManager pm = const LocalProcessManager();
 
         try {
           final appPath = Directory.current.path;
@@ -503,7 +507,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
                 .append(LogEntry(message: "Command ran successfully."));
           });
 
-          await Future.delayed(Duration(seconds: 3));
+          await Future.delayed(const Duration(seconds: 3));
           return await _cliCheck();
         } catch (e) {
           print(e);
@@ -532,7 +536,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
         try {
           shell.run(cmd);
-          await Future.delayed(Duration(seconds: 3));
+          await Future.delayed(const Duration(seconds: 3));
           return await _cliCheck();
         } catch (e) {
           read(logProvider.notifier).append(LogEntry(

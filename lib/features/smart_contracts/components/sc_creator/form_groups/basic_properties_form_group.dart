@@ -23,7 +23,7 @@ class BasicPropertiesFormGroup extends BaseComponent {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          FormGroupHeader(
+          const FormGroupHeader(
             "Baseline Properties",
             helpType: HelpType.baselineProperties,
           ),
@@ -33,7 +33,7 @@ class BasicPropertiesFormGroup extends BaseComponent {
                 child: TextFormField(
                   readOnly: _model.isCompiled,
                   controller: _provider.nameController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     label: Text(
                       "Smart Contract Name",
                       style: TextStyle(color: Colors.white),
@@ -45,14 +45,14 @@ class BasicPropertiesFormGroup extends BaseComponent {
                   },
                 ),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Expanded(
                 child: TextFormField(
                   readOnly: _model.isCompiled,
                   controller: _provider.minterNameController,
                   validator: (val) =>
                       formValidatorNotEmpty(val, "Minter/Creator Name"),
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     label: Text(
                       "Minter/Creator Name",
                       style: TextStyle(color: Colors.white),
@@ -64,7 +64,7 @@ class BasicPropertiesFormGroup extends BaseComponent {
                   },
                 ),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Expanded(
                 child: IgnorePointer(
                   ignoring: _model.isCompiled,
@@ -87,13 +87,13 @@ class BasicPropertiesFormGroup extends BaseComponent {
                   ),
                 ),
               ),
-              HelpButton(HelpType.ownerAddress),
+              const HelpButton(HelpType.ownerAddress),
             ],
           ),
           TextFormField(
             readOnly: _model.isCompiled,
             controller: _provider.descriptionController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               label: Text(
                 "Description",
                 style: TextStyle(color: Colors.white),

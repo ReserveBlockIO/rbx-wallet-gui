@@ -20,7 +20,7 @@ class NftDataModal extends StatelessWidget {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text(
+            child: const Text(
               "Close",
               style: TextStyle(color: Colors.white),
             ),

@@ -9,10 +9,10 @@ class DstsScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: Text("DSTs"),
+      title: const Text("DSTs"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      actions: [WalletSelector()],
+      actions: const [WalletSelector()],
     );
   }
 

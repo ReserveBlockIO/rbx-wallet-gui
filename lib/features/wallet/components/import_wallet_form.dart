@@ -16,12 +16,12 @@ class ImportWalletForm extends StatelessWidget {
           TextFormField(
             controller: _controller,
             obscureText: true,
-            decoration: InputDecoration(label: Text("Private Key")),
+            decoration: const InputDecoration(label: Text("Private Key")),
             inputFormatters: [
               FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]')),
             ],
           ),
-          AppButton(label: "Import")
+          const AppButton(label: "Import")
         ],
       ),
     );

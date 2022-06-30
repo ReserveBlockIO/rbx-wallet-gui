@@ -18,10 +18,10 @@ class ReceiveScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: Text("Receive RBX"),
+      title: const Text("Receive RBX"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      actions: [WalletSelector()],
+      actions: const [WalletSelector()],
     );
   }
 
@@ -34,35 +34,35 @@ class ReceiveScreen extends BaseScreen {
   Widget body(BuildContext context, WidgetRef ref) {
     final currentWallet = ref.watch(sessionProvider).currentWallet;
     if (currentWallet == null) {
-      return InvalidWallet(message: "No wallet selected");
+      return const InvalidWallet(message: "No wallet selected");
     }
 
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         ListTile(
-          leading: Icon(Icons.account_balance_wallet),
+          leading: const Icon(Icons.account_balance_wallet),
           subtitle: Text(currentWallet.friendlyName ?? ""),
           title: TextFormField(
             initialValue: currentWallet.address,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               label: Text("Wallet Address"),
             ),
-            style: TextStyle(fontSize: 13),
+            style: const TextStyle(fontSize: 13),
             readOnly: true,
           ),
           trailing: IconButton(
-            icon: Icon(Icons.copy),
+            icon: const Icon(Icons.copy),
             onPressed: () async {
               _handleCopyAddress(currentWallet);
             },
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 24,
         ),
-        Divider(),
-        SizedBox(
+        const Divider(),
+        const SizedBox(
           height: 24,
         ),
         Row(

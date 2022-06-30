@@ -1,12 +1,16 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/core/providers/web_session_provider.dart';
+import 'package:rbx_wallet/core/services/transaction_service.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
 import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
-import 'package:rbx_wallet/features/home/components/log_item.dart';
+import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
 import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
@@ -43,7 +47,10 @@ class SendFormModel {
 class SendFormProvider extends StateNotifier<SendFormModel> {
   final Reader read;
 
-  static const _initial = SendFormModel();
+  static const _initial = SendFormModel(
+    address: "",
+    amount: "",
+  );
 
   late final TextEditingController amountController;
   late final TextEditingController addressController;
@@ -75,12 +82,23 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
       return "Minimum to send is 1 RBX";
     }
 
-    final currentWallet = read(sessionProvider).currentWallet;
-    if (currentWallet == null) {
-      return "No wallet selected";
-    }
-    if (currentWallet.balance < parsed) {
-      return "Not enough balance in wallet.";
+    if (kIsWeb) {
+      if (read(webSessionProvider).keypair == null) {
+        return "No wallet selected";
+      }
+      final balance = read(webSessionProvider).balance;
+
+      if (balance == null || balance < parsed) {
+        return "Not enough balance in wallet.";
+      }
+    } else {
+      final currentWallet = read(sessionProvider).currentWallet;
+      if (currentWallet == null) {
+        return "No wallet selected";
+      }
+      if (currentWallet.balance < parsed) {
+        return "Not enough balance in wallet.";
+      }
     }
 
     return null;
@@ -111,20 +129,30 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
   }
 
   Future<void> submit() async {
-    final currentWallet = read(sessionProvider).currentWallet;
-    if (currentWallet == null) {
-      Toast.error("No wallet selected");
+    String senderAddress = "";
+    if (!kIsWeb) {
+      final currentWallet = read(sessionProvider).currentWallet;
+      if (currentWallet == null) {
+        Toast.error("No wallet selected");
 
-      return;
+        return;
+      }
+      senderAddress = currentWallet.labelWithoutTruncation;
+
+      if (!guardWalletIsSynced(read)) return;
+      if (!guardWalletIsNotResyncing(read)) return;
+    } else {
+      if (read(webSessionProvider).keypair == null) {
+        Toast.error("No wallet selected");
+        return;
+      }
+
+      senderAddress = read(webSessionProvider).keypair!.public;
     }
-
-    if (!guardWalletIsSynced(read)) return;
-    if (!guardWalletIsNotResyncing(read)) return;
 
     final confirmed = await ConfirmDialog.show(
       title: "Please Confirm",
-      body:
-          "Sending:\n$amount RBX\n\nTo:\n$address\n\nFrom:\n${currentWallet.labelWithoutTruncation}",
+      body: "Sending:\n$amount RBX\n\nTo:\n$address\n\nFrom:\n$senderAddress",
       confirmText: "Send",
       cancelText: "Cancel",
     );
@@ -135,29 +163,72 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
 
     state = state.copyWith(isProcessing: true);
 
-    try {
-      final message = await BridgeService().sendFunds(
+    if (Env.isWeb) {
+      print("WE SEND!");
+
+      final txData = await RawTransaction.generate(
+        keypair: read(webSessionProvider).keypair!,
         amount: double.parse(amount),
-        to: address,
-        from: currentWallet.address,
+        toAddress: address,
       );
       state = state.copyWith(isProcessing: false);
 
-      if (message != null) {
-        Toast.message(
-            "$amount RBX has been sent to $address. See dashboard for TX ID.");
-        read(logProvider.notifier).append(
-          LogEntry(
-              message: message,
-              textToCopy: message.replaceAll("Success! TxId: ", ""),
-              variant: AppColorVariant.Success),
+      if (txData != null) {
+        final txFee = txData['Fee'];
+
+        final confirmed = await ConfirmDialog.show(
+          title: "Valid Transaction",
+          body:
+              "This transaction is valid and is ready to send. Are you sure you want to proceed?\n\nTo:$address\n\nAmount:$amount${txFee != null ? '\nTX Fee: $txFee RBX\nTotal:${amount + txFee} RBX' : ''}",
+          confirmText: "Send",
+          cancelText: "Cancel",
         );
-        clear();
+
+        if (confirmed == true) {
+          final tx = await TransactionService().sendTransaction(
+            transactionData: txData,
+            execute: true,
+          );
+
+          if (tx != null) {
+            if (tx['data']['Result'] == "Success") {
+              Toast.message("$amount RBX sent to $address");
+              state = const SendFormModel(
+                address: "",
+                amount: "",
+              );
+              return;
+            }
+          }
+
+          Toast.error();
+        }
       }
-    } catch (e) {
-      print(e);
-      Toast.error();
-      state = state.copyWith(isProcessing: false);
+    } else {
+      try {
+        final message = await BridgeService().sendFunds(
+          amount: double.parse(amount),
+          to: address,
+          from: read(sessionProvider).currentWallet!.address,
+        );
+        state = state.copyWith(isProcessing: false);
+
+        if (message != null) {
+          Toast.message(
+              "$amount RBX has been sent to $address. See dashboard for TX ID.");
+          read(logProvider.notifier).append(
+            LogEntry(
+                message: message,
+                textToCopy: message.replaceAll("Success! TxId: ", ""),
+                variant: AppColorVariant.Success),
+          );
+          clear();
+        }
+      } catch (e) {
+        print(e);
+        Toast.error();
+        state = state.copyWith(isProcessing: false);
+      }
     }
   }
 }

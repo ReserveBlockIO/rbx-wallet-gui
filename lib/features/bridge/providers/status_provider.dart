@@ -23,11 +23,11 @@ class StatusProvider extends StateNotifier<BridgeStatus> {
   }
 
   Future<void> _init() async {
-    Future.delayed(Duration(milliseconds: 300)).then((_) {
+    Future.delayed(const Duration(milliseconds: 300)).then((_) {
       read(logProvider.notifier).append(LogEntry(message: "Connecting..."));
     });
     _checkStatus();
-    timer = Timer.periodic(Duration(seconds: REFRESH_TIMEOUT_SECONDS),
+    timer = Timer.periodic(const Duration(seconds: REFRESH_TIMEOUT_SECONDS),
         (Timer t) => _checkStatus());
   }
 

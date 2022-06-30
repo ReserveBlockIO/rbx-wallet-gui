@@ -1,19 +1,25 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/keygen/models/keypair.dart';
 import 'package:rbx_wallet/features/send/providers/send_form_provider.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 class SendForm extends BaseComponent {
-  final Wallet wallet;
-  SendForm({Key? key, required this.wallet}) : super(key: key);
+  final Wallet? wallet;
+  final Keypair? keypair;
+  SendForm({Key? key, this.wallet, this.keypair}) : super(key: key) {
+    // assert(wallet != null && keypair != null);
+  }
 
   final GlobalKey<FormState> _formKey = GlobalKey();
 
@@ -31,15 +37,20 @@ class SendForm extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    bool isWeb = keypair != null;
+
     const leadingWidth = 60.0;
 
     final formProvider = ref.read(sendFormProvider.notifier);
 
     String pasteMessage = "Use ctrl+v to paste or click ";
 
-    if (Platform.isMacOS) {
+    if (!kIsWeb && Platform.isMacOS) {
       pasteMessage = pasteMessage.replaceAll("ctrl+v", "cmd+v");
     }
+
+    final balance =
+        isWeb ? ref.read(webSessionProvider).balance : wallet!.balance;
 
     return Form(
       key: _formKey,
@@ -50,21 +61,25 @@ class SendForm extends BaseComponent {
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
-                leading: SizedBox(width: leadingWidth, child: Text("From:")),
-                title: Text(wallet.address),
-                subtitle: Text(wallet.friendlyName ?? ""),
-                trailing: AppBadge(
-                  label: "${wallet.balance} RBX",
-                  variant: AppColorVariant.Light,
-                ),
+                leading: const SizedBox(width: leadingWidth, child: Text("From:")),
+                title: Text(isWeb ? keypair!.public : wallet!.address),
+                subtitle: isWeb
+                    ? Text("$balance RBX")
+                    : Text(wallet!.friendlyName ?? ""),
+                trailing: !isWeb
+                    ? AppBadge(
+                        label: "$balance RBX",
+                        variant: AppColorVariant.Light,
+                      )
+                    : null,
               ),
               ListTile(
-                leading: SizedBox(width: leadingWidth, child: Text("To:")),
+                leading: const SizedBox(width: leadingWidth, child: Text("To:")),
                 title: TextFormField(
                   controller: formProvider.addressController,
                   validator: formProvider.addressValidator,
                   decoration:
-                      InputDecoration(hintText: "Recipient's Wallet Address"),
+                      const InputDecoration(hintText: "Recipient's Wallet Address"),
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]')),
                   ],
@@ -87,19 +102,19 @@ class SendForm extends BaseComponent {
                           ),
                         ),
                       ),
-                      Text("."),
+                      const Text("."),
                     ],
                   ),
                 ),
                 trailing: IconButton(
-                  icon: Icon(Icons.paste),
+                  icon: const Icon(Icons.paste),
                   onPressed: () {
                     _pasteAddress(formProvider);
                   },
                 ),
               ),
               ListTile(
-                leading: SizedBox(width: leadingWidth, child: Text("Amount:")),
+                leading: const SizedBox(width: leadingWidth, child: Text("Amount:")),
                 title: TextFormField(
                   controller: formProvider.amountController,
                   validator: formProvider.amountValidator,
@@ -107,13 +122,13 @@ class SendForm extends BaseComponent {
                     FilteringTextInputFormatter.allow(RegExp("[0-9.]"))
                   ],
                   decoration:
-                      InputDecoration(hintText: "Amount of RBX to send"),
+                      const InputDecoration(hintText: "Amount of RBX to send"),
                   keyboardType: TextInputType.number,
                 ),
               ),
-              Padding(
+              const Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: Divider(),
               ),
               Padding(

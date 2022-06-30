@@ -5,7 +5,6 @@ import 'package:rbx_wallet/app.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/features/wallet/components/import_wallet_form.dart';
 import 'package:rbx_wallet/features/wallet/components/manage_wallet_bottom_sheet.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/utils/guards.dart';
@@ -37,7 +36,7 @@ class WalletSelector extends BaseComponent {
               );
               Toast.message("${currentWallet.address} copied to clipboard");
             },
-            child: Icon(
+            child: const Icon(
               Icons.copy,
               size: 12,
             ),
@@ -54,7 +53,7 @@ class WalletSelector extends BaseComponent {
                           ? currentWallet.label
                           : currentWallet.labelWithoutTruncation
                       : "Wallet"),
-                  Icon(Icons.arrow_drop_down, size: 18),
+                  const Icon(Icons.arrow_drop_down, size: 18),
                 ],
               ),
             ),
@@ -87,12 +86,12 @@ class WalletSelector extends BaseComponent {
 
             if (withOptions) {
               if (list.isNotEmpty) {
-                list.add(PopupMenuDivider());
+                list.add(const PopupMenuDivider());
               }
 
               list.add(
                 PopupMenuItem(
-                  child: Text("Import Wallet"),
+                  child: const Text("Import Wallet"),
                   onTap: () {
                     if (!guardWalletIsNotResyncing(ref.read)) return;
 
@@ -115,7 +114,7 @@ class WalletSelector extends BaseComponent {
               );
               list.add(
                 PopupMenuItem(
-                  child: Text("New Wallet"),
+                  child: const Text("New Wallet"),
                   onTap: () async {
                     await ref.read(walletListProvider.notifier).create();
                   },
@@ -124,7 +123,7 @@ class WalletSelector extends BaseComponent {
 
               list.add(
                 PopupMenuItem(
-                  child: Text("Manage Wallets"),
+                  child: const Text("Manage Wallets"),
                   onTap: () async {
                     showModalBottomSheet(
                       backgroundColor: Colors.transparent,
@@ -132,7 +131,7 @@ class WalletSelector extends BaseComponent {
                       isScrollControlled: true,
                       isDismissible: true,
                       builder: (context) {
-                        return ManageWalletBottomSheet();
+                        return const ManageWalletBottomSheet();
                       },
                     );
                   },

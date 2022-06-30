@@ -26,18 +26,18 @@ class CompactTransactionListTile extends BaseComponent {
     return ListTile(
       leading: Builder(builder: (context) {
         if (toMe && fromMe) {
-          return Icon(Icons.refresh);
+          return const Icon(Icons.refresh);
         }
 
         if (toMe) {
-          return Icon(Icons.move_to_inbox);
+          return const Icon(Icons.move_to_inbox);
         }
 
         if (fromMe) {
-          return Icon(Icons.outbox);
+          return const Icon(Icons.outbox);
         }
 
-        return Icon(Icons.star, color: Colors.transparent);
+        return const Icon(Icons.star, color: Colors.transparent);
       }),
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

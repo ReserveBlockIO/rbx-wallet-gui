@@ -16,7 +16,7 @@ class MultiAssetModal extends BaseComponent {
     final _model = ref.watch(multiAssetFormProvider);
 
     return ModalContainer(children: [
-      FormGroupHeader(
+      const FormGroupHeader(
         "Assets",
         withBg: false,
       ),

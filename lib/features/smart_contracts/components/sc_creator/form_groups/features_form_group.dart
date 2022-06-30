@@ -30,7 +30,6 @@ class FeaturesFormGroup extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _provider = ref.read(createSmartContractProvider.notifier);
     final _model = ref.watch(createSmartContractProvider);
 
     return FormGroupContainer(
@@ -38,7 +37,7 @@ class FeaturesFormGroup extends BaseComponent {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          FormGroupHeader(
+          const FormGroupHeader(
             "Features",
             helpType: HelpType.features,
           ),
@@ -51,7 +50,7 @@ class FeaturesFormGroup extends BaseComponent {
                     readOnly: _model.isCompiled,
                   ))
               .toList(),
-          SizedBox(
+          const SizedBox(
             height: 12,
           ),
           Row(
@@ -154,28 +153,28 @@ class _FeatureCard extends BaseComponent {
                           ref
                               .read(royaltyFormProvider.notifier)
                               .setRoyalty(royalty);
-                          showEditModal(RoyaltyModal());
+                          showEditModal(const RoyaltyModal());
                           break;
                         case FeatureType.evolution:
                           final evolve = Evolve.fromJson(feature.data);
                           ref
                               .read(evolveFormProvider.notifier)
                               .setEvolve(evolve);
-                          showEditModal(EvolveModal());
+                          showEditModal(const EvolveModal());
                           break;
                         case FeatureType.ticket:
                           final ticket = Ticket.fromJson(feature.data);
                           ref
                               .read(ticketFormProvider.notifier)
                               .setTicket(ticket);
-                          showEditModal(TicketModal());
+                          showEditModal(const TicketModal());
                           break;
                         case FeatureType.multiAsset:
                           final multiAsset = MultiAsset.fromJson(feature.data);
                           ref
                               .read(multiAssetFormProvider.notifier)
                               .setMultiAsset(multiAsset);
-                          showEditModal(MultiAssetModal());
+                          showEditModal(const MultiAssetModal());
                           break;
                         default:
                           print("Not implemented");
@@ -183,7 +182,7 @@ class _FeatureCard extends BaseComponent {
                       }
                     },
             ),
-            SizedBox(width: 6),
+            const SizedBox(width: 6),
             AppButton(
               label: "Remove",
               icon: Icons.delete,

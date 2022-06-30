@@ -6,9 +6,7 @@ import 'package:rbx_wallet/features/nft/providers/burned_provider.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
 import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
 import 'package:rbx_wallet/features/nft/modals/nft_management_modal.dart';
-import 'package:rbx_wallet/features/nft/services/nft_service.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
-import 'package:rbx_wallet/utils/toast.dart';
 
 class NftListTile extends BaseComponent {
   final Nft nft;
@@ -67,10 +65,10 @@ class NftListTile extends BaseComponent {
               fit: BoxFit.contain,
             );
           }
-          return Icon(Icons.file_present_outlined);
+          return const Icon(Icons.file_present_outlined);
         },
       ),
-      trailing: Icon(Icons.chevron_right),
+      trailing: const Icon(Icons.chevron_right),
     );
   }
 }

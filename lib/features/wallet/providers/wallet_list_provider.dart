@@ -10,7 +10,6 @@ import 'package:rbx_wallet/core/singletons.dart';
 import 'package:rbx_wallet/core/storage.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
-import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/toast.dart';
@@ -52,36 +51,36 @@ class WalletListProvider extends StateNotifier<List<Wallet>> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text("Wallet Created"),
+            title: const Text("Wallet Created"),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Align(
+                const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                       "Here is your wallet details. Please ensure to back up your private key in a safe place."),
                 ),
                 ListTile(
-                  leading: Icon(Icons.account_balance_wallet),
+                  leading: const Icon(Icons.account_balance_wallet),
                   title: TextFormField(
                     initialValue: wallet.address,
-                    decoration: InputDecoration(label: Text("Address")),
+                    decoration: const InputDecoration(label: Text("Address")),
                     readOnly: true,
-                    style: TextStyle(fontSize: 13),
+                    style: const TextStyle(fontSize: 13),
                   ),
                 ),
                 ListTile(
-                  leading: Icon(Icons.security),
+                  leading: const Icon(Icons.security),
                   title: TextFormField(
                     initialValue: wallet.privateKey,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       label: Text("Private Key"),
                     ),
-                    style: TextStyle(fontSize: 13),
+                    style: const TextStyle(fontSize: 13),
                     readOnly: true,
                   ),
                   trailing: IconButton(
-                    icon: Icon(Icons.copy),
+                    icon: const Icon(Icons.copy),
                     onPressed: () async {
                       await Clipboard.setData(
                           ClipboardData(text: wallet.privateKey));
@@ -89,7 +88,7 @@ class WalletListProvider extends StateNotifier<List<Wallet>> {
                     },
                   ),
                 ),
-                Divider(),
+                const Divider(),
                 AppButton(
                   label: "Done",
                   onPressed: () {

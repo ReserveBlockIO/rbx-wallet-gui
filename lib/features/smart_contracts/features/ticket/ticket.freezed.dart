@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'ticket.dart';
@@ -11,50 +12,11 @@ part of 'ticket.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 Ticket _$TicketFromJson(Map<String, dynamic> json) {
   return _Ticket.fromJson(json);
 }
-
-/// @nodoc
-class _$TicketTearOff {
-  const _$TicketTearOff();
-
-  _Ticket call(
-      {String id = "",
-      TicketType type = TicketType.physicalEvent,
-      String eventName = "",
-      DateTime? eventDate,
-      String eventAddress = "",
-      String description = "",
-      String eventCode = "",
-      int quantity = 1,
-      bool evolveOnRedeem = false,
-      String seatInfo = "",
-      DateTime? expireDate}) {
-    return _Ticket(
-      id: id,
-      type: type,
-      eventName: eventName,
-      eventDate: eventDate,
-      eventAddress: eventAddress,
-      description: description,
-      eventCode: eventCode,
-      quantity: quantity,
-      evolveOnRedeem: evolveOnRedeem,
-      seatInfo: seatInfo,
-      expireDate: expireDate,
-    );
-  }
-
-  Ticket fromJson(Map<String, Object?> json) {
-    return Ticket.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $Ticket = _$TicketTearOff();
 
 /// @nodoc
 mixin _$Ticket {
@@ -167,9 +129,9 @@ class _$TicketCopyWithImpl<$Res> implements $TicketCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$TicketCopyWith<$Res> implements $TicketCopyWith<$Res> {
-  factory _$TicketCopyWith(_Ticket value, $Res Function(_Ticket) then) =
-      __$TicketCopyWithImpl<$Res>;
+abstract class _$$_TicketCopyWith<$Res> implements $TicketCopyWith<$Res> {
+  factory _$$_TicketCopyWith(_$_Ticket value, $Res Function(_$_Ticket) then) =
+      __$$_TicketCopyWithImpl<$Res>;
   @override
   $Res call(
       {String id,
@@ -186,13 +148,13 @@ abstract class _$TicketCopyWith<$Res> implements $TicketCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$TicketCopyWithImpl<$Res> extends _$TicketCopyWithImpl<$Res>
-    implements _$TicketCopyWith<$Res> {
-  __$TicketCopyWithImpl(_Ticket _value, $Res Function(_Ticket) _then)
-      : super(_value, (v) => _then(v as _Ticket));
+class __$$_TicketCopyWithImpl<$Res> extends _$TicketCopyWithImpl<$Res>
+    implements _$$_TicketCopyWith<$Res> {
+  __$$_TicketCopyWithImpl(_$_Ticket _value, $Res Function(_$_Ticket) _then)
+      : super(_value, (v) => _then(v as _$_Ticket));
 
   @override
-  _Ticket get _value => super._value as _Ticket;
+  _$_Ticket get _value => super._value as _$_Ticket;
 
   @override
   $Res call({
@@ -208,7 +170,7 @@ class __$TicketCopyWithImpl<$Res> extends _$TicketCopyWithImpl<$Res>
     Object? seatInfo = freezed,
     Object? expireDate = freezed,
   }) {
-    return _then(_Ticket(
+    return _then(_$_Ticket(
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -277,36 +239,36 @@ class _$_Ticket extends _Ticket {
   factory _$_Ticket.fromJson(Map<String, dynamic> json) =>
       _$$_TicketFromJson(json);
 
-  @JsonKey(defaultValue: "")
   @override
+  @JsonKey()
   final String id;
-  @JsonKey(defaultValue: TicketType.physicalEvent)
   @override
+  @JsonKey()
   final TicketType type;
-  @JsonKey(defaultValue: "")
   @override
+  @JsonKey()
   final String eventName;
   @override
   final DateTime? eventDate;
-  @JsonKey(defaultValue: "")
   @override
+  @JsonKey()
   final String eventAddress;
-  @JsonKey(defaultValue: "")
   @override
+  @JsonKey()
   final String description;
-  @JsonKey(defaultValue: "")
-  @override
 
   /// NEW STUFF vvvv
+  @override
+  @JsonKey()
   final String eventCode;
-  @JsonKey(defaultValue: 1)
   @override
+  @JsonKey()
   final int quantity;
-  @JsonKey(defaultValue: false)
   @override
+  @JsonKey()
   final bool evolveOnRedeem;
-  @JsonKey(defaultValue: "")
   @override
+  @JsonKey()
   final String seatInfo;
   @override
   final DateTime? expireDate;
@@ -320,7 +282,7 @@ class _$_Ticket extends _Ticket {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Ticket &&
+            other is _$_Ticket &&
             const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.type, type) &&
             const DeepCollectionEquality().equals(other.eventName, eventName) &&
@@ -338,6 +300,7 @@ class _$_Ticket extends _Ticket {
                 .equals(other.expireDate, expireDate));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -355,8 +318,8 @@ class _$_Ticket extends _Ticket {
 
   @JsonKey(ignore: true)
   @override
-  _$TicketCopyWith<_Ticket> get copyWith =>
-      __$TicketCopyWithImpl<_Ticket>(this, _$identity);
+  _$$_TicketCopyWith<_$_Ticket> get copyWith =>
+      __$$_TicketCopyWithImpl<_$_Ticket>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -366,46 +329,47 @@ class _$_Ticket extends _Ticket {
 
 abstract class _Ticket extends Ticket {
   const factory _Ticket(
-      {String id,
-      TicketType type,
-      String eventName,
-      DateTime? eventDate,
-      String eventAddress,
-      String description,
-      String eventCode,
-      int quantity,
-      bool evolveOnRedeem,
-      String seatInfo,
-      DateTime? expireDate}) = _$_Ticket;
+      {final String id,
+      final TicketType type,
+      final String eventName,
+      final DateTime? eventDate,
+      final String eventAddress,
+      final String description,
+      final String eventCode,
+      final int quantity,
+      final bool evolveOnRedeem,
+      final String seatInfo,
+      final DateTime? expireDate}) = _$_Ticket;
   const _Ticket._() : super._();
 
   factory _Ticket.fromJson(Map<String, dynamic> json) = _$_Ticket.fromJson;
 
   @override
-  String get id;
+  String get id => throw _privateConstructorUsedError;
   @override
-  TicketType get type;
+  TicketType get type => throw _privateConstructorUsedError;
   @override
-  String get eventName;
+  String get eventName => throw _privateConstructorUsedError;
   @override
-  DateTime? get eventDate;
+  DateTime? get eventDate => throw _privateConstructorUsedError;
   @override
-  String get eventAddress;
+  String get eventAddress => throw _privateConstructorUsedError;
   @override
-  String get description;
+  String get description => throw _privateConstructorUsedError;
   @override
 
   /// NEW STUFF vvvv
-  String get eventCode;
+  String get eventCode => throw _privateConstructorUsedError;
   @override
-  int get quantity;
+  int get quantity => throw _privateConstructorUsedError;
   @override
-  bool get evolveOnRedeem;
+  bool get evolveOnRedeem => throw _privateConstructorUsedError;
   @override
-  String get seatInfo;
+  String get seatInfo => throw _privateConstructorUsedError;
   @override
-  DateTime? get expireDate;
+  DateTime? get expireDate => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$TicketCopyWith<_Ticket> get copyWith => throw _privateConstructorUsedError;
+  _$$_TicketCopyWith<_$_Ticket> get copyWith =>
+      throw _privateConstructorUsedError;
 }

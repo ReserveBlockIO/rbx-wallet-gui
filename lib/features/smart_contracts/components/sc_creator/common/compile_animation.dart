@@ -1,7 +1,6 @@
 import 'package:animate_icons/animate_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:gif_view/gif_view.dart';
-import 'package:particles_flutter/particles_flutter.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
 
@@ -69,7 +68,7 @@ class _CompileAnimationState extends State<CompileAnimation>
                     ),
                   ),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Text(
                   widget.mint ? "Minting…" : "Compiling & Minting…",
                   textAlign: TextAlign.center,
@@ -98,7 +97,6 @@ class CompileAnimationComplete extends StatefulWidget {
 
 class _CompileAnimationCompleteState extends State<CompileAnimationComplete>
     with TickerProviderStateMixin {
-  late AnimationController _animationController;
   bool isAnimating = false;
 
   late AnimateIconController controller;
@@ -116,7 +114,7 @@ class _CompileAnimationCompleteState extends State<CompileAnimationComplete>
     // });
 
     controller = AnimateIconController();
-    Future.delayed(Duration(milliseconds: 100)).then((value) {
+    Future.delayed(const Duration(milliseconds: 100)).then((value) {
       controller.animateToEnd();
     });
   }
@@ -150,7 +148,7 @@ class _CompileAnimationCompleteState extends State<CompileAnimationComplete>
                   onEndIconPress: () {
                     return false;
                   },
-                  duration: Duration(milliseconds: 500),
+                  duration: const Duration(milliseconds: 500),
                   startIconColor: Colors.transparent,
                   endIconColor: Theme.of(context).colorScheme.success,
                   clockwise: false,

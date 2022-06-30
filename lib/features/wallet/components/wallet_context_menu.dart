@@ -18,7 +18,7 @@ class WalletContextMenu extends BaseComponent {
       itemBuilder: (context) {
         return [
           PopupMenuItem(
-            child: Text("Rename"),
+            child: const Text("Rename"),
             onTap: () {
               PromptModal.show(
                 title: "Rename ${wallet.label}",
@@ -33,7 +33,7 @@ class WalletContextMenu extends BaseComponent {
           ),
           PopupMenuItem(
             textStyle: TextStyle(color: Theme.of(context).colorScheme.danger),
-            child: Text("Delete"),
+            child: const Text("Delete"),
             onTap: () {},
           ),
         ];

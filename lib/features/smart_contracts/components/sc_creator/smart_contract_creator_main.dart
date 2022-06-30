@@ -9,15 +9,12 @@ import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
-import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/form_groups/basic_properties_form_group.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/form_groups/features_form_group.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/form_groups/primary_asset_form_group.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/modals/code_modal.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/draft_smart_contracts_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/my_smart_contracts_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 class SmartContractCreatorMain extends BaseComponent {
@@ -40,7 +37,7 @@ class SmartContractCreatorMain extends BaseComponent {
     ref.read(nftDetailProvider(id).notifier).init();
     ref.read(createSmartContractProvider.notifier).clearSmartContract();
 
-    Future.delayed(Duration(milliseconds: 300)).then((_) {
+    Future.delayed(const Duration(milliseconds: 300)).then((_) {
       AutoRouter.of(context).pop(id);
     });
 
@@ -67,14 +64,14 @@ class SmartContractCreatorMain extends BaseComponent {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                BasicPropertiesFormGroup(),
+                const BasicPropertiesFormGroup(),
                 Row(
-                  children: [
+                  children: const [
                     Expanded(child: PrimaryAssetFormGroup()),
                     // Expanded(child: ThumbnailAssetFormGroup()),
                   ],
                 ),
-                FeaturesFormGroup(),
+                const FeaturesFormGroup(),
                 // Row(
                 //   children: [
                 //     Expanded(child: RaritiesFormGroup()),
@@ -87,7 +84,7 @@ class SmartContractCreatorMain extends BaseComponent {
         ),
         Container(
           width: double.infinity,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.black87,
           ),
           child: Padding(
@@ -172,7 +169,7 @@ class SmartContractCreatorMain extends BaseComponent {
                                     .mint();
 
                                 if (success) {
-                                  await Future.delayed(Duration(seconds: 3));
+                                  await Future.delayed(const Duration(seconds: 3));
                                   Navigator.pop(dialogContext);
                                   final completeAnimation =
                                       Completer<BuildContext>();
@@ -180,7 +177,7 @@ class SmartContractCreatorMain extends BaseComponent {
                                       context, completeAnimation);
                                   final completedDialogContext =
                                       await completeAnimation.future;
-                                  await Future.delayed(Duration(seconds: 3));
+                                  await Future.delayed(const Duration(seconds: 3));
                                   Navigator.pop(completedDialogContext);
                                   Toast.message(
                                       "Smart Contract minted successfully.");

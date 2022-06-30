@@ -1,28 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/block/block.dart';
 import 'package:rbx_wallet/features/block/block_transaction_list_bottom_sheet.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/utils/formatting.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class LatestBlock extends BaseComponent {
-  const LatestBlock({Key? key}) : super(key: key);
+  final Block? blockOverride;
+  final Color? backgroundColor;
+  const LatestBlock({
+    Key? key,
+    this.blockOverride,
+    this.backgroundColor,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final latestBlock = ref.watch(walletInfoProvider)?.lastestBlock;
+    final latestBlock =
+        blockOverride ?? ref.watch(walletInfoProvider)?.lastestBlock;
 
     if (latestBlock == null) {
-      return SizedBox();
+      return const SizedBox();
     }
     return Container(
       decoration: BoxDecoration(
-        color: Color(0xFF050505),
-        boxShadow: [
+        color: backgroundColor ?? const Color(0xFF050505),
+        boxShadow: const [
           BoxShadow(
             color: Colors.white10,
             spreadRadius: 3,
@@ -56,7 +61,7 @@ class LatestBlock extends BaseComponent {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             _DetailItem(
@@ -159,7 +164,7 @@ class _DetailItem extends StatelessWidget {
               .caption!
               .copyWith(decoration: TextDecoration.underline),
         ),
-        SizedBox(
+        const SizedBox(
           height: 2,
         ),
         Text(
@@ -169,7 +174,7 @@ class _DetailItem extends StatelessWidget {
               .caption!
               .copyWith(fontSize: 10, color: Colors.white38),
         ),
-        SizedBox(
+        const SizedBox(
           height: 8,
         ),
       ],

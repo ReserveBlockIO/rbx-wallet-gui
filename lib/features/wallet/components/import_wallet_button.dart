@@ -6,7 +6,7 @@ class ImportWalletButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenuItem(
-      child: Text("Import Wallet"),
+      child: const Text("Import Wallet"),
       onTap: () {
         showModalBottomSheet(
           context: context,

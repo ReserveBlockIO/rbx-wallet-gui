@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';

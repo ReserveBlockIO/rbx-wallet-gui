@@ -41,7 +41,6 @@ class AppButton extends StatelessWidget {
               : Theme.of(context).colorScheme.primaryButtonBg,
           onPrimary: Theme.of(context).colorScheme.primaryButtonFg,
           textStyle: TextStyle(
-            //TODO: this is a temp hack. make better :)
             fontSize: size == AppSizeVariant.Lg ? 17 : null,
             fontWeight: size == AppSizeVariant.Lg ? FontWeight.w500 : null,
           ),
@@ -285,20 +284,20 @@ class AppButton extends StatelessWidget {
               case AppButtonType.Elevated:
                 return ElevatedButton(
                   onPressed: processing || disabled ? () {} : onPressed,
-                  child: _child(context),
                   style: _styleElevated(context),
+                  child: _child(context),
                 );
               case AppButtonType.Outlined:
                 return OutlinedButton(
                   onPressed: processing || disabled ? () {} : onPressed,
-                  child: _child(context),
                   style: _styleOutlined(context),
+                  child: _child(context),
                 );
               case AppButtonType.Text:
                 return TextButton(
                   onPressed: processing || disabled ? () {} : onPressed,
-                  child: _child(context),
                   style: _styleText(context),
+                  child: _child(context),
                 );
             }
           },

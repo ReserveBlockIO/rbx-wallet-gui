@@ -11,8 +11,10 @@ enum _Environment {
   WinTestNet,
   Release,
   BlockExplorer,
+  Web,
+  WebDev,
 }
-const _env = _Environment.Release;
+const _env = _Environment.BlockExplorer;
 
 class Env {
   static init() async {
@@ -39,6 +41,12 @@ class Env {
       case _Environment.Release:
         envPath = Assets.env.releaseEnv;
         break;
+      case _Environment.Web:
+        envPath = Assets.env.webEnv;
+        break;
+      case _Environment.WebDev:
+        envPath = Assets.env.webDevEnv;
+        break;
     }
 
     await DotEnv.dotenv.load(fileName: envPath);
@@ -54,6 +62,16 @@ class Env {
 
   static String get apiBaseUrl {
     return DotEnv.dotenv.env['API_BASE_URL'] ?? 'https://domain.com/api';
+  }
+
+  static String get explorerApiBaseUrl {
+    return DotEnv.dotenv.env['EXPLORER_API_BASE_URL'] ??
+        'https://rbx-explorer-service.herokuapp.com/api';
+  }
+
+  static String get transactionApiBaseUrl {
+    return DotEnv.dotenv.env['TRANSACTION_API_BASE_URL'] ??
+        'http://localhost:7292/txapi/txV1';
   }
 
   static bool get launchCli {
@@ -83,5 +101,9 @@ class Env {
 
   static bool get hideCliOutput {
     return DotEnv.dotenv.env['HIDE_CLI_OUTPUT'] == "true";
+  }
+
+  static bool get isWeb {
+    return DotEnv.dotenv.env['IS_WEB'] == "true";
   }
 }

@@ -36,7 +36,7 @@ class LearnMoreContent extends BaseComponent {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 12,
           ),
           Wrap(
@@ -46,7 +46,7 @@ class LearnMoreContent extends BaseComponent {
             children: steps.asMap().entries.map((entry) {
               final step = entry.value;
               return ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 400, minHeight: 370),
+                constraints: const BoxConstraints(maxWidth: 400, minHeight: 370),
                 child: Container(
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.white30, width: 2),
@@ -133,7 +133,7 @@ class LearnMoreContent extends BaseComponent {
                             Text(
                               step.description,
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 18, height: 1.3),
+                              style: const TextStyle(fontSize: 18, height: 1.3),
                             ),
                           ],
                         ),
@@ -163,7 +163,7 @@ class LearnMoreContent extends BaseComponent {
               );
             }).toList(),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Row(
@@ -185,7 +185,7 @@ class LearnMoreContent extends BaseComponent {
                   style: ElevatedButton.styleFrom(
                     primary: Colors.white,
                     onPrimary: Colors.black,
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                     ),
@@ -197,9 +197,9 @@ class LearnMoreContent extends BaseComponent {
                     onCreate();
 
                     AutoRouter.of(context)
-                        .push(SmartContractCreatorContainerScreenRoute());
+                        .push(const SmartContractCreatorContainerScreenRoute());
                   },
-                  child: Text("Create"),
+                  child: const Text("Create"),
                 ),
               ),
             ],

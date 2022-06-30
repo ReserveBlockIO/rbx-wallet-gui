@@ -19,13 +19,13 @@ class InvalidWallet extends StatelessWidget {
             style: Theme.of(context).textTheme.headline4,
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 24),
-          Divider(),
+          const SizedBox(height: 24),
+          const Divider(),
           Text(
             "Change Wallet:",
             style: Theme.of(context).textTheme.caption,
           ),
-          SizedBox(
+          const SizedBox(
             width: 350,
             child: WalletSelector(
               truncatedLabel: false,

@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/providers/burned_provider.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
@@ -29,7 +28,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     if (state == null) return;
 
     if (!state!.isPublished) {
-      await Future.delayed(Duration(seconds: 10));
+      await Future.delayed(const Duration(seconds: 10));
       final updated = await NftService().retrieve(id);
       if (updated != null && updated.isPublished) {
         state = updated;
@@ -42,7 +41,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
 
   Future<void> pollForEvolutionUpdate(int stage) async {
     if (state == null) return;
-    await Future.delayed(Duration(seconds: 10));
+    await Future.delayed(const Duration(seconds: 10));
 
     final updated = await NftService().retrieve(id);
     if (updated != null && updated.currentEvolvePhaseIndex + 1 == stage) {
@@ -55,7 +54,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
 
   Future<void> pollForGeneralUpdate() async {
     if (state == null) return;
-    await Future.delayed(Duration(seconds: 30));
+    await Future.delayed(const Duration(seconds: 30));
 
     final updated = await NftService().retrieve(id);
     if (updated != null) {

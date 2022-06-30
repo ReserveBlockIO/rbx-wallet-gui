@@ -3,6 +3,8 @@
 ///  FlutterGen
 /// *****************************************************
 
+// coverage:ignore-file
+// ignore_for_file: type=lint
 // ignore_for_file: directives_ordering,unnecessary_import
 
 import 'package:flutter/widgets.dart';
@@ -30,6 +32,12 @@ class $AssetsEnvGen {
 
   /// File path: assets/env/release_testnet
   String get releaseTestnet => 'assets/env/release_testnet';
+
+  /// File path: assets/env/web_dev_env
+  String get webDevEnv => 'assets/env/web_dev_env';
+
+  /// File path: assets/env/web_env
+  String get webEnv => 'assets/env/web_env';
 
   /// File path: assets/env/win_testnet_env
   String get winTestnetEnv => 'assets/env/win_testnet_env';
@@ -170,27 +178,39 @@ class $AssetsImagesGen {
       const AssetGenImage('assets/images/wordmark.png');
 }
 
+class $AssetsJsGen {
+  const $AssetsJsGen();
+
+  /// File path: assets/js/keygen.js
+  String get keygen => 'assets/js/keygen.js';
+}
+
 class Assets {
   Assets._();
 
   static const $AssetsEnvGen env = $AssetsEnvGen();
   static const $AssetsFontsGen fonts = $AssetsFontsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsJsGen js = $AssetsJsGen();
 }
 
-class AssetGenImage extends AssetImage {
-  const AssetGenImage(String assetName) : super(assetName);
+class AssetGenImage {
+  const AssetGenImage(this._assetName);
+
+  final String _assetName;
 
   Image image({
     Key? key,
+    AssetBundle? bundle,
     ImageFrameBuilder? frameBuilder,
-    ImageLoadingBuilder? loadingBuilder,
     ImageErrorWidgetBuilder? errorBuilder,
     String? semanticLabel,
     bool excludeFromSemantics = false,
+    double? scale,
     double? width,
     double? height,
     Color? color,
+    Animation<double>? opacity,
     BlendMode? colorBlendMode,
     BoxFit? fit,
     AlignmentGeometry alignment = Alignment.center,
@@ -199,19 +219,24 @@ class AssetGenImage extends AssetImage {
     bool matchTextDirection = false,
     bool gaplessPlayback = false,
     bool isAntiAlias = false,
+    String? package,
     FilterQuality filterQuality = FilterQuality.low,
+    int? cacheWidth,
+    int? cacheHeight,
   }) {
-    return Image(
+    return Image.asset(
+      _assetName,
       key: key,
-      image: this,
+      bundle: bundle,
       frameBuilder: frameBuilder,
-      loadingBuilder: loadingBuilder,
       errorBuilder: errorBuilder,
       semanticLabel: semanticLabel,
       excludeFromSemantics: excludeFromSemantics,
+      scale: scale,
       width: width,
       height: height,
       color: color,
+      opacity: opacity,
       colorBlendMode: colorBlendMode,
       fit: fit,
       alignment: alignment,
@@ -220,9 +245,14 @@ class AssetGenImage extends AssetImage {
       matchTextDirection: matchTextDirection,
       gaplessPlayback: gaplessPlayback,
       isAntiAlias: isAntiAlias,
+      package: package,
       filterQuality: filterQuality,
+      cacheWidth: cacheWidth,
+      cacheHeight: cacheHeight,
     );
   }
 
-  String get path => assetName;
+  String get path => _assetName;
+
+  String get keyName => _assetName;
 }

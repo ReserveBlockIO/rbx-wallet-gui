@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rbx_wallet/app.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/utils/toast.dart';
+import 'package:rbx_wallet/utils/validation.dart';
 
 class InfoDialog {
   static show({
@@ -39,7 +41,7 @@ class InfoDialog {
           ),
           content: body != null
               ? ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: 400),
+                  constraints: const BoxConstraints(maxWidth: 400),
                   child: Text(body),
                 )
               : content,
@@ -132,17 +134,20 @@ class PromptModal {
     required String title,
     required String? Function(String?) validator,
     required String labelText,
+    BuildContext? contextOverride,
     bool obscureText = false,
     String? cancelText,
     String? confirmText,
     String initialValue = "",
     bool destructive = false,
     bool allowCancel = true,
+    int? lines,
+    bool tightPadding = false,
     Function(String)? onValidSubmission,
     List<TextInputFormatter> inputFormatters = const [],
   }) async {
     // final context = rootNavigatorKey.currentContext!;
-    final context = rootScaffoldKey.currentContext!;
+    final context = contextOverride ?? rootScaffoldKey.currentContext!;
 
     final GlobalKey<FormState> _formKey = GlobalKey();
 
@@ -155,6 +160,15 @@ class PromptModal {
       builder: (context) {
         return AlertDialog(
           title: Text(title),
+          titlePadding: tightPadding
+              ? const EdgeInsets.all(12.0)
+              : const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 20),
+          contentPadding: tightPadding
+              ? const EdgeInsets.all(12.0)
+              : const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0),
+          insetPadding: tightPadding
+              ? const EdgeInsets.all(8.0)
+              : const EdgeInsets.symmetric(horizontal: 40.0, vertical: 24.0),
           content: Form(
             key: _formKey,
             child: Column(
@@ -164,6 +178,8 @@ class PromptModal {
                   controller: _controller,
                   obscureText: obscureText,
                   autofocus: true,
+                  minLines: lines,
+                  maxLines: lines,
                   decoration: InputDecoration(
                     label: Text(labelText),
                   ),
@@ -211,6 +227,125 @@ class PromptModal {
                 }
               },
               child: Text(confirmText ?? "Submit",
+                  style: TextStyle(color: Theme.of(context).colorScheme.info)),
+            )
+          ],
+        );
+      },
+    );
+  }
+}
+
+class AuthModalResponse {
+  final String email;
+  final String password;
+
+  const AuthModalResponse(this.email, this.password);
+}
+
+class AuthModal {
+  static Future<void> show({
+    bool forCreate = true,
+    required BuildContext context,
+    required Function(AuthModalResponse) onValidSubmission,
+  }) async {
+    // final context = rootNavigatorKey.currentContext!;
+
+    final GlobalKey<FormState> _formKey = GlobalKey();
+
+    final TextEditingController _emailController =
+        TextEditingController(text: '');
+
+    final TextEditingController _passwordController =
+        TextEditingController(text: '');
+
+    final TextEditingController _confirmPasswordController =
+        TextEditingController(text: '');
+
+    return await showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(forCreate ? "Create Wallet" : "Login"),
+          titlePadding: const EdgeInsets.all(12.0),
+          contentPadding: const EdgeInsets.all(12.0),
+          insetPadding: const EdgeInsets.all(8.0),
+          content: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  controller: _emailController,
+                  autofocus: true,
+                  decoration: const InputDecoration(
+                    label: Text("Email Address"),
+                  ),
+                  validator: formValidatorEmail,
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                TextFormField(
+                  controller: _passwordController,
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                    label: Text("Password"),
+                  ),
+                  validator: formValidatorPassword,
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                if (forCreate)
+                  TextFormField(
+                    controller: _confirmPasswordController,
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      label: Text("Confirm Password"),
+                    ),
+                    validator: formValidatorPassword,
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.info,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                "Cancel",
+                style: TextStyle(color: Theme.of(context).colorScheme.info),
+              ),
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                primary: Theme.of(context).colorScheme.info,
+                textStyle: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              onPressed: () {
+                if (!_formKey.currentState!.validate()) return;
+
+                if (forCreate &&
+                    _passwordController.text !=
+                        _confirmPasswordController.text) {
+                  Toast.error("Passwords do not match");
+                  return;
+                }
+
+                onValidSubmission(
+                  AuthModalResponse(
+                      _emailController.text, _passwordController.text),
+                );
+
+                Navigator.of(context).pop();
+              },
+              child: Text(forCreate ? "Create" : "Login",
                   style: TextStyle(color: Theme.of(context).colorScheme.info)),
             )
           ],

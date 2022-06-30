@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/features/asset/asset_card.dart';
 
@@ -32,7 +31,7 @@ class AssetThumbnail extends StatelessWidget {
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
-                          child: Text(
+                          child: const Text(
                             "Close",
                             style: TextStyle(color: Colors.white),
                           ),
@@ -56,7 +55,7 @@ class AssetThumbnail extends StatelessWidget {
                 width: double.infinity,
                 fit: BoxFit.cover,
               )
-            : Icon(Icons.file_present_outlined),
+            : const Icon(Icons.file_present_outlined),
       ),
     );
   }

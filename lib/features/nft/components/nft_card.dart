@@ -2,16 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/badges.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/providers/burned_provider.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
 import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
 import 'package:rbx_wallet/features/nft/modals/nft_management_modal.dart';
-import 'package:rbx_wallet/features/nft/services/nft_service.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
-import 'package:rbx_wallet/utils/toast.dart';
 
 class NftCard extends BaseComponent {
   final Nft nft;
@@ -101,7 +98,7 @@ class NftCard extends BaseComponent {
                       fit: BoxFit.cover,
                     ),
                   )
-                : Icon(Icons.file_present_outlined),
+                : const Icon(Icons.file_present_outlined),
             Container(
               color: Colors.black38,
             ),
@@ -115,7 +112,7 @@ class NftCard extends BaseComponent {
                     nft.currentEvolveName,
                     style: Theme.of(context).textTheme.displaySmall!.copyWith(
                       shadows: [
-                        Shadow(
+                        const Shadow(
                           color: Colors.black87,
                           offset: Offset.zero,
                           blurRadius: 4.0,
@@ -130,7 +127,7 @@ class NftCard extends BaseComponent {
                       nft.id,
                       style: Theme.of(context).textTheme.bodyText1!.copyWith(
                         shadows: [
-                          Shadow(
+                          const Shadow(
                             color: Colors.black87,
                             offset: Offset.zero,
                             blurRadius: 4.0,
@@ -174,7 +171,7 @@ class NftCard extends BaseComponent {
                           ? AppColorVariant.Success
                           : AppColorVariant.Warning,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 4,
                     ),
                     AppBadge(
@@ -190,7 +187,7 @@ class NftCard extends BaseComponent {
             if (isBurned)
               Container(
                 color: Colors.black54,
-                child: Center(
+                child: const Center(
                     child: Text(
                   "Burned",
                   style: TextStyle(

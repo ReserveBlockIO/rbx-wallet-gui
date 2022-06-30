@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'genesis_block.dart';
@@ -11,44 +12,11 @@ part of 'genesis_block.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 GenesisBlock _$GenesisBlockFromJson(Map<String, dynamic> json) {
   return _GenesisBlock.fromJson(json);
 }
-
-/// @nodoc
-class _$GenesisBlockTearOff {
-  const _$GenesisBlockTearOff();
-
-  _GenesisBlock call(
-      {@JsonKey(name: 'Height') required int height,
-      @JsonKey(name: 'ChainRefId') required String chainRefId,
-      @JsonKey(name: 'Timestamp') required int timestamp,
-      @JsonKey(name: 'Hash') required String hash,
-      @JsonKey(name: 'TotalAmount') required double totalAmount,
-      @JsonKey(name: 'TotalReward') required double totalReward,
-      @JsonKey(name: 'Size') required double size,
-      @JsonKey(name: 'BCraftTime') required int bCraftTime}) {
-    return _GenesisBlock(
-      height: height,
-      chainRefId: chainRefId,
-      timestamp: timestamp,
-      hash: hash,
-      totalAmount: totalAmount,
-      totalReward: totalReward,
-      size: size,
-      bCraftTime: bCraftTime,
-    );
-  }
-
-  GenesisBlock fromJson(Map<String, Object?> json) {
-    return GenesisBlock.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $GenesisBlock = _$GenesisBlockTearOff();
 
 /// @nodoc
 mixin _$GenesisBlock {
@@ -148,11 +116,11 @@ class _$GenesisBlockCopyWithImpl<$Res> implements $GenesisBlockCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$GenesisBlockCopyWith<$Res>
+abstract class _$$_GenesisBlockCopyWith<$Res>
     implements $GenesisBlockCopyWith<$Res> {
-  factory _$GenesisBlockCopyWith(
-          _GenesisBlock value, $Res Function(_GenesisBlock) then) =
-      __$GenesisBlockCopyWithImpl<$Res>;
+  factory _$$_GenesisBlockCopyWith(
+          _$_GenesisBlock value, $Res Function(_$_GenesisBlock) then) =
+      __$$_GenesisBlockCopyWithImpl<$Res>;
   @override
   $Res call(
       {@JsonKey(name: 'Height') int height,
@@ -166,14 +134,15 @@ abstract class _$GenesisBlockCopyWith<$Res>
 }
 
 /// @nodoc
-class __$GenesisBlockCopyWithImpl<$Res> extends _$GenesisBlockCopyWithImpl<$Res>
-    implements _$GenesisBlockCopyWith<$Res> {
-  __$GenesisBlockCopyWithImpl(
-      _GenesisBlock _value, $Res Function(_GenesisBlock) _then)
-      : super(_value, (v) => _then(v as _GenesisBlock));
+class __$$_GenesisBlockCopyWithImpl<$Res>
+    extends _$GenesisBlockCopyWithImpl<$Res>
+    implements _$$_GenesisBlockCopyWith<$Res> {
+  __$$_GenesisBlockCopyWithImpl(
+      _$_GenesisBlock _value, $Res Function(_$_GenesisBlock) _then)
+      : super(_value, (v) => _then(v as _$_GenesisBlock));
 
   @override
-  _GenesisBlock get _value => super._value as _GenesisBlock;
+  _$_GenesisBlock get _value => super._value as _$_GenesisBlock;
 
   @override
   $Res call({
@@ -186,7 +155,7 @@ class __$GenesisBlockCopyWithImpl<$Res> extends _$GenesisBlockCopyWithImpl<$Res>
     Object? size = freezed,
     Object? bCraftTime = freezed,
   }) {
-    return _then(_GenesisBlock(
+    return _then(_$_GenesisBlock(
       height: height == freezed
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
@@ -274,7 +243,7 @@ class _$_GenesisBlock extends _GenesisBlock {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _GenesisBlock &&
+            other is _$_GenesisBlock &&
             const DeepCollectionEquality().equals(other.height, height) &&
             const DeepCollectionEquality()
                 .equals(other.chainRefId, chainRefId) &&
@@ -289,6 +258,7 @@ class _$_GenesisBlock extends _GenesisBlock {
                 .equals(other.bCraftTime, bCraftTime));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -303,8 +273,8 @@ class _$_GenesisBlock extends _GenesisBlock {
 
   @JsonKey(ignore: true)
   @override
-  _$GenesisBlockCopyWith<_GenesisBlock> get copyWith =>
-      __$GenesisBlockCopyWithImpl<_GenesisBlock>(this, _$identity);
+  _$$_GenesisBlockCopyWith<_$_GenesisBlock> get copyWith =>
+      __$$_GenesisBlockCopyWithImpl<_$_GenesisBlock>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -314,14 +284,15 @@ class _$_GenesisBlock extends _GenesisBlock {
 
 abstract class _GenesisBlock extends GenesisBlock {
   factory _GenesisBlock(
-      {@JsonKey(name: 'Height') required int height,
-      @JsonKey(name: 'ChainRefId') required String chainRefId,
-      @JsonKey(name: 'Timestamp') required int timestamp,
-      @JsonKey(name: 'Hash') required String hash,
-      @JsonKey(name: 'TotalAmount') required double totalAmount,
-      @JsonKey(name: 'TotalReward') required double totalReward,
-      @JsonKey(name: 'Size') required double size,
-      @JsonKey(name: 'BCraftTime') required int bCraftTime}) = _$_GenesisBlock;
+          {@JsonKey(name: 'Height') required final int height,
+          @JsonKey(name: 'ChainRefId') required final String chainRefId,
+          @JsonKey(name: 'Timestamp') required final int timestamp,
+          @JsonKey(name: 'Hash') required final String hash,
+          @JsonKey(name: 'TotalAmount') required final double totalAmount,
+          @JsonKey(name: 'TotalReward') required final double totalReward,
+          @JsonKey(name: 'Size') required final double size,
+          @JsonKey(name: 'BCraftTime') required final int bCraftTime}) =
+      _$_GenesisBlock;
   _GenesisBlock._() : super._();
 
   factory _GenesisBlock.fromJson(Map<String, dynamic> json) =
@@ -329,30 +300,30 @@ abstract class _GenesisBlock extends GenesisBlock {
 
   @override
   @JsonKey(name: 'Height')
-  int get height;
+  int get height => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'ChainRefId')
-  String get chainRefId;
+  String get chainRefId => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'Timestamp')
-  int get timestamp;
+  int get timestamp => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'Hash')
-  String get hash;
+  String get hash => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'TotalAmount')
-  double get totalAmount;
+  double get totalAmount => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'TotalReward')
-  double get totalReward;
+  double get totalReward => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'Size')
-  double get size;
+  double get size => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'BCraftTime')
-  int get bCraftTime;
+  int get bCraftTime => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$GenesisBlockCopyWith<_GenesisBlock> get copyWith =>
+  _$$_GenesisBlockCopyWith<_$_GenesisBlock> get copyWith =>
       throw _privateConstructorUsedError;
 }

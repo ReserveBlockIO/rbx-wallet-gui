@@ -12,10 +12,10 @@ class TransactionsScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: Text("Your Transactions"),
+      title: const Text("Your Transactions"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      actions: [WalletSelector()],
+      actions: const [WalletSelector()],
     );
   }
 
@@ -29,7 +29,7 @@ class TransactionsScreen extends BaseScreen {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text("Filter by Active Wallet"),
+              const Text("Filter by Active Wallet"),
               Switch(
                 value: filtering,
                 inactiveThumbColor: Theme.of(context).colorScheme.primary,
@@ -50,7 +50,7 @@ class TransactionsScreen extends BaseScreen {
               style: Theme.of(context).textTheme.caption,
             ),
           ),
-        Expanded(child: TransactionList()),
+        const Expanded(child: TransactionList()),
       ],
     );
   }

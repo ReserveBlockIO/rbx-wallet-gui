@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'node.dart';
@@ -11,40 +12,11 @@ part of 'node.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 Node _$NodeFromJson(Map<String, dynamic> json) {
   return _Node.fromJson(json);
 }
-
-/// @nodoc
-class _$NodeTearOff {
-  const _$NodeTearOff();
-
-  _Node call(
-      {@JsonKey(name: 'Address') required String address,
-      @JsonKey(name: 'UniqueName') required String uniqueName,
-      @JsonKey(name: 'ConnectionId') required String connectionId,
-      @JsonKey(name: 'IpAddress') required String ipAddress,
-      @JsonKey(name: 'WalletVersion') required String? walletVersion,
-      @JsonKey(name: 'ConnectDate') required DateTime connectDate}) {
-    return _Node(
-      address: address,
-      uniqueName: uniqueName,
-      connectionId: connectionId,
-      ipAddress: ipAddress,
-      walletVersion: walletVersion,
-      connectDate: connectDate,
-    );
-  }
-
-  Node fromJson(Map<String, Object?> json) {
-    return Node.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $Node = _$NodeTearOff();
 
 /// @nodoc
 mixin _$Node {
@@ -126,9 +98,9 @@ class _$NodeCopyWithImpl<$Res> implements $NodeCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$NodeCopyWith<$Res> implements $NodeCopyWith<$Res> {
-  factory _$NodeCopyWith(_Node value, $Res Function(_Node) then) =
-      __$NodeCopyWithImpl<$Res>;
+abstract class _$$_NodeCopyWith<$Res> implements $NodeCopyWith<$Res> {
+  factory _$$_NodeCopyWith(_$_Node value, $Res Function(_$_Node) then) =
+      __$$_NodeCopyWithImpl<$Res>;
   @override
   $Res call(
       {@JsonKey(name: 'Address') String address,
@@ -140,13 +112,13 @@ abstract class _$NodeCopyWith<$Res> implements $NodeCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$NodeCopyWithImpl<$Res> extends _$NodeCopyWithImpl<$Res>
-    implements _$NodeCopyWith<$Res> {
-  __$NodeCopyWithImpl(_Node _value, $Res Function(_Node) _then)
-      : super(_value, (v) => _then(v as _Node));
+class __$$_NodeCopyWithImpl<$Res> extends _$NodeCopyWithImpl<$Res>
+    implements _$$_NodeCopyWith<$Res> {
+  __$$_NodeCopyWithImpl(_$_Node _value, $Res Function(_$_Node) _then)
+      : super(_value, (v) => _then(v as _$_Node));
 
   @override
-  _Node get _value => super._value as _Node;
+  _$_Node get _value => super._value as _$_Node;
 
   @override
   $Res call({
@@ -157,7 +129,7 @@ class __$NodeCopyWithImpl<$Res> extends _$NodeCopyWithImpl<$Res>
     Object? walletVersion = freezed,
     Object? connectDate = freezed,
   }) {
-    return _then(_Node(
+    return _then(_$_Node(
       address: address == freezed
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -228,7 +200,7 @@ class _$_Node extends _Node {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Node &&
+            other is _$_Node &&
             const DeepCollectionEquality().equals(other.address, address) &&
             const DeepCollectionEquality()
                 .equals(other.uniqueName, uniqueName) &&
@@ -241,6 +213,7 @@ class _$_Node extends _Node {
                 .equals(other.connectDate, connectDate));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -253,8 +226,8 @@ class _$_Node extends _Node {
 
   @JsonKey(ignore: true)
   @override
-  _$NodeCopyWith<_Node> get copyWith =>
-      __$NodeCopyWithImpl<_Node>(this, _$identity);
+  _$$_NodeCopyWith<_$_Node> get copyWith =>
+      __$$_NodeCopyWithImpl<_$_Node>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -264,35 +237,36 @@ class _$_Node extends _Node {
 
 abstract class _Node extends Node {
   factory _Node(
-      {@JsonKey(name: 'Address') required String address,
-      @JsonKey(name: 'UniqueName') required String uniqueName,
-      @JsonKey(name: 'ConnectionId') required String connectionId,
-      @JsonKey(name: 'IpAddress') required String ipAddress,
-      @JsonKey(name: 'WalletVersion') required String? walletVersion,
-      @JsonKey(name: 'ConnectDate') required DateTime connectDate}) = _$_Node;
+          {@JsonKey(name: 'Address') required final String address,
+          @JsonKey(name: 'UniqueName') required final String uniqueName,
+          @JsonKey(name: 'ConnectionId') required final String connectionId,
+          @JsonKey(name: 'IpAddress') required final String ipAddress,
+          @JsonKey(name: 'WalletVersion') required final String? walletVersion,
+          @JsonKey(name: 'ConnectDate') required final DateTime connectDate}) =
+      _$_Node;
   _Node._() : super._();
 
   factory _Node.fromJson(Map<String, dynamic> json) = _$_Node.fromJson;
 
   @override
   @JsonKey(name: 'Address')
-  String get address;
+  String get address => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'UniqueName')
-  String get uniqueName;
+  String get uniqueName => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'ConnectionId')
-  String get connectionId;
+  String get connectionId => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'IpAddress')
-  String get ipAddress;
+  String get ipAddress => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'WalletVersion')
-  String? get walletVersion;
+  String? get walletVersion => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'ConnectDate')
-  DateTime get connectDate;
+  DateTime get connectDate => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$NodeCopyWith<_Node> get copyWith => throw _privateConstructorUsedError;
+  _$$_NodeCopyWith<_$_Node> get copyWith => throw _privateConstructorUsedError;
 }

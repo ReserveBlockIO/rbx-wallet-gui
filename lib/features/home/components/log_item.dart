@@ -38,7 +38,7 @@ class LogItem extends StatelessWidget {
                       );
                       Toast.message("${entry.textToCopy} copied to clipboard");
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.copy,
                       size: 12,
                     ),

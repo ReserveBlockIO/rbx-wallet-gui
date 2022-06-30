@@ -14,7 +14,7 @@ class NftListScreen extends BaseScreen {
     final isGrid = ref.watch(nftListViewProvider);
 
     return AppBar(
-      title: Text("NFTs"),
+      title: const Text("NFTs"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
       actions: [
@@ -54,7 +54,7 @@ class NftListScreen extends BaseScreen {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            TabBar(
+            const TabBar(
               tabs: [
                 Tab(
                   child: Text("My NFTs"),
@@ -67,8 +67,8 @@ class NftListScreen extends BaseScreen {
             Expanded(
               child: TabBarView(
                 children: [
-                  isGrid ? NftGrid() : NftList(),
-                  isGrid ? NftGrid(minted: true) : NftList(minted: true),
+                  isGrid ? const NftGrid() : const NftList(),
+                  isGrid ? const NftGrid(minted: true) : const NftList(minted: true),
                 ],
               ),
             ),

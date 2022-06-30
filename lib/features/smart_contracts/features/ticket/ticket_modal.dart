@@ -3,8 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/dropdowns.dart';
-import 'package:rbx_wallet/features/asset/asset.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/file_selector.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_header.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_bottom_actions.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
@@ -28,7 +26,7 @@ class TicketModal extends BaseComponent {
         initialDate: DateTime.now(),
         firstDate: DateTime.now(),
         lastDate: DateTime.now().add(
-          Duration(days: 365 * 100),
+          const Duration(days: 365 * 100),
         ),
       );
 
@@ -41,7 +39,7 @@ class TicketModal extends BaseComponent {
       final t = await showTimePicker(
         context: context,
         initialEntryMode: TimePickerEntryMode.input,
-        initialTime: TimeOfDay(hour: 0, minute: 0),
+        initialTime: const TimeOfDay(hour: 0, minute: 0),
       );
 
       if (t != null) {
@@ -53,7 +51,7 @@ class TicketModal extends BaseComponent {
       key: _formKey,
       child: ModalContainer(
         children: [
-          FormGroupHeader("Ticket"),
+          const FormGroupHeader("Ticket"),
           Row(
             children: [
               AppDropdown<TicketType>(
@@ -72,18 +70,18 @@ class TicketModal extends BaseComponent {
                     )
                     .toList(),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Expanded(
                 child: TextFormField(
                   controller: _provider.eventNameController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     label: Text("Event Name"),
                     labelStyle: TextStyle(color: Colors.white),
                   ),
                   // validator: _provider.addressValidator,
                 ),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Expanded(
                 child: TextFormField(
                   controller: _provider.eventAddressController,
@@ -91,19 +89,19 @@ class TicketModal extends BaseComponent {
                     label: Text(_model.type == TicketType.physicalEvent
                         ? "Event Address"
                         : "Event URL"),
-                    labelStyle: TextStyle(color: Colors.white),
+                    labelStyle: const TextStyle(color: Colors.white),
                   ),
                   // validator: _provider.addressValidator,
                 ),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               SizedBox(
                 width: 200,
                 child: TextFormField(
                   controller: _provider.quantityController,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   validator: (value) => formValidatorNotEmpty(value, "Quanity"),
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     label: Text(
                       "Quantity to Mint",
                       style: TextStyle(
@@ -125,14 +123,14 @@ class TicketModal extends BaseComponent {
                     _showDatePicker();
                   },
                   decoration: InputDecoration(
-                    label: Text(
+                    label: const Text(
                       "Event Date",
                       style: TextStyle(
                         color: Colors.white,
                       ),
                     ),
                     suffixIcon: IconButton(
-                      icon: Icon(Icons.calendar_month),
+                      icon: const Icon(Icons.calendar_month),
                       onPressed: () {
                         _showDatePicker();
                       },
@@ -140,7 +138,7 @@ class TicketModal extends BaseComponent {
                   ),
                 ),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Expanded(
                 child: TextFormField(
                   controller: _provider.eventTimeController,
@@ -148,14 +146,14 @@ class TicketModal extends BaseComponent {
                     _showTimePicker();
                   },
                   decoration: InputDecoration(
-                    label: Text(
+                    label: const Text(
                       "Event Time",
                       style: TextStyle(
                         color: Colors.white,
                       ),
                     ),
                     suffixIcon: IconButton(
-                      icon: Icon(Icons.watch),
+                      icon: const Icon(Icons.watch),
                       onPressed: () {
                         _showTimePicker();
                       },
@@ -170,7 +168,7 @@ class TicketModal extends BaseComponent {
               //     onChange: (Asset? asset) {},
               //   ),
               // ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               SizedBox(
                 width: 200,
                 child: Row(
@@ -181,7 +179,7 @@ class TicketModal extends BaseComponent {
                         _provider.setEvolveOnRedeem(val);
                       },
                     ),
-                    Text("Evolve on Redeem?"),
+                    const Text("Evolve on Redeem?"),
                   ],
                 ),
               )
@@ -192,14 +190,14 @@ class TicketModal extends BaseComponent {
               Expanded(
                 child: TextFormField(
                   controller: _provider.eventCodeController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     label: Text("Event Code"),
                     labelStyle: TextStyle(color: Colors.white),
                   ),
                   // validator: _provider.addressValidator,
                 ),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Expanded(
                 child: TextFormField(
                   controller: _provider.eventExpireDateController,
@@ -207,14 +205,14 @@ class TicketModal extends BaseComponent {
                     _showDatePicker(forExpire: true);
                   },
                   decoration: InputDecoration(
-                    label: Text(
+                    label: const Text(
                       "Expire Date",
                       style: TextStyle(
                         color: Colors.white,
                       ),
                     ),
                     suffixIcon: IconButton(
-                      icon: Icon(Icons.calendar_month),
+                      icon: const Icon(Icons.calendar_month),
                       onPressed: () {
                         _showDatePicker(forExpire: true);
                       },
@@ -222,7 +220,7 @@ class TicketModal extends BaseComponent {
                   ),
                 ),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Expanded(
                 child: TextFormField(
                   controller: _provider.eventExpireTimeController,
@@ -230,14 +228,14 @@ class TicketModal extends BaseComponent {
                     _showTimePicker(forExpire: true);
                   },
                   decoration: InputDecoration(
-                    label: Text(
+                    label: const Text(
                       "Expire Time",
                       style: TextStyle(
                         color: Colors.white,
                       ),
                     ),
                     suffixIcon: IconButton(
-                      icon: Icon(Icons.watch),
+                      icon: const Icon(Icons.watch),
                       onPressed: () {
                         _showTimePicker(forExpire: true);
                       },
@@ -252,7 +250,7 @@ class TicketModal extends BaseComponent {
               Expanded(
                 child: TextFormField(
                   controller: _provider.descriptionController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     label: Text("Event Description"),
                     labelStyle: TextStyle(color: Colors.white),
                   ),
@@ -261,11 +259,11 @@ class TicketModal extends BaseComponent {
                   // validator: _provider.addressValidator,
                 ),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Expanded(
                 child: TextFormField(
                   controller: _provider.seatInfoController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     label: Text("Seating Info"),
                     labelStyle: TextStyle(color: Colors.white),
                   ),
