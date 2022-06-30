@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -166,20 +168,24 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
     if (Env.isWeb) {
       print("WE SEND!");
 
+      final amountDouble = double.parse(amount);
       final txData = await RawTransaction.generate(
         keypair: read(webSessionProvider).keypair!,
-        amount: double.parse(amount),
+        amount: amountDouble,
         toAddress: address,
       );
+
       state = state.copyWith(isProcessing: false);
 
       if (txData != null) {
         final txFee = txData['Fee'];
 
+        print(jsonEncode(txData));
+
         final confirmed = await ConfirmDialog.show(
           title: "Valid Transaction",
           body:
-              "This transaction is valid and is ready to send. Are you sure you want to proceed?\n\nTo:$address\n\nAmount:$amount${txFee != null ? '\nTX Fee: $txFee RBX\nTotal:${amount + txFee} RBX' : ''}",
+              "This transaction is valid and is ready to send.\nAre you sure you want to proceed?\n\nTo:$address\n\nAmount:$amountDouble RBX${txFee != null ? '\nTX Fee: $txFee RBX\nTotal:${amountDouble + txFee} RBX' : ''}",
           confirmText: "Send",
           cancelText: "Cancel",
         );

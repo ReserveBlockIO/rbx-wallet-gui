@@ -75,6 +75,10 @@ class RawTransaction {
     final fullSignature = "$base64Signature.$base58PublicKey";
 
     final txService = TransactionService();
+
+    print("Hash: $hash");
+    print("Address: ${keypair.public}");
+    print("Signature: $fullSignature");
     final validateData = await txService.validateSignature(
       hash,
       keypair.public,

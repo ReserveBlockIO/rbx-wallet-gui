@@ -9,7 +9,7 @@ class TransactionService extends BaseService {
 
   Future<Map<String, dynamic>?> getTimestamp() async {
     try {
-      return await getJson('/GetTimestamp');
+      return await getJson('/timestamp');
     } catch (e) {
       print(e);
       return null;
@@ -18,7 +18,7 @@ class TransactionService extends BaseService {
 
   Future<Map<String, dynamic>?> getNonce(String address) async {
     try {
-      return await getJson('/GetAddressNonce/$address');
+      return await getJson('/nonce/$address');
     } catch (e) {
       print(e);
       return null;
@@ -30,7 +30,8 @@ class TransactionService extends BaseService {
   ) async {
     print(transactionData);
     try {
-      return await postJson('/GetRawTxFee', params: transactionData);
+      return await postJson('/tx/fee',
+          params: {'transaction': transactionData});
     } catch (e) {
       print(e);
       return null;
@@ -40,9 +41,11 @@ class TransactionService extends BaseService {
   Future<Map<String, dynamic>?> getHash(
     Map<String, dynamic> transactionData,
   ) async {
-    print(transactionData);
     try {
-      return await postJson('/GetTxHash', params: transactionData);
+      return await postJson(
+        '/tx/hash',
+        params: {'transaction': transactionData},
+      );
     } catch (e) {
       print(e);
       return null;
@@ -57,7 +60,7 @@ class TransactionService extends BaseService {
       print("Signature: $signature");
 
       return await getJson(
-        '/ValidateSignature/$message/$address/$signature',
+        '/validate-signature/$message/$address/$signature',
         cleanPath: false,
       );
     } catch (e) {
@@ -72,8 +75,8 @@ class TransactionService extends BaseService {
   }) async {
     try {
       return await postJson(
-        execute ? '/SendRawTransaction' : '/VerifyRawTransaction',
-        params: transactionData,
+        execute ? '/tx/send' : '/tx/verify',
+        params: {'transaction': transactionData},
       );
     } catch (e) {
       print(e);
