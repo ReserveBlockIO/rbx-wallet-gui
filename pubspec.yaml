@@ -49,8 +49,10 @@ dependencies:
   convert: ^3.0.2
   url_strategy: ^0.2.0
   dart_bip66: ^2.0.1
-  secp256k1:
-    path: /Users/tylersavery/Projects/open-source/dart-secp256k1
+  window_manager: ^0.2.5
+  secp256k1: ^0.3.0
+  # secp256k1:
+  #   path: /Users/tylersavery/Projects/open-source/dart-secp256k1
 
 dev_dependencies:
   auto_route_generator: ^4.2.0

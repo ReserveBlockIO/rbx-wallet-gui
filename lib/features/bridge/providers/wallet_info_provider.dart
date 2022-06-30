@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
+import 'package:rbx_wallet/core/providers/is_active_provider.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/block/block.dart';
@@ -31,15 +32,16 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
   final Reader read;
   Timer? timer;
   WalletInfoProvider(this.read, [WalletInfoModel? model]) : super(model) {
-    timer = Timer.periodic(
-      const Duration(seconds: REFRESH_TIMEOUT_SECONDS),
-      (Timer t) => fetch(),
-    );
+    // fetch();
+    // timer = Timer.periodic(
+    //   const Duration(seconds: REFRESH_TIMEOUT_SECONDS),
+    //   (Timer t) => fetch(),
+    // );
 
     // fetch();
   }
 
-  fetch() async {
+  fetch([bool shouldLoop = true]) async {
     Map<String, dynamic> data = {};
     try {
       data = await BridgeService().walletInfo();
@@ -103,19 +105,20 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
       );
     }
 
-    // if (prevLatestBlock != null &&
-    //     latestBlock != null &&
-    //     prevLatestBlock.hash != latestBlock.hash) {
-    //   read(logProvider.notifier).append(
-    //     LogEntry(
-    //       message: "New block with hash of ${latestBlock.hash}",
-    //       variant: AppColorVariant.Secondary,
-    //       textToCopy: latestBlock.hash,
-    //     ),
-    //   );
-    // }
-
     read(sessionProvider.notifier).load();
+
+    if (shouldLoop) {
+      final isActive = read(isActiveProvider).isActive;
+      await Future.delayed(
+        Duration(
+          seconds: isActive
+              ? REFRESH_TIMEOUT_SECONDS
+              : REFRESH_TIMEOUT_SECONDS_INACTIVE,
+        ),
+      );
+
+      fetch();
+    }
   }
 }
 

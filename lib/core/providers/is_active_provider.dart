@@ -1,0 +1,71 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
+import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
+
+class IsActiveModel {
+  final bool isActive;
+  final DateTime latestActivity;
+
+  const IsActiveModel({required this.isActive, required this.latestActivity});
+
+  IsActiveModel copyWith({bool? isActive, DateTime? latestActivity}) {
+    return IsActiveModel(
+      isActive: isActive ?? this.isActive,
+      latestActivity: latestActivity ?? this.latestActivity,
+    );
+  }
+}
+
+class IsActiveProvider extends StateNotifier<IsActiveModel> {
+  final Reader read;
+  IsActiveProvider(this.read, IsActiveModel model) : super(model);
+
+  init() {
+    checkForRecentActivity();
+  }
+
+  Future<void> checkForRecentActivity() async {
+    await Future.delayed(const Duration(seconds: 10));
+
+    if (state.isActive) {
+      final now = DateTime.now();
+      if (now.difference(state.latestActivity) > const Duration(seconds: 5)) {
+        deactivate();
+      }
+    }
+
+    checkForRecentActivity();
+  }
+
+  activate() {
+    if (!state.isActive) {
+      catchUpAfterDeactivation();
+    }
+    state = IsActiveModel(isActive: true, latestActivity: DateTime.now());
+  }
+
+  deactivate() {
+    state = IsActiveModel(isActive: false, latestActivity: DateTime.now());
+  }
+
+  Future<void> catchUpAfterDeactivation() async {
+    final loopCount =
+        (REFRESH_TIMEOUT_SECONDS_INACTIVE / REFRESH_TIMEOUT_SECONDS).round();
+
+    for (var i = 0; i < loopCount; i++) {
+      read(walletInfoProvider.notifier).fetch(false);
+      if (!state.isActive) {
+        return;
+      }
+      await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
+      catchUpAfterDeactivation();
+    }
+  }
+}
+
+final isActiveProvider = StateNotifierProvider<IsActiveProvider, IsActiveModel>(
+  (ref) {
+    final model = IsActiveModel(isActive: true, latestActivity: DateTime.now());
+    return IsActiveProvider(ref.read, model);
+  },
+);

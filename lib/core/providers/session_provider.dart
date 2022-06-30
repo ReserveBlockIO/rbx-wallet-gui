@@ -163,13 +163,13 @@ class SessionProvider extends StateNotifier<SessionModel> {
     });
   }
 
-  Future<void> mainLoop() async {
-    print('main loop...');
-    await load();
+  // Future<void> mainLoop() async {
+  //   print('main loop...');
+  //   await load();
 
-    await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
-    mainLoop();
-  }
+  //   await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
+  //   mainLoop();
+  // }
 
   Future<void> load() async {
     await _loadWallets();

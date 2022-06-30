@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
 import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
-import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
 
 enum BridgeStatus {
@@ -43,7 +42,7 @@ class StatusProvider extends StateNotifier<BridgeStatus> {
         read(logProvider.notifier)
             .append(LogEntry(message: "You are connected"));
 
-        read(walletInfoProvider.notifier).fetch();
+        // read(walletInfoProvider.notifier).fetch();
       }
     } else {
       print("Got unexpected status");
