@@ -28,7 +28,11 @@ class PurchaseModal extends BaseComponent {
     }
 
     return AlertDialog(
-      title: Text("Buy Now"),
+      backgroundColor: Color(0xFF040f26),
+      title: Text(
+        "Buy Now",
+        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+      ),
       content: Form(
         key: provider.formKey,
         child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [

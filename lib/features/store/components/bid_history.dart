@@ -16,7 +16,11 @@ class BidHistory extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AlertDialog(
-      title: Text("Bid History"),
+      backgroundColor: Color(0xFF040f26),
+      title: Text(
+        "Bid History",
+        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+      ),
       content: listing.bids.isEmpty
           ? Text("No bids yet.")
           : Column(

@@ -21,7 +21,6 @@ class WebTransactionDetailScreen extends BaseScreen {
           backgroundColor: Colors.black87,
           horizontalPadding: 0,
           verticalPadding: 0,
-          includeWebDrawer: true,
         );
 
   @override
@@ -30,6 +29,7 @@ class WebTransactionDetailScreen extends BaseScreen {
       title: const Text("Transaction Detail"),
       backgroundColor: Colors.black,
       shadowColor: Colors.transparent,
+      automaticallyImplyLeading: true,
     );
   }
 

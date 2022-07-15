@@ -31,7 +31,11 @@ class BidModal extends BaseComponent {
     }
 
     return AlertDialog(
-      title: Text("Bid"),
+      backgroundColor: Color(0xFF040f26),
+      title: Text(
+        "Bid",
+        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+      ),
       content: Form(
         key: provider.formKey,
         child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [

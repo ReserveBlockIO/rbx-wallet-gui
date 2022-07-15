@@ -63,19 +63,11 @@ class FeaturesFormGroup extends BaseComponent {
                   onPressed: _model.isCompiled
                       ? null
                       : () {
-                          final canAddRoyalty = _model.features
-                                  .firstWhereOrNull(
-                                      (f) => f.type == FeatureType.royalty) ==
-                              null;
+                          final canAddRoyalty = _model.features.firstWhereOrNull((f) => f.type == FeatureType.royalty) == null;
 
-                          final canAddEvolve = _model.features.firstWhereOrNull(
-                                  (f) => f.type == FeatureType.evolution) ==
-                              null;
+                          final canAddEvolve = _model.features.firstWhereOrNull((f) => f.type == FeatureType.evolution) == null;
 
-                          final canAddMultiAsset = _model.features
-                                  .firstWhereOrNull((f) =>
-                                      f.type == FeatureType.multiAsset) ==
-                              null;
+                          final canAddMultiAsset = _model.features.firstWhereOrNull((f) => f.type == FeatureType.multiAsset) == null;
 
                           showModalBottomSheet(
                             backgroundColor: Colors.transparent,
@@ -92,7 +84,7 @@ class FeaturesFormGroup extends BaseComponent {
                           );
                         },
                   icon: Icons.add,
-                  variant: AppColorVariant.Success,
+                  variant: AppColorVariant.Primary,
                 ),
               )
             ],
@@ -150,30 +142,22 @@ class _FeatureCard extends BaseComponent {
                       switch (feature.type) {
                         case FeatureType.royalty:
                           final royalty = Royalty.fromJson(feature.data);
-                          ref
-                              .read(royaltyFormProvider.notifier)
-                              .setRoyalty(royalty);
+                          ref.read(royaltyFormProvider.notifier).setRoyalty(royalty);
                           showEditModal(const RoyaltyModal());
                           break;
                         case FeatureType.evolution:
                           final evolve = Evolve.fromJson(feature.data);
-                          ref
-                              .read(evolveFormProvider.notifier)
-                              .setEvolve(evolve);
+                          ref.read(evolveFormProvider.notifier).setEvolve(evolve);
                           showEditModal(const EvolveModal());
                           break;
                         case FeatureType.ticket:
                           final ticket = Ticket.fromJson(feature.data);
-                          ref
-                              .read(ticketFormProvider.notifier)
-                              .setTicket(ticket);
+                          ref.read(ticketFormProvider.notifier).setTicket(ticket);
                           showEditModal(const TicketModal());
                           break;
                         case FeatureType.multiAsset:
                           final multiAsset = MultiAsset.fromJson(feature.data);
-                          ref
-                              .read(multiAssetFormProvider.notifier)
-                              .setMultiAsset(multiAsset);
+                          ref.read(multiAssetFormProvider.notifier).setMultiAsset(multiAsset);
                           showEditModal(const MultiAssetModal());
                           break;
                         default:
@@ -191,31 +175,22 @@ class _FeatureCard extends BaseComponent {
                   ? null
                   : () async {
                       final confirmed = await ConfirmDialog.show(
-                          title: "Delete?",
-                          body: "Are you sure you want to delete this?",
-                          confirmText: "Delete",
-                          destructive: true);
+                          title: "Delete?", body: "Are you sure you want to delete this?", confirmText: "Delete", destructive: true);
 
                       if (confirmed != true) return;
 
                       switch (feature.type) {
                         case FeatureType.royalty:
                           final royalty = Royalty.fromJson(feature.data);
-                          ref
-                              .read(createSmartContractProvider.notifier)
-                              .removeRoyalty(royalty);
+                          ref.read(createSmartContractProvider.notifier).removeRoyalty(royalty);
                           break;
                         case FeatureType.evolution:
                           final evolve = Evolve.fromJson(feature.data);
-                          ref
-                              .read(createSmartContractProvider.notifier)
-                              .removeEvolve(evolve);
+                          ref.read(createSmartContractProvider.notifier).removeEvolve(evolve);
                           break;
                         case FeatureType.multiAsset:
                           final multiAsset = MultiAsset.fromJson(feature.data);
-                          ref
-                              .read(createSmartContractProvider.notifier)
-                              .removeMultiAsset(multiAsset);
+                          ref.read(createSmartContractProvider.notifier).removeMultiAsset(multiAsset);
                           break;
                         default:
                           print("Not implemented");

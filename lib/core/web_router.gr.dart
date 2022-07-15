@@ -11,34 +11,38 @@
 // ignore_for_file: type=lint
 
 import 'package:auto_route/auto_route.dart' as _i1;
-import 'package:flutter/material.dart' as _i17;
+import 'package:flutter/material.dart' as _i19;
 import 'package:rbx_wallet/features/auth/screens/web_auth_screen.dart' as _i4;
 import 'package:rbx_wallet/features/dsts/screens/create_store_screen.dart'
-    as _i14;
-import 'package:rbx_wallet/features/dsts/screens/web_dst_screen.dart' as _i13;
+    as _i16;
+import 'package:rbx_wallet/features/dsts/screens/web_dst_screen.dart' as _i15;
 import 'package:rbx_wallet/features/home/screens/web_home_screen.dart' as _i5;
 import 'package:rbx_wallet/features/nft/screens/web_nft_detail_screen.dart'
-    as _i11;
+    as _i12;
 import 'package:rbx_wallet/features/nft/screens/web_nft_list_screen.dart'
-    as _i10;
+    as _i11;
 import 'package:rbx_wallet/features/receive/screens/web_receive_screen.dart'
-    as _i7;
+    as _i8;
 import 'package:rbx_wallet/features/root/web_dashboard_container.dart' as _i3;
+import 'package:rbx_wallet/features/send/screens/web_prefilled_send_screen.dart'
+    as _i7;
 import 'package:rbx_wallet/features/send/screens/web_send_screen.dart' as _i6;
 import 'package:rbx_wallet/features/smart_contracts/screens/web_create_smart_contract_screen.dart'
-    as _i12;
+    as _i14;
+import 'package:rbx_wallet/features/smart_contracts/screens/web_smart_contract_landing_screen.dart'
+    as _i13;
 import 'package:rbx_wallet/features/store/screens/create_listing_screen.dart'
-    as _i16;
+    as _i18;
 import 'package:rbx_wallet/features/store/screens/store_listing_screen.dart'
     as _i2;
-import 'package:rbx_wallet/features/store/screens/store_screen.dart' as _i15;
+import 'package:rbx_wallet/features/store/screens/store_screen.dart' as _i17;
 import 'package:rbx_wallet/features/transactions/screens/web_transaction_detail_screen.dart'
-    as _i9;
+    as _i10;
 import 'package:rbx_wallet/features/transactions/screens/web_transactions_screen.dart'
-    as _i8;
+    as _i9;
 
 class WebRouter extends _i1.RootStackRouter {
-  WebRouter([_i17.GlobalKey<_i17.NavigatorState>? navigatorKey])
+  WebRouter([_i19.GlobalKey<_i19.NavigatorState>? navigatorKey])
       : super(navigatorKey);
 
   @override
@@ -103,13 +107,24 @@ class WebRouter extends _i1.RootStackRouter {
       return _i1.AdaptivePage<dynamic>(
           routeData: routeData, child: const _i6.WebSendScreen());
     },
+    WebPrefilledSendScreenRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<WebPrefilledSendScreenRouteArgs>(
+          orElse: () => WebPrefilledSendScreenRouteArgs(
+              toAddress: pathParams.getString('toAddress'),
+              amount: pathParams.getDouble('amount')));
+      return _i1.AdaptivePage<dynamic>(
+          routeData: routeData,
+          child: _i7.WebPrefilledSendScreen(
+              key: args.key, toAddress: args.toAddress, amount: args.amount));
+    },
     WebReceiveScreenRoute.name: (routeData) {
       return _i1.AdaptivePage<dynamic>(
-          routeData: routeData, child: const _i7.WebReceiveScreen());
+          routeData: routeData, child: const _i8.WebReceiveScreen());
     },
     WebTransactionScreenRoute.name: (routeData) {
       return _i1.AdaptivePage<dynamic>(
-          routeData: routeData, child: const _i8.WebTransactionScreen());
+          routeData: routeData, child: const _i9.WebTransactionScreen());
     },
     WebTransactionDetailScreenRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
@@ -119,11 +134,11 @@ class WebRouter extends _i1.RootStackRouter {
       return _i1.AdaptivePage<dynamic>(
           routeData: routeData,
           child:
-              _i9.WebTransactionDetailScreen(key: args.key, hash: args.hash));
+              _i10.WebTransactionDetailScreen(key: args.key, hash: args.hash));
     },
     WebNftListScreenRoute.name: (routeData) {
       return _i1.AdaptivePage<dynamic>(
-          routeData: routeData, child: const _i10.WebNftListScreen());
+          routeData: routeData, child: const _i11.WebNftListScreen());
     },
     WebNftDetailScreenRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
@@ -132,17 +147,22 @@ class WebRouter extends _i1.RootStackRouter {
               identifier: pathParams.getString('identifier')));
       return _i1.AdaptivePage<dynamic>(
           routeData: routeData,
-          child: _i11.WebNftDetailScreen(
+          child: _i12.WebNftDetailScreen(
               key: args.key, identifier: args.identifier));
+    },
+    WebSmartContractLandingScreenRoute.name: (routeData) {
+      return _i1.AdaptivePage<dynamic>(
+          routeData: routeData,
+          child: const _i13.WebSmartContractLandingScreen());
     },
     WebCreateSmartContractScreenRoute.name: (routeData) {
       return _i1.AdaptivePage<dynamic>(
           routeData: routeData,
-          child: const _i12.WebCreateSmartContractScreen());
+          child: const _i14.WebCreateSmartContractScreen());
     },
     WebDstScreenRoute.name: (routeData) {
       return _i1.AdaptivePage<dynamic>(
-          routeData: routeData, child: const _i13.WebDstScreen());
+          routeData: routeData, child: const _i15.WebDstScreen());
     },
     CreateStoreScreenRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
@@ -152,7 +172,7 @@ class WebRouter extends _i1.RootStackRouter {
       return _i1.AdaptivePage<dynamic>(
           routeData: routeData,
           child:
-              _i14.CreateStoreScreen(key: args.key, accountId: args.accountId));
+              _i16.CreateStoreScreen(key: args.key, accountId: args.accountId));
     },
     StoreScreenRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
@@ -161,7 +181,7 @@ class WebRouter extends _i1.RootStackRouter {
               StoreScreenRouteArgs(slug: pathParams.getString('slug')));
       return _i1.AdaptivePage<dynamic>(
           routeData: routeData,
-          child: _i15.StoreScreen(key: args.key, slug: args.slug));
+          child: _i17.StoreScreen(key: args.key, slug: args.slug));
     },
     CreateListingScreenRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
@@ -171,7 +191,7 @@ class WebRouter extends _i1.RootStackRouter {
       return _i1.AdaptivePage<dynamic>(
           routeData: routeData,
           child:
-              _i16.CreateListingScreen(key: args.key, storeId: args.storeId));
+              _i18.CreateListingScreen(key: args.key, storeId: args.storeId));
     }
   };
 
@@ -200,7 +220,10 @@ class WebRouter extends _i1.RootStackRouter {
                   parent: WebDashboardContainerRoute.name,
                   children: [
                     _i1.RouteConfig(WebSendScreenRoute.name,
-                        path: '', parent: WebSendTabRouter.name)
+                        path: '', parent: WebSendTabRouter.name),
+                    _i1.RouteConfig(WebPrefilledSendScreenRoute.name,
+                        path: ':toAddress/:amount',
+                        parent: WebSendTabRouter.name)
                   ]),
               _i1.RouteConfig(WebReceiveTabRouter.name,
                   path: 'receive',
@@ -233,8 +256,10 @@ class WebRouter extends _i1.RootStackRouter {
                   path: 'smart-contract',
                   parent: WebDashboardContainerRoute.name,
                   children: [
+                    _i1.RouteConfig(WebSmartContractLandingScreenRoute.name,
+                        path: '', parent: WebSmartContractTabRouter.name),
                     _i1.RouteConfig(WebCreateSmartContractScreenRoute.name,
-                        path: '', parent: WebSmartContractTabRouter.name)
+                        path: 'create', parent: WebSmartContractTabRouter.name)
                   ]),
               _i1.RouteConfig(WebDstTabRouter.name,
                   path: 'dst',
@@ -270,7 +295,7 @@ class WebAuthRouter extends _i1.PageRouteInfo<void> {
 /// [_i2.StoreListingScreen]
 class StoreListingScreenRoute
     extends _i1.PageRouteInfo<StoreListingScreenRouteArgs> {
-  StoreListingScreenRoute({_i17.Key? key, required String slug})
+  StoreListingScreenRoute({_i19.Key? key, required String slug})
       : super(StoreListingScreenRoute.name,
             path: 'store/auction/:slug',
             args: StoreListingScreenRouteArgs(key: key, slug: slug),
@@ -282,7 +307,7 @@ class StoreListingScreenRoute
 class StoreListingScreenRouteArgs {
   const StoreListingScreenRouteArgs({this.key, required this.slug});
 
-  final _i17.Key? key;
+  final _i19.Key? key;
 
   final String slug;
 
@@ -296,7 +321,7 @@ class StoreListingScreenRouteArgs {
 /// [_i3.WebDashboardContainer]
 class WebDashboardContainerRoute
     extends _i1.PageRouteInfo<WebDashboardContainerRouteArgs> {
-  WebDashboardContainerRoute({_i17.Key? key, List<_i1.PageRouteInfo>? children})
+  WebDashboardContainerRoute({_i19.Key? key, List<_i1.PageRouteInfo>? children})
       : super(WebDashboardContainerRoute.name,
             path: 'dashboard',
             args: WebDashboardContainerRouteArgs(key: key),
@@ -308,7 +333,7 @@ class WebDashboardContainerRoute
 class WebDashboardContainerRouteArgs {
   const WebDashboardContainerRouteArgs({this.key});
 
-  final _i17.Key? key;
+  final _i19.Key? key;
 
   @override
   String toString() {
@@ -407,7 +432,38 @@ class WebSendScreenRoute extends _i1.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i7.WebReceiveScreen]
+/// [_i7.WebPrefilledSendScreen]
+class WebPrefilledSendScreenRoute
+    extends _i1.PageRouteInfo<WebPrefilledSendScreenRouteArgs> {
+  WebPrefilledSendScreenRoute(
+      {_i19.Key? key, required String toAddress, required double amount})
+      : super(WebPrefilledSendScreenRoute.name,
+            path: ':toAddress/:amount',
+            args: WebPrefilledSendScreenRouteArgs(
+                key: key, toAddress: toAddress, amount: amount),
+            rawPathParams: {'toAddress': toAddress, 'amount': amount});
+
+  static const String name = 'WebPrefilledSendScreenRoute';
+}
+
+class WebPrefilledSendScreenRouteArgs {
+  const WebPrefilledSendScreenRouteArgs(
+      {this.key, required this.toAddress, required this.amount});
+
+  final _i19.Key? key;
+
+  final String toAddress;
+
+  final double amount;
+
+  @override
+  String toString() {
+    return 'WebPrefilledSendScreenRouteArgs{key: $key, toAddress: $toAddress, amount: $amount}';
+  }
+}
+
+/// generated route for
+/// [_i8.WebReceiveScreen]
 class WebReceiveScreenRoute extends _i1.PageRouteInfo<void> {
   const WebReceiveScreenRoute() : super(WebReceiveScreenRoute.name, path: '');
 
@@ -415,7 +471,7 @@ class WebReceiveScreenRoute extends _i1.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i8.WebTransactionScreen]
+/// [_i9.WebTransactionScreen]
 class WebTransactionScreenRoute extends _i1.PageRouteInfo<void> {
   const WebTransactionScreenRoute()
       : super(WebTransactionScreenRoute.name, path: '');
@@ -424,10 +480,10 @@ class WebTransactionScreenRoute extends _i1.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i9.WebTransactionDetailScreen]
+/// [_i10.WebTransactionDetailScreen]
 class WebTransactionDetailScreenRoute
     extends _i1.PageRouteInfo<WebTransactionDetailScreenRouteArgs> {
-  WebTransactionDetailScreenRoute({_i17.Key? key, required String hash})
+  WebTransactionDetailScreenRoute({_i19.Key? key, required String hash})
       : super(WebTransactionDetailScreenRoute.name,
             path: 'detail/:hash',
             args: WebTransactionDetailScreenRouteArgs(key: key, hash: hash),
@@ -439,7 +495,7 @@ class WebTransactionDetailScreenRoute
 class WebTransactionDetailScreenRouteArgs {
   const WebTransactionDetailScreenRouteArgs({this.key, required this.hash});
 
-  final _i17.Key? key;
+  final _i19.Key? key;
 
   final String hash;
 
@@ -450,7 +506,7 @@ class WebTransactionDetailScreenRouteArgs {
 }
 
 /// generated route for
-/// [_i10.WebNftListScreen]
+/// [_i11.WebNftListScreen]
 class WebNftListScreenRoute extends _i1.PageRouteInfo<void> {
   const WebNftListScreenRoute() : super(WebNftListScreenRoute.name, path: '');
 
@@ -458,10 +514,10 @@ class WebNftListScreenRoute extends _i1.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i11.WebNftDetailScreen]
+/// [_i12.WebNftDetailScreen]
 class WebNftDetailScreenRoute
     extends _i1.PageRouteInfo<WebNftDetailScreenRouteArgs> {
-  WebNftDetailScreenRoute({_i17.Key? key, required String identifier})
+  WebNftDetailScreenRoute({_i19.Key? key, required String identifier})
       : super(WebNftDetailScreenRoute.name,
             path: 'detail/:identifier',
             args: WebNftDetailScreenRouteArgs(key: key, identifier: identifier),
@@ -473,7 +529,7 @@ class WebNftDetailScreenRoute
 class WebNftDetailScreenRouteArgs {
   const WebNftDetailScreenRouteArgs({this.key, required this.identifier});
 
-  final _i17.Key? key;
+  final _i19.Key? key;
 
   final String identifier;
 
@@ -484,16 +540,25 @@ class WebNftDetailScreenRouteArgs {
 }
 
 /// generated route for
-/// [_i12.WebCreateSmartContractScreen]
+/// [_i13.WebSmartContractLandingScreen]
+class WebSmartContractLandingScreenRoute extends _i1.PageRouteInfo<void> {
+  const WebSmartContractLandingScreenRoute()
+      : super(WebSmartContractLandingScreenRoute.name, path: '');
+
+  static const String name = 'WebSmartContractLandingScreenRoute';
+}
+
+/// generated route for
+/// [_i14.WebCreateSmartContractScreen]
 class WebCreateSmartContractScreenRoute extends _i1.PageRouteInfo<void> {
   const WebCreateSmartContractScreenRoute()
-      : super(WebCreateSmartContractScreenRoute.name, path: '');
+      : super(WebCreateSmartContractScreenRoute.name, path: 'create');
 
   static const String name = 'WebCreateSmartContractScreenRoute';
 }
 
 /// generated route for
-/// [_i13.WebDstScreen]
+/// [_i15.WebDstScreen]
 class WebDstScreenRoute extends _i1.PageRouteInfo<void> {
   const WebDstScreenRoute() : super(WebDstScreenRoute.name, path: '');
 
@@ -501,10 +566,10 @@ class WebDstScreenRoute extends _i1.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i14.CreateStoreScreen]
+/// [_i16.CreateStoreScreen]
 class CreateStoreScreenRoute
     extends _i1.PageRouteInfo<CreateStoreScreenRouteArgs> {
-  CreateStoreScreenRoute({_i17.Key? key, required String accountId})
+  CreateStoreScreenRoute({_i19.Key? key, required String accountId})
       : super(CreateStoreScreenRoute.name,
             path: 'create/:accountId',
             args: CreateStoreScreenRouteArgs(key: key, accountId: accountId),
@@ -516,7 +581,7 @@ class CreateStoreScreenRoute
 class CreateStoreScreenRouteArgs {
   const CreateStoreScreenRouteArgs({this.key, required this.accountId});
 
-  final _i17.Key? key;
+  final _i19.Key? key;
 
   final String accountId;
 
@@ -527,9 +592,9 @@ class CreateStoreScreenRouteArgs {
 }
 
 /// generated route for
-/// [_i15.StoreScreen]
+/// [_i17.StoreScreen]
 class StoreScreenRoute extends _i1.PageRouteInfo<StoreScreenRouteArgs> {
-  StoreScreenRoute({_i17.Key? key, required String slug})
+  StoreScreenRoute({_i19.Key? key, required String slug})
       : super(StoreScreenRoute.name,
             path: 'store/:slug',
             args: StoreScreenRouteArgs(key: key, slug: slug),
@@ -541,7 +606,7 @@ class StoreScreenRoute extends _i1.PageRouteInfo<StoreScreenRouteArgs> {
 class StoreScreenRouteArgs {
   const StoreScreenRouteArgs({this.key, required this.slug});
 
-  final _i17.Key? key;
+  final _i19.Key? key;
 
   final String slug;
 
@@ -552,10 +617,10 @@ class StoreScreenRouteArgs {
 }
 
 /// generated route for
-/// [_i16.CreateListingScreen]
+/// [_i18.CreateListingScreen]
 class CreateListingScreenRoute
     extends _i1.PageRouteInfo<CreateListingScreenRouteArgs> {
-  CreateListingScreenRoute({_i17.Key? key, required int storeId})
+  CreateListingScreenRoute({_i19.Key? key, required int storeId})
       : super(CreateListingScreenRoute.name,
             path: 'store/:storeId/create-listing',
             args: CreateListingScreenRouteArgs(key: key, storeId: storeId),
@@ -567,7 +632,7 @@ class CreateListingScreenRoute
 class CreateListingScreenRouteArgs {
   const CreateListingScreenRouteArgs({this.key, required this.storeId});
 
-  final _i17.Key? key;
+  final _i19.Key? key;
 
   final int storeId;
 

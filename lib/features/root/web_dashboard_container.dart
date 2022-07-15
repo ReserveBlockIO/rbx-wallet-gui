@@ -90,6 +90,27 @@ class _ContentWrapper extends BaseComponent {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    return child;
+    return Column(mainAxisSize: MainAxisSize.min, children: [
+      if (Env.isTestNet)
+        Container(
+          width: double.infinity,
+          color: Colors.green.shade800,
+          child: Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Center(
+              child: Text(
+                "RBX TEST NET",
+                style: TextStyle(
+                  fontSize: 13,
+                  letterSpacing: 2,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ),
+      Expanded(child: child),
+    ]);
   }
 }

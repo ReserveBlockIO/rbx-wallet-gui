@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
+import 'package:rbx_wallet/core/breakpoints.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
 import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
@@ -54,7 +55,7 @@ class SmartContractsScreen extends BaseScreen {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // _BigButton(
+                // BigButton(
                 //   title: "Templated Smart Contract",
                 //   iconData: FontAwesomeIcons.magic,
                 //   body: "Start with a predefined smart contract template",
@@ -62,20 +63,16 @@ class SmartContractsScreen extends BaseScreen {
                 //     AutoRouter.of(context).push(TemplateChooserScreenRoute());
                 //   },
                 // ),
-                _BigButton(
+                BigButton(
                   title: "Create a Smart Contract & Mint",
                   iconData: Icons.create,
-                  body:
-                      "Start with a basline smart contract and add customized features",
+                  body: "Start with a basline smart contract and add customized features",
                   onPressed: () async {
-                    final id = await AutoRouter.of(context)
-                        .push(const SmartContractCreatorContainerScreenRoute());
+                    final id = await AutoRouter.of(context).push(const SmartContractCreatorContainerScreenRoute());
 
                     if (id != null) {
                       ref.read(nftDetailProvider("$id").notifier).init();
-                      ref
-                          .read(createSmartContractProvider.notifier)
-                          .clearSmartContract();
+                      ref.read(createSmartContractProvider.notifier).clearSmartContract();
 
                       Navigator.of(context).push(
                         MaterialPageRoute(
@@ -87,16 +84,15 @@ class SmartContractsScreen extends BaseScreen {
                     }
                   },
                 ),
-                _BigButton(
+                BigButton(
                   title: "Launch IDE",
                   iconData: Icons.code,
-                  body:
-                      "Open the online IDE to write your own Trillium code for your smart contract",
+                  body: "Open the online IDE to write your own Trillium code for your smart contract",
                   onPressed: () {
                     launchUrl(Uri.parse("https://trillium.rbx.network/"));
                   },
                 ),
-                // _BigButton(
+                // BigButton(
                 //   title: "My Smart Contracts",
                 //   iconData: Icons.folder,
                 //   body:
@@ -114,12 +110,12 @@ class SmartContractsScreen extends BaseScreen {
   }
 }
 
-class _BigButton extends StatelessWidget {
+class BigButton extends StatelessWidget {
   final String title;
   final String body;
   final IconData iconData;
   final Function() onPressed;
-  const _BigButton({
+  const BigButton({
     Key? key,
     required this.title,
     required this.body,
@@ -129,6 +125,8 @@ class _BigButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = BreakPoints.useMobileLayout(context);
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -137,9 +135,7 @@ class _BigButton extends StatelessWidget {
           // color: Theme.of(context).colorScheme.primary,
           color: Colors.black.withOpacity(0.6),
           borderRadius: BorderRadius.circular(10.0),
-          border: Border.all(
-              color: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
-              width: 3),
+          border: Border.all(color: Theme.of(context).colorScheme.secondary.withOpacity(0.2), width: 3),
           boxShadow: const [
             BoxShadow(blurRadius: 12.0, color: Colors.white12),
           ],
@@ -158,13 +154,19 @@ class _BigButton extends StatelessWidget {
                 children: [
                   Icon(
                     iconData,
-                    size: 48,
+                    size: isMobile ? 28 : 48,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       title,
-                      style: Theme.of(context).textTheme.headline3,
+                      style: isMobile
+                          ? Theme.of(context).textTheme.headline5!.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              )
+                          : Theme.of(context).textTheme.headline3,
+                      textAlign: TextAlign.center,
                     ),
                   ),
                   Padding(

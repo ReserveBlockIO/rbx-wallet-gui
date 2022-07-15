@@ -1,0 +1,47 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/base_screen.dart';
+import 'package:rbx_wallet/core/providers/web_session_provider.dart';
+import 'package:rbx_wallet/features/send/components/send_form.dart';
+import 'package:rbx_wallet/features/send/providers/send_form_provider.dart';
+import 'package:rbx_wallet/features/web/components/web_no_wallet.dart';
+
+class WebPrefilledSendScreen extends BaseScreen {
+  final String toAddress;
+  final double amount;
+
+  const WebPrefilledSendScreen({
+    Key? key,
+    @PathParam('toAddress') required this.toAddress,
+    @PathParam('amount') required this.amount,
+  }) : super(
+          key: key,
+          includeWebDrawer: true,
+          backgroundColor: Colors.black87,
+          horizontalPadding: 0,
+          verticalPadding: 0,
+        );
+
+  @override
+  AppBar? appBar(BuildContext context, WidgetRef ref) {
+    return AppBar(
+      title: const Text("Send RBX"),
+      shadowColor: Colors.transparent,
+      backgroundColor: Colors.black,
+    );
+  }
+
+  @override
+  Widget body(BuildContext context, WidgetRef ref) {
+    ref.read(sendFormProvider.notifier).addressController.text = toAddress;
+    ref.read(sendFormProvider.notifier).amountController.text = amount.toString();
+
+    final keypair = ref.watch(webSessionProvider).keypair;
+    if (keypair == null) {
+      return Center(child: const WebNotWallet());
+    }
+
+    return Center(child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: 720), child: SendForm(keypair: keypair)));
+  }
+}

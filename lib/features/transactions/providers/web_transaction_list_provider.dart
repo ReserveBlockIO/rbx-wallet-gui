@@ -44,7 +44,7 @@ class WebTransactionListProvider extends StateNotifier<List<WebTransaction>> {
     final toTransactions = await loadRecursive(address: address, to: true);
     final fromTransactions = await loadRecursive(address: address, to: false);
 
-    final transactions = [...toTransactions, ...fromTransactions]..sort((a, b) => a.timestamp > b.timestamp ? 1 : 0);
+    final transactions = [...toTransactions, ...fromTransactions]..sort((a, b) => a.timestamp > b.timestamp ? 0 : 1);
 
     state = transactions;
   }

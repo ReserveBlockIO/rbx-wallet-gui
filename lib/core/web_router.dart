@@ -7,8 +7,10 @@ import 'package:rbx_wallet/features/nft/screens/web_nft_detail_screen.dart';
 import 'package:rbx_wallet/features/nft/screens/web_nft_list_screen.dart';
 import 'package:rbx_wallet/features/receive/screens/web_receive_screen.dart';
 import 'package:rbx_wallet/features/root/web_dashboard_container.dart';
+import 'package:rbx_wallet/features/send/screens/web_prefilled_send_screen.dart';
 import 'package:rbx_wallet/features/send/screens/web_send_screen.dart';
 import 'package:rbx_wallet/features/smart_contracts/screens/web_create_smart_contract_screen.dart';
+import 'package:rbx_wallet/features/smart_contracts/screens/web_smart_contract_landing_screen.dart';
 import 'package:rbx_wallet/features/store/screens/create_listing_screen.dart';
 import 'package:rbx_wallet/features/store/screens/store_listing_screen.dart';
 import 'package:rbx_wallet/features/store/screens/store_container_screen.dart';
@@ -56,6 +58,7 @@ const webDashboardTabRouter = AutoRoute(
       page: EmptyRouterPage,
       children: [
         AutoRoute(path: "", page: WebSendScreen),
+        AutoRoute(path: ":toAddress/:amount", page: WebPrefilledSendScreen),
       ],
     ),
     AutoRoute(
@@ -89,7 +92,8 @@ const webDashboardTabRouter = AutoRoute(
       name: "WebSmartContractTabRouter",
       page: EmptyRouterPage,
       children: [
-        AutoRoute(path: "", page: WebCreateSmartContractScreen),
+        AutoRoute(path: "", page: WebSmartContractLandingScreen),
+        AutoRoute(path: "create", page: WebCreateSmartContractScreen),
       ],
     ),
     AutoRoute(

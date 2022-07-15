@@ -40,6 +40,7 @@ class WebTransactionScreen extends BaseScreen {
         itemCount: transactions.length,
         itemBuilder: (context, index) {
           final tx = transactions[index];
+          final date = tx.parseTimeStamp;
 
           final toMe = tx.toAddress == address;
           return ListTile(
@@ -52,10 +53,14 @@ class WebTransactionScreen extends BaseScreen {
               "${tx.amount} RBX",
               style: TextStyle(color: toMe ? Theme.of(context).colorScheme.success : Theme.of(context).colorScheme.danger),
             ),
-            subtitle: toMe ? Text("From: ${tx.fromAddress}") : Text("To: ${tx.toAddress}"),
+            subtitle: toMe
+                ? Text(
+                    "From: ${tx.fromAddress}\n$date",
+                    style: TextStyle(fontSize: 12),
+                  )
+                : Text("To: ${tx.toAddress}\n$date", style: TextStyle(fontSize: 12)),
             trailing: const Icon(Icons.chevron_right),
             onTap: () {
-              print(tx.hash);
               AutoRouter.of(context).push(WebTransactionDetailScreenRoute(hash: tx.hash));
             },
           );

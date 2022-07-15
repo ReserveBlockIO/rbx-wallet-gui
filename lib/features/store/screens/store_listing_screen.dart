@@ -1,9 +1,11 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/centered_loader.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
+import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/store/components/store_listing.dart';
 import 'package:rbx_wallet/features/store/providers/listing_detail_provider.dart';
 import 'package:rbx_wallet/features/web/components/web_wallet_details.dart';
@@ -49,11 +51,20 @@ class StoreListingScreen extends BaseScreen {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  Image.asset(
-                    Assets.images.rbxWallet.path,
-                    width: 120,
-                    height: 20,
-                    fit: BoxFit.contain,
+                  InkWell(
+                    onTap: () {
+                      if (ref.read(webSessionProvider).keypair != null) {
+                        AutoRouter.of(context).push(WebDashboardContainerRoute());
+                      } else {
+                        AutoRouter.of(context).push(WebAuthRouter());
+                      }
+                    },
+                    child: Image.asset(
+                      Assets.images.rbxWallet.path,
+                      width: 120,
+                      height: 20,
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ],
               ),
@@ -70,13 +81,33 @@ class StoreListingScreen extends BaseScreen {
         error: (_, __) => Center(child: Text("404 not found.")),
         data: (listing) => listing == null
             ? Center(child: Text("404 not found."))
-            : SingleChildScrollView(
-                child: Column(
-                  children: [
-                    if (ref.watch(webSessionProvider).keypair != null) WebWalletDetails(),
-                    StoreListing(listing),
-                  ],
-                ),
+            : Stack(
+                children: [
+                  Container(
+                    color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Opacity(
+                      opacity: 0.25,
+                      child: Image.asset(
+                        Assets.images.decorBottomRight.path,
+                        width: 200,
+                        height: 200,
+                        fit: BoxFit.cover,
+                        repeat: ImageRepeat.noRepeat,
+                      ),
+                    ),
+                  ),
+                  SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        if (ref.watch(webSessionProvider).keypair != null) WebWalletDetails(),
+                        StoreListing(listing),
+                      ],
+                    ),
+                  ),
+                ],
               ));
   }
 }

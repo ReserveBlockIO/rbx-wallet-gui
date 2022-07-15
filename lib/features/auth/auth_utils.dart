@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rbx_wallet/core/breakpoints.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
@@ -141,6 +142,8 @@ Future<void> showKeys(
   BuildContext context,
   Keypair keypair,
 ) async {
+  final isMobile = BreakPoints.useMobileLayout(context);
+
   await showDialog(
     context: context,
     barrierDismissible: false,
@@ -156,7 +159,7 @@ Future<void> showKeys(
             ),
             if (keypair.mneumonic != null)
               ListTile(
-                leading: const Icon(FontAwesomeIcons.paragraph),
+                leading: isMobile ? null : const Icon(FontAwesomeIcons.paragraph),
                 title: TextFormField(
                   initialValue: keypair.mneumonic!,
                   decoration: const InputDecoration(
@@ -176,7 +179,7 @@ Future<void> showKeys(
                 ),
               ),
             ListTile(
-              leading: const Icon(Icons.account_balance_wallet),
+              leading: isMobile ? null : const Icon(Icons.account_balance_wallet),
               title: TextFormField(
                 initialValue: keypair.public,
                 decoration: const InputDecoration(label: Text("Address")),
@@ -192,7 +195,7 @@ Future<void> showKeys(
               ),
             ),
             ListTile(
-              leading: const Icon(Icons.security),
+              leading: isMobile ? null : const Icon(Icons.security),
               title: TextFormField(
                 initialValue: keypair.private,
                 decoration: const InputDecoration(

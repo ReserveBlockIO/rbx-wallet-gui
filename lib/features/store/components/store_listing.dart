@@ -1,8 +1,10 @@
 import 'dart:html';
 
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/breakpoints.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
@@ -16,6 +18,7 @@ import 'package:rbx_wallet/features/store/components/bid_modal.dart';
 import 'package:rbx_wallet/features/store/components/purchase_modal.dart';
 import 'package:rbx_wallet/features/store/models/listing.dart';
 import 'package:rbx_wallet/features/web/components/web_wallet_details.dart';
+import 'package:rbx_wallet/generated/assets.gen.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 class StoreListing extends BaseComponent {
@@ -107,83 +110,112 @@ class StoreListing extends BaseComponent {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    return Container(
-      color: Colors.white10,
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            buildShareButtons(context),
-            SizedBox(
-              height: 8,
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          buildLogo(context),
+          buildShareButtons(context),
+          SizedBox(
+            height: 8,
+          ),
+          buildPreview(context),
+          buildPreviewDetails(),
+          buildDetails(context),
+          if (listing.isAuction)
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: buildAuction(context, ref),
             ),
-            buildPreview(context),
-            buildDetails(context),
-            if (listing.isAuction)
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: buildAuction(context, ref),
-              ),
-            if (listing.isBuyNow)
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: buildPurchase(context, ref),
-              ),
-          ],
-        ),
+          if (listing.isBuyNow)
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: buildPurchase(context, ref),
+            ),
+        ],
       ),
     );
   }
 
   @override
   Widget desktopBody(BuildContext context, WidgetRef ref) {
-    return Container(
-      color: Colors.white10,
-      child: Padding(
-        padding: const EdgeInsets.all(32.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 12.0),
-                  child: buildPreview(context),
+    return Padding(
+      padding: const EdgeInsets.all(32.0).copyWith(top: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          buildLogo(context),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 20.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [buildPreview(context), buildPreviewDetails()],
                 ),
-                ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: 600),
-                  child: Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        buildShareButtons(context),
-                        Divider(),
-                        buildDetails(context),
-                        Divider(),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            if (listing.isAuction)
-                              Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
-                                child: buildAuction(context, ref),
-                              ),
-                            if (listing.isBuyNow) buildPurchase(context, ref),
-                          ],
-                        )
-                      ],
-                    ),
+              ),
+              ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 600),
+                child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      buildShareButtons(context),
+                      SizedBox(height: 8),
+                      buildDetails(context),
+                      SizedBox(height: 8),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          if (listing.isAuction)
+                            Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: buildAuction(context, ref),
+                            ),
+                          if (listing.isBuyNow) buildPurchase(context, ref),
+                        ],
+                      )
+                    ],
                   ),
-                )
-              ],
-            )
-          ],
+                ),
+              )
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Column buildPreviewDetails() {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 300),
+          child: ListTile(
+            title: Text("Multi Asset"),
+            subtitle: Text("3 assets"),
+            leading: Icon(FontAwesomeIcons.rectangleList),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget buildLogo(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 12.0),
+        child: Image.asset(
+          Assets.images.nester.path,
+          width: 400,
+          fit: BoxFit.contain,
         ),
       ),
     );
@@ -219,12 +251,43 @@ class StoreListing extends BaseComponent {
   Widget buildPreview(BuildContext context) {
     final isMobile = BreakPoints.useMobileLayout(context);
 
-    return Image.network(
-      "https://placekitten.com/1000/700",
-      width: isMobile ? double.infinity : 320,
-      // height: 320,
-      fit: BoxFit.contain,
-      alignment: Alignment.topCenter,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          decoration: BoxDecoration(color: Theme.of(context).colorScheme.primary, boxShadow: [
+            BoxShadow(
+              offset: Offset.zero,
+              blurRadius: 5,
+              color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+              spreadRadius: 4,
+            )
+          ]),
+          child: Padding(
+            padding: const EdgeInsets.all(3.0),
+            child: Image.network(
+              "https://airnfts.s3.amazonaws.com/nft-images/20210829/Out_of_space_1630263137497.jpg",
+              width: isMobile ? double.infinity : 320,
+              // height: 320,
+              fit: BoxFit.contain,
+              alignment: Alignment.topCenter,
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        DotsIndicator(
+          dotsCount: 3,
+          position: 0,
+          decorator: DotsDecorator(
+            activeColor: Colors.white,
+            color: Colors.white54,
+            size: Size.fromRadius(3),
+            activeSize: Size.fromRadius(4),
+          ),
+        )
+      ],
     );
   }
 
@@ -249,7 +312,7 @@ class StoreListing extends BaseComponent {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 12),
-          child: Divider(),
+          child: SizedBox(height: 8),
         ),
         Text(
           "Name of NFT",
@@ -270,7 +333,7 @@ class StoreListing extends BaseComponent {
   Widget buildDetails(BuildContext context) {
     return Card(
       margin: EdgeInsets.zero,
-      color: Colors.white10,
+      color: Colors.white10.withOpacity(0.05),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SizedBox(
@@ -287,8 +350,8 @@ class StoreListing extends BaseComponent {
                 defaultColumnWidth: IntrinsicColumnWidth(),
                 children: [
                   buildDetailRow(context, "Minted by", "Joe Spicoli"),
-                  buildDetailRow(context, "Owner Address", "RVTdQHsdoNGoTXoYGJN8PoqPDvCKVLMCGv"),
-                  buildDetailRow(context, "Contract Address", "dQHsdoNGoTXoYGJN8PoqPDvCKVLMCGv422"),
+                  buildDetailRow(context, "Owner Address", "RVTdQHsdoNGoTXoYGJN8PoqPDvCKVLMCGv", true),
+                  buildDetailRow(context, "Contract Address", "dQHsdoNGoTXoYGJN8PoqPDvCKVLMCGv422", true),
                   buildDetailRow(context, "Chain", "RBX"),
                   if (listing.endsAt != null) buildDetailRow(context, "Sale Ends", listing.endTimeLabelPrecise),
                 ],
@@ -305,7 +368,7 @@ class StoreListing extends BaseComponent {
     return SizedBox(
       width: isMobile ? double.infinity : null,
       child: Card(
-        color: Colors.white10,
+        color: Colors.white10.withOpacity(0.05),
         margin: EdgeInsets.zero,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -349,7 +412,7 @@ class StoreListing extends BaseComponent {
     return SizedBox(
       width: isMobile ? double.infinity : null,
       child: Card(
-        color: Colors.white10,
+        color: Colors.white10.withOpacity(0.05),
         margin: EdgeInsets.zero,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -426,7 +489,7 @@ class StoreListing extends BaseComponent {
     );
   }
 
-  TableRow buildDetailRow(BuildContext context, String label, String value) {
+  TableRow buildDetailRow(BuildContext context, String label, String value, [bool copyValue = false]) {
     final isMobile = BreakPoints.useMobileLayout(context);
 
     if (isMobile) {
@@ -462,8 +525,22 @@ class StoreListing extends BaseComponent {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 6.0),
-          child: Text(value),
-        )
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(value),
+              SizedBox(width: 8),
+              if (copyValue)
+                InkWell(
+                    onTap: () async {
+                      await Clipboard.setData(ClipboardData(text: value));
+
+                      Toast.message("$label copied to clipboard");
+                    },
+                    child: Icon(Icons.copy, size: 12)),
+            ],
+          ),
+        ),
       ],
     );
   }

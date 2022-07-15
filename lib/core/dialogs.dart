@@ -131,6 +131,7 @@ class PromptModal {
     required String? Function(String?) validator,
     required String labelText,
     BuildContext? contextOverride,
+    String? body,
     bool obscureText = false,
     String? cancelText,
     String? confirmText,
@@ -163,6 +164,7 @@ class PromptModal {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                if (body != null) Text(body),
                 TextFormField(
                   controller: _controller,
                   obscureText: obscureText,
@@ -246,6 +248,21 @@ class AuthModal {
 
     final TextEditingController _confirmPasswordController = TextEditingController(text: '');
 
+    Future<void> submit(BuildContext context) async {
+      if (!_formKey.currentState!.validate()) return;
+
+      if (forCreate && _passwordController.text != _confirmPasswordController.text) {
+        Toast.error("Passwords do not match");
+        return;
+      }
+
+      onValidSubmission(
+        AuthModalResponse(_emailController.text, _passwordController.text),
+      );
+
+      Navigator.of(context).pop();
+    }
+
     return await showDialog(
       context: context,
       barrierDismissible: true,
@@ -254,7 +271,7 @@ class AuthModal {
           title: Text(forCreate ? "Create Wallet" : "Login",
               style: TextStyle(
                 color: Colors.white,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.bold,
               )),
           titlePadding: const EdgeInsets.all(12.0),
           contentPadding: const EdgeInsets.all(12.0),
@@ -270,7 +287,7 @@ class AuthModal {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     if (withExplanation)
-                      Text("A web wallet is required to continue.\nPlease create your account now with your email address and a password."),
+                      Text("A wallet is required to continue.\nPlease create your account now with your email address and a password."),
                     Text(
                       "Your email and password is used to seed your private key which is processed in this browser and will never be transmitted accross the internet.",
                       style: TextStyle(
@@ -295,6 +312,11 @@ class AuthModal {
                       ),
                       validator: formValidatorPassword,
                       keyboardType: TextInputType.emailAddress,
+                      onFieldSubmitted: (_) {
+                        if (!forCreate) {
+                          submit(context);
+                        }
+                      },
                     ),
                     if (forCreate)
                       TextFormField(
@@ -305,6 +327,9 @@ class AuthModal {
                         ),
                         validator: formValidatorPassword,
                         keyboardType: TextInputType.emailAddress,
+                        onFieldSubmitted: (_) {
+                          submit(context);
+                        },
                       ),
                   ],
                 ),
@@ -333,18 +358,7 @@ class AuthModal {
                 textStyle: const TextStyle(fontWeight: FontWeight.bold),
               ),
               onPressed: () {
-                if (!_formKey.currentState!.validate()) return;
-
-                if (forCreate && _passwordController.text != _confirmPasswordController.text) {
-                  Toast.error("Passwords do not match");
-                  return;
-                }
-
-                onValidSubmission(
-                  AuthModalResponse(_emailController.text, _passwordController.text),
-                );
-
-                Navigator.of(context).pop();
+                submit(context);
               },
               child: Text(forCreate ? "Create" : "Login", style: TextStyle(color: Theme.of(context).colorScheme.info)),
             )

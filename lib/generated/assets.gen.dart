@@ -93,6 +93,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/icon.png
   AssetGenImage get icon => const AssetGenImage('assets/images/icon.png');
 
+  /// File path: assets/images/nester.png
+  AssetGenImage get nester => const AssetGenImage('assets/images/nester.png');
+
   /// File path: assets/images/nodelines.png
   AssetGenImage get nodelines =>
       const AssetGenImage('assets/images/nodelines.png');

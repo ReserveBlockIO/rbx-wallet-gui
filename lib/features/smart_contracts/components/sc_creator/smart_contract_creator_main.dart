@@ -153,7 +153,7 @@ class SmartContractCreatorMain extends BaseComponent {
         Container(
           width: double.infinity,
           decoration: const BoxDecoration(
-            color: Colors.black87,
+            color: Color(0xFF040f26),
           ),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -191,7 +191,7 @@ class SmartContractCreatorMain extends BaseComponent {
         Container(
           width: double.infinity,
           decoration: const BoxDecoration(
-            color: Colors.black87,
+            color: Color(0xFF040f26),
           ),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -228,6 +228,7 @@ class SmartContractCreatorMain extends BaseComponent {
     return AppButton(
       label: "Compile & Mint",
       helpType: HelpType.compile,
+      variant: AppColorVariant.Success,
       disabled: ref.watch(sessionProvider).isMintingOrCompiling,
       onPressed: _model.isPublished
           ? null

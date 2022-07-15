@@ -59,6 +59,7 @@ class ExplorerService extends BaseService {
         to ? 'to_address' : 'from_address': address,
         'page': page,
         'limit': limit,
+        'ordering': '-timestamp',
       };
 
       final response = await getJson('/transactions', params: params);
