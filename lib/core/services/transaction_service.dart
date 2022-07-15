@@ -11,6 +11,7 @@ import 'package:rbx_wallet/features/smart_contracts/models/detailed_smart_contra
 import 'package:rbx_wallet/features/store/models/bid.dart';
 import 'package:rbx_wallet/features/store/models/listing.dart';
 import 'package:rbx_wallet/features/store/models/store.dart';
+import 'package:rbx_wallet/features/store/models/store_collection.dart';
 import 'package:rbx_wallet/features/store/providers/bid_provider.dart';
 
 class TransactionService extends BaseService {
@@ -115,6 +116,23 @@ class TransactionService extends BaseService {
     return asset;
   }
 
+  Future<String?> uploadImage(Uint8List bytes, String? ext) async {
+    FormData body = FormData();
+
+    final filename = ext != null ? "upload.$ext" : "upload.unknown";
+
+    final MultipartFile file = MultipartFile.fromBytes(bytes, filename: filename);
+    MapEntry<String, MultipartFile> entry = MapEntry("file", file);
+
+    body.files.add(entry);
+
+    final response = await postFormData('/image/', data: body);
+
+    if (!response.containsKey("image")) return null;
+
+    return response['image'];
+  }
+
   Future<CompilerResponse?> compileSmartContract(Map<String, dynamic> payload) async {
     try {
       final response = await postJson(
@@ -129,6 +147,16 @@ class TransactionService extends BaseService {
       print('compileSmartContract error');
       print(e);
       print(stackTrace);
+      return null;
+    }
+  }
+
+  Future<StoreCollection?> retrieveStoreCollection(String slug) async {
+    try {
+      final data = await getJson('/collection/$slug');
+      return StoreCollection.fromJson(data);
+    } catch (e) {
+      print(e);
       return null;
     }
   }
@@ -209,6 +237,7 @@ class TransactionService extends BaseService {
     required double amount,
     required String email,
     required String address,
+    String? collectionSlug,
   }) async {
     final params = {
       'listing': listing.id,
@@ -216,6 +245,7 @@ class TransactionService extends BaseService {
       'email': email,
       'amount': amount,
       'payment_type': 'rbx',
+      'collection_slug': collectionSlug,
     };
     try {
       final response = await postJson('/bid', params: params);
@@ -231,6 +261,7 @@ class TransactionService extends BaseService {
     required double amount,
     required String email,
     required String address,
+    String? collectionSlug,
   }) async {
     final params = {
       'listing': listing.id,
@@ -238,6 +269,7 @@ class TransactionService extends BaseService {
       'email': email,
       'amount': amount,
       'payment_type': "cc",
+      'collection_slug': collectionSlug,
     };
     try {
       final response = await postJson('/bid', params: params);
@@ -252,12 +284,14 @@ class TransactionService extends BaseService {
     required Listing listing,
     required String email,
     required String address,
+    String? collectionSlug,
   }) async {
     final params = {
       'listing': listing.id,
       'address': address,
       'email': email,
       'payment_type': 'rbx',
+      'collection_slug': collectionSlug,
     };
     try {
       final response = await postJson('/purchase', params: params);
@@ -272,12 +306,14 @@ class TransactionService extends BaseService {
     required Listing listing,
     required String email,
     required String address,
+    String? collectionSlug,
   }) async {
     final params = {
       'listing': listing.id,
       'address': address,
       'email': email,
       'payment_type': "cc",
+      'collection_slug': collectionSlug,
     };
     try {
       final response = await postJson('/purchase', params: params);

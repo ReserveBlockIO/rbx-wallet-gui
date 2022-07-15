@@ -29,6 +29,8 @@ mixin _$Listing {
   @JsonKey(name: "smart_contract_data")
   Map<String, dynamic>? get smartContractData =>
       throw _privateConstructorUsedError;
+  @JsonKey(name: "preview_urls")
+  List<String> get previewUrls => throw _privateConstructorUsedError;
   @JsonKey(name: "is_auction")
   bool get isAuction => throw _privateConstructorUsedError;
   @JsonKey(name: "is_buy_now")
@@ -69,6 +71,8 @@ abstract class $ListingCopyWith<$Res> {
       Store store,
       @JsonKey(name: "smart_contract_data")
           Map<String, dynamic>? smartContractData,
+      @JsonKey(name: "preview_urls")
+          List<String> previewUrls,
       @JsonKey(name: "is_auction")
           bool isAuction,
       @JsonKey(name: "is_buy_now")
@@ -112,6 +116,7 @@ class _$ListingCopyWithImpl<$Res> implements $ListingCopyWith<$Res> {
     Object? description = freezed,
     Object? store = freezed,
     Object? smartContractData = freezed,
+    Object? previewUrls = freezed,
     Object? isAuction = freezed,
     Object? isBuyNow = freezed,
     Object? buyNowPrice = freezed,
@@ -153,6 +158,10 @@ class _$ListingCopyWithImpl<$Res> implements $ListingCopyWith<$Res> {
           ? _value.smartContractData
           : smartContractData // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
+      previewUrls: previewUrls == freezed
+          ? _value.previewUrls
+          : previewUrls // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       isAuction: isAuction == freezed
           ? _value.isAuction
           : isAuction // ignore: cast_nullable_to_non_nullable
@@ -234,6 +243,8 @@ abstract class _$$_ListingCopyWith<$Res> implements $ListingCopyWith<$Res> {
       Store store,
       @JsonKey(name: "smart_contract_data")
           Map<String, dynamic>? smartContractData,
+      @JsonKey(name: "preview_urls")
+          List<String> previewUrls,
       @JsonKey(name: "is_auction")
           bool isAuction,
       @JsonKey(name: "is_buy_now")
@@ -280,6 +291,7 @@ class __$$_ListingCopyWithImpl<$Res> extends _$ListingCopyWithImpl<$Res>
     Object? description = freezed,
     Object? store = freezed,
     Object? smartContractData = freezed,
+    Object? previewUrls = freezed,
     Object? isAuction = freezed,
     Object? isBuyNow = freezed,
     Object? buyNowPrice = freezed,
@@ -321,6 +333,10 @@ class __$$_ListingCopyWithImpl<$Res> extends _$ListingCopyWithImpl<$Res>
           ? _value._smartContractData
           : smartContractData // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
+      previewUrls: previewUrls == freezed
+          ? _value._previewUrls
+          : previewUrls // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       isAuction: isAuction == freezed
           ? _value.isAuction
           : isAuction // ignore: cast_nullable_to_non_nullable
@@ -381,6 +397,8 @@ class _$_Listing extends _Listing {
       required this.store,
       @JsonKey(name: "smart_contract_data")
           final Map<String, dynamic>? smartContractData,
+      @JsonKey(name: "preview_urls")
+          required final List<String> previewUrls,
       @JsonKey(name: "is_auction")
           required this.isAuction,
       @JsonKey(name: "is_buy_now")
@@ -403,6 +421,7 @@ class _$_Listing extends _Listing {
       @JsonKey(name: "ends_at")
           this.endsAt})
       : _smartContractData = smartContractData,
+        _previewUrls = previewUrls,
         _bids = bids,
         super._();
 
@@ -429,6 +448,14 @@ class _$_Listing extends _Listing {
     if (value == null) return null;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(value);
+  }
+
+  final List<String> _previewUrls;
+  @override
+  @JsonKey(name: "preview_urls")
+  List<String> get previewUrls {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_previewUrls);
   }
 
   @override
@@ -471,7 +498,7 @@ class _$_Listing extends _Listing {
 
   @override
   String toString() {
-    return 'Listing(id: $id, uuid: $uuid, slug: $slug, name: $name, description: $description, store: $store, smartContractData: $smartContractData, isAuction: $isAuction, isBuyNow: $isBuyNow, buyNowPrice: $buyNowPrice, buyNowPriceRbx: $buyNowPriceRbx, floorPrice: $floorPrice, floorPriceRbx: $floorPriceRbx, bids: $bids, isPurchased: $isPurchased, highestBid: $highestBid, startsAt: $startsAt, endsAt: $endsAt)';
+    return 'Listing(id: $id, uuid: $uuid, slug: $slug, name: $name, description: $description, store: $store, smartContractData: $smartContractData, previewUrls: $previewUrls, isAuction: $isAuction, isBuyNow: $isBuyNow, buyNowPrice: $buyNowPrice, buyNowPriceRbx: $buyNowPriceRbx, floorPrice: $floorPrice, floorPriceRbx: $floorPriceRbx, bids: $bids, isPurchased: $isPurchased, highestBid: $highestBid, startsAt: $startsAt, endsAt: $endsAt)';
   }
 
   @override
@@ -488,6 +515,8 @@ class _$_Listing extends _Listing {
             const DeepCollectionEquality().equals(other.store, store) &&
             const DeepCollectionEquality()
                 .equals(other._smartContractData, _smartContractData) &&
+            const DeepCollectionEquality()
+                .equals(other._previewUrls, _previewUrls) &&
             const DeepCollectionEquality().equals(other.isAuction, isAuction) &&
             const DeepCollectionEquality().equals(other.isBuyNow, isBuyNow) &&
             const DeepCollectionEquality()
@@ -509,26 +538,28 @@ class _$_Listing extends _Listing {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(uuid),
-      const DeepCollectionEquality().hash(slug),
-      const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(description),
-      const DeepCollectionEquality().hash(store),
-      const DeepCollectionEquality().hash(_smartContractData),
-      const DeepCollectionEquality().hash(isAuction),
-      const DeepCollectionEquality().hash(isBuyNow),
-      const DeepCollectionEquality().hash(buyNowPrice),
-      const DeepCollectionEquality().hash(buyNowPriceRbx),
-      const DeepCollectionEquality().hash(floorPrice),
-      const DeepCollectionEquality().hash(floorPriceRbx),
-      const DeepCollectionEquality().hash(_bids),
-      const DeepCollectionEquality().hash(isPurchased),
-      const DeepCollectionEquality().hash(highestBid),
-      const DeepCollectionEquality().hash(startsAt),
-      const DeepCollectionEquality().hash(endsAt));
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        const DeepCollectionEquality().hash(id),
+        const DeepCollectionEquality().hash(uuid),
+        const DeepCollectionEquality().hash(slug),
+        const DeepCollectionEquality().hash(name),
+        const DeepCollectionEquality().hash(description),
+        const DeepCollectionEquality().hash(store),
+        const DeepCollectionEquality().hash(_smartContractData),
+        const DeepCollectionEquality().hash(_previewUrls),
+        const DeepCollectionEquality().hash(isAuction),
+        const DeepCollectionEquality().hash(isBuyNow),
+        const DeepCollectionEquality().hash(buyNowPrice),
+        const DeepCollectionEquality().hash(buyNowPriceRbx),
+        const DeepCollectionEquality().hash(floorPrice),
+        const DeepCollectionEquality().hash(floorPriceRbx),
+        const DeepCollectionEquality().hash(_bids),
+        const DeepCollectionEquality().hash(isPurchased),
+        const DeepCollectionEquality().hash(highestBid),
+        const DeepCollectionEquality().hash(startsAt),
+        const DeepCollectionEquality().hash(endsAt)
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -551,6 +582,8 @@ abstract class _Listing extends Listing {
       required final Store store,
       @JsonKey(name: "smart_contract_data")
           final Map<String, dynamic>? smartContractData,
+      @JsonKey(name: "preview_urls")
+          required final List<String> previewUrls,
       @JsonKey(name: "is_auction")
           required final bool isAuction,
       @JsonKey(name: "is_buy_now")
@@ -592,6 +625,9 @@ abstract class _Listing extends Listing {
   @JsonKey(name: "smart_contract_data")
   Map<String, dynamic>? get smartContractData =>
       throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: "preview_urls")
+  List<String> get previewUrls => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "is_auction")
   bool get isAuction => throw _privateConstructorUsedError;

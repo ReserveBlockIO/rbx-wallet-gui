@@ -14,6 +14,9 @@ _$_Listing _$$_ListingFromJson(Map<String, dynamic> json) => _$_Listing(
       description: json['description'] as String,
       store: Store.fromJson(json['store'] as Map<String, dynamic>),
       smartContractData: json['smart_contract_data'] as Map<String, dynamic>?,
+      previewUrls: (json['preview_urls'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
       isAuction: json['is_auction'] as bool,
       isBuyNow: json['is_buy_now'] as bool,
       buyNowPrice: (json['buy_now_price'] as num?)?.toDouble(),
@@ -42,6 +45,7 @@ Map<String, dynamic> _$$_ListingToJson(_$_Listing instance) =>
       'description': instance.description,
       'store': instance.store,
       'smart_contract_data': instance.smartContractData,
+      'preview_urls': instance.previewUrls,
       'is_auction': instance.isAuction,
       'is_buy_now': instance.isBuyNow,
       'buy_now_price': instance.buyNowPrice,

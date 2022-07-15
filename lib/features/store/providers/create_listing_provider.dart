@@ -12,11 +12,13 @@ class CreateListingModel {
   final bool hasBuyNow;
   final DateTime? startsAt;
   final DateTime? endsAt;
+  final List<String> previewUrls;
   const CreateListingModel({
     this.hasAuction = false,
     this.hasBuyNow = false,
     this.startsAt,
     this.endsAt,
+    this.previewUrls = const [],
   });
 
   CreateListingModel copyWith({
@@ -24,12 +26,14 @@ class CreateListingModel {
     bool? hasBuyNow,
     DateTime? startsAt,
     DateTime? endsAt,
+    List<String>? previewUrls,
   }) {
     return CreateListingModel(
       hasAuction: hasAuction ?? this.hasAuction,
       hasBuyNow: hasBuyNow ?? this.hasBuyNow,
       startsAt: startsAt ?? this.startsAt,
       endsAt: endsAt ?? this.endsAt,
+      previewUrls: previewUrls ?? this.previewUrls,
     );
   }
 }
@@ -80,6 +84,21 @@ class CreateListingProvider extends StateNotifier<CreateListingModel> {
     }
   }
 
+  void addPreviewUrl(String url) {
+    state = state.copyWith(previewUrls: [...state.previewUrls, url]);
+  }
+
+  void updatePreviewUrl(String url, int index) {
+    final updated = [...state.previewUrls]
+      ..removeAt(index)
+      ..insert(index, url);
+    state = state.copyWith(previewUrls: updated);
+  }
+
+  void removePreviewUrl(int index) {
+    state = state.copyWith(previewUrls: [...state.previewUrls]..removeAt(index));
+  }
+
   Future<String?> submit() async {
     final keypair = read(webSessionProvider).keypair;
     if (keypair == null) {
@@ -104,6 +123,10 @@ class CreateListingProvider extends StateNotifier<CreateListingModel> {
       return null;
     }
 
+    if (state.previewUrls.isEmpty) {
+      Toast.error("At least one Preview Image is required.");
+    }
+
     final buyNowPrice = state.hasBuyNow ? double.tryParse(buyNowPriceController.text) : null;
     final floorPrice = state.hasAuction ? double.tryParse(floorPriceController.text) : null;
 
@@ -117,6 +140,7 @@ class CreateListingProvider extends StateNotifier<CreateListingModel> {
       'store': storeId,
       'email': keypair.email,
       'address': keypair.public,
+      'preview_urls': state.previewUrls,
     };
 
     final slug = await TransactionService().createListing(params);

@@ -5,7 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/components/dropdowns.dart';
+import 'package:rbx_wallet/core/components/upload_image_selector.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/file_selector.dart';
 import 'package:rbx_wallet/features/store/providers/create_listing_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
@@ -56,6 +58,7 @@ class CreateListingForm extends BaseComponent {
           children: [
             buildName(provider),
             buildDescription(provider),
+            buildPreviewManager(ref),
             Divider(),
             buildStartsAt(provider, context, ref),
             buildEndsAt(provider, context, ref),
@@ -86,6 +89,7 @@ class CreateListingForm extends BaseComponent {
         children: [
           buildName(provider),
           buildDescription(provider),
+          buildPreviewManager(ref),
           Divider(),
           Row(
             children: [
@@ -151,8 +155,50 @@ class CreateListingForm extends BaseComponent {
                 ),
             ],
           ),
-          Divider(),
+          if (listing.hasAuction || listing.hasBuyNow) Divider(),
           buildSubmit(context, ref)
+        ],
+      ),
+    );
+  }
+
+  Widget buildPreviewManager(WidgetRef ref) {
+    final provider = ref.read(createListingProvider(storeId).notifier);
+    final listing = ref.watch(createListingProvider(storeId));
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Preview Image(s)",
+            style: TextStyle(fontSize: 14, color: Colors.white70),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: listing.previewUrls.asMap().entries.map((entry) {
+              final index = entry.key;
+              final url = entry.value;
+              return UploadImageSelector(
+                  key: Key(url),
+                  url: url,
+                  onChange: (val) {
+                    if (val == null) {
+                      provider.removePreviewUrl(index);
+                    } else {
+                      provider.updatePreviewUrl(val, index);
+                    }
+                  });
+            }).toList(),
+          ),
+          UploadImageSelector(onChange: (val) {
+            if (val != null) {
+              provider.addPreviewUrl(val);
+            }
+          }),
         ],
       ),
     );

@@ -5,6 +5,7 @@ import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/services/transaction_service.dart';
 import 'package:rbx_wallet/features/store/models/listing.dart';
+import 'package:rbx_wallet/features/store/models/store_collection.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -17,22 +18,21 @@ class BidModel {
   final double amount;
   final BidType type;
   final Listing? listing;
+  final StoreCollection? collection;
 
-  const BidModel({
-    this.amount = 0,
-    this.type = BidType.rbx,
-    this.listing,
-  });
+  const BidModel({this.amount = 0, this.type = BidType.rbx, this.listing, this.collection});
 
   BidModel copyWith({
     double? amount,
     BidType? type,
     Listing? listing,
+    StoreCollection? collection,
   }) {
     return BidModel(
       amount: amount ?? this.amount,
       type: type ?? this.type,
       listing: listing ?? this.listing,
+      collection: collection ?? this.collection,
     );
   }
 }
@@ -60,6 +60,14 @@ class BidProvider extends StateNotifier<BidModel> {
 
   setAmount(double amount) {
     state = state.copyWith(amount: amount);
+  }
+
+  setCollection(StoreCollection? collection) {
+    //todo there isn't a way to actually clear a collection but that should be fine...
+    state = state.copyWith(collection: collection);
+
+    print(collection);
+    print("COLLECT");
   }
 
   Future<bool?> submit() async {
@@ -100,6 +108,7 @@ class BidProvider extends StateNotifier<BidModel> {
         amount: amount,
         address: keyPair.public,
         email: keyPair.email,
+        collectionSlug: state.collection?.slug,
       );
 
       if (redirect == null) {
@@ -125,6 +134,7 @@ class BidProvider extends StateNotifier<BidModel> {
         amount: amount,
         address: keyPair.public,
         email: keyPair.email,
+        collectionSlug: state.collection?.slug,
       );
       if (success == true) {
         return true;

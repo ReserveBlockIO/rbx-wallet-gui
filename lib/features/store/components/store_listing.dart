@@ -1,5 +1,5 @@
 import 'dart:html';
-
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,17 +17,29 @@ import 'package:rbx_wallet/features/store/components/bid_history.dart';
 import 'package:rbx_wallet/features/store/components/bid_modal.dart';
 import 'package:rbx_wallet/features/store/components/purchase_modal.dart';
 import 'package:rbx_wallet/features/store/models/listing.dart';
-import 'package:rbx_wallet/features/web/components/web_wallet_details.dart';
+import 'package:rbx_wallet/features/store/models/store_collection.dart';
+import 'package:rbx_wallet/features/store/providers/bid_provider.dart';
+import 'package:rbx_wallet/features/store/providers/purchase_provider.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
 import 'package:rbx_wallet/utils/toast.dart';
+import 'package:pinch_zoom/pinch_zoom.dart';
 
 class StoreListing extends BaseComponent {
   final Listing listing;
+  final bool withShareButtons;
+  final StoreCollection? collection;
 
-  const StoreListing(this.listing, {Key? key}) : super(key: key);
+  const StoreListing(
+    this.listing, {
+    Key? key,
+    this.withShareButtons = true,
+    this.collection,
+  }) : super(key: key);
 
   Future<void> handleBid(BuildContext context, WidgetRef ref) async {
     final session = ref.read(webSessionProvider);
+    final provider = ref.read(bidProvider(listing.slug).notifier);
+    provider.setCollection(collection);
     if (session.keypair == null) {
       await AuthModal.show(
           context: context,
@@ -66,6 +78,8 @@ class StoreListing extends BaseComponent {
 
   Future<void> handlePurchase(BuildContext context, WidgetRef ref) async {
     final session = ref.read(webSessionProvider);
+    final provider = ref.read(purchaseProvider(listing.slug).notifier);
+    provider.setCollection(collection);
     if (session.keypair == null) {
       await AuthModal.show(
           context: context,
@@ -116,8 +130,7 @@ class StoreListing extends BaseComponent {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          buildLogo(context),
-          buildShareButtons(context),
+          buildInfo(context, withShareButtons: withShareButtons),
           SizedBox(
             height: 8,
           ),
@@ -142,50 +155,44 @@ class StoreListing extends BaseComponent {
   @override
   Widget desktopBody(BuildContext context, WidgetRef ref) {
     return Padding(
-      padding: const EdgeInsets.all(32.0).copyWith(top: 8),
-      child: Column(
+      padding: const EdgeInsets.all(32.0),
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          buildLogo(context),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 20.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [buildPreview(context), buildPreviewDetails()],
-                ),
-              ),
-              ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 600),
-                child: Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
+          Padding(
+            padding: const EdgeInsets.only(right: 20.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [buildPreview(context), buildPreviewDetails()],
+            ),
+          ),
+          ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 600),
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  buildInfo(context, withShareButtons: withShareButtons),
+                  SizedBox(height: 8),
+                  buildDetails(context),
+                  SizedBox(height: 8),
+                  Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      buildShareButtons(context),
-                      SizedBox(height: 8),
-                      buildDetails(context),
-                      SizedBox(height: 8),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          if (listing.isAuction)
-                            Padding(
-                              padding: const EdgeInsets.only(right: 8.0),
-                              child: buildAuction(context, ref),
-                            ),
-                          if (listing.isBuyNow) buildPurchase(context, ref),
-                        ],
-                      )
+                      if (listing.isAuction)
+                        Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: buildAuction(context, ref),
+                        ),
+                      if (listing.isBuyNow) buildPurchase(context, ref),
                     ],
-                  ),
-                ),
-              )
-            ],
+                  )
+                ],
+              ),
+            ),
           )
         ],
       ),
@@ -208,24 +215,11 @@ class StoreListing extends BaseComponent {
     );
   }
 
-  Widget buildLogo(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 12.0),
-        child: Image.asset(
-          Assets.images.nester.path,
-          width: 400,
-          fit: BoxFit.contain,
-        ),
-      ),
-    );
-  }
-
   Row buildShareButtons(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(child: buildInfo(context)),
+        // Expanded(child: buildInfo(context)),
         IconButton(
             onPressed: () {
               final url = window.location.href;
@@ -249,77 +243,31 @@ class StoreListing extends BaseComponent {
   }
 
   Widget buildPreview(BuildContext context) {
-    final isMobile = BreakPoints.useMobileLayout(context);
+    final urls = listing.previewUrls;
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          decoration: BoxDecoration(color: Theme.of(context).colorScheme.primary, boxShadow: [
-            BoxShadow(
-              offset: Offset.zero,
-              blurRadius: 5,
-              color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
-              spreadRadius: 4,
-            )
-          ]),
-          child: Padding(
-            padding: const EdgeInsets.all(3.0),
-            child: Image.network(
-              "https://airnfts.s3.amazonaws.com/nft-images/20210829/Out_of_space_1630263137497.jpg",
-              width: isMobile ? double.infinity : 320,
-              // height: 320,
-              fit: BoxFit.contain,
-              alignment: Alignment.topCenter,
-            ),
-          ),
-        ),
-        SizedBox(
-          height: 8,
-        ),
-        DotsIndicator(
-          dotsCount: 3,
-          position: 0,
-          decorator: DotsDecorator(
-            activeColor: Colors.white,
-            color: Colors.white54,
-            size: Size.fromRadius(3),
-            activeSize: Size.fromRadius(4),
-          ),
-        )
-      ],
-    );
+    if (urls.isEmpty) return SizedBox();
+
+    return PreviewCarousel(urls: urls);
   }
 
-  Column buildInfo(BuildContext context) {
+  Column buildInfo(BuildContext context, {bool withShareButtons = true}) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          listing.name,
-          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                listing.name,
+                style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
-        ),
-        SizedBox(height: 8),
-        ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 600),
-          child: Text(
-            listing.description,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12),
-          child: SizedBox(height: 8),
-        ),
-        Text(
-          "Name of NFT",
-          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
+            ),
+            if (withShareButtons) buildShareButtons(context),
+          ],
         ),
         SizedBox(height: 8),
         ConstrainedBox(
@@ -541,6 +489,113 @@ class StoreListing extends BaseComponent {
             ],
           ),
         ),
+      ],
+    );
+  }
+}
+
+class PreviewCarousel extends StatefulWidget {
+  const PreviewCarousel({
+    Key? key,
+    required this.urls,
+  }) : super(key: key);
+
+  final List<String> urls;
+
+  @override
+  State<PreviewCarousel> createState() => _PreviewCarouselState();
+}
+
+class _PreviewCarouselState extends State<PreviewCarousel> {
+  int selectedIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    final isMobile = BreakPoints.useMobileLayout(context);
+
+    CarouselController controller = CarouselController();
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          decoration: BoxDecoration(color: Theme.of(context).colorScheme.primary, boxShadow: [
+            BoxShadow(
+              offset: Offset.zero,
+              blurRadius: 5,
+              color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+              spreadRadius: 4,
+            )
+          ]),
+          child: Padding(
+              padding: const EdgeInsets.all(3.0),
+              child: SizedBox(
+                width: isMobile ? double.infinity : 320,
+                child: CarouselSlider(
+                  carouselController: controller,
+                  options: CarouselOptions(
+                    viewportFraction: 1,
+                    autoPlay: true,
+                    onPageChanged: (i, _) {
+                      setState(() {
+                        selectedIndex = i;
+                      });
+                    },
+                  ),
+                  items: widget.urls.map((url) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 0),
+                      child: GestureDetector(
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: PinchZoom(
+                                      child: Image.network(
+                                        url,
+                                        width: double.infinity,
+                                        height: double.infinity,
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              });
+                        },
+                        child: Image.network(
+                          url,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              )),
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        if (widget.urls.isNotEmpty)
+          DotsIndicator(
+            dotsCount: widget.urls.length,
+            position: selectedIndex.toDouble(), // lol why does this package use a double for an index :P
+            // onTap: (index) {
+            //   print(index.toInt());
+            //   // controller.animateToPage(index.toInt());
+            //   // controller.animateToPage(index.toInt());
+            // },
+            decorator: DotsDecorator(
+              activeColor: Colors.white,
+              color: Colors.white54,
+              size: Size.fromRadius(3),
+              activeSize: Size.fromRadius(4),
+            ),
+          )
       ],
     );
   }

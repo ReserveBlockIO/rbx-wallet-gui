@@ -15,7 +15,7 @@ enum _Environment {
   WebDev,
 }
 
-const _env = _Environment.Web;
+const _env = _Environment.WebDev;
 
 class Env {
   static init() async {

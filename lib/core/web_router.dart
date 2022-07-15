@@ -12,6 +12,7 @@ import 'package:rbx_wallet/features/send/screens/web_send_screen.dart';
 import 'package:rbx_wallet/features/smart_contracts/screens/web_create_smart_contract_screen.dart';
 import 'package:rbx_wallet/features/smart_contracts/screens/web_smart_contract_landing_screen.dart';
 import 'package:rbx_wallet/features/store/screens/create_listing_screen.dart';
+import 'package:rbx_wallet/features/store/screens/store_collection_screen.dart';
 import 'package:rbx_wallet/features/store/screens/store_listing_screen.dart';
 import 'package:rbx_wallet/features/store/screens/store_container_screen.dart';
 import 'package:rbx_wallet/features/store/screens/store_screen.dart';
@@ -30,6 +31,7 @@ const List<AutoRoute> webRoutes = [
       AutoRoute(path: "", page: WebAuthScreen),
     ],
   ),
+  AutoRoute(path: "store/collection/:slug", page: StoreCollectionScreen),
   AutoRoute(path: "store/auction/:slug", page: StoreListingScreen),
   webDashboardTabRouter,
   RedirectRoute(path: '*', redirectTo: '/'),

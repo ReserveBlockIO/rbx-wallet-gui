@@ -6,6 +6,7 @@ import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/services/transaction_service.dart';
 import 'package:rbx_wallet/features/store/models/listing.dart';
+import 'package:rbx_wallet/features/store/models/store_collection.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -17,19 +18,23 @@ enum PurchaseType {
 class PurchaseModel {
   final PurchaseType type;
   final Listing? listing;
+  final StoreCollection? collection;
 
   const PurchaseModel({
     this.type = PurchaseType.rbx,
     this.listing,
+    this.collection,
   });
 
   PurchaseModel copyWith({
     PurchaseType? type,
     Listing? listing,
+    StoreCollection? collection,
   }) {
     return PurchaseModel(
       type: type ?? this.type,
       listing: listing ?? this.listing,
+      collection: collection ?? this.collection,
     );
   }
 }
@@ -53,6 +58,10 @@ class PurchaseProvider extends StateNotifier<PurchaseModel> {
     state = state.copyWith(type: type);
   }
 
+  setCollection(StoreCollection? collection) {
+    state = state.copyWith(collection: collection);
+  }
+
   Future<bool?> submit() async {
     if (state.listing == null) return null;
 
@@ -71,6 +80,7 @@ class PurchaseProvider extends StateNotifier<PurchaseModel> {
         listing: state.listing!,
         address: keyPair.public,
         email: keyPair.email,
+        collectionSlug: state.collection?.slug,
       );
 
       if (redirect == null) {
@@ -93,6 +103,7 @@ class PurchaseProvider extends StateNotifier<PurchaseModel> {
         listing: state.listing!,
         address: keyPair.public,
         email: keyPair.email,
+        collectionSlug: state.collection?.slug,
       );
       if (success == true) {
         return true;

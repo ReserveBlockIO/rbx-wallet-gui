@@ -19,6 +19,7 @@ abstract class Listing with _$Listing {
     required String description,
     required Store store,
     @JsonKey(name: "smart_contract_data") Map<String, dynamic>? smartContractData,
+    @JsonKey(name: "preview_urls") required List<String> previewUrls,
     @JsonKey(name: "is_auction") required bool isAuction,
     @JsonKey(name: "is_buy_now") required bool isBuyNow,
     @JsonKey(name: "buy_now_price") double? buyNowPrice,

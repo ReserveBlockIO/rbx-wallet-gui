@@ -37,7 +37,6 @@ dependencies:
   file_picker: ^4.6.1
   file_saver: ^0.1.0
   qr_flutter: ^4.0.0
-  particles_flutter: ^0.1.4
   animate_icons: ^2.0.0
   gif_view: ^0.1.0
   open_file: ^3.2.1
@@ -54,6 +53,8 @@ dependencies:
   secp256k1: ^0.3.0
   stripe_checkout: ^1.0.0
   dots_indicator: ^2.1.0
+  carousel_slider: ^4.1.1
+  pinch_zoom: ^1.0.0
 
 dev_dependencies:
   auto_route_generator: ^4.2.0

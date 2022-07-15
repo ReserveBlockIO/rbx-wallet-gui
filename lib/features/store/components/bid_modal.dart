@@ -7,6 +7,7 @@ import 'package:rbx_wallet/core/components/dropdowns.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/store/models/listing.dart';
+import 'package:rbx_wallet/features/store/models/store_collection.dart';
 import 'package:rbx_wallet/features/store/providers/bid_provider.dart';
 import 'package:rbx_wallet/features/store/providers/listing_detail_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
@@ -14,7 +15,8 @@ import 'package:rbx_wallet/utils/validation.dart';
 
 class BidModal extends BaseComponent {
   final Listing listing;
-  BidModal({
+
+  const BidModal({
     Key? key,
     required this.listing,
   }) : super(key: key);
