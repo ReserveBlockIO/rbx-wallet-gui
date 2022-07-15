@@ -10,14 +10,13 @@ import 'package:desktop_window/desktop_window.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:url_strategy/url_strategy.dart';
 
-
 const MIN_WIDTH = 1200.0;
 const MIN_HEIGHT = 800.0;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Env.init();
-  setPathUrlStrategy();
+  // setPathUrlStrategy();
   await initSingletons();
 
   if (!kIsWeb && Platform.isMacOS) {

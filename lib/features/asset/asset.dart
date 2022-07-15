@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -7,6 +8,9 @@ import 'package:rbx_wallet/utils/formatting.dart';
 
 part 'asset.freezed.dart';
 part 'asset.g.dart';
+
+bytesToNull(Uint8List? input) => null;
+nullToNull(dynamic blah) => null;
 
 @freezed
 abstract class Asset with _$Asset {
@@ -20,6 +24,7 @@ abstract class Asset with _$Asset {
     @JsonKey(name: "Location") required String location,
     @JsonKey(name: "Extension") required String extension,
     @JsonKey(name: "FileSize") required int fileSize,
+    @JsonKey(toJson: bytesToNull, fromJson: nullToNull) Uint8List? bytes,
   }) = _Asset;
 
   factory Asset.fromJson(Map<String, dynamic> json) => _$AssetFromJson(json);

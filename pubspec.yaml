@@ -31,10 +31,11 @@ dependencies:
   dart_ipify: ^1.1.1
   flutter_launcher_icons: ^0.9.3
   process: ^4.2.4
-  awesome_select: ^5.2.0
+  flutter_awesome_select: ^6.4.0
   path_provider: ^2.0.11
   uuid: ^3.0.6
   file_picker: ^4.6.1
+  file_saver: ^0.1.0
   qr_flutter: ^4.0.0
   particles_flutter: ^0.1.4
   animate_icons: ^2.0.0
@@ -51,8 +52,7 @@ dependencies:
   dart_bip66: ^2.0.1
   window_manager: ^0.2.5
   secp256k1: ^0.3.0
-  # secp256k1:
-  #   path: /Users/tylersavery/Projects/open-source/dart-secp256k1
+  stripe_checkout: ^1.0.0
 
 dev_dependencies:
   auto_route_generator: ^4.2.0

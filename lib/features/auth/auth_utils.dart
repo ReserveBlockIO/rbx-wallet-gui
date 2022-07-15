@@ -8,6 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
+import 'package:rbx_wallet/core/services/transaction_service.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/keygen/models/keypair.dart';
@@ -38,7 +39,7 @@ Future<void> handleImportWithPrivateKey(
     validator: (String? value) => formValidatorNotEmpty(value, "Private Key"),
     labelText: "Private Key",
     onValidSubmission: (value) async {
-      final keypair = await KeygenService.importPrivateKey(value);
+      final keypair = await KeygenService.importPrivateKey(value, "test@test.com"); //TODO: need to ask for email
       login(context, ref, keypair);
     },
   );
@@ -61,14 +62,9 @@ Future<void> handleCreateWithEmail(
   final regUpperChars = RegExp(r'/[A-Z]+/g');
   final regNumbers = RegExp(r'/[0-9]+/g');
 
-  final chars =
-      regChars.hasMatch(password) ? regChars.allMatches(password).length : 1;
-  final upperChars = regUpperChars.hasMatch(password)
-      ? regUpperChars.allMatches(password).length
-      : 1;
-  final upperNumbers = regNumbers.hasMatch(password)
-      ? regNumbers.allMatches(password).length
-      : 1;
+  final chars = regChars.hasMatch(password) ? regChars.allMatches(password).length : 1;
+  final upperChars = regUpperChars.hasMatch(password) ? regUpperChars.allMatches(password).length : 1;
+  final upperNumbers = regNumbers.hasMatch(password) ? regNumbers.allMatches(password).length : 1;
 
   seed = "$seed${(chars + upperChars + upperNumbers) * password.length}3571";
   seed = "$seed$seed";
@@ -86,11 +82,13 @@ Future<void> handleCreateWithEmail(
   if (forCreate) {
     await showKeys(context, keypair);
   }
-  login(context, ref, keypair);
+
+  await TransactionService().createWallet(email, keypair.public);
+
+  login(context, ref, keypair.copyWith(email: email));
 }
 
-Future<void> handleCreateWithMnemonic(
-    BuildContext context, WidgetRef ref) async {
+Future<void> handleCreateWithMnemonic(BuildContext context, WidgetRef ref) async {
   ref.read(globalLoadingProvider.notifier).start();
 
   await Future.delayed(const Duration(milliseconds: 300));
@@ -107,8 +105,7 @@ Future<void> handleCreateWithMnemonic(
   await showKeys(context, keypair);
 }
 
-Future<dynamic> handleRecoverFromMnemonic(
-    BuildContext context, WidgetRef ref) async {
+Future<dynamic> handleRecoverFromMnemonic(BuildContext context, WidgetRef ref) async {
   return await PromptModal.show(
     contextOverride: context,
     title: "Input Recovery Mnemonic",
@@ -155,8 +152,7 @@ Future<void> showKeys(
           children: [
             const Align(
               alignment: Alignment.centerLeft,
-              child: Text(
-                  "Here is your wallet details. Please ensure to back up your private key in a safe place."),
+              child: Text("Here is your wallet details. Please ensure to back up your private key in a safe place."),
             ),
             if (keypair.mneumonic != null)
               ListTile(
@@ -174,8 +170,7 @@ Future<void> showKeys(
                 trailing: IconButton(
                   icon: const Icon(Icons.copy),
                   onPressed: () async {
-                    await Clipboard.setData(
-                        ClipboardData(text: keypair.mneumonic));
+                    await Clipboard.setData(ClipboardData(text: keypair.mneumonic));
                     Toast.message("Mneumonic copied to clipboard");
                   },
                 ),

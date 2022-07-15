@@ -40,8 +40,7 @@ abstract class SmartContract with _$SmartContract {
     @Default(false) bool isPublished,
   }) = _SmartContract;
 
-  factory SmartContract.fromJson(Map<String, dynamic> json) =>
-      _$SmartContractFromJson(json);
+  factory SmartContract.fromJson(Map<String, dynamic> json) => _$SmartContractFromJson(json);
 
   factory SmartContract.fromCompiled(
     DetailedSmartContract details,
@@ -118,18 +117,12 @@ abstract class SmartContract with _$SmartContract {
     final List<Map<String, dynamic>> features = [];
 
     for (final r in royalties) {
-      final f = {
-        'FeatureName': Royalty.compilerEnum,
-        'FeatureFeatures': r.serializeForCompiler()
-      };
+      final f = {'FeatureName': Royalty.compilerEnum, 'FeatureFeatures': r.serializeForCompiler()};
       features.add(f);
     }
 
     for (final e in evolves) {
-      final f = {
-        'FeatureName': Evolve.compilerEnum,
-        'FeatureFeatures': e.serializeForCompiler(minterName, timezoneName)
-      };
+      final f = {'FeatureName': Evolve.compilerEnum, 'FeatureFeatures': e.serializeForCompiler(minterName, timezoneName)};
 
       features.add(f);
     }
@@ -143,24 +136,22 @@ abstract class SmartContract with _$SmartContract {
     }
 
     for (final m in multiAssets) {
-      final f = {
-        'FeatureName': MultiAsset.compilerEnum,
-        'FeatureFeatures': m.serializeForCompiler(minterName)
-      };
+      final f = {'FeatureName': MultiAsset.compilerEnum, 'FeatureFeatures': m.serializeForCompiler(minterName)};
       features.add(f);
     }
 
     final payload = CompilerPayload(
-      name: name,
-      minterName: minterName,
-      description: description,
-      address: owner.address,
-      asset: primaryAsset!.copyWith(authorName: minterName),
-      features: features,
-      uuid: "00000000-0000-0000-0000-000000000000",
-      signature: null,
-      isPublic: false,
-    );
+        name: name,
+        minterName: minterName,
+        description: description,
+        address: owner.address,
+        asset: primaryAsset!.copyWith(authorName: minterName),
+        features: features,
+        uuid: "00000000-0000-0000-0000-000000000000",
+        signature: null,
+        isPublic: false,
+        minterAddress: owner.address,
+        isMinter: true);
 
     final data = payload.toJson();
 

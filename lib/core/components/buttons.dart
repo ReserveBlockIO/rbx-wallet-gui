@@ -1,6 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:rbx_wallet/core/breakpoints.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
 
@@ -33,66 +34,51 @@ class AppButton extends StatelessWidget {
   }) : super(key: key);
 
   ButtonStyle _styleElevated(BuildContext context) {
+    final isMobile = BreakPoints.useMobileLayout(context);
     switch (variant) {
       case AppColorVariant.Primary:
         return ElevatedButton.styleFrom(
-          primary: disabled
-              ? Theme.of(context).disabledColor
-              : Theme.of(context).colorScheme.primaryButtonBg,
+          primary: disabled ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.primaryButtonBg,
           onPrimary: Theme.of(context).colorScheme.primaryButtonFg,
           textStyle: TextStyle(
-            fontSize: size == AppSizeVariant.Lg ? 17 : null,
-            fontWeight: size == AppSizeVariant.Lg ? FontWeight.w500 : null,
+            fontSize: size == AppSizeVariant.Lg && !isMobile ? 17 : null,
+            fontWeight: size == AppSizeVariant.Lg && !isMobile ? FontWeight.w500 : null,
           ),
         );
 
       case AppColorVariant.Secondary:
         return ElevatedButton.styleFrom(
-          primary: disabled
-              ? Theme.of(context).disabledColor
-              : Theme.of(context).colorScheme.secondaryButtonBg,
+          primary: disabled ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.secondaryButtonBg,
           onPrimary: Theme.of(context).colorScheme.secondaryButtonFg,
         );
       case AppColorVariant.Info:
         return ElevatedButton.styleFrom(
-          primary: disabled
-              ? Theme.of(context).disabledColor
-              : Theme.of(context).colorScheme.infoButtonBg,
+          primary: disabled ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.infoButtonBg,
           onPrimary: Theme.of(context).colorScheme.infoButtonFg,
         );
       case AppColorVariant.Danger:
         return ElevatedButton.styleFrom(
-          primary: disabled
-              ? Theme.of(context).disabledColor
-              : Theme.of(context).colorScheme.dangerButtonBg,
+          primary: disabled ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.dangerButtonBg,
           onPrimary: Theme.of(context).colorScheme.dangerButtonFg,
         );
       case AppColorVariant.Success:
         return ElevatedButton.styleFrom(
-          primary: disabled
-              ? Theme.of(context).disabledColor
-              : Theme.of(context).colorScheme.successButtonBg,
+          primary: disabled ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.successButtonBg,
           onPrimary: Theme.of(context).colorScheme.successButtonFg,
         );
       case AppColorVariant.Warning:
         return ElevatedButton.styleFrom(
-          primary: disabled
-              ? Theme.of(context).disabledColor
-              : Theme.of(context).colorScheme.warningButtonBg,
+          primary: disabled ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.warningButtonBg,
           onPrimary: Theme.of(context).colorScheme.warningButtonFg,
         );
       case AppColorVariant.Light:
         return ElevatedButton.styleFrom(
-          primary: disabled
-              ? Theme.of(context).disabledColor
-              : Theme.of(context).colorScheme.lightButtonBg,
+          primary: disabled ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.lightButtonBg,
           onPrimary: Theme.of(context).colorScheme.lightButtonFg,
         );
       case AppColorVariant.Dark:
         return ElevatedButton.styleFrom(
-          primary: disabled
-              ? Theme.of(context).disabledColor
-              : Theme.of(context).colorScheme.lightButtonBg,
+          primary: disabled ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.lightButtonBg,
           onPrimary: Theme.of(context).colorScheme.lightButtonFg,
         );
     }
@@ -142,51 +128,35 @@ class AppButton extends StatelessWidget {
     switch (variant) {
       case AppColorVariant.Primary:
         return OutlinedButton.styleFrom(
-          primary: disabled
-              ? Theme.of(context).disabledColor
-              : _colorScheme.primaryButtonBg,
+          primary: disabled ? Theme.of(context).disabledColor : _colorScheme.primaryButtonBg,
         );
       case AppColorVariant.Secondary:
         return OutlinedButton.styleFrom(
-          primary: disabled
-              ? Theme.of(context).disabledColor
-              : _colorScheme.secondaryButtonBg,
+          primary: disabled ? Theme.of(context).disabledColor : _colorScheme.secondaryButtonBg,
         );
       case AppColorVariant.Info:
         return OutlinedButton.styleFrom(
-          primary: disabled
-              ? Theme.of(context).disabledColor
-              : _colorScheme.infoButtonBg,
+          primary: disabled ? Theme.of(context).disabledColor : _colorScheme.infoButtonBg,
         );
       case AppColorVariant.Danger:
         return OutlinedButton.styleFrom(
-          primary: disabled
-              ? Theme.of(context).disabledColor
-              : _colorScheme.dangerButtonBg,
+          primary: disabled ? Theme.of(context).disabledColor : _colorScheme.dangerButtonBg,
         );
       case AppColorVariant.Success:
         return OutlinedButton.styleFrom(
-          primary: disabled
-              ? Theme.of(context).disabledColor
-              : _colorScheme.successButtonBg,
+          primary: disabled ? Theme.of(context).disabledColor : _colorScheme.successButtonBg,
         );
       case AppColorVariant.Warning:
         return OutlinedButton.styleFrom(
-          primary: disabled
-              ? Theme.of(context).disabledColor
-              : _colorScheme.warningButtonBg,
+          primary: disabled ? Theme.of(context).disabledColor : _colorScheme.warningButtonBg,
         );
       case AppColorVariant.Light:
         return OutlinedButton.styleFrom(
-          primary: disabled
-              ? Theme.of(context).disabledColor
-              : _colorScheme.lightButtonBg,
+          primary: disabled ? Theme.of(context).disabledColor : _colorScheme.lightButtonBg,
         );
       case AppColorVariant.Dark:
         return OutlinedButton.styleFrom(
-          primary: disabled
-              ? Theme.of(context).disabledColor
-              : _colorScheme.darkButtonBg,
+          primary: disabled ? Theme.of(context).disabledColor : _colorScheme.darkButtonBg,
         );
     }
   }

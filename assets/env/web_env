@@ -1,6 +1,8 @@
 ENVIRONMENT_NAME=web
 STORAGE_PREFIX=web
-API_BASE_URL=https://rbx-wallet-proxy.herokuapp.com/api/V1
+EXPLORER_API_BASE_URL=https://rbx-explorer-service-testnet.herokuapp.com/api
+TRANSACTION_API_BASE_URL=https://rbx-transaction-service.herokuapp.com/api/v1
 LAUNCH_CLI=false
 ALLOW_VALIDATING=false
 IS_WEB=true
+IS_TEST_NET=true

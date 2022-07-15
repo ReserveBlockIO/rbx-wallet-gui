@@ -1,15 +1,20 @@
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/base_component.dart';
+import 'package:rbx_wallet/core/breakpoints.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/core/services/transaction_service.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/utils/files.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 
-class FileSelector extends StatelessWidget {
+class FileSelector extends BaseComponent {
   final bool transparentBackground;
   final String? title;
   final Function(Asset? asset) onChange;
@@ -35,32 +40,53 @@ class FileSelector extends StatelessWidget {
       return;
     }
 
-    File file = File(result.files.single.path!);
+    File? file;
+    Asset? asset;
 
-    final filePath = file.path;
+    if (kIsWeb) {
+      final bytes = result.files.single.bytes;
+      if (bytes == null) {
+        return;
+      }
 
-    final name = filePath.split("/").last;
-    final extension = name.split(".").last;
-    final fileSize = (await File(filePath).readAsBytes()).length;
+      final ext = result.files.single.extension;
 
-    Asset asset = Asset(
-      id: "00000000-0000-0000-0000-000000000000",
-      name: name,
-      authorName: "",
-      location: filePath,
-      extension: extension,
-      fileSize: fileSize,
-    );
-    if (withAuthorName) {
-      final authorName = await PromptModal.show(
-          title: "Creator Name",
-          validator: (value) => formValidatorNotEmpty(value, "Name"),
-          labelText: "Name",
-          allowCancel: false,
-          confirmText: "Save");
+      final webAsset = await TransactionService().uploadAsset(bytes, ext);
 
-      if (authorName != null) {
-        asset = asset.copyWith(authorName: authorName);
+      if (webAsset == null) return;
+      asset = Asset(
+          id: '00000000-0000-0000-0000-000000000000',
+          location: webAsset.location,
+          extension: webAsset.extension,
+          fileSize: result.files.single.bytes!.length,
+          bytes: bytes,
+          name: webAsset.filename);
+    } else {
+      file = File(result.files.single.path!);
+      final filePath = file.path;
+      final name = filePath.split("/").last;
+      final extension = name.split(".").last;
+      final fileSize = (await File(filePath).readAsBytes()).length;
+
+      asset = Asset(
+        id: "00000000-0000-0000-0000-000000000000",
+        name: name,
+        authorName: "",
+        location: filePath,
+        extension: extension,
+        fileSize: fileSize,
+      );
+      if (withAuthorName) {
+        final authorName = await PromptModal.show(
+            title: "Creator Name",
+            validator: (value) => formValidatorNotEmpty(value, "Name"),
+            labelText: "Name",
+            allowCancel: false,
+            confirmText: "Save");
+
+        if (authorName != null) {
+          asset = asset.copyWith(authorName: authorName);
+        }
       }
     }
 
@@ -68,13 +94,54 @@ class FileSelector extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget body(BuildContext context, WidgetRef ref) {
     String? _title = asset != null ? asset!.fileName : title;
     String? _subtitle = asset != null ? "Type: ${asset!.fileType}" : null;
 
-    if (asset != null &&
-        asset!.authorName != null &&
-        asset!.authorName!.isNotEmpty) {
+    if (asset != null && asset!.authorName != null && asset!.authorName!.isNotEmpty) {
+      _title = "$_title (Author: ${asset!.authorName})";
+    }
+
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _IconPreview(
+              asset: asset,
+            ),
+            const SizedBox(height: 8),
+            if (_title != null)
+              Text(
+                _title,
+                style: const TextStyle(fontSize: 14),
+                textAlign: TextAlign.center,
+              ),
+            if (_subtitle != null) Text(_subtitle, style: const TextStyle(fontSize: 12)),
+            const SizedBox(height: 16),
+            asset == null
+                ? buildChooseFileButton()
+                : Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      buildReplaceButton(),
+                      const SizedBox(height: 8),
+                      buildRemoveButton(),
+                    ],
+                  )
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget desktopBody(BuildContext context, WidgetRef ref) {
+    String? _title = asset != null ? asset!.fileName : title;
+    String? _subtitle = asset != null ? "Type: ${asset!.fileType}" : null;
+
+    if (asset != null && asset!.authorName != null && asset!.authorName!.isNotEmpty) {
       _title = "$_title (Author: ${asset!.authorName})";
     }
 
@@ -87,67 +154,106 @@ class FileSelector extends StatelessWidget {
           color: transparentBackground ? Colors.transparent : null,
           child: ListTile(
             tileColor: transparentBackground ? Colors.transparent : null,
-            leading: Builder(
-              builder: (context) {
-                if (asset != null && asset!.isImage) {
-                  return Image.file(
-                    asset!.file,
-                    width: 32,
-                    height: 32,
-                    fit: BoxFit.cover,
-                  );
-                }
-                return const Icon(Icons.file_present_outlined);
-              },
-            ),
+            leading: _IconPreview(asset: asset),
             title: Text(_title ?? ""),
             subtitle: Text(_subtitle ?? ""),
             trailing: asset == null
                 ? Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      AppButton(
-                        label: "Choose File",
-                        icon: Icons.upload,
-                        onPressed: readOnly ? null : _handleUpload,
-                      ),
+                      buildChooseFileButton(),
                     ],
                   )
                 : Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      AppButton(
-                        label: "Reveal",
-                        icon: Icons.folder_open,
-                        onPressed: () {
-                          openFile(asset!.file);
-                        },
-                      ),
-                      if (allowReplace)
-                        Padding(
-                          padding: const EdgeInsets.only(left: 6.0),
-                          child: AppButton(
-                            label: "Replace",
-                            icon: Icons.upload,
-                            onPressed: readOnly ? null : _handleUpload,
-                          ),
-                        ),
+                      if (!kIsWeb) buildRevealButton(),
+                      if (allowReplace) buildReplaceButton(),
                       const SizedBox(width: 6),
-                      AppButton(
-                        label: "Remove",
-                        icon: Icons.delete,
-                        variant: AppColorVariant.Danger,
-                        onPressed: readOnly
-                            ? null
-                            : () {
-                                onChange(null);
-                              },
-                      ),
+                      buildRemoveButton(),
                     ],
                   ),
           ),
         ),
       ],
+    );
+  }
+
+  AppButton buildRemoveButton() {
+    return AppButton(
+      label: "Remove",
+      icon: Icons.delete,
+      variant: AppColorVariant.Danger,
+      onPressed: readOnly
+          ? null
+          : () {
+              onChange(null);
+            },
+    );
+  }
+
+  Padding buildReplaceButton() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 6.0),
+      child: AppButton(
+        label: "Replace",
+        icon: Icons.upload,
+        onPressed: readOnly ? null : _handleUpload,
+      ),
+    );
+  }
+
+  AppButton buildRevealButton() {
+    return AppButton(
+      label: "Reveal",
+      icon: Icons.folder_open,
+      onPressed: () {
+        openFile(asset!.file);
+      },
+    );
+  }
+
+  AppButton buildChooseFileButton() {
+    return AppButton(
+      label: "Choose File",
+      icon: Icons.upload,
+      onPressed: readOnly ? null : _handleUpload,
+    );
+  }
+}
+
+class _IconPreview extends StatelessWidget {
+  const _IconPreview({
+    Key? key,
+    required this.asset,
+  }) : super(key: key);
+
+  final Asset? asset;
+
+  @override
+  Widget build(BuildContext context) {
+    final size = BreakPoints.useMobileLayout(context) ? 64.0 : 32.0;
+
+    return Builder(
+      builder: (context) {
+        if (asset != null && asset!.isImage) {
+          if (kIsWeb && asset!.bytes != null) {
+            return Image.memory(
+              asset!.bytes!,
+              width: size,
+              height: size,
+              fit: BoxFit.cover,
+            );
+          }
+          return Image.file(
+            asset!.file,
+            width: size,
+            height: size,
+            fit: BoxFit.cover,
+          );
+        }
+        return const Icon(Icons.file_present_outlined);
+      },
     );
   }
 }

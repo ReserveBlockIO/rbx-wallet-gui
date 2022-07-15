@@ -1,4 +1,4 @@
-phony: build_mac, package_mac
+phony: build_mac, package_mac,
 
 gen:
 	fvm flutter packages pub run build_runner build --delete-conflicting-outputs
@@ -65,6 +65,16 @@ build_win7:
 deploy_proxy:
 	git subtree push --prefix proxy heroku main
 
+
+build_web_debug:
+	fvm flutter build web --profile --dart-define=Dart2jsOptimization=O0
+
+build_web:
+	fvm flutter build web
+
 deploy_web:
-	flutter build web
+	firebase deploy --only hosting
+
+build_and_deploy_web:
+	fvm flutter build web
 	firebase deploy --only hosting

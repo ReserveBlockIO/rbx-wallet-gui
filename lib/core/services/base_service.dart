@@ -31,9 +31,7 @@ class BaseService {
       host = hostOverride!;
     }
 
-    final baseUrl = apiBasePathOverride == null
-        ? host
-        : host.replaceAll("/api/V1", apiBasePathOverride!);
+    final baseUrl = apiBasePathOverride == null ? host : host.replaceAll("/api/V1", apiBasePathOverride!);
     return BaseOptions(baseUrl: baseUrl, headers: _headers(auth, json));
   }
 
@@ -96,6 +94,7 @@ class BaseService {
     String path, {
     Map<String, dynamic> params = const {},
     bool auth = true,
+    bool responseIsJson = false,
   }) async {
     try {
       var response = await Dio(_options(auth: auth, json: true)).post(
@@ -103,7 +102,7 @@ class BaseService {
         data: params,
       );
 
-      final data = jsonDecode(response.toString());
+      final data = responseIsJson ? response.data : jsonDecode(response.toString());
 
       return {'data': data};
 
@@ -119,6 +118,7 @@ class BaseService {
       // }
       // return response.data;
     } catch (e) {
+      print(e);
       rethrow;
     }
   }
@@ -198,4 +198,26 @@ class BaseService {
   //     rethrow;
   //   }
   // }
+
+  Future<Map<String, dynamic>> postFormData(
+    String path, {
+    required FormData data,
+  }) async {
+    var response = await Dio(_options(json: false, auth: false)).post(
+      _cleanPath(path),
+      data: data,
+    );
+
+    if (response.statusCode == 204) {
+      return {};
+    }
+    if (response.data == null) {
+      return {};
+    }
+    if (response.data.runtimeType == String) {
+      return jsonDecode(response.data);
+    }
+
+    return response.data;
+  }
 }

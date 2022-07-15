@@ -1,3 +1,6 @@
+import 'dart:html';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rbx_wallet/app.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
@@ -9,7 +12,11 @@ class Toast {
     final snackBar = SnackBar(
       content: Text(
         message,
-        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontFamily: kIsWeb && window.navigator.userAgent.contains('OS 15_') ? '-apple-system' : null,
+        ),
       ),
       backgroundColor: Theme.of(context).colorScheme.success,
     );
@@ -22,7 +29,10 @@ class Toast {
     final snackBar = SnackBar(
       content: Text(
         message,
-        style: const TextStyle(color: Colors.white),
+        style: TextStyle(
+          color: Colors.white,
+          fontFamily: kIsWeb && window.navigator.userAgent.contains('OS 15_') ? '-apple-system' : null,
+        ),
       ),
       backgroundColor: Theme.of(context).colorScheme.danger,
     );

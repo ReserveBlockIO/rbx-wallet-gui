@@ -12,8 +12,7 @@ class CompileAnimation extends StatefulWidget {
   State<CompileAnimation> createState() => _CompileAnimationState();
 }
 
-class _CompileAnimationState extends State<CompileAnimation>
-    with TickerProviderStateMixin {
+class _CompileAnimationState extends State<CompileAnimation> with TickerProviderStateMixin {
   // late final AnimationController _controller = AnimationController(
   //   duration: const Duration(seconds: 2),
   //   vsync: this,
@@ -61,9 +60,10 @@ class _CompileAnimationState extends State<CompileAnimation>
                     child: Container(
                       color: Colors.black,
                       width: 100,
-                      child: GifView.asset(
+                      height: 100,
+                      child: Image.asset(
                         Assets.images.animatedCube.path,
-                        frameRate: 120,
+                        scale: 1,
                       ),
                     ),
                   ),
@@ -72,10 +72,7 @@ class _CompileAnimationState extends State<CompileAnimation>
                 Text(
                   widget.mint ? "Minting…" : "Compiling & Minting…",
                   textAlign: TextAlign.center,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline6!
-                      .copyWith(color: Colors.white, letterSpacing: 1),
+                  style: Theme.of(context).textTheme.headline6!.copyWith(color: Colors.white, letterSpacing: 1),
                 )
               ],
             ),
@@ -91,12 +88,10 @@ class CompileAnimationComplete extends StatefulWidget {
   const CompileAnimationComplete(this.mint, {Key? key}) : super(key: key);
 
   @override
-  State<CompileAnimationComplete> createState() =>
-      _CompileAnimationCompleteState();
+  State<CompileAnimationComplete> createState() => _CompileAnimationCompleteState();
 }
 
-class _CompileAnimationCompleteState extends State<CompileAnimationComplete>
-    with TickerProviderStateMixin {
+class _CompileAnimationCompleteState extends State<CompileAnimationComplete> with TickerProviderStateMixin {
   bool isAnimating = false;
 
   late AnimateIconController controller;
@@ -155,10 +150,7 @@ class _CompileAnimationCompleteState extends State<CompileAnimationComplete>
                 ),
                 Text(
                   widget.mint ? "Minted!" : "Compiled!",
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline6!
-                      .copyWith(color: Colors.white, letterSpacing: 1),
+                  style: Theme.of(context).textTheme.headline6!.copyWith(color: Colors.white, letterSpacing: 1),
                 ),
               ],
             ),

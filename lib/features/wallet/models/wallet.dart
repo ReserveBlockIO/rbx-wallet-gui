@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/features/keygen/models/keypair.dart';
 
 part 'wallet.freezed.dart';
 part 'wallet.g.dart';
@@ -19,6 +20,21 @@ class Wallet with _$Wallet {
   }) = _Wallet;
 
   factory Wallet.fromJson(Map<String, dynamic> json) => _$WalletFromJson(json);
+
+  factory Wallet.fromWebWallet({
+    required Keypair keypair,
+    required double balance,
+  }) {
+    return Wallet(
+      address: keypair.public,
+      balance: balance,
+      id: 0,
+      publicKey: keypair.publicInflated,
+      privateKey: keypair.private,
+      isEncrypted: false,
+      isValidating: false,
+    );
+  }
 
   String get label {
     if (friendlyName != null) {

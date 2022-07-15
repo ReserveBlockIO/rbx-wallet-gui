@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
 
@@ -25,7 +26,7 @@ class ModalContainer extends StatelessWidget {
         children: [
           if (withDecor)
             Opacity(
-              opacity: 0.5,
+              opacity: kIsWeb ? 0.1 : 0.5,
               child: Image.asset(
                 Assets.images.decorBottomRight.path,
                 width: 300,

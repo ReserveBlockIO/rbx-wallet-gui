@@ -30,8 +30,11 @@ abstract class CompilerPayload with _$CompilerPayload {
         String? signature,
     @JsonKey(name: "Features")
         List<Map<String, dynamic>>? features,
+    @JsonKey(name: "MinterAddress")
+        required String minterAddress,
+    @JsonKey(name: "IsMinter")
+        required bool isMinter,
   }) = _CompilerPayload;
 
-  factory CompilerPayload.fromJson(Map<String, dynamic> json) =>
-      _$CompilerPayloadFromJson(json);
+  factory CompilerPayload.fromJson(Map<String, dynamic> json) => _$CompilerPayloadFromJson(json);
 }

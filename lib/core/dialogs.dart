@@ -105,9 +105,7 @@ class ConfirmDialog {
             ),
             TextButton(
               style: TextButton.styleFrom(
-                primary: destructive
-                    ? Theme.of(context).colorScheme.danger
-                    : Theme.of(context).colorScheme.info,
+                primary: destructive ? Theme.of(context).colorScheme.danger : Theme.of(context).colorScheme.info,
                 textStyle: const TextStyle(fontWeight: FontWeight.bold),
               ),
               onPressed: () {
@@ -116,9 +114,7 @@ class ConfirmDialog {
               child: Text(
                 confirmText ?? "Yes",
                 style: TextStyle(
-                  color: destructive
-                      ? Theme.of(context).colorScheme.danger
-                      : Colors.white,
+                  color: destructive ? Theme.of(context).colorScheme.danger : Colors.white,
                 ),
               ),
             )
@@ -151,8 +147,7 @@ class PromptModal {
 
     final GlobalKey<FormState> _formKey = GlobalKey();
 
-    final TextEditingController _controller =
-        TextEditingController(text: initialValue);
+    final TextEditingController _controller = TextEditingController(text: initialValue);
 
     return await showDialog(
       context: context,
@@ -160,15 +155,9 @@ class PromptModal {
       builder: (context) {
         return AlertDialog(
           title: Text(title),
-          titlePadding: tightPadding
-              ? const EdgeInsets.all(12.0)
-              : const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 20),
-          contentPadding: tightPadding
-              ? const EdgeInsets.all(12.0)
-              : const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0),
-          insetPadding: tightPadding
-              ? const EdgeInsets.all(8.0)
-              : const EdgeInsets.symmetric(horizontal: 40.0, vertical: 24.0),
+          titlePadding: tightPadding ? const EdgeInsets.all(12.0) : const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 20),
+          contentPadding: tightPadding ? const EdgeInsets.all(12.0) : const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0),
+          insetPadding: tightPadding ? const EdgeInsets.all(8.0) : const EdgeInsets.symmetric(horizontal: 40.0, vertical: 24.0),
           content: Form(
             key: _formKey,
             child: Column(
@@ -208,9 +197,7 @@ class PromptModal {
               ),
             TextButton(
               style: TextButton.styleFrom(
-                primary: destructive
-                    ? Theme.of(context).colorScheme.danger
-                    : Theme.of(context).colorScheme.info,
+                primary: destructive ? Theme.of(context).colorScheme.danger : Theme.of(context).colorScheme.info,
                 textStyle: const TextStyle(fontWeight: FontWeight.bold),
               ),
               onPressed: () {
@@ -226,8 +213,7 @@ class PromptModal {
                   Navigator.of(context).pop(value);
                 }
               },
-              child: Text(confirmText ?? "Submit",
-                  style: TextStyle(color: Theme.of(context).colorScheme.info)),
+              child: Text(confirmText ?? "Submit", style: TextStyle(color: Theme.of(context).colorScheme.info)),
             )
           ],
         );
@@ -246,6 +232,7 @@ class AuthModalResponse {
 class AuthModal {
   static Future<void> show({
     bool forCreate = true,
+    bool withExplanation = false,
     required BuildContext context,
     required Function(AuthModalResponse) onValidSubmission,
   }) async {
@@ -253,58 +240,75 @@ class AuthModal {
 
     final GlobalKey<FormState> _formKey = GlobalKey();
 
-    final TextEditingController _emailController =
-        TextEditingController(text: '');
+    final TextEditingController _emailController = TextEditingController(text: '');
 
-    final TextEditingController _passwordController =
-        TextEditingController(text: '');
+    final TextEditingController _passwordController = TextEditingController(text: '');
 
-    final TextEditingController _confirmPasswordController =
-        TextEditingController(text: '');
+    final TextEditingController _confirmPasswordController = TextEditingController(text: '');
 
     return await showDialog(
       context: context,
       barrierDismissible: true,
       builder: (context) {
         return AlertDialog(
-          title: Text(forCreate ? "Create Wallet" : "Login"),
+          title: Text(forCreate ? "Create Wallet" : "Login",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              )),
           titlePadding: const EdgeInsets.all(12.0),
           contentPadding: const EdgeInsets.all(12.0),
           insetPadding: const EdgeInsets.all(8.0),
+          backgroundColor: Color(0xFF040f26),
           content: Form(
             key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextFormField(
-                  controller: _emailController,
-                  autofocus: true,
-                  decoration: const InputDecoration(
-                    label: Text("Email Address"),
-                  ),
-                  validator: formValidatorEmail,
-                  keyboardType: TextInputType.emailAddress,
-                ),
-                TextFormField(
-                  controller: _passwordController,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    label: Text("Password"),
-                  ),
-                  validator: formValidatorPassword,
-                  keyboardType: TextInputType.emailAddress,
-                ),
-                if (forCreate)
-                  TextFormField(
-                    controller: _confirmPasswordController,
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      label: Text("Confirm Password"),
+            child: Padding(
+              padding: const EdgeInsets.all(0),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 400),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (withExplanation)
+                      Text("A web wallet is required to continue.\nPlease create your account now with your email address and a password."),
+                    Text(
+                      "Your email and password is used to seed your private key which is processed in this browser and will never be transmitted accross the internet.",
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.white70,
+                      ),
                     ),
-                    validator: formValidatorPassword,
-                    keyboardType: TextInputType.emailAddress,
-                  ),
-              ],
+                    TextFormField(
+                      controller: _emailController,
+                      autofocus: true,
+                      decoration: const InputDecoration(
+                        hintText: "Email Address",
+                      ),
+                      validator: formValidatorEmail,
+                      keyboardType: TextInputType.emailAddress,
+                    ),
+                    TextFormField(
+                      controller: _passwordController,
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        hintText: "Password",
+                      ),
+                      validator: formValidatorPassword,
+                      keyboardType: TextInputType.emailAddress,
+                    ),
+                    if (forCreate)
+                      TextFormField(
+                        controller: _confirmPasswordController,
+                        obscureText: true,
+                        decoration: const InputDecoration(
+                          hintText: "Confirm Password",
+                        ),
+                        validator: formValidatorPassword,
+                        keyboardType: TextInputType.emailAddress,
+                      ),
+                  ],
+                ),
+              ),
             ),
           ),
           actions: [
@@ -331,22 +335,18 @@ class AuthModal {
               onPressed: () {
                 if (!_formKey.currentState!.validate()) return;
 
-                if (forCreate &&
-                    _passwordController.text !=
-                        _confirmPasswordController.text) {
+                if (forCreate && _passwordController.text != _confirmPasswordController.text) {
                   Toast.error("Passwords do not match");
                   return;
                 }
 
                 onValidSubmission(
-                  AuthModalResponse(
-                      _emailController.text, _passwordController.text),
+                  AuthModalResponse(_emailController.text, _passwordController.text),
                 );
 
                 Navigator.of(context).pop();
               },
-              child: Text(forCreate ? "Create" : "Login",
-                  style: TextStyle(color: Theme.of(context).colorScheme.info)),
+              child: Text(forCreate ? "Create" : "Login", style: TextStyle(color: Theme.of(context).colorScheme.info)),
             )
           ],
         );

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
+import 'package:rbx_wallet/core/breakpoints.dart';
 import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
@@ -24,11 +25,9 @@ class SendForm extends BaseComponent {
   final GlobalKey<FormState> _formKey = GlobalKey();
 
   Future<void> _pasteAddress(SendFormProvider formProvider) async {
-    ClipboardData? clipboardData =
-        await Clipboard.getData(Clipboard.kTextPlain);
+    ClipboardData? clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
     if (clipboardData != null && clipboardData.text != null) {
-      final normalizedText =
-          clipboardData.text!.replaceAll(RegExp('[^a-zA-Z0-9]'), "");
+      final normalizedText = clipboardData.text!.replaceAll(RegExp('[^a-zA-Z0-9]'), "");
       formProvider.addressController.text = normalizedText;
     } else {
       Toast.error("Clipboard text is invalid");
@@ -49,23 +48,25 @@ class SendForm extends BaseComponent {
       pasteMessage = pasteMessage.replaceAll("ctrl+v", "cmd+v");
     }
 
-    final balance =
-        isWeb ? ref.read(webSessionProvider).balance : wallet!.balance;
+    final balance = isWeb ? ref.read(webSessionProvider).balance : wallet!.balance;
+    final isMobile = BreakPoints.useMobileLayout(context);
 
     return Form(
       key: _formKey,
       child: Card(
+        color: kIsWeb ? Theme.of(context).colorScheme.primary.withOpacity(0.5) : null,
         child: Padding(
           padding: const EdgeInsets.only(bottom: 8.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ListTile(
-                leading: const SizedBox(width: leadingWidth, child: Text("From:")),
-                title: Text(isWeb ? keypair!.public : wallet!.address),
-                subtitle: isWeb
-                    ? Text("$balance RBX")
-                    : Text(wallet!.friendlyName ?? ""),
+                dense: isMobile,
+                visualDensity: isMobile ? VisualDensity.compact : VisualDensity.comfortable,
+                leading: isMobile ? null : const SizedBox(width: leadingWidth, child: Text("From:")),
+                title: Text(isWeb ? "${isMobile ? "From: " : ""}${keypair!.public}" : wallet!.address),
+                subtitle: isWeb ? Text("Balance: $balance RBX") : Text(wallet!.friendlyName ?? ""),
                 trailing: !isWeb
                     ? AppBadge(
                         label: "$balance RBX",
@@ -74,12 +75,11 @@ class SendForm extends BaseComponent {
                     : null,
               ),
               ListTile(
-                leading: const SizedBox(width: leadingWidth, child: Text("To:")),
+                leading: isMobile ? null : const SizedBox(width: leadingWidth, child: Text("To:")),
                 title: TextFormField(
                   controller: formProvider.addressController,
                   validator: formProvider.addressValidator,
-                  decoration:
-                      const InputDecoration(hintText: "Recipient's Wallet Address"),
+                  decoration: const InputDecoration(hintText: "Recipient's Wallet Address"),
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]')),
                   ],
@@ -106,29 +106,27 @@ class SendForm extends BaseComponent {
                     ],
                   ),
                 ),
-                trailing: IconButton(
-                  icon: const Icon(Icons.paste),
-                  onPressed: () {
-                    _pasteAddress(formProvider);
-                  },
-                ),
+                trailing: isMobile
+                    ? null
+                    : IconButton(
+                        icon: const Icon(Icons.paste),
+                        onPressed: () {
+                          _pasteAddress(formProvider);
+                        },
+                      ),
               ),
               ListTile(
-                leading: const SizedBox(width: leadingWidth, child: Text("Amount:")),
+                leading: isMobile ? null : const SizedBox(width: leadingWidth, child: Text("Amount:")),
                 title: TextFormField(
                   controller: formProvider.amountController,
                   validator: formProvider.amountValidator,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp("[0-9.]"))
-                  ],
-                  decoration:
-                      const InputDecoration(hintText: "Amount of RBX to send"),
+                  inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
+                  decoration: const InputDecoration(hintText: "Amount of RBX to send"),
                   keyboardType: TextInputType.number,
                 ),
               ),
               const Padding(
-                padding:
-                    EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: Divider(),
               ),
               Padding(

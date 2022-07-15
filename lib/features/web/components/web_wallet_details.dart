@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 class WebWalletDetails extends BaseComponent {
   const WebWalletDetails({Key? key}) : super(key: key);
@@ -33,7 +35,10 @@ class WebWalletDetails extends BaseComponent {
           mainAxisSize: MainAxisSize.min,
           children: [
             InkWell(
-                onTap: () {},
+                onTap: () async {
+                  await Clipboard.setData(ClipboardData(text: keypair.public));
+                  Toast.message("Address ${keypair.public} copied to clipboard");
+                },
                 child: const Padding(
                   padding: EdgeInsets.all(4.0),
                   child: Icon(
@@ -41,15 +46,15 @@ class WebWalletDetails extends BaseComponent {
                     size: 20,
                   ),
                 )),
-            InkWell(
-                onTap: () {},
-                child: const Padding(
-                  padding: EdgeInsets.all(4.0),
-                  child: Icon(
-                    Icons.remove_red_eye,
-                    size: 20,
-                  ),
-                )),
+            // InkWell(
+            //     onTap: () {},
+            //     child: const Padding(
+            //       padding: EdgeInsets.all(4.0),
+            //       child: Icon(
+            //         Icons.remove_red_eye,
+            //         size: 20,
+            //       ),
+            //     )),
           ],
         ),
       ),

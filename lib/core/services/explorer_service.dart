@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/services/base_service.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/node/models/masternode.dart';
+import 'package:rbx_wallet/features/transactions/models/web_transaction.dart';
+import 'package:rbx_wallet/features/web/models/paginated_response.dart';
 import 'package:rbx_wallet/features/web/models/web_block.dart';
 
 class ExplorerService extends BaseService {
@@ -34,12 +38,45 @@ class ExplorerService extends BaseService {
     }
   }
 
+  Future<WebTransaction?> retrieveTransaction(String hash) async {
+    try {
+      final data = await getJson('/transactions/$hash');
+      return WebTransaction.fromJson(data);
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<PaginatedResponse<WebTransaction>> getTransactions({
+    required int page,
+    required String address,
+    required bool to,
+    int limit = 10,
+  }) async {
+    try {
+      final params = {
+        to ? 'to_address' : 'from_address': address,
+        'page': page,
+        'limit': limit,
+      };
+
+      final response = await getJson('/transactions', params: params);
+
+      final List<WebTransaction> results = response['results'].map<WebTransaction>((json) => WebTransaction.fromJson(json)).toList();
+      return PaginatedResponse(count: response['count'], page: response['page'], num_pages: response['num_pages'], results: results);
+    } catch (e) {
+      print("ERRR");
+      print(e);
+      return PaginatedResponse.empty();
+    }
+  }
+
   Future<WebBlock?> getLatestBlock() async {
     try {
       final response = await getJson('/blocks', params: {'limit': 1});
 
-      if (response['results'] != null &&
-          (response['results'] as List).isNotEmpty) {
+      if (response['results'] != null && (response['results'] as List).isNotEmpty) {
         return WebBlock.fromJson(response['results'].first);
       }
       return null;

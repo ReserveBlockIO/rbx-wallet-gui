@@ -2,11 +2,20 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
+import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/nft/providers/web_nft_list_provider.dart';
+import 'package:rbx_wallet/features/web/components/web_no_wallet.dart';
 
 class WebNftListScreen extends BaseScreen {
-  const WebNftListScreen({Key? key}) : super(key: key);
+  const WebNftListScreen({Key? key})
+      : super(
+          key: key,
+          includeWebDrawer: true,
+          backgroundColor: Colors.black87,
+          horizontalPadding: 0,
+          verticalPadding: 0,
+        );
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
@@ -19,6 +28,12 @@ class WebNftListScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
+    final keypair = ref.read(webSessionProvider).keypair;
+
+    if (keypair == null) {
+      return const WebNotWallet();
+    }
+
     final nfts = ref.watch(webnftListProvider);
 
     return ListView.builder(
@@ -34,8 +49,7 @@ class WebNftListScreen extends BaseScreen {
             ),
             trailing: const Icon(Icons.chevron_right),
             onTap: () {
-              AutoRouter.of(context)
-                  .push(WebNftDetailScreenRoute(identifier: nft.id));
+              AutoRouter.of(context).push(WebNftDetailScreenRoute(identifier: nft.id));
             },
           );
         });

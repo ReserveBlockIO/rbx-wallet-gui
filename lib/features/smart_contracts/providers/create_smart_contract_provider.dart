@@ -1,9 +1,13 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/core/providers/web_session_provider.dart';
+import 'package:rbx_wallet/core/services/transaction_service.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/features/nft/providers/minted_nft_list_provider.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
@@ -55,7 +59,7 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
     read(multiAssetFormProvider.notifier).clear();
 
     final sc = SmartContract(
-      owner: read(sessionProvider).currentWallet!,
+      owner: kIsWeb ? read(webSessionProvider).currentWallet! : read(sessionProvider).currentWallet!,
     );
 
     setSmartContract(sc);
@@ -78,6 +82,7 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
   }
 
   void setPrimaryAsset(Asset? asset) {
+    print(asset);
     state = state.copyWith(primaryAsset: asset);
   }
 
@@ -159,8 +164,7 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
   }
 
   void saveMultiAsset(MultiAsset multiAsset) {
-    final exists =
-        state.multiAssets.firstWhereOrNull((m) => m.id == multiAsset.id);
+    final exists = state.multiAssets.firstWhereOrNull((m) => m.id == multiAsset.id);
 
     if (exists == null) {
       state = state.copyWith(multiAssets: [...state.multiAssets, multiAsset]);
@@ -247,10 +251,11 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
   }
 
   Future<CompiledSmartContract?> compile() async {
-    final payload =
-        state.serializeForCompiler(read(sessionProvider).timezoneName);
+    final timezoneName = kIsWeb ? read(webSessionProvider).timezoneName : read(sessionProvider).timezoneName;
 
-    final csc = await SmartContractService().compileSmartContract(payload);
+    final payload = state.serializeForCompiler(timezoneName);
+
+    final csc = kIsWeb ? await TransactionService().compileSmartContract(payload) : await SmartContractService().compileSmartContract(payload);
 
     if (csc == null) {
       return null;
@@ -260,17 +265,28 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
       return null;
     }
 
-    final details = await SmartContractService().retrieve(csc.smartContract.id);
+    final details =
+        kIsWeb ? await TransactionService().retrieveSmartContract(csc.smartContract.id) : await SmartContractService().retrieve(csc.smartContract.id);
 
-    read(mySmartContractsProvider.notifier).load();
-    read(nftListProvider.notifier).load();
-
+    if (kIsWeb) {
+    } else {
+      read(mySmartContractsProvider.notifier).load();
+      read(nftListProvider.notifier).load();
+    }
     if (details != null) {
       if (DELETE_DRAFT_ON_MINT) {
         deleteDraft();
       }
 
-      final wallets = read(walletListProvider);
+      final wallets = kIsWeb
+          ? [
+              Wallet.fromWebWallet(
+                keypair: read(webSessionProvider).keypair!,
+                balance: read(webSessionProvider).balance ?? 0,
+              ),
+            ]
+          : read(walletListProvider);
+
       final sc = SmartContract.fromCompiled(details, wallets);
       read(createSmartContractProvider.notifier).setSmartContract(
         sc.copyWith(
@@ -283,6 +299,8 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
   }
 
   Future<bool> mint() async {
+    return true; //TEMP to avoid minting
+
     final success = await SmartContractService().mint(state.id);
 
     if (success) {
@@ -349,12 +367,18 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
   }
 }
 
-final createSmartContractProvider =
-    StateNotifierProvider<CreateSmartContractProvider, SmartContract>(
+final createSmartContractProvider = StateNotifierProvider<CreateSmartContractProvider, SmartContract>(
   (ref) {
-    final initial = SmartContract(
-      owner: ref.read(sessionProvider).currentWallet!,
-    );
-    return CreateSmartContractProvider(ref.read, initial);
+    if (kIsWeb) {
+      final initial = SmartContract(
+        owner: ref.read(webSessionProvider).currentWallet!,
+      );
+      return CreateSmartContractProvider(ref.read, initial);
+    } else {
+      final initial = SmartContract(
+        owner: ref.read(sessionProvider).currentWallet!,
+      );
+      return CreateSmartContractProvider(ref.read, initial);
+    }
   },
 );

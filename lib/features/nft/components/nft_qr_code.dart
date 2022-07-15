@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:file_saver/file_saver.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
@@ -18,8 +20,7 @@ class NftQrCode extends StatelessWidget {
 
   Future<void> writeToFile(ByteData data, String path) async {
     final buffer = data.buffer;
-    await File(path).writeAsBytes(
-        buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
+    await File(path).writeAsBytes(buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
   }
 
   @override
@@ -64,20 +65,27 @@ class NftQrCode extends StatelessWidget {
                   emptyColor: Colors.white,
                 );
 
-                Directory tempDir = await getTemporaryDirectory();
-                String tempPath = tempDir.path;
-                final ts = DateTime.now().millisecondsSinceEpoch.toString();
-                String path =
-                    '$tempPath${Platform.isWindows ? '\\' : '/'}$ts.png';
+                if (kIsWeb) {
+                  final picData = await painter.toImageData(2048, format: ImageByteFormat.png);
+                  if (picData == null) {
+                    return;
+                  }
 
-                final picData = await painter.toImageData(2048,
-                    format: ImageByteFormat.png);
-                if (picData == null) {
-                  return;
+                  await FileSaver.instance.saveFile("qr.png", picData.buffer.asUint8List(), 'image/png');
+                } else {
+                  Directory tempDir = await getTemporaryDirectory();
+                  String tempPath = tempDir.path;
+                  final ts = DateTime.now().millisecondsSinceEpoch.toString();
+                  String path = '$tempPath${Platform.isWindows ? '\\' : '/'}$ts.png';
+
+                  final picData = await painter.toImageData(2048, format: ImageByteFormat.png);
+                  if (picData == null) {
+                    return;
+                  }
+
+                  await writeToFile(picData, path);
+                  openFile(File(path));
                 }
-
-                await writeToFile(picData, path);
-                openFile(File(path));
               },
               icon: Icons.download,
             )

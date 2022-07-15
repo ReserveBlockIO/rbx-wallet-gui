@@ -11,6 +11,7 @@ class KeygenService {
       private: "mock",
       public: "mock",
       publicInflated: "mock",
+      email: "mock@mock.com",
     );
   }
 
@@ -22,6 +23,7 @@ class KeygenService {
       private: "mock",
       public: "mock",
       publicInflated: "mock",
+      email: "mock@mock.com",
     );
   }
 

@@ -15,14 +15,11 @@ import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/root/components/system_manager.dart';
 
-final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
-    GlobalKey<ScaffoldMessengerState>();
+final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
 final GlobalKey<ScaffoldState> rootScaffoldKey = GlobalKey<ScaffoldState>();
 
-GlobalKey<NavigatorState> rootNavigatorKey = Env.isWeb
-    ? singleton<WebRouter>().navigatorKey
-    : singleton<AppRouter>().navigatorKey;
+GlobalKey<NavigatorState> rootNavigatorKey = Env.isWeb ? singleton<WebRouter>().navigatorKey : singleton<AppRouter>().navigatorKey;
 
 class App extends ConsumerWidget {
   const App({Key? key}) : super(key: key);
@@ -35,9 +32,8 @@ class App extends ConsumerWidget {
     if (kIsWeb) {
       ref.read(webSessionProvider.notifier);
       return const AppContainer();
-    } else {
-      ref.read(sessionProvider.notifier);
     }
+    ref.read(sessionProvider.notifier);
 
     return const AppSystemManager(child: AppContainer());
   }
@@ -58,12 +54,12 @@ class AppContainer extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       scaffoldMessengerKey: rootScaffoldMessengerKey,
       theme: AppTheme.dark().themeData,
-      routeInformationParser:
-          router.defaultRouteParser(includePrefixMatches: true),
-      routerDelegate: AutoRouterDelegate(
-        router,
-        navigatorObservers: () => [AutoRouteObserver()],
-      ),
+      routeInformationParser: router.defaultRouteParser(),
+      // routerDelegate: AutoRouterDelegate(
+      //   router,
+      //   navigatorObservers: () => [AutoRouteObserver()],
+      // ),
+      routerDelegate: router.delegate(),
       builder: (context, widget) {
         if (!ref.watch(readyProvider)) {
           if (kIsWeb) {
@@ -94,7 +90,7 @@ class AppContainer extends ConsumerWidget {
           ],
         );
       },
-      title: 'RBX',
+      title: 'RBX Wallet',
     );
   }
 }

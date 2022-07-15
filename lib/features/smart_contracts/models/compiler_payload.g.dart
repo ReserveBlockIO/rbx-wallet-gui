@@ -19,6 +19,8 @@ _$_CompilerPayload _$$_CompilerPayloadFromJson(Map<String, dynamic> json) =>
       features: (json['Features'] as List<dynamic>?)
           ?.map((e) => e as Map<String, dynamic>)
           .toList(),
+      minterAddress: json['MinterAddress'] as String,
+      isMinter: json['IsMinter'] as bool,
     );
 
 Map<String, dynamic> _$$_CompilerPayloadToJson(_$_CompilerPayload instance) =>
@@ -32,4 +34,6 @@ Map<String, dynamic> _$$_CompilerPayloadToJson(_$_CompilerPayload instance) =>
       'SmartContractUID': instance.uuid,
       'Signature': instance.signature,
       'Features': instance.features,
+      'MinterAddress': instance.minterAddress,
+      'IsMinter': instance.isMinter,
     };

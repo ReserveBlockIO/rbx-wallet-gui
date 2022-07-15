@@ -20,7 +20,7 @@ class KeygenCta extends BaseComponent {
       validator: (String? value) => formValidatorNotEmpty(value, "Private Key"),
       labelText: "Private Key",
       onValidSubmission: (value) async {
-        final keypair = await KeygenService.importPrivateKey(value);
+        final keypair = await KeygenService.importPrivateKey(value, "todo@test.com"); //TODO email
 
         showKeys(context, keypair);
       },
@@ -84,8 +84,7 @@ class KeygenCta extends BaseComponent {
             children: [
               const Align(
                 alignment: Alignment.centerLeft,
-                child: Text(
-                    "Here is your wallet details. Please ensure to back up your private key in a safe place."),
+                child: Text("Here is your wallet details. Please ensure to back up your private key in a safe place."),
               ),
               if (keypair.mneumonic != null)
                 ListTile(
@@ -103,8 +102,7 @@ class KeygenCta extends BaseComponent {
                   trailing: IconButton(
                     icon: const Icon(Icons.copy),
                     onPressed: () async {
-                      await Clipboard.setData(
-                          ClipboardData(text: keypair.mneumonic));
+                      await Clipboard.setData(ClipboardData(text: keypair.mneumonic));
                       Toast.message("Mneumonic copied to clipboard");
                     },
                   ),
@@ -120,8 +118,7 @@ class KeygenCta extends BaseComponent {
                 trailing: IconButton(
                   icon: const Icon(Icons.copy),
                   onPressed: () async {
-                    await Clipboard.setData(
-                        ClipboardData(text: keypair.public));
+                    await Clipboard.setData(ClipboardData(text: keypair.public));
                     Toast.message("Public key copied to clipboard");
                   },
                 ),
@@ -139,8 +136,7 @@ class KeygenCta extends BaseComponent {
                 trailing: IconButton(
                   icon: const Icon(Icons.copy),
                   onPressed: () async {
-                    await Clipboard.setData(
-                        ClipboardData(text: keypair.private));
+                    await Clipboard.setData(ClipboardData(text: keypair.private));
                     Toast.message("Private key copied to clipboard");
                   },
                 ),

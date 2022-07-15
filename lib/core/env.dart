@@ -15,7 +15,7 @@ enum _Environment {
   WebDev,
 }
 
-const _env = _Environment.WebDev;
+const _env = _Environment.Web;
 
 class Env {
   static init() async {
@@ -66,13 +66,11 @@ class Env {
   }
 
   static String get explorerApiBaseUrl {
-    return DotEnv.dotenv.env['EXPLORER_API_BASE_URL'] ??
-        'https://rbx-explorer-service.herokuapp.com/api';
+    return DotEnv.dotenv.env['EXPLORER_API_BASE_URL'] ?? 'https://rbx-explorer-service.herokuapp.com/api';
   }
 
   static String get transactionApiBaseUrl {
-    return DotEnv.dotenv.env['TRANSACTION_API_BASE_URL'] ??
-        'http://localhost:7292/txapi/txV1';
+    return DotEnv.dotenv.env['TRANSACTION_API_BASE_URL'] ?? 'http://localhost:7292/txapi/txV1';
   }
 
   static bool get launchCli {
@@ -96,8 +94,7 @@ class Env {
   }
 
   static String get portCheckerUrl {
-    return DotEnv.dotenv.env['PORT_CHECKER_URL'] ??
-        "https://us-central1-portpingr.cloudfunctions.net/pinger";
+    return DotEnv.dotenv.env['PORT_CHECKER_URL'] ?? "https://us-central1-portpingr.cloudfunctions.net/pinger";
   }
 
   static bool get hideCliOutput {

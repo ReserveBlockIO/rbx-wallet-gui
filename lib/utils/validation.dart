@@ -1,13 +1,19 @@
 import 'package:rbx_wallet/core/env.dart';
 
+bool isInt(String number) {
+  return int.tryParse(number) == null ? false : true;
+}
+
+bool isNumber(String number) {
+  return double.tryParse(number) == null ? false : true;
+}
+
 bool isValidEmail(String email) {
-  return RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
-      .hasMatch(email);
+  return RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$').hasMatch(email);
 }
 
 bool isValidUrl(String url) {
-  var urlPattern =
-      r"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$";
+  var urlPattern = r"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$";
   return RegExp(urlPattern, caseSensitive: false).hasMatch(url);
 }
 
@@ -131,6 +137,18 @@ String? formPercentValidator(String? val) {
 
   if (amount <= 0) {
     return "Must be more than 0%";
+  }
+
+  return null;
+}
+
+String? formValidatorNumber(String? value, String label) {
+  if (value == null || value.isEmpty) {
+    return "$label is required.";
+  }
+
+  if (!isNumber(value)) {
+    return "Invalid $label.";
   }
 
   return null;

@@ -22,16 +22,14 @@ abstract class BaseScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: appBar(context, ref),
-      drawer: includeWebDrawer ? const WebDrawer() : null,
+      drawer: includeWebDrawer && BreakPoints.useMobileLayout(context) ? const WebDrawer() : null,
       floatingActionButton: floatingActionButton(context, ref),
       body: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: horizontalPadding,
           vertical: verticalPadding,
         ),
-        child: BreakPoints.useMobileLayout(context)
-            ? body(context, ref)
-            : desktopBody(context, ref),
+        child: BreakPoints.useMobileLayout(context) ? body(context, ref) : desktopBody(context, ref),
       ),
     );
   }
@@ -40,8 +38,7 @@ abstract class BaseScreen extends ConsumerWidget {
     return null;
   }
 
-  FloatingActionButton? floatingActionButton(
-      BuildContext context, WidgetRef ref) {
+  FloatingActionButton? floatingActionButton(BuildContext context, WidgetRef ref) {
     return null;
   }
 
@@ -92,9 +89,7 @@ class BaseScreenState<T extends BaseStatefulScreen> extends ConsumerState<T> {
           horizontal: widget.horizontalPadding,
           vertical: widget.verticalPadding,
         ),
-        child: BreakPoints.useMobileLayout(context)
-            ? body(context)
-            : desktopBody(context),
+        child: BreakPoints.useMobileLayout(context) ? body(context) : desktopBody(context),
       ),
     );
   }

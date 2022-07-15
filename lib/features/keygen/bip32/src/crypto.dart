@@ -23,8 +23,7 @@ final ripemd160digest = RIPEMD160Digest();
 final curve = ECCurve_secp256k1();
 
 /// Used for the Base58 encoding.
-const String alphabet =
-    '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+const String alphabet = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
 
 /// From the specification (in bytes):
 /// 4 version
@@ -75,17 +74,11 @@ Uint8List serializeTo4bytes(int i) {
 }
 
 /// CKDpriv in the specficiation
-ExtendedPrivateKey deriveExtendedPrivateChildKey(
-    ExtendedPrivateKey parent, int childNumber) {
-  var message = childNumber >= firstHardenedChild
-      ? _derivePrivateMessage(parent, childNumber)
-      : _derivePublicMessage(parent.publicKey(), childNumber);
+ExtendedPrivateKey deriveExtendedPrivateChildKey(ExtendedPrivateKey parent, int childNumber) {
+  var message =
+      childNumber >= firstHardenedChild ? _derivePrivateMessage(parent, childNumber) : _derivePublicMessage(parent.publicKey(), childNumber);
+
   var hash = hmacSha512(parent.chainCode!, message);
-
-  print("-------------");
-  print("");
-
-  print("Hash ($childNumber) ${hex.encode(hash)}");
 
   var left = _leftFrom(hash);
   print("left: ${hex.encode(left)}");
@@ -125,8 +118,7 @@ ExtendedPrivateKey deriveExtendedPrivateChildKey(
 }
 
 /// CKDpub in the specification
-ExtendedPublicKey deriveExtendedPublicChildKey(
-    ExtendedPublicKey parent, int childNumber) {
+ExtendedPublicKey deriveExtendedPublicChildKey(ExtendedPublicKey parent, int childNumber) {
   if (childNumber >= firstHardenedChild) {
     throw InvalidChildNumber();
   }
@@ -247,8 +239,7 @@ abstract class ExtendedKey {
   factory ExtendedKey.deserialize(String key) {
     var decodedKey = const Base58Codec(alphabet).decode(key);
     if (decodedKey.length != lengthOfSerializedKey + lengthOfChecksum) {
-      throw InvalidKeyLength(
-          decodedKey.length, lengthOfSerializedKey + lengthOfChecksum);
+      throw InvalidKeyLength(decodedKey.length, lengthOfSerializedKey + lengthOfChecksum);
     }
 
     if (equal(decodedKey.getRange(0, 4), privateKeyVersion)) {
@@ -286,9 +277,7 @@ abstract class ExtendedKey {
   }
 
   Iterable<int> _checksum() {
-    return sha256digest
-        .process(sha256digest.process(Uint8List.fromList(_serialize())))
-        .getRange(0, 4);
+    return sha256digest.process(sha256digest.process(Uint8List.fromList(_serialize()))).getRange(0, 4);
   }
 
   /// Returns the string representation of this extended key. This can be
@@ -321,15 +310,9 @@ class ExtendedPrivateKey extends ExtendedKey {
     int? childNumber,
     Uint8List? chainCode,
     Uint8List? parentFingerprint,
-  }) : super(
-            version: privateKeyVersion,
-            depth: depth,
-            childNumber: childNumber,
-            parentFingerprint: parentFingerprint,
-            chainCode: chainCode);
+  }) : super(version: privateKeyVersion, depth: depth, childNumber: childNumber, parentFingerprint: parentFingerprint, chainCode: chainCode);
 
-  ExtendedPrivateKey.master(Uint8List seed)
-      : super(version: privateKeyVersion) {
+  ExtendedPrivateKey.master(Uint8List seed) : super(version: privateKeyVersion) {
     var hash = hmacSha512(masterKey, seed);
     print("hmacSha512: ${hex.encode(hash)}");
     key = utils.decodeBigIntWithSign(1, _leftFrom(hash));
@@ -348,8 +331,7 @@ class ExtendedPrivateKey extends ExtendedKey {
       key: utils.decodeBigIntWithSign(1, sublist(key, 46, 78)),
     );
 
-    if (!extendedPrivateKey.verifyChecksum(sublist(key, lengthOfSerializedKey,
-        lengthOfSerializedKey + lengthOfChecksum))) {
+    if (!extendedPrivateKey.verifyChecksum(sublist(key, lengthOfSerializedKey, lengthOfSerializedKey + lengthOfChecksum))) {
       throw InvalidChecksum();
     }
 
@@ -394,12 +376,7 @@ class ExtendedPublicKey extends ExtendedKey {
     childNumber,
     chainCode,
     parentFingerprint,
-  }) : super(
-            version: publicKeyVersion,
-            depth: depth,
-            childNumber: childNumber,
-            parentFingerprint: parentFingerprint,
-            chainCode: chainCode);
+  }) : super(version: publicKeyVersion, depth: depth, childNumber: childNumber, parentFingerprint: parentFingerprint, chainCode: chainCode);
 
   factory ExtendedPublicKey.deserialize(Uint8List key) {
     var extendedPublickey = ExtendedPublicKey(

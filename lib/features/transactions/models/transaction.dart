@@ -22,8 +22,7 @@ class Transaction with _$Transaction {
     @JsonKey(name: 'Height') required int height,
   }) = _Transaction;
 
-  factory Transaction.fromJson(Map<String, dynamic> json) =>
-      _$TransactionFromJson(json);
+  factory Transaction.fromJson(Map<String, dynamic> json) => _$TransactionFromJson(json);
 
   String get parseTimeStamp {
     var date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);

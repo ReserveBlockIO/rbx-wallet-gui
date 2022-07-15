@@ -1,3 +1,6 @@
+import 'dart:html';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rbx_wallet/utils/colors.dart';
 
@@ -44,8 +47,7 @@ extension CustomColorScheme on ColorScheme {
   Color get light => _light;
   Color get dark => _dark;
 
-  Color get text =>
-      brightness == Brightness.light ? _textColorDark : _textColorLight;
+  Color get text => brightness == Brightness.light ? _textColorDark : _textColorLight;
 
   // buttons
   Color get primaryButtonBg => primary;
@@ -94,6 +96,7 @@ class AppTheme {
         ),
       ),
       textTheme: _textTheme(),
+      fontFamily: kIsWeb && window.navigator.userAgent.contains('OS 15_') ? '-apple-system' : null,
     );
 
     return AppTheme(themeData: _themeData);
@@ -120,6 +123,7 @@ class AppTheme {
         ),
       ),
       textTheme: _textTheme(true),
+      fontFamily: kIsWeb && window.navigator.userAgent.contains('OS 15_') ? '-apple-system' : null,
     );
 
     return AppTheme(themeData: _themeData);

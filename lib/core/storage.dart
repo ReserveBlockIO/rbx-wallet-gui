@@ -52,7 +52,7 @@ class StorageImplementation extends Storage {
     isInitialized = true;
   }
 
-  String _buildKey(String key) => "${Env.storagePrefix}_$key";
+  String _buildKey(String key) => "${Env.storagePrefix}${Env.isTestNet ? '_TESTNET' : ''}_$key";
 
   @override
   void remove(String key) => _instance.remove(_buildKey(key));
@@ -60,14 +60,12 @@ class StorageImplementation extends Storage {
   @override
   String? getString(String key) => _instance.getString(_buildKey(key));
   @override
-  void setString(String key, String value) =>
-      _instance.setString(_buildKey(key), value);
+  void setString(String key, String value) => _instance.setString(_buildKey(key), value);
 
   @override
   bool? getBool(String key) => _instance.getBool(_buildKey(key));
   @override
-  void setBool(String key, bool value) =>
-      _instance.setBool(_buildKey(key), value);
+  void setBool(String key, bool value) => _instance.setBool(_buildKey(key), value);
 
   @override
   int? getInt(String key) => _instance.getInt(_buildKey(key));

@@ -13,6 +13,7 @@ _$_Asset _$$_AssetFromJson(Map<String, dynamic> json) => _$_Asset(
       location: json['Location'] as String,
       extension: json['Extension'] as String,
       fileSize: json['FileSize'] as int,
+      bytes: nullToNull(json['bytes']),
     );
 
 Map<String, dynamic> _$$_AssetToJson(_$_Asset instance) => <String, dynamic>{
@@ -22,4 +23,5 @@ Map<String, dynamic> _$$_AssetToJson(_$_Asset instance) => <String, dynamic>{
       'Location': instance.location,
       'Extension': instance.extension,
       'FileSize': instance.fileSize,
+      'bytes': bytesToNull(instance.bytes),
     };

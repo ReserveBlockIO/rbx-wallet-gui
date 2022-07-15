@@ -5,27 +5,45 @@ import 'package:rbx_wallet/core/services/explorer_service.dart';
 import 'package:rbx_wallet/core/singletons.dart';
 import 'package:rbx_wallet/core/storage.dart';
 import 'package:rbx_wallet/features/keygen/models/keypair.dart';
+import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 
 class WebSessionModel {
   final Keypair? keypair;
   final double? balance;
+  final bool isAuthenticated;
+  final String timezoneName;
 
   const WebSessionModel({
     this.keypair,
     this.balance,
+    this.isAuthenticated = false,
+    this.timezoneName = "America/Los_Angeles",
   });
-
-  bool get isAuthenticated {
-    return keypair != null;
-  }
 
   WebSessionModel copyWith({
     Keypair? keypair,
     double? balance,
+    bool? isAuthenticated,
+    String? timezoneName,
   }) {
     return WebSessionModel(
       keypair: keypair ?? this.keypair,
       balance: balance ?? this.balance,
+      isAuthenticated: isAuthenticated ?? this.isAuthenticated,
+      timezoneName: timezoneName ?? this.timezoneName,
+    );
+  }
+
+  Wallet? get currentWallet {
+    if (keypair == null) return null;
+    return Wallet(
+      id: 0,
+      publicKey: keypair!.publicInflated,
+      privateKey: keypair!.private,
+      address: keypair!.public,
+      balance: 0,
+      isValidating: false,
+      isEncrypted: false,
     );
   }
 }
@@ -35,8 +53,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
 
   static const _initial = WebSessionModel();
 
-  WebSessionProvider(this.read, [WebSessionModel model = _initial])
-      : super(model) {
+  WebSessionProvider(this.read, [WebSessionModel model = _initial]) : super(model) {
     init();
   }
 
@@ -47,6 +64,9 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
       login(keypair, false);
     }
     read(readyProvider.notifier).setReady(true);
+
+    final timezoneName = DateTime.now().timeZoneName.toString();
+    state = state.copyWith(timezoneName: timezoneName);
   }
 
   void login(Keypair keypair, [bool andSave = true]) {
@@ -54,7 +74,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
       singleton<Storage>().setMap(Storage.WEB_KEYPAIR, keypair.toJson());
     }
 
-    state = state.copyWith(keypair: keypair);
+    state = state.copyWith(keypair: keypair, isAuthenticated: true);
     loop();
   }
 
@@ -81,7 +101,6 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
   }
 }
 
-final webSessionProvider =
-    StateNotifierProvider<WebSessionProvider, WebSessionModel>(
+final webSessionProvider = StateNotifierProvider<WebSessionProvider, WebSessionModel>(
   (ref) => WebSessionProvider(ref.read),
 );

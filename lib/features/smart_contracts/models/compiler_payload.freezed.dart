@@ -39,6 +39,10 @@ mixin _$CompilerPayload {
   @JsonKey(name: "Features")
   List<Map<String, dynamic>>? get features =>
       throw _privateConstructorUsedError;
+  @JsonKey(name: "MinterAddress")
+  String get minterAddress => throw _privateConstructorUsedError;
+  @JsonKey(name: "IsMinter")
+  bool get isMinter => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -60,7 +64,9 @@ abstract class $CompilerPayloadCopyWith<$Res> {
       @JsonKey(name: "IsPublic", defaultValue: true) bool isPublic,
       @JsonKey(name: "SmartContractUID") String? uuid,
       @JsonKey(name: "Signature") String? signature,
-      @JsonKey(name: "Features") List<Map<String, dynamic>>? features});
+      @JsonKey(name: "Features") List<Map<String, dynamic>>? features,
+      @JsonKey(name: "MinterAddress") String minterAddress,
+      @JsonKey(name: "IsMinter") bool isMinter});
 
   $AssetCopyWith<$Res> get asset;
 }
@@ -85,6 +91,8 @@ class _$CompilerPayloadCopyWithImpl<$Res>
     Object? uuid = freezed,
     Object? signature = freezed,
     Object? features = freezed,
+    Object? minterAddress = freezed,
+    Object? isMinter = freezed,
   }) {
     return _then(_value.copyWith(
       name: name == freezed
@@ -123,6 +131,14 @@ class _$CompilerPayloadCopyWithImpl<$Res>
           ? _value.features
           : features // ignore: cast_nullable_to_non_nullable
               as List<Map<String, dynamic>>?,
+      minterAddress: minterAddress == freezed
+          ? _value.minterAddress
+          : minterAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      isMinter: isMinter == freezed
+          ? _value.isMinter
+          : isMinter // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 
@@ -150,7 +166,9 @@ abstract class _$$_CompilerPayloadCopyWith<$Res>
       @JsonKey(name: "IsPublic", defaultValue: true) bool isPublic,
       @JsonKey(name: "SmartContractUID") String? uuid,
       @JsonKey(name: "Signature") String? signature,
-      @JsonKey(name: "Features") List<Map<String, dynamic>>? features});
+      @JsonKey(name: "Features") List<Map<String, dynamic>>? features,
+      @JsonKey(name: "MinterAddress") String minterAddress,
+      @JsonKey(name: "IsMinter") bool isMinter});
 
   @override
   $AssetCopyWith<$Res> get asset;
@@ -178,6 +196,8 @@ class __$$_CompilerPayloadCopyWithImpl<$Res>
     Object? uuid = freezed,
     Object? signature = freezed,
     Object? features = freezed,
+    Object? minterAddress = freezed,
+    Object? isMinter = freezed,
   }) {
     return _then(_$_CompilerPayload(
       name: name == freezed
@@ -216,6 +236,14 @@ class __$$_CompilerPayloadCopyWithImpl<$Res>
           ? _value._features
           : features // ignore: cast_nullable_to_non_nullable
               as List<Map<String, dynamic>>?,
+      minterAddress: minterAddress == freezed
+          ? _value.minterAddress
+          : minterAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      isMinter: isMinter == freezed
+          ? _value.isMinter
+          : isMinter // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -233,7 +261,9 @@ class _$_CompilerPayload extends _CompilerPayload {
       @JsonKey(name: "IsPublic", defaultValue: true) required this.isPublic,
       @JsonKey(name: "SmartContractUID") this.uuid,
       @JsonKey(name: "Signature") this.signature,
-      @JsonKey(name: "Features") final List<Map<String, dynamic>>? features})
+      @JsonKey(name: "Features") final List<Map<String, dynamic>>? features,
+      @JsonKey(name: "MinterAddress") required this.minterAddress,
+      @JsonKey(name: "IsMinter") required this.isMinter})
       : _features = features,
         super._();
 
@@ -275,8 +305,15 @@ class _$_CompilerPayload extends _CompilerPayload {
   }
 
   @override
+  @JsonKey(name: "MinterAddress")
+  final String minterAddress;
+  @override
+  @JsonKey(name: "IsMinter")
+  final bool isMinter;
+
+  @override
   String toString() {
-    return 'CompilerPayload(name: $name, minterName: $minterName, description: $description, address: $address, asset: $asset, isPublic: $isPublic, uuid: $uuid, signature: $signature, features: $features)';
+    return 'CompilerPayload(name: $name, minterName: $minterName, description: $description, address: $address, asset: $asset, isPublic: $isPublic, uuid: $uuid, signature: $signature, features: $features, minterAddress: $minterAddress, isMinter: $isMinter)';
   }
 
   @override
@@ -294,7 +331,10 @@ class _$_CompilerPayload extends _CompilerPayload {
             const DeepCollectionEquality().equals(other.isPublic, isPublic) &&
             const DeepCollectionEquality().equals(other.uuid, uuid) &&
             const DeepCollectionEquality().equals(other.signature, signature) &&
-            const DeepCollectionEquality().equals(other._features, _features));
+            const DeepCollectionEquality().equals(other._features, _features) &&
+            const DeepCollectionEquality()
+                .equals(other.minterAddress, minterAddress) &&
+            const DeepCollectionEquality().equals(other.isMinter, isMinter));
   }
 
   @JsonKey(ignore: true)
@@ -309,7 +349,9 @@ class _$_CompilerPayload extends _CompilerPayload {
       const DeepCollectionEquality().hash(isPublic),
       const DeepCollectionEquality().hash(uuid),
       const DeepCollectionEquality().hash(signature),
-      const DeepCollectionEquality().hash(_features));
+      const DeepCollectionEquality().hash(_features),
+      const DeepCollectionEquality().hash(minterAddress),
+      const DeepCollectionEquality().hash(isMinter));
 
   @JsonKey(ignore: true)
   @override
@@ -341,7 +383,11 @@ abstract class _CompilerPayload extends CompilerPayload {
       @JsonKey(name: "Signature")
           final String? signature,
       @JsonKey(name: "Features")
-          final List<Map<String, dynamic>>? features}) = _$_CompilerPayload;
+          final List<Map<String, dynamic>>? features,
+      @JsonKey(name: "MinterAddress")
+          required final String minterAddress,
+      @JsonKey(name: "IsMinter")
+          required final bool isMinter}) = _$_CompilerPayload;
   _CompilerPayload._() : super._();
 
   factory _CompilerPayload.fromJson(Map<String, dynamic> json) =
@@ -375,6 +421,12 @@ abstract class _CompilerPayload extends CompilerPayload {
   @JsonKey(name: "Features")
   List<Map<String, dynamic>>? get features =>
       throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: "MinterAddress")
+  String get minterAddress => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: "IsMinter")
+  bool get isMinter => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_CompilerPayloadCopyWith<_$_CompilerPayload> get copyWith =>

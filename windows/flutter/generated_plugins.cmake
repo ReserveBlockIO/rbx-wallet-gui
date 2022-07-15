@@ -4,6 +4,7 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   desktop_window
+  file_saver
   flutter_window_close
   screen_retriever
   url_launcher_windows

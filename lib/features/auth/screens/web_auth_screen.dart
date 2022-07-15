@@ -4,6 +4,7 @@ import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/singletons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
@@ -26,9 +27,11 @@ class WebAuthScreen extends BaseStatefulScreen {
 class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
   @override
   void initState() {
-    super.initState();
+    final currentPath = singleton<AppRouter>().current.path;
+    print("PATH: $currentPath");
 
-    // _handleSession(ref.read(webSessionProvider));
+    _handleSession(ref.read(webSessionProvider));
+    super.initState();
   }
 
   void _handleSession(WebSessionModel session) {
@@ -74,6 +77,7 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                   child: Container(
                     color: Colors.black,
                     width: 100,
+                    height: 100,
                     child: Image.asset(
                       Assets.images.animatedCube.path,
                       scale: 1,
@@ -90,6 +94,14 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                   fit: BoxFit.contain,
                 ),
               ),
+              if (Env.isTestNet)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    "TESTNET",
+                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green, letterSpacing: 2),
+                  ),
+                ),
               const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -98,40 +110,40 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                     label: "Create Wallet",
                     icon: Icons.add,
                     onPressed: () {
-                      showModalBottomSheet(
-                        backgroundColor: Colors.transparent,
-                        context: context,
-                        builder: (context) {
-                          return AuthTypeModal(
-                            handleMneumonic: () async {
-                              await handleCreateWithMnemonic(context, ref);
-                              print('done');
-                              if (ref
-                                  .read(webSessionProvider)
-                                  .isAuthenticated) {
-                                redirectToDashboard();
-                              }
-                            },
-                            handleUsername: () {
-                              AuthModal.show(
-                                  context: context,
-                                  onValidSubmission: (auth) async {
-                                    await handleCreateWithEmail(
-                                      context,
-                                      ref,
-                                      auth.email,
-                                      auth.password,
-                                    );
-                                    if (ref
-                                        .read(webSessionProvider)
-                                        .isAuthenticated) {
-                                      redirectToDashboard();
-                                    }
-                                  });
-                            },
-                          );
-                        },
-                      );
+                      AuthModal.show(
+                          context: context,
+                          onValidSubmission: (auth) async {
+                            await handleCreateWithEmail(
+                              context,
+                              ref,
+                              auth.email,
+                              auth.password,
+                            );
+                            if (ref.read(webSessionProvider).isAuthenticated) {
+                              redirectToDashboard();
+                            }
+                          });
+
+                      // showModalBottomSheet(
+                      //   backgroundColor: Colors.transparent,
+                      //   context: context,
+                      //   builder: (context) {
+                      //     return AuthTypeModal(
+                      //       handleMneumonic: () async {
+                      //         await handleCreateWithMnemonic(context, ref);
+                      //         print('done');
+                      //         if (ref
+                      //             .read(webSessionProvider)
+                      //             .isAuthenticated) {
+                      //           redirectToDashboard();
+                      //         }
+                      //       },
+                      //       handleUsername: () {
+
+                      //       },
+                      //     );
+                      //   },
+                      // );
                     },
                     variant: AppColorVariant.Light,
                   ),
@@ -140,44 +152,51 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                     label: "Import Wallet",
                     icon: Icons.upload,
                     onPressed: () {
-                      showModalBottomSheet(
-                        backgroundColor: Colors.transparent,
+                      AuthModal.show(
                         context: context,
-                        builder: (context) {
-                          return AuthTypeModal(
-                            handleMneumonic: () async {
-                              await handleRecoverFromMnemonic(context, ref);
+                        forCreate: false,
+                        onValidSubmission: (auth) async {
+                          await handleCreateWithEmail(context, ref, auth.email, auth.password, false);
 
-                              //do stuff
-                            },
-                            handleUsername: () {
-                              AuthModal.show(
-                                context: context,
-                                forCreate: false,
-                                onValidSubmission: (auth) async {
-                                  await handleCreateWithEmail(context, ref,
-                                      auth.email, auth.password, false);
-
-                                  if (ref
-                                      .read(webSessionProvider)
-                                      .isAuthenticated) {
-                                    redirectToDashboard();
-                                  }
-                                },
-                              );
-                            },
-                            handlePrivateKey: (context) async {
-                              await handleImportWithPrivateKey(context, ref);
-
-                              if (ref
-                                  .read(webSessionProvider)
-                                  .isAuthenticated) {
-                                redirectToDashboard();
-                              }
-                            },
-                          );
+                          if (ref.read(webSessionProvider).isAuthenticated) {
+                            redirectToDashboard();
+                          }
                         },
                       );
+
+                      // showModalBottomSheet(
+                      //   backgroundColor: Colors.transparent,
+                      //   context: context,
+                      //   builder: (context) {
+                      //     return AuthTypeModal(
+                      //       handleMneumonic: () async {
+                      //         await handleRecoverFromMnemonic(context, ref);
+
+                      //         //do stuff
+                      //       },
+                      //       handleUsername: () {
+                      //         AuthModal.show(
+                      //           context: context,
+                      //           forCreate: false,
+                      //           onValidSubmission: (auth) async {
+                      //             await handleCreateWithEmail(context, ref, auth.email, auth.password, false);
+
+                      //             if (ref.read(webSessionProvider).isAuthenticated) {
+                      //               redirectToDashboard();
+                      //             }
+                      //           },
+                      //         );
+                      //       },
+                      //       handlePrivateKey: (context) async {
+                      //         await handleImportWithPrivateKey(context, ref);
+
+                      //         if (ref.read(webSessionProvider).isAuthenticated) {
+                      //           redirectToDashboard();
+                      //         }
+                      //       },
+                      //     );
+                      //   },
+                      // );
                     },
                     variant: AppColorVariant.Light,
                   ),

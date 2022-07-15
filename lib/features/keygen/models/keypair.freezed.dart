@@ -22,7 +22,8 @@ Keypair _$KeypairFromJson(Map<String, dynamic> json) {
 mixin _$Keypair {
   String get private => throw _privateConstructorUsedError;
   String get public => throw _privateConstructorUsedError;
-  String get publicInflated =>
+  String get publicInflated => throw _privateConstructorUsedError;
+  String get email =>
       throw _privateConstructorUsedError; // @JsonKey(toJson: null) ECPrivateKey? ecPrivateKey,
   String? get mneumonic => throw _privateConstructorUsedError;
 
@@ -39,6 +40,7 @@ abstract class $KeypairCopyWith<$Res> {
       {String private,
       String public,
       String publicInflated,
+      String email,
       String? mneumonic});
 }
 
@@ -55,6 +57,7 @@ class _$KeypairCopyWithImpl<$Res> implements $KeypairCopyWith<$Res> {
     Object? private = freezed,
     Object? public = freezed,
     Object? publicInflated = freezed,
+    Object? email = freezed,
     Object? mneumonic = freezed,
   }) {
     return _then(_value.copyWith(
@@ -69,6 +72,10 @@ class _$KeypairCopyWithImpl<$Res> implements $KeypairCopyWith<$Res> {
       publicInflated: publicInflated == freezed
           ? _value.publicInflated
           : publicInflated // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: email == freezed
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
               as String,
       mneumonic: mneumonic == freezed
           ? _value.mneumonic
@@ -88,6 +95,7 @@ abstract class _$$_KeypairCopyWith<$Res> implements $KeypairCopyWith<$Res> {
       {String private,
       String public,
       String publicInflated,
+      String email,
       String? mneumonic});
 }
 
@@ -105,6 +113,7 @@ class __$$_KeypairCopyWithImpl<$Res> extends _$KeypairCopyWithImpl<$Res>
     Object? private = freezed,
     Object? public = freezed,
     Object? publicInflated = freezed,
+    Object? email = freezed,
     Object? mneumonic = freezed,
   }) {
     return _then(_$_Keypair(
@@ -119,6 +128,10 @@ class __$$_KeypairCopyWithImpl<$Res> extends _$KeypairCopyWithImpl<$Res>
       publicInflated: publicInflated == freezed
           ? _value.publicInflated
           : publicInflated // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: email == freezed
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
               as String,
       mneumonic: mneumonic == freezed
           ? _value.mneumonic
@@ -135,6 +148,7 @@ class _$_Keypair extends _Keypair {
       {required this.private,
       required this.public,
       required this.publicInflated,
+      required this.email,
       this.mneumonic})
       : super._();
 
@@ -147,13 +161,15 @@ class _$_Keypair extends _Keypair {
   final String public;
   @override
   final String publicInflated;
+  @override
+  final String email;
 // @JsonKey(toJson: null) ECPrivateKey? ecPrivateKey,
   @override
   final String? mneumonic;
 
   @override
   String toString() {
-    return 'Keypair(private: $private, public: $public, publicInflated: $publicInflated, mneumonic: $mneumonic)';
+    return 'Keypair(private: $private, public: $public, publicInflated: $publicInflated, email: $email, mneumonic: $mneumonic)';
   }
 
   @override
@@ -165,6 +181,7 @@ class _$_Keypair extends _Keypair {
             const DeepCollectionEquality().equals(other.public, public) &&
             const DeepCollectionEquality()
                 .equals(other.publicInflated, publicInflated) &&
+            const DeepCollectionEquality().equals(other.email, email) &&
             const DeepCollectionEquality().equals(other.mneumonic, mneumonic));
   }
 
@@ -175,6 +192,7 @@ class _$_Keypair extends _Keypair {
       const DeepCollectionEquality().hash(private),
       const DeepCollectionEquality().hash(public),
       const DeepCollectionEquality().hash(publicInflated),
+      const DeepCollectionEquality().hash(email),
       const DeepCollectionEquality().hash(mneumonic));
 
   @JsonKey(ignore: true)
@@ -193,6 +211,7 @@ abstract class _Keypair extends Keypair {
       {required final String private,
       required final String public,
       required final String publicInflated,
+      required final String email,
       final String? mneumonic}) = _$_Keypair;
   _Keypair._() : super._();
 
@@ -204,6 +223,8 @@ abstract class _Keypair extends Keypair {
   String get public => throw _privateConstructorUsedError;
   @override
   String get publicInflated => throw _privateConstructorUsedError;
+  @override
+  String get email => throw _privateConstructorUsedError;
   @override // @JsonKey(toJson: null) ECPrivateKey? ecPrivateKey,
   String? get mneumonic => throw _privateConstructorUsedError;
   @override
