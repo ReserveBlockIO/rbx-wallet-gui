@@ -1,6 +1,7 @@
 ENVIRONMENT_NAME=block_explorer
 STORAGE_PREFIX=block_explorer
 API_BASE_URL=http://164.92.105.169:17292/api/V1
+EXPLORER_API_BASE_URL=https://rbx-explorer-service-testnet.herokuapp.com/api
 LAUNCH_CLI=false
 ALLOW_VALIDATING=true
 IS_TEST_NET=true

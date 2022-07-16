@@ -4,19 +4,20 @@ import 'package:flutter_dotenv/flutter_dotenv.dart' as DotEnv;
 import 'package:rbx_wallet/generated/assets.gen.dart';
 
 enum _Environment {
+  Release,
+  ReleaseTestNet,
   Dev,
   MacDev,
   WinDev,
   MacTestNet,
   WinTestNet,
-  Release,
   BlockExplorer,
   Web,
   WebDev,
-  BlockExplorerTestNet
+  BlockExplorerTestNet,
 }
 
-const _env = _Environment.BlockExplorerTestNet;
+const _env = _Environment.ReleaseTestNet;
 
 class Env {
   static init() async {
@@ -40,11 +41,14 @@ class Env {
       case _Environment.BlockExplorer:
         envPath = Assets.env.blockExplorerEnv;
         break;
-            case _Environment.BlockExplorerTestNet:
+      case _Environment.BlockExplorerTestNet:
         envPath = Assets.env.blockExplorerTestNetEnv;
         break;
       case _Environment.Release:
         envPath = Assets.env.releaseEnv;
+        break;
+      case _Environment.ReleaseTestNet:
+        envPath = Assets.env.releaseTestnet;
         break;
       case _Environment.Web:
         envPath = Assets.env.webEnv;
