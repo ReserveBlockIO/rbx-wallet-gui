@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
 import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
@@ -368,7 +369,7 @@ class _EvolutionStateRow extends BaseComponent {
 
                                     final success = await _provider.setEvolve(
                                       index,
-                                      _model!.currentOwner,
+                                      ref.read(sessionProvider).currentWallet?.address ?? _model?.minterAddress ?? "",
                                     );
 
                                     if (success) {

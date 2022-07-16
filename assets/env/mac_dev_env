@@ -4,4 +4,5 @@ API_BASE_URL=http://localhost:17292/api/V1
 LAUNCH_CLI=false
 ALLOW_VALIDATING=true
 HIDE_CLI_OUTPUT=false
+EXPLORER_API_BASE_URL=https://rbx-explorer-service-testnet.herokuapp.com/api
 IS_TEST_NET=true

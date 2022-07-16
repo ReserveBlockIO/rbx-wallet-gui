@@ -47,8 +47,7 @@ class SmartContractService extends BaseService {
     }
   }
 
-  Future<CompilerResponse?> compileSmartContract(
-      Map<String, dynamic> payload) async {
+  Future<CompilerResponse?> compileSmartContract(Map<String, dynamic> payload) async {
     try {
       final response = await postJson(
         "/CreateSmartContract",
@@ -89,10 +88,7 @@ class SmartContractService extends BaseService {
   void deleteFromStorage(SmartContract smartContract) {
     final existing = loadRawFromStorage();
 
-    final updated = [
-      ...existing
-        ..removeWhere((element) => element['draftId'] == smartContract.draftId)
-    ];
+    final updated = [...existing..removeWhere((element) => element['draftId'] == smartContract.draftId)];
 
     singleton<Storage>().setList(Storage.LOCAL_SMART_CONTRACTS, updated);
   }
@@ -102,12 +98,10 @@ class SmartContractService extends BaseService {
 
     if (smartContract.draftId.isNotEmpty) {
       final _existing = loadFromStorage();
-      final current =
-          _existing.firstWhereOrNull((s) => s.draftId == smartContract.draftId);
+      final current = _existing.firstWhereOrNull((s) => s.draftId == smartContract.draftId);
 
       if (current != null) {
-        final index =
-            _existing.indexWhere((s) => s.draftId == smartContract.draftId);
+        final index = _existing.indexWhere((s) => s.draftId == smartContract.draftId);
 
         existing.removeAt(index);
         existing.insert(index, smartContract.toJson());
@@ -148,6 +142,10 @@ class SmartContractService extends BaseService {
   }
 
   Future<bool> evolve(String id, String toAddress, int stage) async {
+    print("-------------");
+    print(toAddress);
+    print("-------------");
+
     try {
       await getText("/EvolveSpecific/$id/$toAddress/$stage");
 

@@ -119,7 +119,10 @@ class StoreCollectionContainer extends BaseComponent {
                   context: context,
                   builder: (context) {
                     return Center(
-                      child: NftQrCode(data: url),
+                      child: NftQrCode(
+                        data: url,
+                        withClose: true,
+                      ),
                     );
                   });
             },

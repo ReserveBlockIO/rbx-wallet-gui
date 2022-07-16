@@ -147,7 +147,7 @@ class RoyaltyModal extends BaseComponent {
       decoration: InputDecoration(
           label: const Text("Address"),
           labelStyle: const TextStyle(color: Colors.white),
-          suffix: kIsWeb
+          suffixIcon: kIsWeb
               ? IconButton(
                   onPressed: () {
                     final address = ref.read(webSessionProvider).keypair?.public;

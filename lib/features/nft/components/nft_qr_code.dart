@@ -13,9 +13,13 @@ import 'package:rbx_wallet/utils/toast.dart';
 
 class NftQrCode extends StatelessWidget {
   final String data;
+  final double size;
+  final bool withClose;
   const NftQrCode({
     Key? key,
     required this.data,
+    this.size = 360,
+    this.withClose = false,
   }) : super(key: key);
 
   Future<void> writeToFile(ByteData data, String path) async {
@@ -37,7 +41,7 @@ class NftQrCode extends StatelessWidget {
               child: QrImage(
                 data: data,
                 version: QrVersions.auto,
-                size: 360.0,
+                size: size,
               ),
             ),
             const SizedBox(
@@ -90,14 +94,15 @@ class NftQrCode extends StatelessWidget {
               },
               icon: Icons.download,
             ),
-            TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  "Close",
-                  style: TextStyle(color: Colors.white70),
-                ))
+            if (withClose)
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    "Close",
+                    style: TextStyle(color: Colors.white70),
+                  ))
           ],
         ),
       ),

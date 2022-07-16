@@ -8,7 +8,9 @@ import 'package:rbx_wallet/generated/assets.gen.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 class MainMenu extends BaseComponent {
-  const MainMenu({Key? key}) : super(key: key);
+  // ignoreing this because otherwise dartfix will try to make it a const which screws up rebuilds
+  // ignore: prefer_const_constructors_in_immutables
+  MainMenu({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -198,9 +200,7 @@ class _NavButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textColor = isActive
-        ? Theme.of(context).colorScheme.secondary
-        : Theme.of(context).textTheme.bodyText1!.color;
+    final textColor = isActive ? Theme.of(context).colorScheme.secondary : Theme.of(context).textTheme.bodyText1!.color;
 
     return Container(
       decoration: const BoxDecoration(

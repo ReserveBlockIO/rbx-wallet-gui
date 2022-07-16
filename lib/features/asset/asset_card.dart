@@ -19,6 +19,13 @@ class AssetCard extends StatelessWidget {
                 asset.file,
                 width: double.infinity,
                 fit: BoxFit.contain,
+                errorBuilder: (context, _, __) {
+                  return Text(
+                    "File not found for preview.\nLikely this means this NFT not longer exists on this machine.\n",
+                    style: Theme.of(context).textTheme.caption,
+                    textAlign: TextAlign.left,
+                  );
+                },
               )
             : const Icon(Icons.file_present_outlined),
         if (asset.authorName != null && asset.authorName!.isNotEmpty)

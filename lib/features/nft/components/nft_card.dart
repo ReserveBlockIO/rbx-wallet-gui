@@ -110,6 +110,18 @@ class NftCard extends BaseComponent {
                         nft.currentEvolveAsset.file,
                         width: double.infinity,
                         fit: BoxFit.cover,
+                        errorBuilder: (context, _, __) {
+                          return Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Text(
+                                "File not found for preview.\nLikely this means this NFT not longer exists on this machine.\n",
+                                style: Theme.of(context).textTheme.caption,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     )
                   : const Icon(Icons.file_present_outlined),

@@ -151,7 +151,10 @@ class WebReceiveScreen extends BaseScreen {
                               context: context,
                               builder: (context) {
                                 return Center(
-                                  child: NftQrCode(data: url),
+                                  child: NftQrCode(
+                                    data: url,
+                                    withClose: true,
+                                  ),
                                 );
                               });
                         } else {

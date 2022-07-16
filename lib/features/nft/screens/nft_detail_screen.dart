@@ -123,8 +123,13 @@ class NftDetailScreen extends BaseScreen {
                     Expanded(
                       child: ListTile(
                         contentPadding: EdgeInsets.zero,
-                        title: Text(nft.currentOwner),
-                        subtitle: const Text("Current Owner Address"),
+                        title: Text(nft.id,
+                            style: TextStyle(
+                              fontSize: 12,
+                            )),
+                        subtitle: const Text(
+                          "Identifier",
+                        ),
                         leading: IconButton(
                           icon: const Icon(Icons.copy),
                           onPressed: () {
@@ -137,7 +142,10 @@ class NftDetailScreen extends BaseScreen {
                       Expanded(
                         child: ListTile(
                           contentPadding: EdgeInsets.zero,
-                          title: Text(nft.minterAddress),
+                          title: Text(nft.minterAddress,
+                              style: TextStyle(
+                                fontSize: 13,
+                              )),
                           subtitle: const Text("Minter Address"),
                           leading: IconButton(
                             icon: const Icon(Icons.copy),
@@ -176,8 +184,11 @@ class NftDetailScreen extends BaseScreen {
                                         children: [
                                           const Divider(),
                                           Text(
-                                            "Additional Assets",
+                                            "Additional Assets:",
                                             style: Theme.of(context).textTheme.headline5,
+                                          ),
+                                          SizedBox(
+                                            height: 6,
                                           ),
                                           Wrap(
                                             children: nft.additionalAssets
@@ -209,7 +220,10 @@ class NftDetailScreen extends BaseScreen {
                             "QR Code:",
                             style: Theme.of(context).textTheme.headline5,
                           ),
-                          NftQrCode(data: nft.explorerUrl),
+                          NftQrCode(
+                            data: nft.explorerUrl,
+                            size: 200,
+                          ),
                         ],
                       ),
                     )

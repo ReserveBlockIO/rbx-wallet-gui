@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
@@ -34,21 +35,15 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
 
   @override
   Widget build(BuildContext context) {
-    final Wallet? toWallet = ref
-        .read(walletListProvider.notifier)
-        .getWallet(widget.transaction.toAddress);
+    final Wallet? toWallet = ref.read(walletListProvider.notifier).getWallet(widget.transaction.toAddress);
 
-    final Wallet? fromWallet = ref
-        .read(walletListProvider.notifier)
-        .getWallet(widget.transaction.fromAddress);
+    final Wallet? fromWallet = ref.read(walletListProvider.notifier).getWallet(widget.transaction.fromAddress);
 
     final toMe = toWallet != null;
     final fromMe = fromWallet != null;
 
     return Card(
-      margin: widget.compact
-          ? EdgeInsets.zero
-          : const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
+      margin: widget.compact ? EdgeInsets.zero : const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -105,8 +100,7 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                           ),
                           InkWell(
                             onTap: () async {
-                              final url =
-                                  "https://rbx.network/transaction/${widget.transaction.hash}";
+                              final url = "https://rbx.network/transaction/${widget.transaction.hash}";
                               await launchUrl(Uri.parse(url));
                             },
                             child: const Icon(
@@ -117,22 +111,21 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                         ],
                       ),
                       const SizedBox(height: 4),
-                      RichText(
-                        text: TextSpan(
-                          style: Theme.of(context).textTheme.bodyText2,
-                          children: [
-                            const TextSpan(text: "Amount: "),
-                            TextSpan(
-                              text: "${widget.transaction.amount} RBX",
-                              style: TextStyle(
-                                color: widget.transaction.amount < 0
-                                    ? Theme.of(context).colorScheme.danger
-                                    : Theme.of(context).colorScheme.success,
+                      if (widget.transaction.type == TxType.rbxTransfer)
+                        RichText(
+                          text: TextSpan(
+                            style: Theme.of(context).textTheme.bodyText2,
+                            children: [
+                              const TextSpan(text: "Amount: "),
+                              TextSpan(
+                                text: "${widget.transaction.amount} RBX",
+                                style: TextStyle(
+                                  color: widget.transaction.amount < 0 ? Theme.of(context).colorScheme.danger : Theme.of(context).colorScheme.success,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
                       const SizedBox(height: 4),
                       RichText(
                         text: TextSpan(
@@ -185,8 +178,7 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                                   showModalBottomSheet(
                                       context: context,
                                       builder: (context) {
-                                        return NftDataModal(
-                                            widget.transaction.nftData);
+                                        return NftDataModal(widget.transaction.nftData);
                                       });
                                 },
                               ),
@@ -239,9 +231,7 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                   Column(
                     children: [
                       IconButton(
-                        icon: Icon(_expanded
-                            ? Icons.arrow_drop_up_outlined
-                            : Icons.arrow_drop_down_outlined),
+                        icon: Icon(_expanded ? Icons.arrow_drop_up_outlined : Icons.arrow_drop_down_outlined),
                         onPressed: () {
                           setState(() {
                             _expanded = !_expanded;
