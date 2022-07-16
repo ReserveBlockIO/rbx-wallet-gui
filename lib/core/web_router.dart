@@ -85,7 +85,7 @@ const webDashboardTabRouter = AutoRoute(
       page: EmptyRouterPage,
       children: [
         AutoRoute(path: "", page: NftListScreen),
-        AutoRoute(path: "detail/:identifier", page: WebNftDetailScreen),
+        // AutoRoute(path: "detail/:identifier", page: WebNftDetailScreen),
       ],
     ),
     AutoRoute(

@@ -8,12 +8,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/breakpoints.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/components/centered_loader.dart';
 import 'package:rbx_wallet/core/components/countdown.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/auth/auth_utils.dart';
 import 'package:rbx_wallet/features/nft/components/nft_qr_code.dart';
+import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
+import 'package:rbx_wallet/features/nft/providers/web_nft_detail_provider.dart';
 import 'package:rbx_wallet/features/store/components/bid_history.dart';
 import 'package:rbx_wallet/features/store/components/bid_modal.dart';
 import 'package:rbx_wallet/features/store/components/purchase_modal.dart';
@@ -124,6 +127,29 @@ class StoreListing extends BaseComponent {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
+    final nftFuture = ref.watch(webNftDetailProvider("d041d185302e42afb610de36e9d19858:1657952611"));
+
+    return nftFuture.when(
+        loading: () => CenteredLoader(),
+        error: (_, __) => Center(
+              child: Text("Error"),
+            ),
+        data: (nft) => nft == null ? Center(child: Text("error")) : buildContent(context, ref));
+  }
+
+  @override
+  Widget desktopBody(BuildContext context, WidgetRef ref) {
+    final nftFuture = ref.watch(webNftDetailProvider("d041d185302e42afb610de36e9d19858:1657952611"));
+
+    return nftFuture.when(
+        loading: () => CenteredLoader(),
+        error: (_, __) => Center(
+              child: Text("Error"),
+            ),
+        data: (nft) => nft == null ? Center(child: Text("error")) : buildDesktopContent(context, ref));
+  }
+
+  Padding buildContent(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: Column(
@@ -154,8 +180,7 @@ class StoreListing extends BaseComponent {
     );
   }
 
-  @override
-  Widget desktopBody(BuildContext context, WidgetRef ref) {
+  Padding buildDesktopContent(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.all(32.0),
       child: Row(
