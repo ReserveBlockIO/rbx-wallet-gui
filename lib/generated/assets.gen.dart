@@ -15,6 +15,10 @@ class $AssetsEnvGen {
   /// File path: assets/env/block_explorer_env
   String get blockExplorerEnv => 'assets/env/block_explorer_env';
 
+  /// File path: assets/env/block_explorer_test_net_env
+  String get blockExplorerTestNetEnv =>
+      'assets/env/block_explorer_test_net_env';
+
   /// File path: assets/env/dev_env
   String get devEnv => 'assets/env/dev_env';
 

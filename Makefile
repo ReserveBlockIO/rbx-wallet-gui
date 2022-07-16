@@ -7,6 +7,13 @@ gen_watch:
 	fvm flutter packages pub run build_runner watch --delete-conflicting-outputs
 
 
+wingen:
+	flutter packages pub run build_runner build --delete-conflicting-outputs
+
+wingen_watch:
+	flutter packages pub run build_runner watch --delete-conflicting-outputs
+
+
 package_mac:
 	cd ../Core-CLI && git pull && cd /Users/tylersavery/Projects/rbx/rbx_wallet/
 	dotnet publish -c Release -r osx-x64 ../Core-Cli/
