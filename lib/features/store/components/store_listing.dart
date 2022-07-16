@@ -370,11 +370,6 @@ class StoreListing extends BaseComponent {
                   handlePurchase(context, ref);
                 },
               ),
-              if (listing.endsAt != null)
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Text("Ends ${listing.endTimeLabel}"),
-                )
             ],
           ),
         ),
@@ -407,8 +402,9 @@ class StoreListing extends BaseComponent {
                   ),
                 ),
               ),
+              buildPrice("Floor Price", listing.floorPriceLabel),
+              Divider(),
               if (listing.highestBid != null) buildPrice("Highest Bid", listing.highestBid!.amountLabel),
-              if (listing.highestBid == null) buildPrice("Floor Price", listing.floorPriceLabel),
               SizedBox(height: 16),
               Row(
                 children: [
@@ -432,11 +428,6 @@ class StoreListing extends BaseComponent {
                   ),
                 ],
               ),
-              if (listing.endsAt != null)
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Text("Auction ends ${listing.endTimeLabel}"),
-                )
             ],
           ),
         ),

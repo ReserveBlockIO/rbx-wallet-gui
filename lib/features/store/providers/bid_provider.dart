@@ -101,7 +101,7 @@ class BidProvider extends StateNotifier<BidModel> {
     }
 
     if (!validAmount) {
-      Toast.error("Bid amount is not high enough");
+      Toast.error("Your bid must be greater than current active bid.");
       return null;
     }
 

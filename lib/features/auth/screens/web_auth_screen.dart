@@ -1,7 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
+import 'package:rbx_wallet/core/breakpoints.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/env.dart';
@@ -28,8 +30,6 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
   @override
   void initState() {
     final currentPath = singleton<AppRouter>().current.path;
-    print("PATH: $currentPath");
-
     _handleSession(ref.read(webSessionProvider));
     super.initState();
   }
@@ -52,6 +52,8 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
     // ref.listen<WebSessionModel>(webSessionProvider, (prev, next) {
     //   _handleSession(next);
     // });
+
+    final isMobile = BreakPoints.useMobileLayout(context);
 
     return Stack(
       children: [
@@ -85,23 +87,27 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                   ),
                 ),
               ),
+              // Padding(
+              //   padding: const EdgeInsets.all(12.0),
+              //   child: Image.asset(
+              //     Assets.images.rbxWallet.path,
+              //     width: 120,
+              //     height: 20,
+              //     fit: BoxFit.contain,
+              //   ),
+              // ),
+
               Padding(
                 padding: const EdgeInsets.all(12.0),
-                child: Image.asset(
-                  Assets.images.rbxWallet.path,
-                  width: 120,
-                  height: 20,
-                  fit: BoxFit.contain,
+                child: Text(
+                  "RBX Web Wallet",
+                  style: Theme.of(context).textTheme.headlineLarge!.copyWith(fontWeight: FontWeight.bold, fontSize: isMobile ? 20 : 30),
                 ),
               ),
-              if (Env.isTestNet)
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Text(
-                    "TESTNET",
-                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green, letterSpacing: 2),
-                  ),
-                ),
+              Text(
+                "v$WEB_APP_VERSION",
+                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, letterSpacing: 2),
+              ),
               const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -202,6 +208,14 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                   ),
                 ],
               ),
+              if (Env.isTestNet)
+                Padding(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: Text(
+                    "TESTNET",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.green, letterSpacing: 2),
+                  ),
+                ),
             ],
           ),
         ),

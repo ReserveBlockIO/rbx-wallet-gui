@@ -39,6 +39,12 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
   late final TextEditingController descriptionController;
 
   CreateSmartContractProvider(this.read, SmartContract model) : super(model) {
+    state = model.copyWith(
+      name: "Test 123",
+      description: "This is a test",
+      minterName: "TS",
+    );
+
     nameController = TextEditingController(text: model.name);
     descriptionController = TextEditingController(text: model.description);
     minterNameController = TextEditingController(text: model.minterName);
@@ -82,7 +88,6 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
   }
 
   void setPrimaryAsset(Asset? asset) {
-    print(asset);
     state = state.copyWith(primaryAsset: asset);
   }
 
@@ -299,15 +304,13 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
   }
 
   Future<bool> mint() async {
-    return true; //TEMP to avoid minting
-
-    final success = await SmartContractService().mint(state.id);
+    final success = kIsWeb ? await TransactionService().mintSmartContract(state.id) : await SmartContractService().mint(state.id);
 
     if (success) {
       saveMintedNft(state.id);
     }
 
-    final details = await SmartContractService().retrieve(state.id);
+    final details = kIsWeb ? await TransactionService().retrieveSmartContract(state.id) : await SmartContractService().retrieve(state.id);
 
     read(mySmartContractsProvider.notifier).load();
     read(nftListProvider.notifier).load();

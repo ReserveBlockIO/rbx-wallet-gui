@@ -273,8 +273,8 @@ class AuthModal {
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               )),
-          titlePadding: const EdgeInsets.all(12.0),
-          contentPadding: const EdgeInsets.all(12.0),
+          titlePadding: const EdgeInsets.all(18.0),
+          contentPadding: const EdgeInsets.all(18.0),
           insetPadding: const EdgeInsets.all(8.0),
           backgroundColor: Color(0xFF040f26),
           content: Form(
@@ -289,7 +289,7 @@ class AuthModal {
                     if (withExplanation)
                       Text("A wallet is required to continue.\nPlease create your account now with your email address and a password."),
                     Text(
-                      "Your email and password is used to seed your private key which is processed in this browser and will never be transmitted accross the internet.",
+                      "Your email and password is used to seed your private key which is processed in this browser and will never be transmitted across the internet.",
                       style: TextStyle(
                         fontSize: 13,
                         color: Colors.white70,
@@ -349,7 +349,7 @@ class AuthModal {
               },
               child: Text(
                 "Cancel",
-                style: TextStyle(color: Theme.of(context).colorScheme.info),
+                style: TextStyle(color: Theme.of(context).colorScheme.info.withOpacity(0.7)),
               ),
             ),
             TextButton(

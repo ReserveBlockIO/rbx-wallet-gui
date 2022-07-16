@@ -111,7 +111,7 @@ class _Brand extends StatelessWidget {
           // ),
           Center(
               child: Text(
-            "RBX Wallet",
+            "RBX Web Wallet",
             style: Theme.of(context).textTheme.headlineLarge!.copyWith(fontWeight: FontWeight.bold, fontSize: isMobile ? 20 : 30),
           ))
         ],

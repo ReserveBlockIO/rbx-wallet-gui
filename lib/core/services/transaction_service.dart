@@ -151,6 +151,16 @@ class TransactionService extends BaseService {
     }
   }
 
+  Future<bool> mintSmartContract(String id) async {
+    try {
+      final data = await getText('/mint/$id');
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
   Future<StoreCollection?> retrieveStoreCollection(String slug) async {
     try {
       final data = await getJson('/collection/$slug');
