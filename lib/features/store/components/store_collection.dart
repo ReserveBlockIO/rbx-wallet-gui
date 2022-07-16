@@ -7,7 +7,6 @@ import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/features/nft/components/nft_qr_code.dart';
 import 'package:rbx_wallet/features/store/components/store_listing.dart';
 import 'package:rbx_wallet/features/store/models/store_collection.dart';
-import 'package:rbx_wallet/generated/assets.gen.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 class StoreCollectionContainer extends BaseComponent {

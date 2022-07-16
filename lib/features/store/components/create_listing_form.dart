@@ -7,7 +7,6 @@ import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/components/dropdowns.dart';
 import 'package:rbx_wallet/core/components/upload_image_selector.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/file_selector.dart';
 import 'package:rbx_wallet/features/store/providers/create_listing_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 

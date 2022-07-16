@@ -13,7 +13,7 @@ class TxType {
   static const int rbxTransfer = 0;
   static const int node = 1;
   static const int nftMint = 2;
-  static const int nftTransfer = 3;
+  static const int nftTx = 3;
   static const int nftBurn = 4;
   static const int nftSale = 5;
   static const int adnr = 6;

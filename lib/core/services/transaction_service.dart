@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
@@ -11,11 +10,9 @@ import 'package:rbx_wallet/features/keygen/models/keypair.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/compiler_response.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/detailed_smart_contract.dart';
-import 'package:rbx_wallet/features/store/models/bid.dart';
 import 'package:rbx_wallet/features/store/models/listing.dart';
 import 'package:rbx_wallet/features/store/models/store.dart';
 import 'package:rbx_wallet/features/store/models/store_collection.dart';
-import 'package:rbx_wallet/features/store/providers/bid_provider.dart';
 import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 

@@ -12,7 +12,6 @@ import 'package:rbx_wallet/core/singletons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/auth/auth_utils.dart';
-import 'package:rbx_wallet/features/auth/components/auth_type_modal.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
 
 class WebAuthScreen extends BaseStatefulScreen {

@@ -54,7 +54,7 @@ class KeygenService {
     String seed,
     int index,
   ) async {
-    print("SEED: ${seed}");
+    print("SEED: $seed");
     final String privateKeyHex = await js.context.callMethod('seedToPrivate', [seed]);
     print("Private Key Hex: $privateKeyHex");
 

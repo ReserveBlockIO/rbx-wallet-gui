@@ -8,7 +8,6 @@ import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/singletons.dart';
 import 'package:desktop_window/desktop_window.dart';
 import 'package:timezone/data/latest.dart' as tz;
-import 'package:url_strategy/url_strategy.dart';
 
 const MIN_WIDTH = 1200.0;
 const MIN_HEIGHT = 800.0;

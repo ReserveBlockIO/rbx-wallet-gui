@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/services/base_service.dart';

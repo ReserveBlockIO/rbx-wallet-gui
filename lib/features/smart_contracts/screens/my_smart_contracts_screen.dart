@@ -13,7 +13,6 @@ import 'package:rbx_wallet/features/smart_contracts/providers/draft_smart_contra
 import 'package:rbx_wallet/features/smart_contracts/providers/my_smart_contracts_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 class MySmartContractsScreen extends BaseScreen {

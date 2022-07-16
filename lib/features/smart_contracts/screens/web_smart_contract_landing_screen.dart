@@ -6,7 +6,6 @@ import 'package:rbx_wallet/core/breakpoints.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/smart_contract_creator_main.dart';
 import 'package:rbx_wallet/features/smart_contracts/screens/smart_contracts_screen.dart';
 import 'package:rbx_wallet/features/web/components/web_no_wallet.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';

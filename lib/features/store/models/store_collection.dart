@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:intl/intl.dart';
 import 'package:rbx_wallet/features/store/models/listing.dart';
 
 part 'store_collection.freezed.dart';

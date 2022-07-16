@@ -1,7 +1,5 @@
 import 'dart:html';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:date_count_down/countdown.dart';
-import 'package:date_count_down/date_count_down.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,7 +21,6 @@ import 'package:rbx_wallet/features/store/models/listing.dart';
 import 'package:rbx_wallet/features/store/models/store_collection.dart';
 import 'package:rbx_wallet/features/store/providers/bid_provider.dart';
 import 'package:rbx_wallet/features/store/providers/purchase_provider.dart';
-import 'package:rbx_wallet/generated/assets.gen.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
 
