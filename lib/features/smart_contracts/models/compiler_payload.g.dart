@@ -11,16 +11,15 @@ _$_CompilerPayload _$$_CompilerPayloadFromJson(Map<String, dynamic> json) =>
       name: json['Name'] as String,
       minterName: json['MinterName'] as String,
       description: json['Description'] as String,
-      address: json['Address'] as String,
       asset: Asset.fromJson(json['SmartContractAsset'] as Map<String, dynamic>),
       isPublic: json['IsPublic'] as bool? ?? true,
       uuid: json['SmartContractUID'] as String?,
-      signature: json['Signature'] as String?,
       features: (json['Features'] as List<dynamic>?)
           ?.map((e) => e as Map<String, dynamic>)
           .toList(),
       minterAddress: json['MinterAddress'] as String,
       isMinter: json['IsMinter'] as bool,
+      hash: json['hash'] as String,
     );
 
 Map<String, dynamic> _$$_CompilerPayloadToJson(_$_CompilerPayload instance) =>
@@ -28,12 +27,11 @@ Map<String, dynamic> _$$_CompilerPayloadToJson(_$_CompilerPayload instance) =>
       'Name': instance.name,
       'MinterName': instance.minterName,
       'Description': instance.description,
-      'Address': instance.address,
       'SmartContractAsset': instance.asset.toJson(),
       'IsPublic': instance.isPublic,
       'SmartContractUID': instance.uuid,
-      'Signature': instance.signature,
       'Features': instance.features,
       'MinterAddress': instance.minterAddress,
       'IsMinter': instance.isMinter,
+      'hash': instance.hash,
     };

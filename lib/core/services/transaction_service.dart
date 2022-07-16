@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/services/base_service.dart';
 import 'package:rbx_wallet/features/asset/web_asset.dart';
+import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/compiler_response.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/detailed_smart_contract.dart';
 import 'package:rbx_wallet/features/store/models/bid.dart';
@@ -153,7 +154,7 @@ class TransactionService extends BaseService {
 
   Future<bool> mintSmartContract(String id) async {
     try {
-      final data = await getText('/mint/$id');
+      final data = await getText('/smartcontract/mint/$id');
       return true;
     } catch (e) {
       print(e);
@@ -176,6 +177,28 @@ class TransactionService extends BaseService {
       final response = await getText('/smartcontract/$id');
       final data = jsonDecode(response);
       return DetailedSmartContract.fromJson(data[0]);
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<List<Nft>> listNfts() async {
+    try {
+      final response = await getJson('/nft', responseIsJson: true);
+      final List<Nft> results = response['data'].map<Nft>((json) => Nft.fromJson(json)).toList();
+      return results;
+    } catch (e) {
+      print(e);
+
+      return [];
+    }
+  }
+
+  Future<Nft?> retrieveNft(String id) async {
+    try {
+      final response = await getJson('/nft/$id', responseIsJson: true);
+      return Nft.fromJson(response['data'][0]['SmartContract']);
     } catch (e) {
       print(e);
       return null;

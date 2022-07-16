@@ -53,9 +53,7 @@ class NftDetailScreen extends BaseScreen {
                   padding: const EdgeInsets.only(right: 8.0),
                   child: AppBadge(
                     label: nft.isPublished ? "Minted" : "Minting...",
-                    variant: nft.isPublished
-                        ? AppColorVariant.Success
-                        : AppColorVariant.Warning,
+                    variant: nft.isPublished ? AppColorVariant.Success : AppColorVariant.Warning,
                     progressAnimation: !nft.isPublished,
                   ),
                 ),
@@ -63,9 +61,7 @@ class NftDetailScreen extends BaseScreen {
                   padding: const EdgeInsets.only(right: 8.0),
                   child: AppBadge(
                     label: nft.isPublic ? "Public" : "Private",
-                    variant: nft.isPublic
-                        ? AppColorVariant.Success
-                        : AppColorVariant.Primary,
+                    variant: nft.isPublic ? AppColorVariant.Success : AppColorVariant.Primary,
                   ),
                 ),
               ],
@@ -95,10 +91,7 @@ class NftDetailScreen extends BaseScreen {
               children: [
                 Text(
                   nft.currentEvolveName,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline4!
-                      .copyWith(color: Colors.white),
+                  style: Theme.of(context).textTheme.headline4!.copyWith(color: Colors.white),
                 ),
                 const SizedBox(
                   height: 4,
@@ -110,10 +103,7 @@ class NftDetailScreen extends BaseScreen {
                 if (nft.minterName.isNotEmpty)
                   Text(
                     "Minted By: ${nft.minterName}",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline5!
-                        .copyWith(color: Colors.white),
+                    style: Theme.of(context).textTheme.headline5!.copyWith(color: Colors.white),
                   ),
                 const SizedBox(
                   height: 4,
@@ -131,8 +121,8 @@ class NftDetailScreen extends BaseScreen {
                     Expanded(
                       child: ListTile(
                         contentPadding: EdgeInsets.zero,
-                        title: Text(nft.address),
-                        subtitle: const Text("Smart Contract Address"),
+                        title: Text(nft.currentOwner),
+                        subtitle: const Text("Current Owner Address"),
                         leading: IconButton(
                           icon: const Icon(Icons.copy),
                           onPressed: () {
@@ -164,8 +154,7 @@ class NftDetailScreen extends BaseScreen {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Asset:",
-                            style: Theme.of(context).textTheme.headline5),
+                        Text("Asset:", style: Theme.of(context).textTheme.headline5),
                         ConstrainedBox(
                           constraints: const BoxConstraints(maxWidth: 512),
                           child: Card(
@@ -181,23 +170,18 @@ class NftDetailScreen extends BaseScreen {
                                       padding: const EdgeInsets.only(top: 8),
                                       child: Column(
                                         mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           const Divider(),
                                           Text(
                                             "Additional Assets",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headline5,
+                                            style: Theme.of(context).textTheme.headline5,
                                           ),
                                           Wrap(
                                             children: nft.additionalAssets
                                                 .map(
                                                   (a) => Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            right: 6.0),
+                                                    padding: const EdgeInsets.only(right: 6.0),
                                                     child: AssetThumbnail(a),
                                                   ),
                                                 )
@@ -289,8 +273,7 @@ class NftDetailScreen extends BaseScreen {
                           onValidSubmission: (address) async {
                             final success = await _provider.transfer(address);
                             if (success) {
-                              Toast.message(
-                                  "Transfer transaction sent successfully!");
+                              Toast.message("Transfer transaction sent successfully!");
                             } else {
                               Toast.error();
                             }
@@ -357,8 +340,7 @@ class NftDetailScreen extends BaseScreen {
                           final success = await _provider.burn();
 
                           if (success) {
-                            Toast.message(
-                                "Burn transaction sent successfully!");
+                            Toast.message("Burn transaction sent successfully!");
                             ref.read(mySmartContractsProvider.notifier).load();
                             Navigator.of(context).pop();
                           } else {

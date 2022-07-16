@@ -59,8 +59,9 @@ class SmartContractCreatorMain extends BaseComponent {
     );
 
     if (confirmed == true) {
-      ref.read(sessionProvider.notifier).setIsMintingOrCompiling(true);
-
+      if (!kIsWeb) {
+        ref.read(sessionProvider.notifier).setIsMintingOrCompiling(true);
+      }
       final compileAnimation = Completer<BuildContext>();
       _provider.showCompileAnimation(context, compileAnimation);
       final dialogContext = await compileAnimation.future;
@@ -81,9 +82,7 @@ class SmartContractCreatorMain extends BaseComponent {
             Navigator.pop(completedDialogContext);
             Toast.message("Smart Contract minted successfully.");
 
-            if (!kIsWeb) {
-              mintedComplete(sc.id, context, ref);
-            }
+            mintedComplete(sc.id, context, ref);
           } else {
             Navigator.pop(dialogContext);
 
@@ -98,10 +97,14 @@ class SmartContractCreatorMain extends BaseComponent {
         Navigator.pop(dialogContext);
 
         print(e);
-        ref.read(sessionProvider.notifier).setIsMintingOrCompiling(false);
+        if (!kIsWeb) {
+          ref.read(sessionProvider.notifier).setIsMintingOrCompiling(false);
+        }
       }
     }
-    ref.read(sessionProvider.notifier).setIsMintingOrCompiling(false);
+    if (!kIsWeb) {
+      ref.read(sessionProvider.notifier).setIsMintingOrCompiling(false);
+    }
   }
 
   Future<void> delete(BuildContext context, WidgetRef ref) async {

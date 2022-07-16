@@ -1,14 +1,18 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
+import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/smart_contract.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/draft_smart_contracts_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/my_smart_contracts_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
+import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
@@ -94,8 +98,7 @@ class _DraftList extends BaseComponent {
           onTap: () async {
             ref.read(createSmartContractProvider.notifier).setSmartContract(sc);
 
-            AutoRouter.of(context)
-                .push(const SmartContractCreatorContainerScreenRoute());
+            AutoRouter.of(context).push(const SmartContractCreatorContainerScreenRoute());
           },
         );
       },
@@ -125,18 +128,21 @@ class _CompiledList extends BaseComponent {
           subtitle: Text(sc.id),
           trailing: const Icon(Icons.chevron_right),
           onTap: () async {
-            final wallets = ref.read(walletListProvider);
             final details = await SmartContractService().retrieve(sc.id);
             if (details == null) {
               Toast.error();
               return;
             }
-            final smartContract = SmartContract.fromCompiled(details, wallets);
-            ref
-                .read(createSmartContractProvider.notifier)
-                .setSmartContract(smartContract);
-            AutoRouter.of(context)
-                .push(const SmartContractCreatorContainerScreenRoute());
+            final wallet = kIsWeb
+                ? Wallet.fromWebWallet(
+                    keypair: ref.read(webSessionProvider).keypair!,
+                    balance: ref.read(webSessionProvider).balance ?? 0,
+                  )
+                : ref.read(sessionProvider).currentWallet!;
+
+            final smartContract = SmartContract.fromCompiled(details, wallet);
+            ref.read(createSmartContractProvider.notifier).setSmartContract(smartContract);
+            AutoRouter.of(context).push(const SmartContractCreatorContainerScreenRoute());
           },
         );
       },

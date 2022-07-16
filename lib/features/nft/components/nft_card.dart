@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/badges.dart';
+import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/providers/burned_provider.dart';
@@ -92,11 +93,17 @@ class NftCard extends BaseComponent {
             nft.currentEvolveAsset.isImage
                 ? AspectRatio(
                     aspectRatio: 1,
-                    child: Image.file(
-                      nft.currentEvolveAsset.file,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
+                    child: Env.isWeb
+                        ? Image.network(
+                            "https://placekitten.com/500/500",
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.file(
+                            nft.currentEvolveAsset.file,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                          ),
                   )
                 : const Icon(Icons.file_present_outlined),
             Container(
@@ -167,18 +174,14 @@ class NftCard extends BaseComponent {
                   children: [
                     AppBadge(
                       label: nft.isPublished ? "Minted" : "Minting...",
-                      variant: nft.isPublished
-                          ? AppColorVariant.Success
-                          : AppColorVariant.Warning,
+                      variant: nft.isPublished ? AppColorVariant.Success : AppColorVariant.Warning,
                     ),
                     const SizedBox(
                       width: 4,
                     ),
                     AppBadge(
                       label: nft.isPublic ? "Public" : "Private",
-                      variant: nft.isPublic
-                          ? AppColorVariant.Success
-                          : AppColorVariant.Primary,
+                      variant: nft.isPublic ? AppColorVariant.Success : AppColorVariant.Primary,
                     ),
                   ],
                 ),

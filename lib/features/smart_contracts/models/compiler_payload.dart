@@ -16,8 +16,6 @@ abstract class CompilerPayload with _$CompilerPayload {
         required String minterName,
     @JsonKey(name: "Description")
         required String description,
-    @JsonKey(name: "Address")
-        required String address,
     @JsonKey(name: "SmartContractAsset")
         required Asset asset,
     @JsonKey(name: "IsPublic", defaultValue: true)
@@ -26,14 +24,13 @@ abstract class CompilerPayload with _$CompilerPayload {
       name: "SmartContractUID",
     )
         String? uuid,
-    @JsonKey(name: "Signature")
-        String? signature,
     @JsonKey(name: "Features")
         List<Map<String, dynamic>>? features,
     @JsonKey(name: "MinterAddress")
         required String minterAddress,
     @JsonKey(name: "IsMinter")
         required bool isMinter,
+    required String hash,
   }) = _CompilerPayload;
 
   factory CompilerPayload.fromJson(Map<String, dynamic> json) => _$CompilerPayloadFromJson(json);

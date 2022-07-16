@@ -63,7 +63,7 @@ class NftMangementModal extends BaseComponent {
   ) async {
     final _provider = ref.read(nftDetailProvider(id).notifier);
     final _model = ref.read(nftDetailProvider(id));
-    final success = await _provider.setEvolve(stage, _model!.address);
+    final success = await _provider.setEvolve(stage, _model!.minterAddress);
     if (success) {
       Toast.message("Evolve transaction sent successfully!");
       showEvolveMessage();
@@ -75,8 +75,7 @@ class NftMangementModal extends BaseComponent {
   void showEvolveMessage() {
     InfoDialog.show(
       title: "Evolve transaction sent successfully",
-      body:
-          "This screen will reflect the change once the block is crafted and your block height has synced with this transaction.",
+      body: "This screen will reflect the change once the block is crafted and your block height has synced with this transaction.",
     );
   }
 
@@ -135,10 +134,7 @@ class NftMangementModal extends BaseComponent {
           const Divider(),
           Text(
             "Managing ${nft.name}",
-            style: Theme.of(context)
-                .textTheme
-                .headline4!
-                .copyWith(color: Colors.white),
+            style: Theme.of(context).textTheme.headline4!.copyWith(color: Colors.white),
           ),
           const Divider(),
           // if (nft.canEvolve)
@@ -188,8 +184,7 @@ class NftMangementModal extends BaseComponent {
                           label: "Evolve",
                           variant: AppColorVariant.Success,
                           icon: FontAwesomeIcons.circleChevronUp,
-                          onPressed: nft.currentEvolvePhase.evolutionState <
-                                  nft.evolutionPhases.length
+                          onPressed: nft.currentEvolvePhase.evolutionState < nft.evolutionPhases.length
                               ? () async {
                                   evolve(context, ref);
                                 }
@@ -203,8 +198,7 @@ class NftMangementModal extends BaseComponent {
                           onPressed: () {
                             PromptModal.show(
                               title: "Evolve To",
-                              validator: (value) =>
-                                  formValidatorNotEmpty(value, "Value"),
+                              validator: (value) => formValidatorNotEmpty(value, "Value"),
                               labelText: "Value",
                               inputFormatters: [
                                 FilteringTextInputFormatter.allow(
@@ -266,8 +260,7 @@ class _EvolutionStateRow extends BaseComponent {
   void showEvolveMessage() {
     InfoDialog.show(
       title: "Evolve transaction sent successfully",
-      body:
-          "This screen will reflect the change once the block is crafted and your block height has synced with this transaction.",
+      body: "This screen will reflect the change once the block is crafted and your block height has synced with this transaction.",
     );
   }
 
@@ -276,19 +269,15 @@ class _EvolutionStateRow extends BaseComponent {
     String descriptionText = phase.description;
 
     if (phase.dateTime != null) {
-      descriptionText =
-          "Evolve Date: ${phase.dateLabel} ${phase.timeLabel} UTC \n${phase.description}";
+      descriptionText = "Evolve Date: ${phase.dateLabel} ${phase.timeLabel} UTC \n${phase.description}";
     } else if (phase.blockHeight != null) {
-      descriptionText =
-          "Evolve Block Height: ${phase.blockHeight}\n${phase.description}";
+      descriptionText = "Evolve Block Height: ${phase.blockHeight}\n${phase.description}";
     }
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 4.0),
       child: Container(
-        color: phase.isCurrentState
-            ? Theme.of(context).colorScheme.success
-            : Colors.transparent,
+        color: phase.isCurrentState ? Theme.of(context).colorScheme.success : Colors.transparent,
         child: Padding(
           padding: const EdgeInsets.all(3.0),
           child: Container(
@@ -348,8 +337,7 @@ class _EvolutionStateRow extends BaseComponent {
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Name: ${phase.name}",
-                                style: Theme.of(context).textTheme.headline4),
+                            Text("Name: ${phase.name}", style: Theme.of(context).textTheme.headline4),
                             Text(
                               descriptionText,
                               style: Theme.of(context).textTheme.bodyMedium,
@@ -370,25 +358,21 @@ class _EvolutionStateRow extends BaseComponent {
                               : () async {
                                   final confirmed = await ConfirmDialog.show(
                                     title: "Evolve?",
-                                    body:
-                                        "Are you sure you want to evolve to stage $index?",
+                                    body: "Are you sure you want to evolve to stage $index?",
                                     confirmText: "Evolve",
                                     cancelText: "Cancel",
                                   );
                                   if (confirmed == true) {
-                                    final _provider = ref.read(
-                                        nftDetailProvider(nftId).notifier);
-                                    final _model =
-                                        ref.read(nftDetailProvider(nftId));
+                                    final _provider = ref.read(nftDetailProvider(nftId).notifier);
+                                    final _model = ref.read(nftDetailProvider(nftId));
 
                                     final success = await _provider.setEvolve(
                                       index,
-                                      _model!.address,
+                                      _model!.currentOwner,
                                     );
 
                                     if (success) {
-                                      Toast.message(
-                                          "Evolve transaction sent successfully!");
+                                      Toast.message("Evolve transaction sent successfully!");
                                       showEvolveMessage();
                                     } else {
                                       Toast.error();

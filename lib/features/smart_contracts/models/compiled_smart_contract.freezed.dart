@@ -26,13 +26,11 @@ mixin _$CompiledSmartContract {
   @JsonKey(name: "MinterName")
   String? get minterName => throw _privateConstructorUsedError;
   @JsonKey(name: "Description")
-  String get description => throw _privateConstructorUsedError;
-  @JsonKey(name: "Address")
-  String get address => throw _privateConstructorUsedError;
+  String get description =>
+      throw _privateConstructorUsedError; // @JsonKey(name: "Address") required String address,
   @JsonKey(name: "SmartContractUID")
-  String get id => throw _privateConstructorUsedError;
-  @JsonKey(name: "Signature")
-  String? get signature => throw _privateConstructorUsedError;
+  String get id =>
+      throw _privateConstructorUsedError; // @JsonKey(name: "Signature") String? signature,
   @JsonKey(name: "SmartContractAsset")
   Asset get primaryAsset => throw _privateConstructorUsedError;
   @JsonKey(name: "IsPublic")
@@ -57,9 +55,7 @@ abstract class $CompiledSmartContractCopyWith<$Res> {
       {@JsonKey(name: "Name") String name,
       @JsonKey(name: "MinterName") String? minterName,
       @JsonKey(name: "Description") String description,
-      @JsonKey(name: "Address") String address,
       @JsonKey(name: "SmartContractUID") String id,
-      @JsonKey(name: "Signature") String? signature,
       @JsonKey(name: "SmartContractAsset") Asset primaryAsset,
       @JsonKey(name: "IsPublic") bool isPublic,
       @JsonKey(name: "IsPublished") bool isPublished,
@@ -82,9 +78,7 @@ class _$CompiledSmartContractCopyWithImpl<$Res>
     Object? name = freezed,
     Object? minterName = freezed,
     Object? description = freezed,
-    Object? address = freezed,
     Object? id = freezed,
-    Object? signature = freezed,
     Object? primaryAsset = freezed,
     Object? isPublic = freezed,
     Object? isPublished = freezed,
@@ -103,18 +97,10 @@ class _$CompiledSmartContractCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      address: address == freezed
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as String,
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      signature: signature == freezed
-          ? _value.signature
-          : signature // ignore: cast_nullable_to_non_nullable
-              as String?,
       primaryAsset: primaryAsset == freezed
           ? _value.primaryAsset
           : primaryAsset // ignore: cast_nullable_to_non_nullable
@@ -153,9 +139,7 @@ abstract class _$$_CompiledSmartContractCopyWith<$Res>
       {@JsonKey(name: "Name") String name,
       @JsonKey(name: "MinterName") String? minterName,
       @JsonKey(name: "Description") String description,
-      @JsonKey(name: "Address") String address,
       @JsonKey(name: "SmartContractUID") String id,
-      @JsonKey(name: "Signature") String? signature,
       @JsonKey(name: "SmartContractAsset") Asset primaryAsset,
       @JsonKey(name: "IsPublic") bool isPublic,
       @JsonKey(name: "IsPublished") bool isPublished,
@@ -182,9 +166,7 @@ class __$$_CompiledSmartContractCopyWithImpl<$Res>
     Object? name = freezed,
     Object? minterName = freezed,
     Object? description = freezed,
-    Object? address = freezed,
     Object? id = freezed,
-    Object? signature = freezed,
     Object? primaryAsset = freezed,
     Object? isPublic = freezed,
     Object? isPublished = freezed,
@@ -203,18 +185,10 @@ class __$$_CompiledSmartContractCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      address: address == freezed
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as String,
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      signature: signature == freezed
-          ? _value.signature
-          : signature // ignore: cast_nullable_to_non_nullable
-              as String?,
       primaryAsset: primaryAsset == freezed
           ? _value.primaryAsset
           : primaryAsset // ignore: cast_nullable_to_non_nullable
@@ -245,12 +219,8 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
           this.minterName,
       @JsonKey(name: "Description")
           required this.description,
-      @JsonKey(name: "Address")
-          required this.address,
       @JsonKey(name: "SmartContractUID")
           required this.id,
-      @JsonKey(name: "Signature")
-          this.signature,
       @JsonKey(name: "SmartContractAsset")
           required this.primaryAsset,
       @JsonKey(name: "IsPublic")
@@ -274,15 +244,11 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
   @override
   @JsonKey(name: "Description")
   final String description;
-  @override
-  @JsonKey(name: "Address")
-  final String address;
+// @JsonKey(name: "Address") required String address,
   @override
   @JsonKey(name: "SmartContractUID")
   final String id;
-  @override
-  @JsonKey(name: "Signature")
-  final String? signature;
+// @JsonKey(name: "Signature") String? signature,
   @override
   @JsonKey(name: "SmartContractAsset")
   final Asset primaryAsset;
@@ -302,7 +268,7 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
 
   @override
   String toString() {
-    return 'CompiledSmartContract(name: $name, minterName: $minterName, description: $description, address: $address, id: $id, signature: $signature, primaryAsset: $primaryAsset, isPublic: $isPublic, isPublished: $isPublished, features: $features)';
+    return 'CompiledSmartContract(name: $name, minterName: $minterName, description: $description, id: $id, primaryAsset: $primaryAsset, isPublic: $isPublic, isPublished: $isPublished, features: $features)';
   }
 
   @override
@@ -315,9 +281,7 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
                 .equals(other.minterName, minterName) &&
             const DeepCollectionEquality()
                 .equals(other.description, description) &&
-            const DeepCollectionEquality().equals(other.address, address) &&
             const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.signature, signature) &&
             const DeepCollectionEquality()
                 .equals(other.primaryAsset, primaryAsset) &&
             const DeepCollectionEquality().equals(other.isPublic, isPublic) &&
@@ -333,9 +297,7 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
       const DeepCollectionEquality().hash(name),
       const DeepCollectionEquality().hash(minterName),
       const DeepCollectionEquality().hash(description),
-      const DeepCollectionEquality().hash(address),
       const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(signature),
       const DeepCollectionEquality().hash(primaryAsset),
       const DeepCollectionEquality().hash(isPublic),
       const DeepCollectionEquality().hash(isPublished),
@@ -361,12 +323,8 @@ abstract class _CompiledSmartContract extends CompiledSmartContract {
               final String? minterName,
           @JsonKey(name: "Description")
               required final String description,
-          @JsonKey(name: "Address")
-              required final String address,
           @JsonKey(name: "SmartContractUID")
               required final String id,
-          @JsonKey(name: "Signature")
-              final String? signature,
           @JsonKey(name: "SmartContractAsset")
               required final Asset primaryAsset,
           @JsonKey(name: "IsPublic")
@@ -390,16 +348,10 @@ abstract class _CompiledSmartContract extends CompiledSmartContract {
   @override
   @JsonKey(name: "Description")
   String get description => throw _privateConstructorUsedError;
-  @override
-  @JsonKey(name: "Address")
-  String get address => throw _privateConstructorUsedError;
-  @override
+  @override // @JsonKey(name: "Address") required String address,
   @JsonKey(name: "SmartContractUID")
   String get id => throw _privateConstructorUsedError;
-  @override
-  @JsonKey(name: "Signature")
-  String? get signature => throw _privateConstructorUsedError;
-  @override
+  @override // @JsonKey(name: "Signature") String? signature,
   @JsonKey(name: "SmartContractAsset")
   Asset get primaryAsset => throw _privateConstructorUsedError;
   @override

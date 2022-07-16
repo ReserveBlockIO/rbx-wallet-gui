@@ -41,7 +41,7 @@ class WebSessionModel {
       publicKey: keypair!.publicInflated,
       privateKey: keypair!.private,
       address: keypair!.public,
-      balance: 0,
+      balance: balance ?? 0,
       isValidating: false,
       isEncrypted: false,
     );

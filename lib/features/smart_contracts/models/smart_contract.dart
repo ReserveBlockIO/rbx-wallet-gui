@@ -44,13 +44,13 @@ abstract class SmartContract with _$SmartContract {
 
   factory SmartContract.fromCompiled(
     DetailedSmartContract details,
-    List<Wallet> wallets,
+    Wallet owner,
   ) {
     final sc = details.smartContract;
 
-    final owner = wallets.firstWhere(
-      (w) => w.address == sc.address,
-    );
+    // final owner = wallets.firstWhere(
+    //   (w) => w.address == sc.address,
+    // );
 
     final List<Evolve> evolves = [];
     final List<Royalty> royalties = [];
@@ -141,17 +141,17 @@ abstract class SmartContract with _$SmartContract {
     }
 
     final payload = CompilerPayload(
-        name: name,
-        minterName: minterName,
-        description: description,
-        address: owner.address,
-        asset: primaryAsset!.copyWith(authorName: minterName),
-        features: features,
-        uuid: "00000000-0000-0000-0000-000000000000",
-        signature: null,
-        isPublic: false,
-        minterAddress: owner.address,
-        isMinter: true);
+      name: name,
+      minterName: minterName,
+      description: description,
+      asset: primaryAsset!.copyWith(authorName: minterName),
+      features: features,
+      uuid: "00000000-0000-0000-0000-000000000000",
+      isPublic: false,
+      minterAddress: owner.address,
+      isMinter: true,
+      hash: "",
+    );
 
     final data = payload.toJson();
 

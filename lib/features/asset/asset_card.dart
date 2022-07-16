@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
@@ -15,19 +16,24 @@ class AssetCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         asset.isImage
-            ? Image.file(
-                asset.file,
-                width: double.infinity,
-                fit: BoxFit.contain,
-              )
+            ? kIsWeb
+                ? Image.network(
+                    "https://placekitten.com/500/500",
+                    width: double.infinity,
+                    fit: BoxFit.contain,
+                  )
+                : Image.file(
+                    asset.file,
+                    width: double.infinity,
+                    fit: BoxFit.contain,
+                  )
             : const Icon(Icons.file_present_outlined),
         if (asset.authorName != null && asset.authorName!.isNotEmpty)
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: Text(
               "Creator: ${asset.authorName}",
-              style:
-                  Theme.of(context).textTheme.caption!.copyWith(fontSize: 14),
+              style: Theme.of(context).textTheme.caption!.copyWith(fontSize: 14),
             ),
           ),
         Wrap(
@@ -53,26 +59,27 @@ class AssetCard extends StatelessWidget {
           ],
         ),
         const Divider(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            AppButton(
-              label: "Open Folder",
-              icon: Icons.folder_open,
-              onPressed: () {
-                openFile(asset.folder);
-              },
-            ),
-            const SizedBox(width: 4),
-            AppButton(
-              label: "Open Asset",
-              icon: Icons.file_open,
-              onPressed: () {
-                openFile(asset.file);
-              },
-            ),
-          ],
-        ),
+        if (!kIsWeb)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              AppButton(
+                label: "Open Folder",
+                icon: Icons.folder_open,
+                onPressed: () {
+                  openFile(asset.folder);
+                },
+              ),
+              const SizedBox(width: 4),
+              AppButton(
+                label: "Open Asset",
+                icon: Icons.file_open,
+                onPressed: () {
+                  openFile(asset.file);
+                },
+              ),
+            ],
+          ),
       ],
     );
   }

@@ -17,10 +17,9 @@ import 'package:rbx_wallet/features/dsts/screens/create_store_screen.dart'
     as _i17;
 import 'package:rbx_wallet/features/dsts/screens/web_dst_screen.dart' as _i16;
 import 'package:rbx_wallet/features/home/screens/web_home_screen.dart' as _i6;
+import 'package:rbx_wallet/features/nft/screens/nft_list_screen.dart' as _i12;
 import 'package:rbx_wallet/features/nft/screens/web_nft_detail_screen.dart'
     as _i13;
-import 'package:rbx_wallet/features/nft/screens/web_nft_list_screen.dart'
-    as _i12;
 import 'package:rbx_wallet/features/receive/screens/web_receive_screen.dart'
     as _i9;
 import 'package:rbx_wallet/features/root/web_dashboard_container.dart' as _i4;
@@ -147,9 +146,9 @@ class WebRouter extends _i1.RootStackRouter {
           child:
               _i11.WebTransactionDetailScreen(key: args.key, hash: args.hash));
     },
-    WebNftListScreenRoute.name: (routeData) {
+    NftListScreenRoute.name: (routeData) {
       return _i1.AdaptivePage<dynamic>(
-          routeData: routeData, child: const _i12.WebNftListScreen());
+          routeData: routeData, child: const _i12.NftListScreen());
     },
     WebNftDetailScreenRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
@@ -259,7 +258,7 @@ class WebRouter extends _i1.RootStackRouter {
                   path: 'nfts',
                   parent: WebDashboardContainerRoute.name,
                   children: [
-                    _i1.RouteConfig(WebNftListScreenRoute.name,
+                    _i1.RouteConfig(NftListScreenRoute.name,
                         path: '', parent: WebNftTabRouter.name),
                     _i1.RouteConfig(WebNftDetailScreenRoute.name,
                         path: 'detail/:identifier',
@@ -545,11 +544,11 @@ class WebTransactionDetailScreenRouteArgs {
 }
 
 /// generated route for
-/// [_i12.WebNftListScreen]
-class WebNftListScreenRoute extends _i1.PageRouteInfo<void> {
-  const WebNftListScreenRoute() : super(WebNftListScreenRoute.name, path: '');
+/// [_i12.NftListScreen]
+class NftListScreenRoute extends _i1.PageRouteInfo<void> {
+  const NftListScreenRoute() : super(NftListScreenRoute.name, path: '');
 
-  static const String name = 'WebNftListScreenRoute';
+  static const String name = 'NftListScreenRoute';
 }
 
 /// generated route for

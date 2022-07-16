@@ -66,6 +66,7 @@ class BaseService {
     Map<String, dynamic> params = const {},
     bool auth = true,
     bool cleanPath = true,
+    bool responseIsJson = false,
   }) async {
     try {
       final url = cleanPath ? _cleanPath(path) : path;
@@ -73,6 +74,10 @@ class BaseService {
         url,
         queryParameters: params,
       );
+
+      if (responseIsJson) {
+        return {'data': response.data};
+      }
 
       if (response.statusCode == 204) {
         return {};

@@ -3,6 +3,7 @@ import 'package:rbx_wallet/features/auth/screens/web_auth_screen.dart';
 import 'package:rbx_wallet/features/dsts/screens/create_store_screen.dart';
 import 'package:rbx_wallet/features/dsts/screens/web_dst_screen.dart';
 import 'package:rbx_wallet/features/home/screens/web_home_screen.dart';
+import 'package:rbx_wallet/features/nft/screens/nft_list_screen.dart';
 import 'package:rbx_wallet/features/nft/screens/web_nft_detail_screen.dart';
 import 'package:rbx_wallet/features/nft/screens/web_nft_list_screen.dart';
 import 'package:rbx_wallet/features/receive/screens/web_receive_screen.dart';
@@ -85,7 +86,7 @@ const webDashboardTabRouter = AutoRoute(
       name: "WebNftTabRouter",
       page: EmptyRouterPage,
       children: [
-        AutoRoute(path: "", page: WebNftListScreen),
+        AutoRoute(path: "", page: NftListScreen),
         AutoRoute(path: "detail/:identifier", page: WebNftDetailScreen),
       ],
     ),

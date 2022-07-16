@@ -39,12 +39,6 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
   late final TextEditingController descriptionController;
 
   CreateSmartContractProvider(this.read, SmartContract model) : super(model) {
-    state = model.copyWith(
-      name: "Test 123",
-      description: "This is a test",
-      minterName: "TS",
-    );
-
     nameController = TextEditingController(text: model.name);
     descriptionController = TextEditingController(text: model.description);
     minterNameController = TextEditingController(text: model.minterName);
@@ -283,16 +277,14 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
         deleteDraft();
       }
 
-      final wallets = kIsWeb
-          ? [
-              Wallet.fromWebWallet(
-                keypair: read(webSessionProvider).keypair!,
-                balance: read(webSessionProvider).balance ?? 0,
-              ),
-            ]
-          : read(walletListProvider);
+      final wallet = kIsWeb
+          ? Wallet.fromWebWallet(
+              keypair: read(webSessionProvider).keypair!,
+              balance: read(webSessionProvider).balance ?? 0,
+            )
+          : read(sessionProvider).currentWallet!;
 
-      final sc = SmartContract.fromCompiled(details, wallets);
+      final sc = SmartContract.fromCompiled(details, wallet);
       read(createSmartContractProvider.notifier).setSmartContract(
         sc.copyWith(
           isCompiled: ALLOW_DOUBLE_MINTES ? false : true,
@@ -316,8 +308,8 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
     read(nftListProvider.notifier).load();
 
     if (details != null) {
-      final wallets = read(walletListProvider);
-      final sc = SmartContract.fromCompiled(details, wallets);
+      final wallet = kIsWeb ? read(webSessionProvider).currentWallet! : read(sessionProvider).currentWallet!;
+      final sc = SmartContract.fromCompiled(details, wallet);
       read(createSmartContractProvider.notifier).setSmartContract(
         sc.copyWith(
           isPublished: true,

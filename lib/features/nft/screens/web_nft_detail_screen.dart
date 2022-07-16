@@ -66,7 +66,7 @@ class _NftDetail extends BaseComponent {
         const Divider(),
         Text("Minted by: ${nft.minterName}"),
         Text("Minter Address: ${nft.minterAddress}"),
-        Text("Owner Address: ${nft.address}"),
+        Text("Owner Address: ${nft.currentOwner}"),
         const Divider(),
         Text("Features:", style: Theme.of(context).textTheme.headline5),
         if (nft.features.isEmpty)

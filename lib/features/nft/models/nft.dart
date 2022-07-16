@@ -16,17 +16,15 @@ abstract class Nft with _$Nft {
   factory Nft({
     @JsonKey(name: "Name") required String name,
     @JsonKey(name: "Description") required String description,
-    @JsonKey(name: "Address") required String address,
+    @JsonKey(name: "CurrentOwner") required String currentOwner,
     @JsonKey(name: "MinterAddress") @Default("") String minterAddress,
     @JsonKey(name: "MinterName") @Default("") String minterName,
     @JsonKey(name: "SmartContractUID") required String id,
-    @JsonKey(name: "Signature") String? signature,
     @JsonKey(name: "SmartContractAsset") required Asset primaryAsset,
     @JsonKey(name: "IsPublic") required bool isPublic,
     @JsonKey(name: "IsPublished") required bool isPublished,
     @JsonKey(name: "IsMinter") required bool isMinter,
-    @JsonKey(name: "Features", defaultValue: [])
-        required List<Map<String, dynamic>> features,
+    @JsonKey(name: "Features", defaultValue: []) required List<Map<String, dynamic>> features,
     @JsonKey(defaultValue: false) required bool isProcessing,
     String? code,
   }) = _Nft;
@@ -106,11 +104,7 @@ abstract class Nft with _$Nft {
       description: description,
       asset: primaryAsset,
       evolutionState: 0,
-      isCurrentState:
-          evolutionPhases.firstWhereOrNull((p) => p.isCurrentState == true) ==
-                  null
-              ? true
-              : false,
+      isCurrentState: evolutionPhases.firstWhereOrNull((p) => p.isCurrentState == true) == null ? true : false,
     );
   }
 
@@ -119,12 +113,10 @@ abstract class Nft with _$Nft {
       return [];
     }
 
-    final evolveFeature =
-        featureList.firstWhereOrNull((f) => f.type == FeatureType.evolution);
+    final evolveFeature = featureList.firstWhereOrNull((f) => f.type == FeatureType.evolution);
 
     if (evolveFeature != null) {
-      final evolve =
-          Evolve.fromCompiler({'phases': evolveFeature.data['phases']});
+      final evolve = Evolve.fromCompiler({'phases': evolveFeature.data['phases']});
 
       return evolve.phases;
     }
@@ -133,8 +125,7 @@ abstract class Nft with _$Nft {
   }
 
   EvolvePhase get currentEvolvePhase {
-    final current =
-        evolutionPhases.firstWhereOrNull((p) => p.isCurrentState == true);
+    final current = evolutionPhases.firstWhereOrNull((p) => p.isCurrentState == true);
     if (current == null) {
       return baseEvolutionPhase;
     }

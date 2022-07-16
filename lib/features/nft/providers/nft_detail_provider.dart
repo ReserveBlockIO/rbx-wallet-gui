@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
+import 'package:rbx_wallet/core/services/transaction_service.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/providers/burned_provider.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
@@ -17,8 +19,12 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     init();
   }
 
+  Future<Nft?> _retrieve() async {
+    return kIsWeb ? await TransactionService().retrieveNft(id) : await NftService().retrieve(id);
+  }
+
   Future<void> init() async {
-    state = await NftService().retrieve(id);
+    state = await _retrieve();
 
     pollForUpdate();
     pollForGeneralUpdate();
@@ -29,7 +35,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
 
     if (!state!.isPublished) {
       await Future.delayed(const Duration(seconds: 10));
-      final updated = await NftService().retrieve(id);
+      final updated = await _retrieve();
       if (updated != null && updated.isPublished) {
         state = updated;
         return;
@@ -43,7 +49,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     if (state == null) return;
     await Future.delayed(const Duration(seconds: 10));
 
-    final updated = await NftService().retrieve(id);
+    final updated = await _retrieve();
     if (updated != null && updated.currentEvolvePhaseIndex + 1 == stage) {
       state = updated;
       return;
@@ -56,7 +62,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     if (state == null) return;
     await Future.delayed(const Duration(seconds: 30));
 
-    final updated = await NftService().retrieve(id);
+    final updated = await _retrieve();
     if (updated != null) {
       state = updated;
     }
@@ -81,8 +87,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     }
 
     if (mustBeOwner) {
-      Wallet? wallet = read(walletListProvider)
-          .firstWhereOrNull((w) => w.address == state!.address);
+      Wallet? wallet = read(walletListProvider).firstWhereOrNull((w) => w.address == state!.currentOwner);
 
       if (wallet == null && mustBeOwner) {
         Toast.error("You are not the owner of this NFT.");
@@ -90,8 +95,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
         return false;
       }
 
-      wallet ??= read(walletListProvider)
-          .firstWhereOrNull((w) => w.address == state!.minterAddress);
+      wallet ??= read(walletListProvider).firstWhereOrNull((w) => w.address == state!.minterAddress);
 
       if (wallet == null) {
         Toast.error("You are not the owner or minter of this NFT.");
@@ -117,21 +121,18 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     if (!canTransact()) return false;
 
     final success = await SmartContractService().evolve(id, toAddress, stage);
-    // if (success == true) {
-    //   state = state!.copyWith(isProcessing: true);
-    //   pollForEvolutionUpdate(stage);
-    // }
+
     return success;
   }
 
   Future<bool> evolve() async {
     final stage = state!.currentEvolvePhaseIndex + 2;
-    return await setEvolve(stage, state!.address);
+    return await setEvolve(stage, state!.currentOwner);
   }
 
   Future<bool> devolve() async {
     final stage = state!.currentEvolvePhaseIndex;
-    return await setEvolve(stage, state!.address);
+    return await setEvolve(stage, state!.currentOwner);
   }
 
   Future<bool> burn() async {
@@ -144,7 +145,6 @@ class NftDetailProvider extends StateNotifier<Nft?> {
   }
 }
 
-final nftDetailProvider =
-    StateNotifierProvider.family<NftDetailProvider, Nft?, String>(
+final nftDetailProvider = StateNotifierProvider.family<NftDetailProvider, Nft?, String>(
   (ref, id) => NftDetailProvider(ref.read, id),
 );

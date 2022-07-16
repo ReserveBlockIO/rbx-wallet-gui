@@ -18,9 +18,7 @@ class NftGrid extends BaseComponent {
 
     if (_model.isEmpty) {
       return Center(
-        child: Text(minted
-            ? "No minted NFTs with management capabilities."
-            : "No NFTs found."),
+        child: Text(minted ? "No minted NFTs with management capabilities." : "No NFTs found."),
       );
     }
 
@@ -34,7 +32,6 @@ class NftGrid extends BaseComponent {
       itemCount: _model.length,
       itemBuilder: (context, index) {
         final nft = _model[index];
-
         return NftCard(
           nft,
           manageOnPress: minted,
