@@ -1,5 +1,7 @@
 import 'dart:html';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:date_count_down/countdown.dart';
+import 'package:date_count_down/date_count_down.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,6 +10,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/breakpoints.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/components/countdown.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
@@ -137,16 +140,18 @@ class StoreListing extends BaseComponent {
           buildPreview(context),
           buildPreviewDetails(),
           buildDetails(context),
-          if (listing.isAuction)
+          if (listing.hasFinished || listing.isPurchased) _AuctionEnded(),
+          if (listing.isActive && listing.isAuction)
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: buildAuction(context, ref),
             ),
-          if (listing.isBuyNow)
+          if (listing.isActive && listing.isBuyNow)
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: buildPurchase(context, ref),
             ),
+          Center(child: buildCountdown())
         ],
       ),
     );
@@ -178,24 +183,46 @@ class StoreListing extends BaseComponent {
                   SizedBox(height: 8),
                   buildDetails(context),
                   SizedBox(height: 8),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      if (listing.isAuction)
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: buildAuction(context, ref),
-                        ),
-                      if (listing.isBuyNow) buildPurchase(context, ref),
-                    ],
-                  )
+                  if (listing.hasFinished || listing.isPurchased) _AuctionEnded(),
+                  if (listing.isActive)
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        if (listing.isAuction)
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: buildAuction(context, ref),
+                          ),
+                        if (listing.isBuyNow) buildPurchase(context, ref),
+                      ],
+                    ),
+                  buildCountdown()
                 ],
               ),
             ),
           )
         ],
       ),
+    );
+  }
+
+  Column buildCountdown() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (listing.isActive && listing.endsAt != null)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: AppCountdown(dueDate: listing.endsAt!, prefix: "Auction Ends"),
+          ),
+        if (!listing.hasStarted)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: AppCountdown(dueDate: listing.startsAt, prefix: "Auction Starts"),
+          ),
+      ],
     );
   }
 
@@ -494,6 +521,25 @@ class StoreListing extends BaseComponent {
   }
 }
 
+class _AuctionEnded extends StatelessWidget {
+  const _AuctionEnded({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Text(
+          "This auction has ended",
+          style: Theme.of(context).textTheme.headlineMedium!.copyWith(fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
+}
+
 class PreviewCarousel extends StatefulWidget {
   const PreviewCarousel({
     Key? key,
@@ -519,14 +565,17 @@ class _PreviewCarouselState extends State<PreviewCarousel> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          decoration: BoxDecoration(color: Theme.of(context).colorScheme.primary, boxShadow: [
-            BoxShadow(
-              offset: Offset.zero,
-              blurRadius: 5,
-              color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
-              spreadRadius: 4,
-            )
-          ]),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.primary,
+            boxShadow: [
+              BoxShadow(
+                offset: Offset.zero,
+                blurRadius: 5,
+                color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+                spreadRadius: 4,
+              )
+            ],
+          ),
           child: Padding(
               padding: const EdgeInsets.all(3.0),
               child: SizedBox(

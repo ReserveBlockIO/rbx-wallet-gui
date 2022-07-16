@@ -31,6 +31,8 @@ abstract class Listing with _$Listing {
     @JsonKey(name: "highest_bid") Bid? highestBid,
     @JsonKey(name: "starts_at") required DateTime startsAt,
     @JsonKey(name: "ends_at") DateTime? endsAt,
+    @JsonKey(name: "allow_rbx") required bool allowRbx,
+    @JsonKey(name: "allow_cc") required bool allowCC,
   }) = _Listing;
 
   factory Listing.fromJson(Map<String, dynamic> json) => _$ListingFromJson(json);
@@ -73,5 +75,34 @@ abstract class Listing with _$Listing {
     }
 
     return floorPriceRbx ?? 0;
+  }
+
+  bool get isActive {
+    if (isPurchased) {
+      return false;
+    }
+
+    final now = DateTime.now();
+
+    if (endsAt == null) {
+      return now.compareTo(startsAt) > 0;
+    }
+
+    return now.compareTo(startsAt) > 0 && now.compareTo(endsAt!) < 0;
+  }
+
+  bool get hasStarted {
+    final now = DateTime.now();
+
+    return now.compareTo(startsAt) > 0;
+  }
+
+  bool get hasFinished {
+    if (endsAt == null) {
+      return false;
+    }
+    final now = DateTime.now();
+
+    return now.compareTo(endsAt!) > 0;
   }
 }

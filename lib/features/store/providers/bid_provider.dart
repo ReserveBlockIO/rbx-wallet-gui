@@ -51,7 +51,10 @@ class BidProvider extends StateNotifier<BidModel> {
 
   init() async {
     final listing = await TransactionService().retrieveListing(listingSlug);
-    state = state.copyWith(listing: listing);
+
+    if (listing != null) {
+      state = state.copyWith(listing: listing, type: listing.allowRbx ? BidType.rbx : BidType.creditCard);
+    }
   }
 
   setType(BidType type) {

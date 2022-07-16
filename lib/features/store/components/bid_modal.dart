@@ -6,6 +6,7 @@ import 'package:rbx_wallet/core/components/centered_loader.dart';
 import 'package:rbx_wallet/core/components/dropdowns.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/store/components/not_accepting_rbx_message.dart';
 import 'package:rbx_wallet/features/store/models/listing.dart';
 import 'package:rbx_wallet/features/store/models/store_collection.dart';
 import 'package:rbx_wallet/features/store/providers/bid_provider.dart';
@@ -54,10 +55,11 @@ class BidModal extends BaseComponent {
               provider.setType(val);
             },
             options: [
-              AppDropdownOption(label: "RBX", value: BidType.rbx),
-              AppDropdownOption(label: "Credit Card (USD)", value: BidType.creditCard),
+              if (bid.listing!.allowRbx) AppDropdownOption(label: "RBX", value: BidType.rbx),
+              if (bid.listing!.allowCC) AppDropdownOption(label: "Credit Card (USD)", value: BidType.creditCard),
             ],
           ),
+          if (!listing.allowRbx) NotAcceptingRbxMessage(),
           TextFormField(
             controller: provider.amountController,
             decoration: InputDecoration(

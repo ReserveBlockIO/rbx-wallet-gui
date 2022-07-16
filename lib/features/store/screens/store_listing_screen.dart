@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/centered_loader.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
+import 'package:rbx_wallet/core/support.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/store/components/store_listing.dart';
 import 'package:rbx_wallet/features/store/providers/listing_detail_provider.dart';
@@ -70,6 +71,11 @@ class StoreListingScreen extends BaseScreen {
               ),
             ),
     );
+  }
+
+  @override
+  FloatingActionButton? floatingActionButton(BuildContext context, WidgetRef ref) {
+    return buildSupportButton();
   }
 
   @override

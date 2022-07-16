@@ -52,6 +52,10 @@ mixin _$Listing {
   DateTime get startsAt => throw _privateConstructorUsedError;
   @JsonKey(name: "ends_at")
   DateTime? get endsAt => throw _privateConstructorUsedError;
+  @JsonKey(name: "allow_rbx")
+  bool get allowRbx => throw _privateConstructorUsedError;
+  @JsonKey(name: "allow_cc")
+  bool get allowCC => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -93,7 +97,11 @@ abstract class $ListingCopyWith<$Res> {
       @JsonKey(name: "starts_at")
           DateTime startsAt,
       @JsonKey(name: "ends_at")
-          DateTime? endsAt});
+          DateTime? endsAt,
+      @JsonKey(name: "allow_rbx")
+          bool allowRbx,
+      @JsonKey(name: "allow_cc")
+          bool allowCC});
 
   $StoreCopyWith<$Res> get store;
   $BidCopyWith<$Res>? get highestBid;
@@ -128,6 +136,8 @@ class _$ListingCopyWithImpl<$Res> implements $ListingCopyWith<$Res> {
     Object? highestBid = freezed,
     Object? startsAt = freezed,
     Object? endsAt = freezed,
+    Object? allowRbx = freezed,
+    Object? allowCC = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -206,6 +216,14 @@ class _$ListingCopyWithImpl<$Res> implements $ListingCopyWith<$Res> {
           ? _value.endsAt
           : endsAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      allowRbx: allowRbx == freezed
+          ? _value.allowRbx
+          : allowRbx // ignore: cast_nullable_to_non_nullable
+              as bool,
+      allowCC: allowCC == freezed
+          ? _value.allowCC
+          : allowCC // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 
@@ -265,7 +283,11 @@ abstract class _$$_ListingCopyWith<$Res> implements $ListingCopyWith<$Res> {
       @JsonKey(name: "starts_at")
           DateTime startsAt,
       @JsonKey(name: "ends_at")
-          DateTime? endsAt});
+          DateTime? endsAt,
+      @JsonKey(name: "allow_rbx")
+          bool allowRbx,
+      @JsonKey(name: "allow_cc")
+          bool allowCC});
 
   @override
   $StoreCopyWith<$Res> get store;
@@ -303,6 +325,8 @@ class __$$_ListingCopyWithImpl<$Res> extends _$ListingCopyWithImpl<$Res>
     Object? highestBid = freezed,
     Object? startsAt = freezed,
     Object? endsAt = freezed,
+    Object? allowRbx = freezed,
+    Object? allowCC = freezed,
   }) {
     return _then(_$_Listing(
       id: id == freezed
@@ -381,6 +405,14 @@ class __$$_ListingCopyWithImpl<$Res> extends _$ListingCopyWithImpl<$Res>
           ? _value.endsAt
           : endsAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      allowRbx: allowRbx == freezed
+          ? _value.allowRbx
+          : allowRbx // ignore: cast_nullable_to_non_nullable
+              as bool,
+      allowCC: allowCC == freezed
+          ? _value.allowCC
+          : allowCC // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -419,7 +451,11 @@ class _$_Listing extends _Listing {
       @JsonKey(name: "starts_at")
           required this.startsAt,
       @JsonKey(name: "ends_at")
-          this.endsAt})
+          this.endsAt,
+      @JsonKey(name: "allow_rbx")
+          required this.allowRbx,
+      @JsonKey(name: "allow_cc")
+          required this.allowCC})
       : _smartContractData = smartContractData,
         _previewUrls = previewUrls,
         _bids = bids,
@@ -495,10 +531,16 @@ class _$_Listing extends _Listing {
   @override
   @JsonKey(name: "ends_at")
   final DateTime? endsAt;
+  @override
+  @JsonKey(name: "allow_rbx")
+  final bool allowRbx;
+  @override
+  @JsonKey(name: "allow_cc")
+  final bool allowCC;
 
   @override
   String toString() {
-    return 'Listing(id: $id, uuid: $uuid, slug: $slug, name: $name, description: $description, store: $store, smartContractData: $smartContractData, previewUrls: $previewUrls, isAuction: $isAuction, isBuyNow: $isBuyNow, buyNowPrice: $buyNowPrice, buyNowPriceRbx: $buyNowPriceRbx, floorPrice: $floorPrice, floorPriceRbx: $floorPriceRbx, bids: $bids, isPurchased: $isPurchased, highestBid: $highestBid, startsAt: $startsAt, endsAt: $endsAt)';
+    return 'Listing(id: $id, uuid: $uuid, slug: $slug, name: $name, description: $description, store: $store, smartContractData: $smartContractData, previewUrls: $previewUrls, isAuction: $isAuction, isBuyNow: $isBuyNow, buyNowPrice: $buyNowPrice, buyNowPriceRbx: $buyNowPriceRbx, floorPrice: $floorPrice, floorPriceRbx: $floorPriceRbx, bids: $bids, isPurchased: $isPurchased, highestBid: $highestBid, startsAt: $startsAt, endsAt: $endsAt, allowRbx: $allowRbx, allowCC: $allowCC)';
   }
 
   @override
@@ -533,7 +575,9 @@ class _$_Listing extends _Listing {
             const DeepCollectionEquality()
                 .equals(other.highestBid, highestBid) &&
             const DeepCollectionEquality().equals(other.startsAt, startsAt) &&
-            const DeepCollectionEquality().equals(other.endsAt, endsAt));
+            const DeepCollectionEquality().equals(other.endsAt, endsAt) &&
+            const DeepCollectionEquality().equals(other.allowRbx, allowRbx) &&
+            const DeepCollectionEquality().equals(other.allowCC, allowCC));
   }
 
   @JsonKey(ignore: true)
@@ -558,7 +602,9 @@ class _$_Listing extends _Listing {
         const DeepCollectionEquality().hash(isPurchased),
         const DeepCollectionEquality().hash(highestBid),
         const DeepCollectionEquality().hash(startsAt),
-        const DeepCollectionEquality().hash(endsAt)
+        const DeepCollectionEquality().hash(endsAt),
+        const DeepCollectionEquality().hash(allowRbx),
+        const DeepCollectionEquality().hash(allowCC)
       ]);
 
   @JsonKey(ignore: true)
@@ -604,7 +650,11 @@ abstract class _Listing extends Listing {
       @JsonKey(name: "starts_at")
           required final DateTime startsAt,
       @JsonKey(name: "ends_at")
-          final DateTime? endsAt}) = _$_Listing;
+          final DateTime? endsAt,
+      @JsonKey(name: "allow_rbx")
+          required final bool allowRbx,
+      @JsonKey(name: "allow_cc")
+          required final bool allowCC}) = _$_Listing;
   _Listing._() : super._();
 
   factory _Listing.fromJson(Map<String, dynamic> json) = _$_Listing.fromJson;
@@ -660,6 +710,12 @@ abstract class _Listing extends Listing {
   @override
   @JsonKey(name: "ends_at")
   DateTime? get endsAt => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: "allow_rbx")
+  bool get allowRbx => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: "allow_cc")
+  bool get allowCC => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_ListingCopyWith<_$_Listing> get copyWith =>

@@ -66,10 +66,41 @@ class StoreCollectionContainer extends BaseComponent {
         Column(
           mainAxisSize: MainAxisSize.min,
           children: collection.listings
+              .asMap()
+              .entries
               .map(
-                (listing) => Padding(
+                (entry) => Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: StoreListing(listing, withShareButtons: false, collection: collection),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      StoreListing(entry.value, withShareButtons: false, collection: collection),
+                      if (entry.key < collection.listings.length - 1)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Center(
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(maxWidth: 930),
+                              child: Container(
+                                width: double.infinity,
+                                height: 2,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.secondary.withOpacity(0.3),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      offset: Offset.zero,
+                                      blurRadius: 5,
+                                      color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+                                      spreadRadius: 4,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                    ],
+                  ),
                 ),
               )
               .toList(),

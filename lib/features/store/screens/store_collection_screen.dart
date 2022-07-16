@@ -2,9 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/centered_loader.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
+import 'package:rbx_wallet/core/support.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/store/components/store_collection.dart';
 import 'package:rbx_wallet/features/store/components/store_listing.dart';
@@ -12,6 +14,7 @@ import 'package:rbx_wallet/features/store/providers/listing_detail_provider.dart
 import 'package:rbx_wallet/features/store/providers/store_collection_detail_provider.dart';
 import 'package:rbx_wallet/features/web/components/web_wallet_details.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class StoreCollectionScreen extends BaseScreen {
   final String slug;
@@ -57,6 +60,11 @@ class StoreCollectionScreen extends BaseScreen {
         ],
       ),
     );
+  }
+
+  @override
+  FloatingActionButton? floatingActionButton(BuildContext context, WidgetRef ref) {
+    return buildSupportButton();
   }
 
   @override

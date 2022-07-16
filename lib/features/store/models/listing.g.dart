@@ -34,6 +34,8 @@ _$_Listing _$$_ListingFromJson(Map<String, dynamic> json) => _$_Listing(
       endsAt: json['ends_at'] == null
           ? null
           : DateTime.parse(json['ends_at'] as String),
+      allowRbx: json['allow_rbx'] as bool,
+      allowCC: json['allow_cc'] as bool,
     );
 
 Map<String, dynamic> _$$_ListingToJson(_$_Listing instance) =>
@@ -57,4 +59,6 @@ Map<String, dynamic> _$$_ListingToJson(_$_Listing instance) =>
       'highest_bid': instance.highestBid,
       'starts_at': instance.startsAt.toIso8601String(),
       'ends_at': instance.endsAt?.toIso8601String(),
+      'allow_rbx': instance.allowRbx,
+      'allow_cc': instance.allowCC,
     };

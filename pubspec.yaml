@@ -55,6 +55,7 @@ dependencies:
   dots_indicator: ^2.1.0
   carousel_slider: ^4.1.1
   pinch_zoom: ^1.0.0
+  date_count_down: ^2.1.0
 
 dev_dependencies:
   auto_route_generator: ^4.2.0
