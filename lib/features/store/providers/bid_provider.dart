@@ -1,10 +1,10 @@
-import 'dart:html' as html;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/services/transaction_service.dart';
 import 'package:rbx_wallet/features/store/models/listing.dart';
 import 'package:rbx_wallet/features/store/models/store_collection.dart';
+import 'package:rbx_wallet/utils/html_helpers.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 enum BidType {
@@ -117,7 +117,7 @@ class BidProvider extends StateNotifier<BidModel> {
         return false;
       }
 
-      html.window.open(redirect, "_self");
+      HtmlHelpers().redirect(redirect);
 
       return true;
     } else {

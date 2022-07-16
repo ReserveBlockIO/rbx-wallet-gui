@@ -1,5 +1,3 @@
-import 'dart:html' as html;
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,6 +9,7 @@ import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/nft/components/nft_qr_code.dart';
 import 'package:rbx_wallet/features/web/components/web_no_wallet.dart';
+import 'package:rbx_wallet/utils/html_helpers.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 
@@ -39,7 +38,7 @@ class WebReceiveScreen extends BaseScreen {
   }
 
   String generateLink(String address, double amount) {
-    return html.window.location.href.replaceAll("/receive", "/send/$address/$amount");
+    return HtmlHelpers().getUrl().replaceAll("/receive", "/send/$address/$amount");
   }
 
   Future<void> showRequestPrompt({

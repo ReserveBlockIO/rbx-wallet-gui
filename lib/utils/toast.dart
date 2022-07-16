@@ -1,9 +1,8 @@
-import 'dart:html';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rbx_wallet/app.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/utils/html_helpers.dart';
 
 class Toast {
   static message(String message) {
@@ -15,7 +14,7 @@ class Toast {
         style: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,
-          fontFamily: kIsWeb && window.navigator.userAgent.contains('OS 15_') ? '-apple-system' : null,
+          fontFamily: kIsWeb && HtmlHelpers().getUserAgent().contains('OS 15_') ? '-apple-system' : null,
         ),
       ),
       backgroundColor: Theme.of(context).colorScheme.success,
@@ -31,7 +30,7 @@ class Toast {
         message,
         style: TextStyle(
           color: Colors.white,
-          fontFamily: kIsWeb && window.navigator.userAgent.contains('OS 15_') ? '-apple-system' : null,
+          fontFamily: kIsWeb && HtmlHelpers().getUserAgent().contains('OS 15_') ? '-apple-system' : null,
         ),
       ),
       backgroundColor: Theme.of(context).colorScheme.danger,

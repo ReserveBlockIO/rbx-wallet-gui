@@ -1,22 +1,17 @@
-import 'dart:html';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/breakpoints.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/components/centered_loader.dart';
 import 'package:rbx_wallet/core/components/countdown.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/auth/auth_utils.dart';
 import 'package:rbx_wallet/features/nft/components/nft_qr_code.dart';
-import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
-import 'package:rbx_wallet/features/nft/providers/web_nft_detail_provider.dart';
 import 'package:rbx_wallet/features/store/components/bid_history.dart';
 import 'package:rbx_wallet/features/store/components/bid_modal.dart';
 import 'package:rbx_wallet/features/store/components/purchase_modal.dart';
@@ -24,6 +19,7 @@ import 'package:rbx_wallet/features/store/models/listing.dart';
 import 'package:rbx_wallet/features/store/models/store_collection.dart';
 import 'package:rbx_wallet/features/store/providers/bid_provider.dart';
 import 'package:rbx_wallet/features/store/providers/purchase_provider.dart';
+import 'package:rbx_wallet/utils/html_helpers.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
 
@@ -120,7 +116,7 @@ class StoreListing extends BaseComponent {
   }
 
   Future<void> handleCopyUrl() async {
-    final url = window.location.href;
+    final url = HtmlHelpers().getUrl();
     await Clipboard.setData(ClipboardData(text: url));
     Toast.message("URL copied to clipboard");
   }
@@ -299,7 +295,7 @@ class StoreListing extends BaseComponent {
         // Expanded(child: buildInfo(context)),
         IconButton(
             onPressed: () {
-              final url = window.location.href;
+              final url = HtmlHelpers().getUrl();
 
               showDialog(
                   context: context,

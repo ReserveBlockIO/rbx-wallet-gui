@@ -1,7 +1,7 @@
 ENVIRONMENT_NAME=dev
-STORAGE_PREFIX=dev1
-API_BASE_URL=http://localhost:7292/api/V1
-LAUNCH_CLI=true
+STORAGE_PREFIX=dev
+API_BASE_URL=http://localhost:17292/api/V1
+LAUNCH_CLI=false
 ALLOW_VALIDATING=true
-CLI_PATH_OVERRIDE=/Users/tylersavery/Projects/rbx/env/pre6-macos-intel/ReserveBlockCore
 HIDE_CLI_OUTPUT=false
+IS_TEST_NET=true

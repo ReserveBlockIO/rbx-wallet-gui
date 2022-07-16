@@ -1,8 +1,7 @@
-import 'dart:html';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rbx_wallet/utils/colors.dart';
+import 'package:rbx_wallet/utils/html_helpers.dart';
 
 const _primaryColor = Color(0xFF031745);
 const _secondaryColor = Color(0xFF82e4fb);
@@ -96,7 +95,7 @@ class AppTheme {
         ),
       ),
       textTheme: _textTheme(),
-      fontFamily: kIsWeb && window.navigator.userAgent.contains('OS 15_') ? '-apple-system' : null,
+      fontFamily: kIsWeb && HtmlHelpers().getUserAgent().contains('OS 15_') ? '-apple-system' : null,
     );
 
     return AppTheme(themeData: _themeData);
@@ -123,7 +122,7 @@ class AppTheme {
         ),
       ),
       textTheme: _textTheme(true),
-      fontFamily: kIsWeb && window.navigator.userAgent.contains('OS 15_') ? '-apple-system' : null,
+      fontFamily: kIsWeb && HtmlHelpers().getUserAgent().contains('OS 15_') ? '-apple-system' : null,
     );
 
     return AppTheme(themeData: _themeData);

@@ -1,4 +1,3 @@
-import 'dart:html' as html;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
@@ -7,6 +6,7 @@ import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
 import 'package:rbx_wallet/features/store/models/store.dart';
+import 'package:rbx_wallet/utils/html_helpers.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 
@@ -51,7 +51,7 @@ class CreateStoreProvider extends StateNotifier<CreateStoreModel> {
     read(globalLoadingProvider.notifier).complete();
 
     if (redirect != null) {
-      html.window.open(redirect, "_self");
+      HtmlHelpers().redirect(redirect);
       // launchUrl(Uri.parse(redirect));
     } else {
       Toast.error();

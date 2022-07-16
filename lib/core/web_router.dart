@@ -4,7 +4,6 @@ import 'package:rbx_wallet/features/dsts/screens/create_store_screen.dart';
 import 'package:rbx_wallet/features/dsts/screens/web_dst_screen.dart';
 import 'package:rbx_wallet/features/home/screens/web_home_screen.dart';
 import 'package:rbx_wallet/features/nft/screens/nft_list_screen.dart';
-import 'package:rbx_wallet/features/nft/screens/web_nft_detail_screen.dart';
 import 'package:rbx_wallet/features/receive/screens/web_receive_screen.dart';
 import 'package:rbx_wallet/features/root/web_dashboard_container.dart';
 import 'package:rbx_wallet/features/send/screens/web_prefilled_send_screen.dart';

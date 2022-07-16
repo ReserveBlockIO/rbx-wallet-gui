@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,13 +5,14 @@ import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/features/nft/components/nft_qr_code.dart';
 import 'package:rbx_wallet/features/store/components/store_listing.dart';
 import 'package:rbx_wallet/features/store/models/store_collection.dart';
+import 'package:rbx_wallet/utils/html_helpers.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 class StoreCollectionContainer extends BaseComponent {
   final StoreCollection collection;
   const StoreCollectionContainer(this.collection, {Key? key}) : super(key: key);
   Future<void> handleCopyUrl() async {
-    final url = window.location.href;
+    final url = HtmlHelpers().getUrl();
     await Clipboard.setData(ClipboardData(text: url));
     Toast.message("URL copied to clipboard");
   }
@@ -114,7 +113,7 @@ class StoreCollectionContainer extends BaseComponent {
       children: [
         IconButton(
             onPressed: () {
-              final url = window.location.href;
+              final url = HtmlHelpers().getUrl();
 
               showDialog(
                   context: context,
