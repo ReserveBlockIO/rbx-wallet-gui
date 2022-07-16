@@ -18,4 +18,6 @@ class TxType {
   static const int nftSale = 5;
   static const int adnr = 6;
   static const int dstShop = 7;
+  static const int voteTopic = 8;
+  static const int vote = 9;
 }

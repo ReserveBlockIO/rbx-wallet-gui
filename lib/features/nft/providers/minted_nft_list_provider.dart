@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/services/transaction_service.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
@@ -16,7 +17,7 @@ class MintedNftListProvider extends StateNotifier<List<Nft>> {
 
   Future<void> load() async {
     final nfts = kIsWeb
-        ? (await TransactionService().listNfts())
+        ? (await TransactionService().listMintedNfts(read(webSessionProvider).keypair!.email, read(webSessionProvider).keypair!.public))
         : (await NftService().minted()).where((nft) => nft.manageable == true && nft.isPublished).toList();
 
     List<Nft> output = [...nfts];

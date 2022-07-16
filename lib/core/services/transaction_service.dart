@@ -8,6 +8,7 @@ import 'package:rbx_wallet/core/services/base_service.dart';
 import 'package:rbx_wallet/features/asset/web_asset.dart';
 import 'package:rbx_wallet/features/keygen/models/keypair.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
+import 'package:rbx_wallet/features/nft/models/web_nft.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/compiler_response.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/detailed_smart_contract.dart';
 import 'package:rbx_wallet/features/store/models/listing.dart';
@@ -212,10 +213,32 @@ class TransactionService extends BaseService {
     }
   }
 
-  Future<List<Nft>> listNfts() async {
+  Future<List<Nft>> listNfts(String email, String address) async {
     try {
-      final response = await getJson('/nft', responseIsJson: true);
-      final List<Nft> results = response['data'].map<Nft>((json) => Nft.fromJson(json)).toList();
+      final params = {
+        'email': email,
+        'address': address,
+      };
+
+      final response = await getJson('/nft', params: params, responseIsJson: true);
+      final List<Nft> results = response['data'].map<Nft>((json) => WebNft.fromJson(json).smartContract).toList();
+      return results;
+    } catch (e) {
+      print(e);
+
+      return [];
+    }
+  }
+
+  Future<List<Nft>> listMintedNfts(String email, String address) async {
+    try {
+      final params = {
+        'email': email,
+        'address': address,
+      };
+
+      final response = await getJson('/nft/minted', params: params, responseIsJson: true);
+      final List<Nft> results = response['data'].map<Nft>((json) => WebNft.fromJson(json).smartContract).toList();
       return results;
     } catch (e) {
       print(e);
@@ -227,7 +250,8 @@ class TransactionService extends BaseService {
   Future<Nft?> retrieveNft(String id) async {
     try {
       final response = await getJson('/nft/$id', responseIsJson: true);
-      return Nft.fromJson(response['data'][0]['SmartContract']);
+
+      return WebNft.fromJson(response['data']).smartContract;
     } catch (e) {
       print(e);
       return null;

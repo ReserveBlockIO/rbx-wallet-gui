@@ -1,31 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
+import 'package:rbx_wallet/features/asset/proxied_asset.dart';
 import 'package:rbx_wallet/utils/files.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class AssetCard extends StatelessWidget {
-  final Asset asset;
+class ProxiedAssetCard extends StatelessWidget {
+  final ProxiedAsset? asset;
 
-  const AssetCard(this.asset, {Key? key}) : super(key: key);
+  const ProxiedAssetCard(this.asset, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    if (asset == null) return SizedBox();
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        asset.isImage
-            ? Image.file(
-                asset.file,
+        asset!.isImage
+            ? Image.network(
+                asset!.url,
                 width: double.infinity,
                 fit: BoxFit.contain,
               )
             : const Icon(Icons.file_present_outlined),
-        if (asset.authorName != null && asset.authorName!.isNotEmpty)
+        if (asset!.authorName.isNotEmpty)
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: Text(
-              "Creator: ${asset.authorName}",
+              "Creator: ${asset!.authorName}",
               style: Theme.of(context).textTheme.caption!.copyWith(fontSize: 14),
             ),
           ),
@@ -35,8 +38,8 @@ class AssetCard extends StatelessWidget {
               width: 200,
               child: ListTile(
                 contentPadding: EdgeInsets.zero,
-                leading: Icon(asset.icon),
-                title: Text(asset.fileType),
+                leading: Icon(asset!.icon),
+                title: Text(asset!.fileType),
                 subtitle: const Text("File Type"),
               ),
             ),
@@ -45,32 +48,21 @@ class AssetCard extends StatelessWidget {
               child: ListTile(
                 leading: const Icon(Icons.line_weight),
                 contentPadding: EdgeInsets.zero,
-                title: Text(asset.filesizeLabel),
+                title: Text(asset!.filesizeLabel),
                 subtitle: const Text("File Size"),
               ),
             ),
           ],
         ),
         const Divider(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            AppButton(
-              label: "Open Folder",
-              icon: Icons.folder_open,
-              onPressed: () {
-                openFile(asset.folder);
-              },
-            ),
-            const SizedBox(width: 4),
-            AppButton(
-              label: "Open Asset",
-              icon: Icons.file_open,
-              onPressed: () {
-                openFile(asset.file);
-              },
-            ),
-          ],
+        Center(
+          child: AppButton(
+            label: "Open Asset",
+            icon: Icons.file_open,
+            onPressed: () {
+              launchUrl(Uri.parse(asset!.url));
+            },
+          ),
         ),
       ],
     );

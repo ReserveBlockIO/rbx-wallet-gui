@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
@@ -90,22 +91,28 @@ class NftCard extends BaseComponent {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            nft.currentEvolveAsset.isImage
-                ? AspectRatio(
-                    aspectRatio: 1,
-                    child: Env.isWeb
-                        ? Image.network(
-                            "https://placekitten.com/500/500",
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                          )
-                        : Image.file(
-                            nft.currentEvolveAsset.file,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                          ),
-                  )
-                : const Icon(Icons.file_present_outlined),
+            if (kIsWeb)
+              nft.currentEvolveAssetWeb != null && nft.currentEvolveAssetWeb!.isImage
+                  ? AspectRatio(
+                      aspectRatio: 1,
+                      child: Image.network(
+                        nft.currentEvolveAssetWeb!.url,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                  : const Icon(Icons.file_present_outlined),
+            if (!kIsWeb)
+              nft.currentEvolveAsset.isImage
+                  ? AspectRatio(
+                      aspectRatio: 1,
+                      child: Image.file(
+                        nft.currentEvolveAsset.file,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                  : const Icon(Icons.file_present_outlined),
             Container(
               color: Colors.black38,
             ),

@@ -45,6 +45,8 @@ mixin _$Nft {
   @JsonKey(defaultValue: false)
   bool get isProcessing => throw _privateConstructorUsedError;
   String? get code => throw _privateConstructorUsedError;
+  @JsonKey(toJson: nullToNull, fromJson: nullToNull)
+  ProxiedAsset? get proxiedAsset => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -80,9 +82,12 @@ abstract class $NftCopyWith<$Res> {
           List<Map<String, dynamic>> features,
       @JsonKey(defaultValue: false)
           bool isProcessing,
-      String? code});
+      String? code,
+      @JsonKey(toJson: nullToNull, fromJson: nullToNull)
+          ProxiedAsset? proxiedAsset});
 
   $AssetCopyWith<$Res> get primaryAsset;
+  $ProxiedAssetCopyWith<$Res>? get proxiedAsset;
 }
 
 /// @nodoc
@@ -108,6 +113,7 @@ class _$NftCopyWithImpl<$Res> implements $NftCopyWith<$Res> {
     Object? features = freezed,
     Object? isProcessing = freezed,
     Object? code = freezed,
+    Object? proxiedAsset = freezed,
   }) {
     return _then(_value.copyWith(
       name: name == freezed
@@ -162,6 +168,10 @@ class _$NftCopyWithImpl<$Res> implements $NftCopyWith<$Res> {
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String?,
+      proxiedAsset: proxiedAsset == freezed
+          ? _value.proxiedAsset
+          : proxiedAsset // ignore: cast_nullable_to_non_nullable
+              as ProxiedAsset?,
     ));
   }
 
@@ -169,6 +179,17 @@ class _$NftCopyWithImpl<$Res> implements $NftCopyWith<$Res> {
   $AssetCopyWith<$Res> get primaryAsset {
     return $AssetCopyWith<$Res>(_value.primaryAsset, (value) {
       return _then(_value.copyWith(primaryAsset: value));
+    });
+  }
+
+  @override
+  $ProxiedAssetCopyWith<$Res>? get proxiedAsset {
+    if (_value.proxiedAsset == null) {
+      return null;
+    }
+
+    return $ProxiedAssetCopyWith<$Res>(_value.proxiedAsset!, (value) {
+      return _then(_value.copyWith(proxiedAsset: value));
     });
   }
 }
@@ -203,10 +224,14 @@ abstract class _$$_NftCopyWith<$Res> implements $NftCopyWith<$Res> {
           List<Map<String, dynamic>> features,
       @JsonKey(defaultValue: false)
           bool isProcessing,
-      String? code});
+      String? code,
+      @JsonKey(toJson: nullToNull, fromJson: nullToNull)
+          ProxiedAsset? proxiedAsset});
 
   @override
   $AssetCopyWith<$Res> get primaryAsset;
+  @override
+  $ProxiedAssetCopyWith<$Res>? get proxiedAsset;
 }
 
 /// @nodoc
@@ -233,6 +258,7 @@ class __$$_NftCopyWithImpl<$Res> extends _$NftCopyWithImpl<$Res>
     Object? features = freezed,
     Object? isProcessing = freezed,
     Object? code = freezed,
+    Object? proxiedAsset = freezed,
   }) {
     return _then(_$_Nft(
       name: name == freezed
@@ -287,6 +313,10 @@ class __$$_NftCopyWithImpl<$Res> extends _$NftCopyWithImpl<$Res>
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String?,
+      proxiedAsset: proxiedAsset == freezed
+          ? _value.proxiedAsset
+          : proxiedAsset // ignore: cast_nullable_to_non_nullable
+              as ProxiedAsset?,
     ));
   }
 }
@@ -300,7 +330,7 @@ class _$_Nft extends _Nft {
       @JsonKey(name: "Description")
           required this.description,
       @JsonKey(name: "CurrentOwner")
-          required this.currentOwner,
+          this.currentOwner = "",
       @JsonKey(name: "MinterAddress")
           this.minterAddress = "",
       @JsonKey(name: "MinterName")
@@ -319,7 +349,9 @@ class _$_Nft extends _Nft {
           required final List<Map<String, dynamic>> features,
       @JsonKey(defaultValue: false)
           required this.isProcessing,
-      this.code})
+      this.code,
+      @JsonKey(toJson: nullToNull, fromJson: nullToNull)
+          this.proxiedAsset})
       : _features = features,
         super._();
 
@@ -368,10 +400,13 @@ class _$_Nft extends _Nft {
   final bool isProcessing;
   @override
   final String? code;
+  @override
+  @JsonKey(toJson: nullToNull, fromJson: nullToNull)
+  final ProxiedAsset? proxiedAsset;
 
   @override
   String toString() {
-    return 'Nft(name: $name, description: $description, currentOwner: $currentOwner, minterAddress: $minterAddress, minterName: $minterName, id: $id, primaryAsset: $primaryAsset, isPublic: $isPublic, isPublished: $isPublished, isMinter: $isMinter, features: $features, isProcessing: $isProcessing, code: $code)';
+    return 'Nft(name: $name, description: $description, currentOwner: $currentOwner, minterAddress: $minterAddress, minterName: $minterName, id: $id, primaryAsset: $primaryAsset, isPublic: $isPublic, isPublished: $isPublished, isMinter: $isMinter, features: $features, isProcessing: $isProcessing, code: $code, proxiedAsset: $proxiedAsset)';
   }
 
   @override
@@ -398,7 +433,9 @@ class _$_Nft extends _Nft {
             const DeepCollectionEquality().equals(other._features, _features) &&
             const DeepCollectionEquality()
                 .equals(other.isProcessing, isProcessing) &&
-            const DeepCollectionEquality().equals(other.code, code));
+            const DeepCollectionEquality().equals(other.code, code) &&
+            const DeepCollectionEquality()
+                .equals(other.proxiedAsset, proxiedAsset));
   }
 
   @JsonKey(ignore: true)
@@ -417,7 +454,8 @@ class _$_Nft extends _Nft {
       const DeepCollectionEquality().hash(isMinter),
       const DeepCollectionEquality().hash(_features),
       const DeepCollectionEquality().hash(isProcessing),
-      const DeepCollectionEquality().hash(code));
+      const DeepCollectionEquality().hash(code),
+      const DeepCollectionEquality().hash(proxiedAsset));
 
   @JsonKey(ignore: true)
   @override
@@ -437,7 +475,7 @@ abstract class _Nft extends Nft {
       @JsonKey(name: "Description")
           required final String description,
       @JsonKey(name: "CurrentOwner")
-          required final String currentOwner,
+          final String currentOwner,
       @JsonKey(name: "MinterAddress")
           final String minterAddress,
       @JsonKey(name: "MinterName")
@@ -456,7 +494,9 @@ abstract class _Nft extends Nft {
           required final List<Map<String, dynamic>> features,
       @JsonKey(defaultValue: false)
           required final bool isProcessing,
-      final String? code}) = _$_Nft;
+      final String? code,
+      @JsonKey(toJson: nullToNull, fromJson: nullToNull)
+          final ProxiedAsset? proxiedAsset}) = _$_Nft;
   _Nft._() : super._();
 
   factory _Nft.fromJson(Map<String, dynamic> json) = _$_Nft.fromJson;
@@ -499,6 +539,9 @@ abstract class _Nft extends Nft {
   bool get isProcessing => throw _privateConstructorUsedError;
   @override
   String? get code => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(toJson: nullToNull, fromJson: nullToNull)
+  ProxiedAsset? get proxiedAsset => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_NftCopyWith<_$_Nft> get copyWith => throw _privateConstructorUsedError;

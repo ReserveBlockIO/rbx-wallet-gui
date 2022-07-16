@@ -1,5 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
+import 'package:rbx_wallet/features/asset/proxied_asset.dart';
+import 'package:rbx_wallet/features/asset/web_asset.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/feature.dart';
@@ -9,6 +12,8 @@ import 'package:collection/collection.dart';
 part 'nft.freezed.dart';
 part 'nft.g.dart';
 
+nullToNull(dynamic blah) => null;
+
 @freezed
 abstract class Nft with _$Nft {
   const Nft._();
@@ -16,7 +21,7 @@ abstract class Nft with _$Nft {
   factory Nft({
     @JsonKey(name: "Name") required String name,
     @JsonKey(name: "Description") required String description,
-    @JsonKey(name: "CurrentOwner") required String currentOwner,
+    @JsonKey(name: "CurrentOwner") @Default("") String currentOwner,
     @JsonKey(name: "MinterAddress") @Default("") String minterAddress,
     @JsonKey(name: "MinterName") @Default("") String minterName,
     @JsonKey(name: "SmartContractUID") required String id,
@@ -27,6 +32,7 @@ abstract class Nft with _$Nft {
     @JsonKey(name: "Features", defaultValue: []) required List<Map<String, dynamic>> features,
     @JsonKey(defaultValue: false) required bool isProcessing,
     String? code,
+    @JsonKey(toJson: nullToNull, fromJson: nullToNull) ProxiedAsset? proxiedAsset,
   }) = _Nft;
 
   factory Nft.fromJson(Map<String, dynamic> json) => _$NftFromJson(json);
@@ -149,6 +155,21 @@ abstract class Nft with _$Nft {
     }
 
     return primaryAsset;
+  }
+
+  ProxiedAsset? get currentEvolveAssetWeb {
+    return proxiedAsset;
+
+    //TODO handle evolve asset stuff
+    // if (!canEvolve) {
+    //   return proxiedAsset;
+    // }
+
+    // if (currentEvolvePhase.asset != null) {
+    //   return currentEvolvePhase.asset!;
+    // }
+
+    // return primaryAsset;
   }
 
   String get currentEvolveName {

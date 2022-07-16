@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,6 +10,7 @@ import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/asset/asset_card.dart';
 import 'package:rbx_wallet/features/asset/asset_thumbnail.dart';
 import 'package:rbx_wallet/features/nft/components/nft_qr_code.dart';
+import 'package:rbx_wallet/features/nft/components/web_asset_card.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
 import 'package:rbx_wallet/features/nft/modals/nft_management_modal.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
@@ -164,7 +166,7 @@ class NftDetailScreen extends BaseScreen {
                                 mainAxisSize: MainAxisSize.min,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  AssetCard(nft.currentEvolveAsset),
+                                  kIsWeb ? ProxiedAssetCard(nft.proxiedAsset) : AssetCard(nft.currentEvolveAsset),
                                   if (nft.additionalAssets.isNotEmpty)
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8),

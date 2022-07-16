@@ -9,7 +9,7 @@ part of 'nft.dart';
 _$_Nft _$$_NftFromJson(Map<String, dynamic> json) => _$_Nft(
       name: json['Name'] as String,
       description: json['Description'] as String,
-      currentOwner: json['CurrentOwner'] as String,
+      currentOwner: json['CurrentOwner'] as String? ?? "",
       minterAddress: json['MinterAddress'] as String? ?? "",
       minterName: json['MinterName'] as String? ?? "",
       id: json['SmartContractUID'] as String,
@@ -24,6 +24,7 @@ _$_Nft _$$_NftFromJson(Map<String, dynamic> json) => _$_Nft(
           [],
       isProcessing: json['isProcessing'] as bool? ?? false,
       code: json['code'] as String?,
+      proxiedAsset: nullToNull(json['proxiedAsset']),
     );
 
 Map<String, dynamic> _$$_NftToJson(_$_Nft instance) => <String, dynamic>{
@@ -40,4 +41,5 @@ Map<String, dynamic> _$$_NftToJson(_$_Nft instance) => <String, dynamic>{
       'Features': instance.features,
       'isProcessing': instance.isProcessing,
       'code': instance.code,
+      'proxiedAsset': nullToNull(instance.proxiedAsset),
     };
