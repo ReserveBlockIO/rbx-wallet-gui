@@ -123,12 +123,12 @@ class NftDetailScreen extends BaseScreen {
                     Expanded(
                       child: ListTile(
                         contentPadding: EdgeInsets.zero,
-                        title: Text(nft.id,
+                        title: Text(nft.currentOwner,
                             style: TextStyle(
-                              fontSize: 12,
+                              fontSize: 13,
                             )),
                         subtitle: const Text(
-                          "Identifier",
+                          "Owner",
                         ),
                         leading: IconButton(
                           icon: const Icon(Icons.copy),

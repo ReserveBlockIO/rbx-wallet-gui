@@ -9,6 +9,7 @@ import 'package:rbx_wallet/features/nft/services/nft_service.dart';
 import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
+import 'package:rbx_wallet/utils/formatting.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:collection/collection.dart';
 
@@ -90,11 +91,11 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     if (mustBeOwner) {
       Wallet? wallet = read(walletListProvider).firstWhereOrNull((w) => w.address == state!.currentOwner);
 
-      // if (wallet == null && mustBeOwner) {
-      //   Toast.error("You are not the owner of this NFT.");
+      if (wallet == null && mustBeOwner) {
+        Toast.error("You are not the owner of this NFT.");
 
-      //   return false;
-      // }
+        return false;
+      }
 
       wallet ??= read(walletListProvider).firstWhereOrNull((w) => w.address == state!.minterAddress);
 
@@ -128,15 +129,12 @@ class NftDetailProvider extends StateNotifier<Nft?> {
 
   Future<bool> evolve() async {
     final stage = state!.currentEvolvePhaseIndex + 2;
-    final address = read(sessionProvider).currentWallet?.address ?? state?.minterAddress ?? "";
-    return await setEvolve(stage, address);
+    return await setEvolve(stage, state!.currentOwner);
   }
 
   Future<bool> devolve() async {
     final stage = state!.currentEvolvePhaseIndex;
-    final address = read(sessionProvider).currentWallet?.address ?? state?.minterAddress ?? "";
-
-    return await setEvolve(stage, address);
+    return await setEvolve(stage, state!.currentOwner);
   }
 
   Future<bool> burn() async {

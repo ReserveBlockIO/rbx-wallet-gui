@@ -27,7 +27,7 @@ mixin _$CompiledSmartContract {
   String? get minterName => throw _privateConstructorUsedError;
   @JsonKey(name: "Description")
   String get description =>
-      throw _privateConstructorUsedError; // @JsonKey(name: "Address") required String address,
+      throw _privateConstructorUsedError; // @JsonKey(name: "CurrentOwner") required String CurrentOwner,
   @JsonKey(name: "SmartContractUID")
   String get id =>
       throw _privateConstructorUsedError; // @JsonKey(name: "Signature") String? signature,
@@ -244,7 +244,7 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
   @override
   @JsonKey(name: "Description")
   final String description;
-// @JsonKey(name: "Address") required String address,
+// @JsonKey(name: "CurrentOwner") required String CurrentOwner,
   @override
   @JsonKey(name: "SmartContractUID")
   final String id;
@@ -348,7 +348,7 @@ abstract class _CompiledSmartContract extends CompiledSmartContract {
   @override
   @JsonKey(name: "Description")
   String get description => throw _privateConstructorUsedError;
-  @override // @JsonKey(name: "Address") required String address,
+  @override // @JsonKey(name: "CurrentOwner") required String CurrentOwner,
   @JsonKey(name: "SmartContractUID")
   String get id => throw _privateConstructorUsedError;
   @override // @JsonKey(name: "Signature") String? signature,

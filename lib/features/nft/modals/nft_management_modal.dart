@@ -64,7 +64,7 @@ class NftMangementModal extends BaseComponent {
   ) async {
     final _provider = ref.read(nftDetailProvider(id).notifier);
     final _model = ref.read(nftDetailProvider(id));
-    final success = await _provider.setEvolve(stage, _model!.minterAddress);
+    final success = await _provider.setEvolve(stage, _model!.currentOwner);
     if (success) {
       Toast.message("Evolve transaction sent successfully!");
       showEvolveMessage();
@@ -367,10 +367,7 @@ class _EvolutionStateRow extends BaseComponent {
                                     final _provider = ref.read(nftDetailProvider(nftId).notifier);
                                     final _model = ref.read(nftDetailProvider(nftId));
 
-                                    final success = await _provider.setEvolve(
-                                      index,
-                                      ref.read(sessionProvider).currentWallet?.address ?? _model?.minterAddress ?? "",
-                                    );
+                                    final success = await _provider.setEvolve(index, _model!.currentOwner);
 
                                     if (success) {
                                       Toast.message("Evolve transaction sent successfully!");

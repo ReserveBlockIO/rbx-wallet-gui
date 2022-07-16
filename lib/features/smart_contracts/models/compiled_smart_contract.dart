@@ -12,7 +12,7 @@ abstract class CompiledSmartContract with _$CompiledSmartContract {
     @JsonKey(name: "Name") required String name,
     @JsonKey(name: "MinterName") String? minterName,
     @JsonKey(name: "Description") required String description,
-    // @JsonKey(name: "Address") required String address,
+    // @JsonKey(name: "CurrentOwner") required String CurrentOwner,
     @JsonKey(name: "SmartContractUID") required String id,
     // @JsonKey(name: "Signature") String? signature,
     @JsonKey(name: "SmartContractAsset") required Asset primaryAsset,

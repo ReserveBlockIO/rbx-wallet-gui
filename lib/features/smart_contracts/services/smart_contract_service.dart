@@ -40,6 +40,8 @@ class SmartContractService extends BaseService {
     try {
       final response = await getText('/GetSingleSmartContract/$id');
       final data = jsonDecode(response);
+      print(data);
+      print("!!!!!!!!");
       return DetailedSmartContract.fromJson(data[0]);
     } catch (e) {
       print(e);

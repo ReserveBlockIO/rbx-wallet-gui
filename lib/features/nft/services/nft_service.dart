@@ -59,7 +59,7 @@ class NftService extends BaseService {
       final data = jsonDecode(response);
 
       Nft nft = Nft.fromJson(data[0]['SmartContract']);
-      nft = nft.copyWith(code: data[0]['SmartContractCode']);
+      nft = nft.copyWith(code: data[0]['SmartContractCode'], currentOwner: data[0]['CurrentOwner']);
       return nft;
     } catch (e) {
       print(e);
@@ -81,8 +81,7 @@ class NftService extends BaseService {
   }
 
   void saveId(String id) {
-    final saved =
-        singleton<Storage>().getStringList(Storage.MANAGABLE_NFT_IDS) ?? [];
+    final saved = singleton<Storage>().getStringList(Storage.MANAGABLE_NFT_IDS) ?? [];
 
     final exists = saved.firstWhereOrNull((i) => i == id) != null;
 
