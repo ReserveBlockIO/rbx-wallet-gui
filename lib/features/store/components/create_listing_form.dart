@@ -6,7 +6,9 @@ import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/components/dropdowns.dart';
 import 'package:rbx_wallet/core/components/upload_image_selector.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
+import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/store/providers/create_listing_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
@@ -38,7 +40,7 @@ class CreateListingForm extends BaseComponent {
     final slug = await provider.submit();
 
     if (slug != null) {
-      Toast.message("Listing Created!");
+      Toast.message("Auction Created!");
       AutoRouter.of(context).push(StoreListingScreenRoute(slug: slug));
     }
   }
@@ -62,7 +64,7 @@ class CreateListingForm extends BaseComponent {
             buildStartsAt(provider, context, ref),
             buildEndsAt(provider, context, ref),
             Divider(),
-            buildNft(),
+            buildNft(context, ref),
             buildAuctionSwitch(listing, provider),
             buildBuyNowSwitch(listing, provider),
             if (listing.hasAuction) buildFloorPrice(provider),
@@ -111,7 +113,7 @@ class CreateListingForm extends BaseComponent {
           Divider(),
           Row(
             children: [
-              buildNft(),
+              buildNft(context, ref),
               Padding(
                 padding: const EdgeInsets.only(left: 12.0),
                 child: Container(
@@ -208,8 +210,12 @@ class CreateListingForm extends BaseComponent {
       alignment: Alignment.centerRight,
       child: AppButton(
         label: "Create",
-        onPressed: () {
-          handleSubmit(context, ref);
+        onPressed: () async {
+          final confirmed =
+              await ConfirmDialog.show(title: "Publish Auction", body: "Are you sure you are ready to publish this auction?", confirmText: "Publish");
+          if (confirmed == true) {
+            handleSubmit(context, ref);
+          }
         },
       ),
     );
@@ -273,13 +279,28 @@ class CreateListingForm extends BaseComponent {
     );
   }
 
-  AppDropdown<int> buildNft() {
-    return AppDropdown(
+  Widget buildNft(BuildContext context, WidgetRef ref) {
+    final provider = ref.read(createListingProvider(storeId).notifier);
+    final listing = ref.read(createListingProvider(storeId));
+    // return SizedBox();
+
+    return AppDropdown<String>(
         label: "NFT",
-        selectedValue: 1,
-        selectedLabel: "My Fun NFT",
+        selectedValue: listing.nft == null ? '' : listing.nft!.id,
+        selectedLabel: listing.nft == null ? '-' : listing.nft!.truncatedName,
+        options: [
+          AppDropdownOption(label: "- - -", value: ""),
+          ...listing.nfts
+              .map((n) => AppDropdownOption<String>(
+                    label: n.truncatedName,
+                    value: n.id,
+                  ))
+              .toList()
+        ],
         onChange: (val) {
-          print('todo');
+          if (val.isNotEmpty) {
+            provider.setNftWithId(val);
+          }
         });
   }
 

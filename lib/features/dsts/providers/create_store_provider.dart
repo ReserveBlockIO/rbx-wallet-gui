@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/services/transaction_service.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
+import 'package:rbx_wallet/features/nft/models/nft.dart';
+import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
 import 'package:rbx_wallet/features/store/models/store.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
@@ -11,7 +13,9 @@ import 'package:rbx_wallet/utils/validation.dart';
 class CreateStoreModel {
   final String name;
 
-  const CreateStoreModel({this.name = ''});
+  const CreateStoreModel({
+    this.name = '',
+  });
 
   CreateStoreModel copyWith({
     String? name,

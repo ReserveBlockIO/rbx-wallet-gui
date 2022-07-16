@@ -26,9 +26,7 @@ mixin _$Listing {
   String get name => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   Store get store => throw _privateConstructorUsedError;
-  @JsonKey(name: "smart_contract_data")
-  Map<String, dynamic>? get smartContractData =>
-      throw _privateConstructorUsedError;
+  WebNft get nft => throw _privateConstructorUsedError;
   @JsonKey(name: "preview_urls")
   List<String> get previewUrls => throw _privateConstructorUsedError;
   @JsonKey(name: "is_auction")
@@ -73,37 +71,24 @@ abstract class $ListingCopyWith<$Res> {
       String name,
       String description,
       Store store,
-      @JsonKey(name: "smart_contract_data")
-          Map<String, dynamic>? smartContractData,
-      @JsonKey(name: "preview_urls")
-          List<String> previewUrls,
-      @JsonKey(name: "is_auction")
-          bool isAuction,
-      @JsonKey(name: "is_buy_now")
-          bool isBuyNow,
-      @JsonKey(name: "buy_now_price")
-          double? buyNowPrice,
-      @JsonKey(name: "buy_now_price_rbx")
-          double? buyNowPriceRbx,
-      @JsonKey(name: "floor_price")
-          double? floorPrice,
-      @JsonKey(name: "floor_price_rbx")
-          double? floorPriceRbx,
+      WebNft nft,
+      @JsonKey(name: "preview_urls") List<String> previewUrls,
+      @JsonKey(name: "is_auction") bool isAuction,
+      @JsonKey(name: "is_buy_now") bool isBuyNow,
+      @JsonKey(name: "buy_now_price") double? buyNowPrice,
+      @JsonKey(name: "buy_now_price_rbx") double? buyNowPriceRbx,
+      @JsonKey(name: "floor_price") double? floorPrice,
+      @JsonKey(name: "floor_price_rbx") double? floorPriceRbx,
       List<Bid> bids,
-      @JsonKey(name: "is_purchased")
-          bool isPurchased,
-      @JsonKey(name: "highest_bid")
-          Bid? highestBid,
-      @JsonKey(name: "starts_at")
-          DateTime startsAt,
-      @JsonKey(name: "ends_at")
-          DateTime? endsAt,
-      @JsonKey(name: "allow_rbx")
-          bool allowRbx,
-      @JsonKey(name: "allow_cc")
-          bool allowCC});
+      @JsonKey(name: "is_purchased") bool isPurchased,
+      @JsonKey(name: "highest_bid") Bid? highestBid,
+      @JsonKey(name: "starts_at") DateTime startsAt,
+      @JsonKey(name: "ends_at") DateTime? endsAt,
+      @JsonKey(name: "allow_rbx") bool allowRbx,
+      @JsonKey(name: "allow_cc") bool allowCC});
 
   $StoreCopyWith<$Res> get store;
+  $WebNftCopyWith<$Res> get nft;
   $BidCopyWith<$Res>? get highestBid;
 }
 
@@ -123,7 +108,7 @@ class _$ListingCopyWithImpl<$Res> implements $ListingCopyWith<$Res> {
     Object? name = freezed,
     Object? description = freezed,
     Object? store = freezed,
-    Object? smartContractData = freezed,
+    Object? nft = freezed,
     Object? previewUrls = freezed,
     Object? isAuction = freezed,
     Object? isBuyNow = freezed,
@@ -164,10 +149,10 @@ class _$ListingCopyWithImpl<$Res> implements $ListingCopyWith<$Res> {
           ? _value.store
           : store // ignore: cast_nullable_to_non_nullable
               as Store,
-      smartContractData: smartContractData == freezed
-          ? _value.smartContractData
-          : smartContractData // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
+      nft: nft == freezed
+          ? _value.nft
+          : nft // ignore: cast_nullable_to_non_nullable
+              as WebNft,
       previewUrls: previewUrls == freezed
           ? _value.previewUrls
           : previewUrls // ignore: cast_nullable_to_non_nullable
@@ -235,6 +220,13 @@ class _$ListingCopyWithImpl<$Res> implements $ListingCopyWith<$Res> {
   }
 
   @override
+  $WebNftCopyWith<$Res> get nft {
+    return $WebNftCopyWith<$Res>(_value.nft, (value) {
+      return _then(_value.copyWith(nft: value));
+    });
+  }
+
+  @override
   $BidCopyWith<$Res>? get highestBid {
     if (_value.highestBid == null) {
       return null;
@@ -259,38 +251,26 @@ abstract class _$$_ListingCopyWith<$Res> implements $ListingCopyWith<$Res> {
       String name,
       String description,
       Store store,
-      @JsonKey(name: "smart_contract_data")
-          Map<String, dynamic>? smartContractData,
-      @JsonKey(name: "preview_urls")
-          List<String> previewUrls,
-      @JsonKey(name: "is_auction")
-          bool isAuction,
-      @JsonKey(name: "is_buy_now")
-          bool isBuyNow,
-      @JsonKey(name: "buy_now_price")
-          double? buyNowPrice,
-      @JsonKey(name: "buy_now_price_rbx")
-          double? buyNowPriceRbx,
-      @JsonKey(name: "floor_price")
-          double? floorPrice,
-      @JsonKey(name: "floor_price_rbx")
-          double? floorPriceRbx,
+      WebNft nft,
+      @JsonKey(name: "preview_urls") List<String> previewUrls,
+      @JsonKey(name: "is_auction") bool isAuction,
+      @JsonKey(name: "is_buy_now") bool isBuyNow,
+      @JsonKey(name: "buy_now_price") double? buyNowPrice,
+      @JsonKey(name: "buy_now_price_rbx") double? buyNowPriceRbx,
+      @JsonKey(name: "floor_price") double? floorPrice,
+      @JsonKey(name: "floor_price_rbx") double? floorPriceRbx,
       List<Bid> bids,
-      @JsonKey(name: "is_purchased")
-          bool isPurchased,
-      @JsonKey(name: "highest_bid")
-          Bid? highestBid,
-      @JsonKey(name: "starts_at")
-          DateTime startsAt,
-      @JsonKey(name: "ends_at")
-          DateTime? endsAt,
-      @JsonKey(name: "allow_rbx")
-          bool allowRbx,
-      @JsonKey(name: "allow_cc")
-          bool allowCC});
+      @JsonKey(name: "is_purchased") bool isPurchased,
+      @JsonKey(name: "highest_bid") Bid? highestBid,
+      @JsonKey(name: "starts_at") DateTime startsAt,
+      @JsonKey(name: "ends_at") DateTime? endsAt,
+      @JsonKey(name: "allow_rbx") bool allowRbx,
+      @JsonKey(name: "allow_cc") bool allowCC});
 
   @override
   $StoreCopyWith<$Res> get store;
+  @override
+  $WebNftCopyWith<$Res> get nft;
   @override
   $BidCopyWith<$Res>? get highestBid;
 }
@@ -312,7 +292,7 @@ class __$$_ListingCopyWithImpl<$Res> extends _$ListingCopyWithImpl<$Res>
     Object? name = freezed,
     Object? description = freezed,
     Object? store = freezed,
-    Object? smartContractData = freezed,
+    Object? nft = freezed,
     Object? previewUrls = freezed,
     Object? isAuction = freezed,
     Object? isBuyNow = freezed,
@@ -353,10 +333,10 @@ class __$$_ListingCopyWithImpl<$Res> extends _$ListingCopyWithImpl<$Res>
           ? _value.store
           : store // ignore: cast_nullable_to_non_nullable
               as Store,
-      smartContractData: smartContractData == freezed
-          ? _value._smartContractData
-          : smartContractData // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
+      nft: nft == freezed
+          ? _value.nft
+          : nft // ignore: cast_nullable_to_non_nullable
+              as WebNft,
       previewUrls: previewUrls == freezed
           ? _value._previewUrls
           : previewUrls // ignore: cast_nullable_to_non_nullable
@@ -427,37 +407,22 @@ class _$_Listing extends _Listing {
       required this.name,
       required this.description,
       required this.store,
-      @JsonKey(name: "smart_contract_data")
-          final Map<String, dynamic>? smartContractData,
-      @JsonKey(name: "preview_urls")
-          required final List<String> previewUrls,
-      @JsonKey(name: "is_auction")
-          required this.isAuction,
-      @JsonKey(name: "is_buy_now")
-          required this.isBuyNow,
-      @JsonKey(name: "buy_now_price")
-          this.buyNowPrice,
-      @JsonKey(name: "buy_now_price_rbx")
-          this.buyNowPriceRbx,
-      @JsonKey(name: "floor_price")
-          this.floorPrice,
-      @JsonKey(name: "floor_price_rbx")
-          this.floorPriceRbx,
+      required this.nft,
+      @JsonKey(name: "preview_urls") required final List<String> previewUrls,
+      @JsonKey(name: "is_auction") required this.isAuction,
+      @JsonKey(name: "is_buy_now") required this.isBuyNow,
+      @JsonKey(name: "buy_now_price") this.buyNowPrice,
+      @JsonKey(name: "buy_now_price_rbx") this.buyNowPriceRbx,
+      @JsonKey(name: "floor_price") this.floorPrice,
+      @JsonKey(name: "floor_price_rbx") this.floorPriceRbx,
       required final List<Bid> bids,
-      @JsonKey(name: "is_purchased")
-          required this.isPurchased,
-      @JsonKey(name: "highest_bid")
-          this.highestBid,
-      @JsonKey(name: "starts_at")
-          required this.startsAt,
-      @JsonKey(name: "ends_at")
-          this.endsAt,
-      @JsonKey(name: "allow_rbx")
-          required this.allowRbx,
-      @JsonKey(name: "allow_cc")
-          required this.allowCC})
-      : _smartContractData = smartContractData,
-        _previewUrls = previewUrls,
+      @JsonKey(name: "is_purchased") required this.isPurchased,
+      @JsonKey(name: "highest_bid") this.highestBid,
+      @JsonKey(name: "starts_at") required this.startsAt,
+      @JsonKey(name: "ends_at") this.endsAt,
+      @JsonKey(name: "allow_rbx") required this.allowRbx,
+      @JsonKey(name: "allow_cc") required this.allowCC})
+      : _previewUrls = previewUrls,
         _bids = bids,
         super._();
 
@@ -476,16 +441,8 @@ class _$_Listing extends _Listing {
   final String description;
   @override
   final Store store;
-  final Map<String, dynamic>? _smartContractData;
   @override
-  @JsonKey(name: "smart_contract_data")
-  Map<String, dynamic>? get smartContractData {
-    final value = _smartContractData;
-    if (value == null) return null;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(value);
-  }
-
+  final WebNft nft;
   final List<String> _previewUrls;
   @override
   @JsonKey(name: "preview_urls")
@@ -540,7 +497,7 @@ class _$_Listing extends _Listing {
 
   @override
   String toString() {
-    return 'Listing(id: $id, uuid: $uuid, slug: $slug, name: $name, description: $description, store: $store, smartContractData: $smartContractData, previewUrls: $previewUrls, isAuction: $isAuction, isBuyNow: $isBuyNow, buyNowPrice: $buyNowPrice, buyNowPriceRbx: $buyNowPriceRbx, floorPrice: $floorPrice, floorPriceRbx: $floorPriceRbx, bids: $bids, isPurchased: $isPurchased, highestBid: $highestBid, startsAt: $startsAt, endsAt: $endsAt, allowRbx: $allowRbx, allowCC: $allowCC)';
+    return 'Listing(id: $id, uuid: $uuid, slug: $slug, name: $name, description: $description, store: $store, nft: $nft, previewUrls: $previewUrls, isAuction: $isAuction, isBuyNow: $isBuyNow, buyNowPrice: $buyNowPrice, buyNowPriceRbx: $buyNowPriceRbx, floorPrice: $floorPrice, floorPriceRbx: $floorPriceRbx, bids: $bids, isPurchased: $isPurchased, highestBid: $highestBid, startsAt: $startsAt, endsAt: $endsAt, allowRbx: $allowRbx, allowCC: $allowCC)';
   }
 
   @override
@@ -555,8 +512,7 @@ class _$_Listing extends _Listing {
             const DeepCollectionEquality()
                 .equals(other.description, description) &&
             const DeepCollectionEquality().equals(other.store, store) &&
-            const DeepCollectionEquality()
-                .equals(other._smartContractData, _smartContractData) &&
+            const DeepCollectionEquality().equals(other.nft, nft) &&
             const DeepCollectionEquality()
                 .equals(other._previewUrls, _previewUrls) &&
             const DeepCollectionEquality().equals(other.isAuction, isAuction) &&
@@ -590,7 +546,7 @@ class _$_Listing extends _Listing {
         const DeepCollectionEquality().hash(name),
         const DeepCollectionEquality().hash(description),
         const DeepCollectionEquality().hash(store),
-        const DeepCollectionEquality().hash(_smartContractData),
+        const DeepCollectionEquality().hash(nft),
         const DeepCollectionEquality().hash(_previewUrls),
         const DeepCollectionEquality().hash(isAuction),
         const DeepCollectionEquality().hash(isBuyNow),
@@ -626,35 +582,21 @@ abstract class _Listing extends Listing {
       required final String name,
       required final String description,
       required final Store store,
-      @JsonKey(name: "smart_contract_data")
-          final Map<String, dynamic>? smartContractData,
-      @JsonKey(name: "preview_urls")
-          required final List<String> previewUrls,
-      @JsonKey(name: "is_auction")
-          required final bool isAuction,
-      @JsonKey(name: "is_buy_now")
-          required final bool isBuyNow,
-      @JsonKey(name: "buy_now_price")
-          final double? buyNowPrice,
-      @JsonKey(name: "buy_now_price_rbx")
-          final double? buyNowPriceRbx,
-      @JsonKey(name: "floor_price")
-          final double? floorPrice,
-      @JsonKey(name: "floor_price_rbx")
-          final double? floorPriceRbx,
+      required final WebNft nft,
+      @JsonKey(name: "preview_urls") required final List<String> previewUrls,
+      @JsonKey(name: "is_auction") required final bool isAuction,
+      @JsonKey(name: "is_buy_now") required final bool isBuyNow,
+      @JsonKey(name: "buy_now_price") final double? buyNowPrice,
+      @JsonKey(name: "buy_now_price_rbx") final double? buyNowPriceRbx,
+      @JsonKey(name: "floor_price") final double? floorPrice,
+      @JsonKey(name: "floor_price_rbx") final double? floorPriceRbx,
       required final List<Bid> bids,
-      @JsonKey(name: "is_purchased")
-          required final bool isPurchased,
-      @JsonKey(name: "highest_bid")
-          final Bid? highestBid,
-      @JsonKey(name: "starts_at")
-          required final DateTime startsAt,
-      @JsonKey(name: "ends_at")
-          final DateTime? endsAt,
-      @JsonKey(name: "allow_rbx")
-          required final bool allowRbx,
-      @JsonKey(name: "allow_cc")
-          required final bool allowCC}) = _$_Listing;
+      @JsonKey(name: "is_purchased") required final bool isPurchased,
+      @JsonKey(name: "highest_bid") final Bid? highestBid,
+      @JsonKey(name: "starts_at") required final DateTime startsAt,
+      @JsonKey(name: "ends_at") final DateTime? endsAt,
+      @JsonKey(name: "allow_rbx") required final bool allowRbx,
+      @JsonKey(name: "allow_cc") required final bool allowCC}) = _$_Listing;
   _Listing._() : super._();
 
   factory _Listing.fromJson(Map<String, dynamic> json) = _$_Listing.fromJson;
@@ -672,9 +614,7 @@ abstract class _Listing extends Listing {
   @override
   Store get store => throw _privateConstructorUsedError;
   @override
-  @JsonKey(name: "smart_contract_data")
-  Map<String, dynamic>? get smartContractData =>
-      throw _privateConstructorUsedError;
+  WebNft get nft => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "preview_urls")
   List<String> get previewUrls => throw _privateConstructorUsedError;

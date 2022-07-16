@@ -1,8 +1,9 @@
 import 'dart:convert';
-
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:intl/intl.dart';
 import 'package:rbx_wallet/features/asset/proxied_asset.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 part 'web_nft.freezed.dart';
 part 'web_nft.g.dart';
@@ -43,5 +44,13 @@ abstract class WebNft with _$WebNft {
             )
           : null,
     );
+  }
+
+  String get mintedAtLabel {
+    return timeago.format(mintedAt, allowFromNow: true);
+  }
+
+  String get mintedAtLabelPrecise {
+    return DateFormat.yMd().add_jm().format(mintedAt);
   }
 }

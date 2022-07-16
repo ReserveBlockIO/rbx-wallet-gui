@@ -3,8 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/services/transaction_service.dart';
+import 'package:rbx_wallet/features/nft/models/nft.dart';
+import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
+import 'package:collection/collection.dart';
 
 class CreateListingModel {
   final bool hasAuction;
@@ -12,12 +15,16 @@ class CreateListingModel {
   final DateTime? startsAt;
   final DateTime? endsAt;
   final List<String> previewUrls;
+  final List<Nft> nfts;
+  final Nft? nft;
   const CreateListingModel({
     this.hasAuction = false,
     this.hasBuyNow = false,
     this.startsAt,
     this.endsAt,
     this.previewUrls = const [],
+    this.nfts = const [],
+    this.nft,
   });
 
   CreateListingModel copyWith({
@@ -26,6 +33,8 @@ class CreateListingModel {
     DateTime? startsAt,
     DateTime? endsAt,
     List<String>? previewUrls,
+    List<Nft>? nfts,
+    Nft? nft,
   }) {
     return CreateListingModel(
       hasAuction: hasAuction ?? this.hasAuction,
@@ -33,6 +42,8 @@ class CreateListingModel {
       startsAt: startsAt ?? this.startsAt,
       endsAt: endsAt ?? this.endsAt,
       previewUrls: previewUrls ?? this.previewUrls,
+      nfts: nfts ?? this.nfts,
+      nft: nft ?? this.nft,
     );
   }
 }
@@ -53,7 +64,19 @@ class CreateListingProvider extends StateNotifier<CreateListingModel> {
     init();
   }
 
-  init() async {}
+  init() async {
+    fetchNfts();
+  }
+
+  fetchNfts() async {
+    await read(nftListProvider.notifier).load();
+
+    final options = read(nftListProvider);
+    state = state.copyWith(
+      nfts: options,
+      // nft: state.nft ?? (options.isNotEmpty ? options.first : null),
+    );
+  }
 
   String? nameValidator(String? value) => formValidatorNotEmpty(value, "Name");
   String? descriptionValidator(String? value) => formValidatorNotEmpty(value, "Description");
@@ -62,6 +85,13 @@ class CreateListingProvider extends StateNotifier<CreateListingModel> {
 
   String? floorPriceValidator(String? value) => formValidatorNumber(value, "Floor Price");
   String? buyNowPriceValidator(String? value) => formValidatorNumber(value, "Buy Now Price");
+
+  void setNftWithId(String identifier) {
+    final nft = state.nfts.firstWhereOrNull((n) => n.id == identifier);
+    if (nft != null) {
+      state = state.copyWith(nft: nft);
+    }
+  }
 
   void setHasAuction(bool val) {
     state = state.copyWith(hasAuction: val);
@@ -109,6 +139,11 @@ class CreateListingProvider extends StateNotifier<CreateListingModel> {
       return null;
     }
 
+    if (state.nft == null) {
+      Toast.error("Please select your NFT.");
+      return null;
+    }
+
     if (!state.hasBuyNow && !state.hasAuction) {
       Toast.error("Either Auction or Buy Now is required");
       return null;
@@ -140,6 +175,7 @@ class CreateListingProvider extends StateNotifier<CreateListingModel> {
       'email': keypair.email,
       'address': keypair.public,
       'preview_urls': state.previewUrls,
+      'nft': state.nft!.id,
     };
 
     final slug = await TransactionService().createListing(params);

@@ -210,4 +210,12 @@ abstract class Nft with _$Nft {
   String get explorerUrl {
     return "https://rbx.network/nft/$id";
   }
+
+  String get truncatedName {
+    const maxLength = 16;
+    if (maxLength >= name.length) {
+      return name;
+    }
+    return name.replaceRange(maxLength, name.length, "...");
+  }
 }

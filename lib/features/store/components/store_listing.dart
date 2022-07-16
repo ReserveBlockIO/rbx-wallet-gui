@@ -126,30 +126,7 @@ class StoreListing extends BaseComponent {
   }
 
   @override
-  Widget body(BuildContext context, WidgetRef ref) {
-    final nftFuture = ref.watch(webNftDetailProvider("d041d185302e42afb610de36e9d19858:1657952611"));
-
-    return nftFuture.when(
-        loading: () => CenteredLoader(),
-        error: (_, __) => Center(
-              child: Text("Error"),
-            ),
-        data: (nft) => nft == null ? Center(child: Text("error")) : buildContent(context, ref));
-  }
-
-  @override
-  Widget desktopBody(BuildContext context, WidgetRef ref) {
-    final nftFuture = ref.watch(webNftDetailProvider("d041d185302e42afb610de36e9d19858:1657952611"));
-
-    return nftFuture.when(
-        loading: () => CenteredLoader(),
-        error: (_, __) => Center(
-              child: Text("Error"),
-            ),
-        data: (nft) => nft == null ? Center(child: Text("error")) : buildDesktopContent(context, ref));
-  }
-
-  Padding buildContent(BuildContext context, WidgetRef ref) {
+  Padding body(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: Column(
@@ -161,7 +138,8 @@ class StoreListing extends BaseComponent {
             height: 8,
           ),
           buildPreview(context),
-          buildPreviewDetails(),
+          buildPreviewDetails(context),
+          buildNftDetails(context, ref),
           buildDetails(context),
           if (listing.hasFinished || listing.isPurchased) _AuctionEnded(),
           if (listing.isActive && listing.isAuction)
@@ -180,7 +158,8 @@ class StoreListing extends BaseComponent {
     );
   }
 
-  Padding buildDesktopContent(BuildContext context, WidgetRef ref) {
+  @override
+  Padding desktopBody(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.all(32.0),
       child: Row(
@@ -190,8 +169,12 @@ class StoreListing extends BaseComponent {
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
-              children: [buildPreview(context), buildPreviewDetails()],
+              children: [
+                buildPreview(context),
+                buildPreviewDetails(context),
+              ],
             ),
           ),
           ConstrainedBox(
@@ -203,6 +186,10 @@ class StoreListing extends BaseComponent {
                 children: [
                   buildInfo(context, withShareButtons: withShareButtons),
                   SizedBox(height: 8),
+                  buildNftDetails(context, ref),
+                  SizedBox(
+                    height: 8,
+                  ),
                   buildDetails(context),
                   SizedBox(height: 8),
                   if (listing.hasFinished || listing.isPurchased) _AuctionEnded(),
@@ -248,19 +235,60 @@ class StoreListing extends BaseComponent {
     );
   }
 
-  Column buildPreviewDetails() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 300),
-          child: ListTile(
-            title: Text("Multi Asset"),
-            subtitle: Text("3 assets"),
-            leading: Icon(FontAwesomeIcons.rectangleList),
-          ),
-        ),
-      ],
+  Widget buildPreviewDetails(BuildContext context) {
+    final nft = listing.nft.smartContract;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Features:", style: Theme.of(context).textTheme.headline5),
+          Builder(
+            builder: (context) {
+              if (nft.features.isEmpty) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      Icon(
+                        Icons.cancel,
+                        size: 16,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 4.0),
+                        child: Text(
+                          "No Smart Contract Features",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: nft.featureList
+                    .map(
+                      (f) => ConstrainedBox(
+                        constraints: BoxConstraints(maxWidth: 300),
+                        child: ListTile(
+                          leading: Icon(f.icon),
+                          title: Text(f.nameLabel),
+                          subtitle: Text(f.description),
+                        ),
+                      ),
+                    )
+                    .toList(),
+              );
+            },
+          )
+        ],
+      ),
     );
   }
 
@@ -287,6 +315,36 @@ class StoreListing extends BaseComponent {
               handleCopyUrl();
             },
             icon: Icon(Icons.link))
+      ],
+    );
+  }
+
+  Widget buildNftDetails(BuildContext context, WidgetRef ref) {
+    final headingStyle = TextStyle(
+      fontWeight: FontWeight.bold,
+      letterSpacing: 1,
+      color: Theme.of(context).colorScheme.secondary,
+    );
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        RichText(
+          text: TextSpan(
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.white,
+              height: 1.4,
+            ),
+            children: [
+              TextSpan(text: "NFT Name: ", style: headingStyle),
+              TextSpan(text: listing.nft.name),
+              TextSpan(text: "\n"),
+              TextSpan(text: "NFT Description: ", style: headingStyle),
+              TextSpan(text: listing.nft.description)
+            ],
+          ),
+        ),
       ],
     );
   }
@@ -346,9 +404,11 @@ class StoreListing extends BaseComponent {
               Table(
                 defaultColumnWidth: IntrinsicColumnWidth(),
                 children: [
-                  buildDetailRow(context, "Minted by", "Joe Spicoli"),
-                  buildDetailRow(context, "Owner Address", "RVTdQHsdoNGoTXoYGJN8PoqPDvCKVLMCGv", true),
-                  buildDetailRow(context, "Contract Address", "dQHsdoNGoTXoYGJN8PoqPDvCKVLMCGv422", true),
+                  buildDetailRow(context, "Identifier", listing.nft.identifier, true),
+                  buildDetailRow(context, "Owner Address", listing.nft.ownerAddress, true),
+                  buildDetailRow(context, "Minted On", listing.nft.mintedAtLabelPrecise),
+                  buildDetailRow(context, "Minted By", listing.nft.minterName),
+                  buildDetailRow(context, "Minter Address", listing.nft.smartContract.minterAddress),
                   buildDetailRow(context, "Chain", "RBX"),
                   if (listing.endsAt != null) buildDetailRow(context, "Sale Ends", listing.endTimeLabelPrecise),
                 ],
@@ -382,7 +442,7 @@ class StoreListing extends BaseComponent {
                 ),
               ),
               SizedBox(height: 8),
-              buildPrice("Buy Now Price", listing.buyNowPriceLabel),
+              buildPrice(context, "Buy Now Price", listing.buyNowPriceLabel),
               SizedBox(height: 16),
               AppButton(
                 label: "Buy Now",
@@ -424,9 +484,9 @@ class StoreListing extends BaseComponent {
                   ),
                 ),
               ),
-              buildPrice("Floor Price", listing.floorPriceLabel),
+              buildPrice(context, "Floor Price", listing.floorPriceLabel),
               Divider(),
-              if (listing.highestBid != null) buildPrice("Highest Bid", listing.highestBid!.amountLabel),
+              if (listing.highestBid != null) buildPrice(context, "Highest Bid", listing.highestBid!.amountLabel),
               SizedBox(height: 16),
               Row(
                 children: [
@@ -457,15 +517,21 @@ class StoreListing extends BaseComponent {
     );
   }
 
-  Column buildPrice(String label, String amount) {
+  Column buildPrice(BuildContext context, String label, String amount) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
           "$label:",
-          style: TextStyle(fontSize: 18),
+          style: TextStyle(
+            fontSize: 16,
+            color: Theme.of(context).colorScheme.secondary,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1,
+          ),
         ),
+        SizedBox(height: 4),
         Text(
           amount,
           style: TextStyle(

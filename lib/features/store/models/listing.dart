@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
+import 'package:rbx_wallet/features/nft/models/web_nft.dart';
 import 'package:rbx_wallet/features/store/models/bid.dart';
 import 'package:rbx_wallet/features/store/models/store.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -18,7 +19,7 @@ abstract class Listing with _$Listing {
     required String name,
     required String description,
     required Store store,
-    @JsonKey(name: "smart_contract_data") Map<String, dynamic>? smartContractData,
+    required WebNft nft,
     @JsonKey(name: "preview_urls") required List<String> previewUrls,
     @JsonKey(name: "is_auction") required bool isAuction,
     @JsonKey(name: "is_buy_now") required bool isBuyNow,

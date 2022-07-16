@@ -13,7 +13,7 @@ _$_Listing _$$_ListingFromJson(Map<String, dynamic> json) => _$_Listing(
       name: json['name'] as String,
       description: json['description'] as String,
       store: Store.fromJson(json['store'] as Map<String, dynamic>),
-      smartContractData: json['smart_contract_data'] as Map<String, dynamic>?,
+      nft: WebNft.fromJson(json['nft'] as Map<String, dynamic>),
       previewUrls: (json['preview_urls'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
@@ -46,7 +46,7 @@ Map<String, dynamic> _$$_ListingToJson(_$_Listing instance) =>
       'name': instance.name,
       'description': instance.description,
       'store': instance.store,
-      'smart_contract_data': instance.smartContractData,
+      'nft': instance.nft,
       'preview_urls': instance.previewUrls,
       'is_auction': instance.isAuction,
       'is_buy_now': instance.isBuyNow,
