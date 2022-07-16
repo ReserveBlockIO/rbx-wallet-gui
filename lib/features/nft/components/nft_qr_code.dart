@@ -26,6 +26,7 @@ class NftQrCode extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.white12,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -36,11 +37,11 @@ class NftQrCode extends StatelessWidget {
               child: QrImage(
                 data: data,
                 version: QrVersions.auto,
-                size: 200.0,
+                size: 360.0,
               ),
             ),
             const SizedBox(
-              height: 8,
+              height: 16,
             ),
             AppButton(
               label: "Save",
@@ -88,7 +89,15 @@ class NftQrCode extends StatelessWidget {
                 }
               },
               icon: Icons.download,
-            )
+            ),
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  "Close",
+                  style: TextStyle(color: Colors.white70),
+                ))
           ],
         ),
       ),

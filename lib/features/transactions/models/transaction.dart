@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
+import 'package:rbx_wallet/core/env.dart';
 
 part 'transaction.freezed.dart';
 part 'transaction.g.dart';
@@ -51,5 +52,9 @@ class Transaction with _$Transaction {
       default:
         return "-";
     }
+  }
+
+  Uri get explorerUrl {
+    return Uri.parse("${Env.explorerWebsiteBaseUrl}/transaction/$hash");
   }
 }

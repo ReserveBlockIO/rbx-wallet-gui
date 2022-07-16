@@ -5,10 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/centered_loader.dart';
+import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/features/transactions/models/web_transaction.dart';
 import 'package:rbx_wallet/features/transactions/providers/web_transaction_detail_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class WebTransactionDetailScreen extends BaseScreen {
   final String hash;
@@ -18,7 +20,7 @@ class WebTransactionDetailScreen extends BaseScreen {
     @PathParam('hash') required this.hash,
   }) : super(
           key: key,
-          backgroundColor: Colors.black87,
+          backgroundColor: Colors.black,
           horizontalPadding: 0,
           verticalPadding: 0,
         );
@@ -30,6 +32,14 @@ class WebTransactionDetailScreen extends BaseScreen {
       backgroundColor: Colors.black,
       shadowColor: Colors.transparent,
       automaticallyImplyLeading: true,
+      actions: [
+        IconButton(
+          onPressed: () {
+            launchUrl(Uri.parse("${Env.explorerWebsiteBaseUrl}/transaction/$hash"));
+          },
+          icon: Icon(Icons.open_in_new),
+        )
+      ],
     );
   }
 
@@ -63,84 +73,81 @@ class _TransactionDetails extends BaseComponent {
     );
   }
 
-  @override
-  Widget desktopBody(BuildContext context, WidgetRef ref) {
-    final address = ref.read(webSessionProvider).keypair?.public;
+  // @override
+  // Widget desktopBody(BuildContext context, WidgetRef ref) {
+  //   final address = ref.read(webSessionProvider).keypair?.public;
 
-    return Center(
-      child: buildContent(context, address),
-    );
-  }
+  //   return SingleChildScrollView(
+  //     child: buildContent(context, address),
+  //   );
+  // }
 
   Padding buildContent(BuildContext context, String? address) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Card(
-        color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ListTile(
-              title: Text(tx.hash),
-              subtitle: const Text("Tx Hash"),
-              trailing: IconButton(
-                icon: const Icon(Icons.copy),
-                onPressed: () {
-                  copyToClipboard(tx.hash);
-                },
-              ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ListTile(
+            title: Text(tx.hash),
+            subtitle: const Text("Tx Hash"),
+            trailing: IconButton(
+              icon: const Icon(Icons.copy),
+              onPressed: () {
+                copyToClipboard(tx.hash);
+              },
             ),
-            ListTile(
-              title: Text(tx.parseTimeStamp),
-              subtitle: const Text("Date"),
+          ),
+          ListTile(
+            title: Text(tx.parseTimeStamp),
+            subtitle: const Text("Date"),
+          ),
+          ListTile(
+            title: Text("${tx.height}"),
+            subtitle: const Text("Block Height"),
+          ),
+          ListTile(
+            title: Text(tx.typeLabel),
+            subtitle: const Text("Tx Type"),
+          ),
+          ListTile(
+            title: Text("${tx.toAddress} ${address == tx.toAddress ? '[ME]' : ''}"),
+            subtitle: const Text("To"),
+            trailing: IconButton(
+              icon: const Icon(Icons.copy),
+              onPressed: () {
+                copyToClipboard(tx.toAddress);
+              },
             ),
-            ListTile(
-              title: Text("${tx.height}"),
-              subtitle: const Text("Block Height"),
+          ),
+          ListTile(
+            title: Text("${tx.fromAddress} ${address == tx.fromAddress ? '[ME]' : ''}"),
+            subtitle: const Text("From"),
+            trailing: IconButton(
+              icon: const Icon(Icons.copy),
+              onPressed: () {
+                copyToClipboard(tx.fromAddress);
+              },
             ),
-            ListTile(
-              title: Text(tx.typeLabel),
-              subtitle: const Text("Tx Type"),
-            ),
-            ListTile(
-              title: Text("${tx.toAddress} ${address == tx.toAddress ? '[ME]' : ''}"),
-              subtitle: const Text("To"),
-              trailing: IconButton(
-                icon: const Icon(Icons.copy),
-                onPressed: () {
-                  copyToClipboard(tx.toAddress);
-                },
-              ),
-            ),
-            ListTile(
-              title: Text("${tx.fromAddress} ${address == tx.fromAddress ? '[ME]' : ''}"),
-              subtitle: const Text("From"),
-              trailing: IconButton(
-                icon: const Icon(Icons.copy),
-                onPressed: () {
-                  copyToClipboard(tx.fromAddress);
-                },
-              ),
-            ),
-            ListTile(
-              title: Text("${tx.amount} RBX"),
-              subtitle: const Text("Amount"),
-            ),
-            ListTile(
-              title: Text("${tx.fee} RBX"),
-              subtitle: const Text("Fee"),
-            ),
-            ListTile(
-              title: Text("${tx.nonce}"),
-              subtitle: const Text("Nonce"),
-            ),
-            ListTile(
-              title: Text(tx.signature),
-              subtitle: const Text("Signature"),
-            ),
-          ],
-        ),
+          ),
+          ListTile(
+            title: Text("${tx.amount} RBX"),
+            subtitle: const Text("Amount"),
+          ),
+          ListTile(
+            title: Text("${tx.fee} RBX"),
+            subtitle: const Text("Fee"),
+          ),
+          ListTile(
+            title: Text("${tx.nonce}"),
+            subtitle: const Text("Nonce"),
+          ),
+          ListTile(
+            title: Text(tx.signature),
+            subtitle: const Text("Signature"),
+          ),
+        ],
       ),
     );
   }

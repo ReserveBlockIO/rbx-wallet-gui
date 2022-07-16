@@ -2,6 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
+import 'package:rbx_wallet/core/providers/web_session_provider.dart';
+import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/auth/auth_utils.dart';
 import 'package:rbx_wallet/features/root/web_dashboard_container.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
@@ -36,24 +38,33 @@ class WebMenu extends BaseComponent {
           color: Colors.black,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 54,
-                  height: 54,
-                  child: Image.asset(
-                    Assets.images.animatedCube.path,
-                    scale: 1,
+            child: InkWell(
+              onTap: () {
+                if (ref.read(webSessionProvider).keypair != null) {
+                  AutoRouter.of(context).push(WebDashboardContainerRoute());
+                } else {
+                  AutoRouter.of(context).push(WebAuthRouter());
+                }
+              },
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 54,
+                    height: 54,
+                    child: Image.asset(
+                      Assets.images.animatedCube.path,
+                      scale: 1,
+                    ),
                   ),
-                ),
-                const SizedBox(width: 8),
-                Image.asset(
-                  Assets.images.rbxWallet.path,
-                  width: 120,
-                  height: 20,
-                  fit: BoxFit.contain,
-                ),
-              ],
+                  const SizedBox(width: 8),
+                  Image.asset(
+                    Assets.images.rbxWallet.path,
+                    width: 120,
+                    height: 20,
+                    fit: BoxFit.contain,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

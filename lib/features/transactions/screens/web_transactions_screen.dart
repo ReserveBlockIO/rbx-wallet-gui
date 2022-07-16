@@ -6,6 +6,8 @@ import 'package:rbx_wallet/core/breakpoints.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
+import 'package:rbx_wallet/features/transactions/components/web_transaction_card.dart';
+import 'package:rbx_wallet/features/transactions/models/web_transaction.dart';
 import 'package:rbx_wallet/features/transactions/providers/web_transaction_list_provider.dart';
 import 'package:rbx_wallet/features/web/components/web_no_wallet.dart';
 
@@ -40,30 +42,9 @@ class WebTransactionScreen extends BaseScreen {
         itemCount: transactions.length,
         itemBuilder: (context, index) {
           final tx = transactions[index];
-          final date = tx.parseTimeStamp;
 
           final toMe = tx.toAddress == address;
-          return ListTile(
-            leading: isMobile
-                ? null
-                : toMe
-                    ? const Icon(Icons.move_to_inbox)
-                    : const Icon(Icons.outbox),
-            title: Text(
-              "${tx.amount} RBX",
-              style: TextStyle(color: toMe ? Theme.of(context).colorScheme.success : Theme.of(context).colorScheme.danger),
-            ),
-            subtitle: toMe
-                ? Text(
-                    "From: ${tx.fromAddress}\n$date",
-                    style: TextStyle(fontSize: 12),
-                  )
-                : Text("To: ${tx.toAddress}\n$date", style: TextStyle(fontSize: 12)),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () {
-              AutoRouter.of(context).push(WebTransactionDetailScreenRoute(hash: tx.hash));
-            },
-          );
+          return WebTransactionCard(tx);
         });
   }
 }

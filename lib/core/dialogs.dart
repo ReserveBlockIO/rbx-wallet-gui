@@ -143,6 +143,7 @@ class PromptModal {
     TextInputType? keyboardType,
     Function(String)? onValidSubmission,
     List<TextInputFormatter> inputFormatters = const [],
+    final bool popOnValidSubmission = true,
   }) async {
     // final context = rootNavigatorKey.currentContext!;
     final context = contextOverride ?? rootScaffoldKey.currentContext!;
@@ -210,8 +211,10 @@ class PromptModal {
                 final value = _controller.value.text;
 
                 if (onValidSubmission != null) {
+                  if (popOnValidSubmission) {
+                    Navigator.of(context).pop();
+                  }
                   onValidSubmission(value);
-                  Navigator.of(context).pop();
                   return;
                 } else {
                   Navigator.of(context).pop(value);

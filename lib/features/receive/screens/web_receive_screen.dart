@@ -3,11 +3,13 @@ import 'dart:html' as html;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/app.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/nft/components/nft_qr_code.dart';
 import 'package:rbx_wallet/features/web/components/web_no_wallet.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
@@ -36,9 +38,27 @@ class WebReceiveScreen extends BaseScreen {
     Toast.message(message ?? "'$value' Copied to clipboard");
   }
 
-  Future<void> copyLink(String address, double amount) async {
-    final url = html.window.location.href.replaceAll("/receive", "/send/$address/$amount");
-    await copyToClipboard(url, "Request funds link copied to clipboard");
+  String generateLink(String address, double amount) {
+    return html.window.location.href.replaceAll("/receive", "/send/$address/$amount");
+  }
+
+  Future<void> showRequestPrompt({
+    required BuildContext context,
+    required String address,
+    required Function(String str) onValidSubmission,
+  }) async {
+    PromptModal.show(
+      contextOverride: context,
+      tightPadding: true,
+      title: "Request Funds",
+      body: "Generate a URL to send to another user.",
+      labelText: "Amount to request",
+      validator: (value) => formValidatorNumber(value, "Amount"),
+      inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
+      keyboardType: TextInputType.numberWithOptions(decimal: true),
+      confirmText: "Generate Link",
+      onValidSubmission: onValidSubmission,
+    );
   }
 
   @override
@@ -86,32 +106,63 @@ class WebReceiveScreen extends BaseScreen {
               ),
             ),
           ),
-          SizedBox(
-            height: 8,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              "Recieve Funds",
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
           ),
-          AppButton(
-            label: "Request Funds",
-            icon: Icons.link,
-            onPressed: () async {
-              await PromptModal.show(
-                  contextOverride: context,
-                  tightPadding: true,
-                  title: "Request Funds",
-                  body: "Generate a URL to send to another user.",
-                  labelText: "Amount to request",
-                  validator: (value) => formValidatorNumber(value, "Amount"),
-                  inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
-                  confirmText: "Generate Link",
-                  onValidSubmission: (val) {
-                    if (double.tryParse(val) != null) {
-                      copyLink(address, double.parse(val));
-                    } else {
-                      Toast.error("Invalid amount");
-                    }
-                  });
-            },
-            variant: AppColorVariant.Light,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AppButton(
+                label: "Copy Url",
+                icon: Icons.link,
+                onPressed: () async {
+                  showRequestPrompt(
+                      context: context,
+                      address: address,
+                      onValidSubmission: (amount) async {
+                        if (double.tryParse(amount) != null) {
+                          final url = generateLink(address, double.parse(amount));
+
+                          await copyToClipboard(url, "Request funds link copied to clipboard");
+                        } else {
+                          Toast.error("Invalid amount");
+                        }
+                      });
+                },
+                variant: AppColorVariant.Light,
+              ),
+              SizedBox(width: 6),
+              AppButton(
+                label: "QR Code",
+                icon: Icons.qr_code_rounded,
+                onPressed: () async {
+                  showRequestPrompt(
+                      context: context,
+                      address: address,
+                      onValidSubmission: (amount) async {
+                        print(amount);
+                        if (double.tryParse(amount) != null) {
+                          final url = generateLink(address, double.parse(amount));
+
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return Center(
+                                  child: NftQrCode(data: url),
+                                );
+                              });
+                        } else {
+                          Toast.error("Invalid amount");
+                        }
+                      });
+                },
+                variant: AppColorVariant.Light,
+              ),
+            ],
           )
         ],
       ),
