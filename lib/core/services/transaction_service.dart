@@ -21,6 +21,8 @@ class TransactionService extends BaseService {
           hostOverride: Env.transactionApiBaseUrl,
         );
 
+// Raw TXs
+
   Future<Map<String, dynamic>?> getTimestamp() async {
     try {
       return await getJson('/timestamp');
@@ -96,6 +98,8 @@ class TransactionService extends BaseService {
     }
   }
 
+// Assets
+
   Future<WebAsset?> uploadAsset(Uint8List bytes, String? ext) async {
     FormData body = FormData();
 
@@ -134,6 +138,8 @@ class TransactionService extends BaseService {
     return response['image'];
   }
 
+  // Smart Contracts
+
   Future<CompilerResponse?> compileSmartContract(Map<String, dynamic> payload) async {
     try {
       final response = await postJson(
@@ -159,16 +165,6 @@ class TransactionService extends BaseService {
     } catch (e) {
       print(e);
       return false;
-    }
-  }
-
-  Future<StoreCollection?> retrieveStoreCollection(String slug) async {
-    try {
-      final data = await getJson('/collection/$slug');
-      return StoreCollection.fromJson(data);
-    } catch (e) {
-      print(e);
-      return null;
     }
   }
 
@@ -205,6 +201,8 @@ class TransactionService extends BaseService {
     }
   }
 
+  // Wallets
+
   Future<bool> createWallet(String email, String address) async {
     try {
       final params = {'email': email, 'address': address};
@@ -216,15 +214,7 @@ class TransactionService extends BaseService {
     }
   }
 
-  Future<Store?> retrieveStore(String slug) async {
-    try {
-      final data = await getJson('/store/retrieve/$slug');
-      return Store.fromJson(data);
-    } catch (e) {
-      print(e);
-      return null;
-    }
-  }
+  // Store Listings
 
   Future<List<Listing>> listListings({
     required String storeSlug,
@@ -264,6 +254,8 @@ class TransactionService extends BaseService {
       return null;
     }
   }
+
+  // Bidding
 
   Future<bool> createRbxBid({
     required Listing listing,
@@ -313,6 +305,8 @@ class TransactionService extends BaseService {
     }
   }
 
+  // Purchase
+
   Future<bool> createRbxPurchase({
     required Listing listing,
     required String email,
@@ -357,15 +351,19 @@ class TransactionService extends BaseService {
     }
   }
 
-  Future<String?> stripeOnboard() async {
+  // Collections
+
+  Future<StoreCollection?> retrieveStoreCollection(String slug) async {
     try {
-      final response = await postJson('/store/onboard');
-      return response['data']['redirect'];
+      final data = await getJson('/collection/$slug');
+      return StoreCollection.fromJson(data);
     } catch (e) {
       print(e);
       return null;
     }
   }
+
+  // Stores
 
   Future<List<Store>> listStores({
     required String email,
@@ -387,6 +385,16 @@ class TransactionService extends BaseService {
     }
   }
 
+  Future<Store?> retrieveStore(String slug) async {
+    try {
+      final data = await getJson('/store/retrieve/$slug');
+      return Store.fromJson(data);
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
   Future<Store?> createStore({
     required String email,
     required String address,
@@ -402,6 +410,16 @@ class TransactionService extends BaseService {
     try {
       final response = await postJson('/store', params: params);
       return Store.fromJson(response['data']);
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<String?> stripeOnboard() async {
+    try {
+      final response = await postJson('/store/onboard');
+      return response['data']['redirect'];
     } catch (e) {
       print(e);
       return null;
