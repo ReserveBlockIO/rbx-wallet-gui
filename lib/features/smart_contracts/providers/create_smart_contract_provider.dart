@@ -249,12 +249,31 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
     return errors;
   }
 
+  Future<bool> compileAndMintForWeb() async {
+    final timezoneName = read(webSessionProvider).timezoneName;
+    final payload = state.serializeForCompiler(timezoneName);
+
+    final success = await TransactionService().compileAndMintSmartContract(payload, read(webSessionProvider).keypair!);
+    if (success == true) {
+      read(nftListProvider.notifier).load();
+      return true;
+    }
+    return false;
+  }
+
   Future<CompiledSmartContract?> compile() async {
-    final timezoneName = kIsWeb ? read(webSessionProvider).timezoneName : read(sessionProvider).timezoneName;
+    final timezoneName = read(sessionProvider).timezoneName;
 
     final payload = state.serializeForCompiler(timezoneName);
 
-    final csc = kIsWeb ? await TransactionService().compileSmartContract(payload) : await SmartContractService().compileSmartContract(payload);
+    if (kIsWeb) {
+      final success = await TransactionService().compileAndMintSmartContract(payload, read(webSessionProvider).keypair!);
+      if (success == true) {
+        read(nftListProvider.notifier).load();
+      }
+    }
+
+    final csc = await SmartContractService().compileSmartContract(payload);
 
     if (csc == null) {
       return null;
@@ -264,8 +283,7 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
       return null;
     }
 
-    final details =
-        kIsWeb ? await TransactionService().retrieveSmartContract(csc.smartContract.id) : await SmartContractService().retrieve(csc.smartContract.id);
+    final details = await SmartContractService().retrieve(csc.smartContract.id);
 
     if (kIsWeb) {
     } else {

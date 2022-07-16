@@ -103,6 +103,7 @@ class WebReceiveScreen extends BaseScreen {
                   labelText: "Amount to request",
                   validator: (value) => formValidatorNumber(value, "Amount"),
                   inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
                   confirmText: "Generate Link",
                   onValidSubmission: (val) {
                     if (double.tryParse(val) != null) {

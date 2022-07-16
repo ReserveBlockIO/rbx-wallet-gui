@@ -3,9 +3,11 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/services/base_service.dart';
 import 'package:rbx_wallet/features/asset/web_asset.dart';
+import 'package:rbx_wallet/features/keygen/models/keypair.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/compiler_response.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/detailed_smart_contract.dart';
@@ -14,6 +16,8 @@ import 'package:rbx_wallet/features/store/models/listing.dart';
 import 'package:rbx_wallet/features/store/models/store.dart';
 import 'package:rbx_wallet/features/store/models/store_collection.dart';
 import 'package:rbx_wallet/features/store/providers/bid_provider.dart';
+import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 class TransactionService extends BaseService {
   TransactionService()
@@ -44,7 +48,6 @@ class TransactionService extends BaseService {
   Future<Map<String, dynamic>?> getFee(
     Map<String, dynamic> transactionData,
   ) async {
-    print(transactionData);
     try {
       return await postJson('/tx/fee', params: {'transaction': transactionData});
     } catch (e) {
@@ -139,6 +142,39 @@ class TransactionService extends BaseService {
   }
 
   // Smart Contracts
+
+  Future<dynamic> compileAndMintSmartContract(Map<String, dynamic> payload, Keypair keypair) async {
+    try {
+      final response = await postJson('/nft-code', params: payload, responseIsJson: true);
+
+      final txData = await RawTransaction.generate(
+        keypair: keypair,
+        amount: 0,
+        toAddress: keypair.public,
+        data: response['data'],
+        txType: TxType.nftMint,
+      );
+
+      if (txData == null) {
+        Toast.error("Invalid transaction data.");
+        return false;
+      }
+
+      final tx = await TransactionService().sendTransaction(
+        transactionData: txData,
+        execute: true,
+      );
+
+      if (tx != null && tx['data']['Result'] == "Success") {
+        return true;
+      }
+
+      return false;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
 
   Future<CompilerResponse?> compileSmartContract(Map<String, dynamic> payload) async {
     try {

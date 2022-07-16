@@ -166,8 +166,6 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
     state = state.copyWith(isProcessing: true);
 
     if (Env.isWeb) {
-      print("WE SEND!");
-
       final amountDouble = double.parse(amount);
       final txData = await RawTransaction.generate(
         keypair: read(webSessionProvider).keypair!,
@@ -179,8 +177,6 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
 
       if (txData != null) {
         final txFee = txData['Fee'];
-
-        print(jsonEncode(txData));
 
         final confirmed = await ConfirmDialog.show(
           title: "Valid Transaction",
@@ -220,13 +216,9 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
         state = state.copyWith(isProcessing: false);
 
         if (message != null) {
-          Toast.message(
-              "$amount RBX has been sent to $address. See dashboard for TX ID.");
+          Toast.message("$amount RBX has been sent to $address. See dashboard for TX ID.");
           read(logProvider.notifier).append(
-            LogEntry(
-                message: message,
-                textToCopy: message.replaceAll("Success! TxId: ", ""),
-                variant: AppColorVariant.Success),
+            LogEntry(message: message, textToCopy: message.replaceAll("Success! TxId: ", ""), variant: AppColorVariant.Success),
           );
           clear();
         }
@@ -239,7 +231,6 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
   }
 }
 
-final sendFormProvider =
-    StateNotifierProvider<SendFormProvider, SendFormModel>((ref) {
+final sendFormProvider = StateNotifierProvider<SendFormProvider, SendFormModel>((ref) {
   return SendFormProvider(ref.read);
 });

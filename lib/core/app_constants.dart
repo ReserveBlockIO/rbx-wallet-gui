@@ -8,3 +8,14 @@ const MIN_RBX_FOR_SC_ACTION = 0.1;
 const DELETE_DRAFT_ON_MINT = true;
 const USD_TO_RBX = 5.0;
 const WEB_APP_VERSION = "0.0.1";
+
+class TxType {
+  static const int rbxTransfer = 0;
+  static const int node = 1;
+  static const int nftMint = 2;
+  static const int nftTransfer = 3;
+  static const int nftBurn = 4;
+  static const int nftSale = 5;
+  static const int adnr = 6;
+  static const int dstShop = 7;
+}

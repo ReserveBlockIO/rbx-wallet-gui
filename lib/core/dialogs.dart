@@ -140,6 +140,7 @@ class PromptModal {
     bool allowCancel = true,
     int? lines,
     bool tightPadding = false,
+    TextInputType? keyboardType,
     Function(String)? onValidSubmission,
     List<TextInputFormatter> inputFormatters = const [],
   }) async {
@@ -171,6 +172,7 @@ class PromptModal {
                   autofocus: true,
                   minLines: lines,
                   maxLines: lines,
+                  keyboardType: keyboardType,
                   decoration: InputDecoration(
                     label: Text(labelText),
                   ),

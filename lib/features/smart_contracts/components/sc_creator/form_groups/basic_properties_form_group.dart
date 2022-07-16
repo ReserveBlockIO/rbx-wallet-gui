@@ -57,12 +57,12 @@ class BasicPropertiesFormGroup extends BaseComponent {
               Expanded(
                 child: _CreatorName(model: model, provider: provider),
               ),
-              if (!kIsWeb) const SizedBox(width: 8),
-              if (!kIsWeb)
-                Expanded(
-                  child: _OwnerAddress(model: model, provider: provider),
-                ),
-              const HelpButton(HelpType.ownerAddress),
+              // if (!kIsWeb) const SizedBox(width: 8),
+              // if (!kIsWeb)
+              //   Expanded(
+              //     child: _OwnerAddress(model: model, provider: provider),
+              //   ),
+              // const HelpButton(HelpType.ownerAddress),
             ],
           ),
           _Description(model: model, provider: provider)

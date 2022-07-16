@@ -23,11 +23,13 @@ class SmartContractCreatorMain extends BaseComponent {
   const SmartContractCreatorMain({Key? key}) : super(key: key);
 
   void mintedComplete(
-    String id,
+    String? id,
     BuildContext context,
     WidgetRef ref,
   ) {
-    ref.read(nftDetailProvider(id).notifier).init();
+    if (id != null) {
+      ref.read(nftDetailProvider(id).notifier).init();
+    }
     ref.read(createSmartContractProvider.notifier).clearSmartContract();
 
     Future.delayed(const Duration(milliseconds: 300)).then((_) {
@@ -62,43 +64,65 @@ class SmartContractCreatorMain extends BaseComponent {
       if (!kIsWeb) {
         ref.read(sessionProvider.notifier).setIsMintingOrCompiling(true);
       }
+
       final compileAnimation = Completer<BuildContext>();
       _provider.showCompileAnimation(context, compileAnimation);
       final dialogContext = await compileAnimation.future;
 
-      try {
-        final sc = await ref.read(createSmartContractProvider.notifier).compile();
+      if (kIsWeb) {
+        final success = await ref.read(createSmartContractProvider.notifier).compileAndMintForWeb();
 
-        if (sc != null) {
-          final success = await ref.read(createSmartContractProvider.notifier).mint();
+        if (success) {
+          await Future.delayed(const Duration(seconds: 3));
+          Navigator.pop(dialogContext);
+          final completeAnimation = Completer<BuildContext>();
+          _provider.showCompileComplete(context, completeAnimation);
+          final completedDialogContext = await completeAnimation.future;
+          await Future.delayed(const Duration(seconds: 3));
+          Navigator.pop(completedDialogContext);
+          Toast.message("Smart Contract minted successfully.");
 
-          if (success) {
-            await Future.delayed(const Duration(seconds: 3));
-            Navigator.pop(dialogContext);
-            final completeAnimation = Completer<BuildContext>();
-            _provider.showCompileComplete(context, completeAnimation);
-            final completedDialogContext = await completeAnimation.future;
-            await Future.delayed(const Duration(seconds: 3));
-            Navigator.pop(completedDialogContext);
-            Toast.message("Smart Contract minted successfully.");
-
-            mintedComplete(sc.id, context, ref);
-          } else {
-            Navigator.pop(dialogContext);
-
-            Toast.error("A problem occurred minting this smart contract.");
-          }
+          mintedComplete(null, context, ref);
         } else {
           Navigator.pop(dialogContext);
 
-          Toast.error("A problem occurred compiling this smart contract.");
+          Toast.error("A problem occurred minting this smart contract.");
         }
-      } catch (e) {
-        Navigator.pop(dialogContext);
+      } else {
+        try {
+          final sc = await ref.read(createSmartContractProvider.notifier).compile();
 
-        print(e);
-        if (!kIsWeb) {
-          ref.read(sessionProvider.notifier).setIsMintingOrCompiling(false);
+          if (sc != null) {
+            final success = await ref.read(createSmartContractProvider.notifier).mint();
+
+            if (success) {
+              await Future.delayed(const Duration(seconds: 3));
+              Navigator.pop(dialogContext);
+              final completeAnimation = Completer<BuildContext>();
+              _provider.showCompileComplete(context, completeAnimation);
+              final completedDialogContext = await completeAnimation.future;
+              await Future.delayed(const Duration(seconds: 3));
+              Navigator.pop(completedDialogContext);
+              Toast.message("Smart Contract minted successfully.");
+
+              mintedComplete(sc.id, context, ref);
+            } else {
+              Navigator.pop(dialogContext);
+
+              Toast.error("A problem occurred minting this smart contract.");
+            }
+          } else {
+            Navigator.pop(dialogContext);
+
+            Toast.error("A problem occurred compiling this smart contract.");
+          }
+        } catch (e) {
+          Navigator.pop(dialogContext);
+
+          print(e);
+          if (!kIsWeb) {
+            ref.read(sessionProvider.notifier).setIsMintingOrCompiling(false);
+          }
         }
       }
     }

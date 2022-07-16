@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:hex/hex.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/services/transaction_service.dart';
 import 'package:rbx_wallet/features/keygen/models/keypair.dart';
 import 'package:crypto/crypto.dart';
@@ -15,12 +16,14 @@ class RawTxValue {
   final int nonce;
   final double fee;
   final int timestamp;
+  final dynamic data;
 
   const RawTxValue({
     required this.hash,
     required this.nonce,
     required this.fee,
     required this.timestamp,
+    this.data,
   });
 }
 
@@ -29,12 +32,10 @@ class RawTransaction {
     required Keypair keypair,
     required String toAddress,
     required double amount,
+    int txType = TxType.rbxTransfer,
+    dynamic data,
   }) async {
-    final rawTx = await _getTransactionForSignature(
-      fromAddress: keypair.public,
-      toAddress: toAddress,
-      amount: amount,
-    );
+    final rawTx = await _getTransactionForSignature(fromAddress: keypair.public, toAddress: toAddress, amount: amount, data: data, txType: txType);
 
     if (rawTx == null) {
       return null;
@@ -91,6 +92,7 @@ class RawTransaction {
     }
 
     final txData = _buildTransaction(
+      type: txType,
       hash: rawTx.hash,
       toAddress: toAddress,
       fromAddress: keypair.public,
@@ -99,14 +101,13 @@ class RawTransaction {
       timestamp: rawTx.timestamp,
       fee: rawTx.fee,
       signature: fullSignature,
+      data: data,
     );
 
     final verifyTransactionData = (await txService.sendTransaction(
       transactionData: txData,
       execute: false,
     ))!['data'];
-
-    print(verifyTransactionData);
 
     if (!_responseIsValid(verifyTransactionData)) {
       print("Transaction not valid");
@@ -120,6 +121,8 @@ class RawTransaction {
     required String fromAddress,
     required String toAddress,
     required double amount,
+    required int txType,
+    dynamic data,
   }) async {
     final txService = TransactionService();
 
@@ -154,6 +157,8 @@ class RawTransaction {
       amount: amount,
       nonce: nonce,
       timestamp: timestamp,
+      type: txType,
+      // data: data,
     );
 
     final feeData = (await txService.getFee(txData))!['data'];
@@ -170,12 +175,14 @@ class RawTransaction {
     }
 
     txData = _buildTransaction(
+      type: txType,
       toAddress: toAddress,
       fromAddress: fromAddress,
       amount: amount,
       nonce: nonce,
       timestamp: timestamp,
       fee: fee,
+      data: data,
     );
 
     final hashData = (await txService.getHash(txData))!['data'];
@@ -196,6 +203,7 @@ class RawTransaction {
       hash: hash,
       nonce: nonce,
       timestamp: timestamp,
+      data: data,
     );
   }
 
@@ -224,12 +232,13 @@ class RawTransaction {
     String? hash,
     required String toAddress,
     required String fromAddress,
-    int type = 0,
+    required int type,
     required double amount,
     required int nonce,
     double? fee,
     required int timestamp,
     String? signature,
+    dynamic data,
   }) {
     return {
       'Hash': hash ?? '',
@@ -242,13 +251,12 @@ class RawTransaction {
       'Timestamp': timestamp,
       'Signature': signature ?? '',
       'Height': 0,
-      'Data': null,
+      'Data': data
     };
   }
 
   static String base58Encode(List<int> array) {
-    const String ALPHABET =
-        "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+    const String ALPHABET = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
     String output = "";
 
     BigInt encodeSize = BigInt.from(ALPHABET.length);
@@ -315,8 +323,7 @@ class RawTransaction {
               r: Uint8List.fromList(
                 hex.decode(rHex),
               ),
-              s: Uint8List.fromList(
-                  hex.decode("${sHexPadded ? '' : '00'}$sHex")),
+              s: Uint8List.fromList(hex.decode("${sHexPadded ? '' : '00'}$sHex")),
             ),
           );
         } catch (e) {
