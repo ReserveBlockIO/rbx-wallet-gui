@@ -13,9 +13,10 @@ enum _Environment {
   BlockExplorer,
   Web,
   WebDev,
+  BlockExplorerTestNet
 }
 
-const _env = _Environment.MacDev;
+const _env = _Environment.BlockExplorerTestNet;
 
 class Env {
   static init() async {
@@ -38,6 +39,9 @@ class Env {
         break;
       case _Environment.BlockExplorer:
         envPath = Assets.env.blockExplorerEnv;
+        break;
+            case _Environment.BlockExplorerTestNet:
+        envPath = Assets.env.blockExplorerTestNetEnv;
         break;
       case _Environment.Release:
         envPath = Assets.env.releaseEnv;
