@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:decimal/decimal.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
@@ -176,7 +177,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     print("-------------");
 
     var txData = RawTransaction.buildTransaction(
-      amount: 0,
+      amount: 0.0,
       type: TxType.nftTx,
       toAddress: toAddress,
       fromAddress: keypair.public,
@@ -199,7 +200,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     }
 
     txData = RawTransaction.buildTransaction(
-      amount: 0,
+      amount: 0.0,
       type: TxType.nftTx,
       toAddress: toAddress,
       fromAddress: keypair.public,
@@ -245,7 +246,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     print("------");
 
     txData = RawTransaction.buildTransaction(
-      amount: 0,
+      amount: 0.0,
       type: TxType.nftTx,
       toAddress: toAddress,
       fromAddress: keypair.public,

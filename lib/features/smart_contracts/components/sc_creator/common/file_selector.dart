@@ -132,7 +132,7 @@ class FileSelector extends BaseComponent {
                     children: [
                       buildReplaceButton(),
                       const SizedBox(height: 8),
-                      buildRemoveButton(),
+                      buildRemoveButton(context),
                     ],
                   )
           ],
@@ -175,7 +175,7 @@ class FileSelector extends BaseComponent {
                       if (!kIsWeb) buildRevealButton(),
                       if (allowReplace) buildReplaceButton(),
                       const SizedBox(width: 6),
-                      buildRemoveButton(),
+                      buildRemoveButton(context),
                     ],
                   ),
           ),
@@ -184,16 +184,17 @@ class FileSelector extends BaseComponent {
     );
   }
 
-  AppButton buildRemoveButton() {
-    return AppButton(
-      label: "Remove",
-      icon: Icons.delete,
-      variant: AppColorVariant.Danger,
-      onPressed: readOnly
-          ? null
-          : () {
-              onChange(null);
-            },
+  Widget buildRemoveButton(BuildContext context) {
+    return TextButton(
+      child: Text(
+        "Remove",
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.error,
+        ),
+      ),
+      onPressed: () {
+        onChange(null);
+      },
     );
   }
 

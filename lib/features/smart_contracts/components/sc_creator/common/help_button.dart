@@ -35,8 +35,7 @@ class HelpButton extends StatelessWidget {
   final HelpType type;
   final bool subtle;
   final Color? color;
-  const HelpButton(this.type, {Key? key, this.subtle = false, this.color})
-      : super(key: key);
+  const HelpButton(this.type, {Key? key, this.subtle = false, this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -44,21 +43,11 @@ class HelpButton extends StatelessWidget {
       padding: EdgeInsets.zero,
       icon: Icon(
         Icons.help,
-        color: color != null
-            ? color!
-            : Theme.of(context)
-                .colorScheme
-                .secondary
-                .withOpacity(subtle ? 0.7 : 1),
+        color: color != null ? color! : Theme.of(context).colorScheme.secondary.withOpacity(subtle ? 0.7 : 1),
         size: subtle ? 16 : 22,
       ),
       onPressed: () {
-        InfoDialog.show(
-            title: _title,
-            body: _body,
-            closeText: "Close",
-            icon: Icons.help,
-            headerColor: Theme.of(context).colorScheme.secondary);
+        InfoDialog.show(title: _title, body: _body, closeText: "Close", icon: Icons.help, headerColor: Theme.of(context).colorScheme.secondary);
       },
     );
   }

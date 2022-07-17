@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:decimal/decimal.dart';
 import 'package:dio/dio.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/env.dart';
@@ -88,10 +89,21 @@ class TransactionService extends BaseService {
     required Map<String, dynamic> transactionData,
     bool execute = false,
   }) async {
+    // print("TX");
+    // print(jsonEncode(transactionData));
+
+    final data = transactionData;
+    // if (data.containsKey("Amount") && data['Amount'] == 0) {
+    //   data['Amount'] = Decimal.parse('0.0');hash
+    // }
+    // print("TX Updated?");
+
+    // print(jsonEncode(data));
+
     try {
       return await postJson(
         execute ? '/tx/send' : '/tx/verify',
-        params: {'transaction': transactionData},
+        params: {'transaction': data},
       );
     } catch (e) {
       print(e);
@@ -147,7 +159,7 @@ class TransactionService extends BaseService {
 
       final txData = await RawTransaction.generate(
         keypair: keypair,
-        amount: 0,
+        amount: 0.0,
         toAddress: keypair.public,
         data: response['data'],
         txType: TxType.nftMint,

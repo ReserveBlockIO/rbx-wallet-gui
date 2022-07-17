@@ -10,6 +10,7 @@ import 'package:crypto/crypto.dart';
 import 'package:dart_bip66/dart_bip66.dart';
 import 'package:secp256k1/secp256k1.dart' as secp256k1;
 import 'package:convert/convert.dart';
+import 'package:decimal/decimal.dart';
 
 class RawTxValue {
   final String hash;
@@ -250,7 +251,7 @@ class RawTransaction {
       'ToAddress': toAddress,
       'FromAddress': fromAddress,
       'TransactionType': type,
-      'Amount': amount,
+      'Amount': amount.toDouble(),
       'Nonce': nonce,
       'Fee': fee ?? 0,
       'Timestamp': timestamp,
