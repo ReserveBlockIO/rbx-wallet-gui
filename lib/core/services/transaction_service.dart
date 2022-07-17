@@ -112,10 +112,10 @@ class TransactionService extends BaseService {
 
 // Assets
 
-  Future<WebAsset?> uploadAsset(Uint8List bytes, String? ext) async {
+  Future<WebAsset?> uploadAsset(Uint8List bytes, String filename, String? ext) async {
     FormData body = FormData();
 
-    final filename = ext != null ? "upload.$ext" : "upload.unknown";
+    // final filename = ext != null ? "upload.$ext" : "upload.unknown";
 
     final MultipartFile file = MultipartFile.fromBytes(bytes, filename: filename);
     MapEntry<String, MultipartFile> entry = MapEntry("file", file);

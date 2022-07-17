@@ -1,0 +1,11 @@
+[
+    {
+        "origin": [
+            "https://wallet.rbx.network"
+        ],
+        "method": [
+            "GET"
+        ],
+        "maxAgeSeconds": 3600
+    }
+]

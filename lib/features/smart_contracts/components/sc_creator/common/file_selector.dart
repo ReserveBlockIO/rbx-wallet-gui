@@ -50,17 +50,19 @@ class FileSelector extends BaseComponent {
       }
 
       final ext = result.files.single.extension;
+      final filename = result.files.single.name;
 
-      final webAsset = await TransactionService().uploadAsset(bytes, ext);
+      final webAsset = await TransactionService().uploadAsset(bytes, filename, ext);
 
       if (webAsset == null) return;
       asset = Asset(
-          id: '00000000-0000-0000-0000-000000000000',
-          location: webAsset.location,
-          extension: webAsset.extension,
-          fileSize: result.files.single.bytes!.length,
-          bytes: bytes,
-          name: webAsset.filename);
+        id: '00000000-0000-0000-0000-000000000000',
+        location: webAsset.location,
+        extension: webAsset.extension,
+        fileSize: result.files.single.bytes!.length,
+        bytes: bytes,
+        name: webAsset.filename,
+      );
     } else {
       file = File(result.files.single.path!);
       final filePath = file.path;
