@@ -50,6 +50,8 @@ class SmartContractService extends BaseService {
   }
 
   Future<CompilerResponse?> compileSmartContract(Map<String, dynamic> payload) async {
+
+    print(jsonEncode(payload));
     try {
       final response = await postJson(
         "/CreateSmartContract",

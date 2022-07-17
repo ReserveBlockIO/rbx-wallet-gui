@@ -64,9 +64,14 @@ class FileSelector extends BaseComponent {
     } else {
       file = File(result.files.single.path!);
       final filePath = file.path;
-      final name = filePath.split("/").last;
+
+      final slash = Platform.isWindows ? "\\" : "/";
+      final name = filePath.split(slash).last;
       final extension = name.split(".").last;
       final fileSize = (await File(filePath).readAsBytes()).length;
+
+      print(filePath);
+      print("-----");
 
       asset = Asset(
         id: "00000000-0000-0000-0000-000000000000",
