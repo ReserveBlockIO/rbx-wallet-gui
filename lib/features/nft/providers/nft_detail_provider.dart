@@ -1,10 +1,8 @@
 import 'dart:convert';
 
-import 'package:decimal/decimal.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/services/transaction_service.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
@@ -14,7 +12,6 @@ import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_serv
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
-import 'package:rbx_wallet/utils/formatting.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:collection/collection.dart';
 
@@ -165,13 +162,13 @@ class NftDetailProvider extends StateNotifier<Nft?> {
 
     // TODO: check if receiving wallet is a web wallet and if so skip the beacon request and just put "NA" in the nft transfer data
 
-    final locators = await TransactionService().getLocators(id);
-    if (locators == null) {
-      Toast.error("Locators request failed.");
-      return false;
-    }
+    // final locators = await TransactionService().getLocators(id);
+    // if (locators == null) {
+    //   Toast.error("Locators request failed.");
+    //   return false;
+    // }
 
-    final nftTransferData = await txService.nftTransferData(id, toAddress, locators);
+    final nftTransferData = await txService.nftTransferData(id, toAddress, "NA");
     print("-------------");
     print(nftTransferData);
     print("-------------");
@@ -183,7 +180,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       fromAddress: keypair.public,
       timestamp: timestamp,
       nonce: nonce,
-      data: jsonEncode(nftTransferData),
+      data: nftTransferData,
     );
 
     final feeData = (await txService.getFee(txData))!['data'];
@@ -206,7 +203,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       fromAddress: keypair.public,
       timestamp: timestamp,
       nonce: nonce,
-      data: jsonEncode(nftTransferData),
+      data: nftTransferData,
       fee: fee,
     );
 
@@ -252,7 +249,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       fromAddress: keypair.public,
       timestamp: timestamp,
       nonce: nonce,
-      data: jsonEncode(nftTransferData),
+      data: nftTransferData,
       fee: fee,
       hash: hash,
       signature: signature,

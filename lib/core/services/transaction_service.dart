@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:decimal/decimal.dart';
 import 'package:dio/dio.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/env.dart';
@@ -510,6 +509,7 @@ class TransactionService extends BaseService {
   }
 
   Future<dynamic> nftTransferData(String scId, String toAddress, String locators) async {
+    print("SCID: $scId");
     try {
       final response = await postJson("/nft-transfer-data/$scId/$toAddress/$locators/", responseIsJson: true);
       return response['data'];
