@@ -92,7 +92,7 @@ class NftCard extends BaseComponent {
           alignment: Alignment.center,
           children: [
             if (kIsWeb)
-              nft.currentEvolveAssetWeb != null && nft.currentEvolveAssetWeb!.isImage
+              nft.currentEvolveAssetWeb != null && nft.currentEvolveAssetWeb!.isImage && nft.assetsAvailable
                   ? AspectRatio(
                       aspectRatio: 1,
                       child: Image.network(
@@ -101,7 +101,9 @@ class NftCard extends BaseComponent {
                         fit: BoxFit.cover,
                       ),
                     )
-                  : const Icon(Icons.file_present_outlined),
+                  : nft.assetsAvailable
+                      ? const Icon(Icons.file_present_outlined)
+                      : Text("NFT assets have not been transfered to the RBX Web Wallet."),
             if (!kIsWeb)
               nft.currentEvolveAsset.isImage
                   ? AspectRatio(

@@ -248,6 +248,7 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
   }
 
   Future<bool> compileAndMintForWeb() async {
+    print("heyyyy");
     final timezoneName = read(webSessionProvider).timezoneName;
     final payload = state.serializeForCompiler(timezoneName);
 

@@ -53,9 +53,11 @@ class SmartContractCreatorMain extends BaseComponent {
       return;
     }
 
-    if(ref.read(sessionProvider).currentWallet!.balance < MIN_RBX_FOR_SC_ACTION) {
-      Toast.error("Not enough RBX balance to mint a smart contract.");
-      return;
+    if (!kIsWeb) {
+      if (ref.read(sessionProvider).currentWallet!.balance < MIN_RBX_FOR_SC_ACTION) {
+        Toast.error("Not enough RBX balance to mint a smart contract.");
+        return;
+      }
     }
 
     final confirmed = await ConfirmDialog.show(

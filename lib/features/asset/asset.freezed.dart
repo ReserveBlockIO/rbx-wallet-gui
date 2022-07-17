@@ -175,7 +175,7 @@ class __$$_AssetCopyWithImpl<$Res> extends _$AssetCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _$_Asset extends _Asset {
+class _$_Asset extends _Asset with DiagnosticableTreeMixin {
   _$_Asset(
       {@JsonKey(name: "AssetId") required this.id,
       @JsonKey(name: "Name") this.name,
@@ -212,8 +212,22 @@ class _$_Asset extends _Asset {
   final Uint8List? bytes;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'Asset(id: $id, name: $name, authorName: $authorName, location: $location, extension: $extension, fileSize: $fileSize, bytes: $bytes)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'Asset'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('authorName', authorName))
+      ..add(DiagnosticsProperty('location', location))
+      ..add(DiagnosticsProperty('extension', extension))
+      ..add(DiagnosticsProperty('fileSize', fileSize))
+      ..add(DiagnosticsProperty('bytes', bytes));
   }
 
   @override

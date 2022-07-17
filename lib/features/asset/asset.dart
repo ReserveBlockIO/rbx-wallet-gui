@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -30,7 +31,7 @@ abstract class Asset with _$Asset {
   factory Asset.fromJson(Map<String, dynamic> json) => _$AssetFromJson(json);
 
   String get fileName {
-    final slash = Platform.isWindows ? "\\" : "/";
+    final slash = !kIsWeb && Platform.isWindows ? "\\" : "/";
     return location.split(slash).last;
   }
 

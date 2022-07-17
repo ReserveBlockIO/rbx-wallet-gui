@@ -23,6 +23,7 @@ abstract class WebNft with _$WebNft {
     @JsonKey(name: "primary_asset_remote_key") String? primaryAssetRemoteKey,
     @JsonKey(name: "smart_contract_data") required String smartContractDataString,
     @JsonKey(name: "minted_at") required DateTime mintedAt,
+    @JsonKey(name: "assets_available") required bool assetsAvailable,
   }) = _WebNft;
 
   factory WebNft.fromJson(Map<String, dynamic> json) => _$WebNftFromJson(json);
@@ -35,6 +36,7 @@ abstract class WebNft with _$WebNft {
   Nft get smartContract {
     return Nft.fromJson(smartContractData).copyWith(
       currentOwner: ownerAddress,
+      assetsAvailable: assetsAvailable,
       proxiedAsset: primaryAssetRemoteKey != null
           ? ProxiedAsset(
               key: primaryAssetRemoteKey!,

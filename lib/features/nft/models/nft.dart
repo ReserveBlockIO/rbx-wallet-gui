@@ -33,6 +33,7 @@ abstract class Nft with _$Nft {
     @JsonKey(defaultValue: false) required bool isProcessing,
     String? code,
     @JsonKey(toJson: nullToNull, fromJson: nullToNull) ProxiedAsset? proxiedAsset,
+    @JsonKey(defaultValue: false) required bool assetsAvailable,
   }) = _Nft;
 
   factory Nft.fromJson(Map<String, dynamic> json) => _$NftFromJson(json);

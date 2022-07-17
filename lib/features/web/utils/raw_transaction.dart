@@ -71,7 +71,7 @@ class RawTransaction {
       return null;
     }
 
-    final txData = _buildTransaction(
+    final txData = buildTransaction(
       type: txType,
       hash: rawTx.hash,
       toAddress: toAddress,
@@ -131,7 +131,7 @@ class RawTransaction {
       return null;
     }
 
-    Map<String, dynamic> txData = _buildTransaction(
+    Map<String, dynamic> txData = buildTransaction(
       toAddress: toAddress,
       fromAddress: fromAddress,
       amount: amount,
@@ -154,7 +154,7 @@ class RawTransaction {
       return null;
     }
 
-    txData = _buildTransaction(
+    txData = buildTransaction(
       type: txType,
       toAddress: toAddress,
       fromAddress: fromAddress,
@@ -168,13 +168,15 @@ class RawTransaction {
     final hashData = (await txService.getHash(txData))!['data'];
 
     if (!_responseIsValid(hashData)) {
-      print("Failed to retreive fee");
+      print("Failed to retreive hash");
       return null;
     }
 
     final String? hash = hashData!['Hash'];
 
     if (hash == null) {
+      print("Failed to parse hash");
+
       return null;
     }
 
@@ -231,7 +233,7 @@ class RawTransaction {
     return true;
   }
 
-  static Map<String, dynamic> _buildTransaction({
+  static Map<String, dynamic> buildTransaction({
     String? hash,
     required String toAddress,
     required String fromAddress,

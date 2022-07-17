@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
@@ -121,31 +123,165 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     return success;
   }
 
-  Future<dynamic> transferWebOut(String toAddress) async {
-    if (!canTransact()) return false;
+  static bool _txResponseIsValid(Map<String, dynamic>? data) {
+    if (data == null || data['Result'] != "Success") {
+      return false;
+    }
+    return true;
+  }
 
+  Future<dynamic> transferWebOut(String toAddress) async {
     final keypair = read(webSessionProvider).keypair;
     if (keypair == null) {
       return false;
     }
+    final txService = TransactionService();
 
-    // get timestamp
-    // get nonce
+    final timestampData = await txService.getTimestamp();
 
-    // beacon upload request (message is uid)
-    // get nft transfer data
-    // get tx fee
-    // get hash
-    // create signature
-    // validate
-    // send raw transaction (data)
+    if (!_txResponseIsValid(timestampData)) {
+      Toast.error("Failed to retrieve timestamp");
+      return false;
+    }
 
-    // TX type NftTx
+    final int? timestamp = timestampData!['Timestamp'];
+    if (timestamp == null) {
+      Toast.error("Failed to parse timestamp");
+      return false;
+    }
+
+    final nonceData = await txService.getNonce(keypair.public);
+    if (!_txResponseIsValid(nonceData)) {
+      Toast.error("Failed to retrieve nonce");
+      return false;
+    }
+
+    final int? nonce = nonceData!['Nonce'];
+    if (nonce == null) {
+      Toast.error("Failed to parse nonce");
+      return false;
+    }
+
+    // TODO: check if receiving wallet is a web wallet and if so skip the beacon request and just put "NA" in the nft transfer data
+
+    final locators = await TransactionService().getLocators(id);
+    if (locators == null) {
+      Toast.error("Locators request failed.");
+      return false;
+    }
+
+    final nftTransferData = await txService.nftTransferData(id, toAddress, locators);
+    print("-------------");
+    print(nftTransferData);
+    print("-------------");
+
+    var txData = RawTransaction.buildTransaction(
+      amount: 0,
+      type: TxType.nftTx,
+      toAddress: toAddress,
+      fromAddress: keypair.public,
+      timestamp: timestamp,
+      nonce: nonce,
+      data: jsonEncode(nftTransferData),
+    );
+
+    final feeData = (await txService.getFee(txData))!['data'];
+
+    if (!_txResponseIsValid(feeData)) {
+      Toast.error("Failed to retreive fee");
+      return false;
+    }
+
+    final double? fee = feeData!['Fee'];
+    if (fee == null) {
+      Toast.error("Failed to parse fee");
+      return false;
+    }
+
+    txData = RawTransaction.buildTransaction(
+      amount: 0,
+      type: TxType.nftTx,
+      toAddress: toAddress,
+      fromAddress: keypair.public,
+      timestamp: timestamp,
+      nonce: nonce,
+      data: jsonEncode(nftTransferData),
+      fee: fee,
+    );
+
+    final hashData = (await txService.getHash(txData))!['data'];
+
+    if (!_txResponseIsValid(hashData)) {
+      Toast.error("Failed to retreive hash");
+      return null;
+    }
+
+    final String? hash = hashData!['Hash'];
+
+    if (hash == null) {
+      Toast.error("Failed to parse hash");
+      return null;
+    }
+
+    final signature = await RawTransaction.getSignature(message: hash, privateKey: keypair.private, publicKey: keypair.publicInflated);
+    if (signature == null) {
+      Toast.error("Signature generation failed.");
+      return false;
+    }
+
+    final validateData = await txService.validateSignature(
+      hash,
+      keypair.public,
+      signature,
+    );
+
+    if (!_txResponseIsValid(validateData)) {
+      Toast.error("Signature not valid");
+      return false;
+    }
+
+    print("------");
+    print(nftTransferData);
+    print("------");
+
+    txData = RawTransaction.buildTransaction(
+      amount: 0,
+      type: TxType.nftTx,
+      toAddress: toAddress,
+      fromAddress: keypair.public,
+      timestamp: timestamp,
+      nonce: nonce,
+      data: jsonEncode(nftTransferData),
+      fee: fee,
+      hash: hash,
+      signature: signature,
+    );
+
+    final verifyTransactionData = (await txService.sendTransaction(
+      transactionData: txData,
+      execute: false,
+    ))!['data'];
+
+    if (!_txResponseIsValid(verifyTransactionData)) {
+      Toast.error("Transaction not valid");
+      return false;
+    }
+
+    final tx = await TransactionService().sendTransaction(
+      transactionData: txData,
+      execute: true,
+    );
+
+    if (tx != null) {
+      if (tx['data']['Result'] == "Success") {
+        return true;
+      }
+    }
+
+    Toast.error("The fact something went wrong here but not until this point is odd.");
   }
 
-  Future<bool> transferWebIn(String toAddress) async {
-    if (!canTransact()) return false;
-
+  Future<bool> transferWebIn() async {
     final keypair = read(webSessionProvider).keypair;
     if (keypair == null) {
       return false;
@@ -165,28 +301,12 @@ class NftDetailProvider extends StateNotifier<Nft?> {
 
     final beaconAssets = await TransactionService().beaconAssets(id, locators, signature);
 
-    if (beaconAssets == null) {
+    if (beaconAssets != true) {
       Toast.error("Assets Request failed.");
       return false;
     }
 
-    // final beaconUpload = await TransactionService().beaconUpload(id, toAddress, signature);
-    // if (beaconUpload == null) {
-    //   Toast.error("Beacon Upload request failed.");
-    //   return false;
-    // }
-
-    // final nftTransferData = await TransactionService().nftTransferData(
-    //   id,
-    //   toAddress,
-    //   beaconUpload,
-    //   beaconUpload,
-    // );
-
-    // if (nftTransferData == null) {
-    //   Toast.error("Nft Transfer Data request failed.");
-    //   return false;
-    // }
+    state = await _retrieve();
 
     return true;
   }

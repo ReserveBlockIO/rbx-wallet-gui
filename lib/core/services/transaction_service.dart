@@ -489,10 +489,8 @@ class TransactionService extends BaseService {
     String scId,
   ) async {
     try {
-      final response = await getText("/locators/$scId");
-      final data = jsonDecode(response);
-      print(data);
-      return data;
+      final response = await getJson("/locators/$scId");
+      return response["Locators"];
     } catch (e) {
       print(e);
       return null;
@@ -501,13 +499,11 @@ class TransactionService extends BaseService {
 
   Future<dynamic> nftTransferData(String scId, String toAddress, String locators) async {
     try {
-      final response = await getText("/nft-transfer-data/$scId/$toAddress/$locators/");
-      final data = jsonDecode(response);
-      print(data);
-      return data;
+      final response = await postJson("/nft-transfer-data/$scId/$toAddress/$locators/", responseIsJson: true);
+      return response['data'];
     } catch (e) {
       print(e);
-      return false;
+      return null;
     }
   }
 
@@ -535,15 +531,13 @@ class TransactionService extends BaseService {
     }
   }
 
-  Future<dynamic> beaconAssets(String scId, String locators, String signature) async {
+  Future<bool> beaconAssets(String scId, String locators, String signature) async {
     try {
-      final response = await getText("/beacon-assets/$scId/$locators/$signature/");
-      final data = jsonDecode(response);
-      print(data);
-      return data;
+      await getText("/beacon-assets/$scId/$locators/$signature/");
+      return true;
     } catch (e) {
       print(e);
-      return null;
+      return false;
     }
   }
 }
