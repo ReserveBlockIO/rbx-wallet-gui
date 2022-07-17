@@ -493,7 +493,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
         try {
           final appPath = Directory.current.path;
-          cmd = "$appPath\\RbxCore\\RBXLauncher";
+          cmd = Env.isTestNet ? "$appPath\\RbxCore\\RBXLauncherTestNet" : "$appPath\\RbxCore\\RBXLauncher";
 
           read(logProvider.notifier)
               .append(LogEntry(message: "Launching $cmd in the background."));
