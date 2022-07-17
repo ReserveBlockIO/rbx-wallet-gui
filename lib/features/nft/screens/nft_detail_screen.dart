@@ -362,7 +362,7 @@ class NftDetailScreen extends BaseScreen {
                         );
 
                         if (confirmed == true) {
-                          final success = await _provider.burn();
+                          final success = kIsWeb ? await _provider.burnWeb() : await _provider.burn();
 
                           if (success) {
                             Toast.message("Burn transaction sent successfully!");

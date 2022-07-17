@@ -169,9 +169,6 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     // }
 
     final nftTransferData = await txService.nftTransferData(id, toAddress, "NA");
-    print("-------------");
-    print(nftTransferData);
-    print("-------------");
 
     var txData = RawTransaction.buildTransaction(
       amount: 0.0,
@@ -285,6 +282,8 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       return false;
     }
 
+    print("SID: $id");
+
     final locators = await TransactionService().getLocators(id);
     if (locators == null) {
       Toast.error("Locators request failed.");
@@ -325,6 +324,148 @@ class NftDetailProvider extends StateNotifier<Nft?> {
   Future<bool> devolve() async {
     final stage = state!.currentEvolvePhaseIndex;
     return await setEvolve(stage, state!.currentOwner);
+  }
+
+  Future<bool> burnWeb() async {
+    final keypair = read(webSessionProvider).keypair;
+    if (keypair == null) {
+      return false;
+    }
+    final txService = TransactionService();
+
+    final timestampData = await txService.getTimestamp();
+
+    if (!_txResponseIsValid(timestampData)) {
+      Toast.error("Failed to retrieve timestamp");
+      return false;
+    }
+
+    final int? timestamp = timestampData!['Timestamp'];
+    if (timestamp == null) {
+      Toast.error("Failed to parse timestamp");
+      return false;
+    }
+
+    final nonceData = await txService.getNonce(keypair.public);
+    if (!_txResponseIsValid(nonceData)) {
+      Toast.error("Failed to retrieve nonce");
+      return false;
+    }
+
+    final int? nonce = nonceData!['Nonce'];
+    if (nonce == null) {
+      Toast.error("Failed to parse nonce");
+      return false;
+    }
+
+    final nftBurnDataRaw = await TransactionService().nftBurnData(id, keypair.public);
+
+    final nftBurnData = jsonDecode(nftBurnDataRaw);
+
+    var txData = RawTransaction.buildTransaction(
+      amount: 0.0,
+      type: TxType.nftTx,
+      toAddress: keypair.public,
+      fromAddress: keypair.public,
+      timestamp: timestamp,
+      nonce: nonce,
+      data: nftBurnData,
+    );
+
+    final feeData = (await txService.getFee(txData))!['data'];
+
+    if (!_txResponseIsValid(feeData)) {
+      Toast.error("Failed to retreive fee");
+      return false;
+    }
+
+    final double? fee = feeData!['Fee'];
+    if (fee == null) {
+      Toast.error("Failed to parse fee");
+      return false;
+    }
+
+    txData = RawTransaction.buildTransaction(
+      amount: 0.0,
+      type: TxType.nftTx,
+      toAddress: keypair.public,
+      fromAddress: keypair.public,
+      timestamp: timestamp,
+      nonce: nonce,
+      data: nftBurnData,
+      fee: fee,
+    );
+
+    final hashData = (await txService.getHash(txData))!['data'];
+
+    if (!_txResponseIsValid(hashData)) {
+      Toast.error("Failed to retreive hash");
+      return false;
+    }
+
+    final String? hash = hashData!['Hash'];
+
+    if (hash == null) {
+      Toast.error("Failed to parse hash");
+      return false;
+    }
+
+    final signature = await RawTransaction.getSignature(message: hash, privateKey: keypair.private, publicKey: keypair.publicInflated);
+    if (signature == null) {
+      Toast.error("Signature generation failed.");
+      return false;
+    }
+
+    final validateData = await txService.validateSignature(
+      hash,
+      keypair.public,
+      signature,
+    );
+
+    if (!_txResponseIsValid(validateData)) {
+      Toast.error("Signature not valid");
+      return false;
+    }
+
+    txData = RawTransaction.buildTransaction(
+      amount: 0.0,
+      type: TxType.nftTx,
+      toAddress: keypair.public,
+      fromAddress: keypair.public,
+      timestamp: timestamp,
+      nonce: nonce,
+      data: nftBurnData,
+      fee: fee,
+      hash: hash,
+      signature: signature,
+    );
+
+    final verifyTransactionData = (await txService.sendTransaction(
+      transactionData: txData,
+      execute: false,
+    ))!['data'];
+
+    if (!_txResponseIsValid(verifyTransactionData)) {
+      Toast.error("Transaction not valid");
+      return false;
+    }
+
+    final tx = await TransactionService().sendTransaction(
+      transactionData: txData,
+      execute: true,
+    );
+
+    if (tx != null) {
+      if (tx['data']['Result'] == "Success") {
+        read(burnedProvider.notifier).addId(id);
+
+        return true;
+      }
+    }
+
+    Toast.error("The fact something went wrong here but not until this point is odd.");
+
+    return false;
   }
 
   Future<bool> burn() async {

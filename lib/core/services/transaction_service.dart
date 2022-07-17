@@ -552,4 +552,16 @@ class TransactionService extends BaseService {
       return false;
     }
   }
+
+  // Burn
+
+  Future<dynamic> nftBurnData(String scId, String toAddress) async {
+    try {
+      final response = await postJson("/nft-burn-data/$scId/$toAddress/", responseIsJson: true);
+      return response['data']['Message'];
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 }
