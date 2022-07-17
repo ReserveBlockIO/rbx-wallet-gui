@@ -43,47 +43,27 @@ class RawTransaction {
 
     final hash = rawTx.hash;
 
-    final signature = await _getSignature(
+    final signature = await getSignature(
       message: hash,
       privateKey: keypair.private,
+      publicKey: keypair.publicInflated,
     );
 
-    print("Signature: $signature");
-
-    final r = signature.R;
-    final s = signature.S;
-    final der = toDer(r, s);
-    if (der == null) {
-      print("Der failed");
+    if (signature == null) {
       return null;
     }
 
-    final base64Signature = base64Encode(der);
-
-    String publicKey = keypair.publicInflated;
-
-    if (publicKey.startsWith("04")) {
-      publicKey = publicKey.replaceFirst("04", "");
-    }
-
-    print("Publickey: $publicKey");
-
-    final hex = HEX.decode(publicKey);
-
-    final base58PublicKey = base58Encode(hex);
-    print("base58PublicKey: $base58PublicKey");
-
-    final fullSignature = "$base64Signature.$base58PublicKey";
+    print("Signature: $signature");
 
     final txService = TransactionService();
 
     print("Hash: $hash");
     print("Address: ${keypair.public}");
-    print("Signature: $fullSignature");
+    print("Signature: $signature");
     final validateData = await txService.validateSignature(
       hash,
       keypair.public,
-      fullSignature,
+      signature,
     );
 
     if (!_responseIsValid(validateData)) {
@@ -100,7 +80,7 @@ class RawTransaction {
       nonce: rawTx.nonce,
       timestamp: rawTx.timestamp,
       fee: rawTx.fee,
-      signature: fullSignature,
+      signature: signature,
       data: data,
     );
 
@@ -207,18 +187,41 @@ class RawTransaction {
     );
   }
 
-  static Future<secp256k1.Signature> _getSignature({
+  static Future<String?> getSignature({
     required String message,
     required String privateKey,
+    required String publicKey,
   }) async {
     final hashMessage = sha256.convert(utf8.encode(message));
     final hashMessageString = hashMessage.toString();
     print("hashMessageString: $hashMessageString");
 
     var pk = secp256k1.PrivateKey.fromHex(privateKey);
-    final sig = pk.signature(hashMessageString);
+    final signature = pk.signature(hashMessageString);
 
-    return sig;
+    final r = signature.R;
+    final s = signature.S;
+    final der = toDer(r, s);
+    if (der == null) {
+      print("Der failed");
+      return null;
+    }
+
+    final base64Signature = base64Encode(der);
+
+    if (publicKey.startsWith("04")) {
+      publicKey = publicKey.replaceFirst("04", "");
+    }
+    print("Publickey: $publicKey");
+
+    final hex = HEX.decode(publicKey);
+
+    final base58PublicKey = base58Encode(hex);
+    print("base58PublicKey: $base58PublicKey");
+
+    final fullSignature = "$base64Signature.$base58PublicKey";
+
+    return fullSignature;
   }
 
   static bool _responseIsValid(Map<String, dynamic>? data) {

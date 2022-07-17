@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/services/transaction_service.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/providers/burned_provider.dart';
@@ -9,6 +10,7 @@ import 'package:rbx_wallet/features/nft/services/nft_service.dart';
 import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
+import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
 import 'package:rbx_wallet/utils/formatting.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:collection/collection.dart';
@@ -117,6 +119,71 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     if (!canTransact()) return false;
     final success = await SmartContractService().transfer(id, address);
     return success;
+  }
+
+  Future<dynamic> transferWebOut(String toAddress) async {
+    if (!canTransact()) return false;
+
+    final keypair = read(webSessionProvider).keypair;
+    if (keypair == null) {
+      return false;
+    }
+
+    // get timestamp
+    // get nonce
+
+    // beacon upload request (message is uid)
+    // get nft transfer data
+    // get tx fee
+    // get hash
+    // create signature
+    // validate
+    // send raw transaction (data)
+
+    // TX type NftTx
+  }
+
+  Future<bool> transferWebIn(String toAddress) async {
+    if (!canTransact()) return false;
+
+    final keypair = read(webSessionProvider).keypair;
+    if (keypair == null) {
+      return false;
+    }
+
+    final locators = await TransactionService().getLocators(id);
+    if (locators == null) {
+      Toast.error("Locators request failed.");
+      return false;
+    }
+
+    final signature = await RawTransaction.getSignature(message: id, privateKey: keypair.private, publicKey: keypair.publicInflated);
+    if (signature == null) {
+      Toast.error("Signature generation failed.");
+      return false;
+    }
+
+    final beaconAssets = await TransactionService().beaconAssets(id, locators, signature);
+
+    // final beaconUpload = await TransactionService().beaconUpload(id, toAddress, signature);
+    // if (beaconUpload == null) {
+    //   Toast.error("Beacon Upload request failed.");
+    //   return false;
+    // }
+
+    // final nftTransferData = await TransactionService().nftTransferData(
+    //   id,
+    //   toAddress,
+    //   beaconUpload,
+    //   beaconUpload,
+    // );
+
+    // if (nftTransferData == null) {
+    //   Toast.error("Nft Transfer Data request failed.");
+    //   return false;
+    // }
+
+    return true;
   }
 
   Future<bool> setEvolve(int stage, String toAddress) async {

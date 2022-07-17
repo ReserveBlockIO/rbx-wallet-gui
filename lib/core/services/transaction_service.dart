@@ -143,7 +143,7 @@ class TransactionService extends BaseService {
 
   Future<dynamic> compileAndMintSmartContract(Map<String, dynamic> payload, Keypair keypair) async {
     try {
-      final response = await postJson('/nft-code', params: payload, responseIsJson: true);
+      final response = await postJson('/nft-data', params: payload, responseIsJson: true);
 
       final txData = await RawTransaction.generate(
         keypair: keypair,
@@ -477,6 +477,59 @@ class TransactionService extends BaseService {
     try {
       final response = await postJson('/store/onboard');
       return response['data']['redirect'];
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  // Asset Transfer
+
+  Future<String?> getLocators(
+    String scId,
+  ) async {
+    try {
+      return await getText("/GetLastKnownLocators/$scId");
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<dynamic> nftTransferData(String scId, String toAddress, String locators) async {
+    try {
+      final response = await getText("/nft-transfer-data/$scId/$toAddress/$locators/");
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<dynamic> beaconUpload(String scId, String toAddress, String signature) async {
+    try {
+      final response = await getText("/beacon/upload/$scId/$toAddress/$signature/");
+      return "hello";
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<dynamic> beaconDownload(String scId, String toAddress, String signature) async {
+    try {
+      final response = await getText("/beacon/upload/$scId/$toAddress/$signature/");
+      return "bye";
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<dynamic> beaconAssets(String scId, String locators, String signature) async {
+    try {
+      final response = await getText("/GetBeaconAssets/$scId/$locators/$signature/");
+      return "test";
     } catch (e) {
       print(e);
       return null;
