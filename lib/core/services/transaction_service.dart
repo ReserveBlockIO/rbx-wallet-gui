@@ -489,7 +489,10 @@ class TransactionService extends BaseService {
     String scId,
   ) async {
     try {
-      return await getText("/GetLastKnownLocators/$scId");
+      final response = await getText("/locators/$scId");
+      final data = jsonDecode(response);
+      print(data);
+      return data;
     } catch (e) {
       print(e);
       return null;
@@ -499,7 +502,9 @@ class TransactionService extends BaseService {
   Future<dynamic> nftTransferData(String scId, String toAddress, String locators) async {
     try {
       final response = await getText("/nft-transfer-data/$scId/$toAddress/$locators/");
-      return true;
+      final data = jsonDecode(response);
+      print(data);
+      return data;
     } catch (e) {
       print(e);
       return false;
@@ -509,7 +514,9 @@ class TransactionService extends BaseService {
   Future<dynamic> beaconUpload(String scId, String toAddress, String signature) async {
     try {
       final response = await getText("/beacon/upload/$scId/$toAddress/$signature/");
-      return "hello";
+      final data = jsonDecode(response);
+      print(data);
+      return data;
     } catch (e) {
       print(e);
       return null;
@@ -519,7 +526,9 @@ class TransactionService extends BaseService {
   Future<dynamic> beaconDownload(String scId, String toAddress, String signature) async {
     try {
       final response = await getText("/beacon/upload/$scId/$toAddress/$signature/");
-      return "bye";
+      final data = jsonDecode(response);
+      print(data);
+      return data;
     } catch (e) {
       print(e);
       return null;
@@ -528,8 +537,10 @@ class TransactionService extends BaseService {
 
   Future<dynamic> beaconAssets(String scId, String locators, String signature) async {
     try {
-      final response = await getText("/GetBeaconAssets/$scId/$locators/$signature/");
-      return "test";
+      final response = await getText("/beacon-assets/$scId/$locators/$signature/");
+      final data = jsonDecode(response);
+      print(data);
+      return data;
     } catch (e) {
       print(e);
       return null;

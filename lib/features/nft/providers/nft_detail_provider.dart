@@ -165,6 +165,11 @@ class NftDetailProvider extends StateNotifier<Nft?> {
 
     final beaconAssets = await TransactionService().beaconAssets(id, locators, signature);
 
+    if (beaconAssets == null) {
+      Toast.error("Assets Request failed.");
+      return false;
+    }
+
     // final beaconUpload = await TransactionService().beaconUpload(id, toAddress, signature);
     // if (beaconUpload == null) {
     //   Toast.error("Beacon Upload request failed.");
