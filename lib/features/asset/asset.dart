@@ -30,7 +30,8 @@ abstract class Asset with _$Asset {
   factory Asset.fromJson(Map<String, dynamic> json) => _$AssetFromJson(json);
 
   String get fileName {
-    return location.split("/").last;
+    final slash = Platform.isWindows ? "\\" : "/";
+    return location.split(slash).last;
   }
 
   String get ext {

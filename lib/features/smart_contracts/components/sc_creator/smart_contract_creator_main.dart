@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
@@ -52,10 +53,15 @@ class SmartContractCreatorMain extends BaseComponent {
       return;
     }
 
+    if(ref.read(sessionProvider).currentWallet!.balance < MIN_RBX_FOR_SC_ACTION) {
+      Toast.error("Not enough RBX balance to mint a smart contract.");
+      return;
+    }
+
     final confirmed = await ConfirmDialog.show(
       title: "Compile & Mint Smart Contract?",
       body:
-          "Are you sure you want to proceed?\nOnce compiled you will not be able to make any changes and the smart contract will be deployed to the chain.",
+          "Are you sure you want to proceed?\nOnce compiled you will not be able to make any changes\nand the smart contract will be deployed to the chain.",
       confirmText: "Compile & Mint",
       cancelText: "Cancel",
     );
