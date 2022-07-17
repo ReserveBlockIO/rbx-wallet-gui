@@ -9,6 +9,7 @@ import 'package:process_run/shell.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
@@ -194,14 +195,14 @@ class HomeScreen extends BaseScreen {
                         String appDocPath = appDocDir.path;
 
                         if (Platform.isMacOS) {
-                          appDocPath =
-                              appDocPath.replaceAll("/Documents", "/rbx");
+                          appDocPath = appDocPath.replaceAll("/Documents",
+                              Env.isTestNet ? "/rbxtest" : "/rbx");
                         } else {
                           final winDir = await getApplicationSupportDirectory();
                           appDocPath = winDir.path;
                           appDocPath = appDocPath.replaceAll(
                               "\\Roaming\\com.example\\rbx_wallet_gui",
-                              "\\Local\\rbx");
+                              "\\Local\\${Env.isTestNet ? 'RBXTest' : 'RBX'}");
                         }
 
                         openFile(File(appDocPath));
@@ -236,9 +237,10 @@ class HomeScreen extends BaseScreen {
 
                         String cmd = "";
                         if (Platform.isMacOS) {
-                          appDocPath =
-                              appDocPath.replaceAll("/Documents", "/rbx");
-                          cmd = "open $appDocPath/Databases/rbxlog.txt";
+                          appDocPath = appDocPath.replaceAll("/Documents",
+                              Env.isTestNet ? "/rbxtest" : "/rbx");
+                          cmd =
+                              "open $appDocPath/Databases${Env.isTestNet ? 'TestNet' : ''}/rbxlog.txt";
                         } else {
                           appDocDir = await getApplicationSupportDirectory();
 
@@ -246,8 +248,9 @@ class HomeScreen extends BaseScreen {
 
                           appDocPath = appDocPath.replaceAll(
                               "\\Roaming\\com.example\\rbx_wallet_gui",
-                              "\\Local\\rbx");
-                          cmd = "start $appDocPath\\Databases\\rbxlog.txt";
+                              "\\Local\\RBX${Env.isTestNet ? 'Test' : ''}");
+                          cmd =
+                              "start $appDocPath\\Databases${Env.isTestNet ? 'TestNet' : ''}\\rbxlog.txt";
                         }
 
                         shell.run(cmd);
