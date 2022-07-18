@@ -38,13 +38,13 @@ class WebMenu extends BaseComponent {
           color: Colors.black,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: InkWell(
+            child: GestureDetector(
               onTap: () {
-                if (ref.read(webSessionProvider).keypair != null) {
-                  AutoRouter.of(context).push(WebDashboardContainerRoute());
-                } else {
-                  AutoRouter.of(context).push(WebAuthRouter());
-                }
+                // if (ref.read(webSessionProvider).keypair != null) {
+                //   AutoRouter.of(context).push(WebDashboardContainerRoute());
+                // } else {
+                //   AutoRouter.of(context).push(WebAuthRouter());
+                // }
               },
               child: Row(
                 children: [

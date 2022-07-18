@@ -78,7 +78,7 @@ class KeygenCta extends BaseComponent {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text("Key Genrated"),
+          title: const Text("Key Generated"),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

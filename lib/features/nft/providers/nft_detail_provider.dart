@@ -364,7 +364,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
 
     var txData = RawTransaction.buildTransaction(
       amount: 0.0,
-      type: TxType.nftTx,
+      type: TxType.nftBurn,
       toAddress: keypair.public,
       fromAddress: keypair.public,
       timestamp: timestamp,
@@ -387,7 +387,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
 
     txData = RawTransaction.buildTransaction(
       amount: 0.0,
-      type: TxType.nftTx,
+      type: TxType.nftBurn,
       toAddress: keypair.public,
       fromAddress: keypair.public,
       timestamp: timestamp,
@@ -429,7 +429,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
 
     txData = RawTransaction.buildTransaction(
       amount: 0.0,
-      type: TxType.nftTx,
+      type: TxType.nftBurn,
       toAddress: keypair.public,
       fromAddress: keypair.public,
       timestamp: timestamp,

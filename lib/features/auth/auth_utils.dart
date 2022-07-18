@@ -149,7 +149,7 @@ Future<void> showKeys(
     barrierDismissible: false,
     builder: (context) {
       return AlertDialog(
-        title: const Text("Key Genrated"),
+        title: const Text("Key Generated"),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

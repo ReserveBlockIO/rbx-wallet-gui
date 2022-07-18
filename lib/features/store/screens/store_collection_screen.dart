@@ -25,34 +25,34 @@ class StoreCollectionScreen extends BaseScreen {
       automaticallyImplyLeading: false,
       backgroundColor: Colors.black,
       shadowColor: Colors.transparent,
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            width: 54,
-            height: 54,
-            child: Image.asset(
-              Assets.images.animatedCube.path,
-              scale: 1,
+      title: InkWell(
+        onTap: () {
+          if (ref.read(webSessionProvider).keypair != null) {
+            AutoRouter.of(context).push(WebDashboardContainerRoute());
+          } else {
+            AutoRouter.of(context).push(WebAuthRouter());
+          }
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: 54,
+              height: 54,
+              child: Image.asset(
+                Assets.images.animatedCube.path,
+                scale: 1,
+              ),
             ),
-          ),
-          const SizedBox(width: 8),
-          InkWell(
-            onTap: () {
-              if (ref.read(webSessionProvider).keypair != null) {
-                AutoRouter.of(context).push(WebDashboardContainerRoute());
-              } else {
-                AutoRouter.of(context).push(WebAuthRouter());
-              }
-            },
-            child: Image.asset(
+            const SizedBox(width: 8),
+            Image.asset(
               Assets.images.rbxWallet.path,
               width: 120,
               height: 20,
               fit: BoxFit.contain,
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
