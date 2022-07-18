@@ -143,7 +143,7 @@ abstract class SmartContract with _$SmartContract {
     final payload = CompilerPayload(
       name: name,
       minterName: minterName,
-      description: description,
+      description: description.replaceAll("\n", "\\n"),
       asset: primaryAsset!.copyWith(authorName: minterName),
       features: features,
       uuid: "00000000-0000-0000-0000-000000000000",

@@ -104,7 +104,7 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                 ),
               ),
               Text(
-                "v$WEB_APP_VERSION",
+                WEB_APP_VERSION,
                 style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, letterSpacing: 2),
               ),
               const SizedBox(height: 16),

@@ -44,13 +44,16 @@ class StoreCollectionContainer extends BaseComponent {
                   ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      collection.name,
-                      style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
+                    Expanded(
+                      child: Text(
+                        collection.name,
+                        style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
                     ),
                     buildShareButtons(context),
                   ],

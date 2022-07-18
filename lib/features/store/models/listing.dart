@@ -39,11 +39,18 @@ abstract class Listing with _$Listing {
   factory Listing.fromJson(Map<String, dynamic> json) => _$ListingFromJson(json);
 
   String get floorPriceLabel {
-    return "\$${(floorPrice ?? 0).toStringAsFixed(2)} USD | $floorPriceRbx RBX";
+    if (allowRbx) {
+      return "\$${(floorPrice ?? 0).toStringAsFixed(2)} USD | $floorPriceRbx RBX";
+    }
+
+    return "\$${(floorPrice ?? 0).toStringAsFixed(2)} USD";
   }
 
   String get buyNowPriceLabel {
-    return "\$${(buyNowPrice ?? 0).toStringAsFixed(2)} USD | $buyNowPriceRbx RBX";
+    if (allowRbx) {
+      return "\$${(buyNowPrice ?? 0).toStringAsFixed(2)} USD | $buyNowPriceRbx RBX";
+    }
+    return "\$${(buyNowPrice ?? 0).toStringAsFixed(2)} USD";
   }
 
   String get endTimeLabel {

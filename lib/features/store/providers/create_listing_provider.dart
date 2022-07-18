@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/services/transaction_service.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
+import 'package:rbx_wallet/features/nft/providers/minted_nft_list_provider.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
@@ -69,9 +70,9 @@ class CreateListingProvider extends StateNotifier<CreateListingModel> {
   }
 
   fetchNfts() async {
-    await read(nftListProvider.notifier).load();
+    await read(mintedNftListProvider.notifier).load();
 
-    final options = read(nftListProvider);
+    final options = read(mintedNftListProvider);
     state = state.copyWith(
       nfts: options,
       // nft: state.nft ?? (options.isNotEmpty ? options.first : null),

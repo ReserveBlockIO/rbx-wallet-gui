@@ -94,6 +94,7 @@ class StoreCollectionScreen extends BaseScreen {
                       children: [
                         if (ref.watch(webSessionProvider).keypair != null) WebWalletDetails(),
                         StoreCollectionContainer(collection),
+                        SizedBox(height: 64),
                       ],
                     ),
                   ),

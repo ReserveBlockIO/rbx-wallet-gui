@@ -111,7 +111,7 @@ class NftDetailScreen extends BaseScreen {
                   height: 4,
                 ),
                 Text(
-                  nft.currentEvolveDescription,
+                  nft.currentEvolveDescription.replaceAll("\\n", "\n"),
                   style: Theme.of(context).textTheme.headline6!.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.w400,

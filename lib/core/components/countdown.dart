@@ -33,6 +33,7 @@ class AppCountdown extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Row(
           mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               "$prefix: ",

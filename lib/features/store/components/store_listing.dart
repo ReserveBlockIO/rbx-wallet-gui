@@ -7,6 +7,7 @@ import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/breakpoints.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/components/countdown.dart';
+import 'package:rbx_wallet/core/components/expandable_text.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
@@ -134,9 +135,6 @@ class StoreListing extends BaseComponent {
             height: 8,
           ),
           buildPreview(context),
-          buildPreviewDetails(context),
-          buildNftDetails(context, ref),
-          buildDetails(context),
           if (listing.hasFinished || listing.isPurchased) _AuctionEnded(),
           if (listing.isActive && listing.isAuction)
             Padding(
@@ -148,7 +146,11 @@ class StoreListing extends BaseComponent {
               padding: const EdgeInsets.only(top: 8.0),
               child: buildPurchase(context, ref),
             ),
-          Center(child: buildCountdown())
+          Center(child: buildCountdown(context)),
+          buildPreviewDetails(context),
+          buildNftDetails(context, ref),
+          SizedBox(height: 8),
+          buildDetails(context),
         ],
       ),
     );
@@ -165,10 +167,22 @@ class StoreListing extends BaseComponent {
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
                 buildPreview(context),
+                SizedBox(height: 8),
+                if (listing.hasFinished || listing.isPurchased) _AuctionEnded(),
+                if (listing.isActive)
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      if (listing.isAuction) buildAuction(context, ref),
+                      if (listing.isBuyNow) buildPurchase(context, ref),
+                    ],
+                  ),
+                buildCountdown(context),
                 buildPreviewDetails(context),
               ],
             ),
@@ -183,26 +197,9 @@ class StoreListing extends BaseComponent {
                   buildInfo(context, withShareButtons: withShareButtons),
                   SizedBox(height: 8),
                   buildNftDetails(context, ref),
-                  SizedBox(
-                    height: 8,
-                  ),
+                  SizedBox(height: 16),
                   buildDetails(context),
                   SizedBox(height: 8),
-                  if (listing.hasFinished || listing.isPurchased) _AuctionEnded(),
-                  if (listing.isActive)
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        if (listing.isAuction)
-                          Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
-                            child: buildAuction(context, ref),
-                          ),
-                        if (listing.isBuyNow) buildPurchase(context, ref),
-                      ],
-                    ),
-                  buildCountdown()
                 ],
               ),
             ),
@@ -212,9 +209,9 @@ class StoreListing extends BaseComponent {
     );
   }
 
-  Column buildCountdown() {
+  Column buildCountdown(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: BreakPoints.useMobileLayout(context) ? CrossAxisAlignment.stretch : CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
         if (listing.isActive && listing.endsAt != null)
@@ -240,7 +237,7 @@ class StoreListing extends BaseComponent {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Features:", style: Theme.of(context).textTheme.headline5),
+          Text("NFT Features:", style: Theme.of(context).textTheme.headline5),
           Builder(
             builder: (context) {
               if (nft.features.isEmpty) {
@@ -339,10 +336,15 @@ class StoreListing extends BaseComponent {
               TextSpan(text: "NFT Name: ", style: headingStyle),
               TextSpan(text: listing.nft.name),
               TextSpan(text: "\n"),
-              TextSpan(text: "NFT Description: ", style: headingStyle),
-              TextSpan(text: listing.nft.description)
+              TextSpan(text: "NFT Description:\n", style: headingStyle),
+
+              // TextSpan(text: listing.nft.description.replaceAll("\\n", "\n"))
             ],
           ),
+        ),
+        ExpandableText(listing.nft.description.replaceAll("\\n", "\n")),
+        SizedBox(
+          height: 8,
         ),
       ],
     );
@@ -469,7 +471,7 @@ class StoreListing extends BaseComponent {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
@@ -488,6 +490,7 @@ class StoreListing extends BaseComponent {
               if (listing.highestBid != null) buildPrice(context, "Highest Bid", listing.highestBid!.amountLabel),
               SizedBox(height: 16),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   AppButton(label: "Bid Now", icon: Icons.gavel, size: AppSizeVariant.Lg, onPressed: () => handleBid(context, ref)),
                   SizedBox(
@@ -516,21 +519,19 @@ class StoreListing extends BaseComponent {
     );
   }
 
-  Column buildPrice(BuildContext context, String label, String amount) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
+  Widget buildPrice(BuildContext context, String label, String amount) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          "$label:",
+          "$label: ",
           style: TextStyle(
-            fontSize: 16,
+            fontSize: 18,
             color: Theme.of(context).colorScheme.secondary,
             fontWeight: FontWeight.bold,
             letterSpacing: 1,
           ),
         ),
-        SizedBox(height: 4),
         Text(
           amount,
           style: TextStyle(
@@ -662,7 +663,7 @@ class _PreviewCarouselState extends State<PreviewCarousel> {
                   carouselController: controller,
                   options: CarouselOptions(
                     viewportFraction: 1,
-                    autoPlay: true,
+                    autoPlay: BreakPoints.useMobileLayout(context) ? false : true,
                     onPageChanged: (i, _) {
                       setState(() {
                         selectedIndex = i;

@@ -54,7 +54,7 @@ class NftListTile extends BaseComponent {
               _showDetails(context, ref);
             },
       title: Text("${nft.currentEvolveName}${isBurned ? ' (Burned)' : ''}"),
-      subtitle: Text(nft.currentEvolveDescription),
+      subtitle: Text(nft.currentEvolveDescription.replaceAll("\\n", "\n")),
       leading: Builder(
         builder: (context) {
           if (nft.currentEvolveAsset.isImage) {
