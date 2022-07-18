@@ -21,6 +21,10 @@ abstract class Bid with _$Bid {
     return "\$${amount.toStringAsFixed(2)} USD | $amountRbx RBX";
   }
 
+  String get amountLabelWithoutRbx {
+    return "\$${amount.toStringAsFixed(2)} USD";
+  }
+
   String get createdAtLabel {
     return DateFormat.yMd().add_jm().format(createdAt);
   }

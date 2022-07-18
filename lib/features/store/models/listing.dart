@@ -34,6 +34,7 @@ abstract class Listing with _$Listing {
     @JsonKey(name: "ends_at") DateTime? endsAt,
     @JsonKey(name: "allow_rbx") required bool allowRbx,
     @JsonKey(name: "allow_cc") required bool allowCC,
+    @JsonKey(name: "append_description_text") String? appendDescriptionText,
   }) = _Listing;
 
   factory Listing.fromJson(Map<String, dynamic> json) => _$ListingFromJson(json);

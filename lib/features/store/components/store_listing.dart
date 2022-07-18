@@ -8,6 +8,7 @@ import 'package:rbx_wallet/core/breakpoints.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/components/countdown.dart';
 import 'package:rbx_wallet/core/components/expandable_text.dart';
+import 'package:rbx_wallet/core/components/simple_expandable_text.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
@@ -342,7 +343,8 @@ class StoreListing extends BaseComponent {
             ],
           ),
         ),
-        ExpandableText(listing.nft.description.replaceAll("\\n", "\n")),
+        SimpleExpandableText(
+            '${listing.appendDescriptionText != null ? '${listing.appendDescriptionText}\n\n' : ''}${listing.nft.description.replaceAll("\\n", "\n")}'),
         SizedBox(
           height: 8,
         ),
@@ -487,7 +489,13 @@ class StoreListing extends BaseComponent {
               ),
               buildPrice(context, "Floor Price", listing.floorPriceLabel),
               Divider(),
-              if (listing.highestBid != null) buildPrice(context, "Highest Bid", listing.highestBid!.amountLabel),
+              if (listing.highestBid != null)
+                buildPrice(
+                  context,
+                  "Highest Bid",
+                  listing.allowRbx ? listing.highestBid!.amountLabel : listing.highestBid!.amountLabelWithoutRbx,
+                  Theme.of(context).colorScheme.success,
+                ),
               SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -519,7 +527,12 @@ class StoreListing extends BaseComponent {
     );
   }
 
-  Widget buildPrice(BuildContext context, String label, String amount) {
+  Widget buildPrice(
+    BuildContext context,
+    String label,
+    String amount, [
+    Color priceColor = Colors.white,
+  ]) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -537,6 +550,7 @@ class StoreListing extends BaseComponent {
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
+            color: priceColor,
           ),
         )
       ],
@@ -663,7 +677,8 @@ class _PreviewCarouselState extends State<PreviewCarousel> {
                   carouselController: controller,
                   options: CarouselOptions(
                     viewportFraction: 1,
-                    autoPlay: BreakPoints.useMobileLayout(context) ? false : true,
+                    // autoPlay: BreakPoints.useMobileLayout(context) ? false : true,
+                    autoPlay: false,
                     onPageChanged: (i, _) {
                       setState(() {
                         selectedIndex = i;
@@ -711,6 +726,7 @@ class _PreviewCarouselState extends State<PreviewCarousel> {
         if (widget.urls.isNotEmpty)
           DotsIndicator(
             dotsCount: widget.urls.length,
+
             position: selectedIndex.toDouble(), // lol why does this package use a double for an index :P
             // onTap: (index) {
             //   print(index.toInt());

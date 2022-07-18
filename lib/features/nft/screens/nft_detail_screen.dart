@@ -279,103 +279,124 @@ class NftDetailScreen extends BaseScreen {
         Text("Actions:", style: Theme.of(context).textTheme.headline5),
         Padding(
           padding: const EdgeInsets.all(4.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              AppButton(
-                label: "Transfer",
-                helpType: HelpType.transfer,
-                icon: Icons.send,
-                onPressed: nft.isPublished
-                    ? () {
-                        PromptModal.show(
-                          contextOverride: context,
-                          title: "Transfer NFT",
-                          validator: (value) => formValidatorRbxAddress(value),
-                          labelText: "RBX Address",
-                          confirmText: "Transfer",
-                          onValidSubmission: (address) async {
-                            final success = kIsWeb ? await _provider.transferWebOut(address) : await _provider.transfer(address);
+          child: Center(
+            child: Wrap(
+              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              alignment: WrapAlignment.center,
+              runAlignment: WrapAlignment.center,
+              crossAxisAlignment: WrapCrossAlignment.center,
 
-                            if (success) {
-                              Toast.message("NFT Transfer sent successfully to $address!");
-                            } else {
-                              Toast.error();
-                            }
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: AppButton(
+                    label: "Transfer",
+                    // helpType: HelpType.transfer,
+                    icon: Icons.send,
+                    onPressed: nft.isPublished
+                        ? () {
+                            PromptModal.show(
+                              contextOverride: context,
+                              title: "Transfer NFT",
+                              validator: (value) => formValidatorRbxAddress(value),
+                              labelText: "RBX Address",
+                              confirmText: "Transfer",
+                              onValidSubmission: (address) async {
+                                final success = kIsWeb ? await _provider.transferWebOut(address) : await _provider.transfer(address);
+
+                                if (success) {
+                                  Toast.message("NFT Transfer sent successfully to $address!");
+                                } else {
+                                  Toast.error();
+                                }
+                              },
+                            );
+                          }
+                        : null,
+                  ),
+                ),
+                if (nft.manageable)
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: AppButton(
+                      label: "Manage",
+                      icon: Icons.settings,
+                      onPressed: () {
+                        showModalBottomSheet(
+                          isScrollControlled: true,
+                          backgroundColor: Colors.black87,
+                          context: context,
+                          builder: (context) {
+                            return ModalContainer(
+                              color: Colors.black26,
+                              children: [NftMangementModal(nft.id)],
+                            );
                           },
                         );
-                      }
-                    : null,
-              ),
-              if (nft.manageable)
-                AppButton(
-                  label: "Manage",
-                  icon: Icons.settings,
-                  onPressed: () {
-                    showModalBottomSheet(
-                      isScrollControlled: true,
-                      backgroundColor: Colors.black87,
-                      context: context,
-                      builder: (context) {
-                        return ModalContainer(
-                          color: Colors.black26,
-                          children: [NftMangementModal(nft.id)],
+                      },
+                    ),
+                  ),
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: AppButton(
+                    label: nft.isPublic ? "Make Private" : "Make Public",
+                    icon: nft.isPublic ? Icons.visibility_off : Icons.visibility,
+                    onPressed: () {
+                      _provider.togglePrivate();
+                    },
+                  ),
+                ),
+                if (nft.code != null)
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: AppButton(
+                      label: "View Code",
+                      icon: Icons.code,
+                      variant: AppColorVariant.Primary,
+                      onPressed: () {
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return CodeModal(nft.code!);
+                          },
                         );
                       },
-                    );
-                  },
-                ),
-              AppButton(
-                label: nft.isPublic ? "Make Private" : "Make Public",
-                icon: nft.isPublic ? Icons.visibility_off : Icons.visibility,
-                onPressed: () {
-                  _provider.togglePrivate();
-                },
-              ),
-              if (nft.code != null)
-                AppButton(
-                  label: "View Code",
-                  icon: Icons.code,
-                  variant: AppColorVariant.Primary,
-                  onPressed: () {
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (context) {
-                        return CodeModal(nft.code!);
-                      },
-                    );
-                  },
-                ),
-              AppButton(
-                label: "Burn",
-                icon: Icons.fire_hydrant,
-                helpType: HelpType.burn,
-                variant: AppColorVariant.Danger,
-                onPressed: nft.isPublished
-                    ? () async {
-                        final confirmed = await ConfirmDialog.show(
-                          title: "Burn NFT?",
-                          body: "Are you sure you want to burn ${nft.name}",
-                          destructive: true,
-                          confirmText: "Burn",
-                          cancelText: "Cancel",
-                        );
+                    ),
+                  ),
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: AppButton(
+                    label: "Burn",
+                    icon: Icons.fire_hydrant,
+                    // helpType: HelpType.burn,
+                    variant: AppColorVariant.Danger,
+                    onPressed: nft.isPublished
+                        ? () async {
+                            final confirmed = await ConfirmDialog.show(
+                              title: "Burn NFT?",
+                              body: "Are you sure you want to burn ${nft.name}",
+                              destructive: true,
+                              confirmText: "Burn",
+                              cancelText: "Cancel",
+                            );
 
-                        if (confirmed == true) {
-                          final success = kIsWeb ? await _provider.burnWeb() : await _provider.burn();
+                            if (confirmed == true) {
+                              final success = kIsWeb ? await _provider.burnWeb() : await _provider.burn();
 
-                          if (success) {
-                            Toast.message("Burn transaction sent successfully!");
-                            ref.read(mySmartContractsProvider.notifier).load();
-                            Navigator.of(context).pop();
-                          } else {
-                            Toast.error();
+                              if (success) {
+                                Toast.message("Burn transaction sent successfully!");
+                                ref.read(mySmartContractsProvider.notifier).load();
+                                Navigator.of(context).pop();
+                              } else {
+                                Toast.error();
+                              }
+                            }
                           }
-                        }
-                      }
-                    : null,
-              ),
-            ],
+                        : null,
+                  ),
+                ),
+              ],
+            ),
           ),
         )
       ],

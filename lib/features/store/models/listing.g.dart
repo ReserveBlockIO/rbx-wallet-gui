@@ -36,6 +36,7 @@ _$_Listing _$$_ListingFromJson(Map<String, dynamic> json) => _$_Listing(
           : DateTime.parse(json['ends_at'] as String),
       allowRbx: json['allow_rbx'] as bool,
       allowCC: json['allow_cc'] as bool,
+      appendDescriptionText: json['append_description_text'] as String?,
     );
 
 Map<String, dynamic> _$$_ListingToJson(_$_Listing instance) =>
@@ -61,4 +62,5 @@ Map<String, dynamic> _$$_ListingToJson(_$_Listing instance) =>
       'ends_at': instance.endsAt?.toIso8601String(),
       'allow_rbx': instance.allowRbx,
       'allow_cc': instance.allowCC,
+      'append_description_text': instance.appendDescriptionText,
     };

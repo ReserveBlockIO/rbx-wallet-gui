@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <style>
+      html,
+      body {
+        background-color: #020d26;
+      }
+    </style>
     <!--
     If you are serving your web app in a path other than the root, change the
     href value below to reflect the base path you are serving from.
@@ -41,7 +47,7 @@
     <meta name="language" content="English" />
     <meta property="og:title" content="ReserveBlock" />
     <meta property="og:site_name" content="ReserveBlock" />
-    <meta property="og:url" content="https://wallet.rbx.network/" />
+    <!-- <meta property="og:url" content="https://wallet.rbx.network/" /> -->
     <meta
       property="og:description"
       content="Your Block. Your Data. Your NFT Reserved. An open-source decentralized NFT centric blockchain for everyone."
@@ -84,7 +90,7 @@
         }
         scriptLoaded = true;
         var scriptTag = document.createElement("script");
-        scriptTag.src = "main.dart.js?version=1.0.1";
+        scriptTag.src = "main.dart.js?version=1.0.5";
         scriptTag.type = "application/javascript";
         document.body.append(scriptTag);
       }

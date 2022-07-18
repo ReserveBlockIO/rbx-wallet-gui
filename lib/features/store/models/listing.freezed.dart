@@ -54,6 +54,8 @@ mixin _$Listing {
   bool get allowRbx => throw _privateConstructorUsedError;
   @JsonKey(name: "allow_cc")
   bool get allowCC => throw _privateConstructorUsedError;
+  @JsonKey(name: "append_description_text")
+  String? get appendDescriptionText => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -85,7 +87,8 @@ abstract class $ListingCopyWith<$Res> {
       @JsonKey(name: "starts_at") DateTime startsAt,
       @JsonKey(name: "ends_at") DateTime? endsAt,
       @JsonKey(name: "allow_rbx") bool allowRbx,
-      @JsonKey(name: "allow_cc") bool allowCC});
+      @JsonKey(name: "allow_cc") bool allowCC,
+      @JsonKey(name: "append_description_text") String? appendDescriptionText});
 
   $StoreCopyWith<$Res> get store;
   $WebNftCopyWith<$Res> get nft;
@@ -123,6 +126,7 @@ class _$ListingCopyWithImpl<$Res> implements $ListingCopyWith<$Res> {
     Object? endsAt = freezed,
     Object? allowRbx = freezed,
     Object? allowCC = freezed,
+    Object? appendDescriptionText = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -209,6 +213,10 @@ class _$ListingCopyWithImpl<$Res> implements $ListingCopyWith<$Res> {
           ? _value.allowCC
           : allowCC // ignore: cast_nullable_to_non_nullable
               as bool,
+      appendDescriptionText: appendDescriptionText == freezed
+          ? _value.appendDescriptionText
+          : appendDescriptionText // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 
@@ -265,7 +273,8 @@ abstract class _$$_ListingCopyWith<$Res> implements $ListingCopyWith<$Res> {
       @JsonKey(name: "starts_at") DateTime startsAt,
       @JsonKey(name: "ends_at") DateTime? endsAt,
       @JsonKey(name: "allow_rbx") bool allowRbx,
-      @JsonKey(name: "allow_cc") bool allowCC});
+      @JsonKey(name: "allow_cc") bool allowCC,
+      @JsonKey(name: "append_description_text") String? appendDescriptionText});
 
   @override
   $StoreCopyWith<$Res> get store;
@@ -307,6 +316,7 @@ class __$$_ListingCopyWithImpl<$Res> extends _$ListingCopyWithImpl<$Res>
     Object? endsAt = freezed,
     Object? allowRbx = freezed,
     Object? allowCC = freezed,
+    Object? appendDescriptionText = freezed,
   }) {
     return _then(_$_Listing(
       id: id == freezed
@@ -393,6 +403,10 @@ class __$$_ListingCopyWithImpl<$Res> extends _$ListingCopyWithImpl<$Res>
           ? _value.allowCC
           : allowCC // ignore: cast_nullable_to_non_nullable
               as bool,
+      appendDescriptionText: appendDescriptionText == freezed
+          ? _value.appendDescriptionText
+          : appendDescriptionText // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -421,7 +435,8 @@ class _$_Listing extends _Listing {
       @JsonKey(name: "starts_at") required this.startsAt,
       @JsonKey(name: "ends_at") this.endsAt,
       @JsonKey(name: "allow_rbx") required this.allowRbx,
-      @JsonKey(name: "allow_cc") required this.allowCC})
+      @JsonKey(name: "allow_cc") required this.allowCC,
+      @JsonKey(name: "append_description_text") this.appendDescriptionText})
       : _previewUrls = previewUrls,
         _bids = bids,
         super._();
@@ -494,10 +509,13 @@ class _$_Listing extends _Listing {
   @override
   @JsonKey(name: "allow_cc")
   final bool allowCC;
+  @override
+  @JsonKey(name: "append_description_text")
+  final String? appendDescriptionText;
 
   @override
   String toString() {
-    return 'Listing(id: $id, uuid: $uuid, slug: $slug, name: $name, description: $description, store: $store, nft: $nft, previewUrls: $previewUrls, isAuction: $isAuction, isBuyNow: $isBuyNow, buyNowPrice: $buyNowPrice, buyNowPriceRbx: $buyNowPriceRbx, floorPrice: $floorPrice, floorPriceRbx: $floorPriceRbx, bids: $bids, isPurchased: $isPurchased, highestBid: $highestBid, startsAt: $startsAt, endsAt: $endsAt, allowRbx: $allowRbx, allowCC: $allowCC)';
+    return 'Listing(id: $id, uuid: $uuid, slug: $slug, name: $name, description: $description, store: $store, nft: $nft, previewUrls: $previewUrls, isAuction: $isAuction, isBuyNow: $isBuyNow, buyNowPrice: $buyNowPrice, buyNowPriceRbx: $buyNowPriceRbx, floorPrice: $floorPrice, floorPriceRbx: $floorPriceRbx, bids: $bids, isPurchased: $isPurchased, highestBid: $highestBid, startsAt: $startsAt, endsAt: $endsAt, allowRbx: $allowRbx, allowCC: $allowCC, appendDescriptionText: $appendDescriptionText)';
   }
 
   @override
@@ -533,7 +551,9 @@ class _$_Listing extends _Listing {
             const DeepCollectionEquality().equals(other.startsAt, startsAt) &&
             const DeepCollectionEquality().equals(other.endsAt, endsAt) &&
             const DeepCollectionEquality().equals(other.allowRbx, allowRbx) &&
-            const DeepCollectionEquality().equals(other.allowCC, allowCC));
+            const DeepCollectionEquality().equals(other.allowCC, allowCC) &&
+            const DeepCollectionEquality()
+                .equals(other.appendDescriptionText, appendDescriptionText));
   }
 
   @JsonKey(ignore: true)
@@ -560,7 +580,8 @@ class _$_Listing extends _Listing {
         const DeepCollectionEquality().hash(startsAt),
         const DeepCollectionEquality().hash(endsAt),
         const DeepCollectionEquality().hash(allowRbx),
-        const DeepCollectionEquality().hash(allowCC)
+        const DeepCollectionEquality().hash(allowCC),
+        const DeepCollectionEquality().hash(appendDescriptionText)
       ]);
 
   @JsonKey(ignore: true)
@@ -583,20 +604,35 @@ abstract class _Listing extends Listing {
       required final String description,
       required final Store store,
       required final WebNft nft,
-      @JsonKey(name: "preview_urls") required final List<String> previewUrls,
-      @JsonKey(name: "is_auction") required final bool isAuction,
-      @JsonKey(name: "is_buy_now") required final bool isBuyNow,
-      @JsonKey(name: "buy_now_price") final double? buyNowPrice,
-      @JsonKey(name: "buy_now_price_rbx") final double? buyNowPriceRbx,
-      @JsonKey(name: "floor_price") final double? floorPrice,
-      @JsonKey(name: "floor_price_rbx") final double? floorPriceRbx,
+      @JsonKey(name: "preview_urls")
+          required final List<String> previewUrls,
+      @JsonKey(name: "is_auction")
+          required final bool isAuction,
+      @JsonKey(name: "is_buy_now")
+          required final bool isBuyNow,
+      @JsonKey(name: "buy_now_price")
+          final double? buyNowPrice,
+      @JsonKey(name: "buy_now_price_rbx")
+          final double? buyNowPriceRbx,
+      @JsonKey(name: "floor_price")
+          final double? floorPrice,
+      @JsonKey(name: "floor_price_rbx")
+          final double? floorPriceRbx,
       required final List<Bid> bids,
-      @JsonKey(name: "is_purchased") required final bool isPurchased,
-      @JsonKey(name: "highest_bid") final Bid? highestBid,
-      @JsonKey(name: "starts_at") required final DateTime startsAt,
-      @JsonKey(name: "ends_at") final DateTime? endsAt,
-      @JsonKey(name: "allow_rbx") required final bool allowRbx,
-      @JsonKey(name: "allow_cc") required final bool allowCC}) = _$_Listing;
+      @JsonKey(name: "is_purchased")
+          required final bool isPurchased,
+      @JsonKey(name: "highest_bid")
+          final Bid? highestBid,
+      @JsonKey(name: "starts_at")
+          required final DateTime startsAt,
+      @JsonKey(name: "ends_at")
+          final DateTime? endsAt,
+      @JsonKey(name: "allow_rbx")
+          required final bool allowRbx,
+      @JsonKey(name: "allow_cc")
+          required final bool allowCC,
+      @JsonKey(name: "append_description_text")
+          final String? appendDescriptionText}) = _$_Listing;
   _Listing._() : super._();
 
   factory _Listing.fromJson(Map<String, dynamic> json) = _$_Listing.fromJson;
@@ -656,6 +692,9 @@ abstract class _Listing extends Listing {
   @override
   @JsonKey(name: "allow_cc")
   bool get allowCC => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: "append_description_text")
+  String? get appendDescriptionText => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_ListingCopyWith<_$_Listing> get copyWith =>

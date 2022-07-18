@@ -23,8 +23,6 @@ class ExpandableTextState extends State<ExpandableText> {
 
   @override
   Widget build(BuildContext context) {
-    final DefaultTextStyle defaultTextStyle = DefaultTextStyle.of(context);
-
     TextSpan link = TextSpan(
         text: _readMore ? " ...read more" : " [read less]",
         style: TextStyle(
@@ -40,6 +38,11 @@ class ExpandableTextState extends State<ExpandableText> {
         // Create a TextSpan with data
         final text = TextSpan(
           text: widget.text,
+          style: TextStyle(
+            fontSize: 18,
+            color: Colors.white,
+            height: 1.4,
+          ),
         );
         // Layout and measure link
         TextPainter textPainter = TextPainter(
@@ -77,6 +80,11 @@ class ExpandableTextState extends State<ExpandableText> {
         } else {
           textSpan = TextSpan(
             text: widget.text,
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.white,
+              height: 1.4,
+            ),
           );
         }
         return RichText(
