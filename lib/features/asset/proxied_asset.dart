@@ -21,6 +21,16 @@ class ProxiedAsset with _$ProxiedAsset {
     return extensions.contains(ext);
   }
 
+  bool get isVideo {
+    final extensions = ['mp4', 'mov', 'avi', 'webm', 'm4v'];
+    return extensions.contains(ext);
+  }
+
+  bool get isText {
+    final extensions = ['txt', 'rtf'];
+    return extensions.contains(ext);
+  }
+
   String get fileType {
     switch (ext) {
       case "jpg":
@@ -35,6 +45,8 @@ class ProxiedAsset with _$ProxiedAsset {
       case "mov":
       case "mp4":
       case "avi":
+      case "webm":
+      case "m4v":
         return "Video";
       case "mp3":
       case "m4a":

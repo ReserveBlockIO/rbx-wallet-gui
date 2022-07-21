@@ -254,7 +254,7 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
 
     final success = await TransactionService().compileAndMintSmartContract(payload, read(webSessionProvider).keypair!);
     if (success == true) {
-      read(nftListProvider.notifier).load();
+      read(nftListProvider.notifier).load(read(webSessionProvider).keypair?.email, read(webSessionProvider).keypair?.public);
       return true;
     }
     return false;
@@ -322,7 +322,9 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
     final details = kIsWeb ? await TransactionService().retrieveSmartContract(state.id) : await SmartContractService().retrieve(state.id);
 
     read(mySmartContractsProvider.notifier).load();
-    read(nftListProvider.notifier).load();
+    kIsWeb
+        ? read(nftListProvider.notifier).load(read(webSessionProvider).keypair?.email, read(webSessionProvider).keypair?.public)
+        : read(nftListProvider.notifier).load();
 
     if (details != null) {
       final wallet = kIsWeb ? read(webSessionProvider).currentWallet! : read(sessionProvider).currentWallet!;

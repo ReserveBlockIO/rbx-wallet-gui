@@ -81,9 +81,11 @@ build_web_debug:
 build_web:
 	fvm flutter build web
 
+
 deploy_web:
+	fvm flutter build web
 	firebase deploy --only hosting
 
-build_and_deploy_web:
-	fvm flutter build web
+
+deploy_web_no_build:
 	firebase deploy --only hosting

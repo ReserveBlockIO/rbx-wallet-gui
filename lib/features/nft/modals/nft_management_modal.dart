@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,6 +8,7 @@ import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
 import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
@@ -121,13 +123,7 @@ class NftMangementModal extends BaseComponent {
                 label: "View NFT",
                 onPressed: () {
                   Navigator.of(context).pop();
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return NftDetailScreen(nft.id);
-                      },
-                    ),
-                  );
+                  AutoRouter.of(context).push(NftDetailScreenRoute(id: nft.id));
                 },
               ),
             ],

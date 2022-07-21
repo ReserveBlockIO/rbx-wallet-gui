@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,26 +6,32 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/components/centered_loader.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/asset/asset_card.dart';
 import 'package:rbx_wallet/features/asset/asset_thumbnail.dart';
 import 'package:rbx_wallet/features/nft/components/nft_qr_code.dart';
 import 'package:rbx_wallet/features/nft/components/proxy_asset_card.dart';
+import 'package:rbx_wallet/features/nft/components/proxy_asset_thumbnail.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
 import 'package:rbx_wallet/features/nft/modals/nft_management_modal.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/modals/code_modal.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/my_smart_contracts_provider.dart';
+import 'package:rbx_wallet/generated/assets.gen.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NftDetailScreen extends BaseScreen {
   final String id;
   final bool fromCreator;
-  const NftDetailScreen(
-    this.id, {
+
+  const NftDetailScreen({
+    @PathParam('id') required this.id,
     Key? key,
     this.fromCreator = false,
   }) : super(key: key);
@@ -44,6 +51,28 @@ class NftDetailScreen extends BaseScreen {
       title: nft != null ? Text(nft.currentEvolveName) : const Text("NFT"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
+      // leading: AutoRouter.of(context).canPopSelfOrChildren
+      //     ? IconButton(
+      //         onPressed: () {
+      //           AutoRouter.of(context).pop();
+      //         },
+      //         icon: Icon(
+      //           Icons.navigate_before,
+      //           size: 32,
+      //         ))
+      //     : GestureDetector(
+      //         onTap: () {
+      //           AutoRouter.of(context).push(WebDashboardContainerRoute());
+      //         },
+      //         child: SizedBox(
+      //           width: 24,
+      //           height: 24,
+      //           child: Image.asset(
+      //             Assets.images.animatedCube.path,
+      //             scale: 1,
+      //           ),
+      //         ),
+      //       ),
       actions: [
         if (nft != null)
           Center(
@@ -79,7 +108,7 @@ class NftDetailScreen extends BaseScreen {
     final nft = ref.watch(nftDetailProvider(id));
 
     if (nft == null) {
-      return Container();
+      return CenteredLoader();
     }
 
     return Column(
@@ -197,16 +226,27 @@ class NftDetailScreen extends BaseScreen {
                                           ),
                                           kIsWeb && !nft.assetsAvailable
                                               ? buildAssetsNotAvailable(_provider, false)
-                                              : Wrap(
-                                                  children: nft.additionalAssets
-                                                      .map(
-                                                        (a) => Padding(
-                                                          padding: const EdgeInsets.only(right: 6.0),
-                                                          child: AssetThumbnail(a),
-                                                        ),
-                                                      )
-                                                      .toList(),
-                                                ),
+                                              : kIsWeb
+                                                  ? Wrap(
+                                                      children: (nft.additionalProxiedAssets ?? [])
+                                                          .map(
+                                                            (a) => Padding(
+                                                              padding: const EdgeInsets.only(right: 6.0),
+                                                              child: ProxyAssetThumbnail(a),
+                                                            ),
+                                                          )
+                                                          .toList(),
+                                                    )
+                                                  : Wrap(
+                                                      children: nft.additionalAssets
+                                                          .map(
+                                                            (a) => Padding(
+                                                              padding: const EdgeInsets.only(right: 6.0),
+                                                              child: AssetThumbnail(a),
+                                                            ),
+                                                          )
+                                                          .toList(),
+                                                    ),
                                         ],
                                       ),
                                     )

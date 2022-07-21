@@ -51,14 +51,29 @@ class ProxyAssetThumbnail extends StatelessWidget {
       },
       child: SizedBox(
         width: size,
-        height: size,
-        child: asset!.isImage
-            ? Image.network(
-                asset!.url,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              )
-            : const Icon(Icons.file_present_outlined),
+        height: size + 12,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              width: size,
+              height: size,
+              child: asset!.isImage
+                  ? Image.network(
+                      asset!.url,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    )
+                  : Icon(asset!.icon),
+            ),
+            Text(
+              asset!.fileName,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 10),
+              overflow: TextOverflow.ellipsis,
+            )
+          ],
+        ),
       ),
     );
   }

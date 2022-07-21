@@ -16,4 +16,11 @@ class HtmlHelpersImplementation extends HtmlHelpersInterface {
   String getUserAgent() {
     return html.window.navigator.userAgent;
   }
+
+  @override
+  void triggerDownload(String url) {
+    html.AnchorElement anchorElement = html.AnchorElement(href: url);
+    anchorElement.download = url;
+    anchorElement.click();
+  }
 }

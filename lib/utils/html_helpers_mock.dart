@@ -15,4 +15,9 @@ class HtmlHelpersImplementation extends HtmlHelpersInterface {
   String getUserAgent() {
     return "dart";
   }
+
+  @override
+  void triggerDownload(String url) {
+    print(url);
+  }
 }

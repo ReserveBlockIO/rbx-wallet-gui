@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/services/transaction_service.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
@@ -15,10 +14,8 @@ class NftListProvider extends StateNotifier<List<Nft>> {
     load();
   }
 
-  Future<void> load() async {
-    final nfts = kIsWeb
-        ? await TransactionService().listNfts(read(webSessionProvider).keypair!.email, read(webSessionProvider).keypair!.public)
-        : await NftService().list();
+  Future<void> load([String? email, String? address]) async {
+    final nfts = kIsWeb ? await TransactionService().listNfts(email ?? "", address ?? "") : await NftService().list();
     state = nfts;
   }
 }

@@ -33,6 +33,7 @@ abstract class Nft with _$Nft {
     @JsonKey(defaultValue: false) required bool isProcessing,
     String? code,
     @JsonKey(toJson: nullToNull, fromJson: nullToNull) ProxiedAsset? proxiedAsset,
+    @JsonKey(toJson: nullToNull, fromJson: nullToNull) List<ProxiedAsset>? additionalProxiedAssets,
     @JsonKey(defaultValue: false) required bool assetsAvailable,
   }) = _Nft;
 

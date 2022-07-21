@@ -154,7 +154,7 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                   ),
                   const SizedBox(width: 8),
                   AppButton(
-                    label: "Import Wallet",
+                    label: "Login",
                     icon: Icons.upload,
                     onPressed: () {
                       AuthModal.show(

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/breakpoints.dart';
+import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
 import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
@@ -74,13 +75,7 @@ class SmartContractsScreen extends BaseScreen {
                       ref.read(nftDetailProvider("$id").notifier).init();
                       ref.read(createSmartContractProvider.notifier).clearSmartContract();
 
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return NftDetailScreen("$id");
-                          },
-                        ),
-                      );
+                      AutoRouter.of(context).push(NftDetailScreenRoute(id: "$id"));
                     }
                   },
                 ),

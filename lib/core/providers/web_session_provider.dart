@@ -5,6 +5,7 @@ import 'package:rbx_wallet/core/services/explorer_service.dart';
 import 'package:rbx_wallet/core/singletons.dart';
 import 'package:rbx_wallet/core/storage.dart';
 import 'package:rbx_wallet/features/keygen/models/keypair.dart';
+import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 
 class WebSessionModel {
@@ -80,6 +81,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
 
   void loop() async {
     getBalance();
+    getNfts();
     await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
     loop();
   }
@@ -91,6 +93,13 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     final balance = await ExplorerService().getBalance(state.keypair!.public);
 
     state = state.copyWith(balance: balance);
+  }
+
+  Future<void> getNfts() async {
+    if (state.keypair == null) {
+      return;
+    }
+    read(nftListProvider.notifier).load(state.keypair!.email, state.keypair!.public);
   }
 
   Future<void> logout() async {

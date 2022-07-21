@@ -5,7 +5,14 @@ import 'package:rbx_wallet/features/nft/components/nft_grid.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_list_view_provider.dart';
 
 class NftListScreen extends BaseScreen {
-  const NftListScreen({Key? key}) : super(key: key);
+  const NftListScreen({Key? key})
+      : super(
+          key: key,
+          includeWebDrawer: true,
+          backgroundColor: Colors.black87,
+          horizontalPadding: 0,
+          verticalPadding: 0,
+        );
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {

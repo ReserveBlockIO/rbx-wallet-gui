@@ -7,7 +7,7 @@ const ALLOW_DOUBLE_MINTES = false;
 const MIN_RBX_FOR_SC_ACTION = 0.1;
 const DELETE_DRAFT_ON_MINT = true;
 const USD_TO_RBX = 5.0;
-const WEB_APP_VERSION = "beta1.0.0";
+const WEB_APP_VERSION = "beta1.0.1";
 
 class TxType {
   static const int rbxTransfer = 0;

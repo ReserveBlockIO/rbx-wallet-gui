@@ -32,13 +32,16 @@ mixin _$WebNft {
   @JsonKey(name: "primary_asset_size")
   int get primaryAssetSize => throw _privateConstructorUsedError;
   @JsonKey(name: "primary_asset_remote_key")
-  String? get primaryAssetRemoteKey => throw _privateConstructorUsedError;
+  String? get primaryAssetRemoteKey =>
+      throw _privateConstructorUsedError; // @JsonKey(name: "additional_assets_remote_keys") List<String>? additionalAssetsRemoteKeys,
   @JsonKey(name: "smart_contract_data")
   String get smartContractDataString => throw _privateConstructorUsedError;
   @JsonKey(name: "minted_at")
   DateTime get mintedAt => throw _privateConstructorUsedError;
   @JsonKey(name: "assets_available")
   bool get assetsAvailable => throw _privateConstructorUsedError;
+  @JsonKey(name: "data")
+  String? get data => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -60,7 +63,8 @@ abstract class $WebNftCopyWith<$Res> {
       @JsonKey(name: "primary_asset_remote_key") String? primaryAssetRemoteKey,
       @JsonKey(name: "smart_contract_data") String smartContractDataString,
       @JsonKey(name: "minted_at") DateTime mintedAt,
-      @JsonKey(name: "assets_available") bool assetsAvailable});
+      @JsonKey(name: "assets_available") bool assetsAvailable,
+      @JsonKey(name: "data") String? data});
 }
 
 /// @nodoc
@@ -84,6 +88,7 @@ class _$WebNftCopyWithImpl<$Res> implements $WebNftCopyWith<$Res> {
     Object? smartContractDataString = freezed,
     Object? mintedAt = freezed,
     Object? assetsAvailable = freezed,
+    Object? data = freezed,
   }) {
     return _then(_value.copyWith(
       identifier: identifier == freezed
@@ -130,6 +135,10 @@ class _$WebNftCopyWithImpl<$Res> implements $WebNftCopyWith<$Res> {
           ? _value.assetsAvailable
           : assetsAvailable // ignore: cast_nullable_to_non_nullable
               as bool,
+      data: data == freezed
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -150,7 +159,8 @@ abstract class _$$_WebNftCopyWith<$Res> implements $WebNftCopyWith<$Res> {
       @JsonKey(name: "primary_asset_remote_key") String? primaryAssetRemoteKey,
       @JsonKey(name: "smart_contract_data") String smartContractDataString,
       @JsonKey(name: "minted_at") DateTime mintedAt,
-      @JsonKey(name: "assets_available") bool assetsAvailable});
+      @JsonKey(name: "assets_available") bool assetsAvailable,
+      @JsonKey(name: "data") String? data});
 }
 
 /// @nodoc
@@ -175,6 +185,7 @@ class __$$_WebNftCopyWithImpl<$Res> extends _$WebNftCopyWithImpl<$Res>
     Object? smartContractDataString = freezed,
     Object? mintedAt = freezed,
     Object? assetsAvailable = freezed,
+    Object? data = freezed,
   }) {
     return _then(_$_WebNft(
       identifier: identifier == freezed
@@ -221,6 +232,10 @@ class __$$_WebNftCopyWithImpl<$Res> extends _$WebNftCopyWithImpl<$Res>
           ? _value.assetsAvailable
           : assetsAvailable // ignore: cast_nullable_to_non_nullable
               as bool,
+      data: data == freezed
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -247,7 +262,9 @@ class _$_WebNft extends _WebNft {
       @JsonKey(name: "minted_at")
           required this.mintedAt,
       @JsonKey(name: "assets_available")
-          required this.assetsAvailable})
+          required this.assetsAvailable,
+      @JsonKey(name: "data")
+          this.data})
       : super._();
 
   factory _$_WebNft.fromJson(Map<String, dynamic> json) =>
@@ -274,6 +291,7 @@ class _$_WebNft extends _WebNft {
   @override
   @JsonKey(name: "primary_asset_remote_key")
   final String? primaryAssetRemoteKey;
+// @JsonKey(name: "additional_assets_remote_keys") List<String>? additionalAssetsRemoteKeys,
   @override
   @JsonKey(name: "smart_contract_data")
   final String smartContractDataString;
@@ -283,10 +301,13 @@ class _$_WebNft extends _WebNft {
   @override
   @JsonKey(name: "assets_available")
   final bool assetsAvailable;
+  @override
+  @JsonKey(name: "data")
+  final String? data;
 
   @override
   String toString() {
-    return 'WebNft(identifier: $identifier, name: $name, description: $description, ownerAddress: $ownerAddress, minterName: $minterName, primaryAssetName: $primaryAssetName, primaryAssetSize: $primaryAssetSize, primaryAssetRemoteKey: $primaryAssetRemoteKey, smartContractDataString: $smartContractDataString, mintedAt: $mintedAt, assetsAvailable: $assetsAvailable)';
+    return 'WebNft(identifier: $identifier, name: $name, description: $description, ownerAddress: $ownerAddress, minterName: $minterName, primaryAssetName: $primaryAssetName, primaryAssetSize: $primaryAssetSize, primaryAssetRemoteKey: $primaryAssetRemoteKey, smartContractDataString: $smartContractDataString, mintedAt: $mintedAt, assetsAvailable: $assetsAvailable, data: $data)';
   }
 
   @override
@@ -313,7 +334,8 @@ class _$_WebNft extends _WebNft {
                 other.smartContractDataString, smartContractDataString) &&
             const DeepCollectionEquality().equals(other.mintedAt, mintedAt) &&
             const DeepCollectionEquality()
-                .equals(other.assetsAvailable, assetsAvailable));
+                .equals(other.assetsAvailable, assetsAvailable) &&
+            const DeepCollectionEquality().equals(other.data, data));
   }
 
   @JsonKey(ignore: true)
@@ -330,7 +352,8 @@ class _$_WebNft extends _WebNft {
       const DeepCollectionEquality().hash(primaryAssetRemoteKey),
       const DeepCollectionEquality().hash(smartContractDataString),
       const DeepCollectionEquality().hash(mintedAt),
-      const DeepCollectionEquality().hash(assetsAvailable));
+      const DeepCollectionEquality().hash(assetsAvailable),
+      const DeepCollectionEquality().hash(data));
 
   @JsonKey(ignore: true)
   @override
@@ -363,7 +386,9 @@ abstract class _WebNft extends WebNft {
       @JsonKey(name: "minted_at")
           required final DateTime mintedAt,
       @JsonKey(name: "assets_available")
-          required final bool assetsAvailable}) = _$_WebNft;
+          required final bool assetsAvailable,
+      @JsonKey(name: "data")
+          final String? data}) = _$_WebNft;
   _WebNft._() : super._();
 
   factory _WebNft.fromJson(Map<String, dynamic> json) = _$_WebNft.fromJson;
@@ -389,7 +414,7 @@ abstract class _WebNft extends WebNft {
   @override
   @JsonKey(name: "primary_asset_remote_key")
   String? get primaryAssetRemoteKey => throw _privateConstructorUsedError;
-  @override
+  @override // @JsonKey(name: "additional_assets_remote_keys") List<String>? additionalAssetsRemoteKeys,
   @JsonKey(name: "smart_contract_data")
   String get smartContractDataString => throw _privateConstructorUsedError;
   @override
@@ -398,6 +423,9 @@ abstract class _WebNft extends WebNft {
   @override
   @JsonKey(name: "assets_available")
   bool get assetsAvailable => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: "data")
+  String? get data => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_WebNftCopyWith<_$_WebNft> get copyWith =>

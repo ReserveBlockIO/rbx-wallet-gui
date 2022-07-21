@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 
@@ -65,7 +66,7 @@ class CodeModal extends StatelessWidget {
               child: Text(
                 code,
                 style: const TextStyle(
-                  fontFamily: "RobotoMono",
+                  fontFamily: kIsWeb ? null : "RobotoMono",
                   fontSize: 16,
                 ),
                 softWrap: false,

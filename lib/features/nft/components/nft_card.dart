@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,6 +6,7 @@ import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/providers/burned_provider.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
@@ -45,13 +47,7 @@ class NftCard extends BaseComponent {
         },
       );
     } else {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) {
-            return NftDetailScreen(nft.id);
-          },
-        ),
-      );
+      AutoRouter.of(context).push(NftDetailScreenRoute(id: nft.id));
     }
   }
 
