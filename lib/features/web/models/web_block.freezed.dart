@@ -21,8 +21,10 @@ WebBlock _$WebBlockFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$WebBlock {
   int get height => throw _privateConstructorUsedError;
-  int get timestamp => throw _privateConstructorUsedError;
+  @JsonKey(name: "date_crafted")
+  DateTime get dateCrafted => throw _privateConstructorUsedError;
   String get hash => throw _privateConstructorUsedError;
+  @JsonKey(name: "validator_address")
   String get validator => throw _privateConstructorUsedError;
   @JsonKey(name: "total_amount")
   double get totalAmount => throw _privateConstructorUsedError;
@@ -33,7 +35,7 @@ mixin _$WebBlock {
   int get size => throw _privateConstructorUsedError;
   @JsonKey(name: "craft_time")
   int get craftTime => throw _privateConstructorUsedError;
-  @JsonKey(name: "prev_hash")
+  @JsonKey(name: "previous_hash")
   String get prevHash => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -48,15 +50,15 @@ abstract class $WebBlockCopyWith<$Res> {
       _$WebBlockCopyWithImpl<$Res>;
   $Res call(
       {int height,
-      int timestamp,
+      @JsonKey(name: "date_crafted") DateTime dateCrafted,
       String hash,
-      String validator,
+      @JsonKey(name: "validator_address") String validator,
       @JsonKey(name: "total_amount") double totalAmount,
       @JsonKey(name: "total_reward") double totalReward,
       @JsonKey(name: "number_of_transactions") int numberOfTransactions,
       int size,
       @JsonKey(name: "craft_time") int craftTime,
-      @JsonKey(name: "prev_hash") String prevHash});
+      @JsonKey(name: "previous_hash") String prevHash});
 }
 
 /// @nodoc
@@ -70,7 +72,7 @@ class _$WebBlockCopyWithImpl<$Res> implements $WebBlockCopyWith<$Res> {
   @override
   $Res call({
     Object? height = freezed,
-    Object? timestamp = freezed,
+    Object? dateCrafted = freezed,
     Object? hash = freezed,
     Object? validator = freezed,
     Object? totalAmount = freezed,
@@ -85,10 +87,10 @@ class _$WebBlockCopyWithImpl<$Res> implements $WebBlockCopyWith<$Res> {
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
               as int,
-      timestamp: timestamp == freezed
-          ? _value.timestamp
-          : timestamp // ignore: cast_nullable_to_non_nullable
-              as int,
+      dateCrafted: dateCrafted == freezed
+          ? _value.dateCrafted
+          : dateCrafted // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       hash: hash == freezed
           ? _value.hash
           : hash // ignore: cast_nullable_to_non_nullable
@@ -133,15 +135,15 @@ abstract class _$$_WebBlockCopyWith<$Res> implements $WebBlockCopyWith<$Res> {
   @override
   $Res call(
       {int height,
-      int timestamp,
+      @JsonKey(name: "date_crafted") DateTime dateCrafted,
       String hash,
-      String validator,
+      @JsonKey(name: "validator_address") String validator,
       @JsonKey(name: "total_amount") double totalAmount,
       @JsonKey(name: "total_reward") double totalReward,
       @JsonKey(name: "number_of_transactions") int numberOfTransactions,
       int size,
       @JsonKey(name: "craft_time") int craftTime,
-      @JsonKey(name: "prev_hash") String prevHash});
+      @JsonKey(name: "previous_hash") String prevHash});
 }
 
 /// @nodoc
@@ -157,7 +159,7 @@ class __$$_WebBlockCopyWithImpl<$Res> extends _$WebBlockCopyWithImpl<$Res>
   @override
   $Res call({
     Object? height = freezed,
-    Object? timestamp = freezed,
+    Object? dateCrafted = freezed,
     Object? hash = freezed,
     Object? validator = freezed,
     Object? totalAmount = freezed,
@@ -172,10 +174,10 @@ class __$$_WebBlockCopyWithImpl<$Res> extends _$WebBlockCopyWithImpl<$Res>
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
               as int,
-      timestamp: timestamp == freezed
-          ? _value.timestamp
-          : timestamp // ignore: cast_nullable_to_non_nullable
-              as int,
+      dateCrafted: dateCrafted == freezed
+          ? _value.dateCrafted
+          : dateCrafted // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       hash: hash == freezed
           ? _value.hash
           : hash // ignore: cast_nullable_to_non_nullable
@@ -217,9 +219,11 @@ class __$$_WebBlockCopyWithImpl<$Res> extends _$WebBlockCopyWithImpl<$Res>
 class _$_WebBlock extends _WebBlock {
   _$_WebBlock(
       {required this.height,
-      required this.timestamp,
+      @JsonKey(name: "date_crafted")
+          required this.dateCrafted,
       required this.hash,
-      required this.validator,
+      @JsonKey(name: "validator_address")
+          required this.validator,
       @JsonKey(name: "total_amount")
           required this.totalAmount,
       @JsonKey(name: "total_reward")
@@ -229,7 +233,7 @@ class _$_WebBlock extends _WebBlock {
       required this.size,
       @JsonKey(name: "craft_time")
           required this.craftTime,
-      @JsonKey(name: "prev_hash")
+      @JsonKey(name: "previous_hash")
           required this.prevHash})
       : super._();
 
@@ -239,10 +243,12 @@ class _$_WebBlock extends _WebBlock {
   @override
   final int height;
   @override
-  final int timestamp;
+  @JsonKey(name: "date_crafted")
+  final DateTime dateCrafted;
   @override
   final String hash;
   @override
+  @JsonKey(name: "validator_address")
   final String validator;
   @override
   @JsonKey(name: "total_amount")
@@ -259,12 +265,12 @@ class _$_WebBlock extends _WebBlock {
   @JsonKey(name: "craft_time")
   final int craftTime;
   @override
-  @JsonKey(name: "prev_hash")
+  @JsonKey(name: "previous_hash")
   final String prevHash;
 
   @override
   String toString() {
-    return 'WebBlock(height: $height, timestamp: $timestamp, hash: $hash, validator: $validator, totalAmount: $totalAmount, totalReward: $totalReward, numberOfTransactions: $numberOfTransactions, size: $size, craftTime: $craftTime, prevHash: $prevHash)';
+    return 'WebBlock(height: $height, dateCrafted: $dateCrafted, hash: $hash, validator: $validator, totalAmount: $totalAmount, totalReward: $totalReward, numberOfTransactions: $numberOfTransactions, size: $size, craftTime: $craftTime, prevHash: $prevHash)';
   }
 
   @override
@@ -273,7 +279,8 @@ class _$_WebBlock extends _WebBlock {
         (other.runtimeType == runtimeType &&
             other is _$_WebBlock &&
             const DeepCollectionEquality().equals(other.height, height) &&
-            const DeepCollectionEquality().equals(other.timestamp, timestamp) &&
+            const DeepCollectionEquality()
+                .equals(other.dateCrafted, dateCrafted) &&
             const DeepCollectionEquality().equals(other.hash, hash) &&
             const DeepCollectionEquality().equals(other.validator, validator) &&
             const DeepCollectionEquality()
@@ -292,7 +299,7 @@ class _$_WebBlock extends _WebBlock {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(height),
-      const DeepCollectionEquality().hash(timestamp),
+      const DeepCollectionEquality().hash(dateCrafted),
       const DeepCollectionEquality().hash(hash),
       const DeepCollectionEquality().hash(validator),
       const DeepCollectionEquality().hash(totalAmount),
@@ -316,9 +323,11 @@ class _$_WebBlock extends _WebBlock {
 abstract class _WebBlock extends WebBlock {
   factory _WebBlock(
       {required final int height,
-      required final int timestamp,
+      @JsonKey(name: "date_crafted")
+          required final DateTime dateCrafted,
       required final String hash,
-      required final String validator,
+      @JsonKey(name: "validator_address")
+          required final String validator,
       @JsonKey(name: "total_amount")
           required final double totalAmount,
       @JsonKey(name: "total_reward")
@@ -328,7 +337,7 @@ abstract class _WebBlock extends WebBlock {
       required final int size,
       @JsonKey(name: "craft_time")
           required final int craftTime,
-      @JsonKey(name: "prev_hash")
+      @JsonKey(name: "previous_hash")
           required final String prevHash}) = _$_WebBlock;
   _WebBlock._() : super._();
 
@@ -337,10 +346,12 @@ abstract class _WebBlock extends WebBlock {
   @override
   int get height => throw _privateConstructorUsedError;
   @override
-  int get timestamp => throw _privateConstructorUsedError;
+  @JsonKey(name: "date_crafted")
+  DateTime get dateCrafted => throw _privateConstructorUsedError;
   @override
   String get hash => throw _privateConstructorUsedError;
   @override
+  @JsonKey(name: "validator_address")
   String get validator => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "total_amount")
@@ -357,7 +368,7 @@ abstract class _WebBlock extends WebBlock {
   @JsonKey(name: "craft_time")
   int get craftTime => throw _privateConstructorUsedError;
   @override
-  @JsonKey(name: "prev_hash")
+  @JsonKey(name: "previous_hash")
   String get prevHash => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)

@@ -10,25 +10,24 @@ abstract class WebBlock with _$WebBlock {
 
   factory WebBlock({
     required int height,
-    required int timestamp,
+    @JsonKey(name: "date_crafted") required DateTime dateCrafted,
     required String hash,
-    required String validator,
+    @JsonKey(name: "validator_address") required String validator,
     @JsonKey(name: "total_amount") required double totalAmount,
     @JsonKey(name: "total_reward") required double totalReward,
     @JsonKey(name: "number_of_transactions") required int numberOfTransactions,
     required int size,
     @JsonKey(name: "craft_time") required int craftTime,
-    @JsonKey(name: "prev_hash") required String prevHash,
+    @JsonKey(name: "previous_hash") required String prevHash,
   }) = _WebBlock;
 
-  factory WebBlock.fromJson(Map<String, dynamic> json) =>
-      _$WebBlockFromJson(json);
+  factory WebBlock.fromJson(Map<String, dynamic> json) => _$WebBlockFromJson(json);
 
   Block toNativeBlock() {
     return Block(
       height: height,
       chainRefId: '',
-      timestamp: timestamp,
+      timestamp: dateCrafted.millisecondsSinceEpoch,
       hash: hash,
       prevHash: prevHash,
       merkleRoot: "",

@@ -1,4 +1,3 @@
-
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/services/base_service.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
@@ -30,7 +29,7 @@ class ExplorerService extends BaseService {
     try {
       final response = await getJson('/addresses/$publicKey');
 
-      return double.parse(response['balance']);
+      return response['balance'];
     } catch (e) {
       print(e);
       return 0.0;
