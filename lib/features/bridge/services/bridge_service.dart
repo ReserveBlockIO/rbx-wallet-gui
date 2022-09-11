@@ -98,8 +98,7 @@ class BridgeService extends BaseService {
       return null;
     }
 
-    if (response ==
-        "This is not a valid RBX address to send to. Please verify again.") {
+    if (response == "This is not a valid RBX address to send to. Please verify again.") {
       Toast.error(response);
       return null;
     }

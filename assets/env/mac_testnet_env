@@ -1,8 +1,9 @@
 ENVIRONMENT_NAME=mac_testnet
 STORAGE_PREFIX=mac_testnet2
 API_BASE_URL=http://localhost:17292/api/V1
+TRANSACTION_API_BASE_URL=http://localhost:17292/txapi/txV1
 VALIDATOR_PORT=13338
 IS_TEST_NET=true
-LAUNCH_CLI=true
+LAUNCH_CLI=false
 ALLOW_VALIDATING=true
 CLI_PATH_OVERRIDE=/Users/tylersavery/Projects/rbx/env/pre8-macos-intel/ReserveBlockCore

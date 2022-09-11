@@ -153,3 +153,25 @@ String? formValidatorNumber(String? value, String label) {
 
   return null;
 }
+
+String? formValidatorInteger(String? value, String label) {
+  if (value == null || value.isEmpty) {
+    return "$label is required.";
+  }
+
+  if (!isInt(value)) {
+    return "Invalid $label.";
+  }
+
+  return null;
+}
+
+String? formValidatorAlphaNumeric(String? value, String label) {
+  if (value == null || value.isEmpty) {
+    return "$label is required.";
+  }
+
+  return RegExp(r"^[a-zA-Z0-9]+$").hasMatch(value) ? null : "A DNR may only contain letters and numbers.";
+
+  return null;
+}

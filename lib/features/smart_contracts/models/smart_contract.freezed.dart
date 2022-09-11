@@ -35,6 +35,9 @@ mixin _$SmartContract {
   List<Evolve> get evolves => throw _privateConstructorUsedError;
   List<Ticket> get tickets => throw _privateConstructorUsedError;
   List<MultiAsset> get multiAssets => throw _privateConstructorUsedError;
+  List<Tokenization> get tokenizations => throw _privateConstructorUsedError;
+  List<Fractional> get fractionals => throw _privateConstructorUsedError;
+  List<Pair> get pairs => throw _privateConstructorUsedError;
   String get code => throw _privateConstructorUsedError;
   bool get isCompiled => throw _privateConstructorUsedError;
   bool get isPublished => throw _privateConstructorUsedError;
@@ -65,6 +68,9 @@ abstract class $SmartContractCopyWith<$Res> {
       List<Evolve> evolves,
       List<Ticket> tickets,
       List<MultiAsset> multiAssets,
+      List<Tokenization> tokenizations,
+      List<Fractional> fractionals,
+      List<Pair> pairs,
       String code,
       bool isCompiled,
       bool isPublished});
@@ -98,6 +104,9 @@ class _$SmartContractCopyWithImpl<$Res>
     Object? evolves = freezed,
     Object? tickets = freezed,
     Object? multiAssets = freezed,
+    Object? tokenizations = freezed,
+    Object? fractionals = freezed,
+    Object? pairs = freezed,
     Object? code = freezed,
     Object? isCompiled = freezed,
     Object? isPublished = freezed,
@@ -159,6 +168,18 @@ class _$SmartContractCopyWithImpl<$Res>
           ? _value.multiAssets
           : multiAssets // ignore: cast_nullable_to_non_nullable
               as List<MultiAsset>,
+      tokenizations: tokenizations == freezed
+          ? _value.tokenizations
+          : tokenizations // ignore: cast_nullable_to_non_nullable
+              as List<Tokenization>,
+      fractionals: fractionals == freezed
+          ? _value.fractionals
+          : fractionals // ignore: cast_nullable_to_non_nullable
+              as List<Fractional>,
+      pairs: pairs == freezed
+          ? _value.pairs
+          : pairs // ignore: cast_nullable_to_non_nullable
+              as List<Pair>,
       code: code == freezed
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
@@ -215,6 +236,9 @@ abstract class _$$_SmartContractCopyWith<$Res>
       List<Evolve> evolves,
       List<Ticket> tickets,
       List<MultiAsset> multiAssets,
+      List<Tokenization> tokenizations,
+      List<Fractional> fractionals,
+      List<Pair> pairs,
       String code,
       bool isCompiled,
       bool isPublished});
@@ -252,6 +276,9 @@ class __$$_SmartContractCopyWithImpl<$Res>
     Object? evolves = freezed,
     Object? tickets = freezed,
     Object? multiAssets = freezed,
+    Object? tokenizations = freezed,
+    Object? fractionals = freezed,
+    Object? pairs = freezed,
     Object? code = freezed,
     Object? isCompiled = freezed,
     Object? isPublished = freezed,
@@ -313,6 +340,18 @@ class __$$_SmartContractCopyWithImpl<$Res>
           ? _value._multiAssets
           : multiAssets // ignore: cast_nullable_to_non_nullable
               as List<MultiAsset>,
+      tokenizations: tokenizations == freezed
+          ? _value._tokenizations
+          : tokenizations // ignore: cast_nullable_to_non_nullable
+              as List<Tokenization>,
+      fractionals: fractionals == freezed
+          ? _value._fractionals
+          : fractionals // ignore: cast_nullable_to_non_nullable
+              as List<Fractional>,
+      pairs: pairs == freezed
+          ? _value._pairs
+          : pairs // ignore: cast_nullable_to_non_nullable
+              as List<Pair>,
       code: code == freezed
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
@@ -347,6 +386,9 @@ class _$_SmartContract extends _SmartContract {
       final List<Evolve> evolves = const [],
       final List<Ticket> tickets = const [],
       final List<MultiAsset> multiAssets = const [],
+      final List<Tokenization> tokenizations = const [],
+      final List<Fractional> fractionals = const [],
+      final List<Pair> pairs = const [],
       this.code = "",
       this.isCompiled = false,
       this.isPublished = false})
@@ -356,6 +398,9 @@ class _$_SmartContract extends _SmartContract {
         _evolves = evolves,
         _tickets = tickets,
         _multiAssets = multiAssets,
+        _tokenizations = tokenizations,
+        _fractionals = fractionals,
+        _pairs = pairs,
         super._();
 
   factory _$_SmartContract.fromJson(Map<String, dynamic> json) =>
@@ -433,6 +478,30 @@ class _$_SmartContract extends _SmartContract {
     return EqualUnmodifiableListView(_multiAssets);
   }
 
+  final List<Tokenization> _tokenizations;
+  @override
+  @JsonKey()
+  List<Tokenization> get tokenizations {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_tokenizations);
+  }
+
+  final List<Fractional> _fractionals;
+  @override
+  @JsonKey()
+  List<Fractional> get fractionals {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_fractionals);
+  }
+
+  final List<Pair> _pairs;
+  @override
+  @JsonKey()
+  List<Pair> get pairs {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_pairs);
+  }
+
   @override
   @JsonKey()
   final String code;
@@ -445,7 +514,7 @@ class _$_SmartContract extends _SmartContract {
 
   @override
   String toString() {
-    return 'SmartContract(owner: $owner, draftId: $draftId, id: $id, name: $name, minterName: $minterName, description: $description, thumbnail: $thumbnail, primaryAsset: $primaryAsset, rarities: $rarities, stats: $stats, royalties: $royalties, evolves: $evolves, tickets: $tickets, multiAssets: $multiAssets, code: $code, isCompiled: $isCompiled, isPublished: $isPublished)';
+    return 'SmartContract(owner: $owner, draftId: $draftId, id: $id, name: $name, minterName: $minterName, description: $description, thumbnail: $thumbnail, primaryAsset: $primaryAsset, rarities: $rarities, stats: $stats, royalties: $royalties, evolves: $evolves, tickets: $tickets, multiAssets: $multiAssets, tokenizations: $tokenizations, fractionals: $fractionals, pairs: $pairs, code: $code, isCompiled: $isCompiled, isPublished: $isPublished)';
   }
 
   @override
@@ -472,6 +541,11 @@ class _$_SmartContract extends _SmartContract {
             const DeepCollectionEquality().equals(other._tickets, _tickets) &&
             const DeepCollectionEquality()
                 .equals(other._multiAssets, _multiAssets) &&
+            const DeepCollectionEquality()
+                .equals(other._tokenizations, _tokenizations) &&
+            const DeepCollectionEquality()
+                .equals(other._fractionals, _fractionals) &&
+            const DeepCollectionEquality().equals(other._pairs, _pairs) &&
             const DeepCollectionEquality().equals(other.code, code) &&
             const DeepCollectionEquality()
                 .equals(other.isCompiled, isCompiled) &&
@@ -481,25 +555,29 @@ class _$_SmartContract extends _SmartContract {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(owner),
-      const DeepCollectionEquality().hash(draftId),
-      const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(minterName),
-      const DeepCollectionEquality().hash(description),
-      const DeepCollectionEquality().hash(thumbnail),
-      const DeepCollectionEquality().hash(primaryAsset),
-      const DeepCollectionEquality().hash(_rarities),
-      const DeepCollectionEquality().hash(_stats),
-      const DeepCollectionEquality().hash(_royalties),
-      const DeepCollectionEquality().hash(_evolves),
-      const DeepCollectionEquality().hash(_tickets),
-      const DeepCollectionEquality().hash(_multiAssets),
-      const DeepCollectionEquality().hash(code),
-      const DeepCollectionEquality().hash(isCompiled),
-      const DeepCollectionEquality().hash(isPublished));
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        const DeepCollectionEquality().hash(owner),
+        const DeepCollectionEquality().hash(draftId),
+        const DeepCollectionEquality().hash(id),
+        const DeepCollectionEquality().hash(name),
+        const DeepCollectionEquality().hash(minterName),
+        const DeepCollectionEquality().hash(description),
+        const DeepCollectionEquality().hash(thumbnail),
+        const DeepCollectionEquality().hash(primaryAsset),
+        const DeepCollectionEquality().hash(_rarities),
+        const DeepCollectionEquality().hash(_stats),
+        const DeepCollectionEquality().hash(_royalties),
+        const DeepCollectionEquality().hash(_evolves),
+        const DeepCollectionEquality().hash(_tickets),
+        const DeepCollectionEquality().hash(_multiAssets),
+        const DeepCollectionEquality().hash(_tokenizations),
+        const DeepCollectionEquality().hash(_fractionals),
+        const DeepCollectionEquality().hash(_pairs),
+        const DeepCollectionEquality().hash(code),
+        const DeepCollectionEquality().hash(isCompiled),
+        const DeepCollectionEquality().hash(isPublished)
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -528,6 +606,9 @@ abstract class _SmartContract extends SmartContract {
       final List<Evolve> evolves,
       final List<Ticket> tickets,
       final List<MultiAsset> multiAssets,
+      final List<Tokenization> tokenizations,
+      final List<Fractional> fractionals,
+      final List<Pair> pairs,
       final String code,
       final bool isCompiled,
       final bool isPublished}) = _$_SmartContract;
@@ -564,6 +645,12 @@ abstract class _SmartContract extends SmartContract {
   List<Ticket> get tickets => throw _privateConstructorUsedError;
   @override
   List<MultiAsset> get multiAssets => throw _privateConstructorUsedError;
+  @override
+  List<Tokenization> get tokenizations => throw _privateConstructorUsedError;
+  @override
+  List<Fractional> get fractionals => throw _privateConstructorUsedError;
+  @override
+  List<Pair> get pairs => throw _privateConstructorUsedError;
   @override
   String get code => throw _privateConstructorUsedError;
   @override

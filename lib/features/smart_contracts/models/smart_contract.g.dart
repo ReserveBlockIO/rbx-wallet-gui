@@ -42,6 +42,18 @@ _$_SmartContract _$$_SmartContractFromJson(Map<String, dynamic> json) =>
               ?.map((e) => MultiAsset.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      tokenizations: (json['tokenizations'] as List<dynamic>?)
+              ?.map((e) => Tokenization.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      fractionals: (json['fractionals'] as List<dynamic>?)
+              ?.map((e) => Fractional.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      pairs: (json['pairs'] as List<dynamic>?)
+              ?.map((e) => Pair.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       code: json['code'] as String? ?? "",
       isCompiled: json['isCompiled'] as bool? ?? false,
       isPublished: json['isPublished'] as bool? ?? false,
@@ -63,6 +75,9 @@ Map<String, dynamic> _$$_SmartContractToJson(_$_SmartContract instance) =>
       'evolves': instance.evolves,
       'tickets': instance.tickets,
       'multiAssets': instance.multiAssets,
+      'tokenizations': instance.tokenizations,
+      'fractionals': instance.fractionals,
+      'pairs': instance.pairs,
       'code': instance.code,
       'isCompiled': instance.isCompiled,
       'isPublished': instance.isPublished,

@@ -4,7 +4,10 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/fractional.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/multi_asset.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/pair.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/tokenization.dart';
 
 part 'feature.freezed.dart';
 part 'feature.g.dart';
@@ -21,7 +24,7 @@ enum FeatureType {
   consumable,
   fractionalization,
   pair,
-  wrap,
+  // wrap,
   notImplemented,
 }
 
@@ -34,8 +37,7 @@ abstract class Feature with _$Feature {
     @Default({}) Map<String, dynamic> data,
   }) = _Feature;
 
-  factory Feature.fromJson(Map<String, dynamic> json) =>
-      _$FeatureFromJson(json);
+  factory Feature.fromJson(Map<String, dynamic> json) => _$FeatureFromJson(json);
 
   factory Feature.fromCompiler(Map<String, dynamic> f) {
     switch (f['FeatureName']) {
@@ -73,6 +75,12 @@ abstract class Feature with _$Feature {
           return "Allow the smart contract to evolve based on time or network variables";
         case FeatureType.multiAsset:
           return "Allow multiple assets to be compiled into the smart contract";
+        case FeatureType.tokenization:
+          return "Pair this smart contract with a physical/digital good";
+        case FeatureType.fractionalization:
+          return "Share ownership between multiple wallets and support voting";
+        case FeatureType.pair:
+          return "Pair/Wrap this smart contract with an existing NFT on or off this network";
         default:
           break;
       }
@@ -89,6 +97,9 @@ abstract class Feature with _$Feature {
       case FeatureType.royalty:
       case FeatureType.evolution:
       case FeatureType.multiAsset:
+      case FeatureType.tokenization:
+      case FeatureType.pair:
+      case FeatureType.fractionalization:
         // case FeatureType.ticket:
         return true;
       default:
@@ -101,15 +112,15 @@ abstract class Feature with _$Feature {
       FeatureType.royalty,
       FeatureType.evolution,
       FeatureType.multiAsset,
-      FeatureType.ticket,
       FeatureType.tokenization,
+      FeatureType.fractionalization,
+      FeatureType.pair,
+      FeatureType.ticket,
       FeatureType.music,
       FeatureType.additionalOwners,
       FeatureType.selfDestructive,
       FeatureType.consumable,
-      FeatureType.fractionalization,
-      FeatureType.pair,
-      FeatureType.wrap,
+      // FeatureType.wrap,
     ];
   }
 
@@ -127,7 +138,23 @@ abstract class Feature with _$Feature {
       case FeatureType.multiAsset:
         final multiAsset = MultiAsset.fromJson(data);
         return "${multiAsset.assets.length} asset${multiAsset.assets.length == 1 ? '' : 's'}";
-
+      case FeatureType.tokenization:
+        final tokenization = Tokenization.fromJson(data);
+        String label = tokenization.name;
+        if (tokenization.properties.isNotEmpty) {
+          if (tokenization.properties.length == 1) {
+            label = "$label (1 property)";
+          } else {
+            label = "$label (${tokenization.properties.length} properties)";
+          }
+        }
+        return label;
+      case FeatureType.fractionalization:
+        final fractional = Fractional.fromJson(data);
+        return "${fractional.fractionalInterest}% | Creator Retains: ${fractional.creatorRetains}%";
+      case FeatureType.pair:
+        final pair = Pair.fromJson(data);
+        return "${pair.network} [${pair.nftAddress}]";
       default:
         return "Not implemented";
     }
@@ -156,9 +183,9 @@ abstract class Feature with _$Feature {
       case FeatureType.fractionalization:
         return "Fractionalization";
       case FeatureType.pair:
-        return "Pair with Existing NFT";
-      case FeatureType.wrap:
-        return "Wrap with Off-Platform NFT";
+        return "Pair or Wrap with Existing NFT";
+      // case FeatureType.wrap:
+      //   return "Wrap with Off-Platform NFT";
       case FeatureType.notImplemented:
         return "Not implemented";
     }
@@ -188,8 +215,8 @@ abstract class Feature with _$Feature {
         return FontAwesomeIcons.divide;
       case FeatureType.pair:
         return FontAwesomeIcons.leftRight;
-      case FeatureType.wrap:
-        return FontAwesomeIcons.gift;
+      // case FeatureType.wrap:
+      //   return FontAwesomeIcons.gift;
 
       default:
         return Icons.star;

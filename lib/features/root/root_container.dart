@@ -18,12 +18,13 @@ class RootContainer extends StatelessWidget {
       const ReceiveTabRouter(),
       const TransactionsTabRouter(),
       const ValidatorTabRouter(),
+      const AdjudicatorTabRouter(),
       const NodesTabsRouter(),
-      const DatanodeTabRouter(),
+      // const DatanodeTabRouter(),
       const NftTabRouter(),
       const SmartContractsTabRouter(),
       const DstsTabRouter(),
-      const ExplorerTabRouter(),
+      const AdnrTabRouter(),
     ];
 
     return AutoTabsScaffold(

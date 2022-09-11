@@ -67,8 +67,10 @@ class SmartContractsScreen extends BaseScreen {
                 BigButton(
                   title: "Create a Smart Contract & Mint",
                   iconData: Icons.create,
-                  body: "Start with a basline smart contract and add customized features",
+                  body: "Start with a baseline smart contract and add customized features",
                   onPressed: () async {
+                    // AutoRouter.of(context).push(TemplateChooserScreenRoute());
+                    // return;
                     final id = await AutoRouter.of(context).push(const SmartContractCreatorContainerScreenRoute());
 
                     if (id != null) {

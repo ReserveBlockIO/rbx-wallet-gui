@@ -11,20 +11,21 @@
 // ignore_for_file: type=lint
 
 import 'package:auto_route/auto_route.dart' as _i6;
-import 'package:flutter/material.dart' as _i19;
+import 'package:flutter/material.dart' as _i20;
+import 'package:rbx_wallet/features/adjudicator/adjudicator_screen.dart'
+    as _i12;
+import 'package:rbx_wallet/features/adnr/screens/adnr_screen.dart' as _i18;
 import 'package:rbx_wallet/features/datanode/screens/datanode_screen.dart'
-    as _i13;
-import 'package:rbx_wallet/features/dsts/screens/dst_screen.dart' as _i16;
-import 'package:rbx_wallet/features/explorer/screens/explorer_screen.dart'
-    as _i17;
+    as _i14;
+import 'package:rbx_wallet/features/dsts/screens/dst_screen.dart' as _i17;
 import 'package:rbx_wallet/features/home/screens/home_screen.dart' as _i7;
-import 'package:rbx_wallet/features/nft/screens/nft_list_screen.dart' as _i14;
-import 'package:rbx_wallet/features/node/screens/node_list_screen.dart' as _i12;
+import 'package:rbx_wallet/features/nft/screens/nft_list_screen.dart' as _i15;
+import 'package:rbx_wallet/features/node/screens/node_list_screen.dart' as _i13;
 import 'package:rbx_wallet/features/receive/screens/receive_screen.dart' as _i9;
 import 'package:rbx_wallet/features/root/root_container.dart' as _i1;
 import 'package:rbx_wallet/features/send/screens/send_screen.dart' as _i8;
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/smart_contract_creator_main.dart'
-    as _i18;
+    as _i19;
 import 'package:rbx_wallet/features/smart_contracts/screens/my_smart_contracts_screen.dart'
     as _i2;
 import 'package:rbx_wallet/features/smart_contracts/screens/smart_contract_creator_container_screen.dart'
@@ -32,7 +33,7 @@ import 'package:rbx_wallet/features/smart_contracts/screens/smart_contract_creat
 import 'package:rbx_wallet/features/smart_contracts/screens/smart_contract_drafts_screen.dart'
     as _i3;
 import 'package:rbx_wallet/features/smart_contracts/screens/smart_contracts_screen.dart'
-    as _i15;
+    as _i16;
 import 'package:rbx_wallet/features/smart_contracts/screens/template_chooser_screen.dart'
     as _i4;
 import 'package:rbx_wallet/features/transactions/screens/transactions_screen.dart'
@@ -41,7 +42,7 @@ import 'package:rbx_wallet/features/validator/screens/validator_screen.dart'
     as _i11;
 
 class AppRouter extends _i6.RootStackRouter {
-  AppRouter([_i19.GlobalKey<_i19.NavigatorState>? navigatorKey])
+  AppRouter([_i20.GlobalKey<_i20.NavigatorState>? navigatorKey])
       : super(navigatorKey);
 
   @override
@@ -87,6 +88,10 @@ class AppRouter extends _i6.RootStackRouter {
       return _i6.AdaptivePage<dynamic>(
           routeData: routeData, child: const _i6.EmptyRouterPage());
     },
+    AdjudicatorTabRouter.name: (routeData) {
+      return _i6.AdaptivePage<dynamic>(
+          routeData: routeData, child: const _i6.EmptyRouterPage());
+    },
     NodesTabsRouter.name: (routeData) {
       return _i6.AdaptivePage<dynamic>(
           routeData: routeData, child: const _i6.EmptyRouterPage());
@@ -107,7 +112,7 @@ class AppRouter extends _i6.RootStackRouter {
       return _i6.AdaptivePage<dynamic>(
           routeData: routeData, child: const _i6.EmptyRouterPage());
     },
-    ExplorerTabRouter.name: (routeData) {
+    AdnrTabRouter.name: (routeData) {
       return _i6.AdaptivePage<dynamic>(
           routeData: routeData, child: const _i6.EmptyRouterPage());
     },
@@ -131,33 +136,37 @@ class AppRouter extends _i6.RootStackRouter {
       return _i6.AdaptivePage<dynamic>(
           routeData: routeData, child: const _i11.ValidatorScreen());
     },
+    AdjudicatorScreenRoute.name: (routeData) {
+      return _i6.AdaptivePage<dynamic>(
+          routeData: routeData, child: const _i12.AdjudicatorScreen());
+    },
     NodeListScreenRoute.name: (routeData) {
       return _i6.AdaptivePage<dynamic>(
-          routeData: routeData, child: const _i12.NodeListScreen());
+          routeData: routeData, child: const _i13.NodeListScreen());
     },
     DataNodeScreenRoute.name: (routeData) {
       return _i6.AdaptivePage<dynamic>(
-          routeData: routeData, child: const _i13.DataNodeScreen());
+          routeData: routeData, child: const _i14.DataNodeScreen());
     },
     NftListScreenRoute.name: (routeData) {
       return _i6.AdaptivePage<dynamic>(
-          routeData: routeData, child: const _i14.NftListScreen());
+          routeData: routeData, child: const _i15.NftListScreen());
     },
     SmartContractsScreenRoute.name: (routeData) {
       return _i6.AdaptivePage<dynamic>(
-          routeData: routeData, child: const _i15.SmartContractsScreen());
+          routeData: routeData, child: const _i16.SmartContractsScreen());
     },
     DstsScreenRoute.name: (routeData) {
       return _i6.AdaptivePage<dynamic>(
-          routeData: routeData, child: const _i16.DstsScreen());
+          routeData: routeData, child: const _i17.DstsScreen());
     },
-    ExplorerScreenRoute.name: (routeData) {
+    AdnrScreenRoute.name: (routeData) {
       return _i6.AdaptivePage<dynamic>(
-          routeData: routeData, child: const _i17.ExplorerScreen());
+          routeData: routeData, child: const _i18.AdnrScreen());
     },
     SmartContractCreatorMainRoute.name: (routeData) {
       return _i6.AdaptivePage<dynamic>(
-          routeData: routeData, child: const _i18.SmartContractCreatorMain());
+          routeData: routeData, child: const _i19.SmartContractCreatorMain());
     }
   };
 
@@ -199,6 +208,13 @@ class AppRouter extends _i6.RootStackRouter {
                 _i6.RouteConfig(ValidatorScreenRoute.name,
                     path: '', parent: ValidatorTabRouter.name)
               ]),
+          _i6.RouteConfig(AdjudicatorTabRouter.name,
+              path: 'adjudicator',
+              parent: RootContainerRoute.name,
+              children: [
+                _i6.RouteConfig(AdjudicatorScreenRoute.name,
+                    path: '', parent: AdjudicatorTabRouter.name)
+              ]),
           _i6.RouteConfig(NodesTabsRouter.name,
               path: 'nodes',
               parent: RootContainerRoute.name,
@@ -234,12 +250,12 @@ class AppRouter extends _i6.RootStackRouter {
                 _i6.RouteConfig(DstsScreenRoute.name,
                     path: '', parent: DstsTabRouter.name)
               ]),
-          _i6.RouteConfig(ExplorerTabRouter.name,
-              path: 'explorer',
+          _i6.RouteConfig(AdnrTabRouter.name,
+              path: 'adnr',
               parent: RootContainerRoute.name,
               children: [
-                _i6.RouteConfig(ExplorerScreenRoute.name,
-                    path: '', parent: ExplorerTabRouter.name)
+                _i6.RouteConfig(AdnrScreenRoute.name,
+                    path: '', parent: AdnrTabRouter.name)
               ])
         ]),
         _i6.RouteConfig(MySmartContractsScreenRoute.name,
@@ -362,6 +378,16 @@ class ValidatorTabRouter extends _i6.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i6.EmptyRouterPage]
+class AdjudicatorTabRouter extends _i6.PageRouteInfo<void> {
+  const AdjudicatorTabRouter({List<_i6.PageRouteInfo>? children})
+      : super(AdjudicatorTabRouter.name,
+            path: 'adjudicator', initialChildren: children);
+
+  static const String name = 'AdjudicatorTabRouter';
+}
+
+/// generated route for
+/// [_i6.EmptyRouterPage]
 class NodesTabsRouter extends _i6.PageRouteInfo<void> {
   const NodesTabsRouter({List<_i6.PageRouteInfo>? children})
       : super(NodesTabsRouter.name, path: 'nodes', initialChildren: children);
@@ -409,12 +435,11 @@ class DstsTabRouter extends _i6.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i6.EmptyRouterPage]
-class ExplorerTabRouter extends _i6.PageRouteInfo<void> {
-  const ExplorerTabRouter({List<_i6.PageRouteInfo>? children})
-      : super(ExplorerTabRouter.name,
-            path: 'explorer', initialChildren: children);
+class AdnrTabRouter extends _i6.PageRouteInfo<void> {
+  const AdnrTabRouter({List<_i6.PageRouteInfo>? children})
+      : super(AdnrTabRouter.name, path: 'adnr', initialChildren: children);
 
-  static const String name = 'ExplorerTabRouter';
+  static const String name = 'AdnrTabRouter';
 }
 
 /// generated route for
@@ -459,7 +484,15 @@ class ValidatorScreenRoute extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i12.NodeListScreen]
+/// [_i12.AdjudicatorScreen]
+class AdjudicatorScreenRoute extends _i6.PageRouteInfo<void> {
+  const AdjudicatorScreenRoute() : super(AdjudicatorScreenRoute.name, path: '');
+
+  static const String name = 'AdjudicatorScreenRoute';
+}
+
+/// generated route for
+/// [_i13.NodeListScreen]
 class NodeListScreenRoute extends _i6.PageRouteInfo<void> {
   const NodeListScreenRoute() : super(NodeListScreenRoute.name, path: '');
 
@@ -467,7 +500,7 @@ class NodeListScreenRoute extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i13.DataNodeScreen]
+/// [_i14.DataNodeScreen]
 class DataNodeScreenRoute extends _i6.PageRouteInfo<void> {
   const DataNodeScreenRoute() : super(DataNodeScreenRoute.name, path: '');
 
@@ -475,7 +508,7 @@ class DataNodeScreenRoute extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i14.NftListScreen]
+/// [_i15.NftListScreen]
 class NftListScreenRoute extends _i6.PageRouteInfo<void> {
   const NftListScreenRoute() : super(NftListScreenRoute.name, path: '');
 
@@ -483,7 +516,7 @@ class NftListScreenRoute extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i15.SmartContractsScreen]
+/// [_i16.SmartContractsScreen]
 class SmartContractsScreenRoute extends _i6.PageRouteInfo<void> {
   const SmartContractsScreenRoute()
       : super(SmartContractsScreenRoute.name, path: '');
@@ -492,7 +525,7 @@ class SmartContractsScreenRoute extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i16.DstsScreen]
+/// [_i17.DstsScreen]
 class DstsScreenRoute extends _i6.PageRouteInfo<void> {
   const DstsScreenRoute() : super(DstsScreenRoute.name, path: '');
 
@@ -500,15 +533,15 @@ class DstsScreenRoute extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i17.ExplorerScreen]
-class ExplorerScreenRoute extends _i6.PageRouteInfo<void> {
-  const ExplorerScreenRoute() : super(ExplorerScreenRoute.name, path: '');
+/// [_i18.AdnrScreen]
+class AdnrScreenRoute extends _i6.PageRouteInfo<void> {
+  const AdnrScreenRoute() : super(AdnrScreenRoute.name, path: '');
 
-  static const String name = 'ExplorerScreenRoute';
+  static const String name = 'AdnrScreenRoute';
 }
 
 /// generated route for
-/// [_i18.SmartContractCreatorMain]
+/// [_i19.SmartContractCreatorMain]
 class SmartContractCreatorMainRoute extends _i6.PageRouteInfo<void> {
   const SmartContractCreatorMainRoute()
       : super(SmartContractCreatorMainRoute.name, path: 'main');

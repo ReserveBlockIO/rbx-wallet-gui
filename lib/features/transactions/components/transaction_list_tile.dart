@@ -111,7 +111,7 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                         ],
                       ),
                       const SizedBox(height: 4),
-                      if (widget.transaction.type == TxType.rbxTransfer)
+                      if (widget.transaction.amount != 0)
                         RichText(
                           text: TextSpan(
                             style: Theme.of(context).textTheme.bodyText2,

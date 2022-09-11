@@ -35,6 +35,8 @@ mixin _$Wallet {
   bool get isValidating => throw _privateConstructorUsedError;
   @JsonKey(name: 'IsEncrypted')
   bool get isEncrypted => throw _privateConstructorUsedError;
+  @JsonKey(name: "ADNR")
+  String? get adnr => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -53,7 +55,8 @@ abstract class $WalletCopyWith<$Res> {
       String? friendlyName,
       @JsonKey(name: 'Balance') double balance,
       @JsonKey(name: 'IsValidating') bool isValidating,
-      @JsonKey(name: 'IsEncrypted') bool isEncrypted});
+      @JsonKey(name: 'IsEncrypted') bool isEncrypted,
+      @JsonKey(name: "ADNR") String? adnr});
 }
 
 /// @nodoc
@@ -74,6 +77,7 @@ class _$WalletCopyWithImpl<$Res> implements $WalletCopyWith<$Res> {
     Object? balance = freezed,
     Object? isValidating = freezed,
     Object? isEncrypted = freezed,
+    Object? adnr = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -108,6 +112,10 @@ class _$WalletCopyWithImpl<$Res> implements $WalletCopyWith<$Res> {
           ? _value.isEncrypted
           : isEncrypted // ignore: cast_nullable_to_non_nullable
               as bool,
+      adnr: adnr == freezed
+          ? _value.adnr
+          : adnr // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -125,7 +133,8 @@ abstract class _$$_WalletCopyWith<$Res> implements $WalletCopyWith<$Res> {
       String? friendlyName,
       @JsonKey(name: 'Balance') double balance,
       @JsonKey(name: 'IsValidating') bool isValidating,
-      @JsonKey(name: 'IsEncrypted') bool isEncrypted});
+      @JsonKey(name: 'IsEncrypted') bool isEncrypted,
+      @JsonKey(name: "ADNR") String? adnr});
 }
 
 /// @nodoc
@@ -147,6 +156,7 @@ class __$$_WalletCopyWithImpl<$Res> extends _$WalletCopyWithImpl<$Res>
     Object? balance = freezed,
     Object? isValidating = freezed,
     Object? isEncrypted = freezed,
+    Object? adnr = freezed,
   }) {
     return _then(_$_Wallet(
       id: id == freezed
@@ -181,6 +191,10 @@ class __$$_WalletCopyWithImpl<$Res> extends _$WalletCopyWithImpl<$Res>
           ? _value.isEncrypted
           : isEncrypted // ignore: cast_nullable_to_non_nullable
               as bool,
+      adnr: adnr == freezed
+          ? _value.adnr
+          : adnr // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -196,7 +210,8 @@ class _$_Wallet extends _Wallet {
       this.friendlyName,
       @JsonKey(name: 'Balance') required this.balance,
       @JsonKey(name: 'IsValidating') required this.isValidating,
-      @JsonKey(name: 'IsEncrypted') required this.isEncrypted})
+      @JsonKey(name: 'IsEncrypted') required this.isEncrypted,
+      @JsonKey(name: "ADNR") this.adnr})
       : super._();
 
   factory _$_Wallet.fromJson(Map<String, dynamic> json) =>
@@ -225,10 +240,13 @@ class _$_Wallet extends _Wallet {
   @override
   @JsonKey(name: 'IsEncrypted')
   final bool isEncrypted;
+  @override
+  @JsonKey(name: "ADNR")
+  final String? adnr;
 
   @override
   String toString() {
-    return 'Wallet(id: $id, publicKey: $publicKey, privateKey: $privateKey, address: $address, friendlyName: $friendlyName, balance: $balance, isValidating: $isValidating, isEncrypted: $isEncrypted)';
+    return 'Wallet(id: $id, publicKey: $publicKey, privateKey: $privateKey, address: $address, friendlyName: $friendlyName, balance: $balance, isValidating: $isValidating, isEncrypted: $isEncrypted, adnr: $adnr)';
   }
 
   @override
@@ -247,7 +265,8 @@ class _$_Wallet extends _Wallet {
             const DeepCollectionEquality()
                 .equals(other.isValidating, isValidating) &&
             const DeepCollectionEquality()
-                .equals(other.isEncrypted, isEncrypted));
+                .equals(other.isEncrypted, isEncrypted) &&
+            const DeepCollectionEquality().equals(other.adnr, adnr));
   }
 
   @JsonKey(ignore: true)
@@ -261,7 +280,8 @@ class _$_Wallet extends _Wallet {
       const DeepCollectionEquality().hash(friendlyName),
       const DeepCollectionEquality().hash(balance),
       const DeepCollectionEquality().hash(isValidating),
-      const DeepCollectionEquality().hash(isEncrypted));
+      const DeepCollectionEquality().hash(isEncrypted),
+      const DeepCollectionEquality().hash(adnr));
 
   @JsonKey(ignore: true)
   @override
@@ -276,15 +296,15 @@ class _$_Wallet extends _Wallet {
 
 abstract class _Wallet extends Wallet {
   factory _Wallet(
-          {@JsonKey(name: 'Id') required final int id,
-          @JsonKey(name: 'PublicKey') required final String publicKey,
-          @JsonKey(name: 'PrivateKey') required final String privateKey,
-          @JsonKey(name: 'Address') required final String address,
-          final String? friendlyName,
-          @JsonKey(name: 'Balance') required final double balance,
-          @JsonKey(name: 'IsValidating') required final bool isValidating,
-          @JsonKey(name: 'IsEncrypted') required final bool isEncrypted}) =
-      _$_Wallet;
+      {@JsonKey(name: 'Id') required final int id,
+      @JsonKey(name: 'PublicKey') required final String publicKey,
+      @JsonKey(name: 'PrivateKey') required final String privateKey,
+      @JsonKey(name: 'Address') required final String address,
+      final String? friendlyName,
+      @JsonKey(name: 'Balance') required final double balance,
+      @JsonKey(name: 'IsValidating') required final bool isValidating,
+      @JsonKey(name: 'IsEncrypted') required final bool isEncrypted,
+      @JsonKey(name: "ADNR") final String? adnr}) = _$_Wallet;
   _Wallet._() : super._();
 
   factory _Wallet.fromJson(Map<String, dynamic> json) = _$_Wallet.fromJson;
@@ -312,6 +332,9 @@ abstract class _Wallet extends Wallet {
   @override
   @JsonKey(name: 'IsEncrypted')
   bool get isEncrypted => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: "ADNR")
+  String? get adnr => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_WalletCopyWith<_$_Wallet> get copyWith =>

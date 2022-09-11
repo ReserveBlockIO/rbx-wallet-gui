@@ -15,6 +15,7 @@ _$_Wallet _$$_WalletFromJson(Map<String, dynamic> json) => _$_Wallet(
       balance: (json['Balance'] as num).toDouble(),
       isValidating: json['IsValidating'] as bool,
       isEncrypted: json['IsEncrypted'] as bool,
+      adnr: json['ADNR'] as String?,
     );
 
 Map<String, dynamic> _$$_WalletToJson(_$_Wallet instance) => <String, dynamic>{
@@ -26,4 +27,5 @@ Map<String, dynamic> _$$_WalletToJson(_$_Wallet instance) => <String, dynamic>{
       'Balance': instance.balance,
       'IsValidating': instance.isValidating,
       'IsEncrypted': instance.isEncrypted,
+      'ADNR': instance.adnr,
     };
