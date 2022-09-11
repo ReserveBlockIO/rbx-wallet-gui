@@ -16,6 +16,8 @@ import 'package:rbx_wallet/features/smart_contracts/features/pair/pair_modal.dar
 import 'package:rbx_wallet/features/smart_contracts/features/pair/pair_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty_form_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty_modal.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/soul_bound/soul_bound_modal.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/soul_bound/sould_bound_form_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket_form_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket_modal.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/tokenization/tokenization_modal.dart';
@@ -26,11 +28,13 @@ class FeatureChooserModal extends BaseComponent {
   final bool canAddRoyalty;
   final bool canAddEvolve;
   final bool canAddMultiAsset;
+  final bool canAddSoulBound;
   const FeatureChooserModal({
     Key? key,
     this.canAddRoyalty = true,
     this.canAddEvolve = true,
     this.canAddMultiAsset = true,
+    this.canAddSoulBound = true,
   }) : super(key: key);
 
   @override
@@ -106,6 +110,14 @@ class FeatureChooserModal extends BaseComponent {
                     case FeatureType.pair:
                       ref.read(pairFormProvider.notifier).clear();
                       modal = const PairModal();
+                      break;
+                    case FeatureType.soulBound:
+                      ref.read(soulBoundFormProvider.notifier).clear();
+                      modal = const SoulBoundModal();
+                      if (!canAddSoulBound) {
+                        InfoDialog.show(title: "Can't add Soul Bound", body: "You already have a soul bound feature in this smart contract.");
+                        return null;
+                      }
                       break;
                     default:
                       return const ModalContainer(

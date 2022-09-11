@@ -21,6 +21,9 @@ import 'package:rbx_wallet/features/smart_contracts/features/pair/pair_provider.
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty_form_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty_modal.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/soul_bound/soul_bound.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/soul_bound/soul_bound_modal.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/soul_bound/sould_bound_form_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket_form_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket_modal.dart';
@@ -76,6 +79,8 @@ class FeaturesFormGroup extends BaseComponent {
 
                         final canAddMultiAsset = _model.features.firstWhereOrNull((f) => f.type == FeatureType.multiAsset) == null;
 
+                        final canAddSoulBound = _model.features.firstWhereOrNull((f) => f.type == FeatureType.soulBound) == null;
+
                         showModalBottomSheet(
                           backgroundColor: Colors.transparent,
                           context: rootNavigatorKey.currentContext!,
@@ -83,10 +88,10 @@ class FeaturesFormGroup extends BaseComponent {
                           isDismissible: true,
                           builder: (context) {
                             return FeatureChooserModal(
-                              canAddRoyalty: canAddRoyalty,
-                              canAddEvolve: canAddEvolve,
-                              canAddMultiAsset: canAddMultiAsset,
-                            );
+                                canAddRoyalty: canAddRoyalty,
+                                canAddEvolve: canAddEvolve,
+                                canAddMultiAsset: canAddMultiAsset,
+                                canAddSoulBound: canAddSoulBound);
                           },
                         );
                       },
@@ -181,6 +186,11 @@ class _FeatureCard extends BaseComponent {
                           ref.read(pairFormProvider.notifier).setPair(pair);
                           showEditModal(const PairModal());
                           break;
+                        case FeatureType.soulBound:
+                          final soulBound = SoulBound.fromJson(feature.data);
+                          ref.read(soulBoundFormProvider.notifier).setSoulBound(soulBound);
+                          showEditModal(const SoulBoundModal());
+                          break;
                         default:
                           print("Not implemented");
                           break;
@@ -224,6 +234,10 @@ class _FeatureCard extends BaseComponent {
                         case FeatureType.pair:
                           final pair = Pair.fromJson(feature.data);
                           ref.read(createSmartContractProvider.notifier).removePair(pair);
+                          break;
+                        case FeatureType.soulBound:
+                          final soulBound = SoulBound.fromJson(feature.data);
+                          ref.read(createSmartContractProvider.notifier).removeSoulBound(soulBound);
                           break;
                         default:
                           print("Not implemented");

@@ -17,6 +17,7 @@ import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_form_
 import 'package:rbx_wallet/features/smart_contracts/features/multi_asset/multi_asset_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty_form_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/soul_bound/soul_bound.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/compiled_smart_contract.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/fractional.dart';
@@ -254,6 +255,29 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
   void removeMultiAsset(MultiAsset multiAsset) {
     final index = state.multiAssets.indexWhere((m) => m.id == multiAsset.id);
     state = state.copyWith(multiAssets: [...state.multiAssets]..removeAt(index));
+  }
+
+  void saveSoulBound(SoulBound soulBound) {
+    final exists = state.soulBounds.firstWhereOrNull((sb) => sb.id == soulBound.id);
+
+    if (exists == null) {
+      state = state.copyWith(soulBounds: [...state.soulBounds, soulBound]);
+    } else {
+      final index = state.soulBounds.indexWhere((sb) => sb.id == soulBound.id);
+      _updateSoulBound(soulBound, index);
+    }
+  }
+
+  void _updateSoulBound(SoulBound soulBound, int index) {
+    final updatedSoulBounds = [...state.soulBounds];
+    updatedSoulBounds.removeAt(index);
+    updatedSoulBounds.insert(index, soulBound);
+    state = state.copyWith(soulBounds: updatedSoulBounds);
+  }
+
+  void removeSoulBound(SoulBound soulBound) {
+    final index = state.soulBounds.indexWhere((sb) => sb.id == soulBound.id);
+    state = state.copyWith(soulBounds: [...state.soulBounds]..removeAt(index));
   }
 
   // Future<Asset> initAsset(String filePath) async {

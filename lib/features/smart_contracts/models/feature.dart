@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/soul_bound/soul_bound.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/fractional.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/multi_asset.dart';
@@ -24,6 +25,7 @@ enum FeatureType {
   consumable,
   fractionalization,
   pair,
+  soulBound,
   // wrap,
   notImplemented,
 }
@@ -81,6 +83,8 @@ abstract class Feature with _$Feature {
           return "Share ownership between multiple wallets and support voting";
         case FeatureType.pair:
           return "Pair/Wrap this smart contract with an existing NFT on or off this network";
+        case FeatureType.soulBound:
+          return "Create a non-transferrable smart contract bound to a perminent address";
         default:
           break;
       }
@@ -100,6 +104,7 @@ abstract class Feature with _$Feature {
       case FeatureType.tokenization:
       case FeatureType.pair:
       case FeatureType.fractionalization:
+      case FeatureType.soulBound:
         // case FeatureType.ticket:
         return true;
       default:
@@ -115,6 +120,7 @@ abstract class Feature with _$Feature {
       FeatureType.tokenization,
       FeatureType.fractionalization,
       FeatureType.pair,
+      FeatureType.soulBound,
       FeatureType.ticket,
       FeatureType.music,
       FeatureType.additionalOwners,
@@ -155,6 +161,9 @@ abstract class Feature with _$Feature {
       case FeatureType.pair:
         final pair = Pair.fromJson(data);
         return "${pair.network} [${pair.nftAddress}]";
+      case FeatureType.soulBound:
+        final sb = SoulBound.fromJson(data);
+        return "${sb.ownerAddress} ${sb.beneficiaryAddress != null && sb.beneficiaryAddress!.isNotEmpty ? '(Beneficiary: ${sb.beneficiaryAddress})' : ''}";
       default:
         return "Not implemented";
     }
@@ -184,8 +193,8 @@ abstract class Feature with _$Feature {
         return "Fractionalization";
       case FeatureType.pair:
         return "Pair or Wrap with Existing NFT";
-      // case FeatureType.wrap:
-      //   return "Wrap with Off-Platform NFT";
+      case FeatureType.soulBound:
+        return "Soul Bound";
       case FeatureType.notImplemented:
         return "Not implemented";
     }
@@ -215,8 +224,8 @@ abstract class Feature with _$Feature {
         return FontAwesomeIcons.divide;
       case FeatureType.pair:
         return FontAwesomeIcons.leftRight;
-      // case FeatureType.wrap:
-      //   return FontAwesomeIcons.gift;
+      case FeatureType.soulBound:
+        return FontAwesomeIcons.person;
 
       default:
         return Icons.star;

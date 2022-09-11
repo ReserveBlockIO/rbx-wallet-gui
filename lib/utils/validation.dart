@@ -122,6 +122,18 @@ String? formValidatorRbxAddress(String? value) {
   return null;
 }
 
+String? formValidatorRbxAddressOrEmpty(String? value) {
+  if (value == null || value.isEmpty) {
+    return null;
+  }
+
+  if (!isValidRbxAddress(value)) {
+    return "Invalid Address.";
+  }
+
+  return null;
+}
+
 String? formPercentValidator(String? val) {
   if (val == null || val.isEmpty) {
     return "Required";

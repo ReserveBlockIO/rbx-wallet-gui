@@ -3,6 +3,7 @@ import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/soul_bound/soul_bound.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/compiler_payload.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/detailed_smart_contract.dart';
@@ -41,6 +42,7 @@ abstract class SmartContract with _$SmartContract {
     @Default([]) List<Tokenization> tokenizations,
     @Default([]) List<Fractional> fractionals,
     @Default([]) List<Pair> pairs,
+    @Default([]) List<SoulBound> soulBounds,
     @Default("") String code,
     @Default(false) bool isCompiled,
     @Default(false) bool isPublished,
@@ -126,6 +128,10 @@ abstract class SmartContract with _$SmartContract {
 
     for (final item in pairs) {
       features.add(Feature(type: FeatureType.pair, data: item.toJson()));
+    }
+
+    for (final item in soulBounds) {
+      features.add(Feature(type: FeatureType.soulBound, data: item.toJson()));
     }
 
     return features;
