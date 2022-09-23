@@ -18,8 +18,7 @@ import 'package:collection/collection.dart';
 class WalletListProvider extends StateNotifier<List<Wallet>> {
   final Reader read;
 
-  WalletListProvider(this.read, [List<Wallet> wallets = const []])
-      : super(wallets);
+  WalletListProvider(this.read, [List<Wallet> wallets = const []]) : super(wallets);
 
   void set(List<Wallet> wallets) {
     state = wallets;
@@ -57,8 +56,7 @@ class WalletListProvider extends StateNotifier<List<Wallet>> {
               children: [
                 const Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(
-                      "Here is your wallet details. Please ensure to back up your private key in a safe place."),
+                  child: Text("Here is your wallet details. Please ensure to back up your private key in a safe place."),
                 ),
                 ListTile(
                   leading: const Icon(Icons.account_balance_wallet),
@@ -82,8 +80,7 @@ class WalletListProvider extends StateNotifier<List<Wallet>> {
                   trailing: IconButton(
                     icon: const Icon(Icons.copy),
                     onPressed: () async {
-                      await Clipboard.setData(
-                          ClipboardData(text: wallet.privateKey));
+                      await Clipboard.setData(ClipboardData(text: wallet.privateKey));
                       Toast.message("Private Key copied to clipboard");
                     },
                   ),
@@ -128,8 +125,7 @@ class WalletListProvider extends StateNotifier<List<Wallet>> {
   // }
 
   void rename(Wallet wallet, String name) {
-    final index =
-        state.indexWhere((element) => element.address == wallet.address);
+    final index = state.indexWhere((element) => element.address == wallet.address);
 
     final w = state[index];
     final updatedWallet = Wallet(
@@ -139,7 +135,7 @@ class WalletListProvider extends StateNotifier<List<Wallet>> {
       address: w.address,
       balance: w.balance,
       isValidating: w.isValidating,
-      isEncrypted: w.isEncrypted,
+      // isEncrypted: w.isEncrypted,
       friendlyName: name == "" ? null : name,
     );
 
@@ -149,8 +145,7 @@ class WalletListProvider extends StateNotifier<List<Wallet>> {
 
     state = newState;
 
-    Map<String, dynamic>? names =
-        singleton<Storage>().getMap(Storage.RENAMED_WALLETS_KEY);
+    Map<String, dynamic>? names = singleton<Storage>().getMap(Storage.RENAMED_WALLETS_KEY);
 
     names ??= {};
 
@@ -160,8 +155,7 @@ class WalletListProvider extends StateNotifier<List<Wallet>> {
   }
 
   void delete(Wallet wallet) {
-    final index =
-        state.indexWhere((element) => element.address == wallet.address);
+    final index = state.indexWhere((element) => element.address == wallet.address);
     final newState = [...state];
     newState.removeAt(index);
     state = newState;
@@ -172,7 +166,6 @@ class WalletListProvider extends StateNotifier<List<Wallet>> {
   }
 }
 
-final walletListProvider =
-    StateNotifierProvider<WalletListProvider, List<Wallet>>((ref) {
+final walletListProvider = StateNotifierProvider<WalletListProvider, List<Wallet>>((ref) {
   return WalletListProvider(ref.read);
 });

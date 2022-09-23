@@ -16,7 +16,7 @@ class Wallet with _$Wallet {
     String? friendlyName,
     @JsonKey(name: 'Balance') required double balance,
     @JsonKey(name: 'IsValidating') required bool isValidating,
-    @JsonKey(name: 'IsEncrypted') required bool isEncrypted,
+    // @JsonKey(name: 'IsEncrypted') required bool isEncrypted,
   }) = _Wallet;
 
   factory Wallet.fromJson(Map<String, dynamic> json) => _$WalletFromJson(json);
@@ -31,7 +31,7 @@ class Wallet with _$Wallet {
       id: 0,
       publicKey: keypair.publicInflated,
       privateKey: keypair.private,
-      isEncrypted: false,
+      // isEncrypted: false,
       isValidating: false,
     );
   }

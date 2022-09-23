@@ -1,8 +1,9 @@
 ENVIRONMENT_NAME=dev
 STORAGE_PREFIX=dev
-API_BASE_URL=http://localhost:17292/api/V1
-LAUNCH_CLI=false
+API_BASE_URL=http://localhost:7292/api/V1
+LAUNCH_CLI=true
 ALLOW_VALIDATING=true
 HIDE_CLI_OUTPUT=false
 EXPLORER_API_BASE_URL=https://rbx-explorer-service-testnet.herokuapp.com/api
-IS_TEST_NET=true
+IS_TEST_NET=false
+CLI_PATH_OVERRIDE=/Applications/RBXWallet.app/Contents/Resources/RBXCore/ReserveBlockCore

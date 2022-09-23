@@ -17,7 +17,7 @@ wingen_watch:
 package_mac:
 	cd ../Core-CLI && git pull && cd /Users/tylersavery/Projects/rbx/rbx_wallet/
 	dotnet publish -c Release -r osx-x64 ../Core-Cli/
-	./build_mac.sh
+	# ./build_mac.sh
 	rm -f ./installers/exports/RBX-OSX-Intel-Installer.dmg
 	rm -rf ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
 	mkdir ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore

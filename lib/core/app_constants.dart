@@ -1,6 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
-const APP_VERSION = "beta2.0.0";
+const APP_VERSION = "beta2.1.0";
 const REFRESH_TIMEOUT_SECONDS = 20;
 const REFRESH_TIMEOUT_SECONDS_INACTIVE = 300;
 const ALLOW_DOUBLE_MINTES = false;
