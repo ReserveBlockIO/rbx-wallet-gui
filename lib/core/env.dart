@@ -17,7 +17,7 @@ enum _Environment {
   BlockExplorerTestNet,
 }
 
-const _env = _Environment.MacDev;
+const _env = _Environment.ReleaseTestNet;
 
 class Env {
   static init() async {
