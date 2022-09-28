@@ -59,15 +59,11 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
 
     final int blockHeight = int.parse(data['BlockHeight']);
     final int peerCount = int.parse(data['PeerCount']);
-    final bool isSyncing =
-        data['BlocksDownloading'].toString().toLowerCase() == "true";
-    final bool isChainSynced =
-        data['IsChainSynced'].toString().toLowerCase() == "true";
-    final bool isResyncing =
-        data['IsResyncing'].toString().toLowerCase() == "true";
+    final bool isSyncing = data['BlocksDownloading'].toString().toLowerCase() == "true";
+    final bool isChainSynced = data['IsChainSynced'].toString().toLowerCase() == "true";
+    final bool isResyncing = data['IsResyncing'].toString().toLowerCase() == "true";
 
-    final latestBlock =
-        blockHeight > 0 ? await BridgeService().blockInfo(blockHeight) : null;
+    final latestBlock = blockHeight > 0 ? await BridgeService().blockInfo(blockHeight) : null;
 
     final prevBlockHeight = state?.blockHeight;
     final prevPeerCount = state?.peerCount;
@@ -108,21 +104,21 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
     read(sessionProvider.notifier).load();
 
     if (shouldLoop) {
-      final isActive = read(isActiveProvider).isActive;
-      await Future.delayed(
-        Duration(
-          seconds: isActive
-              ? REFRESH_TIMEOUT_SECONDS
-              : REFRESH_TIMEOUT_SECONDS_INACTIVE,
-        ),
-      );
-
+      await Future.delayed(Duration(seconds: REFRESH_TIMEOUT_SECONDS));
       fetch();
+
+      // final isActive = read(isActiveProvider).isActive;
+      // await Future.delayed(
+      //   Duration(
+      //     seconds: isActive ? REFRESH_TIMEOUT_SECONDS : REFRESH_TIMEOUT_SECONDS_INACTIVE,
+      //   ),
+      // );
+
+      // fetch();
     }
   }
 }
 
-final walletInfoProvider =
-    StateNotifierProvider<WalletInfoProvider, WalletInfoModel?>((ref) {
+final walletInfoProvider = StateNotifierProvider<WalletInfoProvider, WalletInfoModel?>((ref) {
   return WalletInfoProvider(ref.read);
 });
