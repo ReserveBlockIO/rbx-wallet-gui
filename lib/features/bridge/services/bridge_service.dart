@@ -98,8 +98,7 @@ class BridgeService extends BaseService {
       return null;
     }
 
-    if (response ==
-        "This is not a valid RBX address to send to. Please verify again.") {
+    if (response == "This is not a valid RBX address to send to. Please verify again.") {
       Toast.error(response);
       return null;
     }
@@ -114,7 +113,7 @@ class BridgeService extends BaseService {
   Future<String?> turnOnValidator(String id) async {
     final message = await getText("/TurnOnValidator/$id");
 
-    if (message == "STV") {
+    if (message == "No Validator account has been found. Please create one.") {
       return null;
     }
 
