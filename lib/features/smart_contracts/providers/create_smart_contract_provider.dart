@@ -111,7 +111,7 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
 
   void removeRoyalty(Royalty royalty) {
     final index = state.royalties.indexWhere((r) => r.id == royalty.id);
-    state = state.copyWith(royalties: state.royalties..removeAt(index));
+    state = state.copyWith(royalties: [...state.royalties]..removeAt(index));
   }
 
   void saveEvolve(Evolve evolve) {
@@ -134,7 +134,7 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
 
   void removeEvolve(Evolve evolve) {
     final index = state.evolves.indexWhere((e) => e.id == evolve.id);
-    state = state.copyWith(evolves: state.evolves..removeAt(index));
+    state = state.copyWith(evolves: [...state.evolves]..removeAt(index));
   }
 
   void saveTicket(Ticket ticket) {
@@ -157,7 +157,7 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
 
   void removeTicket(Ticket ticket) {
     final index = state.tickets.indexWhere((t) => t.id == ticket.id);
-    state = state.copyWith(tickets: state.tickets..removeAt(index));
+    state = state.copyWith(tickets: [...state.tickets]..removeAt(index));
   }
 
   void saveMultiAsset(MultiAsset multiAsset) {
@@ -180,7 +180,7 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
 
   void removeMultiAsset(MultiAsset multiAsset) {
     final index = state.multiAssets.indexWhere((m) => m.id == multiAsset.id);
-    state = state.copyWith(multiAssets: state.multiAssets..removeAt(index));
+    state = state.copyWith(multiAssets: [...state.multiAssets]..removeAt(index));
   }
 
   // Future<Asset> initAsset(String filePath) async {

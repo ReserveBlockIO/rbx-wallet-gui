@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
 
@@ -16,12 +18,14 @@ abstract class MultiAsset with _$MultiAsset {
     @Default([]) List<Asset> assets,
   }) = _MultiAsset;
 
-  factory MultiAsset.fromJson(Map<String, dynamic> json) =>
-      _$MultiAssetFromJson(json);
+  factory MultiAsset.fromJson(Map<String, dynamic> json) => _$MultiAssetFromJson(json);
 
   factory MultiAsset.fromCompiler(dynamic json) {
     final List<Asset> assets = [];
-    for (final asset in json) {
+    for (final Map<String, dynamic> asset in json) {
+      if (asset.containsKey("FileName")) {
+        asset["Name"] = asset["FileName"];
+      }
       assets.add(Asset.fromJson(asset));
     }
 
@@ -36,6 +40,11 @@ abstract class MultiAsset with _$MultiAsset {
       b['AssetAuthorName'] = minterName;
 
       b.remove('Name');
+      b.remove('bytes');
+
+      // print("*********=======");
+      // print(jsonEncode(b));
+      // print("*********=======");
 
       return b;
     }).toList();

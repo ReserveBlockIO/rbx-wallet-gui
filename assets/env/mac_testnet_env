@@ -5,4 +5,6 @@ VALIDATOR_PORT=13338
 IS_TEST_NET=true
 LAUNCH_CLI=true
 ALLOW_VALIDATING=true
-CLI_PATH_OVERRIDE=/Users/tylersavery/Projects/rbx/env/pre8-macos-intel/ReserveBlockCore
+CLI_PATH_OVERRIDE=/Applications/RBXWallet.app/Contents/Resources/RBXCore/ReserveBlockCore
+ALLOW_VALIDATING=true
+HIDE_CLI_OUTPUT=false

@@ -38,7 +38,10 @@ class SmartContractService extends BaseService {
 
   Future<DetailedSmartContract?> retrieve(String id) async {
     try {
-      final response = await getText('/GetSingleSmartContract/$id');
+      print("RETRIEVE ID: $id");
+      final url = '/GetSingleSmartContract/$id';
+      print(url);
+      final response = await getText(url);
       final data = jsonDecode(response);
       print(data);
       print("!!!!!!!!");
@@ -50,13 +53,22 @@ class SmartContractService extends BaseService {
   }
 
   Future<CompilerResponse?> compileSmartContract(Map<String, dynamic> payload) async {
+    final Map<String, dynamic> p = {...payload}..remove('hash');
 
-    print(jsonEncode(payload));
+    print("------------");
+    print("--/CreateSmartContract PAYLOAD--");
+    print(jsonEncode(p));
+    print("------------");
+
     try {
       final response = await postJson(
         "/CreateSmartContract",
-        params: payload,
+        params: p,
       );
+
+      print("==============");
+      print(jsonEncode(response['data'][0]));
+      print("==============");
 
       final csc = CompilerResponse.fromJson(response['data'][0]);
       return csc;
@@ -123,6 +135,7 @@ class SmartContractService extends BaseService {
 
   Future<bool> mint(String id) async {
     try {
+      print("-------------ID $id------------");
       final response = await getText("/MintSmartContract/$id");
 
       if (response == "Smart contract has been published to mempool") {
