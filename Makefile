@@ -32,7 +32,8 @@ package_mac:
 
 
 package_m1:
-	make build_core
+	cd ../Core-CLI && git pull && cd /Users/tyler/prj/rbx/rbx-wallet-gui/
+	dotnet publish -c Release -r osx-x64 ../Core-Cli/
 	# ./build_m1.sh
 	rm -f ./installers/exports/RBX-OSX-ARM-Installer.dmg
 	rm -rf ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
