@@ -67,8 +67,7 @@ class ValidatorScreen extends BaseScreen {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-                "You must have port $port open to external networks in order to validate."),
+            Text("You must have port $port open to external networks in order to validate."),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: AppButton(
@@ -93,10 +92,14 @@ class ValidatorScreen extends BaseScreen {
 
                 // if (!await checkPort(false)) return;
 
+                if (currentWallet.balance < 1000) {
+                  Toast.error("Balance not currently sufficient to validate");
+                  return;
+                }
+
                 ref.read(globalLoadingProvider.notifier).start();
 
-                final res = await BridgeService()
-                    .turnOnValidator(currentWallet.address);
+                final res = await BridgeService().turnOnValidator(currentWallet.address);
 
                 ref.read(globalLoadingProvider.notifier).complete();
 
@@ -108,20 +111,16 @@ class ValidatorScreen extends BaseScreen {
 
                 PromptModal.show(
                     title: "Name your validator",
-                    validator: (value) =>
-                        formValidatorNotEmpty(value, "Validator Name"),
+                    validator: (value) => formValidatorNotEmpty(value, "Validator Name"),
                     labelText: "Validator Name",
                     onValidSubmission: (name) async {
                       ref.read(globalLoadingProvider.notifier).start();
 
-                      final success = await ref
-                          .read(currentValidatorProvider.notifier)
-                          .startValidating(name);
+                      final success = await ref.read(currentValidatorProvider.notifier).startValidating(name);
                       ref.read(globalLoadingProvider.notifier).complete();
 
                       if (success) {
-                        Toast.message(
-                            "$name [${currentWallet.label}] is now validating.");
+                        Toast.message("$name [${currentWallet.label}] is now validating.");
                         await ref.read(sessionProvider.notifier).load();
                       } else {
                         Toast.error();
@@ -159,9 +158,7 @@ class ValidatorScreen extends BaseScreen {
           onPressed: () async {
             ref.read(globalLoadingProvider.notifier).start();
 
-            final success = await ref
-                .read(currentValidatorProvider.notifier)
-                .stopValidating();
+            final success = await ref.read(currentValidatorProvider.notifier).stopValidating();
 
             if (success) {
               Toast.message("${currentWallet.label} hast stopped validating.");

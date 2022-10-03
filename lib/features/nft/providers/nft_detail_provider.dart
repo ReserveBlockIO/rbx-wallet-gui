@@ -115,9 +115,9 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     return true;
   }
 
-  Future<bool> transfer(String address) async {
-    if (!canTransact()) return false;
-    final success = await SmartContractService().transfer(id, address);
+  Future<bool> transfer(String address, String? url) async {
+    // if (!canTransact()) return false;
+    final success = await SmartContractService().transfer(id, address, url);
     return success;
   }
 
@@ -128,7 +128,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     return true;
   }
 
-  Future<dynamic> transferWebOut(String toAddress) async {
+  Future<bool?> transferWebOut(String toAddress) async {
     final keypair = read(webSessionProvider).keypair;
     if (keypair == null) {
       return false;

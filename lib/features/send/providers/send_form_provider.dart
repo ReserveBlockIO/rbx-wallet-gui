@@ -141,6 +141,17 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
 
       if (!guardWalletIsSynced(read)) return;
       if (!guardWalletIsNotResyncing(read)) return;
+
+      final amountDouble = double.tryParse(amount);
+      if (amountDouble == null) {
+        Toast.error("Invalid amount");
+        return;
+      }
+
+      if (amountDouble > currentWallet.balance) {
+        Toast.error("Insufficent balance to send");
+        return;
+      }
     } else {
       if (read(webSessionProvider).keypair == null) {
         Toast.error("No wallet selected");

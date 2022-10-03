@@ -5,9 +5,11 @@ import 'package:rbx_wallet/features/asset/asset_card.dart';
 class AssetThumbnail extends StatelessWidget {
   final double size;
   final Asset asset;
+  final String nftId;
   const AssetThumbnail(
     this.asset, {
     Key? key,
+    required this.nftId,
     this.size = 150.0,
   }) : super(key: key);
 
@@ -36,7 +38,11 @@ class AssetThumbnail extends StatelessWidget {
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
-                        AssetCard(asset),
+                        AssetCard(
+                          asset,
+                          interactive: true,
+                          nftId: nftId,
+                        ),
                       ],
                     ),
                   ),
