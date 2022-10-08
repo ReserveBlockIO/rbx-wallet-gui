@@ -129,6 +129,16 @@ class BridgeService extends BaseService {
     }
   }
 
+  Future<String?> getValidatorInfo(String address) async {
+    try {
+      final name = await getText("/GetValidatorInfo/$address");
+      return name;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
   Future<Block?> blockInfo(int height) async {
     final response = await getText("/SendBlock/$height");
     try {

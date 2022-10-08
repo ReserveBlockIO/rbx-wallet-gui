@@ -152,6 +152,13 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
         Toast.error("Insufficent balance to send");
         return;
       }
+
+      if (currentWallet.isValidating) {
+        if (amountDouble > currentWallet.balance - 1000) {
+          Toast.error("Insufficent balance since you are validating.");
+          return;
+        }
+      }
     } else {
       if (read(webSessionProvider).keypair == null) {
         Toast.error("No wallet selected");
