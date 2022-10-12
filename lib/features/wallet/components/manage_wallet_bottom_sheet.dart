@@ -46,7 +46,7 @@ class ManageWalletBottomSheet extends BaseComponent {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       AppButton(
-                        label: "Restore Deleted",
+                        label: "Restore Hidden Accounts",
                         type: AppButtonType.Text,
                         variant: AppColorVariant.Info,
                         onPressed: () {
@@ -264,13 +264,13 @@ class ManageWalletBottomSheet extends BaseComponent {
                         AppButton(
                           type: AppButtonType.Text,
                           variant: AppColorVariant.Danger,
-                          label: "Delete",
+                          label: "Hide Account",
                           onPressed: () async {
                             final confirmed = await ConfirmDialog.show(
-                              title: "Delete wallet?",
-                              body: "Are you sure you want to delete this wallet?",
+                              title: "Hide wallet?",
+                              body: "Are you sure you want to hide this wallet from the GUI?",
                               destructive: true,
-                              confirmText: "Delete",
+                              confirmText: "Hide",
                               cancelText: "Cancel",
                             );
 

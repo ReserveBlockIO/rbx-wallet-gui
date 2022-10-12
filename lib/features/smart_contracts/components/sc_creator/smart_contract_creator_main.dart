@@ -67,20 +67,21 @@ class SmartContractCreatorMain extends BaseComponent {
     int? amountInt = 1;
 
     if (!kIsWeb) {
-      final amount = await PromptModal.show(
-        title: "Quantity",
-        body: "How many copies of this smart contract would you like to mint?",
-        validator: (value) => formValidatorInteger(value, "Quantity"),
-        labelText: "Quantity",
-        initialValue: "1",
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-      );
+      // final amount = await PromptModal.show(
+      //   title: "Quantity",
+      //   body: "How many copies of this smart contract would you like to mint?",
+      //   validator: (value) => formValidatorInteger(value, "Quantity"),
+      //   labelText: "Quantity",
+      //   initialValue: "1",
+      //   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+      // );
 
-      if (amount == null) {
-        return;
-      }
+      // if (amount == null) {
+      //   return;
+      // }
 
-      amountInt = int.tryParse(amount);
+      // amountInt = int.tryParse(amount);
+
       if (amountInt == null || amountInt < 1) {
         return;
       }
@@ -95,11 +96,22 @@ class SmartContractCreatorMain extends BaseComponent {
       title: "Compile & Mint Smart Contract?",
       body:
           "Are you sure you want to proceed?\nOnce compiled you will not be able to make any changes\nand the smart contract will be deployed to the chain.",
-      confirmText: "Compile & Mint",
+      confirmText: "Continue",
       cancelText: "Cancel",
     );
 
     if (confirmed == true) {
+      final extraConfirm = await ConfirmDialog.show(
+        title: "Confirm Address",
+        body: "This will be minted by ${ref.read(sessionProvider).currentWallet!.labelWithoutTruncation}",
+        confirmText: "Compile & Mint",
+        cancelText: "Cancel",
+      );
+
+      if (extraConfirm != true) {
+        return;
+      }
+
       if (!kIsWeb) {
         ref.read(sessionProvider.notifier).setIsMintingOrCompiling(true);
       }

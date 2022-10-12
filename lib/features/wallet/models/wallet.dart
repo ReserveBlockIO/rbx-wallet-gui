@@ -16,7 +16,7 @@ class Wallet with _$Wallet {
     String? friendlyName,
     @JsonKey(name: 'Balance') required double balance,
     @JsonKey(name: 'IsValidating') required bool isValidating,
-    @JsonKey(name: 'IsEncrypted') required bool isEncrypted,
+    // @JsonKey(name: 'IsEncrypted') required bool isEncrypted,
     @JsonKey(name: "ADNR") String? adnr,
   }) = _Wallet;
 
@@ -32,7 +32,7 @@ class Wallet with _$Wallet {
       id: 0,
       publicKey: keypair.publicInflated,
       privateKey: keypair.private,
-      isEncrypted: false,
+      // isEncrypted: false,
       isValidating: false,
     );
   }

@@ -134,7 +134,7 @@ class WalletListProvider extends StateNotifier<List<Wallet>> {
       address: w.address,
       balance: w.balance,
       isValidating: w.isValidating,
-      isEncrypted: w.isEncrypted,
+      // isEncrypted: w.isEncrypted,
       friendlyName: name == "" ? null : name,
     );
 

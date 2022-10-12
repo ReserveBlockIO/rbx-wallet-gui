@@ -327,7 +327,7 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
     final List<String> errors = [];
 
     if (state.primaryAsset == null) {
-      errors.add("- Primary asset is required");
+      errors.add("- Asset is required");
     }
     if (state.name.isEmpty) {
       errors.add("- Name is required");
