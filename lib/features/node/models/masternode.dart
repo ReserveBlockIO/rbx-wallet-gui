@@ -14,11 +14,10 @@ class Masternode with _$Masternode {
     @JsonKey(name: 'connect_date') required DateTime connectDate,
     @JsonKey(name: 'is_active') required bool isActive,
     @JsonKey(name: 'block_count') required int blockCount,
-    required dynamic location,
+    // required dynamic location,
   }) = _Masternode;
 
-  factory Masternode.fromJson(Map<String, dynamic> json) =>
-      _$MasternodeFromJson(json);
+  factory Masternode.fromJson(Map<String, dynamic> json) => _$MasternodeFromJson(json);
 
   String get dateLabel {
     return DateFormat.yMd().format(connectDate);

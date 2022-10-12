@@ -10,6 +10,7 @@ const USD_TO_RBX = 5.0;
 const WEB_APP_VERSION = "beta1.0.2";
 const ADNR_COST = 1.0;
 const MAX_COMPILE_QUANTITY = 10;
+const MAX_ASSET_BYTES = 157286400;
 
 class TxType {
   static const int rbxTransfer = 0;

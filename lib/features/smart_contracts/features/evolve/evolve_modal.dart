@@ -193,7 +193,7 @@ class _EvolvePhaseContainer extends BaseComponent {
 
   Future<void> _showDatePicker(BuildContext context, WidgetRef ref) async {
     final _provider = ref.read(evolvePhaseFormProvider(index).notifier);
-    final d = await showDatePicker(
+    final _d = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
@@ -202,7 +202,9 @@ class _EvolvePhaseContainer extends BaseComponent {
       ),
     );
 
-    if (d != null) {
+    if (_d != null) {
+      final now = DateTime.now();
+      final d = DateTime(_d.year, _d.month, _d.day, now.hour + 1, now.minute, now.second);
       _provider.updateDate(d);
     }
   }

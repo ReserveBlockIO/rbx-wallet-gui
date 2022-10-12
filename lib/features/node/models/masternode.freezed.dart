@@ -29,7 +29,6 @@ mixin _$Masternode {
   bool get isActive => throw _privateConstructorUsedError;
   @JsonKey(name: 'block_count')
   int get blockCount => throw _privateConstructorUsedError;
-  dynamic get location => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -47,8 +46,7 @@ abstract class $MasternodeCopyWith<$Res> {
       @JsonKey(name: 'unique_name') String uniqueName,
       @JsonKey(name: 'connect_date') DateTime connectDate,
       @JsonKey(name: 'is_active') bool isActive,
-      @JsonKey(name: 'block_count') int blockCount,
-      dynamic location});
+      @JsonKey(name: 'block_count') int blockCount});
 }
 
 /// @nodoc
@@ -66,7 +64,6 @@ class _$MasternodeCopyWithImpl<$Res> implements $MasternodeCopyWith<$Res> {
     Object? connectDate = freezed,
     Object? isActive = freezed,
     Object? blockCount = freezed,
-    Object? location = freezed,
   }) {
     return _then(_value.copyWith(
       address: address == freezed
@@ -89,10 +86,6 @@ class _$MasternodeCopyWithImpl<$Res> implements $MasternodeCopyWith<$Res> {
           ? _value.blockCount
           : blockCount // ignore: cast_nullable_to_non_nullable
               as int,
-      location: location == freezed
-          ? _value.location
-          : location // ignore: cast_nullable_to_non_nullable
-              as dynamic,
     ));
   }
 }
@@ -109,8 +102,7 @@ abstract class _$$_MasternodeCopyWith<$Res>
       @JsonKey(name: 'unique_name') String uniqueName,
       @JsonKey(name: 'connect_date') DateTime connectDate,
       @JsonKey(name: 'is_active') bool isActive,
-      @JsonKey(name: 'block_count') int blockCount,
-      dynamic location});
+      @JsonKey(name: 'block_count') int blockCount});
 }
 
 /// @nodoc
@@ -130,7 +122,6 @@ class __$$_MasternodeCopyWithImpl<$Res> extends _$MasternodeCopyWithImpl<$Res>
     Object? connectDate = freezed,
     Object? isActive = freezed,
     Object? blockCount = freezed,
-    Object? location = freezed,
   }) {
     return _then(_$_Masternode(
       address: address == freezed
@@ -153,10 +144,6 @@ class __$$_MasternodeCopyWithImpl<$Res> extends _$MasternodeCopyWithImpl<$Res>
           ? _value.blockCount
           : blockCount // ignore: cast_nullable_to_non_nullable
               as int,
-      location: location == freezed
-          ? _value.location
-          : location // ignore: cast_nullable_to_non_nullable
-              as dynamic,
     ));
   }
 }
@@ -169,8 +156,7 @@ class _$_Masternode extends _Masternode {
       @JsonKey(name: 'unique_name') required this.uniqueName,
       @JsonKey(name: 'connect_date') required this.connectDate,
       @JsonKey(name: 'is_active') required this.isActive,
-      @JsonKey(name: 'block_count') required this.blockCount,
-      required this.location})
+      @JsonKey(name: 'block_count') required this.blockCount})
       : super._();
 
   factory _$_Masternode.fromJson(Map<String, dynamic> json) =>
@@ -190,12 +176,10 @@ class _$_Masternode extends _Masternode {
   @override
   @JsonKey(name: 'block_count')
   final int blockCount;
-  @override
-  final dynamic location;
 
   @override
   String toString() {
-    return 'Masternode(address: $address, uniqueName: $uniqueName, connectDate: $connectDate, isActive: $isActive, blockCount: $blockCount, location: $location)';
+    return 'Masternode(address: $address, uniqueName: $uniqueName, connectDate: $connectDate, isActive: $isActive, blockCount: $blockCount)';
   }
 
   @override
@@ -210,8 +194,7 @@ class _$_Masternode extends _Masternode {
                 .equals(other.connectDate, connectDate) &&
             const DeepCollectionEquality().equals(other.isActive, isActive) &&
             const DeepCollectionEquality()
-                .equals(other.blockCount, blockCount) &&
-            const DeepCollectionEquality().equals(other.location, location));
+                .equals(other.blockCount, blockCount));
   }
 
   @JsonKey(ignore: true)
@@ -222,8 +205,7 @@ class _$_Masternode extends _Masternode {
       const DeepCollectionEquality().hash(uniqueName),
       const DeepCollectionEquality().hash(connectDate),
       const DeepCollectionEquality().hash(isActive),
-      const DeepCollectionEquality().hash(blockCount),
-      const DeepCollectionEquality().hash(location));
+      const DeepCollectionEquality().hash(blockCount));
 
   @JsonKey(ignore: true)
   @override
@@ -238,12 +220,12 @@ class _$_Masternode extends _Masternode {
 
 abstract class _Masternode extends Masternode {
   factory _Masternode(
-      {required final String address,
-      @JsonKey(name: 'unique_name') required final String uniqueName,
-      @JsonKey(name: 'connect_date') required final DateTime connectDate,
-      @JsonKey(name: 'is_active') required final bool isActive,
-      @JsonKey(name: 'block_count') required final int blockCount,
-      required final dynamic location}) = _$_Masternode;
+          {required final String address,
+          @JsonKey(name: 'unique_name') required final String uniqueName,
+          @JsonKey(name: 'connect_date') required final DateTime connectDate,
+          @JsonKey(name: 'is_active') required final bool isActive,
+          @JsonKey(name: 'block_count') required final int blockCount}) =
+      _$_Masternode;
   _Masternode._() : super._();
 
   factory _Masternode.fromJson(Map<String, dynamic> json) =
@@ -263,8 +245,6 @@ abstract class _Masternode extends Masternode {
   @override
   @JsonKey(name: 'block_count')
   int get blockCount => throw _privateConstructorUsedError;
-  @override
-  dynamic get location => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_MasternodeCopyWith<_$_Masternode> get copyWith =>

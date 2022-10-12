@@ -12,9 +12,11 @@ import 'package:rbx_wallet/features/health/health_service.dart';
 import 'package:rbx_wallet/features/validator/providers/current_validator_provider.dart';
 import 'package:rbx_wallet/features/wallet/components/invalid_wallet.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
+import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
+import 'package:collection/collection.dart';
 
 class ValidatorScreen extends BaseScreen {
   const ValidatorScreen({Key? key}) : super(key: key);
@@ -64,7 +66,35 @@ class ValidatorScreen extends BaseScreen {
         message: "${currentWallet.address} is not eligable to be a validator",
       );
     }
+
     if (!currentWallet.isValidating) {
+      final wallets = ref.watch(walletListProvider);
+      final anyWalletIsValidating = wallets.firstWhereOrNull((w) => w.isValidating) != null;
+      if (anyWalletIsValidating) {
+        return Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.error,
+                color: Theme.of(context).colorScheme.warning,
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Text(
+                "${currentWallet.label} can not validate.",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Text("You can only validate with one wallet."),
+            ],
+          ),
+        );
+      }
+
       final port = Env.validatorPort;
 
       return Center(

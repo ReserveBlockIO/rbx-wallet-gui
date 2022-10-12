@@ -31,6 +31,7 @@ import 'package:rbx_wallet/features/smart_contracts/providers/my_smart_contracts
 import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:collection/collection.dart';
+import 'package:rbx_wallet/utils/formatting.dart';
 import 'package:rbx_wallet/utils/generators.dart';
 
 class CreateSmartContractProvider extends StateNotifier<SmartContract> {
@@ -255,7 +256,6 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
   void removeMultiAsset(MultiAsset multiAsset) {
     final index = state.multiAssets.indexWhere((m) => m.id == multiAsset.id);
     state = state.copyWith(multiAssets: [...state.multiAssets]..removeAt(index));
-
   }
 
   void saveSoulBound(SoulBound soulBound) {
@@ -341,6 +341,17 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
     if (state.description.isEmpty) {
       errors.add("- Description is required");
     }
+
+    // int filesize = 0;
+
+    // if (state.primaryAsset != null) {
+    //   filesize += state.primaryAsset!.fileSize;
+    // }
+
+    // if (filesize > MAX_ASSET_BYTES) {
+    //   errors.add("- Asset filesize sum must not exceed ${readableFileSize(MAX_ASSET_BYTES)}");
+    //   errors.add("  (current size is ${readableFileSize(filesize)})");
+    // }
 
     return errors;
   }

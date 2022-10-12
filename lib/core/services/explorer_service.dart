@@ -13,16 +13,21 @@ class ExplorerService extends BaseService {
         );
 
   Future<List<Masternode>> searchValidators(String query) async {
-    final response = await getJson('/masternodes', params: {'search': query});
+    try {
+      final response = await getJson('/masternodes/name/$query/');
 
-    final results = response['results'];
+      final results = [response];
 
-    final List<Masternode> masternodes = [];
-    for (final result in results) {
-      masternodes.add(Masternode.fromJson(result));
+      final List<Masternode> masternodes = [];
+      for (final result in results) {
+        masternodes.add(Masternode.fromJson(result));
+      }
+
+      return masternodes;
+    } catch (e) {
+      print(e);
+      return [];
     }
-
-    return masternodes;
   }
 
   Future<double> getBalance(String publicKey) async {

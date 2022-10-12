@@ -13,7 +13,6 @@ _$_Masternode _$$_MasternodeFromJson(Map<String, dynamic> json) =>
       connectDate: DateTime.parse(json['connect_date'] as String),
       isActive: json['is_active'] as bool,
       blockCount: json['block_count'] as int,
-      location: json['location'],
     );
 
 Map<String, dynamic> _$$_MasternodeToJson(_$_Masternode instance) =>
@@ -23,5 +22,4 @@ Map<String, dynamic> _$$_MasternodeToJson(_$_Masternode instance) =>
       'connect_date': instance.connectDate.toIso8601String(),
       'is_active': instance.isActive,
       'block_count': instance.blockCount,
-      'location': instance.location,
     };

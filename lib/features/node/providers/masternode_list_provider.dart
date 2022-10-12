@@ -2,20 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/services/explorer_service.dart';
 import 'package:rbx_wallet/features/node/models/masternode.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 class MasternodeListProvider extends StateNotifier<List<Masternode>> {
   final Reader read;
 
   late final TextEditingController searchController;
 
-  MasternodeListProvider(this.read, [List<Masternode> nodes = const []])
-      : super(nodes) {
+  MasternodeListProvider(this.read, [List<Masternode> nodes = const []]) : super(nodes) {
     searchController = TextEditingController();
   }
 
   Future<void> search() async {
-    final results =
-        await ExplorerService().searchValidators(searchController.text);
+    final results = await ExplorerService().searchValidators(searchController.text);
+
+    if (results.isEmpty) {
+      Toast.error("No validator found with name `${searchController.text}`.");
+    }
 
     state = results;
   }
@@ -26,7 +29,6 @@ class MasternodeListProvider extends StateNotifier<List<Masternode>> {
   }
 }
 
-final masternodeListProvider =
-    StateNotifierProvider<MasternodeListProvider, List<Masternode>>(
+final masternodeListProvider = StateNotifierProvider<MasternodeListProvider, List<Masternode>>(
   (ref) => MasternodeListProvider(ref.read),
 );

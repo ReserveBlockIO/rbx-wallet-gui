@@ -346,7 +346,7 @@ class NftDetailScreen extends BaseScreen {
                               title: "Transfer NFT",
                               validator: (value) => formValidatorRbxAddress(value),
                               labelText: "RBX Address",
-                              confirmText: "Transfer",
+                              confirmText: "Continue",
                               onValidSubmission: (address) async {
                                 bool? success;
 
