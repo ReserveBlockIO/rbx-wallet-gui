@@ -31,11 +31,11 @@ class PrimaryAssetFormGroup extends BaseComponent {
             title: "Asset",
             // withAuthorName: true,
           ),
-          if (_model.primaryAsset == null)
-            Text(
-              "This is currently ${_model.primaryAssetRequired ? 'REQUIRED' : 'OPTIONAL'} due to the feature(s) you have enabled.",
-              style: Theme.of(context).textTheme.caption!.copyWith(color: Colors.white),
-            ),
+          // if (_model.primaryAsset == null)
+          //   Text(
+          //     "This is currently ${_model.primaryAssetRequired ? 'REQUIRED' : 'OPTIONAL'} due to the feature(s) you have enabled.",
+          //     style: Theme.of(context).textTheme.caption!.copyWith(color: Colors.white),
+          //   ),
         ],
       ),
     );

@@ -369,6 +369,9 @@ class NftDetailScreen extends BaseScreen {
                                     confirmText: "Transfer",
                                     onValidSubmission: (url) async {
                                       success = await _provider.transfer(address, url);
+                                      if (success == true) {
+                                        Navigator.of(context).pop();
+                                      }
                                     },
                                   );
                                 }

@@ -10,6 +10,7 @@ import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/providers/burned_provider.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
+import 'package:rbx_wallet/features/nft/providers/transferred_provider.dart';
 import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
 import 'package:rbx_wallet/features/nft/modals/nft_management_modal.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
@@ -78,9 +79,10 @@ class NftCard extends BaseComponent {
     // );
 
     final isBurned = ref.watch(burnedProvider).contains(nft.id);
+    final isTransferred = ref.watch(transferredProvider).contains(nft.id);
 
     return InkWell(
-      onTap: isBurned
+      onTap: isBurned || isTransferred
           ? null
           : () {
               _showDetails(context, ref);
@@ -212,6 +214,18 @@ class NftCard extends BaseComponent {
                 child: const Center(
                     child: Text(
                   "Burned",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )),
+              ),
+            if (isTransferred)
+              Container(
+                color: Colors.black54,
+                child: const Center(
+                    child: Text(
+                  "Transferred",
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,

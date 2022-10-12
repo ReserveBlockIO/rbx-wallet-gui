@@ -7,6 +7,7 @@ import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/services/transaction_service.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/providers/burned_provider.dart';
+import 'package:rbx_wallet/features/nft/providers/transferred_provider.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
 import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
@@ -118,6 +119,9 @@ class NftDetailProvider extends StateNotifier<Nft?> {
   Future<bool> transfer(String address, String? url) async {
     // if (!canTransact()) return false;
     final success = await SmartContractService().transfer(id, address, url);
+    if (success == true) {
+      read(transferredProvider.notifier).addId(id);
+    }
     return success;
   }
 
@@ -125,6 +129,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     if (data == null || data['Result'] != "Success") {
       return false;
     }
+
     return true;
   }
 

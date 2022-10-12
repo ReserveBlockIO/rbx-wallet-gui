@@ -96,7 +96,7 @@ class ValidatorScreen extends BaseScreen {
 
                 // if (!await checkPort(false)) return;
 
-                if (currentWallet.balance < 1000) {
+                if (currentWallet.balance < 1000.0) {
                   Toast.error("Balance not currently sufficient to validate");
                   return;
                 }
