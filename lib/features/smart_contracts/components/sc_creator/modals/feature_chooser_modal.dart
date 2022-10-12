@@ -8,23 +8,33 @@ import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_form_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_modal.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/fractional/fractional_modal.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/fractional/fractional_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/multi_asset/multi_asset_modal.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/multi_asset/multi_asset_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/pair/pair_modal.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/pair/pair_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty_form_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty_modal.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/soul_bound/soul_bound_modal.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/soul_bound/sould_bound_form_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket_form_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket_modal.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/tokenization/tokenization_modal.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/tokenization/tokenization_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/feature.dart';
 
 class FeatureChooserModal extends BaseComponent {
   final bool canAddRoyalty;
   final bool canAddEvolve;
   final bool canAddMultiAsset;
+  final bool canAddSoulBound;
   const FeatureChooserModal({
     Key? key,
     this.canAddRoyalty = true,
     this.canAddEvolve = true,
     this.canAddMultiAsset = true,
+    this.canAddSoulBound = true,
   }) : super(key: key);
 
   @override
@@ -56,10 +66,7 @@ class FeatureChooserModal extends BaseComponent {
                   switch (f.type) {
                     case FeatureType.royalty:
                       if (!canAddRoyalty) {
-                        InfoDialog.show(
-                            title: "Can't add Royalty",
-                            body:
-                                "You already have a royalty feature in this smart contract.");
+                        InfoDialog.show(title: "Can't add Royalty", body: "You already have a royalty feature in this smart contract.");
                         return null;
                       }
                       ref.read(royaltyFormProvider.notifier).clear();
@@ -87,9 +94,30 @@ class FeatureChooserModal extends BaseComponent {
                       ref.read(multiAssetFormProvider.notifier).clear();
                       modal = const MultiAssetModal();
                       break;
+                    case FeatureType.tokenization:
+                      ref.read(tokenizationFormProvider.notifier).clear();
+                      modal = const TokenizationModal();
+                      break;
                     case FeatureType.ticket:
                       ref.read(ticketFormProvider.notifier).clear();
                       modal = const TicketModal();
+                      break;
+                    case FeatureType.fractionalization:
+                      ref.read(fractionalFormProvider.notifier).clear();
+                      modal = const FractionalModal();
+                      break;
+
+                    case FeatureType.pair:
+                      ref.read(pairFormProvider.notifier).clear();
+                      modal = const PairModal();
+                      break;
+                    case FeatureType.soulBound:
+                      ref.read(soulBoundFormProvider.notifier).clear();
+                      modal = const SoulBoundModal();
+                      if (!canAddSoulBound) {
+                        InfoDialog.show(title: "Can't add Soul Bound", body: "You already have a soul bound feature in this smart contract.");
+                        return null;
+                      }
                       break;
                     default:
                       return const ModalContainer(

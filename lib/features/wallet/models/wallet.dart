@@ -16,7 +16,8 @@ class Wallet with _$Wallet {
     String? friendlyName,
     @JsonKey(name: 'Balance') required double balance,
     @JsonKey(name: 'IsValidating') required bool isValidating,
-    // @JsonKey(name: 'IsEncrypted') required bool isEncrypted,
+    @JsonKey(name: 'IsEncrypted') required bool isEncrypted,
+    @JsonKey(name: "ADNR") String? adnr,
   }) = _Wallet;
 
   factory Wallet.fromJson(Map<String, dynamic> json) => _$WalletFromJson(json);
@@ -44,7 +45,7 @@ class Wallet with _$Wallet {
     final start = address.substring(0, 5);
     final end = address.substring(address.length - 5, address.length);
 
-    return "$start.....$end";
+    return "${adnr != null ? '@$adnr | ' : ''}$start.....$end";
   }
 
   String get labelWithoutTruncation {

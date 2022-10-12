@@ -122,6 +122,18 @@ String? formValidatorRbxAddress(String? value) {
   return null;
 }
 
+String? formValidatorRbxAddressOrEmpty(String? value) {
+  if (value == null || value.isEmpty) {
+    return null;
+  }
+
+  if (!isValidRbxAddress(value)) {
+    return "Invalid Address.";
+  }
+
+  return null;
+}
+
 String? formPercentValidator(String? val) {
   if (val == null || val.isEmpty) {
     return "Required";
@@ -150,6 +162,28 @@ String? formValidatorNumber(String? value, String label) {
   if (!isNumber(value)) {
     return "Invalid $label.";
   }
+
+  return null;
+}
+
+String? formValidatorInteger(String? value, String label) {
+  if (value == null || value.isEmpty) {
+    return "$label is required.";
+  }
+
+  if (!isInt(value)) {
+    return "Invalid $label.";
+  }
+
+  return null;
+}
+
+String? formValidatorAlphaNumeric(String? value, String label) {
+  if (value == null || value.isEmpty) {
+    return "$label is required.";
+  }
+
+  return RegExp(r"^[a-zA-Z0-9]+$").hasMatch(value) ? null : "A DNR may only contain letters and numbers.";
 
   return null;
 }

@@ -12,16 +12,28 @@ import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/modals
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_form_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_modal.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/fractional/fractional_modal.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/fractional/fractional_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/multi_asset/multi_asset_modal.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/multi_asset/multi_asset_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/pair/pair_modal.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/pair/pair_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty_form_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty_modal.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/soul_bound/soul_bound.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/soul_bound/soul_bound_modal.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/soul_bound/sould_bound_form_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket_form_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket_modal.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/tokenization/tokenization_modal.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/tokenization/tokenization_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/feature.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/fractional.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/multi_asset.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/pair.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/tokenization.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
 import 'package:collection/collection.dart';
 
@@ -53,41 +65,40 @@ class FeaturesFormGroup extends BaseComponent {
           const SizedBox(
             height: 12,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0).copyWith(right: 0),
-                child: AppButton(
-                  label: "Add Feature",
-                  onPressed: _model.isCompiled
-                      ? null
-                      : () {
-                          final canAddRoyalty = _model.features.firstWhereOrNull((f) => f.type == FeatureType.royalty) == null;
+          Padding(
+            padding: const EdgeInsets.all(8.0).copyWith(right: 0),
+            child: Center(
+              child: AppButton(
+                label: "Add${_model.features.isNotEmpty ? ' Another ' : ' '}Feature",
+                onPressed: _model.isCompiled
+                    ? null
+                    : () {
+                        final canAddRoyalty = _model.features.firstWhereOrNull((f) => f.type == FeatureType.royalty) == null;
 
-                          final canAddEvolve = _model.features.firstWhereOrNull((f) => f.type == FeatureType.evolution) == null;
+                        final canAddEvolve = _model.features.firstWhereOrNull((f) => f.type == FeatureType.evolution) == null;
 
-                          final canAddMultiAsset = _model.features.firstWhereOrNull((f) => f.type == FeatureType.multiAsset) == null;
+                        final canAddMultiAsset = _model.features.firstWhereOrNull((f) => f.type == FeatureType.multiAsset) == null;
 
-                          showModalBottomSheet(
-                            backgroundColor: Colors.transparent,
-                            context: rootNavigatorKey.currentContext!,
-                            isScrollControlled: true,
-                            isDismissible: true,
-                            builder: (context) {
-                              return FeatureChooserModal(
+                        final canAddSoulBound = _model.features.firstWhereOrNull((f) => f.type == FeatureType.soulBound) == null;
+
+                        showModalBottomSheet(
+                          backgroundColor: Colors.transparent,
+                          context: rootNavigatorKey.currentContext!,
+                          isScrollControlled: true,
+                          isDismissible: true,
+                          builder: (context) {
+                            return FeatureChooserModal(
                                 canAddRoyalty: canAddRoyalty,
                                 canAddEvolve: canAddEvolve,
                                 canAddMultiAsset: canAddMultiAsset,
-                              );
-                            },
-                          );
-                        },
-                  icon: Icons.add,
-                  variant: AppColorVariant.Primary,
-                ),
-              )
-            ],
+                                canAddSoulBound: canAddSoulBound);
+                          },
+                        );
+                      },
+                icon: Icons.add,
+                variant: AppColorVariant.Primary,
+              ),
+            ),
           )
         ],
       ),
@@ -160,6 +171,26 @@ class _FeatureCard extends BaseComponent {
                           ref.read(multiAssetFormProvider.notifier).setMultiAsset(multiAsset);
                           showEditModal(const MultiAssetModal());
                           break;
+                        case FeatureType.tokenization:
+                          final tokenization = Tokenization.fromJson(feature.data);
+                          ref.read(tokenizationFormProvider.notifier).setTokenization(tokenization);
+                          showEditModal(const TokenizationModal());
+                          break;
+                        case FeatureType.fractionalization:
+                          final fractional = Fractional.fromJson(feature.data);
+                          ref.read(fractionalFormProvider.notifier).setFractional(fractional);
+                          showEditModal(const FractionalModal());
+                          break;
+                        case FeatureType.pair:
+                          final pair = Pair.fromJson(feature.data);
+                          ref.read(pairFormProvider.notifier).setPair(pair);
+                          showEditModal(const PairModal());
+                          break;
+                        case FeatureType.soulBound:
+                          final soulBound = SoulBound.fromJson(feature.data);
+                          ref.read(soulBoundFormProvider.notifier).setSoulBound(soulBound);
+                          showEditModal(const SoulBoundModal());
+                          break;
                         default:
                           print("Not implemented");
                           break;
@@ -191,6 +222,22 @@ class _FeatureCard extends BaseComponent {
                         case FeatureType.multiAsset:
                           final multiAsset = MultiAsset.fromJson(feature.data);
                           ref.read(createSmartContractProvider.notifier).removeMultiAsset(multiAsset);
+                          break;
+                        case FeatureType.tokenization:
+                          final tokenization = Tokenization.fromJson(feature.data);
+                          ref.read(createSmartContractProvider.notifier).removeTokenization(tokenization);
+                          break;
+                        case FeatureType.fractionalization:
+                          final fractional = Fractional.fromJson(feature.data);
+                          ref.read(createSmartContractProvider.notifier).removeFractional(fractional);
+                          break;
+                        case FeatureType.pair:
+                          final pair = Pair.fromJson(feature.data);
+                          ref.read(createSmartContractProvider.notifier).removePair(pair);
+                          break;
+                        case FeatureType.soulBound:
+                          final soulBound = SoulBound.fromJson(feature.data);
+                          ref.read(createSmartContractProvider.notifier).removeSoulBound(soulBound);
                           break;
                         default:
                           print("Not implemented");
