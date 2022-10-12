@@ -255,6 +255,7 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
   void removeMultiAsset(MultiAsset multiAsset) {
     final index = state.multiAssets.indexWhere((m) => m.id == multiAsset.id);
     state = state.copyWith(multiAssets: [...state.multiAssets]..removeAt(index));
+
   }
 
   void saveSoulBound(SoulBound soulBound) {
@@ -409,8 +410,8 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
     return csc.smartContract;
   }
 
-  Future<bool> mint() async {
-    final success = kIsWeb ? await TransactionService().mintSmartContract(state.id) : await SmartContractService().mint(state.id);
+  Future<bool> mint([String? idOverride]) async {
+    final success = kIsWeb ? await TransactionService().mintSmartContract(state.id) : await SmartContractService().mint(idOverride ?? state.id);
 
     if (success) {
       saveMintedNft(state.id);

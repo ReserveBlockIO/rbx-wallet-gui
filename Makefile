@@ -1,4 +1,4 @@
-phony: build_mac, package_mac,
+phony: build_mac, package_mac, build_core
 
 gen:
 	fvm flutter packages pub run build_runner build --delete-conflicting-outputs
@@ -14,10 +14,13 @@ wingen_watch:
 	flutter packages pub run build_runner watch --delete-conflicting-outputs
 
 
-package_mac:
+build_core:
 	cd ../Core-CLI && git pull && cd /Users/tylersavery/Projects/rbx/rbx_wallet/
 	dotnet publish -c Release -r osx-x64 ../Core-Cli/
-	./build_mac.sh
+
+package_mac:
+	make build_core
+	# ./build_mac.sh
 	rm -f ./installers/exports/RBX-OSX-Intel-Installer.dmg
 	rm -rf ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
 	mkdir ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
@@ -31,7 +34,7 @@ package_mac:
 package_m1:
 	cd ../Core-CLI && git pull && cd /Users/tyler/prj/rbx/rbx-wallet-gui/
 	dotnet publish -c Release -r osx-x64 ../Core-Cli/
-	./build_m1.sh
+	# ./build_m1.sh
 	rm -f ./installers/exports/RBX-OSX-ARM-Installer.dmg
 	rm -rf ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
 	mkdir ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore

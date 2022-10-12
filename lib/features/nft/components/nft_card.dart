@@ -49,6 +49,7 @@ class NftCard extends BaseComponent {
     } else {
       Navigator.of(context).push(MaterialPageRoute(builder: (_) => NftDetailScreen(id: nft.id)));
       // AutoRouter.of(context).push(NftDetailScreenRoute(id: nft.id));
+
     }
   }
 

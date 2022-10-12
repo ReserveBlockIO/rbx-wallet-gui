@@ -208,7 +208,10 @@ class NftDetailScreen extends BaseScreen {
                                       ? nft.assetsAvailable
                                           ? ProxiedAssetCard(nft.proxiedAsset)
                                           : buildAssetsNotAvailable(_provider)
-                                      : AssetCard(nft.currentEvolveAsset),
+                                      : AssetCard(
+                                          nft.currentEvolveAsset,
+                                          nftId: nft.id,
+                                        ),
                                   if (nft.additionalAssets.isNotEmpty)
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8),
@@ -242,7 +245,10 @@ class NftDetailScreen extends BaseScreen {
                                                           .map(
                                                             (a) => Padding(
                                                               padding: const EdgeInsets.only(right: 6.0),
-                                                              child: AssetThumbnail(a),
+                                                              child: AssetThumbnail(
+                                                                a,
+                                                                nftId: nft.id,
+                                                              ),
                                                             ),
                                                           )
                                                           .toList(),
@@ -342,12 +348,29 @@ class NftDetailScreen extends BaseScreen {
                               labelText: "RBX Address",
                               confirmText: "Transfer",
                               onValidSubmission: (address) async {
-                                final success = kIsWeb ? await _provider.transferWebOut(address) : await _provider.transfer(address);
+                                bool? success;
 
-                                if (success) {
-                                  Toast.message("NFT Transfer sent successfully to $address!");
+                                if (kIsWeb) {
+                                  success = await _provider.transferWebOut(address);
+                                  if (success == true) {
+                                    Toast.message("NFT Transfer sent successfully to $address!");
+                                  } else {
+                                    Toast.error();
+                                  }
                                 } else {
-                                  Toast.error();
+                                  PromptModal.show(
+                                    contextOverride: context,
+                                    title: "Backup URL (Optional)",
+                                    body: "Paste in a public URL to a hosted zipfile containing the assets.",
+                                    validator: (value) {
+                                      return null;
+                                    },
+                                    labelText: "URL (Optional)",
+                                    confirmText: "Transfer",
+                                    onValidSubmission: (url) async {
+                                      success = await _provider.transfer(address, url);
+                                    },
+                                  );
                                 }
                               },
                             );
