@@ -33,6 +33,7 @@ mixin _$Wallet {
   double get balance => throw _privateConstructorUsedError;
   @JsonKey(name: 'IsValidating')
   bool get isValidating => throw _privateConstructorUsedError;
+
   @JsonKey(name: 'IsEncrypted')
   bool get isEncrypted => throw _privateConstructorUsedError;
   @JsonKey(name: "ADNR")
@@ -57,6 +58,7 @@ abstract class $WalletCopyWith<$Res> {
       @JsonKey(name: 'IsValidating') bool isValidating,
       @JsonKey(name: 'IsEncrypted') bool isEncrypted,
       @JsonKey(name: "ADNR") String? adnr});
+
 }
 
 /// @nodoc
@@ -209,6 +211,7 @@ class _$_Wallet extends _Wallet {
       @JsonKey(name: 'Address') required this.address,
       this.friendlyName,
       @JsonKey(name: 'Balance') required this.balance,
+
       @JsonKey(name: 'IsValidating') required this.isValidating,
       @JsonKey(name: 'IsEncrypted') required this.isEncrypted,
       @JsonKey(name: "ADNR") this.adnr})
@@ -237,6 +240,7 @@ class _$_Wallet extends _Wallet {
   @override
   @JsonKey(name: 'IsValidating')
   final bool isValidating;
+
   @override
   @JsonKey(name: 'IsEncrypted')
   final bool isEncrypted;
@@ -247,6 +251,7 @@ class _$_Wallet extends _Wallet {
   @override
   String toString() {
     return 'Wallet(id: $id, publicKey: $publicKey, privateKey: $privateKey, address: $address, friendlyName: $friendlyName, balance: $balance, isValidating: $isValidating, isEncrypted: $isEncrypted, adnr: $adnr)';
+
   }
 
   @override
@@ -267,6 +272,7 @@ class _$_Wallet extends _Wallet {
             const DeepCollectionEquality()
                 .equals(other.isEncrypted, isEncrypted) &&
             const DeepCollectionEquality().equals(other.adnr, adnr));
+
   }
 
   @JsonKey(ignore: true)
@@ -296,6 +302,7 @@ class _$_Wallet extends _Wallet {
 
 abstract class _Wallet extends Wallet {
   factory _Wallet(
+
       {@JsonKey(name: 'Id') required final int id,
       @JsonKey(name: 'PublicKey') required final String publicKey,
       @JsonKey(name: 'PrivateKey') required final String privateKey,

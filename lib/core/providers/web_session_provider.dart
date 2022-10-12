@@ -44,7 +44,7 @@ class WebSessionModel {
       address: keypair!.public,
       balance: balance ?? 0,
       isValidating: false,
-      isEncrypted: false,
+      // isEncrypted: false,
     );
   }
 }

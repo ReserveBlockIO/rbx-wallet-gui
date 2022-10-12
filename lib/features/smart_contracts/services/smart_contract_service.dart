@@ -38,7 +38,10 @@ class SmartContractService extends BaseService {
 
   Future<DetailedSmartContract?> retrieve(String id) async {
     try {
-      final response = await getText('/GetSingleSmartContract/$id');
+      print("RETRIEVE ID: $id");
+      final url = '/GetSingleSmartContract/$id';
+      print(url);
+      final response = await getText(url);
       final data = jsonDecode(response);
       print(data);
       print("!!!!!!!!");
@@ -50,13 +53,22 @@ class SmartContractService extends BaseService {
   }
 
   Future<CompilerResponse?> compileSmartContract(Map<String, dynamic> payload) async {
+    final Map<String, dynamic> p = {...payload}..remove('hash');
 
-    print(jsonEncode(payload));
+    print("------------");
+    print("--/CreateSmartContract PAYLOAD--");
+    print(jsonEncode(p));
+    print("------------");
+
     try {
       final response = await postJson(
         "/CreateSmartContract",
-        params: payload,
+        params: p,
       );
+
+      print("==============");
+      print(jsonEncode(response['data'][0]));
+      print("==============");
 
       final csc = CompilerResponse.fromJson(response['data'][0]);
       return csc;
@@ -123,6 +135,7 @@ class SmartContractService extends BaseService {
 
   Future<bool> mint(String id) async {
     try {
+      print("-------------ID $id------------");
       final response = await getText("/MintSmartContract/$id");
 
       if (response == "Smart contract has been published to mempool") {
@@ -135,9 +148,12 @@ class SmartContractService extends BaseService {
     }
   }
 
-  Future<bool> transfer(String id, String address) async {
+  Future<bool> transfer(String id, String address, String? url) async {
     try {
-      await getText("/TransferNFT/$id/$address");
+      final response = await getText(url != null && url.isNotEmpty ? "/TransferNFT/$id/$address/$url" : "/TransferNFT/$id/$address");
+      print("---");
+      print(response);
+      print("---");
       return true;
     } catch (e) {
       print(e);
@@ -146,10 +162,6 @@ class SmartContractService extends BaseService {
   }
 
   Future<bool> evolve(String id, String toAddress, int stage) async {
-    print("-------------");
-    print(toAddress);
-    print("-------------");
-
     try {
       await getText("/EvolveSpecific/$id/$toAddress/$stage");
 
@@ -163,6 +175,28 @@ class SmartContractService extends BaseService {
   Future<bool> burn(String id) async {
     try {
       await getText("/Burn/$id");
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> associateAsset(String nftId, String assetPath) async {
+    try {
+      final data = await getText("/AssociateNFTAsset/$nftId/$assetPath");
+      print(data);
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> downloadAssets(String nftId) async {
+    try {
+      final data = await getText("/DownloadNftAssets/$nftId");
+      print(data);
       return true;
     } catch (e) {
       print(e);

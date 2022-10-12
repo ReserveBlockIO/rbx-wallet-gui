@@ -113,7 +113,7 @@ class BridgeService extends BaseService {
   Future<String?> turnOnValidator(String id) async {
     final message = await getText("/TurnOnValidator/$id");
 
-    if (message == "STV") {
+    if (message == "No Validator account has been found. Please create one.") {
       return null;
     }
 
@@ -126,6 +126,16 @@ class BridgeService extends BaseService {
       return true;
     } catch (e) {
       return false;
+    }
+  }
+
+  Future<String?> getValidatorInfo(String address) async {
+    try {
+      final name = await getText("/GetValidatorInfo/$address");
+      return name;
+    } catch (e) {
+      print(e);
+      return null;
     }
   }
 

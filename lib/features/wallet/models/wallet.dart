@@ -32,7 +32,7 @@ class Wallet with _$Wallet {
       id: 0,
       publicKey: keypair.publicInflated,
       privateKey: keypair.private,
-      isEncrypted: false,
+      // isEncrypted: false,
       isValidating: false,
     );
   }
