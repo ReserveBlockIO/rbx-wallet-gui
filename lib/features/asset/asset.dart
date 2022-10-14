@@ -32,6 +32,9 @@ abstract class Asset with _$Asset {
 
   String get fileName {
     final slash = !kIsWeb && Platform.isWindows ? "\\" : "/";
+    if (name != null) {
+      return name!.split(slash).last;
+    }
     return location.split(slash).last;
   }
 

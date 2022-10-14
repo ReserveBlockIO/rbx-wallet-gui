@@ -117,6 +117,7 @@ class NftCard extends BaseComponent {
 
                         return data.when(
                             data: (location) {
+                              print("LOCATION: $location");
                               if (location == null) {
                                 return SizedBox();
                               }
