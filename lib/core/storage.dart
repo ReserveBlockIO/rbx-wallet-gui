@@ -13,7 +13,7 @@ abstract class Storage {
   static const LOCAL_SMART_CONTRACTS = "LOCAL_SMART_CONTRACTS2";
   static const MANAGABLE_NFT_IDS = "MANAGABLE_NFT_IDS";
   static const BURNED_NFT_IDS = "BURNED_NFT_IDS";
-  static const TRANSFERRED_NFT_IDS = "TRANSFERRED_NFT_IDS1";
+  static const TRANSFERRED_NFT_IDS = "TRANSFERRED_NFT_IDS";
   static const WEB_KEYPAIR = "WEB_KEYPAIR";
 
   bool isInitialized = false;
