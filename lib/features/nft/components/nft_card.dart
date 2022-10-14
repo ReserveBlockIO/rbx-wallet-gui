@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/badges.dart';
+import 'package:rbx_wallet/core/components/centered_loader.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
@@ -14,6 +17,7 @@ import 'package:rbx_wallet/features/nft/providers/transferred_provider.dart';
 import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
 import 'package:rbx_wallet/features/nft/modals/nft_management_modal.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
+import 'package:rbx_wallet/features/smart_contracts/providers/asset_location_provider.dart';
 
 class NftCard extends BaseComponent {
   final Nft nft;
@@ -108,23 +112,36 @@ class NftCard extends BaseComponent {
               nft.currentEvolveAsset.isImage
                   ? AspectRatio(
                       aspectRatio: 1,
-                      child: Image.file(
-                        nft.currentEvolveAsset.file,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, _, __) {
-                          return Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Text(
-                                "File not found for preview.\nLikely this means this NFT not longer exists on this machine.\n",
-                                style: Theme.of(context).textTheme.caption,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          );
-                        },
-                      ),
+                      child: Consumer(builder: (context, ref, _) {
+                        final data = ref.watch(assetLocationProvider(nft.currentEvolveAsset.locationData(nft.id)));
+
+                        return data.when(
+                            data: (location) {
+                              if (location == null) {
+                                return SizedBox();
+                              }
+
+                              return Image.file(
+                                File(location),
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, _, __) {
+                                  return Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: Text(
+                                        "File not found for preview.\nLikely this means this NFT not longer exists on this machine.\n",
+                                        style: Theme.of(context).textTheme.caption,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                            error: (err, _) => SizedBox(),
+                            loading: () => CenteredLoader());
+                      }),
                     )
                   : const Icon(Icons.file_present_outlined),
             Container(

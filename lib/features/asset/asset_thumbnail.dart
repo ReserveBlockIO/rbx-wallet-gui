@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/components/centered_loader.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/features/asset/asset_card.dart';
+import 'package:rbx_wallet/features/smart_contracts/providers/asset_location_provider.dart';
 
 class AssetThumbnail extends StatelessWidget {
   final double size;
@@ -56,10 +61,25 @@ class AssetThumbnail extends StatelessWidget {
         width: size,
         height: size,
         child: asset.isImage
-            ? Image.file(
-                asset.file,
-                width: double.infinity,
-                fit: BoxFit.cover,
+            ? Consumer(
+                builder: (context, ref, _) {
+                  final data = ref.watch(assetLocationProvider(asset.locationData(nftId)));
+                  return data.when(
+                    data: (location) {
+                      if (location == null) {
+                        return SizedBox();
+                      }
+
+                      return Image.file(
+                        File(location),
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      );
+                    },
+                    error: (err, _) => SizedBox(),
+                    loading: () => CenteredLoader(),
+                  );
+                },
               )
             : const Icon(Icons.file_present_outlined),
       ),

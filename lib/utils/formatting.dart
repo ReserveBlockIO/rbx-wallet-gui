@@ -8,7 +8,7 @@ String formatIntWithCommas(int number) {
   return numberFormat.format(number);
 }
 
-String readableFileSize(int value, {bool base1024 = true}) {
+String readableFileSize(num value, {bool base1024 = true}) {
   final base = base1024 ? 1024 : 1000;
   if (value <= 0) return "0";
   final units = ["B", "kB", "MB", "GB", "TB"];

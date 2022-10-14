@@ -127,7 +127,7 @@ class NftDetailScreen extends BaseScreen {
                 const SizedBox(
                   height: 4,
                 ),
-                Text("ID: ${nft.id}"),
+                SelectableText("ID: ${nft.id}"),
                 const SizedBox(
                   height: 4,
                 ),

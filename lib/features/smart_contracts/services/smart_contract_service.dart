@@ -203,4 +203,19 @@ class SmartContractService extends BaseService {
       return false;
     }
   }
+
+  Future<String?> getAssetPath(String scId, String filename) async {
+    try {
+      final path = "/GetNFTAssetLocation/$scId/$filename";
+      print(path);
+      final location = await getText(path, cleanPath: false);
+      print(location);
+      print("---------");
+      if (location == "Error") return null;
+      return location;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 }

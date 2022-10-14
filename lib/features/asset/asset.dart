@@ -103,4 +103,8 @@ abstract class Asset with _$Asset {
   String get filesizeLabel {
     return readableFileSize(fileSize);
   }
+
+  String locationData(String scId) {
+    return "${scId.replaceAll(':', '%3A')}||$name";
+  }
 }
