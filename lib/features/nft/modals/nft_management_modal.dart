@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/components/centered_loader.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
@@ -13,6 +16,8 @@ import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
 import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
+import 'package:rbx_wallet/features/smart_contracts/providers/asset_location_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
 import 'package:rbx_wallet/utils/files.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
@@ -301,12 +306,24 @@ class _EvolutionStateRow extends BaseComponent {
                         alignment: Alignment.bottomCenter,
                         children: [
                           if (phase.asset != null && phase.asset!.isImage)
-                            Image.file(
-                              phase.asset!.file,
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            ),
+                            Consumer(builder: (context, ref, _) {
+                              final data = ref.watch(assetLocationProvider(phase.asset!.locationData(nftId)));
+                              return data.when(
+                                  data: (location) {
+                                    if (location == null) {
+                                      return SizedBox();
+                                    }
+
+                                    return Image.file(
+                                      File(location),
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                    );
+                                  },
+                                  error: (err, _) => SizedBox(),
+                                  loading: () => CenteredLoader());
+                            }),
                           if (phase.asset == null)
                             const SizedBox(
                               width: 100,
@@ -320,8 +337,11 @@ class _EvolutionStateRow extends BaseComponent {
                               label: "Open File",
                               type: AppButtonType.Text,
                               variant: AppColorVariant.Light,
-                              onPressed: () {
-                                openFile(phase.asset!.file);
+                              onPressed: () async {
+                                final path = await SmartContractService().getAssetPath(nftId, phase.asset!.name!);
+                                if (path != null) {
+                                  openFile(File(path));
+                                }
                               },
                             )
                         ],

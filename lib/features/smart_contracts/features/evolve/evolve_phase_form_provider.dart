@@ -87,7 +87,13 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
       blockHeight: int.tryParse(blockHeightController.text),
     );
 
+    if (state.asset == null) {
+      OverlayToast.error("Asset is required");
+      return false;
+    }
+
     read(evolveFormProvider.notifier).updatePhase(index, state);
+
     return true;
   }
 
