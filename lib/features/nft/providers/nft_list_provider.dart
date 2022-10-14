@@ -22,7 +22,6 @@ class NftListProvider extends StateNotifier<List<Nft>> {
     state = nfts;
 
     for (final nft in nfts) {
-      print("***********");
       refresh(assetLocationProvider(nft.primaryAsset.locationData(nft.id)));
     }
   }

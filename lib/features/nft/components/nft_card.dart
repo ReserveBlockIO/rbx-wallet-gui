@@ -243,7 +243,7 @@ class NftCard extends BaseComponent {
                 color: Colors.black54,
                 child: const Center(
                     child: Text(
-                  "Transferred",
+                  "Transferring",
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
