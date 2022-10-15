@@ -330,7 +330,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
   }
 
   Future<bool> setEvolve(int stage, String toAddress) async {
-    if (!canTransact()) return false;
+    // if (!canTransact()) return false;
 
     final success = await SmartContractService().evolve(id, toAddress, stage);
 
