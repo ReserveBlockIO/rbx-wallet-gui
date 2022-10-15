@@ -148,11 +148,13 @@ class _DownloadOrAssociateState extends State<DownloadOrAssociate> {
 
   Future<void> checkAvailable() async {
     final syncPath = widget.asset.location;
-    final exists = await io.File(syncPath).exists();
+    if (syncPath != null) {
+      final exists = await io.File(syncPath).exists();
 
-    setState(() {
-      visible = !exists;
-    });
+      setState(() {
+        visible = !exists;
+      });
+    }
   }
 
   @override

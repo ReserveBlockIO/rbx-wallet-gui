@@ -22,8 +22,8 @@ abstract class Asset with _$Asset {
     @JsonKey(name: "AssetId") required String id,
     @JsonKey(name: "Name") String? name,
     @JsonKey(name: "AssetAuthorName") String? authorName,
-    @JsonKey(name: "Location") required String location,
-    @JsonKey(name: "Extension") required String extension,
+    @JsonKey(name: "Location") String? location,
+    @JsonKey(name: "Extension") String? extension,
     @JsonKey(name: "FileSize") required int fileSize,
     @JsonKey(toJson: bytesToNull, fromJson: nullToNull) Uint8List? bytes,
   }) = _Asset;
@@ -35,7 +35,11 @@ abstract class Asset with _$Asset {
     if (name != null) {
       return name!.split(slash).last;
     }
-    return location.split(slash).last;
+
+    if (location != null) {
+      return location!.split(slash).last;
+    }
+    return "";
   }
 
   String get ext {
@@ -88,11 +92,15 @@ abstract class Asset with _$Asset {
   }
 
   String get fixedLocation {
-    if (Platform.isWindows) {
-      return location;
+    if (Platform.isWindows && location != null) {
+      return location!;
     }
 
-    return location.replaceAll("/Volumes/Macintosh HD/", '/');
+    if (location != null) {
+      return location!.replaceAll("/Volumes/Macintosh HD/", '/');
+    }
+
+    return "";
   }
 
   File get file {

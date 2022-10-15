@@ -27,9 +27,9 @@ mixin _$Asset {
   @JsonKey(name: "AssetAuthorName")
   String? get authorName => throw _privateConstructorUsedError;
   @JsonKey(name: "Location")
-  String get location => throw _privateConstructorUsedError;
+  String? get location => throw _privateConstructorUsedError;
   @JsonKey(name: "Extension")
-  String get extension => throw _privateConstructorUsedError;
+  String? get extension => throw _privateConstructorUsedError;
   @JsonKey(name: "FileSize")
   int get fileSize => throw _privateConstructorUsedError;
   @JsonKey(toJson: bytesToNull, fromJson: nullToNull)
@@ -48,8 +48,8 @@ abstract class $AssetCopyWith<$Res> {
       {@JsonKey(name: "AssetId") String id,
       @JsonKey(name: "Name") String? name,
       @JsonKey(name: "AssetAuthorName") String? authorName,
-      @JsonKey(name: "Location") String location,
-      @JsonKey(name: "Extension") String extension,
+      @JsonKey(name: "Location") String? location,
+      @JsonKey(name: "Extension") String? extension,
       @JsonKey(name: "FileSize") int fileSize,
       @JsonKey(toJson: bytesToNull, fromJson: nullToNull) Uint8List? bytes});
 }
@@ -88,11 +88,11 @@ class _$AssetCopyWithImpl<$Res> implements $AssetCopyWith<$Res> {
       location: location == freezed
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       extension: extension == freezed
           ? _value.extension
           : extension // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       fileSize: fileSize == freezed
           ? _value.fileSize
           : fileSize // ignore: cast_nullable_to_non_nullable
@@ -114,8 +114,8 @@ abstract class _$$_AssetCopyWith<$Res> implements $AssetCopyWith<$Res> {
       {@JsonKey(name: "AssetId") String id,
       @JsonKey(name: "Name") String? name,
       @JsonKey(name: "AssetAuthorName") String? authorName,
-      @JsonKey(name: "Location") String location,
-      @JsonKey(name: "Extension") String extension,
+      @JsonKey(name: "Location") String? location,
+      @JsonKey(name: "Extension") String? extension,
       @JsonKey(name: "FileSize") int fileSize,
       @JsonKey(toJson: bytesToNull, fromJson: nullToNull) Uint8List? bytes});
 }
@@ -155,11 +155,11 @@ class __$$_AssetCopyWithImpl<$Res> extends _$AssetCopyWithImpl<$Res>
       location: location == freezed
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       extension: extension == freezed
           ? _value.extension
           : extension // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       fileSize: fileSize == freezed
           ? _value.fileSize
           : fileSize // ignore: cast_nullable_to_non_nullable
@@ -180,8 +180,8 @@ class _$_Asset extends _Asset with DiagnosticableTreeMixin {
       {@JsonKey(name: "AssetId") required this.id,
       @JsonKey(name: "Name") this.name,
       @JsonKey(name: "AssetAuthorName") this.authorName,
-      @JsonKey(name: "Location") required this.location,
-      @JsonKey(name: "Extension") required this.extension,
+      @JsonKey(name: "Location") this.location,
+      @JsonKey(name: "Extension") this.extension,
       @JsonKey(name: "FileSize") required this.fileSize,
       @JsonKey(toJson: bytesToNull, fromJson: nullToNull) this.bytes})
       : super._();
@@ -200,10 +200,10 @@ class _$_Asset extends _Asset with DiagnosticableTreeMixin {
   final String? authorName;
   @override
   @JsonKey(name: "Location")
-  final String location;
+  final String? location;
   @override
   @JsonKey(name: "Extension")
-  final String extension;
+  final String? extension;
   @override
   @JsonKey(name: "FileSize")
   final int fileSize;
@@ -277,9 +277,9 @@ abstract class _Asset extends Asset {
       @JsonKey(name: "AssetAuthorName")
           final String? authorName,
       @JsonKey(name: "Location")
-          required final String location,
+          final String? location,
       @JsonKey(name: "Extension")
-          required final String extension,
+          final String? extension,
       @JsonKey(name: "FileSize")
           required final int fileSize,
       @JsonKey(toJson: bytesToNull, fromJson: nullToNull)
@@ -299,10 +299,10 @@ abstract class _Asset extends Asset {
   String? get authorName => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "Location")
-  String get location => throw _privateConstructorUsedError;
+  String? get location => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "Extension")
-  String get extension => throw _privateConstructorUsedError;
+  String? get extension => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "FileSize")
   int get fileSize => throw _privateConstructorUsedError;
