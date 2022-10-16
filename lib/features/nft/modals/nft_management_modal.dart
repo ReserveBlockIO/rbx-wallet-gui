@@ -127,7 +127,8 @@ class NftMangementModal extends BaseComponent {
                 label: "View NFT",
                 onPressed: () {
                   Navigator.of(context).pop();
-                  AutoRouter.of(context).push(NftDetailScreenRoute(id: nft.id));
+                  // AutoRouter.of(context).push(NftDetailScreenRoute(id: nft.id));
+                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => NftDetailScreen(id: nft.id)));
                 },
               ),
             ],
@@ -137,7 +138,8 @@ class NftMangementModal extends BaseComponent {
             "Managing ${nft.name}",
             style: Theme.of(context).textTheme.headline4!.copyWith(color: Colors.white),
           ),
-          const Divider(),
+          Text("Owner: ${nft.currentOwner} "),
+          Text("Minter: ${nft.minterAddress}"),
           // if (nft.canEvolve)
           //   Column(
           //     mainAxisSize: MainAxisSize.min,
@@ -219,7 +221,7 @@ class NftMangementModal extends BaseComponent {
                     ),
                   ),
                 ),
-              _EvolutionStateRow(
+              EvolutionStateRow(
                 nft.baseEvolutionPhase,
                 nftId: id,
                 canManageEvolve: nft.canManageEvolve,
@@ -229,7 +231,7 @@ class NftMangementModal extends BaseComponent {
                   .asMap()
                   .entries
                   .map(
-                    (entry) => _EvolutionStateRow(
+                    (entry) => EvolutionStateRow(
                       entry.value,
                       nftId: id,
                       canManageEvolve: nft.canManageEvolve,
@@ -245,12 +247,12 @@ class NftMangementModal extends BaseComponent {
   }
 }
 
-class _EvolutionStateRow extends BaseComponent {
+class EvolutionStateRow extends BaseComponent {
   final String nftId;
   final EvolvePhase phase;
   final int index;
   final bool canManageEvolve;
-  const _EvolutionStateRow(
+  const EvolutionStateRow(
     this.phase, {
     Key? key,
     required this.nftId,
