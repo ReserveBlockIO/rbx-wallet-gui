@@ -18,11 +18,21 @@ class MintedNftListProvider extends StateNotifier<List<Nft>> {
   Future<void> load() async {
     final nfts = kIsWeb
         ? (await TransactionService().listMintedNfts(read(webSessionProvider).keypair!.email, read(webSessionProvider).keypair!.public))
-        : (await NftService().minted()).where((nft) => nft.manageable == true && nft.isPublished).toList();
+        : (await NftService().minted()).where((nft) => nft.manageable == true).toList();
 
-    List<Nft> output = [...nfts];
+    // List<Nft> output = kIsWeb ? [...nfts] : [...nfts];
 
-    state = output;
+    // if (!kIsWeb) {
+    //   for (final nft in nfts) {
+    //     final n = await NftService().retrieve(nft.id);
+
+    //     if (n != null) {
+    //       output.add(n);
+    //     }
+    //   }
+    // }
+
+    state = nfts;
   }
 }
 

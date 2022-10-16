@@ -55,8 +55,8 @@ abstract class Nft with _$Nft {
   }
 
   bool get manageable {
-    if (!isMinter) return false;
-    if (!isPublished) return false;
+    // if (!isMinter) return false;
+    // if (!isPublished) return false;
 
     for (final feature in featureList) {
       if (feature.type == FeatureType.evolution) {

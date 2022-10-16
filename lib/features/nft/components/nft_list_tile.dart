@@ -30,7 +30,7 @@ class NftListTile extends BaseComponent {
         builder: (context) {
           return ModalContainer(
             color: Colors.black26,
-            children: [NftMangementModal(nft.id)],
+            children: [NftMangementModal(nft.id, nft)],
           );
         },
       );

@@ -43,6 +43,7 @@ class NftService extends BaseService {
     final response = await getText(
       "/GetMintedSmartContracts",
     );
+
     if (response == 'null') {
       return [];
     }
@@ -58,7 +59,6 @@ class NftService extends BaseService {
       }
       return smartContracts;
     } catch (e) {
-      print(e);
       return [];
     }
   }

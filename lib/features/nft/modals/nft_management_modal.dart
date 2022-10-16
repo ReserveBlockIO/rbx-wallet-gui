@@ -12,6 +12,7 @@ import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
+import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
 import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
@@ -23,7 +24,8 @@ import 'package:rbx_wallet/utils/validation.dart';
 
 class NftMangementModal extends BaseComponent {
   final String id;
-  const NftMangementModal(this.id, {Key? key}) : super(key: key);
+  final Nft nft;
+  const NftMangementModal(this.id, this.nft, {Key? key}) : super(key: key);
 
   void evolve(BuildContext context, WidgetRef ref) async {
     final confirmed = await ConfirmDialog.show(
@@ -73,14 +75,15 @@ class NftMangementModal extends BaseComponent {
     final success = await _provider.setEvolve(stage, _model!.currentOwner);
     if (success) {
       Toast.message("Evolve transaction sent successfully!");
-      showEvolveMessage();
+      await showEvolveMessage();
+      Navigator.of(context).pop();
     } else {
       Toast.error();
     }
   }
 
-  void showEvolveMessage() {
-    InfoDialog.show(
+  Future<void> showEvolveMessage() async {
+    await InfoDialog.show(
       title: "Evolve transaction sent successfully",
       body: "This screen will reflect the change once the block is crafted and your block height has synced with this transaction.",
     );
@@ -88,10 +91,6 @@ class NftMangementModal extends BaseComponent {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final nft = ref.watch(nftDetailProvider(id));
-
-    if (nft == null) return Container();
-
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -140,6 +139,7 @@ class NftMangementModal extends BaseComponent {
           ),
           Text("Owner: ${nft.currentOwner} "),
           Text("Minter: ${nft.minterAddress}"),
+          Text("Current Stage: ${nft.currentEvolvePhase.name}"),
           // if (nft.canEvolve)
           //   Column(
           //     mainAxisSize: MainAxisSize.min,
@@ -165,7 +165,7 @@ class NftMangementModal extends BaseComponent {
                 nft.evolveIsDynamic ? "Evolution" : "Manage Evolution",
                 style: Theme.of(context).textTheme.headline5,
               ),
-              if (nft.canManageEvolve)
+              if (nft.manageable && false)
                 Card(
                   color: Colors.white10,
                   child: Padding(
@@ -177,7 +177,7 @@ class NftMangementModal extends BaseComponent {
                           label: "Devolve",
                           variant: AppColorVariant.Danger,
                           icon: FontAwesomeIcons.circleChevronDown,
-                          onPressed: nft.currentEvolvePhase.evolutionState > 0
+                          onPressed: nft.currentEvolvePhase.evolutionState + 1 > 0
                               ? () async {
                                   devolve(context, ref);
                                 }
@@ -187,7 +187,7 @@ class NftMangementModal extends BaseComponent {
                           label: "Evolve",
                           variant: AppColorVariant.Success,
                           icon: FontAwesomeIcons.circleChevronUp,
-                          onPressed: nft.currentEvolvePhase.evolutionState < nft.evolutionPhases.length
+                          onPressed: nft.currentEvolvePhase.evolutionState <= nft.evolutionPhases.length
                               ? () async {
                                   evolve(context, ref);
                                 }
@@ -223,8 +223,9 @@ class NftMangementModal extends BaseComponent {
                 ),
               EvolutionStateRow(
                 nft.baseEvolutionPhase,
+                nft: nft,
                 nftId: id,
-                canManageEvolve: nft.canManageEvolve,
+                canManageEvolve: nft.manageable,
                 index: 0,
               ),
               ...nft.updatedEvolutionPhases
@@ -233,8 +234,9 @@ class NftMangementModal extends BaseComponent {
                   .map(
                     (entry) => EvolutionStateRow(
                       entry.value,
+                      nft: nft,
                       nftId: id,
-                      canManageEvolve: nft.canManageEvolve,
+                      canManageEvolve: nft.manageable,
                       index: entry.key + 1,
                     ),
                   )
@@ -249,6 +251,7 @@ class NftMangementModal extends BaseComponent {
 
 class EvolutionStateRow extends BaseComponent {
   final String nftId;
+  final Nft nft;
   final EvolvePhase phase;
   final int index;
   final bool canManageEvolve;
@@ -256,11 +259,12 @@ class EvolutionStateRow extends BaseComponent {
     this.phase, {
     Key? key,
     required this.nftId,
+    required this.nft,
     required this.canManageEvolve,
     required this.index,
   }) : super(key: key);
 
-  void showEvolveMessage() {
+  Future<void> showEvolveMessage() async {
     InfoDialog.show(
       title: "Evolve transaction sent successfully",
       body: "This screen will reflect the change once the block is crafted and your block height has synced with this transaction.",
@@ -277,10 +281,15 @@ class EvolutionStateRow extends BaseComponent {
       descriptionText = "Evolve Block Height: ${phase.blockHeight}\n${phase.description}";
     }
 
+    // final isCurrent = nft.currentEvolvePhase.evolutionState + 1 == index;
+    // final isCurrent = nft.currentEvolveAsset.localPath == phase.asset!.localPath;
+    // const isCurrent = false; // TEMP
+    final isCurrent = phase.isCurrentState;
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 4.0),
       child: Container(
-        color: phase.isCurrentState ? Theme.of(context).colorScheme.success : Colors.transparent,
+        color: isCurrent ? Theme.of(context).colorScheme.success : Colors.transparent,
         child: Padding(
           padding: const EdgeInsets.all(3.0),
           child: Container(
@@ -361,7 +370,7 @@ class EvolutionStateRow extends BaseComponent {
                         width: 100,
                         child: AppButton(
                           label: "Evolve",
-                          onPressed: phase.isCurrentState
+                          onPressed: isCurrent
                               ? null
                               : () async {
                                   final confirmed = await ConfirmDialog.show(
@@ -378,7 +387,8 @@ class EvolutionStateRow extends BaseComponent {
 
                                     if (success) {
                                       Toast.message("Evolve transaction sent successfully!");
-                                      showEvolveMessage();
+                                      await showEvolveMessage();
+                                      Navigator.of(context).pop();
                                     } else {
                                       Toast.error();
                                     }

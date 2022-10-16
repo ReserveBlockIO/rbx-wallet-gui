@@ -111,18 +111,15 @@ abstract class Evolve with _$Evolve {
 
       Asset? asset;
 
-      if (p.containsKey('SmartContractAsset') &&
-          p['SmartContractAsset'] != null) {
+      if (p.containsKey('SmartContractAsset') && p['SmartContractAsset'] != null) {
         asset = Asset.fromJson(p['SmartContractAsset']);
-      } else if (p.containsKey('smartContractAsset') &&
-          p['smartContractAsset'] != null) {
+      } else if (p.containsKey('smartContractAsset') && p['smartContractAsset'] != null) {
         asset = Asset.fromJson(p['smartContractAsset']);
       } else if (p.containsKey('asset') && p['asset'] != null) {
         asset = Asset.fromJson(p['asset']);
       }
 
-      String? dateTimeString =
-          p.containsKey("DateTime") ? p['DateTime'] : p['dateTime'];
+      String? dateTimeString = p.containsKey("DateTime") ? p['DateTime'] : p['dateTime'];
       dateTimeString ??= p['EvolveDate'];
 
       DateTime? dateTime;
@@ -133,44 +130,33 @@ abstract class Evolve with _$Evolve {
       _phases.add(
         EvolvePhase(
           name: p.containsKey("Name") ? p['Name'] : p['name'],
-          description: p.containsKey("Description")
-              ? p['Description'] ?? ""
-              : p['description'] ?? "",
+          description: p.containsKey("Description") ? p['Description'] ?? "" : p['description'] ?? "",
           dateTime: dateTime,
           blockHeight: p['EvolveBlockHeight'] ?? p['blockHeight'],
-          evolutionState: p.containsKey("EvolutionState")
-              ? p['EvolutionState']
-              : p['evolutionState'],
-          isCurrentState: p.containsKey("IsCurrentState")
-              ? p['IsCurrentState']
-              : p['isCurrentState'],
+          evolutionState: p.containsKey("EvolutionState") ? p['EvolutionState'] : p['evolutionState'],
+          isCurrentState: p.containsKey("IsCurrentState") ? p['IsCurrentState'] : p['isCurrentState'],
           asset: asset,
         ),
       );
     }
 
     return Evolve(
-      type: _phases.first.dateTime == null
-          ? EvolveType.manualOnly
-          : EvolveType.time,
+      type: _phases.first.dateTime == null ? EvolveType.manualOnly : EvolveType.time,
       isDynamic: isDynamic,
       phases: _phases,
     );
   }
 
-  List<Map<String, dynamic>> serializeForCompiler(
-      String minterName, String timezoneName) {
+  List<Map<String, dynamic>> serializeForCompiler(String minterName, String timezoneName) {
     List<EvolvePhase> _phases = [...phases];
 
     if (type == EvolveType.time) {
       _phases = _phases..sort((a, b) => a.dateTime!.compareTo(b.dateTime!));
     } else if (type == EvolveType.blockHeight) {
-      _phases = _phases
-        ..sort((a, b) => a.blockHeight!.compareTo(b.blockHeight!));
+      _phases = _phases..sort((a, b) => a.blockHeight!.compareTo(b.blockHeight!));
     }
 
-    final List<Map<String, dynamic>> items =
-        _phases.asMap().entries.map((entry) {
+    final List<Map<String, dynamic>> items = _phases.asMap().entries.map((entry) {
       final p = entry.value;
 
       bool _isDynamic = isDynamic;
@@ -188,14 +174,9 @@ abstract class Evolve with _$Evolve {
         // 'EvolveParamaterType': typeToInt(type),
         // 'EvolveParamater':
         //     type == EvolveType.time ? p.dateTime.toString() : p.expectedValue,
-        'SmartContractAsset': p.asset != null
-            ? p.asset!.copyWith(authorName: minterName).toJson()
-            : null,
-        'EvolveDate': type == EvolveType.time
-            ? p.dateTimeForCompiler(timezoneName)
-            : null,
-        'EvolveBlockHeight':
-            type == EvolveType.blockHeight ? p.blockHeight : null,
+        'SmartContractAsset': p.asset != null ? p.asset!.copyWith(authorName: minterName).toJson() : null,
+        'EvolveDate': type == EvolveType.time ? p.dateTimeForCompiler(timezoneName) : null,
+        'EvolveBlockHeight': type == EvolveType.blockHeight ? p.blockHeight : null,
       };
 
       return data;

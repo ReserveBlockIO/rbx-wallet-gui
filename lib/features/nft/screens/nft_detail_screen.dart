@@ -330,6 +330,7 @@ class NftDetailScreen extends BaseScreen {
                                               children: [
                                                 EvolutionStateRow(
                                                   nft.baseEvolutionPhase,
+                                                  nft: nft,
                                                   nftId: id,
                                                   canManageEvolve: nft.canManageEvolve,
                                                   index: 0,
@@ -340,6 +341,7 @@ class NftDetailScreen extends BaseScreen {
                                                     .map(
                                                       (entry) => EvolutionStateRow(
                                                         entry.value,
+                                                        nft: nft,
                                                         nftId: id,
                                                         canManageEvolve: nft.canManageEvolve,
                                                         index: entry.key + 1,
@@ -421,7 +423,7 @@ class NftDetailScreen extends BaseScreen {
                         : null,
                   ),
                 ),
-                if (nft.manageable)
+                if (nft.manageable && nft.isMinter)
                   Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: AppButton(
@@ -435,7 +437,7 @@ class NftDetailScreen extends BaseScreen {
                           builder: (context) {
                             return ModalContainer(
                               color: Colors.black26,
-                              children: [NftMangementModal(nft.id)],
+                              children: [NftMangementModal(nft.id, nft)],
                             );
                           },
                         );
