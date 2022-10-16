@@ -16,7 +16,6 @@ import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
 import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/asset_location_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
 import 'package:rbx_wallet/utils/files.dart';
 import 'package:rbx_wallet/utils/toast.dart';
@@ -226,7 +225,7 @@ class NftMangementModal extends BaseComponent {
                 canManageEvolve: nft.canManageEvolve,
                 index: 0,
               ),
-              ...nft.evolutionPhases
+              ...nft.updatedEvolutionPhases
                   .asMap()
                   .entries
                   .map(
@@ -306,24 +305,14 @@ class _EvolutionStateRow extends BaseComponent {
                         alignment: Alignment.bottomCenter,
                         children: [
                           if (phase.asset != null && phase.asset!.isImage)
-                            Consumer(builder: (context, ref, _) {
-                              final data = ref.watch(assetLocationProvider(phase.asset!.locationData(nftId)));
-                              return data.when(
-                                  data: (location) {
-                                    if (location == null) {
-                                      return SizedBox();
-                                    }
-
-                                    return Image.file(
-                                      File(location),
-                                      width: 100,
-                                      height: 100,
-                                      fit: BoxFit.cover,
-                                    );
-                                  },
-                                  error: (err, _) => SizedBox(),
-                                  loading: () => CenteredLoader());
-                            }),
+                            phase.asset!.localPath != null
+                                ? Image.file(
+                                    File(phase.asset!.localPath!),
+                                    width: 100,
+                                    height: 100,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Text(""),
                           if (phase.asset == null)
                             const SizedBox(
                               width: 100,

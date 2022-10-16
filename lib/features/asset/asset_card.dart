@@ -1,11 +1,8 @@
 import 'dart:io' as io;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/components/centered_loader.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/asset_location_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
 import 'package:rbx_wallet/utils/files.dart';
 
@@ -28,34 +25,24 @@ class AssetCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         asset.isImage
-            ? Consumer(builder: (context, ref, _) {
-                final data = ref.watch(assetLocationProvider(asset.locationData(nftId)));
-
-                return data.when(
-                    data: (location) {
-                      if (location == null) {
-                        return SizedBox();
-                      }
-                      return Image.file(
-                        io.File(location),
-                        width: double.infinity,
-                        fit: BoxFit.contain,
-                        errorBuilder: (context, _, __) {
-                          return Column(
-                            children: [
-                              Text(
-                                "File not found for preview.\nLikely this means this NFT not longer exists on this machine.\n",
-                                style: Theme.of(context).textTheme.caption,
-                                textAlign: TextAlign.left,
-                              ),
-                            ],
-                          );
-                        },
+            ? asset.localPath != null
+                ? Image.file(
+                    io.File(asset.localPath!),
+                    width: double.infinity,
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, _, __) {
+                      return Column(
+                        children: [
+                          Text(
+                            "File not found for preview.\nLikely this means this NFT not longer exists on this machine.\n",
+                            style: Theme.of(context).textTheme.caption,
+                            textAlign: TextAlign.left,
+                          ),
+                        ],
                       );
                     },
-                    error: (err, _) => SizedBox(),
-                    loading: () => CenteredLoader());
-              })
+                  )
+                : Text("")
             : const Icon(Icons.file_present_outlined),
         if (asset.authorName != null && asset.authorName!.isNotEmpty)
           Padding(

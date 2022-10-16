@@ -18,6 +18,7 @@ nullToNull(dynamic blah) => null;
 abstract class Nft with _$Nft {
   const Nft._();
 
+  @JsonSerializable(explicitToJson: true)
   factory Nft({
     @JsonKey(name: "Name") required String name,
     @JsonKey(name: "Description") required String description,
@@ -34,6 +35,8 @@ abstract class Nft with _$Nft {
     String? code,
     @JsonKey(toJson: nullToNull, fromJson: nullToNull) ProxiedAsset? proxiedAsset,
     @JsonKey(toJson: nullToNull, fromJson: nullToNull) List<ProxiedAsset>? additionalProxiedAssets,
+    @JsonKey(toJson: nullToNull, fromJson: nullToNull) @Default([]) List<Asset> additionalLocalAssets,
+    @JsonKey(toJson: nullToNull, fromJson: nullToNull) @Default([]) List<EvolvePhase> updatedEvolutionPhases,
     @JsonKey(defaultValue: false) required bool assetsAvailable,
   }) = _Nft;
 
@@ -57,10 +60,12 @@ abstract class Nft with _$Nft {
 
     for (final feature in featureList) {
       if (feature.type == FeatureType.evolution) {
-        // final evolve = Evolve.fromCompiler({'phases': feature.data['phases']});
-        // if (evolve.type != EvolveType.time && !evolve.isDynamic) {
-        //   return true;
-        // }
+        final evolve = Evolve.fromCompiler({'phases': feature.data['phases']});
+        if (evolve.phases.isNotEmpty) {
+          if (evolve.phases.first.dateTime != null || evolve.phases.first.blockHeight != null) {
+            return false;
+          }
+        }
         return true;
       }
       if (feature.type == FeatureType.fractionalization) {
@@ -133,7 +138,7 @@ abstract class Nft with _$Nft {
   }
 
   EvolvePhase get currentEvolvePhase {
-    final current = evolutionPhases.firstWhereOrNull((p) => p.isCurrentState == true);
+    final current = updatedEvolutionPhases.firstWhereOrNull((p) => p.isCurrentState == true);
     if (current == null) {
       return baseEvolutionPhase;
     }
@@ -142,7 +147,7 @@ abstract class Nft with _$Nft {
   }
 
   int get currentEvolvePhaseIndex {
-    final current = evolutionPhases.indexWhere((p) => p.isCurrentState == true);
+    final current = updatedEvolutionPhases.indexWhere((p) => p.isCurrentState == true);
 
     return current;
   }

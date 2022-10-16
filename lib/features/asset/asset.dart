@@ -26,6 +26,7 @@ abstract class Asset with _$Asset {
     @JsonKey(name: "Extension") String? extension,
     @JsonKey(name: "FileSize") required int fileSize,
     @JsonKey(toJson: bytesToNull, fromJson: nullToNull) Uint8List? bytes,
+    String? localPath,
   }) = _Asset;
 
   factory Asset.fromJson(Map<String, dynamic> json) => _$AssetFromJson(json);

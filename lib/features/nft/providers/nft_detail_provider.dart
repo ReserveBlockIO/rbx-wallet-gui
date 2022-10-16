@@ -26,9 +26,9 @@ class NftDetailProvider extends StateNotifier<Nft?> {
   }
 
   Future<Nft?> _retrieve() async {
-    return kIsWeb
-        ? await TransactionService().retrieveNft(id)
-        : await NftService().retrieve(id);
+    final nft = kIsWeb ? await TransactionService().retrieveNft(id) : await NftService().retrieve(id);
+
+    return nft;
   }
 
   Future<void> init() async {
@@ -95,8 +95,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     }
 
     if (mustBeOwner) {
-      Wallet? wallet = read(walletListProvider)
-          .firstWhereOrNull((w) => w.address == state!.currentOwner);
+      Wallet? wallet = read(walletListProvider).firstWhereOrNull((w) => w.address == state!.currentOwner);
 
       if (wallet == null && mustBeOwner) {
         Toast.error("You are not the owner of this NFT.");
@@ -104,8 +103,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
         return false;
       }
 
-      wallet ??= read(walletListProvider)
-          .firstWhereOrNull((w) => w.address == state!.minterAddress);
+      wallet ??= read(walletListProvider).firstWhereOrNull((w) => w.address == state!.minterAddress);
 
       if (wallet == null) {
         Toast.error("You are not the owner or minter of this NFT.");
@@ -180,8 +178,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     //   return false;
     // }
 
-    final nftTransferData =
-        await txService.nftTransferData(id, toAddress, "NA");
+    final nftTransferData = await txService.nftTransferData(id, toAddress, "NA");
 
     var txData = RawTransaction.buildTransaction(
       amount: 0.0,
@@ -231,10 +228,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       return null;
     }
 
-    final signature = await RawTransaction.getSignature(
-        message: hash,
-        privateKey: keypair.private,
-        publicKey: keypair.publicInflated);
+    final signature = await RawTransaction.getSignature(message: hash, privateKey: keypair.private, publicKey: keypair.publicInflated);
     if (signature == null) {
       Toast.error("Signature generation failed.");
       return false;
@@ -289,8 +283,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       }
     }
 
-    Toast.error(
-        "The fact something went wrong here but not until this point is odd.");
+    Toast.error("The fact something went wrong here but not until this point is odd.");
   }
 
   Future<bool> transferWebIn() async {
@@ -307,17 +300,13 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       return false;
     }
 
-    final signature = await RawTransaction.getSignature(
-        message: id,
-        privateKey: keypair.private,
-        publicKey: keypair.publicInflated);
+    final signature = await RawTransaction.getSignature(message: id, privateKey: keypair.private, publicKey: keypair.publicInflated);
     if (signature == null) {
       Toast.error("Signature generation failed.");
       return false;
     }
 
-    final beaconAssets =
-        await TransactionService().beaconAssets(id, locators, signature);
+    final beaconAssets = await TransactionService().beaconAssets(id, locators, signature);
 
     if (beaconAssets != true) {
       Toast.error("Assets Request failed.");
@@ -379,8 +368,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       return false;
     }
 
-    final nftBurnDataRaw =
-        await TransactionService().nftBurnData(id, keypair.public);
+    final nftBurnDataRaw = await TransactionService().nftBurnData(id, keypair.public);
 
     final nftBurnData = jsonDecode(nftBurnDataRaw);
 
@@ -432,10 +420,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       return false;
     }
 
-    final signature = await RawTransaction.getSignature(
-        message: hash,
-        privateKey: keypair.private,
-        publicKey: keypair.publicInflated);
+    final signature = await RawTransaction.getSignature(message: hash, privateKey: keypair.private, publicKey: keypair.publicInflated);
     if (signature == null) {
       Toast.error("Signature generation failed.");
       return false;
@@ -488,8 +473,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       }
     }
 
-    Toast.error(
-        "The fact something went wrong here but not until this point is odd.");
+    Toast.error("The fact something went wrong here but not until this point is odd.");
 
     return false;
   }
@@ -504,7 +488,6 @@ class NftDetailProvider extends StateNotifier<Nft?> {
   }
 }
 
-final nftDetailProvider =
-    StateNotifierProvider.family<NftDetailProvider, Nft?, String>(
+final nftDetailProvider = StateNotifierProvider.family<NftDetailProvider, Nft?, String>(
   (ref, id) => NftDetailProvider(ref.read, id),
 );
