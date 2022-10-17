@@ -10,6 +10,7 @@ import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/providers/burned_provider.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
+import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
 import 'package:rbx_wallet/features/nft/providers/transferred_provider.dart';
 import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
 import 'package:rbx_wallet/features/nft/modals/nft_management_modal.dart';
@@ -167,6 +168,7 @@ class NftCard extends BaseComponent {
                       textAlign: TextAlign.center,
                     ),
                   ),
+
                   //TODO: put this back in
                   // if (nft.featureListLabel != null)
                   //   Padding(
@@ -195,16 +197,35 @@ class NftCard extends BaseComponent {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    AppBadge(
-                      label: nft.isPublished ? "Minted" : "Minting...",
-                      variant: nft.isPublished ? AppColorVariant.Success : AppColorVariant.Warning,
-                    ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    AppBadge(
-                      label: nft.isPublic ? "Public" : "Private",
-                      variant: nft.isPublic ? AppColorVariant.Success : AppColorVariant.Primary,
+                    if (manageOnPress)
+                      Builder(builder: (context) {
+                        final nftIds = ref.watch(nftListProvider).map((n) => n.id).toList();
+
+                        if (nftIds.contains(nft.id)) {
+                          return SizedBox.shrink();
+                        }
+
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: AppBadge(
+                            label: "Transferred",
+                            variant: AppColorVariant.Danger,
+                          ),
+                        );
+                      }),
+                    // AppBadge(
+                    //   label: nft.isPublished ? "Minted" : "Minting...",
+                    //   variant: nft.isPublished ? AppColorVariant.Success : AppColorVariant.Warning,
+                    // ),
+                    // const SizedBox(
+                    //   width: 4,
+                    // ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 4.0),
+                      child: AppBadge(
+                        label: nft.isPublic ? "Public" : "Private",
+                        variant: nft.isPublic ? AppColorVariant.Success : AppColorVariant.Primary,
+                      ),
                     ),
                   ],
                 ),

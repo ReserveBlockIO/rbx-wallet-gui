@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/base_component.dart';
+import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/components/centered_loader.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
@@ -14,6 +15,7 @@ import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
+import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
 import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
@@ -133,13 +135,39 @@ class NftMangementModal extends BaseComponent {
             ],
           ),
           const Divider(),
-          Text(
-            "Managing ${nft.name}",
-            style: Theme.of(context).textTheme.headline4!.copyWith(color: Colors.white),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Managing ${nft.name}",
+                style: Theme.of(context).textTheme.headline4!.copyWith(color: Colors.white),
+              ),
+              Builder(builder: (context) {
+                final nftIds = ref.watch(nftListProvider).map((n) => n.id).toList();
+
+                if (nftIds.contains(nft.id)) {
+                  return AppBadge(
+                    label: "Owned by Me",
+                    variant: AppColorVariant.Success,
+                  );
+                }
+
+                return AppBadge(
+                  label: "Transferred",
+                  variant: AppColorVariant.Danger,
+                );
+              })
+            ],
           ),
-          Text("Owner: ${nft.currentOwner} "),
-          Text("Minter: ${nft.minterAddress}"),
-          Text("Current Stage: ${nft.currentEvolvePhase.name}"),
+          // Text("Owner: ${nft.currentOwner} "),
+          // Text("Minter: ${nft.minterAddress}"),
+          SizedBox(
+            height: 6,
+          ),
+          Text(
+            "Current Stage: ${nft.currentEvolvePhase.name}",
+            style: TextStyle(fontSize: 18),
+          ),
           // if (nft.canEvolve)
           //   Column(
           //     mainAxisSize: MainAxisSize.min,
