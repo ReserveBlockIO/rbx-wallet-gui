@@ -172,11 +172,17 @@ class SmartContractCreatorMain extends BaseComponent {
               mintedComplete(sc.id, context, ref);
             } else {
               Navigator.pop(dialogContext);
+              if (!kIsWeb) {
+                ref.read(sessionProvider.notifier).setIsMintingOrCompiling(false);
+              }
 
               Toast.error("A problem occurred minting this smart contract.");
             }
           } else {
             Navigator.pop(dialogContext);
+            if (!kIsWeb) {
+              ref.read(sessionProvider.notifier).setIsMintingOrCompiling(false);
+            }
 
             Toast.error("A problem occurred compiling this smart contract.");
           }

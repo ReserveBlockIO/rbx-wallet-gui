@@ -244,7 +244,6 @@ class SessionProvider extends StateNotifier<SessionModel> {
           'friendlyName': names.containsKey(item['Address']) ? names[item['Address']] : null,
         };
         wallets.add(Wallet.fromJson(_item));
-        print(_item);
       }
     }
 

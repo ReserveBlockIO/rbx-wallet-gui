@@ -245,10 +245,6 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       return false;
     }
 
-    print("------");
-    print(nftTransferData);
-    print("------");
-
     txData = RawTransaction.buildTransaction(
       amount: 0.0,
       type: TxType.nftTx,

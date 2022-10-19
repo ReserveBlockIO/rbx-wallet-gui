@@ -136,7 +136,6 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
   }
 
   clear() {
-    print('CLEAR');
     nameController.text = "";
     descriptionController.text = "";
     blockHeightController.text = "";

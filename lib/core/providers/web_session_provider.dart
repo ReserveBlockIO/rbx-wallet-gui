@@ -87,14 +87,10 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
   }
 
   Future<void> getBalance() async {
-    print("hello");
     if (state.keypair == null) {
       return;
     }
     final balance = await ExplorerService().getBalance(state.keypair!.public);
-    print("-------");
-    print(balance);
-    print("-------");
 
     state = state.copyWith(balance: balance);
   }

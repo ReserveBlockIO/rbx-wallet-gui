@@ -38,13 +38,9 @@ class SmartContractService extends BaseService {
 
   Future<DetailedSmartContract?> retrieve(String id) async {
     try {
-      print("RETRIEVE ID: $id");
       final url = '/GetSingleSmartContract/$id';
-      print(url);
       final response = await getText(url);
       final data = jsonDecode(response);
-      print(data);
-      print("!!!!!!!!");
       return DetailedSmartContract.fromJson(data[0]);
     } catch (e) {
       print(e);
@@ -66,9 +62,9 @@ class SmartContractService extends BaseService {
         params: p,
       );
 
-      print("==============");
-      print(jsonEncode(response['data'][0]));
-      print("==============");
+      // print("==============");
+      // print(jsonEncode(response['data'][0]));
+      // print("==============");
 
       final csc = CompilerResponse.fromJson(response['data'][0]);
       return csc;
@@ -150,10 +146,8 @@ class SmartContractService extends BaseService {
 
   Future<bool> transfer(String id, String address, String? url) async {
     try {
-      final response = await getText(url != null && url.isNotEmpty ? "/TransferNFT/$id/$address/$url" : "/TransferNFT/$id/$address");
-      print("---");
-      print(response);
-      print("---");
+      await getText(url != null && url.isNotEmpty ? "/TransferNFT/$id/$address/$url" : "/TransferNFT/$id/$address");
+
       return true;
     } catch (e) {
       print(e);
@@ -207,10 +201,7 @@ class SmartContractService extends BaseService {
   Future<String?> getAssetPath(String scId, String filename) async {
     try {
       final path = "/GetNFTAssetLocation/$scId/$filename";
-      print(path);
       final location = await getText(path, cleanPath: false);
-      print(location);
-      print("---------");
       if (location == "Error") return null;
       return location;
     } catch (e) {

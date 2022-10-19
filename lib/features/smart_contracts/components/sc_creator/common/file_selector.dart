@@ -57,8 +57,6 @@ class FileSelector extends BaseComponent {
 
       final webAsset = await TransactionService().uploadAsset(bytes, filename, ext);
 
-      print("UHOH");
-
       if (webAsset == null) return;
       asset = Asset(
         id: '00000000-0000-0000-0000-000000000000',
@@ -81,9 +79,6 @@ class FileSelector extends BaseComponent {
         Toast.error("Max file size is 150MB.");
         return;
       }
-
-      print(filePath);
-      print("-----");
 
       asset = Asset(
         id: "00000000-0000-0000-0000-000000000000",
