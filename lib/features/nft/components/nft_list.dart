@@ -14,20 +14,18 @@ class NftList extends BaseComponent {
   Widget body(BuildContext context, WidgetRef ref) {
     final _model = ref.watch(minted ? mintedNftListProvider : nftListProvider);
 
-    if (_model.isEmpty) {
+    if (_model.data.results.isEmpty) {
       return Center(
         child: Text(
-          minted
-              ? "No minted NFTs with management capabilities."
-              : "No NFTs found.",
+          minted ? "No minted NFTs with management capabilities." : "No NFTs found.",
         ),
       );
     }
 
     return ListView.builder(
-      itemCount: _model.length,
+      itemCount: _model.data.results.length,
       itemBuilder: (context, index) {
-        final nft = _model[int.parse(index.toString())];
+        final nft = _model.data.results[int.parse(index.toString())];
 
         return NftListTile(
           nft,

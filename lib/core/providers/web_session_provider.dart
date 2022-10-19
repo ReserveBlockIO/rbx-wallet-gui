@@ -103,7 +103,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     if (state.keypair == null) {
       return;
     }
-    read(nftListProvider.notifier).load(state.keypair!.email, state.keypair!.public);
+    read(nftListProvider.notifier).load(1, state.keypair!.email, state.keypair!.public);
   }
 
   Future<void> logout() async {

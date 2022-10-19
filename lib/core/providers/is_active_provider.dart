@@ -49,11 +49,10 @@ class IsActiveProvider extends StateNotifier<IsActiveModel> {
   }
 
   Future<void> catchUpAfterDeactivation() async {
-    final loopCount =
-        (REFRESH_TIMEOUT_SECONDS_INACTIVE / REFRESH_TIMEOUT_SECONDS).round();
+    final loopCount = (REFRESH_TIMEOUT_SECONDS_INACTIVE / REFRESH_TIMEOUT_SECONDS).round();
 
     for (var i = 0; i < loopCount; i++) {
-      read(walletInfoProvider.notifier).fetch(false);
+      read(walletInfoProvider.notifier).infoLoop(false);
       if (!state.isActive) {
         return;
       }

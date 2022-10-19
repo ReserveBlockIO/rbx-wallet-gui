@@ -38,7 +38,7 @@ class WalletListProvider extends StateNotifier<List<Wallet>> {
     state = [...state, wallet];
     read(sessionProvider.notifier).setCurrentWallet(wallet);
     // read(sessionProvider.notifier).load();
-    read(walletInfoProvider.notifier).fetch();
+    read(walletInfoProvider.notifier).infoLoop(false);
 
     if (showDetails) {
       final context = rootScaffoldKey.currentContext!;

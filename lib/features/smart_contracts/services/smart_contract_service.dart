@@ -15,7 +15,7 @@ class SmartContractService extends BaseService {
 
   // http://localhost:7292/scapi/scv1/GetAllSmartContracts
 
-  Future<List<CompiledSmartContract>> listSmartContracts() async {
+  Future<List<CompiledSmartContract>> listSmartContractsOLD() async {
     try {
       final response = await getText(
         "/GetAllSmartContracts",

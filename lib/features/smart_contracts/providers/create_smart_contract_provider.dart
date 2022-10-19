@@ -319,7 +319,7 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
 
   void saveMintedNft(String id) {
     NftService().saveId(id);
-    read(mintedNftListProvider.notifier).load();
+    read(mintedNftListProvider.notifier).reloadCurrentPage();
   }
 
   // --compile --
@@ -362,7 +362,7 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
 
     final success = await TransactionService().compileAndMintSmartContract(payload, read(webSessionProvider).keypair!);
     if (success == true) {
-      read(nftListProvider.notifier).load(read(webSessionProvider).keypair?.email, read(webSessionProvider).keypair?.public);
+      read(nftListProvider.notifier).reloadCurrentPage(read(webSessionProvider).keypair?.email, read(webSessionProvider).keypair?.public);
       return true;
     }
     return false;
@@ -376,7 +376,7 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
     if (kIsWeb) {
       final success = await TransactionService().compileAndMintSmartContract(payload, read(webSessionProvider).keypair!);
       if (success == true) {
-        read(nftListProvider.notifier).load();
+        read(nftListProvider.notifier).reloadCurrentPage();
       }
     }
 
@@ -395,7 +395,7 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
     if (kIsWeb) {
     } else {
       read(mySmartContractsProvider.notifier).load();
-      read(nftListProvider.notifier).load();
+      read(nftListProvider.notifier).reloadCurrentPage();
     }
     if (details != null) {
       if (DELETE_DRAFT_ON_MINT) {
@@ -431,8 +431,8 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
 
     read(mySmartContractsProvider.notifier).load();
     kIsWeb
-        ? read(nftListProvider.notifier).load(read(webSessionProvider).keypair?.email, read(webSessionProvider).keypair?.public)
-        : read(nftListProvider.notifier).load();
+        ? read(nftListProvider.notifier).reloadCurrentPage(read(webSessionProvider).keypair?.email, read(webSessionProvider).keypair?.public)
+        : read(nftListProvider.notifier).reloadCurrentPage();
 
     if (details != null) {
       final wallet = kIsWeb ? read(webSessionProvider).currentWallet! : read(sessionProvider).currentWallet!;

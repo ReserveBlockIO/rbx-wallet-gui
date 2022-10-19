@@ -149,11 +149,11 @@ class SessionProvider extends StateNotifier<SessionModel> {
     );
 
     // mainLoop();
-    await load();
-    smartContractLoop();
+    await mainLoop();
+    await smartContractLoop();
 
     Future.delayed(const Duration(milliseconds: 300)).then((_) {
-      read(walletInfoProvider.notifier).fetch();
+      read(walletInfoProvider.notifier).infoLoop();
       _onboardWallet();
     });
   }
@@ -166,23 +166,26 @@ class SessionProvider extends StateNotifier<SessionModel> {
   //   mainLoop();
   // }
 
-  Future<void> load() async {
+  Future<void> mainLoop([inLoop = true]) async {
     await _loadWallets();
     await loadValidators();
     // await loadMasterNodes();
     // await loadPeerInfo();
     await loadTransactions();
+
+    await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
+    mainLoop();
   }
 
-  Future<void> smartContractLoop() async {
+  Future<void> smartContractLoop([inLoop = true]) async {
     if (state.currentWallet != null) {
       read(mySmartContractsProvider.notifier).load();
-      read(nftListProvider.notifier).load();
-      read(mintedNftListProvider.notifier).load();
+      read(nftListProvider.notifier).reloadCurrentPage();
+      read(mintedNftListProvider.notifier).reloadCurrentPage();
       read(draftsSmartContractProvider.notifier).load();
     }
 
-    await Future.delayed(const Duration(seconds: 45));
+    await Future.delayed(const Duration(seconds: 30));
     smartContractLoop();
   }
 
@@ -355,7 +358,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
                     labelText: "Private Key",
                     onValidSubmission: (value) async {
                       await read(walletListProvider.notifier).import(value);
-                      await load();
+                      await mainLoop(false);
                       Navigator.of(context).pop();
                     },
                   );
@@ -368,7 +371,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
                 label: "Create New Wallet",
                 onPressed: () async {
                   await read(walletListProvider.notifier).create();
-                  await load();
+                  await mainLoop(false);
                   Navigator.of(context).pop();
                   // Navigator.of(context).pop(); // do we need this? lol
                 },

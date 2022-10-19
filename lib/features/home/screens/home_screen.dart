@@ -123,11 +123,8 @@ class HomeScreen extends BaseScreen {
                       for (final validator in validators) {
                         _log.append(
                           LogEntry(
-                            message:
-                                "${validator.address} => ${validator.isValidating ? 'Validating' : 'Not Validating'}",
-                            variant: validator.isValidating
-                                ? AppColorVariant.Success
-                                : AppColorVariant.Info,
+                            message: "${validator.address} => ${validator.isValidating ? 'Validating' : 'Not Validating'}",
+                            variant: validator.isValidating ? AppColorVariant.Success : AppColorVariant.Info,
                             textToCopy: validator.address,
                           ),
                         );
@@ -137,7 +134,7 @@ class HomeScreen extends BaseScreen {
                   AppButton(
                     label: "Get Blockchain",
                     onPressed: () async {
-                      await ref.read(walletInfoProvider.notifier).fetch();
+                      await ref.read(walletInfoProvider.notifier).infoLoop(false);
                     },
                   ),
                   AppButton(
@@ -160,10 +157,8 @@ class HomeScreen extends BaseScreen {
                                     icon: Icons.copy,
                                     variant: AppColorVariant.Success,
                                     onPressed: () async {
-                                      await Clipboard.setData(
-                                          ClipboardData(text: data));
-                                      Toast.message(
-                                          "Debug data copied to clipboard");
+                                      await Clipboard.setData(ClipboardData(text: data));
+                                      Toast.message("Debug data copied to clipboard");
                                     },
                                   ),
                                   const SizedBox(
@@ -190,19 +185,16 @@ class HomeScreen extends BaseScreen {
                       onPressed: () async {
                         // final shell = Shell(throwOnError: false);
 
-                        Directory appDocDir =
-                            await getApplicationDocumentsDirectory();
+                        Directory appDocDir = await getApplicationDocumentsDirectory();
                         String appDocPath = appDocDir.path;
 
                         if (Platform.isMacOS) {
-                          appDocPath = appDocPath.replaceAll("/Documents",
-                              Env.isTestNet ? "/rbxtest" : "/rbx");
+                          appDocPath = appDocPath.replaceAll("/Documents", Env.isTestNet ? "/rbxtest" : "/rbx");
                         } else {
                           final winDir = await getApplicationSupportDirectory();
                           appDocPath = winDir.path;
-                          appDocPath = appDocPath.replaceAll(
-                              "\\Roaming\\com.example\\rbx_wallet_gui",
-                              "\\Local\\${Env.isTestNet ? 'RBXTest' : 'RBX'}");
+                          appDocPath =
+                              appDocPath.replaceAll("\\Roaming\\com.example\\rbx_wallet_gui", "\\Local\\${Env.isTestNet ? 'RBXTest' : 'RBX'}");
                         }
 
                         openFile(File(appDocPath));
@@ -231,26 +223,20 @@ class HomeScreen extends BaseScreen {
                       onPressed: () async {
                         final shell = Shell(throwOnError: false);
 
-                        Directory appDocDir =
-                            await getApplicationDocumentsDirectory();
+                        Directory appDocDir = await getApplicationDocumentsDirectory();
                         String appDocPath = appDocDir.path;
 
                         String cmd = "";
                         if (Platform.isMacOS) {
-                          appDocPath = appDocPath.replaceAll("/Documents",
-                              Env.isTestNet ? "/rbxtest" : "/rbx");
-                          cmd =
-                              "open $appDocPath/Databases${Env.isTestNet ? 'TestNet' : ''}/rbxlog.txt";
+                          appDocPath = appDocPath.replaceAll("/Documents", Env.isTestNet ? "/rbxtest" : "/rbx");
+                          cmd = "open $appDocPath/Databases${Env.isTestNet ? 'TestNet' : ''}/rbxlog.txt";
                         } else {
                           appDocDir = await getApplicationSupportDirectory();
 
                           appDocPath = appDocDir.path;
 
-                          appDocPath = appDocPath.replaceAll(
-                              "\\Roaming\\com.example\\rbx_wallet_gui",
-                              "\\Local\\RBX${Env.isTestNet ? 'Test' : ''}");
-                          cmd =
-                              "start $appDocPath\\Databases${Env.isTestNet ? 'TestNet' : ''}\\rbxlog.txt";
+                          appDocPath = appDocPath.replaceAll("\\Roaming\\com.example\\rbx_wallet_gui", "\\Local\\RBX${Env.isTestNet ? 'Test' : ''}");
+                          cmd = "start $appDocPath\\Databases${Env.isTestNet ? 'TestNet' : ''}\\rbxlog.txt";
                         }
 
                         shell.run(cmd);
@@ -285,12 +271,9 @@ class HomeScreen extends BaseScreen {
 
                       PromptModal.show(
                         title: "Rollback Blocks",
-                        validator: (value) =>
-                            formValidatorNotEmpty(value, "Number of blocks"),
+                        validator: (value) => formValidatorNotEmpty(value, "Number of blocks"),
                         labelText: "Number of blocks to rollback",
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly
-                        ],
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                         onValidSubmission: (value) async {
                           Toast.message("Rolling back $value blocks...");
                           ref.read(logProvider.notifier).append(
@@ -299,12 +282,12 @@ class HomeScreen extends BaseScreen {
                                   variant: AppColorVariant.Danger,
                                 ),
                               );
-                          ref.read(walletInfoProvider.notifier).fetch();
+                          ref.read(walletInfoProvider.notifier).infoLoop(false);
 
                           final success = await BridgeService().rollback(value);
 
                           if (success) {
-                            ref.read(walletInfoProvider.notifier).fetch();
+                            ref.read(walletInfoProvider.notifier).infoLoop(false);
                             final msg = "Rolled back $value blocks";
                             Toast.message(msg);
                             ref.read(logProvider.notifier).append(

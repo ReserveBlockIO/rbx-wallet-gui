@@ -143,7 +143,7 @@ class NftMangementModal extends BaseComponent {
                 style: Theme.of(context).textTheme.headline4!.copyWith(color: Colors.white),
               ),
               Builder(builder: (context) {
-                final nftIds = ref.watch(nftListProvider).map((n) => n.id).toList();
+                final nftIds = ref.watch(nftListProvider).data.results.map((n) => n.id).toList();
 
                 if (nftIds.contains(nft.id)) {
                   return AppBadge(

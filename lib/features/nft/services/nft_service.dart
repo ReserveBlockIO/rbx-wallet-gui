@@ -1,29 +1,34 @@
 import 'dart:convert';
 
+import 'package:rbx_wallet/core/models/paginated_response.dart';
 import 'package:rbx_wallet/core/services/base_service.dart';
 import 'package:rbx_wallet/core/singletons.dart';
 import 'package:rbx_wallet/core/storage.dart';
-import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:collection/collection.dart';
 import 'package:rbx_wallet/features/nft/utils.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/feature.dart';
-import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
 
 class NftService extends BaseService {
   NftService() : super(apiBasePathOverride: "/scapi/scv1");
 
-  Future<List<Nft>> list() async {
+  Future<CliPaginatedResponse<Nft>> list(int page, {String search = ""}) async {
+    assert(page > 0);
+
     final response = await getText(
-      "/GetAllSmartContracts",
+      "/GetAllSmartContracts/$page",
+      params: {
+        ...search.isNotEmpty ? {'search': search} : {}
+      },
     );
     if (response == 'null') {
-      return [];
+      return CliPaginatedResponse.empty();
     }
 
     try {
-      final items = jsonDecode(response);
+      final data = jsonDecode(response);
+
+      final items = data['Results'];
+      final count = data['Count'];
 
       final List<Nft> smartContracts = [];
       for (final item in items) {
@@ -32,24 +37,34 @@ class NftService extends BaseService {
 
         smartContracts.add(nft);
       }
-      return smartContracts;
+
+      return CliPaginatedResponse(page: page, count: count, results: smartContracts);
+      // return smartContracts;
     } catch (e) {
       print(e);
-      return [];
+      return CliPaginatedResponse.empty();
     }
   }
 
-  Future<List<Nft>> minted() async {
+  Future<CliPaginatedResponse<Nft>> minted(int page, {String search = ""}) async {
+    assert(page > 0);
+
     final response = await getText(
-      "/GetMintedSmartContracts",
+      "/GetMintedSmartContracts/$page",
+      params: {
+        ...search.isNotEmpty ? {'search': search} : {}
+      },
     );
 
     if (response == 'null') {
-      return [];
+      return CliPaginatedResponse.empty();
     }
 
     try {
-      final items = jsonDecode(response);
+      final data = jsonDecode(response);
+
+      final items = data['Results'];
+      final count = data['Count'];
 
       final List<Nft> smartContracts = [];
       for (final item in items) {
@@ -57,9 +72,9 @@ class NftService extends BaseService {
         nft = await setAssetPath(nft);
         smartContracts.add(nft);
       }
-      return smartContracts;
+      return CliPaginatedResponse(page: page, count: count, results: smartContracts);
     } catch (e) {
-      return [];
+      return CliPaginatedResponse.empty();
     }
   }
 

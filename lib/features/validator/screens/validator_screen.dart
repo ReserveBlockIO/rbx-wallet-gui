@@ -139,7 +139,7 @@ class ValidatorScreen extends BaseScreen {
 
                 if (res != null) {
                   Toast.message(res);
-                  await ref.read(sessionProvider.notifier).load();
+                  await ref.read(sessionProvider.notifier).mainLoop(false);
                   return;
                 }
 
@@ -155,7 +155,7 @@ class ValidatorScreen extends BaseScreen {
 
                       if (success) {
                         Toast.message("$name [${currentWallet.label}] is now validating.");
-                        await ref.read(sessionProvider.notifier).load();
+                        await ref.read(sessionProvider.notifier).mainLoop(false);
                       } else {
                         Toast.error();
                       }
@@ -209,7 +209,7 @@ class ValidatorScreen extends BaseScreen {
 
             if (success) {
               Toast.message("${currentWallet.label} hast stopped validating.");
-              await ref.read(sessionProvider.notifier).load();
+              await ref.read(sessionProvider.notifier).mainLoop(false);
             } else {
               Toast.error();
             }

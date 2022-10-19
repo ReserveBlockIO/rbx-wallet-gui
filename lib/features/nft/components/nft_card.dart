@@ -199,7 +199,7 @@ class NftCard extends BaseComponent {
                   children: [
                     if (manageOnPress)
                       Builder(builder: (context) {
-                        final nftIds = ref.watch(nftListProvider).map((n) => n.id).toList();
+                        final nftIds = ref.watch(nftListProvider).data.results.map((n) => n.id).toList();
 
                         if (nftIds.contains(nft.id)) {
                           return SizedBox.shrink();
