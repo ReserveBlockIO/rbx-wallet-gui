@@ -304,7 +304,8 @@ class EvolutionStateRow extends BaseComponent {
     String descriptionText = phase.description;
 
     if (phase.dateTime != null) {
-      descriptionText = "Evolve Date: ${phase.dateLabel} ${phase.timeLabel} UTC \n${phase.description}";
+      descriptionText =
+          "Evolve Date: ${phase.dateLabelLocalized} ${phase.timeLabelLocalized} ${DateTime.now().timeZoneName.toString()} \n${phase.description}";
     } else if (phase.blockHeight != null) {
       descriptionText = "Evolve Block Height: ${phase.blockHeight}\n${phase.description}";
     }

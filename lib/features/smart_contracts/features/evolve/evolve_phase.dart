@@ -21,17 +21,26 @@ class EvolvePhase with _$EvolvePhase {
     Asset? asset,
   }) = _EvolvePhase;
 
-  factory EvolvePhase.fromJson(Map<String, dynamic> json) =>
-      _$EvolvePhaseFromJson(json);
+  factory EvolvePhase.fromJson(Map<String, dynamic> json) => _$EvolvePhaseFromJson(json);
 
   String get dateLabel {
     if (dateTime == null) return "";
     return DateFormat.yMd().format(dateTime!);
   }
 
+  String get dateLabelLocalized {
+    if (dateTime == null) return "";
+    return DateFormat.yMd().format(dateTime!.toLocal());
+  }
+
   String get timeLabel {
     if (dateTime == null) return "";
     return DateFormat.Hms().format(dateTime!);
+  }
+
+  String get timeLabelLocalized {
+    if (dateTime == null) return "";
+    return DateFormat('hh:mm a').format(dateTime!.toLocal());
   }
 
   String? dateTimeForCompiler(String timezoneName) {
