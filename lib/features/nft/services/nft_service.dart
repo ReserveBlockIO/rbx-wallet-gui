@@ -14,12 +14,9 @@ class NftService extends BaseService {
   Future<CliPaginatedResponse<Nft>> list(int page, {String search = ""}) async {
     assert(page > 0);
 
-    final response = await getText(
-      "/GetAllSmartContracts/$page",
-      params: {
-        ...search.isNotEmpty ? {'search': search} : {}
-      },
-    );
+    final url = search.isNotEmpty ? "/GetAllSmartContracts/$page/$search" : "/GetAllSmartContracts/$page";
+
+    final response = await getText(url, cleanPath: false);
     if (response == 'null') {
       return CliPaginatedResponse.empty();
     }
@@ -49,12 +46,8 @@ class NftService extends BaseService {
   Future<CliPaginatedResponse<Nft>> minted(int page, {String search = ""}) async {
     assert(page > 0);
 
-    final response = await getText(
-      "/GetMintedSmartContracts/$page",
-      params: {
-        ...search.isNotEmpty ? {'search': search} : {}
-      },
-    );
+    final url = search.isNotEmpty ? "/GetMintedSmartContracts/$page/$search" : "/GetMintedSmartContracts/$page";
+    final response = await getText(url, cleanPath: false);
 
     if (response == 'null') {
       return CliPaginatedResponse.empty();
