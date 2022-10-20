@@ -37,6 +37,7 @@ class App extends ConsumerWidget {
 
     singleton<Storage>().setStringList(Storage.BURNED_NFT_IDS, []);
     singleton<Storage>().setStringList(Storage.TRANSFERRED_NFT_IDS, []);
+    singleton<Storage>().setStringList(Storage.PENDING_ADNRS, []);
 
     return const AppSystemManager(child: AppContainer());
   }

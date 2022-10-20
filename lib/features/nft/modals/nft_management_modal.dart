@@ -87,7 +87,7 @@ class NftMangementModal extends BaseComponent {
   Future<void> showEvolveMessage() async {
     await InfoDialog.show(
       title: "Evolve transaction sent successfully",
-      body: "This screen will reflect the change once the block is crafted and your block height has synced with this transaction.",
+      body: "This screen will reflect the change once the block is crafted and block height has synced with this transaction.",
     );
   }
 
@@ -295,7 +295,7 @@ class EvolutionStateRow extends BaseComponent {
   Future<void> showEvolveMessage() async {
     InfoDialog.show(
       title: "Evolve transaction sent successfully",
-      body: "This screen will reflect the change once the block is crafted and your block height has synced with this transaction.",
+      body: "This screen will reflect the change once the block is crafted and block height has synced with this transaction.",
     );
   }
 

@@ -4,8 +4,10 @@ import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/services/transaction_service.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/adnr/providers/adnr_pending_provider.dart';
 import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
 import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
+import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 
@@ -73,6 +75,8 @@ class CreateAdnrDialog extends BaseComponent {
                           textToCopy: result.hash,
                           variant: AppColorVariant.Success),
                     );
+
+                ref.read(adnrPendingProvider.notifier).addId(address);
               }
 
               Navigator.of(context).pop();

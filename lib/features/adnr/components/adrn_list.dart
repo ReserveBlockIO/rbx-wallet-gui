@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/base_component.dart';
+import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/services/transaction_service.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/adnr/components/create_adnr_dialog.dart';
+import 'package:rbx_wallet/features/adnr/providers/adnr_pending_provider.dart';
 import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
 import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
@@ -31,6 +33,7 @@ class AdnrList extends BaseComponent {
 
         final adnrVerified = wallet.adnr?.contains('rbx') == true;
         final adnrLabel = wallet.adnr == null ? "No Domain" : "@${wallet.adnr!} ${!adnrVerified ? '(Not Verified)' : ''}";
+        final isPending = ref.watch(adnrPendingProvider).contains(wallet.address) && wallet.adnr == null;
 
         return Card(
           child: ListTile(
@@ -40,6 +43,12 @@ class AdnrList extends BaseComponent {
             isThreeLine: true,
             trailing: Builder(
               builder: (context) {
+                if (isPending) {
+                  return AppBadge(
+                    label: "Pending",
+                    variant: AppColorVariant.Warning,
+                  );
+                }
                 if (wallet.adnr == null) {
                   return AppButton(
                     label: "Create Domain",

@@ -31,15 +31,21 @@ class SmartContractCreatorMain extends BaseComponent {
     String? id,
     BuildContext context,
     WidgetRef ref,
-  ) {
+  ) async {
     if (id != null) {
       ref.read(nftDetailProvider(id).notifier).init();
     }
     ref.read(createSmartContractProvider.notifier).clearSmartContract();
 
-    Future.delayed(const Duration(milliseconds: 300)).then((_) {
-      AutoRouter.of(context).pop(id);
-    });
+    await InfoDialog.show(
+      title: "Stand by",
+      body:
+          "Smart Contract mint transaction has been broadcasted.\n\nThe NFTs screen will reflect the change once the block is crafted and block height has synced with this transaction.",
+    );
+
+    // Future.delayed(const Duration(milliseconds: 300)).then((_) {
+    AutoRouter.of(context).pop(id);
+    // });
   }
 
   Future<void> compileAndMint(BuildContext context, WidgetRef ref) async {

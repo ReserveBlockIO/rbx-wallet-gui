@@ -18,6 +18,7 @@ class Wallet with _$Wallet {
     @JsonKey(name: 'IsValidating') required bool isValidating,
     // @JsonKey(name: 'IsEncrypted') required bool isEncrypted,
     @JsonKey(name: "ADNR") String? adnr,
+    // @Default(false) bool adnrPending,
   }) = _Wallet;
 
   factory Wallet.fromJson(Map<String, dynamic> json) => _$WalletFromJson(json);

@@ -52,6 +52,8 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
     amount: "",
   );
 
+  final GlobalKey<FormState> formKey = GlobalKey();
+
   late final TextEditingController amountController;
   late final TextEditingController addressController;
 
@@ -104,7 +106,17 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
     return null;
   }
 
-  String? addressValidator(String? value) => formValidatorRbxAddress(value);
+  String? addressValidator(String? value) {
+    if (value == null) {
+      return "Address or RBX domain required";
+    }
+
+    if (value.contains(".rbx")) {
+      return null;
+    }
+
+    return formValidatorRbxAddress(value);
+  }
 
   void _updateState() {
     state = state.copyWith(

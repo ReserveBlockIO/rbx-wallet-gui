@@ -22,8 +22,6 @@ class SendForm extends BaseComponent {
     // assert(wallet != null && keypair != null);
   }
 
-  final GlobalKey<FormState> _formKey = GlobalKey();
-
   Future<void> _pasteAddress(SendFormProvider formProvider) async {
     ClipboardData? clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
     if (clipboardData != null && clipboardData.text != null) {
@@ -52,7 +50,7 @@ class SendForm extends BaseComponent {
     final isMobile = BreakPoints.useMobileLayout(context);
 
     return Form(
-      key: _formKey,
+      key: formProvider.formKey,
       child: Card(
         color: kIsWeb ? Theme.of(context).colorScheme.primary.withOpacity(0.5) : null,
         child: Padding(
@@ -81,7 +79,7 @@ class SendForm extends BaseComponent {
                   validator: formProvider.addressValidator,
                   decoration: const InputDecoration(hintText: "Recipient's Wallet Address"),
                   inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]')),
+                    FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9.]')),
                   ],
                 ),
                 subtitle: Padding(
@@ -139,7 +137,7 @@ class SendForm extends BaseComponent {
                       type: AppButtonType.Text,
                       variant: AppColorVariant.Info,
                       onPressed: () {
-                        _formKey.currentState!.reset();
+                        formProvider.formKey.currentState!.reset();
                         formProvider.clear();
                       },
                     ),
@@ -151,7 +149,7 @@ class SendForm extends BaseComponent {
                         type: AppButtonType.Elevated,
                         processing: formModel.isProcessing,
                         onPressed: () {
-                          if (!_formKey.currentState!.validate()) {
+                          if (!formProvider.formKey.currentState!.validate()) {
                             return;
                           }
                           formProvider.submit();
