@@ -171,14 +171,7 @@ class MainMenu extends BaseComponent {
                 },
                 isActive: tabsRouter.activeIndex == 8,
               ),
-              _NavButton(
-                title: "DSTs",
-                icon: Icons.leak_add,
-                onPressed: () {
-                  tabsRouter.setActiveIndex(9);
-                },
-                isActive: tabsRouter.activeIndex == 9,
-              ),
+              
               _NavButton(
                 title: "RBX Domains",
                 icon: Icons.link,
@@ -186,6 +179,14 @@ class MainMenu extends BaseComponent {
                   tabsRouter.setActiveIndex(10);
                 },
                 isActive: tabsRouter.activeIndex == 10,
+              ),
+              _NavButton(
+                title: "DSTs",
+                icon: Icons.leak_add,
+                onPressed: () {
+                  tabsRouter.setActiveIndex(9);
+                },
+                isActive: tabsRouter.activeIndex == 9,
               ),
             ],
           ),
