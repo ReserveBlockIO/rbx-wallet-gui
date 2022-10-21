@@ -74,17 +74,25 @@ class AdnrScreen extends BaseScreen {
                 onPressed: () {
                   PromptModal.show(
                     title: "Import Wallet",
-                    validator: (String? value) => formValidatorNotEmpty(value, "Private Key"),
+                    validator: (String? value) =>
+                        formValidatorNotEmpty(value, "Private Key"),
                     labelText: "Private Key",
                     onValidSubmission: (value) async {
-                      final wallet = await ref.read(walletListProvider.notifier).import(value);
+                      final wallet = await ref
+                          .read(walletListProvider.notifier)
+                          .import(value);
 
                       if (wallet == null) return;
-                      if (wallet.balance >= (ADNR_COST + MIN_RBX_FOR_SC_ACTION) && wallet.adnr == null) {
+                      if (wallet.balance >=
+                              (ADNR_COST + MIN_RBX_FOR_SC_ACTION) &&
+                          wallet.adnr == null) {
                         showDialog(
                           context: context,
                           builder: (context) {
-                            return CreateAdnrDialog(address: wallet.address);
+                            return CreateAdnrDialog(
+                              address: wallet.address,
+                              adnr: wallet.adnr,
+                            );
                           },
                         );
                       }

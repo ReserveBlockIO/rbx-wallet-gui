@@ -4,17 +4,40 @@ import 'package:rbx_wallet/core/storage.dart';
 
 class AdnrPendingProvider extends StateNotifier<List<String>> {
   AdnrPendingProvider() : super([]) {
-    final items = singleton<Storage>().getStringList(Storage.PENDING_ADNRS) ?? [];
+    final items =
+        singleton<Storage>().getStringList(Storage.PENDING_ADNRS) ?? [];
     state = items;
   }
 
-  addId(String id) {
-    final update = [...state, id];
+  addId(String id, String type, String adnr) {
+    final value = "$id.$type.$adnr";
+
+    List<String> removes = [];
+    if (type == "burn") {
+      removes = ["transfer", "create"];
+    } else if (type == "transfer") {
+      removes = ["burn", "create"];
+    } else if (type == "create") {
+      removes = ["burn", "transfer"];
+    }
+
+    final List<String> removeKeys = [];
+
+    for (final r in removes) {
+      removeKeys.add("$id.$r.$adnr");
+      removeKeys.add("$id.$r.null");
+    }
+
+    final update = [...state, value]
+      ..removeWhere((element) => removeKeys.contains(element));
+
     singleton<Storage>().setStringList(Storage.PENDING_ADNRS, update);
+
     state = update;
   }
 }
 
-final adnrPendingProvider = StateNotifierProvider<AdnrPendingProvider, List<String>>(
+final adnrPendingProvider =
+    StateNotifierProvider<AdnrPendingProvider, List<String>>(
   (_) => AdnrPendingProvider(),
 );
