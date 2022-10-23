@@ -48,7 +48,7 @@ abstract class Asset with _$Asset {
   }
 
   bool get isImage {
-    final extensions = ['jpg', 'jpeg', 'gif', 'png'];
+    final extensions = ['jpg', 'jpeg', 'gif', 'png', 'webp'];
     return extensions.contains(ext);
   }
 
@@ -58,6 +58,7 @@ abstract class Asset with _$Asset {
       case "jpeg":
       case "png":
       case "gif":
+      case "webp":
         return "Image";
       case "pdf":
       case "doc":

@@ -17,7 +17,7 @@ class ProxiedAsset with _$ProxiedAsset {
   }
 
   bool get isImage {
-    final extensions = ['jpg', 'jpeg', 'gif', 'png'];
+    final extensions = ['jpg', 'jpeg', 'gif', 'png', 'webp'];
     return extensions.contains(ext);
   }
 
