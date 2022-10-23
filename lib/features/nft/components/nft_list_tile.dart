@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,6 +8,7 @@ import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/providers/burned_provider.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
+import 'package:rbx_wallet/features/nft/providers/transferred_provider.dart';
 import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
 import 'package:rbx_wallet/features/nft/modals/nft_management_modal.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
@@ -22,6 +25,7 @@ class NftListTile extends BaseComponent {
 
   Future<void> _showDetails(BuildContext context, WidgetRef ref) async {
     ref.read(nftDetailProvider(nft.id).notifier).init();
+
     if (manageOnPress) {
       showModalBottomSheet(
         isScrollControlled: true,
@@ -35,30 +39,44 @@ class NftListTile extends BaseComponent {
         },
       );
     } else {
-      AutoRouter.of(context).push(NftDetailScreenRoute(id: nft.id));
+      Navigator.of(context).push(MaterialPageRoute(builder: (_) => NftDetailScreen(id: nft.id)));
     }
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isBurned = ref.watch(burnedProvider).contains(nft.id);
+    final isTransferred = ref.watch(transferredProvider).contains(nft.id);
 
     return ListTile(
-      onTap: isBurned
+      onTap: isBurned || (isTransferred && !manageOnPress)
           ? null
           : () {
               _showDetails(context, ref);
             },
       title: Text("${nft.currentEvolveName}${isBurned ? ' (Burned)' : ''}"),
-      subtitle: Text(nft.currentEvolveDescription.replaceAll("\\n", "\n")),
+      subtitle: Text(nft.id),
       leading: Builder(
         builder: (context) {
           if (nft.currentEvolveAsset.isImage) {
+            if (nft.currentEvolveAsset.localPath == null) {
+              return SizedBox(
+                width: 32,
+                height: 32,
+              );
+            }
+
             return Image.file(
-              nft.currentEvolveAsset.file,
+              File(nft.currentEvolveAsset.localPath!),
               width: 32,
               height: 32,
               fit: BoxFit.contain,
+              errorBuilder: (context, _, __) {
+                return SizedBox(
+                  width: 32,
+                  height: 32,
+                );
+              },
             );
           }
           return const Icon(Icons.file_present_outlined);

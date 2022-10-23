@@ -27,13 +27,6 @@ class NftCard extends BaseComponent {
   }) : super(key: key);
 
   Future<void> _showDetails(BuildContext context, WidgetRef ref) async {
-    // final details = await NftService().retrieve(nft.id);
-    // if (details == null) {
-    //   Toast.error();
-    //   return;
-    // }
-    // final _nft = nft.copyWith(code: details.code);
-
     ref.read(nftDetailProvider(nft.id).notifier).init();
 
     if (manageOnPress) {
@@ -50,35 +43,11 @@ class NftCard extends BaseComponent {
       );
     } else {
       Navigator.of(context).push(MaterialPageRoute(builder: (_) => NftDetailScreen(id: nft.id)));
-      // AutoRouter.of(context).push(NftDetailScreenRoute(id: nft.id));
-
     }
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // return ListTile(
-    //   onTap: () {
-    //     _showDetails(context);
-    //   },
-    //   title: Text(nft.name),
-    //   subtitle: Text(nft.description),
-    //   leading: Builder(
-    //     builder: (context) {
-    //       if (nft.primaryAsset.isImage) {
-    //         return Image.file(
-    //           nft.primaryAsset.file,
-    //           width: 32,
-    //           height: 32,
-    //           fit: BoxFit.contain,
-    //         );
-    //       }
-    //       return Icon(Icons.file_present_outlined);
-    //     },
-    //   ),
-    //   trailing: Icon(Icons.chevron_right),
-    // );
-
     final isBurned = ref.watch(burnedProvider).contains(nft.id);
     final isTransferred = ref.watch(transferredProvider).contains(nft.id);
 
