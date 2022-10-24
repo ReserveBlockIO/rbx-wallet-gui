@@ -61,8 +61,10 @@ Future<bool> backupMedia(BuildContext context, WidgetRef ref) async {
       rbxPath = rbxPath.replaceAll("\\Roaming\\com.example\\rbx_wallet_gui", "\\Local\\RBX${Env.isTestNet ? 'Test' : ''}");
     }
 
-    final inputPath = "$rbxPath/$assetsFolderName";
-    final archive = createArchiveFromDirectory(Directory.fromUri(Uri.parse(inputPath)));
+    String inputPath = "$rbxPath${Platform.isWindows ?'\\' :'/'}$assetsFolderName";
+ 
+    //TODO the windows version probably works on mac too, but test out before removing.
+    final archive = Platform.isMacOS ? createArchiveFromDirectory(Directory.fromUri(Uri.parse(inputPath))) : createArchiveFromDirectory(Directory(inputPath));
 
     var bytes = ZipEncoder().encode(archive);
     if (bytes == null) {
