@@ -11,6 +11,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:process_run/shell.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 Future<bool> backupKeys(BuildContext context, WidgetRef ref) async {
   try {
@@ -29,7 +30,15 @@ Future<bool> backupKeys(BuildContext context, WidgetRef ref) async {
 
     final date = DateTime.now();
     final d = "${date.year}-${date.month}-${date.day}";
-    await FileSaver.instance.saveAs("rbx-keys-backup-$d", Uint8List.fromList(bytes), 'txt', MimeType.TEXT);
+
+    if(Platform.isMacOS) {
+      await FileSaver.instance.saveAs("rbx-keys-backup-$d", Uint8List.fromList(bytes), 'txt', MimeType.TEXT);
+    } else {
+      final data = await FileSaver.instance.saveFile("rbx-keys-backup-$d", Uint8List.fromList(bytes), 'txt', mimeType: MimeType.TEXT);
+      Toast.message("Saved to $data");
+    }
+
+
     return true;
   } catch (e) {
     print("ERRROR");
@@ -62,7 +71,14 @@ Future<bool> backupMedia(BuildContext context, WidgetRef ref) async {
 
     final date = DateTime.now();
     final d = "${date.year}-${date.month}-${date.day}";
+
+    if(Platform.isMacOS) {
     await FileSaver.instance.saveAs("rbx-media-backup-$d", Uint8List.fromList(bytes), 'zip', MimeType.ZIP);
+
+    } else {
+      final data = await FileSaver.instance.saveFile("rbx-media-backup-$d", Uint8List.fromList(bytes), 'zip', mimeType: MimeType.ZIP);
+      Toast.message("Saved to $data");
+    }
 
     return true;
   } catch (e) {

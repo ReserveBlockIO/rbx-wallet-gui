@@ -305,7 +305,7 @@ class HomeScreen extends BaseScreen {
                       );
                     },
                   ),
-                  if (Platform.isMacOS)
+                  // if (Platform.isMacOS)
                     AppButton(
                       label: "Backup",
                       onPressed: () async {

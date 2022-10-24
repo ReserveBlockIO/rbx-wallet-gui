@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:rbx_wallet/core/services/base_service.dart';
 import 'package:rbx_wallet/core/singletons.dart';
@@ -185,7 +186,7 @@ class SmartContractService extends BaseService {
 
   Future<bool> associateAsset(String nftId, String assetPath) async {
     try {
-      assetPath = assetPath.replaceAll("/", "%2F");
+      assetPath = assetPath.replaceAll("/", "%2F").replaceAll("\\", "%5C");
       final url = "/AssociateNFTAsset/$nftId/$assetPath";
 
       final response = await getText(url, cleanPath: false);
