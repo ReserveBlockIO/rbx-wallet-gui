@@ -215,6 +215,12 @@ class _EvolvePhaseContainer extends BaseComponent {
       context: context,
       initialEntryMode: TimePickerEntryMode.input,
       initialTime: const TimeOfDay(hour: 0, minute: 0),
+      builder: (BuildContext context, Widget? child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+          child: child ?? SizedBox(),
+        );
+      },
     );
 
     if (t != null) {
