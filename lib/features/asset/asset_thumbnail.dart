@@ -59,15 +59,17 @@ class AssetThumbnail extends StatelessWidget {
       child: SizedBox(
         width: size,
         height: size,
-        child: asset.isImage
-            ? asset.localPath != null
+        child: asset.localPath != null
+            ? asset.isImage
                 ? Image.file(
                     File(asset.localPath!),
                     width: double.infinity,
                     fit: BoxFit.cover,
                   )
-                : Text("")
-            : const Icon(Icons.file_present_outlined),
+                : Icon(Icons.file_present_outlined)
+            : const Center(
+                child: Text("Media not found."),
+              ),
       ),
     );
   }

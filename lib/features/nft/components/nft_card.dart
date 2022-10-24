@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/asset/asset_card.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/providers/burned_provider.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
@@ -88,7 +89,7 @@ class NftCard extends BaseComponent {
                                   child: Padding(
                                     padding: const EdgeInsets.all(16.0),
                                     child: Text(
-                                      "File not found for preview.\nLikely this means this NFT not longer exists on this machine.\n",
+                                      "File not found for preview.\nLikely this means this NFT no longer exists on this machine.\n",
                                       style: Theme.of(context).textTheme.caption,
                                       textAlign: TextAlign.center,
                                     ),

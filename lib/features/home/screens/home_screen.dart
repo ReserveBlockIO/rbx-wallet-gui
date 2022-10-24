@@ -305,53 +305,54 @@ class HomeScreen extends BaseScreen {
                       );
                     },
                   ),
-                  AppButton(
-                    label: "Backup",
-                    onPressed: () async {
-                      showModalBottomSheet(
-                          backgroundColor: Colors.black87,
-                          // isScrollControlled: true,
-                          context: context,
-                          builder: (context) {
-                            return ModalContainer(
-                              color: Colors.black26,
-                              withDecor: false,
-                              children: [
-                                ListTile(
-                                  title: Text("Backup Keys"),
-                                  subtitle: Text("Export and save your keys to a text file."),
-                                  leading: Icon(Icons.wallet),
-                                  trailing: Icon(Icons.chevron_right),
-                                  onTap: () async {
-                                    final success = await backupKeys(context, ref);
-                                    if (success == true) {
-                                      Navigator.of(context).pop();
-                                      Toast.message("Keys backed up successfully.");
-                                    } else {
-                                      Toast.error();
-                                    }
-                                  },
-                                ),
-                                ListTile(
-                                  title: Text("Backup Media"),
-                                  subtitle: Text("Zip and export your media assets."),
-                                  leading: Icon(Icons.file_present),
-                                  trailing: Icon(Icons.chevron_right),
-                                  onTap: () async {
-                                    final success = await backupMedia(context, ref);
-                                    if (success == true) {
-                                      Navigator.of(context).pop();
-                                      Toast.message("Media backed up successfully.");
-                                    } else {
-                                      Toast.error();
-                                    }
-                                  },
-                                ),
-                              ],
-                            );
-                          });
-                    },
-                  ),
+                  if (Platform.isMacOS)
+                    AppButton(
+                      label: "Backup",
+                      onPressed: () async {
+                        showModalBottomSheet(
+                            backgroundColor: Colors.black87,
+                            // isScrollControlled: true,
+                            context: context,
+                            builder: (context) {
+                              return ModalContainer(
+                                color: Colors.black26,
+                                withDecor: false,
+                                children: [
+                                  ListTile(
+                                    title: Text("Backup Keys"),
+                                    subtitle: Text("Export and save your keys to a text file."),
+                                    leading: Icon(Icons.wallet),
+                                    trailing: Icon(Icons.chevron_right),
+                                    onTap: () async {
+                                      final success = await backupKeys(context, ref);
+                                      if (success == true) {
+                                        Navigator.of(context).pop();
+                                        Toast.message("Keys backed up successfully.");
+                                      } else {
+                                        Toast.error();
+                                      }
+                                    },
+                                  ),
+                                  ListTile(
+                                    title: Text("Backup Media"),
+                                    subtitle: Text("Zip and export your media assets."),
+                                    leading: Icon(Icons.file_present),
+                                    trailing: Icon(Icons.chevron_right),
+                                    onTap: () async {
+                                      final success = await backupMedia(context, ref);
+                                      if (success == true) {
+                                        Navigator.of(context).pop();
+                                        Toast.message("Media backed up successfully.");
+                                      } else {
+                                        Toast.error();
+                                      }
+                                    },
+                                  ),
+                                ],
+                              );
+                            });
+                      },
+                    ),
                   AppButton(
                     label: "Restart CLI",
                     // variant: AppColorVariant.Warning,

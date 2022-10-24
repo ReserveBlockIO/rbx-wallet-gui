@@ -9,6 +9,7 @@ import 'package:rbx_wallet/features/smart_contracts/models/detailed_smart_contra
 import 'package:rbx_wallet/features/smart_contracts/models/smart_contract.dart';
 import 'package:collection/collection.dart';
 import 'package:rbx_wallet/utils/generators.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 class SmartContractService extends BaseService {
   SmartContractService() : super(apiBasePathOverride: "/scapi/scv1");
@@ -184,9 +185,22 @@ class SmartContractService extends BaseService {
 
   Future<bool> associateAsset(String nftId, String assetPath) async {
     try {
-      final data = await getText("/AssociateNFTAsset/$nftId/$assetPath");
-      print(data);
-      return true;
+      assetPath = assetPath.replaceAll("/", "%2F");
+      final url = "/AssociateNFTAsset/$nftId/$assetPath";
+
+      final response = await getText(url, cleanPath: false);
+      final data = jsonDecode(response);
+
+      print(response);
+
+      if (data['Result'] == "Success") {
+        Toast.message(data['Message']);
+
+        return true;
+      }
+
+      Toast.error(data['Message']);
+      return false;
     } catch (e) {
       print(e);
       return false;
@@ -209,6 +223,7 @@ class SmartContractService extends BaseService {
       final path = "/GetNFTAssetLocation/$scId/$filename";
       final location = await getText(path, cleanPath: false);
       if (location == "Error") return null;
+      if (location == "NA") return null;
       return location;
     } catch (e) {
       print(e);
