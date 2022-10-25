@@ -4,12 +4,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/breakpoints.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
+import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
 import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
+import 'package:rbx_wallet/utils/guards.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SmartContractsScreen extends BaseScreen {
@@ -67,24 +70,32 @@ class SmartContractsScreen extends BaseScreen {
                 BigButton(
                   title: "Create a Smart Contract & Mint",
                   iconData: Icons.create,
-                  body: "Start with a baseline smart contract and add customized features",
+                  body:
+                      "Start with a baseline smart contract and add customized features",
                   onPressed: () async {
-                    // AutoRouter.of(context).push(TemplateChooserScreenRoute());
-                    // return;
-                    final id = await AutoRouter.of(context).push(const SmartContractCreatorContainerScreenRoute());
+                    if (!guardWalletIsSynced(ref.read)) {
+                      return;
+                    }
+
+                    final id = await AutoRouter.of(context)
+                        .push(const SmartContractCreatorContainerScreenRoute());
 
                     if (id != null) {
                       ref.read(nftDetailProvider("$id").notifier).init();
-                      ref.read(createSmartContractProvider.notifier).clearSmartContract();
+                      ref
+                          .read(createSmartContractProvider.notifier)
+                          .clearSmartContract();
 
-                      AutoRouter.of(context).push(NftDetailScreenRoute(id: "$id"));
+                      AutoRouter.of(context)
+                          .push(NftDetailScreenRoute(id: "$id"));
                     }
                   },
                 ),
                 BigButton(
                   title: "Launch IDE",
                   iconData: Icons.code,
-                  body: "Open the online IDE to write your own Trillium code for your smart contract",
+                  body:
+                      "Open the online IDE to write your own Trillium code for your smart contract",
                   onPressed: () {
                     launchUrl(Uri.parse("https://trillium.rbx.network/"));
                   },
@@ -132,7 +143,9 @@ class BigButton extends StatelessWidget {
           // color: Theme.of(context).colorScheme.primary,
           color: Colors.black.withOpacity(0.6),
           borderRadius: BorderRadius.circular(10.0),
-          border: Border.all(color: Theme.of(context).colorScheme.secondary.withOpacity(0.2), width: 3),
+          border: Border.all(
+              color: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
+              width: 3),
           boxShadow: const [
             BoxShadow(blurRadius: 12.0, color: Colors.white12),
           ],
