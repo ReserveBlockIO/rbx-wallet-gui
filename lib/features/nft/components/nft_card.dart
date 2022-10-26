@@ -8,6 +8,7 @@ import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/asset/asset_card.dart';
+import 'package:rbx_wallet/features/asset/polling_image_preview.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/providers/burned_provider.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
@@ -80,22 +81,10 @@ class NftCard extends BaseComponent {
                   ? AspectRatio(
                       aspectRatio: 1,
                       child: nft.currentEvolveAsset.localPath != null
-                          ? Image.file(
-                              File(nft.currentEvolveAsset.localPath!),
-                              width: double.infinity,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, _, __) {
-                                return Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: Text(
-                                      "File not found for preview.\nLikely this means this NFT no longer exists on this machine.\n",
-                                      style: Theme.of(context).textTheme.caption,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                                );
-                              },
+                          ? PollingImagePreview(
+                              localPath: nft.currentEvolveAsset.localPath!,
+                              expectedSize: nft.currentEvolveAsset.fileSize,
+                              withProgress: false,
                             )
                           : Text(""),
                     )

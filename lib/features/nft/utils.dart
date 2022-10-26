@@ -6,6 +6,7 @@ import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_serv
 
 Future<Nft> setAssetPath(Nft nft) async {
   final assetPath = await SmartContractService().getAssetPath(nft.id, nft.primaryAsset.fileName);
+
   if (assetPath != null) {
     final a = nft.primaryAsset.copyWith(localPath: assetPath);
     nft = nft.copyWith(primaryAsset: a);

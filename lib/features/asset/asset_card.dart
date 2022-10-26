@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/features/asset/download_or_associate_asset.dart';
+import 'package:rbx_wallet/features/asset/polling_image_preview.dart';
 import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
 import 'package:rbx_wallet/utils/files.dart';
 import 'package:rbx_wallet/utils/toast.dart';
@@ -28,18 +29,7 @@ class AssetCard extends StatelessWidget {
       children: [
         asset.localPath != null
             ? asset.isImage
-                ? Image.file(
-                    io.File(asset.localPath!),
-                    width: double.infinity,
-                    fit: BoxFit.contain,
-                    errorBuilder: (context, _, __) {
-                      return Text(
-                        "File not found for preview.\nLikely this means this NFT no longer exists on this machine.\n",
-                        style: Theme.of(context).textTheme.caption,
-                        textAlign: TextAlign.left,
-                      );
-                    },
-                  )
+                ? PollingImagePreview(localPath: asset.localPath!, expectedSize: asset.fileSize)
                 : const Icon(Icons.file_present_outlined)
             : DownloadOrAssociate(
                 asset: asset,
