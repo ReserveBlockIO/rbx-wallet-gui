@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
+import 'package:rbx_wallet/features/nft/providers/minted_nft_list_provider.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
 import 'package:rbx_wallet/utils/toast.dart';
@@ -12,10 +13,12 @@ import 'package:rbx_wallet/utils/toast.dart';
 class DownloadOrAssociate extends StatefulWidget {
   final Asset asset;
   final String nftId;
+  final Function() onComplete;
   const DownloadOrAssociate({
     Key? key,
     required this.asset,
     required this.nftId,
+    required this.onComplete,
   }) : super(key: key);
 
   @override
@@ -41,6 +44,9 @@ class _DownloadOrAssociateState extends State<DownloadOrAssociate> {
         visible = !exists;
       });
     } else {
+      if (syncPath != null) {
+        FileImage(File(syncPath)).evict;
+      }
       setState(() {
         visible = true;
       });
@@ -55,7 +61,7 @@ class _DownloadOrAssociateState extends State<DownloadOrAssociate> {
 
     return Consumer(builder: (context, ref, _) {
       return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -96,8 +102,10 @@ class _DownloadOrAssociateState extends State<DownloadOrAssociate> {
                     );
 
                     if (success == true) {
-                      checkAvailable();
+                      await checkAvailable();
                       ref.refresh(nftDetailProvider(widget.nftId));
+                      ref.refresh(mintedNftListProvider);
+                      widget.onComplete();
                     }
                   },
                 ),

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
+import 'package:rbx_wallet/features/asset/polling_image_preview.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/providers/burned_provider.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
@@ -34,7 +35,12 @@ class NftListTile extends BaseComponent {
         builder: (context) {
           return ModalContainer(
             color: Colors.black26,
-            children: [NftMangementModal(nft.id, nft)],
+            children: [
+              NftMangementModal(
+                nft.id,
+                nft,
+              )
+            ],
           );
         },
       );
@@ -66,17 +72,14 @@ class NftListTile extends BaseComponent {
               );
             }
 
-            return Image.file(
-              File(nft.currentEvolveAsset.localPath!),
+            return SizedBox(
               width: 32,
               height: 32,
-              fit: BoxFit.contain,
-              errorBuilder: (context, _, __) {
-                return SizedBox(
-                  width: 32,
-                  height: 32,
-                );
-              },
+              child: PollingImagePreview(
+                localPath: nft.currentEvolveAsset.localPath!,
+                expectedSize: nft.currentEvolveAsset.fileSize,
+                withProgress: false,
+              ),
             );
           }
           return const Icon(Icons.file_present_outlined);

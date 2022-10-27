@@ -345,6 +345,9 @@ class NftDetailScreen extends BaseScreen {
                                                         nftId: id,
                                                         canManageEvolve: nft.canManageEvolve,
                                                         index: entry.key + 1,
+                                                        onAssociate: () {
+                                                          Navigator.of(context).pop();
+                                                        },
                                                       ),
                                                     )
                                                     .toList(),

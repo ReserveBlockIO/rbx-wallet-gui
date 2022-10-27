@@ -13,6 +13,8 @@ import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
+import 'package:rbx_wallet/features/asset/asset_thumbnail.dart';
+import 'package:rbx_wallet/features/asset/polling_image_preview.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
@@ -266,6 +268,9 @@ class NftMangementModal extends BaseComponent {
                       nftId: id,
                       canManageEvolve: nft.manageable,
                       index: entry.key + 1,
+                      onAssociate: () {
+                        Navigator.of(context).pop();
+                      },
                     ),
                   )
                   .toList(),
@@ -283,6 +288,7 @@ class EvolutionStateRow extends BaseComponent {
   final EvolvePhase phase;
   final int index;
   final bool canManageEvolve;
+  final Function()? onAssociate;
   const EvolutionStateRow(
     this.phase, {
     Key? key,
@@ -290,6 +296,7 @@ class EvolutionStateRow extends BaseComponent {
     required this.nft,
     required this.canManageEvolve,
     required this.index,
+    this.onAssociate,
   }) : super(key: key);
 
   Future<void> showEvolveMessage() async {
@@ -338,42 +345,85 @@ class EvolutionStateRow extends BaseComponent {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      width: 100,
-                      height: 100,
-                      child: Stack(
-                        alignment: Alignment.bottomCenter,
-                        children: [
-                          if (phase.asset != null && phase.asset!.isImage)
-                            phase.asset!.localPath != null
-                                ? Image.file(
-                                    File(phase.asset!.localPath!),
-                                    width: 100,
-                                    height: 100,
-                                    fit: BoxFit.cover,
-                                  )
-                                : Text(""),
-                          if (phase.asset == null)
-                            const SizedBox(
-                              width: 100,
-                              height: 100,
-                            ),
-                          Container(
-                            color: Colors.black38,
-                          ),
-                          if (phase.asset != null)
-                            AppButton(
-                              label: "Open File",
-                              type: AppButtonType.Text,
-                              variant: AppColorVariant.Light,
-                              onPressed: () async {
-                                final path = await SmartContractService().getAssetPath(nftId, phase.asset!.name!);
-                                if (path != null) {
-                                  openFile(File(path));
+                    InkWell(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AssetThumbnailDialog(
+                              asset: phase.asset!,
+                              nftId: nftId,
+                              onAssociate: () {
+                                if (onAssociate != null) {
+                                  onAssociate!();
                                 }
                               },
-                            )
-                        ],
+                            );
+                          },
+                        );
+                      },
+                      child: SizedBox(
+                        width: 100,
+                        height: 100,
+                        child: Stack(
+                          alignment: Alignment.bottomCenter,
+                          children: [
+                            if (phase.asset != null && phase.asset!.isImage)
+                              phase.asset!.localPath != null
+                                  ? SizedBox(
+                                      width: 100,
+                                      height: 100,
+                                      child: PollingImagePreview(
+                                        localPath: phase.asset!.localPath!,
+                                        expectedSize: phase.asset!.fileSize,
+                                        withProgress: false,
+                                      ),
+                                    )
+                                  : Text(""),
+                            if (phase.asset == null)
+                              const SizedBox(
+                                width: 100,
+                                height: 100,
+                              ),
+                            Container(
+                              color: Colors.black38,
+                            ),
+                            if (phase.asset != null && phase.asset!.localPath == null)
+                              AppButton(
+                                label: "Associate",
+                                type: AppButtonType.Text,
+                                variant: AppColorVariant.Light,
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AssetThumbnailDialog(
+                                        asset: phase.asset!,
+                                        nftId: nftId,
+                                        onAssociate: () {
+                                          if (onAssociate != null) {
+                                            onAssociate!();
+                                          }
+                                        },
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+                            if (phase.asset?.localPath != null)
+                              AppButton(
+                                label: "Open File",
+                                type: AppButtonType.Text,
+                                variant: AppColorVariant.Light,
+                                onPressed: () async {
+                                  final path = await SmartContractService().getAssetPath(nftId, phase.asset!.name!);
+                                  if (path != null) {
+                                    openFile(File(path));
+                                  }
+                                },
+                              )
+                          ],
+                        ),
                       ),
                     ),
                     Expanded(

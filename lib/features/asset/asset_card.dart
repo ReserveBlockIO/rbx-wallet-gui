@@ -13,12 +13,14 @@ class AssetCard extends StatelessWidget {
   final Asset asset;
   final bool interactive;
   final String nftId;
+  final Function()? onAssociate;
 
   const AssetCard(
     this.asset, {
     Key? key,
     required this.nftId,
     this.interactive = false,
+    this.onAssociate,
   }) : super(key: key);
 
   @override
@@ -34,6 +36,11 @@ class AssetCard extends StatelessWidget {
             : DownloadOrAssociate(
                 asset: asset,
                 nftId: nftId,
+                onComplete: () {
+                  if (onAssociate != null) {
+                    onAssociate!();
+                  }
+                },
               ),
         if (asset.authorName != null && asset.authorName!.isNotEmpty)
           Padding(
@@ -65,33 +72,35 @@ class AssetCard extends StatelessWidget {
             ),
           ],
         ),
-        const Divider(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            AppButton(
-              label: "Open Folder",
-              icon: Icons.folder_open,
-              onPressed: () async {
-                final path = await SmartContractService().getAssetPath(nftId, asset.name!);
-                if (path != null) {
-                  openFile(io.File(io.File(path).parent.path));
-                }
-              },
-            ),
-            const SizedBox(width: 4),
-            AppButton(
-              label: "Open Asset",
-              icon: Icons.file_open,
-              onPressed: () async {
-                final path = await SmartContractService().getAssetPath(nftId, asset.name!);
-                if (path != null) {
-                  openFile(io.File(path));
-                }
-              },
-            ),
-          ],
-        ),
+        if (asset.localPath != null) ...[
+          const Divider(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              AppButton(
+                label: "Open Folder",
+                icon: Icons.folder_open,
+                onPressed: () async {
+                  final path = await SmartContractService().getAssetPath(nftId, asset.name!);
+                  if (path != null) {
+                    openFile(io.File(io.File(path).parent.path));
+                  }
+                },
+              ),
+              const SizedBox(width: 4),
+              AppButton(
+                label: "Open Asset",
+                icon: Icons.file_open,
+                onPressed: () async {
+                  final path = await SmartContractService().getAssetPath(nftId, asset.name!);
+                  if (path != null) {
+                    openFile(io.File(path));
+                  }
+                },
+              ),
+            ],
+          ),
+        ],
       ],
     );
   }
