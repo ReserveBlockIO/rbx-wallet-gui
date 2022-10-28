@@ -89,7 +89,7 @@ class StatusContainer extends BaseComponent {
                 if (walletInfo != null)
                   _DetailItem(
                     label: "Peers (In / Out)",
-                    value: "${walletInfo.peerCount} / 6",
+                    value: "${walletInfo.peerCount} / 8",
                     icon: Icons.people_alt,
                   ),
                 if (walletInfo != null)
@@ -176,8 +176,7 @@ class _BlockStatus extends BaseComponent {
                         width: 12,
                         height: 12,
                         child: CircularProgressIndicator(
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Colors.white),
+                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                         ),
                       ),
                     ],
@@ -216,8 +215,7 @@ class _BlockStatus extends BaseComponent {
                         width: 12,
                         height: 12,
                         child: CircularProgressIndicator(
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Colors.white),
+                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                         ),
                       ),
                     ],
