@@ -20,6 +20,7 @@ import 'package:rbx_wallet/features/nft/modals/nft_management_modal.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/modals/code_modal.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/feature.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/my_smart_contracts_provider.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
 import 'package:rbx_wallet/utils/toast.dart';
@@ -127,7 +128,7 @@ class NftDetailScreen extends BaseScreen {
                 const SizedBox(
                   height: 4,
                 ),
-                Text("ID: ${nft.id}"),
+                SelectableText("ID: ${nft.id}"),
                 const SizedBox(
                   height: 4,
                 ),
@@ -241,7 +242,7 @@ class NftDetailScreen extends BaseScreen {
                                                           .toList(),
                                                     )
                                                   : Wrap(
-                                                      children: nft.additionalAssets
+                                                      children: nft.additionalLocalAssets
                                                           .map(
                                                             (a) => Padding(
                                                               padding: const EdgeInsets.only(right: 6.0),
@@ -313,6 +314,50 @@ class NftDetailScreen extends BaseScreen {
                           leading: Icon(f.icon),
                           title: Text(f.nameLabel),
                           subtitle: Text(f.description),
+                          trailing: f.type == FeatureType.evolution
+                              ? AppButton(
+                                  label: "Reveal Evolve Stages",
+                                  variant: AppColorVariant.Dark,
+                                  onPressed: () {
+                                    showModalBottomSheet(
+                                        context: context,
+                                        isScrollControlled: true,
+                                        backgroundColor: Colors.black87,
+                                        builder: (context) {
+                                          return ModalContainer(color: Colors.black26, children: [
+                                            Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                EvolutionStateRow(
+                                                  nft.baseEvolutionPhase,
+                                                  nft: nft,
+                                                  nftId: id,
+                                                  canManageEvolve: nft.canManageEvolve,
+                                                  index: 0,
+                                                ),
+                                                ...nft.updatedEvolutionPhases
+                                                    .asMap()
+                                                    .entries
+                                                    .map(
+                                                      (entry) => EvolutionStateRow(
+                                                        entry.value,
+                                                        nft: nft,
+                                                        nftId: id,
+                                                        canManageEvolve: nft.canManageEvolve,
+                                                        index: entry.key + 1,
+                                                        onAssociate: () {
+                                                          Navigator.of(context).pop();
+                                                        },
+                                                      ),
+                                                    )
+                                                    .toList(),
+                                              ],
+                                            )
+                                          ]);
+                                        });
+                                  },
+                                )
+                              : null,
                         ),
                       )
                       .toList(),
@@ -346,7 +391,7 @@ class NftDetailScreen extends BaseScreen {
                               title: "Transfer NFT",
                               validator: (value) => formValidatorRbxAddress(value),
                               labelText: "RBX Address",
-                              confirmText: "Transfer",
+                              confirmText: "Continue",
                               onValidSubmission: (address) async {
                                 bool? success;
 
@@ -369,6 +414,9 @@ class NftDetailScreen extends BaseScreen {
                                     confirmText: "Transfer",
                                     onValidSubmission: (url) async {
                                       success = await _provider.transfer(address, url);
+                                      if (success == true) {
+                                        Navigator.of(context).pop();
+                                      }
                                     },
                                   );
                                 }
@@ -378,7 +426,7 @@ class NftDetailScreen extends BaseScreen {
                         : null,
                   ),
                 ),
-                if (nft.manageable)
+                if (nft.manageable && nft.isMinter)
                   Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: AppButton(
@@ -392,7 +440,7 @@ class NftDetailScreen extends BaseScreen {
                           builder: (context) {
                             return ModalContainer(
                               color: Colors.black26,
-                              children: [NftMangementModal(nft.id)],
+                              children: [NftMangementModal(nft.id, nft)],
                             );
                           },
                         );

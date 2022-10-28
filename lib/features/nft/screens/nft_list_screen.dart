@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/features/nft/components/nft_grid.dart';
+import 'package:rbx_wallet/features/nft/components/nft_list.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_list_view_provider.dart';
 
 class NftListScreen extends BaseScreen {
@@ -23,31 +24,31 @@ class NftListScreen extends BaseScreen {
       title: const Text("NFTs"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      // actions: [
-      //   Row(
-      //     mainAxisSize: MainAxisSize.min,
-      //     children: [
-      //       IconButton(
-      //         onPressed: () {
-      //           _provider.setGrid();
-      //         },
-      //         icon: Icon(
-      //           Icons.grid_on,
-      //           color: isGrid ? Colors.white : Colors.white38,
-      //         ),
-      //       ),
-      //       IconButton(
-      //         onPressed: () {
-      //           _provider.setList();
-      //         },
-      //         icon: Icon(
-      //           Icons.list_outlined,
-      //           color: !isGrid ? Colors.white : Colors.white38,
-      //         ),
-      //       ),
-      //     ],
-      //   )
-      // ],
+      actions: [
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              onPressed: () {
+                _provider.setGrid();
+              },
+              icon: Icon(
+                Icons.grid_on,
+                color: isGrid ? Colors.white : Colors.white38,
+              ),
+            ),
+            IconButton(
+              onPressed: () {
+                _provider.setList();
+              },
+              icon: Icon(
+                Icons.list_outlined,
+                color: !isGrid ? Colors.white : Colors.white38,
+              ),
+            ),
+          ],
+        )
+      ],
     );
   }
 
@@ -73,10 +74,10 @@ class NftListScreen extends BaseScreen {
             Expanded(
               child: TabBarView(
                 children: [
-                  // isGrid ? const NftGrid() : const NftList(),
-                  // isGrid ? const NftGrid(minted: true) : const NftList(minted: true),
-                  const NftGrid(),
-                  const NftGrid(minted: true),
+                  isGrid ? const NftGrid() : const NftList(),
+                  isGrid ? const NftGrid(minted: true) : const NftList(minted: true),
+                  // const NftGrid(),
+                  // const NftGrid(minted: true),
                 ],
               ),
             ),

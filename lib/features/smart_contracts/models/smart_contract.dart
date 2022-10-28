@@ -3,13 +3,17 @@ import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/soul_bound/soul_bound.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/compiler_payload.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/detailed_smart_contract.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/feature.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/fractional.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/multi_asset.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/pair.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/rarity.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/stat.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/tokenization.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 
 part 'smart_contract.freezed.dart';
@@ -35,6 +39,10 @@ abstract class SmartContract with _$SmartContract {
     @Default([]) List<Evolve> evolves,
     @Default([]) List<Ticket> tickets,
     @Default([]) List<MultiAsset> multiAssets,
+    @Default([]) List<Tokenization> tokenizations,
+    @Default([]) List<Fractional> fractionals,
+    @Default([]) List<Pair> pairs,
+    @Default([]) List<SoulBound> soulBounds,
     @Default("") String code,
     @Default(false) bool isCompiled,
     @Default(false) bool isPublished,
@@ -110,6 +118,22 @@ abstract class SmartContract with _$SmartContract {
       features.add(Feature(type: FeatureType.multiAsset, data: item.toJson()));
     }
 
+    for (final item in tokenizations) {
+      features.add(Feature(type: FeatureType.tokenization, data: item.toJson()));
+    }
+
+    for (final item in fractionals) {
+      features.add(Feature(type: FeatureType.fractionalization, data: item.toJson()));
+    }
+
+    for (final item in pairs) {
+      features.add(Feature(type: FeatureType.pair, data: item.toJson()));
+    }
+
+    for (final item in soulBounds) {
+      features.add(Feature(type: FeatureType.soulBound, data: item.toJson()));
+    }
+
     return features;
   }
 
@@ -156,5 +180,18 @@ abstract class SmartContract with _$SmartContract {
     final data = payload.toJson();
 
     return data;
+  }
+
+  bool get primaryAssetRequired {
+    for (final feature in features) {
+      if ([
+        FeatureType.multiAsset,
+        FeatureType.tokenization,
+      ].contains(feature.type)) {
+        return false;
+      }
+    }
+
+    return true;
   }
 }

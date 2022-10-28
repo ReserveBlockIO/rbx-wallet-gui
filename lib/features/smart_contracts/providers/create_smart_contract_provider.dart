@@ -17,17 +17,23 @@ import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_form_
 import 'package:rbx_wallet/features/smart_contracts/features/multi_asset/multi_asset_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty_form_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/soul_bound/soul_bound.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/compiled_smart_contract.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/fractional.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/multi_asset.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/pair.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/smart_contract.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/stat.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/tokenization.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/draft_smart_contracts_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/my_smart_contracts_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:collection/collection.dart';
+import 'package:rbx_wallet/utils/formatting.dart';
 import 'package:rbx_wallet/utils/generators.dart';
+import 'package:rbx_wallet/utils/guards.dart';
 
 class CreateSmartContractProvider extends StateNotifier<SmartContract> {
   final Reader read;
@@ -57,7 +63,9 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
     read(multiAssetFormProvider.notifier).clear();
 
     final sc = SmartContract(
-      owner: kIsWeb ? read(webSessionProvider).currentWallet! : read(sessionProvider).currentWallet!,
+      owner: kIsWeb
+          ? read(webSessionProvider).currentWallet!
+          : read(sessionProvider).currentWallet!,
     );
 
     setSmartContract(sc);
@@ -137,6 +145,90 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
     state = state.copyWith(evolves: [...state.evolves]..removeAt(index));
   }
 
+  void saveTokenization(Tokenization tokenization) {
+    print(tokenization);
+    final exists =
+        state.tokenizations.firstWhereOrNull((t) => t.id == tokenization.id);
+
+    if (exists == null) {
+      state =
+          state.copyWith(tokenizations: [...state.tokenizations, tokenization]);
+    } else {
+      final index =
+          state.tokenizations.indexWhere((t) => t.id == tokenization.id);
+      _updateTokenization(tokenization, index);
+    }
+  }
+
+  void _updateTokenization(Tokenization tokenization, int index) {
+    final updatedTokenizations = [...state.tokenizations];
+    updatedTokenizations.removeAt(index);
+    updatedTokenizations.insert(index, tokenization);
+    state = state.copyWith(tokenizations: updatedTokenizations);
+  }
+
+  void removeTokenization(Tokenization tokenization) {
+    final index =
+        state.tokenizations.indexWhere((t) => t.id == tokenization.id);
+    state = state.copyWith(
+        tokenizations: [...state.tokenizations]..removeAt(index));
+  }
+
+  void saveFractional(Fractional fractional) {
+    final exists =
+        state.fractionals.firstWhereOrNull((r) => r.id == fractional.id);
+
+    if (exists == null) {
+      state = state.copyWith(fractionals: [...state.fractionals, fractional]);
+    } else {
+      final index = state.fractionals.indexWhere((r) => r.id == fractional.id);
+      _updateFractional(fractional, index);
+    }
+  }
+
+  void _updateFractional(Fractional fractional, int index) {
+    final updatedFractionals = [...state.fractionals];
+    updatedFractionals.removeAt(index);
+    updatedFractionals.insert(index, fractional);
+    state = state.copyWith(fractionals: updatedFractionals);
+  }
+
+  void removeFractional(Fractional fractional) {
+    final index = state.fractionals.indexWhere((r) => r.id == fractional.id);
+    state =
+        state.copyWith(fractionals: [...state.fractionals]..removeAt(index));
+  }
+
+  void _updateTicket(Ticket ticket, int index) {
+    final updatedTickets = [...state.tickets];
+    updatedTickets.removeAt(index);
+    updatedTickets.insert(index, ticket);
+    state = state.copyWith(tickets: updatedTickets);
+  }
+
+  void savePair(Pair pair) {
+    final exists = state.pairs.firstWhereOrNull((t) => t.id == pair.id);
+
+    if (exists == null) {
+      state = state.copyWith(pairs: [...state.pairs, pair]);
+    } else {
+      final index = state.pairs.indexWhere((t) => t.id == pair.id);
+      _updatePair(pair, index);
+    }
+  }
+
+  void _updatePair(Pair pair, int index) {
+    final updatedPairs = [...state.pairs];
+    updatedPairs.removeAt(index);
+    updatedPairs.insert(index, pair);
+    state = state.copyWith(pairs: updatedPairs);
+  }
+
+  void removePair(Pair tokenization) {
+    final index = state.pairs.indexWhere((t) => t.id == tokenization.id);
+    state = state.copyWith(pairs: [...state.pairs]..removeAt(index));
+  }
+
   void saveTicket(Ticket ticket) {
     final exists = state.tickets.firstWhereOrNull((t) => t.id == ticket.id);
 
@@ -148,20 +240,14 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
     }
   }
 
-  void _updateTicket(Ticket ticket, int index) {
-    final updatedTickets = [...state.tickets];
-    updatedTickets.removeAt(index);
-    updatedTickets.insert(index, ticket);
-    state = state.copyWith(tickets: updatedTickets);
-  }
-
   void removeTicket(Ticket ticket) {
     final index = state.tickets.indexWhere((t) => t.id == ticket.id);
     state = state.copyWith(tickets: [...state.tickets]..removeAt(index));
   }
 
   void saveMultiAsset(MultiAsset multiAsset) {
-    final exists = state.multiAssets.firstWhereOrNull((m) => m.id == multiAsset.id);
+    final exists =
+        state.multiAssets.firstWhereOrNull((m) => m.id == multiAsset.id);
 
     if (exists == null) {
       state = state.copyWith(multiAssets: [...state.multiAssets, multiAsset]);
@@ -180,7 +266,32 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
 
   void removeMultiAsset(MultiAsset multiAsset) {
     final index = state.multiAssets.indexWhere((m) => m.id == multiAsset.id);
-    state = state.copyWith(multiAssets: [...state.multiAssets]..removeAt(index));
+    state =
+        state.copyWith(multiAssets: [...state.multiAssets]..removeAt(index));
+  }
+
+  void saveSoulBound(SoulBound soulBound) {
+    final exists =
+        state.soulBounds.firstWhereOrNull((sb) => sb.id == soulBound.id);
+
+    if (exists == null) {
+      state = state.copyWith(soulBounds: [...state.soulBounds, soulBound]);
+    } else {
+      final index = state.soulBounds.indexWhere((sb) => sb.id == soulBound.id);
+      _updateSoulBound(soulBound, index);
+    }
+  }
+
+  void _updateSoulBound(SoulBound soulBound, int index) {
+    final updatedSoulBounds = [...state.soulBounds];
+    updatedSoulBounds.removeAt(index);
+    updatedSoulBounds.insert(index, soulBound);
+    state = state.copyWith(soulBounds: updatedSoulBounds);
+  }
+
+  void removeSoulBound(SoulBound soulBound) {
+    final index = state.soulBounds.indexWhere((sb) => sb.id == soulBound.id);
+    state = state.copyWith(soulBounds: [...state.soulBounds]..removeAt(index));
   }
 
   // Future<Asset> initAsset(String filePath) async {
@@ -221,7 +332,7 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
 
   void saveMintedNft(String id) {
     NftService().saveId(id);
-    read(mintedNftListProvider.notifier).load();
+    read(mintedNftListProvider.notifier).reloadCurrentPage();
   }
 
   // --compile --
@@ -230,7 +341,7 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
     final List<String> errors = [];
 
     if (state.primaryAsset == null) {
-      errors.add("- Primary asset is required");
+      errors.add("- Asset is required");
     }
     if (state.name.isEmpty) {
       errors.add("- Name is required");
@@ -244,31 +355,49 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
       errors.add("- Description is required");
     }
 
+    // int filesize = 0;
+
+    // if (state.primaryAsset != null) {
+    //   filesize += state.primaryAsset!.fileSize;
+    // }
+
+    // if (filesize > MAX_ASSET_BYTES) {
+    //   errors.add("- Asset filesize sum must not exceed ${readableFileSize(MAX_ASSET_BYTES)}");
+    //   errors.add("  (current size is ${readableFileSize(filesize)})");
+    // }
+
     return errors;
   }
 
   Future<bool> compileAndMintForWeb() async {
-    print("heyyyy");
     final timezoneName = read(webSessionProvider).timezoneName;
     final payload = state.serializeForCompiler(timezoneName);
 
-    final success = await TransactionService().compileAndMintSmartContract(payload, read(webSessionProvider).keypair!);
+    final success = await TransactionService().compileAndMintSmartContract(
+        payload, read(webSessionProvider).keypair!);
     if (success == true) {
-      read(nftListProvider.notifier).load(read(webSessionProvider).keypair?.email, read(webSessionProvider).keypair?.public);
+      read(nftListProvider.notifier).reloadCurrentPage(
+          read(webSessionProvider).keypair?.email,
+          read(webSessionProvider).keypair?.public);
       return true;
     }
     return false;
   }
 
   Future<CompiledSmartContract?> compile() async {
+    if (!guardWalletIsSynced(read)) {
+      return null;
+    }
+
     final timezoneName = read(sessionProvider).timezoneName;
 
     final payload = state.serializeForCompiler(timezoneName);
 
     if (kIsWeb) {
-      final success = await TransactionService().compileAndMintSmartContract(payload, read(webSessionProvider).keypair!);
+      final success = await TransactionService().compileAndMintSmartContract(
+          payload, read(webSessionProvider).keypair!);
       if (success == true) {
-        read(nftListProvider.notifier).load();
+        read(nftListProvider.notifier).reloadCurrentPage();
       }
     }
 
@@ -287,7 +416,7 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
     if (kIsWeb) {
     } else {
       read(mySmartContractsProvider.notifier).load();
-      read(nftListProvider.notifier).load();
+      read(nftListProvider.notifier).reloadCurrentPage();
     }
     if (details != null) {
       if (DELETE_DRAFT_ON_MINT) {
@@ -313,21 +442,29 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
   }
 
   Future<bool> mint([String? idOverride]) async {
-    final success = kIsWeb ? await TransactionService().mintSmartContract(state.id) : await SmartContractService().mint(idOverride ?? state.id);
+    final success = kIsWeb
+        ? await TransactionService().mintSmartContract(state.id)
+        : await SmartContractService().mint(idOverride ?? state.id);
 
     if (success) {
       saveMintedNft(state.id);
     }
 
-    final details = kIsWeb ? await TransactionService().retrieveSmartContract(state.id) : await SmartContractService().retrieve(state.id);
+    final details = kIsWeb
+        ? await TransactionService().retrieveSmartContract(state.id)
+        : await SmartContractService().retrieve(state.id);
 
     read(mySmartContractsProvider.notifier).load();
     kIsWeb
-        ? read(nftListProvider.notifier).load(read(webSessionProvider).keypair?.email, read(webSessionProvider).keypair?.public)
-        : read(nftListProvider.notifier).load();
+        ? read(nftListProvider.notifier).reloadCurrentPage(
+            read(webSessionProvider).keypair?.email,
+            read(webSessionProvider).keypair?.public)
+        : read(nftListProvider.notifier).reloadCurrentPage();
 
     if (details != null) {
-      final wallet = kIsWeb ? read(webSessionProvider).currentWallet! : read(sessionProvider).currentWallet!;
+      final wallet = kIsWeb
+          ? read(webSessionProvider).currentWallet!
+          : read(sessionProvider).currentWallet!;
       final sc = SmartContract.fromCompiled(details, wallet);
       read(createSmartContractProvider.notifier).setSmartContract(
         sc.copyWith(
@@ -381,7 +518,8 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
   }
 }
 
-final createSmartContractProvider = StateNotifierProvider<CreateSmartContractProvider, SmartContract>(
+final createSmartContractProvider =
+    StateNotifierProvider<CreateSmartContractProvider, SmartContract>(
   (ref) {
     if (kIsWeb) {
       final initial = SmartContract(

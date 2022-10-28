@@ -12,9 +12,11 @@ import 'package:rbx_wallet/features/health/health_service.dart';
 import 'package:rbx_wallet/features/validator/providers/current_validator_provider.dart';
 import 'package:rbx_wallet/features/wallet/components/invalid_wallet.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
+import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
+import 'package:collection/collection.dart';
 
 class ValidatorScreen extends BaseScreen {
   const ValidatorScreen({Key? key}) : super(key: key);
@@ -64,14 +66,44 @@ class ValidatorScreen extends BaseScreen {
         message: "${currentWallet.address} is not eligable to be a validator",
       );
     }
+
     if (!currentWallet.isValidating) {
+      final wallets = ref.watch(walletListProvider);
+      final anyWalletIsValidating =
+          wallets.firstWhereOrNull((w) => w.isValidating) != null;
+      if (anyWalletIsValidating) {
+        return Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.error,
+                color: Theme.of(context).colorScheme.warning,
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Text(
+                "${currentWallet.label} can not validate.",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Text("You can only validate with one wallet."),
+            ],
+          ),
+        );
+      }
+
       final port = Env.validatorPort;
 
       return Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text("You must have port $port open to external networks in order to validate."),
+            Text(
+                "You must have port $port open to external networks in order to validate."),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: AppButton(
@@ -96,36 +128,44 @@ class ValidatorScreen extends BaseScreen {
 
                 // if (!await checkPort(false)) return;
 
-                if (currentWallet.balance < 1000) {
-                  Toast.error("Balance not currently sufficient to validate");
+                if (currentWallet.balance < 1000.0) {
+                  Toast.error(
+                      "Balance not currently sufficient to validate. 1000 RBX required.");
                   return;
                 }
 
                 ref.read(globalLoadingProvider.notifier).start();
 
-                final res = await BridgeService().turnOnValidator(currentWallet.address);
+                final res = await BridgeService()
+                    .turnOnValidator(currentWallet.address);
 
                 ref.read(globalLoadingProvider.notifier).complete();
 
                 if (res != null) {
                   Toast.message(res);
-                  await ref.read(sessionProvider.notifier).load();
+                  await ref.read(sessionProvider.notifier).mainLoop(false);
                   return;
                 }
 
                 PromptModal.show(
                     title: "Name your validator",
-                    validator: (value) => formValidatorNotEmpty(value, "Validator Name"),
+                    validator: (value) =>
+                        formValidatorNotEmpty(value, "Validator Name"),
                     labelText: "Validator Name",
                     onValidSubmission: (name) async {
                       ref.read(globalLoadingProvider.notifier).start();
 
-                      final success = await ref.read(currentValidatorProvider.notifier).startValidating(name);
+                      final success = await ref
+                          .read(currentValidatorProvider.notifier)
+                          .startValidating(name);
                       ref.read(globalLoadingProvider.notifier).complete();
 
                       if (success) {
-                        Toast.message("$name [${currentWallet.label}] is now validating.");
-                        await ref.read(sessionProvider.notifier).load();
+                        Toast.message(
+                            "$name [${currentWallet.label}] is now validating.");
+                        await ref
+                            .read(sessionProvider.notifier)
+                            .mainLoop(false);
                       } else {
                         Toast.error();
                       }
@@ -175,11 +215,13 @@ class ValidatorScreen extends BaseScreen {
           onPressed: () async {
             ref.read(globalLoadingProvider.notifier).start();
 
-            final success = await ref.read(currentValidatorProvider.notifier).stopValidating();
+            final success = await ref
+                .read(currentValidatorProvider.notifier)
+                .stopValidating();
 
             if (success) {
               Toast.message("${currentWallet.label} hast stopped validating.");
-              await ref.read(sessionProvider.notifier).load();
+              await ref.read(sessionProvider.notifier).mainLoop(false);
             } else {
               Toast.error();
             }
@@ -206,7 +248,8 @@ class ValidatorScreen extends BaseScreen {
 
                   final confirmed = await ConfirmDialog.show(
                     title: "Restart CLI",
-                    body: "In order for the name to be reflected,\na restart of the CLI is required.\n\nRestart now?",
+                    body:
+                        "In order for the name to be reflected,\na restart of the CLI is required.\n\nRestart now?",
                     confirmText: "Restart",
                     cancelText: "Cancel",
                   );

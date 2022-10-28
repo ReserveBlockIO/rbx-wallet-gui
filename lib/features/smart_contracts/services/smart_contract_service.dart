@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:rbx_wallet/core/services/base_service.dart';
 import 'package:rbx_wallet/core/singletons.dart';
@@ -9,13 +10,14 @@ import 'package:rbx_wallet/features/smart_contracts/models/detailed_smart_contra
 import 'package:rbx_wallet/features/smart_contracts/models/smart_contract.dart';
 import 'package:collection/collection.dart';
 import 'package:rbx_wallet/utils/generators.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 class SmartContractService extends BaseService {
   SmartContractService() : super(apiBasePathOverride: "/scapi/scv1");
 
   // http://localhost:7292/scapi/scv1/GetAllSmartContracts
 
-  Future<List<CompiledSmartContract>> listSmartContracts() async {
+  Future<List<CompiledSmartContract>> listSmartContractsOLD() async {
     try {
       final response = await getText(
         "/GetAllSmartContracts",
@@ -38,13 +40,9 @@ class SmartContractService extends BaseService {
 
   Future<DetailedSmartContract?> retrieve(String id) async {
     try {
-      print("RETRIEVE ID: $id");
       final url = '/GetSingleSmartContract/$id';
-      print(url);
       final response = await getText(url);
       final data = jsonDecode(response);
-      print(data);
-      print("!!!!!!!!");
       return DetailedSmartContract.fromJson(data[0]);
     } catch (e) {
       print(e);
@@ -66,9 +64,9 @@ class SmartContractService extends BaseService {
         params: p,
       );
 
-      print("==============");
-      print(jsonEncode(response['data'][0]));
-      print("==============");
+      // print("==============");
+      // print(jsonEncode(response['data'][0]));
+      // print("==============");
 
       final csc = CompilerResponse.fromJson(response['data'][0]);
       return csc;
@@ -150,10 +148,14 @@ class SmartContractService extends BaseService {
 
   Future<bool> transfer(String id, String address, String? url) async {
     try {
-      final response = await getText(url != null && url.isNotEmpty ? "/TransferNFT/$id/$address/$url" : "/TransferNFT/$id/$address");
-      print("---");
-      print(response);
-      print("---");
+      final text = await getText(url != null && url.isNotEmpty ? "/TransferNFT/$id/$address/$url" : "/TransferNFT/$id/$address");
+      print("TRANSFER: $text");
+
+      final Map<String, dynamic> data = jsonDecode(text);
+      if (!data.containsKey("Hash") && data['Hash'] != null && data['Hash'] != "") {
+        return false;
+      }
+
       return true;
     } catch (e) {
       print(e);
@@ -184,9 +186,22 @@ class SmartContractService extends BaseService {
 
   Future<bool> associateAsset(String nftId, String assetPath) async {
     try {
-      final data = await getText("/AssociateNFTAsset/$nftId/$assetPath");
-      print(data);
-      return true;
+      assetPath = assetPath.replaceAll("/", "%2F").replaceAll("\\", "%5C");
+      final url = "/AssociateNFTAsset/$nftId/$assetPath";
+
+      final response = await getText(url, cleanPath: false);
+      final data = jsonDecode(response);
+
+      print(response);
+
+      if (data['Result'] == "Success") {
+        Toast.message(data['Message']);
+
+        return true;
+      }
+
+      Toast.error(data['Message']);
+      return false;
     } catch (e) {
       print(e);
       return false;
@@ -201,6 +216,19 @@ class SmartContractService extends BaseService {
     } catch (e) {
       print(e);
       return false;
+    }
+  }
+
+  Future<String?> getAssetPath(String scId, String filename) async {
+    try {
+      final path = "/GetNFTAssetLocation/$scId/$filename";
+      final location = await getText(path, cleanPath: false);
+      if (location == "Error") return null;
+      if (location == "NA") return null;
+      return location;
+    } catch (e) {
+      print(e);
+      return null;
     }
   }
 }

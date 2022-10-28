@@ -29,6 +29,7 @@ package_mac:
 	rm -f ./installers/exports/rbx-corecli-mac-intel.zip
 	cd ./installers/resources/Runner/RBXWallet.app/Contents/Resources/ && zip -r /Users/tylersavery/Projects/rbx/rbx_wallet/installers/exports/rbx-corecli-mac-intel.zip ./RBXCore/
 	cd /Users/tylersavery/Projects/rbx/rbx_wallet/
+	open ./installers/exports/
 
 
 package_m1:
@@ -43,6 +44,8 @@ package_m1:
 	rm -f ./installers/exports/rbx-corecli-mac-arm.zip
 	cd ./installers/resources/Runner/RBXWallet.app/Contents/Resources/ && zip -r /Users/tyler/prj/rbx/rbx-wallet-gui/installers/exports/rbx-corecli-mac-arm.zip ./RBXCore/
 	cd /Users/tyler/prj/rbx/rbx-wallet-gui/
+	open ./installers/exports/
+
 	
 
 build_win:

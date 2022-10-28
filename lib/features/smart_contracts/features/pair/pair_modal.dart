@@ -1,0 +1,140 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/base_component.dart';
+import 'package:rbx_wallet/core/components/dropdowns.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/file_selector.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_header.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/manage_properties_list.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_bottom_actions.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/pair/pair_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/tokenization/tokenization_provider.dart';
+
+class PairModal extends BaseComponent {
+  const PairModal({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final _provider = ref.read(pairFormProvider.notifier);
+    final _model = ref.watch(pairFormProvider);
+
+    return Form(
+      key: _provider.formKey,
+      child: ModalContainer(children: [
+        const FormGroupHeader(
+          "Pair/Wrap with Existing NFT",
+          withBg: false,
+        ),
+        Row(
+          children: [
+            AppDropdown<String>(
+                label: "Network",
+                selectedValue: _model.network,
+                selectedLabel: _model.network,
+                options: _provider.networkOptions.map((o) => AppDropdownOption<String>(label: o, value: o)).toList(),
+                onChange: (val) {
+                  _provider.setNetwork(val);
+                }),
+            SizedBox(
+              width: 8,
+            ),
+            Expanded(
+              child: TextFormField(
+                decoration: InputDecoration(label: Text("${_model.network} Contract Address")),
+                validator: _provider.nftAddressValidator,
+                controller: _provider.nftAddressController,
+              ),
+            ),
+            if (_model.network != "RBX") ...[
+              SizedBox(
+                width: 8,
+              ),
+              Expanded(
+                child: TextFormField(
+                  decoration: InputDecoration(label: Text("Token ID (Optional)")),
+                  // validator: _provider.descriptionValidator,
+                  // controller: _provider.descriptionController,
+                ),
+              ),
+              SizedBox(
+                width: 8,
+              ),
+              Expanded(
+                child: TextFormField(
+                  decoration: InputDecoration(label: Text("Token Standard (Optional)")),
+                  // validator: _provider.descriptionValidator,
+                  // controller: _provider.descriptionController,
+                ),
+              ),
+            ]
+          ],
+        ),
+        TextFormField(
+          decoration: InputDecoration(label: Text("Full Description")),
+          validator: _provider.descriptionValidator,
+          controller: _provider.descriptionController,
+          minLines: 3,
+          maxLines: 6,
+        ),
+        TextFormField(
+          decoration: InputDecoration(label: Text("Reason for Pairing/Wrapping")),
+          validator: _provider.reasonValidator,
+          controller: _provider.reasonController,
+          minLines: 3,
+          maxLines: 6,
+        ),
+        Row(
+          children: [
+            Expanded(
+              child: FileSelector(
+                title: "Provenance Files (Optional)",
+                transparentBackground: true,
+                asset: _model.provenance,
+                onChange: (asset) {
+                  if (asset != null) {
+                    _provider.addProvenance(asset);
+                  } else {
+                    _provider.removeProvenance();
+                  }
+                },
+              ),
+            ),
+            Expanded(
+              child: TextFormField(
+                decoration: InputDecoration(label: Text("Metadata URL")),
+                controller: _provider.metadataUrlController,
+              ),
+            ),
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: Row(
+            children: [
+              Text(
+                "Properties (Optional)",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              ),
+              HelpButton(HelpType.manageProperties)
+            ],
+          ),
+        ),
+        ManagePropertiesList(
+          properties: _model.properties,
+          onCreate: (property) {
+            _provider.addProperty(property);
+          },
+          onRemove: (index) {
+            _provider.removeProperty(index);
+          },
+        ),
+        ModalBottomActions(
+          onConfirm: () {
+            _provider.complete(context);
+          },
+        )
+      ]),
+    );
+  }
+}

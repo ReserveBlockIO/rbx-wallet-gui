@@ -24,29 +24,26 @@ class WalletListProvider extends StateNotifier<List<Wallet>> {
     state = wallets;
   }
 
-  Future<void> import(String privateKey, [bool showDetails = false]) async {
+  Future<Wallet?> import(String privateKey, [bool showDetails = false]) async {
     // if (!guardWalletIsNotResyncing(read)) return;
 
-    print(privateKey);
     final data = await BridgeService().importPrivateKey(privateKey);
-
-    print(data);
 
     if (data == null) {
       Toast.error("No account found");
-      return;
+      return null;
     }
 
     final wallet = Wallet.fromJson(data);
     state = [...state, wallet];
     read(sessionProvider.notifier).setCurrentWallet(wallet);
     // read(sessionProvider.notifier).load();
-    read(walletInfoProvider.notifier).fetch();
+    read(walletInfoProvider.notifier).infoLoop(false);
 
     if (showDetails) {
       final context = rootScaffoldKey.currentContext!;
 
-      await showDialog(
+      return await showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
@@ -89,7 +86,7 @@ class WalletListProvider extends StateNotifier<List<Wallet>> {
                 AppButton(
                   label: "Done",
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    Navigator.of(context).pop(wallet);
                   },
                 )
               ],
@@ -97,6 +94,8 @@ class WalletListProvider extends StateNotifier<List<Wallet>> {
           );
         },
       );
+    } else {
+      return wallet;
     }
   }
 

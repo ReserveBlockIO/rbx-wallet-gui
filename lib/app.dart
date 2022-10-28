@@ -9,6 +9,7 @@ import 'package:rbx_wallet/core/providers/ready_provider.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/singletons.dart';
+import 'package:rbx_wallet/core/storage.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
@@ -33,6 +34,10 @@ class App extends ConsumerWidget {
       return const AppContainer();
     }
     ref.read(sessionProvider.notifier);
+
+    singleton<Storage>().setStringList(Storage.BURNED_NFT_IDS, []);
+    singleton<Storage>().setStringList(Storage.TRANSFERRED_NFT_IDS, []);
+    singleton<Storage>().setStringList(Storage.PENDING_ADNRS, []);
 
     return const AppSystemManager(child: AppContainer());
   }

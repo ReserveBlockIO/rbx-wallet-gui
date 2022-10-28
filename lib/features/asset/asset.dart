@@ -22,17 +22,25 @@ abstract class Asset with _$Asset {
     @JsonKey(name: "AssetId") required String id,
     @JsonKey(name: "Name") String? name,
     @JsonKey(name: "AssetAuthorName") String? authorName,
-    @JsonKey(name: "Location") required String location,
-    @JsonKey(name: "Extension") required String extension,
+    @JsonKey(name: "Location") String? location,
+    @JsonKey(name: "Extension") String? extension,
     @JsonKey(name: "FileSize") required int fileSize,
     @JsonKey(toJson: bytesToNull, fromJson: nullToNull) Uint8List? bytes,
+    String? localPath,
   }) = _Asset;
 
   factory Asset.fromJson(Map<String, dynamic> json) => _$AssetFromJson(json);
 
   String get fileName {
     final slash = !kIsWeb && Platform.isWindows ? "\\" : "/";
-    return location.split(slash).last;
+    if (name != null) {
+      return name!.split(slash).last;
+    }
+
+    if (location != null) {
+      return location!.split(slash).last;
+    }
+    return "";
   }
 
   String get ext {
@@ -40,7 +48,7 @@ abstract class Asset with _$Asset {
   }
 
   bool get isImage {
-    final extensions = ['jpg', 'jpeg', 'gif', 'png'];
+    final extensions = ['jpg', 'jpeg', 'gif', 'png', 'webp'];
     return extensions.contains(ext);
   }
 
@@ -50,6 +58,7 @@ abstract class Asset with _$Asset {
       case "jpeg":
       case "png":
       case "gif":
+      case "webp":
         return "Image";
       case "pdf":
       case "doc":
@@ -85,11 +94,15 @@ abstract class Asset with _$Asset {
   }
 
   String get fixedLocation {
-    if (Platform.isWindows) {
-      return location;
+    if (Platform.isWindows && location != null) {
+      return location!;
     }
 
-    return location.replaceAll("/Volumes/Macintosh HD/", '/');
+    if (location != null) {
+      return location!.replaceAll("/Volumes/Macintosh HD/", '/');
+    }
+
+    return "";
   }
 
   File get file {
@@ -102,5 +115,9 @@ abstract class Asset with _$Asset {
 
   String get filesizeLabel {
     return readableFileSize(fileSize);
+  }
+
+  String locationData(String scId) {
+    return "${scId.replaceAll(':', '%3A')}||$name";
   }
 }

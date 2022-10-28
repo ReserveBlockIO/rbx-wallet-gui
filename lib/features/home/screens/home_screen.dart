@@ -12,6 +12,7 @@ import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/core/utils.dart';
 import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
 import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
@@ -23,6 +24,7 @@ import 'package:rbx_wallet/features/keygen/components/keygen_cta.dart'
     if (dart.library.io) 'package:rbx_wallet/features/keygen/components/keygen_cta_mock.dart';
 
 import 'package:rbx_wallet/features/root/components/reload_button.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
@@ -123,11 +125,8 @@ class HomeScreen extends BaseScreen {
                       for (final validator in validators) {
                         _log.append(
                           LogEntry(
-                            message:
-                                "${validator.address} => ${validator.isValidating ? 'Validating' : 'Not Validating'}",
-                            variant: validator.isValidating
-                                ? AppColorVariant.Success
-                                : AppColorVariant.Info,
+                            message: "${validator.address} => ${validator.isValidating ? 'Validating' : 'Not Validating'}",
+                            variant: validator.isValidating ? AppColorVariant.Success : AppColorVariant.Info,
                             textToCopy: validator.address,
                           ),
                         );
@@ -137,7 +136,7 @@ class HomeScreen extends BaseScreen {
                   AppButton(
                     label: "Get Blockchain",
                     onPressed: () async {
-                      await ref.read(walletInfoProvider.notifier).fetch();
+                      await ref.read(walletInfoProvider.notifier).infoLoop(false);
                     },
                   ),
                   AppButton(
@@ -160,10 +159,8 @@ class HomeScreen extends BaseScreen {
                                     icon: Icons.copy,
                                     variant: AppColorVariant.Success,
                                     onPressed: () async {
-                                      await Clipboard.setData(
-                                          ClipboardData(text: data));
-                                      Toast.message(
-                                          "Debug data copied to clipboard");
+                                      await Clipboard.setData(ClipboardData(text: data));
+                                      Toast.message("Debug data copied to clipboard");
                                     },
                                   ),
                                   const SizedBox(
@@ -190,19 +187,16 @@ class HomeScreen extends BaseScreen {
                       onPressed: () async {
                         // final shell = Shell(throwOnError: false);
 
-                        Directory appDocDir =
-                            await getApplicationDocumentsDirectory();
+                        Directory appDocDir = await getApplicationDocumentsDirectory();
                         String appDocPath = appDocDir.path;
 
                         if (Platform.isMacOS) {
-                          appDocPath = appDocPath.replaceAll("/Documents",
-                              Env.isTestNet ? "/rbxtest" : "/rbx");
+                          appDocPath = appDocPath.replaceAll("/Documents", Env.isTestNet ? "/rbxtest" : "/rbx");
                         } else {
                           final winDir = await getApplicationSupportDirectory();
                           appDocPath = winDir.path;
-                          appDocPath = appDocPath.replaceAll(
-                              "\\Roaming\\com.example\\rbx_wallet_gui",
-                              "\\Local\\${Env.isTestNet ? 'RBXTest' : 'RBX'}");
+                          appDocPath =
+                              appDocPath.replaceAll("\\Roaming\\com.example\\rbx_wallet_gui", "\\Local\\${Env.isTestNet ? 'RBXTest' : 'RBX'}");
                         }
 
                         openFile(File(appDocPath));
@@ -231,26 +225,20 @@ class HomeScreen extends BaseScreen {
                       onPressed: () async {
                         final shell = Shell(throwOnError: false);
 
-                        Directory appDocDir =
-                            await getApplicationDocumentsDirectory();
+                        Directory appDocDir = await getApplicationDocumentsDirectory();
                         String appDocPath = appDocDir.path;
 
                         String cmd = "";
                         if (Platform.isMacOS) {
-                          appDocPath = appDocPath.replaceAll("/Documents",
-                              Env.isTestNet ? "/rbxtest" : "/rbx");
-                          cmd =
-                              "open $appDocPath/Databases${Env.isTestNet ? 'TestNet' : ''}/rbxlog.txt";
+                          appDocPath = appDocPath.replaceAll("/Documents", Env.isTestNet ? "/rbxtest" : "/rbx");
+                          cmd = "open $appDocPath/Databases${Env.isTestNet ? 'TestNet' : ''}/rbxlog.txt";
                         } else {
                           appDocDir = await getApplicationSupportDirectory();
 
                           appDocPath = appDocDir.path;
 
-                          appDocPath = appDocPath.replaceAll(
-                              "\\Roaming\\com.example\\rbx_wallet_gui",
-                              "\\Local\\RBX${Env.isTestNet ? 'Test' : ''}");
-                          cmd =
-                              "start $appDocPath\\Databases${Env.isTestNet ? 'TestNet' : ''}\\rbxlog.txt";
+                          appDocPath = appDocPath.replaceAll("\\Roaming\\com.example\\rbx_wallet_gui", "\\Local\\RBX${Env.isTestNet ? 'Test' : ''}");
+                          cmd = "start $appDocPath\\Databases${Env.isTestNet ? 'TestNet' : ''}\\rbxlog.txt";
                         }
 
                         shell.run(cmd);
@@ -285,12 +273,9 @@ class HomeScreen extends BaseScreen {
 
                       PromptModal.show(
                         title: "Rollback Blocks",
-                        validator: (value) =>
-                            formValidatorNotEmpty(value, "Number of blocks"),
+                        validator: (value) => formValidatorNotEmpty(value, "Number of blocks"),
                         labelText: "Number of blocks to rollback",
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly
-                        ],
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                         onValidSubmission: (value) async {
                           Toast.message("Rolling back $value blocks...");
                           ref.read(logProvider.notifier).append(
@@ -299,12 +284,12 @@ class HomeScreen extends BaseScreen {
                                   variant: AppColorVariant.Danger,
                                 ),
                               );
-                          ref.read(walletInfoProvider.notifier).fetch();
+                          ref.read(walletInfoProvider.notifier).infoLoop(false);
 
                           final success = await BridgeService().rollback(value);
 
                           if (success) {
-                            ref.read(walletInfoProvider.notifier).fetch();
+                            ref.read(walletInfoProvider.notifier).infoLoop(false);
                             final msg = "Rolled back $value blocks";
                             Toast.message(msg);
                             ref.read(logProvider.notifier).append(
@@ -320,6 +305,54 @@ class HomeScreen extends BaseScreen {
                       );
                     },
                   ),
+                  // if (Platform.isMacOS)
+                    AppButton(
+                      label: "Backup",
+                      onPressed: () async {
+                        showModalBottomSheet(
+                            backgroundColor: Colors.black87,
+                            // isScrollControlled: true,
+                            context: context,
+                            builder: (context) {
+                              return ModalContainer(
+                                color: Colors.black26,
+                                withDecor: false,
+                                children: [
+                                  ListTile(
+                                    title: Text("Backup Keys"),
+                                    subtitle: Text("Export and save your keys to a text file."),
+                                    leading: Icon(Icons.wallet),
+                                    trailing: Icon(Icons.chevron_right),
+                                    onTap: () async {
+                                      final success = await backupKeys(context, ref);
+                                      if (success == true) {
+                                        Navigator.of(context).pop();
+                                        Toast.message("Keys backed up successfully.");
+                                      } else {
+                                        Toast.error();
+                                      }
+                                    },
+                                  ),
+                                  ListTile(
+                                    title: Text("Backup Media"),
+                                    subtitle: Text("Zip and export your media assets."),
+                                    leading: Icon(Icons.file_present),
+                                    trailing: Icon(Icons.chevron_right),
+                                    onTap: () async {
+                                      final success = await backupMedia(context, ref);
+                                      if (success == true) {
+                                        Navigator.of(context).pop();
+                                        Toast.message("Media backed up successfully.");
+                                      } else {
+                                        Toast.error();
+                                      }
+                                    },
+                                  ),
+                                ],
+                              );
+                            });
+                      },
+                    ),
                   AppButton(
                     label: "Restart CLI",
                     // variant: AppColorVariant.Warning,

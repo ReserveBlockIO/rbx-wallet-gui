@@ -41,7 +41,7 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
     // fetch();
   }
 
-  fetch([bool shouldLoop = true]) async {
+  infoLoop([bool loop = true]) async {
     Map<String, dynamic> data = {};
     try {
       data = await BridgeService().walletInfo();
@@ -101,11 +101,11 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
       );
     }
 
-    read(sessionProvider.notifier).load();
+    // read(sessionProvider.notifier).load();
 
-    if (shouldLoop) {
+    if (loop) {
       await Future.delayed(Duration(seconds: REFRESH_TIMEOUT_SECONDS));
-      fetch();
+      infoLoop();
 
       // final isActive = read(isActiveProvider).isActive;
       // await Future.delayed(

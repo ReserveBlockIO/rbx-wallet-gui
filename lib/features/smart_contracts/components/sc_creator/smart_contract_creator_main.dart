@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/base_component.dart';
@@ -15,10 +16,13 @@ import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/form_groups/basic_properties_form_group.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/form_groups/features_form_group.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/form_groups/primary_asset_form_group.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/compiled_smart_contract.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/smart_contract.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/providers/draft_smart_contracts_provider.dart';
+import 'package:rbx_wallet/utils/formatting.dart';
 import 'package:rbx_wallet/utils/toast.dart';
+import 'package:rbx_wallet/utils/validation.dart';
 
 class SmartContractCreatorMain extends BaseComponent {
   const SmartContractCreatorMain({Key? key}) : super(key: key);
@@ -27,15 +31,21 @@ class SmartContractCreatorMain extends BaseComponent {
     String? id,
     BuildContext context,
     WidgetRef ref,
-  ) {
+  ) async {
     if (id != null) {
       ref.read(nftDetailProvider(id).notifier).init();
     }
     ref.read(createSmartContractProvider.notifier).clearSmartContract();
 
-    Future.delayed(const Duration(milliseconds: 300)).then((_) {
-      AutoRouter.of(context).pop(id);
-    });
+    await InfoDialog.show(
+      title: "Stand by",
+      body:
+          "Smart Contract mint transaction has been broadcasted.\n\nThe NFTs screen will reflect the change once the block is crafted and block height has synced with this transaction.",
+    );
+
+    // Future.delayed(const Duration(milliseconds: 300)).then((_) {
+    AutoRouter.of(context).pop(id);
+    // });
   }
 
   Future<void> compileAndMint(BuildContext context, WidgetRef ref) async {
@@ -60,15 +70,54 @@ class SmartContractCreatorMain extends BaseComponent {
       }
     }
 
+    int? amountInt = 1;
+
+    if (!kIsWeb) {
+      // final amount = await PromptModal.show(
+      //   title: "Quantity",
+      //   body: "How many copies of this smart contract would you like to mint?",
+      //   validator: (value) => formValidatorInteger(value, "Quantity"),
+      //   labelText: "Quantity",
+      //   initialValue: "1",
+      //   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+      // );
+
+      // if (amount == null) {
+      //   return;
+      // }
+
+      // amountInt = int.tryParse(amount);
+
+      if (amountInt == null || amountInt < 1) {
+        return;
+      }
+
+      if (amountInt > MAX_COMPILE_QUANTITY) {
+        Toast.error("The maxium number you can mint at one time is $MAX_COMPILE_QUANTITY.");
+        return;
+      }
+    }
+
     final confirmed = await ConfirmDialog.show(
       title: "Compile & Mint Smart Contract?",
       body:
           "Are you sure you want to proceed?\nOnce compiled you will not be able to make any changes\nand the smart contract will be deployed to the chain.",
-      confirmText: "Compile & Mint",
+      confirmText: "Continue",
       cancelText: "Cancel",
     );
 
     if (confirmed == true) {
+      final extraConfirm = await ConfirmDialog.show(
+        title: "Confirm Address",
+        body: "This will be minted by ${ref.read(sessionProvider).currentWallet!.labelWithoutTruncation}",
+        confirmText: "Compile & Mint",
+        cancelText: "Cancel",
+      );
+
+      if (extraConfirm != true) {
+        return;
+      }
+
       if (!kIsWeb) {
         ref.read(sessionProvider.notifier).setIsMintingOrCompiling(true);
       }
@@ -98,10 +147,23 @@ class SmartContractCreatorMain extends BaseComponent {
         }
       } else {
         try {
-          final sc = await ref.read(createSmartContractProvider.notifier).compile();
+          CompiledSmartContract? sc;
+
+          for (var i = 0; i < amountInt; i++) {
+            final _sc = await ref.read(createSmartContractProvider.notifier).compile();
+            if (i == 0) {
+              sc = _sc;
+            }
+          }
 
           if (sc != null) {
-            final success = await ref.read(createSmartContractProvider.notifier).mint();
+            bool success = false;
+            for (var i = 0; i < amountInt; i++) {
+              final _success = await ref.read(createSmartContractProvider.notifier).mint();
+              if (i == 0) {
+                success = _success;
+              }
+            }
 
             if (success) {
               await Future.delayed(const Duration(seconds: 3));
@@ -111,16 +173,22 @@ class SmartContractCreatorMain extends BaseComponent {
               final completedDialogContext = await completeAnimation.future;
               await Future.delayed(const Duration(seconds: 3));
               Navigator.pop(completedDialogContext);
-              Toast.message("Smart Contract minted successfully.");
+              Toast.message("Mint transaction sent successfully. Please wait until the the smart contract is minted on chain.");
 
               mintedComplete(sc.id, context, ref);
             } else {
               Navigator.pop(dialogContext);
+              if (!kIsWeb) {
+                ref.read(sessionProvider.notifier).setIsMintingOrCompiling(false);
+              }
 
               Toast.error("A problem occurred minting this smart contract.");
             }
           } else {
             Navigator.pop(dialogContext);
+            if (!kIsWeb) {
+              ref.read(sessionProvider.notifier).setIsMintingOrCompiling(false);
+            }
 
             Toast.error("A problem occurred compiling this smart contract.");
           }
@@ -213,12 +281,8 @@ class SmartContractCreatorMain extends BaseComponent {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const BasicPropertiesFormGroup(),
-                Row(
-                  children: const [
-                    Expanded(child: PrimaryAssetFormGroup()),
-                  ],
-                ),
                 const FeaturesFormGroup(),
+                const PrimaryAssetFormGroup(),
               ],
             ),
           ),

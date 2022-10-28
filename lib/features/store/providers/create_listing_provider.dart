@@ -70,11 +70,10 @@ class CreateListingProvider extends StateNotifier<CreateListingModel> {
   }
 
   fetchNfts() async {
-    await read(mintedNftListProvider.notifier).load();
+    await read(mintedNftListProvider.notifier).load(1);
 
-    final options = read(mintedNftListProvider);
     state = state.copyWith(
-      nfts: options,
+      nfts: read(mintedNftListProvider).data.results,
       // nft: state.nft ?? (options.isNotEmpty ? options.first : null),
     );
   }

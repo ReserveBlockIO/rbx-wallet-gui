@@ -26,6 +26,12 @@ _$_Nft _$$_NftFromJson(Map<String, dynamic> json) => _$_Nft(
       code: json['code'] as String?,
       proxiedAsset: nullToNull(json['proxiedAsset']),
       additionalProxiedAssets: nullToNull(json['additionalProxiedAssets']),
+      additionalLocalAssets: json['additionalLocalAssets'] == null
+          ? const []
+          : nullToNull(json['additionalLocalAssets']),
+      updatedEvolutionPhases: json['updatedEvolutionPhases'] == null
+          ? const []
+          : nullToNull(json['updatedEvolutionPhases']),
       assetsAvailable: json['assetsAvailable'] as bool? ?? false,
     );
 
@@ -36,7 +42,7 @@ Map<String, dynamic> _$$_NftToJson(_$_Nft instance) => <String, dynamic>{
       'MinterAddress': instance.minterAddress,
       'MinterName': instance.minterName,
       'SmartContractUID': instance.id,
-      'SmartContractAsset': instance.primaryAsset,
+      'SmartContractAsset': instance.primaryAsset.toJson(),
       'IsPublic': instance.isPublic,
       'IsPublished': instance.isPublished,
       'IsMinter': instance.isMinter,
@@ -45,5 +51,7 @@ Map<String, dynamic> _$$_NftToJson(_$_Nft instance) => <String, dynamic>{
       'code': instance.code,
       'proxiedAsset': nullToNull(instance.proxiedAsset),
       'additionalProxiedAssets': nullToNull(instance.additionalProxiedAssets),
+      'additionalLocalAssets': nullToNull(instance.additionalLocalAssets),
+      'updatedEvolutionPhases': nullToNull(instance.updatedEvolutionPhases),
       'assetsAvailable': instance.assetsAvailable,
     };

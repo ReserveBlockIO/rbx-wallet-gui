@@ -50,6 +50,11 @@ mixin _$Nft {
   @JsonKey(toJson: nullToNull, fromJson: nullToNull)
   List<ProxiedAsset>? get additionalProxiedAssets =>
       throw _privateConstructorUsedError;
+  @JsonKey(toJson: nullToNull, fromJson: nullToNull)
+  List<Asset> get additionalLocalAssets => throw _privateConstructorUsedError;
+  @JsonKey(toJson: nullToNull, fromJson: nullToNull)
+  List<EvolvePhase> get updatedEvolutionPhases =>
+      throw _privateConstructorUsedError;
   @JsonKey(defaultValue: false)
   bool get assetsAvailable => throw _privateConstructorUsedError;
 
@@ -92,6 +97,10 @@ abstract class $NftCopyWith<$Res> {
           ProxiedAsset? proxiedAsset,
       @JsonKey(toJson: nullToNull, fromJson: nullToNull)
           List<ProxiedAsset>? additionalProxiedAssets,
+      @JsonKey(toJson: nullToNull, fromJson: nullToNull)
+          List<Asset> additionalLocalAssets,
+      @JsonKey(toJson: nullToNull, fromJson: nullToNull)
+          List<EvolvePhase> updatedEvolutionPhases,
       @JsonKey(defaultValue: false)
           bool assetsAvailable});
 
@@ -124,6 +133,8 @@ class _$NftCopyWithImpl<$Res> implements $NftCopyWith<$Res> {
     Object? code = freezed,
     Object? proxiedAsset = freezed,
     Object? additionalProxiedAssets = freezed,
+    Object? additionalLocalAssets = freezed,
+    Object? updatedEvolutionPhases = freezed,
     Object? assetsAvailable = freezed,
   }) {
     return _then(_value.copyWith(
@@ -187,6 +198,14 @@ class _$NftCopyWithImpl<$Res> implements $NftCopyWith<$Res> {
           ? _value.additionalProxiedAssets
           : additionalProxiedAssets // ignore: cast_nullable_to_non_nullable
               as List<ProxiedAsset>?,
+      additionalLocalAssets: additionalLocalAssets == freezed
+          ? _value.additionalLocalAssets
+          : additionalLocalAssets // ignore: cast_nullable_to_non_nullable
+              as List<Asset>,
+      updatedEvolutionPhases: updatedEvolutionPhases == freezed
+          ? _value.updatedEvolutionPhases
+          : updatedEvolutionPhases // ignore: cast_nullable_to_non_nullable
+              as List<EvolvePhase>,
       assetsAvailable: assetsAvailable == freezed
           ? _value.assetsAvailable
           : assetsAvailable // ignore: cast_nullable_to_non_nullable
@@ -248,6 +267,10 @@ abstract class _$$_NftCopyWith<$Res> implements $NftCopyWith<$Res> {
           ProxiedAsset? proxiedAsset,
       @JsonKey(toJson: nullToNull, fromJson: nullToNull)
           List<ProxiedAsset>? additionalProxiedAssets,
+      @JsonKey(toJson: nullToNull, fromJson: nullToNull)
+          List<Asset> additionalLocalAssets,
+      @JsonKey(toJson: nullToNull, fromJson: nullToNull)
+          List<EvolvePhase> updatedEvolutionPhases,
       @JsonKey(defaultValue: false)
           bool assetsAvailable});
 
@@ -283,6 +306,8 @@ class __$$_NftCopyWithImpl<$Res> extends _$NftCopyWithImpl<$Res>
     Object? code = freezed,
     Object? proxiedAsset = freezed,
     Object? additionalProxiedAssets = freezed,
+    Object? additionalLocalAssets = freezed,
+    Object? updatedEvolutionPhases = freezed,
     Object? assetsAvailable = freezed,
   }) {
     return _then(_$_Nft(
@@ -346,6 +371,14 @@ class __$$_NftCopyWithImpl<$Res> extends _$NftCopyWithImpl<$Res>
           ? _value._additionalProxiedAssets
           : additionalProxiedAssets // ignore: cast_nullable_to_non_nullable
               as List<ProxiedAsset>?,
+      additionalLocalAssets: additionalLocalAssets == freezed
+          ? _value._additionalLocalAssets
+          : additionalLocalAssets // ignore: cast_nullable_to_non_nullable
+              as List<Asset>,
+      updatedEvolutionPhases: updatedEvolutionPhases == freezed
+          ? _value._updatedEvolutionPhases
+          : updatedEvolutionPhases // ignore: cast_nullable_to_non_nullable
+              as List<EvolvePhase>,
       assetsAvailable: assetsAvailable == freezed
           ? _value.assetsAvailable
           : assetsAvailable // ignore: cast_nullable_to_non_nullable
@@ -355,7 +388,8 @@ class __$$_NftCopyWithImpl<$Res> extends _$NftCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_Nft extends _Nft {
   _$_Nft(
       {@JsonKey(name: "Name")
@@ -387,10 +421,16 @@ class _$_Nft extends _Nft {
           this.proxiedAsset,
       @JsonKey(toJson: nullToNull, fromJson: nullToNull)
           final List<ProxiedAsset>? additionalProxiedAssets,
+      @JsonKey(toJson: nullToNull, fromJson: nullToNull)
+          final List<Asset> additionalLocalAssets = const [],
+      @JsonKey(toJson: nullToNull, fromJson: nullToNull)
+          final List<EvolvePhase> updatedEvolutionPhases = const [],
       @JsonKey(defaultValue: false)
           required this.assetsAvailable})
       : _features = features,
         _additionalProxiedAssets = additionalProxiedAssets,
+        _additionalLocalAssets = additionalLocalAssets,
+        _updatedEvolutionPhases = updatedEvolutionPhases,
         super._();
 
   factory _$_Nft.fromJson(Map<String, dynamic> json) => _$$_NftFromJson(json);
@@ -451,13 +491,29 @@ class _$_Nft extends _Nft {
     return EqualUnmodifiableListView(value);
   }
 
+  final List<Asset> _additionalLocalAssets;
+  @override
+  @JsonKey(toJson: nullToNull, fromJson: nullToNull)
+  List<Asset> get additionalLocalAssets {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_additionalLocalAssets);
+  }
+
+  final List<EvolvePhase> _updatedEvolutionPhases;
+  @override
+  @JsonKey(toJson: nullToNull, fromJson: nullToNull)
+  List<EvolvePhase> get updatedEvolutionPhases {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_updatedEvolutionPhases);
+  }
+
   @override
   @JsonKey(defaultValue: false)
   final bool assetsAvailable;
 
   @override
   String toString() {
-    return 'Nft(name: $name, description: $description, currentOwner: $currentOwner, minterAddress: $minterAddress, minterName: $minterName, id: $id, primaryAsset: $primaryAsset, isPublic: $isPublic, isPublished: $isPublished, isMinter: $isMinter, features: $features, isProcessing: $isProcessing, code: $code, proxiedAsset: $proxiedAsset, additionalProxiedAssets: $additionalProxiedAssets, assetsAvailable: $assetsAvailable)';
+    return 'Nft(name: $name, description: $description, currentOwner: $currentOwner, minterAddress: $minterAddress, minterName: $minterName, id: $id, primaryAsset: $primaryAsset, isPublic: $isPublic, isPublished: $isPublished, isMinter: $isMinter, features: $features, isProcessing: $isProcessing, code: $code, proxiedAsset: $proxiedAsset, additionalProxiedAssets: $additionalProxiedAssets, additionalLocalAssets: $additionalLocalAssets, updatedEvolutionPhases: $updatedEvolutionPhases, assetsAvailable: $assetsAvailable)';
   }
 
   @override
@@ -490,6 +546,10 @@ class _$_Nft extends _Nft {
             const DeepCollectionEquality().equals(
                 other._additionalProxiedAssets, _additionalProxiedAssets) &&
             const DeepCollectionEquality()
+                .equals(other._additionalLocalAssets, _additionalLocalAssets) &&
+            const DeepCollectionEquality().equals(
+                other._updatedEvolutionPhases, _updatedEvolutionPhases) &&
+            const DeepCollectionEquality()
                 .equals(other.assetsAvailable, assetsAvailable));
   }
 
@@ -512,6 +572,8 @@ class _$_Nft extends _Nft {
       const DeepCollectionEquality().hash(code),
       const DeepCollectionEquality().hash(proxiedAsset),
       const DeepCollectionEquality().hash(_additionalProxiedAssets),
+      const DeepCollectionEquality().hash(_additionalLocalAssets),
+      const DeepCollectionEquality().hash(_updatedEvolutionPhases),
       const DeepCollectionEquality().hash(assetsAvailable));
 
   @JsonKey(ignore: true)
@@ -556,6 +618,10 @@ abstract class _Nft extends Nft {
           final ProxiedAsset? proxiedAsset,
       @JsonKey(toJson: nullToNull, fromJson: nullToNull)
           final List<ProxiedAsset>? additionalProxiedAssets,
+      @JsonKey(toJson: nullToNull, fromJson: nullToNull)
+          final List<Asset> additionalLocalAssets,
+      @JsonKey(toJson: nullToNull, fromJson: nullToNull)
+          final List<EvolvePhase> updatedEvolutionPhases,
       @JsonKey(defaultValue: false)
           required final bool assetsAvailable}) = _$_Nft;
   _Nft._() : super._();
@@ -606,6 +672,13 @@ abstract class _Nft extends Nft {
   @override
   @JsonKey(toJson: nullToNull, fromJson: nullToNull)
   List<ProxiedAsset>? get additionalProxiedAssets =>
+      throw _privateConstructorUsedError;
+  @override
+  @JsonKey(toJson: nullToNull, fromJson: nullToNull)
+  List<Asset> get additionalLocalAssets => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(toJson: nullToNull, fromJson: nullToNull)
+  List<EvolvePhase> get updatedEvolutionPhases =>
       throw _privateConstructorUsedError;
   @override
   @JsonKey(defaultValue: false)

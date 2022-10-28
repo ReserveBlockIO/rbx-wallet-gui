@@ -1,4 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:rbx_wallet/features/adjudicator/adjudicator_screen.dart';
+import 'package:rbx_wallet/features/adnr/screens/adnr_screen.dart';
 import 'package:rbx_wallet/features/datanode/screens/datanode_screen.dart';
 import 'package:rbx_wallet/features/dsts/screens/dst_screen.dart';
 import 'package:rbx_wallet/features/explorer/screens/explorer_screen.dart';
@@ -64,6 +66,14 @@ const List<AutoRoute> appRoutes = [
         ],
       ),
       AutoRoute(
+        path: "adjudicator",
+        name: "AdjudicatorTabRouter",
+        page: EmptyRouterPage,
+        children: [
+          AutoRoute(path: "", page: AdjudicatorScreen),
+        ],
+      ),
+      AutoRoute(
         path: "nodes",
         name: "NodesTabsRouter",
         page: EmptyRouterPage,
@@ -104,13 +114,21 @@ const List<AutoRoute> appRoutes = [
         ],
       ),
       AutoRoute(
-        path: "explorer",
-        name: "ExplorerTabRouter",
+        path: "adnr",
+        name: "AdnrTabRouter",
         page: EmptyRouterPage,
         children: [
-          AutoRoute(path: "", page: ExplorerScreen),
+          AutoRoute(path: "", page: AdnrScreen),
         ],
       ),
+      // AutoRoute(
+      //   path: "explorer",
+      //   name: "ExplorerTabRouter",
+      //   page: EmptyRouterPage,
+      //   children: [
+      //     AutoRoute(path: "", page: ExplorerScreen),
+      //   ],
+      // ),
     ],
   ),
   AutoRoute(

@@ -42,10 +42,6 @@ abstract class MultiAsset with _$MultiAsset {
       b.remove('Name');
       b.remove('bytes');
 
-      // print("*********=======");
-      // print(jsonEncode(b));
-      // print("*********=======");
-
       return b;
     }).toList();
   }

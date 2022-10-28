@@ -1,55 +1,73 @@
 import 'dart:convert';
 
+import 'package:rbx_wallet/core/models/paginated_response.dart';
 import 'package:rbx_wallet/core/services/base_service.dart';
 import 'package:rbx_wallet/core/singletons.dart';
 import 'package:rbx_wallet/core/storage.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:collection/collection.dart';
+import 'package:rbx_wallet/features/nft/utils.dart';
 
 class NftService extends BaseService {
   NftService() : super(apiBasePathOverride: "/scapi/scv1");
 
-  Future<List<Nft>> list() async {
-    final response = await getText(
-      "/GetAllSmartContracts",
-    );
+  Future<CliPaginatedResponse<Nft>> list(int page, {String search = ""}) async {
+    assert(page > 0);
+
+    final url = search.isNotEmpty ? "/GetAllSmartContracts/$page/$search" : "/GetAllSmartContracts/$page";
+
+    final response = await getText(url, cleanPath: false);
     if (response == 'null') {
-      return [];
+      return CliPaginatedResponse.empty();
     }
 
     try {
-      final items = jsonDecode(response);
+      final data = jsonDecode(response);
+
+      final items = data['Results'];
+      final count = data['Count'];
 
       final List<Nft> smartContracts = [];
       for (final item in items) {
-        smartContracts.add(Nft.fromJson(item));
+        Nft nft = Nft.fromJson(item);
+        nft = await setAssetPath(nft);
+
+        smartContracts.add(nft);
       }
-      return smartContracts;
+
+      return CliPaginatedResponse(page: page, count: count, results: smartContracts);
+      // return smartContracts;
     } catch (e) {
       print(e);
-      return [];
+      return CliPaginatedResponse.empty();
     }
   }
 
-  Future<List<Nft>> minted() async {
-    final response = await getText(
-      "/GetMintedSmartContracts",
-    );
+  Future<CliPaginatedResponse<Nft>> minted(int page, {String search = ""}) async {
+    assert(page > 0);
+
+    final url = search.isNotEmpty ? "/GetMintedSmartContracts/$page/$search" : "/GetMintedSmartContracts/$page";
+    final response = await getText(url, cleanPath: false);
+
     if (response == 'null') {
-      return [];
+      return CliPaginatedResponse.empty();
     }
 
     try {
-      final items = jsonDecode(response);
+      final data = jsonDecode(response);
+
+      final items = data['Results'];
+      final count = data['Count'];
 
       final List<Nft> smartContracts = [];
       for (final item in items) {
-        smartContracts.add(Nft.fromJson(item));
+        Nft nft = Nft.fromJson(item);
+        nft = await setAssetPath(nft);
+        smartContracts.add(nft);
       }
-      return smartContracts;
+      return CliPaginatedResponse(page: page, count: count, results: smartContracts);
     } catch (e) {
-      print(e);
-      return [];
+      return CliPaginatedResponse.empty();
     }
   }
 
@@ -60,6 +78,7 @@ class NftService extends BaseService {
 
       Nft nft = Nft.fromJson(data[0]['SmartContract']);
       nft = nft.copyWith(code: data[0]['SmartContractCode'], currentOwner: data[0]['CurrentOwner']);
+      nft = await setAssetPath(nft);
       return nft;
     } catch (e) {
       print(e);

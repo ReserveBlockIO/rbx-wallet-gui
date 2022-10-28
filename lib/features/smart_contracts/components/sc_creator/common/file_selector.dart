@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/breakpoints.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
@@ -12,6 +13,8 @@ import 'package:rbx_wallet/core/services/transaction_service.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/utils/files.dart';
+import 'package:rbx_wallet/utils/formatting.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 
 class FileSelector extends BaseComponent {
@@ -54,8 +57,6 @@ class FileSelector extends BaseComponent {
 
       final webAsset = await TransactionService().uploadAsset(bytes, filename, ext);
 
-      print("UHOH");
-
       if (webAsset == null) return;
       asset = Asset(
         id: '00000000-0000-0000-0000-000000000000',
@@ -74,8 +75,10 @@ class FileSelector extends BaseComponent {
       final extension = name.split(".").last;
       final fileSize = (await File(filePath).readAsBytes()).length;
 
-      print(filePath);
-      print("-----");
+      if (fileSize > MAX_ASSET_BYTES) {
+        Toast.error("Max file size is 150MB.");
+        return;
+      }
 
       asset = Asset(
         id: "00000000-0000-0000-0000-000000000000",

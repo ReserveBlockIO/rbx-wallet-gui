@@ -52,6 +52,8 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
     amount: "",
   );
 
+  final GlobalKey<FormState> formKey = GlobalKey();
+
   late final TextEditingController amountController;
   late final TextEditingController addressController;
 
@@ -104,7 +106,17 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
     return null;
   }
 
-  String? addressValidator(String? value) => formValidatorRbxAddress(value);
+  String? addressValidator(String? value) {
+    if (value == null) {
+      return "Address or RBX domain required";
+    }
+
+    if (value.contains(".rbx")) {
+      return null;
+    }
+
+    return formValidatorRbxAddress(value);
+  }
 
   void _updateState() {
     state = state.copyWith(
@@ -232,9 +244,13 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
         state = state.copyWith(isProcessing: false);
 
         if (message != null) {
-          Toast.message("$amount RBX has been sent to $address. See dashboard for TX ID.");
+          Toast.message(
+              "$amount RBX has been sent to $address. See dashboard for TX ID.");
           read(logProvider.notifier).append(
-            LogEntry(message: message, textToCopy: message.replaceAll("Success! TxId: ", ""), variant: AppColorVariant.Success),
+            LogEntry(
+                message: message,
+                textToCopy: message.replaceAll("Success! TxId: ", ""),
+                variant: AppColorVariant.Success),
           );
           clear();
         }
@@ -247,6 +263,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
   }
 }
 
-final sendFormProvider = StateNotifierProvider<SendFormProvider, SendFormModel>((ref) {
+final sendFormProvider =
+    StateNotifierProvider<SendFormProvider, SendFormModel>((ref) {
   return SendFormProvider(ref.read);
 });

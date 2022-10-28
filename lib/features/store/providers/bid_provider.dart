@@ -66,9 +66,6 @@ class BidProvider extends StateNotifier<BidModel> {
   setCollection(StoreCollection? collection) {
     //todo there isn't a way to actually clear a collection but that should be fine...
     state = state.copyWith(collection: collection);
-
-    print(collection);
-    print("COLLECT");
   }
 
   Future<bool?> submit() async {

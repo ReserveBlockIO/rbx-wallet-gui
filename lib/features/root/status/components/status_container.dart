@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/badges.dart';
+import 'package:rbx_wallet/core/components/centered_loader.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/block/latest_block.dart';
@@ -146,7 +147,14 @@ class _BlockStatus extends BaseComponent {
           final walletInfo = ref.watch(walletInfoProvider);
 
           if (walletInfo == null) {
-            return const SizedBox();
+            return const SizedBox(
+              width: 16,
+              height: 16,
+              child: Text(
+                "Loading...",
+                style: TextStyle(fontSize: 11),
+              ),
+            );
           }
 
           if (walletInfo.isResyncing) {

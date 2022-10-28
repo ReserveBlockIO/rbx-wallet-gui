@@ -125,23 +125,26 @@ class MainMenu extends BaseComponent {
                   },
                   isActive: tabsRouter.activeIndex == 4,
                 ),
+
               if (!kIsWeb)
                 _NavButton(
                   title: "Validator Pool",
                   icon: Icons.wifi,
                   onPressed: () {
-                    tabsRouter.setActiveIndex(5);
+                    tabsRouter.setActiveIndex(6);
                   },
-                  isActive: tabsRouter.activeIndex == 5,
+                  isActive: tabsRouter.activeIndex == 6,
                 ),
-              // _NavButton(
-              //   title: "Datanode",
-              //   icon: Icons.storage,
-              //   onPressed: () {
-              //     tabsRouter.setActiveIndex(6);
-              //   },
-              //   isActive: tabsRouter.activeIndex == 6,
-              // ),
+
+              // if (!kIsWeb)
+              //   _NavButton(
+              //     title: "Adjudicator",
+              //     icon: Icons.gavel,
+              //     onPressed: () {
+              //       tabsRouter.setActiveIndex(5);
+              //     },
+              //     isActive: tabsRouter.activeIndex == 5,
+              //   ),
               _NavButton(
                 title: "NFTs",
                 icon: Icons.lightbulb_outline,
@@ -167,6 +170,15 @@ class MainMenu extends BaseComponent {
                   tabsRouter.popTop();
                 },
                 isActive: tabsRouter.activeIndex == 8,
+              ),
+              
+              _NavButton(
+                title: "RBX Domains",
+                icon: Icons.link,
+                onPressed: () {
+                  tabsRouter.setActiveIndex(10);
+                },
+                isActive: tabsRouter.activeIndex == 10,
               ),
               _NavButton(
                 title: "DSTs",

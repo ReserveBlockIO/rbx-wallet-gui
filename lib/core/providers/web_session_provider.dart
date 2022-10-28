@@ -87,14 +87,10 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
   }
 
   Future<void> getBalance() async {
-    print("hello");
     if (state.keypair == null) {
       return;
     }
     final balance = await ExplorerService().getBalance(state.keypair!.public);
-    print("-------");
-    print(balance);
-    print("-------");
 
     state = state.copyWith(balance: balance);
   }
@@ -103,7 +99,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     if (state.keypair == null) {
       return;
     }
-    read(nftListProvider.notifier).load(state.keypair!.email, state.keypair!.public);
+    read(nftListProvider.notifier).load(1, state.keypair!.email, state.keypair!.public);
   }
 
   Future<void> logout() async {

@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/services/base_service.dart';
+import 'package:rbx_wallet/features/adnr/models/adnr_response.dart';
 import 'package:rbx_wallet/features/asset/web_asset.dart';
 import 'package:rbx_wallet/features/keygen/models/keypair.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
@@ -509,7 +510,6 @@ class TransactionService extends BaseService {
   }
 
   Future<dynamic> nftTransferData(String scId, String toAddress, String locators) async {
-    print("SCID: $scId");
     try {
       final response = await postJson("/nft-transfer-data/$scId/$toAddress/$locators/", responseIsJson: true);
       return response['data'];
@@ -523,7 +523,6 @@ class TransactionService extends BaseService {
     try {
       final response = await getText("/beacon/upload/$scId/$toAddress/$signature/");
       final data = jsonDecode(response);
-      print(data);
       return data;
     } catch (e) {
       print(e);
@@ -535,7 +534,6 @@ class TransactionService extends BaseService {
     try {
       final response = await getText("/beacon/upload/$scId/$toAddress/$signature/");
       final data = jsonDecode(response);
-      print(data);
       return data;
     } catch (e) {
       print(e);
@@ -562,6 +560,48 @@ class TransactionService extends BaseService {
     } catch (e) {
       print(e);
       return null;
+    }
+  }
+
+  Future<AdnrResponse> createAdnr(String address, String name) async {
+    try {
+      final response = await getText("/CreateAdnr/$address/$name");
+      final data = jsonDecode(response);
+      return AdnrResponse(
+        success: data['Result'] == "Success",
+        message: data['Message'],
+        hash: data['Hash'],
+      );
+    } catch (e) {
+      return AdnrResponse(success: false, message: "An error occurred: ${e.toString()}");
+    }
+  }
+
+  Future<AdnrResponse> transferAdnr(String fromAddress, String toAddress) async {
+    try {
+      final response = await getText("/TransferAdnr/$fromAddress/$toAddress");
+      final data = jsonDecode(response);
+      return AdnrResponse(
+        success: data['Result'] == "Success",
+        message: data['Message'],
+        hash: data['Hash'],
+      );
+    } catch (e) {
+      return AdnrResponse(success: false, message: "An error occurred: ${e.toString()}");
+    }
+  }
+
+  Future<AdnrResponse> deleteAdnr(String address) async {
+    try {
+      final response = await getText("/DeleteAdnr/$address");
+      final data = jsonDecode(response);
+      return AdnrResponse(
+        success: data['Result'] == "Success",
+        message: data['Message'],
+        hash: data['Hash'],
+      );
+    } catch (e) {
+      return AdnrResponse(success: false, message: "An error occurred: ${e.toString()}");
     }
   }
 }

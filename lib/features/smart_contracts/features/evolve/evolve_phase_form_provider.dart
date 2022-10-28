@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
+import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_form_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 
 class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
@@ -23,15 +25,13 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
     nameController = TextEditingController(text: model.name);
     descriptionController = TextEditingController(text: model.description);
 
-    blockHeightController =
-        TextEditingController(text: "${model.blockHeight ?? '0'}");
+    blockHeightController = TextEditingController(text: "${model.blockHeight ?? '0'}");
     dateController = TextEditingController(text: model.dateLabel);
     timeController = TextEditingController(text: model.timeLabel);
   }
 
   String? nameValidator(String? val) => formValidatorNotEmpty(val, "Name");
-  String? descriptionValidator(String? val) =>
-      formValidatorNotEmpty(val, "Description");
+  String? descriptionValidator(String? val) => formValidatorNotEmpty(val, "Description");
 
   String? dateTimeValidator(String? val) {
     if (read(evolveFormProvider).type != EvolveType.time) {
@@ -59,6 +59,16 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
       return "Invalid value";
     }
 
+    if (read(walletInfoProvider) == null) {
+      return "Error";
+    }
+
+    final currentBh = read(walletInfoProvider)!.blockHeight;
+
+    if (parsed <= currentBh) {
+      return "Block height must be greater than $currentBh.";
+    }
+
     return null;
   }
 
@@ -66,8 +76,7 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
     state = phase;
     nameController.text = phase.name;
     descriptionController.text = phase.description;
-    blockHeightController.text =
-        phase.blockHeight == null ? '' : phase.blockHeight.toString();
+    blockHeightController.text = phase.blockHeight == null ? '' : phase.blockHeight.toString();
   }
 
   bool save() {
@@ -78,7 +87,13 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
       blockHeight: int.tryParse(blockHeightController.text),
     );
 
+    if (state.asset == null) {
+      OverlayToast.error("Asset is required");
+      return false;
+    }
+
     read(evolveFormProvider.notifier).updatePhase(index, state);
+
     return true;
   }
 
@@ -89,10 +104,13 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
   updateDate(DateTime date) {
     final existing = state.dateTime;
 
-    final d = existing == null
-        ? date
-        : DateTime(
-            date.year, date.month, date.day, existing.hour, existing.minute);
+    final d = existing == null ? date : DateTime(date.year, date.month, date.day, existing.hour, existing.minute);
+
+    if (d.isBefore(DateTime.now())) {
+      OverlayToast.error("Date must be in the future.");
+
+      return;
+    }
 
     state = state.copyWith(dateTime: d);
 
@@ -105,8 +123,12 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
 
     final d = existing == null
         ? DateTime(now.year, now.month, now.day, time.hour, time.minute)
-        : DateTime(existing.year, existing.month, existing.day, time.hour,
-            time.minute);
+        : DateTime(existing.year, existing.month, existing.day, time.hour, time.minute);
+
+    if (d.isBefore(DateTime.now())) {
+      OverlayToast.error("Time must be in the future.");
+      return;
+    }
 
     state = state.copyWith(dateTime: d);
 
@@ -114,7 +136,6 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
   }
 
   clear() {
-    print('CLEAR');
     nameController.text = "";
     descriptionController.text = "";
     blockHeightController.text = "";
@@ -122,7 +143,6 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
   }
 }
 
-final evolvePhaseFormProvider =
-    StateNotifierProvider.family<EvolvePhaseFormProvider, EvolvePhase, int>(
+final evolvePhaseFormProvider = StateNotifierProvider.family<EvolvePhaseFormProvider, EvolvePhase, int>(
   (ref, index) => EvolvePhaseFormProvider(ref.read, index),
 );

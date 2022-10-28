@@ -42,6 +42,7 @@ class NodeListScreen extends BaseScreen {
     final _validators = ref.watch(validatorListProvider);
     final _nodes = ref.read(nodeListProvider);
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
@@ -53,7 +54,7 @@ class NodeListScreen extends BaseScreen {
                   _searchProvider.search();
                 },
                 decoration: InputDecoration(
-                  hintText: "Search for validator...",
+                  hintText: "Search by validator name...",
                   suffixIcon: IconButton(
                     icon: const Icon(Icons.clear, color: Colors.white70),
                     onPressed: () {
@@ -81,6 +82,13 @@ class NodeListScreen extends BaseScreen {
             //   },
             // ),
           ],
+        ),
+        SizedBox(
+          height: 4,
+        ),
+        Text(
+          "* Must be the name exactly",
+          style: Theme.of(context).textTheme.caption!.copyWith(color: Colors.white),
         ),
         ConstrainedBox(
           constraints: const BoxConstraints(maxHeight: 500),
@@ -121,8 +129,7 @@ class NodeListScreen extends BaseScreen {
               itemBuilder: (context, index) {
                 final w = _validators[index];
 
-                final node =
-                    _nodes.firstWhereOrNull((n) => n.address == w.address);
+                final node = _nodes.firstWhereOrNull((n) => n.address == w.address);
 
                 if (node != null) {
                   return NodeCard(node);

@@ -21,16 +21,21 @@ class PrimaryAssetFormGroup extends BaseComponent {
         mainAxisSize: MainAxisSize.min,
         children: [
           const FormGroupHeader(
-            "Primary Asset",
+            "Asset",
             helpType: HelpType.primaryAsset,
           ),
           FileSelector(
             readOnly: _model.isCompiled,
             asset: _model.primaryAsset,
             onChange: _provider.setPrimaryAsset,
-            title: "Primary Asset",
+            title: "Asset",
             // withAuthorName: true,
-          )
+          ),
+          // if (_model.primaryAsset == null)
+          //   Text(
+          //     "This is currently ${_model.primaryAssetRequired ? 'REQUIRED' : 'OPTIONAL'} due to the feature(s) you have enabled.",
+          //     style: Theme.of(context).textTheme.caption!.copyWith(color: Colors.white),
+          //   ),
         ],
       ),
     );

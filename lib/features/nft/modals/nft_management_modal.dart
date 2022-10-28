@@ -1,25 +1,35 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/base_component.dart';
+import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/components/centered_loader.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
+import 'package:rbx_wallet/features/asset/asset_thumbnail.dart';
+import 'package:rbx_wallet/features/asset/polling_image_preview.dart';
+import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
+import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
 import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
+import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
 import 'package:rbx_wallet/utils/files.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 
 class NftMangementModal extends BaseComponent {
   final String id;
-  const NftMangementModal(this.id, {Key? key}) : super(key: key);
+  final Nft nft;
+  const NftMangementModal(this.id, this.nft, {Key? key}) : super(key: key);
 
   void evolve(BuildContext context, WidgetRef ref) async {
     final confirmed = await ConfirmDialog.show(
@@ -69,25 +79,22 @@ class NftMangementModal extends BaseComponent {
     final success = await _provider.setEvolve(stage, _model!.currentOwner);
     if (success) {
       Toast.message("Evolve transaction sent successfully!");
-      showEvolveMessage();
+      await showEvolveMessage();
+      Navigator.of(context).pop();
     } else {
       Toast.error();
     }
   }
 
-  void showEvolveMessage() {
-    InfoDialog.show(
+  Future<void> showEvolveMessage() async {
+    await InfoDialog.show(
       title: "Evolve transaction sent successfully",
-      body: "This screen will reflect the change once the block is crafted and your block height has synced with this transaction.",
+      body: "This screen will reflect the change once the block is crafted and block height has synced with this transaction.",
     );
   }
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final nft = ref.watch(nftDetailProvider(id));
-
-    if (nft == null) return Container();
-
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,17 +130,46 @@ class NftMangementModal extends BaseComponent {
                 label: "View NFT",
                 onPressed: () {
                   Navigator.of(context).pop();
-                  AutoRouter.of(context).push(NftDetailScreenRoute(id: nft.id));
+                  // AutoRouter.of(context).push(NftDetailScreenRoute(id: nft.id));
+                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => NftDetailScreen(id: nft.id)));
                 },
               ),
             ],
           ),
           const Divider(),
-          Text(
-            "Managing ${nft.name}",
-            style: Theme.of(context).textTheme.headline4!.copyWith(color: Colors.white),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Managing ${nft.name}",
+                style: Theme.of(context).textTheme.headline4!.copyWith(color: Colors.white),
+              ),
+              Builder(builder: (context) {
+                final nftIds = ref.watch(nftListProvider).data.results.map((n) => n.id).toList();
+
+                if (nftIds.contains(nft.id)) {
+                  return AppBadge(
+                    label: "Owned by Me",
+                    variant: AppColorVariant.Success,
+                  );
+                }
+
+                return AppBadge(
+                  label: "Transferred",
+                  variant: AppColorVariant.Danger,
+                );
+              })
+            ],
           ),
-          const Divider(),
+          // Text("Owner: ${nft.currentOwner} "),
+          // Text("Minter: ${nft.minterAddress}"),
+          SizedBox(
+            height: 6,
+          ),
+          Text(
+            "Current Stage: ${nft.currentEvolvePhase.name}",
+            style: TextStyle(fontSize: 18),
+          ),
           // if (nft.canEvolve)
           //   Column(
           //     mainAxisSize: MainAxisSize.min,
@@ -159,7 +195,7 @@ class NftMangementModal extends BaseComponent {
                 nft.evolveIsDynamic ? "Evolution" : "Manage Evolution",
                 style: Theme.of(context).textTheme.headline5,
               ),
-              if (nft.canManageEvolve)
+              if (nft.manageable && false)
                 Card(
                   color: Colors.white10,
                   child: Padding(
@@ -171,7 +207,7 @@ class NftMangementModal extends BaseComponent {
                           label: "Devolve",
                           variant: AppColorVariant.Danger,
                           icon: FontAwesomeIcons.circleChevronDown,
-                          onPressed: nft.currentEvolvePhase.evolutionState > 0
+                          onPressed: nft.currentEvolvePhase.evolutionState + 1 > 0
                               ? () async {
                                   devolve(context, ref);
                                 }
@@ -181,7 +217,7 @@ class NftMangementModal extends BaseComponent {
                           label: "Evolve",
                           variant: AppColorVariant.Success,
                           icon: FontAwesomeIcons.circleChevronUp,
-                          onPressed: nft.currentEvolvePhase.evolutionState < nft.evolutionPhases.length
+                          onPressed: nft.currentEvolvePhase.evolutionState <= nft.evolutionPhases.length
                               ? () async {
                                   evolve(context, ref);
                                 }
@@ -215,21 +251,26 @@ class NftMangementModal extends BaseComponent {
                     ),
                   ),
                 ),
-              _EvolutionStateRow(
+              EvolutionStateRow(
                 nft.baseEvolutionPhase,
+                nft: nft,
                 nftId: id,
-                canManageEvolve: nft.canManageEvolve,
+                canManageEvolve: nft.manageable,
                 index: 0,
               ),
-              ...nft.evolutionPhases
+              ...nft.updatedEvolutionPhases
                   .asMap()
                   .entries
                   .map(
-                    (entry) => _EvolutionStateRow(
+                    (entry) => EvolutionStateRow(
                       entry.value,
+                      nft: nft,
                       nftId: id,
-                      canManageEvolve: nft.canManageEvolve,
+                      canManageEvolve: nft.manageable,
                       index: entry.key + 1,
+                      onAssociate: () {
+                        Navigator.of(context).pop();
+                      },
                     ),
                   )
                   .toList(),
@@ -241,23 +282,27 @@ class NftMangementModal extends BaseComponent {
   }
 }
 
-class _EvolutionStateRow extends BaseComponent {
+class EvolutionStateRow extends BaseComponent {
   final String nftId;
+  final Nft nft;
   final EvolvePhase phase;
   final int index;
   final bool canManageEvolve;
-  const _EvolutionStateRow(
+  final Function()? onAssociate;
+  const EvolutionStateRow(
     this.phase, {
     Key? key,
     required this.nftId,
+    required this.nft,
     required this.canManageEvolve,
     required this.index,
+    this.onAssociate,
   }) : super(key: key);
 
-  void showEvolveMessage() {
+  Future<void> showEvolveMessage() async {
     InfoDialog.show(
       title: "Evolve transaction sent successfully",
-      body: "This screen will reflect the change once the block is crafted and your block height has synced with this transaction.",
+      body: "This screen will reflect the change once the block is crafted and block height has synced with this transaction.",
     );
   }
 
@@ -266,15 +311,21 @@ class _EvolutionStateRow extends BaseComponent {
     String descriptionText = phase.description;
 
     if (phase.dateTime != null) {
-      descriptionText = "Evolve Date: ${phase.dateLabel} ${phase.timeLabel} UTC \n${phase.description}";
+      descriptionText =
+          "Evolve Date: ${phase.dateLabelLocalized} ${phase.timeLabelLocalized} ${DateTime.now().timeZoneName.toString()} \n${phase.description}";
     } else if (phase.blockHeight != null) {
       descriptionText = "Evolve Block Height: ${phase.blockHeight}\n${phase.description}";
     }
 
+    // final isCurrent = nft.currentEvolvePhase.evolutionState + 1 == index;
+    // final isCurrent = nft.currentEvolveAsset.localPath == phase.asset!.localPath;
+    // const isCurrent = false; // TEMP
+    final isCurrent = phase.isCurrentState;
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 4.0),
       child: Container(
-        color: phase.isCurrentState ? Theme.of(context).colorScheme.success : Colors.transparent,
+        color: isCurrent ? Theme.of(context).colorScheme.success : Colors.transparent,
         child: Padding(
           padding: const EdgeInsets.all(3.0),
           child: Container(
@@ -294,37 +345,85 @@ class _EvolutionStateRow extends BaseComponent {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      width: 100,
-                      height: 100,
-                      child: Stack(
-                        alignment: Alignment.bottomCenter,
-                        children: [
-                          if (phase.asset != null && phase.asset!.isImage)
-                            Image.file(
-                              phase.asset!.file,
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            ),
-                          if (phase.asset == null)
-                            const SizedBox(
-                              width: 100,
-                              height: 100,
-                            ),
-                          Container(
-                            color: Colors.black38,
-                          ),
-                          if (phase.asset != null)
-                            AppButton(
-                              label: "Open File",
-                              type: AppButtonType.Text,
-                              variant: AppColorVariant.Light,
-                              onPressed: () {
-                                openFile(phase.asset!.file);
+                    InkWell(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AssetThumbnailDialog(
+                              asset: phase.asset!,
+                              nftId: nftId,
+                              onAssociate: () {
+                                if (onAssociate != null) {
+                                  onAssociate!();
+                                }
                               },
-                            )
-                        ],
+                            );
+                          },
+                        );
+                      },
+                      child: SizedBox(
+                        width: 100,
+                        height: 100,
+                        child: Stack(
+                          alignment: Alignment.bottomCenter,
+                          children: [
+                            if (phase.asset != null && phase.asset!.isImage)
+                              phase.asset!.localPath != null
+                                  ? SizedBox(
+                                      width: 100,
+                                      height: 100,
+                                      child: PollingImagePreview(
+                                        localPath: phase.asset!.localPath!,
+                                        expectedSize: phase.asset!.fileSize,
+                                        withProgress: false,
+                                      ),
+                                    )
+                                  : Text(""),
+                            if (phase.asset == null)
+                              const SizedBox(
+                                width: 100,
+                                height: 100,
+                              ),
+                            Container(
+                              color: Colors.black38,
+                            ),
+                            if (phase.asset != null && phase.asset!.localPath == null)
+                              AppButton(
+                                label: "Associate",
+                                type: AppButtonType.Text,
+                                variant: AppColorVariant.Light,
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AssetThumbnailDialog(
+                                        asset: phase.asset!,
+                                        nftId: nftId,
+                                        onAssociate: () {
+                                          if (onAssociate != null) {
+                                            onAssociate!();
+                                          }
+                                        },
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+                            if (phase.asset?.localPath != null)
+                              AppButton(
+                                label: "Open File",
+                                type: AppButtonType.Text,
+                                variant: AppColorVariant.Light,
+                                onPressed: () async {
+                                  final path = await SmartContractService().getAssetPath(nftId, phase.asset!.name!);
+                                  if (path != null) {
+                                    openFile(File(path));
+                                  }
+                                },
+                              )
+                          ],
+                        ),
                       ),
                     ),
                     Expanded(
@@ -350,7 +449,7 @@ class _EvolutionStateRow extends BaseComponent {
                         width: 100,
                         child: AppButton(
                           label: "Evolve",
-                          onPressed: phase.isCurrentState
+                          onPressed: isCurrent
                               ? null
                               : () async {
                                   final confirmed = await ConfirmDialog.show(
@@ -367,7 +466,8 @@ class _EvolutionStateRow extends BaseComponent {
 
                                     if (success) {
                                       Toast.message("Evolve transaction sent successfully!");
-                                      showEvolveMessage();
+                                      await showEvolveMessage();
+                                      Navigator.of(context).pop();
                                     } else {
                                       Toast.error();
                                     }
