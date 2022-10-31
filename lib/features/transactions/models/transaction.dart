@@ -46,7 +46,7 @@ class Transaction with _$Transaction {
       case 5:
         return "NFT Sale";
       case 6:
-        return "Address";
+        return "ADNR";
       case 7:
         return "DST Registration";
       default:
