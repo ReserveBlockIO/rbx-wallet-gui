@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -8,7 +7,6 @@ import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:process_run/shell.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
@@ -31,13 +29,12 @@ Future<bool> backupKeys(BuildContext context, WidgetRef ref) async {
     final date = DateTime.now();
     final d = "${date.year}-${date.month}-${date.day}";
 
-    if(Platform.isMacOS) {
+    if (Platform.isMacOS) {
       await FileSaver.instance.saveAs("rbx-keys-backup-$d", Uint8List.fromList(bytes), 'txt', MimeType.TEXT);
     } else {
       final data = await FileSaver.instance.saveFile("rbx-keys-backup-$d", Uint8List.fromList(bytes), 'txt', mimeType: MimeType.TEXT);
       Toast.message("Saved to $data");
     }
-
 
     return true;
   } catch (e) {
@@ -61,10 +58,11 @@ Future<bool> backupMedia(BuildContext context, WidgetRef ref) async {
       rbxPath = rbxPath.replaceAll("\\Roaming\\com.example\\rbx_wallet_gui", "\\Local\\RBX${Env.isTestNet ? 'Test' : ''}");
     }
 
-    String inputPath = "$rbxPath${Platform.isWindows ?'\\' :'/'}$assetsFolderName";
- 
+    String inputPath = "$rbxPath${Platform.isWindows ? '\\' : '/'}$assetsFolderName";
+
     //TODO the windows version probably works on mac too, but test out before removing.
-    final archive = Platform.isMacOS ? createArchiveFromDirectory(Directory.fromUri(Uri.parse(inputPath))) : createArchiveFromDirectory(Directory(inputPath));
+    final archive =
+        Platform.isMacOS ? createArchiveFromDirectory(Directory.fromUri(Uri.parse(inputPath))) : createArchiveFromDirectory(Directory(inputPath));
 
     var bytes = ZipEncoder().encode(archive);
     if (bytes == null) {
@@ -74,9 +72,8 @@ Future<bool> backupMedia(BuildContext context, WidgetRef ref) async {
     final date = DateTime.now();
     final d = "${date.year}-${date.month}-${date.day}";
 
-    if(Platform.isMacOS) {
-    await FileSaver.instance.saveAs("rbx-media-backup-$d", Uint8List.fromList(bytes), 'zip', MimeType.ZIP);
-
+    if (Platform.isMacOS) {
+      await FileSaver.instance.saveAs("rbx-media-backup-$d", Uint8List.fromList(bytes), 'zip', MimeType.ZIP);
     } else {
       final data = await FileSaver.instance.saveFile("rbx-media-backup-$d", Uint8List.fromList(bytes), 'zip', mimeType: MimeType.ZIP);
       Toast.message("Saved to $data");
