@@ -65,7 +65,7 @@ class ExplorerService extends BaseService {
         'ordering': '-timestamp',
       };
 
-      final response = await getJson('/transactions', params: params);
+      final response = await getJson('/transaction', params: params);
 
       final List<WebTransaction> results = response['results'].map<WebTransaction>((json) => WebTransaction.fromJson(json)).toList();
       return PaginatedResponse(count: response['count'], page: response['page'], num_pages: response['num_pages'], results: results);

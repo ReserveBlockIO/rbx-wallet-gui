@@ -139,14 +139,14 @@ class _TransactionDetails extends BaseComponent {
             title: Text("${tx.fee} RBX"),
             subtitle: const Text("Fee"),
           ),
-          ListTile(
-            title: Text("${tx.nonce}"),
-            subtitle: const Text("Nonce"),
-          ),
-          ListTile(
-            title: Text(tx.signature),
-            subtitle: const Text("Signature"),
-          ),
+          // ListTile(
+          //   title: Text("${tx.nonce}"),
+          //   subtitle: const Text("Nonce"),
+          // ),
+          // ListTile(
+          //   title: Text(tx.signature),
+          //   subtitle: const Text("Signature"),
+          // ),
         ],
       ),
     );

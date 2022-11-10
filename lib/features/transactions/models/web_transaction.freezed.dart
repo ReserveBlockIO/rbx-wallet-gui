@@ -25,16 +25,14 @@ mixin _$WebTransaction {
   String get toAddress => throw _privateConstructorUsedError;
   @JsonKey(name: 'from_address')
   String get fromAddress => throw _privateConstructorUsedError;
-  @JsonKey(name: 'transaction_type')
   int get type => throw _privateConstructorUsedError;
-  @JsonKey(fromJson: stringToDouble)
+  @JsonKey(name: "total_amount")
   double? get amount => throw _privateConstructorUsedError;
-  @JsonKey(fromJson: stringToDouble)
-  double? get fee => throw _privateConstructorUsedError;
-  int get nonce => throw _privateConstructorUsedError;
-  int get timestamp =>
-      throw _privateConstructorUsedError; // @JsonKey(name: 'nft_data') dynamic nftData,
-  String get signature => throw _privateConstructorUsedError;
+  @JsonKey(name: "total_fee")
+  double? get fee => throw _privateConstructorUsedError; // required int nonce,
+// required int timestamp,
+// @JsonKey(name: 'nft_data') dynamic nftData,
+// required String signature,
   int get height => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -52,12 +50,9 @@ abstract class $WebTransactionCopyWith<$Res> {
       {String hash,
       @JsonKey(name: 'to_address') String toAddress,
       @JsonKey(name: 'from_address') String fromAddress,
-      @JsonKey(name: 'transaction_type') int type,
-      @JsonKey(fromJson: stringToDouble) double? amount,
-      @JsonKey(fromJson: stringToDouble) double? fee,
-      int nonce,
-      int timestamp,
-      String signature,
+      int type,
+      @JsonKey(name: "total_amount") double? amount,
+      @JsonKey(name: "total_fee") double? fee,
       int height});
 }
 
@@ -78,9 +73,6 @@ class _$WebTransactionCopyWithImpl<$Res>
     Object? type = freezed,
     Object? amount = freezed,
     Object? fee = freezed,
-    Object? nonce = freezed,
-    Object? timestamp = freezed,
-    Object? signature = freezed,
     Object? height = freezed,
   }) {
     return _then(_value.copyWith(
@@ -108,18 +100,6 @@ class _$WebTransactionCopyWithImpl<$Res>
           ? _value.fee
           : fee // ignore: cast_nullable_to_non_nullable
               as double?,
-      nonce: nonce == freezed
-          ? _value.nonce
-          : nonce // ignore: cast_nullable_to_non_nullable
-              as int,
-      timestamp: timestamp == freezed
-          ? _value.timestamp
-          : timestamp // ignore: cast_nullable_to_non_nullable
-              as int,
-      signature: signature == freezed
-          ? _value.signature
-          : signature // ignore: cast_nullable_to_non_nullable
-              as String,
       height: height == freezed
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
@@ -139,12 +119,9 @@ abstract class _$$_WebTransactionCopyWith<$Res>
       {String hash,
       @JsonKey(name: 'to_address') String toAddress,
       @JsonKey(name: 'from_address') String fromAddress,
-      @JsonKey(name: 'transaction_type') int type,
-      @JsonKey(fromJson: stringToDouble) double? amount,
-      @JsonKey(fromJson: stringToDouble) double? fee,
-      int nonce,
-      int timestamp,
-      String signature,
+      int type,
+      @JsonKey(name: "total_amount") double? amount,
+      @JsonKey(name: "total_fee") double? fee,
       int height});
 }
 
@@ -167,9 +144,6 @@ class __$$_WebTransactionCopyWithImpl<$Res>
     Object? type = freezed,
     Object? amount = freezed,
     Object? fee = freezed,
-    Object? nonce = freezed,
-    Object? timestamp = freezed,
-    Object? signature = freezed,
     Object? height = freezed,
   }) {
     return _then(_$_WebTransaction(
@@ -197,18 +171,6 @@ class __$$_WebTransactionCopyWithImpl<$Res>
           ? _value.fee
           : fee // ignore: cast_nullable_to_non_nullable
               as double?,
-      nonce: nonce == freezed
-          ? _value.nonce
-          : nonce // ignore: cast_nullable_to_non_nullable
-              as int,
-      timestamp: timestamp == freezed
-          ? _value.timestamp
-          : timestamp // ignore: cast_nullable_to_non_nullable
-              as int,
-      signature: signature == freezed
-          ? _value.signature
-          : signature // ignore: cast_nullable_to_non_nullable
-              as String,
       height: height == freezed
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
@@ -224,12 +186,9 @@ class _$_WebTransaction extends _WebTransaction {
       {required this.hash,
       @JsonKey(name: 'to_address') required this.toAddress,
       @JsonKey(name: 'from_address') required this.fromAddress,
-      @JsonKey(name: 'transaction_type') required this.type,
-      @JsonKey(fromJson: stringToDouble) required this.amount,
-      @JsonKey(fromJson: stringToDouble) required this.fee,
-      required this.nonce,
-      required this.timestamp,
-      required this.signature,
+      required this.type,
+      @JsonKey(name: "total_amount") required this.amount,
+      @JsonKey(name: "total_fee") required this.fee,
       required this.height})
       : super._();
 
@@ -245,27 +204,23 @@ class _$_WebTransaction extends _WebTransaction {
   @JsonKey(name: 'from_address')
   final String fromAddress;
   @override
-  @JsonKey(name: 'transaction_type')
   final int type;
   @override
-  @JsonKey(fromJson: stringToDouble)
+  @JsonKey(name: "total_amount")
   final double? amount;
   @override
-  @JsonKey(fromJson: stringToDouble)
+  @JsonKey(name: "total_fee")
   final double? fee;
-  @override
-  final int nonce;
-  @override
-  final int timestamp;
+// required int nonce,
+// required int timestamp,
 // @JsonKey(name: 'nft_data') dynamic nftData,
-  @override
-  final String signature;
+// required String signature,
   @override
   final int height;
 
   @override
   String toString() {
-    return 'WebTransaction(hash: $hash, toAddress: $toAddress, fromAddress: $fromAddress, type: $type, amount: $amount, fee: $fee, nonce: $nonce, timestamp: $timestamp, signature: $signature, height: $height)';
+    return 'WebTransaction(hash: $hash, toAddress: $toAddress, fromAddress: $fromAddress, type: $type, amount: $amount, fee: $fee, height: $height)';
   }
 
   @override
@@ -280,9 +235,6 @@ class _$_WebTransaction extends _WebTransaction {
             const DeepCollectionEquality().equals(other.type, type) &&
             const DeepCollectionEquality().equals(other.amount, amount) &&
             const DeepCollectionEquality().equals(other.fee, fee) &&
-            const DeepCollectionEquality().equals(other.nonce, nonce) &&
-            const DeepCollectionEquality().equals(other.timestamp, timestamp) &&
-            const DeepCollectionEquality().equals(other.signature, signature) &&
             const DeepCollectionEquality().equals(other.height, height));
   }
 
@@ -296,9 +248,6 @@ class _$_WebTransaction extends _WebTransaction {
       const DeepCollectionEquality().hash(type),
       const DeepCollectionEquality().hash(amount),
       const DeepCollectionEquality().hash(fee),
-      const DeepCollectionEquality().hash(nonce),
-      const DeepCollectionEquality().hash(timestamp),
-      const DeepCollectionEquality().hash(signature),
       const DeepCollectionEquality().hash(height));
 
   @JsonKey(ignore: true)
@@ -317,12 +266,9 @@ abstract class _WebTransaction extends WebTransaction {
       {required final String hash,
       @JsonKey(name: 'to_address') required final String toAddress,
       @JsonKey(name: 'from_address') required final String fromAddress,
-      @JsonKey(name: 'transaction_type') required final int type,
-      @JsonKey(fromJson: stringToDouble) required final double? amount,
-      @JsonKey(fromJson: stringToDouble) required final double? fee,
-      required final int nonce,
-      required final int timestamp,
-      required final String signature,
+      required final int type,
+      @JsonKey(name: "total_amount") required final double? amount,
+      @JsonKey(name: "total_fee") required final double? fee,
       required final int height}) = _$_WebTransaction;
   _WebTransaction._() : super._();
 
@@ -338,21 +284,17 @@ abstract class _WebTransaction extends WebTransaction {
   @JsonKey(name: 'from_address')
   String get fromAddress => throw _privateConstructorUsedError;
   @override
-  @JsonKey(name: 'transaction_type')
   int get type => throw _privateConstructorUsedError;
   @override
-  @JsonKey(fromJson: stringToDouble)
+  @JsonKey(name: "total_amount")
   double? get amount => throw _privateConstructorUsedError;
   @override
-  @JsonKey(fromJson: stringToDouble)
+  @JsonKey(name: "total_fee")
   double? get fee => throw _privateConstructorUsedError;
-  @override
-  int get nonce => throw _privateConstructorUsedError;
-  @override
-  int get timestamp => throw _privateConstructorUsedError;
-  @override // @JsonKey(name: 'nft_data') dynamic nftData,
-  String get signature => throw _privateConstructorUsedError;
-  @override
+  @override // required int nonce,
+// required int timestamp,
+// @JsonKey(name: 'nft_data') dynamic nftData,
+// required String signature,
   int get height => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)

@@ -30,9 +30,10 @@ class WebTransactionListProvider extends StateNotifier<List<WebTransaction>> {
     );
     List<WebTransaction> results = [...appendWith, ...data.results];
 
-    if (data.page < data.num_pages) {
-      results = await loadRecursive(address: address, to: to, page: page + 1, appendWith: results);
-    }
+    //TODO put this back in when filtering works for t/from
+    // if (data.page < data.num_pages) {
+    //   results = await loadRecursive(address: address, to: to, page: page + 1, appendWith: results);
+    // }
 
     return results;
   }
@@ -44,7 +45,12 @@ class WebTransactionListProvider extends StateNotifier<List<WebTransaction>> {
     final toTransactions = await loadRecursive(address: address, to: true);
     final fromTransactions = await loadRecursive(address: address, to: false);
 
-    final transactions = [...toTransactions, ...fromTransactions]..sort((a, b) => a.timestamp > b.timestamp ? 0 : 1);
+    print(toTransactions);
+    print("************");
+
+    //TODO: fix sorting based on date
+    final transactions = [...toTransactions, ...fromTransactions];
+    // final transactions = [...toTransactions, ...fromTransactions]..sort((a, b) => a.timestamp > b.timestamp ? 0 : 1);
 
     state = transactions;
   }
