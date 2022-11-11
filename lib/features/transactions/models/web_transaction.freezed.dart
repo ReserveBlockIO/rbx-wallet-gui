@@ -29,7 +29,10 @@ mixin _$WebTransaction {
   @JsonKey(name: "total_amount")
   double? get amount => throw _privateConstructorUsedError;
   @JsonKey(name: "total_fee")
-  double? get fee => throw _privateConstructorUsedError; // required int nonce,
+  double? get fee => throw _privateConstructorUsedError;
+  @JsonKey(name: 'date_crafted')
+  DateTime get date =>
+      throw _privateConstructorUsedError; // required int nonce,
 // required int timestamp,
 // @JsonKey(name: 'nft_data') dynamic nftData,
 // required String signature,
@@ -53,6 +56,7 @@ abstract class $WebTransactionCopyWith<$Res> {
       int type,
       @JsonKey(name: "total_amount") double? amount,
       @JsonKey(name: "total_fee") double? fee,
+      @JsonKey(name: 'date_crafted') DateTime date,
       int height});
 }
 
@@ -73,6 +77,7 @@ class _$WebTransactionCopyWithImpl<$Res>
     Object? type = freezed,
     Object? amount = freezed,
     Object? fee = freezed,
+    Object? date = freezed,
     Object? height = freezed,
   }) {
     return _then(_value.copyWith(
@@ -100,6 +105,10 @@ class _$WebTransactionCopyWithImpl<$Res>
           ? _value.fee
           : fee // ignore: cast_nullable_to_non_nullable
               as double?,
+      date: date == freezed
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       height: height == freezed
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
@@ -122,6 +131,7 @@ abstract class _$$_WebTransactionCopyWith<$Res>
       int type,
       @JsonKey(name: "total_amount") double? amount,
       @JsonKey(name: "total_fee") double? fee,
+      @JsonKey(name: 'date_crafted') DateTime date,
       int height});
 }
 
@@ -144,6 +154,7 @@ class __$$_WebTransactionCopyWithImpl<$Res>
     Object? type = freezed,
     Object? amount = freezed,
     Object? fee = freezed,
+    Object? date = freezed,
     Object? height = freezed,
   }) {
     return _then(_$_WebTransaction(
@@ -171,6 +182,10 @@ class __$$_WebTransactionCopyWithImpl<$Res>
           ? _value.fee
           : fee // ignore: cast_nullable_to_non_nullable
               as double?,
+      date: date == freezed
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       height: height == freezed
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
@@ -189,6 +204,7 @@ class _$_WebTransaction extends _WebTransaction {
       required this.type,
       @JsonKey(name: "total_amount") required this.amount,
       @JsonKey(name: "total_fee") required this.fee,
+      @JsonKey(name: 'date_crafted') required this.date,
       required this.height})
       : super._();
 
@@ -211,6 +227,9 @@ class _$_WebTransaction extends _WebTransaction {
   @override
   @JsonKey(name: "total_fee")
   final double? fee;
+  @override
+  @JsonKey(name: 'date_crafted')
+  final DateTime date;
 // required int nonce,
 // required int timestamp,
 // @JsonKey(name: 'nft_data') dynamic nftData,
@@ -220,7 +239,7 @@ class _$_WebTransaction extends _WebTransaction {
 
   @override
   String toString() {
-    return 'WebTransaction(hash: $hash, toAddress: $toAddress, fromAddress: $fromAddress, type: $type, amount: $amount, fee: $fee, height: $height)';
+    return 'WebTransaction(hash: $hash, toAddress: $toAddress, fromAddress: $fromAddress, type: $type, amount: $amount, fee: $fee, date: $date, height: $height)';
   }
 
   @override
@@ -235,6 +254,7 @@ class _$_WebTransaction extends _WebTransaction {
             const DeepCollectionEquality().equals(other.type, type) &&
             const DeepCollectionEquality().equals(other.amount, amount) &&
             const DeepCollectionEquality().equals(other.fee, fee) &&
+            const DeepCollectionEquality().equals(other.date, date) &&
             const DeepCollectionEquality().equals(other.height, height));
   }
 
@@ -248,6 +268,7 @@ class _$_WebTransaction extends _WebTransaction {
       const DeepCollectionEquality().hash(type),
       const DeepCollectionEquality().hash(amount),
       const DeepCollectionEquality().hash(fee),
+      const DeepCollectionEquality().hash(date),
       const DeepCollectionEquality().hash(height));
 
   @JsonKey(ignore: true)
@@ -269,6 +290,7 @@ abstract class _WebTransaction extends WebTransaction {
       required final int type,
       @JsonKey(name: "total_amount") required final double? amount,
       @JsonKey(name: "total_fee") required final double? fee,
+      @JsonKey(name: 'date_crafted') required final DateTime date,
       required final int height}) = _$_WebTransaction;
   _WebTransaction._() : super._();
 
@@ -291,6 +313,9 @@ abstract class _WebTransaction extends WebTransaction {
   @override
   @JsonKey(name: "total_fee")
   double? get fee => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: 'date_crafted')
+  DateTime get date => throw _privateConstructorUsedError;
   @override // required int nonce,
 // required int timestamp,
 // @JsonKey(name: 'nft_data') dynamic nftData,
