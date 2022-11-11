@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/centered_loader.dart';
@@ -83,6 +84,7 @@ class _TransactionDetails extends BaseComponent {
   // }
 
   Padding buildContent(BuildContext context, String? address) {
+    final DateFormat formatter = DateFormat('MM-dd-yyyy hh:mm a');
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -100,7 +102,7 @@ class _TransactionDetails extends BaseComponent {
             ),
           ),
           ListTile(
-            title: Text(tx.parseTimeStamp),
+            title: Text(formatter.format(tx.date)),
             subtitle: const Text("Date"),
           ),
           ListTile(

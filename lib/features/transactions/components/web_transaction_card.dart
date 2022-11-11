@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/breakpoints.dart';
@@ -19,7 +20,9 @@ class WebTransactionCard extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final date = tx.parseTimeStamp;
+    final DateFormat formatter = DateFormat('MM-dd-yyyy hh:mm a');
+
+    final date = formatter.format(tx.date);
 
     final address = ref.read(webSessionProvider).keypair?.public;
     final isMobile = BreakPoints.useMobileLayout(context);

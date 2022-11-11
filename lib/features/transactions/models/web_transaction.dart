@@ -17,6 +17,7 @@ class WebTransaction with _$WebTransaction {
     required int type,
     @JsonKey(name: "total_amount") required double? amount,
     @JsonKey(name: "total_fee") required double? fee,
+    @JsonKey(name: 'date_crafted') required DateTime date,
     // required int nonce,
     // required int timestamp,
     // @JsonKey(name: 'nft_data') dynamic nftData,
