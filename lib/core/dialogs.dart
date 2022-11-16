@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rbx_wallet/app.dart';
@@ -232,14 +233,16 @@ class PromptModal {
 class AuthModalResponse {
   final String email;
   final String password;
+  final String key;
 
-  const AuthModalResponse(this.email, this.password);
+  const AuthModalResponse(this.email, this.password, this.key);
 }
 
 class AuthModal {
   static Future<void> show({
     bool forCreate = true,
     bool withExplanation = false,
+    bool withKey = false,
     required BuildContext context,
     required Function(AuthModalResponse) onValidSubmission,
   }) async {
@@ -248,6 +251,8 @@ class AuthModal {
     final GlobalKey<FormState> _formKey = GlobalKey();
 
     final TextEditingController _emailController = TextEditingController(text: '');
+
+    final TextEditingController _privateKeyController = TextEditingController(text: '');
 
     final TextEditingController _passwordController = TextEditingController(text: '');
 
@@ -262,7 +267,7 @@ class AuthModal {
       }
 
       onValidSubmission(
-        AuthModalResponse(_emailController.text, _passwordController.text),
+        AuthModalResponse(_emailController.text, _passwordController.text, _privateKeyController.text),
       );
 
       Navigator.of(context).pop();
@@ -294,35 +299,51 @@ class AuthModal {
                     if (withExplanation)
                       Text("A wallet is required to continue.\nPlease create your account now with your email address and a password."),
                     Text(
-                      "Your email and password is used to seed your private key which is processed in this browser and will never be transmitted across the internet.",
+                      withKey
+                          ? "Please insert your private key which is processed in this browser and will never be transmitted across the internet."
+                          : "Your email and password is used to seed your private key which is processed in this browser and will never be transmitted across the internet.",
                       style: TextStyle(
                         fontSize: 13,
                         color: Colors.white70,
                       ),
                     ),
-                    TextFormField(
-                      controller: _emailController,
-                      autofocus: true,
-                      decoration: const InputDecoration(
-                        hintText: "Email Address",
+                    if (!withKey)
+                      TextFormField(
+                        controller: _emailController,
+                        autofocus: true,
+                        decoration: const InputDecoration(
+                          hintText: "Email Address",
+                        ),
+                        validator: formValidatorEmail,
+                        keyboardType: TextInputType.emailAddress,
                       ),
-                      validator: formValidatorEmail,
-                      keyboardType: TextInputType.emailAddress,
-                    ),
-                    TextFormField(
-                      controller: _passwordController,
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        hintText: "Password",
+                    if (!withKey)
+                      TextFormField(
+                        controller: _passwordController,
+                        obscureText: true,
+                        decoration: const InputDecoration(
+                          hintText: "Password",
+                        ),
+                        validator: formValidatorPassword,
+                        keyboardType: TextInputType.emailAddress,
+                        onFieldSubmitted: (_) {
+                          if (!forCreate) {
+                            submit(context);
+                          }
+                        },
                       ),
-                      validator: formValidatorPassword,
-                      keyboardType: TextInputType.emailAddress,
-                      onFieldSubmitted: (_) {
-                        if (!forCreate) {
+                    if (withKey)
+                      TextFormField(
+                        controller: _privateKeyController,
+                        decoration: const InputDecoration(
+                          hintText: "Private Key",
+                        ),
+                        validator: formValidatorPrivateKey,
+                        keyboardType: TextInputType.emailAddress,
+                        onFieldSubmitted: (_) {
                           submit(context);
-                        }
-                      },
-                    ),
+                        },
+                      ),
                     if (forCreate)
                       TextFormField(
                         controller: _confirmPasswordController,

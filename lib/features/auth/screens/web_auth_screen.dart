@@ -205,6 +205,32 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                     },
                     variant: AppColorVariant.Light,
                   ),
+                  const SizedBox(width: 8),
+                  AppButton(
+                    label: "Import Private Key",
+                    icon: Icons.import_export,
+                    onPressed: () async {
+                      final confirmed = await ConfirmDialog.show(
+                          title: 'Import Private Key',
+                          body: 'This is an advanced feature and should only be used if you are familiar with crypto.',
+                          confirmText: 'Continue',
+                          cancelText: 'Cancel');
+                      if (confirmed) {
+                        AuthModal.show(
+                            forCreate: false,
+                            withKey: true,
+                            context: context,
+                            onValidSubmission: (auth) async {
+                              handleImportWithPrivateKey(context, ref, auth.key).then((value) {
+                                if (ref.read(webSessionProvider).isAuthenticated) {
+                                  redirectToDashboard();
+                                }
+                              });
+                            });
+                      }
+                    },
+                    variant: AppColorVariant.Light,
+                  ),
                 ],
               ),
               if (Env.isTestNet)

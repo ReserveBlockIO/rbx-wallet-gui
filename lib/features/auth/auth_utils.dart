@@ -29,21 +29,9 @@ Future<void> login(
   ref.read(webSessionProvider.notifier).login(keypair);
 }
 
-Future<void> handleImportWithPrivateKey(
-  BuildContext context,
-  WidgetRef ref,
-) async {
-  await PromptModal.show(
-    contextOverride: context,
-    tightPadding: true,
-    title: "Import Wallet",
-    validator: (String? value) => formValidatorNotEmpty(value, "Private Key"),
-    labelText: "Private Key",
-    onValidSubmission: (value) async {
-      final keypair = await KeygenService.importPrivateKey(value, "test@test.com"); //TODO: need to ask for email
-      login(context, ref, keypair);
-    },
-  );
+Future<void> handleImportWithPrivateKey(BuildContext context, WidgetRef ref, String key) async {
+  final keypair = await KeygenService.importPrivateKey(key, ""); //TODO: need to ask for email
+  login(context, ref, keypair);
 }
 
 Future<void> handleCreateWithEmail(

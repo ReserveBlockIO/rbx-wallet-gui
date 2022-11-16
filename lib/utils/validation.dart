@@ -80,6 +80,14 @@ String? formValidatorUsername(String? value) {
   return null;
 }
 
+String? formValidatorPrivateKey(String? value) {
+  if (value == null || value.isEmpty) {
+    return "Private Key is required.";
+  }
+
+  return null;
+}
+
 String? formValidatorPhoneNumber(String? value) {
   if (value == null || value.isEmpty) {
     return "Phone Number required.";
