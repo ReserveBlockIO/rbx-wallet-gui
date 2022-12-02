@@ -44,7 +44,9 @@ class NftService extends BaseService {
   }
 
   Future<CliPaginatedResponse<Nft>> minted(int page, {String search = ""}) async {
-    assert(page > 0);
+    if (page < 1) {
+      page = 1;
+    }
 
     final url = search.isNotEmpty ? "/GetMintedSmartContracts/$page/$search" : "/GetMintedSmartContracts/$page";
     final response = await getText(url, cleanPath: false);

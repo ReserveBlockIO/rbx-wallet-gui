@@ -457,7 +457,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
       }
 
       final cliPath = Env.cliPathOverride ?? getCliPath();
-      List<String> options = ['enableapi'];
+      List<String> options = ['enableapi', 'gui'];
       if (Env.isTestNet) {
         options.add("testnet");
       }
@@ -500,6 +500,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
         cmd = '"$cliPath" ${options.join(' ')}';
 
         print("CMD: $cmd");
+        print("-------------");
 
         read(logProvider.notifier).append(LogEntry(message: "Launching $cmd in the background."));
 
