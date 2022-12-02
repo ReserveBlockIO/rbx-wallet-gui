@@ -43,7 +43,7 @@ class ExplorerService extends BaseService {
 
   Future<WebTransaction?> retrieveTransaction(String hash) async {
     try {
-      final data = await getJson('/transactions/$hash');
+      final data = await getJson('/transaction/$hash');
       return WebTransaction.fromJson(data);
     } catch (e) {
       print(e);
@@ -54,18 +54,15 @@ class ExplorerService extends BaseService {
   Future<PaginatedResponse<WebTransaction>> getTransactions({
     required int page,
     required String address,
-    required bool to,
     int limit = 10,
   }) async {
     try {
       final params = {
-        to ? 'to_address' : 'from_address': address,
         'page': page,
         'limit': limit,
-        'ordering': '-timestamp',
       };
 
-      final response = await getJson('/transactions', params: params);
+      final response = await getJson('/transaction/address/$address', params: params);
 
       final List<WebTransaction> results = response['results'].map<WebTransaction>((json) => WebTransaction.fromJson(json)).toList();
       return PaginatedResponse(count: response['count'], page: response['page'], num_pages: response['num_pages'], results: results);

@@ -19,19 +19,17 @@ class WebTransactionListProvider extends StateNotifier<List<WebTransaction>> {
 
   Future<List<WebTransaction>> loadRecursive({
     required String address,
-    required bool to,
     int page = 1,
     List<WebTransaction> appendWith = const [],
   }) async {
     final data = await ExplorerService().getTransactions(
       address: address,
-      to: to,
       page: page,
     );
     List<WebTransaction> results = [...appendWith, ...data.results];
 
     if (data.page < data.num_pages) {
-      results = await loadRecursive(address: address, to: to, page: page + 1, appendWith: results);
+      results = await loadRecursive(address: address, page: page + 1, appendWith: results);
     }
 
     return results;
@@ -41,11 +39,7 @@ class WebTransactionListProvider extends StateNotifier<List<WebTransaction>> {
     final address = read(webSessionProvider).keypair?.public;
     if (address == null) return;
 
-    final toTransactions = await loadRecursive(address: address, to: true);
-    final fromTransactions = await loadRecursive(address: address, to: false);
-
-    final transactions = [...toTransactions, ...fromTransactions]..sort((a, b) => a.timestamp > b.timestamp ? 0 : 1);
-
+    final transactions = await loadRecursive(address: address);
     state = transactions;
   }
 }
