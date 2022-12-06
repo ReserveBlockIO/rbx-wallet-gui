@@ -12,7 +12,9 @@ class NftService extends BaseService {
   NftService() : super(apiBasePathOverride: "/scapi/scv1");
 
   Future<CliPaginatedResponse<Nft>> list(int page, {String search = ""}) async {
-    assert(page > 0);
+    if (page < 1) {
+      page = 1;
+    }
 
     final url = search.isNotEmpty ? "/GetAllSmartContracts/$page/$search" : "/GetAllSmartContracts/$page";
 
