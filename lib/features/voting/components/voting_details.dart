@@ -170,7 +170,7 @@ class _VotingDetailsState extends BaseComponentState<VotingDetails> {
               },
             );
           },
-          type: AppButtonType.Outlined,
+          type: AppButtonType.Elevated,
           variant: AppColorVariant.Light,
         )
       ],

@@ -28,8 +28,8 @@ class VotingProvider extends StateNotifier<Topic?> {
     ref.read(globalLoadingProvider.notifier).complete();
 
     if (success == true) {
-      Toast.message("Vote Casted [YES]");
       ref.read(pendingVotesProvider.notifier).addId(uid);
+      Toast.message("Vote Casted [YES]");
 
       return;
     }
@@ -43,8 +43,8 @@ class VotingProvider extends StateNotifier<Topic?> {
     ref.read(globalLoadingProvider.notifier).complete();
 
     if (success == true) {
-      Toast.message("Vote Casted [NO]");
       ref.read(pendingVotesProvider.notifier).addId(uid);
+      Toast.message("Vote Casted [NO]");
       return;
     }
 
