@@ -17,8 +17,6 @@ class VoteService extends BaseService {
       }
       return votes;
     } catch (e, st) {
-      print(e);
-      print(st);
       return [];
     }
   }

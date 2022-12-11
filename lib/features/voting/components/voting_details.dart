@@ -23,6 +23,7 @@ class _VotingDetailsState extends BaseComponentState<VotingDetails> {
   @override
   void initState() {
     topic = widget.topic;
+    poll();
     timer = Timer.periodic(Duration(seconds: 5), (timer) {
       poll();
     });
@@ -96,7 +97,6 @@ class _VotingDetailsState extends BaseComponentState<VotingDetails> {
                       "Total Votes",
                       topic.totalVotes.toString(),
                     ),
-                    buildDetailRow(context, "", ""),
                   ],
                 )
               ],
@@ -133,8 +133,8 @@ class _VotingDetailsState extends BaseComponentState<VotingDetails> {
                       "${topic.noPercent}%",
                       Theme.of(context).colorScheme.danger,
                     ),
-                    buildDetailRow(context, "In Favor", "${topic.percentInFavor}%"),
-                    buildDetailRow(context, "Against", "${topic.percentAgainst}%"),
+                    if (topic.isActive) buildDetailRow(context, "Result", "In Progress"),
+                    if (!topic.isActive) buildDetailRow(context, "Result", topic.percentInFavor > topic.percentAgainst ? "Pass" : "Fail"),
                   ],
                 )
               ],

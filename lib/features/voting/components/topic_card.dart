@@ -39,6 +39,7 @@ class TopicCard extends BaseComponent {
                       style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4.0),
