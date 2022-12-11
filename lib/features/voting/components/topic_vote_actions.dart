@@ -30,6 +30,10 @@ class TopicVoteActions extends BaseComponent {
       return SizedBox.shrink();
     }
 
+    if (!topic.isActive) {
+      return _ErrorMessage("Voting Ended on ${topic.endsAtFormatted}.");
+    }
+
     final myAddress = ref.watch(sessionProvider).currentWallet?.address;
 
     if (myAddress == null) {
