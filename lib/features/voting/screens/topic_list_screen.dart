@@ -82,12 +82,12 @@ class TopicListScreen extends BaseScreen {
           return;
         }
 
-        // final myTopics = await TopicService().mine();
-        // final activeTopics = myTopics.where((t) => t.isActive).toList();
-        // if (activeTopics.isNotEmpty) {
-        //   Toast.error("Only one active topic per address is allowed.");
-        //   return;
-        // }
+        final myTopics = await TopicService().mine();
+        final activeTopics = myTopics.where((t) => t.isActive).toList();
+        if (activeTopics.isNotEmpty) {
+          Toast.error("Only one active topic per address is allowed.");
+          return;
+        }
 
         final balance = ref.read(sessionProvider).currentWallet?.balance;
         if (balance == null) {

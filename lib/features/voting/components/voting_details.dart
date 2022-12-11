@@ -37,7 +37,6 @@ class _VotingDetailsState extends BaseComponentState<VotingDetails> {
   }
 
   Future<void> poll() async {
-    print('refresh');
     final t = await TopicService().retrieve(topic.uid);
     if (t != null) {
       setState(() {

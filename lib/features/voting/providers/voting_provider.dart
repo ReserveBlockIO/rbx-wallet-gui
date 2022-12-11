@@ -29,7 +29,6 @@ class VotingProvider extends StateNotifier<Topic?> {
 
     if (success == true) {
       Toast.message("Vote Casted [YES]");
-      ref.refresh(topicDetailProvider(uid));
       ref.read(pendingVotesProvider.notifier).addId(uid);
 
       return;
@@ -45,7 +44,6 @@ class VotingProvider extends StateNotifier<Topic?> {
 
     if (success == true) {
       Toast.message("Vote Casted [NO]");
-      ref.refresh(topicDetailProvider(uid));
       ref.read(pendingVotesProvider.notifier).addId(uid);
       return;
     }
