@@ -23,7 +23,7 @@ mixin _$Vote {
   @JsonKey(name: "Id")
   int get id => throw _privateConstructorUsedError;
   @JsonKey(name: "TopicUID")
-  String get uid => throw _privateConstructorUsedError;
+  String get topicUid => throw _privateConstructorUsedError;
   @JsonKey(name: "Address")
   String get address => throw _privateConstructorUsedError;
   @JsonKey(name: "VoteType", fromJson: voteTypeFromJson)
@@ -44,7 +44,7 @@ abstract class $VoteCopyWith<$Res> {
       _$VoteCopyWithImpl<$Res>;
   $Res call(
       {@JsonKey(name: "Id") int id,
-      @JsonKey(name: "TopicUID") String uid,
+      @JsonKey(name: "TopicUID") String topicUid,
       @JsonKey(name: "Address") String address,
       @JsonKey(name: "VoteType", fromJson: voteTypeFromJson) VoteType type,
       @JsonKey(name: "TransactionHash") String transactionHash,
@@ -62,7 +62,7 @@ class _$VoteCopyWithImpl<$Res> implements $VoteCopyWith<$Res> {
   @override
   $Res call({
     Object? id = freezed,
-    Object? uid = freezed,
+    Object? topicUid = freezed,
     Object? address = freezed,
     Object? type = freezed,
     Object? transactionHash = freezed,
@@ -73,9 +73,9 @@ class _$VoteCopyWithImpl<$Res> implements $VoteCopyWith<$Res> {
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      uid: uid == freezed
-          ? _value.uid
-          : uid // ignore: cast_nullable_to_non_nullable
+      topicUid: topicUid == freezed
+          ? _value.topicUid
+          : topicUid // ignore: cast_nullable_to_non_nullable
               as String,
       address: address == freezed
           ? _value.address
@@ -104,7 +104,7 @@ abstract class _$$_VoteCopyWith<$Res> implements $VoteCopyWith<$Res> {
   @override
   $Res call(
       {@JsonKey(name: "Id") int id,
-      @JsonKey(name: "TopicUID") String uid,
+      @JsonKey(name: "TopicUID") String topicUid,
       @JsonKey(name: "Address") String address,
       @JsonKey(name: "VoteType", fromJson: voteTypeFromJson) VoteType type,
       @JsonKey(name: "TransactionHash") String transactionHash,
@@ -123,7 +123,7 @@ class __$$_VoteCopyWithImpl<$Res> extends _$VoteCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? uid = freezed,
+    Object? topicUid = freezed,
     Object? address = freezed,
     Object? type = freezed,
     Object? transactionHash = freezed,
@@ -134,9 +134,9 @@ class __$$_VoteCopyWithImpl<$Res> extends _$VoteCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      uid: uid == freezed
-          ? _value.uid
-          : uid // ignore: cast_nullable_to_non_nullable
+      topicUid: topicUid == freezed
+          ? _value.topicUid
+          : topicUid // ignore: cast_nullable_to_non_nullable
               as String,
       address: address == freezed
           ? _value.address
@@ -163,7 +163,7 @@ class __$$_VoteCopyWithImpl<$Res> extends _$VoteCopyWithImpl<$Res>
 class _$_Vote extends _Vote {
   _$_Vote(
       {@JsonKey(name: "Id") required this.id,
-      @JsonKey(name: "TopicUID") required this.uid,
+      @JsonKey(name: "TopicUID") required this.topicUid,
       @JsonKey(name: "Address") required this.address,
       @JsonKey(name: "VoteType", fromJson: voteTypeFromJson) required this.type,
       @JsonKey(name: "TransactionHash") required this.transactionHash,
@@ -177,7 +177,7 @@ class _$_Vote extends _Vote {
   final int id;
   @override
   @JsonKey(name: "TopicUID")
-  final String uid;
+  final String topicUid;
   @override
   @JsonKey(name: "Address")
   final String address;
@@ -193,7 +193,7 @@ class _$_Vote extends _Vote {
 
   @override
   String toString() {
-    return 'Vote(id: $id, uid: $uid, address: $address, type: $type, transactionHash: $transactionHash, blockHeight: $blockHeight)';
+    return 'Vote(id: $id, topicUid: $topicUid, address: $address, type: $type, transactionHash: $transactionHash, blockHeight: $blockHeight)';
   }
 
   @override
@@ -202,7 +202,7 @@ class _$_Vote extends _Vote {
         (other.runtimeType == runtimeType &&
             other is _$_Vote &&
             const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.uid, uid) &&
+            const DeepCollectionEquality().equals(other.topicUid, topicUid) &&
             const DeepCollectionEquality().equals(other.address, address) &&
             const DeepCollectionEquality().equals(other.type, type) &&
             const DeepCollectionEquality()
@@ -216,7 +216,7 @@ class _$_Vote extends _Vote {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(uid),
+      const DeepCollectionEquality().hash(topicUid),
       const DeepCollectionEquality().hash(address),
       const DeepCollectionEquality().hash(type),
       const DeepCollectionEquality().hash(transactionHash),
@@ -238,7 +238,7 @@ abstract class _Vote extends Vote {
       {@JsonKey(name: "Id")
           required final int id,
       @JsonKey(name: "TopicUID")
-          required final String uid,
+          required final String topicUid,
       @JsonKey(name: "Address")
           required final String address,
       @JsonKey(name: "VoteType", fromJson: voteTypeFromJson)
@@ -256,7 +256,7 @@ abstract class _Vote extends Vote {
   int get id => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "TopicUID")
-  String get uid => throw _privateConstructorUsedError;
+  String get topicUid => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "Address")
   String get address => throw _privateConstructorUsedError;

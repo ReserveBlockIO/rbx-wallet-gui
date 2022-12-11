@@ -1,4 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:intl/intl.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 part 'topic.freezed.dart';
 part 'topic.g.dart';
@@ -21,16 +23,19 @@ enum VoteTopicCategory {
   TransactionModify,
   BalanceCorrection,
   HackOrExploitCorrection,
+  Other,
 }
 
 totalVoteFromJson(double value) => value.round();
 
-voterTypeFromJson(int value) {
-  TopicVoterType.values[value];
-}
+voterTypeFromJson(int value) => TopicVoterType.values[value];
 
 voteTopicCategoryFromJson(int value) {
-  VoteTopicCategory.values[value];
+  if (value == 999) {
+    return VoteTopicCategory.Other;
+  }
+
+  return VoteTopicCategory.values[value];
 }
 
 @freezed
@@ -62,4 +67,18 @@ class Topic with _$Topic {
   }) = _Topic;
 
   factory Topic.fromJson(Map<String, dynamic> json) => _$TopicFromJson(json);
+
+  String get endsAtFormatted {
+    final dateTime = DateFormat('MM/dd/yy – kk:mm').format(endsAt.toLocal());
+    return "$dateTime ${DateTime.now().timeZoneName.toString()}";
+  }
+
+  String get createdAtFormatted {
+    final dateTime = DateFormat('MM/dd/yy – kk:mm').format(createdAt.toLocal());
+    return "$dateTime ${DateTime.now().timeZoneName.toString()}";
+  }
+
+  bool get isActive {
+    return endsAt.isAfter(DateTime.now());
+  }
 }

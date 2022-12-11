@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/voting/models/topic.dart';
+import 'package:rbx_wallet/features/voting/providers/my_vote_list_provider.dart';
 import 'package:rbx_wallet/features/voting/services/topic_service.dart';
 
 enum TopicListType {
@@ -8,6 +10,7 @@ enum TopicListType {
   Inactive,
   VotedOn,
   NotVotedOn,
+  Mine,
 }
 
 class TopicListProvider extends StateNotifier<List<Topic>> {
@@ -37,6 +40,9 @@ class TopicListProvider extends StateNotifier<List<Topic>> {
       case TopicListType.NotVotedOn:
         data = await TopicService().notVoted();
         break;
+      case TopicListType.Mine:
+        data = await TopicService().mine();
+        break;
     }
 
     state = data;
@@ -44,6 +50,23 @@ class TopicListProvider extends StateNotifier<List<Topic>> {
 
   void refresh() {
     load();
+  }
+
+  String emptyMessage(BuildContext context) {
+    switch (listType) {
+      case TopicListType.All:
+        return "No Topics";
+      case TopicListType.Active:
+        return "No Active Topics";
+      case TopicListType.Inactive:
+        return "No Inactive Topics";
+      case TopicListType.VotedOn:
+        return "You haven't voted on any topics.";
+      case TopicListType.NotVotedOn:
+        return "You have voted on all topics.";
+      case TopicListType.Mine:
+        return "You haven't created any topics.";
+    }
   }
 }
 

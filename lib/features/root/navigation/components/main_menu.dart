@@ -140,9 +140,9 @@ class MainMenu extends BaseComponent {
                   title: "Validator Voting",
                   icon: Icons.how_to_vote,
                   onPressed: () {
-                    // tabsRouter.setActiveIndex(6);
+                    tabsRouter.setActiveIndex(11);
                   },
-                  // isActive: tabsRouter.activeIndex == 6,
+                  isActive: tabsRouter.activeIndex == 11,
                 ),
 
               _NavButton(

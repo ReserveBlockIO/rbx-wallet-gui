@@ -49,8 +49,12 @@ class Transaction with _$Transaction {
         return "ADNR";
       case 7:
         return "DST Registration";
+      case 8:
+        return "Topic Create";
+      case 9:
+        return "Topic Vote";
       default:
-        return "-";
+        return type.toString();
     }
   }
 

@@ -1,8 +1,10 @@
 import 'dart:convert';
 
-import 'package:rbx_wallet/core/services/base_service.dart';
-import 'package:rbx_wallet/features/voting/models/new_topic.dart';
-import 'package:rbx_wallet/features/voting/models/topic.dart';
+import 'package:rbx_wallet/features/voting/services/vote_service.dart';
+
+import '../../../core/services/base_service.dart';
+import '../models/new_topic.dart';
+import '../models/topic.dart';
 
 class TopicService extends BaseService {
   TopicService() : super(apiBasePathOverride: "/voapi/VOV1");
@@ -22,14 +24,17 @@ class TopicService extends BaseService {
 
   Future<List<Topic>> _list(String path) async {
     try {
-      final response = await getText(path);
+      final response = await getText(path, cleanPath: false);
+      if (response.isEmpty) {
+        return [];
+      }
       final items = jsonDecode(response);
 
       final List<Topic> topics = [];
       for (final item in items) {
         topics.add(Topic.fromJson(item));
       }
-      return items;
+      return topics;
     } catch (e, st) {
       print(e);
       print(st);
@@ -50,11 +55,19 @@ class TopicService extends BaseService {
   }
 
   Future<List<Topic>> hasVoted() async {
-    return await _list("/GetVotedOnTopics");
+    final myVotes = await VoteService().mine();
+    final votedTopicUids = myVotes.map((v) => v.topicUid).toList();
+
+    final _all = await all();
+    return _all.where((t) => votedTopicUids.contains(t.uid)).toList();
   }
 
   Future<List<Topic>> notVoted() async {
-    return await _list("/GetNonVotedOnTopics");
+    final myVotes = await VoteService().mine();
+    final votedTopicUids = myVotes.map((v) => v.topicUid).toList();
+
+    final _all = await all();
+    return _all.where((t) => !votedTopicUids.contains(t.uid)).toList();
   }
 
   Future<List<Topic>> mine() async {
@@ -67,8 +80,13 @@ class TopicService extends BaseService {
 
   Future<bool> create(NewTopic topic) async {
     try {
-      await postJson("/PostNewTopic", params: topic.toJson());
-      return true;
+      final response = await postJson("/PostNewTopic", params: topic.toJson());
+      print(response);
+
+      if (response['data']?['Success'] == true) {
+        return true;
+      }
+      return false;
     } catch (e, st) {
       print(e);
       print(st);

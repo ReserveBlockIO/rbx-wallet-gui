@@ -1,11 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/app.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/features/home/components/footer.dart';
-import 'package:rbx_wallet/features/root/navigation/components/main_menu.dart';
-import 'package:rbx_wallet/features/root/status/components/status_container.dart';
+
+import '../../app.dart';
+import '../../core/app_router.gr.dart';
+import '../../core/env.dart';
+import '../home/components/footer.dart';
+import 'navigation/components/main_menu.dart';
+import 'status/components/status_container.dart';
 
 class RootContainer extends StatelessWidget {
   const RootContainer({Key? key}) : super(key: key);
@@ -25,6 +26,7 @@ class RootContainer extends StatelessWidget {
       const SmartContractsTabRouter(),
       const DstsTabRouter(),
       const AdnrTabRouter(),
+      const VotingTabRouter(),
     ];
 
     return AutoTabsScaffold(
@@ -59,7 +61,7 @@ class RootContainer extends StatelessWidget {
                   Expanded(
                       child: Column(
                     children: [
-                      Expanded(child: child),
+                      Expanded(child: Container(clipBehavior: Clip.antiAlias, decoration: BoxDecoration(), child: child)),
                       const Footer(),
                     ],
                   )),

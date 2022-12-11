@@ -11,7 +11,8 @@
 // ignore_for_file: type=lint
 
 import 'package:auto_route/auto_route.dart' as _i6;
-import 'package:flutter/material.dart' as _i20;
+import 'package:flutter/foundation.dart' as _i24;
+import 'package:flutter/material.dart' as _i23;
 import 'package:rbx_wallet/features/adjudicator/adjudicator_screen.dart'
     as _i12;
 import 'package:rbx_wallet/features/adnr/screens/adnr_screen.dart' as _i18;
@@ -25,7 +26,7 @@ import 'package:rbx_wallet/features/receive/screens/receive_screen.dart' as _i9;
 import 'package:rbx_wallet/features/root/root_container.dart' as _i1;
 import 'package:rbx_wallet/features/send/screens/send_screen.dart' as _i8;
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/smart_contract_creator_main.dart'
-    as _i19;
+    as _i22;
 import 'package:rbx_wallet/features/smart_contracts/screens/my_smart_contracts_screen.dart'
     as _i2;
 import 'package:rbx_wallet/features/smart_contracts/screens/smart_contract_creator_container_screen.dart'
@@ -40,9 +41,15 @@ import 'package:rbx_wallet/features/transactions/screens/transactions_screen.dar
     as _i10;
 import 'package:rbx_wallet/features/validator/screens/validator_screen.dart'
     as _i11;
+import 'package:rbx_wallet/features/voting/screens/create_topic_screen.dart'
+    as _i21;
+import 'package:rbx_wallet/features/voting/screens/topic_detail_screen.dart'
+    as _i20;
+import 'package:rbx_wallet/features/voting/screens/topic_list_screen.dart'
+    as _i19;
 
 class AppRouter extends _i6.RootStackRouter {
-  AppRouter([_i20.GlobalKey<_i20.NavigatorState>? navigatorKey])
+  AppRouter([_i23.GlobalKey<_i23.NavigatorState>? navigatorKey])
       : super(navigatorKey);
 
   @override
@@ -116,6 +123,10 @@ class AppRouter extends _i6.RootStackRouter {
       return _i6.AdaptivePage<dynamic>(
           routeData: routeData, child: const _i6.EmptyRouterPage());
     },
+    VotingTabRouter.name: (routeData) {
+      return _i6.AdaptivePage<dynamic>(
+          routeData: routeData, child: const _i6.EmptyRouterPage());
+    },
     HomeScreenRoute.name: (routeData) {
       return _i6.AdaptivePage<dynamic>(
           routeData: routeData, child: const _i7.HomeScreen());
@@ -164,9 +175,27 @@ class AppRouter extends _i6.RootStackRouter {
       return _i6.AdaptivePage<dynamic>(
           routeData: routeData, child: const _i18.AdnrScreen());
     },
+    TopicListScreenRoute.name: (routeData) {
+      return _i6.AdaptivePage<dynamic>(
+          routeData: routeData, child: const _i19.TopicListScreen());
+    },
+    TopicDetailScreenRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<TopicDetailScreenRouteArgs>(
+          orElse: () => TopicDetailScreenRouteArgs(
+              topicUid: pathParams.getString('uid')));
+      return _i6.AdaptivePage<dynamic>(
+          routeData: routeData,
+          child:
+              _i20.TopicDetailScreen(key: args.key, topicUid: args.topicUid));
+    },
+    CreateTopicScreenRoute.name: (routeData) {
+      return _i6.AdaptivePage<dynamic>(
+          routeData: routeData, child: const _i21.CreateTopicScreen());
+    },
     SmartContractCreatorMainRoute.name: (routeData) {
       return _i6.AdaptivePage<dynamic>(
-          routeData: routeData, child: const _i19.SmartContractCreatorMain());
+          routeData: routeData, child: const _i22.SmartContractCreatorMain());
     }
   };
 
@@ -256,6 +285,17 @@ class AppRouter extends _i6.RootStackRouter {
               children: [
                 _i6.RouteConfig(AdnrScreenRoute.name,
                     path: '', parent: AdnrTabRouter.name)
+              ]),
+          _i6.RouteConfig(VotingTabRouter.name,
+              path: 'voting',
+              parent: RootContainerRoute.name,
+              children: [
+                _i6.RouteConfig(TopicListScreenRoute.name,
+                    path: '', parent: VotingTabRouter.name),
+                _i6.RouteConfig(TopicDetailScreenRoute.name,
+                    path: ':uid', parent: VotingTabRouter.name),
+                _i6.RouteConfig(CreateTopicScreenRoute.name,
+                    path: 'create', parent: VotingTabRouter.name)
               ])
         ]),
         _i6.RouteConfig(MySmartContractsScreenRoute.name,
@@ -443,6 +483,15 @@ class AdnrTabRouter extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [_i6.EmptyRouterPage]
+class VotingTabRouter extends _i6.PageRouteInfo<void> {
+  const VotingTabRouter({List<_i6.PageRouteInfo>? children})
+      : super(VotingTabRouter.name, path: 'voting', initialChildren: children);
+
+  static const String name = 'VotingTabRouter';
+}
+
+/// generated route for
 /// [_i7.HomeScreen]
 class HomeScreenRoute extends _i6.PageRouteInfo<void> {
   const HomeScreenRoute() : super(HomeScreenRoute.name, path: '');
@@ -541,7 +590,50 @@ class AdnrScreenRoute extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i19.SmartContractCreatorMain]
+/// [_i19.TopicListScreen]
+class TopicListScreenRoute extends _i6.PageRouteInfo<void> {
+  const TopicListScreenRoute() : super(TopicListScreenRoute.name, path: '');
+
+  static const String name = 'TopicListScreenRoute';
+}
+
+/// generated route for
+/// [_i20.TopicDetailScreen]
+class TopicDetailScreenRoute
+    extends _i6.PageRouteInfo<TopicDetailScreenRouteArgs> {
+  TopicDetailScreenRoute({_i24.Key? key, required String topicUid})
+      : super(TopicDetailScreenRoute.name,
+            path: ':uid',
+            args: TopicDetailScreenRouteArgs(key: key, topicUid: topicUid),
+            rawPathParams: {'uid': topicUid});
+
+  static const String name = 'TopicDetailScreenRoute';
+}
+
+class TopicDetailScreenRouteArgs {
+  const TopicDetailScreenRouteArgs({this.key, required this.topicUid});
+
+  final _i24.Key? key;
+
+  final String topicUid;
+
+  @override
+  String toString() {
+    return 'TopicDetailScreenRouteArgs{key: $key, topicUid: $topicUid}';
+  }
+}
+
+/// generated route for
+/// [_i21.CreateTopicScreen]
+class CreateTopicScreenRoute extends _i6.PageRouteInfo<void> {
+  const CreateTopicScreenRoute()
+      : super(CreateTopicScreenRoute.name, path: 'create');
+
+  static const String name = 'CreateTopicScreenRoute';
+}
+
+/// generated route for
+/// [_i22.SmartContractCreatorMain]
 class SmartContractCreatorMainRoute extends _i6.PageRouteInfo<void> {
   const SmartContractCreatorMainRoute()
       : super(SmartContractCreatorMainRoute.name, path: 'main');

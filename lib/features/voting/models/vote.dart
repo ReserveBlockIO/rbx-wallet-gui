@@ -18,7 +18,7 @@ class Vote with _$Vote {
 
   factory Vote({
     @JsonKey(name: "Id") required int id,
-    @JsonKey(name: "TopicUID") required String uid,
+    @JsonKey(name: "TopicUID") required String topicUid,
     @JsonKey(name: "Address") required String address,
     @JsonKey(name: "VoteType", fromJson: voteTypeFromJson) required VoteType type,
     @JsonKey(name: "TransactionHash") required String transactionHash,
@@ -26,4 +26,8 @@ class Vote with _$Vote {
   }) = _Vote;
 
   factory Vote.fromJson(Map<String, dynamic> json) => _$VoteFromJson(json);
+
+  String get voteTypeLabel {
+    return type == VoteType.Yes ? "YES" : "NO";
+  }
 }

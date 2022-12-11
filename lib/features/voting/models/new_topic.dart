@@ -40,4 +40,13 @@ class NewTopic with _$NewTopic {
   }) = _NewTopic;
 
   factory NewTopic.fromJson(Map<String, dynamic> json) => _$NewTopicFromJson(json);
+
+  factory NewTopic.empty() {
+    return NewTopic(
+      name: "",
+      description: "",
+      votingEndDays: VotingDays.Thirty,
+      category: VoteTopicCategory.General,
+    );
+  }
 }

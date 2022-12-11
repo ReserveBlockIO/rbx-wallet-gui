@@ -11,11 +11,11 @@ class VoteService extends BaseService {
       final response = await getText(path);
       final items = jsonDecode(response);
 
-      final List<Vote> topics = [];
+      final List<Vote> votes = [];
       for (final item in items) {
-        topics.add(Vote.fromJson(item));
+        votes.add(Vote.fromJson(item));
       }
-      return items;
+      return votes;
     } catch (e, st) {
       print(e);
       print(st);
@@ -33,7 +33,10 @@ class VoteService extends BaseService {
 
   Future<bool> _castVote(String topicUid, bool yes) async {
     try {
-      await getText("/CastTopicVote/$topicUid/${yes ? 1 : 0}");
+      final url = "/CastTopicVote/$topicUid/${yes ? 1 : 0}";
+      print(url);
+      final response = await getText(url);
+      print(response);
       return true;
     } catch (e, st) {
       print(e);
@@ -42,11 +45,11 @@ class VoteService extends BaseService {
     }
   }
 
-  Future<bool> caseVoteYes(String topicUid) async {
+  Future<bool> castVoteYes(String topicUid) async {
     return _castVote(topicUid, true);
   }
 
-  Future<bool> caseVoteNo(String topicUid) async {
+  Future<bool> castVoteNo(String topicUid) async {
     return _castVote(topicUid, false);
   }
 }

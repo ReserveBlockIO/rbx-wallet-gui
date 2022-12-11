@@ -72,4 +72,5 @@ const _$VoteTopicCategoryEnumMap = {
   VoteTopicCategory.TransactionModify: 'TransactionModify',
   VoteTopicCategory.BalanceCorrection: 'BalanceCorrection',
   VoteTopicCategory.HackOrExploitCorrection: 'HackOrExploitCorrection',
+  VoteTopicCategory.Other: 'Other',
 };

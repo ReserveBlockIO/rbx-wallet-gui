@@ -29,6 +29,8 @@ import 'package:rbx_wallet/features/smart_contracts/providers/my_smart_contracts
 import 'package:rbx_wallet/features/transactions/providers/transaction_list_provider.dart';
 import 'package:rbx_wallet/features/validator/providers/current_validator_provider.dart';
 import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
+import 'package:rbx_wallet/features/voting/providers/my_vote_list_provider.dart';
+import 'package:rbx_wallet/features/voting/providers/topic_list_provider.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:collection/collection.dart';
@@ -173,8 +175,25 @@ class SessionProvider extends StateNotifier<SessionModel> {
     // await loadPeerInfo();
     await loadTransactions();
 
+    loadTopics();
+
     await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
     mainLoop();
+  }
+
+  void loadTopics() {
+    for (var topicType in [
+      TopicListType.Active,
+      TopicListType.Inactive,
+      TopicListType.VotedOn,
+      TopicListType.NotVotedOn,
+      TopicListType.All,
+      TopicListType.Mine,
+    ]) {
+      read(topicListProvider(topicType).notifier).refresh();
+    }
+
+    read(myVoteListProvider.notifier).refresh();
   }
 
   Future<void> smartContractLoop([inLoop = true]) async {
