@@ -32,7 +32,12 @@ class BaseService {
     }
 
     final baseUrl = apiBasePathOverride == null ? host : host.replaceAll("/api/V1", apiBasePathOverride!);
-    return BaseOptions(baseUrl: baseUrl, headers: _headers(auth, json));
+    return BaseOptions(
+      baseUrl: baseUrl,
+      headers: _headers(auth, json),
+      connectTimeout: 15000,
+      receiveTimeout: 10000,
+    );
   }
 
   String _cleanPath(String path) {
@@ -50,8 +55,9 @@ class BaseService {
     bool cleanPath = true,
   }) async {
     try {
+      final p = cleanPath ? _cleanPath(path) : path;
       var response = await Dio(_options(auth: auth)).get(
-        cleanPath ? _cleanPath(path) : path,
+        p,
         queryParameters: params,
       );
 

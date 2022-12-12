@@ -75,19 +75,26 @@ class TopicListScreen extends BaseScreen {
 
   @override
   FloatingActionButton? floatingActionButton(BuildContext context, WidgetRef ref) {
-    return FloatingActionButton(
+    return FloatingActionButton.extended(
+      label: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.add),
+          Text("Submit Topic"),
+        ],
+      ),
       onPressed: () async {
         if (!currentWalletIsValidating(ref)) {
           Toast.error("Your active wallet must be a validator to create a topic.");
           return;
         }
 
-        final myTopics = await TopicService().mine();
-        final activeTopics = myTopics.where((t) => t.isActive).toList();
-        if (activeTopics.isNotEmpty) {
-          Toast.error("Only one active topic per address is allowed.");
-          return;
-        }
+        // final myTopics = await TopicService().mine();
+        // final activeTopics = myTopics.where((t) => t.isActive).toList();
+        // if (activeTopics.isNotEmpty) {
+        //   Toast.error("Only one active topic per address is allowed.");
+        //   return;
+        // }
 
         final balance = ref.read(sessionProvider).currentWallet?.balance;
         if (balance == null) {
@@ -102,7 +109,6 @@ class TopicListScreen extends BaseScreen {
 
         AutoRouter.of(context).push(const CreateTopicScreenRoute());
       },
-      child: Icon(Icons.add),
     );
   }
 

@@ -91,29 +91,60 @@ class TopicForm extends BaseComponent {
             ],
           ),
           TextFormField(
-            controller: provider.nameController,
-            validator: provider.nameValidator,
-            decoration: InputDecoration(
-              label: Text("Topic Name"),
-            ),
-            inputFormatters: [
-              FilteringTextInputFormatter.deny(
-                  RegExp(r'(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])'))
-            ],
-            maxLength: 128,
+              controller: provider.nameController,
+              validator: provider.nameValidator,
+              decoration: InputDecoration(
+                label: Text("Topic Name"),
+              ),
+              inputFormatters: [
+                FilteringTextInputFormatter.deny(
+                    RegExp(r'(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])'))
+              ],
+              maxLength: 128,
+              buildCounter: (context, {int? currentLength, int? maxLength, bool? isFocused}) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "128 character limit",
+                      style: Theme.of(context).textTheme.caption,
+                    ),
+                    Text(
+                      "$currentLength/$maxLength",
+                      style: Theme.of(context).textTheme.caption,
+                    )
+                  ],
+                );
+              }),
+          SizedBox(
+            height: 16,
           ),
           TextFormField(
-            controller: provider.descriptionController,
-            validator: provider.descriptionValidator,
-            decoration: InputDecoration(label: Text("Topic Description")),
-            inputFormatters: [
-              FilteringTextInputFormatter.deny(
-                  RegExp(r'(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])'))
-            ],
-            minLines: 3,
-            maxLines: 6,
-            maxLength: 1600,
-          ),
+              controller: provider.descriptionController,
+              validator: provider.descriptionValidator,
+              decoration: InputDecoration(label: Text("Topic Description")),
+              inputFormatters: [
+                FilteringTextInputFormatter.deny(
+                    RegExp(r'(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])'))
+              ],
+              minLines: 3,
+              maxLines: 6,
+              maxLength: 1600,
+              buildCounter: (context, {int? currentLength, int? maxLength, bool? isFocused}) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "1,600 character limit including provided links",
+                      style: Theme.of(context).textTheme.caption,
+                    ),
+                    Text(
+                      "$currentLength/$maxLength",
+                      style: Theme.of(context).textTheme.caption,
+                    )
+                  ],
+                );
+              }),
           SizedBox(
             height: 32,
           ),

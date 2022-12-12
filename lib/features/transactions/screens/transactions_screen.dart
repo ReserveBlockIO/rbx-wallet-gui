@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/transactions/components/transaction_list.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
@@ -35,14 +36,12 @@ class TransactionsScreen extends BaseScreen {
                 inactiveThumbColor: Theme.of(context).colorScheme.primary,
                 activeColor: Theme.of(context).colorScheme.secondary,
                 onChanged: (val) {
-                  ref
-                      .read(sessionProvider.notifier)
-                      .setFilteringTransactions(!filtering);
+                  ref.read(sessionProvider.notifier).setFilteringTransactions(!filtering);
                 },
               ),
             ],
           ),
-        if (ref.read(sessionProvider).blocksAreSyncing)
+        if (ref.watch(walletInfoProvider)?.isChainSynced == false)
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(

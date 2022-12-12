@@ -135,12 +135,30 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                             TextSpan(
                               text: widget.transaction.typeLabel,
                               style: TextStyle(
-                                color: Theme.of(context).colorScheme.warning,
+                                color: Colors.white60,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ],
                         ),
                       ),
+                      const SizedBox(height: 4),
+                      if (widget.transaction.status != null)
+                        RichText(
+                          text: TextSpan(
+                            style: Theme.of(context).textTheme.bodyText2,
+                            children: [
+                              const TextSpan(text: "Status: "),
+                              TextSpan(
+                                text: widget.transaction.statusLabel,
+                                style: TextStyle(
+                                  color: widget.transaction.statusColor(context),
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       const Divider(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

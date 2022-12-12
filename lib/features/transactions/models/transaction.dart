@@ -1,9 +1,18 @@
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
 import 'package:rbx_wallet/core/env.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
 
 part 'transaction.freezed.dart';
 part 'transaction.g.dart';
+
+enum TransactionStatus { Pending, Success, Fail }
+
+statusFromJson(int? status) {
+  if (status == null) return null;
+  return TransactionStatus.values[status];
+}
 
 @freezed
 class Transaction with _$Transaction {
@@ -14,6 +23,7 @@ class Transaction with _$Transaction {
     @JsonKey(name: 'ToAddress') required String toAddress,
     @JsonKey(name: 'FromAddress') required String fromAddress,
     @JsonKey(name: 'TransactionType') required int type,
+    @JsonKey(name: 'TransactionStatus', fromJson: statusFromJson) TransactionStatus? status,
     @JsonKey(name: 'Amount') required double amount,
     @JsonKey(name: 'Nonce') required int nonce,
     @JsonKey(name: 'Fee') required double fee,
@@ -55,6 +65,34 @@ class Transaction with _$Transaction {
         return "Topic Vote";
       default:
         return type.toString();
+    }
+  }
+
+  String get statusLabel {
+    switch (status) {
+      case TransactionStatus.Success:
+        return "Success";
+      case TransactionStatus.Pending:
+        return "Pending";
+      case TransactionStatus.Fail:
+        return "Fail";
+      default:
+        return "-";
+    }
+  }
+
+  Color statusColor(BuildContext context) {
+    switch (status) {
+      case TransactionStatus.Success:
+        return Theme.of(context).colorScheme.success;
+      case TransactionStatus.Pending:
+        return Theme.of(context).colorScheme.warning;
+
+      case TransactionStatus.Fail:
+        return Theme.of(context).colorScheme.danger;
+
+      default:
+        return Colors.white;
     }
   }
 

@@ -11,7 +11,6 @@
 // ignore_for_file: type=lint
 
 import 'package:auto_route/auto_route.dart' as _i6;
-import 'package:flutter/foundation.dart' as _i24;
 import 'package:flutter/material.dart' as _i23;
 import 'package:rbx_wallet/features/adjudicator/adjudicator_screen.dart'
     as _i12;
@@ -601,7 +600,7 @@ class TopicListScreenRoute extends _i6.PageRouteInfo<void> {
 /// [_i20.TopicDetailScreen]
 class TopicDetailScreenRoute
     extends _i6.PageRouteInfo<TopicDetailScreenRouteArgs> {
-  TopicDetailScreenRoute({_i24.Key? key, required String topicUid})
+  TopicDetailScreenRoute({_i23.Key? key, required String topicUid})
       : super(TopicDetailScreenRoute.name,
             path: ':uid',
             args: TopicDetailScreenRouteArgs(key: key, topicUid: topicUid),
@@ -613,7 +612,7 @@ class TopicDetailScreenRoute
 class TopicDetailScreenRouteArgs {
   const TopicDetailScreenRouteArgs({this.key, required this.topicUid});
 
-  final _i24.Key? key;
+  final _i23.Key? key;
 
   final String topicUid;
 
