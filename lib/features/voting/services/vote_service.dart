@@ -33,7 +33,7 @@ class VoteService extends BaseService {
     try {
       final url = "/CastTopicVote/$topicUid/${yes ? 1 : 0}";
       print(url);
-      final response = await getText(url);
+      final response = await getText(url, cleanPath: false);
       print(response);
       return true;
     } catch (e, st) {
