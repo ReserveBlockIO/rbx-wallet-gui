@@ -9,8 +9,11 @@ import 'package:rbx_wallet/core/singletons.dart';
 import 'package:desktop_window/desktop_window.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
-const MIN_WIDTH = 1200.0;
-const MIN_HEIGHT = 800.0;
+const DEFAULT_WIDTH = 1200.0;
+const DEFAULT_HEIGHT = 800.0;
+
+const MIN_WIDTH = 1000.0;
+const MIN_HEIGHT = 600.0;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,9 +21,14 @@ void main() async {
   // setPathUrlStrategy();
   await initSingletons();
 
-  if (!kIsWeb && Platform.isMacOS) {
-    await DesktopWindow.setWindowSize(const Size(MIN_WIDTH, MIN_HEIGHT));
+  // if (!kIsWeb && Platform.isMacOS) {
+  if (!kIsWeb) {
+    await DesktopWindow.setWindowSize(const Size(DEFAULT_WIDTH, DEFAULT_HEIGHT));
+
+    // if(Platform.isMacOS) {
+
     await DesktopWindow.setMinWindowSize(const Size(MIN_WIDTH, MIN_HEIGHT));
+    // }
   }
 
   tz.initializeTimeZones();

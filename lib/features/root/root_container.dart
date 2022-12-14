@@ -57,7 +57,7 @@ class RootContainer extends StatelessWidget {
             Expanded(
               child: Row(
                 children: [
-                  MainMenu(),
+                  Container(color: Colors.black, height: double.infinity, child: MainMenu()),
                   Expanded(
                       child: Column(
                     children: [
