@@ -7,6 +7,7 @@ import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
 import 'package:rbx_wallet/features/encrypt/providers/password_required_provider.dart';
 import 'package:rbx_wallet/features/encrypt/providers/wallet_is_encrypted_provider.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
+import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 
@@ -15,6 +16,10 @@ class EncryptWalletButton extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    if (ref.watch(walletListProvider).isEmpty) {
+      return SizedBox.shrink();
+    }
+
     if (ref.watch(walletIsEncryptedProvider)) {
       if (ref.watch(passwordRequiredProvider)) {
         return AppButton(
@@ -31,7 +36,9 @@ class EncryptWalletButton extends BaseComponent {
             if (password != null && password.isNotEmpty) {
               final success = await ref.read(passwordRequiredProvider.notifier).unlock(password);
               if (success) {
-                Toast.message("Wallet unlocked for 10 minutes.");
+                Toast.message("Wallet has been unlocked for 10 minutes.");
+              } else {
+                Toast.error();
               }
             }
           },
@@ -40,7 +47,15 @@ class EncryptWalletButton extends BaseComponent {
 
       return AppButton(
         label: "Lock Wallet",
-        onPressed: () {},
+        onPressed: () async {
+          final success = await ref.read(passwordRequiredProvider.notifier).lock();
+
+          if (success) {
+            Toast.message("Your wallet is now locked.");
+          } else {
+            Toast.error();
+          }
+        },
       );
     }
 
@@ -75,13 +90,14 @@ class EncryptWalletButton extends BaseComponent {
           }
 
           ref.read(globalLoadingProvider.notifier).start();
-          final success = await BridgeService().encryptWallet(password);
+          final error = await BridgeService().encryptWallet(password);
           ref.read(globalLoadingProvider.notifier).complete();
 
-          if (success) {
-            Toast.message("Wallet is now encrypted");
+          if (error != null) {
+            Toast.error(error);
           } else {
-            Toast.error();
+            Toast.message("Your wallet is now encrypted and locked.");
+            ref.read(walletIsEncryptedProvider.notifier).set(true);
           }
         }
       },

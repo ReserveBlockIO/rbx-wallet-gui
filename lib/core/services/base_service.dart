@@ -25,6 +25,7 @@ class BaseService {
   BaseOptions _options({
     bool auth = true,
     bool json = false,
+    int timeout = 30000,
   }) {
     String host = Env.apiBaseUrl;
     if (hostOverride != null) {
@@ -35,8 +36,8 @@ class BaseService {
     return BaseOptions(
       baseUrl: baseUrl,
       headers: _headers(auth, json),
-      connectTimeout: 15000,
-      receiveTimeout: 10000,
+      connectTimeout: 1000,
+      receiveTimeout: timeout,
     );
   }
 
@@ -53,10 +54,11 @@ class BaseService {
     Map<String, dynamic> params = const {},
     bool auth = true,
     bool cleanPath = true,
+    int timeout = 30000,
   }) async {
     try {
       final p = cleanPath ? _cleanPath(path) : path;
-      var response = await Dio(_options(auth: auth)).get(
+      var response = await Dio(_options(auth: auth, timeout: timeout)).get(
         p,
         queryParameters: params,
       );
@@ -73,10 +75,11 @@ class BaseService {
     bool auth = true,
     bool cleanPath = true,
     bool responseIsJson = false,
+    int timeout = 30000,
   }) async {
     try {
       final url = cleanPath ? _cleanPath(path) : path;
-      var response = await Dio(_options(auth: auth)).get(
+      var response = await Dio(_options(auth: auth, timeout: timeout)).get(
         url,
         queryParameters: params,
       );
@@ -106,9 +109,10 @@ class BaseService {
     Map<String, dynamic> params = const {},
     bool auth = true,
     bool responseIsJson = false,
+    int timeout = 30000,
   }) async {
     try {
-      var response = await Dio(_options(auth: auth, json: true)).post(
+      var response = await Dio(_options(auth: auth, json: true, timeout: timeout)).post(
         _cleanPath(path),
         data: params,
       );
@@ -213,8 +217,9 @@ class BaseService {
   Future<Map<String, dynamic>> postFormData(
     String path, {
     required FormData data,
+    int timeout = 30000,
   }) async {
-    var response = await Dio(_options(json: false, auth: false)).post(
+    var response = await Dio(_options(json: false, auth: false, timeout: timeout)).post(
       _cleanPath(path),
       data: data,
     );

@@ -10,6 +10,7 @@ import 'package:rbx_wallet/features/adnr/components/adrn_list.dart';
 import 'package:rbx_wallet/features/adnr/components/create_adnr_dialog.dart';
 import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
 import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
+import 'package:rbx_wallet/features/encrypt/utils.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
@@ -59,50 +60,48 @@ class AdnrScreen extends BaseScreen {
           ),
         ),
         Expanded(child: AdnrList(wallets: wallets)),
-        Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              AppButton(
-                label: "Create New Wallet",
-                onPressed: () async {
-                  await ref.read(walletListProvider.notifier).create();
-                },
-              ),
-              AppButton(
-                label: "Import Wallet",
-                onPressed: () {
-                  PromptModal.show(
-                    title: "Import Wallet",
-                    validator: (String? value) =>
-                        formValidatorNotEmpty(value, "Private Key"),
-                    labelText: "Private Key",
-                    onValidSubmission: (value) async {
-                      final wallet = await ref
-                          .read(walletListProvider.notifier)
-                          .import(value);
+        // Center(
+        //   child: Row(
+        //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        //     children: [
+        //       AppButton(
+        //         label: "Create New Wallet",
+        //         onPressed: () async {
+        //           if (!await passwordRequiredGuard(context, ref)) return;
 
-                      if (wallet == null) return;
-                      if (wallet.balance >=
-                              (ADNR_COST + MIN_RBX_FOR_SC_ACTION) &&
-                          wallet.adnr == null) {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return CreateAdnrDialog(
-                              address: wallet.address,
-                              adnr: wallet.adnr,
-                            );
-                          },
-                        );
-                      }
-                    },
-                  );
-                },
-              ),
-            ],
-          ),
-        )
+        //           await ref.read(walletListProvider.notifier).create();
+        //         },
+        //       ),
+        //       AppButton(
+        //         label: "Import Wallet",
+        //         onPressed: () async {
+        //           if (!await passwordRequiredGuard(context, ref)) return;
+        //           PromptModal.show(
+        //             title: "Import Wallet",
+        //             validator: (String? value) => formValidatorNotEmpty(value, "Private Key"),
+        //             labelText: "Private Key",
+        //             onValidSubmission: (value) async {
+        //               final wallet = await ref.read(walletListProvider.notifier).import(value);
+
+        //               if (wallet == null) return;
+        //               if (wallet.balance >= (ADNR_COST + MIN_RBX_FOR_SC_ACTION) && wallet.adnr == null) {
+        //                 showDialog(
+        //                   context: context,
+        //                   builder: (context) {
+        //                     return CreateAdnrDialog(
+        //                       address: wallet.address,
+        //                       adnr: wallet.adnr,
+        //                     );
+        //                   },
+        //                 );
+        //               }
+        //             },
+        //           );
+        //         },
+        //       ),
+        //     ],
+        //   ),
+        // )
       ],
     );
   }

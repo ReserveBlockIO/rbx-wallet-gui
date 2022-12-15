@@ -33,18 +33,35 @@ class BridgeService extends BaseService {
   }
 
   Future<bool> checkIfPasswordIsNeeded() async {
+    final value = await getText("/GetIsEncryptedPasswordStored");
+    print("VALUE: $value");
+    return value == "false";
+  }
+
+  Future<String?> encryptWallet(String password) async {
     try {
-      final value = await getText("/GetIsEncryptedPasswordStored");
-      return value == "false";
+      final data = await getText("/GetEncryptWallet/$password", cleanPath: false, timeout: 99999999);
+      final response = jsonDecode(data);
+      if (response['Result'] != null && response['Result'] == "Success") {
+        return null;
+      }
+      if (response['Message'] != null) {
+        return response['Message'];
+      }
+
+      return "A problem occurred";
     } catch (e) {
-      return true;
+      print("Unlock Wallet Error");
+      print(e);
+      return "$e";
     }
   }
 
-  Future<bool> encryptWallet(String password) async {
+  Future<bool> unlockWallet(String password) async {
     try {
-      final data = await getText("/GetEncryptWallet/$password", cleanPath: false);
+      final data = await getText("/GetDecryptWallet/$password", cleanPath: false);
       final response = jsonDecode(data);
+
       if (response['Result'] != null && response['Result'] == "Success") {
         return true;
       }
@@ -56,16 +73,17 @@ class BridgeService extends BaseService {
     }
   }
 
-  Future<bool> unlockWallet(String password) async {
+  Future<bool> lockWallet() async {
     try {
-      final data = await getText("/GetEncryptedPassword/$password", cleanPath: false);
+      final data = await getText("/GetEncryptLock", cleanPath: false);
       final response = jsonDecode(data);
+
       if (response['Result'] != null && response['Result'] == "Success") {
         return true;
       }
       return false;
     } catch (e) {
-      print("Unlock Wallet Error");
+      print("Lock Wallet Error");
       print(e);
       return false;
     }

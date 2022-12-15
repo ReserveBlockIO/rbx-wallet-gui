@@ -5,6 +5,7 @@ import 'package:rbx_wallet/app.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/features/encrypt/utils.dart';
 import 'package:rbx_wallet/features/wallet/components/manage_wallet_bottom_sheet.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/utils/guards.dart';
@@ -62,19 +63,14 @@ class WalletSelector extends BaseComponent {
             final list = <PopupMenuEntry<int>>[];
 
             for (final wallet in allWallets) {
-              final isSelected = currentWallet != null &&
-                  wallet.address == currentWallet.address;
+              final isSelected = currentWallet != null && wallet.address == currentWallet.address;
 
-              final color = isSelected
-                  ? Theme.of(context).colorScheme.secondary
-                  : Theme.of(context).textTheme.bodyText1!.color;
+              final color = isSelected ? Theme.of(context).colorScheme.secondary : Theme.of(context).textTheme.bodyText1!.color;
 
               list.add(
                 PopupMenuItem(
                   child: Text(
-                    truncatedLabel
-                        ? wallet.label
-                        : wallet.labelWithoutTruncation,
+                    truncatedLabel ? wallet.label : wallet.labelWithoutTruncation,
                     style: TextStyle(color: color),
                   ),
                   onTap: () {
@@ -92,21 +88,17 @@ class WalletSelector extends BaseComponent {
               list.add(
                 PopupMenuItem(
                   child: const Text("Import Wallet"),
-                  onTap: () {
+                  onTap: () async {
+                    if (!await passwordRequiredGuard(context, ref)) return;
                     if (!guardWalletIsNotResyncing(ref.read)) return;
 
                     PromptModal.show(
                       title: "Import Wallet",
-                      validator: (String? value) =>
-                          formValidatorNotEmpty(value, "Private Key"),
+                      validator: (String? value) => formValidatorNotEmpty(value, "Private Key"),
                       labelText: "Private Key",
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]'))
-                      ],
+                      inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]'))],
                       onValidSubmission: (value) async {
-                        await ref
-                            .read(walletListProvider.notifier)
-                            .import(value);
+                        await ref.read(walletListProvider.notifier).import(value);
                       },
                     );
                   },
@@ -116,6 +108,7 @@ class WalletSelector extends BaseComponent {
                 PopupMenuItem(
                   child: const Text("New Wallet"),
                   onTap: () async {
+                    if (!await passwordRequiredGuard(context, ref)) return;
                     await ref.read(walletListProvider.notifier).create();
                   },
                 ),

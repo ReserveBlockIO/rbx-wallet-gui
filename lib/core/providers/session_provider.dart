@@ -20,7 +20,10 @@ import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
 import 'package:rbx_wallet/features/bridge/providers/status_provider.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
+import 'package:rbx_wallet/features/encrypt/providers/password_required_provider.dart';
 import 'package:rbx_wallet/features/encrypt/providers/startup_password_required_provider.dart';
+import 'package:rbx_wallet/features/encrypt/providers/wallet_is_encrypted_provider.dart';
+import 'package:rbx_wallet/features/encrypt/utils.dart';
 import 'package:rbx_wallet/features/nft/providers/minted_nft_list_provider.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
 import 'package:rbx_wallet/features/node/providers/node_info_provider.dart';
@@ -163,7 +166,9 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
     Future.delayed(const Duration(milliseconds: 300)).then((_) {
       read(walletInfoProvider.notifier).infoLoop();
-      _onboardWallet();
+      if (!read(passwordRequiredProvider)) {
+        _onboardWallet();
+      }
     });
   }
 
@@ -398,7 +403,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
             children: [
               AppButton(
                 label: "Import Private Key",
-                onPressed: () {
+                onPressed: () async {
                   if (!guardWalletIsNotResyncing(read)) return;
 
                   PromptModal.show(
@@ -489,6 +494,8 @@ class SessionProvider extends StateNotifier<SessionModel> {
       final cliVersion = await BridgeService().getCliVersion();
       read(logProvider.notifier).append(LogEntry(message: "CLI Version: $cliVersion", variant: AppColorVariant.Info));
       state = state.copyWith(cliVersion: cliVersion);
+      read(passwordRequiredProvider.notifier).check();
+      read(walletIsEncryptedProvider.notifier).check();
       return true;
     }
 

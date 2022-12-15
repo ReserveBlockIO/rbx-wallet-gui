@@ -3,10 +3,10 @@ import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
 
 class WalletIsEncryptedProvider extends StateNotifier<bool> {
   WalletIsEncryptedProvider() : super(false) {
-    init();
+    check();
   }
 
-  Future<void> init() async {
+  Future<void> check() async {
     state = await BridgeService().checkIfEncrypted();
   }
 

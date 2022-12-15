@@ -20,20 +20,31 @@ class PasswordRequiredProvider extends StateNotifier<bool> {
     }
 
     final isNeeded = await BridgeService().checkIfPasswordIsNeeded();
+
     if (isNeeded) {
-      state = false;
-      return false;
+      state = true;
+      return true;
     }
 
-    state = true;
-    return true;
+    state = false;
+    return false;
   }
 
   Future<bool> unlock(String password) async {
     final unlocked = await BridgeService().unlockWallet(password);
     if (unlocked) {
-      final locked = await check();
-      return !locked;
+      state = false;
+      return true;
+    }
+
+    return false;
+  }
+
+  Future<bool> lock() async {
+    final locked = await BridgeService().lockWallet();
+    if (locked) {
+      state = true;
+      return true;
     }
 
     return false;

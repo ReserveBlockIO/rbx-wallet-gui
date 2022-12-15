@@ -41,6 +41,10 @@ class _UnlockWalletState extends State<UnlockWallet> {
             child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            Text("Encryption Password Required to continue validating."),
+            SizedBox(
+              height: 16,
+            ),
             SizedBox(
               width: 200,
               child: TextFormField(
