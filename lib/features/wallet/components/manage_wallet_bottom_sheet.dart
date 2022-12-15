@@ -13,6 +13,7 @@ import 'package:rbx_wallet/features/adnr/components/create_adnr_dialog.dart';
 import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
 import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
+import 'package:rbx_wallet/features/encrypt/utils.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_detail_provider.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
@@ -218,7 +219,8 @@ class ManageWalletBottomSheet extends BaseComponent {
                             type: AppButtonType.Text,
                             label: "Reveal Private Key",
                             variant: AppColorVariant.Info,
-                            onPressed: () {
+                            onPressed: () async {
+                              if (!await passwordRequiredGuard(context, ref)) return;
                               showDialog(
                                 context: context,
                                 builder: (context) {

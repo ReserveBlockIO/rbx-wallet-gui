@@ -17,6 +17,9 @@ import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
 import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
+import 'package:rbx_wallet/features/encrypt/components/encrypt_wallet_button.dart';
+import 'package:rbx_wallet/features/encrypt/providers/password_required_provider.dart';
+import 'package:rbx_wallet/features/encrypt/providers/wallet_is_encrypted_provider.dart';
 import 'package:rbx_wallet/features/home/components/log_window.dart';
 import 'package:rbx_wallet/features/home/components/transaction_window.dart';
 
@@ -138,12 +141,14 @@ class HomeScreen extends BaseScreen {
                       }
                     },
                   ),
-                  AppButton(
-                    label: "Get Blockchain",
-                    onPressed: () async {
-                      await ref.read(walletInfoProvider.notifier).infoLoop(false);
-                    },
-                  ),
+                  // AppButton(
+                  //   label: "Get Blockchain",
+                  //   onPressed: () async {
+                  //     await ref.read(walletInfoProvider.notifier).infoLoop(false);
+                  //   },
+                  // ),
+
+                  EncryptWalletButton(),
                   AppButton(
                     label: "Show Debug Data",
                     onPressed: () async {

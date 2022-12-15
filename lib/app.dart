@@ -13,8 +13,10 @@ import 'package:rbx_wallet/core/singletons.dart';
 import 'package:rbx_wallet/core/storage.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
-import 'package:rbx_wallet/features/encrypt/password_required_provider.dart';
-import 'package:rbx_wallet/features/encrypt/unlock_wallet.dart';
+import 'package:rbx_wallet/features/encrypt/providers/password_required_provider.dart';
+import 'package:rbx_wallet/features/encrypt/providers/startup_password_required_provider.dart';
+import 'package:rbx_wallet/features/encrypt/components/unlock_wallet.dart';
+import 'package:rbx_wallet/features/encrypt/providers/wallet_is_encrypted_provider.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/root/components/system_manager.dart';
 
@@ -37,6 +39,8 @@ class App extends ConsumerWidget {
       return const AppContainer();
     }
     ref.read(sessionProvider.notifier);
+    ref.read(passwordRequiredProvider.notifier);
+    ref.read(walletIsEncryptedProvider.notifier);
 
     singleton<Storage>().setStringList(Storage.BURNED_NFT_IDS, []);
     singleton<Storage>().setStringList(Storage.TRANSFERRED_NFT_IDS, []);

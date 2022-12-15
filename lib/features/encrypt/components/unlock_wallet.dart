@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
-import 'package:rbx_wallet/features/encrypt/password_required_provider.dart';
+import 'package:rbx_wallet/features/encrypt/providers/startup_password_required_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 class UnlockWallet extends StatefulWidget {
@@ -25,7 +25,7 @@ class _UnlockWalletState extends State<UnlockWallet> {
 
     if (success == true) {
       Toast.message("Wallet unlocked!");
-      widget.read(passwordRequiredProvider.notifier).set(false);
+      widget.read(startupPasswordRequiredProvider.notifier).set(false);
       widget.read(sessionProvider.notifier).finishSetup();
     } else {
       Toast.error("Incorrect wallet decryption password");

@@ -11,6 +11,7 @@ import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/encrypt/utils.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/form_groups/basic_properties_form_group.dart';
@@ -331,7 +332,8 @@ class SmartContractCreatorMain extends BaseComponent {
       disabled: ref.watch(sessionProvider).isMintingOrCompiling,
       onPressed: _model.isPublished
           ? null
-          : () {
+          : () async {
+              if (!await passwordRequiredGuard(context, ref)) return;
               compileAndMint(context, ref);
             },
       icon: Icons.computer,

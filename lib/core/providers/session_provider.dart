@@ -20,7 +20,7 @@ import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
 import 'package:rbx_wallet/features/bridge/providers/status_provider.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
-import 'package:rbx_wallet/features/encrypt/password_required_provider.dart';
+import 'package:rbx_wallet/features/encrypt/providers/startup_password_required_provider.dart';
 import 'package:rbx_wallet/features/nft/providers/minted_nft_list_provider.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
 import 'package:rbx_wallet/features/node/providers/node_info_provider.dart';
@@ -139,6 +139,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
     }
     read(readyProvider.notifier).setReady(true);
     final authenticated = await authenticate();
+    print("Authenticated: $authenticated");
     if (authenticated) {
       finishSetup();
     }
@@ -175,11 +176,16 @@ class SessionProvider extends StateNotifier<SessionModel> {
   // }
 
   Future<bool> authenticate() async {
-    final passwordNeeded = await BridgeService().checkPasswordNeeded();
+    // final isEncrypted = await BridgeService().checkIfEncrypted();
+    // if (isEncrypted) {
+    //   return true;
+    // }
+
+    final passwordNeeded = await BridgeService().startupPasswordRequired();
 
     if (passwordNeeded) {
       await Future.delayed(Duration(milliseconds: 100));
-      read(passwordRequiredProvider.notifier).set(true);
+      read(startupPasswordRequiredProvider.notifier).set(true);
       return false;
     }
 

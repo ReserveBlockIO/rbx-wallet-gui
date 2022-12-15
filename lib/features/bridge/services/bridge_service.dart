@@ -14,11 +14,44 @@ class BridgeService extends BaseService {
     return await getText('/CheckStatus');
   }
 
-  Future<bool> checkPasswordNeeded() async {
+  Future<bool> startupPasswordRequired() async {
     try {
       final value = await getText("/CheckPasswordNeeded");
       return value == "true";
     } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> checkIfEncrypted() async {
+    try {
+      final value = await getText("/GetIsWalletEncrypted");
+      return value == "true";
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> checkIfPasswordIsNeeded() async {
+    try {
+      final value = await getText("/GetIsEncryptedPasswordStored");
+      return value == "false";
+    } catch (e) {
+      return true;
+    }
+  }
+
+  Future<bool> encryptWallet(String password) async {
+    try {
+      final data = await getText("/GetEncryptWallet/$password", cleanPath: false);
+      final response = jsonDecode(data);
+      if (response['Result'] != null && response['Result'] == "Success") {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      print("Unlock Wallet Error");
+      print(e);
       return false;
     }
   }

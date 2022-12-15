@@ -12,6 +12,7 @@ import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/asset/asset_card.dart';
 import 'package:rbx_wallet/features/asset/asset_thumbnail.dart';
+import 'package:rbx_wallet/features/encrypt/utils.dart';
 import 'package:rbx_wallet/features/nft/components/nft_qr_code.dart';
 import 'package:rbx_wallet/features/nft/components/proxy_asset_card.dart';
 import 'package:rbx_wallet/features/nft/components/proxy_asset_thumbnail.dart';
@@ -385,7 +386,9 @@ class NftDetailScreen extends BaseScreen {
                     // helpType: HelpType.transfer,
                     icon: Icons.send,
                     onPressed: nft.isPublished
-                        ? () {
+                        ? () async {
+                            if (!await passwordRequiredGuard(context, ref)) return;
+
                             PromptModal.show(
                               contextOverride: context,
                               title: "Transfer NFT",
@@ -483,6 +486,7 @@ class NftDetailScreen extends BaseScreen {
                     variant: AppColorVariant.Danger,
                     onPressed: nft.isPublished
                         ? () async {
+                            if (!await passwordRequiredGuard(context, ref)) return;
                             final confirmed = await ConfirmDialog.show(
                               title: "Burn NFT?",
                               body: "Are you sure you want to burn ${nft.name}",

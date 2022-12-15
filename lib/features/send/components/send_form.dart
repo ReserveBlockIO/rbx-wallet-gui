@@ -10,6 +10,7 @@ import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/encrypt/utils.dart';
 import 'package:rbx_wallet/features/keygen/models/keypair.dart';
 import 'package:rbx_wallet/features/send/providers/send_form_provider.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
@@ -148,7 +149,9 @@ class SendForm extends BaseComponent {
                         label: "Send",
                         type: AppButtonType.Elevated,
                         processing: formModel.isProcessing,
-                        onPressed: () {
+                        onPressed: () async {
+                          if (!await passwordRequiredGuard(context, ref)) return;
+
                           if (!formProvider.formKey.currentState!.validate()) {
                             return;
                           }

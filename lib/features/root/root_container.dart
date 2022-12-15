@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/encrypt/password_required_provider.dart';
-import 'package:rbx_wallet/features/encrypt/unlock_wallet.dart';
+import 'package:rbx_wallet/features/encrypt/providers/startup_password_required_provider.dart';
+import 'package:rbx_wallet/features/encrypt/components/unlock_wallet.dart';
 
 import '../../app.dart';
 import '../../core/app_router.gr.dart';
@@ -77,7 +77,7 @@ class RootContainer extends StatelessWidget {
               ],
             ),
             Consumer(builder: (context, ref, _) {
-              return ref.watch(passwordRequiredProvider)
+              return ref.watch(startupPasswordRequiredProvider)
                   ? UnlockWallet(
                       read: ref.read,
                     )

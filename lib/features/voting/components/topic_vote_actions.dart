@@ -5,6 +5,7 @@ import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/encrypt/utils.dart';
 import 'package:rbx_wallet/features/voting/models/topic.dart';
 import 'package:rbx_wallet/features/voting/providers/my_vote_list_provider.dart';
 import 'package:rbx_wallet/features/voting/providers/pending_votes_provider.dart';
@@ -76,6 +77,7 @@ class TopicVoteActions extends BaseComponent {
             AppButton(
               label: "Vote Yes",
               onPressed: () async {
+                if (!await passwordRequiredGuard(context, ref)) return;
                 final confirmed = await ConfirmDialog.show(
                   title: "Confirm Vote [YES]",
                   body: "Are you sure you want to vote YES on this topic?",
@@ -95,6 +97,8 @@ class TopicVoteActions extends BaseComponent {
             AppButton(
               label: "Vote No",
               onPressed: () async {
+                if (!await passwordRequiredGuard(context, ref)) return;
+
                 final confirmed = await ConfirmDialog.show(
                   title: "Confirm Vote [NO]",
                   body: "Are you sure you want to vote NO on this topic?",

@@ -8,6 +8,7 @@ import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
+import 'package:rbx_wallet/features/encrypt/utils.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/health/health_service.dart';
 import 'package:rbx_wallet/features/validator/providers/current_validator_provider.dart';
@@ -124,6 +125,7 @@ class ValidatorScreen extends BaseScreen {
               onPressed: () async {
                 if (!guardWalletIsSynced(ref.read)) return;
                 if (!guardWalletIsNotResyncing(ref.read)) return;
+                if (!await passwordRequiredGuard(context, ref)) return;
 
                 // if (!await checkPort(false)) return;
 

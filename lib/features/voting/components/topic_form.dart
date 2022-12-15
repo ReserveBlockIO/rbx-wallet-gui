@@ -7,6 +7,7 @@ import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/components/dropdowns.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/encrypt/utils.dart';
 import 'package:rbx_wallet/features/voting/models/new_topic.dart';
 import 'package:rbx_wallet/features/voting/models/topic.dart';
 import 'package:rbx_wallet/features/voting/providers/topic_form_provider.dart';
@@ -167,6 +168,7 @@ class TopicForm extends BaseComponent {
               AppButton(
                 label: "Create Topic",
                 onPressed: () async {
+                  if (!await passwordRequiredGuard(context, ref)) return;
                   final confirmed = await ConfirmDialog.show(
                     title: "Create Topic",
                     body: "There is a 1 RBX cost to create a topic.",

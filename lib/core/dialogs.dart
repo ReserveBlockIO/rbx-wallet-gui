@@ -161,26 +161,29 @@ class PromptModal {
           titlePadding: tightPadding ? const EdgeInsets.all(12.0) : const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 20),
           contentPadding: tightPadding ? const EdgeInsets.all(12.0) : const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0),
           insetPadding: tightPadding ? const EdgeInsets.all(8.0) : const EdgeInsets.symmetric(horizontal: 40.0, vertical: 24.0),
-          content: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (body != null) Text(body),
-                TextFormField(
-                  controller: _controller,
-                  obscureText: obscureText,
-                  autofocus: true,
-                  minLines: lines,
-                  maxLines: lines,
-                  keyboardType: keyboardType,
-                  decoration: InputDecoration(
-                    label: Text(labelText),
+          content: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 500),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (body != null) Text(body),
+                  TextFormField(
+                    controller: _controller,
+                    obscureText: obscureText,
+                    autofocus: true,
+                    minLines: lines,
+                    maxLines: lines,
+                    keyboardType: keyboardType,
+                    decoration: InputDecoration(
+                      label: Text(labelText),
+                    ),
+                    validator: validator,
+                    inputFormatters: inputFormatters,
                   ),
-                  validator: validator,
-                  inputFormatters: inputFormatters,
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           actions: [
