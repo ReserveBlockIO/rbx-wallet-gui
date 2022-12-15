@@ -125,7 +125,7 @@ class ValidatorScreen extends BaseScreen {
               onPressed: () async {
                 if (!guardWalletIsSynced(ref.read)) return;
                 if (!guardWalletIsNotResyncing(ref.read)) return;
-                if (!await passwordRequiredGuard(context, ref)) return;
+                if (!await passwordRequiredGuard(context, ref, true, true)) return;
 
                 // if (!await checkPort(false)) return;
 

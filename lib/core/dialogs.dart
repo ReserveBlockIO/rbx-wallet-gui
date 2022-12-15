@@ -157,7 +157,10 @@ class PromptModal {
       barrierDismissible: allowCancel,
       builder: (context) {
         return AlertDialog(
-          title: Text(title),
+          title: Text(
+            title,
+            style: TextStyle(color: Colors.white),
+          ),
           titlePadding: tightPadding ? const EdgeInsets.all(12.0) : const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 20),
           contentPadding: tightPadding ? const EdgeInsets.all(12.0) : const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0),
           insetPadding: tightPadding ? const EdgeInsets.all(8.0) : const EdgeInsets.symmetric(horizontal: 40.0, vertical: 24.0),
