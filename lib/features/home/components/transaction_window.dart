@@ -11,7 +11,7 @@ class TransactionWindow extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final transactions = ref.watch(transactionListProvider);
+    final transactions = ref.watch(transactionListProvider(TransactionListType.All));
 
     final recentTransactions = transactions.take(5);
 

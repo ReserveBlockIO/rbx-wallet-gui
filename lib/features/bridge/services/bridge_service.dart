@@ -14,6 +14,30 @@ class BridgeService extends BaseService {
     return await getText('/CheckStatus');
   }
 
+  Future<bool> checkPasswordNeeded() async {
+    try {
+      final value = await getText("/CheckPasswordNeeded");
+      return value == "true";
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> unlockWallet(String password) async {
+    try {
+      final data = await getText("/GetEncryptedPassword/$password", cleanPath: false);
+      final response = jsonDecode(data);
+      if (response['Result'] != null && response['Result'] == "Success") {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      print("Unlock Wallet Error");
+      print(e);
+      return false;
+    }
+  }
+
   Future<String> getCliVersion() async {
     return await getText("/GetCLIVersion");
   }
@@ -41,31 +65,6 @@ class BridgeService extends BaseService {
       print(e);
       return null;
     }
-  }
-
-  Future<List<Transaction>?> transactions() async {
-    final response = await getText('/GetAllTransactions');
-
-    if (response.isEmpty) {
-      return null;
-    }
-
-    if (response == "FAIL") {
-      return null;
-    }
-
-    if (response == "No TX") {
-      return null;
-    }
-
-    final items = jsonDecode(response);
-
-    final List<Transaction> transactions = [];
-    for (final item in items) {
-      transactions.add(Transaction.fromJson(item));
-    }
-
-    return transactions.reversed.toList();
   }
 
   Future<Map<String, dynamic>?> importPrivateKey(String key) async {

@@ -1,5 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/encrypt/password_required_provider.dart';
+import 'package:rbx_wallet/features/encrypt/unlock_wallet.dart';
 
 import '../../app.dart';
 import '../../core/app_router.gr.dart';
@@ -33,42 +36,53 @@ class RootContainer extends StatelessWidget {
       scaffoldKey: rootScaffoldKey,
       routes: routes,
       builder: (context, child, animated) {
-        return Column(
+        return Stack(
           children: [
-            if (Env.isTestNet)
-              Container(
-                width: double.infinity,
-                color: Colors.green.shade800,
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Center(
-                    child: Text(
-                      "RBX TEST NET",
-                      style: TextStyle(
-                        fontSize: 12,
-                        letterSpacing: 1,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+            Column(
+              children: [
+                if (Env.isTestNet)
+                  Container(
+                    width: double.infinity,
+                    color: Colors.green.shade800,
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Center(
+                        child: Text(
+                          "RBX TEST NET",
+                          style: TextStyle(
+                            fontSize: 12,
+                            letterSpacing: 1,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
-            Expanded(
-              child: Row(
-                children: [
-                  Container(color: Colors.black, height: double.infinity, child: MainMenu()),
-                  Expanded(
-                      child: Column(
+                Expanded(
+                  child: Row(
                     children: [
-                      Expanded(child: Container(clipBehavior: Clip.antiAlias, decoration: BoxDecoration(), child: child)),
-                      const Footer(),
+                      Container(color: Colors.black, height: double.infinity, child: MainMenu()),
+                      Expanded(
+                          child: Column(
+                        children: [
+                          Expanded(child: Container(clipBehavior: Clip.antiAlias, decoration: BoxDecoration(), child: child)),
+                          const Footer(),
+                        ],
+                      )),
+                      const StatusContainer(),
                     ],
-                  )),
-                  const StatusContainer(),
-                ],
-              ),
+                  ),
+                ),
+              ],
             ),
+            Consumer(builder: (context, ref, _) {
+              return ref.watch(passwordRequiredProvider)
+                  ? UnlockWallet(
+                      read: ref.read,
+                    )
+                  : SizedBox.shrink();
+            })
           ],
         );
       },

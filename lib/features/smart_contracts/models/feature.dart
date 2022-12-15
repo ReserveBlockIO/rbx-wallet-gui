@@ -103,10 +103,10 @@ abstract class Feature with _$Feature {
       case FeatureType.royalty:
       case FeatureType.evolution:
       case FeatureType.multiAsset:
-        // case FeatureType.tokenization:
-        // case FeatureType.pair:
-        // case FeatureType.fractionalization:
-        // case FeatureType.soulBound:
+      case FeatureType.tokenization:
+      case FeatureType.pair:
+      case FeatureType.fractionalization:
+      case FeatureType.soulBound:
         // case FeatureType.ticket:
         return true;
       default:

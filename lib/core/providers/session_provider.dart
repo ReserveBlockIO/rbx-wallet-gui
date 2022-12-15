@@ -20,6 +20,7 @@ import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
 import 'package:rbx_wallet/features/bridge/providers/status_provider.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
+import 'package:rbx_wallet/features/encrypt/password_required_provider.dart';
 import 'package:rbx_wallet/features/nft/providers/minted_nft_list_provider.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
 import 'package:rbx_wallet/features/node/providers/node_info_provider.dart';
@@ -136,17 +137,22 @@ class SessionProvider extends StateNotifier<SessionModel> {
       print("CLI Could not start");
       return;
     }
-
-    final now = DateTime.now();
-
     read(readyProvider.notifier).setReady(true);
+    final authenticated = await authenticate();
+    if (authenticated) {
+      finishSetup();
+    }
+  }
+
+  Future<void> finishSetup() async {
+    final now = DateTime.now();
 
     final timezoneName = DateTime.now().timeZoneName.toString();
 
     state = state.copyWith(
       // ready: true,
       startTime: now,
-      cliStarted: cliStarted,
+      cliStarted: true,
       timezoneName: timezoneName,
     );
 
@@ -167,6 +173,18 @@ class SessionProvider extends StateNotifier<SessionModel> {
   //   await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
   //   mainLoop();
   // }
+
+  Future<bool> authenticate() async {
+    final passwordNeeded = await BridgeService().checkPasswordNeeded();
+
+    if (passwordNeeded) {
+      await Future.delayed(Duration(milliseconds: 100));
+      read(passwordRequiredProvider.notifier).set(true);
+      return false;
+    }
+
+    return true;
+  }
 
   Future<void> mainLoop([inLoop = true]) async {
     await _loadWallets();
@@ -325,7 +343,15 @@ class SessionProvider extends StateNotifier<SessionModel> {
       return;
     }
 
-    await read(transactionListProvider.notifier).load();
+    for (var type in [
+      TransactionListType.All,
+      TransactionListType.Success,
+      TransactionListType.Failed,
+      TransactionListType.Pending,
+      TransactionListType.Mined,
+    ]) {
+      await read(transactionListProvider(type).notifier).load();
+    }
   }
 
   void setCurrentWallet(Wallet wallet) {

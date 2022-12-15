@@ -4,11 +4,12 @@ import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/transactions/components/transaction_list.dart';
+import 'package:rbx_wallet/features/transactions/providers/transaction_list_provider.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 
 class TransactionsScreen extends BaseScreen {
-  const TransactionsScreen({Key? key}) : super(key: key);
+  const TransactionsScreen({Key? key}) : super(key: key, verticalPadding: 0, horizontalPadding: 0);
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
@@ -16,6 +17,12 @@ class TransactionsScreen extends BaseScreen {
       title: const Text("Your Transactions"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
+      leading: IconButton(
+        icon: Icon(Icons.refresh),
+        onPressed: () {
+          ref.read(sessionProvider.notifier).loadTransactions();
+        },
+      ),
       actions: const [WalletSelector()],
     );
   }
@@ -24,33 +31,70 @@ class TransactionsScreen extends BaseScreen {
   Widget body(BuildContext context, WidgetRef ref) {
     final filtering = ref.watch(sessionProvider).filteringTransactions;
 
-    return Column(
-      children: [
-        if (ref.watch(walletListProvider).length > 1)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              const Text("Filter by Active Wallet"),
-              Switch(
-                value: filtering,
-                inactiveThumbColor: Theme.of(context).colorScheme.primary,
-                activeColor: Theme.of(context).colorScheme.secondary,
-                onChanged: (val) {
-                  ref.read(sessionProvider.notifier).setFilteringTransactions(!filtering);
-                },
+    return DefaultTabController(
+      length: 5,
+      child: Column(
+        children: [
+          TabBar(
+            tabs: [
+              Tab(
+                child: Text("All"),
+              ),
+              Tab(
+                child: Text("Pending"),
+              ),
+              Tab(
+                child: Text("Successful"),
+              ),
+              Tab(
+                child: Text("Failed"),
+              ),
+              Tab(
+                child: Text("Mined"),
               ),
             ],
           ),
-        if (ref.watch(walletInfoProvider)?.isChainSynced == false)
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              "Blocks are still syncing so not all transactions may be visible yet.",
-              style: Theme.of(context).textTheme.caption,
+          Expanded(
+            child: TabBarView(
+              children: [
+                TransactionListType.All,
+                TransactionListType.Pending,
+                TransactionListType.Success,
+                TransactionListType.Failed,
+                TransactionListType.Mined,
+              ].map((type) => TransactionList(type: type)).toList(),
             ),
           ),
-        const Expanded(child: TransactionList()),
-      ],
+        ],
+      ),
     );
+
+    // return Column(
+    //   children: [
+    //     // if (ref.watch(walletListProvider).length > 1)
+    //     //   Row(
+    //     //     mainAxisAlignment: MainAxisAlignment.end,
+    //     //     children: [
+    //     //       const Text("Filter by Active Wallet"),
+    //     //       Switch(
+    //     //         value: filtering,
+    //     //         inactiveThumbColor: Theme.of(context).colorScheme.primary,
+    //     //         activeColor: Theme.of(context).colorScheme.secondary,
+    //     //         onChanged: (val) {
+    //     //           ref.read(sessionProvider.notifier).setFilteringTransactions(!filtering);
+    //     //         },
+    //     //       ),
+    //     //     ],
+    //     //   ),
+    //     if (ref.watch(walletInfoProvider)?.isChainSynced == false)
+    //       Padding(
+    //         padding: const EdgeInsets.all(16.0),
+    //         child: Text(
+    //           "Blocks are still syncing so not all transactions may be visible yet.",
+    //           style: Theme.of(context).textTheme.caption,
+    //         ),
+    //       ),
+    //   ],
+    // );
   }
 }

@@ -48,7 +48,12 @@ class HomeScreen extends BaseScreen {
       title: const Text("Dashboard"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      leading: const ReloadButton(),
+      leading: IconButton(
+          onPressed: () {
+            ref.read(sessionProvider.notifier).mainLoop(false);
+            ref.read(sessionProvider.notifier).smartContractLoop(false);
+          },
+          icon: Icon(Icons.refresh)),
       actions: const [WalletSelector()],
     );
   }
@@ -267,92 +272,68 @@ class HomeScreen extends BaseScreen {
                       },
                     ),
                   AppButton(
-                    label: "Rollback Blocks",
-                    onPressed: () {
-                      if (!guardWalletIsNotResyncing(ref.read)) return;
-
-                      PromptModal.show(
-                        title: "Rollback Blocks",
-                        validator: (value) => formValidatorNotEmpty(value, "Number of blocks"),
-                        labelText: "Number of blocks to rollback",
-                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                        onValidSubmission: (value) async {
-                          Toast.message("Rolling back $value blocks...");
-                          ref.read(logProvider.notifier).append(
-                                LogEntry(
-                                  message: "Rolling back $value blocks...",
-                                  variant: AppColorVariant.Danger,
-                                ),
-                              );
-                          ref.read(walletInfoProvider.notifier).infoLoop(false);
-
-                          final success = await BridgeService().rollback(value);
-
-                          if (success) {
-                            ref.read(walletInfoProvider.notifier).infoLoop(false);
-                            final msg = "Rolled back $value blocks";
-                            Toast.message(msg);
-                            ref.read(logProvider.notifier).append(
-                                  LogEntry(
-                                    message: msg,
-                                    variant: AppColorVariant.Danger,
-                                  ),
-                                );
-                          } else {
-                            Toast.error();
-                          }
-                        },
+                    label: "Create Beacon",
+                    onPressed: () async {
+                      final value = await PromptModal.show(
+                        title: "Beacon Name",
+                        validator: (value) => formValidatorNotEmpty(value, "Beacon Name"),
+                        labelText: "Beacon Name",
                       );
+
+                      if (value != null && value.isNotEmpty) {
+                        print(value);
+                        print("----");
+                      }
                     },
                   ),
                   // if (Platform.isMacOS)
-                    AppButton(
-                      label: "Backup",
-                      onPressed: () async {
-                        showModalBottomSheet(
-                            backgroundColor: Colors.black87,
-                            // isScrollControlled: true,
-                            context: context,
-                            builder: (context) {
-                              return ModalContainer(
-                                color: Colors.black26,
-                                withDecor: false,
-                                children: [
-                                  ListTile(
-                                    title: Text("Backup Keys"),
-                                    subtitle: Text("Export and save your keys to a text file."),
-                                    leading: Icon(Icons.wallet),
-                                    trailing: Icon(Icons.chevron_right),
-                                    onTap: () async {
-                                      final success = await backupKeys(context, ref);
-                                      if (success == true) {
-                                        Navigator.of(context).pop();
-                                        Toast.message("Keys backed up successfully.");
-                                      } else {
-                                        Toast.error();
-                                      }
-                                    },
-                                  ),
-                                  ListTile(
-                                    title: Text("Backup Media"),
-                                    subtitle: Text("Zip and export your media assets."),
-                                    leading: Icon(Icons.file_present),
-                                    trailing: Icon(Icons.chevron_right),
-                                    onTap: () async {
-                                      final success = await backupMedia(context, ref);
-                                      if (success == true) {
-                                        Navigator.of(context).pop();
-                                        Toast.message("Media backed up successfully.");
-                                      } else {
-                                        Toast.error();
-                                      }
-                                    },
-                                  ),
-                                ],
-                              );
-                            });
-                      },
-                    ),
+                  AppButton(
+                    label: "Backup",
+                    onPressed: () async {
+                      showModalBottomSheet(
+                          backgroundColor: Colors.black87,
+                          // isScrollControlled: true,
+                          context: context,
+                          builder: (context) {
+                            return ModalContainer(
+                              color: Colors.black26,
+                              withDecor: false,
+                              children: [
+                                ListTile(
+                                  title: Text("Backup Keys"),
+                                  subtitle: Text("Export and save your keys to a text file."),
+                                  leading: Icon(Icons.wallet),
+                                  trailing: Icon(Icons.chevron_right),
+                                  onTap: () async {
+                                    final success = await backupKeys(context, ref);
+                                    if (success == true) {
+                                      Navigator.of(context).pop();
+                                      Toast.message("Keys backed up successfully.");
+                                    } else {
+                                      Toast.error();
+                                    }
+                                  },
+                                ),
+                                ListTile(
+                                  title: Text("Backup Media"),
+                                  subtitle: Text("Zip and export your media assets."),
+                                  leading: Icon(Icons.file_present),
+                                  trailing: Icon(Icons.chevron_right),
+                                  onTap: () async {
+                                    final success = await backupMedia(context, ref);
+                                    if (success == true) {
+                                      Navigator.of(context).pop();
+                                      Toast.message("Media backed up successfully.");
+                                    } else {
+                                      Toast.error();
+                                    }
+                                  },
+                                ),
+                              ],
+                            );
+                          });
+                    },
+                  ),
                   AppButton(
                     label: "Restart CLI",
                     // variant: AppColorVariant.Warning,

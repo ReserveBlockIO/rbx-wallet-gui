@@ -1,12 +1,23 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
 import 'package:rbx_wallet/features/transactions/models/transaction.dart';
+import 'package:rbx_wallet/features/transactions/services/local_transaction_service.dart';
+
+enum TransactionListType {
+  All,
+  Success,
+  Failed,
+  Pending,
+  Mined,
+}
 
 class TransactionListProvider extends StateNotifier<List<Transaction>> {
   final Reader read;
+  final TransactionListType type;
 
   TransactionListProvider(
-    this.read, [
+    this.read,
+    this.type, [
     List<Transaction> transactions = const [],
   ]) : super(transactions) {
     load();
@@ -17,15 +28,30 @@ class TransactionListProvider extends StateNotifier<List<Transaction>> {
   }
 
   Future<void> load() async {
-    final transactions = await BridgeService().transactions();
+    late final List<Transaction> transactions;
 
-    if (transactions != null) {
-      state = transactions;
+    switch (type) {
+      case TransactionListType.All:
+        transactions = await LocalTransactionService().transactionsAll();
+        break;
+      case TransactionListType.Success:
+        transactions = await LocalTransactionService().transactionsSuccess();
+        break;
+      case TransactionListType.Failed:
+        transactions = await LocalTransactionService().transactionsFailed();
+        break;
+      case TransactionListType.Pending:
+        transactions = await LocalTransactionService().transactionsPending();
+        break;
+      case TransactionListType.Mined:
+        transactions = await LocalTransactionService().transactionsMined();
+        break;
     }
+
+    state = transactions;
   }
 }
 
-final transactionListProvider =
-    StateNotifierProvider<TransactionListProvider, List<Transaction>>((ref) {
-  return TransactionListProvider(ref.read);
+final transactionListProvider = StateNotifierProvider.family<TransactionListProvider, List<Transaction>, TransactionListType>((ref, type) {
+  return TransactionListProvider(ref.read, type);
 });
