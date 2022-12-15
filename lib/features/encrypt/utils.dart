@@ -30,6 +30,10 @@ Future<bool> passwordRequiredGuard(
     if (forValidating) {
       //TODO: Might have to do something here differently.
     }
+
+    if (success == false) {
+      Toast.error("Incorrect decryption password.");
+    }
     return success;
   }
   return false;

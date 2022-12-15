@@ -38,7 +38,7 @@ class EncryptWalletButton extends BaseComponent {
               if (success) {
                 Toast.message("Wallet has been unlocked for 10 minutes.");
               } else {
-                Toast.error();
+                Toast.error("Incorrect decryption password.");
               }
             }
           },

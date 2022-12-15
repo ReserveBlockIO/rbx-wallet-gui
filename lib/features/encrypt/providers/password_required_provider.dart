@@ -37,6 +37,8 @@ class PasswordRequiredProvider extends StateNotifier<bool> {
       return true;
     }
 
+    state = true;
+
     return false;
   }
 
@@ -46,6 +48,8 @@ class PasswordRequiredProvider extends StateNotifier<bool> {
       state = true;
       return true;
     }
+
+    state = false;
 
     return false;
   }
