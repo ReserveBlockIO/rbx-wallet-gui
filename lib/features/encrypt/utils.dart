@@ -62,7 +62,7 @@ Future<bool?> promptForPassword(BuildContext context, WidgetRef ref, [bool forVa
     return null;
   }
 
-  if (password != null && password.isNotEmpty) {
+  if (password.isNotEmpty) {
     final success = await ref.read(passwordRequiredProvider.notifier).unlock(password);
     if (success) {
       if (forValidating) {

@@ -53,13 +53,13 @@ class EncryptWalletButton extends BaseComponent {
         );
       }
 
-      if (ref.watch(currentValidatorProvider)?.isValidating == true) {
-        return SizedBox.shrink();
-      }
-
       return AppButton(
         label: "Lock Wallet",
         onPressed: () async {
+          if (ref.read(currentValidatorProvider)?.isValidating == true) {
+            Toast.error("You can not lock your wallet while validating.");
+            return;
+          }
           final success = await ref.read(passwordRequiredProvider.notifier).lock();
 
           if (success) {
