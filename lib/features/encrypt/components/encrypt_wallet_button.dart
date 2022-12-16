@@ -3,10 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
 import 'package:rbx_wallet/features/encrypt/providers/password_required_provider.dart';
 import 'package:rbx_wallet/features/encrypt/providers/wallet_is_encrypted_provider.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
+import 'package:rbx_wallet/features/validator/providers/current_validator_provider.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
@@ -35,14 +37,24 @@ class EncryptWalletButton extends BaseComponent {
 
             if (password != null && password.isNotEmpty) {
               final success = await ref.read(passwordRequiredProvider.notifier).unlock(password);
+              await ref.read(sessionProvider.notifier).loadWallets();
+
               if (success) {
-                Toast.message("Wallet has been unlocked for 10 minutes.");
+                if (ref.watch(currentValidatorProvider)?.isValidating == true) {
+                  Toast.message("Wallet has been unlocked.");
+                } else {
+                  Toast.message("Wallet has been unlocked for 10 minutes.");
+                }
               } else {
                 Toast.error("Incorrect decryption password.");
               }
             }
           },
         );
+      }
+
+      if (ref.watch(currentValidatorProvider)?.isValidating == true) {
+        return SizedBox.shrink();
       }
 
       return AppButton(
@@ -96,7 +108,7 @@ class EncryptWalletButton extends BaseComponent {
           if (error != null) {
             Toast.error(error);
           } else {
-            Toast.message("Your wallet is now encrypted and locked.");
+            Toast.message("Your wallet is now encrypted.");
             ref.read(walletIsEncryptedProvider.notifier).set(true);
           }
         }

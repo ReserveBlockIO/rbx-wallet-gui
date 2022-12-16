@@ -198,7 +198,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   Future<void> mainLoop([inLoop = true]) async {
-    await _loadWallets();
+    await loadWallets();
     await loadValidators();
     // await loadMasterNodes();
     // await loadPeerInfo();
@@ -267,7 +267,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
   //   );
   // }
 
-  Future<void> _loadWallets() async {
+  Future<void> loadWallets() async {
     final List<Wallet> wallets = [];
 
     final response = await BridgeService().wallets();

@@ -104,17 +104,17 @@ class ValidatorScreen extends BaseScreen {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text("You must have port $port open to external networks in order to validate."),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: AppButton(
-                label: "Check Port",
-                type: AppButtonType.Outlined,
-                variant: AppColorVariant.Secondary,
-                onPressed: () {
-                  checkPort();
-                },
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: AppButton(
+            //     label: "Check Port",
+            //     type: AppButtonType.Outlined,
+            //     variant: AppColorVariant.Secondary,
+            //     onPressed: () {
+            //       checkPort();
+            //     },
+            //   ),
+            // ),
             const SizedBox(
               height: 40,
             ),

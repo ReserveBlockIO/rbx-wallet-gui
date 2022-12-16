@@ -19,6 +19,7 @@ import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
+import "package:collection/collection.dart";
 
 class ManageWalletBottomSheet extends BaseComponent {
   const ManageWalletBottomSheet({Key? key}) : super(key: key);
@@ -221,6 +222,11 @@ class ManageWalletBottomSheet extends BaseComponent {
                             variant: AppColorVariant.Info,
                             onPressed: () async {
                               if (!await passwordRequiredGuard(context, ref)) return;
+
+                              final decryptedWallet = ref.read(walletListProvider).firstWhereOrNull((w) => w.address == wallet.address);
+                              if (decryptedWallet == null) {
+                                return;
+                              }
                               showDialog(
                                 context: context,
                                 builder: (context) {
@@ -234,7 +240,7 @@ class ManageWalletBottomSheet extends BaseComponent {
                                           title: SizedBox(
                                             width: 500,
                                             child: TextFormField(
-                                              initialValue: wallet.privateKey,
+                                              initialValue: decryptedWallet.privateKey,
                                               decoration: const InputDecoration(
                                                 label: Text("Private Key"),
                                               ),
