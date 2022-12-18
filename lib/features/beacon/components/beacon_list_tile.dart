@@ -28,7 +28,7 @@ class BeaconListTile extends BaseComponent {
                   )
                 : AppBadge(
                     label: "Remote",
-                    variant: AppColorVariant.Primary,
+                    variant: AppColorVariant.Warning,
                   ),
             BeaconContextMenu(beacon)
           ],

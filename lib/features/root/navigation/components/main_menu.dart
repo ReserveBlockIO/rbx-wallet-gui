@@ -251,7 +251,7 @@ class _NavButton extends StatelessWidget {
       child: TextButton.icon(
         style: TextButton.styleFrom(
           primary: textColor,
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.all(22.0),
           alignment: Alignment.centerLeft,
         ),
         icon: Icon(

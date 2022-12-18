@@ -25,7 +25,8 @@ class BeaconService extends BaseService {
 
   Future<String?> add(String name, String ip, [int port = 0]) async {
     try {
-      final path = port != 0 ? "/AddBeacon/$name/$port/$ip" : "/AddBeacon/$name/$ip";
+      // final path = port != 0 ? "/AddBeacon/$name/$port/$ip" : "/AddBeacon/$name/$ip";
+      final path = "/AddBeacon/$name/$port/$ip";
 
       final response = await getText(path, cleanPath: false);
       final data = jsonDecode(response);

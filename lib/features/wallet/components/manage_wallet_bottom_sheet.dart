@@ -221,7 +221,7 @@ class ManageWalletBottomSheet extends BaseComponent {
                             label: "Reveal Private Key",
                             variant: AppColorVariant.Info,
                             onPressed: () async {
-                              if (!await passwordRequiredGuard(context, ref)) return;
+                              // if (!await passwordRequiredGuard(context, ref)) return;
 
                               final decryptedWallet = ref.read(walletListProvider).firstWhereOrNull((w) => w.address == wallet.address);
                               if (decryptedWallet == null) {
