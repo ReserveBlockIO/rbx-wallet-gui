@@ -15,6 +15,7 @@ import 'package:rbx_wallet/core/providers/ready_provider.dart';
 import 'package:rbx_wallet/core/singletons.dart';
 import 'package:rbx_wallet/core/storage.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/beacon/providers/beacon_list_provider.dart';
 import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
 import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
 import 'package:rbx_wallet/features/bridge/providers/status_provider.dart';
@@ -163,6 +164,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
     // mainLoop();
     await mainLoop();
     await smartContractLoop();
+    read(beaconListProvider.notifier).refresh();
 
     Future.delayed(const Duration(milliseconds: 300)).then((_) {
       read(walletInfoProvider.notifier).infoLoop();
@@ -246,7 +248,8 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
     await Future.delayed(const Duration(milliseconds: 300));
 
-    init();
+    await init();
+    read(beaconListProvider.notifier).refresh();
   }
 
   // Future<void> _checkBlockSyncStatus() async {

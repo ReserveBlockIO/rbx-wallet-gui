@@ -196,6 +196,14 @@ class MainMenu extends BaseComponent {
                     },
                     isActive: tabsRouter.activeIndex == 7,
                   ),
+                  _NavButton(
+                    title: "Beacons",
+                    icon: Icons.wifi,
+                    onPressed: () {
+                      tabsRouter.setActiveIndex(12);
+                    },
+                    isActive: tabsRouter.activeIndex == 12,
+                  ),
 
                   _NavButton(
                     title: "DSTs",

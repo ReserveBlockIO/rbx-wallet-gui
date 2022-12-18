@@ -30,6 +30,7 @@ class RootContainer extends StatelessWidget {
       const DstsTabRouter(),
       const AdnrTabRouter(),
       const VotingTabRouter(),
+      const BeaconTabRouter(),
     ];
 
     return AutoTabsScaffold(

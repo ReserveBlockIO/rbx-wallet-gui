@@ -36,7 +36,7 @@ class BaseService {
     return BaseOptions(
       baseUrl: baseUrl,
       headers: _headers(auth, json),
-      connectTimeout: 1000,
+      connectTimeout: 10000,
       receiveTimeout: timeout,
     );
   }

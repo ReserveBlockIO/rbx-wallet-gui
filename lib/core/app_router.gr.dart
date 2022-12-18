@@ -11,10 +11,12 @@
 // ignore_for_file: type=lint
 
 import 'package:auto_route/auto_route.dart' as _i6;
-import 'package:flutter/material.dart' as _i23;
+import 'package:flutter/material.dart' as _i24;
 import 'package:rbx_wallet/features/adjudicator/adjudicator_screen.dart'
     as _i12;
 import 'package:rbx_wallet/features/adnr/screens/adnr_screen.dart' as _i18;
+import 'package:rbx_wallet/features/beacon/screens/beacon_list_screen.dart'
+    as _i22;
 import 'package:rbx_wallet/features/datanode/screens/datanode_screen.dart'
     as _i14;
 import 'package:rbx_wallet/features/dsts/screens/dst_screen.dart' as _i17;
@@ -25,7 +27,7 @@ import 'package:rbx_wallet/features/receive/screens/receive_screen.dart' as _i9;
 import 'package:rbx_wallet/features/root/root_container.dart' as _i1;
 import 'package:rbx_wallet/features/send/screens/send_screen.dart' as _i8;
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/smart_contract_creator_main.dart'
-    as _i22;
+    as _i23;
 import 'package:rbx_wallet/features/smart_contracts/screens/my_smart_contracts_screen.dart'
     as _i2;
 import 'package:rbx_wallet/features/smart_contracts/screens/smart_contract_creator_container_screen.dart'
@@ -48,7 +50,7 @@ import 'package:rbx_wallet/features/voting/screens/topic_list_screen.dart'
     as _i19;
 
 class AppRouter extends _i6.RootStackRouter {
-  AppRouter([_i23.GlobalKey<_i23.NavigatorState>? navigatorKey])
+  AppRouter([_i24.GlobalKey<_i24.NavigatorState>? navigatorKey])
       : super(navigatorKey);
 
   @override
@@ -126,6 +128,10 @@ class AppRouter extends _i6.RootStackRouter {
       return _i6.AdaptivePage<dynamic>(
           routeData: routeData, child: const _i6.EmptyRouterPage());
     },
+    BeaconTabRouter.name: (routeData) {
+      return _i6.AdaptivePage<dynamic>(
+          routeData: routeData, child: const _i6.EmptyRouterPage());
+    },
     HomeScreenRoute.name: (routeData) {
       return _i6.AdaptivePage<dynamic>(
           routeData: routeData, child: const _i7.HomeScreen());
@@ -192,9 +198,13 @@ class AppRouter extends _i6.RootStackRouter {
       return _i6.AdaptivePage<dynamic>(
           routeData: routeData, child: const _i21.CreateTopicScreen());
     },
+    BeaconListScreenRoute.name: (routeData) {
+      return _i6.AdaptivePage<dynamic>(
+          routeData: routeData, child: const _i22.BeaconListScreen());
+    },
     SmartContractCreatorMainRoute.name: (routeData) {
       return _i6.AdaptivePage<dynamic>(
-          routeData: routeData, child: const _i22.SmartContractCreatorMain());
+          routeData: routeData, child: const _i23.SmartContractCreatorMain());
     }
   };
 
@@ -295,6 +305,13 @@ class AppRouter extends _i6.RootStackRouter {
                     path: ':uid', parent: VotingTabRouter.name),
                 _i6.RouteConfig(CreateTopicScreenRoute.name,
                     path: 'create', parent: VotingTabRouter.name)
+              ]),
+          _i6.RouteConfig(BeaconTabRouter.name,
+              path: 'beacons',
+              parent: RootContainerRoute.name,
+              children: [
+                _i6.RouteConfig(BeaconListScreenRoute.name,
+                    path: '', parent: BeaconTabRouter.name)
               ])
         ]),
         _i6.RouteConfig(MySmartContractsScreenRoute.name,
@@ -491,6 +508,15 @@ class VotingTabRouter extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [_i6.EmptyRouterPage]
+class BeaconTabRouter extends _i6.PageRouteInfo<void> {
+  const BeaconTabRouter({List<_i6.PageRouteInfo>? children})
+      : super(BeaconTabRouter.name, path: 'beacons', initialChildren: children);
+
+  static const String name = 'BeaconTabRouter';
+}
+
+/// generated route for
 /// [_i7.HomeScreen]
 class HomeScreenRoute extends _i6.PageRouteInfo<void> {
   const HomeScreenRoute() : super(HomeScreenRoute.name, path: '');
@@ -600,7 +626,7 @@ class TopicListScreenRoute extends _i6.PageRouteInfo<void> {
 /// [_i20.TopicDetailScreen]
 class TopicDetailScreenRoute
     extends _i6.PageRouteInfo<TopicDetailScreenRouteArgs> {
-  TopicDetailScreenRoute({_i23.Key? key, required String topicUid})
+  TopicDetailScreenRoute({_i24.Key? key, required String topicUid})
       : super(TopicDetailScreenRoute.name,
             path: ':uid',
             args: TopicDetailScreenRouteArgs(key: key, topicUid: topicUid),
@@ -612,7 +638,7 @@ class TopicDetailScreenRoute
 class TopicDetailScreenRouteArgs {
   const TopicDetailScreenRouteArgs({this.key, required this.topicUid});
 
-  final _i23.Key? key;
+  final _i24.Key? key;
 
   final String topicUid;
 
@@ -632,7 +658,15 @@ class CreateTopicScreenRoute extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i22.SmartContractCreatorMain]
+/// [_i22.BeaconListScreen]
+class BeaconListScreenRoute extends _i6.PageRouteInfo<void> {
+  const BeaconListScreenRoute() : super(BeaconListScreenRoute.name, path: '');
+
+  static const String name = 'BeaconListScreenRoute';
+}
+
+/// generated route for
+/// [_i23.SmartContractCreatorMain]
 class SmartContractCreatorMainRoute extends _i6.PageRouteInfo<void> {
   const SmartContractCreatorMainRoute()
       : super(SmartContractCreatorMainRoute.name, path: 'main');
