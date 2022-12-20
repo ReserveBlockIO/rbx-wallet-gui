@@ -67,14 +67,7 @@ class MainMenu extends BaseComponent {
                   Container(
                     color: Colors.black,
                     child: Center(
-                      child: Container(
-                        color: Colors.black,
-                        width: 100,
-                        child: Image.asset(
-                          Assets.images.animatedCube.path,
-                          scale: 1,
-                        ),
-                      ),
+                      child: _RotatingCube(),
                     ),
                   ),
                   Container(
@@ -218,6 +211,24 @@ class MainMenu extends BaseComponent {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _RotatingCube extends StatelessWidget {
+  const _RotatingCube({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.black,
+      width: 100,
+      child: Image.asset(
+        Assets.images.animatedCube.path,
+        scale: 1,
       ),
     );
   }

@@ -20,10 +20,12 @@ class UnlockWallet extends StatefulWidget {
 }
 
 class _UnlockWalletState extends State<UnlockWallet> {
+  final FocusNode focusNode = FocusNode();
   String password = "";
 
   Future<void> submit() async {
     // final success = await BridgeService().unlockWallet(password);
+    print(password);
     final success = await widget.read(passwordRequiredProvider.notifier).unlock(password);
     if (success == true) {
       Toast.message("Wallet unlocked!");
@@ -33,6 +35,14 @@ class _UnlockWalletState extends State<UnlockWallet> {
     } else {
       Toast.error("Incorrect wallet decryption password");
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(milliseconds: 100)).then((value) {
+      focusNode.requestFocus();
+    });
   }
 
   @override
@@ -105,6 +115,7 @@ class _UnlockWalletState extends State<UnlockWallet> {
                       enabledBorder: InputBorder.none,
                     ),
                     textAlign: TextAlign.center,
+                    focusNode: focusNode,
                     autofocus: true,
                     onChanged: (val) {
                       setState(() {

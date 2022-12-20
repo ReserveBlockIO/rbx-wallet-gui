@@ -24,8 +24,8 @@ mixin _$Wallet {
   int get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'PublicKey')
   String get publicKey => throw _privateConstructorUsedError;
-  @JsonKey(name: 'PrivateKey')
-  String get privateKey => throw _privateConstructorUsedError;
+  @JsonKey(name: 'GetKey')
+  String? get privateKey => throw _privateConstructorUsedError;
   @JsonKey(name: 'Address')
   String get address => throw _privateConstructorUsedError;
   String? get friendlyName => throw _privateConstructorUsedError;
@@ -49,7 +49,7 @@ abstract class $WalletCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: 'Id') int id,
       @JsonKey(name: 'PublicKey') String publicKey,
-      @JsonKey(name: 'PrivateKey') String privateKey,
+      @JsonKey(name: 'GetKey') String? privateKey,
       @JsonKey(name: 'Address') String address,
       String? friendlyName,
       @JsonKey(name: 'Balance') double balance,
@@ -88,7 +88,7 @@ class _$WalletCopyWithImpl<$Res> implements $WalletCopyWith<$Res> {
       privateKey: privateKey == freezed
           ? _value.privateKey
           : privateKey // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       address: address == freezed
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -121,7 +121,7 @@ abstract class _$$_WalletCopyWith<$Res> implements $WalletCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: 'Id') int id,
       @JsonKey(name: 'PublicKey') String publicKey,
-      @JsonKey(name: 'PrivateKey') String privateKey,
+      @JsonKey(name: 'GetKey') String? privateKey,
       @JsonKey(name: 'Address') String address,
       String? friendlyName,
       @JsonKey(name: 'Balance') double balance,
@@ -161,7 +161,7 @@ class __$$_WalletCopyWithImpl<$Res> extends _$WalletCopyWithImpl<$Res>
       privateKey: privateKey == freezed
           ? _value.privateKey
           : privateKey // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       address: address == freezed
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -192,7 +192,7 @@ class _$_Wallet extends _Wallet {
   _$_Wallet(
       {@JsonKey(name: 'Id') required this.id,
       @JsonKey(name: 'PublicKey') required this.publicKey,
-      @JsonKey(name: 'PrivateKey') required this.privateKey,
+      @JsonKey(name: 'GetKey') this.privateKey,
       @JsonKey(name: 'Address') required this.address,
       this.friendlyName,
       @JsonKey(name: 'Balance') required this.balance,
@@ -210,8 +210,8 @@ class _$_Wallet extends _Wallet {
   @JsonKey(name: 'PublicKey')
   final String publicKey;
   @override
-  @JsonKey(name: 'PrivateKey')
-  final String privateKey;
+  @JsonKey(name: 'GetKey')
+  final String? privateKey;
   @override
   @JsonKey(name: 'Address')
   final String address;
@@ -279,7 +279,7 @@ abstract class _Wallet extends Wallet {
   factory _Wallet(
       {@JsonKey(name: 'Id') required final int id,
       @JsonKey(name: 'PublicKey') required final String publicKey,
-      @JsonKey(name: 'PrivateKey') required final String privateKey,
+      @JsonKey(name: 'GetKey') final String? privateKey,
       @JsonKey(name: 'Address') required final String address,
       final String? friendlyName,
       @JsonKey(name: 'Balance') required final double balance,
@@ -296,8 +296,8 @@ abstract class _Wallet extends Wallet {
   @JsonKey(name: 'PublicKey')
   String get publicKey => throw _privateConstructorUsedError;
   @override
-  @JsonKey(name: 'PrivateKey')
-  String get privateKey => throw _privateConstructorUsedError;
+  @JsonKey(name: 'GetKey')
+  String? get privateKey => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'Address')
   String get address => throw _privateConstructorUsedError;
