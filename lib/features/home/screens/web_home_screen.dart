@@ -12,6 +12,7 @@ import 'package:rbx_wallet/features/root/web_dashboard_container.dart';
 import 'package:rbx_wallet/features/web/components/web_latest_block.dart';
 import 'package:rbx_wallet/features/web/components/web_wallet_details.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
+import 'package:rbx_wallet/utils/keytester.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class WebHomeScreen extends BaseScreen {
@@ -141,6 +142,18 @@ class _Actions extends BaseComponent {
           spacing: isMobile ? 6 : 16,
           alignment: WrapAlignment.center,
           children: [
+            // AppButton(
+            //   label: "Test",
+            //   onPressed: () {
+            //     runTests();
+            //   },
+            // ),
+            // AppButton(
+            //   label: "Other Test",
+            //   onPressed: () {
+            //     otherTest();
+            //   },
+            // ),
             AppButton(
               label: "Send",
               onPressed: () {

@@ -56,18 +56,18 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
 
     return Stack(
       children: [
-        Align(
-          alignment: Alignment.bottomRight,
-          child: Opacity(
-            opacity: 0.5,
-            child: Image.asset(
-              Assets.images.decorBottomRight.path,
-              width: 300,
-              height: 300,
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
+        // Align(
+        //   alignment: Alignment.bottomRight,
+        //   child: Opacity(
+        //     opacity: 0.5,
+        //     child: Image.asset(
+        //       Assets.images.decorBottomRight.path,
+        //       width: 300,
+        //       height: 300,
+        //       fit: BoxFit.contain,
+        //     ),
+        //   ),
+        // ),
         Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,

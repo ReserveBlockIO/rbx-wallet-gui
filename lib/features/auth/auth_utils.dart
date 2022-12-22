@@ -140,8 +140,9 @@ Future<dynamic> handleRecoverFromMnemonic(BuildContext context, WidgetRef ref) a
 
 Future<void> showKeys(
   BuildContext context,
-  Keypair keypair,
-) async {
+  Keypair keypair, [
+  bool forReveal = false,
+]) async {
   final isMobile = BreakPoints.useMobileLayout(context);
 
   await showDialog(
@@ -149,13 +150,13 @@ Future<void> showKeys(
     barrierDismissible: false,
     builder: (context) {
       return AlertDialog(
-        title: const Text("Key Generated"),
+        title: Text(forReveal ? "Keys" : "Key Generated"),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             const Align(
               alignment: Alignment.centerLeft,
-              child: Text("Here is your wallet details. Please ensure to back up your private key in a safe place."),
+              child: Text("Here are your wallet details. Please ensure to back up your private key in a safe place."),
             ),
             if (keypair.mneumonic != null)
               ListTile(
@@ -197,7 +198,7 @@ Future<void> showKeys(
             ListTile(
               leading: isMobile ? null : const Icon(Icons.security),
               title: TextFormField(
-                initialValue: keypair.private,
+                initialValue: keypair.privateCorrected,
                 decoration: const InputDecoration(
                   label: Text("Private Key"),
                 ),
