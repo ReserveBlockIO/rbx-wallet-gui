@@ -141,6 +141,18 @@ class _Actions extends BaseComponent {
           spacing: isMobile ? 6 : 16,
           alignment: WrapAlignment.center,
           children: [
+            // AppButton(
+            //   label: "Test",
+            //   onPressed: () {
+            //     runTests();
+            //   },
+            // ),
+            // AppButton(
+            //   label: "Other Test",
+            //   onPressed: () {
+            //     otherTest();
+            //   },
+            // ),
             AppButton(
               label: "Send",
               onPressed: () {

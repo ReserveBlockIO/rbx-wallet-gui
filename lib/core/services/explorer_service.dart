@@ -36,7 +36,7 @@ class ExplorerService extends BaseService {
 
       return response['balance'];
     } catch (e) {
-      print(e);
+      // print(e);
       return 0.0;
     }
   }

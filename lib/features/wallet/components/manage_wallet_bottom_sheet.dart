@@ -251,7 +251,7 @@ class ManageWalletBottomSheet extends BaseComponent {
                                           trailing: IconButton(
                                             icon: const Icon(Icons.copy),
                                             onPressed: () async {
-                                              await Clipboard.setData(ClipboardData(text: wallet.privateKey));
+                                              await Clipboard.setData(ClipboardData(text: decryptedWallet.privateKey));
                                               Toast.message("Private Key copied to clipboard");
                                             },
                                           ),

@@ -17,4 +17,25 @@ abstract class Keypair with _$Keypair {
   }) = _Keypair;
 
   factory Keypair.fromJson(Map<String, dynamic> json) => _$KeypairFromJson(json);
+
+  String get privateCorrected {
+    return "00$private";
+
+    // return private;
+
+    // return private;
+
+    // return "00$private";
+
+    // final b = BigInt.parse(private, radix: 16).toSigned(1);
+    // if (b.isNegative) {
+    //   return "00$private";
+    // }
+
+    // final start = private.substring(0, 1);
+    // if (start.contains(RegExp(r'[a-z]'))) {
+    //   return "00$private";
+    // }
+    // return private;
+  }
 }
