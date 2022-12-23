@@ -21,8 +21,8 @@ void main() async {
   // setPathUrlStrategy();
   await initSingletons();
 
-  // if (!kIsWeb && Platform.isMacOS) {
-  if (!kIsWeb) {
+  if (!kIsWeb && Platform.isMacOS) {
+  // if (!kIsWeb) {
     await DesktopWindow.setWindowSize(const Size(DEFAULT_WIDTH, DEFAULT_HEIGHT));
 
     // if(Platform.isMacOS) {
