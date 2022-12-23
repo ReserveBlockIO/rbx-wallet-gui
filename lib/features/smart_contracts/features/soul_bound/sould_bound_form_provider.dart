@@ -22,7 +22,7 @@ class SoulBoundFormProvider extends StateNotifier<SoulBound> {
     setSoulBound(model);
   }
 
-  String? ownerAddressValidator(value) => formValidatorRbxAddress(value);
+  String? ownerAddressValidator(value) => formValidatorRbxAddress(value, false);
   String? beneficiaryAddressValidator(value) => formValidatorRbxAddressOrEmpty(value);
 
   setSoulBound(SoulBound sb) {

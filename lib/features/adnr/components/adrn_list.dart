@@ -112,7 +112,7 @@ class AdnrList extends BaseComponent {
                                 PromptModal.show(
                                     contextOverride: context,
                                     title: "Transfer RBX Domain",
-                                    validator: (value) => formValidatorRbxAddress(value),
+                                    validator: (value) => formValidatorRbxAddress(value, false),
                                     labelText: "Address",
                                     onValidSubmission: (toAddress) async {
                                       final result = await TransactionService().transferAdnr(wallet.address, toAddress);

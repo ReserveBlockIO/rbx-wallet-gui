@@ -15,8 +15,7 @@ class RoyaltyFormProvider extends StateNotifier<Royalty> {
     this.read, [
     Royalty model = const Royalty(),
   ]) : super(model) {
-    amountController =
-        TextEditingController(text: model.amount > 0 ? "${model.amount}" : "");
+    amountController = TextEditingController(text: model.amount > 0 ? "${model.amount}" : "");
     addressController = TextEditingController(text: model.address);
 
     setRoyalty(model);
@@ -25,9 +24,7 @@ class RoyaltyFormProvider extends StateNotifier<Royalty> {
   setRoyalty(Royalty royalty) {
     state = royalty;
 
-    amountController.text = state.type == RoyaltyType.percent
-        ? "${royalty.amount * 100}"
-        : "${royalty.amount}";
+    amountController.text = state.type == RoyaltyType.percent ? "${royalty.amount * 100}" : "${royalty.amount}";
     addressController.text = royalty.address;
   }
 
@@ -50,7 +47,7 @@ class RoyaltyFormProvider extends StateNotifier<Royalty> {
     return formValidatorNotEmpty(val, "Amount");
   }
 
-  String? addressValidator(String? val) => formValidatorRbxAddress(val);
+  String? addressValidator(String? val) => formValidatorRbxAddress(val, false);
 
   complete() {
     double? amount = double.tryParse(amountController.text);

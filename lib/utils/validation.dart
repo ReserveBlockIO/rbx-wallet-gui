@@ -110,9 +110,13 @@ String? formValidatorNotEmpty(String? value, String label) {
   return null;
 }
 
-String? formValidatorRbxAddress(String? value) {
+String? formValidatorRbxAddress(String? value, [bool allowAdnr = false]) {
   if (value == null || value.isEmpty) {
-    return "Address is required.";
+    return "Address or RBX domain required";
+  }
+
+  if (allowAdnr && value.contains(".rbx")) {
+    return null;
   }
 
   if (!isValidRbxAddress(value)) {

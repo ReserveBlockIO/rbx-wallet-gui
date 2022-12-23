@@ -392,7 +392,7 @@ class NftDetailScreen extends BaseScreen {
                             PromptModal.show(
                               contextOverride: context,
                               title: "Transfer NFT",
-                              validator: (value) => formValidatorRbxAddress(value),
+                              validator: (value) => formValidatorRbxAddress(value, true),
                               labelText: "RBX Address",
                               confirmText: "Continue",
                               onValidSubmission: (address) async {
