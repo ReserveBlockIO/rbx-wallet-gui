@@ -6,6 +6,7 @@ import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
 import 'package:rbx_wallet/features/encrypt/providers/wallet_is_encrypted_provider.dart';
+import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
@@ -15,8 +16,11 @@ class HdWalletButton extends BaseComponent {
     Key? key,
   }) : super(key: key);
 
-  Future<void> create(BuildContext context, int strength) async {
+  Future<void> create(BuildContext context, WidgetRef ref, int strength) async {
+    ref.read(globalLoadingProvider.notifier).start();
     final mnumonic = await BridgeService().getHdWallet(strength);
+    ref.read(globalLoadingProvider.notifier).complete();
+
     if (mnumonic != null) {
       Navigator.of(context).pop(mnumonic);
       return;
@@ -86,7 +90,7 @@ class HdWalletButton extends BaseComponent {
                         AppButton(
                           label: "12 Words",
                           onPressed: () async {
-                            await create(context, 12);
+                            await create(context, ref, 12);
                           },
                         ),
                         SizedBox(
@@ -95,7 +99,7 @@ class HdWalletButton extends BaseComponent {
                         AppButton(
                           label: "24 Words",
                           onPressed: () async {
-                            await create(context, 24);
+                            await create(context, ref, 24);
                           },
                         ),
                       ],
