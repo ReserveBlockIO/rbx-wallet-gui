@@ -77,11 +77,13 @@ class EncryptWalletButton extends BaseComponent {
         final password = await PromptModal.show(
           title: "Encrypt Wallet",
           validator: (value) => formValidatorNotEmpty(value, "Password"),
-          labelText: "Password",
+          labelText: "Create Password",
           obscureText: true,
           lines: 1,
           body:
-              "This function will encrypt your private keys.\nPlease ensure your they are backed up before proceeding.\n\nThis is an irreversable action and your password will be required to interact with the wallet moving forward.",
+              "This function will encrypt ALL private keys in this wallet. Please ensure you have ALL private keys in this wallet backed up before proceeding.\n\nThis is an irreversible action and the password that you create will be the only way to gain access to this wallet once you complete this encryption.\n\nIt is also recommended to backup your password in addition to your private keys.",
+          confirmText: "Agree",
+          cancelText: "Cancel",
         );
 
         if (password != null && password.isNotEmpty) {

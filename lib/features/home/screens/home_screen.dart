@@ -20,6 +20,8 @@ import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
 import 'package:rbx_wallet/features/encrypt/components/encrypt_wallet_button.dart';
 import 'package:rbx_wallet/features/encrypt/providers/password_required_provider.dart';
 import 'package:rbx_wallet/features/encrypt/providers/wallet_is_encrypted_provider.dart';
+import 'package:rbx_wallet/features/hd/components/hd_wallet_button.dart';
+import 'package:rbx_wallet/features/hd/components/restore_hd_wallet_button.dart';
 import 'package:rbx_wallet/features/home/components/log_window.dart';
 import 'package:rbx_wallet/features/home/components/transaction_window.dart';
 
@@ -147,7 +149,8 @@ class HomeScreen extends BaseScreen {
                   //     await ref.read(walletInfoProvider.notifier).infoLoop(false);
                   //   },
                   // ),
-
+                  if (!ref.watch(walletIsEncryptedProvider)) HdWalletButton(),
+                  if (ref.watch(walletListProvider).isEmpty) RestoreHdWalletButton(),
                   EncryptWalletButton(),
                   AppButton(
                     label: "Show Debug Data",

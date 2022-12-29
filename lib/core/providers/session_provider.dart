@@ -557,7 +557,11 @@ class SessionProvider extends StateNotifier<SessionModel> {
         }
       } else {
         var stdOutController = ShellLinesController();
-        final shell = Shell(throwOnError: false, stdout: Env.hideCliOutput ? stdOutController.sink : null);
+        final shell = Shell(
+          throwOnError: false,
+          stdout: Env.hideCliOutput ? stdOutController.sink : null,
+          workingDirectory: "/Applications/RBXWallet.app/Contents/MacOS/",
+        );
         cmd = '"$cliPath" ${options.join(' ')}';
 
         print("CMD: $cmd");

@@ -25,6 +25,7 @@ package_mac:
 	rm -rf ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
 	mkdir ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
 	cp -r ../Core-CLI/ReserveBlockCore/bin/Release/net6.0/osx-x64/publish/ ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
+	cp -r ./installers/resources/BIP39/ ./installers/resources/Runner/RBXWallet.app/Contents/MacOS/BIP39
 	appdmg ./installers/dmg/config.json ./installers/exports/RBX-OSX-Intel-Installer.dmg
 	rm -f ./installers/exports/rbx-corecli-mac-intel.zip
 	cd ./installers/resources/Runner/RBXWallet.app/Contents/Resources/ && zip -r /Users/tylersavery/Projects/rbx/rbx_wallet/installers/exports/rbx-corecli-mac-intel.zip ./RBXCore/
@@ -40,6 +41,7 @@ package_m1:
 	rm -rf ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
 	mkdir ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
 	cp -r ../Core-CLI/ReserveBlockCore/bin/Release/net6.0/osx-x64/publish/ ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
+	cp -r ./installers/resources/BIP39/ ./installers/resources/Runner/RBXWallet.app/Contents/MacOS/BIP39	
 	appdmg ./installers/dmg/config.json ./installers/exports/RBX-OSX-ARM-Installer.dmg
 	rm -f ./installers/exports/rbx-corecli-mac-arm.zip
 	cd ./installers/resources/Runner/RBXWallet.app/Contents/Resources/ && zip -r /Users/tyler/prj/rbx/rbx-wallet-gui/installers/exports/rbx-corecli-mac-arm.zip ./RBXCore/

@@ -276,4 +276,44 @@ class BridgeService extends BaseService {
       return false;
     }
   }
+
+  Future<String?> getHdWallet([int strength = 24]) async {
+    try {
+      final response = await getText("/GetHDWallet/$strength", cleanPath: false);
+      final data = jsonDecode(response);
+      print(data);
+      if (data != null && data['Result'] != null) {
+        if (data['Result'] == true) {
+          if (data['Message'] != null) {
+            return data['Message'];
+          }
+          return null;
+        } else {
+          if (data['Message'] != null) {
+            Toast.error(data['Message']);
+            return null;
+          }
+          Toast.error();
+          return null;
+        }
+      }
+      Toast.error();
+      return null;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<bool> restoreHd(String mnumonic) async {
+    try {
+      final response = await getText("/GetRestoreHDWallet/${mnumonic.trim()}", cleanPath: false);
+      final data = jsonDecode(response);
+      print(data);
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
 }

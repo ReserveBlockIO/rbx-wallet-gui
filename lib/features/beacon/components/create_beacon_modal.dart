@@ -22,6 +22,10 @@ class CreateBeaconModal extends BaseComponent {
       withDecor: false,
       children: [
         Text("Create Beacon"),
+        Text(
+          "Setup your wallet as a beacon to partipate in media transferring on the RBX network. The name is a friendly name only visible to you. You can configure a specific port or just use the default setting.",
+          style: Theme.of(context).textTheme.caption,
+        ),
         Form(
           key: provider.formKey,
           child: Row(
