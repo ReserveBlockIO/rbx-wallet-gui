@@ -18,9 +18,9 @@ class EncryptWalletButton extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (ref.watch(walletListProvider).isEmpty) {
-      return SizedBox.shrink();
-    }
+    // if (ref.watch(walletListProvider).isEmpty) {
+    //   return SizedBox.shrink();
+    // }
 
     if (ref.watch(walletIsEncryptedProvider)) {
       if (ref.watch(passwordRequiredProvider)) {
@@ -74,6 +74,11 @@ class EncryptWalletButton extends BaseComponent {
     return AppButton(
       label: "Encrypt Wallet",
       onPressed: () async {
+        if (ref.read(walletListProvider).isEmpty) {
+          Toast.error("No keys to encrypt.");
+          return;
+        }
+
         final password = await PromptModal.show(
           title: "Encrypt Wallet",
           validator: (value) => formValidatorNotEmpty(value, "Password"),

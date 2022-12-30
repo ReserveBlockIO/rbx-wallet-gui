@@ -59,7 +59,7 @@ class HdWalletButton extends BaseComponent {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text("Generate a mneumonic to recover your wallet."),
+                    Text("By creating an HD wallet you are creating a function to recover your private keys by use of recovery phrase."),
                     SizedBox(
                       height: 8,
                     ),
@@ -166,23 +166,24 @@ class RecoveryPhraseDialog extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text("Copy your recovery phrase to a secure location."),
-            Row(
+            Column(
               children: [
-                Expanded(
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      label: Text("Recovery Phrase"),
-                    ),
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-                    initialValue: mneumonic,
-                    readOnly: true,
-                    minLines: 1,
-                    maxLines: 6,
+                TextFormField(
+                  decoration: InputDecoration(
+                    label: Text("Recovery Phrase"),
                   ),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                  initialValue: mneumonic,
+                  readOnly: true,
+                  minLines: 1,
+                  maxLines: 6,
                 ),
                 // IconButton(onPressed:  (){}, icon: Icon(Icons.copy))
+                SizedBox(
+                  height: 16,
+                ),
                 AppButton(
-                  label: "Copy",
+                  label: "Copy to Clipboard",
                   icon: Icons.copy,
                   onPressed: () async {
                     await Clipboard.setData(ClipboardData(text: mneumonic));

@@ -18,17 +18,11 @@ const MIN_HEIGHT = 600.0;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Env.init();
-  // setPathUrlStrategy();
   await initSingletons();
 
   if (!kIsWeb && Platform.isMacOS) {
-  // if (!kIsWeb) {
     await DesktopWindow.setWindowSize(const Size(DEFAULT_WIDTH, DEFAULT_HEIGHT));
-
-    // if(Platform.isMacOS) {
-
     await DesktopWindow.setMinWindowSize(const Size(MIN_WIDTH, MIN_HEIGHT));
-    // }
   }
 
   tz.initializeTimeZones();

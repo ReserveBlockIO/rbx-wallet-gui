@@ -1,6 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/base_component.dart';
+import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/encrypt/providers/startup_password_required_provider.dart';
 import 'package:rbx_wallet/features/encrypt/components/unlock_wallet.dart';
 
@@ -11,11 +15,11 @@ import '../home/components/footer.dart';
 import 'navigation/components/main_menu.dart';
 import 'status/components/status_container.dart';
 
-class RootContainer extends StatelessWidget {
+class RootContainer extends BaseComponent {
   const RootContainer({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final List<PageRouteInfo> routes = [
       const HomeTabRouter(),
       const SendTabRouter(),
@@ -57,6 +61,37 @@ class RootContainer extends StatelessWidget {
                             color: Colors.white,
                           ),
                         ),
+                      ),
+                    ),
+                  ),
+                if (ref.watch(walletInfoProvider) != null &&
+                    (ref.watch(walletInfoProvider)!.duplicateValidatorAddress || ref.watch(walletInfoProvider)!.duplicateValidatorIp))
+                  Container(
+                    width: double.infinity,
+                    color: Theme.of(context).colorScheme.danger,
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Center(
+                        child: Builder(builder: (context) {
+                          String text = "";
+                          if (ref.watch(walletInfoProvider)!.duplicateValidatorAddress && ref.watch(walletInfoProvider)!.duplicateValidatorIp) {
+                            text = "Duplicate Address and IP is being used to validate.";
+                          } else if (ref.watch(walletInfoProvider)!.duplicateValidatorAddress) {
+                            text = "Duplicate Address is being used to validate.";
+                          } else {
+                            text = "Duplicate IP Address is being used to validate.";
+                          }
+
+                          return Text(
+                            text,
+                            style: TextStyle(
+                              fontSize: 12,
+                              letterSpacing: 1,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          );
+                        }),
                       ),
                     ),
                   ),

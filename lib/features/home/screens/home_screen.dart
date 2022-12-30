@@ -279,21 +279,7 @@ class HomeScreen extends BaseScreen {
                         }
                       },
                     ),
-                  AppButton(
-                    label: "Create Beacon",
-                    onPressed: () async {
-                      final value = await PromptModal.show(
-                        title: "Beacon Name",
-                        validator: (value) => formValidatorNotEmpty(value, "Beacon Name"),
-                        labelText: "Beacon Name",
-                      );
 
-                      if (value != null && value.isNotEmpty) {
-                        print(value);
-                        print("----");
-                      }
-                    },
-                  ),
                   // if (Platform.isMacOS)
                   AppButton(
                     label: "Backup",
