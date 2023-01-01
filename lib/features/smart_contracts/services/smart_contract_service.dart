@@ -59,10 +59,7 @@ class SmartContractService extends BaseService {
     print("------------");
 
     try {
-      final response = await postJson(
-        "/CreateSmartContract",
-        params: p,
-      );
+      final response = await postJson("/CreateSmartContract", params: p, timeout: 99999999);
 
       // print("==============");
       // print(jsonEncode(response['data'][0]));
@@ -134,7 +131,7 @@ class SmartContractService extends BaseService {
   Future<bool> mint(String id) async {
     try {
       print("-------------ID $id------------");
-      final response = await getText("/MintSmartContract/$id");
+      final response = await getText("/MintSmartContract/$id", timeout: 99999999);
 
       if (response == "Smart contract has been published to mempool") {
         return true;
@@ -189,7 +186,7 @@ class SmartContractService extends BaseService {
       assetPath = assetPath.replaceAll("/", "%2F").replaceAll("\\", "%5C");
       final url = "/AssociateNFTAsset/$nftId/$assetPath";
 
-      final response = await getText(url, cleanPath: false);
+      final response = await getText(url, cleanPath: false, timeout: 99999999);
       final data = jsonDecode(response);
 
       print(response);
@@ -210,7 +207,7 @@ class SmartContractService extends BaseService {
 
   Future<bool> downloadAssets(String nftId) async {
     try {
-      final data = await getText("/DownloadNftAssets/$nftId");
+      final data = await getText("/DownloadNftAssets/$nftId", timeout: 99999999);
       print(data);
       return true;
     } catch (e) {
