@@ -8,6 +8,7 @@ import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/adnr/providers/adnr_pending_provider.dart';
 import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
 import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
+import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
@@ -43,14 +44,11 @@ class CreateAdnrDialog extends BaseComponent {
               ),
               TextFormField(
                 controller: controller,
-                validator: (value) =>
-                    formValidatorAlphaNumeric(value, "Domain Name"),
+                validator: (value) => formValidatorAlphaNumeric(value, "Domain Name"),
                 decoration: InputDecoration(
                   label: Text("Domain Name"),
                 ),
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]'))
-                ],
+                inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]'))],
               ),
             ],
           ),
@@ -76,25 +74,21 @@ class CreateAdnrDialog extends BaseComponent {
               Toast.error("Maximum characters for domain is 65");
               return;
             }
-
-            final result =
-                await TransactionService().createAdnr(address, controller.text);
+            ref.read(globalLoadingProvider.notifier).start();
+            final result = await TransactionService().createAdnr(address, controller.text);
+            ref.read(globalLoadingProvider.notifier).complete();
 
             if (result.success) {
-              Toast.message(
-                  "Transaction has been broadcasted. See log for hash.");
+              Toast.message("Transaction has been broadcasted. See log for hash.");
               if (result.hash != null) {
                 ref.read(logProvider.notifier).append(
                       LogEntry(
-                          message:
-                              "ADNR create transaction broadcasted. Tx Hash: ${result.hash}",
+                          message: "ADNR create transaction broadcasted. Tx Hash: ${result.hash}",
                           textToCopy: result.hash,
                           variant: AppColorVariant.Success),
                     );
 
-                ref
-                    .read(adnrPendingProvider.notifier)
-                    .addId(address, "create", adnr ?? "null");
+                ref.read(adnrPendingProvider.notifier).addId(address, "create", adnr ?? "null");
               }
 
               Navigator.of(context).pop();

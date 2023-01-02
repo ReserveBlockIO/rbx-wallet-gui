@@ -316,4 +316,17 @@ class BridgeService extends BaseService {
       return false;
     }
   }
+
+  Future<bool> validateSendToAddress(String address) async {
+    try {
+      final response = await getText("/ValidateAddress/$address", cleanPath: false);
+      if (response.toLowerCase() == "true") {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
 }

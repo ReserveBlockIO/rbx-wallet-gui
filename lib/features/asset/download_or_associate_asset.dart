@@ -66,6 +66,7 @@ class _DownloadOrAssociateState extends State<DownloadOrAssociate> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text("Media asset file not found on your machine (${widget.asset.fileName})."),
+            Text("Please check any other wallets with the same address for the media."),
             SizedBox(
               height: 6,
             ),

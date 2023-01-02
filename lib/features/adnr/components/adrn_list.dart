@@ -151,7 +151,8 @@ class AdnrList extends BaseComponent {
                           }
                           final confirmed = await ConfirmDialog.show(
                             title: "Delete RBX Domain?",
-                            body: "Are you sure you want to delete this RBX Domain?",
+                            body:
+                                "Are you sure you want to delete this RBX Domain?\n\nOnce deleted, this ADNR will no longer be able to receive any transactions.",
                             destructive: true,
                             cancelText: "Cancel",
                             confirmText: "Delete",

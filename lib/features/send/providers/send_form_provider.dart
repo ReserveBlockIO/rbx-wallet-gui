@@ -150,6 +150,13 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
       if (!guardWalletIsSynced(read)) return;
       if (!guardWalletIsNotResyncing(read)) return;
 
+      final addressIsValid = await BridgeService().validateSendToAddress(address.trim().replaceAll("\n", ""));
+
+      if (!addressIsValid) {
+        Toast.error("Invalid Address");
+        return;
+      }
+
       final amountDouble = double.tryParse(amount);
       if (amountDouble == null) {
         Toast.error("Invalid amount");
@@ -240,13 +247,9 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
         state = state.copyWith(isProcessing: false);
 
         if (message != null) {
-          Toast.message(
-              "$amount RBX has been sent to $address. See dashboard for TX ID.");
+          Toast.message("$amount RBX has been sent to $address. See dashboard for TX ID.");
           read(logProvider.notifier).append(
-            LogEntry(
-                message: message,
-                textToCopy: message.replaceAll("Success! TxId: ", ""),
-                variant: AppColorVariant.Success),
+            LogEntry(message: message, textToCopy: message.replaceAll("Success! TxId: ", ""), variant: AppColorVariant.Success),
           );
           clear();
         }
@@ -259,7 +262,6 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
   }
 }
 
-final sendFormProvider =
-    StateNotifierProvider<SendFormProvider, SendFormModel>((ref) {
+final sendFormProvider = StateNotifierProvider<SendFormProvider, SendFormModel>((ref) {
   return SendFormProvider(ref.read);
 });

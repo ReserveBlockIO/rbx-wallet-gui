@@ -146,7 +146,6 @@ class SmartContractService extends BaseService {
   Future<bool> transfer(String id, String address, String? url) async {
     try {
       final text = await getText(url != null && url.isNotEmpty ? "/TransferNFT/$id/$address/$url" : "/TransferNFT/$id/$address");
-      print("TRANSFER: $text");
 
       final Map<String, dynamic> data = jsonDecode(text);
       if (!data.containsKey("Hash") && data['Hash'] != null && data['Hash'] != "") {

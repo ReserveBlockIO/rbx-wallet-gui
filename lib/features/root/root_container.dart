@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
@@ -82,14 +83,40 @@ class RootContainer extends BaseComponent {
                             text = "Duplicate IP Address is being used to validate.";
                           }
 
-                          return Text(
-                            text,
-                            style: TextStyle(
-                              fontSize: 12,
-                              letterSpacing: 1,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
+                          return Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                text,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  letterSpacing: 1,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  InfoDialog.show(
+                                      title: text,
+                                      body:
+                                          "To fix this issue, please complete the following tasks\n\n- Stop Validating on all machines\n- All machines with current addresses must be restarted\n- Restart validating on one machine only");
+                                },
+                                child: Text(
+                                  "Fix Now",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    letterSpacing: 1,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ),
+                            ],
                           );
                         }),
                       ),
