@@ -150,10 +150,11 @@ class ValidatorScreen extends BaseScreen {
                     title: "Name your validator",
                     validator: (value) => formValidatorNotEmpty(value, "Validator Name"),
                     labelText: "Validator Name",
+                    lines: 1,
                     onValidSubmission: (name) async {
                       ref.read(globalLoadingProvider.notifier).start();
 
-                      final success = await ref.read(currentValidatorProvider.notifier).startValidating(name);
+                      final success = await ref.read(currentValidatorProvider.notifier).startValidating(name.trim().replaceAll("\n", ""));
                       ref.read(globalLoadingProvider.notifier).complete();
 
                       if (success) {
@@ -223,10 +224,11 @@ class ValidatorScreen extends BaseScreen {
                 title: "Validator Name",
                 validator: (val) => formValidatorNotEmpty(val, "Name"),
                 labelText: "New Validator Name",
+                lines: 1,
               );
 
               if (name != null && name.isNotEmpty) {
-                final success = await BridgeService().renameValidator(name);
+                final success = await BridgeService().renameValidator(name.trim().replaceAll("\n", ""));
                 if (success) {
                   Toast.message("Validator name changed to $name.");
 

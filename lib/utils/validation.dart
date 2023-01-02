@@ -33,6 +33,7 @@ bool isValidPassword(String password) {
 }
 
 bool isValidRbxAddress(String address) {
+  address = address.trim().replaceAll("\n", "");
   if (address.length != 34) {
     return false;
   }
