@@ -125,7 +125,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     final success = await SmartContractService().transfer(id, address, url);
     read(globalLoadingProvider.notifier).complete();
     if (success == true) {
-      read(transferredProvider.notifier).addId(id);
+      read(transferredProvider.notifier).addId("$id:${state?.currentOwner}");
     }
     return success;
   }
