@@ -435,6 +435,7 @@ class NftDetailScreen extends BaseScreen {
                                   formValidatorRbxAddress(value, true),
                               labelText: "RBX Address",
                               confirmText: "Continue",
+                              lines: 1,
                               onValidSubmission: (address) async {
                                 bool? success;
 
