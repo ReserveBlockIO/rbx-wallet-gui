@@ -234,15 +234,19 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
       try {
         final message = await BridgeService().sendFunds(
           amount: double.parse(amount),
-          to: address,
+          to: address.trim().replaceAll("\n", ""),
           from: read(sessionProvider).currentWallet!.address,
         );
         state = state.copyWith(isProcessing: false);
 
         if (message != null) {
-          Toast.message("$amount RBX has been sent to $address. See dashboard for TX ID.");
+          Toast.message(
+              "$amount RBX has been sent to $address. See dashboard for TX ID.");
           read(logProvider.notifier).append(
-            LogEntry(message: message, textToCopy: message.replaceAll("Success! TxId: ", ""), variant: AppColorVariant.Success),
+            LogEntry(
+                message: message,
+                textToCopy: message.replaceAll("Success! TxId: ", ""),
+                variant: AppColorVariant.Success),
           );
           clear();
         }
@@ -255,6 +259,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
   }
 }
 
-final sendFormProvider = StateNotifierProvider<SendFormProvider, SendFormModel>((ref) {
+final sendFormProvider =
+    StateNotifierProvider<SendFormProvider, SendFormModel>((ref) {
   return SendFormProvider(ref.read);
 });
