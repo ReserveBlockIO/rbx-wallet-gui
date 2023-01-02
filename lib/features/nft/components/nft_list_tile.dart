@@ -52,7 +52,7 @@ class NftListTile extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isBurned = ref.watch(burnedProvider).contains(nft.id);
-    final isTransferred = ref.watch(transferredProvider).contains("${nft.id}:${nft.currentOwner}");
+    final isTransferred = ref.watch(transferredProvider).contains(nft.id);
 
     return ListTile(
       onTap: isBurned || (isTransferred && !manageOnPress)
