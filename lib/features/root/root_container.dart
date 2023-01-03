@@ -103,7 +103,7 @@ class RootContainer extends BaseComponent {
                                   InfoDialog.show(
                                       title: text,
                                       body:
-                                          "To fix this issue, please complete the following tasks\n\n- Stop Validating on all machines\n- All machines with current addresses must be restarted\n- Restart validating on one machine only");
+                                          "To fix this issue, please complete the following tasks:\n\n- Stop Validating on all machines\n- All machines with current addresses must be restarted\n- Restart validating on one machine only");
                                 },
                                 child: Text(
                                   "Fix Now",
