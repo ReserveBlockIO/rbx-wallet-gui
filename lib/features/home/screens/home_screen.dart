@@ -149,7 +149,7 @@ class HomeScreen extends BaseScreen {
                   //     await ref.read(walletInfoProvider.notifier).infoLoop(false);
                   //   },
                   // ),
-                  if (!ref.watch(walletIsEncryptedProvider)) HdWalletButton(),
+                  HdWalletButton(),
                   if (ref.watch(walletListProvider).isEmpty) RestoreHdWalletButton(),
                   EncryptWalletButton(),
                   AppButton(

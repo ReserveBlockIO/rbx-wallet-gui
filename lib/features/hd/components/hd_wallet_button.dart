@@ -34,6 +34,11 @@ class HdWalletButton extends BaseComponent {
     return AppButton(
       label: "Create HD Wallet",
       onPressed: () async {
+        if (ref.read(walletIsEncryptedProvider)) {
+          Toast.error("You can not create an HD wallet with an encrypted wallet.");
+          return;
+        }
+
         final String? mneumonic = await showDialog(
           context: context,
           builder: (context) {
