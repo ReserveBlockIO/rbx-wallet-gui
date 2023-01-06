@@ -8,22 +8,11 @@ import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
 import 'package:rbx_wallet/features/home/components/log_item.dart';
 
 class LogWindow extends BaseComponent {
-  LogWindow({Key? key}) : super(key: key);
-
-  // final scrollController = ScrollController();
+  const LogWindow({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final logEntries = ref.watch(logProvider);
-
-    // ref.listen(logProvider, (_, __) async {
-    //   print("log update");
-    //   scrollController.animateTo(
-    //     scrollController.position.maxScrollExtent,
-    //     duration: const Duration(milliseconds: 500),
-    //     curve: Curves.ease,
-    //   );
-    // });
 
     return Column(
       mainAxisSize: MainAxisSize.min,

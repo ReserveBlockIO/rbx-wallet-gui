@@ -350,7 +350,7 @@ class HomeScreen extends BaseScreen {
                 ],
               ),
             const Divider(),
-            LogWindow(),
+            const LogWindow(),
             const Divider(),
             const TransactionWindow(),
           ],
