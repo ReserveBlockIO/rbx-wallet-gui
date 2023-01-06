@@ -442,7 +442,7 @@ class NftDetailScreen extends BaseScreen {
                                           await InfoDialog.show(
                                             title: "Transfer in Progress",
                                             body:
-                                                "Please ensure you don't close your wallet until the transaction is marked with a status of success in your transaction list.",
+                                                "Please ensure to keep your wallet open until this NFT transfer transaction appears in your transaction list.\n\nTo monitor the asset transfer progress, open your 'nftlog.txt' in your databases folder.",
                                             closeText: "Okay",
                                           );
 
