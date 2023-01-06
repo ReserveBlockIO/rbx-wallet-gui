@@ -60,6 +60,7 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
     }
 
     final prevIsSyncing = state == null ? true : state!.isSyncing;
+    final prevIsChainSynced = state == null ? false : state!.isChainSynced;
 
     final int blockHeight = int.parse(data['BlockHeight']);
     final int peerCount = int.parse(data['PeerCount']);
@@ -100,7 +101,7 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
       );
     }
 
-    if (prevIsSyncing && !isSyncing) {
+    if (!prevIsChainSynced && isChainSynced) {
       read(logProvider.notifier).append(
         LogEntry(
           message: "Your wallet is now synced. Thank you for waiting.",
