@@ -439,6 +439,13 @@ class NftDetailScreen extends BaseScreen {
                                       if (confirmed == true) {
                                         success = await _provider.transfer(address, url);
                                         if (success == true) {
+                                          await InfoDialog.show(
+                                            title: "Transfer in Progress",
+                                            body:
+                                                "Please ensure you don't close your wallet until the transaction is marked with a status of success in your transaction list.",
+                                            closeText: "Okay",
+                                          );
+
                                           Navigator.of(context).pop();
                                         } else {
                                           Toast.error();

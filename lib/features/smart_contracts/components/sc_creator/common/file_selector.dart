@@ -76,7 +76,8 @@ class FileSelector extends BaseComponent {
       final fileSize = (await File(filePath).readAsBytes()).length;
 
       if (fileSize > MAX_ASSET_BYTES) {
-        Toast.error("Max file size is 150MB.");
+        // Toast.error("Max file size is 150MB.");
+        InfoDialog.show(title: "File is too large", body: "Max file size is 150MB.");
         return;
       }
 
