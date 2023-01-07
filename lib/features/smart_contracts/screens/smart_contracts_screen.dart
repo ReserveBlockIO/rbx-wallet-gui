@@ -79,6 +79,8 @@ class SmartContractsScreen extends BaseScreen {
                     }
                     // }
 
+                    ref.read(createSmartContractProvider.notifier).clearSmartContract();
+
                     final id = await AutoRouter.of(context).push(const SmartContractCreatorContainerScreenRoute());
 
                     if (id != null) {

@@ -64,6 +64,18 @@ class SmartContractCreatorMain extends BaseComponent {
       return;
     }
 
+    if (_provider.shouldWarnEvo) {
+      final shouldContinue = await ConfirmDialog.show(
+        title: "Evolve stage(s) in the past",
+        body: "One or more of your evolve stages will have already evolved at the time of minting.\n\nAre your sure you want to proceed?",
+        confirmText: "Continue",
+        cancelText: "Cancel",
+      );
+      if (shouldContinue != true) {
+        return;
+      }
+    }
+
     if (!kIsWeb) {
       if (ref.read(sessionProvider).currentWallet!.balance < MIN_RBX_FOR_SC_ACTION) {
         Toast.error("Not enough RBX balance to mint a smart contract.");

@@ -139,6 +139,9 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
     nameController.text = "";
     descriptionController.text = "";
     blockHeightController.text = "";
+    dateController.text = "";
+    timeController.text = "";
+    blockHeightController.text = "";
     setAsset(null);
   }
 }
