@@ -41,6 +41,7 @@ class EvolveFormProvider extends StateNotifier<Evolve> {
   }
 
   removePhase(int index) {
+    read(evolvePhaseFormProvider(index).notifier).clear();
     state = state.copyWith(phases: [...state.phases]..removeAt(index));
   }
 
