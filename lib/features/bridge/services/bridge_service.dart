@@ -62,8 +62,6 @@ class BridgeService extends BaseService {
       final data = await getText("/GetDecryptWallet/$password", cleanPath: false);
       final response = jsonDecode(data);
 
-      print(response);
-
       if (response['Result'] != null && response['Result'] == "Success") {
         return true;
       }

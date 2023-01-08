@@ -24,8 +24,6 @@ class _UnlockWalletState extends State<UnlockWallet> {
   String password = "";
 
   Future<void> submit() async {
-    // final success = await BridgeService().unlockWallet(password);
-    print(password);
     final success = await widget.read(passwordRequiredProvider.notifier).unlock(password);
     if (success == true) {
       Toast.message("Wallet unlocked!");

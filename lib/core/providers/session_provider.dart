@@ -502,7 +502,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
       return true;
     }
 
-    read(logProvider.notifier).append(LogEntry(message: "CLI not ready yet. Trying again in 5 seconds."));
+    read(logProvider.notifier).append(LogEntry(message: "CLI loading..."));
 
     await Future.delayed(const Duration(seconds: 5));
     return _cliCheck(attempt + 1, maxAttempts);
