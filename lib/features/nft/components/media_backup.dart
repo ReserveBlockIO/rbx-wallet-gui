@@ -1,11 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
+import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/transactions/providers/transaction_list_provider.dart';
 import 'package:collection/collection.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 class MediaBackup extends BaseComponent {
   final Nft nft;
@@ -13,9 +16,7 @@ class MediaBackup extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tx = ref
-        .watch(transactionListProvider(TransactionListType.All))
-        .firstWhereOrNull((t) {
+    final tx = ref.watch(transactionListProvider(TransactionListType.All)).firstWhereOrNull((t) {
       if (t.type != 3) {
         return false;
       }
@@ -62,6 +63,17 @@ class MediaBackup extends BaseComponent {
             style: Theme.of(context).textTheme.headline5,
           ),
           SelectableText(backupUrl),
+          SizedBox(
+            height: 6,
+          ),
+          AppButton(
+            label: "Copy URL",
+            onPressed: () async {
+              await Clipboard.setData(ClipboardData(text: backupUrl));
+              Toast.message("URL copied to clipboard");
+            },
+            icon: Icons.copy,
+          )
         ],
       ),
     );
