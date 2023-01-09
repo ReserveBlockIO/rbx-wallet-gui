@@ -21,7 +21,7 @@ Future<String> configPath() async {
     final winDir = await getApplicationSupportDirectory();
     path = winDir.path;
     path = path.replaceAll(
-        "\\Roaming\\com.example\\rbx_wallet_gui", "\\Local\\${Env.isTestNet ? 'RBXTest\\ConfigTextNet\\config.txt' : 'RBX\\Config\\config.txt'}");
+        "\\Roaming\\com.example\\rbx_wallet_gui", "\\Local\\${Env.isTestNet ? 'RBXTest\\ConfigTestNet\\config.txt' : 'RBX\\Config\\config.txt'}");
   }
   return path;
 }
