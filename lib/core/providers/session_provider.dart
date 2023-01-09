@@ -21,6 +21,8 @@ import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
 import 'package:rbx_wallet/features/bridge/providers/status_provider.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
+import 'package:rbx_wallet/features/config/models/config.dart';
+import 'package:rbx_wallet/features/config/providers/config_provider.dart';
 import 'package:rbx_wallet/features/encrypt/providers/password_required_provider.dart';
 import 'package:rbx_wallet/features/encrypt/providers/startup_password_required_provider.dart';
 import 'package:rbx_wallet/features/encrypt/providers/wallet_is_encrypted_provider.dart';
@@ -42,6 +44,7 @@ import 'package:collection/collection.dart';
 
 import 'package:intl/intl.dart';
 import 'package:process_run/shell.dart';
+import 'package:rbx_wallet/utils/files.dart';
 import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 
@@ -493,7 +496,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
     final isRunning = await _cliIsActive();
     if (isRunning) {
       read(logProvider.notifier).append(LogEntry(message: "ReserveBlockCore Started Successfully", variant: AppColorVariant.Success));
-
+      await fetchConfig();
       final cliVersion = await BridgeService().getCliVersion();
       read(logProvider.notifier).append(LogEntry(message: "CLI Version: $cliVersion", variant: AppColorVariant.Info));
       state = state.copyWith(cliVersion: cliVersion);
@@ -512,6 +515,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
     if (Env.launchCli) {
       if (await _cliIsActive()) {
         print("CLI is already running");
+        await fetchConfig();
         read(logProvider.notifier).append(LogEntry(message: "CLI is already running!"));
 
         return true;
@@ -586,6 +590,31 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
   void setIsMintingOrCompiling(bool value) {
     state = state.copyWith(isMintingOrCompiling: value);
+  }
+
+  Future<void> fetchConfig() async {
+    read(logProvider.notifier).append(LogEntry(
+      message: "Fetching Config.",
+    ));
+    final path = await configPath();
+
+    try {
+      final lines = await File(path).readAsLines();
+
+      Map<String, dynamic> kwargs = {};
+      for (final line in lines) {
+        final kwarg = line.split("=");
+        kwargs[kwarg[0].trim()] = kwarg[1].trim();
+      }
+
+      final config = Config.fromJson(kwargs);
+
+      read(configProvider.notifier).setConfig(config);
+      print(lines);
+      print("*********");
+    } catch (e) {
+      print(e);
+    }
   }
 }
 

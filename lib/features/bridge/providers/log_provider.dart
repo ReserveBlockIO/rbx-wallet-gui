@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
 
+const LOG_HISTORY_LENGTH = 1000;
+
 class LogProvider extends StateNotifier<List<LogEntry>> {
   final Reader read;
   final ScrollController scrollController = ScrollController();
@@ -9,7 +11,13 @@ class LogProvider extends StateNotifier<List<LogEntry>> {
   LogProvider(this.read, [List<LogEntry> model = const []]) : super(model);
 
   void append(LogEntry entry) async {
-    state = [...state, entry];
+    final items = [...state, entry];
+    if (items.length > LOG_HISTORY_LENGTH) {
+      state = items.getRange(items.length - LOG_HISTORY_LENGTH, items.length).toList();
+    } else {
+      state = items;
+    }
+
     if (scrollController.hasClients) {
       await Future.delayed(Duration(milliseconds: 300));
       scrollController.animateTo(
