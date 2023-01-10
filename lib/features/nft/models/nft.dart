@@ -215,7 +215,7 @@ abstract class Nft with _$Nft {
   }
 
   String get explorerUrl {
-    return "https://rbx.network/nft/$id";
+    return "${Env.baseExplorerUrl}nft/$id";
   }
 
   String get truncatedName {

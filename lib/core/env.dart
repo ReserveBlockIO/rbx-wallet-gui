@@ -61,6 +61,18 @@ class Env {
     await DotEnv.dotenv.load(fileName: envPath);
   }
 
+  static String get baseExplorerUrl {
+    switch (_env) {
+      case _Environment.MacTestNet:
+      case _Environment.WinTestNet:
+      case _Environment.ReleaseTestNet:
+      case _Environment.BlockExplorerTestNet:
+        return 'https://testnet.rbx.network/';
+      default:
+        return 'https://rbx.network/';
+    }
+  }
+
   static String get envName {
     return DotEnv.dotenv.env['ENVIRONMENT_NAME'] ?? 'unset';
   }
