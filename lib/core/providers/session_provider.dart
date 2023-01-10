@@ -211,8 +211,10 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
     loadTopics();
 
-    await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
-    mainLoop();
+    if (inLoop) {
+      await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
+      mainLoop();
+    }
   }
 
   void loadTopics() {
