@@ -1,7 +1,7 @@
 ENVIRONMENT_NAME=web_dev
 STORAGE_PREFIX=web_dev
 EXPLORER_API_BASE_URL=https://rbx-explorer-service-testnet.herokuapp.com/api
-TRANSACTION_API_BASE_URL=http://localhost:8000/api/v1
+TRANSACTION_API_BASE_URL=https://rbx-transaction-service-tstnet.herokuapp.com/api/v1
 LAUNCH_CLI=false
 ALLOW_VALIDATING=false
 IS_WEB=true

@@ -13,11 +13,11 @@ enum _Environment {
   WinTestNet,
   BlockExplorer,
   Web,
-  WebDev,
+  WebTestNet,
   BlockExplorerTestNet,
 }
 
-const _env = _Environment.ReleaseTestNet;
+const _env = _Environment.WebTestNet;
 
 class Env {
   static init() async {
@@ -53,7 +53,7 @@ class Env {
       case _Environment.Web:
         envPath = Assets.env.webEnv;
         break;
-      case _Environment.WebDev:
+      case _Environment.WebTestNet:
         envPath = Assets.env.webDevEnv;
         break;
     }

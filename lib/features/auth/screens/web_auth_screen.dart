@@ -12,7 +12,9 @@ import 'package:rbx_wallet/core/singletons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/auth/auth_utils.dart';
+import 'package:rbx_wallet/features/auth/components/auth_type_modal.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
+import 'package:rbx_wallet/utils/validation.dart';
 
 class WebAuthScreen extends BaseStatefulScreen {
   const WebAuthScreen({Key? key})
@@ -115,40 +117,60 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                     label: "Create Wallet",
                     icon: Icons.add,
                     onPressed: () {
-                      AuthModal.show(
-                          context: context,
-                          onValidSubmission: (auth) async {
-                            await handleCreateWithEmail(
-                              context,
-                              ref,
-                              auth.email,
-                              auth.password,
-                            );
-                            if (ref.read(webSessionProvider).isAuthenticated) {
-                              redirectToDashboard();
-                            }
-                          });
+                      // AuthModal.show(
+                      //     context: context,
+                      //     onValidSubmission: (auth) async {
+                      //       await handleCreateWithEmail(
+                      //         context,
+                      //         ref,
+                      //         auth.email,
+                      //         auth.password,
+                      //       );
+                      //       if (ref.read(webSessionProvider).isAuthenticated) {
+                      //         redirectToDashboard();
+                      //       }
+                      //     });
 
-                      // showModalBottomSheet(
-                      //   backgroundColor: Colors.transparent,
-                      //   context: context,
-                      //   builder: (context) {
-                      //     return AuthTypeModal(
-                      //       handleMneumonic: () async {
-                      //         await handleCreateWithMnemonic(context, ref);
-                      //         print('done');
-                      //         if (ref
-                      //             .read(webSessionProvider)
-                      //             .isAuthenticated) {
-                      //           redirectToDashboard();
-                      //         }
-                      //       },
-                      //       handleUsername: () {
+                      showModalBottomSheet(
+                        backgroundColor: Colors.transparent,
+                        context: context,
+                        builder: (context) {
+                          return AuthTypeModal(
+                            handleMneumonic: () async {
+                              final email = await PromptModal.show(
+                                contextOverride: context,
+                                title: "Email Address",
+                                labelText: "Email",
+                                validator: formValidatorEmail,
+                              );
 
-                      //       },
-                      //     );
-                      //   },
-                      // );
+                              if (email == null || email.isEmpty) {
+                                return;
+                              }
+
+                              await handleCreateWithMnemonic(context, ref, email);
+                              if (ref.read(webSessionProvider).isAuthenticated) {
+                                redirectToDashboard();
+                              }
+                            },
+                            handleUsername: () {
+                              AuthModal.show(
+                                  context: context,
+                                  onValidSubmission: (auth) async {
+                                    await handleCreateWithEmail(
+                                      context,
+                                      ref,
+                                      auth.email,
+                                      auth.password,
+                                    );
+                                    if (ref.read(webSessionProvider).isAuthenticated) {
+                                      redirectToDashboard();
+                                    }
+                                  });
+                            },
+                          );
+                        },
+                      );
                     },
                     variant: AppColorVariant.Light,
                   ),
@@ -157,51 +179,74 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                     label: "Login",
                     icon: Icons.upload,
                     onPressed: () {
-                      AuthModal.show(
-                        context: context,
-                        forCreate: false,
-                        onValidSubmission: (auth) async {
-                          await handleCreateWithEmail(context, ref, auth.email, auth.password, false);
-
-                          if (ref.read(webSessionProvider).isAuthenticated) {
-                            redirectToDashboard();
-                          }
-                        },
-                      );
-
-                      // showModalBottomSheet(
-                      //   backgroundColor: Colors.transparent,
+                      // AuthModal.show(
                       //   context: context,
-                      //   builder: (context) {
-                      //     return AuthTypeModal(
-                      //       handleMneumonic: () async {
-                      //         await handleRecoverFromMnemonic(context, ref);
+                      //   forCreate: false,
+                      //   onValidSubmission: (auth) async {
+                      //     await handleCreateWithEmail(context, ref, auth.email, auth.password, false);
 
-                      //         //do stuff
-                      //       },
-                      //       handleUsername: () {
-                      //         AuthModal.show(
-                      //           context: context,
-                      //           forCreate: false,
-                      //           onValidSubmission: (auth) async {
-                      //             await handleCreateWithEmail(context, ref, auth.email, auth.password, false);
-
-                      //             if (ref.read(webSessionProvider).isAuthenticated) {
-                      //               redirectToDashboard();
-                      //             }
-                      //           },
-                      //         );
-                      //       },
-                      //       handlePrivateKey: (context) async {
-                      //         await handleImportWithPrivateKey(context, ref);
-
-                      //         if (ref.read(webSessionProvider).isAuthenticated) {
-                      //           redirectToDashboard();
-                      //         }
-                      //       },
-                      //     );
+                      //     if (ref.read(webSessionProvider).isAuthenticated) {
+                      //       redirectToDashboard();
+                      //     }
                       //   },
                       // );
+
+                      showModalBottomSheet(
+                        backgroundColor: Color.fromRGBO(0, 0, 0, 0),
+                        context: context,
+                        builder: (context) {
+                          return AuthTypeModal(
+                            handleMneumonic: () async {
+                              final email = await PromptModal.show(
+                                contextOverride: context,
+                                title: "Email Address",
+                                labelText: "Email",
+                                validator: formValidatorEmail,
+                              );
+
+                              if (email == null || email.isEmpty) {
+                                return;
+                              }
+
+                              await handleRecoverFromMnemonic(context, ref, email);
+
+                              //do stuff
+                            },
+                            handleUsername: () {
+                              AuthModal.show(
+                                context: context,
+                                forCreate: false,
+                                onValidSubmission: (auth) async {
+                                  await handleCreateWithEmail(context, ref, auth.email, auth.password, false);
+
+                                  if (ref.read(webSessionProvider).isAuthenticated) {
+                                    redirectToDashboard();
+                                  }
+                                },
+                              );
+                            },
+                            handlePrivateKey: (context) async {
+                              final email = await PromptModal.show(
+                                contextOverride: context,
+                                title: "Email Address",
+                                labelText: "Email",
+                                validator: formValidatorEmail,
+                              );
+
+                              if (email == null || email.isEmpty) {
+                                return;
+                              }
+
+                              await handleImportWithPrivateKey(context, ref, email);
+                              await Future.delayed(Duration(milliseconds: 300));
+
+                              if (ref.read(webSessionProvider).isAuthenticated) {
+                                redirectToDashboard();
+                              }
+                            },
+                          );
+                        },
+                      );
                     },
                     variant: AppColorVariant.Light,
                   ),
