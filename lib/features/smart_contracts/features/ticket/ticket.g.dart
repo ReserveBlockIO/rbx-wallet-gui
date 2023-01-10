@@ -27,7 +27,7 @@ _$_Ticket _$$_TicketFromJson(Map<String, dynamic> json) => _$_Ticket(
 
 Map<String, dynamic> _$$_TicketToJson(_$_Ticket instance) => <String, dynamic>{
       'id': instance.id,
-      'type': _$TicketTypeEnumMap[instance.type],
+      'type': _$TicketTypeEnumMap[instance.type]!,
       'eventName': instance.eventName,
       'eventDate': instance.eventDate?.toIso8601String(),
       'eventAddress': instance.eventAddress,
