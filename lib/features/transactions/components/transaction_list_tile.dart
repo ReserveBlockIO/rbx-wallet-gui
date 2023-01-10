@@ -11,6 +11,8 @@ import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../core/env.dart';
+
 class TransactionListTile extends BaseStatefulComponent {
   final bool compact;
   final Transaction transaction;
@@ -100,7 +102,8 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                           ),
                           InkWell(
                             onTap: () async {
-                              final url = "https://rbx.network/transaction/${widget.transaction.hash}";
+                              print(Env.envName);
+                              final url = "${Env.baseExplorerUrl}transaction/${widget.transaction.hash}";
                               await launchUrl(Uri.parse(url));
                             },
                             child: const Icon(

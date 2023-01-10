@@ -14,6 +14,8 @@ import 'package:rbx_wallet/features/web/components/web_wallet_details.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../core/env.dart';
+
 class WebHomeScreen extends BaseScreen {
   const WebHomeScreen({Key? key})
       : super(
@@ -192,7 +194,7 @@ class _Actions extends BaseComponent {
             AppButton(
               label: "Open Explorer",
               onPressed: () {
-                launchUrl(Uri.parse("https://rbx.network/"));
+                launchUrl(Uri.parse(Env.baseExplorerUrl));
               },
             ),
             // AppButton(
