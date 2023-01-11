@@ -5,6 +5,7 @@ import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/features/mother/components/mother_modal.dart';
+import 'package:rbx_wallet/features/mother/services/mother_service.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class MotherButton extends BaseComponent {
@@ -15,11 +16,13 @@ class MotherButton extends BaseComponent {
     return AppButton(
       label: "MOTHER",
       onPressed: () async {
+        final data = await MotherService().getHost();
+
         showModalBottomSheet(
           context: context,
           isScrollControlled: true,
           backgroundColor: Colors.transparent,
-          builder: (context) => MotherModal(),
+          builder: (context) => MotherModal(data),
         );
 
         // MONITOR TX HASHES & ADDRESSES EXPO REMOTE

@@ -4,10 +4,15 @@ import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/features/mother/services/mother_service.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 class MotherCreateHostDialog extends BaseComponent {
-  MotherCreateHostDialog({Key? key}) : super(key: key);
+  final bool forUpdate;
+  MotherCreateHostDialog({
+    Key? key,
+    required this.forUpdate,
+  }) : super(key: key);
 
   final GlobalKey<FormState> formKey = GlobalKey();
 
@@ -16,7 +21,7 @@ class MotherCreateHostDialog extends BaseComponent {
     final nameController = TextEditingController();
     final passwordController = TextEditingController();
     return AlertDialog(
-      title: Text("Set Wallet as Host"),
+      title: Text(forUpdate ? "Update Host Info" : "Set Wallet as Host"),
       content: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: 500, minWidth: 300),
         child: Form(
@@ -69,6 +74,18 @@ class MotherCreateHostDialog extends BaseComponent {
             if (!formKey.currentState!.validate()) {
               return;
             }
+
+            final success = await MotherService().createHost(
+              nameController.text,
+              passwordController.text,
+            );
+
+            if (success != true) {
+              Toast.error();
+              return;
+            }
+
+            Toast.message("Host Created");
 
             final restart = await ConfirmDialog.show(
               title: "CLI Restart Required",
