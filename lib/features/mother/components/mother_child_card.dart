@@ -54,8 +54,8 @@ class MotherChildCard extends StatelessWidget {
                     Divider(),
                     _Row(
                       label: "Is Validating?",
-                      value: child.isValidating ? 'Yes' : 'No',
-                      color: child.isValidating ? AppColorVariant.Success : AppColorVariant.Danger,
+                      value: child.activeWithValidating ? 'Yes' : 'No',
+                      color: child.activeWithValidating ? AppColorVariant.Success : AppColorVariant.Danger,
                     ),
                     Divider(),
                     _Row(
