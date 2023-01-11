@@ -27,6 +27,7 @@ import 'package:rbx_wallet/features/home/components/transaction_window.dart';
 
 import 'package:rbx_wallet/features/keygen/components/keygen_cta.dart'
     if (dart.library.io) 'package:rbx_wallet/features/keygen/components/keygen_cta_mock.dart';
+import 'package:rbx_wallet/features/mother/components/mother_button.dart';
 
 import 'package:rbx_wallet/features/root/components/reload_button.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
@@ -144,24 +145,8 @@ class HomeScreen extends BaseScreen {
                       }
                     },
                   ),
-                  AppButton(
-                    label: "MOTHER",
-                    onPressed: () async {
-                      final shouldContinue = await ConfirmDialog.show(
-                        title: "Monitor Tx Hashes & Addresses Expo Remote",
-                        body: "MOTHER is a tool for monitoring the state of your remote validators.\n\nLaunch Now?",
-                        confirmText: "Launch",
-                        cancelText: "Cancel",
-                      );
 
-                      if (shouldContinue == true) {
-                        launchUrlString("${Env.apiBaseUrl}/mother");
-                      }
-
-                      // MONITOR TX HASHES & ADDRESSES EXPO REMOTE
-                    },
-                  ),
-
+                  MotherButton(),
                   HdWalletButton(),
                   if (ref.watch(walletListProvider).isEmpty) RestoreHdWalletButton(),
                   EncryptWalletButton(),
