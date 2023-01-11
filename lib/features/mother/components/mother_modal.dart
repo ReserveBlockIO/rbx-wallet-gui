@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
@@ -12,6 +14,7 @@ import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/mother/components/mother_add_host_dialog.dart';
 import 'package:rbx_wallet/features/mother/components/mother_create_host_dialog.dart';
 import 'package:rbx_wallet/features/mother/models/mother_child.dart';
+import 'package:rbx_wallet/features/mother/screens/mother_dashboard_screen.dart';
 import 'package:rbx_wallet/features/mother/services/mother_service.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:rbx_wallet/utils/files.dart';
@@ -76,9 +79,8 @@ class MotherModal extends BaseComponent {
             title: Text("Launch MOTHER"),
             leading: Icon(Icons.launch),
             trailing: Icon(Icons.chevron_right),
-            onTap: () {
-              launchUrlString("${Env.apiBaseUrl}/mother");
-              Navigator.of(context).pop();
+            onTap: () async {
+              AutoRouter.of(context).push(MotherDashboardScreenRoute());
             },
           ),
         ListTile(
@@ -91,7 +93,6 @@ class MotherModal extends BaseComponent {
               builder: (context) => MotherCreateHostDialog(forUpdate: motherData != null),
             );
 
-            print(data);
             if (data != null) {
               Navigator.of(context).pop();
             }

@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:rbx_wallet/features/beacon/screens/beacon_list_screen.dart';
+import 'package:rbx_wallet/features/mother/screens/mother_dashboard_screen.dart';
 
 import '../features/adjudicator/adjudicator_screen.dart';
 import '../features/adnr/screens/adnr_screen.dart';
@@ -176,6 +177,7 @@ const List<AutoRoute> appRoutes = [
       ),
     ],
   ),
+  AutoRoute(path: "mother-dashboard", page: MotherDashboardScreen)
 ];
 
 @AdaptiveAutoRouter(replaceInRouteName: 'Page,Route,Screen', routes: appRoutes)

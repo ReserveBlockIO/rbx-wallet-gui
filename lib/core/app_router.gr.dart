@@ -11,24 +11,27 @@
 // ignore_for_file: type=lint
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i6;
-import 'package:flutter/material.dart' as _i24;
+import 'package:auto_route/auto_route.dart' as _i7;
+import 'package:flutter/material.dart' as _i25;
 import 'package:rbx_wallet/features/adjudicator/adjudicator_screen.dart'
-    as _i12;
-import 'package:rbx_wallet/features/adnr/screens/adnr_screen.dart' as _i18;
+    as _i13;
+import 'package:rbx_wallet/features/adnr/screens/adnr_screen.dart' as _i19;
 import 'package:rbx_wallet/features/beacon/screens/beacon_list_screen.dart'
-    as _i22;
-import 'package:rbx_wallet/features/datanode/screens/datanode_screen.dart'
-    as _i14;
-import 'package:rbx_wallet/features/dsts/screens/dst_screen.dart' as _i17;
-import 'package:rbx_wallet/features/home/screens/home_screen.dart' as _i7;
-import 'package:rbx_wallet/features/nft/screens/nft_list_screen.dart' as _i15;
-import 'package:rbx_wallet/features/node/screens/node_list_screen.dart' as _i13;
-import 'package:rbx_wallet/features/receive/screens/receive_screen.dart' as _i9;
-import 'package:rbx_wallet/features/root/root_container.dart' as _i1;
-import 'package:rbx_wallet/features/send/screens/send_screen.dart' as _i8;
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/smart_contract_creator_main.dart'
     as _i23;
+import 'package:rbx_wallet/features/datanode/screens/datanode_screen.dart'
+    as _i15;
+import 'package:rbx_wallet/features/dsts/screens/dst_screen.dart' as _i18;
+import 'package:rbx_wallet/features/home/screens/home_screen.dart' as _i8;
+import 'package:rbx_wallet/features/mother/screens/mother_dashboard_screen.dart'
+    as _i6;
+import 'package:rbx_wallet/features/nft/screens/nft_list_screen.dart' as _i16;
+import 'package:rbx_wallet/features/node/screens/node_list_screen.dart' as _i14;
+import 'package:rbx_wallet/features/receive/screens/receive_screen.dart'
+    as _i10;
+import 'package:rbx_wallet/features/root/root_container.dart' as _i1;
+import 'package:rbx_wallet/features/send/screens/send_screen.dart' as _i9;
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/smart_contract_creator_main.dart'
+    as _i24;
 import 'package:rbx_wallet/features/smart_contracts/screens/my_smart_contracts_screen.dart'
     as _i2;
 import 'package:rbx_wallet/features/smart_contracts/screens/smart_contract_creator_container_screen.dart'
@@ -36,216 +39,222 @@ import 'package:rbx_wallet/features/smart_contracts/screens/smart_contract_creat
 import 'package:rbx_wallet/features/smart_contracts/screens/smart_contract_drafts_screen.dart'
     as _i3;
 import 'package:rbx_wallet/features/smart_contracts/screens/smart_contracts_screen.dart'
-    as _i16;
+    as _i17;
 import 'package:rbx_wallet/features/smart_contracts/screens/template_chooser_screen.dart'
     as _i4;
 import 'package:rbx_wallet/features/transactions/screens/transactions_screen.dart'
-    as _i10;
-import 'package:rbx_wallet/features/validator/screens/validator_screen.dart'
     as _i11;
+import 'package:rbx_wallet/features/validator/screens/validator_screen.dart'
+    as _i12;
 import 'package:rbx_wallet/features/voting/screens/create_topic_screen.dart'
-    as _i21;
+    as _i22;
 import 'package:rbx_wallet/features/voting/screens/topic_detail_screen.dart'
-    as _i20;
+    as _i21;
 import 'package:rbx_wallet/features/voting/screens/topic_list_screen.dart'
-    as _i19;
+    as _i20;
 
-class AppRouter extends _i6.RootStackRouter {
-  AppRouter([_i24.GlobalKey<_i24.NavigatorState>? navigatorKey])
+class AppRouter extends _i7.RootStackRouter {
+  AppRouter([_i25.GlobalKey<_i25.NavigatorState>? navigatorKey])
       : super(navigatorKey);
 
   @override
-  final Map<String, _i6.PageFactory> pagesMap = {
+  final Map<String, _i7.PageFactory> pagesMap = {
     RootContainerRoute.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i1.RootContainer(),
       );
     },
     MySmartContractsScreenRoute.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i2.MySmartContractsScreen(),
       );
     },
     SmartContractDraftsScreenRoute.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i3.SmartContractDraftsScreen(),
       );
     },
     TemplateChooserScreenRoute.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i4.TemplateChooserScreen(),
       );
     },
     SmartContractCreatorContainerScreenRoute.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i5.SmartContractCreatorContainerScreen(),
       );
     },
-    HomeTabRouter.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+    MotherDashboardScreenRoute.name: (routeData) {
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i6.EmptyRouterPage(),
+        child: const _i6.MotherDashboardScreen(),
+      );
+    },
+    HomeTabRouter.name: (routeData) {
+      return _i7.AdaptivePage<dynamic>(
+        routeData: routeData,
+        child: const _i7.EmptyRouterPage(),
       );
     },
     SendTabRouter.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i6.EmptyRouterPage(),
+        child: const _i7.EmptyRouterPage(),
       );
     },
     ReceiveTabRouter.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i6.EmptyRouterPage(),
+        child: const _i7.EmptyRouterPage(),
       );
     },
     TransactionsTabRouter.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i6.EmptyRouterPage(),
+        child: const _i7.EmptyRouterPage(),
       );
     },
     ValidatorTabRouter.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i6.EmptyRouterPage(),
+        child: const _i7.EmptyRouterPage(),
       );
     },
     AdjudicatorTabRouter.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i6.EmptyRouterPage(),
+        child: const _i7.EmptyRouterPage(),
       );
     },
     NodesTabsRouter.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i6.EmptyRouterPage(),
+        child: const _i7.EmptyRouterPage(),
       );
     },
     DatanodeTabRouter.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i6.EmptyRouterPage(),
+        child: const _i7.EmptyRouterPage(),
       );
     },
     NftTabRouter.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i6.EmptyRouterPage(),
+        child: const _i7.EmptyRouterPage(),
       );
     },
     SmartContractsTabRouter.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i6.EmptyRouterPage(),
+        child: const _i7.EmptyRouterPage(),
       );
     },
     DstsTabRouter.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i6.EmptyRouterPage(),
+        child: const _i7.EmptyRouterPage(),
       );
     },
     AdnrTabRouter.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i6.EmptyRouterPage(),
+        child: const _i7.EmptyRouterPage(),
       );
     },
     VotingTabRouter.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i6.EmptyRouterPage(),
+        child: const _i7.EmptyRouterPage(),
       );
     },
     BeaconTabRouter.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i6.EmptyRouterPage(),
+        child: const _i7.EmptyRouterPage(),
       );
     },
     HomeScreenRoute.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i7.HomeScreen(),
+        child: const _i8.HomeScreen(),
       );
     },
     SendScreenRoute.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i8.SendScreen(),
+        child: const _i9.SendScreen(),
       );
     },
     ReceiveScreenRoute.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i9.ReceiveScreen(),
+        child: const _i10.ReceiveScreen(),
       );
     },
     TransactionsScreenRoute.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i10.TransactionsScreen(),
+        child: const _i11.TransactionsScreen(),
       );
     },
     ValidatorScreenRoute.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i11.ValidatorScreen(),
+        child: const _i12.ValidatorScreen(),
       );
     },
     AdjudicatorScreenRoute.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i12.AdjudicatorScreen(),
+        child: const _i13.AdjudicatorScreen(),
       );
     },
     NodeListScreenRoute.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i13.NodeListScreen(),
+        child: const _i14.NodeListScreen(),
       );
     },
     DataNodeScreenRoute.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i14.DataNodeScreen(),
+        child: const _i15.DataNodeScreen(),
       );
     },
     NftListScreenRoute.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i15.NftListScreen(),
+        child: const _i16.NftListScreen(),
       );
     },
     SmartContractsScreenRoute.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i16.SmartContractsScreen(),
+        child: const _i17.SmartContractsScreen(),
       );
     },
     DstsScreenRoute.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i17.DstsScreen(),
+        child: const _i18.DstsScreen(),
       );
     },
     AdnrScreenRoute.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i18.AdnrScreen(),
+        child: const _i19.AdnrScreen(),
       );
     },
     TopicListScreenRoute.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i19.TopicListScreen(),
+        child: const _i20.TopicListScreen(),
       );
     },
     TopicDetailScreenRoute.name: (routeData) {
@@ -253,212 +262,212 @@ class AppRouter extends _i6.RootStackRouter {
       final args = routeData.argsAs<TopicDetailScreenRouteArgs>(
           orElse: () => TopicDetailScreenRouteArgs(
               topicUid: pathParams.getString('uid')));
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: _i20.TopicDetailScreen(
+        child: _i21.TopicDetailScreen(
           key: args.key,
           topicUid: args.topicUid,
         ),
       );
     },
     CreateTopicScreenRoute.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i21.CreateTopicScreen(),
+        child: const _i22.CreateTopicScreen(),
       );
     },
     BeaconListScreenRoute.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i22.BeaconListScreen(),
+        child: const _i23.BeaconListScreen(),
       );
     },
     SmartContractCreatorMainRoute.name: (routeData) {
-      return _i6.AdaptivePage<dynamic>(
+      return _i7.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i23.SmartContractCreatorMain(),
+        child: const _i24.SmartContractCreatorMain(),
       );
     },
   };
 
   @override
-  List<_i6.RouteConfig> get routes => [
-        _i6.RouteConfig(
+  List<_i7.RouteConfig> get routes => [
+        _i7.RouteConfig(
           RootContainerRoute.name,
           path: '/',
           children: [
-            _i6.RouteConfig(
+            _i7.RouteConfig(
               HomeTabRouter.name,
               path: 'home',
               parent: RootContainerRoute.name,
               children: [
-                _i6.RouteConfig(
+                _i7.RouteConfig(
                   HomeScreenRoute.name,
                   path: '',
                   parent: HomeTabRouter.name,
                 )
               ],
             ),
-            _i6.RouteConfig(
+            _i7.RouteConfig(
               SendTabRouter.name,
               path: 'send',
               parent: RootContainerRoute.name,
               children: [
-                _i6.RouteConfig(
+                _i7.RouteConfig(
                   SendScreenRoute.name,
                   path: '',
                   parent: SendTabRouter.name,
                 )
               ],
             ),
-            _i6.RouteConfig(
+            _i7.RouteConfig(
               ReceiveTabRouter.name,
               path: 'receive',
               parent: RootContainerRoute.name,
               children: [
-                _i6.RouteConfig(
+                _i7.RouteConfig(
                   ReceiveScreenRoute.name,
                   path: '',
                   parent: ReceiveTabRouter.name,
                 )
               ],
             ),
-            _i6.RouteConfig(
+            _i7.RouteConfig(
               TransactionsTabRouter.name,
               path: 'transactions',
               parent: RootContainerRoute.name,
               children: [
-                _i6.RouteConfig(
+                _i7.RouteConfig(
                   TransactionsScreenRoute.name,
                   path: '',
                   parent: TransactionsTabRouter.name,
                 )
               ],
             ),
-            _i6.RouteConfig(
+            _i7.RouteConfig(
               ValidatorTabRouter.name,
               path: 'validator',
               parent: RootContainerRoute.name,
               children: [
-                _i6.RouteConfig(
+                _i7.RouteConfig(
                   ValidatorScreenRoute.name,
                   path: '',
                   parent: ValidatorTabRouter.name,
                 )
               ],
             ),
-            _i6.RouteConfig(
+            _i7.RouteConfig(
               AdjudicatorTabRouter.name,
               path: 'adjudicator',
               parent: RootContainerRoute.name,
               children: [
-                _i6.RouteConfig(
+                _i7.RouteConfig(
                   AdjudicatorScreenRoute.name,
                   path: '',
                   parent: AdjudicatorTabRouter.name,
                 )
               ],
             ),
-            _i6.RouteConfig(
+            _i7.RouteConfig(
               NodesTabsRouter.name,
               path: 'nodes',
               parent: RootContainerRoute.name,
               children: [
-                _i6.RouteConfig(
+                _i7.RouteConfig(
                   NodeListScreenRoute.name,
                   path: '',
                   parent: NodesTabsRouter.name,
                 )
               ],
             ),
-            _i6.RouteConfig(
+            _i7.RouteConfig(
               DatanodeTabRouter.name,
               path: 'datanode',
               parent: RootContainerRoute.name,
               children: [
-                _i6.RouteConfig(
+                _i7.RouteConfig(
                   DataNodeScreenRoute.name,
                   path: '',
                   parent: DatanodeTabRouter.name,
                 )
               ],
             ),
-            _i6.RouteConfig(
+            _i7.RouteConfig(
               NftTabRouter.name,
               path: 'nft',
               parent: RootContainerRoute.name,
               children: [
-                _i6.RouteConfig(
+                _i7.RouteConfig(
                   NftListScreenRoute.name,
                   path: '',
                   parent: NftTabRouter.name,
                 )
               ],
             ),
-            _i6.RouteConfig(
+            _i7.RouteConfig(
               SmartContractsTabRouter.name,
               path: 'smart-contracts',
               parent: RootContainerRoute.name,
               children: [
-                _i6.RouteConfig(
+                _i7.RouteConfig(
                   SmartContractsScreenRoute.name,
                   path: '',
                   parent: SmartContractsTabRouter.name,
                 )
               ],
             ),
-            _i6.RouteConfig(
+            _i7.RouteConfig(
               DstsTabRouter.name,
               path: 'dsts',
               parent: RootContainerRoute.name,
               children: [
-                _i6.RouteConfig(
+                _i7.RouteConfig(
                   DstsScreenRoute.name,
                   path: '',
                   parent: DstsTabRouter.name,
                 )
               ],
             ),
-            _i6.RouteConfig(
+            _i7.RouteConfig(
               AdnrTabRouter.name,
               path: 'adnr',
               parent: RootContainerRoute.name,
               children: [
-                _i6.RouteConfig(
+                _i7.RouteConfig(
                   AdnrScreenRoute.name,
                   path: '',
                   parent: AdnrTabRouter.name,
                 )
               ],
             ),
-            _i6.RouteConfig(
+            _i7.RouteConfig(
               VotingTabRouter.name,
               path: 'voting',
               parent: RootContainerRoute.name,
               children: [
-                _i6.RouteConfig(
+                _i7.RouteConfig(
                   TopicListScreenRoute.name,
                   path: '',
                   parent: VotingTabRouter.name,
                 ),
-                _i6.RouteConfig(
+                _i7.RouteConfig(
                   TopicDetailScreenRoute.name,
                   path: ':uid',
                   parent: VotingTabRouter.name,
                 ),
-                _i6.RouteConfig(
+                _i7.RouteConfig(
                   CreateTopicScreenRoute.name,
                   path: 'create',
                   parent: VotingTabRouter.name,
                 ),
               ],
             ),
-            _i6.RouteConfig(
+            _i7.RouteConfig(
               BeaconTabRouter.name,
               path: 'beacons',
               parent: RootContainerRoute.name,
               children: [
-                _i6.RouteConfig(
+                _i7.RouteConfig(
                   BeaconListScreenRoute.name,
                   path: '',
                   parent: BeaconTabRouter.name,
@@ -467,43 +476,47 @@ class AppRouter extends _i6.RootStackRouter {
             ),
           ],
         ),
-        _i6.RouteConfig(
+        _i7.RouteConfig(
           MySmartContractsScreenRoute.name,
           path: 'my-smart-contracts',
         ),
-        _i6.RouteConfig(
+        _i7.RouteConfig(
           SmartContractDraftsScreenRoute.name,
           path: 'smart-contract-drafts',
         ),
-        _i6.RouteConfig(
+        _i7.RouteConfig(
           TemplateChooserScreenRoute.name,
           path: 'smart-contract-templates',
         ),
-        _i6.RouteConfig(
+        _i7.RouteConfig(
           SmartContractCreatorContainerScreenRoute.name,
           path: 'create-smart-contract',
           children: [
-            _i6.RouteConfig(
+            _i7.RouteConfig(
               '#redirect',
               path: '',
               parent: SmartContractCreatorContainerScreenRoute.name,
               redirectTo: 'main',
               fullMatch: true,
             ),
-            _i6.RouteConfig(
+            _i7.RouteConfig(
               SmartContractCreatorMainRoute.name,
               path: 'main',
               parent: SmartContractCreatorContainerScreenRoute.name,
             ),
           ],
         ),
+        _i7.RouteConfig(
+          MotherDashboardScreenRoute.name,
+          path: 'mother-dashboard',
+        ),
       ];
 }
 
 /// generated route for
 /// [_i1.RootContainer]
-class RootContainerRoute extends _i6.PageRouteInfo<void> {
-  const RootContainerRoute({List<_i6.PageRouteInfo>? children})
+class RootContainerRoute extends _i7.PageRouteInfo<void> {
+  const RootContainerRoute({List<_i7.PageRouteInfo>? children})
       : super(
           RootContainerRoute.name,
           path: '/',
@@ -515,7 +528,7 @@ class RootContainerRoute extends _i6.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i2.MySmartContractsScreen]
-class MySmartContractsScreenRoute extends _i6.PageRouteInfo<void> {
+class MySmartContractsScreenRoute extends _i7.PageRouteInfo<void> {
   const MySmartContractsScreenRoute()
       : super(
           MySmartContractsScreenRoute.name,
@@ -527,7 +540,7 @@ class MySmartContractsScreenRoute extends _i6.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i3.SmartContractDraftsScreen]
-class SmartContractDraftsScreenRoute extends _i6.PageRouteInfo<void> {
+class SmartContractDraftsScreenRoute extends _i7.PageRouteInfo<void> {
   const SmartContractDraftsScreenRoute()
       : super(
           SmartContractDraftsScreenRoute.name,
@@ -539,7 +552,7 @@ class SmartContractDraftsScreenRoute extends _i6.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i4.TemplateChooserScreen]
-class TemplateChooserScreenRoute extends _i6.PageRouteInfo<void> {
+class TemplateChooserScreenRoute extends _i7.PageRouteInfo<void> {
   const TemplateChooserScreenRoute()
       : super(
           TemplateChooserScreenRoute.name,
@@ -551,9 +564,9 @@ class TemplateChooserScreenRoute extends _i6.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i5.SmartContractCreatorContainerScreen]
-class SmartContractCreatorContainerScreenRoute extends _i6.PageRouteInfo<void> {
+class SmartContractCreatorContainerScreenRoute extends _i7.PageRouteInfo<void> {
   const SmartContractCreatorContainerScreenRoute(
-      {List<_i6.PageRouteInfo>? children})
+      {List<_i7.PageRouteInfo>? children})
       : super(
           SmartContractCreatorContainerScreenRoute.name,
           path: 'create-smart-contract',
@@ -564,9 +577,21 @@ class SmartContractCreatorContainerScreenRoute extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i6.EmptyRouterPage]
-class HomeTabRouter extends _i6.PageRouteInfo<void> {
-  const HomeTabRouter({List<_i6.PageRouteInfo>? children})
+/// [_i6.MotherDashboardScreen]
+class MotherDashboardScreenRoute extends _i7.PageRouteInfo<void> {
+  const MotherDashboardScreenRoute()
+      : super(
+          MotherDashboardScreenRoute.name,
+          path: 'mother-dashboard',
+        );
+
+  static const String name = 'MotherDashboardScreenRoute';
+}
+
+/// generated route for
+/// [_i7.EmptyRouterPage]
+class HomeTabRouter extends _i7.PageRouteInfo<void> {
+  const HomeTabRouter({List<_i7.PageRouteInfo>? children})
       : super(
           HomeTabRouter.name,
           path: 'home',
@@ -577,9 +602,9 @@ class HomeTabRouter extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i6.EmptyRouterPage]
-class SendTabRouter extends _i6.PageRouteInfo<void> {
-  const SendTabRouter({List<_i6.PageRouteInfo>? children})
+/// [_i7.EmptyRouterPage]
+class SendTabRouter extends _i7.PageRouteInfo<void> {
+  const SendTabRouter({List<_i7.PageRouteInfo>? children})
       : super(
           SendTabRouter.name,
           path: 'send',
@@ -590,9 +615,9 @@ class SendTabRouter extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i6.EmptyRouterPage]
-class ReceiveTabRouter extends _i6.PageRouteInfo<void> {
-  const ReceiveTabRouter({List<_i6.PageRouteInfo>? children})
+/// [_i7.EmptyRouterPage]
+class ReceiveTabRouter extends _i7.PageRouteInfo<void> {
+  const ReceiveTabRouter({List<_i7.PageRouteInfo>? children})
       : super(
           ReceiveTabRouter.name,
           path: 'receive',
@@ -603,9 +628,9 @@ class ReceiveTabRouter extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i6.EmptyRouterPage]
-class TransactionsTabRouter extends _i6.PageRouteInfo<void> {
-  const TransactionsTabRouter({List<_i6.PageRouteInfo>? children})
+/// [_i7.EmptyRouterPage]
+class TransactionsTabRouter extends _i7.PageRouteInfo<void> {
+  const TransactionsTabRouter({List<_i7.PageRouteInfo>? children})
       : super(
           TransactionsTabRouter.name,
           path: 'transactions',
@@ -616,9 +641,9 @@ class TransactionsTabRouter extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i6.EmptyRouterPage]
-class ValidatorTabRouter extends _i6.PageRouteInfo<void> {
-  const ValidatorTabRouter({List<_i6.PageRouteInfo>? children})
+/// [_i7.EmptyRouterPage]
+class ValidatorTabRouter extends _i7.PageRouteInfo<void> {
+  const ValidatorTabRouter({List<_i7.PageRouteInfo>? children})
       : super(
           ValidatorTabRouter.name,
           path: 'validator',
@@ -629,9 +654,9 @@ class ValidatorTabRouter extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i6.EmptyRouterPage]
-class AdjudicatorTabRouter extends _i6.PageRouteInfo<void> {
-  const AdjudicatorTabRouter({List<_i6.PageRouteInfo>? children})
+/// [_i7.EmptyRouterPage]
+class AdjudicatorTabRouter extends _i7.PageRouteInfo<void> {
+  const AdjudicatorTabRouter({List<_i7.PageRouteInfo>? children})
       : super(
           AdjudicatorTabRouter.name,
           path: 'adjudicator',
@@ -642,9 +667,9 @@ class AdjudicatorTabRouter extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i6.EmptyRouterPage]
-class NodesTabsRouter extends _i6.PageRouteInfo<void> {
-  const NodesTabsRouter({List<_i6.PageRouteInfo>? children})
+/// [_i7.EmptyRouterPage]
+class NodesTabsRouter extends _i7.PageRouteInfo<void> {
+  const NodesTabsRouter({List<_i7.PageRouteInfo>? children})
       : super(
           NodesTabsRouter.name,
           path: 'nodes',
@@ -655,9 +680,9 @@ class NodesTabsRouter extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i6.EmptyRouterPage]
-class DatanodeTabRouter extends _i6.PageRouteInfo<void> {
-  const DatanodeTabRouter({List<_i6.PageRouteInfo>? children})
+/// [_i7.EmptyRouterPage]
+class DatanodeTabRouter extends _i7.PageRouteInfo<void> {
+  const DatanodeTabRouter({List<_i7.PageRouteInfo>? children})
       : super(
           DatanodeTabRouter.name,
           path: 'datanode',
@@ -668,9 +693,9 @@ class DatanodeTabRouter extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i6.EmptyRouterPage]
-class NftTabRouter extends _i6.PageRouteInfo<void> {
-  const NftTabRouter({List<_i6.PageRouteInfo>? children})
+/// [_i7.EmptyRouterPage]
+class NftTabRouter extends _i7.PageRouteInfo<void> {
+  const NftTabRouter({List<_i7.PageRouteInfo>? children})
       : super(
           NftTabRouter.name,
           path: 'nft',
@@ -681,9 +706,9 @@ class NftTabRouter extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i6.EmptyRouterPage]
-class SmartContractsTabRouter extends _i6.PageRouteInfo<void> {
-  const SmartContractsTabRouter({List<_i6.PageRouteInfo>? children})
+/// [_i7.EmptyRouterPage]
+class SmartContractsTabRouter extends _i7.PageRouteInfo<void> {
+  const SmartContractsTabRouter({List<_i7.PageRouteInfo>? children})
       : super(
           SmartContractsTabRouter.name,
           path: 'smart-contracts',
@@ -694,9 +719,9 @@ class SmartContractsTabRouter extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i6.EmptyRouterPage]
-class DstsTabRouter extends _i6.PageRouteInfo<void> {
-  const DstsTabRouter({List<_i6.PageRouteInfo>? children})
+/// [_i7.EmptyRouterPage]
+class DstsTabRouter extends _i7.PageRouteInfo<void> {
+  const DstsTabRouter({List<_i7.PageRouteInfo>? children})
       : super(
           DstsTabRouter.name,
           path: 'dsts',
@@ -707,9 +732,9 @@ class DstsTabRouter extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i6.EmptyRouterPage]
-class AdnrTabRouter extends _i6.PageRouteInfo<void> {
-  const AdnrTabRouter({List<_i6.PageRouteInfo>? children})
+/// [_i7.EmptyRouterPage]
+class AdnrTabRouter extends _i7.PageRouteInfo<void> {
+  const AdnrTabRouter({List<_i7.PageRouteInfo>? children})
       : super(
           AdnrTabRouter.name,
           path: 'adnr',
@@ -720,9 +745,9 @@ class AdnrTabRouter extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i6.EmptyRouterPage]
-class VotingTabRouter extends _i6.PageRouteInfo<void> {
-  const VotingTabRouter({List<_i6.PageRouteInfo>? children})
+/// [_i7.EmptyRouterPage]
+class VotingTabRouter extends _i7.PageRouteInfo<void> {
+  const VotingTabRouter({List<_i7.PageRouteInfo>? children})
       : super(
           VotingTabRouter.name,
           path: 'voting',
@@ -733,9 +758,9 @@ class VotingTabRouter extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i6.EmptyRouterPage]
-class BeaconTabRouter extends _i6.PageRouteInfo<void> {
-  const BeaconTabRouter({List<_i6.PageRouteInfo>? children})
+/// [_i7.EmptyRouterPage]
+class BeaconTabRouter extends _i7.PageRouteInfo<void> {
+  const BeaconTabRouter({List<_i7.PageRouteInfo>? children})
       : super(
           BeaconTabRouter.name,
           path: 'beacons',
@@ -746,8 +771,8 @@ class BeaconTabRouter extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i7.HomeScreen]
-class HomeScreenRoute extends _i6.PageRouteInfo<void> {
+/// [_i8.HomeScreen]
+class HomeScreenRoute extends _i7.PageRouteInfo<void> {
   const HomeScreenRoute()
       : super(
           HomeScreenRoute.name,
@@ -758,8 +783,8 @@ class HomeScreenRoute extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i8.SendScreen]
-class SendScreenRoute extends _i6.PageRouteInfo<void> {
+/// [_i9.SendScreen]
+class SendScreenRoute extends _i7.PageRouteInfo<void> {
   const SendScreenRoute()
       : super(
           SendScreenRoute.name,
@@ -770,8 +795,8 @@ class SendScreenRoute extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i9.ReceiveScreen]
-class ReceiveScreenRoute extends _i6.PageRouteInfo<void> {
+/// [_i10.ReceiveScreen]
+class ReceiveScreenRoute extends _i7.PageRouteInfo<void> {
   const ReceiveScreenRoute()
       : super(
           ReceiveScreenRoute.name,
@@ -782,8 +807,8 @@ class ReceiveScreenRoute extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i10.TransactionsScreen]
-class TransactionsScreenRoute extends _i6.PageRouteInfo<void> {
+/// [_i11.TransactionsScreen]
+class TransactionsScreenRoute extends _i7.PageRouteInfo<void> {
   const TransactionsScreenRoute()
       : super(
           TransactionsScreenRoute.name,
@@ -794,8 +819,8 @@ class TransactionsScreenRoute extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i11.ValidatorScreen]
-class ValidatorScreenRoute extends _i6.PageRouteInfo<void> {
+/// [_i12.ValidatorScreen]
+class ValidatorScreenRoute extends _i7.PageRouteInfo<void> {
   const ValidatorScreenRoute()
       : super(
           ValidatorScreenRoute.name,
@@ -806,8 +831,8 @@ class ValidatorScreenRoute extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i12.AdjudicatorScreen]
-class AdjudicatorScreenRoute extends _i6.PageRouteInfo<void> {
+/// [_i13.AdjudicatorScreen]
+class AdjudicatorScreenRoute extends _i7.PageRouteInfo<void> {
   const AdjudicatorScreenRoute()
       : super(
           AdjudicatorScreenRoute.name,
@@ -818,8 +843,8 @@ class AdjudicatorScreenRoute extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i13.NodeListScreen]
-class NodeListScreenRoute extends _i6.PageRouteInfo<void> {
+/// [_i14.NodeListScreen]
+class NodeListScreenRoute extends _i7.PageRouteInfo<void> {
   const NodeListScreenRoute()
       : super(
           NodeListScreenRoute.name,
@@ -830,8 +855,8 @@ class NodeListScreenRoute extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i14.DataNodeScreen]
-class DataNodeScreenRoute extends _i6.PageRouteInfo<void> {
+/// [_i15.DataNodeScreen]
+class DataNodeScreenRoute extends _i7.PageRouteInfo<void> {
   const DataNodeScreenRoute()
       : super(
           DataNodeScreenRoute.name,
@@ -842,8 +867,8 @@ class DataNodeScreenRoute extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i15.NftListScreen]
-class NftListScreenRoute extends _i6.PageRouteInfo<void> {
+/// [_i16.NftListScreen]
+class NftListScreenRoute extends _i7.PageRouteInfo<void> {
   const NftListScreenRoute()
       : super(
           NftListScreenRoute.name,
@@ -854,8 +879,8 @@ class NftListScreenRoute extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i16.SmartContractsScreen]
-class SmartContractsScreenRoute extends _i6.PageRouteInfo<void> {
+/// [_i17.SmartContractsScreen]
+class SmartContractsScreenRoute extends _i7.PageRouteInfo<void> {
   const SmartContractsScreenRoute()
       : super(
           SmartContractsScreenRoute.name,
@@ -866,8 +891,8 @@ class SmartContractsScreenRoute extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i17.DstsScreen]
-class DstsScreenRoute extends _i6.PageRouteInfo<void> {
+/// [_i18.DstsScreen]
+class DstsScreenRoute extends _i7.PageRouteInfo<void> {
   const DstsScreenRoute()
       : super(
           DstsScreenRoute.name,
@@ -878,8 +903,8 @@ class DstsScreenRoute extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i18.AdnrScreen]
-class AdnrScreenRoute extends _i6.PageRouteInfo<void> {
+/// [_i19.AdnrScreen]
+class AdnrScreenRoute extends _i7.PageRouteInfo<void> {
   const AdnrScreenRoute()
       : super(
           AdnrScreenRoute.name,
@@ -890,8 +915,8 @@ class AdnrScreenRoute extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i19.TopicListScreen]
-class TopicListScreenRoute extends _i6.PageRouteInfo<void> {
+/// [_i20.TopicListScreen]
+class TopicListScreenRoute extends _i7.PageRouteInfo<void> {
   const TopicListScreenRoute()
       : super(
           TopicListScreenRoute.name,
@@ -902,11 +927,11 @@ class TopicListScreenRoute extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i20.TopicDetailScreen]
+/// [_i21.TopicDetailScreen]
 class TopicDetailScreenRoute
-    extends _i6.PageRouteInfo<TopicDetailScreenRouteArgs> {
+    extends _i7.PageRouteInfo<TopicDetailScreenRouteArgs> {
   TopicDetailScreenRoute({
-    _i24.Key? key,
+    _i25.Key? key,
     required String topicUid,
   }) : super(
           TopicDetailScreenRoute.name,
@@ -927,7 +952,7 @@ class TopicDetailScreenRouteArgs {
     required this.topicUid,
   });
 
-  final _i24.Key? key;
+  final _i25.Key? key;
 
   final String topicUid;
 
@@ -938,8 +963,8 @@ class TopicDetailScreenRouteArgs {
 }
 
 /// generated route for
-/// [_i21.CreateTopicScreen]
-class CreateTopicScreenRoute extends _i6.PageRouteInfo<void> {
+/// [_i22.CreateTopicScreen]
+class CreateTopicScreenRoute extends _i7.PageRouteInfo<void> {
   const CreateTopicScreenRoute()
       : super(
           CreateTopicScreenRoute.name,
@@ -950,8 +975,8 @@ class CreateTopicScreenRoute extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i22.BeaconListScreen]
-class BeaconListScreenRoute extends _i6.PageRouteInfo<void> {
+/// [_i23.BeaconListScreen]
+class BeaconListScreenRoute extends _i7.PageRouteInfo<void> {
   const BeaconListScreenRoute()
       : super(
           BeaconListScreenRoute.name,
@@ -962,8 +987,8 @@ class BeaconListScreenRoute extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i23.SmartContractCreatorMain]
-class SmartContractCreatorMainRoute extends _i6.PageRouteInfo<void> {
+/// [_i24.SmartContractCreatorMain]
+class SmartContractCreatorMainRoute extends _i7.PageRouteInfo<void> {
   const SmartContractCreatorMainRoute()
       : super(
           SmartContractCreatorMainRoute.name,
