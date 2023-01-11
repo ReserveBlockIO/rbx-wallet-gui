@@ -24,7 +24,7 @@ class ModalContainer extends StatelessWidget {
       child: Stack(
         alignment: Alignment.bottomRight,
         children: [
-          if (withDecor)
+          if (withDecor && !kIsWeb)
             Opacity(
               opacity: kIsWeb ? 0.1 : 0.5,
               child: Image.asset(

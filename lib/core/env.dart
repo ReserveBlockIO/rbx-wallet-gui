@@ -17,7 +17,7 @@ enum _Environment {
   BlockExplorerTestNet,
 }
 
-const _env = _Environment.ReleaseTestNet;
+const _env = _Environment.WebTestNet;
 
 class Env {
   static init() async {
@@ -67,6 +67,7 @@ class Env {
       case _Environment.WinTestNet:
       case _Environment.ReleaseTestNet:
       case _Environment.BlockExplorerTestNet:
+      case _Environment.WebTestNet:
         return 'https://testnet.rbx.network/';
       default:
         return 'https://rbx.network/';

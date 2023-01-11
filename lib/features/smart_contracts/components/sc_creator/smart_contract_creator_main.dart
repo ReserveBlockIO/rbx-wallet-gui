@@ -10,6 +10,7 @@ import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/encrypt/utils.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
@@ -83,6 +84,13 @@ class SmartContractCreatorMain extends BaseComponent {
       }
     }
 
+    if (kIsWeb) {
+      if (ref.read(webSessionProvider).currentWallet == null) {
+        Toast.error("No wallet");
+        return;
+      }
+    }
+
     int? amountInt = 1;
 
     if (!kIsWeb) {
@@ -122,7 +130,8 @@ class SmartContractCreatorMain extends BaseComponent {
     if (confirmed == true) {
       final extraConfirm = await ConfirmDialog.show(
         title: "Confirm Address",
-        body: "This will be minted by ${ref.read(sessionProvider).currentWallet!.labelWithoutTruncation}",
+        body:
+            "This will be minted by ${kIsWeb ? ref.read(webSessionProvider).currentWallet!.labelWithoutTruncation : ref.read(sessionProvider).currentWallet!.labelWithoutTruncation}",
         confirmText: "Compile & Mint",
         cancelText: "Cancel",
       );

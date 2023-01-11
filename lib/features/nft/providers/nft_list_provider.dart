@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/models/paginated_response.dart';
+import 'package:rbx_wallet/core/services/transaction_service.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
 
@@ -46,6 +47,9 @@ class NftListProvider extends StateNotifier<NftListModel> {
     // TODO WEB: fix for web
     // final nfts = kIsWeb ? await TransactionService().listNfts(email ?? "", address ?? "") : await NftService().list();
     if (kIsWeb) {
+      final nfts = await TransactionService().listNfts(email ?? "", address ?? "");
+      final d = CliPaginatedResponse(count: nfts.length, results: nfts, page: 1);
+      state = state.copyWith(data: d, page: 1, currentSearch: '');
       return;
     }
     final data = await NftService().list(page, search: state.search);
