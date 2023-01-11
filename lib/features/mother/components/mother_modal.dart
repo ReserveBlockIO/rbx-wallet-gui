@@ -11,6 +11,7 @@ import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/mother/components/mother_add_host_dialog.dart';
 import 'package:rbx_wallet/features/mother/components/mother_create_host_dialog.dart';
+import 'package:rbx_wallet/features/mother/models/mother_child.dart';
 import 'package:rbx_wallet/features/mother/services/mother_service.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:rbx_wallet/utils/files.dart';
@@ -18,7 +19,8 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 class MotherModal extends BaseComponent {
   final MotherData? motherData;
-  const MotherModal(this.motherData, {Key? key}) : super(key: key);
+  final List<MotherChild> children;
+  const MotherModal(this.motherData, this.children, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -67,6 +69,7 @@ class MotherModal extends BaseComponent {
         ),
         Text("Is Host: ${motherData != null ? 'YES' : 'NO'}"),
         Text("Is Follower: ${connectedToMother ? 'YES' : 'NO'}"),
+        if (motherData != null) Text("Children: ${children.length}"),
         Divider(),
         if (motherData != null)
           ListTile(

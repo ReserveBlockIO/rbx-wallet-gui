@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:rbx_wallet/core/services/base_service.dart';
+import 'package:rbx_wallet/features/mother/models/mother_child.dart';
 
 class MotherData {
   final String name;
@@ -19,6 +22,26 @@ class MotherService extends BaseService {
     } catch (e) {
       print(e);
       return null;
+    }
+  }
+
+  Future<List<MotherChild>> getChildren() async {
+    try {
+      final data = await getText('/MothersKids');
+
+      print(data);
+      final items = jsonDecode(data);
+      final List<MotherChild> children = [];
+      for (final item in items) {
+        children.add(MotherChild.fromJson(item));
+      }
+      print(children);
+      print("*********");
+
+      return children;
+    } catch (e) {
+      print(e);
+      return [];
     }
   }
 
