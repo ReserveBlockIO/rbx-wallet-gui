@@ -29,9 +29,13 @@ import 'package:rbx_wallet/features/home/components/transaction_window.dart';
 
 import 'package:rbx_wallet/features/keygen/components/keygen_cta.dart'
     if (dart.library.io) 'package:rbx_wallet/features/keygen/components/keygen_cta_mock.dart';
+import 'package:rbx_wallet/features/mother/components/mother_button.dart';
 
 import 'package:rbx_wallet/features/root/components/reload_button.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
+import 'package:rbx_wallet/features/transactions/models/transaction.dart';
+import 'package:rbx_wallet/features/transactions/models/transaction_notification.dart';
+import 'package:rbx_wallet/features/transactions/providers/transaction_notification_provider.dart';
 import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
@@ -39,6 +43,7 @@ import 'package:rbx_wallet/utils/files.dart';
 import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class HomeScreen extends BaseScreen {
   const HomeScreen({Key? key})
@@ -145,12 +150,8 @@ class HomeScreen extends BaseScreen {
                       }
                     },
                   ),
-                  // AppButton(
-                  //   label: "Get Blockchain",
-                  //   onPressed: () async {
-                  //     await ref.read(walletInfoProvider.notifier).infoLoop(false);
-                  //   },
-                  // ),
+
+                  MotherButton(),
                   HdWalletButton(),
                   if (ref.watch(walletListProvider).isEmpty) RestoreHdWalletButton(),
                   EncryptWalletButton(),
@@ -330,6 +331,7 @@ class HomeScreen extends BaseScreen {
                           });
                     },
                   ),
+
                   AppButton(
                     label: "Restart CLI",
                     // variant: AppColorVariant.Warning,
@@ -349,6 +351,7 @@ class HomeScreen extends BaseScreen {
                       }
                     },
                   ),
+
                   if (!kIsWeb)
                     AppButton(
                       label: "Configure CLI",
@@ -356,6 +359,9 @@ class HomeScreen extends BaseScreen {
                         AutoRouter.of(context).push(const ConfigContainerScreenRoute());
                       },
                     ),
+
+                  
+
                 ],
               ),
             const Divider(),

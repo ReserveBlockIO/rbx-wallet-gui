@@ -22,7 +22,7 @@ _$_Evolve _$$_EvolveFromJson(Map<String, dynamic> json) => _$_Evolve(
 
 Map<String, dynamic> _$$_EvolveToJson(_$_Evolve instance) => <String, dynamic>{
       'id': instance.id,
-      'type': _$EvolveTypeEnumMap[instance.type],
+      'type': _$EvolveTypeEnumMap[instance.type]!,
       'phases': instance.phases.map((e) => e.toJson()).toList(),
       'isDynamic': instance.isDynamic,
       'asset': instance.asset?.toJson(),

@@ -13,7 +13,7 @@ enum _Environment {
   WinTestNet,
   BlockExplorer,
   Web,
-  WebDev,
+  WebTestNet,
   BlockExplorerTestNet,
 }
 
@@ -53,7 +53,7 @@ class Env {
       case _Environment.Web:
         envPath = Assets.env.webEnv;
         break;
-      case _Environment.WebDev:
+      case _Environment.WebTestNet:
         envPath = Assets.env.webDevEnv;
         break;
     }
@@ -67,6 +67,7 @@ class Env {
       case _Environment.WinTestNet:
       case _Environment.ReleaseTestNet:
       case _Environment.BlockExplorerTestNet:
+      case _Environment.WebTestNet:
         return 'https://testnet.rbx.network/';
       default:
         return 'https://rbx.network/';

@@ -30,9 +30,20 @@ class KeygenCta extends BaseComponent {
   Future<void> handleCreate(BuildContext context, WidgetRef ref) async {
     ref.read(globalLoadingProvider.notifier).start();
 
+    final email = await PromptModal.show(
+      contextOverride: context,
+      title: "Email Address",
+      labelText: "Email",
+      validator: formValidatorEmail,
+    );
+
+    if (email == null || email.isEmpty) {
+      return;
+    }
+
     await Future.delayed(const Duration(milliseconds: 300));
 
-    final keypair = await KeygenService.generate();
+    final keypair = await KeygenService.generate(email);
     if (keypair == null) {
       ref.read(globalLoadingProvider.notifier).complete();
       Toast.error();
@@ -44,7 +55,21 @@ class KeygenCta extends BaseComponent {
     showKeys(context, keypair);
   }
 
-  Future<void> handleRecover(BuildContext context, WidgetRef ref) async {
+  Future<void> handleRecover(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
+    final email = await PromptModal.show(
+      contextOverride: context,
+      title: "Email Address",
+      labelText: "Email",
+      validator: formValidatorEmail,
+    );
+
+    if (email == null || email.isEmpty) {
+      return;
+    }
+
     await PromptModal.show(
       title: "Input Recovery Mnemonic",
       validator: (value) => formValidatorNotEmpty(value, "Recovery Mnemonic"),
@@ -55,7 +80,7 @@ class KeygenCta extends BaseComponent {
 
         await Future.delayed(const Duration(milliseconds: 300));
 
-        final keypair = await KeygenService.recover(value.trim());
+        final keypair = await KeygenService.recover(value.trim(), email);
 
         if (keypair == null) {
           Toast.error();
@@ -173,7 +198,10 @@ class KeygenCta extends BaseComponent {
         AppButton(
           label: "Generate Keypair",
           onPressed: () {
-            handleCreate(context, ref);
+            handleCreate(
+              context,
+              ref,
+            );
           },
         ),
         const SizedBox(

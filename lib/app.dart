@@ -19,6 +19,7 @@ import 'package:rbx_wallet/features/encrypt/components/unlock_wallet.dart';
 import 'package:rbx_wallet/features/encrypt/providers/wallet_is_encrypted_provider.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/root/components/system_manager.dart';
+import 'package:rbx_wallet/features/transactions/components/notification_overlay.dart';
 
 final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
@@ -85,6 +86,7 @@ class AppContainer extends ConsumerWidget {
         return Stack(
           children: [
             widget!,
+            NotificationOverlay(),
             if (ref.watch(globalLoadingProvider))
               Container(
                 color: Colors.black54,

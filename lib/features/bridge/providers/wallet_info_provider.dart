@@ -19,6 +19,7 @@ class WalletInfoModel {
   final Block? lastestBlock;
   final bool duplicateValidatorIp;
   final bool duplicateValidatorAddress;
+  final bool connectedToMother;
 
   const WalletInfoModel({
     required this.blockHeight,
@@ -28,6 +29,7 @@ class WalletInfoModel {
     required this.isChainSynced,
     required this.duplicateValidatorIp,
     required this.duplicateValidatorAddress,
+    this.connectedToMother = false,
     this.lastestBlock,
   });
 }
@@ -69,7 +71,7 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
     final bool isResyncing = data['IsResyncing'].toString().toLowerCase() == "true";
     final bool duplicateValidatorIp = data['DuplicateValIP'].toString().toLowerCase() == "true";
     final bool duplicateValidatorAddress = data['DuplicateValAddress'].toString().toLowerCase() == "true";
-
+    final bool connectedToMother = data['ConnectedToMother'].toString().toLowerCase() == 'true';
     final latestBlock = blockHeight > 0 ? await BridgeService().blockInfo(blockHeight) : null;
 
     final prevBlockHeight = state?.blockHeight;
@@ -84,6 +86,7 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
       isChainSynced: isChainSynced,
       duplicateValidatorIp: duplicateValidatorIp,
       duplicateValidatorAddress: duplicateValidatorAddress,
+      connectedToMother: connectedToMother,
     );
 
     read(sessionProvider.notifier).setBlocksAreSyncing(isSyncing);

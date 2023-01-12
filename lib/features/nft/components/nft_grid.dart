@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
@@ -22,10 +23,11 @@ class NftGrid extends BaseComponent {
 
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(6.0),
-          child: NftNavigator(minted: minted),
-        ),
+        if (!kIsWeb)
+          Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: NftNavigator(minted: minted),
+          ),
         Expanded(
           child: Builder(builder: (context) {
             if (_model.data.results.isEmpty) {

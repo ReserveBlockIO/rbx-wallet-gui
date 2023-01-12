@@ -226,10 +226,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
           if (tx != null) {
             if (tx['data']['Result'] == "Success") {
               Toast.message("$amount RBX sent to $address");
-              state = const SendFormModel(
-                address: "",
-                amount: "",
-              );
+              clear();
               return;
             }
           }
