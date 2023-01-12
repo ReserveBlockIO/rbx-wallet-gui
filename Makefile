@@ -6,6 +6,10 @@ gen:
 gen_watch:
 	fvm flutter packages pub run build_runner watch --delete-conflicting-outputs
 
+fix_gen:
+	mkdir ./.dart_tool/flutter_gen
+	echo "version: 1.0.0" > ./.dart_tool/flutter_gen/pubspec.yaml
+
 
 wingen:
 	flutter packages pub run build_runner build --delete-conflicting-outputs

@@ -30,6 +30,16 @@ enum HelpType {
   minting,
   setEvolution,
   manageProperties,
+  configuration,
+  apiPort,
+  apiCallUrl,
+  walletUnlockTime,
+  nftTimeout,
+  passwordClearTime,
+  autoDownloadNftAsset,
+  ignoreIncomingNfts,
+  rejectAssetExtensionTypes,
+  allowedAssetExtensionTypes
 }
 
 class HelpButton extends StatelessWidget {
@@ -112,6 +122,27 @@ class HelpButton extends StatelessWidget {
         return "Set Evolution";
       case HelpType.manageProperties:
         return "Properties";
+
+      case HelpType.configuration:
+        return "Configuration";
+      case HelpType.apiPort:
+        return "Api Port";
+      case HelpType.apiCallUrl:
+        return "Api Call Url";
+      case HelpType.walletUnlockTime:
+        return "Wallet Unlock Time";
+      case HelpType.nftTimeout:
+        return "Nft Timeout";
+      case HelpType.passwordClearTime:
+        return "Password Clear Time";
+      case HelpType.autoDownloadNftAsset:
+        return "Auto Download NFT Asset";
+      case HelpType.ignoreIncomingNfts:
+        return "Ignore Incoming NFTs";
+      case HelpType.rejectAssetExtensionTypes:
+        return "Reject Asset Extension Types";
+      case HelpType.allowedAssetExtensionTypes:
+        return "Allowed Asset Extension Types";
     }
   }
 
@@ -173,6 +204,27 @@ class HelpButton extends StatelessWidget {
         return "With an NFT that has more than 2 phases the user can go directly from one stage to another with the “Set Evolution” button instead of evolving and devolving stage by stage";
       case HelpType.manageProperties:
         return "Create label & value pairs.\nFor example:\n\nLabel: Color\nValue: Blue";
+
+      case HelpType.configuration:
+        return "This values will modify the config.txt file located in the CLIs database, for this changes to take effect the CLI needs to be restarted";
+      case HelpType.apiPort:
+        return "This is the port to call the API. This may be changed to whatever you want. \nDefault value: 7292";
+      case HelpType.apiCallUrl:
+        return "This URL is used to send incoming transactions to an outside URL. This is something used for like incoming deposits or other notification. services. \nDefault value: null";
+      case HelpType.walletUnlockTime:
+        return "This is the amount of time once a password has been entered the wallet will remain unlocked and not need password again \nDefault value: 15";
+      case HelpType.nftTimeout:
+        return "This will control the timeout for processing an incoming NFT \nDefault value: 15";
+      case HelpType.passwordClearTime:
+        return "This will control the clear time for an ecrypted wallets password \nDefault value: 10";
+      case HelpType.autoDownloadNftAsset:
+        return "This will control whether or not an NFT's asset is automatically downloaded \nDefault value: true";
+      case HelpType.ignoreIncomingNfts:
+        return "This will control whether or not incoming NFTs are processed or just added as a TX record \nDefault value: false";
+      case HelpType.rejectAssetExtensionTypes:
+        return "This will add extension types to the already defined list and will reject any NFT assets with these known extension types \nEx: exe,zip,pdf... (ensure there are no spaces between types) \nDefault value is a List of rejected assets";
+      case HelpType.allowedAssetExtensionTypes:
+        return "This will remove extension types to the already defined list and will allow any NFT assets with these known extension types to be downloaded \nEx: pdf,doc,xls \nDefault value: null";
     }
   }
 }
