@@ -140,6 +140,7 @@ class ConfigFormProvider extends StateNotifier<Config> {
       await File(path).writeAsString(fileContents);
       print(fileContents);
       read(sessionProvider.notifier).restartCli();
+      clear();
       AutoRouter.of(context).pop();
     }
   }
@@ -150,7 +151,7 @@ class ConfigFormProvider extends StateNotifier<Config> {
       data += 'Port=13338\n';
       data += 'TestNet=true\n';
     } else {
-      data += 'Port=3338';
+      data += 'Port=3338\n';
     }
 
     if (!state.isApiPortDefault) data += 'APIPort=${state.apiPort}\n';

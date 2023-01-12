@@ -98,11 +98,11 @@ class Config with _$Config {
   }
 
   bool get isRejectAssetExtensionTypesDefault {
-    return ListEquality().equals(rejectAssetExtensionTypes, DEFAULT_REJECTED_EXTENIONS) || rejectAssetExtensionTypes.isEmpty;
+    return ListEquality().equals(rejectAssetExtensionTypes, DEFAULT_REJECTED_EXTENIONS) || nonDefaultRejectExtensionTypes.isEmpty;
   }
 
   bool get isAllowedExtensionTypesDefault {
     if (allowedAssetExtensionTypes == null) return true;
-    return allowedAssetExtensionTypes == ALLOWED_EXTENSION_TYPES_DEFAULT || allowedAssetExtensionTypes!.isEmpty;
+    return allowedAssetExtensionTypes == ALLOWED_EXTENSION_TYPES_DEFAULT || nonBannedExtensionTypes.isEmpty;
   }
 }
