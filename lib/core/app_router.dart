@@ -1,6 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:rbx_wallet/features/beacon/screens/beacon_list_screen.dart';
+
+import 'package:rbx_wallet/features/config/screens/config_container_screen.dart';
+
 import 'package:rbx_wallet/features/mother/screens/mother_dashboard_screen.dart';
+
 
 import '../features/adjudicator/adjudicator_screen.dart';
 import '../features/adnr/screens/adnr_screen.dart';
@@ -165,6 +169,10 @@ const List<AutoRoute> appRoutes = [
   AutoRoute(
     path: "smart-contract-templates",
     page: TemplateChooserScreen,
+  ),
+  AutoRoute(
+    path: "config",
+    page: ConfigContainerScreen,
   ),
   AutoRoute(
     path: "create-smart-contract",

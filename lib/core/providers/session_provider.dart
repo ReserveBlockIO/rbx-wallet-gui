@@ -254,6 +254,8 @@ class SessionProvider extends StateNotifier<SessionModel> {
     await Future.delayed(const Duration(milliseconds: 300));
 
     await init();
+    await fetchConfig();
+
     read(beaconListProvider.notifier).refresh();
   }
 

@@ -1,11 +1,13 @@
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:process_run/shell.dart';
+import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
@@ -349,18 +351,17 @@ class HomeScreen extends BaseScreen {
                       }
                     },
                   ),
-                  AppButton(
-                    label: "Test",
-                    onPressed: () {
-                      final notification = TransactionNotification(
-                        identifier: "abc123",
-                        title: "Test Message",
-                        body:
-                            "This is a test. We be testing everything. etc. blh We be testing everything. etc. blh We be testing everything. etc. blh",
-                      );
-                      ref.read(transactionNotificationProvider.notifier).add(notification);
-                    },
-                  ),
+
+                  if (!kIsWeb)
+                    AppButton(
+                      label: "Configure CLI",
+                      onPressed: () async {
+                        AutoRouter.of(context).push(const ConfigContainerScreenRoute());
+                      },
+                    ),
+
+                  
+
                 ],
               ),
             const Divider(),
