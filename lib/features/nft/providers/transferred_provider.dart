@@ -13,6 +13,12 @@ class TransferredProvider extends StateNotifier<List<String>> {
     singleton<Storage>().setStringList(Storage.TRANSFERRED_NFT_IDS, update);
     state = update;
   }
+
+  removeId(String id) {
+    final update = [...state]..removeWhere((_id) => id == _id);
+    singleton<Storage>().setStringList(Storage.TRANSFERRED_NFT_IDS, update);
+    state = update;
+  }
 }
 
 final transferredProvider = StateNotifierProvider<TransferredProvider, List<String>>(

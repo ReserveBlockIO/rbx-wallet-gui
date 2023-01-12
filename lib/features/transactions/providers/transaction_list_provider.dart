@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
 import 'package:rbx_wallet/features/transactions/models/transaction.dart';
+import 'package:rbx_wallet/features/transactions/providers/transaction_signal_provider.dart';
 import 'package:rbx_wallet/features/transactions/services/local_transaction_service.dart';
 
 enum TransactionListType {
@@ -49,6 +51,12 @@ class TransactionListProvider extends StateNotifier<List<Transaction>> {
     }
 
     state = transactions;
+
+    if (type == TransactionListType.Success) {
+      final recentTimestamp = (DateTime.now().millisecondsSinceEpoch / 1000).round() - (5 * 60); // 5 min
+      final recentTransactions = transactions.where((t) => t.timestamp > recentTimestamp).toList();
+      read(transactionSignalProvider.notifier).insertAll(recentTransactions);
+    }
   }
 }
 

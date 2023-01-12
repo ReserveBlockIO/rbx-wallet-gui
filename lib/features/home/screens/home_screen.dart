@@ -31,6 +31,9 @@ import 'package:rbx_wallet/features/mother/components/mother_button.dart';
 
 import 'package:rbx_wallet/features/root/components/reload_button.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
+import 'package:rbx_wallet/features/transactions/models/transaction.dart';
+import 'package:rbx_wallet/features/transactions/models/transaction_notification.dart';
+import 'package:rbx_wallet/features/transactions/providers/transaction_notification_provider.dart';
 import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
@@ -344,6 +347,18 @@ class HomeScreen extends BaseScreen {
                       if (confirmed) {
                         ref.read(sessionProvider.notifier).restartCli();
                       }
+                    },
+                  ),
+                  AppButton(
+                    label: "Test",
+                    onPressed: () {
+                      final notification = TransactionNotification(
+                        identifier: "abc123",
+                        title: "Test Message",
+                        body:
+                            "This is a test. We be testing everything. etc. blh We be testing everything. etc. blh We be testing everything. etc. blh",
+                      );
+                      ref.read(transactionNotificationProvider.notifier).add(notification);
                     },
                   ),
                 ],
