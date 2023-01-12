@@ -77,7 +77,9 @@ class ConfigContainerScreen extends BaseScreen {
                       label: 'Save',
                       variant: AppColorVariant.Success,
                       onPressed: () {
-                        provider.submit(context);
+                        provider.submit(context).then((value) {
+                          if (value) ref.refresh(configFormProvider);
+                        });
                       },
                     )
                   ],

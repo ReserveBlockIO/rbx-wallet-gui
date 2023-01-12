@@ -126,7 +126,7 @@ class ConfigFormProvider extends StateNotifier<Config> {
     state = state.copyWith(ignoreIncomingNfts: val);
   }
 
-  Future<void> submit(BuildContext context) async {
+  Future<bool> submit(BuildContext context) async {
     final confirmed = await ConfirmDialog.show(
       title: "Are you sure you want to save this configuration?",
       body: "The CLI will restart to see the changes",
@@ -143,6 +143,7 @@ class ConfigFormProvider extends StateNotifier<Config> {
       clear();
       AutoRouter.of(context).pop();
     }
+    return confirmed;
   }
 
   String generateFileString() {
