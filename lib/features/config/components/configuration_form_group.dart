@@ -27,56 +27,26 @@ class ConfigurationFormGroup extends BaseComponent {
               child: ConstrainedBox(
             constraints: BoxConstraints(maxWidth: 600),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: _ApiPort(),
-                    ),
-                  ],
+                Flexible(
+                  child: _ApiPort(),
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _ApiCallUrl(),
-                    )
-                  ],
+                Flexible(
+                  child: _ApiCallUrl(),
                 ),
-                Row(
-                  children: [
-                    Expanded(child: _WalletUnlockTime()),
-                  ],
+                Flexible(child: _WalletUnlockTime()),
+                Flexible(
+                  child: _PasswordClearTime(),
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _PasswordClearTime(),
-                    ),
-                  ],
+                Flexible(child: _NftTimeout()),
+                Flexible(
+                  child: _AutoDownloadNftAsset(),
                 ),
-                Row(
-                  children: [
-                    Expanded(child: _NftTimeout()),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _AutoDownloadNftAsset(),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(child: _IgnoreIncomingNfts()),
-                  ],
-                ),
-                Row(
-                  children: [Expanded(child: _RejectAssetsExtensionTypes())],
-                ),
-                Row(
-                  children: [Expanded(child: _AllowedExtensionTypes())],
-                )
+                Flexible(child: _IgnoreIncomingNfts()),
+                Flexible(child: _RejectAssetsExtensionTypes()),
+                Flexible(child: _AllowedExtensionTypes())
               ],
             ),
           )),
