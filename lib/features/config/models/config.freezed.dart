@@ -254,7 +254,7 @@ class __$$_ConfigCopyWithImpl<$Res> extends _$ConfigCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Config extends _Config {
+class _$_Config extends _Config with DiagnosticableTreeMixin {
   _$_Config(
       {@JsonKey(name: "Port", fromJson: stringToInt)
           this.port = 3338,
@@ -333,8 +333,28 @@ class _$_Config extends _Config {
   }
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'Config(port: $port, apiPort: $apiPort, walletUnlockTime: $walletUnlockTime, passwordClearTime: $passwordClearTime, apiCallUrl: $apiCallUrl, testnet: $testnet, nftTimeout: $nftTimeout, autoDownloadNftAsset: $autoDownloadNftAsset, ignoreIncomingNfts: $ignoreIncomingNfts, rejectAssetExtensionTypes: $rejectAssetExtensionTypes, allowedAssetExtensionTypes: $allowedAssetExtensionTypes)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'Config'))
+      ..add(DiagnosticsProperty('port', port))
+      ..add(DiagnosticsProperty('apiPort', apiPort))
+      ..add(DiagnosticsProperty('walletUnlockTime', walletUnlockTime))
+      ..add(DiagnosticsProperty('passwordClearTime', passwordClearTime))
+      ..add(DiagnosticsProperty('apiCallUrl', apiCallUrl))
+      ..add(DiagnosticsProperty('testnet', testnet))
+      ..add(DiagnosticsProperty('nftTimeout', nftTimeout))
+      ..add(DiagnosticsProperty('autoDownloadNftAsset', autoDownloadNftAsset))
+      ..add(DiagnosticsProperty('ignoreIncomingNfts', ignoreIncomingNfts))
+      ..add(DiagnosticsProperty(
+          'rejectAssetExtensionTypes', rejectAssetExtensionTypes))
+      ..add(DiagnosticsProperty(
+          'allowedAssetExtensionTypes', allowedAssetExtensionTypes));
   }
 
   @override

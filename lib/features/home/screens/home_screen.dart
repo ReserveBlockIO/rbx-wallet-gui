@@ -352,16 +352,13 @@ class HomeScreen extends BaseScreen {
                     },
                   ),
 
-                  if (!kIsWeb)
+                  if (!kIsWeb && kDebugMode)
                     AppButton(
                       label: "Configure CLI",
                       onPressed: () async {
                         AutoRouter.of(context).push(const ConfigContainerScreenRoute());
                       },
                     ),
-
-                  
-
                 ],
               ),
             const Divider(),
