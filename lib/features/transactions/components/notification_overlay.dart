@@ -39,7 +39,7 @@ class NotificationOverlay extends BaseComponent {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ConstrainedBox(
-                          constraints: BoxConstraints(maxWidth: 300, minWidth: 200),
+                          constraints: BoxConstraints(maxWidth: 400, minWidth: 200),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
