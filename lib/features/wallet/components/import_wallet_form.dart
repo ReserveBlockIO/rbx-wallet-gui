@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
+
+import '../../../core/components/buttons.dart';
 
 class ImportWalletForm extends StatelessWidget {
   const ImportWalletForm({Key? key}) : super(key: key);

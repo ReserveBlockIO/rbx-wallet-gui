@@ -1,20 +1,21 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/breakpoints.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/core/singletons.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/core/web_router.gr.dart';
-import 'package:rbx_wallet/features/auth/auth_utils.dart';
-import 'package:rbx_wallet/features/auth/components/auth_type_modal.dart';
-import 'package:rbx_wallet/generated/assets.gen.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+
+import '../../../core/app_constants.dart';
+import '../../../core/app_router.gr.dart';
+import '../../../core/base_screen.dart';
+import '../../../core/breakpoints.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/env.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../../core/singletons.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../core/web_router.gr.dart';
+import '../../../generated/assets.gen.dart';
+import '../../../utils/validation.dart';
+import '../auth_utils.dart';
+import '../components/auth_type_modal.dart';
 
 class WebAuthScreen extends BaseStatefulScreen {
   const WebAuthScreen({Key? key})

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/features/nft/components/nft_grid.dart';
-import 'package:rbx_wallet/features/nft/components/nft_list.dart';
-import 'package:rbx_wallet/features/nft/providers/nft_list_view_provider.dart';
+
+import '../../../core/base_screen.dart';
+import '../components/nft_grid.dart';
+import '../components/nft_list.dart';
+import '../providers/nft_list_view_provider.dart';
 
 class NftListScreen extends BaseScreen {
   const NftListScreen({Key? key})

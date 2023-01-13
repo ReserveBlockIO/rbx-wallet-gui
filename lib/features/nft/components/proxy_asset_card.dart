@@ -1,12 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/components/centered_loader.dart';
-
-import 'package:rbx_wallet/features/asset/proxied_asset.dart';
-import 'package:rbx_wallet/utils/html_helpers.dart';
-
 import 'package:video_player/video_player.dart';
+
+import '../../../core/components/buttons.dart';
+import '../../../core/components/centered_loader.dart';
+import '../../../utils/html_helpers.dart';
+import '../../asset/proxied_asset.dart';
 
 class ProxiedAssetCard extends StatelessWidget {
   final ProxiedAsset? asset;

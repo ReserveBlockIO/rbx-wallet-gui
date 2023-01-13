@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/transactions/models/transaction_notification.dart';
+import '../models/transaction_notification.dart';
 
 import 'package:collection/collection.dart';
 

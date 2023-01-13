@@ -1,4 +1,4 @@
-import 'package:rbx_wallet/utils/html_helpers_interface.dart';
+import 'html_helpers_interface.dart';
 
 class HtmlHelpersImplementation extends HtmlHelpersInterface {
   @override

@@ -1,24 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/features/transactions/models/transaction.dart';
-import 'package:rbx_wallet/features/wallet/models/wallet.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
+
+import '../../../core/base_component.dart';
+import '../../wallet/models/wallet.dart';
+import '../../wallet/providers/wallet_list_provider.dart';
+import '../models/transaction.dart';
 
 class CompactTransactionListTile extends BaseComponent {
   final Transaction transaction;
 
-  const CompactTransactionListTile(this.transaction, {Key? key})
-      : super(key: key);
+  const CompactTransactionListTile(this.transaction, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final Wallet? toWallet =
-        ref.read(walletListProvider.notifier).getWallet(transaction.toAddress);
+    final Wallet? toWallet = ref.read(walletListProvider.notifier).getWallet(transaction.toAddress);
 
-    final Wallet? fromWallet = ref
-        .read(walletListProvider.notifier)
-        .getWallet(transaction.fromAddress);
+    final Wallet? fromWallet = ref.read(walletListProvider.notifier).getWallet(transaction.fromAddress);
 
     final toMe = toWallet != null;
     final fromMe = fromWallet != null;

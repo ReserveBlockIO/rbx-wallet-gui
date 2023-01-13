@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/core/services/transaction_service.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
-import 'package:rbx_wallet/features/store/models/store.dart';
-import 'package:rbx_wallet/utils/html_helpers.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../../core/services/transaction_service.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../../nft/models/nft.dart';
+import '../../nft/providers/nft_list_provider.dart';
+import '../../store/models/store.dart';
+import '../../../utils/html_helpers.dart';
+import '../../../utils/toast.dart';
+import '../../../utils/validation.dart';
 
 class CreateStoreModel {
   final String name;

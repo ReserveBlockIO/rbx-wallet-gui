@@ -1,14 +1,15 @@
 import 'dart:convert';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/transactions/providers/transaction_list_provider.dart';
-import 'package:collection/collection.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/components/buttons.dart';
+import '../../../utils/toast.dart';
+import '../../transactions/providers/transaction_list_provider.dart';
+import '../models/nft.dart';
 
 class MediaBackup extends BaseComponent {
   final Nft nft;

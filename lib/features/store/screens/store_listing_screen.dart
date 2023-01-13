@@ -1,15 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/components/centered_loader.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/core/support.dart';
-import 'package:rbx_wallet/core/web_router.gr.dart';
-import 'package:rbx_wallet/features/store/components/store_listing.dart';
-import 'package:rbx_wallet/features/store/providers/listing_detail_provider.dart';
-import 'package:rbx_wallet/features/web/components/web_wallet_details.dart';
-import 'package:rbx_wallet/generated/assets.gen.dart';
+
+import '../../../core/base_screen.dart';
+import '../../../core/components/centered_loader.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../../core/support.dart';
+import '../../../core/web_router.gr.dart';
+import '../../../generated/assets.gen.dart';
+import '../../web/components/web_wallet_details.dart';
+import '../components/store_listing.dart';
+import '../providers/listing_detail_provider.dart';
 
 class StoreListingScreen extends BaseScreen {
   final String slug;

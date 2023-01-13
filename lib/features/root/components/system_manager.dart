@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_window_close/flutter_window_close.dart';
-import 'package:rbx_wallet/core/providers/is_active_provider.dart';
-import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
+
+import '../../../core/providers/is_active_provider.dart';
+import '../../bridge/services/bridge_service.dart';
 
 class AppSystemManager extends ConsumerStatefulWidget {
   final Widget child;
@@ -12,8 +13,7 @@ class AppSystemManager extends ConsumerStatefulWidget {
   _AppSystemManagerState createState() => _AppSystemManagerState();
 }
 
-class _AppSystemManagerState extends ConsumerState<AppSystemManager>
-    with WidgetsBindingObserver {
+class _AppSystemManagerState extends ConsumerState<AppSystemManager> with WidgetsBindingObserver {
   bool shouldActivateOnTick = false;
 
   @override

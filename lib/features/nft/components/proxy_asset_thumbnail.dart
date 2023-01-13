@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/features/asset/asset.dart';
-import 'package:rbx_wallet/features/asset/asset_card.dart';
-import 'package:rbx_wallet/features/asset/proxied_asset.dart';
-import 'package:rbx_wallet/features/nft/components/proxy_asset_card.dart';
+
+import '../../asset/proxied_asset.dart';
+import 'proxy_asset_card.dart';
 
 class ProxyAssetThumbnail extends StatelessWidget {
   final double size;

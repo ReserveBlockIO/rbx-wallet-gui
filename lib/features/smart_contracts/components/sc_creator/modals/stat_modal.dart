@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_awesome_select/flutter_awesome_select.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_header.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_bottom_actions.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/stat.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/stat_form_provider.dart';
+import '../../../../../core/base_component.dart';
+import '../common/form_group_header.dart';
+import '../common/help_button.dart';
+import '../common/modal_bottom_actions.dart';
+import '../common/modal_container.dart';
+import '../../../models/stat.dart';
+import '../../../providers/stat_form_provider.dart';
 
 class StatModal extends BaseComponent {
   final int index;

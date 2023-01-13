@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/store/models/listing.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/theme/app_theme.dart';
+import '../models/listing.dart';
 
 class BidHistory extends BaseComponent {
   final Listing listing;

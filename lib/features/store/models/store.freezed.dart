@@ -32,8 +32,7 @@ mixin _$Store {
 
 /// @nodoc
 abstract class $StoreCopyWith<$Res> {
-  factory $StoreCopyWith(Store value, $Res Function(Store) then) =
-      _$StoreCopyWithImpl<$Res>;
+  factory $StoreCopyWith(Store value, $Res Function(Store) then) = _$StoreCopyWithImpl<$Res>;
   $Res call({int id, String uuid, String slug, String name});
 }
 
@@ -75,17 +74,14 @@ class _$StoreCopyWithImpl<$Res> implements $StoreCopyWith<$Res> {
 
 /// @nodoc
 abstract class _$$_StoreCopyWith<$Res> implements $StoreCopyWith<$Res> {
-  factory _$$_StoreCopyWith(_$_Store value, $Res Function(_$_Store) then) =
-      __$$_StoreCopyWithImpl<$Res>;
+  factory _$$_StoreCopyWith(_$_Store value, $Res Function(_$_Store) then) = __$$_StoreCopyWithImpl<$Res>;
   @override
   $Res call({int id, String uuid, String slug, String name});
 }
 
 /// @nodoc
-class __$$_StoreCopyWithImpl<$Res> extends _$StoreCopyWithImpl<$Res>
-    implements _$$_StoreCopyWith<$Res> {
-  __$$_StoreCopyWithImpl(_$_Store _value, $Res Function(_$_Store) _then)
-      : super(_value, (v) => _then(v as _$_Store));
+class __$$_StoreCopyWithImpl<$Res> extends _$StoreCopyWithImpl<$Res> implements _$$_StoreCopyWith<$Res> {
+  __$$_StoreCopyWithImpl(_$_Store _value, $Res Function(_$_Store) _then) : super(_value, (v) => _then(v as _$_Store));
 
   @override
   _$_Store get _value => super._value as _$_Store;
@@ -121,15 +117,9 @@ class __$$_StoreCopyWithImpl<$Res> extends _$StoreCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Store extends _Store {
-  _$_Store(
-      {required this.id,
-      required this.uuid,
-      required this.slug,
-      required this.name})
-      : super._();
+  _$_Store({required this.id, required this.uuid, required this.slug, required this.name}) : super._();
 
-  factory _$_Store.fromJson(Map<String, dynamic> json) =>
-      _$$_StoreFromJson(json);
+  factory _$_Store.fromJson(Map<String, dynamic> json) => _$$_StoreFromJson(json);
 
   @override
   final int id;
@@ -158,17 +148,12 @@ class _$_Store extends _Store {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(uuid),
-      const DeepCollectionEquality().hash(slug),
-      const DeepCollectionEquality().hash(name));
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(id), const DeepCollectionEquality().hash(uuid),
+      const DeepCollectionEquality().hash(slug), const DeepCollectionEquality().hash(name));
 
   @JsonKey(ignore: true)
   @override
-  _$$_StoreCopyWith<_$_Store> get copyWith =>
-      __$$_StoreCopyWithImpl<_$_Store>(this, _$identity);
+  _$$_StoreCopyWith<_$_Store> get copyWith => __$$_StoreCopyWithImpl<_$_Store>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -177,11 +162,7 @@ class _$_Store extends _Store {
 }
 
 abstract class _Store extends Store {
-  factory _Store(
-      {required final int id,
-      required final String uuid,
-      required final String slug,
-      required final String name}) = _$_Store;
+  factory _Store({required final int id, required final String uuid, required final String slug, required final String name}) = _$_Store;
   _Store._() : super._();
 
   factory _Store.fromJson(Map<String, dynamic> json) = _$_Store.fromJson;
@@ -196,6 +177,5 @@ abstract class _Store extends Store {
   String get name => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$$_StoreCopyWith<_$_Store> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$_StoreCopyWith<_$_Store> get copyWith => throw _privateConstructorUsedError;
 }

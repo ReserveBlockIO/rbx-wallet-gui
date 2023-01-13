@@ -1,10 +1,11 @@
 // ignore_for_file: avoid_web_libraries_in_flutter
 import 'dart:js' as js;
+
+import 'package:bip39/bip39.dart' as bip39;
+import 'package:hex/hex.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/features/keygen/bip32/bip32.dart' as bip32;
 import 'package:rbx_wallet/features/keygen/models/keypair.dart';
-import 'package:bip39/bip39.dart' as bip39;
-import 'package:hex/hex.dart';
 
 class KeygenService {
   static Future<Keypair> importPrivateKey(

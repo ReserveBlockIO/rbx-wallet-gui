@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/components/dropdowns.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/asset/asset.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/file_selector.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_header.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_bottom_actions.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_form_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase_form_provider.dart';
+import '../../../../core/base_component.dart';
+import '../../../../core/components/buttons.dart';
+import '../../../../core/components/dropdowns.dart';
+import '../../../../core/dialogs.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../../../asset/asset.dart';
+import '../../components/sc_creator/common/file_selector.dart';
+import '../../components/sc_creator/common/form_group_header.dart';
+import '../../components/sc_creator/common/help_button.dart';
+import '../../components/sc_creator/common/modal_bottom_actions.dart';
+import '../../components/sc_creator/common/modal_container.dart';
+import 'evolve.dart';
+import 'evolve_form_provider.dart';
+import 'evolve_phase.dart';
+import 'evolve_phase_form_provider.dart';
 
 class EvolveModal extends BaseComponent {
   const EvolveModal({Key? key}) : super(key: key);

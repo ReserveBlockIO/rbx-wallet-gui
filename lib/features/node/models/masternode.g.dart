@@ -6,8 +6,7 @@ part of 'masternode.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Masternode _$$_MasternodeFromJson(Map<String, dynamic> json) =>
-    _$_Masternode(
+_$_Masternode _$$_MasternodeFromJson(Map<String, dynamic> json) => _$_Masternode(
       address: json['address'] as String,
       uniqueName: json['unique_name'] as String,
       connectDate: DateTime.parse(json['connect_date'] as String),
@@ -15,8 +14,7 @@ _$_Masternode _$$_MasternodeFromJson(Map<String, dynamic> json) =>
       blockCount: json['block_count'] as int,
     );
 
-Map<String, dynamic> _$$_MasternodeToJson(_$_Masternode instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$$_MasternodeToJson(_$_Masternode instance) => <String, dynamic>{
       'address': instance.address,
       'unique_name': instance.uniqueName,
       'connect_date': instance.connectDate.toIso8601String(),

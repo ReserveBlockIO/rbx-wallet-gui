@@ -1,14 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/asset/asset.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/multi_asset.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
-import 'package:rbx_wallet/utils/generators.dart';
+
+import '../../../../utils/generators.dart';
+import '../../../asset/asset.dart';
+import '../../models/multi_asset.dart';
+import '../../providers/create_smart_contract_provider.dart';
 
 class MultiAssetFormProvider extends StateNotifier<MultiAsset> {
   final Reader read;
 
-  MultiAssetFormProvider(this.read, [MultiAsset model = const MultiAsset()])
-      : super(model);
+  MultiAssetFormProvider(this.read, [MultiAsset model = const MultiAsset()]) : super(model);
 
   void setMultiAsset(MultiAsset multiAsset) {
     state = multiAsset;
@@ -37,7 +37,6 @@ class MultiAssetFormProvider extends StateNotifier<MultiAsset> {
   }
 }
 
-final multiAssetFormProvider =
-    StateNotifierProvider<MultiAssetFormProvider, MultiAsset>(
+final multiAssetFormProvider = StateNotifierProvider<MultiAssetFormProvider, MultiAsset>(
   (ref) => MultiAssetFormProvider(ref.read),
 );

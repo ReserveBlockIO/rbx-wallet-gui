@@ -1,21 +1,20 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
-import 'package:rbx_wallet/features/voting/components/topic_search_modal.dart';
-import 'package:rbx_wallet/features/voting/providers/topic_search_provider.dart';
-import 'package:rbx_wallet/features/voting/services/topic_service.dart';
 
 import '../../../core/app_router.gr.dart';
 import '../../../core/base_screen.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/theme/app_theme.dart';
 import '../../../utils/toast.dart';
 import '../components/topic_grid.dart';
 import '../components/topic_list.dart';
+import '../components/topic_search_modal.dart';
 import '../providers/topic_list_provider.dart';
 import '../providers/topic_list_view_provider.dart';
+import '../providers/topic_search_provider.dart';
+import '../services/topic_service.dart';
 import '../utils.dart';
 
 class TopicListScreen extends BaseScreen {

@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/features/store/models/listing.dart';
+
+import 'listing.dart';
 
 part 'store_collection.freezed.dart';
 part 'store_collection.g.dart';

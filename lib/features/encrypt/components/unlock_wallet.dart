@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
-import 'package:rbx_wallet/features/encrypt/providers/password_required_provider.dart';
-import 'package:rbx_wallet/features/encrypt/providers/startup_password_required_provider.dart';
-import 'package:rbx_wallet/generated/assets.gen.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+
+import '../../../core/providers/session_provider.dart';
+import '../../../generated/assets.gen.dart';
+import '../../../utils/toast.dart';
+import '../providers/password_required_provider.dart';
+import '../providers/startup_password_required_provider.dart';
 
 class UnlockWallet extends StatefulWidget {
   final Reader read;

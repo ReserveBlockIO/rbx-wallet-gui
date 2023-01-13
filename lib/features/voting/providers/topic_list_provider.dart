@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/voting/models/topic.dart';
-import 'package:rbx_wallet/features/voting/providers/my_vote_list_provider.dart';
-import 'package:rbx_wallet/features/voting/services/topic_service.dart';
+
+import '../models/topic.dart';
+import '../services/topic_service.dart';
 
 enum TopicListType {
   All,

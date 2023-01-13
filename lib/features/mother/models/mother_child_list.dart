@@ -1,15 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/breakpoints.dart';
-import 'package:rbx_wallet/core/components/badges.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/mother/components/mother_child_card.dart';
-import 'package:rbx_wallet/features/mother/models/mother_child.dart';
-import 'package:rbx_wallet/features/mother/services/mother_service.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+
+import '../components/mother_child_card.dart';
+import '../services/mother_service.dart';
+import 'mother_child.dart';
 
 class MotherChildList extends StatefulWidget {
   const MotherChildList({Key? key}) : super(key: key);

@@ -16,7 +16,6 @@ class GlobalLoadingProvider extends StateNotifier<bool> {
   }
 }
 
-final globalLoadingProvider =
-    StateNotifierProvider<GlobalLoadingProvider, bool>((ref) {
+final globalLoadingProvider = StateNotifierProvider<GlobalLoadingProvider, bool>((ref) {
   return GlobalLoadingProvider();
 });

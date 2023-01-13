@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/beacon/models/beacon.dart';
-import 'package:rbx_wallet/features/beacon/services/beacon_service.dart';
+
+import '../models/beacon.dart';
+import '../services/beacon_service.dart';
 
 class BeaconListProvider extends StateNotifier<List<Beacon>> {
   final Reader read;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
+
+import 'help_button.dart';
 
 class FormGroupHeader extends StatelessWidget {
   final String title;

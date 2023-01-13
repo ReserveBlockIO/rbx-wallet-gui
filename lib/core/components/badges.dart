@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
+
+import '../theme/app_theme.dart';
 
 class AppBadge extends StatelessWidget {
   final AppColorVariant variant;

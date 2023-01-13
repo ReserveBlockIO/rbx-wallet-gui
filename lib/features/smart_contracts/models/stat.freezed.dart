@@ -32,8 +32,7 @@ mixin _$Stat {
 
 /// @nodoc
 abstract class $StatCopyWith<$Res> {
-  factory $StatCopyWith(Stat value, $Res Function(Stat) then) =
-      _$StatCopyWithImpl<$Res>;
+  factory $StatCopyWith(Stat value, $Res Function(Stat) then) = _$StatCopyWithImpl<$Res>;
   $Res call({String label, String value, String description, StatType type});
 }
 
@@ -75,17 +74,14 @@ class _$StatCopyWithImpl<$Res> implements $StatCopyWith<$Res> {
 
 /// @nodoc
 abstract class _$$_StatCopyWith<$Res> implements $StatCopyWith<$Res> {
-  factory _$$_StatCopyWith(_$_Stat value, $Res Function(_$_Stat) then) =
-      __$$_StatCopyWithImpl<$Res>;
+  factory _$$_StatCopyWith(_$_Stat value, $Res Function(_$_Stat) then) = __$$_StatCopyWithImpl<$Res>;
   @override
   $Res call({String label, String value, String description, StatType type});
 }
 
 /// @nodoc
-class __$$_StatCopyWithImpl<$Res> extends _$StatCopyWithImpl<$Res>
-    implements _$$_StatCopyWith<$Res> {
-  __$$_StatCopyWithImpl(_$_Stat _value, $Res Function(_$_Stat) _then)
-      : super(_value, (v) => _then(v as _$_Stat));
+class __$$_StatCopyWithImpl<$Res> extends _$StatCopyWithImpl<$Res> implements _$$_StatCopyWith<$Res> {
+  __$$_StatCopyWithImpl(_$_Stat _value, $Res Function(_$_Stat) _then) : super(_value, (v) => _then(v as _$_Stat));
 
   @override
   _$_Stat get _value => super._value as _$_Stat;
@@ -121,12 +117,7 @@ class __$$_StatCopyWithImpl<$Res> extends _$StatCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Stat extends _Stat {
-  const _$_Stat(
-      {this.label = "",
-      this.value = "",
-      this.description = "",
-      this.type = StatType.string})
-      : super._();
+  const _$_Stat({this.label = "", this.value = "", this.description = "", this.type = StatType.string}) : super._();
 
   factory _$_Stat.fromJson(Map<String, dynamic> json) => _$$_StatFromJson(json);
 
@@ -155,24 +146,18 @@ class _$_Stat extends _Stat {
             other is _$_Stat &&
             const DeepCollectionEquality().equals(other.label, label) &&
             const DeepCollectionEquality().equals(other.value, value) &&
-            const DeepCollectionEquality()
-                .equals(other.description, description) &&
+            const DeepCollectionEquality().equals(other.description, description) &&
             const DeepCollectionEquality().equals(other.type, type));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(label),
-      const DeepCollectionEquality().hash(value),
-      const DeepCollectionEquality().hash(description),
-      const DeepCollectionEquality().hash(type));
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(label), const DeepCollectionEquality().hash(value),
+      const DeepCollectionEquality().hash(description), const DeepCollectionEquality().hash(type));
 
   @JsonKey(ignore: true)
   @override
-  _$$_StatCopyWith<_$_Stat> get copyWith =>
-      __$$_StatCopyWithImpl<_$_Stat>(this, _$identity);
+  _$$_StatCopyWith<_$_Stat> get copyWith => __$$_StatCopyWithImpl<_$_Stat>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -181,11 +166,7 @@ class _$_Stat extends _Stat {
 }
 
 abstract class _Stat extends Stat {
-  const factory _Stat(
-      {final String label,
-      final String value,
-      final String description,
-      final StatType type}) = _$_Stat;
+  const factory _Stat({final String label, final String value, final String description, final StatType type}) = _$_Stat;
   const _Stat._() : super._();
 
   factory _Stat.fromJson(Map<String, dynamic> json) = _$_Stat.fromJson;

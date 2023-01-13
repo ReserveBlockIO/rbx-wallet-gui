@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/features/nft/providers/minted_nft_list_provider.dart';
-import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
+import '../../../core/base_component.dart';
+import '../../../core/components/buttons.dart';
+import '../providers/minted_nft_list_provider.dart';
+import '../providers/nft_list_provider.dart';
 
 class NftNavigator extends BaseComponent {
   const NftNavigator({

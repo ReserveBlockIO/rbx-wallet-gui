@@ -1,8 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/singletons.dart';
-import 'package:rbx_wallet/core/storage.dart';
-import 'package:rbx_wallet/features/wallet/models/wallet.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
+
+import '../../../core/singletons.dart';
+import '../../../core/storage.dart';
+import '../models/wallet.dart';
+import 'wallet_list_provider.dart';
 
 class WalletDetailProvider extends StateNotifier<Wallet> {
   final Reader read;
@@ -15,8 +16,7 @@ class WalletDetailProvider extends StateNotifier<Wallet> {
 
   void delete() {
     read(walletListProvider.notifier).delete(state);
-    List<dynamic>? deleted =
-        singleton<Storage>().getList(Storage.DELETED_WALLETS_KEY);
+    List<dynamic>? deleted = singleton<Storage>().getList(Storage.DELETED_WALLETS_KEY);
 
     deleted ??= [];
 
@@ -25,8 +25,6 @@ class WalletDetailProvider extends StateNotifier<Wallet> {
   }
 }
 
-final walletDetailProvider =
-    StateNotifierProviderFamily<WalletDetailProvider, Wallet, Wallet>(
-        (ref, wallet) {
+final walletDetailProvider = StateNotifierProviderFamily<WalletDetailProvider, Wallet, Wallet>((ref, wallet) {
   return WalletDetailProvider(ref.read, wallet);
 });

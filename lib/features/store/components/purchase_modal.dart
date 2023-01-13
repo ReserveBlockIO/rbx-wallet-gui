@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/centered_loader.dart';
-import 'package:rbx_wallet/core/components/dropdowns.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/store/components/not_accepting_rbx_message.dart';
-import 'package:rbx_wallet/features/store/models/listing.dart';
-import 'package:rbx_wallet/features/store/providers/listing_detail_provider.dart';
-import 'package:rbx_wallet/features/store/providers/purchase_provider.dart';
+import '../../../core/base_component.dart';
+import '../../../core/components/centered_loader.dart';
+import '../../../core/components/dropdowns.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../../core/theme/app_theme.dart';
+import 'not_accepting_rbx_message.dart';
+import '../models/listing.dart';
+import '../providers/listing_detail_provider.dart';
+import '../providers/purchase_provider.dart';
 
 class PurchaseModal extends BaseComponent {
   final Listing listing;

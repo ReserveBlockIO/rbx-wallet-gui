@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/draft_smart_contracts_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/my_smart_contracts_provider.dart';
+
+import '../../../core/base_screen.dart';
+import '../providers/create_smart_contract_provider.dart';
+import '../providers/draft_smart_contracts_provider.dart';
+import '../providers/my_smart_contracts_provider.dart';
 
 class SmartContractDraftsScreen extends BaseScreen {
   const SmartContractDraftsScreen({Key? key}) : super(key: key);

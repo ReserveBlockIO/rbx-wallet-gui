@@ -1,24 +1,26 @@
 import 'dart:math' as math;
+
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
-import 'package:rbx_wallet/features/encrypt/utils.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/features/health/health_service.dart';
-import 'package:rbx_wallet/features/validator/providers/current_validator_provider.dart';
-import 'package:rbx_wallet/features/wallet/components/invalid_wallet.dart';
-import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
-import 'package:rbx_wallet/utils/guards.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-import 'package:rbx_wallet/utils/validation.dart';
-import 'package:collection/collection.dart';
+
+import '../../../core/base_screen.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/env.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../utils/guards.dart';
+import '../../../utils/toast.dart';
+import '../../../utils/validation.dart';
+import '../../bridge/services/bridge_service.dart';
+import '../../encrypt/utils.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../../health/health_service.dart';
+import '../../wallet/components/invalid_wallet.dart';
+import '../../wallet/components/wallet_selector.dart';
+import '../../wallet/providers/wallet_list_provider.dart';
+import '../providers/current_validator_provider.dart';
 
 class ValidatorScreen extends BaseScreen {
   const ValidatorScreen({Key? key}) : super(key: key);

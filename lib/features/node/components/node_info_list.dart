@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/features/node/components/node_info_card.dart';
-import 'package:rbx_wallet/features/node/providers/node_info_provider.dart';
+
+import '../../../core/base_component.dart';
+import '../providers/node_info_provider.dart';
+import 'node_info_card.dart';
 
 class NodeInfoList extends BaseComponent {
   NodeInfoList({Key? key}) : super(key: key);

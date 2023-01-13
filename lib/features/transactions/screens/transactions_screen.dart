@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
-import 'package:rbx_wallet/features/transactions/components/transaction_list.dart';
-import 'package:rbx_wallet/features/transactions/providers/transaction_list_provider.dart';
-import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
+
+import '../../../core/base_screen.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../wallet/components/wallet_selector.dart';
+import '../components/transaction_list.dart';
+import '../providers/transaction_list_provider.dart';
 
 class TransactionsScreen extends BaseScreen {
   const TransactionsScreen({Key? key}) : super(key: key, verticalPadding: 0, horizontalPadding: 0);

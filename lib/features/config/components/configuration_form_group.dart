@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/features/config/constants.dart';
-import 'package:rbx_wallet/features/config/providers/config_form_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_container.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_header.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/env.dart';
+import '../../../utils/validation.dart';
+import '../../smart_contracts/components/sc_creator/common/form_group_container.dart';
+import '../../smart_contracts/components/sc_creator/common/form_group_header.dart';
+import '../../smart_contracts/components/sc_creator/common/help_button.dart';
+import '../constants.dart';
+import '../providers/config_form_provider.dart';
 
 class ConfigurationFormGroup extends BaseComponent {
   const ConfigurationFormGroup({Key? key}) : super(key: key);

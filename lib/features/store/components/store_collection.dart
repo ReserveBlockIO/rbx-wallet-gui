@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/features/nft/components/nft_qr_code.dart';
-import 'package:rbx_wallet/features/store/components/store_listing.dart';
-import 'package:rbx_wallet/features/store/models/store_collection.dart';
-import 'package:rbx_wallet/utils/html_helpers.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+
+import '../../../core/base_component.dart';
+import '../../../utils/html_helpers.dart';
+import '../../../utils/toast.dart';
+import '../../nft/components/nft_qr_code.dart';
+import '../models/store_collection.dart';
+import 'store_listing.dart';
 
 class StoreCollectionContainer extends BaseComponent {
   final StoreCollection collection;

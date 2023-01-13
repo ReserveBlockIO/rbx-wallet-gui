@@ -10,8 +10,7 @@ _$_Stat _$$_StatFromJson(Map<String, dynamic> json) => _$_Stat(
       label: json['label'] as String? ?? "",
       value: json['value'] as String? ?? "",
       description: json['description'] as String? ?? "",
-      type: $enumDecodeNullable(_$StatTypeEnumMap, json['type']) ??
-          StatType.string,
+      type: $enumDecodeNullable(_$StatTypeEnumMap, json['type']) ?? StatType.string,
     );
 
 Map<String, dynamic> _$$_StatToJson(_$_Stat instance) => <String, dynamic>{

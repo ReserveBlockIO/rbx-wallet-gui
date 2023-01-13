@@ -1,17 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
-import 'package:rbx_wallet/features/encrypt/providers/startup_password_required_provider.dart';
-import 'package:rbx_wallet/features/encrypt/components/unlock_wallet.dart';
 
 import '../../app.dart';
 import '../../core/app_router.gr.dart';
+import '../../core/base_component.dart';
+import '../../core/dialogs.dart';
 import '../../core/env.dart';
+import '../../core/theme/app_theme.dart';
+import '../bridge/providers/wallet_info_provider.dart';
+import '../encrypt/components/unlock_wallet.dart';
+import '../encrypt/providers/startup_password_required_provider.dart';
 import '../home/components/footer.dart';
 import 'navigation/components/main_menu.dart';
 import 'status/components/status_container.dart';

@@ -1,20 +1,20 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/breakpoints.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/core/web_router.gr.dart';
-import 'package:rbx_wallet/features/root/web_dashboard_container.dart';
-import 'package:rbx_wallet/features/web/components/web_latest_block.dart';
-import 'package:rbx_wallet/features/web/components/web_wallet_details.dart';
-import 'package:rbx_wallet/generated/assets.gen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../core/base_component.dart';
+import '../../../core/base_screen.dart';
+import '../../../core/breakpoints.dart';
+import '../../../core/components/buttons.dart';
 import '../../../core/env.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../core/web_router.gr.dart';
+import '../../../generated/assets.gen.dart';
+import '../../root/web_dashboard_container.dart';
+import '../../web/components/web_latest_block.dart';
+import '../../web/components/web_wallet_details.dart';
 
 class WebHomeScreen extends BaseScreen {
   const WebHomeScreen({Key? key})

@@ -1,11 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/voting/models/topic.dart';
-import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/components/centered_loader.dart';
+import '../../wallet/components/wallet_selector.dart';
 import '../components/topic_detail.dart';
 import '../providers/topic_detail_provider.dart';
 

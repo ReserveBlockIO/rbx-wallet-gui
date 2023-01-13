@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
-import 'package:rbx_wallet/utils/generators.dart';
+
+import '../../../../utils/generators.dart';
+import '../../providers/create_smart_contract_provider.dart';
+import 'ticket.dart';
 
 class TicketFormProvider extends StateNotifier<Ticket> {
   final Reader read;
@@ -17,8 +18,7 @@ class TicketFormProvider extends StateNotifier<Ticket> {
   late final TextEditingController eventExpireDateController;
   late final TextEditingController eventExpireTimeController;
 
-  TicketFormProvider(this.read, [Ticket model = const Ticket()])
-      : super(model) {
+  TicketFormProvider(this.read, [Ticket model = const Ticket()]) : super(model) {
     eventNameController = TextEditingController(text: model.eventName);
     eventAddressController = TextEditingController(text: model.eventAddress);
     descriptionController = TextEditingController(text: model.description);
@@ -27,10 +27,8 @@ class TicketFormProvider extends StateNotifier<Ticket> {
     eventCodeController = TextEditingController(text: model.eventCode);
     quantityController = TextEditingController(text: model.quantity.toString());
     seatInfoController = TextEditingController(text: model.seatInfo);
-    eventExpireDateController =
-        TextEditingController(text: model.expireDateLabel);
-    eventExpireTimeController =
-        TextEditingController(text: model.expireTimeLabel);
+    eventExpireDateController = TextEditingController(text: model.expireDateLabel);
+    eventExpireTimeController = TextEditingController(text: model.expireTimeLabel);
 
     setTicket(model);
   }
@@ -61,10 +59,7 @@ class TicketFormProvider extends StateNotifier<Ticket> {
   updateDate(DateTime date) {
     final existing = state.eventDate;
 
-    final d = existing == null
-        ? date
-        : DateTime(
-            date.year, date.month, date.day, existing.hour, existing.minute);
+    final d = existing == null ? date : DateTime(date.year, date.month, date.day, existing.hour, existing.minute);
 
     state = state.copyWith(eventDate: d);
 
@@ -77,8 +72,7 @@ class TicketFormProvider extends StateNotifier<Ticket> {
 
     final d = existing == null
         ? DateTime(now.year, now.month, now.day, time.hour, time.minute)
-        : DateTime(existing.year, existing.month, existing.day, time.hour,
-            time.minute);
+        : DateTime(existing.year, existing.month, existing.day, time.hour, time.minute);
 
     state = state.copyWith(eventDate: d);
 
@@ -88,10 +82,7 @@ class TicketFormProvider extends StateNotifier<Ticket> {
   updateExpireDate(DateTime date) {
     final existing = state.expireDate;
 
-    final d = existing == null
-        ? date
-        : DateTime(
-            date.year, date.month, date.day, existing.hour, existing.minute);
+    final d = existing == null ? date : DateTime(date.year, date.month, date.day, existing.hour, existing.minute);
 
     state = state.copyWith(expireDate: d);
 
@@ -104,8 +95,7 @@ class TicketFormProvider extends StateNotifier<Ticket> {
 
     final d = existing == null
         ? DateTime(now.year, now.month, now.day, time.hour, time.minute)
-        : DateTime(existing.year, existing.month, existing.day, time.hour,
-            time.minute);
+        : DateTime(existing.year, existing.month, existing.day, time.hour, time.minute);
 
     state = state.copyWith(expireDate: d);
 

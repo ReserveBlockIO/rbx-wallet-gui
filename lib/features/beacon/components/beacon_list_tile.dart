@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/badges.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/beacon/components/beacon_context_menu.dart';
-import 'package:rbx_wallet/features/beacon/models/beacon.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/components/badges.dart';
+import '../../../core/theme/app_theme.dart';
+import '../models/beacon.dart';
+import 'beacon_context_menu.dart';
 
 class BeaconListTile extends BaseComponent {
   final Beacon beacon;

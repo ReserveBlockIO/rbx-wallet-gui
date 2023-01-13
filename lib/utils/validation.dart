@@ -1,4 +1,4 @@
-import 'package:rbx_wallet/core/env.dart';
+import '../core/env.dart';
 
 bool isInt(String number) {
   return int.tryParse(number) == null ? false : true;

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/centered_loader.dart';
-import 'package:rbx_wallet/features/block/latest_block.dart';
-import 'package:rbx_wallet/features/web/providers/web_latest_block_provider.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/components/centered_loader.dart';
+import '../../block/latest_block.dart';
+import '../providers/web_latest_block_provider.dart';
 
 class WebLatestBlock extends BaseComponent {
   const WebLatestBlock({Key? key}) : super(key: key);

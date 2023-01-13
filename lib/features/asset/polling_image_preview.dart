@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/components/centered_loader.dart';
 
 class PollingImagePreview extends StatefulWidget {
   const PollingImagePreview({

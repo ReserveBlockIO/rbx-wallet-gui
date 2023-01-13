@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:rbx_wallet/core/services/base_service.dart';
-import 'package:rbx_wallet/features/voting/models/vote.dart';
+import '../../../core/services/base_service.dart';
+import '../models/vote.dart';
 
 class VoteService extends BaseService {
   VoteService() : super(apiBasePathOverride: "/voapi/VOV1");

@@ -14,6 +14,5 @@ class NodeInfo with _$NodeInfo {
     @JsonKey(name: 'NodeLastChecked') DateTime? lastCheked,
   }) = _NodeInfo;
 
-  factory NodeInfo.fromJson(Map<String, dynamic> json) =>
-      _$NodeInfoFromJson(json);
+  factory NodeInfo.fromJson(Map<String, dynamic> json) => _$NodeInfoFromJson(json);
 }

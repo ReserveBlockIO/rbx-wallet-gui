@@ -4,8 +4,9 @@ import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
-import 'package:rbx_wallet/features/keygen/models/keypair.dart';
-import 'package:rbx_wallet/features/keygen/services/keygen_service.dart';
+
+import '../features/keygen/models/keypair.dart';
+import '../features/keygen/services/keygen_service.dart';
 
 Future<Keypair?> create(String emailValue, String passwordValue) async {
   String email = emailValue.toLowerCase();

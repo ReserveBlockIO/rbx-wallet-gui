@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/components/badges.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/voting/models/topic.dart';
-import 'package:rbx_wallet/features/voting/utils.dart';
+
+import '../../../core/components/badges.dart';
+import '../../../core/theme/app_theme.dart';
+import '../models/topic.dart';
+import '../utils.dart';
 
 class VotingCategoryBadge extends StatelessWidget {
   const VotingCategoryBadge({

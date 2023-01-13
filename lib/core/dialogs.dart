@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:rbx_wallet/app.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+
+import '../app.dart';
+import '../utils/toast.dart';
+import '../utils/validation.dart';
+import 'theme/app_theme.dart';
 
 class InfoDialog {
   static show({

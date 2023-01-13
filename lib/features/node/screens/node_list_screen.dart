@@ -1,16 +1,17 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/components/badges.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/node/components/masternode_card.dart';
-import 'package:rbx_wallet/features/node/components/node_card.dart';
-import 'package:rbx_wallet/features/node/components/node_info_list.dart';
-import 'package:rbx_wallet/features/node/providers/masternode_list_provider.dart';
-import 'package:rbx_wallet/features/node/providers/node_list_provider.dart';
-import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
-import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
-import 'package:collection/collection.dart';
+
+import '../../../core/base_screen.dart';
+import '../../../core/components/badges.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../validator/providers/validator_list_provider.dart';
+import '../../wallet/components/wallet_selector.dart';
+import '../components/masternode_card.dart';
+import '../components/node_card.dart';
+import '../components/node_info_list.dart';
+import '../providers/masternode_list_provider.dart';
+import '../providers/node_list_provider.dart';
 
 class NodeListScreen extends BaseScreen {
   const NodeListScreen({Key? key})

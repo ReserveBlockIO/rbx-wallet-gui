@@ -11,8 +11,7 @@ _$_Property _$$_PropertyFromJson(Map<String, dynamic> json) => _$_Property(
       value: json['value'] as String? ?? "",
     );
 
-Map<String, dynamic> _$$_PropertyToJson(_$_Property instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$$_PropertyToJson(_$_Property instance) => <String, dynamic>{
       'label': instance.label,
       'value': instance.value,
     };

@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/beacon/providers/add_beacon_form_provider.dart';
-import 'package:rbx_wallet/features/beacon/providers/beacon_form_provider.dart';
-import 'package:rbx_wallet/features/beacon/providers/beacon_list_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../smart_contracts/components/sc_creator/common/modal_container.dart';
+import '../providers/add_beacon_form_provider.dart';
+import '../providers/beacon_list_provider.dart';
 
 class AddBeaconModal extends BaseComponent {
   const AddBeaconModal({Key? key}) : super(key: key);

@@ -4,12 +4,13 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/breakpoints.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/services/transaction_service.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../base_component.dart';
+import '../breakpoints.dart';
+import '../services/transaction_service.dart';
+import '../theme/app_theme.dart';
+import 'buttons.dart';
 
 class UploadImageSelector extends BaseComponent {
   final bool transparentBackground;

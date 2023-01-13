@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/features/mother/models/mother_child_list.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+
+import '../../../core/base_screen.dart';
+import '../../../core/env.dart';
+import '../models/mother_child_list.dart';
 
 class MotherDashboardScreen extends BaseScreen {
   const MotherDashboardScreen({Key? key}) : super(key: key);

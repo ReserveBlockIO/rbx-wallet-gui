@@ -3,22 +3,21 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
-import 'package:rbx_wallet/features/mother/components/mother_add_host_dialog.dart';
-import 'package:rbx_wallet/features/mother/components/mother_create_host_dialog.dart';
-import 'package:rbx_wallet/features/mother/models/mother_child.dart';
-import 'package:rbx_wallet/features/mother/screens/mother_dashboard_screen.dart';
-import 'package:rbx_wallet/features/mother/services/mother_service.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
-import 'package:rbx_wallet/utils/files.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+
+import '../../../core/app_router.gr.dart';
+import '../../../core/base_component.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/env.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../utils/files.dart';
+import '../../bridge/providers/wallet_info_provider.dart';
+import '../../smart_contracts/components/sc_creator/common/modal_container.dart';
+import '../models/mother_child.dart';
+import '../services/mother_service.dart';
+import 'mother_add_host_dialog.dart';
+import 'mother_create_host_dialog.dart';
 
 class MotherModal extends BaseComponent {
   final MotherData? motherData;

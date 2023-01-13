@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
+
+import '../../../../../core/app_constants.dart';
+import '../../../../../core/dialogs.dart';
 
 enum HelpType {
   unknown,

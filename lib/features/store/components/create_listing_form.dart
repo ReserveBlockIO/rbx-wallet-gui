@@ -2,15 +2,15 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/components/dropdowns.dart';
-import 'package:rbx_wallet/core/components/upload_image_selector.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/web_router.gr.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/store/providers/create_listing_provider.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/components/dropdowns.dart';
+import '../../../core/components/upload_image_selector.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/web_router.gr.dart';
+import '../../../utils/toast.dart';
+import '../providers/create_listing_provider.dart';
 
 class CreateListingForm extends BaseComponent {
   final int storeId;

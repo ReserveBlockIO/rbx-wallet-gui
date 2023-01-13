@@ -1,13 +1,13 @@
 import 'dart:convert';
 
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/services/base_service.dart';
-import 'package:rbx_wallet/features/block/block.dart';
-import 'package:rbx_wallet/features/genesis/models/genesis_block.dart';
-import 'package:rbx_wallet/features/node/models/node.dart';
-import 'package:rbx_wallet/features/node/models/node_info.dart';
-import 'package:rbx_wallet/features/transactions/models/transaction.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../core/env.dart';
+import '../../../core/services/base_service.dart';
+import '../../block/block.dart';
+import '../../genesis/models/genesis_block.dart';
+import '../../node/models/node.dart';
+import '../../node/models/node_info.dart';
+import '../../transactions/models/transaction.dart';
+import '../../../utils/toast.dart';
 
 class BridgeService extends BaseService {
   Future<dynamic> status() async {

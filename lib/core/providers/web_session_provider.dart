@@ -1,12 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/providers/ready_provider.dart';
-import 'package:rbx_wallet/core/services/explorer_service.dart';
-import 'package:rbx_wallet/core/singletons.dart';
-import 'package:rbx_wallet/core/storage.dart';
-import 'package:rbx_wallet/features/keygen/models/keypair.dart';
-import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
-import 'package:rbx_wallet/features/wallet/models/wallet.dart';
+
+import '../../features/keygen/models/keypair.dart';
+import '../../features/nft/providers/nft_list_provider.dart';
+import '../../features/wallet/models/wallet.dart';
+import '../app_constants.dart';
+import '../services/explorer_service.dart';
+import '../singletons.dart';
+import '../storage.dart';
+import 'ready_provider.dart';
 
 class WebSessionModel {
   final Keypair? keypair;

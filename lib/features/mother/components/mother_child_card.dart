@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/components/badges.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/mother/models/mother_child.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+
+import '../../../core/components/badges.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/env.dart';
+import '../../../core/theme/app_theme.dart';
+import '../models/mother_child.dart';
 
 class MotherChildCard extends StatelessWidget {
   final MotherChild child;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/voting/components/topic_vote_actions.dart';
-import 'package:rbx_wallet/features/voting/components/voting_category_badge.dart';
-import 'package:rbx_wallet/features/voting/components/voting_details.dart';
+import 'topic_vote_actions.dart';
+import 'voting_category_badge.dart';
+import 'voting_details.dart';
 
 import '../../../core/base_component.dart';
 import '../models/topic.dart';

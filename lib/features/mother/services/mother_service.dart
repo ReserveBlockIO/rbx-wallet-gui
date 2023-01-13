@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:rbx_wallet/core/services/base_service.dart';
-import 'package:rbx_wallet/features/mother/models/mother_child.dart';
+import '../../../core/services/base_service.dart';
+import '../models/mother_child.dart';
 
 class MotherData {
   final String name;

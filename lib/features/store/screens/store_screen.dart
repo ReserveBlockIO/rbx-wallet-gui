@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/components/centered_loader.dart';
-import 'package:rbx_wallet/features/store/components/store_listings.dart';
-import 'package:rbx_wallet/features/store/providers/store_detail_provider.dart';
+import '../../../core/base_screen.dart';
+import '../../../core/components/centered_loader.dart';
+import '../components/store_listings.dart';
+import '../providers/store_detail_provider.dart';
 
 class StoreScreen extends BaseScreen {
   final String slug;

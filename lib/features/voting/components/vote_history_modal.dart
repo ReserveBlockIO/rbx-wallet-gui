@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/badges.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
-import 'package:rbx_wallet/features/voting/models/vote.dart';
-import 'package:rbx_wallet/features/voting/providers/vote_list_provider.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/components/badges.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../smart_contracts/components/sc_creator/common/modal_container.dart';
+import '../models/vote.dart';
+import '../providers/vote_list_provider.dart';
 
 class VoteListModal extends BaseComponent {
   final String topicUid;

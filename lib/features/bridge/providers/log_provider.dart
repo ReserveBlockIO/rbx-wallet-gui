@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
+
+import '../models/log_entry.dart';
 
 const LOG_HISTORY_LENGTH = 1000;
 

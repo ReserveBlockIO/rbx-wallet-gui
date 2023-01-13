@@ -1,14 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/features/easter/secret_button.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../../core/app_constants.dart';
+import '../../../core/app_router.gr.dart';
+import '../../../core/base_component.dart';
+import '../../../core/env.dart';
+import '../../easter/secret_button.dart';
 
 class Footer extends BaseComponent {
   const Footer({Key? key}) : super(key: key);

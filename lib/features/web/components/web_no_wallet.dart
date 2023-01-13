@@ -1,7 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/web_router.gr.dart';
+
+import '../../../core/components/buttons.dart';
+import '../../../core/web_router.gr.dart';
 
 class WebNotWallet extends StatelessWidget {
   const WebNotWallet({Key? key}) : super(key: key);

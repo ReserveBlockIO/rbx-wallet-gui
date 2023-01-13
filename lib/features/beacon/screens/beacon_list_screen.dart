@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/beacon/components/add_beacon_modal.dart';
-import 'package:rbx_wallet/features/beacon/components/beacon_list.dart';
-import 'package:rbx_wallet/features/beacon/components/create_beacon_modal.dart';
-import 'package:rbx_wallet/features/beacon/providers/beacon_list_provider.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+
+import '../../../core/base_screen.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../utils/toast.dart';
+import '../components/add_beacon_modal.dart';
+import '../components/beacon_list.dart';
+import '../components/create_beacon_modal.dart';
+import '../providers/beacon_list_provider.dart';
 
 class BeaconListScreen extends BaseScreen {
   const BeaconListScreen({Key? key})

@@ -1,4 +1,4 @@
-import 'package:rbx_wallet/features/keygen/models/keypair.dart';
+import '../models/keypair.dart';
 
 // mock version of keygen service to allow compiling on non web devices
 

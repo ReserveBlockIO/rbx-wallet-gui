@@ -1,12 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/components/centered_loader.dart';
-import 'package:rbx_wallet/core/web_router.gr.dart';
-import 'package:rbx_wallet/features/dsts/providers/my_store_listings_provider.dart';
-import 'package:rbx_wallet/features/store/models/store.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/components/centered_loader.dart';
+import '../../../core/web_router.gr.dart';
+import '../../dsts/providers/my_store_listings_provider.dart';
+import '../models/store.dart';
 
 class StoreListings extends BaseComponent {
   final Store store;

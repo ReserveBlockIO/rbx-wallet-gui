@@ -1,18 +1,17 @@
 import 'dart:io';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/features/config/constants.dart';
-import 'package:rbx_wallet/features/config/models/config.dart';
-import 'package:rbx_wallet/features/config/providers/config_provider.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/utils/files.dart';
-import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/dialogs.dart';
 import '../../../core/env.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../utils/files.dart';
+import '../../../utils/toast.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../constants.dart';
+import '../models/config.dart';
+import 'config_provider.dart';
 
 class ConfigFormProvider extends StateNotifier<Config> {
   final Reader read;

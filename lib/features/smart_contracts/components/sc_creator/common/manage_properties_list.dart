@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/property.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+
+import '../../../../../core/components/buttons.dart';
+import '../../../../../core/theme/app_theme.dart';
+import '../../../../../utils/validation.dart';
+import '../../../models/property.dart';
 
 class ManagePropertiesList extends StatelessWidget {
   final List<Property> properties;
