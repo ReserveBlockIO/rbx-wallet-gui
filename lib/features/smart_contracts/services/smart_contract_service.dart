@@ -151,16 +151,12 @@ class SmartContractService extends BaseService {
         print("No response on transfer API call ($url)");
         return false;
       }
-      print("--------");
-      print(text);
-      print("--------");
 
       final Map<String, dynamic> data = jsonDecode(text);
-      if (!data.containsKey("Hash") && data['Hash'] != null && data['Hash'] != "") {
-        return false;
+      if (data.containsKey("Result") && data['Result'] == "Success") {
+        return true;
       }
-
-      return true;
+      return false;
     } catch (e) {
       print(e);
       return false;
