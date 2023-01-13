@@ -143,23 +143,27 @@ class SmartContractService extends BaseService {
     }
   }
 
-  Future<bool> transfer(String id, String address, String? backupUrl) async {
+  Future<String?> transfer(String id, String address, String? backupUrl) async {
     try {
       final url = backupUrl != null && backupUrl.isNotEmpty ? "/TransferNFT/$id/$address/$backupUrl" : "/TransferNFT/$id/$address";
       final text = await getText(url, timeout: 99999, inspect: true);
+
       if (text.isEmpty) {
         print("No response on transfer API call ($url)");
-        return false;
+        return "No response on transfer API call";
       }
 
       final Map<String, dynamic> data = jsonDecode(text);
       if (data.containsKey("Result") && data['Result'] == "Success") {
-        return true;
+        return null;
       }
-      return false;
+      if (data.containsKey("Message") && data['Message'].toString().isNotEmpty) {
+        return data['Message'];
+      }
+      return "A problem occurred";
     } catch (e) {
       print(e);
-      return false;
+      return e.toString();
     }
   }
 

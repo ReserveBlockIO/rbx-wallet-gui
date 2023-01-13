@@ -442,8 +442,14 @@ class NftDetailScreen extends BaseScreen {
                                       );
 
                                       if (confirmed == true) {
-                                        success = await _provider.transfer(address, url);
+                                        final error = await _provider.transfer(address, url);
+                                        if (error != null) {
+                                          Toast.error(error);
+                                          return;
+                                        }
+                                        success = error == null;
                                         if (success == true) {
+                                          Toast.message("NFT Transfer TX sent.");
                                           await InfoDialog.show(
                                             title: "Transfer in Progress",
                                             body:
@@ -452,8 +458,6 @@ class NftDetailScreen extends BaseScreen {
                                           );
 
                                           Navigator.of(context).pop();
-                                        } else {
-                                          Toast.error();
                                         }
                                       }
                                     },

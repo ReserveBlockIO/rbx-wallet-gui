@@ -119,15 +119,15 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     return true;
   }
 
-  Future<bool> transfer(String address, String? url) async {
+  Future<String?> transfer(String address, String? url) async {
     // if (!canTransact()) return false;
     read(globalLoadingProvider.notifier).start();
-    final success = await SmartContractService().transfer(id, address, url);
+    final error = await SmartContractService().transfer(id, address, url);
     read(globalLoadingProvider.notifier).complete();
-    if (success == true) {
+    if (error == null) {
       read(transferredProvider.notifier).addId(id);
     }
-    return success;
+    return error;
   }
 
   static bool _txResponseIsValid(Map<String, dynamic>? data) {
