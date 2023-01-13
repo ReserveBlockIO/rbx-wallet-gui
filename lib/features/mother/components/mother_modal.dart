@@ -71,7 +71,7 @@ class MotherModal extends BaseComponent {
           ),
         ),
         Text("Is Host: ${motherData != null ? 'YES' : 'NO'}"),
-        Text("Is Follower: ${connectedToMother ? 'YES' : 'NO'}"),
+        Text("Is Remote: ${connectedToMother ? 'YES' : 'NO'}"),
         if (motherData != null) Text("Children: ${children.length}"),
         Divider(),
         if (motherData != null)
@@ -134,7 +134,7 @@ class MotherModal extends BaseComponent {
           ),
         if (motherData == null && !connectedToMother)
           ListTile(
-            title: Text("Set Wallet as Follower"),
+            title: Text("Set Wallet as Remote"),
             leading: Icon(Icons.satellite_alt_outlined),
             trailing: Icon(Icons.chevron_right),
             onTap: () async {
@@ -217,7 +217,7 @@ class MotherModal extends BaseComponent {
             InfoDialog.show(
               title: "Monitor Tx Hashes & Addresses Expo Remote",
               body:
-                  "MOTHER is a tool for monitoring the state of your remote validators.\n\nFirst you must setup one of your wallets as the HOST and then add your additional node as a FOLLOWER.\n\nOnce complete, you'll be able to view a dashboard tracking all of your node's activity from one wallet.\n\nNote: you must have port '${Env.validatorPort}' open on the HOST machine.",
+                  "MOTHER is a tool for monitoring the state of your remote validators.\n\nFirst you must setup one of your wallets as the HOST and then add your additional node as a REMOTE.\n\nWhen adding a REMOTE node, you will need to know the IP address and the password for the HOST.\n\nOnce complete, you'll be able to view a dashboard tracking all of your node's activity from one wallet.\n\nNote: you must have port '${Env.validatorPort}' open on the HOST machine.",
             );
           },
         ),
