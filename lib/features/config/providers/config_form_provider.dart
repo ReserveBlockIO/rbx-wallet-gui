@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/features/config/constants.dart';
 import 'package:rbx_wallet/features/config/models/config.dart';
 import 'package:rbx_wallet/features/config/providers/config_provider.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
@@ -29,11 +30,11 @@ class ConfigFormProvider extends StateNotifier<Config> {
   late final TextEditingController allowedExtensionTypesController;
 
   ConfigFormProvider(this.read, Config model) : super(model) {
-    init(model);
+    _init(model);
     addListeners();
   }
 
-  void init(Config model) {
+  void _init(Config model) {
     apiPortController = TextEditingController();
     apiCallUrlController = TextEditingController();
     walletUnlockTimeController = TextEditingController();
@@ -142,7 +143,7 @@ class ConfigFormProvider extends StateNotifier<Config> {
     );
 
     read(globalLoadingProvider.notifier).start();
-    String fileContents = generateFileString();
+    String fileContents = await generateFileString();
     final path = await configPath();
     await File(path).writeAsString(fileContents);
 
@@ -155,7 +156,19 @@ class ConfigFormProvider extends StateNotifier<Config> {
     return shouldRestart;
   }
 
-  String generateFileString() {
+  Future<String> generateFileString() async {
+    final path = await configPath();
+    final currentLines = await File(path).readAsLines();
+
+    final List<String> appendLines = [];
+    for (final l in currentLines) {
+      for (final setting in NON_CONFIGURABLE_SETTINGS) {
+        if (l.contains(setting)) {
+          appendLines.add(l);
+        }
+      }
+    }
+
     String data = '';
     if (Env.isTestNet) {
       data += 'Port=13338\n';
@@ -173,6 +186,10 @@ class ConfigFormProvider extends StateNotifier<Config> {
     if (!state.isIgnoreIncomingNftsDefault) data += 'IgnoreIncomingNFTs=${state.ignoreIncomingNfts}\n';
     if (!state.isRejectAssetExtensionTypesDefault) data += 'RejectAssetExtensionTypes=${state.nonDefaultRejectExtensionTypes}\n';
     if (!state.isAllowedExtensionTypesDefault) data += 'AllowedExtensionsTypes=${state.nonBannedExtensionTypes}\n';
+
+    if (appendLines.isNotEmpty) {
+      data += appendLines.join("\n");
+    }
 
     return data;
   }

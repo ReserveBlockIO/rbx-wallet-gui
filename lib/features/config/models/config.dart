@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/features/config/default_values_constants.dart';
+import 'package:rbx_wallet/features/config/constants.dart';
 import 'package:collection/collection.dart';
 
 part 'config.freezed.dart';

@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/features/config/default_values_constants.dart';
+import 'package:rbx_wallet/features/config/constants.dart';
 import 'package:rbx_wallet/features/config/providers/config_form_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_container.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_header.dart';

@@ -7,3 +7,8 @@ const AUTO_DOWNLOAD_NFT_ASSET_DEFAULT = true;
 const IGNORE_INCOMING_NFTS_DEFAULT = false;
 const REJECT_ASSET_EXTENSION_TYPES_DEFAULT = null;
 const ALLOWED_EXTENSION_TYPES_DEFAULT = null;
+
+const NON_CONFIGURABLE_SETTINGS = [
+  'MotherAddress',
+  'MotherPassword',
+];
