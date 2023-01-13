@@ -23,7 +23,7 @@ class LogProvider extends StateNotifier<List<LogEntry>> {
       scrollController.animateTo(
         scrollController.position.maxScrollExtent - 24,
         duration: const Duration(milliseconds: 500),
-        curve: Curves.ease,
+        curve: Curves.linear,
       );
     }
   }

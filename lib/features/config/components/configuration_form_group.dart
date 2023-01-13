@@ -3,6 +3,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
+import 'package:rbx_wallet/core/env.dart';
+import 'package:rbx_wallet/features/config/default_values_constants.dart';
 import 'package:rbx_wallet/features/config/providers/config_form_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_container.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_header.dart';
@@ -71,6 +73,7 @@ class _ApiCallUrl extends BaseComponent {
           "Api Call Url",
           style: TextStyle(color: Colors.white),
         ),
+        hintText: "",
         suffixIcon: HelpButton(HelpType.apiCallUrl),
       ),
     );
@@ -148,11 +151,12 @@ class _WalletUnlockTime extends BaseComponent {
         FilteringTextInputFormatter.digitsOnly,
       ],
       onChanged: provider.setWalletUnlockTime,
-      decoration: const InputDecoration(
+      decoration: InputDecoration(
         label: Text(
           "Wallet Unlock Time",
           style: TextStyle(color: Colors.white),
         ),
+        hintText: WALLET_UNLOCK_TIME_DEFAULT.toString(),
         suffixIcon: HelpButton(HelpType.walletUnlockTime),
       ),
     );
@@ -174,11 +178,12 @@ class _NftTimeout extends BaseComponent {
         FilteringTextInputFormatter.digitsOnly,
       ],
       onChanged: provider.setNftTimeout,
-      decoration: const InputDecoration(
+      decoration: InputDecoration(
         label: Text(
           "NFT Timeout",
           style: TextStyle(color: Colors.white),
         ),
+        hintText: NFT_TIMEOUT_DEFAULT.toString(),
         suffixIcon: HelpButton(HelpType.nftTimeout),
       ),
     );
@@ -199,11 +204,12 @@ class _ApiPort extends BaseComponent {
         FilteringTextInputFormatter.digitsOnly,
       ],
       onChanged: provider.setApiPort,
-      decoration: const InputDecoration(
+      decoration: InputDecoration(
         label: Text(
           "Api Port",
           style: TextStyle(color: Colors.white),
         ),
+        hintText: Env.isTestNet ? '17292' : '7292',
         suffixIcon: HelpButton(HelpType.apiPort),
       ),
     );
@@ -225,11 +231,12 @@ class _PasswordClearTime extends BaseComponent {
         FilteringTextInputFormatter.digitsOnly,
       ],
       onChanged: provider.setPasswordClearTime,
-      decoration: const InputDecoration(
+      decoration: InputDecoration(
         label: Text(
           "Password Clear Time",
           style: TextStyle(color: Colors.white),
         ),
+        hintText: PASSWORD_CLEAR_TIME_DEFAULT.toString(),
         suffixIcon: HelpButton(HelpType.passwordClearTime),
       ),
     );

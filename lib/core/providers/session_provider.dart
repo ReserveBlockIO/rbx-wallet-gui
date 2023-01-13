@@ -598,7 +598,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
   Future<void> fetchConfig() async {
     read(logProvider.notifier).append(LogEntry(
-      message: "Fetching Config.",
+      message: "Fetching Config...",
     ));
     final path = await configPath();
 
@@ -614,8 +614,9 @@ class SessionProvider extends StateNotifier<SessionModel> {
       final config = Config.fromJson(kwargs);
 
       read(configProvider.notifier).setConfig(config);
-      print(lines);
-      print("*********");
+      read(logProvider.notifier).append(LogEntry(
+        message: "Config Loaded...",
+      ));
     } catch (e) {
       print(e);
     }

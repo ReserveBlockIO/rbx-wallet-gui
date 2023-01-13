@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/features/config/models/config.dart';
+import 'package:rbx_wallet/features/config/providers/config_form_provider.dart';
 
 class ConfigProvider extends StateNotifier<Config> {
   final Reader read;
@@ -8,8 +9,8 @@ class ConfigProvider extends StateNotifier<Config> {
   ConfigProvider(this.read, Config model) : super(model);
 
   setConfig(Config config) {
-    print(config);
     state = config;
+    read(configFormProvider.notifier).set(config);
   }
 }
 

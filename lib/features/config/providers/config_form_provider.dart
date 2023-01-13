@@ -6,7 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/features/config/models/config.dart';
 import 'package:rbx_wallet/features/config/providers/config_provider.dart';
+import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/utils/files.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/dialogs.dart';
 import '../../../core/env.dart';
@@ -21,36 +23,41 @@ class ConfigFormProvider extends StateNotifier<Config> {
   late final TextEditingController walletUnlockTimeController;
   late final TextEditingController nftTimeoutController;
   late final TextEditingController passwordClearTimeController;
-  late final bool autoDownloadNftAssetController;
-  late final bool ignoreIncomingNftsController;
+  late bool autoDownloadNftAsset;
+  late bool ignoreIncomingNfts;
   late final TextEditingController rejectAssetExtensionTypesController;
   late final TextEditingController allowedExtensionTypesController;
 
   ConfigFormProvider(this.read, Config model) : super(model) {
-    apiPortController = TextEditingController(
-      text: model.isApiPortDefault ? '' : model.apiPort.toString(),
-    );
-    apiCallUrlController = TextEditingController(
-      text: model.isApiCallUrlDefault ? '' : model.apiCallUrl,
-    );
-    walletUnlockTimeController = TextEditingController(
-      text: model.isWalletUnlockTimeDefault ? '' : model.walletUnlockTime.toString(),
-    );
-    nftTimeoutController = TextEditingController(
-      text: model.isNftTimeoutDefault ? '' : model.nftTimeout.toString(),
-    );
-    passwordClearTimeController = TextEditingController(
-      text: model.isPasswordClearTimeDefault ? '' : model.passwordClearTime.toString(),
-    );
-    autoDownloadNftAssetController = model.autoDownloadNftAsset;
-    ignoreIncomingNftsController = model.ignoreIncomingNfts;
-    rejectAssetExtensionTypesController = TextEditingController(
-      text: model.nonDefaultRejectExtensionTypes,
-    );
-    allowedExtensionTypesController = TextEditingController(
-      text: model.allowedAssetExtensionTypes != null ? model.allowedAssetExtensionTypes!.join(',') : '',
-    );
+    init(model);
+    addListeners();
+  }
 
+  void init(Config model) {
+    apiPortController = TextEditingController();
+    apiCallUrlController = TextEditingController();
+    walletUnlockTimeController = TextEditingController();
+    nftTimeoutController = TextEditingController();
+    passwordClearTimeController = TextEditingController();
+
+    rejectAssetExtensionTypesController = TextEditingController();
+    allowedExtensionTypesController = TextEditingController();
+    set(model);
+  }
+
+  void set(Config model) {
+    apiPortController.text = model.isApiPortDefault ? '' : model.apiPort.toString();
+    apiCallUrlController.text = model.isApiCallUrlDefault ? '' : model.apiCallUrl.toString();
+    walletUnlockTimeController.text = model.isWalletUnlockTimeDefault ? '' : model.walletUnlockTime.toString();
+    nftTimeoutController.text = model.isNftTimeoutDefault ? '' : model.nftTimeout.toString();
+    passwordClearTimeController.text = model.isPasswordClearTimeDefault ? '' : model.passwordClearTime.toString();
+    autoDownloadNftAsset = model.autoDownloadNftAsset;
+    ignoreIncomingNfts = model.ignoreIncomingNfts;
+    rejectAssetExtensionTypesController.text = model.nonDefaultRejectExtensionTypes;
+    allowedExtensionTypesController.text = model.allowedAssetExtensionTypes != null ? model.allowedAssetExtensionTypes!.join(',') : '';
+  }
+
+  void addListeners() {
     apiCallUrlController.addListener(() {
       state = state.copyWith(apiCallUrl: apiCallUrlController.text);
     });
@@ -126,24 +133,26 @@ class ConfigFormProvider extends StateNotifier<Config> {
     state = state.copyWith(ignoreIncomingNfts: val);
   }
 
-  Future<bool> submit(BuildContext context) async {
-    final confirmed = await ConfirmDialog.show(
-      title: "Are you sure you want to save this configuration?",
-      body: "The CLI will restart to see the changes",
-      cancelText: "Cancel",
-      confirmText: "Continue",
+  Future<bool> submit() async {
+    final shouldRestart = await ConfirmDialog.show(
+      title: "CLI restart required for changes to take effect.",
+      body: "Would you like to restart now?",
+      cancelText: "Later",
+      confirmText: "Restart Now",
     );
 
-    if (confirmed) {
-      String fileContents = generateFileString();
-      final path = await configPath();
-      await File(path).writeAsString(fileContents);
-      print(fileContents);
-      read(sessionProvider.notifier).restartCli();
-      clear();
-      AutoRouter.of(context).pop();
+    read(globalLoadingProvider.notifier).start();
+    String fileContents = generateFileString();
+    final path = await configPath();
+    await File(path).writeAsString(fileContents);
+
+    if (shouldRestart) {
+      Toast.message("Restarting CLI...");
+      await read(sessionProvider.notifier).restartCli();
     }
-    return confirmed;
+    read(globalLoadingProvider.notifier).complete();
+
+    return shouldRestart;
   }
 
   String generateFileString() {

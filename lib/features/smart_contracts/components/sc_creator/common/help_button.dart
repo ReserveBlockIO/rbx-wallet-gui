@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 
 enum HelpType {
@@ -208,23 +209,23 @@ class HelpButton extends StatelessWidget {
       case HelpType.configuration:
         return "This values will modify the config.txt file located in the CLIs database, for this changes to take effect the CLI needs to be restarted";
       case HelpType.apiPort:
-        return "This is the port to call the API. This may be changed to whatever you want. \nDefault value: 7292";
+        return "This is the port to call the API. This may be changed to whatever you want. \n\nDefault value: 7292";
       case HelpType.apiCallUrl:
-        return "This URL is used to send incoming transactions to an outside URL. This is something used for like incoming deposits or other notification. services. \nDefault value: null";
+        return "This URL is used to send incoming transactions to an outside URL. This is something used for like incoming deposits or other notification. services. \n\nDefault value: null";
       case HelpType.walletUnlockTime:
-        return "This is the amount of time once a password has been entered the wallet will remain unlocked and not need password again \nDefault value: 15";
+        return "This is the amount of time once a password has been entered the wallet will remain unlocked and not need password again \n\nDefault value: 15";
       case HelpType.nftTimeout:
-        return "This will control the timeout for processing an incoming NFT \nDefault value: 15";
+        return "This will control the timeout for processing an incoming NFT \n\nDefault value: 15";
       case HelpType.passwordClearTime:
-        return "This will control the clear time for an ecrypted wallets password \nDefault value: 10";
+        return "This will control the clear time for an ecrypted wallets password \n\nDefault value: 10";
       case HelpType.autoDownloadNftAsset:
-        return "This will control whether or not an NFT's asset is automatically downloaded \nDefault value: true";
+        return "This will control whether or not an NFT's asset is automatically downloaded \n\nDefault value: true";
       case HelpType.ignoreIncomingNfts:
-        return "This will control whether or not incoming NFTs are processed or just added as a TX record \nDefault value: false";
+        return "This will control whether or not incoming NFTs are processed or just added as a TX record \n\nDefault value: false";
       case HelpType.rejectAssetExtensionTypes:
-        return "This will add extension types to the already defined list and will reject any NFT assets with these known extension types \nEx: exe,zip,pdf... (ensure there are no spaces between types) \nDefault value is a List of rejected assets";
+        return "This will add extension types to the already defined list and will reject any NFT assets with these known extension types \nEx: exe,zip,pdf... (ensure there are no spaces between types) \n\nDefault value: (leave blank)\n\nIf left blank, this is the default:\n${DEFAULT_REJECTED_EXTENIONS.join(',')}";
       case HelpType.allowedAssetExtensionTypes:
-        return "This will remove extension types to the already defined list and will allow any NFT assets with these known extension types to be downloaded \nEx: pdf,doc,xls \nDefault value: null";
+        return "This will remove extension types to the already defined list and will allow any NFT assets with these known extension types to be downloaded \nEx: pdf,doc,xls \n\nDefault value: (leave blank)";
     }
   }
 }

@@ -102,7 +102,6 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                           ),
                           InkWell(
                             onTap: () async {
-                              print(Env.envName);
                               final url = "${Env.baseExplorerUrl}transaction/${widget.transaction.hash}";
                               await launchUrl(Uri.parse(url));
                             },
@@ -170,14 +169,14 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                               child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              SelectableText(
                                 "To: ${widget.transaction.toAddress}${toWallet != null && toWallet.friendlyName != null ? ' (${toWallet.friendlyName})' : ''}",
                                 style: Theme.of(context).textTheme.caption,
                               ),
                               const SizedBox(
                                 height: 4,
                               ),
-                              Text(
+                              SelectableText(
                                 "From: ${widget.transaction.fromAddress}${fromWallet != null && fromWallet.friendlyName != null ? ' (${fromWallet.friendlyName})' : ''}",
                                 style: Theme.of(context).textTheme.caption,
                               ),
