@@ -47,6 +47,13 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       case TxType.nftMint:
         _handleNftMint(transaction);
         break;
+      case TxType.voteTopic:
+        _handleVoteTopic(transaction);
+        break;
+
+      case TxType.adnr:
+        _handleAdnr(transaction);
+        break;
       case TxType.nftTx:
         _handleNftTransfer(transaction, isOutgoing: isOutgoing, isIncoming: isIncoming);
         break;
@@ -77,7 +84,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
           identifier: "${transaction.hash}_outgoing",
           transaction: transaction,
           title: "Funds Sent",
-          body: "${transaction.amount * -1} RBX to ${transaction.toAddress}",
+          body: "${transaction.amount.toString().replaceAll('-', '')} RBX to ${transaction.toAddress}",
         ),
       );
     }
@@ -94,6 +101,23 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
         identifier: transaction.hash,
         transaction: transaction,
         title: "NFT Minted",
+        body: body,
+      ),
+    );
+  }
+
+  void _handleVoteTopic(Transaction transaction) {
+    String? body;
+    final nftData = _parseNftData(transaction);
+    if (nftData != null) {
+      print('VoteTopic data: $nftData');
+      body = "Topic ${_nftDataValue(nftData['Topic'], 'TopicName')} Created.";
+    }
+    _broadcastNotification(
+      TransactionNotification(
+        identifier: transaction.hash,
+        transaction: transaction,
+        title: "Topic Created",
         body: body,
       ),
     );
@@ -136,6 +160,48 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
     }
   }
 
+  void _handleAdnr(Transaction transaction) {
+    String? body;
+    String? function;
+    final nftData = _parseNftData(transaction);
+
+    if (nftData != null) {
+      function = _nftDataValue(nftData, 'Function');
+    }
+    if (function != null) {
+      if (function.contains('AdnrCreate')) {
+        final name = _nftDataValue(nftData!, 'Name');
+        if (name == null) return;
+        body = "RBX Domain created for $name.rbx";
+        _broadcastNotification(
+          TransactionNotification(
+            identifier: transaction.hash,
+            transaction: transaction,
+            title: "Domain Name Created",
+            body: body,
+            color: AppColorVariant.Success,
+          ),
+        );
+        return;
+      }
+      if (function.contains('AdnrDelete')) {
+        final name = _nftDataValue(nftData!, 'Name');
+        if (name == null) return;
+        body = "RBX Domain deleted for $name";
+        _broadcastNotification(
+          TransactionNotification(
+            identifier: transaction.hash,
+            transaction: transaction,
+            title: "Domain Name Deleted",
+            body: body,
+            color: AppColorVariant.Danger,
+          ),
+        );
+        return;
+      }
+    }
+  }
+
   void _handleNftBurn(Transaction transaction) {
     String? body;
     final nftData = _parseNftData(transaction);
@@ -159,7 +225,13 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
         return null;
       }
 
-      final List<dynamic>? data = jsonDecode(transaction.nftData);
+      final data = jsonDecode(transaction.nftData);
+      print('d----');
+      print(data is Map);
+      if (data is Map) {
+        return data as Map<String, dynamic>;
+      }
+
       if (data == null || data.isEmpty) {
         return null;
       }
