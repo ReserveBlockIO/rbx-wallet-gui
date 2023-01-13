@@ -50,7 +50,9 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       case TxType.voteTopic:
         _handleVoteTopic(transaction);
         break;
-
+      case TxType.vote:
+        _handleVote(transaction);
+        break;
       case TxType.adnr:
         _handleAdnr(transaction);
         break;
@@ -110,17 +112,36 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
     String? body;
     final nftData = _parseNftData(transaction);
     if (nftData != null) {
-      print('VoteTopic data: $nftData');
-      body = "Topic ${_nftDataValue(nftData['Topic'], 'TopicName')} Created.";
+      final name = _nftDataValue(nftData['Topic'], 'TopicName');
+      if (name == null) return;
+      body = "Topic $name Created.";
+      _broadcastNotification(
+        TransactionNotification(
+          identifier: transaction.hash,
+          transaction: transaction,
+          title: "Topic Created",
+          body: body,
+        ),
+      );
     }
-    _broadcastNotification(
-      TransactionNotification(
-        identifier: transaction.hash,
-        transaction: transaction,
-        title: "Topic Created",
-        body: body,
-      ),
-    );
+  }
+
+  void _handleVote(Transaction transaction) {
+    String? body;
+    final nftData = _parseNftData(transaction);
+    if (nftData != null) {
+      final topic = _nftDataValue(nftData['Vote'], 'TopicUID');
+      if (topic == null) return;
+      body = "Vote casted on $topic";
+      _broadcastNotification(
+        TransactionNotification(
+          identifier: transaction.hash,
+          transaction: transaction,
+          title: "Vote Casted",
+          body: body,
+        ),
+      );
+    }
   }
 
   void _handleNftTransfer(
@@ -199,6 +220,21 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
         );
         return;
       }
+      if (function.contains('AdnrTransfer')) {
+        final name = _nftDataValue(nftData!, 'Name');
+        if (name == null) return;
+        body = "RBX Domain transfer for $name";
+        _broadcastNotification(
+          TransactionNotification(
+            identifier: transaction.hash,
+            transaction: transaction,
+            title: "Domain Name Transfered",
+            body: body,
+            color: AppColorVariant.Warning,
+          ),
+        );
+        return;
+      }
     }
   }
 
@@ -226,8 +262,6 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       }
 
       final data = jsonDecode(transaction.nftData);
-      print('d----');
-      print(data is Map);
       if (data is Map) {
         return data as Map<String, dynamic>;
       }
