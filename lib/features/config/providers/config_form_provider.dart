@@ -28,6 +28,9 @@ class ConfigFormProvider extends StateNotifier<Config> {
   late bool ignoreIncomingNfts;
   late final TextEditingController rejectAssetExtensionTypesController;
   late final TextEditingController allowedExtensionTypesController;
+  late final TextEditingController motherAddressController;
+  late final TextEditingController motherPasswordController;
+  bool obscuredPassword = true;
 
   ConfigFormProvider(this.read, Config model) : super(model) {
     _init(model);
@@ -43,12 +46,16 @@ class ConfigFormProvider extends StateNotifier<Config> {
 
     rejectAssetExtensionTypesController = TextEditingController();
     allowedExtensionTypesController = TextEditingController();
+    motherAddressController = TextEditingController();
+    motherPasswordController = TextEditingController();
     set(model);
   }
 
   void set(Config model) {
     apiPortController.text = model.isApiPortDefault ? '' : model.apiPort.toString();
     apiCallUrlController.text = model.isApiCallUrlDefault ? '' : model.apiCallUrl.toString();
+    motherAddressController.text = model.isMotherAddressDefault ? '' : model.motherAddress.toString();
+    motherPasswordController.text = model.isMotherPasswordDefault ? '' : model.motherPassword.toString();
     walletUnlockTimeController.text = model.isWalletUnlockTimeDefault ? '' : model.walletUnlockTime.toString();
     nftTimeoutController.text = model.isNftTimeoutDefault ? '' : model.nftTimeout.toString();
     passwordClearTimeController.text = model.isPasswordClearTimeDefault ? '' : model.passwordClearTime.toString();
@@ -61,6 +68,12 @@ class ConfigFormProvider extends StateNotifier<Config> {
   void addListeners() {
     apiCallUrlController.addListener(() {
       state = state.copyWith(apiCallUrl: apiCallUrlController.text);
+    });
+    motherAddressController.addListener(() {
+      state = state.copyWith(motherAddress: motherAddressController.text);
+    });
+    motherPasswordController.addListener(() {
+      state = state.copyWith(motherPassword: motherPasswordController.text);
     });
     nftTimeoutController.addListener(() {
       state = state.copyWith(nftTimeout: int.tryParse(nftTimeoutController.text) ?? -1);
@@ -156,6 +169,10 @@ class ConfigFormProvider extends StateNotifier<Config> {
     return shouldRestart;
   }
 
+  switchObscurity() {
+    obscuredPassword = !obscuredPassword;
+  }
+
   Future<String> generateFileString() async {
     final path = await configPath();
     final currentLines = await File(path).readAsLines();
@@ -186,6 +203,8 @@ class ConfigFormProvider extends StateNotifier<Config> {
     if (!state.isIgnoreIncomingNftsDefault) data += 'IgnoreIncomingNFTs=${state.ignoreIncomingNfts}\n';
     if (!state.isRejectAssetExtensionTypesDefault) data += 'RejectAssetExtensionTypes=${state.nonDefaultRejectExtensionTypes}\n';
     if (!state.isAllowedExtensionTypesDefault) data += 'AllowedExtensionsTypes=${state.nonBannedExtensionTypes}\n';
+    if (!state.isMotherAddressDefault) data += 'MotherAddress=${state.motherAddress}\n';
+    if (!state.isMotherPasswordDefault) data += 'MotherPassword=${state.motherPassword}\n';
 
     if (appendLines.isNotEmpty) {
       data += appendLines.join("\n");

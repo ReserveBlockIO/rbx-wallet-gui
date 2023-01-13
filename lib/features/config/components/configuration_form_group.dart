@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
@@ -27,11 +26,11 @@ class ConfigurationFormGroup extends BaseComponent {
           ),
           Center(
               child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 600),
+            constraints: const BoxConstraints(maxWidth: 600),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
-              children: [
+              children: const [
                 Flexible(
                   child: _ApiPort(),
                 ),
@@ -48,7 +47,9 @@ class ConfigurationFormGroup extends BaseComponent {
                 ),
                 Flexible(child: _IgnoreIncomingNfts()),
                 Flexible(child: _RejectAssetsExtensionTypes()),
-                Flexible(child: _AllowedExtensionTypes())
+                Flexible(child: _AllowedExtensionTypes()),
+                Flexible(child: _MotherAddress()),
+                Flexible(child: _MotherPassword()),
               ],
             ),
           )),
@@ -75,6 +76,51 @@ class _ApiCallUrl extends BaseComponent {
         ),
         hintText: "",
         suffixIcon: HelpButton(HelpType.apiCallUrl),
+      ),
+    );
+  }
+}
+
+class _MotherAddress extends BaseComponent {
+  const _MotherAddress({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ref) {
+    final provider = ref.read(configFormProvider.notifier);
+    return TextFormField(
+      controller: provider.motherAddressController,
+      decoration: const InputDecoration(
+        label: Text(
+          "Mother Address",
+          style: TextStyle(color: Colors.white),
+        ),
+        hintText: "",
+        suffixIcon: HelpButton(HelpType.motherAddress),
+      ),
+    );
+  }
+}
+
+class _MotherPassword extends BaseComponent {
+  const _MotherPassword({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ref) {
+    final provider = ref.read(configFormProvider.notifier);
+    return TextFormField(
+      obscureText: true,
+      controller: provider.motherPasswordController,
+      decoration: const InputDecoration(
+        label: Text(
+          "Mother Password",
+          style: TextStyle(color: Colors.white),
+        ),
+        hintText: "",
+        suffixIcon: HelpButton(HelpType.motherPassword),
       ),
     );
   }

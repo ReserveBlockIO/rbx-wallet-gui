@@ -30,6 +30,10 @@ mixin _$Config {
   int get passwordClearTime => throw _privateConstructorUsedError;
   @JsonKey(name: "APICallURL")
   String? get apiCallUrl => throw _privateConstructorUsedError;
+  @JsonKey(name: "MotherAddress")
+  String? get motherAddress => throw _privateConstructorUsedError;
+  @JsonKey(name: "MotherPassword")
+  String? get motherPassword => throw _privateConstructorUsedError;
   @JsonKey(name: "TestNet", fromJson: stringToBool)
   bool get testnet => throw _privateConstructorUsedError;
   @JsonKey(name: "NFTTimeout", fromJson: stringToInt)
@@ -65,6 +69,10 @@ abstract class $ConfigCopyWith<$Res> {
           int passwordClearTime,
       @JsonKey(name: "APICallURL")
           String? apiCallUrl,
+      @JsonKey(name: "MotherAddress")
+          String? motherAddress,
+      @JsonKey(name: "MotherPassword")
+          String? motherPassword,
       @JsonKey(name: "TestNet", fromJson: stringToBool)
           bool testnet,
       @JsonKey(name: "NFTTimeout", fromJson: stringToInt)
@@ -94,6 +102,8 @@ class _$ConfigCopyWithImpl<$Res> implements $ConfigCopyWith<$Res> {
     Object? walletUnlockTime = freezed,
     Object? passwordClearTime = freezed,
     Object? apiCallUrl = freezed,
+    Object? motherAddress = freezed,
+    Object? motherPassword = freezed,
     Object? testnet = freezed,
     Object? nftTimeout = freezed,
     Object? autoDownloadNftAsset = freezed,
@@ -121,6 +131,14 @@ class _$ConfigCopyWithImpl<$Res> implements $ConfigCopyWith<$Res> {
       apiCallUrl: apiCallUrl == freezed
           ? _value.apiCallUrl
           : apiCallUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      motherAddress: motherAddress == freezed
+          ? _value.motherAddress
+          : motherAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      motherPassword: motherPassword == freezed
+          ? _value.motherPassword
+          : motherPassword // ignore: cast_nullable_to_non_nullable
               as String?,
       testnet: testnet == freezed
           ? _value.testnet
@@ -166,6 +184,10 @@ abstract class _$$_ConfigCopyWith<$Res> implements $ConfigCopyWith<$Res> {
           int passwordClearTime,
       @JsonKey(name: "APICallURL")
           String? apiCallUrl,
+      @JsonKey(name: "MotherAddress")
+          String? motherAddress,
+      @JsonKey(name: "MotherPassword")
+          String? motherPassword,
       @JsonKey(name: "TestNet", fromJson: stringToBool)
           bool testnet,
       @JsonKey(name: "NFTTimeout", fromJson: stringToInt)
@@ -196,6 +218,8 @@ class __$$_ConfigCopyWithImpl<$Res> extends _$ConfigCopyWithImpl<$Res>
     Object? walletUnlockTime = freezed,
     Object? passwordClearTime = freezed,
     Object? apiCallUrl = freezed,
+    Object? motherAddress = freezed,
+    Object? motherPassword = freezed,
     Object? testnet = freezed,
     Object? nftTimeout = freezed,
     Object? autoDownloadNftAsset = freezed,
@@ -223,6 +247,14 @@ class __$$_ConfigCopyWithImpl<$Res> extends _$ConfigCopyWithImpl<$Res>
       apiCallUrl: apiCallUrl == freezed
           ? _value.apiCallUrl
           : apiCallUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      motherAddress: motherAddress == freezed
+          ? _value.motherAddress
+          : motherAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      motherPassword: motherPassword == freezed
+          ? _value.motherPassword
+          : motherPassword // ignore: cast_nullable_to_non_nullable
               as String?,
       testnet: testnet == freezed
           ? _value.testnet
@@ -266,6 +298,10 @@ class _$_Config extends _Config with DiagnosticableTreeMixin {
           this.passwordClearTime = PASSWORD_CLEAR_TIME_DEFAULT,
       @JsonKey(name: "APICallURL")
           this.apiCallUrl = API_CALL_URL_DEFAULT,
+      @JsonKey(name: "MotherAddress")
+          this.motherAddress = MOTHER_ADDRESS_DEFAULT,
+      @JsonKey(name: "MotherPassword")
+          this.motherPassword = MOTHER_PASSWORD_DEFAULT,
       @JsonKey(name: "TestNet", fromJson: stringToBool)
           this.testnet = false,
       @JsonKey(name: "NFTTimeout", fromJson: stringToInt)
@@ -303,6 +339,12 @@ class _$_Config extends _Config with DiagnosticableTreeMixin {
   @JsonKey(name: "APICallURL")
   final String? apiCallUrl;
   @override
+  @JsonKey(name: "MotherAddress")
+  final String? motherAddress;
+  @override
+  @JsonKey(name: "MotherPassword")
+  final String? motherPassword;
+  @override
   @JsonKey(name: "TestNet", fromJson: stringToBool)
   final bool testnet;
   @override
@@ -334,7 +376,7 @@ class _$_Config extends _Config with DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Config(port: $port, apiPort: $apiPort, walletUnlockTime: $walletUnlockTime, passwordClearTime: $passwordClearTime, apiCallUrl: $apiCallUrl, testnet: $testnet, nftTimeout: $nftTimeout, autoDownloadNftAsset: $autoDownloadNftAsset, ignoreIncomingNfts: $ignoreIncomingNfts, rejectAssetExtensionTypes: $rejectAssetExtensionTypes, allowedAssetExtensionTypes: $allowedAssetExtensionTypes)';
+    return 'Config(port: $port, apiPort: $apiPort, walletUnlockTime: $walletUnlockTime, passwordClearTime: $passwordClearTime, apiCallUrl: $apiCallUrl, motherAddress: $motherAddress, motherPassword: $motherPassword, testnet: $testnet, nftTimeout: $nftTimeout, autoDownloadNftAsset: $autoDownloadNftAsset, ignoreIncomingNfts: $ignoreIncomingNfts, rejectAssetExtensionTypes: $rejectAssetExtensionTypes, allowedAssetExtensionTypes: $allowedAssetExtensionTypes)';
   }
 
   @override
@@ -347,6 +389,8 @@ class _$_Config extends _Config with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('walletUnlockTime', walletUnlockTime))
       ..add(DiagnosticsProperty('passwordClearTime', passwordClearTime))
       ..add(DiagnosticsProperty('apiCallUrl', apiCallUrl))
+      ..add(DiagnosticsProperty('motherAddress', motherAddress))
+      ..add(DiagnosticsProperty('motherPassword', motherPassword))
       ..add(DiagnosticsProperty('testnet', testnet))
       ..add(DiagnosticsProperty('nftTimeout', nftTimeout))
       ..add(DiagnosticsProperty('autoDownloadNftAsset', autoDownloadNftAsset))
@@ -370,6 +414,10 @@ class _$_Config extends _Config with DiagnosticableTreeMixin {
                 .equals(other.passwordClearTime, passwordClearTime) &&
             const DeepCollectionEquality()
                 .equals(other.apiCallUrl, apiCallUrl) &&
+            const DeepCollectionEquality()
+                .equals(other.motherAddress, motherAddress) &&
+            const DeepCollectionEquality()
+                .equals(other.motherPassword, motherPassword) &&
             const DeepCollectionEquality().equals(other.testnet, testnet) &&
             const DeepCollectionEquality()
                 .equals(other.nftTimeout, nftTimeout) &&
@@ -393,6 +441,8 @@ class _$_Config extends _Config with DiagnosticableTreeMixin {
       const DeepCollectionEquality().hash(walletUnlockTime),
       const DeepCollectionEquality().hash(passwordClearTime),
       const DeepCollectionEquality().hash(apiCallUrl),
+      const DeepCollectionEquality().hash(motherAddress),
+      const DeepCollectionEquality().hash(motherPassword),
       const DeepCollectionEquality().hash(testnet),
       const DeepCollectionEquality().hash(nftTimeout),
       const DeepCollectionEquality().hash(autoDownloadNftAsset),
@@ -423,6 +473,10 @@ abstract class _Config extends Config {
           final int passwordClearTime,
       @JsonKey(name: "APICallURL")
           final String? apiCallUrl,
+      @JsonKey(name: "MotherAddress")
+          final String? motherAddress,
+      @JsonKey(name: "MotherPassword")
+          final String? motherPassword,
       @JsonKey(name: "TestNet", fromJson: stringToBool)
           final bool testnet,
       @JsonKey(name: "NFTTimeout", fromJson: stringToInt)
@@ -454,6 +508,12 @@ abstract class _Config extends Config {
   @override
   @JsonKey(name: "APICallURL")
   String? get apiCallUrl => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: "MotherAddress")
+  String? get motherAddress => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: "MotherPassword")
+  String? get motherPassword => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "TestNet", fromJson: stringToBool)
   bool get testnet => throw _privateConstructorUsedError;

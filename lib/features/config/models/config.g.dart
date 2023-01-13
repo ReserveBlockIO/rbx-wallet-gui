@@ -18,6 +18,9 @@ _$_Config _$$_ConfigFromJson(Map<String, dynamic> json) => _$_Config(
           ? PASSWORD_CLEAR_TIME_DEFAULT
           : stringToInt(json['PasswordClearTime'] as String),
       apiCallUrl: json['APICallURL'] as String? ?? API_CALL_URL_DEFAULT,
+      motherAddress: json['MotherAddress'] as String? ?? MOTHER_ADDRESS_DEFAULT,
+      motherPassword:
+          json['MotherPassword'] as String? ?? MOTHER_PASSWORD_DEFAULT,
       testnet: json['TestNet'] == null
           ? false
           : stringToBool(json['TestNet'] as String),
@@ -44,6 +47,8 @@ Map<String, dynamic> _$$_ConfigToJson(_$_Config instance) => <String, dynamic>{
       'WalletUnlockTime': instance.walletUnlockTime,
       'PasswordClearTime': instance.passwordClearTime,
       'APICallURL': instance.apiCallUrl,
+      'MotherAddress': instance.motherAddress,
+      'MotherPassword': instance.motherPassword,
       'TestNet': instance.testnet,
       'NFTTimeout': instance.nftTimeout,
       'AutoDownloadNFTAsset': instance.autoDownloadNftAsset,
