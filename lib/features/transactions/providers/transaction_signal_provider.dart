@@ -57,7 +57,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
         _handleAdnr(transaction);
         break;
       case TxType.nftTx:
-        _handleNftTransfer(transaction, isOutgoing: isOutgoing, isIncoming: isIncoming);
+        _handleNftTx(transaction, isOutgoing: isOutgoing, isIncoming: isIncoming);
         break;
       case TxType.nftBurn:
         _handleNftBurn(transaction);
@@ -144,12 +144,28 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
     }
   }
 
-  void _handleNftTransfer(
+  void _handleNftTx(
     Transaction transaction, {
     bool isOutgoing = false,
     bool isIncoming = false,
   }) {
     final nftData = _parseNftData(transaction);
+
+    if (nftData != null) {
+      final evoState = _nftDataValue(nftData, "NewEvoState");
+      if (evoState != null) {
+        _broadcastNotification(
+          TransactionNotification(
+            identifier: "${transaction.hash}_evolve_$evoState",
+            transaction: transaction,
+            title: "NFT Evolved",
+            body: "NFT evolved to state $evoState.",
+          ),
+        );
+        return;
+      }
+    }
+
     if (isIncoming) {
       if (nftData != null) {
         final id = _nftDataValue(nftData, 'ContractUID');
@@ -285,7 +301,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
   }
 
   String? _nftDataValue(Map<String, dynamic> nftData, String key) {
-    return nftData.containsKey(key) ? nftData[key] : null;
+    return nftData.containsKey(key) ? nftData[key].toString() : null;
   }
 
   void _broadcastNotification(TransactionNotification notification) {
