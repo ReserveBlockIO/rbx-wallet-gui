@@ -103,3 +103,6 @@ deploy_web:
 
 deploy_web_no_build:
 	firebase deploy --only hosting
+
+delete_gen:
+	find . -maxdepth 20 -type f \( -name "*.freezed.dart" -o  -name "*.g.dart" \) -delete
