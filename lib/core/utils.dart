@@ -38,7 +38,7 @@ Future<bool> backupKeys(BuildContext context, WidgetRef ref) async {
 
     return true;
   } catch (e) {
-    print("ERRROR");
+    print("Error on backupKeys");
     print(e);
     return false;
   }

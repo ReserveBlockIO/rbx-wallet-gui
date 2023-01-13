@@ -19,7 +19,7 @@ class AppCountdown extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Color(0xFF040f26),
+        color: const Color(0xFF040f26),
         boxShadow: [
           BoxShadow(
             offset: Offset.zero,
