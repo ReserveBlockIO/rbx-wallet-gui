@@ -59,7 +59,7 @@ class SmartContractService extends BaseService {
     print("------------");
 
     try {
-      final response = await postJson("/CreateSmartContract", params: p, timeout: 99999999);
+      final response = await postJson("/CreateSmartContract", params: p, timeout: 0);
 
       // print("==============");
       // print(jsonEncode(response['data'][0]));
@@ -131,7 +131,7 @@ class SmartContractService extends BaseService {
   Future<bool> mint(String id) async {
     try {
       print("-------------ID $id------------");
-      final response = await getText("/MintSmartContract/$id", timeout: 99999999);
+      final response = await getText("/MintSmartContract/$id", timeout: 0);
 
       if (response == "Smart contract has been published to mempool") {
         return true;
@@ -146,7 +146,7 @@ class SmartContractService extends BaseService {
   Future<String?> transfer(String id, String address, String? backupUrl) async {
     try {
       final url = backupUrl != null && backupUrl.isNotEmpty ? "/TransferNFT/$id/$address/$backupUrl" : "/TransferNFT/$id/$address";
-      final text = await getText(url, timeout: 99999, inspect: true);
+      final text = await getText(url, timeout: 0, inspect: true);
 
       if (text.isEmpty) {
         print("No response on transfer API call ($url)");
@@ -193,7 +193,7 @@ class SmartContractService extends BaseService {
       assetPath = assetPath.replaceAll("/", "%2F").replaceAll("\\", "%5C");
       final url = "/AssociateNFTAsset/$nftId/$assetPath";
 
-      final response = await getText(url, cleanPath: false, timeout: 99999999);
+      final response = await getText(url, cleanPath: false, timeout: 0);
       final data = jsonDecode(response);
 
       print(response);
@@ -214,7 +214,7 @@ class SmartContractService extends BaseService {
 
   Future<bool> downloadAssets(String nftId) async {
     try {
-      final data = await getText("/DownloadNftAssets/$nftId", timeout: 99999999);
+      final data = await getText("/DownloadNftAssets/$nftId", timeout: 0);
       print(data);
       return true;
     } catch (e) {

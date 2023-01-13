@@ -47,6 +47,7 @@ class NftGrid extends BaseComponent {
               itemBuilder: (context, index) {
                 final nft = _model.data.results[index];
                 return NftCard(
+                  key: Key(nft.id),
                   nft,
                   manageOnPress: minted,
                 );
