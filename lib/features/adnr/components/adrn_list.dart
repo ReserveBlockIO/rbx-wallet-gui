@@ -109,6 +109,11 @@ class AdnrList extends BaseComponent {
                                 if (!guardWalletIsSynced(ref.read)) {
                                   return;
                                 }
+                                if (wallet.balance < (MIN_RBX_FOR_SC_ACTION)) {
+                                  Toast.error("Not enough RBX in this wallet to create a transaction.");
+                                  return;
+                                }
+
                                 PromptModal.show(
                                     contextOverride: context,
                                     title: "Transfer RBX Domain",
@@ -149,6 +154,12 @@ class AdnrList extends BaseComponent {
                           if (!guardWalletIsSynced(ref.read)) {
                             return;
                           }
+                          if (wallet.balance < (MIN_RBX_FOR_SC_ACTION)) {
+                            Toast.error("Not enough RBX in this wallet to create a transaction.");
+
+                            return;
+                          }
+
                           final confirmed = await ConfirmDialog.show(
                             title: "Delete RBX Domain?",
                             body:

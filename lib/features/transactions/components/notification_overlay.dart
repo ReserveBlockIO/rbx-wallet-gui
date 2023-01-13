@@ -38,22 +38,35 @@ class NotificationOverlay extends BaseComponent {
                         padding: const EdgeInsets.all(8.0),
                         child: ConstrainedBox(
                           constraints: BoxConstraints(maxWidth: 400, minWidth: 200),
-                          child: Column(
+                          child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text(
-                                n.title,
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              ),
-                              if (n.body != null)
+                              if (n.icon != null)
                                 Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: Text(
-                                    n.body!,
-                                    style: Theme.of(context).textTheme.bodySmall,
+                                  padding: const EdgeInsets.only(right: 6.0),
+                                  child: Icon(
+                                    n.icon,
+                                    color: AppTheme.appVariantToColor(context, n.color),
                                   ),
-                                )
+                                ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    n.title,
+                                    style: Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                  if (n.body != null)
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8.0),
+                                      child: Text(
+                                        n.body!,
+                                        style: Theme.of(context).textTheme.bodySmall,
+                                      ),
+                                    )
+                                ],
+                              ),
                             ],
                           ),
                         ),

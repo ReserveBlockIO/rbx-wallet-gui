@@ -20,6 +20,7 @@ mixin _$TransactionNotification {
   Transaction? get transaction => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String? get body => throw _privateConstructorUsedError;
+  IconData? get icon => throw _privateConstructorUsedError;
   AppColorVariant get color => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -37,6 +38,7 @@ abstract class $TransactionNotificationCopyWith<$Res> {
       Transaction? transaction,
       String title,
       String? body,
+      IconData? icon,
       AppColorVariant color});
 
   $TransactionCopyWith<$Res>? get transaction;
@@ -57,6 +59,7 @@ class _$TransactionNotificationCopyWithImpl<$Res>
     Object? transaction = freezed,
     Object? title = freezed,
     Object? body = freezed,
+    Object? icon = freezed,
     Object? color = freezed,
   }) {
     return _then(_value.copyWith(
@@ -76,6 +79,10 @@ class _$TransactionNotificationCopyWithImpl<$Res>
           ? _value.body
           : body // ignore: cast_nullable_to_non_nullable
               as String?,
+      icon: icon == freezed
+          ? _value.icon
+          : icon // ignore: cast_nullable_to_non_nullable
+              as IconData?,
       color: color == freezed
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
@@ -107,6 +114,7 @@ abstract class _$$_TransactionNotificationCopyWith<$Res>
       Transaction? transaction,
       String title,
       String? body,
+      IconData? icon,
       AppColorVariant color});
 
   @override
@@ -131,6 +139,7 @@ class __$$_TransactionNotificationCopyWithImpl<$Res>
     Object? transaction = freezed,
     Object? title = freezed,
     Object? body = freezed,
+    Object? icon = freezed,
     Object? color = freezed,
   }) {
     return _then(_$_TransactionNotification(
@@ -150,6 +159,10 @@ class __$$_TransactionNotificationCopyWithImpl<$Res>
           ? _value.body
           : body // ignore: cast_nullable_to_non_nullable
               as String?,
+      icon: icon == freezed
+          ? _value.icon
+          : icon // ignore: cast_nullable_to_non_nullable
+              as IconData?,
       color: color == freezed
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
@@ -166,6 +179,7 @@ class _$_TransactionNotification extends _TransactionNotification {
       this.transaction,
       required this.title,
       this.body,
+      this.icon,
       this.color = AppColorVariant.Success})
       : super._();
 
@@ -178,12 +192,14 @@ class _$_TransactionNotification extends _TransactionNotification {
   @override
   final String? body;
   @override
+  final IconData? icon;
+  @override
   @JsonKey()
   final AppColorVariant color;
 
   @override
   String toString() {
-    return 'TransactionNotification(identifier: $identifier, transaction: $transaction, title: $title, body: $body, color: $color)';
+    return 'TransactionNotification(identifier: $identifier, transaction: $transaction, title: $title, body: $body, icon: $icon, color: $color)';
   }
 
   @override
@@ -197,6 +213,7 @@ class _$_TransactionNotification extends _TransactionNotification {
                 .equals(other.transaction, transaction) &&
             const DeepCollectionEquality().equals(other.title, title) &&
             const DeepCollectionEquality().equals(other.body, body) &&
+            const DeepCollectionEquality().equals(other.icon, icon) &&
             const DeepCollectionEquality().equals(other.color, color));
   }
 
@@ -207,6 +224,7 @@ class _$_TransactionNotification extends _TransactionNotification {
       const DeepCollectionEquality().hash(transaction),
       const DeepCollectionEquality().hash(title),
       const DeepCollectionEquality().hash(body),
+      const DeepCollectionEquality().hash(icon),
       const DeepCollectionEquality().hash(color));
 
   @JsonKey(ignore: true)
@@ -223,6 +241,7 @@ abstract class _TransactionNotification extends TransactionNotification {
       final Transaction? transaction,
       required final String title,
       final String? body,
+      final IconData? icon,
       final AppColorVariant color}) = _$_TransactionNotification;
   _TransactionNotification._() : super._();
 
@@ -234,6 +253,8 @@ abstract class _TransactionNotification extends TransactionNotification {
   String get title => throw _privateConstructorUsedError;
   @override
   String? get body => throw _privateConstructorUsedError;
+  @override
+  IconData? get icon => throw _privateConstructorUsedError;
   @override
   AppColorVariant get color => throw _privateConstructorUsedError;
   @override

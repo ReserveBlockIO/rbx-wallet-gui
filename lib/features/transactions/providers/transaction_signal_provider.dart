@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
@@ -77,6 +78,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
           transaction: transaction,
           title: "Funds Received",
           body: "${transaction.amount} RBX from ${transaction.fromAddress}",
+          icon: Icons.move_to_inbox,
         ),
       );
     }
@@ -87,6 +89,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
           transaction: transaction,
           title: "Funds Sent",
           body: "${transaction.amount.toString().replaceAll('-', '')} RBX to ${transaction.toAddress}",
+          icon: Icons.outbox,
         ),
       );
     }
@@ -99,12 +102,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       body = _nftDataValue(nftData, 'ContractUID');
     }
     _broadcastNotification(
-      TransactionNotification(
-        identifier: transaction.hash,
-        transaction: transaction,
-        title: "NFT Minted",
-        body: body,
-      ),
+      TransactionNotification(identifier: transaction.hash, transaction: transaction, title: "NFT Minted", body: body, icon: Icons.lightbulb_outline),
     );
   }
 
@@ -116,12 +114,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       if (name == null) return;
       body = "Topic $name Created.";
       _broadcastNotification(
-        TransactionNotification(
-          identifier: transaction.hash,
-          transaction: transaction,
-          title: "Topic Created",
-          body: body,
-        ),
+        TransactionNotification(identifier: transaction.hash, transaction: transaction, title: "Topic Created", body: body, icon: Icons.how_to_vote),
       );
     }
   }
@@ -134,12 +127,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       if (topic == null) return;
       body = "Vote casted on $topic";
       _broadcastNotification(
-        TransactionNotification(
-          identifier: transaction.hash,
-          transaction: transaction,
-          title: "Vote Casted",
-          body: body,
-        ),
+        TransactionNotification(identifier: transaction.hash, transaction: transaction, title: "Vote Casted", body: body, icon: Icons.how_to_vote),
       );
     }
   }
@@ -156,11 +144,11 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       if (evoState != null) {
         _broadcastNotification(
           TransactionNotification(
-            identifier: "${transaction.hash}_evolve_$evoState",
-            transaction: transaction,
-            title: "NFT Evolved",
-            body: "NFT evolved to state $evoState.",
-          ),
+              identifier: "${transaction.hash}_evolve_$evoState",
+              transaction: transaction,
+              title: "NFT Evolved",
+              body: "NFT evolved to state $evoState.",
+              icon: Icons.change_circle),
         );
         return;
       }
@@ -177,22 +165,22 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
 
       _broadcastNotification(
         TransactionNotification(
-          identifier: "${transaction.hash}_incoming",
-          transaction: transaction,
-          title: "NFT Received",
-          body: "NFT from ${transaction.fromAddress}",
-        ),
+            identifier: "${transaction.hash}_incoming",
+            transaction: transaction,
+            title: "NFT Received",
+            body: "NFT from ${transaction.fromAddress}",
+            icon: Icons.markunread_mailbox_outlined),
       );
     }
 
     if (isOutgoing) {
       _broadcastNotification(
         TransactionNotification(
-          identifier: "${transaction.hash}_outgoing",
-          transaction: transaction,
-          title: "NFT Sent",
-          body: "NFT to ${transaction.toAddress}",
-        ),
+            identifier: "${transaction.hash}_outgoing",
+            transaction: transaction,
+            title: "NFT Sent",
+            body: "NFT to ${transaction.toAddress}",
+            icon: Icons.send),
       );
     }
   }
@@ -212,12 +200,12 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
         body = "RBX Domain created for $name.rbx";
         _broadcastNotification(
           TransactionNotification(
-            identifier: transaction.hash,
-            transaction: transaction,
-            title: "Domain Name Created",
-            body: body,
-            color: AppColorVariant.Success,
-          ),
+              identifier: transaction.hash,
+              transaction: transaction,
+              title: "Domain Name Created",
+              body: body,
+              color: AppColorVariant.Success,
+              icon: Icons.link),
         );
         return;
       }
@@ -227,12 +215,12 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
         body = "RBX Domain deleted for $name";
         _broadcastNotification(
           TransactionNotification(
-            identifier: transaction.hash,
-            transaction: transaction,
-            title: "Domain Name Deleted",
-            body: body,
-            color: AppColorVariant.Danger,
-          ),
+              identifier: transaction.hash,
+              transaction: transaction,
+              title: "Domain Name Deleted",
+              body: body,
+              color: AppColorVariant.Danger,
+              icon: Icons.delete_forever),
         );
         return;
       }
@@ -247,6 +235,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
             title: "Domain Name Transfered",
             body: body,
             color: AppColorVariant.Warning,
+            icon: Icons.move_down,
           ),
         );
         return;

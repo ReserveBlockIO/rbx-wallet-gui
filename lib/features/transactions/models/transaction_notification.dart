@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/transactions/models/transaction.dart';
@@ -13,6 +14,7 @@ class TransactionNotification with _$TransactionNotification {
     Transaction? transaction,
     required String title,
     String? body,
+    IconData? icon,
     @Default(AppColorVariant.Success) AppColorVariant color,
   }) = _TransactionNotification;
 }
