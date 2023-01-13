@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:rbx_wallet/core/env.dart';
+import 'package:rbx_wallet/features/inspector/network_inspector.dart';
 
 class BaseService {
   final String? hostOverride;
@@ -55,10 +56,15 @@ class BaseService {
     bool auth = true,
     bool cleanPath = true,
     int timeout = 30000,
+    bool inspect = false,
   }) async {
     try {
+      final dio = Dio(_options(auth: auth, timeout: timeout));
+      if (inspect) {
+        NetworkInspector.attach(dio);
+      }
       final p = cleanPath ? _cleanPath(path) : path;
-      var response = await Dio(_options(auth: auth, timeout: timeout)).get(
+      var response = await dio.get(
         p,
         queryParameters: params,
       );
@@ -76,10 +82,15 @@ class BaseService {
     bool cleanPath = true,
     bool responseIsJson = false,
     int timeout = 30000,
+    bool inspect = false,
   }) async {
     try {
+      final dio = Dio(_options(auth: auth, timeout: timeout));
+      if (inspect) {
+        NetworkInspector.attach(dio);
+      }
       final url = cleanPath ? _cleanPath(path) : path;
-      var response = await Dio(_options(auth: auth, timeout: timeout)).get(
+      var response = await dio.get(
         url,
         queryParameters: params,
       );

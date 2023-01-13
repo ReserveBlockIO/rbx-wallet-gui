@@ -50,8 +50,7 @@ class SmartContractService extends BaseService {
     }
   }
 
-  Future<CompilerResponse?> compileSmartContract(
-      Map<String, dynamic> payload) async {
+  Future<CompilerResponse?> compileSmartContract(Map<String, dynamic> payload) async {
     final Map<String, dynamic> p = {...payload}..remove('hash');
 
     print("------------");
@@ -60,8 +59,7 @@ class SmartContractService extends BaseService {
     print("------------");
 
     try {
-      final response =
-          await postJson("/CreateSmartContract", params: p, timeout: 99999999);
+      final response = await postJson("/CreateSmartContract", params: p, timeout: 99999999);
 
       // print("==============");
       // print(jsonEncode(response['data'][0]));
@@ -101,10 +99,7 @@ class SmartContractService extends BaseService {
   void deleteFromStorage(SmartContract smartContract) {
     final existing = loadRawFromStorage();
 
-    final updated = [
-      ...existing
-        ..removeWhere((element) => element['draftId'] == smartContract.draftId)
-    ];
+    final updated = [...existing..removeWhere((element) => element['draftId'] == smartContract.draftId)];
 
     singleton<Storage>().setList(Storage.LOCAL_SMART_CONTRACTS, updated);
   }
@@ -114,12 +109,10 @@ class SmartContractService extends BaseService {
 
     if (smartContract.draftId.isNotEmpty) {
       final _existing = loadFromStorage();
-      final current =
-          _existing.firstWhereOrNull((s) => s.draftId == smartContract.draftId);
+      final current = _existing.firstWhereOrNull((s) => s.draftId == smartContract.draftId);
 
       if (current != null) {
-        final index =
-            _existing.indexWhere((s) => s.draftId == smartContract.draftId);
+        final index = _existing.indexWhere((s) => s.draftId == smartContract.draftId);
 
         existing.removeAt(index);
         existing.insert(index, smartContract.toJson());
@@ -138,8 +131,7 @@ class SmartContractService extends BaseService {
   Future<bool> mint(String id) async {
     try {
       print("-------------ID $id------------");
-      final response =
-          await getText("/MintSmartContract/$id", timeout: 99999999);
+      final response = await getText("/MintSmartContract/$id", timeout: 99999999);
 
       if (response == "Smart contract has been published to mempool") {
         return true;
@@ -151,19 +143,20 @@ class SmartContractService extends BaseService {
     }
   }
 
-  Future<bool> transfer(String id, String address, String? url) async {
+  Future<bool> transfer(String id, String address, String? backupUrl) async {
     try {
-      final text = await getText(
-        url != null && url.isNotEmpty
-            ? "/TransferNFT/$id/$address/$url"
-            : "/TransferNFT/$id/$address",
-        timeout: 99999,
-      );
+      final url = backupUrl != null && backupUrl.isNotEmpty ? "/TransferNFT/$id/$address/$backupUrl" : "/TransferNFT/$id/$address";
+      final text = await getText(url, timeout: 99999, inspect: true);
+      if (text.isEmpty) {
+        print("No response on transfer API call ($url)");
+        return false;
+      }
+      print("--------");
+      print(text);
+      print("--------");
 
       final Map<String, dynamic> data = jsonDecode(text);
-      if (!data.containsKey("Hash") &&
-          data['Hash'] != null &&
-          data['Hash'] != "") {
+      if (!data.containsKey("Hash") && data['Hash'] != null && data['Hash'] != "") {
         return false;
       }
 
@@ -221,8 +214,7 @@ class SmartContractService extends BaseService {
 
   Future<bool> downloadAssets(String nftId) async {
     try {
-      final data =
-          await getText("/DownloadNftAssets/$nftId", timeout: 99999999);
+      final data = await getText("/DownloadNftAssets/$nftId", timeout: 99999999);
       print(data);
       return true;
     } catch (e) {

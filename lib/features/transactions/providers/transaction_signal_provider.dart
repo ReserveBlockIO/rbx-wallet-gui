@@ -77,7 +77,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
           identifier: "${transaction.hash}_outgoing",
           transaction: transaction,
           title: "Funds Sent",
-          body: "${transaction.amount * -1} RBX to ${transaction.toAddress}",
+          body: "${transaction.amount.toString().replaceAll('-', '')} RBX to ${transaction.toAddress}",
         ),
       );
     }
