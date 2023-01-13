@@ -150,7 +150,7 @@ class MotherModal extends BaseComponent {
           ),
         if (motherData == null && connectedToMother)
           ListTile(
-            title: Text("Stop Following"),
+            title: Text("Stop Remote"),
             leading: Icon(
               Icons.stop,
               color: Colors.red,
@@ -158,12 +158,12 @@ class MotherModal extends BaseComponent {
             trailing: Icon(Icons.chevron_right),
             onTap: () async {
               InfoDialog.show(
-                title: "Stop Following",
+                title: "Stop Remote",
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("In order to stop following you need to update your configuration file."),
+                    Text("In order to stop the REMOTE you need to update your configuration file."),
                     SizedBox(height: 8),
                     InkWell(
                       onTap: () async {
