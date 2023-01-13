@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
 import 'package:rbx_wallet/features/encrypt/providers/wallet_is_encrypted_provider.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
@@ -33,99 +34,102 @@ class HdWalletButton extends BaseComponent {
   Widget build(BuildContext context, WidgetRef ref) {
     return AppButton(
       label: "Create HD Wallet",
-      onPressed: () async {
-        if (ref.read(walletIsEncryptedProvider)) {
-          Toast.error("You can not create an HD wallet with an encrypted wallet.");
-          return;
-        }
+      icon: Icons.hd_outlined,
+      onPressed: !ref.watch(sessionProvider).cliStarted
+          ? null
+          : () async {
+              if (ref.read(walletIsEncryptedProvider)) {
+                Toast.error("You can not create an HD wallet with an encrypted wallet.");
+                return;
+              }
 
-        final String? mneumonic = await showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              // buttonPadding: EdgeInsets.all(8.0),
-              // actionsPadding: EdgeInsets.all(0.0),
-              title: Text("HD Wallet"),
-              actionsAlignment: MainAxisAlignment.center,
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
+              final String? mneumonic = await showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    // buttonPadding: EdgeInsets.all(8.0),
+                    // actionsPadding: EdgeInsets.all(0.0),
+                    title: Text("HD Wallet"),
+                    actionsAlignment: MainAxisAlignment.center,
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          "Cancel",
+                          style: TextStyle(color: Colors.white70),
+                        ),
+                      )
+                    ],
+                    content: SizedBox(
+                      width: 500,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text("By creating an HD wallet you are creating a function to recover your private keys by use of recovery phrase."),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Text(
+                              "Once generated, any keys you create will use this phrase to seed the private key generation. Therefore, you will only need to remember this to deterministically recover your keys."),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Text(
+                            "This is an advanced feature and is not recommended unless you are familiar with Hierarchical Deterministic concepts.\n\nAny keys created prior to this will not be recoverable through this phrase so please ensure they are backed up as well.",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Divider(),
+                          Text(
+                            "Generate with strength:",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              AppButton(
+                                label: "12 Words",
+                                onPressed: () async {
+                                  await create(context, ref, 12);
+                                },
+                              ),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              AppButton(
+                                label: "24 Words",
+                                onPressed: () async {
+                                  await create(context, ref, 24);
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+
+              if (mneumonic != null) {
+                await showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (context) {
+                    return RecoveryPhraseDialog(mneumonic: mneumonic);
                   },
-                  child: Text(
-                    "Cancel",
-                    style: TextStyle(color: Colors.white70),
-                  ),
-                )
-              ],
-              content: SizedBox(
-                width: 500,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text("By creating an HD wallet you are creating a function to recover your private keys by use of recovery phrase."),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Text(
-                        "Once generated, any keys you create will use this phrase to seed the private key generation. Therefore, you will only need to remember this to deterministically recover your keys."),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Text(
-                      "This is an advanced feature and is not recommended unless you are familiar with Hierarchical Deterministic concepts.\n\nAny keys created prior to this will not be recoverable through this phrase so please ensure they are backed up as well.",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    Divider(),
-                    Text(
-                      "Generate with strength:",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        AppButton(
-                          label: "12 Words",
-                          onPressed: () async {
-                            await create(context, ref, 12);
-                          },
-                        ),
-                        SizedBox(
-                          width: 8,
-                        ),
-                        AppButton(
-                          label: "24 Words",
-                          onPressed: () async {
-                            await create(context, ref, 24);
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-        );
-
-        if (mneumonic != null) {
-          await showDialog(
-            barrierDismissible: false,
-            context: context,
-            builder: (context) {
-              return RecoveryPhraseDialog(mneumonic: mneumonic);
+                );
+              }
             },
-          );
-        }
-      },
     );
   }
 }

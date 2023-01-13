@@ -72,6 +72,7 @@ class HomeScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
+    final cliStarted = ref.watch(sessionProvider).cliStarted;
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -102,53 +103,59 @@ class HomeScreen extends BaseScreen {
                 children: [
                   AppButton(
                     label: "Print Addresses",
-                    onPressed: () {
-                      final _log = ref.read(logProvider.notifier);
+                    icon: Icons.wallet,
+                    onPressed: !cliStarted
+                        ? null
+                        : () {
+                            final _log = ref.read(logProvider.notifier);
 
-                      _log.append(LogEntry(
-                        message: "Wallet Addresses:",
-                        variant: AppColorVariant.Secondary,
-                      ));
+                            _log.append(LogEntry(
+                              message: "Wallet Addresses:",
+                              variant: AppColorVariant.Secondary,
+                            ));
 
-                      final wallets = ref.read(walletListProvider);
-                      for (final wallet in wallets) {
-                        _log.append(LogEntry(
-                          message: "${wallet.address} (${wallet.balance} RBX)",
-                          variant: AppColorVariant.Success,
-                          textToCopy: wallet.address,
-                        ));
-                      }
-                    },
+                            final wallets = ref.read(walletListProvider);
+                            for (final wallet in wallets) {
+                              _log.append(LogEntry(
+                                message: "${wallet.address} (${wallet.balance} RBX)",
+                                variant: AppColorVariant.Success,
+                                textToCopy: wallet.address,
+                              ));
+                            }
+                          },
                   ),
                   AppButton(
                     label: "Print Validators",
-                    onPressed: () async {
-                      final _log = ref.read(logProvider.notifier);
+                    icon: Icons.wifi,
+                    onPressed: !cliStarted
+                        ? null
+                        : () async {
+                            final _log = ref.read(logProvider.notifier);
 
-                      final validators = ref.read(validatorListProvider);
+                            final validators = ref.read(validatorListProvider);
 
-                      if (validators.isEmpty) {
-                        _log.append(LogEntry(
-                          message: "No validators",
-                          variant: AppColorVariant.Danger,
-                        ));
-                        return;
-                      }
-                      _log.append(LogEntry(
-                        message: "Validators:",
-                        variant: AppColorVariant.Secondary,
-                      ));
+                            if (validators.isEmpty) {
+                              _log.append(LogEntry(
+                                message: "No validators",
+                                variant: AppColorVariant.Danger,
+                              ));
+                              return;
+                            }
+                            _log.append(LogEntry(
+                              message: "Validators:",
+                              variant: AppColorVariant.Secondary,
+                            ));
 
-                      for (final validator in validators) {
-                        _log.append(
-                          LogEntry(
-                            message: "${validator.address} => ${validator.isValidating ? 'Validating' : 'Not Validating'}",
-                            variant: validator.isValidating ? AppColorVariant.Success : AppColorVariant.Info,
-                            textToCopy: validator.address,
-                          ),
-                        );
-                      }
-                    },
+                            for (final validator in validators) {
+                              _log.append(
+                                LogEntry(
+                                  message: "${validator.address} => ${validator.isValidating ? 'Validating' : 'Not Validating'}",
+                                  variant: validator.isValidating ? AppColorVariant.Success : AppColorVariant.Info,
+                                  textToCopy: validator.address,
+                                ),
+                              );
+                            }
+                          },
                   ),
 
                   MotherButton(),
@@ -157,49 +164,53 @@ class HomeScreen extends BaseScreen {
                   EncryptWalletButton(),
                   AppButton(
                     label: "Show Debug Data",
-                    onPressed: () async {
-                      final data = await BridgeService().getDebugInfo();
-                      InfoDialog.show(
-                        title: "Debug Data",
-                        content: Container(
-                          color: Colors.black54,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: SingleChildScrollView(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  AppButton(
-                                    label: "Copy",
-                                    icon: Icons.copy,
-                                    variant: AppColorVariant.Success,
-                                    onPressed: () async {
-                                      await Clipboard.setData(ClipboardData(text: data));
-                                      Toast.message("Debug data copied to clipboard");
-                                    },
-                                  ),
-                                  const SizedBox(
-                                    height: 8,
-                                  ),
-                                  SelectableText(
-                                    data,
-                                    style: const TextStyle(
-                                      fontSize: 12,
-                                      fontFamily: "Courier",
+                    icon: Icons.analytics_outlined,
+                    onPressed: !cliStarted
+                        ? null
+                        : () async {
+                            final data = await BridgeService().getDebugInfo();
+                            InfoDialog.show(
+                              title: "Debug Data",
+                              content: Container(
+                                color: Colors.black54,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        AppButton(
+                                          label: "Copy",
+                                          icon: Icons.copy,
+                                          variant: AppColorVariant.Success,
+                                          onPressed: () async {
+                                            await Clipboard.setData(ClipboardData(text: data));
+                                            Toast.message("Debug data copied to clipboard");
+                                          },
+                                        ),
+                                        const SizedBox(
+                                          height: 8,
+                                        ),
+                                        SelectableText(
+                                          data,
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            fontFamily: "Courier",
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ],
+                                ),
                               ),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
+                            );
+                          },
                   ),
                   if (!kIsWeb)
                     AppButton(
                       label: "Open DB Folder",
+                      icon: Icons.folder_open_rounded,
                       onPressed: () async {
                         // final shell = Shell(throwOnError: false);
 
@@ -238,6 +249,7 @@ class HomeScreen extends BaseScreen {
                   if (!kIsWeb)
                     AppButton(
                       label: "Open Log",
+                      icon: Icons.open_in_new,
                       onPressed: () async {
                         final shell = Shell(throwOnError: false);
 
@@ -260,96 +272,102 @@ class HomeScreen extends BaseScreen {
                         shell.run(cmd);
                       },
                     ),
-                  if (Platform.isWindows)
-                    AppButton(
-                      label: "Clear Log",
-                      onPressed: () async {
-                        final confirmed = await ConfirmDialog.show(
-                          title: "Clear Log",
-                          body: "Are you sure you want to clear the log?",
-                          destructive: true,
-                          confirmText: "Clear",
-                          cancelText: "Cancel",
-                        );
+                  // if (Platform.isWindows)
+                  //   AppButton(
+                  //     label: "Clear Log",
+                  //     onPressed: () async {
+                  //       final confirmed = await ConfirmDialog.show(
+                  //         title: "Clear Log",
+                  //         body: "Are you sure you want to clear the log?",
+                  //         destructive: true,
+                  //         confirmText: "Clear",
+                  //         cancelText: "Cancel",
+                  //       );
 
-                        if (confirmed == true) {
-                          final success = await BridgeService().clearLog();
-                          if (success) {
-                            Toast.message("Log cleared");
-                          } else {
-                            Toast.error();
-                          }
-                        }
-                      },
-                    ),
+                  //       if (confirmed == true) {
+                  //         final success = await BridgeService().clearLog();
+                  //         if (success) {
+                  //           Toast.message("Log cleared");
+                  //         } else {
+                  //           Toast.error();
+                  //         }
+                  //       }
+                  //     },
+                  //   ),
 
                   // if (Platform.isMacOS)
                   AppButton(
-                    label: "Backup",
-                    onPressed: () async {
-                      showModalBottomSheet(
-                          backgroundColor: Colors.black87,
-                          // isScrollControlled: true,
-                          context: context,
-                          builder: (context) {
-                            return ModalContainer(
-                              color: Colors.black26,
-                              withDecor: false,
-                              children: [
-                                ListTile(
-                                  title: Text("Backup Keys"),
-                                  subtitle: Text("Export and save your keys to a text file."),
-                                  leading: Icon(Icons.wallet),
-                                  trailing: Icon(Icons.chevron_right),
-                                  onTap: () async {
-                                    final success = await backupKeys(context, ref);
-                                    if (success == true) {
-                                      Navigator.of(context).pop();
-                                      Toast.message("Keys backed up successfully.");
-                                    } else {
-                                      Toast.error();
-                                    }
-                                  },
-                                ),
-                                ListTile(
-                                  title: Text("Backup Media"),
-                                  subtitle: Text("Zip and export your media assets."),
-                                  leading: Icon(Icons.file_present),
-                                  trailing: Icon(Icons.chevron_right),
-                                  onTap: () async {
-                                    final success = await backupMedia(context, ref);
-                                    if (success == true) {
-                                      Navigator.of(context).pop();
-                                      Toast.message("Media backed up successfully.");
-                                    } else {
-                                      Toast.error();
-                                    }
-                                  },
-                                ),
-                              ],
-                            );
-                          });
-                    },
+                    label: "Backup Keys",
+                    icon: Icons.backup_outlined,
+                    onPressed: !cliStarted
+                        ? null
+                        : () async {
+                            showModalBottomSheet(
+                                backgroundColor: Colors.black87,
+                                // isScrollControlled: true,
+                                context: context,
+                                builder: (context) {
+                                  return ModalContainer(
+                                    color: Colors.black26,
+                                    withDecor: false,
+                                    children: [
+                                      ListTile(
+                                        title: Text("Backup Keys"),
+                                        subtitle: Text("Export and save your keys to a text file."),
+                                        leading: Icon(Icons.wallet),
+                                        trailing: Icon(Icons.chevron_right),
+                                        onTap: () async {
+                                          final success = await backupKeys(context, ref);
+                                          if (success == true) {
+                                            Navigator.of(context).pop();
+                                            Toast.message("Keys backed up successfully.");
+                                          } else {
+                                            Toast.error();
+                                          }
+                                        },
+                                      ),
+                                      ListTile(
+                                        title: Text("Backup Media"),
+                                        subtitle: Text("Zip and export your media assets."),
+                                        leading: Icon(Icons.file_present),
+                                        trailing: Icon(Icons.chevron_right),
+                                        onTap: () async {
+                                          final success = await backupMedia(context, ref);
+                                          if (success == true) {
+                                            Navigator.of(context).pop();
+                                            Toast.message("Media backed up successfully.");
+                                          } else {
+                                            Toast.error();
+                                          }
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                });
+                          },
                   ),
 
                   AppButton(
                     label: "Restart CLI",
+                    icon: Icons.restart_alt,
                     // variant: AppColorVariant.Warning,
-                    onPressed: () async {
-                      // BridgeService().killCli();
+                    onPressed: cliStarted
+                        ? () async {
+                            // BridgeService().killCli();
 
-                      final confirmed = await ConfirmDialog.show(
-                        title: "Restart",
-                        body: "Are you sure you want to restart the CLI?",
-                        confirmText: "Restart",
-                        cancelText: "Cancel",
-                        destructive: true,
-                      );
+                            final confirmed = await ConfirmDialog.show(
+                              title: "Restart",
+                              body: "Are you sure you want to restart the CLI?",
+                              confirmText: "Restart",
+                              cancelText: "Cancel",
+                              destructive: true,
+                            );
 
-                      if (confirmed) {
-                        ref.read(sessionProvider.notifier).restartCli();
-                      }
-                    },
+                            if (confirmed) {
+                              ref.read(sessionProvider.notifier).restartCli();
+                            }
+                          }
+                        : null,
                   ),
 
                   // if (!kIsWeb && kDebugMode)

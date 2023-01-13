@@ -4,6 +4,7 @@ import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/env.dart';
+import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/features/mother/components/mother_modal.dart';
 import 'package:rbx_wallet/features/mother/models/mother_child.dart';
 import 'package:rbx_wallet/features/mother/services/mother_service.dart';
@@ -16,19 +17,22 @@ class MotherButton extends BaseComponent {
   Widget build(BuildContext context, WidgetRef ref) {
     return AppButton(
       label: "MOTHER",
-      onPressed: () async {
-        final data = await MotherService().getHost();
-        final List<MotherChild> children = data != null ? await MotherService().getChildren() : [];
+      icon: Icons.hub_outlined,
+      onPressed: ref.watch(sessionProvider).cliStarted
+          ? () async {
+              final data = await MotherService().getHost();
+              final List<MotherChild> children = data != null ? await MotherService().getChildren() : [];
 
-        showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          backgroundColor: Colors.transparent,
-          builder: (context) => MotherModal(data, children),
-        );
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: Colors.transparent,
+                builder: (context) => MotherModal(data, children),
+              );
 
-        // MONITOR TX HASHES & ADDRESSES EXPO REMOTE
-      },
+              // MONITOR TX HASHES & ADDRESSES EXPO REMOTE
+            }
+          : null,
     );
   }
 }

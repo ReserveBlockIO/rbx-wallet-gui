@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
@@ -15,22 +16,25 @@ class RestoreHdWalletButton extends BaseComponent {
   Widget build(BuildContext context, WidgetRef ref) {
     return AppButton(
       label: "Restore HD Wallet",
-      onPressed: () async {
-        final val = await PromptModal.show(
-          title: "Input Recover Phrase",
-          validator: (value) => formValidatorNotEmpty(value, "Recovery Phrase"),
-          labelText: "Recovery Phrase",
-        );
+      icon: Icons.hd_outlined,
+      onPressed: !ref.watch(sessionProvider).cliStarted
+          ? null
+          : () async {
+              final val = await PromptModal.show(
+                title: "Input Recover Phrase",
+                validator: (value) => formValidatorNotEmpty(value, "Recovery Phrase"),
+                labelText: "Recovery Phrase",
+              );
 
-        if (val != null) {
-          final success = await BridgeService().restoreHd(val);
-          if (success == true) {
-            Toast.message("HD Wallet restored. Keys will now be generated deterministically based on phrase.");
-          } else {
-            Toast.error();
-          }
-        }
-      },
+              if (val != null) {
+                final success = await BridgeService().restoreHd(val);
+                if (success == true) {
+                  Toast.message("HD Wallet restored. Keys will now be generated deterministically based on phrase.");
+                } else {
+                  Toast.error();
+                }
+              }
+            },
     );
   }
 }

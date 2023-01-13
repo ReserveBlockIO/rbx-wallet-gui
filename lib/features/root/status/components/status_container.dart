@@ -334,13 +334,20 @@ class _ProgressIndicator extends StatelessWidget {
   }
 }
 
-class _StatusIndicator extends StatelessWidget {
+class _StatusIndicator extends BaseComponent {
   final BridgeStatus status;
 
   const _StatusIndicator(this.status, {Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    if (!ref.watch(sessionProvider).cliStarted) {
+      return const AppBadge(
+        label: "CLI Inactive",
+        variant: AppColorVariant.Danger,
+      );
+    }
+
     switch (status) {
       case BridgeStatus.Loading:
         return const AppBadge(
