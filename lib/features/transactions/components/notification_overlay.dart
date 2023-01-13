@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
@@ -15,7 +13,7 @@ class NotificationOverlay extends BaseComponent {
 
     return IgnorePointer(
       ignoring: true,
-      child: Container(
+      child: SizedBox(
         width: double.infinity,
         height: double.infinity,
         child: Align(
