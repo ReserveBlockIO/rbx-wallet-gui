@@ -150,38 +150,38 @@ class MotherModal extends BaseComponent {
               }
             },
           ),
-        // if (connectedToMother)
-        ListTile(
-          title: Text("Stop Remote"),
-          leading: Icon(
-            Icons.stop,
-            color: Colors.red,
-          ),
-          trailing: Icon(Icons.chevron_right),
-          onTap: () async {
-            final confirmed = await ConfirmDialog.show(
-              title: "Stop Remote",
-              body: "Are you sure you want to remove this node as a REMOTE?\n\nA CLI restart will be required.",
-              confirmText: "Stop Remote & Restart CLI",
-              cancelText: "Cancel",
-            );
-            if (confirmed == true) {
-              final path = await configPath();
-              final currentLines = await File(path).readAsLines();
+        if (connectedToMother)
+          ListTile(
+            title: Text("Stop Remote"),
+            leading: Icon(
+              Icons.stop,
+              color: Colors.red,
+            ),
+            trailing: Icon(Icons.chevron_right),
+            onTap: () async {
+              final confirmed = await ConfirmDialog.show(
+                title: "Stop Remote",
+                body: "Are you sure you want to remove this node as a REMOTE?\n\nA CLI restart will be required.",
+                confirmText: "Stop Remote & Restart CLI",
+                cancelText: "Cancel",
+              );
+              if (confirmed == true) {
+                final path = await configPath();
+                final currentLines = await File(path).readAsLines();
 
-              final List<String> updatedLines = [];
-              for (final line in currentLines) {
-                if (!line.contains("MotherPassword=") && !line.contains("MotherAddress=")) {
-                  updatedLines.add(line);
+                final List<String> updatedLines = [];
+                for (final line in currentLines) {
+                  if (!line.contains("MotherPassword=") && !line.contains("MotherAddress=")) {
+                    updatedLines.add(line);
+                  }
                 }
+                await File(path).writeAsString(updatedLines.join('\n'));
+                await ref.read(sessionProvider.notifier).restartCli();
+                Navigator.of(context).pop();
+                Toast.message("REMOTE node has been removed from MOTHER");
               }
-              await File(path).writeAsString(updatedLines.join('\n'));
-              await ref.read(sessionProvider.notifier).restartCli();
-              Navigator.of(context).pop();
-              Toast.message("REMOTE node has been removed from MOTHER");
-            }
-          },
-        ),
+            },
+          ),
         ListTile(
           title: Text("What is MOTHER?"),
           leading: Icon(Icons.help),
