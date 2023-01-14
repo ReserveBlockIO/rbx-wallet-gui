@@ -168,10 +168,10 @@ class MotherModal extends BaseComponent {
               if (confirmed == true) {
                 final path = await configPath();
                 final currentLines = await File(path).readAsLines();
-                final List<String> updatedLines = [];
 
+                final List<String> updatedLines = [];
                 for (final line in currentLines) {
-                  if (!line.contains("Mother")) {
+                  if (!line.contains("MotherPassword=") && !line.contains("MotherAddress=")) {
                     updatedLines.add(line);
                   }
                 }
@@ -180,56 +180,6 @@ class MotherModal extends BaseComponent {
                 Navigator.of(context).pop();
                 Toast.message("REMOTE node has been removed from MOTHER");
               }
-              // InfoDialog.show(
-              //   title: "Stop Remote",
-              //   content: Column(
-              //     mainAxisSize: MainAxisSize.min,
-              //     crossAxisAlignment: CrossAxisAlignment.start,
-              //     children: [
-              //       Text("In order to stop the REMOTE you need to update your configuration file."),
-              //       SizedBox(height: 8),
-              //       InkWell(
-              //         onTap: () async {
-              //           final path = await configPath();
-              //           openFile(File(path));
-              //         },
-              //         child: Text(
-              //           "1. Open Config",
-              //           style: TextStyle(decoration: TextDecoration.underline),
-              //         ),
-              //       ),
-              //       SizedBox(height: 16),
-              //       Text("2. Remove the following entries:"),
-              //       Text(
-              //         "-> MotherAddress",
-              //         style: Theme.of(context).textTheme.caption,
-              //       ),
-              //       Text(
-              //         "-> MotherPassword",
-              //         style: Theme.of(context).textTheme.caption,
-              //       ),
-              //       SizedBox(height: 16),
-              //       Text("4. Save the config file."),
-              //       SizedBox(height: 16),
-              //       InkWell(
-              //         onTap: () async {
-              //           ref.read(sessionProvider.notifier).restartCli();
-              //           Navigator.of(context).pop();
-              //         },
-              //         child: Text(
-              //           "3. Restart the CLI",
-              //           style: TextStyle(
-              //             decoration: TextDecoration.underline,
-              //           ),
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // );
-
-              // if (data != null) {
-              //   Navigator.of(context).pop();
-              // }
             },
           ),
         ListTile(
