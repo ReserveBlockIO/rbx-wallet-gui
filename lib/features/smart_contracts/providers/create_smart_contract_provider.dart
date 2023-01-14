@@ -370,8 +370,12 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
             return true;
           }
         }
-        if (phase.dateTime != null) {
-          if (phase.dateTime!.isBefore(DateTime.now())) {
+        if (state.evolves.first.type == EvolveType.time) {
+          if (phase.dateTime != null) {
+            if (phase.dateTime!.isBefore(DateTime.now())) {
+              return true;
+            }
+          } else {
             return true;
           }
         }

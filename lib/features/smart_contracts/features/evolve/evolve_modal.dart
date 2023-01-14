@@ -16,6 +16,7 @@ import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart'
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_form_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase_form_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
 
 class EvolveModal extends BaseComponent {
   const EvolveModal({Key? key}) : super(key: key);

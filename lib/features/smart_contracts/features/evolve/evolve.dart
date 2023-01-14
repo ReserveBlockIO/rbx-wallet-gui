@@ -152,6 +152,18 @@ abstract class Evolve with _$Evolve {
 
     if (type == EvolveType.time) {
       _phases = _phases..sort((a, b) => a.dateTime!.compareTo(b.dateTime!));
+      for (final entry in _phases.asMap().entries) {
+        final key = entry.key;
+        final p = entry.value;
+        if (p.dateTime == null) {
+          final u = _phases[key].copyWith(dateTime: DateTime.now());
+          final updated = [..._phases]
+            ..removeAt(key)
+            ..insert(key, u);
+          _phases = updated;
+          // _phases[key] = _phases[key].copyWith(dateTime: DateTime.now());
+        }
+      }
     } else if (type == EvolveType.blockHeight) {
       _phases = _phases..sort((a, b) => a.blockHeight!.compareTo(b.blockHeight!));
     }
