@@ -12,12 +12,20 @@ class BeaconListTile extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    String subtitle = beacon.ipAddressLabel;
+
+    if (beacon.selfBeacon) {
+      subtitle =
+          "${beacon.ipAddressLabel}\nAuto Delete Assets: ${beacon.autoDeleteAfterDownload ? 'Yes' : 'No'} | Asset Cache: ${beacon.fileCachePeriodDays == 0 ? 'Infinite' : '${beacon.fileCachePeriodDays} Day${beacon.fileCachePeriodDays == 1 ? '' : 's'}'}";
+    }
+
     return Card(
       color: Theme.of(context).colorScheme.primary,
       child: ListTile(
-        leading: Icon(Icons.wifi),
-        title: Text(beacon.name),
-        subtitle: Text(beacon.ipAddressLabel),
+        leading: Icon(beacon.selfBeacon ? Icons.wifi : Icons.satellite_alt),
+        title: Text("${beacon.name} ${beacon.isBeaconPrivate ? '[Private]' : ''}"),
+        subtitle: SelectableText(subtitle),
+        isThreeLine: beacon.selfBeacon,
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

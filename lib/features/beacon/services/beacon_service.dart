@@ -41,9 +41,17 @@ class BeaconService extends BaseService {
     }
   }
 
-  Future<String?> create(String name, int port) async {
+  Future<String?> create({
+    required String name,
+    required int port,
+    required bool isPrivate,
+    required bool autoDelete,
+    required int fileCacheDays,
+  }) async {
     try {
-      final response = await getText('/CreateBeacon/$name/$port', cleanPath: false);
+      final url = '/CreateBeacon/$name/$isPrivate/$autoDelete/$fileCacheDays/$port';
+      print(url);
+      final response = await getText(url, cleanPath: false);
       final data = jsonDecode(response);
 
       if (data['Result'] != null && data['Result'] == 'Success') {

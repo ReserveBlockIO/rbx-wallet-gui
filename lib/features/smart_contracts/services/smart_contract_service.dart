@@ -215,7 +215,6 @@ class SmartContractService extends BaseService {
   Future<bool> downloadAssets(String nftId) async {
     try {
       final data = await getText("/DownloadNftAssets/$nftId", timeout: 0);
-      print(data);
       return true;
     } catch (e) {
       print(e);

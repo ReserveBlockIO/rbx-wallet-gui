@@ -191,7 +191,7 @@ class MainMenu extends BaseComponent {
                   ),
                   _NavButton(
                     title: "Beacons",
-                    icon: Icons.wifi,
+                    icon: Icons.satellite_alt,
                     onPressed: () {
                       tabsRouter.setActiveIndex(12);
                     },

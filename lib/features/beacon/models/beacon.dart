@@ -15,6 +15,9 @@ class Beacon with _$Beacon {
     @JsonKey(name: "BeaconUID") required String uid,
     @JsonKey(name: "SelfBeacon") required bool selfBeacon,
     @JsonKey(name: "SelfBeaconActive") required bool selfBeaconActive,
+    @JsonKey(name: "IsPrivateBeacon") required bool isBeaconPrivate,
+    @JsonKey(name: "AutoDeleteAfterDownload") required bool autoDeleteAfterDownload,
+    @JsonKey(name: "FileCachePeriodDays") required int fileCachePeriodDays,
   }) = _Beacon;
 
   factory Beacon.fromJson(Map<String, dynamic> json) => _$BeaconFromJson(json);
@@ -27,6 +30,9 @@ class Beacon with _$Beacon {
       name: '',
       selfBeacon: false,
       selfBeaconActive: false,
+      isBeaconPrivate: false,
+      fileCachePeriodDays: 0,
+      autoDeleteAfterDownload: false,
       uid: '',
     );
   }
