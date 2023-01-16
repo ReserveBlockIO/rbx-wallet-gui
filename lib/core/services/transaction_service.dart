@@ -586,7 +586,7 @@ class TransactionService extends BaseService {
 
   Future<AdnrResponse> deleteAdnr(String address) async {
     try {
-      final response = await getText("/DeleteAdnr/$address", inspect: true);
+      final response = await getText("/DeleteAdnr/$address");
       final data = jsonDecode(response);
       return AdnrResponse(
         success: data['Result'] == "Success",

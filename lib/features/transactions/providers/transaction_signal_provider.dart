@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/app_constants.dart';
+import '../../../core/providers/session_provider.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../nft/providers/transferred_provider.dart';
 import '../../wallet/providers/wallet_list_provider.dart';
@@ -105,6 +106,8 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
     _broadcastNotification(
       TransactionNotification(identifier: transaction.hash, transaction: transaction, title: "NFT Minted", body: body, icon: Icons.lightbulb_outline),
     );
+
+    read(sessionProvider.notifier).smartContractLoop(false);
   }
 
   void _handleVoteTopic(Transaction transaction) {
@@ -151,6 +154,8 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
               body: "NFT evolved to state $evoState.",
               icon: Icons.change_circle),
         );
+        read(sessionProvider.notifier).smartContractLoop(false);
+
         return;
       }
     }
@@ -183,6 +188,8 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
             icon: Icons.send),
       );
     }
+
+    read(sessionProvider.notifier).smartContractLoop(false);
   }
 
   void _handleAdnr(Transaction transaction) {
@@ -258,6 +265,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
         color: AppColorVariant.Danger,
       ),
     );
+    read(sessionProvider.notifier).smartContractLoop(false);
   }
 
   Map<String, dynamic>? _parseNftData(Transaction transaction) {

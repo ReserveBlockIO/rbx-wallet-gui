@@ -25,7 +25,6 @@ class BeaconListScreen extends BaseScreen {
     final myBeacons = beacons.where((b) => b.selfBeacon);
 
     return AppBar(
-      centerTitle: true,
       title: const Text("Beacons"),
       backgroundColor: Colors.black54,
       leading: IconButton(
@@ -36,7 +35,7 @@ class BeaconListScreen extends BaseScreen {
       ),
       actions: [
         AppButton(
-          label: "Add",
+          label: "Add Remote Beacon",
           variant: AppColorVariant.Light,
           onPressed: () async {
             showModalBottomSheet(
@@ -50,7 +49,7 @@ class BeaconListScreen extends BaseScreen {
           width: 8,
         ),
         AppButton(
-          label: "Create",
+          label: "Create / Host Beacon",
           variant: AppColorVariant.Light,
           onPressed: () async {
             if (myBeacons.isNotEmpty) {

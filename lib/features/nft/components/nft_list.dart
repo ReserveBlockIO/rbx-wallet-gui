@@ -38,6 +38,7 @@ class NftList extends BaseComponent {
 
                 return NftListTile(
                   nft,
+                  key: Key(nft.id),
                   manageOnPress: minted,
                 );
               },

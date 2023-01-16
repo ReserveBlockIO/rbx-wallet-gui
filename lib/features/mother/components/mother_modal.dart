@@ -12,6 +12,7 @@ import '../../../core/env.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../utils/files.dart';
+import '../../../utils/toast.dart';
 import '../../bridge/providers/wallet_info_provider.dart';
 import '../../smart_contracts/components/sc_creator/common/modal_container.dart';
 import '../models/mother_child.dart';
@@ -131,7 +132,7 @@ class MotherModal extends BaseComponent {
               }
             },
           ),
-        if (motherData == null && !connectedToMother)
+        if (!connectedToMother)
           ListTile(
             title: const Text("Set Wallet as Remote"),
             leading: const Icon(Icons.satellite_alt_outlined),
@@ -147,7 +148,7 @@ class MotherModal extends BaseComponent {
               }
             },
           ),
-        if (motherData == null && connectedToMother)
+        if (connectedToMother)
           ListTile(
             title: const Text("Stop Remote"),
             leading: const Icon(
@@ -156,56 +157,27 @@ class MotherModal extends BaseComponent {
             ),
             trailing: const Icon(Icons.chevron_right),
             onTap: () async {
-              InfoDialog.show(
+              final confirmed = await ConfirmDialog.show(
                 title: "Stop Remote",
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text("In order to stop the REMOTE you need to update your configuration file."),
-                    const SizedBox(height: 8),
-                    InkWell(
-                      onTap: () async {
-                        final path = await configPath();
-                        openFile(File(path));
-                      },
-                      child: const Text(
-                        "1. Open Config",
-                        style: TextStyle(decoration: TextDecoration.underline),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    const Text("2. Remove the following entries:"),
-                    Text(
-                      "-> MotherAddress",
-                      style: Theme.of(context).textTheme.caption,
-                    ),
-                    Text(
-                      "-> MotherPassword",
-                      style: Theme.of(context).textTheme.caption,
-                    ),
-                    const SizedBox(height: 16),
-                    const Text("4. Save the config file."),
-                    const SizedBox(height: 16),
-                    InkWell(
-                      onTap: () async {
-                        ref.read(sessionProvider.notifier).restartCli();
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text(
-                        "3. Restart the CLI",
-                        style: TextStyle(
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                body: "Are you sure you want to remove this node as a REMOTE?\n\nA CLI restart will be required.",
+                confirmText: "Stop Remote & Restart CLI",
+                cancelText: "Cancel",
               );
+              if (confirmed == true) {
+                final path = await configPath();
+                final currentLines = await File(path).readAsLines();
 
-              // if (data != null) {
-              //   Navigator.of(context).pop();
-              // }
+                final List<String> updatedLines = [];
+                for (final line in currentLines) {
+                  if (!line.contains("MotherPassword=") && !line.contains("MotherAddress=")) {
+                    updatedLines.add(line);
+                  }
+                }
+                await File(path).writeAsString(updatedLines.join('\n'));
+                await ref.read(sessionProvider.notifier).restartCli();
+                Navigator.of(context).pop();
+                Toast.message("REMOTE node has been removed from MOTHER");
+              }
             },
           ),
         ListTile(

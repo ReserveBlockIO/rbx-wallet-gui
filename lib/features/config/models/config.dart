@@ -36,6 +36,16 @@ class Config with _$Config {
     )
     @Default(API_CALL_URL_DEFAULT)
         String? apiCallUrl,
+    @JsonKey(
+      name: "MotherAddress",
+    )
+    @Default(MOTHER_ADDRESS_DEFAULT)
+        String? motherAddress,
+    @JsonKey(
+      name: "MotherPassword",
+    )
+    @Default(MOTHER_PASSWORD_DEFAULT)
+        String? motherPassword,
     @JsonKey(name: "TestNet", fromJson: stringToBool)
     @Default(false)
         bool testnet,
@@ -77,6 +87,14 @@ class Config with _$Config {
 
   bool get isApiCallUrlDefault {
     return apiCallUrl == API_CALL_URL_DEFAULT || apiCallUrl == '';
+  }
+
+  bool get isMotherAddressDefault {
+    return motherAddress == MOTHER_ADDRESS_DEFAULT || motherAddress == '';
+  }
+
+  bool get isMotherPasswordDefault {
+    return motherPassword == MOTHER_PASSWORD_DEFAULT || motherPassword == '';
   }
 
   bool get isWalletUnlockTimeDefault {

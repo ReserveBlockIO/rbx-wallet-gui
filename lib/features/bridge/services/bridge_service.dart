@@ -38,7 +38,7 @@ class BridgeService extends BaseService {
 
   Future<String?> encryptWallet(String password) async {
     try {
-      final data = await getText("/GetEncryptWallet/$password", cleanPath: false, timeout: 99999999);
+      final data = await getText("/GetEncryptWallet/$password", cleanPath: false, timeout: 0);
       final response = jsonDecode(data);
       if (response['Result'] != null && response['Result'] == "Success") {
         return null;

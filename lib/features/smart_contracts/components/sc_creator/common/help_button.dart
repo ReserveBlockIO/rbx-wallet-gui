@@ -41,7 +41,9 @@ enum HelpType {
   autoDownloadNftAsset,
   ignoreIncomingNfts,
   rejectAssetExtensionTypes,
-  allowedAssetExtensionTypes
+  allowedAssetExtensionTypes,
+  motherAddress,
+  motherPassword
 }
 
 class HelpButton extends StatelessWidget {
@@ -145,6 +147,10 @@ class HelpButton extends StatelessWidget {
         return "Reject Asset Extension Types";
       case HelpType.allowedAssetExtensionTypes:
         return "Allowed Asset Extension Types";
+      case HelpType.motherAddress:
+        return "Mother Address";
+      case HelpType.motherPassword:
+        return "Mother Password";
     }
   }
 
@@ -227,6 +233,10 @@ class HelpButton extends StatelessWidget {
         return "This will add extension types to the already defined list and will reject any NFT assets with these known extension types \nEx: exe,zip,pdf... (ensure there are no spaces between types) \n\nDefault value: (leave blank)\n\nIf left blank, this is the default:\n${DEFAULT_REJECTED_EXTENIONS.join(',')}";
       case HelpType.allowedAssetExtensionTypes:
         return "This will remove extension types to the already defined list and will allow any NFT assets with these known extension types to be downloaded \nEx: pdf,doc,xls \n\nDefault value: (leave blank)";
+      case HelpType.motherAddress:
+        return "The IP address of the HOST wallet. \n\n Default value: (leave blank)";
+      case HelpType.motherPassword:
+        return "The password set in your HOST wallet when configuring MOTHER.\n\n Default value: (leave blank)";
     }
   }
 }

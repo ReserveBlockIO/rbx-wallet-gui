@@ -25,9 +25,10 @@ class MotherAddHostDialog extends BaseComponent {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              Text("Set the IP address and password set of your MOTHER HOST."),
               TextFormField(
                 controller: ipAddressController,
-                decoration: const InputDecoration(label: Text("IP Address")),
+                decoration: const InputDecoration(label: Text("IP Address of HOST")),
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp("[0-9.]")),
                 ],
@@ -41,7 +42,7 @@ class MotherAddHostDialog extends BaseComponent {
               TextFormField(
                 controller: passwordController,
                 obscureText: true,
-                decoration: const InputDecoration(label: Text("Password")),
+                decoration: const InputDecoration(label: Text("Password set on HOST")),
                 validator: (val) {
                   if (val == null || val.isEmpty) {
                     return "Password Required";

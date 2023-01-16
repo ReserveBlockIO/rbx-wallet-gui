@@ -31,24 +31,26 @@ class ConfigurationFormGroup extends BaseComponent {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
-              children: [
-                const Flexible(
+              children: const [
+                Flexible(
                   child: _ApiPort(),
                 ),
-                const Flexible(
+                Flexible(
                   child: _ApiCallUrl(),
                 ),
-                const Flexible(child: _WalletUnlockTime()),
-                const Flexible(
+                Flexible(child: _WalletUnlockTime()),
+                Flexible(
                   child: _PasswordClearTime(),
                 ),
-                const Flexible(child: _NftTimeout()),
-                const Flexible(
+                Flexible(child: _NftTimeout()),
+                Flexible(
                   child: _AutoDownloadNftAsset(),
                 ),
-                const Flexible(child: _IgnoreIncomingNfts()),
-                const Flexible(child: _RejectAssetsExtensionTypes()),
-                const Flexible(child: _AllowedExtensionTypes())
+                Flexible(child: _IgnoreIncomingNfts()),
+                Flexible(child: _RejectAssetsExtensionTypes()),
+                Flexible(child: _AllowedExtensionTypes()),
+                Flexible(child: _MotherAddress()),
+                Flexible(child: _MotherPassword()),
               ],
             ),
           )),
@@ -75,6 +77,51 @@ class _ApiCallUrl extends BaseComponent {
         ),
         hintText: "",
         suffixIcon: HelpButton(HelpType.apiCallUrl),
+      ),
+    );
+  }
+}
+
+class _MotherAddress extends BaseComponent {
+  const _MotherAddress({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ref) {
+    final provider = ref.read(configFormProvider.notifier);
+    return TextFormField(
+      controller: provider.motherAddressController,
+      decoration: const InputDecoration(
+        label: Text(
+          "Mother Address",
+          style: TextStyle(color: Colors.white),
+        ),
+        hintText: "",
+        suffixIcon: HelpButton(HelpType.motherAddress),
+      ),
+    );
+  }
+}
+
+class _MotherPassword extends BaseComponent {
+  const _MotherPassword({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ref) {
+    final provider = ref.read(configFormProvider.notifier);
+    return TextFormField(
+      obscureText: true,
+      controller: provider.motherPasswordController,
+      decoration: const InputDecoration(
+        label: Text(
+          "Mother Password",
+          style: TextStyle(color: Colors.white),
+        ),
+        hintText: "",
+        suffixIcon: HelpButton(HelpType.motherPassword),
       ),
     );
   }
