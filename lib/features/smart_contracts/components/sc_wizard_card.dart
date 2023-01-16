@@ -3,11 +3,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/asset/asset_thumbnail.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/file_selector.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_wizard_asset_preview.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty_modal.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/bulk_smart_contract_entry.dart';
 import 'package:rbx_wallet/utils/files.dart';
 import 'package:rbx_wallet/utils/toast.dart';
@@ -285,6 +287,20 @@ class ScWizedCard extends BaseComponent {
                   )
                 ],
               ),
+              const Divider(),
+              AppButton(
+                label: "Add Royalty",
+                onPressed: () {
+                  // showModalBottomSheet(
+                  //   context: context,
+                  //   isScrollControlled: true,
+                  //   backgroundColor: Colors.transparent,
+                  //   builder: (context) => const RoyaltyModal(),
+                  // );
+                },
+                variant: AppColorVariant.Info,
+                type: AppButtonType.Text,
+              )
             ],
           ),
         ),
