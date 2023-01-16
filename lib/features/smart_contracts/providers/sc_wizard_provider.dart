@@ -8,7 +8,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_wizard_minting_progress_dialog.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
+import 'package:rbx_wallet/features/smart_contracts/providers/sc_wizard_minting_progress_provider.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../../core/providers/web_session_provider.dart';
 import '../../../core/services/transaction_service.dart';
@@ -241,9 +243,18 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
     state = [];
   }
 
-  Future<void> mint() async {
+  Future<void> mint(BuildContext context) async {
     // TODO: Confirmation dialog
     // TODO: progress update
+
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const ScWizardMintingProgressDialog();
+        });
+
+    final totalItems = state.map((e) => e.entry.quantity).toList().sum;
+    int totalProgress = 0;
 
     for (final item in state) {
       final entry = item.entry;
@@ -252,30 +263,40 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
         Toast.error("No wallet selected.");
         return;
       }
-      final filename = entry.primaryAssetUrl.split('/').last;
-      final extension = filename.split(".").last;
 
-      final downloadDirectory = await getTemporaryDirectory();
-      final path = "${downloadDirectory.path}/$filename";
-      await Dio().download(entry.primaryAssetUrl, path, onReceiveProgress: (value1, value2) {
-        print("Downloading $value1/$value2");
-      });
-      final fileSize = (await File(path).readAsBytes()).length;
+      // final filename = entry.primaryAssetUrl.split('/').last;
+      // final extension = filename.split(".").last;
 
-      final asset = Asset(
-        id: "00000000-0000-0000-0000-000000000000",
-        name: filename,
-        authorName: entry.creatorName,
-        location: path,
-        extension: extension,
-        fileSize: fileSize,
+      // final downloadDirectory = await getTemporaryDirectory();
+      // final path = "${downloadDirectory.path}/$filename";
+      // await Dio().download(entry.primaryAssetUrl, path, onReceiveProgress: (value1, value2) {
+      //   print("Downloading $value1/$value2");
+      // });
+      // final fileSize = (await File(path).readAsBytes()).length;
+
+      // final asset = Asset(
+      //   id: "00000000-0000-0000-0000-000000000000",
+      //   name: filename,
+      //   authorName: entry.creatorName,
+      //   location: path,
+      //   extension: extension,
+      //   fileSize: fileSize,
+      // );
+      final sc = SmartContract(
+        owner: owner,
+        name: entry.name,
+        minterName: entry.creatorName,
+        description: entry.description,
+        primaryAsset: entry.primaryAsset,
       );
-      final sc = SmartContract(owner: owner, name: entry.name, minterName: entry.creatorName, description: entry.description, primaryAsset: asset);
+
       final timezoneName = read(sessionProvider).timezoneName;
       final payload = sc.serializeForCompiler(timezoneName);
       int i = 0;
       while (i <= entry.quantity) {
         i += 1;
+
+        read(scWizardMintingProgress.notifier).setLabel("Minting $totalProgress/$totalItems...");
 
         final csc = await SmartContractService().compileSmartContract(payload);
 
@@ -307,11 +328,19 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
 
         NftService().saveId(id);
 
-        await Future.delayed(Duration(milliseconds: 500));
+        await Future.delayed(Duration(milliseconds: 1500));
+        totalProgress += 1;
+
+        final percent = totalProgress / totalItems;
+
+        read(scWizardMintingProgress.notifier).setPercent(percent);
 
         // final updatedDetails = kIsWeb ? await TransactionService().retrieveSmartContract(id) : await SmartContractService().retrieve(id);
 
       }
+
+      read(scWizardMintingProgress.notifier).setPercent(1);
+      read(scWizardMintingProgress.notifier).setLabel("Complete");
 
       read(mintedNftListProvider.notifier).reloadCurrentPage();
 
@@ -320,7 +349,7 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
           ? read(nftListProvider.notifier).reloadCurrentPage(read(webSessionProvider).keypair?.email, read(webSessionProvider).keypair?.public)
           : read(nftListProvider.notifier).reloadCurrentPage();
 
-      clear();
+      // clear();
     }
   }
 }
