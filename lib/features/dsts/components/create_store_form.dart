@@ -30,9 +30,9 @@ class CreateStoreForm extends BaseComponent {
             validator: provider.stripeValidator,
             readOnly: true,
             decoration: InputDecoration(
-              label: Text("Stripe Account"),
+              label: const Text("Stripe Account"),
               suffixIcon: ElevatedButton(
-                child: Text("Setup Account"),
+                child: const Text("Setup Account"),
                 onPressed: () async {
                   provider.onboardStripe();
                 },
@@ -42,9 +42,9 @@ class CreateStoreForm extends BaseComponent {
           TextFormField(
             controller: provider.nameController,
             validator: provider.nameValidator,
-            decoration: InputDecoration(label: Text("Store Name")),
+            decoration: const InputDecoration(label: Text("Store Name")),
           ),
-          Divider(),
+          const Divider(),
           AppButton(
             label: "Create",
             onPressed: () async {

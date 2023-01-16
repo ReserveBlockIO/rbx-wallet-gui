@@ -29,7 +29,7 @@ class MotherChildCard extends StatelessWidget {
               child.validatorName,
               style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white),
             ),
-            Divider(),
+            const Divider(),
             Card(
               color: Colors.black54,
               child: Padding(
@@ -42,23 +42,23 @@ class MotherChildCard extends StatelessWidget {
                       label: "Balance",
                       value: "${child.balance} RBX",
                     ),
-                    Divider(),
+                    const Divider(),
                     _Row(
                       label: "IP Address",
                       value: child.ipAddress,
                     ),
-                    Divider(),
+                    const Divider(),
                     _Row(
                       label: "Block Height",
                       value: "${child.blockHeight}",
                     ),
-                    Divider(),
+                    const Divider(),
                     _Row(
                       label: "Is Validating?",
                       value: child.activeWithValidating ? 'Yes' : 'No',
                       color: child.activeWithValidating ? AppColorVariant.Success : AppColorVariant.Danger,
                     ),
-                    Divider(),
+                    const Divider(),
                     _Row(
                       label: "Is Connected to Mother?",
                       value: child.activeWithMother ? 'Yes' : 'No',
@@ -85,7 +85,7 @@ class MotherChildCard extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Divider(),
+                  const Divider(),
                   Text(
                     child.address,
                     style: Theme.of(context).textTheme.caption,

@@ -28,7 +28,7 @@ class TopicVoteActions extends BaseComponent {
     final myVotes = ref.watch(myVoteListProvider);
 
     if (topic == null) {
-      return SizedBox.shrink();
+      return const SizedBox.shrink();
     }
 
     if (!topic.isActive) {
@@ -38,12 +38,12 @@ class TopicVoteActions extends BaseComponent {
     final myAddress = ref.watch(sessionProvider).currentWallet?.address;
 
     if (myAddress == null) {
-      return _ErrorMessage("Must have a wallet selected to vote.");
+      return const _ErrorMessage("Must have a wallet selected to vote.");
     }
 
     final isValidating = ref.watch(sessionProvider).currentWallet?.isValidating == true;
     if (!isValidating) {
-      return _ErrorMessage("You must be a validator to vote.");
+      return const _ErrorMessage("You must be a validator to vote.");
     }
 
     final existingVote = myVotes.firstWhereOrNull((a) => a.address == myAddress && a.topicUid == topic.uid);
@@ -58,7 +58,7 @@ class TopicVoteActions extends BaseComponent {
     }
 
     if (ref.read(pendingVotesProvider).contains(topic.uid)) {
-      return _ErrorMessage("Vote transaction pending.");
+      return const _ErrorMessage("Vote transaction pending.");
     }
 
     return Column(
@@ -70,7 +70,7 @@ class TopicVoteActions extends BaseComponent {
                 color: Colors.white,
               ),
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -91,7 +91,7 @@ class TopicVoteActions extends BaseComponent {
               variant: AppColorVariant.Success,
               size: AppSizeVariant.Lg,
             ),
-            SizedBox(
+            const SizedBox(
               width: 16,
             ),
             AppButton(
@@ -114,7 +114,7 @@ class TopicVoteActions extends BaseComponent {
             )
           ],
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Text(
           "Voting ends ${topic.endsAtFormatted}.",
           style: Theme.of(context).textTheme.caption,
@@ -138,7 +138,7 @@ class _ErrorMessage extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Text(
         message,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.bold,
         ),

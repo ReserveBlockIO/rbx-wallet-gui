@@ -39,8 +39,8 @@ class WebDstScreen extends BaseScreen {
     }
 
     return storeData.when(
-      error: (_, __) => Text("Error."),
-      loading: () => CenteredLoader(),
+      error: (_, __) => const Text("Error."),
+      loading: () => const CenteredLoader(),
       data: (stores) {
         if (stores.isEmpty) {
           return Center(
@@ -54,8 +54,8 @@ class WebDstScreen extends BaseScreen {
                       "No Store",
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8),
                       child: Text("You haven't created a store yet."),
                     ),
                     AppButton(
@@ -82,13 +82,13 @@ class WebDstScreen extends BaseScreen {
 
                   return ListTile(
                     title: Text(store.name),
-                    trailing: Icon(Icons.chevron_right),
+                    trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       AutoRouter.of(context).push(StoreScreenRoute(slug: store.slug));
                     },
                   );
                 }),
-            Divider(),
+            const Divider(),
             AppButton(
               label: "Create New Store",
               onPressed: () {

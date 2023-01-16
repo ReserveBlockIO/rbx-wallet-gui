@@ -56,7 +56,7 @@ class TopicForm extends BaseComponent {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 8,
               ),
               Expanded(
@@ -93,7 +93,7 @@ class TopicForm extends BaseComponent {
           TextFormField(
               controller: provider.nameController,
               validator: provider.nameValidator,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 label: Text("Topic Name"),
               ),
               inputFormatters: [
@@ -116,13 +116,13 @@ class TopicForm extends BaseComponent {
                   ],
                 );
               }),
-          SizedBox(
+          const SizedBox(
             height: 16,
           ),
           TextFormField(
               controller: provider.descriptionController,
               validator: provider.descriptionValidator,
-              decoration: InputDecoration(label: Text("Topic Description")),
+              decoration: const InputDecoration(label: Text("Topic Description")),
               inputFormatters: [
                 FilteringTextInputFormatter.deny(
                     RegExp(r'(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])'))
@@ -145,7 +145,7 @@ class TopicForm extends BaseComponent {
                   ],
                 );
               }),
-          SizedBox(
+          const SizedBox(
             height: 32,
           ),
           Row(

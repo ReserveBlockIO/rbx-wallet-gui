@@ -111,7 +111,7 @@ class NftDetailScreen extends BaseScreen {
     final nft = ref.watch(nftDetailProvider(id));
 
     if (nft == null) {
-      return CenteredLoader();
+      return const CenteredLoader();
     }
 
     return Column(
@@ -157,7 +157,7 @@ class NftDetailScreen extends BaseScreen {
                         child: ListTile(
                           contentPadding: EdgeInsets.zero,
                           title: Text(nft.currentOwner,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 13,
                               )),
                           subtitle: const Text(
@@ -176,7 +176,7 @@ class NftDetailScreen extends BaseScreen {
                         child: ListTile(
                           contentPadding: EdgeInsets.zero,
                           title: Text(nft.minterAddress,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 13,
                               )),
                           subtitle: const Text("Minter Address"),
@@ -227,7 +227,7 @@ class NftDetailScreen extends BaseScreen {
                                             "Additional Assets:",
                                             style: Theme.of(context).textTheme.headline5,
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             height: 6,
                                           ),
                                           kIsWeb && !nft.assetsAvailable
@@ -568,7 +568,7 @@ class NftDetailScreen extends BaseScreen {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
+                const Text(
                   "NFT assets have not been transfered to the RBX Web Wallet.",
                   textAlign: TextAlign.center,
                 ),

@@ -26,7 +26,7 @@ class FractionalModal extends BaseComponent {
           children: [
             Expanded(
               child: TextFormField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   label: Text("Creator’s Retained Ownership"),
                   suffixIcon: Text("%"),
                   suffixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
@@ -36,12 +36,12 @@ class FractionalModal extends BaseComponent {
                 inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 8,
             ),
             Expanded(
               child: TextFormField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   label: Text("Fractional Interest"),
                   suffixIcon: Text("%"),
                   suffixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
@@ -53,11 +53,11 @@ class FractionalModal extends BaseComponent {
             ),
           ],
         ),
-        Divider(),
+        const Divider(),
         Row(
           children: [
             Transform.translate(
-              offset: Offset(-6, 0),
+              offset: const Offset(-6, 0),
               child: Checkbox(
                 value: _model.allowVoting,
                 onChanged: (val) {
@@ -71,13 +71,13 @@ class FractionalModal extends BaseComponent {
               onTap: () {
                 _provider.setAllowVoting(!_model.allowVoting);
               },
-              child: Text("Allow Voting"),
+              child: const Text("Allow Voting"),
             ),
           ],
         ),
         if (_model.allowVoting) ...[
           TextFormField(
-            decoration: InputDecoration(label: Text("Voting Description")),
+            decoration: const InputDecoration(label: Text("Voting Description")),
             controller: _provider.votingDescriptionController,
             minLines: 3,
             maxLines: 6,
@@ -86,15 +86,15 @@ class FractionalModal extends BaseComponent {
             children: [
               Expanded(
                 child: TextFormField(
-                  decoration: InputDecoration(label: Text("Percentage Required for Voting Approval")),
+                  decoration: const InputDecoration(label: Text("Percentage Required for Voting Approval")),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 6,
               ),
               Expanded(
                 child: TextFormField(
-                  decoration: InputDecoration(label: Text("Other Options")),
+                  decoration: const InputDecoration(label: Text("Other Options")),
                 ),
               ),
             ],

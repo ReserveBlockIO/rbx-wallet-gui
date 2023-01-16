@@ -40,7 +40,7 @@ class CreateListingScreen extends BaseScreen {
       child: Card(
           child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: ConstrainedBox(constraints: BoxConstraints(maxWidth: 600), child: CreateListingForm(storeId: storeId)),
+        child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: 600), child: CreateListingForm(storeId: storeId)),
       )),
     );
   }

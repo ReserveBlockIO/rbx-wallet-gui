@@ -16,7 +16,7 @@ class BeaconListTile extends BaseComponent {
     return Card(
       color: Theme.of(context).colorScheme.primary,
       child: ListTile(
-        leading: Icon(Icons.wifi),
+        leading: const Icon(Icons.wifi),
         title: Text(beacon.name),
         subtitle: Text(beacon.ipAddressLabel),
         trailing: Row(
@@ -27,7 +27,7 @@ class BeaconListTile extends BaseComponent {
                     label: beacon.selfBeaconActive ? "Active" : "Inactive",
                     variant: beacon.selfBeaconActive ? AppColorVariant.Success : AppColorVariant.Danger,
                   )
-                : AppBadge(
+                : const AppBadge(
                     label: "Remote",
                     variant: AppColorVariant.Warning,
                   ),

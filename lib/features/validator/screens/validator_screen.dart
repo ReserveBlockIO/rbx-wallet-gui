@@ -83,17 +83,17 @@ class ValidatorScreen extends BaseScreen {
                 Icons.error,
                 color: Theme.of(context).colorScheme.warning,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               Text(
                 "${currentWallet.label} can not validate.",
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
-              Text("You can only validate with one wallet."),
+              const Text("You can only validate with one wallet."),
             ],
           ),
         );
@@ -192,9 +192,9 @@ class ValidatorScreen extends BaseScreen {
                   );
                 }
               }
-              return SizedBox();
+              return const SizedBox();
             }),
-        Padding(
+        const Padding(
           padding: EdgeInsets.all(32),
           child: _RotatingIcon(),
         ),
@@ -265,7 +265,7 @@ class _RotatingIcon extends StatefulWidget {
 }
 
 class _RotatingIconState extends State<_RotatingIcon> with SingleTickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(vsync: this, duration: Duration(seconds: 4))..repeat();
+  late final AnimationController _controller = AnimationController(vsync: this, duration: const Duration(seconds: 4))..repeat();
 
   @override
   Widget build(BuildContext context) {
@@ -277,7 +277,7 @@ class _RotatingIconState extends State<_RotatingIcon> with SingleTickerProviderS
         builder: (_, child) {
           return Transform.rotate(
             angle: _controller.value * 2 * math.pi,
-            child: Icon(
+            child: const Icon(
               Icons.settings,
               size: 24,
             ),

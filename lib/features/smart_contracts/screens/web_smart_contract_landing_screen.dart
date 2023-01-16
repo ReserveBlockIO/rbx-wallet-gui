@@ -71,7 +71,7 @@ class WebSmartContractLandingScreen extends BaseScreen {
                     iconData: Icons.create,
                     body: "Start with a baseline smart contract and add customized features",
                     onPressed: () {
-                      AutoRouter.of(context).push(WebCreateSmartContractScreenRoute());
+                      AutoRouter.of(context).push(const WebCreateSmartContractScreenRoute());
                     },
                   ),
                   BigButton(

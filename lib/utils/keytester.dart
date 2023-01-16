@@ -105,7 +105,7 @@ void runTests() async {
 }
 
 void otherTest() {
-  final key = "9a9bde3b1db515bca6b1143ab635d2ae291ec7a281affc5353146f7aec1b52c6";
+  const key = "9a9bde3b1db515bca6b1143ab635d2ae291ec7a281affc5353146f7aec1b52c6";
   final b = BigInt.parse(key, radix: 16).toSigned(1);
   print(b);
 }

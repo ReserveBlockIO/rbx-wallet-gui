@@ -17,9 +17,9 @@ class MotherAddHostDialog extends BaseComponent {
     final ipAddressController = TextEditingController();
     final passwordController = TextEditingController();
     return AlertDialog(
-      title: Text("Add Host"),
+      title: const Text("Add Host"),
       content: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: 500, minWidth: 300),
+        constraints: const BoxConstraints(maxWidth: 500, minWidth: 300),
         child: Form(
           key: formKey,
           child: Column(
@@ -27,7 +27,7 @@ class MotherAddHostDialog extends BaseComponent {
             children: [
               TextFormField(
                 controller: ipAddressController,
-                decoration: InputDecoration(label: Text("IP Address")),
+                decoration: const InputDecoration(label: Text("IP Address")),
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp("[0-9.]")),
                 ],
@@ -41,7 +41,7 @@ class MotherAddHostDialog extends BaseComponent {
               TextFormField(
                 controller: passwordController,
                 obscureText: true,
-                decoration: InputDecoration(label: Text("Password")),
+                decoration: const InputDecoration(label: Text("Password")),
                 validator: (val) {
                   if (val == null || val.isEmpty) {
                     return "Password Required";
@@ -58,7 +58,7 @@ class MotherAddHostDialog extends BaseComponent {
           onPressed: () {
             Navigator.of(context).pop(null);
           },
-          child: Text(
+          child: const Text(
             "Cancel",
             style: TextStyle(color: Colors.white54),
           ),
@@ -89,7 +89,7 @@ class MotherAddHostDialog extends BaseComponent {
 
             Navigator.of(context).pop(true);
           },
-          child: Text(
+          child: const Text(
             "Add",
             style: TextStyle(
               color: Colors.white,

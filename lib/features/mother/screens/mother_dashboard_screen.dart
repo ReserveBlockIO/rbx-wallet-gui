@@ -12,7 +12,7 @@ class MotherDashboardScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: Text("MOTHER Dashboard"),
+      title: const Text("MOTHER Dashboard"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
       actions: [
@@ -20,7 +20,7 @@ class MotherDashboardScreen extends BaseScreen {
             onPressed: () {
               launchUrlString("${Env.apiBaseUrl}/mother");
             },
-            child: Text(
+            child: const Text(
               "Open in Browser",
               style: TextStyle(
                 color: Colors.white,
@@ -32,6 +32,6 @@ class MotherDashboardScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    return MotherChildList();
+    return const MotherChildList();
   }
 }

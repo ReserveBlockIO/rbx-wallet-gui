@@ -84,7 +84,7 @@ class NodeListScreen extends BaseScreen {
             // ),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 4,
         ),
         Text(

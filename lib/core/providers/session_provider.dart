@@ -193,7 +193,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
     final passwordNeeded = await BridgeService().startupPasswordRequired();
 
     if (passwordNeeded) {
-      await Future.delayed(Duration(milliseconds: 100));
+      await Future.delayed(const Duration(milliseconds: 100));
       read(startupPasswordRequiredProvider.notifier).set(true);
       return false;
     }

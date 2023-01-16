@@ -51,7 +51,7 @@ class NftNavigator extends BaseComponent {
             style: TextStyle(color: _model.search == _model.currentSearch ? Colors.white : Colors.white70),
             decoration: InputDecoration(
               hintText: "Search...",
-              prefixIcon: Icon(
+              prefixIcon: const Icon(
                 Icons.search,
                 color: Colors.white,
               ),
@@ -87,7 +87,7 @@ class NftNavigator extends BaseComponent {
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 8,
         ),
         Row(
@@ -105,7 +105,7 @@ class NftNavigator extends BaseComponent {
                     }
                   : null,
             ),
-            SizedBox(
+            const SizedBox(
               width: 8,
             ),
             AppButton(
@@ -128,7 +128,7 @@ class NftNavigator extends BaseComponent {
                     ref.read(nftListProvider.notifier).reloadCurrentPage();
                   }
                 },
-                icon: Icon(Icons.refresh))
+                icon: const Icon(Icons.refresh))
           ],
         )
       ],

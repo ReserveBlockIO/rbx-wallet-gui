@@ -27,12 +27,12 @@ class StoreListingScreen extends BaseScreen {
     return data.when(
       loading: () => AppBar(),
       error: (_, __) => AppBar(
-        title: Text("Error"),
+        title: const Text("Error"),
         automaticallyImplyLeading: false,
       ),
       data: (listing) => listing == null
           ? AppBar(
-              title: Text("Error"),
+              title: const Text("Error"),
               automaticallyImplyLeading: false,
             )
           : AppBar(
@@ -45,7 +45,7 @@ class StoreListingScreen extends BaseScreen {
                   if (ref.read(webSessionProvider).keypair != null) {
                     AutoRouter.of(context).push(WebDashboardContainerRoute());
                   } else {
-                    AutoRouter.of(context).push(WebAuthRouter());
+                    AutoRouter.of(context).push(const WebAuthRouter());
                   }
                 },
                 child: Row(
@@ -85,10 +85,10 @@ class StoreListingScreen extends BaseScreen {
     final data = ref.watch(listingDetailProvider(slug));
 
     return data.when(
-        loading: () => CenteredLoader(),
-        error: (_, __) => Center(child: Text("404 not found.")),
+        loading: () => const CenteredLoader(),
+        error: (_, __) => const Center(child: Text("404 not found.")),
         data: (listing) => listing == null
-            ? Center(child: Text("404 not found."))
+            ? const Center(child: Text("404 not found."))
             : Stack(
                 children: [
                   Container(
@@ -110,7 +110,7 @@ class StoreListingScreen extends BaseScreen {
                   SingleChildScrollView(
                     child: Column(
                       children: [
-                        if (ref.watch(webSessionProvider).keypair != null) WebWalletDetails(),
+                        if (ref.watch(webSessionProvider).keypair != null) const WebWalletDetails(),
                         StoreListing(listing),
                       ],
                     ),

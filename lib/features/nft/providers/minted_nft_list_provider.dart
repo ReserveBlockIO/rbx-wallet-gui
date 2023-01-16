@@ -21,7 +21,7 @@ class MintedNftListProvider extends StateNotifier<NftListModel> {
     //TODO: make web work
 
     if (kIsWeb) {
-      final nfts = await await TransactionService().listMintedNfts(read(webSessionProvider).keypair!.email, read(webSessionProvider).keypair!.public);
+      final nfts = await TransactionService().listMintedNfts(read(webSessionProvider).keypair!.email, read(webSessionProvider).keypair!.public);
       final d = CliPaginatedResponse(count: nfts.length, results: nfts, page: 1);
       state = state.copyWith(data: d, page: 1, currentSearch: '');
       return;

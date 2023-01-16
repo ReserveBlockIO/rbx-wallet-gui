@@ -54,7 +54,7 @@ class WebReceiveScreen extends BaseScreen {
       labelText: "Amount to request",
       validator: (value) => formValidatorNumber(value, "Amount"),
       inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
-      keyboardType: TextInputType.numberWithOptions(decimal: true),
+      keyboardType: const TextInputType.numberWithOptions(decimal: true),
       confirmText: "Generate Link",
       onValidSubmission: onValidSubmission,
     );
@@ -84,7 +84,7 @@ class WebReceiveScreen extends BaseScreen {
                       initialValue: address,
                       readOnly: true,
                       decoration: InputDecoration(
-                        label: Text("Your Address"),
+                        label: const Text("Your Address"),
                         border: InputBorder.none,
                         suffixIcon: IconButton(
                           icon: const Icon(Icons.copy),
@@ -100,7 +100,7 @@ class WebReceiveScreen extends BaseScreen {
                     "This is the address the sender needs to send funds to.",
                     style: Theme.of(context).textTheme.caption,
                   ),
-                  Divider(),
+                  const Divider(),
                 ],
               ),
             ),
@@ -134,7 +134,7 @@ class WebReceiveScreen extends BaseScreen {
                 },
                 variant: AppColorVariant.Light,
               ),
-              SizedBox(width: 6),
+              const SizedBox(width: 6),
               AppButton(
                 label: "QR Code",
                 icon: Icons.qr_code_rounded,

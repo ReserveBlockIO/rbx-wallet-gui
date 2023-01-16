@@ -116,7 +116,7 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
     // read(sessionProvider.notifier).load();
 
     if (loop) {
-      await Future.delayed(Duration(seconds: REFRESH_TIMEOUT_SECONDS));
+      await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
       infoLoop();
 
       // final isActive = read(isActiveProvider).isActive;

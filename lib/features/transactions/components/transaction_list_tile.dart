@@ -135,7 +135,7 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                             const TextSpan(text: "Type: "),
                             TextSpan(
                               text: widget.transaction.typeLabel,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.white60,
                                 fontWeight: FontWeight.w600,
                               ),

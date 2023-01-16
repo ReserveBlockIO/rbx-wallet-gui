@@ -39,7 +39,7 @@ class WebTransactionDetailScreen extends BaseScreen {
           onPressed: () {
             launchUrl(Uri.parse("${Env.explorerWebsiteBaseUrl}/transaction/$hash"));
           },
-          icon: Icon(Icons.open_in_new),
+          icon: const Icon(Icons.open_in_new),
         )
       ],
     );
@@ -50,9 +50,9 @@ class WebTransactionDetailScreen extends BaseScreen {
     final data = ref.watch(webTransactionDetailProvider(hash));
 
     return data.when(
-      loading: () => CenteredLoader(),
-      error: (_, __) => Text("An error occurred"),
-      data: (tx) => tx == null ? Text("Error") : _TransactionDetails(tx),
+      loading: () => const CenteredLoader(),
+      error: (_, __) => const Text("An error occurred"),
+      data: (tx) => tx == null ? const Text("Error") : _TransactionDetails(tx),
     );
   }
 }

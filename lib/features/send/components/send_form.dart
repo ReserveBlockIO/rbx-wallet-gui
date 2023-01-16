@@ -122,7 +122,7 @@ class SendForm extends BaseComponent {
                   validator: formProvider.amountValidator,
                   inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
                   decoration: const InputDecoration(hintText: "Amount of RBX to send"),
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 ),
               ),
               const Padding(

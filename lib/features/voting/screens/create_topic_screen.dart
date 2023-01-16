@@ -10,12 +10,12 @@ class CreateTopicScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: Text("Create Topic"),
+      title: const Text("Create Topic"),
     );
   }
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    return TopicForm();
+    return const TopicForm();
   }
 }

@@ -58,8 +58,8 @@ class _ContentWrapper extends BaseComponent {
           Container(
             width: double.infinity,
             color: Colors.green.shade800,
-            child: Padding(
-              padding: const EdgeInsets.all(4.0),
+            child: const Padding(
+              padding: EdgeInsets.all(4.0),
               child: Center(
                 child: Text(
                   "RBX TEST NET",
@@ -96,8 +96,8 @@ class _ContentWrapper extends BaseComponent {
         Container(
           width: double.infinity,
           color: Colors.green.shade800,
-          child: Padding(
-            padding: const EdgeInsets.all(4.0),
+          child: const Padding(
+            padding: EdgeInsets.all(4.0),
             child: Center(
               child: Text(
                 "RBX TEST NET",

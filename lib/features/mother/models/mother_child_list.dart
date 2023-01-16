@@ -21,7 +21,7 @@ class _MotherChildListState extends State<MotherChildList> {
   void initState() {
     super.initState();
     update();
-    timer = Timer.periodic(Duration(seconds: 5), (Timer t) => update());
+    timer = Timer.periodic(const Duration(seconds: 5), (Timer t) => update());
   }
 
   Future<void> update() async {

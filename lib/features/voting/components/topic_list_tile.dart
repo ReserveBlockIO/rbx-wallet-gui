@@ -25,7 +25,7 @@ class TopicListTile extends BaseComponent {
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),
-      leading: Icon(Icons.article),
+      leading: const Icon(Icons.article),
     );
   }
 }

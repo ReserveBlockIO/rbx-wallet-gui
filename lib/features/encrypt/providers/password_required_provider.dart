@@ -6,7 +6,7 @@ import '../../bridge/services/bridge_service.dart';
 
 class PasswordRequiredProvider extends StateNotifier<bool> {
   PasswordRequiredProvider() : super(false) {
-    Timer.periodic(Duration(seconds: 10), (timer) {
+    Timer.periodic(const Duration(seconds: 10), (timer) {
       check();
     });
     check();

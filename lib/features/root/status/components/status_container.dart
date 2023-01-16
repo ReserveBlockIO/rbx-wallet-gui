@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/base_component.dart';
 import '../../../../core/components/badges.dart';
-import '../../../../core/components/centered_loader.dart';
 import '../../../../core/providers/session_provider.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../block/latest_block.dart';

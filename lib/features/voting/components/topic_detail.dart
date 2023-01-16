@@ -28,9 +28,9 @@ class TopicDetail extends BaseComponent {
                       topic.name,
                       style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.white),
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     VotingCategoryBadge(topic: topic),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     SelectableText(
                       "UID: ${topic.uid}",
                       style: Theme.of(context).textTheme.caption,
@@ -48,20 +48,20 @@ class TopicDetail extends BaseComponent {
               )
             ],
           ),
-          Divider(),
+          const Divider(),
           SelectableText("Block Height: ${topic.blockHeight}"),
           SelectableText("Topic Owner: ${topic.ownerAddress}"),
-          Divider(),
-          SizedBox(height: 6),
+          const Divider(),
+          const SizedBox(height: 6),
           Text(
             topic.description,
             style: Theme.of(context).textTheme.bodyLarge,
           ),
-          Divider(),
+          const Divider(),
           VotingDetails(topic),
-          Divider(),
+          const Divider(),
           TopicVoteActions(topicUid: topic.uid),
-          Divider(),
+          const Divider(),
         ],
       ),
     );
@@ -89,7 +89,7 @@ class _DateCard extends StatelessWidget {
           children: [
             Text(
               value,
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
               ),
             ),

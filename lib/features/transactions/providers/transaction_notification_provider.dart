@@ -13,7 +13,7 @@ class TransactionNotificationProvider extends StateNotifier<List<TransactionNoti
       state = [...state, notification];
 
       if (!persist) {
-        await Future.delayed(Duration(seconds: 5));
+        await Future.delayed(const Duration(seconds: 5));
         remove(notification.identifier);
       }
     }

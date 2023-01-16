@@ -23,13 +23,13 @@ class TopicDetailScreen extends BaseScreen {
               actions: const [WalletSelector()],
             )
           : AppBar(
-              title: Text("Error"),
+              title: const Text("Error"),
             ),
       error: (_, __) => AppBar(
-        title: Text("Error"),
+        title: const Text("Error"),
       ),
       loading: () => AppBar(
-        title: Text(""),
+        title: const Text(""),
       ),
     );
   }
@@ -38,9 +38,9 @@ class TopicDetailScreen extends BaseScreen {
   Widget body(BuildContext context, WidgetRef ref) {
     final data = ref.watch(topicDetailProvider(topicUid));
     return data.when(
-      data: (topic) => topic != null ? TopicDetail(topic) : Center(child: Text("Error")),
-      error: (_, __) => Text("Error"),
-      loading: () => CenteredLoader(),
+      data: (topic) => topic != null ? TopicDetail(topic) : const Center(child: Text("Error")),
+      error: (_, __) => const Text("Error"),
+      loading: () => const CenteredLoader(),
     );
   }
 }

@@ -9,7 +9,7 @@ class TopicSearchProvider extends StateNotifier<List<Topic>> {
 
   final TextEditingController controller = TextEditingController();
 
-  TopicSearchProvider(this.read, [List<Topic> topics = const []]) : super(topics) {}
+  TopicSearchProvider(this.read, [List<Topic> topics = const []]) : super(topics);
 
   Future<void> query(String query) async {
     final data = await TopicService().search(query);

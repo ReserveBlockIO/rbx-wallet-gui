@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +36,6 @@ class UploadImageSelector extends BaseComponent {
       return;
     }
 
-    File? file;
     String? url;
 
     final bytes = result.files.single.bytes;

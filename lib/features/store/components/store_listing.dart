@@ -132,11 +132,11 @@ class StoreListing extends BaseComponent {
         mainAxisSize: MainAxisSize.min,
         children: [
           buildInfo(context, withShareButtons: withShareButtons),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           buildPreview(context),
-          if (listing.hasFinished || listing.isPurchased) _AuctionEnded(),
+          if (listing.hasFinished || listing.isPurchased) const _AuctionEnded(),
           if (listing.isActive && listing.isAuction)
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
@@ -150,7 +150,7 @@ class StoreListing extends BaseComponent {
           Center(child: buildCountdown(context)),
           buildPreviewDetails(context),
           buildNftDetails(context, ref),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           buildDetails(context),
         ],
       ),
@@ -172,8 +172,8 @@ class StoreListing extends BaseComponent {
               mainAxisSize: MainAxisSize.min,
               children: [
                 buildPreview(context),
-                SizedBox(height: 8),
-                if (listing.hasFinished || listing.isPurchased) _AuctionEnded(),
+                const SizedBox(height: 8),
+                if (listing.hasFinished || listing.isPurchased) const _AuctionEnded(),
                 if (listing.isActive)
                   Column(
                     mainAxisSize: MainAxisSize.min,
@@ -189,18 +189,18 @@ class StoreListing extends BaseComponent {
             ),
           ),
           ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 600),
+            constraints: const BoxConstraints(maxWidth: 600),
             child: Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   buildInfo(context, withShareButtons: withShareButtons),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   buildNftDetails(context, ref),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   buildDetails(context),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                 ],
               ),
             ),
@@ -269,7 +269,7 @@ class StoreListing extends BaseComponent {
                 children: nft.featureList
                     .map(
                       (f) => ConstrainedBox(
-                        constraints: BoxConstraints(maxWidth: 300),
+                        constraints: const BoxConstraints(maxWidth: 300),
                         child: ListTile(
                           leading: Icon(f.icon),
                           title: Text(f.nameLabel),
@@ -306,12 +306,12 @@ class StoreListing extends BaseComponent {
                     );
                   });
             },
-            icon: Icon(Icons.qr_code)),
+            icon: const Icon(Icons.qr_code)),
         IconButton(
             onPressed: () {
               handleCopyUrl();
             },
-            icon: Icon(Icons.link))
+            icon: const Icon(Icons.link))
       ],
     );
   }
@@ -328,7 +328,7 @@ class StoreListing extends BaseComponent {
       children: [
         RichText(
           text: TextSpan(
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 18,
               color: Colors.white,
               height: 1.4,
@@ -336,7 +336,7 @@ class StoreListing extends BaseComponent {
             children: [
               TextSpan(text: "NFT Name: ", style: headingStyle),
               TextSpan(text: listing.nft.name),
-              TextSpan(text: "\n"),
+              const TextSpan(text: "\n"),
               TextSpan(text: "NFT Description:\n", style: headingStyle),
 
               // TextSpan(text: listing.nft.description.replaceAll("\\n", "\n"))
@@ -345,7 +345,7 @@ class StoreListing extends BaseComponent {
         ),
         SimpleExpandableText(
             '${listing.appendDescriptionText != null ? '${listing.appendDescriptionText}\n\n' : ''}${listing.nft.description.replaceAll("\\n", "\n")}'),
-        SizedBox(
+        const SizedBox(
           height: 8,
         ),
       ],
@@ -355,7 +355,7 @@ class StoreListing extends BaseComponent {
   Widget buildPreview(BuildContext context) {
     final urls = listing.previewUrls;
 
-    if (urls.isEmpty) return SizedBox();
+    if (urls.isEmpty) return const SizedBox();
 
     return PreviewCarousel(urls: urls);
   }
@@ -379,9 +379,9 @@ class StoreListing extends BaseComponent {
             if (withShareButtons) buildShareButtons(context),
           ],
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 600),
+          constraints: const BoxConstraints(maxWidth: 600),
           child: Text(listing.description),
         ),
       ],
@@ -399,13 +399,13 @@ class StoreListing extends BaseComponent {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 "Details",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Table(
-                defaultColumnWidth: IntrinsicColumnWidth(),
+                defaultColumnWidth: const IntrinsicColumnWidth(),
                 children: [
                   buildDetailRow(context, "Identifier", listing.nft.identifier, true),
                   buildDetailRow(context, "Owner Address", listing.nft.ownerAddress, true),
@@ -435,7 +435,7 @@ class StoreListing extends BaseComponent {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 "Buy Now",
                 style: TextStyle(
                   fontSize: 22,
@@ -444,9 +444,9 @@ class StoreListing extends BaseComponent {
                   letterSpacing: 1,
                 ),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               buildPrice(context, "Buy Now Price", listing.buyNowPriceLabel),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               AppButton(
                 label: "Buy Now",
                 icon: Icons.money,
@@ -475,8 +475,8 @@ class StoreListing extends BaseComponent {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
+              const Padding(
+                padding: EdgeInsets.only(bottom: 8.0),
                 child: Text(
                   "Auction",
                   style: TextStyle(
@@ -488,7 +488,7 @@ class StoreListing extends BaseComponent {
                 ),
               ),
               buildPrice(context, "Floor Price", listing.floorPriceLabel),
-              Divider(),
+              const Divider(),
               if (listing.highestBid != null)
                 buildPrice(
                   context,
@@ -496,12 +496,12 @@ class StoreListing extends BaseComponent {
                   listing.allowRbx ? listing.highestBid!.amountLabel : listing.highestBid!.amountLabelWithoutRbx,
                   Theme.of(context).colorScheme.success,
                 ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   AppButton(label: "Bid Now", icon: Icons.gavel, size: AppSizeVariant.Lg, onPressed: () => handleBid(context, ref)),
-                  SizedBox(
+                  const SizedBox(
                     width: 6,
                   ),
                   AppButton(
@@ -568,12 +568,12 @@ class StoreListing extends BaseComponent {
           children: [
             Text(
               "$label: ",
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
               ),
             ),
             Text(value),
-            SizedBox(
+            const SizedBox(
               height: 6,
             ),
           ],
@@ -586,7 +586,7 @@ class StoreListing extends BaseComponent {
           padding: const EdgeInsets.symmetric(vertical: 6.0),
           child: Text(
             "$label: ",
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -597,7 +597,7 @@ class StoreListing extends BaseComponent {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(value),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               if (copyValue)
                 InkWell(
                     onTap: () async {
@@ -605,7 +605,7 @@ class StoreListing extends BaseComponent {
 
                       Toast.message("$label copied to clipboard");
                     },
-                    child: Icon(Icons.copy, size: 12)),
+                    child: const Icon(Icons.copy, size: 12)),
             ],
           ),
         ),
@@ -720,7 +720,7 @@ class _PreviewCarouselState extends State<PreviewCarousel> {
                 ),
               )),
         ),
-        SizedBox(
+        const SizedBox(
           height: 8,
         ),
         if (widget.urls.isNotEmpty)
@@ -733,7 +733,7 @@ class _PreviewCarouselState extends State<PreviewCarousel> {
             //   // controller.animateToPage(index.toInt());
             //   // controller.animateToPage(index.toInt());
             // },
-            decorator: DotsDecorator(
+            decorator: const DotsDecorator(
               activeColor: Colors.white,
               color: Colors.white54,
               size: Size.fromRadius(3),

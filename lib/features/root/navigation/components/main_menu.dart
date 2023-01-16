@@ -67,7 +67,7 @@ class MainMenu extends BaseComponent {
                   ),
                   Container(
                     color: Colors.black,
-                    child: Center(
+                    child: const Center(
                       child: _RotatingCube(),
                     ),
                   ),

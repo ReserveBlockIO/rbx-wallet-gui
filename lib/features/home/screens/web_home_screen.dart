@@ -53,7 +53,7 @@ class WebHomeScreen extends BaseScreen {
           ),
           const _Brand(),
           const _Actions(),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           const WebLatestBlock(),
         ],
       ),

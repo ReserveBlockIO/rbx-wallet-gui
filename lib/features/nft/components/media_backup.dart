@@ -39,7 +39,7 @@ class MediaBackup extends BaseComponent {
     });
 
     if (tx == null) {
-      return SizedBox();
+      return const SizedBox();
     }
 
     final List<dynamic> data = jsonDecode(tx.nftData);
@@ -47,7 +47,7 @@ class MediaBackup extends BaseComponent {
     final backupUrl = d['BackupURL'];
 
     if (backupUrl == null || backupUrl == "NA") {
-      return SizedBox();
+      return const SizedBox();
     }
 
     return Padding(
@@ -56,7 +56,7 @@ class MediaBackup extends BaseComponent {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           Text(
@@ -64,7 +64,7 @@ class MediaBackup extends BaseComponent {
             style: Theme.of(context).textTheme.headline5,
           ),
           SelectableText(backupUrl),
-          SizedBox(
+          const SizedBox(
             height: 6,
           ),
           AppButton(

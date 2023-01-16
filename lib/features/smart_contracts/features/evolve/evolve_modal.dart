@@ -218,7 +218,7 @@ class _EvolvePhaseContainer extends BaseComponent {
       builder: (BuildContext context, Widget? child) {
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
-          child: child ?? SizedBox(),
+          child: child ?? const SizedBox(),
         );
       },
     );

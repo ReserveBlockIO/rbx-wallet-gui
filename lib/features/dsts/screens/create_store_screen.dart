@@ -43,7 +43,7 @@ class CreateStoreScreen extends BaseScreen {
           child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 600),
+            constraints: const BoxConstraints(maxWidth: 600),
             child: CreateStoreForm(
               accountId: accountId,
             )),

@@ -43,28 +43,28 @@ class AdnrList extends BaseComponent {
 
         return Card(
           child: ListTile(
-            leading: Icon(Icons.wallet),
+            leading: const Icon(Icons.wallet),
             title: SelectableText(wallet.address),
             subtitle: Text("$adnrLabel\n${wallet.balance} RBX"),
             isThreeLine: true,
             trailing: Builder(
               builder: (context) {
                 if (isPendingBurn) {
-                  return AppBadge(
+                  return const AppBadge(
                     label: "Delete Pending",
                     variant: AppColorVariant.Danger,
                   );
                 }
 
                 if (isPendingTransfer) {
-                  return AppBadge(
+                  return const AppBadge(
                     label: "Transfer Pending",
                     variant: AppColorVariant.Dark,
                   );
                 }
 
                 if (isPendingCreate) {
-                  return AppBadge(
+                  return const AppBadge(
                     label: "Pending",
                     variant: AppColorVariant.Warning,
                   );
@@ -142,7 +142,7 @@ class AdnrList extends BaseComponent {
                                     });
                               },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 8,
                       ),
                       AppButton(

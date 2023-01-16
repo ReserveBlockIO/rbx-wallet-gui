@@ -25,7 +25,7 @@ class StoreCollectionContainer extends BaseComponent {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 920),
+            constraints: const BoxConstraints(maxWidth: 920),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -59,7 +59,7 @@ class StoreCollectionContainer extends BaseComponent {
                     buildShareButtons(context),
                   ],
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Text(collection.description),
               ],
             ),
@@ -82,7 +82,7 @@ class StoreCollectionContainer extends BaseComponent {
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: Center(
                             child: ConstrainedBox(
-                              constraints: BoxConstraints(maxWidth: 930),
+                              constraints: const BoxConstraints(maxWidth: 930),
                               child: Container(
                                 width: double.infinity,
                                 height: 2,
@@ -130,12 +130,12 @@ class StoreCollectionContainer extends BaseComponent {
                     );
                   });
             },
-            icon: Icon(Icons.qr_code)),
+            icon: const Icon(Icons.qr_code)),
         IconButton(
             onPressed: () {
               handleCopyUrl();
             },
-            icon: Icon(Icons.link))
+            icon: const Icon(Icons.link))
       ],
     );
   }

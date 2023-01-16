@@ -31,7 +31,7 @@ class TopicListScreen extends BaseScreen {
     final provider = ref.read(topicListViewProvider.notifier);
     final isGrid = ref.watch(topicListViewProvider);
     return AppBar(
-      title: Text("Validator Voting Topics"),
+      title: const Text("Validator Voting Topics"),
       backgroundColor: Colors.black54,
       actions: [
         Row(
@@ -74,25 +74,25 @@ class TopicListScreen extends BaseScreen {
                     isScrollControlled: true,
                     context: context,
                     builder: (context) {
-                      return TopicSearchModal();
+                      return const TopicSearchModal();
                     });
                 ref.read(topicSearchProvider.notifier).clear();
               },
-              icon: Icon(Icons.search),
+              icon: const Icon(Icons.search),
             ),
             if (!isGrid)
               IconButton(
                 onPressed: () {
                   provider.setGrid();
                 },
-                icon: Icon(Icons.grid_on, color: Colors.white),
+                icon: const Icon(Icons.grid_on, color: Colors.white),
               ),
             if (isGrid)
               IconButton(
                 onPressed: () {
                   provider.setList();
                 },
-                icon: Icon(Icons.list_outlined, color: Colors.white),
+                icon: const Icon(Icons.list_outlined, color: Colors.white),
               ),
           ],
         )

@@ -32,17 +32,17 @@ class AdnrScreen extends BaseScreen {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
+              const Text(
                 "Create an RBX Domain as an alias to your wallet's address for receiving funds.",
                 style: TextStyle(
                   fontSize: 17,
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 4,
               ),
-              Text(
+              const Text(
                 "RBX domains cost $ADNR_COST RBX plus the transaction fee.",
                 textAlign: TextAlign.center,
               ),

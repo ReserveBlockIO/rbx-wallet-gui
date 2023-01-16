@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../core/providers/web_session_provider.dart';
 import '../../../core/services/transaction_service.dart';
-import '../../global_loader/global_loading_provider.dart';
-import '../../nft/models/nft.dart';
-import '../../nft/providers/nft_list_provider.dart';
-import '../../store/models/store.dart';
 import '../../../utils/html_helpers.dart';
 import '../../../utils/toast.dart';
 import '../../../utils/validation.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../../store/models/store.dart';
 
 class CreateStoreModel {
   final String name;

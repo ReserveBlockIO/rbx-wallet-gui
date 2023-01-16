@@ -160,13 +160,13 @@ class PromptModal {
         return AlertDialog(
           title: Text(
             title,
-            style: TextStyle(color: Colors.white),
+            style: const TextStyle(color: Colors.white),
           ),
           titlePadding: tightPadding ? const EdgeInsets.all(12.0) : const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 20),
           contentPadding: tightPadding ? const EdgeInsets.all(12.0) : const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0),
           insetPadding: tightPadding ? const EdgeInsets.all(8.0) : const EdgeInsets.symmetric(horizontal: 40.0, vertical: 24.0),
           content: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 500),
+            constraints: const BoxConstraints(maxWidth: 500),
             child: Form(
               key: _formKey,
               child: Column(
@@ -281,26 +281,26 @@ class AuthModal {
       builder: (context) {
         return AlertDialog(
           title: Text(forCreate ? "Create Wallet" : "Login",
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               )),
           titlePadding: const EdgeInsets.all(18.0),
           contentPadding: const EdgeInsets.all(18.0),
           insetPadding: const EdgeInsets.all(8.0),
-          backgroundColor: Color(0xFF040f26),
+          backgroundColor: const Color(0xFF040f26),
           content: Form(
             key: _formKey,
             child: Padding(
               padding: const EdgeInsets.all(0),
               child: ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 400),
+                constraints: const BoxConstraints(maxWidth: 400),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     if (withExplanation)
-                      Text("A wallet is required to continue.\nPlease create your account now with your email address and a password."),
-                    Text(
+                      const Text("A wallet is required to continue.\nPlease create your account now with your email address and a password."),
+                    const Text(
                       "Your email and password is used to seed your private key which is processed in this browser and will never be transmitted across the internet.",
                       style: TextStyle(
                         fontSize: 13,

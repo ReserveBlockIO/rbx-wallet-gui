@@ -30,14 +30,14 @@ class CreateAdnrDialog extends BaseComponent {
     return AlertDialog(
       title: const Text("New RBX Domain"),
       content: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: 400),
+        constraints: const BoxConstraints(maxWidth: 400),
         child: Form(
           key: formKey,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("RBX Domains cost $ADNR_COST RBX."),
+              const Text("RBX Domains cost $ADNR_COST RBX."),
               Text(
                 "Your domain must only contain letters and numbers and will automatically be appended with `.rbx` upon verification",
                 style: Theme.of(context).textTheme.caption,
@@ -45,7 +45,7 @@ class CreateAdnrDialog extends BaseComponent {
               TextFormField(
                 controller: controller,
                 validator: (value) => formValidatorAlphaNumeric(value, "Domain Name"),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   label: Text("Domain Name"),
                 ),
                 inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]'))],
@@ -59,7 +59,7 @@ class CreateAdnrDialog extends BaseComponent {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: Text(
+          child: const Text(
             "Cancel",
             style: TextStyle(color: Colors.white38),
           ),
@@ -97,7 +97,7 @@ class CreateAdnrDialog extends BaseComponent {
 
             Toast.error(result.message);
           },
-          child: Text(
+          child: const Text(
             "Create",
             style: TextStyle(color: Colors.white),
           ),

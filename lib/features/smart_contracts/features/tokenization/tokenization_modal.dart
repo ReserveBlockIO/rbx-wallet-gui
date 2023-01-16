@@ -26,7 +26,7 @@ class TokenizationModal extends BaseComponent {
           withBg: false,
         ),
         TextFormField(
-          decoration: InputDecoration(label: Text("Physical/Digital Good Name")),
+          decoration: const InputDecoration(label: Text("Physical/Digital Good Name")),
           validator: _provider.nameValidator,
           controller: _provider.nameController,
         ),
@@ -46,7 +46,7 @@ class TokenizationModal extends BaseComponent {
                 },
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 8,
             ),
             Expanded(
@@ -66,7 +66,7 @@ class TokenizationModal extends BaseComponent {
           ],
         ),
         TextFormField(
-          decoration: InputDecoration(label: Text("Description of Physical/Digital Good")),
+          decoration: const InputDecoration(label: Text("Description of Physical/Digital Good")),
           validator: _provider.descriptionValidator,
           controller: _provider.descriptionController,
           minLines: 3,
@@ -76,11 +76,11 @@ class TokenizationModal extends BaseComponent {
           padding: const EdgeInsets.only(top: 8),
           child: Row(
             children: [
-              Text(
+              const Text(
                 "Properties (Optional)",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
-              HelpButton(HelpType.manageProperties)
+              const HelpButton(HelpType.manageProperties)
             ],
           ),
         ),

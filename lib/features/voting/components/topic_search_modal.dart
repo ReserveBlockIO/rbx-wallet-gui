@@ -21,7 +21,7 @@ class TopicSearchModal extends BaseComponent {
       withDecor: false,
       children: [
         TextFormField(
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             hintText: "Search...",
           ),
           autofocus: true,

@@ -52,7 +52,7 @@ class HomeScreen extends BaseScreen {
             ref.read(sessionProvider.notifier).mainLoop(false);
             ref.read(sessionProvider.notifier).smartContractLoop(false);
           },
-          icon: Icon(Icons.refresh)),
+          icon: const Icon(Icons.refresh)),
       actions: const [WalletSelector()],
     );
   }
@@ -145,10 +145,10 @@ class HomeScreen extends BaseScreen {
                           },
                   ),
 
-                  MotherButton(),
-                  HdWalletButton(),
-                  if (ref.watch(walletListProvider).isEmpty) RestoreHdWalletButton(),
-                  EncryptWalletButton(),
+                  const MotherButton(),
+                  const HdWalletButton(),
+                  if (ref.watch(walletListProvider).isEmpty) const RestoreHdWalletButton(),
+                  const EncryptWalletButton(),
                   AppButton(
                     label: "Show Debug Data",
                     icon: Icons.analytics_outlined,
@@ -299,10 +299,10 @@ class HomeScreen extends BaseScreen {
                                     withDecor: false,
                                     children: [
                                       ListTile(
-                                        title: Text("Backup Keys"),
-                                        subtitle: Text("Export and save your keys to a text file."),
-                                        leading: Icon(Icons.wallet),
-                                        trailing: Icon(Icons.chevron_right),
+                                        title: const Text("Backup Keys"),
+                                        subtitle: const Text("Export and save your keys to a text file."),
+                                        leading: const Icon(Icons.wallet),
+                                        trailing: const Icon(Icons.chevron_right),
                                         onTap: () async {
                                           final success = await backupKeys(context, ref);
                                           if (success == true) {
@@ -314,10 +314,10 @@ class HomeScreen extends BaseScreen {
                                         },
                                       ),
                                       ListTile(
-                                        title: Text("Backup Media"),
-                                        subtitle: Text("Zip and export your media assets."),
-                                        leading: Icon(Icons.file_present),
-                                        trailing: Icon(Icons.chevron_right),
+                                        title: const Text("Backup Media"),
+                                        subtitle: const Text("Zip and export your media assets."),
+                                        leading: const Icon(Icons.file_present),
+                                        trailing: const Icon(Icons.chevron_right),
                                         onTap: () async {
                                           final success = await backupMedia(context, ref);
                                           if (success == true) {

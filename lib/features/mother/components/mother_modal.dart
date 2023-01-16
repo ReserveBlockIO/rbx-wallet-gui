@@ -61,8 +61,8 @@ class MotherModal extends BaseComponent {
             ),
           ],
         ),
-        Divider(),
-        Text(
+        const Divider(),
+        const Text(
           "Status",
           style: TextStyle(
             fontWeight: FontWeight.bold,
@@ -72,20 +72,20 @@ class MotherModal extends BaseComponent {
         Text("Is Host: ${motherData != null ? 'YES' : 'NO'}"),
         Text("Is Remote: ${connectedToMother ? 'YES' : 'NO'}"),
         if (motherData != null) Text("Children: ${children.length}"),
-        Divider(),
+        const Divider(),
         if (motherData != null)
           ListTile(
-            title: Text("Launch MOTHER"),
-            leading: Icon(Icons.launch),
-            trailing: Icon(Icons.chevron_right),
+            title: const Text("Launch MOTHER"),
+            leading: const Icon(Icons.launch),
+            trailing: const Icon(Icons.chevron_right),
             onTap: () async {
-              AutoRouter.of(context).push(MotherDashboardScreenRoute());
+              AutoRouter.of(context).push(const MotherDashboardScreenRoute());
             },
           ),
         ListTile(
           title: Text(motherData == null ? "Set Wallet as Host" : "Update Host Info"),
-          leading: Icon(Icons.cell_tower),
-          trailing: Icon(Icons.chevron_right),
+          leading: const Icon(Icons.cell_tower),
+          trailing: const Icon(Icons.chevron_right),
           onTap: () async {
             final data = await showDialog(
               context: context,
@@ -99,12 +99,12 @@ class MotherModal extends BaseComponent {
         ),
         if (motherData != null)
           ListTile(
-            title: Text("Stop Host"),
-            leading: Icon(
+            title: const Text("Stop Host"),
+            leading: const Icon(
               Icons.stop,
               color: Colors.red,
             ),
-            trailing: Icon(Icons.chevron_right),
+            trailing: const Icon(Icons.chevron_right),
             onTap: () async {
               final confirmed = await ConfirmDialog.show(
                 title: "Stop MOTHER Host?",
@@ -133,9 +133,9 @@ class MotherModal extends BaseComponent {
           ),
         if (motherData == null && !connectedToMother)
           ListTile(
-            title: Text("Set Wallet as Remote"),
-            leading: Icon(Icons.satellite_alt_outlined),
-            trailing: Icon(Icons.chevron_right),
+            title: const Text("Set Wallet as Remote"),
+            leading: const Icon(Icons.satellite_alt_outlined),
+            trailing: const Icon(Icons.chevron_right),
             onTap: () async {
               final data = await showDialog(
                 context: context,
@@ -149,12 +149,12 @@ class MotherModal extends BaseComponent {
           ),
         if (motherData == null && connectedToMother)
           ListTile(
-            title: Text("Stop Remote"),
-            leading: Icon(
+            title: const Text("Stop Remote"),
+            leading: const Icon(
               Icons.stop,
               color: Colors.red,
             ),
-            trailing: Icon(Icons.chevron_right),
+            trailing: const Icon(Icons.chevron_right),
             onTap: () async {
               InfoDialog.show(
                 title: "Stop Remote",
@@ -162,20 +162,20 @@ class MotherModal extends BaseComponent {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("In order to stop the REMOTE you need to update your configuration file."),
-                    SizedBox(height: 8),
+                    const Text("In order to stop the REMOTE you need to update your configuration file."),
+                    const SizedBox(height: 8),
                     InkWell(
                       onTap: () async {
                         final path = await configPath();
                         openFile(File(path));
                       },
-                      child: Text(
+                      child: const Text(
                         "1. Open Config",
                         style: TextStyle(decoration: TextDecoration.underline),
                       ),
                     ),
-                    SizedBox(height: 16),
-                    Text("2. Remove the following entries:"),
+                    const SizedBox(height: 16),
+                    const Text("2. Remove the following entries:"),
                     Text(
                       "-> MotherAddress",
                       style: Theme.of(context).textTheme.caption,
@@ -184,15 +184,15 @@ class MotherModal extends BaseComponent {
                       "-> MotherPassword",
                       style: Theme.of(context).textTheme.caption,
                     ),
-                    SizedBox(height: 16),
-                    Text("4. Save the config file."),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
+                    const Text("4. Save the config file."),
+                    const SizedBox(height: 16),
                     InkWell(
                       onTap: () async {
                         ref.read(sessionProvider.notifier).restartCli();
                         Navigator.of(context).pop();
                       },
-                      child: Text(
+                      child: const Text(
                         "3. Restart the CLI",
                         style: TextStyle(
                           decoration: TextDecoration.underline,
@@ -209,9 +209,9 @@ class MotherModal extends BaseComponent {
             },
           ),
         ListTile(
-          title: Text("What is MOTHER?"),
-          leading: Icon(Icons.help),
-          trailing: Icon(Icons.chevron_right),
+          title: const Text("What is MOTHER?"),
+          leading: const Icon(Icons.help),
+          trailing: const Icon(Icons.chevron_right),
           onTap: () {
             InfoDialog.show(
               title: "Monitor Tx Hashes & Addresses Expo Remote",

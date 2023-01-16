@@ -21,7 +21,7 @@ class CreateBeaconModal extends BaseComponent {
       withClose: true,
       withDecor: false,
       children: [
-        Text("Create Beacon"),
+        const Text("Create Beacon"),
         Text(
           "Create a beacon if you want to be the owner of the relay of assets. Setup your wallet as a beacon to partipate in media transferring on the RBX network. The name is a friendly name only visible to you. You can configure a specific port or just use the default setting.",
           style: Theme.of(context).textTheme.caption,
@@ -34,7 +34,7 @@ class CreateBeaconModal extends BaseComponent {
                 child: TextFormField(
                   controller: provider.nameController,
                   validator: provider.nameValidator,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     label: Text("Beacon Name"),
                   ),
                   inputFormatters: [
@@ -42,21 +42,21 @@ class CreateBeaconModal extends BaseComponent {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 8,
               ),
               SizedBox(
                 width: 240,
                 child: TextFormField(
                   controller: provider.portController,
-                  decoration: InputDecoration(label: Text("Port (leave blank for default)")),
+                  decoration: const InputDecoration(label: Text("Port (leave blank for default)")),
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 ),
               ),
             ],
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 16,
         ),
         Row(

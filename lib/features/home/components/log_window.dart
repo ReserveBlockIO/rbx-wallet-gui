@@ -43,7 +43,7 @@ class LogWindow extends BaseComponent {
                         children: [
                           LogItem(entry),
                           if (index + 1 == logEntries.length)
-                            SizedBox(
+                            const SizedBox(
                               height: 28,
                             )
                         ],

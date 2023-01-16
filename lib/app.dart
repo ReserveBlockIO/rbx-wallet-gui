@@ -84,7 +84,7 @@ class AppContainer extends ConsumerWidget {
         return Stack(
           children: [
             widget!,
-            NotificationOverlay(),
+            const NotificationOverlay(),
             if (ref.watch(globalLoadingProvider))
               Container(
                 color: Colors.black54,

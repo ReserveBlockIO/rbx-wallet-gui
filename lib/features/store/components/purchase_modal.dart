@@ -25,12 +25,12 @@ class PurchaseModal extends BaseComponent {
     final session = ref.watch(webSessionProvider);
 
     if (purchase.listing == null) {
-      return CenteredLoader();
+      return const CenteredLoader();
     }
 
     return AlertDialog(
-      backgroundColor: Color(0xFF040f26),
-      title: Text(
+      backgroundColor: const Color(0xFF040f26),
+      title: const Text(
         "Buy Now",
         style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
       ),
@@ -39,9 +39,9 @@ class PurchaseModal extends BaseComponent {
         child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
           if (purchase.type == PurchaseType.creditCard) Text("Purchasing ${listing.name}. You will be charged \$${listing.buyNowPrice} USD."),
           if (purchase.type == PurchaseType.rbx) Text("Purchasing ${listing.name}. You will be charged ${listing.buyNowPriceRbx} RBX."),
-          Divider(),
+          const Divider(),
           if (session.keypair != null) Text("Email: ${session.keypair!.email}\nAddress: ${session.keypair!.public}"),
-          Divider(),
+          const Divider(),
           AppDropdown<PurchaseType>(
             label: "Payment Type",
             selectedValue: purchase.type,
@@ -50,11 +50,11 @@ class PurchaseModal extends BaseComponent {
               provider.setType(val);
             },
             options: [
-              if (listing.allowRbx) AppDropdownOption(label: "RBX", value: PurchaseType.rbx),
-              if (listing.allowCC) AppDropdownOption(label: "Credit Card (USD)", value: PurchaseType.creditCard),
+              if (listing.allowRbx) const AppDropdownOption(label: "RBX", value: PurchaseType.rbx),
+              if (listing.allowCC) const AppDropdownOption(label: "Credit Card (USD)", value: PurchaseType.creditCard),
             ],
           ),
-          if (!listing.allowRbx) NotAcceptingRbxMessage(),
+          if (!listing.allowRbx) const NotAcceptingRbxMessage(),
         ]),
       ),
       actions: [
@@ -85,7 +85,7 @@ class PurchaseModal extends BaseComponent {
                 Navigator.of(context).pop();
               }
             },
-            child: Text(
+            child: const Text(
               "Purchase",
               style: TextStyle(color: Colors.white),
             )),

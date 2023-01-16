@@ -24,13 +24,13 @@ class StoreScreen extends BaseScreen {
         shadowColor: Colors.transparent,
       ),
       error: (_, __) => AppBar(
-        title: Text("Error"),
+        title: const Text("Error"),
         backgroundColor: Colors.black,
         shadowColor: Colors.transparent,
       ),
       data: (store) => store == null
           ? AppBar(
-              title: Text("404 Error"),
+              title: const Text("404 Error"),
               backgroundColor: Colors.black,
               shadowColor: Colors.transparent,
             )
@@ -48,9 +48,9 @@ class StoreScreen extends BaseScreen {
     final data = ref.watch(storeDetailProvider(slug));
 
     return data.when(
-      loading: () => CenteredLoader(),
-      error: (_, __) => Center(child: Text("404 not found.")),
-      data: (store) => store == null ? Center(child: Text("404 not found.")) : StoreListings(store),
+      loading: () => const CenteredLoader(),
+      error: (_, __) => const Center(child: Text("404 not found.")),
+      data: (store) => store == null ? const Center(child: Text("404 not found.")) : StoreListings(store),
     );
   }
 }

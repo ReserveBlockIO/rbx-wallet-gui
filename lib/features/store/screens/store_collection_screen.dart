@@ -31,7 +31,7 @@ class StoreCollectionScreen extends BaseScreen {
           if (ref.read(webSessionProvider).keypair != null) {
             AutoRouter.of(context).push(WebDashboardContainerRoute());
           } else {
-            AutoRouter.of(context).push(WebAuthRouter());
+            AutoRouter.of(context).push(const WebAuthRouter());
           }
         },
         child: Row(
@@ -68,10 +68,10 @@ class StoreCollectionScreen extends BaseScreen {
     final data = ref.watch(storeCollectionDetailProvider(slug));
 
     return data.when(
-        loading: () => CenteredLoader(),
-        error: (_, __) => Center(child: Text("404 not found.")),
+        loading: () => const CenteredLoader(),
+        error: (_, __) => const Center(child: Text("404 not found.")),
         data: (collection) => collection == null
-            ? Center(child: Text("404 not found."))
+            ? const Center(child: Text("404 not found."))
             : Stack(
                 children: [
                   Container(
@@ -93,9 +93,9 @@ class StoreCollectionScreen extends BaseScreen {
                   SingleChildScrollView(
                     child: Column(
                       children: [
-                        if (ref.watch(webSessionProvider).keypair != null) WebWalletDetails(),
+                        if (ref.watch(webSessionProvider).keypair != null) const WebWalletDetails(),
                         StoreCollectionContainer(collection),
-                        SizedBox(height: 64),
+                        const SizedBox(height: 64),
                       ],
                     ),
                   ),

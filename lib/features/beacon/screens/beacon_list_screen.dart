@@ -26,13 +26,13 @@ class BeaconListScreen extends BaseScreen {
 
     return AppBar(
       centerTitle: true,
-      title: Text("Beacons"),
+      title: const Text("Beacons"),
       backgroundColor: Colors.black54,
       leading: IconButton(
         onPressed: () {
           ref.read(beaconListProvider.notifier).refresh();
         },
-        icon: Icon(Icons.refresh),
+        icon: const Icon(Icons.refresh),
       ),
       actions: [
         AppButton(
@@ -42,11 +42,11 @@ class BeaconListScreen extends BaseScreen {
             showModalBottomSheet(
                 context: context,
                 builder: (context) {
-                  return AddBeaconModal();
+                  return const AddBeaconModal();
                 });
           },
         ),
-        SizedBox(
+        const SizedBox(
           width: 8,
         ),
         AppButton(
@@ -60,11 +60,11 @@ class BeaconListScreen extends BaseScreen {
             showModalBottomSheet(
                 context: context,
                 builder: (context) {
-                  return CreateBeaconModal();
+                  return const CreateBeaconModal();
                 });
           },
         ),
-        SizedBox(
+        const SizedBox(
           width: 8,
         ),
       ],
@@ -75,7 +75,7 @@ class BeaconListScreen extends BaseScreen {
   Widget body(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
-        Expanded(child: BeaconList()),
+        const Expanded(child: BeaconList()),
       ],
     );
   }

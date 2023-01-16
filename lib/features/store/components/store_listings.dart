@@ -31,8 +31,8 @@ class StoreListings extends BaseComponent {
                   "No Auctions",
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8),
                   child: Text("You haven't created any auctions in this store yet."),
                 ),
                 AppButton(
@@ -56,13 +56,13 @@ class StoreListings extends BaseComponent {
                   final listing = listings[index];
                   return ListTile(
                     title: Text(listing.name),
-                    trailing: Icon(Icons.chevron_right),
+                    trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       AutoRouter.of(context).push(StoreListingScreenRoute(slug: listing.slug));
                     },
                   );
                 }),
-            Divider(),
+            const Divider(),
             AppButton(
               label: "Create Auction",
               onPressed: () {
@@ -72,8 +72,8 @@ class StoreListings extends BaseComponent {
           ],
         );
       },
-      error: (_, __) => Text("Error"),
-      loading: () => CenteredLoader(),
+      error: (_, __) => const Text("Error"),
+      loading: () => const CenteredLoader(),
     );
   }
 }

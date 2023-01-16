@@ -39,7 +39,7 @@ class WebPrefilledSendScreen extends BaseScreen {
 
     final keypair = ref.watch(webSessionProvider).keypair;
     if (keypair == null) {
-      return Center(child: const WebNotWallet());
+      return const Center(child: WebNotWallet());
     }
 
     return Center(child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: 720), child: SendForm(keypair: keypair)));

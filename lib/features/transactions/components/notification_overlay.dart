@@ -34,11 +34,11 @@ class NotificationOverlay extends BaseComponent {
                           color: Colors.black,
                           border: Border.all(color: AppTheme.appVariantToColor(context, n.color), width: 2),
                           borderRadius: BorderRadius.circular(6),
-                          boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 6, spreadRadius: 6)]),
+                          boxShadow: [const BoxShadow(color: Colors.black26, blurRadius: 6, spreadRadius: 6)]),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ConstrainedBox(
-                          constraints: BoxConstraints(maxWidth: 400, minWidth: 200),
+                          constraints: const BoxConstraints(maxWidth: 400, minWidth: 200),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

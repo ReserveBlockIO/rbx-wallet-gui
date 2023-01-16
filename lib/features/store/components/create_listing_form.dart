@@ -60,16 +60,16 @@ class CreateListingForm extends BaseComponent {
             buildName(provider),
             buildDescription(provider),
             buildPreviewManager(ref),
-            Divider(),
+            const Divider(),
             buildStartsAt(provider, context, ref),
             buildEndsAt(provider, context, ref),
-            Divider(),
+            const Divider(),
             buildNft(context, ref),
             buildAuctionSwitch(listing, provider),
             buildBuyNowSwitch(listing, provider),
             if (listing.hasAuction) buildFloorPrice(provider),
             if (listing.hasBuyNow) buildBuyNowPrice(provider),
-            Divider(),
+            const Divider(),
             buildSubmit(context, ref),
           ],
         ),
@@ -91,7 +91,7 @@ class CreateListingForm extends BaseComponent {
           buildName(provider),
           buildDescription(provider),
           buildPreviewManager(ref),
-          Divider(),
+          const Divider(),
           Row(
             children: [
               Expanded(
@@ -110,7 +110,7 @@ class CreateListingForm extends BaseComponent {
               ),
             ],
           ),
-          Divider(),
+          const Divider(),
           Row(
             children: [
               buildNft(context, ref),
@@ -134,7 +134,7 @@ class CreateListingForm extends BaseComponent {
               buildBuyNowSwitch(listing, provider)
             ],
           ),
-          Divider(),
+          const Divider(),
           Row(
             children: [
               if (listing.hasAuction)
@@ -156,7 +156,7 @@ class CreateListingForm extends BaseComponent {
                 ),
             ],
           ),
-          if (listing.hasAuction || listing.hasBuyNow) Divider(),
+          if (listing.hasAuction || listing.hasBuyNow) const Divider(),
           buildSubmit(context, ref)
         ],
       ),
@@ -173,7 +173,7 @@ class CreateListingForm extends BaseComponent {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             "Preview Image(s)",
             style: TextStyle(fontSize: 14, color: Colors.white70),
           ),
@@ -225,7 +225,7 @@ class CreateListingForm extends BaseComponent {
     return TextFormField(
       controller: provider.buyNowPriceController,
       validator: provider.buyNowPriceValidator,
-      decoration: InputDecoration(label: Text("Buy Now Price (USD)")),
+      decoration: const InputDecoration(label: Text("Buy Now Price (USD)")),
       inputFormatters: [
         FilteringTextInputFormatter.deny(',', replacementString: '.'),
         FilteringTextInputFormatter.allow(RegExp(r'(^\d*\.?\d{0,2})')),
@@ -237,7 +237,7 @@ class CreateListingForm extends BaseComponent {
     return TextFormField(
       controller: provider.floorPriceController,
       validator: provider.floorPriceValidator,
-      decoration: InputDecoration(label: Text("Auction Floor Price (USD)")),
+      decoration: const InputDecoration(label: Text("Auction Floor Price (USD)")),
       inputFormatters: [
         FilteringTextInputFormatter.deny(',', replacementString: '.'),
         FilteringTextInputFormatter.allow(RegExp(r'(^\d*\.?\d{0,2})')),
@@ -254,10 +254,10 @@ class CreateListingForm extends BaseComponent {
             onChanged: (val) {
               provider.setHasBuyNow(val);
             }),
-        SizedBox(
+        const SizedBox(
           width: 6,
         ),
-        Text("Allow Purchase (Buy Now)")
+        const Text("Allow Purchase (Buy Now)")
       ],
     );
   }
@@ -271,10 +271,10 @@ class CreateListingForm extends BaseComponent {
             onChanged: (val) {
               provider.setHasAuction(val);
             }),
-        SizedBox(
+        const SizedBox(
           width: 6,
         ),
-        Text("Allow Bidding (Auction)")
+        const Text("Allow Bidding (Auction)")
       ],
     );
   }
@@ -289,7 +289,7 @@ class CreateListingForm extends BaseComponent {
         selectedValue: listing.nft == null ? '' : listing.nft!.id,
         selectedLabel: listing.nft == null ? '-' : listing.nft!.truncatedName,
         options: [
-          AppDropdownOption(label: "- - -", value: ""),
+          const AppDropdownOption(label: "- - -", value: ""),
           ...listing.nfts
               .map((n) => AppDropdownOption<String>(
                     label: n.truncatedName,
@@ -308,7 +308,7 @@ class CreateListingForm extends BaseComponent {
     return TextFormField(
       controller: provider.descriptionController,
       validator: provider.descriptionValidator,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         label: Text("Auction Description"),
       ),
       minLines: 3,
@@ -320,7 +320,7 @@ class CreateListingForm extends BaseComponent {
     return TextFormField(
       controller: provider.nameController,
       validator: provider.nameValidator,
-      decoration: InputDecoration(label: Text("Auction Name")),
+      decoration: const InputDecoration(label: Text("Auction Name")),
     );
   }
 

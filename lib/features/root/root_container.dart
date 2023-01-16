@@ -49,8 +49,8 @@ class RootContainer extends BaseComponent {
                   Container(
                     width: double.infinity,
                     color: Colors.green.shade800,
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
+                    child: const Padding(
+                      padding: EdgeInsets.all(4.0),
                       child: Center(
                         child: Text(
                           "RBX TEST NET",
@@ -87,14 +87,14 @@ class RootContainer extends BaseComponent {
                             children: [
                               Text(
                                 text,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 12,
                                   letterSpacing: 1,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 8,
                               ),
                               InkWell(
@@ -104,7 +104,7 @@ class RootContainer extends BaseComponent {
                                       body:
                                           "To fix this issue, please complete the following tasks:\n\n- Stop Validating on all machines\n- All machines with current addresses must be restarted\n- Restart validating on one machine only");
                                 },
-                                child: Text(
+                                child: const Text(
                                   "Fix Now",
                                   style: TextStyle(
                                     fontSize: 12,
@@ -128,7 +128,7 @@ class RootContainer extends BaseComponent {
                       Expanded(
                           child: Column(
                         children: [
-                          Expanded(child: Container(clipBehavior: Clip.antiAlias, decoration: BoxDecoration(), child: child)),
+                          Expanded(child: Container(clipBehavior: Clip.antiAlias, decoration: const BoxDecoration(), child: child)),
                           const Footer(),
                         ],
                       )),
@@ -143,7 +143,7 @@ class RootContainer extends BaseComponent {
                   ? UnlockWallet(
                       read: ref.read,
                     )
-                  : SizedBox.shrink();
+                  : const SizedBox.shrink();
             })
           ],
         );

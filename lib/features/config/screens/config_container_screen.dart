@@ -24,7 +24,7 @@ class ConfigContainerScreen extends BaseScreen {
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     final provider = ref.read(configFormProvider.notifier);
     return AppBar(
-      title: Text("CLI Configuration"),
+      title: const Text("CLI Configuration"),
       leading: IconButton(
         onPressed: () async {
           final confirmed = await ConfirmDialog.show(
@@ -71,7 +71,7 @@ class ConfigContainerScreen extends BaseScreen {
     final provider = ref.read(configFormProvider.notifier);
     return Column(
       children: [
-        SizedBox(
+        const SizedBox(
           height: 16,
         ),
         Row(
@@ -81,10 +81,10 @@ class ConfigContainerScreen extends BaseScreen {
               Icons.warning,
               color: Theme.of(context).colorScheme.warning,
             ),
-            SizedBox(
+            const SizedBox(
               width: 8,
             ),
-            Text("Warning: These are advanced options. Proceed with caution.",
+            const Text("Warning: These are advanced options. Proceed with caution.",
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,

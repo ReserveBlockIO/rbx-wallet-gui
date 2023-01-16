@@ -63,7 +63,7 @@ class NftListTile extends BaseComponent {
         builder: (context) {
           if (nft.currentEvolveAsset.isImage) {
             if (nft.currentEvolveAsset.localPath == null) {
-              return SizedBox(
+              return const SizedBox(
                 width: 32,
                 height: 32,
               );

@@ -31,7 +31,7 @@ class TopicCard extends BaseComponent {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     VotingCategoryBadge(topic: topic),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Text(
                       topic.name,
                       style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white),

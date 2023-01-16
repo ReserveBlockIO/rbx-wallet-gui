@@ -37,7 +37,7 @@ class _UnlockWalletState extends State<UnlockWallet> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(milliseconds: 100)).then((value) {
+    Future.delayed(const Duration(milliseconds: 100)).then((value) {
       focusNode.requestFocus();
     });
   }
@@ -61,7 +61,7 @@ class _UnlockWalletState extends State<UnlockWallet> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             Center(
@@ -72,17 +72,17 @@ class _UnlockWalletState extends State<UnlockWallet> {
                 fit: BoxFit.contain,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
-            Text(
+            const Text(
               "Encryption Password Required to continue validating.",
               style: TextStyle(
                 color: Colors.white70,
                 fontSize: 12,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 32,
             ),
             SizedBox(
@@ -103,7 +103,7 @@ class _UnlockWalletState extends State<UnlockWallet> {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: TextFormField(
                     obscureText: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: "Wallet Password",
                       border: InputBorder.none,
                       errorBorder: InputBorder.none,
@@ -129,7 +129,7 @@ class _UnlockWalletState extends State<UnlockWallet> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 32,
             ),
             Container(

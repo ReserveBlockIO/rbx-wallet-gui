@@ -42,7 +42,7 @@ class _PollingImagePreviewState extends State<PollingImagePreview> {
         setState(() {
           hide = true;
         });
-        await Future.delayed(Duration(milliseconds: 100));
+        await Future.delayed(const Duration(milliseconds: 100));
         setState(() {
           hide = false;
           ready = true;
@@ -53,7 +53,7 @@ class _PollingImagePreviewState extends State<PollingImagePreview> {
         ready = false;
         currentSize = size;
       });
-      await Future.delayed(Duration(seconds: 3));
+      await Future.delayed(const Duration(seconds: 3));
       confirmFileSize(attempt + 1);
     }
   }
@@ -61,7 +61,7 @@ class _PollingImagePreviewState extends State<PollingImagePreview> {
   @override
   Widget build(BuildContext context) {
     if (hide) {
-      return SizedBox();
+      return const SizedBox();
     }
     return Image.file(
       File(widget.localPath),

@@ -2,12 +2,11 @@ import 'dart:convert';
 
 import '../../../core/env.dart';
 import '../../../core/services/base_service.dart';
+import '../../../utils/toast.dart';
 import '../../block/block.dart';
 import '../../genesis/models/genesis_block.dart';
 import '../../node/models/node.dart';
 import '../../node/models/node_info.dart';
-import '../../transactions/models/transaction.dart';
-import '../../../utils/toast.dart';
 
 class BridgeService extends BaseService {
   Future<dynamic> status() async {

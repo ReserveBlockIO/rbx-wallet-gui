@@ -72,7 +72,7 @@ class NftCard extends BaseComponent {
                     )
                   : nft.assetsAvailable
                       ? const Icon(Icons.file_present_outlined)
-                      : Text("NFT assets have not been transfered to the RBX Web Wallet."),
+                      : const Text("NFT assets have not been transfered to the RBX Web Wallet."),
             if (!kIsWeb)
               nft.currentEvolveAsset.isImage
                   ? AspectRatio(
@@ -83,7 +83,7 @@ class NftCard extends BaseComponent {
                               expectedSize: nft.currentEvolveAsset.fileSize,
                               withProgress: false,
                             )
-                          : Text(""),
+                          : const Text(""),
                     )
                   : const Icon(Icons.file_present_outlined),
             Container(
@@ -158,11 +158,11 @@ class NftCard extends BaseComponent {
                         final nftIds = ref.watch(nftListProvider).data.results.map((n) => n.id).toList();
 
                         if (nftIds.contains(nft.id)) {
-                          return SizedBox.shrink();
+                          return const SizedBox.shrink();
                         }
 
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
+                        return const Padding(
+                          padding: EdgeInsets.all(8.0),
                           child: AppBadge(
                             label: "Transferred",
                             variant: AppColorVariant.Danger,

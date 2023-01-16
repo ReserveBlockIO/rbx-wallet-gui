@@ -106,7 +106,7 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                   style: Theme.of(context).textTheme.headlineLarge!.copyWith(fontWeight: FontWeight.bold, fontSize: isMobile ? 20 : 30),
                 ),
               ),
-              Text(
+              const Text(
                 WEB_APP_VERSION,
                 style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, letterSpacing: 2),
               ),
@@ -193,7 +193,7 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                       // );
 
                       showModalBottomSheet(
-                        backgroundColor: Color.fromRGBO(0, 0, 0, 0),
+                        backgroundColor: const Color.fromRGBO(0, 0, 0, 0),
                         context: context,
                         builder: (context) {
                           return AuthTypeModal(
@@ -239,7 +239,7 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                               }
 
                               await handleImportWithPrivateKey(context, ref, email);
-                              await Future.delayed(Duration(milliseconds: 300));
+                              await Future.delayed(const Duration(milliseconds: 300));
 
                               if (ref.read(webSessionProvider).isAuthenticated) {
                                 redirectToDashboard();
@@ -254,8 +254,8 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                 ],
               ),
               if (Env.isTestNet)
-                Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
+                const Padding(
+                  padding: EdgeInsets.only(top: 16.0),
                   child: Text(
                     "TESTNET",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.green, letterSpacing: 2),

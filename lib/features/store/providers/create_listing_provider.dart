@@ -1,14 +1,14 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+
 import '../../../core/providers/web_session_provider.dart';
 import '../../../core/services/transaction_service.dart';
-import '../../nft/models/nft.dart';
-import '../../nft/providers/minted_nft_list_provider.dart';
-import '../../nft/providers/nft_list_provider.dart';
 import '../../../utils/toast.dart';
 import '../../../utils/validation.dart';
-import 'package:collection/collection.dart';
+import '../../nft/models/nft.dart';
+import '../../nft/providers/minted_nft_list_provider.dart';
 
 class CreateListingModel {
   final bool hasAuction;

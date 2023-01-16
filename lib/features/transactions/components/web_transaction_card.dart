@@ -50,9 +50,9 @@ class WebTransactionCard extends BaseComponent {
       subtitle: toMe
           ? Text(
               "From: ${tx.fromAddress}\n$date",
-              style: TextStyle(fontSize: 12),
+              style: const TextStyle(fontSize: 12),
             )
-          : Text("To: ${tx.toAddress}\n$date", style: TextStyle(fontSize: 12)),
+          : Text("To: ${tx.toAddress}\n$date", style: const TextStyle(fontSize: 12)),
       trailing: const Icon(Icons.chevron_right),
       onTap: () {
         AutoRouter.of(context).push(WebTransactionDetailScreenRoute(hash: tx.hash));
