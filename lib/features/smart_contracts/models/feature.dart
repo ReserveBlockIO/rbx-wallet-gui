@@ -42,8 +42,6 @@ abstract class Feature with _$Feature {
   factory Feature.fromJson(Map<String, dynamic> json) => _$FeatureFromJson(json);
 
   factory Feature.fromCompiler(Map<String, dynamic> f) {
-    print(f);
-    print("---------");
     switch (f['FeatureName']) {
       case Evolve.compilerEnum:
         final payload = {'phases': f['FeatureFeatures']};

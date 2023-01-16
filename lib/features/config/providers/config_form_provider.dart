@@ -194,12 +194,12 @@ class ConfigFormProvider extends StateNotifier<Config> {
       data += 'Port=3338\n';
     }
 
-    if (!state.isApiPortDefault) data += 'APIPort=${state.apiPort}\n';
+    data += 'APIPort=${state.apiPort}\n';
     if (!state.isApiCallUrlDefault) data += 'APICallURL=${state.apiCallUrl}\n';
     if (!state.isWalletUnlockTimeDefault) data += 'WalletUnlockTime=${state.walletUnlockTime}\n';
-    if (!state.isNftTimeoutDefault) data += 'NFTTimeout=${state.nftTimeout}\n';
+    data += 'NFTTimeout=${state.nftTimeout}\n';
     if (!state.isPasswordClearTimeDefault) data += 'PasswordClearTime=${state.passwordClearTime}\n';
-    if (!state.isAutoDownloadingNftAssetDefault) data += 'AutoDownloadNFTAsset=${state.autoDownloadNftAsset}\n';
+    data += 'AutoDownloadNFTAsset=${state.autoDownloadNftAsset}\n';
     if (!state.isIgnoreIncomingNftsDefault) data += 'IgnoreIncomingNFTs=${state.ignoreIncomingNfts}\n';
     if (!state.isRejectAssetExtensionTypesDefault) data += 'RejectAssetExtensionTypes=${state.nonDefaultRejectExtensionTypes}\n';
     if (!state.isAllowedExtensionTypesDefault) data += 'AllowedExtensionsTypes=${state.nonBannedExtensionTypes}\n';

@@ -131,7 +131,11 @@ class SmartContractService extends BaseService {
   Future<bool> mint(String id) async {
     try {
       print("-------------ID $id------------");
-      final response = await getText("/MintSmartContract/$id", timeout: 0);
+      final response = await getText(
+        "/MintSmartContract/$id",
+        timeout: 0,
+        inspect: true,
+      );
 
       if (response == "Smart contract has been published to mempool") {
         return true;

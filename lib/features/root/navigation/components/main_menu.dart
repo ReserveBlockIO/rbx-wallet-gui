@@ -199,7 +199,7 @@ class MainMenu extends BaseComponent {
                   ),
 
                   _NavButton(
-                    title: "DSTs",
+                    title: "P2P Auctions",
                     icon: Icons.leak_add,
                     onPressed: () {
                       tabsRouter.setActiveIndex(9);
