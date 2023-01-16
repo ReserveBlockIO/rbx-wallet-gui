@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/features/asset/asset.dart';
 
 part 'bulk_smart_contract_entry.freezed.dart';
 
@@ -11,6 +12,7 @@ class BulkSmartContractEntry with _$BulkSmartContractEntry {
     required String description,
     required String primaryAssetUrl,
     required String creatorName,
+    Asset? primaryAsset,
     @Default(1) int quantity,
   }) = _BulkSmartContractEntry;
 

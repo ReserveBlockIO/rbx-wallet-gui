@@ -17,7 +17,7 @@ class SmartContractWizardScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    return Center(
+    return const SingleChildScrollView(
       child: ScWizardGrid(),
     );
   }

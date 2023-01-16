@@ -98,6 +98,48 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
       ..insert(index, item);
   }
 
+  void updateCreatorName(int index, String value) {
+    ScWizardItem? item = itemAtIndex(index);
+    if (item == null) return;
+    item = item.copyWith(entry: item.entry.copyWith(creatorName: value));
+
+    state = [...state]
+      ..removeAt(index)
+      ..insert(index, item);
+  }
+
+  void updateDescription(int index, String value) {
+    ScWizardItem? item = itemAtIndex(index);
+    if (item == null) return;
+    item = item.copyWith(entry: item.entry.copyWith(description: value));
+
+    state = [...state]
+      ..removeAt(index)
+      ..insert(index, item);
+  }
+
+  void updateQuantity(int index, int value) {
+    ScWizardItem? item = itemAtIndex(index);
+    if (item == null) return;
+    item = item.copyWith(entry: item.entry.copyWith(quantity: value));
+
+    state = [...state]
+      ..removeAt(index)
+      ..insert(index, item);
+  }
+
+  void updatePrimaryAsset(int index, Asset? value) {
+    ScWizardItem? item = itemAtIndex(index);
+
+    if (item == null) return;
+
+    item = item.copyWith(entry: item.entry.copyWith(primaryAsset: value));
+
+    state = [...state]
+      ..removeAt(index)
+      ..insert(index, item);
+  }
+
   Future<void> uploadCsv() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowedExtensions: ['csv'],

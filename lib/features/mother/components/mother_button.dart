@@ -27,8 +27,6 @@ class MotherButton extends BaseComponent {
                 backgroundColor: Colors.transparent,
                 builder: (context) => MotherModal(data, children),
               );
-
-              // MONITOR TX HASHES & ADDRESSES EXPO REMOTE
             }
           : null,
     );

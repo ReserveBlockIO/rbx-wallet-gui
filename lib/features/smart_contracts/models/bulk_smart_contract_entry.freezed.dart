@@ -20,6 +20,7 @@ mixin _$BulkSmartContractEntry {
   String get description => throw _privateConstructorUsedError;
   String get primaryAssetUrl => throw _privateConstructorUsedError;
   String get creatorName => throw _privateConstructorUsedError;
+  Asset? get primaryAsset => throw _privateConstructorUsedError;
   int get quantity => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -37,7 +38,10 @@ abstract class $BulkSmartContractEntryCopyWith<$Res> {
       String description,
       String primaryAssetUrl,
       String creatorName,
+      Asset? primaryAsset,
       int quantity});
+
+  $AssetCopyWith<$Res>? get primaryAsset;
 }
 
 /// @nodoc
@@ -55,6 +59,7 @@ class _$BulkSmartContractEntryCopyWithImpl<$Res>
     Object? description = freezed,
     Object? primaryAssetUrl = freezed,
     Object? creatorName = freezed,
+    Object? primaryAsset = freezed,
     Object? quantity = freezed,
   }) {
     return _then(_value.copyWith(
@@ -74,11 +79,26 @@ class _$BulkSmartContractEntryCopyWithImpl<$Res>
           ? _value.creatorName
           : creatorName // ignore: cast_nullable_to_non_nullable
               as String,
+      primaryAsset: primaryAsset == freezed
+          ? _value.primaryAsset
+          : primaryAsset // ignore: cast_nullable_to_non_nullable
+              as Asset?,
       quantity: quantity == freezed
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
               as int,
     ));
+  }
+
+  @override
+  $AssetCopyWith<$Res>? get primaryAsset {
+    if (_value.primaryAsset == null) {
+      return null;
+    }
+
+    return $AssetCopyWith<$Res>(_value.primaryAsset!, (value) {
+      return _then(_value.copyWith(primaryAsset: value));
+    });
   }
 }
 
@@ -94,7 +114,11 @@ abstract class _$$_BulkSmartContractEntryCopyWith<$Res>
       String description,
       String primaryAssetUrl,
       String creatorName,
+      Asset? primaryAsset,
       int quantity});
+
+  @override
+  $AssetCopyWith<$Res>? get primaryAsset;
 }
 
 /// @nodoc
@@ -115,6 +139,7 @@ class __$$_BulkSmartContractEntryCopyWithImpl<$Res>
     Object? description = freezed,
     Object? primaryAssetUrl = freezed,
     Object? creatorName = freezed,
+    Object? primaryAsset = freezed,
     Object? quantity = freezed,
   }) {
     return _then(_$_BulkSmartContractEntry(
@@ -134,6 +159,10 @@ class __$$_BulkSmartContractEntryCopyWithImpl<$Res>
           ? _value.creatorName
           : creatorName // ignore: cast_nullable_to_non_nullable
               as String,
+      primaryAsset: primaryAsset == freezed
+          ? _value.primaryAsset
+          : primaryAsset // ignore: cast_nullable_to_non_nullable
+              as Asset?,
       quantity: quantity == freezed
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
@@ -150,6 +179,7 @@ class _$_BulkSmartContractEntry extends _BulkSmartContractEntry {
       required this.description,
       required this.primaryAssetUrl,
       required this.creatorName,
+      this.primaryAsset,
       this.quantity = 1})
       : super._();
 
@@ -162,12 +192,14 @@ class _$_BulkSmartContractEntry extends _BulkSmartContractEntry {
   @override
   final String creatorName;
   @override
+  final Asset? primaryAsset;
+  @override
   @JsonKey()
   final int quantity;
 
   @override
   String toString() {
-    return 'BulkSmartContractEntry(name: $name, description: $description, primaryAssetUrl: $primaryAssetUrl, creatorName: $creatorName, quantity: $quantity)';
+    return 'BulkSmartContractEntry(name: $name, description: $description, primaryAssetUrl: $primaryAssetUrl, creatorName: $creatorName, primaryAsset: $primaryAsset, quantity: $quantity)';
   }
 
   @override
@@ -182,6 +214,8 @@ class _$_BulkSmartContractEntry extends _BulkSmartContractEntry {
                 .equals(other.primaryAssetUrl, primaryAssetUrl) &&
             const DeepCollectionEquality()
                 .equals(other.creatorName, creatorName) &&
+            const DeepCollectionEquality()
+                .equals(other.primaryAsset, primaryAsset) &&
             const DeepCollectionEquality().equals(other.quantity, quantity));
   }
 
@@ -192,6 +226,7 @@ class _$_BulkSmartContractEntry extends _BulkSmartContractEntry {
       const DeepCollectionEquality().hash(description),
       const DeepCollectionEquality().hash(primaryAssetUrl),
       const DeepCollectionEquality().hash(creatorName),
+      const DeepCollectionEquality().hash(primaryAsset),
       const DeepCollectionEquality().hash(quantity));
 
   @JsonKey(ignore: true)
@@ -207,6 +242,7 @@ abstract class _BulkSmartContractEntry extends BulkSmartContractEntry {
       required final String description,
       required final String primaryAssetUrl,
       required final String creatorName,
+      final Asset? primaryAsset,
       final int quantity}) = _$_BulkSmartContractEntry;
   _BulkSmartContractEntry._() : super._();
 
@@ -218,6 +254,8 @@ abstract class _BulkSmartContractEntry extends BulkSmartContractEntry {
   String get primaryAssetUrl => throw _privateConstructorUsedError;
   @override
   String get creatorName => throw _privateConstructorUsedError;
+  @override
+  Asset? get primaryAsset => throw _privateConstructorUsedError;
   @override
   int get quantity => throw _privateConstructorUsedError;
   @override

@@ -13,7 +13,7 @@ class ScWizardGrid extends BaseComponent {
     final items = ref.watch(scWizardProvider);
 
     if (items.isEmpty) {
-      return Center(
+      return const Center(
         child: ScWizardCardPreview(index: 0),
       );
     }
@@ -27,7 +27,7 @@ class ScWizardGrid extends BaseComponent {
       while (x < 3) {
         final item = provider.itemAtCoords(x, y);
         if (item == null) {
-          widgets[y].add(SizedBox(
+          widgets[y].add(const SizedBox(
             width: 198,
             height: 248,
           ));
