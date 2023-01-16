@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/features/auth/auth_utils.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../../utils/toast.dart';
+import '../../auth/auth_utils.dart';
 
 class WebWalletDetails extends BaseComponent {
   const WebWalletDetails({Key? key}) : super(key: key);

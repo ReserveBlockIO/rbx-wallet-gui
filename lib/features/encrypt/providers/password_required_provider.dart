@@ -1,11 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
+
+import '../../bridge/services/bridge_service.dart';
 
 class PasswordRequiredProvider extends StateNotifier<bool> {
   PasswordRequiredProvider() : super(false) {
-    Timer.periodic(Duration(seconds: 10), (timer) {
+    Timer.periodic(const Duration(seconds: 10), (timer) {
       check();
     });
     check();

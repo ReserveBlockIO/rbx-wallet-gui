@@ -1,6 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/features/asset/asset.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/property.dart';
 
 part 'fractional.freezed.dart';
 part 'fractional.g.dart';

@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/dropdowns.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/file_selector.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_header.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/manage_properties_list.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_bottom_actions.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/pair/pair_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/tokenization/tokenization_provider.dart';
+import '../../../../core/base_component.dart';
+import '../../../../core/components/dropdowns.dart';
+import '../../components/sc_creator/common/file_selector.dart';
+import '../../components/sc_creator/common/form_group_header.dart';
+import '../../components/sc_creator/common/help_button.dart';
+import '../../components/sc_creator/common/manage_properties_list.dart';
+import '../../components/sc_creator/common/modal_bottom_actions.dart';
+import '../../components/sc_creator/common/modal_container.dart';
+import 'pair_provider.dart';
 
 class PairModal extends BaseComponent {
   const PairModal({Key? key}) : super(key: key);
@@ -36,7 +35,7 @@ class PairModal extends BaseComponent {
                 onChange: (val) {
                   _provider.setNetwork(val);
                 }),
-            SizedBox(
+            const SizedBox(
               width: 8,
             ),
             Expanded(
@@ -47,22 +46,22 @@ class PairModal extends BaseComponent {
               ),
             ),
             if (_model.network != "RBX") ...[
-              SizedBox(
+              const SizedBox(
                 width: 8,
               ),
               Expanded(
                 child: TextFormField(
-                  decoration: InputDecoration(label: Text("Token ID (Optional)")),
+                  decoration: const InputDecoration(label: Text("Token ID (Optional)")),
                   // validator: _provider.descriptionValidator,
                   // controller: _provider.descriptionController,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 8,
               ),
               Expanded(
                 child: TextFormField(
-                  decoration: InputDecoration(label: Text("Token Standard (Optional)")),
+                  decoration: const InputDecoration(label: Text("Token Standard (Optional)")),
                   // validator: _provider.descriptionValidator,
                   // controller: _provider.descriptionController,
                 ),
@@ -71,14 +70,14 @@ class PairModal extends BaseComponent {
           ],
         ),
         TextFormField(
-          decoration: InputDecoration(label: Text("Full Description")),
+          decoration: const InputDecoration(label: Text("Full Description")),
           validator: _provider.descriptionValidator,
           controller: _provider.descriptionController,
           minLines: 3,
           maxLines: 6,
         ),
         TextFormField(
-          decoration: InputDecoration(label: Text("Reason for Pairing/Wrapping")),
+          decoration: const InputDecoration(label: Text("Reason for Pairing/Wrapping")),
           validator: _provider.reasonValidator,
           controller: _provider.reasonController,
           minLines: 3,
@@ -102,7 +101,7 @@ class PairModal extends BaseComponent {
             ),
             Expanded(
               child: TextFormField(
-                decoration: InputDecoration(label: Text("Metadata URL")),
+                decoration: const InputDecoration(label: Text("Metadata URL")),
                 controller: _provider.metadataUrlController,
               ),
             ),
@@ -112,11 +111,11 @@ class PairModal extends BaseComponent {
           padding: const EdgeInsets.only(top: 8),
           child: Row(
             children: [
-              Text(
+              const Text(
                 "Properties (Optional)",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
-              HelpButton(HelpType.manageProperties)
+              const HelpButton(HelpType.manageProperties)
             ],
           ),
         ),

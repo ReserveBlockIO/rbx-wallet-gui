@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/features/beacon/components/beacon_list_tile.dart';
-import 'package:rbx_wallet/features/beacon/providers/beacon_list_provider.dart';
-import 'package:rbx_wallet/features/voting/components/topic_list_tile.dart';
-import 'package:rbx_wallet/features/voting/providers/topic_list_provider.dart';
+
+import '../../../core/base_component.dart';
+import '../providers/beacon_list_provider.dart';
+import 'beacon_list_tile.dart';
 
 class BeaconList extends BaseComponent {
   const BeaconList({
@@ -16,7 +15,7 @@ class BeaconList extends BaseComponent {
     final beacons = ref.watch(beaconListProvider);
 
     if (beacons.isEmpty) {
-      return Center(
+      return const Center(
         child: Text("No Beacons"),
       );
     }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/features/nft/providers/minted_nft_list_provider.dart';
-import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
+import '../../../core/base_component.dart';
+import '../../../core/components/buttons.dart';
+import '../providers/minted_nft_list_provider.dart';
+import '../providers/nft_list_provider.dart';
 
 class NftNavigator extends BaseComponent {
   const NftNavigator({
@@ -51,7 +51,7 @@ class NftNavigator extends BaseComponent {
             style: TextStyle(color: _model.search == _model.currentSearch ? Colors.white : Colors.white70),
             decoration: InputDecoration(
               hintText: "Search...",
-              prefixIcon: Icon(
+              prefixIcon: const Icon(
                 Icons.search,
                 color: Colors.white,
               ),
@@ -87,7 +87,7 @@ class NftNavigator extends BaseComponent {
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 8,
         ),
         Row(
@@ -105,7 +105,7 @@ class NftNavigator extends BaseComponent {
                     }
                   : null,
             ),
-            SizedBox(
+            const SizedBox(
               width: 8,
             ),
             AppButton(
@@ -128,7 +128,7 @@ class NftNavigator extends BaseComponent {
                     ref.read(nftListProvider.notifier).reloadCurrentPage();
                   }
                 },
-                icon: Icon(Icons.refresh))
+                icon: const Icon(Icons.refresh))
           ],
         )
       ],

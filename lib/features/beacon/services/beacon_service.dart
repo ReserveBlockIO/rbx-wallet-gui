@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:rbx_wallet/core/services/base_service.dart';
-import 'package:rbx_wallet/features/beacon/models/beacon.dart';
+import '../../../core/services/base_service.dart';
+import '../models/beacon.dart';
 
 class BeaconService extends BaseService {
   BeaconService() : super(apiBasePathOverride: "/bcapi/BCV1");

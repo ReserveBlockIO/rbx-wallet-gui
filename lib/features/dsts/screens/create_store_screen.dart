@@ -1,9 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/features/dsts/components/create_store_form.dart';
+
+import '../../../core/base_screen.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../components/create_store_form.dart';
 
 class CreateStoreScreen extends BaseScreen {
   final String accountId;
@@ -42,7 +43,7 @@ class CreateStoreScreen extends BaseScreen {
           child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 600),
+            constraints: const BoxConstraints(maxWidth: 600),
             child: CreateStoreForm(
               accountId: accountId,
             )),

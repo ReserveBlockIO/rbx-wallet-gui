@@ -1,13 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/components/centered_loader.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/core/web_router.gr.dart';
-import 'package:rbx_wallet/features/dsts/providers/my_stores_provider.dart';
-import 'package:rbx_wallet/features/web/components/web_no_wallet.dart';
+
+import '../../../core/base_screen.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/components/centered_loader.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../../core/web_router.gr.dart';
+import '../../web/components/web_no_wallet.dart';
+import '../providers/my_stores_provider.dart';
 
 class WebDstScreen extends BaseScreen {
   const WebDstScreen({Key? key})
@@ -38,8 +39,8 @@ class WebDstScreen extends BaseScreen {
     }
 
     return storeData.when(
-      error: (_, __) => Text("Error."),
-      loading: () => CenteredLoader(),
+      error: (_, __) => const Text("Error."),
+      loading: () => const CenteredLoader(),
       data: (stores) {
         if (stores.isEmpty) {
           return Center(
@@ -53,8 +54,8 @@ class WebDstScreen extends BaseScreen {
                       "No Store",
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8),
                       child: Text("You haven't created a store yet."),
                     ),
                     AppButton(
@@ -81,13 +82,13 @@ class WebDstScreen extends BaseScreen {
 
                   return ListTile(
                     title: Text(store.name),
-                    trailing: Icon(Icons.chevron_right),
+                    trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       AutoRouter.of(context).push(StoreScreenRoute(slug: store.slug));
                     },
                   );
                 }),
-            Divider(),
+            const Divider(),
             AppButton(
               label: "Create New Store",
               onPressed: () {

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/asset/asset.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/pair.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/property.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
-import 'package:rbx_wallet/utils/generators.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+
+import '../../../../utils/generators.dart';
+import '../../../../utils/validation.dart';
+import '../../../asset/asset.dart';
+import '../../models/pair.dart';
+import '../../models/property.dart';
+import '../../providers/create_smart_contract_provider.dart';
 
 class PairFormProvider extends StateNotifier<Pair> {
   final Reader read;

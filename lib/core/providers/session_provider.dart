@@ -1,52 +1,51 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:process/process.dart';
-import 'package:rbx_wallet/app.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/providers/ready_provider.dart';
-import 'package:rbx_wallet/core/singletons.dart';
-import 'package:rbx_wallet/core/storage.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/beacon/providers/beacon_list_provider.dart';
-import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
-import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
-import 'package:rbx_wallet/features/bridge/providers/status_provider.dart';
-import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
-import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
-import 'package:rbx_wallet/features/config/models/config.dart';
-import 'package:rbx_wallet/features/config/providers/config_provider.dart';
-import 'package:rbx_wallet/features/encrypt/providers/password_required_provider.dart';
-import 'package:rbx_wallet/features/encrypt/providers/startup_password_required_provider.dart';
-import 'package:rbx_wallet/features/encrypt/providers/wallet_is_encrypted_provider.dart';
-import 'package:rbx_wallet/features/encrypt/utils.dart';
-import 'package:rbx_wallet/features/nft/providers/minted_nft_list_provider.dart';
-import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
-import 'package:rbx_wallet/features/node/providers/node_info_provider.dart';
-import 'package:rbx_wallet/features/node/providers/node_list_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/draft_smart_contracts_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/my_smart_contracts_provider.dart';
-import 'package:rbx_wallet/features/transactions/providers/transaction_list_provider.dart';
-import 'package:rbx_wallet/features/validator/providers/current_validator_provider.dart';
-import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
-import 'package:rbx_wallet/features/voting/providers/my_vote_list_provider.dart';
-import 'package:rbx_wallet/features/voting/providers/topic_list_provider.dart';
-import 'package:rbx_wallet/features/wallet/models/wallet.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
-import 'package:collection/collection.dart';
-
 import 'package:intl/intl.dart';
+import 'package:process/process.dart';
 import 'package:process_run/shell.dart';
-import 'package:rbx_wallet/utils/files.dart';
-import 'package:rbx_wallet/utils/guards.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+
+import '../../app.dart';
+import '../../features/beacon/providers/beacon_list_provider.dart';
+import '../../features/bridge/models/log_entry.dart';
+import '../../features/bridge/providers/log_provider.dart';
+import '../../features/bridge/providers/status_provider.dart';
+import '../../features/bridge/providers/wallet_info_provider.dart';
+import '../../features/bridge/services/bridge_service.dart';
+import '../../features/config/models/config.dart';
+import '../../features/config/providers/config_provider.dart';
+import '../../features/encrypt/providers/password_required_provider.dart';
+import '../../features/encrypt/providers/startup_password_required_provider.dart';
+import '../../features/encrypt/providers/wallet_is_encrypted_provider.dart';
+import '../../features/nft/providers/minted_nft_list_provider.dart';
+import '../../features/nft/providers/nft_list_provider.dart';
+import '../../features/node/providers/node_info_provider.dart';
+import '../../features/node/providers/node_list_provider.dart';
+import '../../features/smart_contracts/providers/draft_smart_contracts_provider.dart';
+import '../../features/smart_contracts/providers/my_smart_contracts_provider.dart';
+import '../../features/transactions/providers/transaction_list_provider.dart';
+import '../../features/validator/providers/current_validator_provider.dart';
+import '../../features/validator/providers/validator_list_provider.dart';
+import '../../features/voting/providers/my_vote_list_provider.dart';
+import '../../features/voting/providers/topic_list_provider.dart';
+import '../../features/wallet/models/wallet.dart';
+import '../../features/wallet/providers/wallet_list_provider.dart';
+import '../../utils/files.dart';
+import '../../utils/guards.dart';
+import '../../utils/validation.dart';
+import '../app_constants.dart';
+import '../components/buttons.dart';
+import '../dialogs.dart';
+import '../env.dart';
+import '../singletons.dart';
+import '../storage.dart';
+import '../theme/app_theme.dart';
+import 'ready_provider.dart';
 
 class SessionModel {
   final Wallet? currentWallet;
@@ -129,7 +128,6 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   Future<void> init() async {
-    print("init");
     read(logProvider.notifier).append(LogEntry(message: "Welcome to RBXWallet version $APP_VERSION"));
 
     bool cliStarted = state.cliStarted;
@@ -146,7 +144,6 @@ class SessionProvider extends StateNotifier<SessionModel> {
     }
     read(readyProvider.notifier).setReady(true);
     final authenticated = await authenticate();
-    print("Authenticated: $authenticated");
     if (authenticated) {
       finishSetup();
     }
@@ -194,7 +191,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
     final passwordNeeded = await BridgeService().startupPasswordRequired();
 
     if (passwordNeeded) {
-      await Future.delayed(Duration(milliseconds: 100));
+      await Future.delayed(const Duration(milliseconds: 100));
       read(startupPasswordRequiredProvider.notifier).set(true);
       return false;
     }
@@ -470,7 +467,6 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
   String getCliPath() {
     if (kIsWeb) {
-      print("no cli path for web");
       return '';
     }
     if (Platform.isMacOS) {
@@ -518,7 +514,6 @@ class SessionProvider extends StateNotifier<SessionModel> {
   Future<bool> _startCli() async {
     if (Env.launchCli) {
       if (await _cliIsActive()) {
-        print("CLI is already running");
         await fetchConfig();
         read(logProvider.notifier).append(LogEntry(message: "CLI is already running!"));
 
@@ -571,9 +566,6 @@ class SessionProvider extends StateNotifier<SessionModel> {
           workingDirectory: "/Applications/RBXWallet.app/Contents/MacOS/",
         );
         cmd = '"$cliPath" ${options.join(' ')}';
-
-        print("CMD: $cmd");
-        print("-------------");
 
         read(logProvider.notifier).append(LogEntry(message: "Launching $cmd in the background."));
 

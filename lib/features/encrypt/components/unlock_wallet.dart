@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
-import 'package:rbx_wallet/features/encrypt/providers/password_required_provider.dart';
-import 'package:rbx_wallet/features/encrypt/providers/startup_password_required_provider.dart';
-import 'package:rbx_wallet/generated/assets.gen.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+
+import '../../../core/providers/session_provider.dart';
+import '../../../generated/assets.gen.dart';
+import '../../../utils/toast.dart';
+import '../providers/password_required_provider.dart';
+import '../providers/startup_password_required_provider.dart';
 
 class UnlockWallet extends StatefulWidget {
   final Reader read;
@@ -38,7 +37,7 @@ class _UnlockWalletState extends State<UnlockWallet> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(milliseconds: 100)).then((value) {
+    Future.delayed(const Duration(milliseconds: 100)).then((value) {
       focusNode.requestFocus();
     });
   }
@@ -62,7 +61,7 @@ class _UnlockWalletState extends State<UnlockWallet> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             Center(
@@ -73,17 +72,17 @@ class _UnlockWalletState extends State<UnlockWallet> {
                 fit: BoxFit.contain,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
-            Text(
+            const Text(
               "Encryption Password Required to continue validating.",
               style: TextStyle(
                 color: Colors.white70,
                 fontSize: 12,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 32,
             ),
             SizedBox(
@@ -104,7 +103,7 @@ class _UnlockWalletState extends State<UnlockWallet> {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: TextFormField(
                     obscureText: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: "Wallet Password",
                       border: InputBorder.none,
                       errorBorder: InputBorder.none,
@@ -130,7 +129,7 @@ class _UnlockWalletState extends State<UnlockWallet> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 32,
             ),
             Container(

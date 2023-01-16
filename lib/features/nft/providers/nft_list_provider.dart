@@ -1,10 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/models/paginated_response.dart';
-import 'package:rbx_wallet/core/services/transaction_service.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/nft/services/nft_service.dart';
+
+import '../../../core/models/paginated_response.dart';
+import '../../../core/services/transaction_service.dart';
+import '../models/nft.dart';
+import '../services/nft_service.dart';
 
 class NftListModel {
   final int page;

@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/components/centered_loader.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/features/transactions/models/web_transaction.dart';
-import 'package:rbx_wallet/features/transactions/providers/web_transaction_detail_provider.dart';
-import 'package:rbx_wallet/utils/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/base_screen.dart';
+import '../../../core/components/centered_loader.dart';
+import '../../../core/env.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../../utils/toast.dart';
+import '../models/web_transaction.dart';
+import '../providers/web_transaction_detail_provider.dart';
 
 class WebTransactionDetailScreen extends BaseScreen {
   final String hash;
@@ -38,7 +39,7 @@ class WebTransactionDetailScreen extends BaseScreen {
           onPressed: () {
             launchUrl(Uri.parse("${Env.explorerWebsiteBaseUrl}/transaction/$hash"));
           },
-          icon: Icon(Icons.open_in_new),
+          icon: const Icon(Icons.open_in_new),
         )
       ],
     );
@@ -49,9 +50,9 @@ class WebTransactionDetailScreen extends BaseScreen {
     final data = ref.watch(webTransactionDetailProvider(hash));
 
     return data.when(
-      loading: () => CenteredLoader(),
-      error: (_, __) => Text("An error occurred"),
-      data: (tx) => tx == null ? Text("Error") : _TransactionDetails(tx),
+      loading: () => const CenteredLoader(),
+      error: (_, __) => const Text("An error occurred"),
+      data: (tx) => tx == null ? const Text("Error") : _TransactionDetails(tx),
     );
   }
 }

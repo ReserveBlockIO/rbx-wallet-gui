@@ -1,11 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/components/centered_loader.dart';
-import 'package:rbx_wallet/features/asset/asset.dart';
-import 'package:rbx_wallet/features/asset/asset_card.dart';
-import 'package:rbx_wallet/features/asset/polling_image_preview.dart';
+
+import 'asset.dart';
+import 'asset_card.dart';
+import 'polling_image_preview.dart';
 
 class AssetThumbnail extends StatelessWidget {
   final double size;
@@ -38,7 +35,7 @@ class AssetThumbnail extends StatelessWidget {
                     localPath: asset.localPath!,
                     expectedSize: asset.fileSize,
                   )
-                : Icon(Icons.file_present_outlined)
+                : const Icon(Icons.file_present_outlined)
             : const Center(
                 child: Text("Media not found."),
               ),

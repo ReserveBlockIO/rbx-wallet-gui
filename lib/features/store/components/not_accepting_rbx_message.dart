@@ -8,7 +8,7 @@ class NotAcceptingRbxMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: BoxConstraints(maxWidth: 420),
+      constraints: const BoxConstraints(maxWidth: 420),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Text(

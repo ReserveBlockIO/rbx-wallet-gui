@@ -54,6 +54,5 @@ class InvalidKeyLength implements Exception {
   InvalidKeyLength(this.actual, this.expected);
 
   @override
-  String toString() =>
-      "Key length not correct. Should be $expected, is $actual";
+  String toString() => "Key length not correct. Should be $expected, is $actual";
 }

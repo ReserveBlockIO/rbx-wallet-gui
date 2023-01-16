@@ -18,6 +18,5 @@ class GenesisBlock with _$GenesisBlock {
     @JsonKey(name: 'BCraftTime') required int bCraftTime,
   }) = _GenesisBlock;
 
-  factory GenesisBlock.fromJson(Map<String, dynamic> json) =>
-      _$GenesisBlockFromJson(json);
+  factory GenesisBlock.fromJson(Map<String, dynamic> json) => _$GenesisBlockFromJson(json);
 }

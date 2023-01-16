@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/transactions/providers/transaction_notification_provider.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/theme/app_theme.dart';
+import '../providers/transaction_notification_provider.dart';
 
 class NotificationOverlay extends BaseComponent {
   const NotificationOverlay({Key? key}) : super(key: key);
@@ -33,11 +34,11 @@ class NotificationOverlay extends BaseComponent {
                           color: Colors.black,
                           border: Border.all(color: AppTheme.appVariantToColor(context, n.color), width: 2),
                           borderRadius: BorderRadius.circular(6),
-                          boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 6, spreadRadius: 6)]),
+                          boxShadow: [const BoxShadow(color: Colors.black26, blurRadius: 6, spreadRadius: 6)]),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ConstrainedBox(
-                          constraints: BoxConstraints(maxWidth: 400, minWidth: 200),
+                          constraints: const BoxConstraints(maxWidth: 400, minWidth: 200),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

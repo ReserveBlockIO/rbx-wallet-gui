@@ -1,13 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/features/voting/components/voting_category_badge.dart';
-import 'package:rbx_wallet/features/voting/screens/topic_detail_screen.dart';
 
+import '../../../core/app_router.gr.dart';
 import '../../../core/base_component.dart';
-import '../../../core/components/buttons.dart';
 import '../models/topic.dart';
+import 'voting_category_badge.dart';
 
 class TopicListTile extends BaseComponent {
   final Topic topic;
@@ -27,7 +25,7 @@ class TopicListTile extends BaseComponent {
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),
-      leading: Icon(Icons.article),
+      leading: const Icon(Icons.article),
     );
   }
 }

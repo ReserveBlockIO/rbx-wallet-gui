@@ -1,18 +1,15 @@
-import 'dart:io';
-
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/web_router.gr.dart';
-import 'package:rbx_wallet/features/asset/polling_image_preview.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/nft/providers/burned_provider.dart';
-import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
-import 'package:rbx_wallet/features/nft/providers/transferred_provider.dart';
-import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
-import 'package:rbx_wallet/features/nft/modals/nft_management_modal.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
+
+import '../../../core/base_component.dart';
+import '../../asset/polling_image_preview.dart';
+import '../../smart_contracts/components/sc_creator/common/modal_container.dart';
+import '../modals/nft_management_modal.dart';
+import '../models/nft.dart';
+import '../providers/burned_provider.dart';
+import '../providers/nft_detail_provider.dart';
+import '../providers/transferred_provider.dart';
+import '../screens/nft_detail_screen.dart';
 
 class NftListTile extends BaseComponent {
   final Nft nft;
@@ -66,7 +63,7 @@ class NftListTile extends BaseComponent {
         builder: (context) {
           if (nft.currentEvolveAsset.isImage) {
             if (nft.currentEvolveAsset.localPath == null) {
-              return SizedBox(
+              return const SizedBox(
                 width: 32,
                 height: 32,
               );

@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/voting/models/vote.dart';
-import 'package:rbx_wallet/features/voting/services/vote_service.dart';
+
+import '../models/vote.dart';
+import '../services/vote_service.dart';
 
 class MyVoteListProvider extends StateNotifier<List<Vote>> {
   final Reader read;

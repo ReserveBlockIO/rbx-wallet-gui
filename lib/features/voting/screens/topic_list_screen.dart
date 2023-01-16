@@ -1,21 +1,20 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
-import 'package:rbx_wallet/features/voting/components/topic_search_modal.dart';
-import 'package:rbx_wallet/features/voting/providers/topic_search_provider.dart';
-import 'package:rbx_wallet/features/voting/services/topic_service.dart';
 
 import '../../../core/app_router.gr.dart';
 import '../../../core/base_screen.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/theme/app_theme.dart';
 import '../../../utils/toast.dart';
 import '../components/topic_grid.dart';
 import '../components/topic_list.dart';
+import '../components/topic_search_modal.dart';
 import '../providers/topic_list_provider.dart';
 import '../providers/topic_list_view_provider.dart';
+import '../providers/topic_search_provider.dart';
+import '../services/topic_service.dart';
 import '../utils.dart';
 
 class TopicListScreen extends BaseScreen {
@@ -32,7 +31,7 @@ class TopicListScreen extends BaseScreen {
     final provider = ref.read(topicListViewProvider.notifier);
     final isGrid = ref.watch(topicListViewProvider);
     return AppBar(
-      title: Text("Validator Voting Topics"),
+      title: const Text("Validator Voting Topics"),
       backgroundColor: Colors.black54,
       actions: [
         Row(
@@ -75,25 +74,25 @@ class TopicListScreen extends BaseScreen {
                     isScrollControlled: true,
                     context: context,
                     builder: (context) {
-                      return TopicSearchModal();
+                      return const TopicSearchModal();
                     });
                 ref.read(topicSearchProvider.notifier).clear();
               },
-              icon: Icon(Icons.search),
+              icon: const Icon(Icons.search),
             ),
             if (!isGrid)
               IconButton(
                 onPressed: () {
                   provider.setGrid();
                 },
-                icon: Icon(Icons.grid_on, color: Colors.white),
+                icon: const Icon(Icons.grid_on, color: Colors.white),
               ),
             if (isGrid)
               IconButton(
                 onPressed: () {
                   provider.setList();
                 },
-                icon: Icon(Icons.list_outlined, color: Colors.white),
+                icon: const Icon(Icons.list_outlined, color: Colors.white),
               ),
           ],
         )

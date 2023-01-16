@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/app.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/features/encrypt/utils.dart';
-import 'package:rbx_wallet/features/wallet/components/manage_wallet_bottom_sheet.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
-import 'package:rbx_wallet/utils/guards.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+
+import '../../../app.dart';
+import '../../../core/base_component.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../utils/guards.dart';
+import '../../../utils/toast.dart';
+import '../../../utils/validation.dart';
+import '../../encrypt/utils.dart';
+import '../providers/wallet_list_provider.dart';
+import 'manage_wallet_bottom_sheet.dart';
 
 class WalletSelector extends BaseComponent {
   final bool truncatedLabel;

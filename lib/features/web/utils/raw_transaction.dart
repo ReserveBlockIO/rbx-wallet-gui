@@ -2,14 +2,15 @@
 
 import 'dart:convert';
 import 'dart:typed_data';
+
+import 'package:convert/convert.dart';
+import 'package:crypto/crypto.dart';
+import 'package:dart_bip66/dart_bip66.dart';
 import 'package:hex/hex.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/services/transaction_service.dart';
 import 'package:rbx_wallet/features/keygen/models/keypair.dart';
-import 'package:crypto/crypto.dart';
-import 'package:dart_bip66/dart_bip66.dart';
 import 'package:secp256k1/secp256k1.dart' as secp256k1;
-import 'package:convert/convert.dart';
 
 class RawTxValue {
   final String hash;
@@ -53,13 +54,8 @@ class RawTransaction {
       return null;
     }
 
-    print("Signature: $signature");
-
     final txService = TransactionService();
 
-    print("Hash: $hash");
-    print("Address: ${keypair.public}");
-    print("Signature: $signature");
     final validateData = await txService.validateSignature(
       hash,
       keypair.public,
@@ -196,7 +192,6 @@ class RawTransaction {
   }) async {
     final hashMessage = sha256.convert(utf8.encode(message));
     final hashMessageString = hashMessage.toString();
-    print("hashMessageString: $hashMessageString");
 
     var pk = secp256k1.PrivateKey.fromHex(privateKey);
     final signature = pk.signature(hashMessageString);
@@ -214,12 +209,10 @@ class RawTransaction {
     if (publicKey.startsWith("04")) {
       publicKey = publicKey.replaceFirst("04", "");
     }
-    print("Publickey: $publicKey");
 
     final hex = HEX.decode(publicKey);
 
     final base58PublicKey = base58Encode(hex);
-    print("base58PublicKey: $base58PublicKey");
 
     final fullSignature = "$base64Signature.$base58PublicKey";
 
@@ -343,7 +336,6 @@ class RawTransaction {
             );
           } catch (e) {
             print(e);
-            print("ENTIRE FAIL WTF");
             return null;
           }
         }

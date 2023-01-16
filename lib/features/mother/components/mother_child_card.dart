@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/components/badges.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/mother/models/mother_child.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+
+import '../../../core/components/badges.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/env.dart';
+import '../../../core/theme/app_theme.dart';
+import '../models/mother_child.dart';
 
 class MotherChildCard extends StatelessWidget {
   final MotherChild child;
@@ -28,7 +29,7 @@ class MotherChildCard extends StatelessWidget {
               child.validatorName,
               style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white),
             ),
-            Divider(),
+            const Divider(),
             Card(
               color: Colors.black54,
               child: Padding(
@@ -41,23 +42,23 @@ class MotherChildCard extends StatelessWidget {
                       label: "Balance",
                       value: "${child.balance} RBX",
                     ),
-                    Divider(),
+                    const Divider(),
                     _Row(
                       label: "IP Address",
                       value: child.ipAddress,
                     ),
-                    Divider(),
+                    const Divider(),
                     _Row(
                       label: "Block Height",
                       value: "${child.blockHeight}",
                     ),
-                    Divider(),
+                    const Divider(),
                     _Row(
                       label: "Is Validating?",
                       value: child.activeWithValidating ? 'Yes' : 'No',
                       color: child.activeWithValidating ? AppColorVariant.Success : AppColorVariant.Danger,
                     ),
-                    Divider(),
+                    const Divider(),
                     _Row(
                       label: "Is Connected to Mother?",
                       value: child.activeWithMother ? 'Yes' : 'No',
@@ -84,7 +85,7 @@ class MotherChildCard extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Divider(),
+                  const Divider(),
                   Text(
                     child.address,
                     style: Theme.of(context).textTheme.caption,

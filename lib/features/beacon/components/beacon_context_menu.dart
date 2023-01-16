@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/beacon/models/beacon.dart';
-import 'package:rbx_wallet/features/beacon/providers/beacon_list_provider.dart';
-import 'package:rbx_wallet/features/beacon/services/beacon_service.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../utils/toast.dart';
+import '../models/beacon.dart';
+import '../providers/beacon_list_provider.dart';
+import '../services/beacon_service.dart';
 
 class BeaconContextMenu extends BaseComponent {
   final Beacon beacon;

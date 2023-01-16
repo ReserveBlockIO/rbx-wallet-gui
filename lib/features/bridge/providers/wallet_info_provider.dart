@@ -1,14 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/providers/is_active_provider.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/block/block.dart';
-import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
-import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
-import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
+
+import '../../../core/app_constants.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../block/block.dart';
+import '../models/log_entry.dart';
+import '../services/bridge_service.dart';
+import 'log_provider.dart';
 
 class WalletInfoModel {
   final int blockHeight;
@@ -116,7 +116,7 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
     // read(sessionProvider.notifier).load();
 
     if (loop) {
-      await Future.delayed(Duration(seconds: REFRESH_TIMEOUT_SECONDS));
+      await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
       infoLoop();
 
       // final isActive = read(isActiveProvider).isActive;

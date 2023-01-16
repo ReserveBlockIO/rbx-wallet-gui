@@ -7,9 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/utils/files.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+
+import '../../../core/components/buttons.dart';
+import '../../../utils/files.dart';
+import '../../../utils/toast.dart';
 
 class NftQrCode extends StatelessWidget {
   final String data;
@@ -99,7 +100,7 @@ class NftQrCode extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text(
+                  child: const Text(
                     "Close",
                     style: TextStyle(color: Colors.white70),
                   ))

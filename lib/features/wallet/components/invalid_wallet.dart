@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
+
+import 'wallet_selector.dart';
 
 class InvalidWallet extends StatelessWidget {
   final String message;

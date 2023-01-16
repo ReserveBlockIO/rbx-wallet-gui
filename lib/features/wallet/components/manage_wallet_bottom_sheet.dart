@@ -1,25 +1,19 @@
+import "package:collection/collection.dart";
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/services/transaction_service.dart';
-import 'package:rbx_wallet/core/singletons.dart';
-import 'package:rbx_wallet/core/storage.dart';
-import 'package:rbx_wallet/features/adnr/components/create_adnr_dialog.dart';
-import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
-import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
-import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
-import 'package:rbx_wallet/features/encrypt/utils.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_detail_provider.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-import 'package:rbx_wallet/utils/validation.dart';
-import "package:collection/collection.dart";
+
+import '../../../core/base_component.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/singletons.dart';
+import '../../../core/storage.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../utils/toast.dart';
+import '../../encrypt/utils.dart';
+import '../providers/wallet_detail_provider.dart';
+import '../providers/wallet_list_provider.dart';
 
 class ManageWalletBottomSheet extends BaseComponent {
   const ManageWalletBottomSheet({Key? key}) : super(key: key);

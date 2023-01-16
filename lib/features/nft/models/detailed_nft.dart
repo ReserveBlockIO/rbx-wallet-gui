@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
+
+import 'nft.dart';
 
 part 'detailed_nft.freezed.dart';
 part 'detailed_nft.g.dart';
@@ -13,6 +14,5 @@ abstract class DetailedNft with _$DetailedNft {
     @JsonKey(name: "SmartContractCode", defaultValue: "") required String code,
   }) = _DetailedNft;
 
-  factory DetailedNft.fromJson(Map<String, dynamic> json) =>
-      _$DetailedNftFromJson(json);
+  factory DetailedNft.fromJson(Map<String, dynamic> json) => _$DetailedNftFromJson(json);
 }

@@ -1,9 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
-import 'package:rbx_wallet/features/transactions/models/transaction.dart';
-import 'package:rbx_wallet/features/transactions/providers/transaction_signal_provider.dart';
-import 'package:rbx_wallet/features/transactions/services/local_transaction_service.dart';
+
+import '../models/transaction.dart';
+import '../services/local_transaction_service.dart';
+import 'transaction_signal_provider.dart';
 
 enum TransactionListType {
   All,

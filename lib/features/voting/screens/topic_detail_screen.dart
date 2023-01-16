@@ -1,11 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/voting/models/topic.dart';
-import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/components/centered_loader.dart';
+import '../../wallet/components/wallet_selector.dart';
 import '../components/topic_detail.dart';
 import '../providers/topic_detail_provider.dart';
 
@@ -24,13 +23,13 @@ class TopicDetailScreen extends BaseScreen {
               actions: const [WalletSelector()],
             )
           : AppBar(
-              title: Text("Error"),
+              title: const Text("Error"),
             ),
       error: (_, __) => AppBar(
-        title: Text("Error"),
+        title: const Text("Error"),
       ),
       loading: () => AppBar(
-        title: Text(""),
+        title: const Text(""),
       ),
     );
   }
@@ -39,9 +38,9 @@ class TopicDetailScreen extends BaseScreen {
   Widget body(BuildContext context, WidgetRef ref) {
     final data = ref.watch(topicDetailProvider(topicUid));
     return data.when(
-      data: (topic) => topic != null ? TopicDetail(topic) : Center(child: Text("Error")),
-      error: (_, __) => Text("Error"),
-      loading: () => CenteredLoader(),
+      data: (topic) => topic != null ? TopicDetail(topic) : const Center(child: Text("Error")),
+      error: (_, __) => const Text("Error"),
+      loading: () => const CenteredLoader(),
     );
   }
 }

@@ -1,20 +1,21 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/features/asset/asset.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/soul_bound/soul_bound.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/compiler_payload.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/detailed_smart_contract.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/feature.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/fractional.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/multi_asset.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/pair.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/rarity.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/stat.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/tokenization.dart';
-import 'package:rbx_wallet/features/wallet/models/wallet.dart';
+
+import '../../../core/app_constants.dart';
+import '../../asset/asset.dart';
+import '../../wallet/models/wallet.dart';
+import '../features/evolve/evolve.dart';
+import '../features/royalty/royalty.dart';
+import '../features/soul_bound/soul_bound.dart';
+import '../features/ticket/ticket.dart';
+import 'compiler_payload.dart';
+import 'detailed_smart_contract.dart';
+import 'feature.dart';
+import 'fractional.dart';
+import 'multi_asset.dart';
+import 'pair.dart';
+import 'rarity.dart';
+import 'stat.dart';
+import 'tokenization.dart';
 
 part 'smart_contract.freezed.dart';
 part 'smart_contract.g.dart';

@@ -25,7 +25,7 @@ class ExpandableTextState extends State<ExpandableText> {
   Widget build(BuildContext context) {
     TextSpan link = TextSpan(
         text: _readMore ? " ...read more" : " [read less]",
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 18,
           color: Colors.white70,
           height: 1.4,
@@ -38,7 +38,7 @@ class ExpandableTextState extends State<ExpandableText> {
         // Create a TextSpan with data
         final text = TextSpan(
           text: widget.text,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 18,
             color: Colors.white,
             height: 1.4,
@@ -70,7 +70,7 @@ class ExpandableTextState extends State<ExpandableText> {
         if (textPainter.didExceedMaxLines) {
           textSpan = TextSpan(
             text: _readMore ? widget.text.substring(0, endIndex) : widget.text,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 18,
               color: Colors.white,
               height: 1.4,
@@ -80,7 +80,7 @@ class ExpandableTextState extends State<ExpandableText> {
         } else {
           textSpan = TextSpan(
             text: widget.text,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 18,
               color: Colors.white,
               height: 1.4,

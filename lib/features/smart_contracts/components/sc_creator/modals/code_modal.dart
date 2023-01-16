@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
+
+import '../common/modal_container.dart';
 
 class CodeModal extends StatelessWidget {
   final String code;

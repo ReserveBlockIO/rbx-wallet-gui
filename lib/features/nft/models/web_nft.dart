@@ -1,10 +1,12 @@
 import 'dart:convert';
+
+import 'package:archive/archive_io.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
-import 'package:rbx_wallet/features/asset/proxied_asset.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import 'package:archive/archive_io.dart';
+
+import '../../asset/proxied_asset.dart';
+import 'nft.dart';
 
 part 'web_nft.freezed.dart';
 part 'web_nft.g.dart';

@@ -41,8 +41,7 @@ mixin _$Ticket {
 
 /// @nodoc
 abstract class $TicketCopyWith<$Res> {
-  factory $TicketCopyWith(Ticket value, $Res Function(Ticket) then) =
-      _$TicketCopyWithImpl<$Res>;
+  factory $TicketCopyWith(Ticket value, $Res Function(Ticket) then) = _$TicketCopyWithImpl<$Res>;
   $Res call(
       {String id,
       TicketType type,
@@ -130,8 +129,7 @@ class _$TicketCopyWithImpl<$Res> implements $TicketCopyWith<$Res> {
 
 /// @nodoc
 abstract class _$$_TicketCopyWith<$Res> implements $TicketCopyWith<$Res> {
-  factory _$$_TicketCopyWith(_$_Ticket value, $Res Function(_$_Ticket) then) =
-      __$$_TicketCopyWithImpl<$Res>;
+  factory _$$_TicketCopyWith(_$_Ticket value, $Res Function(_$_Ticket) then) = __$$_TicketCopyWithImpl<$Res>;
   @override
   $Res call(
       {String id,
@@ -148,10 +146,8 @@ abstract class _$$_TicketCopyWith<$Res> implements $TicketCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_TicketCopyWithImpl<$Res> extends _$TicketCopyWithImpl<$Res>
-    implements _$$_TicketCopyWith<$Res> {
-  __$$_TicketCopyWithImpl(_$_Ticket _value, $Res Function(_$_Ticket) _then)
-      : super(_value, (v) => _then(v as _$_Ticket));
+class __$$_TicketCopyWithImpl<$Res> extends _$TicketCopyWithImpl<$Res> implements _$$_TicketCopyWith<$Res> {
+  __$$_TicketCopyWithImpl(_$_Ticket _value, $Res Function(_$_Ticket) _then) : super(_value, (v) => _then(v as _$_Ticket));
 
   @override
   _$_Ticket get _value => super._value as _$_Ticket;
@@ -236,8 +232,7 @@ class _$_Ticket extends _Ticket {
       this.expireDate})
       : super._();
 
-  factory _$_Ticket.fromJson(Map<String, dynamic> json) =>
-      _$$_TicketFromJson(json);
+  factory _$_Ticket.fromJson(Map<String, dynamic> json) => _$$_TicketFromJson(json);
 
   @override
   @JsonKey()
@@ -287,17 +282,13 @@ class _$_Ticket extends _Ticket {
             const DeepCollectionEquality().equals(other.type, type) &&
             const DeepCollectionEquality().equals(other.eventName, eventName) &&
             const DeepCollectionEquality().equals(other.eventDate, eventDate) &&
-            const DeepCollectionEquality()
-                .equals(other.eventAddress, eventAddress) &&
-            const DeepCollectionEquality()
-                .equals(other.description, description) &&
+            const DeepCollectionEquality().equals(other.eventAddress, eventAddress) &&
+            const DeepCollectionEquality().equals(other.description, description) &&
             const DeepCollectionEquality().equals(other.eventCode, eventCode) &&
             const DeepCollectionEquality().equals(other.quantity, quantity) &&
-            const DeepCollectionEquality()
-                .equals(other.evolveOnRedeem, evolveOnRedeem) &&
+            const DeepCollectionEquality().equals(other.evolveOnRedeem, evolveOnRedeem) &&
             const DeepCollectionEquality().equals(other.seatInfo, seatInfo) &&
-            const DeepCollectionEquality()
-                .equals(other.expireDate, expireDate));
+            const DeepCollectionEquality().equals(other.expireDate, expireDate));
   }
 
   @JsonKey(ignore: true)
@@ -318,8 +309,7 @@ class _$_Ticket extends _Ticket {
 
   @JsonKey(ignore: true)
   @override
-  _$$_TicketCopyWith<_$_Ticket> get copyWith =>
-      __$$_TicketCopyWithImpl<_$_Ticket>(this, _$identity);
+  _$$_TicketCopyWith<_$_Ticket> get copyWith => __$$_TicketCopyWithImpl<_$_Ticket>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -370,6 +360,5 @@ abstract class _Ticket extends Ticket {
   DateTime? get expireDate => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$$_TicketCopyWith<_$_Ticket> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$_TicketCopyWith<_$_Ticket> get copyWith => throw _privateConstructorUsedError;
 }

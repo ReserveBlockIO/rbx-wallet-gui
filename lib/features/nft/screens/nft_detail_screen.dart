@@ -3,33 +3,31 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/components/badges.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/components/centered_loader.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/core/web_router.gr.dart';
-import 'package:rbx_wallet/features/asset/asset_card.dart';
-import 'package:rbx_wallet/features/asset/asset_thumbnail.dart';
-import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
-import 'package:rbx_wallet/features/encrypt/utils.dart';
-import 'package:rbx_wallet/features/nft/components/media_backup.dart';
-import 'package:rbx_wallet/features/nft/components/nft_qr_code.dart';
-import 'package:rbx_wallet/features/nft/components/proxy_asset_card.dart';
-import 'package:rbx_wallet/features/nft/components/proxy_asset_thumbnail.dart';
-import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
-import 'package:rbx_wallet/features/nft/modals/nft_management_modal.dart';
-import 'package:rbx_wallet/features/nft/providers/transferred_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/modals/code_modal.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/feature.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/my_smart_contracts_provider.dart';
-import 'package:rbx_wallet/generated/assets.gen.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-import 'package:rbx_wallet/utils/validation.dart';
-import 'package:url_launcher/url_launcher.dart';
+
+import '../../../core/base_screen.dart';
+import '../../../core/components/badges.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/components/centered_loader.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../utils/toast.dart';
+import '../../../utils/validation.dart';
+import '../../asset/asset_card.dart';
+import '../../asset/asset_thumbnail.dart';
+import '../../bridge/services/bridge_service.dart';
+import '../../encrypt/utils.dart';
+import '../../smart_contracts/components/sc_creator/common/help_button.dart';
+import '../../smart_contracts/components/sc_creator/common/modal_container.dart';
+import '../../smart_contracts/components/sc_creator/modals/code_modal.dart';
+import '../../smart_contracts/models/feature.dart';
+import '../../smart_contracts/providers/my_smart_contracts_provider.dart';
+import '../components/media_backup.dart';
+import '../components/nft_qr_code.dart';
+import '../components/proxy_asset_card.dart';
+import '../components/proxy_asset_thumbnail.dart';
+import '../modals/nft_management_modal.dart';
+import '../providers/nft_detail_provider.dart';
+import '../providers/transferred_provider.dart';
 
 class NftDetailScreen extends BaseScreen {
   final String id;
@@ -113,7 +111,7 @@ class NftDetailScreen extends BaseScreen {
     final nft = ref.watch(nftDetailProvider(id));
 
     if (nft == null) {
-      return CenteredLoader();
+      return const CenteredLoader();
     }
 
     return Column(
@@ -159,7 +157,7 @@ class NftDetailScreen extends BaseScreen {
                         child: ListTile(
                           contentPadding: EdgeInsets.zero,
                           title: Text(nft.currentOwner,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 13,
                               )),
                           subtitle: const Text(
@@ -178,7 +176,7 @@ class NftDetailScreen extends BaseScreen {
                         child: ListTile(
                           contentPadding: EdgeInsets.zero,
                           title: Text(nft.minterAddress,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 13,
                               )),
                           subtitle: const Text("Minter Address"),
@@ -229,7 +227,7 @@ class NftDetailScreen extends BaseScreen {
                                             "Additional Assets:",
                                             style: Theme.of(context).textTheme.headline5,
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             height: 6,
                                           ),
                                           kIsWeb && !nft.assetsAvailable
@@ -570,7 +568,7 @@ class NftDetailScreen extends BaseScreen {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
+                const Text(
                   "NFT assets have not been transfered to the RBX Web Wallet.",
                   textAlign: TextAlign.center,
                 ),

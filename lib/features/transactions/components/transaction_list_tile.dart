@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/transactions/components/nft_data_modal.dart';
-import 'package:rbx_wallet/features/transactions/models/transaction.dart';
-import 'package:rbx_wallet/features/wallet/models/wallet.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
-import 'package:rbx_wallet/utils/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../core/base_component.dart';
+import '../../../core/components/buttons.dart';
 import '../../../core/env.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../utils/toast.dart';
+import '../../wallet/models/wallet.dart';
+import '../../wallet/providers/wallet_list_provider.dart';
+import '../models/transaction.dart';
+import 'nft_data_modal.dart';
 
 class TransactionListTile extends BaseStatefulComponent {
   final bool compact;
@@ -136,7 +135,7 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                             const TextSpan(text: "Type: "),
                             TextSpan(
                               text: widget.transaction.typeLabel,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.white60,
                                 fontWeight: FontWeight.w600,
                               ),

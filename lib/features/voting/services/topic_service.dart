@@ -1,10 +1,9 @@
 import 'dart:convert';
 
-import 'package:rbx_wallet/features/voting/services/vote_service.dart';
-
 import '../../../core/services/base_service.dart';
 import '../models/new_topic.dart';
 import '../models/topic.dart';
+import 'vote_service.dart';
 
 class TopicService extends BaseService {
   TopicService() : super(apiBasePathOverride: "/voapi/VOV1");
@@ -81,7 +80,6 @@ class TopicService extends BaseService {
   Future<bool> create(NewTopic topic) async {
     try {
       final response = await postJson("/PostNewTopic", params: topic.toJson());
-      print(response);
 
       if (response['data']?['Success'] == true) {
         return true;

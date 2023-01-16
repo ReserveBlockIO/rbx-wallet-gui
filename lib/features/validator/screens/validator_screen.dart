@@ -1,24 +1,26 @@
 import 'dart:math' as math;
+
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
-import 'package:rbx_wallet/features/encrypt/utils.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/features/health/health_service.dart';
-import 'package:rbx_wallet/features/validator/providers/current_validator_provider.dart';
-import 'package:rbx_wallet/features/wallet/components/invalid_wallet.dart';
-import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
-import 'package:rbx_wallet/utils/guards.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-import 'package:rbx_wallet/utils/validation.dart';
-import 'package:collection/collection.dart';
+
+import '../../../core/base_screen.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/env.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../utils/guards.dart';
+import '../../../utils/toast.dart';
+import '../../../utils/validation.dart';
+import '../../bridge/services/bridge_service.dart';
+import '../../encrypt/utils.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../../health/health_service.dart';
+import '../../wallet/components/invalid_wallet.dart';
+import '../../wallet/components/wallet_selector.dart';
+import '../../wallet/providers/wallet_list_provider.dart';
+import '../providers/current_validator_provider.dart';
 
 class ValidatorScreen extends BaseScreen {
   const ValidatorScreen({Key? key}) : super(key: key);
@@ -81,17 +83,17 @@ class ValidatorScreen extends BaseScreen {
                 Icons.error,
                 color: Theme.of(context).colorScheme.warning,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               Text(
                 "${currentWallet.label} can not validate.",
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
-              Text("You can only validate with one wallet."),
+              const Text("You can only validate with one wallet."),
             ],
           ),
         );
@@ -190,9 +192,9 @@ class ValidatorScreen extends BaseScreen {
                   );
                 }
               }
-              return SizedBox();
+              return const SizedBox();
             }),
-        Padding(
+        const Padding(
           padding: EdgeInsets.all(32),
           child: _RotatingIcon(),
         ),
@@ -263,7 +265,7 @@ class _RotatingIcon extends StatefulWidget {
 }
 
 class _RotatingIconState extends State<_RotatingIcon> with SingleTickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(vsync: this, duration: Duration(seconds: 4))..repeat();
+  late final AnimationController _controller = AnimationController(vsync: this, duration: const Duration(seconds: 4))..repeat();
 
   @override
   Widget build(BuildContext context) {
@@ -275,7 +277,7 @@ class _RotatingIconState extends State<_RotatingIcon> with SingleTickerProviderS
         builder: (_, child) {
           return Transform.rotate(
             angle: _controller.value * 2 * math.pi,
-            child: Icon(
+            child: const Icon(
               Icons.settings,
               size: 24,
             ),

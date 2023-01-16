@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/beacon/models/beacon.dart';
-import 'package:rbx_wallet/features/beacon/services/beacon_service.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+
+import '../../../utils/toast.dart';
+import '../../../utils/validation.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../models/beacon.dart';
+import '../services/beacon_service.dart';
 
 class BeaconFormProvider extends StateNotifier<Beacon> {
   final Reader read;

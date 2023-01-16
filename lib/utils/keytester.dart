@@ -4,8 +4,9 @@ import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
-import 'package:rbx_wallet/features/keygen/models/keypair.dart';
-import 'package:rbx_wallet/features/keygen/services/keygen_service.dart';
+
+import '../features/keygen/models/keypair.dart';
+import '../features/keygen/services/keygen_service.dart';
 
 Future<Keypair?> create(String emailValue, String passwordValue) async {
   String email = emailValue.toLowerCase();
@@ -68,15 +69,12 @@ void runTests() async {
     }
   }
 
-  print("*****************");
   String output = "";
   for (final v in values) {
     final needsFix = v.private != v.privateCorrected;
     final value = "${v.public},${v.private},${v.privateCorrected},${needsFix ? 1 : 0}";
-    print(value);
     output = "$output\n$value";
   }
-  print("*****************");
 
   await Clipboard.setData(ClipboardData(text: output));
 
@@ -87,24 +85,15 @@ void runTests() async {
     final data = jsonDecode(response.data);
 
     if (data['Address'] == v.public) {
-      print("Success");
       successes += 1;
     } else {
       print("PROBLEM");
-      print(v.privateCorrected);
-      print("Expected:");
-      print(v.public);
-      print("Got:");
-      print(data['Address']);
-      print("--------");
     }
   }
-
-  print("SUCCESSES: $successes / ${values.length}");
 }
 
 void otherTest() {
-  final key = "9a9bde3b1db515bca6b1143ab635d2ae291ec7a281affc5353146f7aec1b52c6";
+  const key = "9a9bde3b1db515bca6b1143ab635d2ae291ec7a281affc5353146f7aec1b52c6";
   final b = BigInt.parse(key, radix: 16).toSigned(1);
   print(b);
 }

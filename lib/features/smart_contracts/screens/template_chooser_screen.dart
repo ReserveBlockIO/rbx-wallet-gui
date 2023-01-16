@@ -3,16 +3,17 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/nft/data/templates.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/smart_contract_template.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
-import 'package:rbx_wallet/generated/assets.gen.dart';
+
+import '../../../core/app_router.gr.dart';
+import '../../../core/base_component.dart';
+import '../../../core/base_screen.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../generated/assets.gen.dart';
+import '../../nft/data/templates.dart';
+import '../components/sc_creator/common/modal_container.dart';
+import '../models/smart_contract_template.dart';
+import '../providers/create_smart_contract_provider.dart';
 
 class TemplateChooserScreen extends BaseScreen {
   const TemplateChooserScreen({Key? key})
@@ -158,18 +159,12 @@ class _TemplateCardState extends BaseComponentState<_TemplateCard> {
             // color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: Theme.of(context)
-                    .colorScheme
-                    .secondary
-                    .withOpacity(isHovering ? .75 : 0.25),
+                color: Theme.of(context).colorScheme.secondary.withOpacity(isHovering ? .75 : 0.25),
                 spreadRadius: 4,
                 blurRadius: 10,
               ),
               BoxShadow(
-                color: Theme.of(context)
-                    .colorScheme
-                    .secondary
-                    .withOpacity(isHovering ? .75 : 0.25),
+                color: Theme.of(context).colorScheme.secondary.withOpacity(isHovering ? .75 : 0.25),
                 spreadRadius: -4,
                 blurRadius: 5,
               )
@@ -193,8 +188,7 @@ class _TemplateCardState extends BaseComponentState<_TemplateCard> {
                           AnimatedSwitcher(
                             duration: const Duration(milliseconds: 400),
                             child: Image.asset(
-                              widget.template.images[
-                                  _index % widget.template.images.length],
+                              widget.template.images[_index % widget.template.images.length],
                               width: 350,
                               height: 200,
                               fit: BoxFit.cover,
@@ -209,10 +203,7 @@ class _TemplateCardState extends BaseComponentState<_TemplateCard> {
                       decoration: BoxDecoration(
                           border: Border(
                             bottom: BorderSide(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .secondary
-                                  .withOpacity(0.1),
+                              color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
                               width: 2,
                             ),
                           ),
@@ -221,12 +212,11 @@ class _TemplateCardState extends BaseComponentState<_TemplateCard> {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           widget.template.name,
-                          style:
-                              Theme.of(context).textTheme.headline3!.copyWith(
-                                    // fontFamily: "RobotoMono",
-                                    fontWeight: FontWeight.w600,
-                                    letterSpacing: 2,
-                                  ),
+                          style: Theme.of(context).textTheme.headline3!.copyWith(
+                                // fontFamily: "RobotoMono",
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 2,
+                              ),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -235,11 +225,7 @@ class _TemplateCardState extends BaseComponentState<_TemplateCard> {
                       padding: const EdgeInsets.all(16.0),
                       child: Text(
                         widget.template.description,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineSmall!
-                            .copyWith(
-                                fontSize: 18, color: Colors.white, height: 1.5),
+                        style: Theme.of(context).textTheme.headlineSmall!.copyWith(fontSize: 18, color: Colors.white, height: 1.5),
                         textAlign: TextAlign.center,
                       ),
                     ),

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/features/block/block.dart';
-import 'package:rbx_wallet/features/block/block_transaction_list_bottom_sheet.dart';
-import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
-import 'package:rbx_wallet/utils/formatting.dart';
 import 'package:timeago/timeago.dart' as timeago;
+
+import '../../core/base_component.dart';
+import '../../utils/formatting.dart';
+import '../bridge/providers/wallet_info_provider.dart';
+import 'block.dart';
+import 'block_transaction_list_bottom_sheet.dart';
 
 class LatestBlock extends BaseComponent {
   final Block? blockOverride;
@@ -18,8 +19,7 @@ class LatestBlock extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final latestBlock =
-        blockOverride ?? ref.watch(walletInfoProvider)?.lastestBlock;
+    final latestBlock = blockOverride ?? ref.watch(walletInfoProvider)?.lastestBlock;
 
     if (latestBlock == null) {
       return const SizedBox();
@@ -46,10 +46,7 @@ class LatestBlock extends BaseComponent {
               children: [
                 Text(
                   "Block ${latestBlock.height}",
-                  style: Theme.of(context)
-                      .textTheme
-                      .caption!
-                      .copyWith(color: Colors.white),
+                  style: Theme.of(context).textTheme.caption!.copyWith(color: Colors.white),
                 ),
                 Text(
                   timeago.format(
@@ -100,18 +97,17 @@ class LatestBlock extends BaseComponent {
                         showModalBottomSheet(
                             context: context,
                             builder: (context) {
-                              return BlockTransactionListBottomSheet(
-                                  transactions: latestBlock.transactions);
+                              return BlockTransactionListBottomSheet(transactions: latestBlock.transactions);
                             });
                       },
                       child: Padding(
                         padding: const EdgeInsets.only(top: 4.0),
                         child: Text(
                           "View Txs",
-                          style: Theme.of(context).textTheme.caption!.copyWith(
-                              fontSize: 10,
-                              color: Theme.of(context).colorScheme.secondary,
-                              decoration: TextDecoration.underline),
+                          style: Theme.of(context)
+                              .textTheme
+                              .caption!
+                              .copyWith(fontSize: 10, color: Theme.of(context).colorScheme.secondary, decoration: TextDecoration.underline),
                         ),
                       ),
                     ),
@@ -159,20 +155,14 @@ class _DetailItem extends StatelessWidget {
       children: [
         Text(
           label,
-          style: Theme.of(context)
-              .textTheme
-              .caption!
-              .copyWith(decoration: TextDecoration.underline),
+          style: Theme.of(context).textTheme.caption!.copyWith(decoration: TextDecoration.underline),
         ),
         const SizedBox(
           height: 2,
         ),
         Text(
           value,
-          style: Theme.of(context)
-              .textTheme
-              .caption!
-              .copyWith(fontSize: 10, color: Colors.white38),
+          style: Theme.of(context).textTheme.caption!.copyWith(fontSize: 10, color: Colors.white38),
         ),
         const SizedBox(
           height: 8,

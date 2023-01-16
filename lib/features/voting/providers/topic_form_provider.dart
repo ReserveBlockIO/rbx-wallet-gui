@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/models/value_label.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/features/voting/models/new_topic.dart';
-import 'package:rbx_wallet/features/voting/models/topic.dart';
-import 'package:rbx_wallet/features/voting/providers/topic_list_provider.dart';
-import 'package:rbx_wallet/features/voting/services/topic_service.dart';
-import 'package:rbx_wallet/features/voting/utils.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+
+import '../../../core/models/value_label.dart';
+import '../../../utils/validation.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../models/new_topic.dart';
+import '../models/topic.dart';
+import '../services/topic_service.dart';
+import '../utils.dart';
+import 'topic_list_provider.dart';
 
 class TopicFormProvider extends StateNotifier<NewTopic> {
   final Reader read;

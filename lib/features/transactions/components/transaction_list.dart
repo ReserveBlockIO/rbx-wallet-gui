@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/features/transactions/components/transaction_list_tile.dart';
-import 'package:rbx_wallet/features/transactions/models/transaction.dart';
-import 'package:rbx_wallet/features/transactions/providers/transaction_list_provider.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/providers/session_provider.dart';
+import '../models/transaction.dart';
+import '../providers/transaction_list_provider.dart';
+import 'transaction_list_tile.dart';
 
 class TransactionList extends BaseComponent {
   final TransactionListType type;
