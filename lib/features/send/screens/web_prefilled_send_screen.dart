@@ -1,11 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../core/base_screen.dart';
 import '../../../core/providers/web_session_provider.dart';
+import '../../web/components/web_no_wallet.dart';
 import '../components/send_form.dart';
 import '../providers/send_form_provider.dart';
-import '../../web/components/web_no_wallet.dart';
 
 class WebPrefilledSendScreen extends BaseScreen {
   final String toAddress;

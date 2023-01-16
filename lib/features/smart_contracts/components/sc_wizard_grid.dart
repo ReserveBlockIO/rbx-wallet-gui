@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_wizard_card_preview.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/sc_wizard_provider.dart';
+import '../../../core/base_component.dart';
+import 'sc_wizard_card_preview.dart';
+import '../providers/sc_wizard_provider.dart';
 
 class ScWizardGrid extends BaseComponent {
   const ScWizardGrid({Key? key}) : super(key: key);

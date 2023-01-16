@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/bulk_smart_contract_entry.dart';
+import '../../../core/base_screen.dart';
+import '../models/bulk_smart_contract_entry.dart';
 
 class BulkSmartContractEntryScreen extends BaseScreen {
   final BulkSmartContractEntry entry;

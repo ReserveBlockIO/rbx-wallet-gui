@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../core/base_component.dart';
 import '../../../core/components/centered_loader.dart';
 import '../../../core/components/dropdowns.dart';
 import '../../../core/providers/web_session_provider.dart';
 import '../../../core/theme/app_theme.dart';
-import 'not_accepting_rbx_message.dart';
 import '../models/listing.dart';
 import '../providers/listing_detail_provider.dart';
 import '../providers/purchase_provider.dart';
+import 'not_accepting_rbx_message.dart';
 
 class PurchaseModal extends BaseComponent {
   final Listing listing;

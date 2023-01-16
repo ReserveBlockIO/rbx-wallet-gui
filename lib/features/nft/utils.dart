@@ -1,8 +1,8 @@
 import '../asset/asset.dart';
-import 'models/nft.dart';
 import '../smart_contracts/features/evolve/evolve_phase.dart';
 import '../smart_contracts/models/feature.dart';
 import '../smart_contracts/services/smart_contract_service.dart';
+import 'models/nft.dart';
 
 Future<Nft> setAssetPath(Nft nft) async {
   final assetPath = await SmartContractService().getAssetPath(nft.id, nft.primaryAsset.fileName);

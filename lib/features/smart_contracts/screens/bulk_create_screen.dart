@@ -5,14 +5,14 @@ import 'dart:math';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/bulk_smart_contract_entry_list_tile.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/bulk_smart_contract_entry.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/sc_wizard_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/screens/smart_contract_wizard_screen.dart';
-import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
+import '../../../core/base_screen.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/theme/app_theme.dart';
+import '../components/bulk_smart_contract_entry_list_tile.dart';
+import '../models/bulk_smart_contract_entry.dart';
+import '../providers/sc_wizard_provider.dart';
+import 'smart_contract_wizard_screen.dart';
+import '../../wallet/components/wallet_selector.dart';
 
 class BulkCreateScreen extends BaseScreen {
   const BulkCreateScreen({Key? key})

@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:rbx_wallet/features/smart_contracts/screens/bulk_create_screen.dart';
+import '../features/smart_contracts/screens/bulk_create_screen.dart';
 
 import '../features/adjudicator/adjudicator_screen.dart';
 import '../features/adnr/screens/adnr_screen.dart';

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/sc_wizard_provider.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+import '../../../core/base_component.dart';
+import '../../../core/dialogs.dart';
+import '../providers/sc_wizard_provider.dart';
+import '../../../utils/validation.dart';
 
 class ScWizardItemEditableCard extends BaseComponent {
   final int index;

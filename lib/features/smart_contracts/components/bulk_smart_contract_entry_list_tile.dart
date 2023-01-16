@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/bulk_smart_contract_entry.dart';
-import 'package:rbx_wallet/features/smart_contracts/screens/bulk_smart_contract_entry_screen.dart';
+import '../models/bulk_smart_contract_entry.dart';
+import '../screens/bulk_smart_contract_entry_screen.dart';
 
 class BulkSmartContractEntryListTile extends StatelessWidget {
   const BulkSmartContractEntryListTile({
