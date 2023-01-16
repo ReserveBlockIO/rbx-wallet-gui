@@ -80,7 +80,6 @@ class TopicService extends BaseService {
   Future<bool> create(NewTopic topic) async {
     try {
       final response = await postJson("/PostNewTopic", params: topic.toJson());
-      print(response);
 
       if (response['data']?['Success'] == true) {
         return true;

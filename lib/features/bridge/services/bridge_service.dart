@@ -33,7 +33,6 @@ class BridgeService extends BaseService {
 
   Future<bool> checkIfPasswordIsNeeded() async {
     final value = await getText("/GetIsEncryptedPasswordStored");
-    print("VALUE: $value");
     return value == "false";
   }
 

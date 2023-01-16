@@ -288,8 +288,6 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       return false;
     }
 
-    print("SID: $id");
-
     final locators = await TransactionService().getLocators(id);
     if (locators == null) {
       Toast.error("Locators request failed.");

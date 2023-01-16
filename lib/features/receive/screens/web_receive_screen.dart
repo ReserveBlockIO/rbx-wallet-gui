@@ -143,7 +143,6 @@ class WebReceiveScreen extends BaseScreen {
                       context: context,
                       address: address,
                       onValidSubmission: (amount) async {
-                        print(amount);
                         if (double.tryParse(amount) != null) {
                           final url = generateLink(address, double.parse(amount));
 

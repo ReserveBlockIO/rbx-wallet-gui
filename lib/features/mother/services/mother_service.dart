@@ -35,9 +35,6 @@ class MotherService extends BaseService {
       for (final item in items) {
         children.add(MotherChild.fromJson(item));
       }
-      print(children);
-      print("*********");
-
       return children;
     } catch (e) {
       print(e);
@@ -67,8 +64,6 @@ class MotherService extends BaseService {
     };
     try {
       final data = await postJson('/JoinMother', params: params);
-      print("JOIN:");
-      print(data);
       return true;
     } catch (e) {
       print(e);
@@ -79,8 +74,6 @@ class MotherService extends BaseService {
   Future<bool> stopHost() async {
     try {
       final data = await getText('/StopMother');
-      print("STOP:");
-      print(data);
       return true;
     } catch (e) {
       print(e);

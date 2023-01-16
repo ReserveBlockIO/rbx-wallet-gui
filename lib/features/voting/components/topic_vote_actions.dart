@@ -47,8 +47,6 @@ class TopicVoteActions extends BaseComponent {
     }
 
     final existingVote = myVotes.firstWhereOrNull((a) => a.address == myAddress && a.topicUid == topic.uid);
-    print(existingVote);
-    print("-----");
 
     if (existingVote != null) {
       if (existingVote.blockHeight == 0) {

@@ -57,9 +57,7 @@ class KeygenService {
     String seed,
     int index,
   ) async {
-    print("SEED: $seed");
     final String privateKeyHex = await js.context.callMethod('seedToPrivate', [seed]);
-    print("Private Key Hex: $privateKeyHex");
 
     // final chain = bip32.Chain.seed(seed);
     // final key = chain.forPath("m/0'/0'/$index'") as bip32.ExtendedPrivateKey;

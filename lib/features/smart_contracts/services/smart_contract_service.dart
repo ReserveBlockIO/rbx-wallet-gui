@@ -53,17 +53,8 @@ class SmartContractService extends BaseService {
   Future<CompilerResponse?> compileSmartContract(Map<String, dynamic> payload) async {
     final Map<String, dynamic> p = {...payload}..remove('hash');
 
-    print("------------");
-    print("--/CreateSmartContract PAYLOAD--");
-    print(jsonEncode(p));
-    print("------------");
-
     try {
       final response = await postJson("/CreateSmartContract", params: p, timeout: 99999999);
-
-      // print("==============");
-      // print(jsonEncode(response['data'][0]));
-      // print("==============");
 
       final csc = CompilerResponse.fromJson(response['data'][0]);
       return csc;
@@ -130,7 +121,6 @@ class SmartContractService extends BaseService {
 
   Future<bool> mint(String id) async {
     try {
-      print("-------------ID $id------------");
       final response = await getText("/MintSmartContract/$id", timeout: 99999999);
 
       if (response == "Smart contract has been published to mempool") {

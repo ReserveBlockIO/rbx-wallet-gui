@@ -128,7 +128,6 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   Future<void> init() async {
-    print("init");
     read(logProvider.notifier).append(LogEntry(message: "Welcome to RBXWallet version $APP_VERSION"));
 
     bool cliStarted = state.cliStarted;
@@ -145,7 +144,6 @@ class SessionProvider extends StateNotifier<SessionModel> {
     }
     read(readyProvider.notifier).setReady(true);
     final authenticated = await authenticate();
-    print("Authenticated: $authenticated");
     if (authenticated) {
       finishSetup();
     }
@@ -469,7 +467,6 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
   String getCliPath() {
     if (kIsWeb) {
-      print("no cli path for web");
       return '';
     }
     if (Platform.isMacOS) {
@@ -517,7 +514,6 @@ class SessionProvider extends StateNotifier<SessionModel> {
   Future<bool> _startCli() async {
     if (Env.launchCli) {
       if (await _cliIsActive()) {
-        print("CLI is already running");
         await fetchConfig();
         read(logProvider.notifier).append(LogEntry(message: "CLI is already running!"));
 
@@ -570,9 +566,6 @@ class SessionProvider extends StateNotifier<SessionModel> {
           workingDirectory: "/Applications/RBXWallet.app/Contents/MacOS/",
         );
         cmd = '"$cliPath" ${options.join(' ')}';
-
-        print("CMD: $cmd");
-        print("-------------");
 
         read(logProvider.notifier).append(LogEntry(message: "Launching $cmd in the background."));
 

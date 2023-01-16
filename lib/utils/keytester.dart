@@ -69,15 +69,12 @@ void runTests() async {
     }
   }
 
-  print("*****************");
   String output = "";
   for (final v in values) {
     final needsFix = v.private != v.privateCorrected;
     final value = "${v.public},${v.private},${v.privateCorrected},${needsFix ? 1 : 0}";
-    print(value);
     output = "$output\n$value";
   }
-  print("*****************");
 
   await Clipboard.setData(ClipboardData(text: output));
 
@@ -88,20 +85,11 @@ void runTests() async {
     final data = jsonDecode(response.data);
 
     if (data['Address'] == v.public) {
-      print("Success");
       successes += 1;
     } else {
       print("PROBLEM");
-      print(v.privateCorrected);
-      print("Expected:");
-      print(v.public);
-      print("Got:");
-      print(data['Address']);
-      print("--------");
     }
   }
-
-  print("SUCCESSES: $successes / ${values.length}");
 }
 
 void otherTest() {

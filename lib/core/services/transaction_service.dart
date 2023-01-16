@@ -74,10 +74,6 @@ class TransactionService extends BaseService {
 
   Future<Map<String, dynamic>?> validateSignature(String message, String address, String signature) async {
     try {
-      print("Message: $message");
-      print("Address: $address");
-      print("Signature: $signature");
-
       return await getJson(
         '/validate-signature/$message/$address/$signature',
         cleanPath: false,
@@ -92,16 +88,10 @@ class TransactionService extends BaseService {
     required Map<String, dynamic> transactionData,
     bool execute = false,
   }) async {
-    // print("TX");
-    // print(jsonEncode(transactionData));
-
     final data = transactionData;
     // if (data.containsKey("Amount") && data['Amount'] == 0) {
     //   data['Amount'] = Decimal.parse('0.0');hash
     // }
-    // print("TX Updated?");
-
-    // print(jsonEncode(data));
 
     try {
       return await postJson(

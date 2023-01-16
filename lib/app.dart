@@ -31,7 +31,7 @@ class App extends ConsumerWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    print("App Build");
+    // print("App Build");
 
     if (kIsWeb) {
       ref.read(webSessionProvider.notifier);

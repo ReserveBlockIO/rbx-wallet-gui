@@ -81,16 +81,10 @@ ExtendedPrivateKey deriveExtendedPrivateChildKey(ExtendedPrivateKey parent, int 
   var hash = hmacSha512(parent.chainCode!, message);
 
   var left = _leftFrom(hash);
-  print("left: ${hex.encode(left)}");
   var leftSide = utils.decodeBigIntWithSign(1, _leftFrom(hash));
   if (leftSide >= curve.n) {
     throw KeyBiggerThanOrder();
   }
-  print("curve.n ${curve.n}");
-
-  print("left BigInt: $leftSide");
-  print("parent. bigint ${parent.key!}");
-  print("parent. hex ${parent.key!.toRadixString(16)}");
 
   var childPrivateKey = (leftSide + parent.key!) % curve.n;
   if (childPrivateKey == BigInt.zero) {
@@ -98,12 +92,6 @@ ExtendedPrivateKey deriveExtendedPrivateChildKey(ExtendedPrivateKey parent, int 
   }
 
   var chainCode = _rightFrom(hash);
-  print("chainCode : ${hex.encode(chainCode)}");
-
-  print("childPrivateKey ${childPrivateKey.toRadixString(16)}");
-
-  print("-------------");
-  print("");
 
   return ExtendedPrivateKey(
     key: childPrivateKey,
@@ -314,7 +302,6 @@ class ExtendedPrivateKey extends ExtendedKey {
 
   ExtendedPrivateKey.master(Uint8List seed) : super(version: privateKeyVersion) {
     var hash = hmacSha512(masterKey, seed);
-    print("hmacSha512: ${hex.encode(hash)}");
     key = utils.decodeBigIntWithSign(1, _leftFrom(hash));
     chainCode = _rightFrom(hash);
     depth = 0;

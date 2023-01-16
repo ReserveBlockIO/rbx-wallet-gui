@@ -160,7 +160,6 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
         final id = _nftDataValue(nftData, 'ContractUID');
         if (id != null) {
           read(transferredProvider.notifier).removeId(id);
-          print("Removing transfer id of '$id'");
         }
       }
 
