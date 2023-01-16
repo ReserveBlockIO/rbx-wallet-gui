@@ -175,6 +175,20 @@ class ScWizardCardPreview extends BaseComponent {
                           ],
                         ),
                       ),
+                      if (item != null)
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "x${item.entry.quantity}",
+                              style: const TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        )
                     ],
                   ),
                 ),
