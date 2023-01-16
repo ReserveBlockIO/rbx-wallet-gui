@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../../core/providers/web_session_provider.dart';
 import '../../../core/services/transaction_service.dart';
@@ -135,6 +136,48 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
 
     item = item.copyWith(entry: item.entry.copyWith(primaryAsset: value));
 
+    state = [...state]
+      ..removeAt(index)
+      ..insert(index, item);
+  }
+
+  void updateRoyalty(int index, Royalty? value) {
+    ScWizardItem? item = itemAtIndex(index);
+
+    if (item == null) return;
+
+    item = item.copyWith(entry: item.entry.copyWith(royalty: value));
+
+    state = [...state]
+      ..removeAt(index)
+      ..insert(index, item);
+  }
+
+  void addAdditionalAsset(int index, Asset asset) {
+    ScWizardItem? item = itemAtIndex(index);
+
+    if (item == null) return;
+
+    item = item.copyWith(
+      entry: item.entry.copyWith(
+        additionalAssets: [...item.entry.additionalAssets, asset],
+      ),
+    );
+    state = [...state]
+      ..removeAt(index)
+      ..insert(index, item);
+  }
+
+  void removeAdditionalAsset(int index, int assetIndex) {
+    ScWizardItem? item = itemAtIndex(index);
+
+    if (item == null) return;
+
+    item = item.copyWith(
+      entry: item.entry.copyWith(
+        additionalAssets: [...item.entry.additionalAssets]..removeAt(assetIndex),
+      ),
+    );
     state = [...state]
       ..removeAt(index)
       ..insert(index, item);

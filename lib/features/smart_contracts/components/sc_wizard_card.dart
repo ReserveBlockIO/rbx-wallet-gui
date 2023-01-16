@@ -9,6 +9,8 @@ import 'package:rbx_wallet/features/asset/asset_thumbnail.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/file_selector.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_wizard_asset_preview.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_wizard_royalty_dialog.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty_modal.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/bulk_smart_contract_entry.dart';
 import 'package:rbx_wallet/utils/files.dart';
@@ -34,9 +36,8 @@ class ScWizedCard extends BaseComponent {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: SizedBox(
-          width: 300,
-          height: 400,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 300, minWidth: 300, minHeight: 410),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -288,19 +289,177 @@ class ScWizedCard extends BaseComponent {
                 ],
               ),
               const Divider(),
-              AppButton(
-                label: "Add Royalty",
-                onPressed: () {
-                  // showModalBottomSheet(
-                  //   context: context,
-                  //   isScrollControlled: true,
-                  //   backgroundColor: Colors.transparent,
-                  //   builder: (context) => const RoyaltyModal(),
-                  // );
-                },
-                variant: AppColorVariant.Info,
-                type: AppButtonType.Text,
-              )
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      "Royalty",
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: entry.royalty == null ? Colors.white54 : Colors.white,
+                          ),
+                    ),
+                  ),
+                  if (entry.royalty == null)
+                    IconButton(
+                      visualDensity: VisualDensity.compact,
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
+                      onPressed: () async {
+                        final Royalty? royalty = await showDialog(
+                          context: context,
+                          builder: (context) {
+                            return ScWizardRoyaltyDialog();
+                          },
+                        );
+
+                        provider.updateRoyalty(item.index, royalty);
+                      },
+                      icon: const Icon(
+                        Icons.add,
+                        size: 16,
+                      ),
+                    ),
+                  if (entry.royalty != null)
+                    IconButton(
+                      visualDensity: VisualDensity.compact,
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
+                      onPressed: () async {
+                        final confirmed = await ConfirmDialog.show(
+                          title: "Remove Royalty?",
+                          body: "Are you sure you want to remove the royalty?",
+                          confirmText: "Remove",
+                          cancelText: "Cancel",
+                          destructive: true,
+                        );
+
+                        if (confirmed == true) {
+                          provider.updateRoyalty(item.index, null);
+                        }
+                      },
+                      icon: const Icon(
+                        Icons.delete,
+                        size: 16,
+                      ),
+                    ),
+                ],
+              ),
+              if (entry.royalty != null)
+                Text(
+                  "${entry.royalty!.amountWithSuffix} to ${entry.royalty!.address}",
+                  style: Theme.of(context).textTheme.caption!.copyWith(fontSize: 11),
+                ),
+              const Divider(),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      "Additional Assets",
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: entry.additionalAssets.isEmpty ? Colors.white54 : Colors.white,
+                          ),
+                    ),
+                  ),
+                  IconButton(
+                    visualDensity: VisualDensity.compact,
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    onPressed: () async {
+                      final asset = await selectAsset(ref);
+                      if (asset != null) {
+                        provider.addAdditionalAsset(item.index, asset);
+                      }
+                    },
+                    icon: const Icon(
+                      Icons.add,
+                      size: 16,
+                    ),
+                  ),
+                ],
+              ),
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxHeight: 200),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: entry.additionalAssets.asMap().entries.map(
+                      (e) {
+                        final i = e.key;
+                        final asset = e.value;
+                        return Padding(
+                          key: Key(asset.file.path),
+                          padding: const EdgeInsets.symmetric(vertical: 6.0),
+                          child: Row(
+                            children: [
+                              asset.isImage
+                                  ? Expanded(
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: InkWell(
+                                          onTap: () {
+                                            openFile(asset.file);
+                                          },
+                                          child: Row(
+                                            children: [
+                                              Image.asset(
+                                                asset.file.path,
+                                                width: 32,
+                                                height: 32,
+                                                fit: BoxFit.cover,
+                                              ),
+                                              const SizedBox(width: 6),
+                                              Text(
+                                                asset.fileName,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : Expanded(
+                                      child: InkWell(
+                                        onTap: () {
+                                          openFile(asset.file);
+                                        },
+                                        child: Text(
+                                          asset.fileName,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ),
+                              IconButton(
+                                visualDensity: VisualDensity.compact,
+                                padding: EdgeInsets.zero,
+                                constraints: const BoxConstraints(),
+                                onPressed: () async {
+                                  final confirmed = await ConfirmDialog.show(
+                                    title: "Remove Asset?",
+                                    body: "Are you sure you want to remove this additional asset?",
+                                    confirmText: "Remove",
+                                    cancelText: "Cancel",
+                                    destructive: true,
+                                  );
+
+                                  if (confirmed == true) {
+                                    // provider.updateRoyalty(item.index, null);
+                                    provider.removeAdditionalAsset(item.index, i);
+                                  }
+                                },
+                                icon: const Icon(
+                                  Icons.delete,
+                                  size: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ).toList(),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

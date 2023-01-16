@@ -23,6 +23,7 @@ mixin _$BulkSmartContractEntry {
   Asset? get primaryAsset => throw _privateConstructorUsedError;
   int get quantity => throw _privateConstructorUsedError;
   Royalty? get royalty => throw _privateConstructorUsedError;
+  List<Asset> get additionalAssets => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $BulkSmartContractEntryCopyWith<BulkSmartContractEntry> get copyWith =>
@@ -41,7 +42,8 @@ abstract class $BulkSmartContractEntryCopyWith<$Res> {
       String creatorName,
       Asset? primaryAsset,
       int quantity,
-      Royalty? royalty});
+      Royalty? royalty,
+      List<Asset> additionalAssets});
 
   $AssetCopyWith<$Res>? get primaryAsset;
   $RoyaltyCopyWith<$Res>? get royalty;
@@ -65,6 +67,7 @@ class _$BulkSmartContractEntryCopyWithImpl<$Res>
     Object? primaryAsset = freezed,
     Object? quantity = freezed,
     Object? royalty = freezed,
+    Object? additionalAssets = freezed,
   }) {
     return _then(_value.copyWith(
       name: name == freezed
@@ -95,6 +98,10 @@ class _$BulkSmartContractEntryCopyWithImpl<$Res>
           ? _value.royalty
           : royalty // ignore: cast_nullable_to_non_nullable
               as Royalty?,
+      additionalAssets: additionalAssets == freezed
+          ? _value.additionalAssets
+          : additionalAssets // ignore: cast_nullable_to_non_nullable
+              as List<Asset>,
     ));
   }
 
@@ -135,7 +142,8 @@ abstract class _$$_BulkSmartContractEntryCopyWith<$Res>
       String creatorName,
       Asset? primaryAsset,
       int quantity,
-      Royalty? royalty});
+      Royalty? royalty,
+      List<Asset> additionalAssets});
 
   @override
   $AssetCopyWith<$Res>? get primaryAsset;
@@ -164,6 +172,7 @@ class __$$_BulkSmartContractEntryCopyWithImpl<$Res>
     Object? primaryAsset = freezed,
     Object? quantity = freezed,
     Object? royalty = freezed,
+    Object? additionalAssets = freezed,
   }) {
     return _then(_$_BulkSmartContractEntry(
       name: name == freezed
@@ -194,6 +203,10 @@ class __$$_BulkSmartContractEntryCopyWithImpl<$Res>
           ? _value.royalty
           : royalty // ignore: cast_nullable_to_non_nullable
               as Royalty?,
+      additionalAssets: additionalAssets == freezed
+          ? _value._additionalAssets
+          : additionalAssets // ignore: cast_nullable_to_non_nullable
+              as List<Asset>,
     ));
   }
 }
@@ -208,8 +221,10 @@ class _$_BulkSmartContractEntry extends _BulkSmartContractEntry {
       required this.creatorName,
       this.primaryAsset,
       this.quantity = 1,
-      this.royalty})
-      : super._();
+      this.royalty,
+      final List<Asset> additionalAssets = const []})
+      : _additionalAssets = additionalAssets,
+        super._();
 
   @override
   final String name;
@@ -226,10 +241,17 @@ class _$_BulkSmartContractEntry extends _BulkSmartContractEntry {
   final int quantity;
   @override
   final Royalty? royalty;
+  final List<Asset> _additionalAssets;
+  @override
+  @JsonKey()
+  List<Asset> get additionalAssets {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_additionalAssets);
+  }
 
   @override
   String toString() {
-    return 'BulkSmartContractEntry(name: $name, description: $description, primaryAssetUrl: $primaryAssetUrl, creatorName: $creatorName, primaryAsset: $primaryAsset, quantity: $quantity, royalty: $royalty)';
+    return 'BulkSmartContractEntry(name: $name, description: $description, primaryAssetUrl: $primaryAssetUrl, creatorName: $creatorName, primaryAsset: $primaryAsset, quantity: $quantity, royalty: $royalty, additionalAssets: $additionalAssets)';
   }
 
   @override
@@ -247,7 +269,9 @@ class _$_BulkSmartContractEntry extends _BulkSmartContractEntry {
             const DeepCollectionEquality()
                 .equals(other.primaryAsset, primaryAsset) &&
             const DeepCollectionEquality().equals(other.quantity, quantity) &&
-            const DeepCollectionEquality().equals(other.royalty, royalty));
+            const DeepCollectionEquality().equals(other.royalty, royalty) &&
+            const DeepCollectionEquality()
+                .equals(other._additionalAssets, _additionalAssets));
   }
 
   @override
@@ -259,7 +283,8 @@ class _$_BulkSmartContractEntry extends _BulkSmartContractEntry {
       const DeepCollectionEquality().hash(creatorName),
       const DeepCollectionEquality().hash(primaryAsset),
       const DeepCollectionEquality().hash(quantity),
-      const DeepCollectionEquality().hash(royalty));
+      const DeepCollectionEquality().hash(royalty),
+      const DeepCollectionEquality().hash(_additionalAssets));
 
   @JsonKey(ignore: true)
   @override
@@ -276,7 +301,8 @@ abstract class _BulkSmartContractEntry extends BulkSmartContractEntry {
       required final String creatorName,
       final Asset? primaryAsset,
       final int quantity,
-      final Royalty? royalty}) = _$_BulkSmartContractEntry;
+      final Royalty? royalty,
+      final List<Asset> additionalAssets}) = _$_BulkSmartContractEntry;
   _BulkSmartContractEntry._() : super._();
 
   @override
@@ -293,6 +319,8 @@ abstract class _BulkSmartContractEntry extends BulkSmartContractEntry {
   int get quantity => throw _privateConstructorUsedError;
   @override
   Royalty? get royalty => throw _privateConstructorUsedError;
+  @override
+  List<Asset> get additionalAssets => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_BulkSmartContractEntryCopyWith<_$_BulkSmartContractEntry> get copyWith =>

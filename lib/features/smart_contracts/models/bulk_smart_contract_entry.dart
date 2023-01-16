@@ -16,6 +16,7 @@ class BulkSmartContractEntry with _$BulkSmartContractEntry {
     Asset? primaryAsset,
     @Default(1) int quantity,
     Royalty? royalty,
+    @Default([]) List<Asset> additionalAssets,
   }) = _BulkSmartContractEntry;
 
   factory BulkSmartContractEntry.empty() {

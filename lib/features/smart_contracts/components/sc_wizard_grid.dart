@@ -42,18 +42,20 @@ class ScWizardGrid extends BaseComponent {
       y += 1;
     }
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: widgets
-          .map((row) => Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: row
-                    .map(
-                      (widget) => widget,
-                    )
-                    .toList(),
-              ))
-          .toList(),
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: widgets
+            .map((row) => Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: row
+                      .map(
+                        (widget) => widget,
+                      )
+                      .toList(),
+                ))
+            .toList(),
+      ),
     );
   }
 }
