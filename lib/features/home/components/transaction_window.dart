@@ -28,7 +28,7 @@ class TransactionWindow extends BaseComponent {
         Card(
           margin: EdgeInsets.zero,
           child: SizedBox(
-            height: 200,
+            height: MediaQuery.of(context).size.height * 0.4,
             width: double.infinity,
             child: recentTransactions.isEmpty
                 ? Center(
