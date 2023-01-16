@@ -1,12 +1,13 @@
 import 'dart:convert';
 
-import 'package:rbx_wallet/core/models/paginated_response.dart';
-import 'package:rbx_wallet/core/services/base_service.dart';
-import 'package:rbx_wallet/core/singletons.dart';
-import 'package:rbx_wallet/core/storage.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:collection/collection.dart';
-import 'package:rbx_wallet/features/nft/utils.dart';
+
+import '../../../core/models/paginated_response.dart';
+import '../../../core/services/base_service.dart';
+import '../../../core/singletons.dart';
+import '../../../core/storage.dart';
+import '../models/nft.dart';
+import '../utils.dart';
 
 class NftService extends BaseService {
   NftService() : super(apiBasePathOverride: "/scapi/scv1");

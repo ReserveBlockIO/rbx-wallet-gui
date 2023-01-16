@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/singletons.dart';
-import 'package:rbx_wallet/core/storage.dart';
+
+import '../../../core/singletons.dart';
+import '../../../core/storage.dart';
 
 class AdnrPendingProvider extends StateNotifier<List<String>> {
   AdnrPendingProvider() : super([]) {
-    final items =
-        singleton<Storage>().getStringList(Storage.PENDING_ADNRS) ?? [];
+    final items = singleton<Storage>().getStringList(Storage.PENDING_ADNRS) ?? [];
     state = items;
   }
 
@@ -28,8 +28,7 @@ class AdnrPendingProvider extends StateNotifier<List<String>> {
       removeKeys.add("$id.$r.null");
     }
 
-    final update = [...state, value]
-      ..removeWhere((element) => removeKeys.contains(element));
+    final update = [...state, value]..removeWhere((element) => removeKeys.contains(element));
 
     singleton<Storage>().setStringList(Storage.PENDING_ADNRS, update);
 
@@ -37,7 +36,6 @@ class AdnrPendingProvider extends StateNotifier<List<String>> {
   }
 }
 
-final adnrPendingProvider =
-    StateNotifierProvider<AdnrPendingProvider, List<String>>(
+final adnrPendingProvider = StateNotifierProvider<AdnrPendingProvider, List<String>>(
   (_) => AdnrPendingProvider(),
 );

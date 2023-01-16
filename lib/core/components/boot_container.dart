@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
+
+import '../../features/bridge/providers/log_provider.dart';
+import '../base_component.dart';
 
 class BootContainer extends BaseComponent {
   const BootContainer({Key? key}) : super(key: key);

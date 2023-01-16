@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
+
+import '../models/log_entry.dart';
 
 const LOG_HISTORY_LENGTH = 1000;
 
@@ -19,7 +20,7 @@ class LogProvider extends StateNotifier<List<LogEntry>> {
     }
 
     if (scrollController.hasClients) {
-      await Future.delayed(Duration(milliseconds: 300));
+      await Future.delayed(const Duration(milliseconds: 300));
       scrollController.animateTo(
         scrollController.position.maxScrollExtent - 24,
         duration: const Duration(milliseconds: 500),

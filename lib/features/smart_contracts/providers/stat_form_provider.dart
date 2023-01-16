@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/stat.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
+
+import '../models/stat.dart';
+import 'create_smart_contract_provider.dart';
 
 class StatFormProvider extends StateNotifier<Stat> {
   final Reader read;
@@ -46,7 +47,6 @@ class StatFormProvider extends StateNotifier<Stat> {
   }
 }
 
-final statFormProvider =
-    StateNotifierProvider.family<StatFormProvider, Stat, int>(
+final statFormProvider = StateNotifierProvider.family<StatFormProvider, Stat, int>(
   (ref, index) => StatFormProvider(ref.read, index),
 );

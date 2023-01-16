@@ -3,19 +3,19 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/config/providers/config_form_provider.dart';
-import 'package:rbx_wallet/features/easter/secret_button.dart';
-import 'package:rbx_wallet/utils/files.dart';
-import 'package:rbx_wallet/utils/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../../core/base_screen.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/env.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../utils/files.dart';
+import '../../../utils/toast.dart';
+import '../../easter/secret_button.dart';
 import '../components/configuration_form_group.dart';
+import '../providers/config_form_provider.dart';
 
 class ConfigContainerScreen extends BaseScreen {
   const ConfigContainerScreen({Key? key}) : super(key: key, verticalPadding: 0, horizontalPadding: 0);
@@ -24,7 +24,7 @@ class ConfigContainerScreen extends BaseScreen {
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     final provider = ref.read(configFormProvider.notifier);
     return AppBar(
-      title: Text("CLI Configuration"),
+      title: const Text("CLI Configuration"),
       leading: IconButton(
         onPressed: () async {
           final confirmed = await ConfirmDialog.show(
@@ -71,7 +71,7 @@ class ConfigContainerScreen extends BaseScreen {
     final provider = ref.read(configFormProvider.notifier);
     return Column(
       children: [
-        SizedBox(
+        const SizedBox(
           height: 16,
         ),
         Row(
@@ -81,10 +81,10 @@ class ConfigContainerScreen extends BaseScreen {
               Icons.warning,
               color: Theme.of(context).colorScheme.warning,
             ),
-            SizedBox(
+            const SizedBox(
               width: 8,
             ),
-            Text("Warning: These are advanced options. Proceed with caution.",
+            const Text("Warning: These are advanced options. Proceed with caution.",
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,

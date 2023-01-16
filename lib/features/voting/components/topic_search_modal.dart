@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
-import 'package:rbx_wallet/features/voting/components/topic_list_tile.dart';
-import 'package:rbx_wallet/features/voting/providers/topic_search_provider.dart';
+
+import '../../../core/base_component.dart';
+import '../../smart_contracts/components/sc_creator/common/modal_container.dart';
+import '../providers/topic_search_provider.dart';
+import 'topic_list_tile.dart';
 
 class TopicSearchModal extends BaseComponent {
   const TopicSearchModal({
@@ -20,7 +21,7 @@ class TopicSearchModal extends BaseComponent {
       withDecor: false,
       children: [
         TextFormField(
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             hintText: "Search...",
           ),
           autofocus: true,

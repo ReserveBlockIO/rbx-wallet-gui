@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/breakpoints.dart';
+
+import 'breakpoints.dart';
 
 abstract class BaseComponent extends ConsumerWidget {
   const BaseComponent({
@@ -9,9 +10,7 @@ abstract class BaseComponent extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return BreakPoints.useMobileLayout(context)
-        ? body(context, ref)
-        : desktopBody(context, ref);
+    return BreakPoints.useMobileLayout(context) ? body(context, ref) : desktopBody(context, ref);
   }
 
   Widget body(BuildContext context, WidgetRef ref) {
@@ -33,8 +32,7 @@ abstract class BaseStatefulComponent extends ConsumerStatefulWidget {
   BaseComponentState createState() => BaseComponentState();
 }
 
-class BaseComponentState<T extends BaseStatefulComponent>
-    extends ConsumerState<T> {
+class BaseComponentState<T extends BaseStatefulComponent> extends ConsumerState<T> {
   @override
   void initState() {
     super.initState();
@@ -42,9 +40,7 @@ class BaseComponentState<T extends BaseStatefulComponent>
 
   @override
   Widget build(BuildContext context) {
-    return BreakPoints.useMobileLayout(context)
-        ? body(context)
-        : desktopBody(context);
+    return BreakPoints.useMobileLayout(context) ? body(context) : desktopBody(context);
   }
 
   Widget body(BuildContext context) {

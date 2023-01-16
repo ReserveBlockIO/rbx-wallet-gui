@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/asset/asset.dart';
-import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_form_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+
+import '../../../../utils/toast.dart';
+import '../../../../utils/validation.dart';
+import '../../../asset/asset.dart';
+import '../../../bridge/providers/wallet_info_provider.dart';
+import 'evolve.dart';
+import 'evolve_form_provider.dart';
+import 'evolve_phase.dart';
 
 class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
   final Reader read;

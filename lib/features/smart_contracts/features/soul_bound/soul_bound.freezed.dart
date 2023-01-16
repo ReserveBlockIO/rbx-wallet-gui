@@ -27,19 +27,13 @@ mixin _$SoulBound {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $SoulBoundCopyWith<SoulBound> get copyWith =>
-      throw _privateConstructorUsedError;
+  $SoulBoundCopyWith<SoulBound> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $SoulBoundCopyWith<$Res> {
-  factory $SoulBoundCopyWith(SoulBound value, $Res Function(SoulBound) then) =
-      _$SoulBoundCopyWithImpl<$Res>;
-  $Res call(
-      {String id,
-      double amount,
-      String ownerAddress,
-      String? beneficiaryAddress});
+  factory $SoulBoundCopyWith(SoulBound value, $Res Function(SoulBound) then) = _$SoulBoundCopyWithImpl<$Res>;
+  $Res call({String id, double amount, String ownerAddress, String? beneficiaryAddress});
 }
 
 /// @nodoc
@@ -80,23 +74,14 @@ class _$SoulBoundCopyWithImpl<$Res> implements $SoulBoundCopyWith<$Res> {
 
 /// @nodoc
 abstract class _$$_SoulBoundCopyWith<$Res> implements $SoulBoundCopyWith<$Res> {
-  factory _$$_SoulBoundCopyWith(
-          _$_SoulBound value, $Res Function(_$_SoulBound) then) =
-      __$$_SoulBoundCopyWithImpl<$Res>;
+  factory _$$_SoulBoundCopyWith(_$_SoulBound value, $Res Function(_$_SoulBound) then) = __$$_SoulBoundCopyWithImpl<$Res>;
   @override
-  $Res call(
-      {String id,
-      double amount,
-      String ownerAddress,
-      String? beneficiaryAddress});
+  $Res call({String id, double amount, String ownerAddress, String? beneficiaryAddress});
 }
 
 /// @nodoc
-class __$$_SoulBoundCopyWithImpl<$Res> extends _$SoulBoundCopyWithImpl<$Res>
-    implements _$$_SoulBoundCopyWith<$Res> {
-  __$$_SoulBoundCopyWithImpl(
-      _$_SoulBound _value, $Res Function(_$_SoulBound) _then)
-      : super(_value, (v) => _then(v as _$_SoulBound));
+class __$$_SoulBoundCopyWithImpl<$Res> extends _$SoulBoundCopyWithImpl<$Res> implements _$$_SoulBoundCopyWith<$Res> {
+  __$$_SoulBoundCopyWithImpl(_$_SoulBound _value, $Res Function(_$_SoulBound) _then) : super(_value, (v) => _then(v as _$_SoulBound));
 
   @override
   _$_SoulBound get _value => super._value as _$_SoulBound;
@@ -132,15 +117,9 @@ class __$$_SoulBoundCopyWithImpl<$Res> extends _$SoulBoundCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_SoulBound extends _SoulBound {
-  const _$_SoulBound(
-      {this.id = "",
-      this.amount = 0,
-      this.ownerAddress = "",
-      this.beneficiaryAddress})
-      : super._();
+  const _$_SoulBound({this.id = "", this.amount = 0, this.ownerAddress = "", this.beneficiaryAddress}) : super._();
 
-  factory _$_SoulBound.fromJson(Map<String, dynamic> json) =>
-      _$$_SoulBoundFromJson(json);
+  factory _$_SoulBound.fromJson(Map<String, dynamic> json) => _$$_SoulBoundFromJson(json);
 
   @override
   @JsonKey()
@@ -166,25 +145,18 @@ class _$_SoulBound extends _SoulBound {
             other is _$_SoulBound &&
             const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.amount, amount) &&
-            const DeepCollectionEquality()
-                .equals(other.ownerAddress, ownerAddress) &&
-            const DeepCollectionEquality()
-                .equals(other.beneficiaryAddress, beneficiaryAddress));
+            const DeepCollectionEquality().equals(other.ownerAddress, ownerAddress) &&
+            const DeepCollectionEquality().equals(other.beneficiaryAddress, beneficiaryAddress));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(amount),
-      const DeepCollectionEquality().hash(ownerAddress),
-      const DeepCollectionEquality().hash(beneficiaryAddress));
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(id), const DeepCollectionEquality().hash(amount),
+      const DeepCollectionEquality().hash(ownerAddress), const DeepCollectionEquality().hash(beneficiaryAddress));
 
   @JsonKey(ignore: true)
   @override
-  _$$_SoulBoundCopyWith<_$_SoulBound> get copyWith =>
-      __$$_SoulBoundCopyWithImpl<_$_SoulBound>(this, _$identity);
+  _$$_SoulBoundCopyWith<_$_SoulBound> get copyWith => __$$_SoulBoundCopyWithImpl<_$_SoulBound>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -193,15 +165,10 @@ class _$_SoulBound extends _SoulBound {
 }
 
 abstract class _SoulBound extends SoulBound {
-  const factory _SoulBound(
-      {final String id,
-      final double amount,
-      final String ownerAddress,
-      final String? beneficiaryAddress}) = _$_SoulBound;
+  const factory _SoulBound({final String id, final double amount, final String ownerAddress, final String? beneficiaryAddress}) = _$_SoulBound;
   const _SoulBound._() : super._();
 
-  factory _SoulBound.fromJson(Map<String, dynamic> json) =
-      _$_SoulBound.fromJson;
+  factory _SoulBound.fromJson(Map<String, dynamic> json) = _$_SoulBound.fromJson;
 
   @override
   String get id => throw _privateConstructorUsedError;
@@ -213,6 +180,5 @@ abstract class _SoulBound extends SoulBound {
   String? get beneficiaryAddress => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$$_SoulBoundCopyWith<_$_SoulBound> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$_SoulBoundCopyWith<_$_SoulBound> get copyWith => throw _privateConstructorUsedError;
 }

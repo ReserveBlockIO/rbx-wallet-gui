@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/features/asset/asset.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/property.dart';
+
+import '../../asset/asset.dart';
+import 'property.dart';
 
 part 'tokenization.freezed.dart';
 part 'tokenization.g.dart';

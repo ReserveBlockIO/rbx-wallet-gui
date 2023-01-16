@@ -1,10 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/features/transactions/components/transaction_list_tile.dart';
-import 'package:rbx_wallet/features/transactions/providers/transaction_list_provider.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/components/buttons.dart';
+import '../../transactions/components/transaction_list_tile.dart';
+import '../../transactions/providers/transaction_list_provider.dart';
 
 class TransactionWindow extends BaseComponent {
   const TransactionWindow({Key? key}) : super(key: key);

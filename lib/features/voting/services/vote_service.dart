@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:rbx_wallet/core/services/base_service.dart';
-import 'package:rbx_wallet/features/voting/models/vote.dart';
+import '../../../core/services/base_service.dart';
+import '../models/vote.dart';
 
 class VoteService extends BaseService {
   VoteService() : super(apiBasePathOverride: "/voapi/VOV1");
@@ -32,9 +32,7 @@ class VoteService extends BaseService {
   Future<bool> _castVote(String topicUid, bool yes) async {
     try {
       final url = "/CastTopicVote/$topicUid/${yes ? 1 : 0}";
-      print(url);
       final response = await getText(url, cleanPath: false);
-      print(response);
       return true;
     } catch (e, st) {
       print(e);

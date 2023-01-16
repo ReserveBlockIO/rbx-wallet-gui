@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:rbx_wallet/features/node/models/node_info.dart';
+
+import '../models/node_info.dart';
 
 class NodeInfoCard extends StatelessWidget {
   final NodeInfo node;
@@ -59,9 +60,7 @@ class NodeInfoCard extends StatelessWidget {
                     style: const TextStyle(fontSize: 12),
                   ),
                   Text(
-                    node.lastCheked != null
-                        ? DateFormat('hh:mm a').format(node.lastCheked!)
-                        : "-",
+                    node.lastCheked != null ? DateFormat('hh:mm a').format(node.lastCheked!) : "-",
                     style: const TextStyle(fontSize: 12),
                   ),
                 ],

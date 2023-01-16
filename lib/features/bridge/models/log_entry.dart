@@ -1,4 +1,4 @@
-import 'package:rbx_wallet/core/theme/app_theme.dart';
+import '../../../core/theme/app_theme.dart';
 
 class LogEntry {
   final String message;

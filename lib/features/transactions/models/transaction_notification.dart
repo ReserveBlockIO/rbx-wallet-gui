@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/transactions/models/transaction.dart';
+
+import '../../../core/theme/app_theme.dart';
+import 'transaction.dart';
 
 part 'transaction_notification.freezed.dart';
 

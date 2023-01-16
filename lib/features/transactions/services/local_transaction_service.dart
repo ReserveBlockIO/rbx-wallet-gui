@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:rbx_wallet/core/services/base_service.dart';
-import 'package:rbx_wallet/features/transactions/models/transaction.dart';
+import '../../../core/services/base_service.dart';
+import '../models/transaction.dart';
 
 class LocalTransactionService extends BaseService {
   LocalTransactionService() : super(apiBasePathOverride: "/txapi/TXV1");

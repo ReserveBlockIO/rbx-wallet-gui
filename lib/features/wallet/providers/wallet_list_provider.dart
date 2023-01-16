@@ -1,19 +1,20 @@
 import 'dart:convert';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/app.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/singletons.dart';
-import 'package:rbx_wallet/core/storage.dart';
-import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
-import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
-import 'package:rbx_wallet/features/wallet/models/wallet.dart';
-import 'package:rbx_wallet/utils/guards.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-import 'package:collection/collection.dart';
+
+import '../../../app.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/singletons.dart';
+import '../../../core/storage.dart';
+import '../../../utils/guards.dart';
+import '../../../utils/toast.dart';
+import '../../bridge/providers/wallet_info_provider.dart';
+import '../../bridge/services/bridge_service.dart';
+import '../models/wallet.dart';
 
 class WalletListProvider extends StateNotifier<List<Wallet>> {
   final Reader read;

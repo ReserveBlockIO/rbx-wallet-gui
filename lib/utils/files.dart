@@ -1,7 +1,9 @@
 import 'dart:io';
+
 import 'package:path_provider/path_provider.dart';
-import 'package:rbx_wallet/core/env.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../core/env.dart';
 
 Future<void> openFile(File file) async {
   try {

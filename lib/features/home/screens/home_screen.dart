@@ -1,49 +1,36 @@
 import 'dart:io';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:process_run/shell.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/core/utils.dart';
-import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
-import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
-import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
-import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
-import 'package:rbx_wallet/features/encrypt/components/encrypt_wallet_button.dart';
-import 'package:rbx_wallet/features/encrypt/providers/password_required_provider.dart';
-import 'package:rbx_wallet/features/encrypt/providers/wallet_is_encrypted_provider.dart';
-import 'package:rbx_wallet/features/hd/components/hd_wallet_button.dart';
-import 'package:rbx_wallet/features/hd/components/restore_hd_wallet_button.dart';
-import 'package:rbx_wallet/features/home/components/log_window.dart';
-import 'package:rbx_wallet/features/home/components/transaction_window.dart';
-
 import 'package:rbx_wallet/features/keygen/components/keygen_cta.dart'
     if (dart.library.io) 'package:rbx_wallet/features/keygen/components/keygen_cta_mock.dart';
 import 'package:rbx_wallet/features/mother/components/mother_button.dart';
-
-import 'package:rbx_wallet/features/root/components/reload_button.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
-import 'package:rbx_wallet/features/transactions/models/transaction.dart';
-import 'package:rbx_wallet/features/transactions/models/transaction_notification.dart';
-import 'package:rbx_wallet/features/transactions/providers/transaction_notification_provider.dart';
 import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/utils/files.dart';
-import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/toast.dart';
-import 'package:rbx_wallet/utils/validation.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+
+import '../../../core/base_screen.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/env.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../core/utils.dart';
+import '../../bridge/models/log_entry.dart';
+import '../../bridge/providers/log_provider.dart';
+import '../../bridge/services/bridge_service.dart';
+import '../../encrypt/components/encrypt_wallet_button.dart';
+import '../../hd/components/hd_wallet_button.dart';
+import '../../hd/components/restore_hd_wallet_button.dart';
+import '../components/log_window.dart';
+import '../components/transaction_window.dart';
 
 class HomeScreen extends BaseScreen {
   const HomeScreen({Key? key})
@@ -65,7 +52,7 @@ class HomeScreen extends BaseScreen {
             ref.read(sessionProvider.notifier).mainLoop(false);
             ref.read(sessionProvider.notifier).smartContractLoop(false);
           },
-          icon: Icon(Icons.refresh)),
+          icon: const Icon(Icons.refresh)),
       actions: const [WalletSelector()],
     );
   }
@@ -158,10 +145,10 @@ class HomeScreen extends BaseScreen {
                           },
                   ),
 
-                  MotherButton(),
-                  HdWalletButton(),
-                  if (ref.watch(walletListProvider).isEmpty) RestoreHdWalletButton(),
-                  EncryptWalletButton(),
+                  const MotherButton(),
+                  const HdWalletButton(),
+                  if (ref.watch(walletListProvider).isEmpty) const RestoreHdWalletButton(),
+                  const EncryptWalletButton(),
                   AppButton(
                     label: "Show Debug Data",
                     icon: Icons.analytics_outlined,
@@ -312,10 +299,10 @@ class HomeScreen extends BaseScreen {
                                     withDecor: false,
                                     children: [
                                       ListTile(
-                                        title: Text("Backup Keys"),
-                                        subtitle: Text("Export and save your keys to a text file."),
-                                        leading: Icon(Icons.wallet),
-                                        trailing: Icon(Icons.chevron_right),
+                                        title: const Text("Backup Keys"),
+                                        subtitle: const Text("Export and save your keys to a text file."),
+                                        leading: const Icon(Icons.wallet),
+                                        trailing: const Icon(Icons.chevron_right),
                                         onTap: () async {
                                           final success = await backupKeys(context, ref);
                                           if (success == true) {
@@ -327,10 +314,10 @@ class HomeScreen extends BaseScreen {
                                         },
                                       ),
                                       ListTile(
-                                        title: Text("Backup Media"),
-                                        subtitle: Text("Zip and export your media assets."),
-                                        leading: Icon(Icons.file_present),
-                                        trailing: Icon(Icons.chevron_right),
+                                        title: const Text("Backup Media"),
+                                        subtitle: const Text("Zip and export your media assets."),
+                                        leading: const Icon(Icons.file_present),
+                                        trailing: const Icon(Icons.chevron_right),
                                         onTap: () async {
                                           final success = await backupMedia(context, ref);
                                           if (success == true) {

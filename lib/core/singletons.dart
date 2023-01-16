@@ -1,8 +1,9 @@
 import 'package:get_it/get_it.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/core/storage.dart';
-import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'app_router.gr.dart';
+import 'storage.dart';
+import 'web_router.gr.dart';
 
 final singleton = GetIt.instance;
 

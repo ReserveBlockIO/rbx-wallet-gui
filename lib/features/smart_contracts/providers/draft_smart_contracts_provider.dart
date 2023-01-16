@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/smart_contract.dart';
-import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
+import '../models/smart_contract.dart';
+import '../services/smart_contract_service.dart';
 
 class DraftsSmartContractProvider extends StateNotifier<List<SmartContract>> {
   final Reader read;
@@ -18,7 +18,6 @@ class DraftsSmartContractProvider extends StateNotifier<List<SmartContract>> {
   }
 }
 
-final draftsSmartContractProvider =
-    StateNotifierProvider<DraftsSmartContractProvider, List<SmartContract>>(
+final draftsSmartContractProvider = StateNotifierProvider<DraftsSmartContractProvider, List<SmartContract>>(
   (ref) => DraftsSmartContractProvider(ref.read),
 );

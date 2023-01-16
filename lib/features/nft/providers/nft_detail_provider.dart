@@ -2,19 +2,19 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/core/services/transaction_service.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/nft/providers/burned_provider.dart';
-import 'package:rbx_wallet/features/nft/providers/transferred_provider.dart';
-import 'package:rbx_wallet/features/nft/services/nft_service.dart';
-import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
-import 'package:rbx_wallet/features/wallet/models/wallet.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
-import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../core/app_constants.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../../core/services/transaction_service.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../models/nft.dart';
+import 'burned_provider.dart';
+import 'transferred_provider.dart';
+import '../services/nft_service.dart';
+import '../../smart_contracts/services/smart_contract_service.dart';
+import '../../wallet/models/wallet.dart';
+import '../../wallet/providers/wallet_list_provider.dart';
+import '../../web/utils/raw_transaction.dart';
+import '../../../utils/toast.dart';
 import 'package:collection/collection.dart';
 
 class NftDetailProvider extends StateNotifier<Nft?> {
@@ -287,8 +287,6 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     if (keypair == null) {
       return false;
     }
-
-    print("SID: $id");
 
     final locators = await TransactionService().getLocators(id);
     if (locators == null) {

@@ -1,9 +1,11 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+// ignore: unnecessary_import
 import 'package:json_annotation/json_annotation.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/features/config/constants.dart';
-import 'package:collection/collection.dart';
+
+import '../../../core/app_constants.dart';
+import '../constants.dart';
 
 part 'config.freezed.dart';
 part 'config.g.dart';
@@ -116,7 +118,7 @@ class Config with _$Config {
   }
 
   bool get isRejectAssetExtensionTypesDefault {
-    return ListEquality().equals(rejectAssetExtensionTypes, DEFAULT_REJECTED_EXTENIONS) || nonDefaultRejectExtensionTypes.isEmpty;
+    return const ListEquality().equals(rejectAssetExtensionTypes, DEFAULT_REJECTED_EXTENIONS) || nonDefaultRejectExtensionTypes.isEmpty;
   }
 
   bool get isAllowedExtensionTypesDefault {

@@ -1,8 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
-import 'package:rbx_wallet/utils/formatting.dart';
+
+import '../../../utils/formatting.dart';
+import '../../smart_contracts/components/sc_creator/common/modal_container.dart';
 
 class NftDataModal extends StatelessWidget {
   final String data;

@@ -4,22 +4,17 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/breakpoints.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/services/transaction_service.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/asset/asset.dart';
-import 'package:rbx_wallet/features/config/providers/config_provider.dart';
-import 'package:rbx_wallet/utils/files.dart';
-import 'package:rbx_wallet/utils/formatting.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-import 'package:rbx_wallet/utils/validation.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+
+import '../../../../../core/app_constants.dart';
+import '../../../../../core/base_component.dart';
+import '../../../../../core/breakpoints.dart';
+import '../../../../../core/components/buttons.dart';
+import '../../../../../core/dialogs.dart';
+import '../../../../../core/services/transaction_service.dart';
+import '../../../../../utils/files.dart';
+import '../../../../../utils/validation.dart';
+import '../../../../asset/asset.dart';
+import '../../../../config/providers/config_provider.dart';
 
 class FileSelector extends BaseComponent {
   final bool transparentBackground;

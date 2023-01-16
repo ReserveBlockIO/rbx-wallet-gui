@@ -3,12 +3,12 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/features/asset/asset.dart';
-import 'package:rbx_wallet/features/nft/providers/minted_nft_list_provider.dart';
-import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+
+import '../../core/components/buttons.dart';
+import '../nft/providers/minted_nft_list_provider.dart';
+import '../nft/providers/nft_detail_provider.dart';
+import '../smart_contracts/services/smart_contract_service.dart';
+import 'asset.dart';
 
 class DownloadOrAssociate extends StatefulWidget {
   final Asset asset;
@@ -56,7 +56,7 @@ class _DownloadOrAssociateState extends State<DownloadOrAssociate> {
   @override
   Widget build(BuildContext context) {
     if (!visible) {
-      return SizedBox();
+      return const SizedBox();
     }
 
     return Consumer(builder: (context, ref, _) {
@@ -66,8 +66,8 @@ class _DownloadOrAssociateState extends State<DownloadOrAssociate> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text("Media asset file not found on your machine (${widget.asset.fileName})."),
-            Text("Please check any other wallets with the same address for the media."),
-            SizedBox(
+            const Text("Please check any other wallets with the same address for the media."),
+            const SizedBox(
               height: 6,
             ),
             Row(

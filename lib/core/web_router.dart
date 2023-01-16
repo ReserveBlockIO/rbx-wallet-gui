@@ -1,22 +1,23 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:rbx_wallet/features/auth/screens/web_auth_screen.dart';
-import 'package:rbx_wallet/features/dsts/screens/create_store_screen.dart';
-import 'package:rbx_wallet/features/dsts/screens/web_dst_screen.dart';
-import 'package:rbx_wallet/features/home/screens/web_home_screen.dart';
-import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
-import 'package:rbx_wallet/features/nft/screens/nft_list_screen.dart';
-import 'package:rbx_wallet/features/receive/screens/web_receive_screen.dart';
-import 'package:rbx_wallet/features/root/web_dashboard_container.dart';
-import 'package:rbx_wallet/features/send/screens/web_prefilled_send_screen.dart';
-import 'package:rbx_wallet/features/send/screens/web_send_screen.dart';
-import 'package:rbx_wallet/features/smart_contracts/screens/web_create_smart_contract_screen.dart';
-import 'package:rbx_wallet/features/smart_contracts/screens/web_smart_contract_landing_screen.dart';
-import 'package:rbx_wallet/features/store/screens/create_listing_screen.dart';
-import 'package:rbx_wallet/features/store/screens/store_collection_screen.dart';
-import 'package:rbx_wallet/features/store/screens/store_listing_screen.dart';
-import 'package:rbx_wallet/features/store/screens/store_screen.dart';
-import 'package:rbx_wallet/features/transactions/screens/web_transaction_detail_screen.dart';
-import 'package:rbx_wallet/features/transactions/screens/web_transactions_screen.dart';
+
+import '../features/auth/screens/web_auth_screen.dart';
+import '../features/dsts/screens/create_store_screen.dart';
+import '../features/dsts/screens/web_dst_screen.dart';
+import '../features/home/screens/web_home_screen.dart';
+import '../features/nft/screens/nft_detail_screen.dart';
+import '../features/nft/screens/nft_list_screen.dart';
+import '../features/receive/screens/web_receive_screen.dart';
+import '../features/root/web_dashboard_container.dart';
+import '../features/send/screens/web_prefilled_send_screen.dart';
+import '../features/send/screens/web_send_screen.dart';
+import '../features/smart_contracts/screens/web_create_smart_contract_screen.dart';
+import '../features/smart_contracts/screens/web_smart_contract_landing_screen.dart';
+import '../features/store/screens/create_listing_screen.dart';
+import '../features/store/screens/store_collection_screen.dart';
+import '../features/store/screens/store_listing_screen.dart';
+import '../features/store/screens/store_screen.dart';
+import '../features/transactions/screens/web_transaction_detail_screen.dart';
+import '../features/transactions/screens/web_transactions_screen.dart';
 
 const List<AutoRoute> webRoutes = [
   // AutoRoute(initial: true, path: "", name: "WebAuthRoute", page: WebAuthScreen),

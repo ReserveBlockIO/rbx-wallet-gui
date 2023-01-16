@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
-import 'package:rbx_wallet/features/encrypt/providers/wallet_is_encrypted_provider.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../utils/toast.dart';
+import '../../bridge/services/bridge_service.dart';
+import '../../encrypt/providers/wallet_is_encrypted_provider.dart';
+import '../../global_loader/global_loading_provider.dart';
 
 class HdWalletButton extends BaseComponent {
   const HdWalletButton({
@@ -49,14 +48,14 @@ class HdWalletButton extends BaseComponent {
                   return AlertDialog(
                     // buttonPadding: EdgeInsets.all(8.0),
                     // actionsPadding: EdgeInsets.all(0.0),
-                    title: Text("HD Wallet"),
+                    title: const Text("HD Wallet"),
                     actionsAlignment: MainAxisAlignment.center,
                     actions: [
                       TextButton(
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Text(
+                        child: const Text(
                           "Cancel",
                           style: TextStyle(color: Colors.white70),
                         ),
@@ -68,29 +67,29 @@ class HdWalletButton extends BaseComponent {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text("By creating an HD wallet you are creating a function to recover your private keys by use of recovery phrase."),
-                          SizedBox(
+                          const Text("By creating an HD wallet you are creating a function to recover your private keys by use of recovery phrase."),
+                          const SizedBox(
                             height: 8,
                           ),
-                          Text(
+                          const Text(
                               "Once generated, any keys you create will use this phrase to seed the private key generation. Therefore, you will only need to remember this to deterministically recover your keys."),
-                          SizedBox(
+                          const SizedBox(
                             height: 8,
                           ),
-                          Text(
+                          const Text(
                             "This is an advanced feature and is not recommended unless you are familiar with Hierarchical Deterministic concepts.\n\nAny keys created prior to this will not be recoverable through this phrase so please ensure they are backed up as well.",
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          Divider(),
-                          Text(
+                          const Divider(),
+                          const Text(
                             "Generate with strength:",
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 8,
                           ),
                           Row(
@@ -102,7 +101,7 @@ class HdWalletButton extends BaseComponent {
                                   await create(context, ref, 12);
                                 },
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 8,
                               ),
                               AppButton(
@@ -145,7 +144,7 @@ class RecoveryPhraseDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Recovery Phrase Generated"),
+      title: const Text("Recovery Phrase Generated"),
       actions: [
         TextButton(
           onPressed: () async {
@@ -160,7 +159,7 @@ class RecoveryPhraseDialog extends StatelessWidget {
               Navigator.of(context).pop();
             }
           },
-          child: Text(
+          child: const Text(
             "Done",
             style: TextStyle(
               color: Colors.white,
@@ -174,21 +173,21 @@ class RecoveryPhraseDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Copy your recovery phrase to a secure location."),
+            const Text("Copy your recovery phrase to a secure location."),
             Column(
               children: [
                 TextFormField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     label: Text("Recovery Phrase"),
                   ),
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                   initialValue: mneumonic,
                   readOnly: true,
                   minLines: 1,
                   maxLines: 6,
                 ),
                 // IconButton(onPressed:  (){}, icon: Icon(Icons.copy))
-                SizedBox(
+                const SizedBox(
                   height: 16,
                 ),
                 AppButton(

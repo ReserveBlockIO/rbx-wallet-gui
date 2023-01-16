@@ -1,11 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
+
+import '../../../core/app_router.gr.dart';
+import '../../../core/base_component.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../smart_contracts/providers/create_smart_contract_provider.dart';
 
 class LearnMoreStep {
   final String title;
@@ -54,10 +55,7 @@ class LearnMoreContent extends BaseComponent {
                     color: Colors.black,
                     boxShadow: [
                       BoxShadow(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .secondary
-                            .withOpacity(.5),
+                        color: Theme.of(context).colorScheme.secondary.withOpacity(.5),
                         spreadRadius: 4,
                         blurRadius: 5,
                       )
@@ -78,8 +76,7 @@ class LearnMoreContent extends BaseComponent {
                                   width: 50,
                                   height: 50,
                                   decoration: BoxDecoration(
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
+                                    color: Theme.of(context).colorScheme.secondary,
                                     borderRadius: BorderRadius.circular(25.0),
                                   ),
                                   child: Padding(
@@ -88,13 +85,8 @@ class LearnMoreContent extends BaseComponent {
                                       child: Text(
                                         "${entry.key + 1}",
                                         textAlign: TextAlign.center,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline3!
-                                            .copyWith(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
+                                        style: Theme.of(context).textTheme.headline3!.copyWith(
+                                              color: Theme.of(context).colorScheme.primary,
                                               fontWeight: FontWeight.bold,
                                             ),
                                       ),
@@ -106,13 +98,8 @@ class LearnMoreContent extends BaseComponent {
                                   child: Text(
                                     step.title,
                                     textAlign: TextAlign.center,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline4!
-                                        .copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
+                                    style: Theme.of(context).textTheme.headline4!.copyWith(
+                                          color: Theme.of(context).colorScheme.secondary,
                                           fontWeight: FontWeight.bold,
                                         ),
                                   ),
@@ -120,13 +107,9 @@ class LearnMoreContent extends BaseComponent {
                               ],
                             ),
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              padding: const EdgeInsets.symmetric(vertical: 8.0),
                               child: Divider(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .secondary
-                                    .withOpacity(0.4),
+                                color: Theme.of(context).colorScheme.secondary.withOpacity(0.4),
                                 thickness: 2,
                               ),
                             ),
@@ -137,8 +120,7 @@ class LearnMoreContent extends BaseComponent {
                             ),
                           ],
                         ),
-                        if (step.imagePath != null &&
-                            step.imagePath!.isNotEmpty)
+                        if (step.imagePath != null && step.imagePath!.isNotEmpty)
                           Padding(
                             padding: const EdgeInsets.only(top: 16),
                             child: Container(
@@ -191,13 +173,10 @@ class LearnMoreContent extends BaseComponent {
                     ),
                   ),
                   onPressed: () {
-                    ref
-                        .read(createSmartContractProvider.notifier)
-                        .clearSmartContract();
+                    ref.read(createSmartContractProvider.notifier).clearSmartContract();
                     onCreate();
 
-                    AutoRouter.of(context)
-                        .push(const SmartContractCreatorContainerScreenRoute());
+                    AutoRouter.of(context).push(const SmartContractCreatorContainerScreenRoute());
                   },
                   child: const Text("Create"),
                 ),

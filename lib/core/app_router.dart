@@ -1,16 +1,14 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:rbx_wallet/features/beacon/screens/beacon_list_screen.dart';
-
-import 'package:rbx_wallet/features/config/screens/config_container_screen.dart';
-
-import 'package:rbx_wallet/features/mother/screens/mother_dashboard_screen.dart';
 import 'package:rbx_wallet/features/smart_contracts/screens/bulk_create_screen.dart';
 
 import '../features/adjudicator/adjudicator_screen.dart';
 import '../features/adnr/screens/adnr_screen.dart';
+import '../features/beacon/screens/beacon_list_screen.dart';
+import '../features/config/screens/config_container_screen.dart';
 import '../features/datanode/screens/datanode_screen.dart';
 import '../features/dsts/screens/dst_screen.dart';
 import '../features/home/screens/home_screen.dart';
+import '../features/mother/screens/mother_dashboard_screen.dart';
 import '../features/nft/screens/nft_list_screen.dart';
 import '../features/node/screens/node_list_screen.dart';
 import '../features/receive/screens/receive_screen.dart';
