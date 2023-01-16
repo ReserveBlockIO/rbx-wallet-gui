@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/asset/asset.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/file_selector.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_header.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/rarity.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
+
+import '../../../../core/base_component.dart';
+import '../../../../core/components/buttons.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../../../asset/asset.dart';
+import '../../components/sc_creator/common/file_selector.dart';
+import '../../components/sc_creator/common/form_group_header.dart';
+import '../../components/sc_creator/common/modal_container.dart';
+import '../../models/rarity.dart';
+import '../../providers/create_smart_contract_provider.dart';
 
 class RarityModal extends BaseComponent {
   final Rarity? initialRarity;
@@ -23,8 +24,7 @@ class RarityModal extends BaseComponent {
 
     return ModalContainer(
       children: [
-        FormGroupHeader(
-            initialRarity == null ? "Create Rarity" : "Edit Rarity"),
+        FormGroupHeader(initialRarity == null ? "Create Rarity" : "Edit Rarity"),
         Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [

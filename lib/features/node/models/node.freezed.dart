@@ -40,8 +40,7 @@ mixin _$Node {
 
 /// @nodoc
 abstract class $NodeCopyWith<$Res> {
-  factory $NodeCopyWith(Node value, $Res Function(Node) then) =
-      _$NodeCopyWithImpl<$Res>;
+  factory $NodeCopyWith(Node value, $Res Function(Node) then) = _$NodeCopyWithImpl<$Res>;
   $Res call(
       {@JsonKey(name: 'Address') String address,
       @JsonKey(name: 'UniqueName') String uniqueName,
@@ -99,8 +98,7 @@ class _$NodeCopyWithImpl<$Res> implements $NodeCopyWith<$Res> {
 
 /// @nodoc
 abstract class _$$_NodeCopyWith<$Res> implements $NodeCopyWith<$Res> {
-  factory _$$_NodeCopyWith(_$_Node value, $Res Function(_$_Node) then) =
-      __$$_NodeCopyWithImpl<$Res>;
+  factory _$$_NodeCopyWith(_$_Node value, $Res Function(_$_Node) then) = __$$_NodeCopyWithImpl<$Res>;
   @override
   $Res call(
       {@JsonKey(name: 'Address') String address,
@@ -112,10 +110,8 @@ abstract class _$$_NodeCopyWith<$Res> implements $NodeCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_NodeCopyWithImpl<$Res> extends _$NodeCopyWithImpl<$Res>
-    implements _$$_NodeCopyWith<$Res> {
-  __$$_NodeCopyWithImpl(_$_Node _value, $Res Function(_$_Node) _then)
-      : super(_value, (v) => _then(v as _$_Node));
+class __$$_NodeCopyWithImpl<$Res> extends _$NodeCopyWithImpl<$Res> implements _$$_NodeCopyWith<$Res> {
+  __$$_NodeCopyWithImpl(_$_Node _value, $Res Function(_$_Node) _then) : super(_value, (v) => _then(v as _$_Node));
 
   @override
   _$_Node get _value => super._value as _$_Node;
@@ -202,15 +198,11 @@ class _$_Node extends _Node {
         (other.runtimeType == runtimeType &&
             other is _$_Node &&
             const DeepCollectionEquality().equals(other.address, address) &&
-            const DeepCollectionEquality()
-                .equals(other.uniqueName, uniqueName) &&
-            const DeepCollectionEquality()
-                .equals(other.connectionId, connectionId) &&
+            const DeepCollectionEquality().equals(other.uniqueName, uniqueName) &&
+            const DeepCollectionEquality().equals(other.connectionId, connectionId) &&
             const DeepCollectionEquality().equals(other.ipAddress, ipAddress) &&
-            const DeepCollectionEquality()
-                .equals(other.walletVersion, walletVersion) &&
-            const DeepCollectionEquality()
-                .equals(other.connectDate, connectDate));
+            const DeepCollectionEquality().equals(other.walletVersion, walletVersion) &&
+            const DeepCollectionEquality().equals(other.connectDate, connectDate));
   }
 
   @JsonKey(ignore: true)
@@ -226,8 +218,7 @@ class _$_Node extends _Node {
 
   @JsonKey(ignore: true)
   @override
-  _$$_NodeCopyWith<_$_Node> get copyWith =>
-      __$$_NodeCopyWithImpl<_$_Node>(this, _$identity);
+  _$$_NodeCopyWith<_$_Node> get copyWith => __$$_NodeCopyWithImpl<_$_Node>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -237,13 +228,12 @@ class _$_Node extends _Node {
 
 abstract class _Node extends Node {
   factory _Node(
-          {@JsonKey(name: 'Address') required final String address,
-          @JsonKey(name: 'UniqueName') required final String uniqueName,
-          @JsonKey(name: 'ConnectionId') required final String connectionId,
-          @JsonKey(name: 'IpAddress') required final String ipAddress,
-          @JsonKey(name: 'WalletVersion') required final String? walletVersion,
-          @JsonKey(name: 'ConnectDate') required final DateTime connectDate}) =
-      _$_Node;
+      {@JsonKey(name: 'Address') required final String address,
+      @JsonKey(name: 'UniqueName') required final String uniqueName,
+      @JsonKey(name: 'ConnectionId') required final String connectionId,
+      @JsonKey(name: 'IpAddress') required final String ipAddress,
+      @JsonKey(name: 'WalletVersion') required final String? walletVersion,
+      @JsonKey(name: 'ConnectDate') required final DateTime connectDate}) = _$_Node;
   _Node._() : super._();
 
   factory _Node.fromJson(Map<String, dynamic> json) = _$_Node.fromJson;

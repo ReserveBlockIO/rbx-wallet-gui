@@ -66,8 +66,7 @@ class Royalty with _$Royalty {
     }
   }
 
-  factory Royalty.fromJson(Map<String, dynamic> json) =>
-      _$RoyaltyFromJson(json);
+  factory Royalty.fromJson(Map<String, dynamic> json) => _$RoyaltyFromJson(json);
 
   factory Royalty.fromCompiler(dynamic json) {
     return Royalty(

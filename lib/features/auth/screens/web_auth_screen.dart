@@ -1,20 +1,21 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/breakpoints.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/core/singletons.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/core/web_router.gr.dart';
-import 'package:rbx_wallet/features/auth/auth_utils.dart';
-import 'package:rbx_wallet/features/auth/components/auth_type_modal.dart';
-import 'package:rbx_wallet/generated/assets.gen.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+
+import '../../../core/app_constants.dart';
+import '../../../core/app_router.gr.dart';
+import '../../../core/base_screen.dart';
+import '../../../core/breakpoints.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/env.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../../core/singletons.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../core/web_router.gr.dart';
+import '../../../generated/assets.gen.dart';
+import '../../../utils/validation.dart';
+import '../auth_utils.dart';
+import '../components/auth_type_modal.dart';
 
 class WebAuthScreen extends BaseStatefulScreen {
   const WebAuthScreen({Key? key})
@@ -105,7 +106,7 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                   style: Theme.of(context).textTheme.headlineLarge!.copyWith(fontWeight: FontWeight.bold, fontSize: isMobile ? 20 : 30),
                 ),
               ),
-              Text(
+              const Text(
                 WEB_APP_VERSION,
                 style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, letterSpacing: 2),
               ),
@@ -192,7 +193,7 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                       // );
 
                       showModalBottomSheet(
-                        backgroundColor: Color.fromRGBO(0, 0, 0, 0),
+                        backgroundColor: const Color.fromRGBO(0, 0, 0, 0),
                         context: context,
                         builder: (context) {
                           return AuthTypeModal(
@@ -238,7 +239,7 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                               }
 
                               await handleImportWithPrivateKey(context, ref, email);
-                              await Future.delayed(Duration(milliseconds: 300));
+                              await Future.delayed(const Duration(milliseconds: 300));
 
                               if (ref.read(webSessionProvider).isAuthenticated) {
                                 redirectToDashboard();
@@ -253,8 +254,8 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                 ],
               ),
               if (Env.isTestNet)
-                Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
+                const Padding(
+                  padding: EdgeInsets.only(top: 16.0),
                   child: Text(
                     "TESTNET",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.green, letterSpacing: 2),

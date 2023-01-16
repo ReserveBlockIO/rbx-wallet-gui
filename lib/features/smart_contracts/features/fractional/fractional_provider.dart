@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/asset/asset.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/fractional.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/property.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/tokenization.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
-import 'package:rbx_wallet/utils/generators.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+
+import '../../../../utils/generators.dart';
+import '../../../../utils/validation.dart';
+import '../../models/fractional.dart';
+import '../../providers/create_smart_contract_provider.dart';
 
 class FractionalFormProvider extends StateNotifier<Fractional> {
   final Reader read;

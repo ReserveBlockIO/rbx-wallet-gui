@@ -40,8 +40,7 @@ mixin _$Vote {
 
 /// @nodoc
 abstract class $VoteCopyWith<$Res> {
-  factory $VoteCopyWith(Vote value, $Res Function(Vote) then) =
-      _$VoteCopyWithImpl<$Res>;
+  factory $VoteCopyWith(Vote value, $Res Function(Vote) then) = _$VoteCopyWithImpl<$Res>;
   $Res call(
       {@JsonKey(name: "Id") int id,
       @JsonKey(name: "TopicUID") String topicUid,
@@ -99,8 +98,7 @@ class _$VoteCopyWithImpl<$Res> implements $VoteCopyWith<$Res> {
 
 /// @nodoc
 abstract class _$$_VoteCopyWith<$Res> implements $VoteCopyWith<$Res> {
-  factory _$$_VoteCopyWith(_$_Vote value, $Res Function(_$_Vote) then) =
-      __$$_VoteCopyWithImpl<$Res>;
+  factory _$$_VoteCopyWith(_$_Vote value, $Res Function(_$_Vote) then) = __$$_VoteCopyWithImpl<$Res>;
   @override
   $Res call(
       {@JsonKey(name: "Id") int id,
@@ -112,10 +110,8 @@ abstract class _$$_VoteCopyWith<$Res> implements $VoteCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_VoteCopyWithImpl<$Res> extends _$VoteCopyWithImpl<$Res>
-    implements _$$_VoteCopyWith<$Res> {
-  __$$_VoteCopyWithImpl(_$_Vote _value, $Res Function(_$_Vote) _then)
-      : super(_value, (v) => _then(v as _$_Vote));
+class __$$_VoteCopyWithImpl<$Res> extends _$VoteCopyWithImpl<$Res> implements _$$_VoteCopyWith<$Res> {
+  __$$_VoteCopyWithImpl(_$_Vote _value, $Res Function(_$_Vote) _then) : super(_value, (v) => _then(v as _$_Vote));
 
   @override
   _$_Vote get _value => super._value as _$_Vote;
@@ -205,10 +201,8 @@ class _$_Vote extends _Vote {
             const DeepCollectionEquality().equals(other.topicUid, topicUid) &&
             const DeepCollectionEquality().equals(other.address, address) &&
             const DeepCollectionEquality().equals(other.type, type) &&
-            const DeepCollectionEquality()
-                .equals(other.transactionHash, transactionHash) &&
-            const DeepCollectionEquality()
-                .equals(other.blockHeight, blockHeight));
+            const DeepCollectionEquality().equals(other.transactionHash, transactionHash) &&
+            const DeepCollectionEquality().equals(other.blockHeight, blockHeight));
   }
 
   @JsonKey(ignore: true)
@@ -224,8 +218,7 @@ class _$_Vote extends _Vote {
 
   @JsonKey(ignore: true)
   @override
-  _$$_VoteCopyWith<_$_Vote> get copyWith =>
-      __$$_VoteCopyWithImpl<_$_Vote>(this, _$identity);
+  _$$_VoteCopyWith<_$_Vote> get copyWith => __$$_VoteCopyWithImpl<_$_Vote>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -235,18 +228,12 @@ class _$_Vote extends _Vote {
 
 abstract class _Vote extends Vote {
   factory _Vote(
-      {@JsonKey(name: "Id")
-          required final int id,
-      @JsonKey(name: "TopicUID")
-          required final String topicUid,
-      @JsonKey(name: "Address")
-          required final String address,
-      @JsonKey(name: "VoteType", fromJson: voteTypeFromJson)
-          required final VoteType type,
-      @JsonKey(name: "TransactionHash")
-          required final String transactionHash,
-      @JsonKey(name: "BlockHeight")
-          required final int blockHeight}) = _$_Vote;
+      {@JsonKey(name: "Id") required final int id,
+      @JsonKey(name: "TopicUID") required final String topicUid,
+      @JsonKey(name: "Address") required final String address,
+      @JsonKey(name: "VoteType", fromJson: voteTypeFromJson) required final VoteType type,
+      @JsonKey(name: "TransactionHash") required final String transactionHash,
+      @JsonKey(name: "BlockHeight") required final int blockHeight}) = _$_Vote;
   _Vote._() : super._();
 
   factory _Vote.fromJson(Map<String, dynamic> json) = _$_Vote.fromJson;

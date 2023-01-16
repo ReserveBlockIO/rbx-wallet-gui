@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/services/explorer_service.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
+
+import '../../../core/services/explorer_service.dart';
+import '../models/nft.dart';
 
 class WebNftListProvider extends StateNotifier<List<Nft>> {
   final Reader read;

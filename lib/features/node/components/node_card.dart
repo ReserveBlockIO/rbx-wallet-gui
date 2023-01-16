@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
-import 'package:rbx_wallet/features/node/models/node.dart';
-import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../bridge/providers/wallet_info_provider.dart';
+import '../../validator/providers/validator_list_provider.dart';
+import '../models/node.dart';
 
 class NodeCard extends BaseComponent {
   final Node node;
@@ -13,11 +14,9 @@ class NodeCard extends BaseComponent {
   Widget build(BuildContext context, WidgetRef ref) {
     final latestBlock = ref.watch(walletInfoProvider)?.lastestBlock;
 
-    final isLatest =
-        (latestBlock != null && latestBlock.validator == node.address);
+    final isLatest = (latestBlock != null && latestBlock.validator == node.address);
 
-    final myAddresses =
-        ref.read(validatorListProvider).map((w) => w.address).toList();
+    final myAddresses = ref.read(validatorListProvider).map((w) => w.address).toList();
 
     final isMine = myAddresses.contains(node.address);
 
@@ -36,9 +35,7 @@ class NodeCard extends BaseComponent {
           child: Padding(
             padding: const EdgeInsets.all(3.0),
             child: Container(
-              color: isMine
-                  ? Theme.of(context).colorScheme.primary
-                  : Theme.of(context).colorScheme.surface,
+              color: isMine ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.surface,
               child: ListTile(
                 horizontalTitleGap: 0,
                 dense: true,

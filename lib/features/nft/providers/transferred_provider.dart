@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/singletons.dart';
-import 'package:rbx_wallet/core/storage.dart';
+
+import '../../../core/singletons.dart';
+import '../../../core/storage.dart';
 
 class TransferredProvider extends StateNotifier<List<String>> {
   TransferredProvider() : super([]) {

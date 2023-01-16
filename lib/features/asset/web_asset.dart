@@ -6,7 +6,6 @@ class WebAsset {
   });
 
   String get filename {
-    
     return location.split("/").last;
   }
 

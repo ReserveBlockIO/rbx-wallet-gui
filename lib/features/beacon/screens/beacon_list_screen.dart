@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/beacon/components/add_beacon_modal.dart';
-import 'package:rbx_wallet/features/beacon/components/beacon_list.dart';
-import 'package:rbx_wallet/features/beacon/components/create_beacon_modal.dart';
-import 'package:rbx_wallet/features/beacon/providers/beacon_list_provider.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+
+import '../../../core/base_screen.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../utils/toast.dart';
+import '../components/add_beacon_modal.dart';
+import '../components/beacon_list.dart';
+import '../components/create_beacon_modal.dart';
+import '../providers/beacon_list_provider.dart';
 
 class BeaconListScreen extends BaseScreen {
   const BeaconListScreen({Key? key})
@@ -24,32 +25,31 @@ class BeaconListScreen extends BaseScreen {
     final myBeacons = beacons.where((b) => b.selfBeacon);
 
     return AppBar(
-      centerTitle: true,
-      title: Text("Beacons"),
+      title: const Text("Beacons"),
       backgroundColor: Colors.black54,
       leading: IconButton(
         onPressed: () {
           ref.read(beaconListProvider.notifier).refresh();
         },
-        icon: Icon(Icons.refresh),
+        icon: const Icon(Icons.refresh),
       ),
       actions: [
         AppButton(
-          label: "Add",
+          label: "Add Remote Beacon",
           variant: AppColorVariant.Light,
           onPressed: () async {
             showModalBottomSheet(
                 context: context,
                 builder: (context) {
-                  return AddBeaconModal();
+                  return const AddBeaconModal();
                 });
           },
         ),
-        SizedBox(
+        const SizedBox(
           width: 8,
         ),
         AppButton(
-          label: "Create",
+          label: "Create / Host Beacon",
           variant: AppColorVariant.Light,
           onPressed: () async {
             if (myBeacons.isNotEmpty) {
@@ -59,11 +59,11 @@ class BeaconListScreen extends BaseScreen {
             showModalBottomSheet(
                 context: context,
                 builder: (context) {
-                  return CreateBeaconModal();
+                  return const CreateBeaconModal();
                 });
           },
         ),
-        SizedBox(
+        const SizedBox(
           width: 8,
         ),
       ],
@@ -74,7 +74,7 @@ class BeaconListScreen extends BaseScreen {
   Widget body(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
-        Expanded(child: BeaconList()),
+        const Expanded(child: BeaconList()),
       ],
     );
   }

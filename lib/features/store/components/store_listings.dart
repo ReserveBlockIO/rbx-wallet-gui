@@ -1,12 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/components/centered_loader.dart';
-import 'package:rbx_wallet/core/web_router.gr.dart';
-import 'package:rbx_wallet/features/dsts/providers/my_store_listings_provider.dart';
-import 'package:rbx_wallet/features/store/models/store.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/components/centered_loader.dart';
+import '../../../core/web_router.gr.dart';
+import '../../dsts/providers/my_store_listings_provider.dart';
+import '../models/store.dart';
 
 class StoreListings extends BaseComponent {
   final Store store;
@@ -30,8 +31,8 @@ class StoreListings extends BaseComponent {
                   "No Auctions",
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8),
                   child: Text("You haven't created any auctions in this store yet."),
                 ),
                 AppButton(
@@ -55,13 +56,13 @@ class StoreListings extends BaseComponent {
                   final listing = listings[index];
                   return ListTile(
                     title: Text(listing.name),
-                    trailing: Icon(Icons.chevron_right),
+                    trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       AutoRouter.of(context).push(StoreListingScreenRoute(slug: listing.slug));
                     },
                   );
                 }),
-            Divider(),
+            const Divider(),
             AppButton(
               label: "Create Auction",
               onPressed: () {
@@ -71,8 +72,8 @@ class StoreListings extends BaseComponent {
           ],
         );
       },
-      error: (_, __) => Text("Error"),
-      loading: () => CenteredLoader(),
+      error: (_, __) => const Text("Error"),
+      loading: () => const CenteredLoader(),
     );
   }
 }

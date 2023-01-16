@@ -1,9 +1,10 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
-import 'package:rbx_wallet/features/nft/models/web_nft.dart';
-import 'package:rbx_wallet/features/store/models/bid.dart';
-import 'package:rbx_wallet/features/store/models/store.dart';
 import 'package:timeago/timeago.dart' as timeago;
+
+import '../../nft/models/web_nft.dart';
+import 'bid.dart';
+import 'store.dart';
 
 part 'listing.freezed.dart';
 part 'listing.g.dart';

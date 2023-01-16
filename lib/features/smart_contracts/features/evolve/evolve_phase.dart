@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
-import 'package:rbx_wallet/features/asset/asset.dart';
+
+import '../../../asset/asset.dart';
 
 part 'evolve_phase.freezed.dart';
 part 'evolve_phase.g.dart';

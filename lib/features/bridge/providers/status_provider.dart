@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
-import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
-import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
+
+import '../../../core/app_constants.dart';
+import '../models/log_entry.dart';
+import '../services/bridge_service.dart';
+import 'log_provider.dart';
 
 enum BridgeStatus {
   Loading,
@@ -16,8 +17,7 @@ class StatusProvider extends StateNotifier<BridgeStatus> {
   final Reader read;
   Timer? timer;
 
-  StatusProvider(this.read, [BridgeStatus model = BridgeStatus.Loading])
-      : super(model) {
+  StatusProvider(this.read, [BridgeStatus model = BridgeStatus.Loading]) : super(model) {
     _init();
   }
 
@@ -26,8 +26,7 @@ class StatusProvider extends StateNotifier<BridgeStatus> {
       read(logProvider.notifier).append(LogEntry(message: "Connecting..."));
     });
     _checkStatus();
-    timer = Timer.periodic(const Duration(seconds: REFRESH_TIMEOUT_SECONDS),
-        (Timer t) => _checkStatus());
+    timer = Timer.periodic(const Duration(seconds: REFRESH_TIMEOUT_SECONDS), (Timer t) => _checkStatus());
   }
 
   Future<void> _checkStatus() async {
@@ -39,8 +38,7 @@ class StatusProvider extends StateNotifier<BridgeStatus> {
       state = BridgeStatus.Online;
 
       if (state != prevState) {
-        read(logProvider.notifier)
-            .append(LogEntry(message: "You are connected"));
+        read(logProvider.notifier).append(LogEntry(message: "You are connected"));
 
         // read(walletInfoProvider.notifier).fetch();
       }
@@ -54,7 +52,6 @@ class StatusProvider extends StateNotifier<BridgeStatus> {
   }
 }
 
-final statusProvider =
-    StateNotifierProvider<StatusProvider, BridgeStatus>((ref) {
+final statusProvider = StateNotifierProvider<StatusProvider, BridgeStatus>((ref) {
   return StatusProvider(ref.read);
 });

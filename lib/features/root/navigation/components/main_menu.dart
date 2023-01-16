@@ -2,10 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/generated/assets.gen.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+
+import '../../../../core/base_component.dart';
+import '../../../../core/providers/session_provider.dart';
+import '../../../../generated/assets.gen.dart';
+import '../../../../utils/toast.dart';
 
 class MainMenu extends BaseComponent {
   // ignoreing this because otherwise dartfix will try to make it a const which screws up rebuilds
@@ -66,7 +67,7 @@ class MainMenu extends BaseComponent {
                   ),
                   Container(
                     color: Colors.black,
-                    child: Center(
+                    child: const Center(
                       child: _RotatingCube(),
                     ),
                   ),
@@ -191,7 +192,7 @@ class MainMenu extends BaseComponent {
                   ),
                   _NavButton(
                     title: "Beacons",
-                    icon: Icons.wifi,
+                    icon: Icons.satellite_alt,
                     onPressed: () {
                       tabsRouter.setActiveIndex(12);
                     },
@@ -199,7 +200,7 @@ class MainMenu extends BaseComponent {
                   ),
 
                   _NavButton(
-                    title: "DSTs",
+                    title: "P2P Auctions",
                     icon: Icons.leak_add,
                     onPressed: () {
                       tabsRouter.setActiveIndex(9);

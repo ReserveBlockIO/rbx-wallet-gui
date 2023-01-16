@@ -1,16 +1,17 @@
 import 'dart:convert';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/nft/providers/transferred_provider.dart';
-import 'package:rbx_wallet/features/transactions/models/transaction.dart';
-import 'package:collection/collection.dart';
-import 'package:rbx_wallet/features/transactions/models/transaction_notification.dart';
-import 'package:rbx_wallet/features/transactions/providers/transaction_notification_provider.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
+
+import '../../../core/app_constants.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../nft/providers/transferred_provider.dart';
+import '../../wallet/providers/wallet_list_provider.dart';
+import '../models/transaction.dart';
+import '../models/transaction_notification.dart';
+import 'transaction_notification_provider.dart';
 
 class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
   final Reader read;
@@ -164,7 +165,6 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
         final id = _nftDataValue(nftData, 'ContractUID');
         if (id != null) {
           read(transferredProvider.notifier).removeId(id);
-          print("Removing transfer id of '$id'");
         }
       }
 

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/app.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/nft/components/nft_qr_code.dart';
-import 'package:rbx_wallet/features/web/components/web_no_wallet.dart';
-import 'package:rbx_wallet/utils/html_helpers.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+
+import '../../../core/base_screen.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../utils/html_helpers.dart';
+import '../../../utils/toast.dart';
+import '../../../utils/validation.dart';
+import '../../nft/components/nft_qr_code.dart';
+import '../../web/components/web_no_wallet.dart';
 
 class WebReceiveScreen extends BaseScreen {
   const WebReceiveScreen({Key? key})
@@ -54,7 +54,7 @@ class WebReceiveScreen extends BaseScreen {
       labelText: "Amount to request",
       validator: (value) => formValidatorNumber(value, "Amount"),
       inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
-      keyboardType: TextInputType.numberWithOptions(decimal: true),
+      keyboardType: const TextInputType.numberWithOptions(decimal: true),
       confirmText: "Generate Link",
       onValidSubmission: onValidSubmission,
     );
@@ -84,7 +84,7 @@ class WebReceiveScreen extends BaseScreen {
                       initialValue: address,
                       readOnly: true,
                       decoration: InputDecoration(
-                        label: Text("Your Address"),
+                        label: const Text("Your Address"),
                         border: InputBorder.none,
                         suffixIcon: IconButton(
                           icon: const Icon(Icons.copy),
@@ -100,7 +100,7 @@ class WebReceiveScreen extends BaseScreen {
                     "This is the address the sender needs to send funds to.",
                     style: Theme.of(context).textTheme.caption,
                   ),
-                  Divider(),
+                  const Divider(),
                 ],
               ),
             ),
@@ -134,7 +134,7 @@ class WebReceiveScreen extends BaseScreen {
                 },
                 variant: AppColorVariant.Light,
               ),
-              SizedBox(width: 6),
+              const SizedBox(width: 6),
               AppButton(
                 label: "QR Code",
                 icon: Icons.qr_code_rounded,
@@ -143,7 +143,6 @@ class WebReceiveScreen extends BaseScreen {
                       context: context,
                       address: address,
                       onValidSubmission: (amount) async {
-                        print(amount);
                         if (double.tryParse(amount) != null) {
                           final url = generateLink(address, double.parse(amount));
 

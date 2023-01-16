@@ -13,8 +13,7 @@ _$_SoulBound _$$_SoulBoundFromJson(Map<String, dynamic> json) => _$_SoulBound(
       beneficiaryAddress: json['beneficiaryAddress'] as String?,
     );
 
-Map<String, dynamic> _$$_SoulBoundToJson(_$_SoulBound instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$$_SoulBoundToJson(_$_SoulBound instance) => <String, dynamic>{
       'id': instance.id,
       'amount': instance.amount,
       'ownerAddress': instance.ownerAddress,

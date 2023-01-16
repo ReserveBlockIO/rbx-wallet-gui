@@ -1,7 +1,18 @@
 import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:rbx_wallet/core/env.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/core/services/transaction_service.dart';
+import 'package:rbx_wallet/features/asset/asset.dart';
+import 'package:rbx_wallet/features/config/providers/config_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../core/env.dart';
 
 Future<void> openFile(File file) async {
   try {
@@ -24,4 +35,66 @@ Future<String> configPath() async {
         "\\Roaming\\com.example\\rbx_wallet_gui", "\\Local\\${Env.isTestNet ? 'RBXTest\\ConfigTestNet\\config.txt' : 'RBX\\Config\\config.txt'}");
   }
   return path;
+}
+
+Future<Asset?> selectAsset(WidgetRef ref) async {
+  FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+  if (result == null) {
+    return null;
+  }
+
+  File? file;
+  Asset? asset;
+
+  if (kIsWeb) {
+    final bytes = result.files.single.bytes;
+    if (bytes == null) {
+      return null;
+    }
+
+    final ext = result.files.single.extension;
+    final filename = result.files.single.name;
+
+    final webAsset = await TransactionService().uploadAsset(bytes, filename, ext);
+
+    if (webAsset == null) return null;
+    asset = Asset(
+      id: '00000000-0000-0000-0000-000000000000',
+      location: webAsset.location,
+      extension: webAsset.extension,
+      fileSize: result.files.single.bytes!.length,
+      bytes: bytes,
+      name: webAsset.filename,
+    );
+  } else {
+    file = File(result.files.single.path!);
+    final filePath = file.path;
+
+    final slash = Platform.isWindows ? "\\" : "/";
+    final name = filePath.split(slash).last;
+    final extension = name.split(".").last;
+    final fileSize = (await File(filePath).readAsBytes()).length;
+
+    if (fileSize > MAX_ASSET_BYTES) {
+      // Toast.error("Max file size is 150MB.");
+      InfoDialog.show(title: "File is too large", body: "Max file size is 150MB.");
+      return null;
+    }
+
+    if (MALWARE_FILE_EXTENSIONS.contains(extension) || ref.read(configProvider).rejectAssetExtensionTypes.contains(extension.toLowerCase())) {
+      InfoDialog.show(title: "Unsupported File", body: "This file extension (.$extension) is not permitted.");
+      return null;
+    }
+
+    asset = Asset(
+      id: "00000000-0000-0000-0000-000000000000",
+      name: name,
+      authorName: "",
+      location: filePath,
+      extension: extension,
+      fileSize: fileSize,
+    );
+  }
+  return asset;
 }

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/dropdowns.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_header.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_bottom_actions.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket_form_provider.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+
+import '../../../../core/base_component.dart';
+import '../../../../core/components/dropdowns.dart';
+import '../../../../utils/validation.dart';
+import '../../components/sc_creator/common/form_group_header.dart';
+import '../../components/sc_creator/common/modal_bottom_actions.dart';
+import '../../components/sc_creator/common/modal_container.dart';
+import 'ticket.dart';
+import 'ticket_form_provider.dart';
 
 class TicketModal extends BaseComponent {
   const TicketModal({Key? key}) : super(key: key);
@@ -86,9 +87,7 @@ class TicketModal extends BaseComponent {
                 child: TextFormField(
                   controller: _provider.eventAddressController,
                   decoration: InputDecoration(
-                    label: Text(_model.type == TicketType.physicalEvent
-                        ? "Event Address"
-                        : "Event URL"),
+                    label: Text(_model.type == TicketType.physicalEvent ? "Event Address" : "Event URL"),
                     labelStyle: const TextStyle(color: Colors.white),
                   ),
                   // validator: _provider.addressValidator,

@@ -34,6 +34,12 @@ mixin _$Beacon {
   bool get selfBeacon => throw _privateConstructorUsedError;
   @JsonKey(name: "SelfBeaconActive")
   bool get selfBeaconActive => throw _privateConstructorUsedError;
+  @JsonKey(name: "IsPrivateBeacon")
+  bool get isBeaconPrivate => throw _privateConstructorUsedError;
+  @JsonKey(name: "AutoDeleteAfterDownload")
+  bool get autoDeleteAfterDownload => throw _privateConstructorUsedError;
+  @JsonKey(name: "FileCachePeriodDays")
+  int get fileCachePeriodDays => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -51,7 +57,10 @@ abstract class $BeaconCopyWith<$Res> {
       @JsonKey(name: "Name") String name,
       @JsonKey(name: "BeaconUID") String uid,
       @JsonKey(name: "SelfBeacon") bool selfBeacon,
-      @JsonKey(name: "SelfBeaconActive") bool selfBeaconActive});
+      @JsonKey(name: "SelfBeaconActive") bool selfBeaconActive,
+      @JsonKey(name: "IsPrivateBeacon") bool isBeaconPrivate,
+      @JsonKey(name: "AutoDeleteAfterDownload") bool autoDeleteAfterDownload,
+      @JsonKey(name: "FileCachePeriodDays") int fileCachePeriodDays});
 }
 
 /// @nodoc
@@ -71,6 +80,9 @@ class _$BeaconCopyWithImpl<$Res> implements $BeaconCopyWith<$Res> {
     Object? uid = freezed,
     Object? selfBeacon = freezed,
     Object? selfBeaconActive = freezed,
+    Object? isBeaconPrivate = freezed,
+    Object? autoDeleteAfterDownload = freezed,
+    Object? fileCachePeriodDays = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -101,6 +113,18 @@ class _$BeaconCopyWithImpl<$Res> implements $BeaconCopyWith<$Res> {
           ? _value.selfBeaconActive
           : selfBeaconActive // ignore: cast_nullable_to_non_nullable
               as bool,
+      isBeaconPrivate: isBeaconPrivate == freezed
+          ? _value.isBeaconPrivate
+          : isBeaconPrivate // ignore: cast_nullable_to_non_nullable
+              as bool,
+      autoDeleteAfterDownload: autoDeleteAfterDownload == freezed
+          ? _value.autoDeleteAfterDownload
+          : autoDeleteAfterDownload // ignore: cast_nullable_to_non_nullable
+              as bool,
+      fileCachePeriodDays: fileCachePeriodDays == freezed
+          ? _value.fileCachePeriodDays
+          : fileCachePeriodDays // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -117,7 +141,10 @@ abstract class _$$_BeaconCopyWith<$Res> implements $BeaconCopyWith<$Res> {
       @JsonKey(name: "Name") String name,
       @JsonKey(name: "BeaconUID") String uid,
       @JsonKey(name: "SelfBeacon") bool selfBeacon,
-      @JsonKey(name: "SelfBeaconActive") bool selfBeaconActive});
+      @JsonKey(name: "SelfBeaconActive") bool selfBeaconActive,
+      @JsonKey(name: "IsPrivateBeacon") bool isBeaconPrivate,
+      @JsonKey(name: "AutoDeleteAfterDownload") bool autoDeleteAfterDownload,
+      @JsonKey(name: "FileCachePeriodDays") int fileCachePeriodDays});
 }
 
 /// @nodoc
@@ -138,6 +165,9 @@ class __$$_BeaconCopyWithImpl<$Res> extends _$BeaconCopyWithImpl<$Res>
     Object? uid = freezed,
     Object? selfBeacon = freezed,
     Object? selfBeaconActive = freezed,
+    Object? isBeaconPrivate = freezed,
+    Object? autoDeleteAfterDownload = freezed,
+    Object? fileCachePeriodDays = freezed,
   }) {
     return _then(_$_Beacon(
       id: id == freezed
@@ -168,6 +198,18 @@ class __$$_BeaconCopyWithImpl<$Res> extends _$BeaconCopyWithImpl<$Res>
           ? _value.selfBeaconActive
           : selfBeaconActive // ignore: cast_nullable_to_non_nullable
               as bool,
+      isBeaconPrivate: isBeaconPrivate == freezed
+          ? _value.isBeaconPrivate
+          : isBeaconPrivate // ignore: cast_nullable_to_non_nullable
+              as bool,
+      autoDeleteAfterDownload: autoDeleteAfterDownload == freezed
+          ? _value.autoDeleteAfterDownload
+          : autoDeleteAfterDownload // ignore: cast_nullable_to_non_nullable
+              as bool,
+      fileCachePeriodDays: fileCachePeriodDays == freezed
+          ? _value.fileCachePeriodDays
+          : fileCachePeriodDays // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -176,13 +218,26 @@ class __$$_BeaconCopyWithImpl<$Res> extends _$BeaconCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Beacon extends _Beacon {
   _$_Beacon(
-      {@JsonKey(name: "Id") required this.id,
-      @JsonKey(name: "IPAddress") required this.ipAddress,
-      @JsonKey(name: "Port") required this.port,
-      @JsonKey(name: "Name") required this.name,
-      @JsonKey(name: "BeaconUID") required this.uid,
-      @JsonKey(name: "SelfBeacon") required this.selfBeacon,
-      @JsonKey(name: "SelfBeaconActive") required this.selfBeaconActive})
+      {@JsonKey(name: "Id")
+          required this.id,
+      @JsonKey(name: "IPAddress")
+          required this.ipAddress,
+      @JsonKey(name: "Port")
+          required this.port,
+      @JsonKey(name: "Name")
+          required this.name,
+      @JsonKey(name: "BeaconUID")
+          required this.uid,
+      @JsonKey(name: "SelfBeacon")
+          required this.selfBeacon,
+      @JsonKey(name: "SelfBeaconActive")
+          required this.selfBeaconActive,
+      @JsonKey(name: "IsPrivateBeacon")
+          required this.isBeaconPrivate,
+      @JsonKey(name: "AutoDeleteAfterDownload")
+          required this.autoDeleteAfterDownload,
+      @JsonKey(name: "FileCachePeriodDays")
+          required this.fileCachePeriodDays})
       : super._();
 
   factory _$_Beacon.fromJson(Map<String, dynamic> json) =>
@@ -209,10 +264,19 @@ class _$_Beacon extends _Beacon {
   @override
   @JsonKey(name: "SelfBeaconActive")
   final bool selfBeaconActive;
+  @override
+  @JsonKey(name: "IsPrivateBeacon")
+  final bool isBeaconPrivate;
+  @override
+  @JsonKey(name: "AutoDeleteAfterDownload")
+  final bool autoDeleteAfterDownload;
+  @override
+  @JsonKey(name: "FileCachePeriodDays")
+  final int fileCachePeriodDays;
 
   @override
   String toString() {
-    return 'Beacon(id: $id, ipAddress: $ipAddress, port: $port, name: $name, uid: $uid, selfBeacon: $selfBeacon, selfBeaconActive: $selfBeaconActive)';
+    return 'Beacon(id: $id, ipAddress: $ipAddress, port: $port, name: $name, uid: $uid, selfBeacon: $selfBeacon, selfBeaconActive: $selfBeaconActive, isBeaconPrivate: $isBeaconPrivate, autoDeleteAfterDownload: $autoDeleteAfterDownload, fileCachePeriodDays: $fileCachePeriodDays)';
   }
 
   @override
@@ -228,7 +292,13 @@ class _$_Beacon extends _Beacon {
             const DeepCollectionEquality()
                 .equals(other.selfBeacon, selfBeacon) &&
             const DeepCollectionEquality()
-                .equals(other.selfBeaconActive, selfBeaconActive));
+                .equals(other.selfBeaconActive, selfBeaconActive) &&
+            const DeepCollectionEquality()
+                .equals(other.isBeaconPrivate, isBeaconPrivate) &&
+            const DeepCollectionEquality().equals(
+                other.autoDeleteAfterDownload, autoDeleteAfterDownload) &&
+            const DeepCollectionEquality()
+                .equals(other.fileCachePeriodDays, fileCachePeriodDays));
   }
 
   @JsonKey(ignore: true)
@@ -241,7 +311,10 @@ class _$_Beacon extends _Beacon {
       const DeepCollectionEquality().hash(name),
       const DeepCollectionEquality().hash(uid),
       const DeepCollectionEquality().hash(selfBeacon),
-      const DeepCollectionEquality().hash(selfBeaconActive));
+      const DeepCollectionEquality().hash(selfBeaconActive),
+      const DeepCollectionEquality().hash(isBeaconPrivate),
+      const DeepCollectionEquality().hash(autoDeleteAfterDownload),
+      const DeepCollectionEquality().hash(fileCachePeriodDays));
 
   @JsonKey(ignore: true)
   @override
@@ -269,7 +342,13 @@ abstract class _Beacon extends Beacon {
       @JsonKey(name: "SelfBeacon")
           required final bool selfBeacon,
       @JsonKey(name: "SelfBeaconActive")
-          required final bool selfBeaconActive}) = _$_Beacon;
+          required final bool selfBeaconActive,
+      @JsonKey(name: "IsPrivateBeacon")
+          required final bool isBeaconPrivate,
+      @JsonKey(name: "AutoDeleteAfterDownload")
+          required final bool autoDeleteAfterDownload,
+      @JsonKey(name: "FileCachePeriodDays")
+          required final int fileCachePeriodDays}) = _$_Beacon;
   _Beacon._() : super._();
 
   factory _Beacon.fromJson(Map<String, dynamic> json) = _$_Beacon.fromJson;
@@ -295,6 +374,15 @@ abstract class _Beacon extends Beacon {
   @override
   @JsonKey(name: "SelfBeaconActive")
   bool get selfBeaconActive => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: "IsPrivateBeacon")
+  bool get isBeaconPrivate => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: "AutoDeleteAfterDownload")
+  bool get autoDeleteAfterDownload => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: "FileCachePeriodDays")
+  int get fileCachePeriodDays => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_BeaconCopyWith<_$_Beacon> get copyWith =>

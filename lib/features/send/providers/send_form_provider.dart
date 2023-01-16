@@ -1,19 +1,20 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/core/services/transaction_service.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
-import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
-import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
-import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
-import 'package:rbx_wallet/utils/guards.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+
+import '../../../core/dialogs.dart';
+import '../../../core/env.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../../core/services/transaction_service.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../utils/guards.dart';
+import '../../../utils/toast.dart';
+import '../../../utils/validation.dart';
+import '../../bridge/models/log_entry.dart';
+import '../../bridge/providers/log_provider.dart';
+import '../../bridge/services/bridge_service.dart';
+import '../../web/utils/raw_transaction.dart';
 // import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 
 class SendFormModel {

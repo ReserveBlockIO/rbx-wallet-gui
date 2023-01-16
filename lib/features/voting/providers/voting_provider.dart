@@ -1,14 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/features/voting/models/topic.dart';
-import 'package:rbx_wallet/features/voting/models/vote.dart';
-import 'package:rbx_wallet/features/voting/providers/my_vote_list_provider.dart';
-import 'package:rbx_wallet/features/voting/providers/pending_votes_provider.dart';
-import 'package:rbx_wallet/features/voting/providers/topic_detail_provider.dart';
-import 'package:rbx_wallet/features/voting/services/topic_service.dart';
-import 'package:rbx_wallet/features/voting/services/vote_service.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+
+import '../../../utils/toast.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../models/topic.dart';
+import '../services/topic_service.dart';
+import '../services/vote_service.dart';
+import 'pending_votes_provider.dart';
 
 class VotingProvider extends StateNotifier<Topic?> {
   final StateNotifierProviderRef ref;

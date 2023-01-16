@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rbx_wallet/app.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_container.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_header.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/modals/stat_modal.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/stat.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/stat_form_provider.dart';
+
+import '../../../../../app.dart';
+import '../../../../../core/base_component.dart';
+import '../../../../../core/components/buttons.dart';
+import '../../../../../core/theme/app_theme.dart';
+import '../../../models/stat.dart';
+import '../../../providers/create_smart_contract_provider.dart';
+import '../../../providers/stat_form_provider.dart';
+import '../common/form_group_container.dart';
+import '../common/form_group_header.dart';
+import '../common/help_button.dart';
+import '../modals/stat_modal.dart';
 
 class StatsFormGroup extends BaseComponent {
   const StatsFormGroup({Key? key}) : super(key: key);
@@ -29,11 +30,7 @@ class StatsFormGroup extends BaseComponent {
             "Stats",
             helpType: HelpType.unknown,
           ),
-          ..._model.stats
-              .asMap()
-              .entries
-              .map((entry) => _StatCard(entry.value, entry.key))
-              .toList(),
+          ..._model.stats.asMap().entries.map((entry) => _StatCard(entry.value, entry.key)).toList(),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -48,8 +45,7 @@ class StatsFormGroup extends BaseComponent {
                       isScrollControlled: true,
                       isDismissible: true,
                       builder: (context) {
-                        return StatModal(
-                            ref.read(createSmartContractProvider).stats.length);
+                        return StatModal(ref.read(createSmartContractProvider).stats.length);
                       },
                     );
                   },

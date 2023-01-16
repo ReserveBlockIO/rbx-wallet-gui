@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/services/explorer_service.dart';
-import 'package:rbx_wallet/features/node/models/masternode.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+
+import '../../../core/services/explorer_service.dart';
+import '../../../utils/toast.dart';
+import '../models/masternode.dart';
 
 class MasternodeListProvider extends StateNotifier<List<Masternode>> {
   final Reader read;

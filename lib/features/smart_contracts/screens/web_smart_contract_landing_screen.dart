@@ -1,15 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/breakpoints.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/core/web_router.gr.dart';
-import 'package:rbx_wallet/features/smart_contracts/screens/smart_contracts_screen.dart';
-import 'package:rbx_wallet/features/web/components/web_no_wallet.dart';
-import 'package:rbx_wallet/generated/assets.gen.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../../core/base_screen.dart';
+import '../../../core/breakpoints.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../../core/web_router.gr.dart';
+import '../../../generated/assets.gen.dart';
+import '../../web/components/web_no_wallet.dart';
+import 'smart_contracts_screen.dart';
 
 class WebSmartContractLandingScreen extends BaseScreen {
   const WebSmartContractLandingScreen({Key? key})
@@ -70,7 +71,7 @@ class WebSmartContractLandingScreen extends BaseScreen {
                     iconData: Icons.create,
                     body: "Start with a baseline smart contract and add customized features",
                     onPressed: () {
-                      AutoRouter.of(context).push(WebCreateSmartContractScreenRoute());
+                      AutoRouter.of(context).push(const WebCreateSmartContractScreenRoute());
                     },
                   ),
                   BigButton(

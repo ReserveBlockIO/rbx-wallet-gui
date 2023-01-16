@@ -6,8 +6,7 @@ part of 'mother_child.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_MotherChild _$$_MotherChildFromJson(Map<String, dynamic> json) =>
-    _$_MotherChild(
+_$_MotherChild _$$_MotherChildFromJson(Map<String, dynamic> json) => _$_MotherChild(
       address: json['Address'] as String,
       ipAddress: json['IPAddress'] as String,
       peerCount: json['PeerCount'] as int,
@@ -22,8 +21,7 @@ _$_MotherChild _$$_MotherChildFromJson(Map<String, dynamic> json) =>
       lastTaskSent: DateTime.parse(json['LastTaskSent'] as String),
     );
 
-Map<String, dynamic> _$$_MotherChildToJson(_$_MotherChild instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$$_MotherChildToJson(_$_MotherChild instance) => <String, dynamic>{
       'Address': instance.address,
       'IPAddress': instance.ipAddress,
       'PeerCount': instance.peerCount,

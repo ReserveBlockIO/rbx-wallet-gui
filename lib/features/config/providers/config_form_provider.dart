@@ -1,18 +1,17 @@
 import 'dart:io';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/features/config/constants.dart';
-import 'package:rbx_wallet/features/config/models/config.dart';
-import 'package:rbx_wallet/features/config/providers/config_provider.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/utils/files.dart';
-import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/dialogs.dart';
 import '../../../core/env.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../utils/files.dart';
+import '../../../utils/toast.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../constants.dart';
+import '../models/config.dart';
+import 'config_provider.dart';
 
 class ConfigFormProvider extends StateNotifier<Config> {
   final Reader read;
@@ -194,12 +193,12 @@ class ConfigFormProvider extends StateNotifier<Config> {
       data += 'Port=3338\n';
     }
 
-    if (!state.isApiPortDefault) data += 'APIPort=${state.apiPort}\n';
+    data += 'APIPort=${state.apiPort}\n';
     if (!state.isApiCallUrlDefault) data += 'APICallURL=${state.apiCallUrl}\n';
     if (!state.isWalletUnlockTimeDefault) data += 'WalletUnlockTime=${state.walletUnlockTime}\n';
-    if (!state.isNftTimeoutDefault) data += 'NFTTimeout=${state.nftTimeout}\n';
+    data += 'NFTTimeout=${state.nftTimeout}\n';
     if (!state.isPasswordClearTimeDefault) data += 'PasswordClearTime=${state.passwordClearTime}\n';
-    if (!state.isAutoDownloadingNftAssetDefault) data += 'AutoDownloadNFTAsset=${state.autoDownloadNftAsset}\n';
+    data += 'AutoDownloadNFTAsset=${state.autoDownloadNftAsset}\n';
     if (!state.isIgnoreIncomingNftsDefault) data += 'IgnoreIncomingNFTs=${state.ignoreIncomingNfts}\n';
     if (!state.isRejectAssetExtensionTypesDefault) data += 'RejectAssetExtensionTypes=${state.nonDefaultRejectExtensionTypes}\n';
     if (!state.isAllowedExtensionTypesDefault) data += 'AllowedExtensionsTypes=${state.nonBannedExtensionTypes}\n';

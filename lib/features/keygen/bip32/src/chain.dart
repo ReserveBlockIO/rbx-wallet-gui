@@ -48,9 +48,7 @@ class Chain {
       return root!.publicKey();
     }
 
-    dynamic derivationFunction = wantsPrivate
-        ? deriveExtendedPrivateChildKey
-        : deriveExtendedPublicChildKey;
+    dynamic derivationFunction = wantsPrivate ? deriveExtendedPrivateChildKey : deriveExtendedPublicChildKey;
 
     return children.fold(root!, (ExtendedKey previousKey, int childNumber) {
       return derivationFunction(previousKey, childNumber);

@@ -1,10 +1,10 @@
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/services/base_service.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/node/models/masternode.dart';
-import 'package:rbx_wallet/features/transactions/models/web_transaction.dart';
-import 'package:rbx_wallet/features/web/models/paginated_response.dart';
-import 'package:rbx_wallet/features/web/models/web_block.dart';
+import '../../features/nft/models/nft.dart';
+import '../../features/node/models/masternode.dart';
+import '../../features/transactions/models/web_transaction.dart';
+import '../../features/web/models/paginated_response.dart';
+import '../../features/web/models/web_block.dart';
+import '../env.dart';
+import 'base_service.dart';
 
 class ExplorerService extends BaseService {
   ExplorerService()

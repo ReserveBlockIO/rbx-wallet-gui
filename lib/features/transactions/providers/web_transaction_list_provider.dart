@@ -1,7 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/core/services/explorer_service.dart';
-import 'package:rbx_wallet/features/transactions/models/web_transaction.dart';
+
+import '../../../core/providers/web_session_provider.dart';
+import '../../../core/services/explorer_service.dart';
+import '../models/web_transaction.dart';
 
 class WebTransactionListProvider extends StateNotifier<List<WebTransaction>> {
   final Reader read;

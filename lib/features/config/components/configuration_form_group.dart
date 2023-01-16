@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/features/config/constants.dart';
-import 'package:rbx_wallet/features/config/providers/config_form_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_container.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_header.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/env.dart';
+import '../../../utils/validation.dart';
+import '../../smart_contracts/components/sc_creator/common/form_group_container.dart';
+import '../../smart_contracts/components/sc_creator/common/form_group_header.dart';
+import '../../smart_contracts/components/sc_creator/common/help_button.dart';
+import '../constants.dart';
+import '../providers/config_form_provider.dart';
 
 class ConfigurationFormGroup extends BaseComponent {
   const ConfigurationFormGroup({Key? key}) : super(key: key);
@@ -146,9 +147,9 @@ class _AutoDownloadNftAsset extends BaseComponent {
           onTap: () {
             provider.changeAutoDownloadNFTAssets(!model.autoDownloadNftAsset);
           },
-          child: Text("Auto Download NFT Assets"),
+          child: const Text("Auto Download NFT Assets"),
         ),
-        HelpButton(HelpType.autoDownloadNftAsset)
+        const HelpButton(HelpType.autoDownloadNftAsset)
       ],
     );
   }
@@ -174,9 +175,9 @@ class _IgnoreIncomingNfts extends BaseComponent {
           onTap: () {
             provider.changeIgnoreIncomingNfts(!model.ignoreIncomingNfts);
           },
-          child: Text("Ignore Incoming NFTs"),
+          child: const Text("Ignore Incoming NFTs"),
         ),
-        HelpButton(HelpType.ignoreIncomingNfts)
+        const HelpButton(HelpType.ignoreIncomingNfts)
       ],
     );
   }
@@ -198,12 +199,12 @@ class _WalletUnlockTime extends BaseComponent {
       ],
       onChanged: provider.setWalletUnlockTime,
       decoration: InputDecoration(
-        label: Text(
+        label: const Text(
           "Wallet Unlock Time",
           style: TextStyle(color: Colors.white),
         ),
         hintText: WALLET_UNLOCK_TIME_DEFAULT.toString(),
-        suffixIcon: HelpButton(HelpType.walletUnlockTime),
+        suffixIcon: const HelpButton(HelpType.walletUnlockTime),
       ),
     );
   }
@@ -225,12 +226,12 @@ class _NftTimeout extends BaseComponent {
       ],
       onChanged: provider.setNftTimeout,
       decoration: InputDecoration(
-        label: Text(
+        label: const Text(
           "NFT Timeout",
           style: TextStyle(color: Colors.white),
         ),
         hintText: NFT_TIMEOUT_DEFAULT.toString(),
-        suffixIcon: HelpButton(HelpType.nftTimeout),
+        suffixIcon: const HelpButton(HelpType.nftTimeout),
       ),
     );
   }
@@ -251,12 +252,12 @@ class _ApiPort extends BaseComponent {
       ],
       onChanged: provider.setApiPort,
       decoration: InputDecoration(
-        label: Text(
+        label: const Text(
           "Api Port",
           style: TextStyle(color: Colors.white),
         ),
         hintText: Env.isTestNet ? '17292' : '7292',
-        suffixIcon: HelpButton(HelpType.apiPort),
+        suffixIcon: const HelpButton(HelpType.apiPort),
       ),
     );
   }
@@ -278,12 +279,12 @@ class _PasswordClearTime extends BaseComponent {
       ],
       onChanged: provider.setPasswordClearTime,
       decoration: InputDecoration(
-        label: Text(
+        label: const Text(
           "Password Clear Time",
           style: TextStyle(color: Colors.white),
         ),
         hintText: PASSWORD_CLEAR_TIME_DEFAULT.toString(),
-        suffixIcon: HelpButton(HelpType.passwordClearTime),
+        suffixIcon: const HelpButton(HelpType.passwordClearTime),
       ),
     );
   }

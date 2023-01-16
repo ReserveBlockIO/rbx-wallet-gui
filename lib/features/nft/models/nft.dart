@@ -1,13 +1,13 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/features/asset/asset.dart';
-import 'package:rbx_wallet/features/asset/proxied_asset.dart';
-import 'package:rbx_wallet/features/asset/web_asset.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/feature.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/multi_asset.dart';
 import 'package:collection/collection.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../core/env.dart';
+import '../../asset/asset.dart';
+import '../../asset/proxied_asset.dart';
+import '../../smart_contracts/features/evolve/evolve.dart';
+import '../../smart_contracts/features/evolve/evolve_phase.dart';
+import '../../smart_contracts/models/feature.dart';
+import '../../smart_contracts/models/multi_asset.dart';
 
 part 'nft.freezed.dart';
 part 'nft.g.dart';

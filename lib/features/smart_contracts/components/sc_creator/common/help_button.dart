@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
+
+import '../../../../../core/app_constants.dart';
+import '../../../../../core/dialogs.dart';
 
 enum HelpType {
   unknown,
@@ -42,19 +43,29 @@ enum HelpType {
   rejectAssetExtensionTypes,
   allowedAssetExtensionTypes,
   motherAddress,
-  motherPassword
+  motherPassword,
+  mintQuantity,
 }
 
 class HelpButton extends StatelessWidget {
   final HelpType type;
   final bool subtle;
   final Color? color;
-  const HelpButton(this.type, {Key? key, this.subtle = false, this.color}) : super(key: key);
+  final bool mini;
+  const HelpButton(
+    this.type, {
+    Key? key,
+    this.subtle = false,
+    this.color,
+    this.mini = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
       padding: EdgeInsets.zero,
+      constraints: mini ? const BoxConstraints() : null,
+      visualDensity: mini ? VisualDensity.compact : VisualDensity.standard,
       icon: Icon(
         Icons.help,
         color: color != null ? color! : Theme.of(context).colorScheme.secondary.withOpacity(subtle ? 0.7 : 1),
@@ -150,6 +161,8 @@ class HelpButton extends StatelessWidget {
         return "Mother Address";
       case HelpType.motherPassword:
         return "Mother Password";
+      case HelpType.mintQuantity:
+        return "Quantity to Mint";
     }
   }
 
@@ -236,6 +249,8 @@ class HelpButton extends StatelessWidget {
         return "The IP address of the HOST wallet. \n\n Default value: (leave blank)";
       case HelpType.motherPassword:
         return "The password set in your HOST wallet when configuring MOTHER.\n\n Default value: (leave blank)";
+      case HelpType.mintQuantity:
+        return "The number of Smart Contracts / NFTs you want to mint from this template.";
     }
   }
 }

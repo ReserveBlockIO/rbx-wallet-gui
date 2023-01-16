@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/services/transaction_service.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/adnr/providers/adnr_pending_provider.dart';
-import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
-import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+
+import '../../../core/app_constants.dart';
+import '../../../core/base_component.dart';
+import '../../../core/services/transaction_service.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../utils/toast.dart';
+import '../../../utils/validation.dart';
+import '../../bridge/models/log_entry.dart';
+import '../../bridge/providers/log_provider.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../providers/adnr_pending_provider.dart';
 
 class CreateAdnrDialog extends BaseComponent {
   final String address;
@@ -30,14 +30,14 @@ class CreateAdnrDialog extends BaseComponent {
     return AlertDialog(
       title: const Text("New RBX Domain"),
       content: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: 400),
+        constraints: const BoxConstraints(maxWidth: 400),
         child: Form(
           key: formKey,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("RBX Domains cost $ADNR_COST RBX."),
+              const Text("RBX Domains cost $ADNR_COST RBX."),
               Text(
                 "Your domain must only contain letters and numbers and will automatically be appended with `.rbx` upon verification",
                 style: Theme.of(context).textTheme.caption,
@@ -45,7 +45,7 @@ class CreateAdnrDialog extends BaseComponent {
               TextFormField(
                 controller: controller,
                 validator: (value) => formValidatorAlphaNumeric(value, "Domain Name"),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   label: Text("Domain Name"),
                 ),
                 inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]'))],
@@ -59,7 +59,7 @@ class CreateAdnrDialog extends BaseComponent {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: Text(
+          child: const Text(
             "Cancel",
             style: TextStyle(color: Colors.white38),
           ),
@@ -97,7 +97,7 @@ class CreateAdnrDialog extends BaseComponent {
 
             Toast.error(result.message);
           },
-          child: Text(
+          child: const Text(
             "Create",
             style: TextStyle(color: Colors.white),
           ),

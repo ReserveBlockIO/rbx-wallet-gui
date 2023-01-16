@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/features/mother/services/mother_service.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../utils/toast.dart';
+import '../services/mother_service.dart';
 
 class MotherAddHostDialog extends BaseComponent {
   MotherAddHostDialog({Key? key}) : super(key: key);
@@ -16,9 +17,9 @@ class MotherAddHostDialog extends BaseComponent {
     final ipAddressController = TextEditingController();
     final passwordController = TextEditingController();
     return AlertDialog(
-      title: Text("Add Host"),
+      title: const Text("Add Host"),
       content: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: 500, minWidth: 300),
+        constraints: const BoxConstraints(maxWidth: 500, minWidth: 300),
         child: Form(
           key: formKey,
           child: Column(
@@ -27,7 +28,7 @@ class MotherAddHostDialog extends BaseComponent {
               Text("Set the IP address and password set of your MOTHER HOST."),
               TextFormField(
                 controller: ipAddressController,
-                decoration: InputDecoration(label: Text("IP Address of HOST")),
+                decoration: const InputDecoration(label: Text("IP Address of HOST")),
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp("[0-9.]")),
                 ],
@@ -41,7 +42,7 @@ class MotherAddHostDialog extends BaseComponent {
               TextFormField(
                 controller: passwordController,
                 obscureText: true,
-                decoration: InputDecoration(label: Text("Password set on HOST")),
+                decoration: const InputDecoration(label: Text("Password set on HOST")),
                 validator: (val) {
                   if (val == null || val.isEmpty) {
                     return "Password Required";
@@ -58,7 +59,7 @@ class MotherAddHostDialog extends BaseComponent {
           onPressed: () {
             Navigator.of(context).pop(null);
           },
-          child: Text(
+          child: const Text(
             "Cancel",
             style: TextStyle(color: Colors.white54),
           ),
@@ -89,7 +90,7 @@ class MotherAddHostDialog extends BaseComponent {
 
             Navigator.of(context).pop(true);
           },
-          child: Text(
+          child: const Text(
             "Add",
             style: TextStyle(
               color: Colors.white,

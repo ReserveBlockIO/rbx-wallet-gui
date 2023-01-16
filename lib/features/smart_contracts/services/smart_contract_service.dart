@@ -1,16 +1,16 @@
 import 'dart:convert';
-import 'dart:io';
 
-import 'package:rbx_wallet/core/services/base_service.dart';
-import 'package:rbx_wallet/core/singletons.dart';
-import 'package:rbx_wallet/core/storage.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/compiled_smart_contract.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/compiler_response.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/detailed_smart_contract.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/smart_contract.dart';
 import 'package:collection/collection.dart';
-import 'package:rbx_wallet/utils/generators.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+
+import '../../../core/services/base_service.dart';
+import '../../../core/singletons.dart';
+import '../../../core/storage.dart';
+import '../../../utils/generators.dart';
+import '../../../utils/toast.dart';
+import '../models/compiled_smart_contract.dart';
+import '../models/compiler_response.dart';
+import '../models/detailed_smart_contract.dart';
+import '../models/smart_contract.dart';
 
 class SmartContractService extends BaseService {
   SmartContractService() : super(apiBasePathOverride: "/scapi/scv1");
@@ -53,17 +53,8 @@ class SmartContractService extends BaseService {
   Future<CompilerResponse?> compileSmartContract(Map<String, dynamic> payload) async {
     final Map<String, dynamic> p = {...payload}..remove('hash');
 
-    print("------------");
-    print("--/CreateSmartContract PAYLOAD--");
-    print(jsonEncode(p));
-    print("------------");
-
     try {
       final response = await postJson("/CreateSmartContract", params: p, timeout: 0);
-
-      // print("==============");
-      // print(jsonEncode(response['data'][0]));
-      // print("==============");
 
       final csc = CompilerResponse.fromJson(response['data'][0]);
       return csc;
@@ -130,8 +121,11 @@ class SmartContractService extends BaseService {
 
   Future<bool> mint(String id) async {
     try {
-      print("-------------ID $id------------");
-      final response = await getText("/MintSmartContract/$id", timeout: 0);
+      final response = await getText(
+        "/MintSmartContract/$id",
+        timeout: 0,
+        inspect: true,
+      );
 
       if (response == "Smart contract has been published to mempool") {
         return true;
@@ -196,8 +190,6 @@ class SmartContractService extends BaseService {
       final response = await getText(url, cleanPath: false, timeout: 0);
       final data = jsonDecode(response);
 
-      print(response);
-
       if (data['Result'] == "Success") {
         Toast.message(data['Message']);
 
@@ -215,7 +207,6 @@ class SmartContractService extends BaseService {
   Future<bool> downloadAssets(String nftId) async {
     try {
       final data = await getText("/DownloadNftAssets/$nftId", timeout: 0);
-      print(data);
       return true;
     } catch (e) {
       print(e);

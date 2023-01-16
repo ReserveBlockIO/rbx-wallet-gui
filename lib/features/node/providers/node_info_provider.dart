@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
-import 'package:rbx_wallet/features/node/models/node_info.dart';
+
+import '../../bridge/services/bridge_service.dart';
+import '../models/node_info.dart';
 
 class NodeInfoProvider extends StateNotifier<List<NodeInfo>> {
   final Reader read;
@@ -12,7 +13,6 @@ class NodeInfoProvider extends StateNotifier<List<NodeInfo>> {
   }
 }
 
-final nodeInfoProvider =
-    StateNotifierProvider<NodeInfoProvider, List<NodeInfo>>(
+final nodeInfoProvider = StateNotifierProvider<NodeInfoProvider, List<NodeInfo>>(
   (ref) => NodeInfoProvider(ref.read),
 );

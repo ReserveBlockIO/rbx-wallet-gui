@@ -1,4 +1,4 @@
-import 'package:rbx_wallet/core/env.dart';
+import '../core/env.dart';
 
 bool isInt(String number) {
   return int.tryParse(number) == null ? false : true;
@@ -189,6 +189,4 @@ String? formValidatorAlphaNumeric(String? value, String label) {
   }
 
   return RegExp(r"^[a-zA-Z0-9]+$").hasMatch(value) ? null : "A DNR may only contain letters and numbers.";
-
-  return null;
 }

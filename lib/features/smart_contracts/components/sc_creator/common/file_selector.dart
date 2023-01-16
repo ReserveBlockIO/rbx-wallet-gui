@@ -4,22 +4,17 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/breakpoints.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/services/transaction_service.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/asset/asset.dart';
-import 'package:rbx_wallet/features/config/providers/config_provider.dart';
-import 'package:rbx_wallet/utils/files.dart';
-import 'package:rbx_wallet/utils/formatting.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-import 'package:rbx_wallet/utils/validation.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+
+import '../../../../../core/app_constants.dart';
+import '../../../../../core/base_component.dart';
+import '../../../../../core/breakpoints.dart';
+import '../../../../../core/components/buttons.dart';
+import '../../../../../core/dialogs.dart';
+import '../../../../../core/services/transaction_service.dart';
+import '../../../../../utils/files.dart';
+import '../../../../../utils/validation.dart';
+import '../../../../asset/asset.dart';
+import '../../../../config/providers/config_provider.dart';
 
 class FileSelector extends BaseComponent {
   final bool transparentBackground;
@@ -89,71 +84,6 @@ class FileSelector extends BaseComponent {
         InfoDialog.show(title: "Unsupported File", body: "This file extension (.$extension) is not permitted.");
         return;
       }
-
-      // if (ref.read(configProvider).rejectAssetExtensionTypes.contains(extension.toLowerCase())) {
-      //   final shouldContinue = await ConfirmDialog.show(
-      //     title: "Unsupported File Extension",
-      //     content: ConstrainedBox(
-      //       constraints: BoxConstraints(maxWidth: 600),
-      //       child: Column(
-      //         crossAxisAlignment: CrossAxisAlignment.start,
-      //         mainAxisSize: MainAxisSize.min,
-      //         children: [
-      //           Text("The file extension (.$extension) is blocked by default for security purposes. "),
-      //           SizedBox(
-      //             height: 8,
-      //           ),
-      //           Text(
-      //             "This can be configured in your 'config.txt' file  under 'RejectAssetExtensionTypes'. If transferred, the receiving wallet will also need to support this extension type.",
-      //           ),
-      //           SizedBox(
-      //             height: 8,
-      //           ),
-      //           Text("It is recommended to choose a different file but you may continue if you have already updated your configuration."),
-      //           SizedBox(
-      //             height: 8,
-      //           ),
-      //           Text("A restart of your wallet is required after this configuration change."),
-      //           SizedBox(
-      //             height: 16,
-      //           ),
-      //           Row(
-      //             mainAxisAlignment: MainAxisAlignment.start,
-      //             children: [
-      //               AppButton(
-      //                 label: "Open Config",
-      //                 // type: AppButtonType.Text,
-      //                 // variant: AppColorVariant.Warning,
-      //                 onPressed: () async {
-      //                   final path = await configPath();
-
-      //                   openFile(File(path));
-      //                 },
-      //               ),
-      //               SizedBox(
-      //                 width: 8,
-      //               ),
-      //               AppButton(
-      //                 label: "View Documentation",
-      //                 // type: AppButtonType.Text,
-      //                 // variant: AppColorVariant.Warning,
-      //                 onPressed: () {
-      //                   launchUrlString("https://github.com/ReserveBlockIO/ReserveBlock-Core/blob/main/ConfigSetup.md");
-      //                 },
-      //               ),
-      //             ],
-      //           )
-      //         ],
-      //       ),
-      //     ),
-      //     confirmText: "Continue",
-      //     cancelText: "Cancel",
-      //   );
-
-      //   if (shouldContinue != true) {
-      //     return;
-      //   }
-      // }
 
       asset = Asset(
         id: "00000000-0000-0000-0000-000000000000",

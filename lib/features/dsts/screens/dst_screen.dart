@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
+
+import '../../../core/base_screen.dart';
+import '../../wallet/components/wallet_selector.dart';
 
 class DstsScreen extends BaseScreen {
   const DstsScreen({Key? key}) : super(key: key);
@@ -9,7 +10,7 @@ class DstsScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: const Text("DSTs"),
+      title: const Text("P2P Auctions"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
       actions: const [WalletSelector()],

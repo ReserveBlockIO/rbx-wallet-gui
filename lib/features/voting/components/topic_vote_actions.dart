@@ -1,16 +1,16 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/encrypt/utils.dart';
-import 'package:rbx_wallet/features/voting/models/topic.dart';
-import 'package:rbx_wallet/features/voting/providers/my_vote_list_provider.dart';
-import 'package:rbx_wallet/features/voting/providers/pending_votes_provider.dart';
-import 'package:rbx_wallet/features/voting/providers/voting_provider.dart';
-import 'package:collection/collection.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../encrypt/utils.dart';
+import '../providers/my_vote_list_provider.dart';
+import '../providers/pending_votes_provider.dart';
+import '../providers/voting_provider.dart';
 
 class TopicVoteActions extends BaseComponent {
   const TopicVoteActions({
@@ -28,7 +28,7 @@ class TopicVoteActions extends BaseComponent {
     final myVotes = ref.watch(myVoteListProvider);
 
     if (topic == null) {
-      return SizedBox.shrink();
+      return const SizedBox.shrink();
     }
 
     if (!topic.isActive) {
@@ -38,17 +38,15 @@ class TopicVoteActions extends BaseComponent {
     final myAddress = ref.watch(sessionProvider).currentWallet?.address;
 
     if (myAddress == null) {
-      return _ErrorMessage("Must have a wallet selected to vote.");
+      return const _ErrorMessage("Must have a wallet selected to vote.");
     }
 
     final isValidating = ref.watch(sessionProvider).currentWallet?.isValidating == true;
     if (!isValidating) {
-      return _ErrorMessage("You must be a validator to vote.");
+      return const _ErrorMessage("You must be a validator to vote.");
     }
 
     final existingVote = myVotes.firstWhereOrNull((a) => a.address == myAddress && a.topicUid == topic.uid);
-    print(existingVote);
-    print("-----");
 
     if (existingVote != null) {
       if (existingVote.blockHeight == 0) {
@@ -58,7 +56,7 @@ class TopicVoteActions extends BaseComponent {
     }
 
     if (ref.read(pendingVotesProvider).contains(topic.uid)) {
-      return _ErrorMessage("Vote transaction pending.");
+      return const _ErrorMessage("Vote transaction pending.");
     }
 
     return Column(
@@ -70,7 +68,7 @@ class TopicVoteActions extends BaseComponent {
                 color: Colors.white,
               ),
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -91,7 +89,7 @@ class TopicVoteActions extends BaseComponent {
               variant: AppColorVariant.Success,
               size: AppSizeVariant.Lg,
             ),
-            SizedBox(
+            const SizedBox(
               width: 16,
             ),
             AppButton(
@@ -114,7 +112,7 @@ class TopicVoteActions extends BaseComponent {
             )
           ],
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Text(
           "Voting ends ${topic.endsAtFormatted}.",
           style: Theme.of(context).textTheme.caption,
@@ -138,7 +136,7 @@ class _ErrorMessage extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Text(
         message,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.bold,
         ),

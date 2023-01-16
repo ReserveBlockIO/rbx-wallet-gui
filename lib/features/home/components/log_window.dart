@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
-import 'package:rbx_wallet/features/home/components/log_item.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../bridge/providers/log_provider.dart';
+import 'log_item.dart';
 
 class LogWindow extends BaseComponent {
   const LogWindow({Key? key}) : super(key: key);
@@ -28,7 +29,7 @@ class LogWindow extends BaseComponent {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
             child: SizedBox(
-              height: ref.watch(sessionProvider).logWindowExpanded ? 600 : 150,
+              height: ref.watch(sessionProvider).logWindowExpanded ? 600 : 130,
               width: double.infinity,
               child: Stack(
                 children: [
@@ -42,7 +43,7 @@ class LogWindow extends BaseComponent {
                         children: [
                           LogItem(entry),
                           if (index + 1 == logEntries.length)
-                            SizedBox(
+                            const SizedBox(
                               height: 28,
                             )
                         ],

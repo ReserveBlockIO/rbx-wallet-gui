@@ -1,14 +1,15 @@
 import 'dart:convert';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/transactions/providers/transaction_list_provider.dart';
-import 'package:collection/collection.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/components/buttons.dart';
+import '../../../utils/toast.dart';
+import '../../transactions/providers/transaction_list_provider.dart';
+import '../models/nft.dart';
 
 class MediaBackup extends BaseComponent {
   final Nft nft;
@@ -38,7 +39,7 @@ class MediaBackup extends BaseComponent {
     });
 
     if (tx == null) {
-      return SizedBox();
+      return const SizedBox();
     }
 
     final List<dynamic> data = jsonDecode(tx.nftData);
@@ -46,7 +47,7 @@ class MediaBackup extends BaseComponent {
     final backupUrl = d['BackupURL'];
 
     if (backupUrl == null || backupUrl == "NA") {
-      return SizedBox();
+      return const SizedBox();
     }
 
     return Padding(
@@ -55,7 +56,7 @@ class MediaBackup extends BaseComponent {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           Text(
@@ -63,7 +64,7 @@ class MediaBackup extends BaseComponent {
             style: Theme.of(context).textTheme.headline5,
           ),
           SelectableText(backupUrl),
-          SizedBox(
+          const SizedBox(
             height: 6,
           ),
           AppButton(

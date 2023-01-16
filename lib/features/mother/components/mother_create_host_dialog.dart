@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/features/mother/services/mother_service.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/env.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../utils/toast.dart';
+import '../services/mother_service.dart';
 
 class MotherCreateHostDialog extends BaseComponent {
   final bool forUpdate;
@@ -23,7 +24,7 @@ class MotherCreateHostDialog extends BaseComponent {
     return AlertDialog(
       title: Text(forUpdate ? "Update Host Info" : "Set Wallet as Host"),
       content: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: 500, minWidth: 300),
+        constraints: const BoxConstraints(maxWidth: 500, minWidth: 300),
         child: Form(
           key: formKey,
           child: Column(
@@ -31,7 +32,7 @@ class MotherCreateHostDialog extends BaseComponent {
             children: [
               TextFormField(
                 controller: nameController,
-                decoration: InputDecoration(label: Text("Host Name")),
+                decoration: const InputDecoration(label: Text("Host Name")),
                 validator: (val) {
                   if (val == null || val.isEmpty) {
                     return "Name Required";
@@ -42,7 +43,7 @@ class MotherCreateHostDialog extends BaseComponent {
               TextFormField(
                 controller: passwordController,
                 obscureText: true,
-                decoration: InputDecoration(label: Text("Create Password")),
+                decoration: const InputDecoration(label: Text("Create Password")),
                 validator: (val) {
                   if (val == null || val.isEmpty) {
                     return "Password Required";
@@ -50,7 +51,7 @@ class MotherCreateHostDialog extends BaseComponent {
                   return null;
                 },
               ),
-              SizedBox(height: 6),
+              const SizedBox(height: 6),
               Text(
                 "You must have port '${Env.validatorPort}' open on the HOST machine.",
                 style: Theme.of(context).textTheme.caption,
@@ -64,7 +65,7 @@ class MotherCreateHostDialog extends BaseComponent {
           onPressed: () {
             Navigator.of(context).pop(null);
           },
-          child: Text(
+          child: const Text(
             "Cancel",
             style: TextStyle(color: Colors.white54),
           ),
@@ -100,7 +101,7 @@ class MotherCreateHostDialog extends BaseComponent {
 
             Navigator.of(context).pop(true);
           },
-          child: Text(
+          child: const Text(
             "Create",
             style: TextStyle(
               color: Colors.white,

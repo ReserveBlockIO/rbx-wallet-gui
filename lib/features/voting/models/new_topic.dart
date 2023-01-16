@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/features/voting/models/topic.dart';
+
+import 'topic.dart';
 
 part 'new_topic.freezed.dart';
 part 'new_topic.g.dart';

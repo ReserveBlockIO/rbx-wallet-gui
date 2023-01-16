@@ -2,8 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/features/inspector/network_inspector.dart';
+
+import '../../features/inspector/network_inspector.dart';
+import '../env.dart';
 
 class BaseService {
   final String? hostOverride;

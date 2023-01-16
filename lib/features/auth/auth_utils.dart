@@ -1,25 +1,24 @@
 import 'dart:convert';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rbx_wallet/core/breakpoints.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/core/services/transaction_service.dart';
-import 'package:rbx_wallet/core/web_router.gr.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/features/keygen/models/keypair.dart';
-
 import 'package:rbx_wallet/features/keygen/services/keygen_service.dart'
     if (dart.library.io) 'package:rbx_wallet/features/keygen/services/keygen_service_mock.dart';
-
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
-import 'package:crypto/crypto.dart';
+
+import '../../core/breakpoints.dart';
+import '../../core/components/buttons.dart';
+import '../../core/dialogs.dart';
+import '../../core/providers/web_session_provider.dart';
+import '../../core/services/transaction_service.dart';
+import '../../core/web_router.gr.dart';
+import '../global_loader/global_loading_provider.dart';
+import '../keygen/models/keypair.dart';
 
 Future<void> login(
   BuildContext context,

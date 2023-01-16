@@ -1,12 +1,13 @@
+// ignore_for_file: unnecessary_const
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
-import 'package:rbx_wallet/features/transactions/components/transaction_list.dart';
-import 'package:rbx_wallet/features/transactions/providers/transaction_list_provider.dart';
-import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
+
+import '../../../core/base_screen.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../wallet/components/wallet_selector.dart';
+import '../components/transaction_list.dart';
+import '../providers/transaction_list_provider.dart';
 
 class TransactionsScreen extends BaseScreen {
   const TransactionsScreen({Key? key}) : super(key: key, verticalPadding: 0, horizontalPadding: 0);
@@ -18,7 +19,7 @@ class TransactionsScreen extends BaseScreen {
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
       leading: IconButton(
-        icon: Icon(Icons.refresh),
+        icon: const Icon(Icons.refresh),
         onPressed: () {
           ref.read(sessionProvider.notifier).loadTransactions();
         },
@@ -35,22 +36,22 @@ class TransactionsScreen extends BaseScreen {
       length: 5,
       child: Column(
         children: [
-          TabBar(
+          const TabBar(
             tabs: [
-              Tab(
-                child: Text("All"),
+              const Tab(
+                child: const Text("All"),
               ),
-              Tab(
-                child: Text("Pending"),
+              const Tab(
+                child: const Text("Pending"),
               ),
-              Tab(
-                child: Text("Successful"),
+              const Tab(
+                child: const Text("Successful"),
               ),
-              Tab(
+              const Tab(
                 child: Text("Failed"),
               ),
-              Tab(
-                child: Text("Mined"),
+              const Tab(
+                child: const Text("Mined"),
               ),
             ],
           ),

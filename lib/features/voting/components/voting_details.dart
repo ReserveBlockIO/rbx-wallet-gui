@@ -2,12 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/voting/components/vote_history_modal.dart';
-import 'package:rbx_wallet/features/voting/models/topic.dart';
-import 'package:rbx_wallet/features/voting/services/topic_service.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/theme/app_theme.dart';
+import '../models/topic.dart';
+import '../services/topic_service.dart';
+import 'vote_history_modal.dart';
 
 class VotingDetails extends BaseStatefulComponent {
   final Topic topic;
@@ -24,7 +25,7 @@ class _VotingDetailsState extends BaseComponentState<VotingDetails> {
   void initState() {
     topic = widget.topic;
     poll();
-    timer = Timer.periodic(Duration(seconds: 5), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 5), (timer) {
       poll();
     });
     super.initState();
@@ -49,9 +50,9 @@ class _VotingDetailsState extends BaseComponentState<VotingDetails> {
   @override
   Widget build(BuildContext context) {
     if (topic.totalVotes < 1) {
-      return Center(
+      return const Center(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.0),
           child: Text(
             "No votes yet.",
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -74,11 +75,11 @@ class _VotingDetailsState extends BaseComponentState<VotingDetails> {
                   "Vote Counts",
                   style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 4,
                 ),
                 Table(
-                  defaultColumnWidth: IntrinsicColumnWidth(),
+                  defaultColumnWidth: const IntrinsicColumnWidth(),
                   children: [
                     buildDetailRow(
                       context,
@@ -103,7 +104,7 @@ class _VotingDetailsState extends BaseComponentState<VotingDetails> {
             ),
           ),
         ),
-        SizedBox(width: 16),
+        const SizedBox(width: 16),
         Card(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -115,11 +116,11 @@ class _VotingDetailsState extends BaseComponentState<VotingDetails> {
                   "Percentages",
                   style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 4,
                 ),
                 Table(
-                  defaultColumnWidth: IntrinsicColumnWidth(),
+                  defaultColumnWidth: const IntrinsicColumnWidth(),
                   children: [
                     buildDetailRow(
                       context,
@@ -141,13 +142,13 @@ class _VotingDetailsState extends BaseComponentState<VotingDetails> {
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 16,
         ),
         PieChart(
           chartRadius: 100,
           chartType: ChartType.ring,
-          chartValuesOptions: ChartValuesOptions(decimalPlaces: 0),
+          chartValuesOptions: const ChartValuesOptions(decimalPlaces: 0),
           colorList: [
             Theme.of(context).colorScheme.success,
             Theme.of(context).colorScheme.danger,
@@ -157,7 +158,7 @@ class _VotingDetailsState extends BaseComponentState<VotingDetails> {
             "No": topic.noVotes.toDouble(),
           },
         ),
-        SizedBox(width: 16),
+        const SizedBox(width: 16),
         AppButton(
           label: "Show History",
           onPressed: () async {
@@ -189,7 +190,7 @@ class _VotingDetailsState extends BaseComponentState<VotingDetails> {
           padding: const EdgeInsets.only(right: 8.0),
           child: Text(
             label,
-            style: TextStyle(fontSize: 16),
+            style: const TextStyle(fontSize: 16),
           ),
         ),
         Text(

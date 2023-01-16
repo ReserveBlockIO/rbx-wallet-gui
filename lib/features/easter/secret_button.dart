@@ -54,7 +54,7 @@ class _SecretButtonState extends State<SecretButton> {
           padding: const EdgeInsets.all(4.0),
           child: AnimatedOpacity(
             opacity: opacity,
-            duration: Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 300),
             child: Text(
               widget.label,
               style: Theme.of(context).textTheme.caption,

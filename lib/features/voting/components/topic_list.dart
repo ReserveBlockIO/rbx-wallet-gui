@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/features/voting/components/topic_list_tile.dart';
-import 'package:rbx_wallet/features/voting/providers/topic_list_provider.dart';
+
+import '../../../core/base_component.dart';
+import '../providers/topic_list_provider.dart';
+import 'topic_list_tile.dart';
 
 class TopicList extends BaseComponent {
   final TopicListType type;

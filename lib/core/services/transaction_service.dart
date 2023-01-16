@@ -1,22 +1,25 @@
+// ignore_for_file: unused_local_variable
+
 import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/services/base_service.dart';
-import 'package:rbx_wallet/features/adnr/models/adnr_response.dart';
-import 'package:rbx_wallet/features/asset/web_asset.dart';
-import 'package:rbx_wallet/features/keygen/models/keypair.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/nft/models/web_nft.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/compiler_response.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/detailed_smart_contract.dart';
-import 'package:rbx_wallet/features/store/models/listing.dart';
-import 'package:rbx_wallet/features/store/models/store.dart';
-import 'package:rbx_wallet/features/store/models/store_collection.dart';
-import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+
+import '../../features/adnr/models/adnr_response.dart';
+import '../../features/asset/web_asset.dart';
+import '../../features/keygen/models/keypair.dart';
+import '../../features/nft/models/nft.dart';
+import '../../features/nft/models/web_nft.dart';
+import '../../features/smart_contracts/models/compiler_response.dart';
+import '../../features/smart_contracts/models/detailed_smart_contract.dart';
+import '../../features/store/models/listing.dart';
+import '../../features/store/models/store.dart';
+import '../../features/store/models/store_collection.dart';
+import '../../features/web/utils/raw_transaction.dart';
+import '../../utils/toast.dart';
+import '../app_constants.dart';
+import '../env.dart';
+import 'base_service.dart';
 
 class TransactionService extends BaseService {
   TransactionService()
@@ -71,10 +74,6 @@ class TransactionService extends BaseService {
 
   Future<Map<String, dynamic>?> validateSignature(String message, String address, String signature) async {
     try {
-      print("Message: $message");
-      print("Address: $address");
-      print("Signature: $signature");
-
       return await getJson(
         '/validate-signature/$message/$address/$signature',
         cleanPath: false,
@@ -89,16 +88,10 @@ class TransactionService extends BaseService {
     required Map<String, dynamic> transactionData,
     bool execute = false,
   }) async {
-    // print("TX");
-    // print(jsonEncode(transactionData));
-
     final data = transactionData;
     // if (data.containsKey("Amount") && data['Amount'] == 0) {
     //   data['Amount'] = Decimal.parse('0.0');hash
     // }
-    // print("TX Updated?");
-
-    // print(jsonEncode(data));
 
     try {
       return await postJson(

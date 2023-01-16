@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/property.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+
+import '../../../../../core/components/buttons.dart';
+import '../../../../../core/theme/app_theme.dart';
+import '../../../../../utils/validation.dart';
+import '../../../models/property.dart';
 
 class ManagePropertiesList extends StatelessWidget {
   final List<Property> properties;
@@ -34,19 +35,19 @@ class ManagePropertiesList extends StatelessWidget {
             children: [
               Expanded(
                 child: TextFormField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: "Label",
                   ),
                   initialValue: property.label,
                   readOnly: true,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 8,
               ),
               Expanded(
                 child: TextFormField(
-                  decoration: InputDecoration(hintText: "Value"),
+                  decoration: const InputDecoration(hintText: "Value"),
                   initialValue: property.value,
                   readOnly: true,
                 ),
@@ -68,17 +69,17 @@ class ManagePropertiesList extends StatelessWidget {
               Expanded(
                 child: TextFormField(
                   controller: labelController,
-                  decoration: InputDecoration(hintText: "Label"),
+                  decoration: const InputDecoration(hintText: "Label"),
                   validator: (value) => formValidatorNotEmpty(value, "Label"),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 8,
               ),
               Expanded(
                 child: TextFormField(
                   controller: valueController,
-                  decoration: InputDecoration(hintText: "Value"),
+                  decoration: const InputDecoration(hintText: "Value"),
                   validator: (value) => formValidatorNotEmpty(value, "Value"),
                 ),
               ),

@@ -14,6 +14,9 @@ _$_Beacon _$$_BeaconFromJson(Map<String, dynamic> json) => _$_Beacon(
       uid: json['BeaconUID'] as String,
       selfBeacon: json['SelfBeacon'] as bool,
       selfBeaconActive: json['SelfBeaconActive'] as bool,
+      isBeaconPrivate: json['IsPrivateBeacon'] as bool,
+      autoDeleteAfterDownload: json['AutoDeleteAfterDownload'] as bool,
+      fileCachePeriodDays: json['FileCachePeriodDays'] as int,
     );
 
 Map<String, dynamic> _$$_BeaconToJson(_$_Beacon instance) => <String, dynamic>{
@@ -24,4 +27,7 @@ Map<String, dynamic> _$$_BeaconToJson(_$_Beacon instance) => <String, dynamic>{
       'BeaconUID': instance.uid,
       'SelfBeacon': instance.selfBeacon,
       'SelfBeaconActive': instance.selfBeaconActive,
+      'IsPrivateBeacon': instance.isBeaconPrivate,
+      'AutoDeleteAfterDownload': instance.autoDeleteAfterDownload,
+      'FileCachePeriodDays': instance.fileCachePeriodDays,
     };
