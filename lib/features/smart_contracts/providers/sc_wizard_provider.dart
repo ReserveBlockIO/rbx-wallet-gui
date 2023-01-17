@@ -1,30 +1,28 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:csv/csv.dart';
-import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_wizard_minting_progress_dialog.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/sc_wizard_minting_progress_provider.dart';
+
 import '../../../core/providers/session_provider.dart';
 import '../../../core/providers/web_session_provider.dart';
 import '../../../core/services/transaction_service.dart';
+import '../../../utils/toast.dart';
 import '../../asset/asset.dart';
-import '../../bridge/models/log_entry.dart';
 import '../../nft/providers/minted_nft_list_provider.dart';
 import '../../nft/providers/nft_list_provider.dart';
 import '../../nft/services/nft_service.dart';
+import '../components/sc_wizard_minting_progress_dialog.dart';
+import '../features/royalty/royalty.dart';
 import '../models/bulk_smart_contract_entry.dart';
 import '../models/smart_contract.dart';
-import 'my_smart_contracts_provider.dart';
 import '../services/smart_contract_service.dart';
-import '../../../utils/toast.dart';
-import 'package:collection/collection.dart';
+import 'my_smart_contracts_provider.dart';
+import 'sc_wizard_minting_progress_provider.dart';
 
 const LOG_HISTORY_LENGTH = 1000;
 
@@ -203,7 +201,7 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
     }
 
     final input = File(file.path!).openRead();
-    final fields = await input.transform(utf8.decoder).transform(CsvToListConverter()).toList();
+    final fields = await input.transform(utf8.decoder).transform(const CsvToListConverter()).toList();
 
     final headers = fields.first;
     final rows = [...fields]..removeAt(0);
@@ -328,7 +326,7 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
 
         NftService().saveId(id);
 
-        await Future.delayed(Duration(milliseconds: 1500));
+        await Future.delayed(const Duration(milliseconds: 1500));
         totalProgress += 1;
 
         final percent = totalProgress / totalItems;

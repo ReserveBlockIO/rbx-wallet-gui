@@ -5,13 +5,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/badges.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/env.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../utils/toast.dart';
 import '../../asset/polling_image_preview.dart';
 import '../../smart_contracts/components/sc_creator/common/modal_container.dart';
 import '../modals/nft_management_modal.dart';
@@ -352,7 +352,7 @@ class _UploadProgressModalState extends State<UploadProgressModal> {
     return AlertDialog(
       title: const Text("Media Upload Progress"),
       content: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: 900),
+        constraints: const BoxConstraints(maxWidth: 900),
         child: Container(
           color: Colors.black,
           width: double.maxFinite,

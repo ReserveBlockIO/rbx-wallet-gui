@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../core/providers/session_provider.dart';
-import '../components/learn_more_content.dart';
+import '../../../generated/assets.gen.dart';
 import '../../smart_contracts/features/evolve/evolve.dart';
 import '../../smart_contracts/features/evolve/evolve_phase.dart';
 import '../../smart_contracts/features/royalty/royalty.dart';
 import '../../smart_contracts/models/smart_contract.dart';
 import '../../smart_contracts/models/smart_contract_template.dart';
 import '../../smart_contracts/providers/create_smart_contract_provider.dart';
-import '../../../generated/assets.gen.dart';
+import '../components/learn_more_content.dart';
 
 List<SmartContractTemplate> getSmartContractTemplates(BuildContext context, WidgetRef ref) {
   final _provider = ref.read(createSmartContractProvider.notifier);

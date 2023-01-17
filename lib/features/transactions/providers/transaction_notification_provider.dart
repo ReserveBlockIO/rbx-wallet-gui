@@ -1,7 +1,7 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../models/transaction_notification.dart';
-
 import 'package:collection/collection.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../models/transaction_notification.dart';
 
 class TransactionNotificationProvider extends StateNotifier<List<TransactionNotification>> {
   final Reader read;

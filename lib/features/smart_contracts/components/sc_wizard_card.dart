@@ -1,24 +1,19 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/asset/asset_thumbnail.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/file_selector.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_wizard_asset_preview.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_wizard_royalty_dialog.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty_modal.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/bulk_smart_contract_entry.dart';
-import 'package:rbx_wallet/utils/files.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+
 import '../../../core/base_component.dart';
 import '../../../core/dialogs.dart';
-import '../providers/sc_wizard_provider.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../utils/files.dart';
+import '../../../utils/toast.dart';
 import '../../../utils/validation.dart';
+import '../features/royalty/royalty.dart';
+import '../providers/sc_wizard_provider.dart';
+import 'sc_creator/common/file_selector.dart';
+import 'sc_creator/common/help_button.dart';
+import 'sc_wizard_asset_preview.dart';
+import 'sc_wizard_royalty_dialog.dart';
 
 class ScWizedCard extends BaseComponent {
   final int index;

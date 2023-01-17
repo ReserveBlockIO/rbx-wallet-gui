@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/sc_wizard_minting_progress_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/sc_wizard_provider.dart';
+
 import '../../../core/base_screen.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/theme/app_theme.dart';
 import '../components/sc_wizard_grid.dart';
+import '../providers/sc_wizard_provider.dart';
 
 class SmartContractWizardScreen extends BaseScreen {
   const SmartContractWizardScreen({Key? key})

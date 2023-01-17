@@ -25,7 +25,7 @@ class MotherAddHostDialog extends BaseComponent {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text("Set the IP address and password set of your MOTHER HOST."),
+              const Text("Set the IP address and password set of your MOTHER HOST."),
               TextFormField(
                 controller: ipAddressController,
                 decoration: const InputDecoration(label: Text("IP Address of HOST")),

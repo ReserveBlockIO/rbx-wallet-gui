@@ -2,15 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/app_router.gr.dart';
-import '../../../core/base_screen.dart';
-import '../../../core/breakpoints.dart';
-import '../../../core/web_router.gr.dart';
-import '../../nft/providers/nft_detail_provider.dart';
-import '../providers/create_smart_contract_provider.dart';
-import '../../wallet/components/wallet_selector.dart';
-import '../../../generated/assets.gen.dart';
-import '../../../utils/guards.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/app_router.gr.dart';
@@ -104,7 +95,7 @@ class SmartContractsScreen extends BaseScreen {
                     iconData: Icons.auto_awesome,
                     body: "Mint multiple Smart Contracts into a collection",
                     onPressed: () {
-                      AutoRouter.of(context).push(BulkCreateScreenRoute());
+                      AutoRouter.of(context).push(const BulkCreateScreenRoute());
                     },
                   ),
                 BigButton(

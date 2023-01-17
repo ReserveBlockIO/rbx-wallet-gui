@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import '../features/smart_contracts/screens/bulk_create_screen.dart';
 
 import '../features/adjudicator/adjudicator_screen.dart';
 import '../features/adnr/screens/adnr_screen.dart';
@@ -15,6 +14,7 @@ import '../features/receive/screens/receive_screen.dart';
 import '../features/root/root_container.dart';
 import '../features/send/screens/send_screen.dart';
 import '../features/smart_contracts/components/sc_creator/smart_contract_creator_main.dart';
+import '../features/smart_contracts/screens/bulk_create_screen.dart';
 import '../features/smart_contracts/screens/my_smart_contracts_screen.dart';
 import '../features/smart_contracts/screens/smart_contract_creator_container_screen.dart';
 import '../features/smart_contracts/screens/smart_contract_drafts_screen.dart';

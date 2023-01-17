@@ -2,17 +2,16 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/services/transaction_service.dart';
-import 'package:rbx_wallet/features/asset/asset.dart';
-import 'package:rbx_wallet/features/config/providers/config_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../core/app_constants.dart';
+import '../core/dialogs.dart';
 import '../core/env.dart';
+import '../core/services/transaction_service.dart';
+import '../features/asset/asset.dart';
+import '../features/config/providers/config_provider.dart';
 
 Future<void> openFile(File file) async {
   try {

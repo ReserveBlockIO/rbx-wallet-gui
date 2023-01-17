@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/bulk_smart_contract_entry.dart';
+
+import '../models/bulk_smart_contract_entry.dart';
 
 class ScWizardAssetPreview extends StatelessWidget {
   const ScWizardAssetPreview({

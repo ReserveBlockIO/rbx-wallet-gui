@@ -1,11 +1,12 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_wizard_asset_preview.dart';
+
 import '../../../core/base_component.dart';
 import '../models/bulk_smart_contract_entry.dart';
 import '../providers/sc_wizard_provider.dart';
 import '../screens/sc_wizard_edit_item_screen.dart';
-import 'package:collection/collection.dart';
+import 'sc_wizard_asset_preview.dart';
 
 class ScWizardCardPreview extends BaseComponent {
   final int index;

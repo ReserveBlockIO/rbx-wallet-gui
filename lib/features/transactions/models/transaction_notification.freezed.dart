@@ -24,29 +24,20 @@ mixin _$TransactionNotification {
   AppColorVariant get color => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $TransactionNotificationCopyWith<TransactionNotification> get copyWith =>
-      throw _privateConstructorUsedError;
+  $TransactionNotificationCopyWith<TransactionNotification> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $TransactionNotificationCopyWith<$Res> {
-  factory $TransactionNotificationCopyWith(TransactionNotification value,
-          $Res Function(TransactionNotification) then) =
+  factory $TransactionNotificationCopyWith(TransactionNotification value, $Res Function(TransactionNotification) then) =
       _$TransactionNotificationCopyWithImpl<$Res>;
-  $Res call(
-      {String identifier,
-      Transaction? transaction,
-      String title,
-      String? body,
-      IconData? icon,
-      AppColorVariant color});
+  $Res call({String identifier, Transaction? transaction, String title, String? body, IconData? icon, AppColorVariant color});
 
   $TransactionCopyWith<$Res>? get transaction;
 }
 
 /// @nodoc
-class _$TransactionNotificationCopyWithImpl<$Res>
-    implements $TransactionNotificationCopyWith<$Res> {
+class _$TransactionNotificationCopyWithImpl<$Res> implements $TransactionNotificationCopyWith<$Res> {
   _$TransactionNotificationCopyWithImpl(this._value, this._then);
 
   final TransactionNotification _value;
@@ -103,35 +94,24 @@ class _$TransactionNotificationCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$$_TransactionNotificationCopyWith<$Res>
-    implements $TransactionNotificationCopyWith<$Res> {
-  factory _$$_TransactionNotificationCopyWith(_$_TransactionNotification value,
-          $Res Function(_$_TransactionNotification) then) =
+abstract class _$$_TransactionNotificationCopyWith<$Res> implements $TransactionNotificationCopyWith<$Res> {
+  factory _$$_TransactionNotificationCopyWith(_$_TransactionNotification value, $Res Function(_$_TransactionNotification) then) =
       __$$_TransactionNotificationCopyWithImpl<$Res>;
   @override
-  $Res call(
-      {String identifier,
-      Transaction? transaction,
-      String title,
-      String? body,
-      IconData? icon,
-      AppColorVariant color});
+  $Res call({String identifier, Transaction? transaction, String title, String? body, IconData? icon, AppColorVariant color});
 
   @override
   $TransactionCopyWith<$Res>? get transaction;
 }
 
 /// @nodoc
-class __$$_TransactionNotificationCopyWithImpl<$Res>
-    extends _$TransactionNotificationCopyWithImpl<$Res>
+class __$$_TransactionNotificationCopyWithImpl<$Res> extends _$TransactionNotificationCopyWithImpl<$Res>
     implements _$$_TransactionNotificationCopyWith<$Res> {
-  __$$_TransactionNotificationCopyWithImpl(_$_TransactionNotification _value,
-      $Res Function(_$_TransactionNotification) _then)
+  __$$_TransactionNotificationCopyWithImpl(_$_TransactionNotification _value, $Res Function(_$_TransactionNotification) _then)
       : super(_value, (v) => _then(v as _$_TransactionNotification));
 
   @override
-  _$_TransactionNotification get _value =>
-      super._value as _$_TransactionNotification;
+  _$_TransactionNotification get _value => super._value as _$_TransactionNotification;
 
   @override
   $Res call({
@@ -175,12 +155,7 @@ class __$$_TransactionNotificationCopyWithImpl<$Res>
 
 class _$_TransactionNotification extends _TransactionNotification {
   _$_TransactionNotification(
-      {required this.identifier,
-      this.transaction,
-      required this.title,
-      this.body,
-      this.icon,
-      this.color = AppColorVariant.Success})
+      {required this.identifier, this.transaction, required this.title, this.body, this.icon, this.color = AppColorVariant.Success})
       : super._();
 
   @override
@@ -207,10 +182,8 @@ class _$_TransactionNotification extends _TransactionNotification {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_TransactionNotification &&
-            const DeepCollectionEquality()
-                .equals(other.identifier, identifier) &&
-            const DeepCollectionEquality()
-                .equals(other.transaction, transaction) &&
+            const DeepCollectionEquality().equals(other.identifier, identifier) &&
+            const DeepCollectionEquality().equals(other.transaction, transaction) &&
             const DeepCollectionEquality().equals(other.title, title) &&
             const DeepCollectionEquality().equals(other.body, body) &&
             const DeepCollectionEquality().equals(other.icon, icon) &&
@@ -229,10 +202,8 @@ class _$_TransactionNotification extends _TransactionNotification {
 
   @JsonKey(ignore: true)
   @override
-  _$$_TransactionNotificationCopyWith<_$_TransactionNotification>
-      get copyWith =>
-          __$$_TransactionNotificationCopyWithImpl<_$_TransactionNotification>(
-              this, _$identity);
+  _$$_TransactionNotificationCopyWith<_$_TransactionNotification> get copyWith =>
+      __$$_TransactionNotificationCopyWithImpl<_$_TransactionNotification>(this, _$identity);
 }
 
 abstract class _TransactionNotification extends TransactionNotification {
@@ -259,6 +230,5 @@ abstract class _TransactionNotification extends TransactionNotification {
   AppColorVariant get color => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$$_TransactionNotificationCopyWith<_$_TransactionNotification>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$_TransactionNotificationCopyWith<_$_TransactionNotification> get copyWith => throw _privateConstructorUsedError;
 }

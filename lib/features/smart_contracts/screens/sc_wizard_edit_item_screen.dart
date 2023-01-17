@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+
 import '../../../core/base_screen.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../utils/toast.dart';
 import '../components/sc_wizard_card.dart';
 import '../providers/sc_wizard_provider.dart';
-import 'package:collection/collection.dart';
 
 class ScWizardEditItemScreen extends BaseScreen {
   final String title;

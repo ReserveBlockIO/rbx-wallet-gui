@@ -24,10 +24,7 @@ mixin _$AdjVote {
   String get rbxAddress => throw _privateConstructorUsedError;
   @JsonKey(name: "IPAddress")
   String get ipAddress => throw _privateConstructorUsedError;
-  @JsonKey(
-      name: "ProviderForMachine",
-      toJson: providerToJson,
-      fromJson: providerFromJson)
+  @JsonKey(name: "ProviderForMachine", toJson: providerToJson, fromJson: providerFromJson)
   Provider get provider => throw _privateConstructorUsedError;
   @JsonKey(name: "MachineType")
   String get machineType => throw _privateConstructorUsedError;
@@ -43,10 +40,7 @@ mixin _$AdjVote {
   int get machineCPUThreads => throw _privateConstructorUsedError;
   @JsonKey(name: "MachineHDDSize")
   int get machineHDDSize => throw _privateConstructorUsedError;
-  @JsonKey(
-      name: "MachineHDDSpecifier",
-      toJson: hdSizeSpecifierToJson,
-      fromJson: hdSizeSpecifierFromJson)
+  @JsonKey(name: "MachineHDDSpecifier", toJson: hdSizeSpecifierToJson, fromJson: hdSizeSpecifierFromJson)
   HDSizeSpecifier get machineHDDSpecifier => throw _privateConstructorUsedError;
   @JsonKey(name: "InternetSpeedUp")
   int get internetSpeedUp => throw _privateConstructorUsedError;
@@ -70,45 +64,26 @@ mixin _$AdjVote {
 
 /// @nodoc
 abstract class $AdjVoteCopyWith<$Res> {
-  factory $AdjVoteCopyWith(AdjVote value, $Res Function(AdjVote) then) =
-      _$AdjVoteCopyWithImpl<$Res>;
+  factory $AdjVoteCopyWith(AdjVote value, $Res Function(AdjVote) then) = _$AdjVoteCopyWithImpl<$Res>;
   $Res call(
-      {@JsonKey(name: "RBXAddress")
-          String rbxAddress,
-      @JsonKey(name: "IPAddress")
-          String ipAddress,
-      @JsonKey(name: "ProviderForMachine", toJson: providerToJson, fromJson: providerFromJson)
-          Provider provider,
-      @JsonKey(name: "MachineType")
-          String machineType,
-      @JsonKey(name: "MachineOS", toJson: osToJson, fromJson: osFromJson)
-          OS machineOs,
-      @JsonKey(name: "MachineRam")
-          int machineRam,
-      @JsonKey(name: "MachineCPU")
-          String machineCPU,
-      @JsonKey(name: "MachineCPUCores")
-          int machineCPUCores,
-      @JsonKey(name: "MachineCPUThreads")
-          int machineCPUThreads,
-      @JsonKey(name: "MachineHDDSize")
-          int machineHDDSize,
-      @JsonKey(name: "MachineHDDSpecifier", toJson: hdSizeSpecifierToJson, fromJson: hdSizeSpecifierFromJson)
-          HDSizeSpecifier machineHDDSpecifier,
-      @JsonKey(name: "InternetSpeedUp")
-          int internetSpeedUp,
-      @JsonKey(name: "InternetSpeedDown")
-          int internetSpeedDown,
-      @JsonKey(name: "Bandwith")
-          int bandwith,
-      @JsonKey(name: "TechnicalBackground")
-          String technicalBackground,
-      @JsonKey(name: "ReasonForAdjJoin")
-          String reasonForAdjJoin,
-      @JsonKey(name: "GithubLink")
-          String githubLink,
-      @JsonKey(name: "SupplementalURLs")
-          String supplementalURLs});
+      {@JsonKey(name: "RBXAddress") String rbxAddress,
+      @JsonKey(name: "IPAddress") String ipAddress,
+      @JsonKey(name: "ProviderForMachine", toJson: providerToJson, fromJson: providerFromJson) Provider provider,
+      @JsonKey(name: "MachineType") String machineType,
+      @JsonKey(name: "MachineOS", toJson: osToJson, fromJson: osFromJson) OS machineOs,
+      @JsonKey(name: "MachineRam") int machineRam,
+      @JsonKey(name: "MachineCPU") String machineCPU,
+      @JsonKey(name: "MachineCPUCores") int machineCPUCores,
+      @JsonKey(name: "MachineCPUThreads") int machineCPUThreads,
+      @JsonKey(name: "MachineHDDSize") int machineHDDSize,
+      @JsonKey(name: "MachineHDDSpecifier", toJson: hdSizeSpecifierToJson, fromJson: hdSizeSpecifierFromJson) HDSizeSpecifier machineHDDSpecifier,
+      @JsonKey(name: "InternetSpeedUp") int internetSpeedUp,
+      @JsonKey(name: "InternetSpeedDown") int internetSpeedDown,
+      @JsonKey(name: "Bandwith") int bandwith,
+      @JsonKey(name: "TechnicalBackground") String technicalBackground,
+      @JsonKey(name: "ReasonForAdjJoin") String reasonForAdjJoin,
+      @JsonKey(name: "GithubLink") String githubLink,
+      @JsonKey(name: "SupplementalURLs") String supplementalURLs});
 }
 
 /// @nodoc
@@ -219,54 +194,32 @@ class _$AdjVoteCopyWithImpl<$Res> implements $AdjVoteCopyWith<$Res> {
 
 /// @nodoc
 abstract class _$$_AdjVoteCopyWith<$Res> implements $AdjVoteCopyWith<$Res> {
-  factory _$$_AdjVoteCopyWith(
-          _$_AdjVote value, $Res Function(_$_AdjVote) then) =
-      __$$_AdjVoteCopyWithImpl<$Res>;
+  factory _$$_AdjVoteCopyWith(_$_AdjVote value, $Res Function(_$_AdjVote) then) = __$$_AdjVoteCopyWithImpl<$Res>;
   @override
   $Res call(
-      {@JsonKey(name: "RBXAddress")
-          String rbxAddress,
-      @JsonKey(name: "IPAddress")
-          String ipAddress,
-      @JsonKey(name: "ProviderForMachine", toJson: providerToJson, fromJson: providerFromJson)
-          Provider provider,
-      @JsonKey(name: "MachineType")
-          String machineType,
-      @JsonKey(name: "MachineOS", toJson: osToJson, fromJson: osFromJson)
-          OS machineOs,
-      @JsonKey(name: "MachineRam")
-          int machineRam,
-      @JsonKey(name: "MachineCPU")
-          String machineCPU,
-      @JsonKey(name: "MachineCPUCores")
-          int machineCPUCores,
-      @JsonKey(name: "MachineCPUThreads")
-          int machineCPUThreads,
-      @JsonKey(name: "MachineHDDSize")
-          int machineHDDSize,
-      @JsonKey(name: "MachineHDDSpecifier", toJson: hdSizeSpecifierToJson, fromJson: hdSizeSpecifierFromJson)
-          HDSizeSpecifier machineHDDSpecifier,
-      @JsonKey(name: "InternetSpeedUp")
-          int internetSpeedUp,
-      @JsonKey(name: "InternetSpeedDown")
-          int internetSpeedDown,
-      @JsonKey(name: "Bandwith")
-          int bandwith,
-      @JsonKey(name: "TechnicalBackground")
-          String technicalBackground,
-      @JsonKey(name: "ReasonForAdjJoin")
-          String reasonForAdjJoin,
-      @JsonKey(name: "GithubLink")
-          String githubLink,
-      @JsonKey(name: "SupplementalURLs")
-          String supplementalURLs});
+      {@JsonKey(name: "RBXAddress") String rbxAddress,
+      @JsonKey(name: "IPAddress") String ipAddress,
+      @JsonKey(name: "ProviderForMachine", toJson: providerToJson, fromJson: providerFromJson) Provider provider,
+      @JsonKey(name: "MachineType") String machineType,
+      @JsonKey(name: "MachineOS", toJson: osToJson, fromJson: osFromJson) OS machineOs,
+      @JsonKey(name: "MachineRam") int machineRam,
+      @JsonKey(name: "MachineCPU") String machineCPU,
+      @JsonKey(name: "MachineCPUCores") int machineCPUCores,
+      @JsonKey(name: "MachineCPUThreads") int machineCPUThreads,
+      @JsonKey(name: "MachineHDDSize") int machineHDDSize,
+      @JsonKey(name: "MachineHDDSpecifier", toJson: hdSizeSpecifierToJson, fromJson: hdSizeSpecifierFromJson) HDSizeSpecifier machineHDDSpecifier,
+      @JsonKey(name: "InternetSpeedUp") int internetSpeedUp,
+      @JsonKey(name: "InternetSpeedDown") int internetSpeedDown,
+      @JsonKey(name: "Bandwith") int bandwith,
+      @JsonKey(name: "TechnicalBackground") String technicalBackground,
+      @JsonKey(name: "ReasonForAdjJoin") String reasonForAdjJoin,
+      @JsonKey(name: "GithubLink") String githubLink,
+      @JsonKey(name: "SupplementalURLs") String supplementalURLs});
 }
 
 /// @nodoc
-class __$$_AdjVoteCopyWithImpl<$Res> extends _$AdjVoteCopyWithImpl<$Res>
-    implements _$$_AdjVoteCopyWith<$Res> {
-  __$$_AdjVoteCopyWithImpl(_$_AdjVote _value, $Res Function(_$_AdjVote) _then)
-      : super(_value, (v) => _then(v as _$_AdjVote));
+class __$$_AdjVoteCopyWithImpl<$Res> extends _$AdjVoteCopyWithImpl<$Res> implements _$$_AdjVoteCopyWith<$Res> {
+  __$$_AdjVoteCopyWithImpl(_$_AdjVote _value, $Res Function(_$_AdjVote) _then) : super(_value, (v) => _then(v as _$_AdjVote));
 
   @override
   _$_AdjVote get _value => super._value as _$_AdjVote;
@@ -373,46 +326,27 @@ class __$$_AdjVoteCopyWithImpl<$Res> extends _$AdjVoteCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_AdjVote extends _AdjVote {
   _$_AdjVote(
-      {@JsonKey(name: "RBXAddress")
-          required this.rbxAddress,
-      @JsonKey(name: "IPAddress")
-          required this.ipAddress,
-      @JsonKey(name: "ProviderForMachine", toJson: providerToJson, fromJson: providerFromJson)
-          required this.provider,
-      @JsonKey(name: "MachineType")
-          required this.machineType,
-      @JsonKey(name: "MachineOS", toJson: osToJson, fromJson: osFromJson)
-          required this.machineOs,
-      @JsonKey(name: "MachineRam")
-          required this.machineRam,
-      @JsonKey(name: "MachineCPU")
-          required this.machineCPU,
-      @JsonKey(name: "MachineCPUCores")
-          required this.machineCPUCores,
-      @JsonKey(name: "MachineCPUThreads")
-          required this.machineCPUThreads,
-      @JsonKey(name: "MachineHDDSize")
-          required this.machineHDDSize,
-      @JsonKey(name: "MachineHDDSpecifier", toJson: hdSizeSpecifierToJson, fromJson: hdSizeSpecifierFromJson)
-          required this.machineHDDSpecifier,
-      @JsonKey(name: "InternetSpeedUp")
-          required this.internetSpeedUp,
-      @JsonKey(name: "InternetSpeedDown")
-          required this.internetSpeedDown,
-      @JsonKey(name: "Bandwith")
-          required this.bandwith,
-      @JsonKey(name: "TechnicalBackground")
-          required this.technicalBackground,
-      @JsonKey(name: "ReasonForAdjJoin")
-          required this.reasonForAdjJoin,
-      @JsonKey(name: "GithubLink")
-          required this.githubLink,
-      @JsonKey(name: "SupplementalURLs")
-          required this.supplementalURLs})
+      {@JsonKey(name: "RBXAddress") required this.rbxAddress,
+      @JsonKey(name: "IPAddress") required this.ipAddress,
+      @JsonKey(name: "ProviderForMachine", toJson: providerToJson, fromJson: providerFromJson) required this.provider,
+      @JsonKey(name: "MachineType") required this.machineType,
+      @JsonKey(name: "MachineOS", toJson: osToJson, fromJson: osFromJson) required this.machineOs,
+      @JsonKey(name: "MachineRam") required this.machineRam,
+      @JsonKey(name: "MachineCPU") required this.machineCPU,
+      @JsonKey(name: "MachineCPUCores") required this.machineCPUCores,
+      @JsonKey(name: "MachineCPUThreads") required this.machineCPUThreads,
+      @JsonKey(name: "MachineHDDSize") required this.machineHDDSize,
+      @JsonKey(name: "MachineHDDSpecifier", toJson: hdSizeSpecifierToJson, fromJson: hdSizeSpecifierFromJson) required this.machineHDDSpecifier,
+      @JsonKey(name: "InternetSpeedUp") required this.internetSpeedUp,
+      @JsonKey(name: "InternetSpeedDown") required this.internetSpeedDown,
+      @JsonKey(name: "Bandwith") required this.bandwith,
+      @JsonKey(name: "TechnicalBackground") required this.technicalBackground,
+      @JsonKey(name: "ReasonForAdjJoin") required this.reasonForAdjJoin,
+      @JsonKey(name: "GithubLink") required this.githubLink,
+      @JsonKey(name: "SupplementalURLs") required this.supplementalURLs})
       : super._();
 
-  factory _$_AdjVote.fromJson(Map<String, dynamic> json) =>
-      _$$_AdjVoteFromJson(json);
+  factory _$_AdjVote.fromJson(Map<String, dynamic> json) => _$$_AdjVoteFromJson(json);
 
   @override
   @JsonKey(name: "RBXAddress")
@@ -421,10 +355,7 @@ class _$_AdjVote extends _AdjVote {
   @JsonKey(name: "IPAddress")
   final String ipAddress;
   @override
-  @JsonKey(
-      name: "ProviderForMachine",
-      toJson: providerToJson,
-      fromJson: providerFromJson)
+  @JsonKey(name: "ProviderForMachine", toJson: providerToJson, fromJson: providerFromJson)
   final Provider provider;
   @override
   @JsonKey(name: "MachineType")
@@ -448,10 +379,7 @@ class _$_AdjVote extends _AdjVote {
   @JsonKey(name: "MachineHDDSize")
   final int machineHDDSize;
   @override
-  @JsonKey(
-      name: "MachineHDDSpecifier",
-      toJson: hdSizeSpecifierToJson,
-      fromJson: hdSizeSpecifierFromJson)
+  @JsonKey(name: "MachineHDDSpecifier", toJson: hdSizeSpecifierToJson, fromJson: hdSizeSpecifierFromJson)
   final HDSizeSpecifier machineHDDSpecifier;
   @override
   @JsonKey(name: "InternetSpeedUp")
@@ -485,38 +413,24 @@ class _$_AdjVote extends _AdjVote {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_AdjVote &&
-            const DeepCollectionEquality()
-                .equals(other.rbxAddress, rbxAddress) &&
+            const DeepCollectionEquality().equals(other.rbxAddress, rbxAddress) &&
             const DeepCollectionEquality().equals(other.ipAddress, ipAddress) &&
             const DeepCollectionEquality().equals(other.provider, provider) &&
-            const DeepCollectionEquality()
-                .equals(other.machineType, machineType) &&
+            const DeepCollectionEquality().equals(other.machineType, machineType) &&
             const DeepCollectionEquality().equals(other.machineOs, machineOs) &&
-            const DeepCollectionEquality()
-                .equals(other.machineRam, machineRam) &&
-            const DeepCollectionEquality()
-                .equals(other.machineCPU, machineCPU) &&
-            const DeepCollectionEquality()
-                .equals(other.machineCPUCores, machineCPUCores) &&
-            const DeepCollectionEquality()
-                .equals(other.machineCPUThreads, machineCPUThreads) &&
-            const DeepCollectionEquality()
-                .equals(other.machineHDDSize, machineHDDSize) &&
-            const DeepCollectionEquality()
-                .equals(other.machineHDDSpecifier, machineHDDSpecifier) &&
-            const DeepCollectionEquality()
-                .equals(other.internetSpeedUp, internetSpeedUp) &&
-            const DeepCollectionEquality()
-                .equals(other.internetSpeedDown, internetSpeedDown) &&
+            const DeepCollectionEquality().equals(other.machineRam, machineRam) &&
+            const DeepCollectionEquality().equals(other.machineCPU, machineCPU) &&
+            const DeepCollectionEquality().equals(other.machineCPUCores, machineCPUCores) &&
+            const DeepCollectionEquality().equals(other.machineCPUThreads, machineCPUThreads) &&
+            const DeepCollectionEquality().equals(other.machineHDDSize, machineHDDSize) &&
+            const DeepCollectionEquality().equals(other.machineHDDSpecifier, machineHDDSpecifier) &&
+            const DeepCollectionEquality().equals(other.internetSpeedUp, internetSpeedUp) &&
+            const DeepCollectionEquality().equals(other.internetSpeedDown, internetSpeedDown) &&
             const DeepCollectionEquality().equals(other.bandwith, bandwith) &&
-            const DeepCollectionEquality()
-                .equals(other.technicalBackground, technicalBackground) &&
-            const DeepCollectionEquality()
-                .equals(other.reasonForAdjJoin, reasonForAdjJoin) &&
-            const DeepCollectionEquality()
-                .equals(other.githubLink, githubLink) &&
-            const DeepCollectionEquality()
-                .equals(other.supplementalURLs, supplementalURLs));
+            const DeepCollectionEquality().equals(other.technicalBackground, technicalBackground) &&
+            const DeepCollectionEquality().equals(other.reasonForAdjJoin, reasonForAdjJoin) &&
+            const DeepCollectionEquality().equals(other.githubLink, githubLink) &&
+            const DeepCollectionEquality().equals(other.supplementalURLs, supplementalURLs));
   }
 
   @JsonKey(ignore: true)
@@ -544,8 +458,7 @@ class _$_AdjVote extends _AdjVote {
 
   @JsonKey(ignore: true)
   @override
-  _$$_AdjVoteCopyWith<_$_AdjVote> get copyWith =>
-      __$$_AdjVoteCopyWithImpl<_$_AdjVote>(this, _$identity);
+  _$$_AdjVoteCopyWith<_$_AdjVote> get copyWith => __$$_AdjVoteCopyWithImpl<_$_AdjVote>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -602,10 +515,7 @@ abstract class _AdjVote extends AdjVote {
   @JsonKey(name: "IPAddress")
   String get ipAddress => throw _privateConstructorUsedError;
   @override
-  @JsonKey(
-      name: "ProviderForMachine",
-      toJson: providerToJson,
-      fromJson: providerFromJson)
+  @JsonKey(name: "ProviderForMachine", toJson: providerToJson, fromJson: providerFromJson)
   Provider get provider => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "MachineType")
@@ -629,10 +539,7 @@ abstract class _AdjVote extends AdjVote {
   @JsonKey(name: "MachineHDDSize")
   int get machineHDDSize => throw _privateConstructorUsedError;
   @override
-  @JsonKey(
-      name: "MachineHDDSpecifier",
-      toJson: hdSizeSpecifierToJson,
-      fromJson: hdSizeSpecifierFromJson)
+  @JsonKey(name: "MachineHDDSpecifier", toJson: hdSizeSpecifierToJson, fromJson: hdSizeSpecifierFromJson)
   HDSizeSpecifier get machineHDDSpecifier => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "InternetSpeedUp")
@@ -657,6 +564,5 @@ abstract class _AdjVote extends AdjVote {
   String get supplementalURLs => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$$_AdjVoteCopyWith<_$_AdjVote> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$_AdjVoteCopyWith<_$_AdjVote> get copyWith => throw _privateConstructorUsedError;
 }

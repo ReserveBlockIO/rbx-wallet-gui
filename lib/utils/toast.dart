@@ -43,10 +43,9 @@ class Toast {
 
 class OverlayToast {
   static error([String? message]) {
-    final context = rootNavigatorKey.currentContext!;
-
     InfoDialog.show(title: "Error", body: message ?? "An error occurred");
 
+    // final context = rootNavigatorKey.currentContext!;
     // showTopSnackBar(
     //   context,
     //   CustomSnackBar.error(

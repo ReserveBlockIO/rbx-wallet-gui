@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/voting/models/adj_vote.dart';
 
 import '../../../core/base_component.dart';
+import '../models/adj_vote.dart';
 import '../models/topic.dart';
 import 'topic_vote_actions.dart';
 import 'voting_category_badge.dart';

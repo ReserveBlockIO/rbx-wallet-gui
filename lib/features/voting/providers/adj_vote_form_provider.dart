@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' hide Provider;
-import 'package:rbx_wallet/features/voting/models/adj_vote.dart';
 
 import '../../../core/models/value_label.dart';
 import '../../../utils/validation.dart';
+import '../models/adj_vote.dart';
 import '../utils.dart';
 
 class AdjVoteFormProvider extends StateNotifier<AdjVote> {
