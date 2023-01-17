@@ -28,7 +28,6 @@ class HomeScreen extends BaseScreen {
           key: key,
           verticalPadding: 0,
           horizontalPadding: 0,
-          // includeMainDrawer: true,
         );
 
   @override
@@ -38,11 +37,12 @@ class HomeScreen extends BaseScreen {
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
       leading: IconButton(
-          onPressed: () {
-            ref.read(sessionProvider.notifier).mainLoop(false);
-            ref.read(sessionProvider.notifier).smartContractLoop(false);
-          },
-          icon: const Icon(Icons.refresh)),
+        onPressed: () {
+          ref.read(sessionProvider.notifier).mainLoop(false);
+          ref.read(sessionProvider.notifier).smartContractLoop(false);
+        },
+        icon: const Icon(Icons.refresh),
+      ),
       actions: const [WalletSelector()],
     );
   }
@@ -71,8 +71,6 @@ class HomeScreen extends BaseScreen {
             if (!kIsWeb) const Divider(),
             if (!kIsWeb)
               Wrap(
-                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                // runAlignment: WrapAlignment.spaceBetween,
                 alignment: WrapAlignment.spaceEvenly,
                 spacing: 12.0,
                 runSpacing: 12.0,
