@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,11 +22,17 @@ class TopicListTile extends BaseComponent {
       },
       title: Text(topic.name),
       trailing: VotingCategoryBadge(topic: topic),
-      subtitle: Text(
-        topic.description,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-      ),
+      subtitle: topic.category != VoteTopicCategory.AdjVoteIn
+          ? Text(
+              topic.description,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            )
+          : Text(
+              topic.descriptionIsJson ? jsonDecode(topic.description)['RBXAddress'] : topic.description,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
       leading: const Icon(Icons.article),
     );
   }

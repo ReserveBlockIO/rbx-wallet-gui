@@ -56,7 +56,7 @@ class TopicDetail extends BaseComponent {
           SelectableText("Topic Owner: ${topic.ownerAddress}"),
           const Divider(),
           const SizedBox(height: 6),
-          topic.category == VoteTopicCategory.AdjVoteIn
+          topic.category == VoteTopicCategory.AdjVoteIn && topic.descriptionIsJson
               ? AdjudicatorInVoteDetails(
                   topic: topic,
                 )

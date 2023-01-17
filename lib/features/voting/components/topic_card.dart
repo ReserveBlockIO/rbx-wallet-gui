@@ -62,7 +62,7 @@ class TopicCard extends BaseComponent {
                         : Padding(
                             padding: const EdgeInsets.all(4.0),
                             child: Text(
-                              jsonDecode(topic.description)['RBXAddress'],
+                              topic.descriptionIsJson ? jsonDecode(topic.description)['RBXAddress'] : topic.description,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.center,

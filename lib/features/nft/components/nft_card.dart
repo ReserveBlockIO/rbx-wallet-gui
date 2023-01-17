@@ -207,7 +207,6 @@ class NftCard extends BaseComponent {
                 )),
               ),
             if (isTransferred && !manageOnPress)
-              // if (isTransferred && !manageOnPress || kDebugMode)
               TransferingOverlay(
                 nft,
                 withLog: true,

@@ -80,4 +80,13 @@ class Topic with _$Topic {
   bool get isActive {
     return endsAt.isAfter(DateTime.now());
   }
+
+  bool get descriptionIsJson {
+    if (category == VoteTopicCategory.AdjVoteIn) {
+      if (description.contains("{\"RBXAddress")) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
