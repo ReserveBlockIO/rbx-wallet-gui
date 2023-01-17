@@ -87,8 +87,6 @@ class TopicService extends BaseService {
       payload = {...payload, 'TopicDescription': jsonEncode(adjVoteData)};
     }
 
-    debugPrint(jsonEncode(payload));
-
     try {
       final response = await postJson("/PostNewTopic", params: payload, inspect: true);
 

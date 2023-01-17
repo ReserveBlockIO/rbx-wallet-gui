@@ -152,7 +152,7 @@ class AdjVoteForm extends BaseComponent {
                 controller: provider.bandwithController,
                 required: true,
                 selectOnFocus: true,
-                hintText: "0 for unlimtted",
+                hintText: "0 for unlimited",
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp("[0-9]")),
                 ],
