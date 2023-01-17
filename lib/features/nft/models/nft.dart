@@ -32,20 +32,13 @@ abstract class Nft with _$Nft {
     @JsonKey(name: "IsPublic") required bool isPublic,
     @JsonKey(name: "IsPublished") required bool isPublished,
     @JsonKey(name: "IsMinter") required bool isMinter,
-    @JsonKey(name: "Features", defaultValue: [])
-        required List<Map<String, dynamic>> features,
+    @JsonKey(name: "Features", defaultValue: []) required List<Map<String, dynamic>> features,
     @JsonKey(defaultValue: false) required bool isProcessing,
     String? code,
-    @JsonKey(toJson: nullToNull, fromJson: nullToNull)
-        ProxiedAsset? proxiedAsset,
-    @JsonKey(toJson: nullToNull, fromJson: nullToNull)
-        List<ProxiedAsset>? additionalProxiedAssets,
-    @JsonKey(toJson: nullToNull, fromJson: nullToNull)
-    @Default([])
-        List<Asset> additionalLocalAssets,
-    @JsonKey(toJson: nullToNull, fromJson: nullToNull)
-    @Default([])
-        List<EvolvePhase> updatedEvolutionPhases,
+    @JsonKey(toJson: nullToNull, fromJson: nullToNull) ProxiedAsset? proxiedAsset,
+    @JsonKey(toJson: nullToNull, fromJson: nullToNull) List<ProxiedAsset>? additionalProxiedAssets,
+    @JsonKey(toJson: nullToNull, fromJson: nullToNull) @Default([]) List<Asset> additionalLocalAssets,
+    @JsonKey(toJson: nullToNull, fromJson: nullToNull) @Default([]) List<EvolvePhase> updatedEvolutionPhases,
     @JsonKey(defaultValue: false) required bool assetsAvailable,
   }) = _Nft;
 
@@ -71,8 +64,7 @@ abstract class Nft with _$Nft {
       if (feature.type == FeatureType.evolution) {
         final evolve = Evolve.fromCompiler({'phases': feature.data['phases']});
         if (evolve.phases.isNotEmpty) {
-          if (evolve.phases.first.dateTime != null ||
-              evolve.phases.first.blockHeight != null) {
+          if (evolve.phases.first.dateTime != null || evolve.phases.first.blockHeight != null) {
             return false;
           }
         }
@@ -127,11 +119,7 @@ abstract class Nft with _$Nft {
       description: description,
       asset: primaryAsset,
       evolutionState: 0,
-      isCurrentState:
-          evolutionPhases.firstWhereOrNull((p) => p.isCurrentState == true) ==
-                  null
-              ? true
-              : false,
+      isCurrentState: evolutionPhases.firstWhereOrNull((p) => p.isCurrentState == true) == null ? true : false,
     );
   }
 
@@ -140,12 +128,10 @@ abstract class Nft with _$Nft {
       return [];
     }
 
-    final evolveFeature =
-        featureList.firstWhereOrNull((f) => f.type == FeatureType.evolution);
+    final evolveFeature = featureList.firstWhereOrNull((f) => f.type == FeatureType.evolution);
 
     if (evolveFeature != null) {
-      final evolve =
-          Evolve.fromCompiler({'phases': evolveFeature.data['phases']});
+      final evolve = Evolve.fromCompiler({'phases': evolveFeature.data['phases']});
 
       return evolve.phases;
     }
@@ -154,8 +140,7 @@ abstract class Nft with _$Nft {
   }
 
   EvolvePhase get currentEvolvePhase {
-    final current = updatedEvolutionPhases
-        .firstWhereOrNull((p) => p.isCurrentState == true);
+    final current = updatedEvolutionPhases.firstWhereOrNull((p) => p.isCurrentState == true);
     if (current == null) {
       return baseEvolutionPhase;
     }
@@ -164,8 +149,7 @@ abstract class Nft with _$Nft {
   }
 
   int get currentEvolvePhaseIndex {
-    final current =
-        updatedEvolutionPhases.indexWhere((p) => p.isCurrentState == true);
+    final current = updatedEvolutionPhases.indexWhere((p) => p.isCurrentState == true);
 
     return current;
   }
@@ -245,20 +229,28 @@ abstract class Nft with _$Nft {
   }
 
   Future<bool> areFilesReady() async {
-    if (primaryAsset.localPath == null || primaryAsset.localPath == "NA") {
-      return false;
-    }
-    final size = await File(primaryAsset.localPath!).length();
-    if (size < primaryAsset.fileSize) {
+    if (primaryAsset.localPath == null) {
+      print("Primary null");
       return false;
     }
 
-    for (final a in additionalAssets) {
-      if (a.localPath == null || a.localPath == "NA") {
+    final size = await File(primaryAsset.localPath!).length();
+    if (size < primaryAsset.fileSize) {
+      print("Primary size");
+
+      return false;
+    }
+
+    for (final a in additionalLocalAssets) {
+      if (a.localPath == null) {
+        print("additional null ${a.fileName}");
+
         return false;
       }
       final size = await File(a.localPath!).length();
       if (size < a.fileSize) {
+        print("additional size ${a.fileName}");
+
         return false;
       }
     }

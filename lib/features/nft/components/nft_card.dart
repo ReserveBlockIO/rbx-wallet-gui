@@ -1,6 +1,13 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/env.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/badges.dart';
@@ -200,20 +207,182 @@ class NftCard extends BaseComponent {
                 )),
               ),
             if (isTransferred && !manageOnPress)
-              Container(
-                color: Colors.black54,
-                child: const Center(
-                    child: Text(
-                  "Transferring",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                )),
+              // if (isTransferred && !manageOnPress || kDebugMode)
+              TransferingOverlay(
+                nft,
+                withLog: true,
               )
           ],
         ),
       ),
+    );
+  }
+}
+
+class TransferingOverlay extends StatelessWidget {
+  final Nft nft;
+  final bool withLog;
+  final bool small;
+  const TransferingOverlay(
+    this.nft, {
+    Key? key,
+    this.withLog = false,
+    this.small = false,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.black54,
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "Transferring...",
+              style: TextStyle(
+                fontSize: small ? 14 : 20,
+                fontWeight: small ? FontWeight.w500 : FontWeight.bold,
+              ),
+            ),
+            if (withLog)
+              AppButton(
+                label: "View Upload Progress",
+                onPressed: () {
+                  final List<String> fileNames = [nft.primaryAsset.fileName];
+                  for (final a in nft.additionalAssets) {
+                    fileNames.add(a.fileName);
+                  }
+
+                  showDialog(context: context, builder: (context) => UploadProgressModal(fileNames: fileNames));
+                },
+                type: AppButtonType.Text,
+                variant: AppColorVariant.Info,
+              )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class UploadProgressModal extends StatefulWidget {
+  final List<String> fileNames;
+  const UploadProgressModal({
+    Key? key,
+    required this.fileNames,
+  }) : super(key: key);
+
+  @override
+  State<UploadProgressModal> createState() => _UploadProgressModalState();
+}
+
+class _UploadProgressModalState extends State<UploadProgressModal> {
+  String logLocation = "";
+  List<String> lines = [];
+  Timer? timer;
+
+  @override
+  void initState() {
+    run();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
+  Future<void> run() async {
+    await setup();
+    await update();
+    timer = Timer.periodic(const Duration(seconds: 3), (Timer t) => update());
+  }
+
+  Future<void> setup() async {
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    String appDocPath = appDocDir.path;
+    String location = "";
+
+    if (Platform.isMacOS) {
+      appDocPath = appDocPath.replaceAll("/Documents", Env.isTestNet ? "/rbxtest" : "/rbx");
+      location = "$appDocPath/Databases${Env.isTestNet ? 'TestNet' : ''}/beaconlog.txt";
+    } else {
+      appDocDir = await getApplicationSupportDirectory();
+
+      appDocPath = appDocDir.path;
+
+      appDocPath = appDocPath.replaceAll("\\Roaming\\com.example\\rbx_wallet_gui", "\\Local\\RBX${Env.isTestNet ? 'Test' : ''}");
+      location = "$appDocPath\\Databases${Env.isTestNet ? 'TestNet' : ''}\\beaconlog.txt";
+    }
+
+    setState(() {
+      logLocation = location;
+    });
+  }
+
+  Future<void> update() async {
+    print("UPDATE");
+    if (logLocation.isEmpty) {
+      Toast.error();
+      return;
+    }
+
+    final allLines = await File(logLocation).readAsLines();
+
+    final List<String> _lines = [];
+
+    for (final line in allLines) {
+      for (final f in widget.fileNames) {
+        if (line.contains(f)) {
+          _lines.add(line);
+        }
+      }
+    }
+
+    print(_lines);
+
+    setState(() {
+      lines = _lines;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text("Media Upload Progress"),
+      content: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: 900),
+        child: Container(
+          color: Colors.black,
+          width: double.maxFinite,
+          height: 200,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: lines.length,
+              itemBuilder: (context, index) {
+                return Text(lines[index]);
+              },
+            ),
+          ),
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text(
+            "Close",
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        )
+      ],
     );
   }
 }
