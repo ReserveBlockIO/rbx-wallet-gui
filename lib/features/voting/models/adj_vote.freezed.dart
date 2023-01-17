@@ -24,11 +24,14 @@ mixin _$AdjVote {
   String get rbxAddress => throw _privateConstructorUsedError;
   @JsonKey(name: "IPAddress")
   String get ipAddress => throw _privateConstructorUsedError;
-  @JsonKey(name: "ProviderForMachine", toJson: providerToJson)
+  @JsonKey(
+      name: "ProviderForMachine",
+      toJson: providerToJson,
+      fromJson: providerFromJson)
   Provider get provider => throw _privateConstructorUsedError;
   @JsonKey(name: "MachineType")
   String get machineType => throw _privateConstructorUsedError;
-  @JsonKey(name: "MachineOS", toJson: osToJson)
+  @JsonKey(name: "MachineOS", toJson: osToJson, fromJson: osFromJson)
   OS get machineOs => throw _privateConstructorUsedError;
   @JsonKey(name: "MachineRam")
   int get machineRam => throw _privateConstructorUsedError;
@@ -40,7 +43,10 @@ mixin _$AdjVote {
   int get machineCPUThreads => throw _privateConstructorUsedError;
   @JsonKey(name: "MachineHDDSize")
   int get machineHDDSize => throw _privateConstructorUsedError;
-  @JsonKey(name: "MachineHDDSpecifier", toJson: hdSizeSpecifierToJson)
+  @JsonKey(
+      name: "MachineHDDSpecifier",
+      toJson: hdSizeSpecifierToJson,
+      fromJson: hdSizeSpecifierFromJson)
   HDSizeSpecifier get machineHDDSpecifier => throw _privateConstructorUsedError;
   @JsonKey(name: "InternetSpeedUp")
   int get internetSpeedUp => throw _privateConstructorUsedError;
@@ -71,11 +77,11 @@ abstract class $AdjVoteCopyWith<$Res> {
           String rbxAddress,
       @JsonKey(name: "IPAddress")
           String ipAddress,
-      @JsonKey(name: "ProviderForMachine", toJson: providerToJson)
+      @JsonKey(name: "ProviderForMachine", toJson: providerToJson, fromJson: providerFromJson)
           Provider provider,
       @JsonKey(name: "MachineType")
           String machineType,
-      @JsonKey(name: "MachineOS", toJson: osToJson)
+      @JsonKey(name: "MachineOS", toJson: osToJson, fromJson: osFromJson)
           OS machineOs,
       @JsonKey(name: "MachineRam")
           int machineRam,
@@ -87,7 +93,7 @@ abstract class $AdjVoteCopyWith<$Res> {
           int machineCPUThreads,
       @JsonKey(name: "MachineHDDSize")
           int machineHDDSize,
-      @JsonKey(name: "MachineHDDSpecifier", toJson: hdSizeSpecifierToJson)
+      @JsonKey(name: "MachineHDDSpecifier", toJson: hdSizeSpecifierToJson, fromJson: hdSizeSpecifierFromJson)
           HDSizeSpecifier machineHDDSpecifier,
       @JsonKey(name: "InternetSpeedUp")
           int internetSpeedUp,
@@ -222,11 +228,11 @@ abstract class _$$_AdjVoteCopyWith<$Res> implements $AdjVoteCopyWith<$Res> {
           String rbxAddress,
       @JsonKey(name: "IPAddress")
           String ipAddress,
-      @JsonKey(name: "ProviderForMachine", toJson: providerToJson)
+      @JsonKey(name: "ProviderForMachine", toJson: providerToJson, fromJson: providerFromJson)
           Provider provider,
       @JsonKey(name: "MachineType")
           String machineType,
-      @JsonKey(name: "MachineOS", toJson: osToJson)
+      @JsonKey(name: "MachineOS", toJson: osToJson, fromJson: osFromJson)
           OS machineOs,
       @JsonKey(name: "MachineRam")
           int machineRam,
@@ -238,7 +244,7 @@ abstract class _$$_AdjVoteCopyWith<$Res> implements $AdjVoteCopyWith<$Res> {
           int machineCPUThreads,
       @JsonKey(name: "MachineHDDSize")
           int machineHDDSize,
-      @JsonKey(name: "MachineHDDSpecifier", toJson: hdSizeSpecifierToJson)
+      @JsonKey(name: "MachineHDDSpecifier", toJson: hdSizeSpecifierToJson, fromJson: hdSizeSpecifierFromJson)
           HDSizeSpecifier machineHDDSpecifier,
       @JsonKey(name: "InternetSpeedUp")
           int internetSpeedUp,
@@ -371,11 +377,11 @@ class _$_AdjVote extends _AdjVote {
           required this.rbxAddress,
       @JsonKey(name: "IPAddress")
           required this.ipAddress,
-      @JsonKey(name: "ProviderForMachine", toJson: providerToJson)
+      @JsonKey(name: "ProviderForMachine", toJson: providerToJson, fromJson: providerFromJson)
           required this.provider,
       @JsonKey(name: "MachineType")
           required this.machineType,
-      @JsonKey(name: "MachineOS", toJson: osToJson)
+      @JsonKey(name: "MachineOS", toJson: osToJson, fromJson: osFromJson)
           required this.machineOs,
       @JsonKey(name: "MachineRam")
           required this.machineRam,
@@ -387,7 +393,7 @@ class _$_AdjVote extends _AdjVote {
           required this.machineCPUThreads,
       @JsonKey(name: "MachineHDDSize")
           required this.machineHDDSize,
-      @JsonKey(name: "MachineHDDSpecifier", toJson: hdSizeSpecifierToJson)
+      @JsonKey(name: "MachineHDDSpecifier", toJson: hdSizeSpecifierToJson, fromJson: hdSizeSpecifierFromJson)
           required this.machineHDDSpecifier,
       @JsonKey(name: "InternetSpeedUp")
           required this.internetSpeedUp,
@@ -415,13 +421,16 @@ class _$_AdjVote extends _AdjVote {
   @JsonKey(name: "IPAddress")
   final String ipAddress;
   @override
-  @JsonKey(name: "ProviderForMachine", toJson: providerToJson)
+  @JsonKey(
+      name: "ProviderForMachine",
+      toJson: providerToJson,
+      fromJson: providerFromJson)
   final Provider provider;
   @override
   @JsonKey(name: "MachineType")
   final String machineType;
   @override
-  @JsonKey(name: "MachineOS", toJson: osToJson)
+  @JsonKey(name: "MachineOS", toJson: osToJson, fromJson: osFromJson)
   final OS machineOs;
   @override
   @JsonKey(name: "MachineRam")
@@ -439,7 +448,10 @@ class _$_AdjVote extends _AdjVote {
   @JsonKey(name: "MachineHDDSize")
   final int machineHDDSize;
   @override
-  @JsonKey(name: "MachineHDDSpecifier", toJson: hdSizeSpecifierToJson)
+  @JsonKey(
+      name: "MachineHDDSpecifier",
+      toJson: hdSizeSpecifierToJson,
+      fromJson: hdSizeSpecifierFromJson)
   final HDSizeSpecifier machineHDDSpecifier;
   @override
   @JsonKey(name: "InternetSpeedUp")
@@ -547,11 +559,11 @@ abstract class _AdjVote extends AdjVote {
           required final String rbxAddress,
       @JsonKey(name: "IPAddress")
           required final String ipAddress,
-      @JsonKey(name: "ProviderForMachine", toJson: providerToJson)
+      @JsonKey(name: "ProviderForMachine", toJson: providerToJson, fromJson: providerFromJson)
           required final Provider provider,
       @JsonKey(name: "MachineType")
           required final String machineType,
-      @JsonKey(name: "MachineOS", toJson: osToJson)
+      @JsonKey(name: "MachineOS", toJson: osToJson, fromJson: osFromJson)
           required final OS machineOs,
       @JsonKey(name: "MachineRam")
           required final int machineRam,
@@ -563,7 +575,7 @@ abstract class _AdjVote extends AdjVote {
           required final int machineCPUThreads,
       @JsonKey(name: "MachineHDDSize")
           required final int machineHDDSize,
-      @JsonKey(name: "MachineHDDSpecifier", toJson: hdSizeSpecifierToJson)
+      @JsonKey(name: "MachineHDDSpecifier", toJson: hdSizeSpecifierToJson, fromJson: hdSizeSpecifierFromJson)
           required final HDSizeSpecifier machineHDDSpecifier,
       @JsonKey(name: "InternetSpeedUp")
           required final int internetSpeedUp,
@@ -590,13 +602,16 @@ abstract class _AdjVote extends AdjVote {
   @JsonKey(name: "IPAddress")
   String get ipAddress => throw _privateConstructorUsedError;
   @override
-  @JsonKey(name: "ProviderForMachine", toJson: providerToJson)
+  @JsonKey(
+      name: "ProviderForMachine",
+      toJson: providerToJson,
+      fromJson: providerFromJson)
   Provider get provider => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "MachineType")
   String get machineType => throw _privateConstructorUsedError;
   @override
-  @JsonKey(name: "MachineOS", toJson: osToJson)
+  @JsonKey(name: "MachineOS", toJson: osToJson, fromJson: osFromJson)
   OS get machineOs => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "MachineRam")
@@ -614,7 +629,10 @@ abstract class _AdjVote extends AdjVote {
   @JsonKey(name: "MachineHDDSize")
   int get machineHDDSize => throw _privateConstructorUsedError;
   @override
-  @JsonKey(name: "MachineHDDSpecifier", toJson: hdSizeSpecifierToJson)
+  @JsonKey(
+      name: "MachineHDDSpecifier",
+      toJson: hdSizeSpecifierToJson,
+      fromJson: hdSizeSpecifierFromJson)
   HDSizeSpecifier get machineHDDSpecifier => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: "InternetSpeedUp")
