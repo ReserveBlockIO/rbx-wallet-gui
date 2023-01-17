@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -46,16 +48,27 @@ class TopicCard extends BaseComponent {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Text(
-                        topic.description,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.caption,
-                      ),
-                    ),
+                    topic.category != VoteTopicCategory.AdjVoteIn
+                        ? Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Text(
+                              topic.description,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.caption,
+                            ),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Text(
+                              jsonDecode(topic.description)['RBXAddress'],
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.caption,
+                            ),
+                          ),
                   ],
                 ),
               ),
