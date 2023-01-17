@@ -30,7 +30,7 @@ class AdjVoteForm extends BaseComponent {
           _FormRow(
             children: [
               _FormField(
-                label: "RBX Address",
+                label: "RBX Address to Nominate",
                 controller: provider.rbxAddressController,
                 validator: provider.rbxAddressValidator,
               ),
