@@ -81,6 +81,12 @@ class TopicFormProvider extends StateNotifier<NewTopic> {
       }
 
       adjVoteData = read(adjVoteFormProvider.notifier).serialize();
+
+      final charLength = jsonEncode(adjVoteData).length;
+      if (charLength > 2800) {
+        Toast.error("The 'Vote Adjudicator In' submission is too long. Please reduce the content.");
+        return null;
+      }
     } else {
       if (!formKey.currentState!.validate()) {
         return null;
