@@ -85,7 +85,6 @@ class TopicService extends BaseService {
     Map<String, dynamic> payload = topic.toJson();
     if (adjVoteData != null) {
       payload = {...payload, 'TopicDescription': jsonEncode(adjVoteData)};
-      // payload = {...payload, 'TopicDescription': adjVoteData};
     }
 
     debugPrint(jsonEncode(payload));

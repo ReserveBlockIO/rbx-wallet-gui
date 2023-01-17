@@ -65,6 +65,7 @@ class AdjVoteForm extends BaseComponent {
                 label: "Machine Type",
                 controller: provider.machineTypeController,
                 required: true,
+                hintText: "ie. Server, Desktop, Laptop, etc.",
               ),
             ],
           ),
@@ -74,11 +75,13 @@ class AdjVoteForm extends BaseComponent {
                 label: "CPU",
                 controller: provider.machineCPUController,
                 required: true,
+                hintText: "ie. Intel",
               ),
               _FormField(
                 label: "CPU Cores",
                 controller: provider.machineCPUCoresController,
                 required: true,
+                selectOnFocus: true,
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp("[0-9]")),
                 ],
@@ -87,6 +90,7 @@ class AdjVoteForm extends BaseComponent {
                 label: "CPU Threads",
                 controller: provider.machineCPUThreadsController,
                 required: true,
+                selectOnFocus: true,
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp("[0-9]")),
                 ],
@@ -96,9 +100,10 @@ class AdjVoteForm extends BaseComponent {
           _FormRow(
             children: [
               _FormField(
-                label: "RAM (GB)",
+                label: "RAM (in GB)",
                 controller: provider.machineRamController,
                 required: true,
+                selectOnFocus: true,
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp("[0-9]")),
                 ],
@@ -107,6 +112,7 @@ class AdjVoteForm extends BaseComponent {
                 label: "HD Size",
                 controller: provider.machineHDDSizeController,
                 required: true,
+                selectOnFocus: true,
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp("[0-9]")),
                 ],
@@ -124,25 +130,29 @@ class AdjVoteForm extends BaseComponent {
           _FormRow(
             children: [
               _FormField(
-                label: "Internet Speed Up (Gbps)",
+                label: "Internet Speed Up (in Gbps)",
                 controller: provider.internetSpeedUpController,
                 required: true,
+                selectOnFocus: true,
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp("[0-9]")),
                 ],
               ),
               _FormField(
-                label: "Internet Speed Down (Gbps)",
+                label: "Internet Speed Down (in Gbps)",
                 controller: provider.internetSpeedDownController,
                 required: true,
+                selectOnFocus: true,
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp("[0-9]")),
                 ],
               ),
               _FormField(
-                label: "Bandwith (in TB) [0 for unlimitted]",
+                label: "Bandwith (in TB)",
                 controller: provider.bandwithController,
                 required: true,
+                selectOnFocus: true,
+                hintText: "0 for unlimtted",
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp("[0-9]")),
                 ],
@@ -163,7 +173,7 @@ class AdjVoteForm extends BaseComponent {
           _FormRow(
             children: [
               _FormField(
-                label: "ReasonForAdjJoin",
+                label: "Reason To Become Adjudicator",
                 controller: provider.reasonForAdjJoinController,
                 required: true,
                 lines: 3,
@@ -178,8 +188,9 @@ class AdjVoteForm extends BaseComponent {
                 controller: provider.githubLinkController,
               ),
               _FormField(
-                label: "Additional Link(s) (Optional) [separate with commas]",
+                label: "Additional Link(s) (Optional)",
                 controller: provider.supplementalURLsController,
+                hintText: "Separate multiple with commas",
               ),
             ],
           ),
@@ -226,6 +237,8 @@ class _FormField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final int? lines;
   final int? maxLength;
+  final bool selectOnFocus;
+  final String? hintText;
 
   const _FormField({
     Key? key,
@@ -236,6 +249,8 @@ class _FormField extends StatelessWidget {
     this.inputFormatters,
     this.lines,
     this.maxLength,
+    this.selectOnFocus = false,
+    this.hintText,
   }) : super(key: key);
 
   @override
@@ -246,7 +261,8 @@ class _FormField extends StatelessWidget {
       minLines: lines,
       maxLines: lines != null ? lines! * 2 : null,
       maxLength: maxLength,
-      decoration: InputDecoration(label: Text(label)),
+      decoration: InputDecoration(label: Text(label), hintText: hintText),
+      onTap: selectOnFocus ? () => controller.selection = TextSelection(baseOffset: 0, extentOffset: controller.value.text.length) : () => {},
       validator: required
           ? (val) => formValidatorNotEmpty(val, label)
           : (val) {
@@ -286,7 +302,7 @@ class _FormDropDown<T> extends StatelessWidget {
                 color: Theme.of(context).colorScheme.secondary,
               ),
         ),
-        Container(
+        SizedBox(
           height: 35,
           child: DropdownButton<T>(
             focusColor: Colors.transparent,
