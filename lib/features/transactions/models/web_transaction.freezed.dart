@@ -31,8 +31,7 @@ mixin _$WebTransaction {
   @JsonKey(name: "total_fee")
   double? get fee => throw _privateConstructorUsedError;
   @JsonKey(name: 'date_crafted')
-  DateTime get date =>
-      throw _privateConstructorUsedError; // required int nonce,
+  DateTime get date => throw _privateConstructorUsedError; // required int nonce,
 // required int timestamp,
 // @JsonKey(name: 'nft_data') dynamic nftData,
 // required String signature,
@@ -40,15 +39,12 @@ mixin _$WebTransaction {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $WebTransactionCopyWith<WebTransaction> get copyWith =>
-      throw _privateConstructorUsedError;
+  $WebTransactionCopyWith<WebTransaction> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $WebTransactionCopyWith<$Res> {
-  factory $WebTransactionCopyWith(
-          WebTransaction value, $Res Function(WebTransaction) then) =
-      _$WebTransactionCopyWithImpl<$Res>;
+  factory $WebTransactionCopyWith(WebTransaction value, $Res Function(WebTransaction) then) = _$WebTransactionCopyWithImpl<$Res>;
   $Res call(
       {String hash,
       @JsonKey(name: 'to_address') String toAddress,
@@ -61,8 +57,7 @@ abstract class $WebTransactionCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$WebTransactionCopyWithImpl<$Res>
-    implements $WebTransactionCopyWith<$Res> {
+class _$WebTransactionCopyWithImpl<$Res> implements $WebTransactionCopyWith<$Res> {
   _$WebTransactionCopyWithImpl(this._value, this._then);
 
   final WebTransaction _value;
@@ -118,11 +113,8 @@ class _$WebTransactionCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$$_WebTransactionCopyWith<$Res>
-    implements $WebTransactionCopyWith<$Res> {
-  factory _$$_WebTransactionCopyWith(
-          _$_WebTransaction value, $Res Function(_$_WebTransaction) then) =
-      __$$_WebTransactionCopyWithImpl<$Res>;
+abstract class _$$_WebTransactionCopyWith<$Res> implements $WebTransactionCopyWith<$Res> {
+  factory _$$_WebTransactionCopyWith(_$_WebTransaction value, $Res Function(_$_WebTransaction) then) = __$$_WebTransactionCopyWithImpl<$Res>;
   @override
   $Res call(
       {String hash,
@@ -136,11 +128,8 @@ abstract class _$$_WebTransactionCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_WebTransactionCopyWithImpl<$Res>
-    extends _$WebTransactionCopyWithImpl<$Res>
-    implements _$$_WebTransactionCopyWith<$Res> {
-  __$$_WebTransactionCopyWithImpl(
-      _$_WebTransaction _value, $Res Function(_$_WebTransaction) _then)
+class __$$_WebTransactionCopyWithImpl<$Res> extends _$WebTransactionCopyWithImpl<$Res> implements _$$_WebTransactionCopyWith<$Res> {
+  __$$_WebTransactionCopyWithImpl(_$_WebTransaction _value, $Res Function(_$_WebTransaction) _then)
       : super(_value, (v) => _then(v as _$_WebTransaction));
 
   @override
@@ -208,8 +197,7 @@ class _$_WebTransaction extends _WebTransaction {
       required this.height})
       : super._();
 
-  factory _$_WebTransaction.fromJson(Map<String, dynamic> json) =>
-      _$$_WebTransactionFromJson(json);
+  factory _$_WebTransaction.fromJson(Map<String, dynamic> json) => _$$_WebTransactionFromJson(json);
 
   @override
   final String hash;
@@ -249,8 +237,7 @@ class _$_WebTransaction extends _WebTransaction {
             other is _$_WebTransaction &&
             const DeepCollectionEquality().equals(other.hash, hash) &&
             const DeepCollectionEquality().equals(other.toAddress, toAddress) &&
-            const DeepCollectionEquality()
-                .equals(other.fromAddress, fromAddress) &&
+            const DeepCollectionEquality().equals(other.fromAddress, fromAddress) &&
             const DeepCollectionEquality().equals(other.type, type) &&
             const DeepCollectionEquality().equals(other.amount, amount) &&
             const DeepCollectionEquality().equals(other.fee, fee) &&
@@ -273,8 +260,7 @@ class _$_WebTransaction extends _WebTransaction {
 
   @JsonKey(ignore: true)
   @override
-  _$$_WebTransactionCopyWith<_$_WebTransaction> get copyWith =>
-      __$$_WebTransactionCopyWithImpl<_$_WebTransaction>(this, _$identity);
+  _$$_WebTransactionCopyWith<_$_WebTransaction> get copyWith => __$$_WebTransactionCopyWithImpl<_$_WebTransaction>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -294,8 +280,7 @@ abstract class _WebTransaction extends WebTransaction {
       required final int height}) = _$_WebTransaction;
   _WebTransaction._() : super._();
 
-  factory _WebTransaction.fromJson(Map<String, dynamic> json) =
-      _$_WebTransaction.fromJson;
+  factory _WebTransaction.fromJson(Map<String, dynamic> json) = _$_WebTransaction.fromJson;
 
   @override
   String get hash => throw _privateConstructorUsedError;
@@ -323,6 +308,5 @@ abstract class _WebTransaction extends WebTransaction {
   int get height => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$$_WebTransactionCopyWith<_$_WebTransaction> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$_WebTransactionCopyWith<_$_WebTransaction> get copyWith => throw _privateConstructorUsedError;
 }

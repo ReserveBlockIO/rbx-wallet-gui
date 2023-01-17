@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/nft/components/nft_card.dart';
 
 import '../../../core/base_component.dart';
 import '../../asset/polling_image_preview.dart';
@@ -11,6 +10,7 @@ import '../providers/burned_provider.dart';
 import '../providers/nft_detail_provider.dart';
 import '../providers/transferred_provider.dart';
 import '../screens/nft_detail_screen.dart';
+import 'nft_card.dart';
 
 class NftListTile extends BaseComponent {
   final Nft nft;

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../../core/base_component.dart';
 import '../../../../core/components/badges.dart';
 import '../../../../core/providers/session_provider.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../generated/assets.gen.dart';
+import '../../../../utils/formatting.dart';
 import '../../../block/latest_block.dart';
 import '../../../bridge/providers/status_provider.dart';
 import '../../../bridge/providers/wallet_info_provider.dart';
-import '../../../../generated/assets.gen.dart';
-import '../../../../utils/formatting.dart';
 
 class StatusContainer extends BaseComponent {
   const StatusContainer({Key? key}) : super(key: key);

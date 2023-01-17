@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/features/asset/asset.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
+
+import '../../asset/asset.dart';
+import '../features/royalty/royalty.dart';
 
 part 'bulk_smart_contract_entry.freezed.dart';
 

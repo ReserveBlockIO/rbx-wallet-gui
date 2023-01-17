@@ -22,7 +22,7 @@ class BulkSmartContractEntryListTile extends StatelessWidget {
           fit: BoxFit.contain,
         ),
         subtitle: Text("Quantity: ${entry.quantity}"),
-        trailing: Icon(Icons.chevron_right),
+        trailing: const Icon(Icons.chevron_right),
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(

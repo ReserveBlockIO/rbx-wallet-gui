@@ -47,21 +47,21 @@ class CreateBeaconModal extends BaseComponent {
                       ],
                     ),
                   ),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   SizedBox(
                     width: 240,
                     child: TextFormField(
                       controller: provider.portController,
-                      decoration: InputDecoration(label: Text("Port (leave blank for default)")),
+                      decoration: const InputDecoration(label: Text("Port (leave blank for default)")),
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     ),
                   ),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   SizedBox(
                     width: 240,
                     child: TextFormField(
                       controller: provider.periodController,
-                      decoration: InputDecoration(label: Text("Days to retain files (0 for unlimited)")),
+                      decoration: const InputDecoration(label: Text("Days to retain files (0 for unlimited)")),
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     ),
                   ),

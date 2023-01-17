@@ -1,11 +1,5 @@
-import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/voting/models/vote.dart';
-import 'package:rbx_wallet/features/voting/providers/adj_vote_form_provider.dart';
-import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/models/value_label.dart';
 import '../../../utils/validation.dart';
@@ -14,6 +8,7 @@ import '../models/new_topic.dart';
 import '../models/topic.dart';
 import '../services/topic_service.dart';
 import '../utils.dart';
+import 'adj_vote_form_provider.dart';
 import 'topic_list_provider.dart';
 
 class TopicFormProvider extends StateNotifier<NewTopic> {

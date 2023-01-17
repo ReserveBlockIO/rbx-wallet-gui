@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/dropdowns.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+import '../../../core/base_component.dart';
+import '../../../core/components/dropdowns.dart';
+import '../../../core/providers/web_session_provider.dart';
+import 'sc_creator/common/help_button.dart';
+import '../features/royalty/royalty.dart';
+import '../../wallet/providers/wallet_list_provider.dart';
+import '../../../utils/validation.dart';
 
 class ScWizardRoyaltyDialog extends BaseComponent {
   ScWizardRoyaltyDialog({

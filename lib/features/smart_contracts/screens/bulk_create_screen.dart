@@ -1,18 +1,12 @@
-import 'dart:convert';
-import 'dart:io';
-import 'dart:math';
-
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../core/base_screen.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/theme/app_theme.dart';
-import '../components/bulk_smart_contract_entry_list_tile.dart';
-import '../models/bulk_smart_contract_entry.dart';
+import '../../wallet/components/wallet_selector.dart';
 import '../providers/sc_wizard_provider.dart';
 import 'smart_contract_wizard_screen.dart';
-import '../../wallet/components/wallet_selector.dart';
 
 class BulkCreateScreen extends BaseScreen {
   const BulkCreateScreen({Key? key})
@@ -56,8 +50,8 @@ class BulkCreateScreen extends BaseScreen {
             padding: const EdgeInsets.all(16),
             child: Center(
               child: ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 500),
-                child: Text(
+                constraints: const BoxConstraints(maxWidth: 500),
+                child: const Text(
                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nihil enim hoc differt. Duo Reges: constructio interrete. Primum in nostrane potestate est, quid meminerimus? Quaerimus enim finem bonorum. Iam enim adesse poterit. Age sane, inquam.",
                   textAlign: TextAlign.center,
                 ),
@@ -65,7 +59,7 @@ class BulkCreateScreen extends BaseScreen {
             ),
           ),
           ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 600),
+            constraints: const BoxConstraints(maxWidth: 600),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -73,7 +67,7 @@ class BulkCreateScreen extends BaseScreen {
                   borderRadius: BorderRadius.circular(6),
                   color: Colors.black,
                   boxShadow: [
-                    BoxShadow(
+                    const BoxShadow(
                       color: Colors.white54,
                       blurRadius: 4,
                       // spreadRadius: 4,
@@ -99,8 +93,8 @@ class BulkCreateScreen extends BaseScreen {
                         padding: const EdgeInsets.all(16),
                         child: Center(
                           child: ConstrainedBox(
-                            constraints: BoxConstraints(maxWidth: 500),
-                            child: Text(
+                            constraints: const BoxConstraints(maxWidth: 500),
+                            child: const Text(
                               "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nihil enim hoc differt. Duo Reges: constructio interrete. Primum in nostrane potestate est, quid meminerimus?",
                               textAlign: TextAlign.center,
                             ),
@@ -113,7 +107,7 @@ class BulkCreateScreen extends BaseScreen {
                           label: "Launch Wizard",
                           onPressed: () async {
                             await Navigator.of(context).push(
-                              MaterialPageRoute(builder: (context) => SmartContractWizardScreen()),
+                              MaterialPageRoute(builder: (context) => const SmartContractWizardScreen()),
                             );
                           },
                           variant: AppColorVariant.Success,
@@ -127,7 +121,7 @@ class BulkCreateScreen extends BaseScreen {
             ),
           ),
           ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 600),
+            constraints: const BoxConstraints(maxWidth: 600),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -135,7 +129,7 @@ class BulkCreateScreen extends BaseScreen {
                   borderRadius: BorderRadius.circular(6),
                   color: Colors.black,
                   boxShadow: [
-                    BoxShadow(
+                    const BoxShadow(
                       color: Colors.white54,
                       blurRadius: 4,
                     )
@@ -160,8 +154,8 @@ class BulkCreateScreen extends BaseScreen {
                         padding: const EdgeInsets.all(16),
                         child: Center(
                           child: ConstrainedBox(
-                            constraints: BoxConstraints(maxWidth: 500),
-                            child: Text(
+                            constraints: const BoxConstraints(maxWidth: 500),
+                            child: const Text(
                               "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nihil enim hoc differt. Duo Reges: constructio interrete. Primum in nostrane potestate est, quid meminerimus?",
                               textAlign: TextAlign.center,
                             ),
@@ -179,7 +173,7 @@ class BulkCreateScreen extends BaseScreen {
                               variant: AppColorVariant.Light,
                               icon: Icons.download,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 16,
                             ),
                             AppButton(

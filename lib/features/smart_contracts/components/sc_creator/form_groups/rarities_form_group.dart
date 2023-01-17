@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../../../app.dart';
 import '../../../../../core/base_component.dart';
 import '../../../../../core/components/buttons.dart';
 import '../../../../../core/theme/app_theme.dart';
-import '../common/form_group_container.dart';
-import '../common/form_group_header.dart';
-import '../common/help_button.dart';
 import '../../../features/royalty/rarity_modal.dart';
 import '../../../models/rarity.dart';
 import '../../../providers/create_smart_contract_provider.dart';
+import '../common/form_group_container.dart';
+import '../common/form_group_header.dart';
+import '../common/help_button.dart';
 
 class RaritiesFormGroup extends BaseComponent {
   const RaritiesFormGroup({Key? key}) : super(key: key);

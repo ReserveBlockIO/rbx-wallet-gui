@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' hide Provider;
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/models/value_label.dart';
-import 'package:rbx_wallet/features/voting/models/adj_vote.dart';
-import 'package:rbx_wallet/features/voting/providers/adj_vote_form_provider.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/models/value_label.dart';
+import '../../../utils/validation.dart';
+import '../models/adj_vote.dart';
+import '../providers/adj_vote_form_provider.dart';
 
 class AdjVoteForm extends BaseComponent {
   const AdjVoteForm({Key? key}) : super(key: key);

@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/voting/components/adj_vote_form.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/buttons.dart';
@@ -13,6 +12,7 @@ import '../../encrypt/utils.dart';
 import '../models/new_topic.dart';
 import '../models/topic.dart';
 import '../providers/topic_form_provider.dart';
+import 'adj_vote_form.dart';
 
 class TopicForm extends BaseComponent {
   const TopicForm({Key? key}) : super(key: key);

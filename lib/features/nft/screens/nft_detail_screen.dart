@@ -1,14 +1,11 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/features/nft/utils.dart';
-import 'package:rbx_wallet/features/wallet/models/wallet.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
-import 'package:collection/collection.dart';
 
+import '../../../core/app_constants.dart';
 import '../../../core/base_screen.dart';
 import '../../../core/components/badges.dart';
 import '../../../core/components/buttons.dart';
@@ -26,6 +23,8 @@ import '../../smart_contracts/components/sc_creator/common/modal_container.dart'
 import '../../smart_contracts/components/sc_creator/modals/code_modal.dart';
 import '../../smart_contracts/models/feature.dart';
 import '../../smart_contracts/providers/my_smart_contracts_provider.dart';
+import '../../wallet/models/wallet.dart';
+import '../../wallet/providers/wallet_list_provider.dart';
 import '../components/media_backup.dart';
 import '../components/nft_qr_code.dart';
 import '../components/proxy_asset_card.dart';
@@ -33,6 +32,7 @@ import '../components/proxy_asset_thumbnail.dart';
 import '../modals/nft_management_modal.dart';
 import '../providers/nft_detail_provider.dart';
 import '../providers/transferred_provider.dart';
+import '../utils.dart';
 
 class NftDetailScreen extends BaseScreen {
   final String id;

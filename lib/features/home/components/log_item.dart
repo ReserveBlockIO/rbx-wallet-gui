@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import '../../../core/theme/app_theme.dart';
-import '../../bridge/models/log_entry.dart';
 import '../../../utils/toast.dart';
+import '../../bridge/models/log_entry.dart';
 
 class LogItem extends StatelessWidget {
   final LogEntry entry;

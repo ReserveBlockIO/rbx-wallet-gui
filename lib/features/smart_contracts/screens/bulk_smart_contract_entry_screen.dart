@@ -32,7 +32,7 @@ class BulkSmartContractEntryScreen extends BaseScreen {
                 height: 200,
                 fit: BoxFit.contain,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 8,
               ),
               Column(

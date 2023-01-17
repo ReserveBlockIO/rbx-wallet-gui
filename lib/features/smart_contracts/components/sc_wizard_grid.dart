@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../core/base_component.dart';
-import 'sc_wizard_card_preview.dart';
 import '../providers/sc_wizard_provider.dart';
+import 'sc_wizard_card_preview.dart';
 
 class ScWizardGrid extends BaseComponent {
   const ScWizardGrid({Key? key}) : super(key: key);

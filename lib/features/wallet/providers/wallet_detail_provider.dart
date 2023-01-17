@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
 
+import '../../../core/dialogs.dart';
 import '../../../core/singletons.dart';
 import '../../../core/storage.dart';
 import '../models/wallet.dart';

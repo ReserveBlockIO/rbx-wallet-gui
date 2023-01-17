@@ -61,7 +61,6 @@ Future<bool> backupMedia(BuildContext context, WidgetRef ref) async {
 
     String inputPath = "$rbxPath${Platform.isWindows ? '\\' : '/'}$assetsFolderName";
 
-    //TODO the windows version probably works on mac too, but test out before removing.
     final archive =
         Platform.isMacOS ? createArchiveFromDirectory(Directory.fromUri(Uri.parse(inputPath))) : createArchiveFromDirectory(Directory(inputPath));
 

@@ -6,8 +6,7 @@ part of 'transaction.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Transaction _$$_TransactionFromJson(Map<String, dynamic> json) =>
-    _$_Transaction(
+_$_Transaction _$$_TransactionFromJson(Map<String, dynamic> json) => _$_Transaction(
       hash: json['Hash'] as String,
       toAddress: json['ToAddress'] as String,
       fromAddress: json['FromAddress'] as String,
@@ -22,8 +21,7 @@ _$_Transaction _$$_TransactionFromJson(Map<String, dynamic> json) =>
       height: json['Height'] as int,
     );
 
-Map<String, dynamic> _$$_TransactionToJson(_$_Transaction instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$$_TransactionToJson(_$_Transaction instance) => <String, dynamic>{
       'Hash': instance.hash,
       'ToAddress': instance.toAddress,
       'FromAddress': instance.fromAddress,
