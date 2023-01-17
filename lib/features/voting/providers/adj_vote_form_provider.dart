@@ -122,18 +122,21 @@ class AdjVoteFormProvider extends StateNotifier<AdjVote> {
   }
 
   List<ValueLabel<HDSizeSpecifier>> hdSizeSpecifierOptions(BuildContext context) {
-    return hdSizeSpecifierOptions(context);
+    return hdSizeSpecifierValueLabels(context);
   }
 
-  setProvider(Provider provider) {
+  setProvider(Provider? provider) {
+    if (provider == null) return;
     state = state.copyWith(provider: provider);
   }
 
-  setMachineOs(OS machineOs) {
+  setMachineOs(OS? machineOs) {
+    if (machineOs == null) return;
     state = state.copyWith(machineOs: machineOs);
   }
 
-  setHdSizeSpecifier(HDSizeSpecifier machineHDDSpecifier) {
+  setHdSizeSpecifier(HDSizeSpecifier? machineHDDSpecifier) {
+    if (machineHDDSpecifier == null) return;
     state = state.copyWith(machineHDDSpecifier: machineHDDSpecifier);
   }
 

@@ -1,7 +1,11 @@
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/voting/models/vote.dart';
 import 'package:rbx_wallet/features/voting/providers/adj_vote_form_provider.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/models/value_label.dart';
 import '../../../utils/validation.dart';
@@ -74,10 +78,21 @@ class TopicFormProvider extends StateNotifier<NewTopic> {
       if (!isValid) {
         return null;
       }
+
+      final adjVoteData = read(adjVoteFormProvider.notifier).serialize();
+
+      state = state.copyWith(description: jsonEncode(adjVoteData));
     } else {
       if (!formKey.currentState!.validate()) {
         return null;
       }
+    }
+
+    if (kDebugMode) {
+      descriptionController.text = state.description;
+
+      Toast.message("kDebugMode: disabling submit for testing purposes");
+      return null;
     }
 
     read(globalLoadingProvider.notifier).start();

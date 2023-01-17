@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart' hide Provider;
 import 'package:rbx_wallet/core/base_component.dart';
+import 'package:rbx_wallet/core/models/value_label.dart';
+import 'package:rbx_wallet/features/voting/models/adj_vote.dart';
 import 'package:rbx_wallet/features/voting/providers/adj_vote_form_provider.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 
@@ -40,7 +42,147 @@ class AdjVoteForm extends BaseComponent {
                 ],
               )
             ],
-          )
+          ),
+          _FormRow(
+            children: [
+              _FormDropDown<Provider>(
+                label: "Machine Provider",
+                value: model.provider,
+                options: provider.providerOptions(context),
+                onChanged: (val) {
+                  provider.setProvider(val);
+                },
+              ),
+              _FormDropDown<OS>(
+                label: "Machine OS",
+                value: model.machineOs,
+                options: provider.osOptions(context),
+                onChanged: (val) {
+                  provider.setMachineOs(val);
+                },
+              ),
+              _FormField(
+                label: "Machine Type",
+                controller: provider.machineTypeController,
+                required: true,
+              ),
+            ],
+          ),
+          _FormRow(
+            children: [
+              _FormField(
+                label: "CPU",
+                controller: provider.machineCPUController,
+                required: true,
+              ),
+              _FormField(
+                label: "CPU Cores",
+                controller: provider.machineCPUCoresController,
+                required: true,
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+                ],
+              ),
+              _FormField(
+                label: "CPU Threads",
+                controller: provider.machineCPUThreadsController,
+                required: true,
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+                ],
+              ),
+            ],
+          ),
+          _FormRow(
+            children: [
+              _FormField(
+                label: "RAM (GB)",
+                controller: provider.machineRamController,
+                required: true,
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+                ],
+              ),
+              _FormField(
+                label: "HD Size",
+                controller: provider.machineHDDSizeController,
+                required: true,
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+                ],
+              ),
+              _FormDropDown<HDSizeSpecifier>(
+                label: "HD Size Specifier",
+                value: model.machineHDDSpecifier,
+                options: provider.hdSizeSpecifierOptions(context),
+                onChanged: (val) {
+                  provider.setHdSizeSpecifier(val);
+                },
+              ),
+            ],
+          ),
+          _FormRow(
+            children: [
+              _FormField(
+                label: "Internet Speed Up (Gbps)",
+                controller: provider.internetSpeedUpController,
+                required: true,
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+                ],
+              ),
+              _FormField(
+                label: "Internet Speed Down (Gbps)",
+                controller: provider.internetSpeedDownController,
+                required: true,
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+                ],
+              ),
+              _FormField(
+                label: "Bandwith (in TB) [0 for unlimitted]",
+                controller: provider.bandwithController,
+                required: true,
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+                ],
+              ),
+            ],
+          ),
+          _FormRow(
+            children: [
+              _FormField(
+                label: "Technical Background",
+                controller: provider.technicalBackgroundController,
+                required: true,
+                lines: 3,
+                maxLength: 1000,
+              ),
+            ],
+          ),
+          _FormRow(
+            children: [
+              _FormField(
+                label: "ReasonForAdjJoin",
+                controller: provider.reasonForAdjJoinController,
+                required: true,
+                lines: 3,
+                maxLength: 1000,
+              ),
+            ],
+          ),
+          _FormRow(
+            children: [
+              _FormField(
+                label: "Github Link (Optional)",
+                controller: provider.githubLinkController,
+              ),
+              _FormField(
+                label: "Additional Link(s) (Optional) [separate with commas]",
+                controller: provider.githubLinkController,
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -56,18 +198,22 @@ class _FormRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: children.asMap().entries.map((e) {
-        final index = e.key;
-        final child = e.value;
-        final isLast = index + 1 == children.length;
-        return Expanded(
-          child: Padding(
-            padding: EdgeInsets.only(right: isLast ? 0 : 6),
-            child: child,
-          ),
-        );
-      }).toList(),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: children.asMap().entries.map((e) {
+          final index = e.key;
+          final child = e.value;
+          final isLast = index + 1 == children.length;
+          return Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(right: isLast ? 0 : 6),
+              child: child,
+            ),
+          );
+        }).toList(),
+      ),
     );
   }
 }
@@ -78,14 +224,18 @@ class _FormField extends StatelessWidget {
   final Function(String?)? validator;
   final bool required;
   final List<TextInputFormatter>? inputFormatters;
+  final int? lines;
+  final int? maxLength;
 
   const _FormField({
     Key? key,
     required this.label,
     required this.controller,
-    this.required = true,
+    this.required = false,
     this.validator,
     this.inputFormatters,
+    this.lines,
+    this.maxLength,
   }) : super(key: key);
 
   @override
@@ -93,6 +243,9 @@ class _FormField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       inputFormatters: inputFormatters,
+      minLines: lines,
+      maxLines: lines != null ? lines! * 2 : null,
+      maxLength: maxLength,
       decoration: InputDecoration(label: Text(label)),
       validator: required
           ? (val) => formValidatorNotEmpty(val, label)
@@ -102,6 +255,58 @@ class _FormField extends StatelessWidget {
               }
               return null;
             },
+    );
+  }
+}
+
+class _FormDropDown<T> extends StatelessWidget {
+  final T value;
+  final List<ValueLabel<T>> options;
+  final Function(T? val) onChanged;
+  final String label;
+
+  const _FormDropDown({
+    Key? key,
+    required this.value,
+    required this.options,
+    required this.onChanged,
+    required this.label,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 10),
+        Text(
+          label,
+          style: Theme.of(context).textTheme.caption!.copyWith(
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+        ),
+        Container(
+          height: 35,
+          child: DropdownButton<T>(
+            focusColor: Colors.transparent,
+            value: value,
+            underline: Container(
+              width: double.infinity,
+              height: 0.75,
+              color: Colors.white70,
+            ),
+            items: options.map((item) {
+              return DropdownMenuItem<T>(
+                value: item.value,
+                child: Text(item.label),
+              );
+            }).toList(),
+            onChanged: onChanged,
+            isExpanded: true,
+          ),
+        ),
+      ],
     );
   }
 }

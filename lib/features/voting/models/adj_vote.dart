@@ -9,6 +9,10 @@ enum OS { linux, windows, mac }
 
 enum HDSizeSpecifier { gb, tb, pb }
 
+providerToJson(Provider value) => Provider.values.indexOf(value);
+osToJson(OS value) => OS.values.indexOf(value);
+hdSizeSpecifierToJson(HDSizeSpecifier value) => HDSizeSpecifier.values.indexOf(value);
+
 @freezed
 class AdjVote with _$AdjVote {
   const AdjVote._();
@@ -16,15 +20,15 @@ class AdjVote with _$AdjVote {
   factory AdjVote({
     @JsonKey(name: "RBXAddress") required String rbxAddress,
     @JsonKey(name: "IPAddress") required String ipAddress,
-    @JsonKey(name: "ProviderForMachine") required Provider provider,
+    @JsonKey(name: "ProviderForMachine", toJson: providerToJson) required Provider provider,
     @JsonKey(name: "MachineType") required String machineType,
-    @JsonKey(name: "MachineOS") required OS machineOs,
+    @JsonKey(name: "MachineOS", toJson: osToJson) required OS machineOs,
     @JsonKey(name: "MachineRam") required int machineRam,
     @JsonKey(name: "MachineCPU") required String machineCPU,
     @JsonKey(name: "MachineCPUCores") required int machineCPUCores,
     @JsonKey(name: "MachineCPUThreads") required int machineCPUThreads,
     @JsonKey(name: "MachineHDDSize") required int machineHDDSize,
-    @JsonKey(name: "MachineHDDSpecifier") required HDSizeSpecifier machineHDDSpecifier,
+    @JsonKey(name: "MachineHDDSpecifier", toJson: hdSizeSpecifierToJson) required HDSizeSpecifier machineHDDSpecifier,
     @JsonKey(name: "InternetSpeedUp") required int internetSpeedUp,
     @JsonKey(name: "InternetSpeedDown") required int internetSpeedDown,
     @JsonKey(name: "Bandwith") required int bandwith,
