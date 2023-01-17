@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+
 import '../../../core/services/base_service.dart';
 import '../models/new_topic.dart';
 import '../models/topic.dart';
@@ -78,8 +80,11 @@ class TopicService extends BaseService {
   }
 
   Future<bool> create(NewTopic topic) async {
+    final payload = topic.toJson();
+    debugPrint(jsonEncode(payload));
+
     try {
-      final response = await postJson("/PostNewTopic", params: topic.toJson());
+      final response = await postJson("/PostNewTopic", params: payload);
 
       if (response['data']?['Success'] == true) {
         return true;
