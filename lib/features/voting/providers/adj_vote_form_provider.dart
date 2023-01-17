@@ -110,6 +110,7 @@ class AdjVoteFormProvider extends StateNotifier<AdjVote> {
     supplementalURLsController.text = topic.supplementalURLs;
   }
 
+  String? rbxAddressValidator(String? value) => formValidatorRbxAddress(value, false);
   String? nameValidator(String? val) => formValidatorNotEmpty(val, "Name");
   String? descriptionValidator(String? val) => formValidatorNotEmpty(val, "Description");
 
