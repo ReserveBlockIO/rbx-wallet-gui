@@ -31,7 +31,7 @@ class AdjVoteForm extends BaseComponent {
               _FormField(
                 label: "RBX Address",
                 controller: provider.rbxAddressController,
-                required: true,
+                validator: provider.rbxAddressValidator,
               ),
               _FormField(
                 label: "IP Address",
@@ -179,7 +179,7 @@ class AdjVoteForm extends BaseComponent {
               ),
               _FormField(
                 label: "Additional Link(s) (Optional) [separate with commas]",
-                controller: provider.githubLinkController,
+                controller: provider.supplementalURLsController,
               ),
             ],
           ),
