@@ -87,20 +87,13 @@ class TopicFormProvider extends StateNotifier<NewTopic> {
       }
     }
 
-    if (kDebugMode) {
-      state = state.copyWith(description: jsonEncode(adjVoteData));
-      descriptionController.text = state.description;
-    }
-
     read(globalLoadingProvider.notifier).start();
 
     final success = await TopicService().create(state, adjVoteData);
     read(globalLoadingProvider.notifier).complete();
 
     if (success) {
-      if (!kDebugMode) {
-        clear();
-      }
+      clear();
       for (final t in TopicListType.values) {
         read(topicListProvider(t).notifier).refresh();
       }
