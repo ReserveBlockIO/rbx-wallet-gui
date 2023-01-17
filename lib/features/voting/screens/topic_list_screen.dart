@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -48,7 +49,7 @@ class TopicListScreen extends BaseScreen {
 
                 final myTopics = await TopicService().mine();
                 final activeTopics = myTopics.where((t) => t.isActive).toList();
-                if (activeTopics.isNotEmpty) {
+                if (activeTopics.isNotEmpty && !kDebugMode) {
                   Toast.error("Only one active topic per address is allowed.");
                   return;
                 }

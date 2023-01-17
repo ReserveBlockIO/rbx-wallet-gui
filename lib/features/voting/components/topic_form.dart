@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/voting/components/adj_vote_form.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/buttons.dart';
@@ -119,32 +120,34 @@ class TopicForm extends BaseComponent {
           const SizedBox(
             height: 16,
           ),
-          TextFormField(
-              controller: provider.descriptionController,
-              validator: provider.descriptionValidator,
-              decoration: const InputDecoration(label: Text("Topic Description")),
-              inputFormatters: [
-                FilteringTextInputFormatter.deny(
-                    RegExp(r'(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])'))
-              ],
-              minLines: 3,
-              maxLines: 6,
-              maxLength: 1600,
-              buildCounter: (context, {int? currentLength, int? maxLength, bool? isFocused}) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "1,600 character limit including provided links",
-                      style: Theme.of(context).textTheme.caption,
-                    ),
-                    Text(
-                      "$currentLength/$maxLength",
-                      style: Theme.of(context).textTheme.caption,
-                    )
-                  ],
-                );
-              }),
+          if (model.category == VoteTopicCategory.AdjVoteIn) const AdjVoteForm(),
+          if (model.category != VoteTopicCategory.AdjVoteIn)
+            TextFormField(
+                controller: provider.descriptionController,
+                validator: provider.descriptionValidator,
+                decoration: const InputDecoration(label: Text("Topic Description")),
+                inputFormatters: [
+                  FilteringTextInputFormatter.deny(
+                      RegExp(r'(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])'))
+                ],
+                minLines: 3,
+                maxLines: 6,
+                maxLength: 1600,
+                buildCounter: (context, {int? currentLength, int? maxLength, bool? isFocused}) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "1,600 character limit including provided links",
+                        style: Theme.of(context).textTheme.caption,
+                      ),
+                      Text(
+                        "$currentLength/$maxLength",
+                        style: Theme.of(context).textTheme.caption,
+                      )
+                    ],
+                  );
+                }),
           const SizedBox(
             height: 32,
           ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/voting/models/vote.dart';
+import 'package:rbx_wallet/features/voting/providers/adj_vote_form_provider.dart';
 
 import '../../../core/models/value_label.dart';
 import '../../../utils/validation.dart';
@@ -58,9 +60,26 @@ class TopicFormProvider extends StateNotifier<NewTopic> {
   }
 
   Future<bool?> submit() async {
-    if (!formKey.currentState!.validate()) {
-      return null;
+    if (state.category == VoteTopicCategory.AdjVoteIn) {
+      final adjFormKey = read(adjVoteFormProvider.notifier).formKey;
+
+      bool isValid = true;
+      if (!formKey.currentState!.validate()) {
+        isValid = false;
+      }
+
+      if (!adjFormKey.currentState!.validate()) {
+        isValid = false;
+      }
+      if (!isValid) {
+        return null;
+      }
+    } else {
+      if (!formKey.currentState!.validate()) {
+        return null;
+      }
     }
+
     read(globalLoadingProvider.notifier).start();
     final success = await TopicService().create(state);
     read(globalLoadingProvider.notifier).complete();
