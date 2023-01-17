@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/base_component.dart';
-import '../../../core/components/buttons.dart';
-import '../../../core/dialogs.dart';
-import '../../../core/providers/session_provider.dart';
-import '../../../utils/toast.dart';
-import '../../../utils/validation.dart';
-import '../../bridge/services/bridge_service.dart';
-import '../../global_loader/global_loading_provider.dart';
-import '../../validator/providers/current_validator_provider.dart';
-import '../../wallet/providers/wallet_list_provider.dart';
-import '../providers/password_required_provider.dart';
-import '../providers/wallet_is_encrypted_provider.dart';
+import '../../../../core/base_component.dart';
+import '../../../../core/components/buttons.dart';
+import '../../../../core/dialogs.dart';
+import '../../../../core/providers/session_provider.dart';
+import '../../../../utils/toast.dart';
+import '../../../../utils/validation.dart';
+import '../../../bridge/services/bridge_service.dart';
+import '../../../global_loader/global_loading_provider.dart';
+import '../../../validator/providers/current_validator_provider.dart';
+import '../../../wallet/providers/wallet_list_provider.dart';
+import '../../../encrypt/providers/password_required_provider.dart';
+import '../../../encrypt/providers/wallet_is_encrypted_provider.dart';
 
 class EncryptWalletButton extends BaseComponent {
   const EncryptWalletButton({Key? key}) : super(key: key);

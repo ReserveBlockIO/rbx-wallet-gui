@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/base_component.dart';
-import '../../../core/components/buttons.dart';
-import '../../../core/providers/session_provider.dart';
-import '../models/mother_child.dart';
-import '../services/mother_service.dart';
-import 'mother_modal.dart';
+import '../../../../core/base_component.dart';
+import '../../../../core/components/buttons.dart';
+import '../../../../core/providers/session_provider.dart';
+import '../../../mother/models/mother_child.dart';
+import '../../../mother/services/mother_service.dart';
+import '../../../mother/components/mother_modal.dart';
 
 class MotherButton extends BaseComponent {
   const MotherButton({Key? key}) : super(key: key);
