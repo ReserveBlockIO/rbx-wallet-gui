@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:process_run/shell.dart';
+import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/keygen/components/keygen_cta.dart'
     if (dart.library.io) 'package:rbx_wallet/features/keygen/components/keygen_cta_mock.dart';
 import 'package:rbx_wallet/features/mother/components/mother_button.dart';
@@ -284,7 +285,7 @@ class HomeScreen extends BaseScreen {
 
                   // if (Platform.isMacOS)
                   AppButton(
-                    label: "Backup Keys",
+                    label: "Backup",
                     icon: Icons.backup_outlined,
                     onPressed: !cliStarted
                         ? null
@@ -320,6 +321,7 @@ class HomeScreen extends BaseScreen {
                                         trailing: const Icon(Icons.chevron_right),
                                         onTap: () async {
                                           final success = await backupMedia(context, ref);
+
                                           if (success == true) {
                                             Navigator.of(context).pop();
                                             Toast.message("Media backed up successfully.");
