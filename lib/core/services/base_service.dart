@@ -122,9 +122,14 @@ class BaseService {
     bool auth = true,
     bool responseIsJson = false,
     int timeout = 30000,
+    bool inspect = false,
   }) async {
     try {
-      var response = await Dio(_options(auth: auth, json: true, timeout: timeout)).post(
+      final dio = Dio(_options(auth: auth, json: true, timeout: timeout));
+      if (inspect) {
+        NetworkInspector.attach(dio);
+      }
+      var response = await dio.post(
         _cleanPath(path),
         data: params,
       );

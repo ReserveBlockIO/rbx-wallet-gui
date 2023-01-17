@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/services/base_service.dart';
 import '../models/new_topic.dart';
@@ -79,12 +81,17 @@ class TopicService extends BaseService {
     return await _list("/GetSearchTopics/$query");
   }
 
-  Future<bool> create(NewTopic topic) async {
-    final payload = topic.toJson();
+  Future<bool> create(NewTopic topic, [Map<String, dynamic>? adjVoteData]) async {
+    Map<String, dynamic> payload = topic.toJson();
+    if (adjVoteData != null) {
+      payload = {...payload, 'TopicDescription': jsonEncode(adjVoteData)};
+      // payload = {...payload, 'TopicDescription': adjVoteData};
+    }
+
     debugPrint(jsonEncode(payload));
 
     try {
-      final response = await postJson("/PostNewTopic", params: payload);
+      final response = await postJson("/PostNewTopic", params: payload, inspect: true);
 
       if (response['data']?['Success'] == true) {
         return true;

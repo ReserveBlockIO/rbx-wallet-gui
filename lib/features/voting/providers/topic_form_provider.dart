@@ -64,6 +64,7 @@ class TopicFormProvider extends StateNotifier<NewTopic> {
   }
 
   Future<bool?> submit() async {
+    Map<String, dynamic>? adjVoteData;
     if (state.category == VoteTopicCategory.AdjVoteIn) {
       final adjFormKey = read(adjVoteFormProvider.notifier).formKey;
 
@@ -79,9 +80,7 @@ class TopicFormProvider extends StateNotifier<NewTopic> {
         return null;
       }
 
-      final adjVoteData = read(adjVoteFormProvider.notifier).serialize();
-
-      state = state.copyWith(description: jsonEncode(adjVoteData));
+      adjVoteData = read(adjVoteFormProvider.notifier).serialize();
     } else {
       if (!formKey.currentState!.validate()) {
         return null;
@@ -89,18 +88,19 @@ class TopicFormProvider extends StateNotifier<NewTopic> {
     }
 
     if (kDebugMode) {
+      state = state.copyWith(description: jsonEncode(adjVoteData));
       descriptionController.text = state.description;
-
-      Toast.message("kDebugMode: disabling submit for testing purposes");
-      return null;
     }
 
     read(globalLoadingProvider.notifier).start();
-    final success = await TopicService().create(state);
+
+    final success = await TopicService().create(state, adjVoteData);
     read(globalLoadingProvider.notifier).complete();
 
     if (success) {
-      clear();
+      if (!kDebugMode) {
+        clear();
+      }
       for (final t in TopicListType.values) {
         read(topicListProvider(t).notifier).refresh();
       }
