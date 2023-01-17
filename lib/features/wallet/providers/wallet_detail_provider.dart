@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
 
 import '../../../core/singletons.dart';
 import '../../../core/storage.dart';
@@ -15,6 +16,13 @@ class WalletDetailProvider extends StateNotifier<Wallet> {
   }
 
   void delete() {
+    if (state.isValidating) {
+      InfoDialog.show(
+        title: 'This wallet is validating',
+        body: "You can't hide a wallet that is validating",
+      );
+      return;
+    }
     read(walletListProvider.notifier).delete(state);
     List<dynamic>? deleted = singleton<Storage>().getList(Storage.DELETED_WALLETS_KEY);
 
