@@ -6,9 +6,11 @@ class ScWizardAssetPreview extends StatelessWidget {
   const ScWizardAssetPreview({
     Key? key,
     required this.entry,
+    this.small = false,
   }) : super(key: key);
 
   final BulkSmartContractEntry entry;
+  final bool small;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,10 @@ class ScWizardAssetPreview extends StatelessWidget {
         width: double.infinity,
         height: double.infinity,
       );
+    }
+
+    if (small) {
+      return const Icon(Icons.file_present_outlined);
     }
 
     return Center(

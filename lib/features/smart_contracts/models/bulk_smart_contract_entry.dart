@@ -12,7 +12,6 @@ class BulkSmartContractEntry with _$BulkSmartContractEntry {
   factory BulkSmartContractEntry({
     required String name,
     required String description,
-    required String primaryAssetUrl,
     required String creatorName,
     Asset? primaryAsset,
     @Default(1) int quantity,
@@ -24,7 +23,6 @@ class BulkSmartContractEntry with _$BulkSmartContractEntry {
     return BulkSmartContractEntry(
       name: "",
       description: "",
-      primaryAssetUrl: "",
       creatorName: "",
       quantity: 1,
     );

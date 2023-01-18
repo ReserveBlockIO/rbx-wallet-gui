@@ -3,10 +3,15 @@ import 'dart:io';
 
 import 'package:collection/collection.dart';
 import 'package:csv/csv.dart';
+import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/multi_asset.dart';
+import 'package:path/path.dart';
+import 'package:rbx_wallet/utils/validation.dart';
 
 import '../../../core/providers/session_provider.dart';
 import '../../../core/providers/web_session_provider.dart';
@@ -183,21 +188,22 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
       ..insert(index, item);
   }
 
-  Future<void> uploadCsv() async {
+  Future<bool> uploadCsv() async {
+    state = [];
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowedExtensions: ['csv'],
       allowMultiple: false,
     );
     if (result == null) {
-      return;
+      return false;
     }
     if (result.files.isEmpty) {
-      return;
+      return false;
     }
 
     PlatformFile file = result.files.first;
     if (file.path == null) {
-      return;
+      return false;
     }
 
     final input = File(file.path!).openRead();
@@ -207,29 +213,121 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
     final rows = [...fields]..removeAt(0);
     final List<BulkSmartContractEntry> entries = [];
     for (final row in rows) {
-      final name = row[0];
-      final description = row[1];
-      final primaryAssetUrl = row[2];
-      final creatorName = row[3];
+      final name = row[0].toString();
+      final description = row[1].toString();
+      final primaryAssetUrl = row[2].toString();
+      final creatorName = row[3].toString();
 
-      // TODO royalty
+      final royaltyAmount = row[4].toString();
+      final royaltyAddress = row[5].toString();
+      final additionalAssetUrls = row[6].toString();
+
       // TODO multi asset
+
       final quantity = row[7];
 
       //TODO stats
 
       //TODO validation
 
-      entries.add(BulkSmartContractEntry(
-        name: name,
-        description: description,
-        primaryAssetUrl: primaryAssetUrl,
-        creatorName: creatorName,
-        quantity: quantity,
-      ));
+      final primaryAsset = await urlToAsset(primaryAssetUrl, creatorName);
+      if (primaryAsset == null) {
+        Toast.error("Problem downloading $primaryAssetUrl. Skipping.");
+        continue;
+      }
+
+      Royalty? royalty;
+      if (royaltyAmount.isNotEmpty && royaltyAddress.isNotEmpty) {
+        if (isValidRbxAddress(royaltyAddress)) {
+          if (royaltyAmount.contains('%')) {
+            final parsed = double.tryParse(royaltyAmount.replaceAll("%", ''));
+            if (parsed != null) {
+              royalty = Royalty(amount: parsed / 100, address: royaltyAddress, type: RoyaltyType.percent);
+            }
+          } else {
+            final parsed = double.tryParse(royaltyAmount);
+            if (parsed != null) {
+              royalty = Royalty(amount: parsed, address: royaltyAddress, type: RoyaltyType.fixed);
+            }
+          }
+        }
+      }
+
+      final List<Asset> additionalAssets = [];
+      if (additionalAssetUrls.isNotEmpty) {
+        final urls = additionalAssetUrls.split(",").map((e) => e.trim()).toList();
+
+        if (urls.isNotEmpty) {
+          for (final url in urls) {
+            final a = await urlToAsset(url, creatorName);
+            if (a != null) {
+              additionalAssets.add(a);
+            }
+          }
+        }
+      }
+
+      entries.add(
+        BulkSmartContractEntry(
+          name: name,
+          description: description,
+          primaryAsset: primaryAsset,
+          creatorName: creatorName,
+          quantity: quantity,
+          royalty: royalty,
+          additionalAssets: additionalAssets,
+        ),
+      );
     }
 
-    state = entries.asMap().entries.map((e) => ScWizardItem(entry: e.value, x: e.key, y: 0)).toList();
+    state = entries
+        .asMap()
+        .entries
+        .map((e) => ScWizardItem(
+              entry: e.value,
+              index: e.key,
+              x: 0,
+              y: 0,
+            ))
+        .toList();
+
+    return entries.isNotEmpty;
+  }
+
+  Future<Asset?> urlToAsset(String url, String creatorName) async {
+    try {
+      final uri = Uri.parse(url).replace(queryParameters: {});
+      final f = File(uri.toString().replaceAll("?", ""));
+      final filename = basename(f.path);
+      final ext = extension(f.path);
+
+      print(filename);
+
+      // final filename = url.split('/').last;
+      // final extension = filename.split(".").last;
+
+      final downloadDirectory = await getTemporaryDirectory();
+      final path = "${downloadDirectory.path}/$filename";
+
+      await Dio().download(url, path, onReceiveProgress: (value1, value2) {
+        // print("Downloading $value1/$value2");
+      });
+
+      final fileSize = (await File(path).readAsBytes()).length;
+
+      final asset = Asset(
+        id: "00000000-0000-0000-0000-000000000000",
+        name: filename,
+        authorName: creatorName,
+        location: path,
+        extension: ext,
+        fileSize: fileSize,
+      );
+      return asset;
+    } catch (e) {
+      print(e);
+      return null;
+    }
   }
 
   Future<void> removeAt(int index, {int delay = 0}) async {
@@ -243,13 +341,15 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
 
   Future<void> mint(BuildContext context) async {
     // TODO: Confirmation dialog
-    // TODO: progress update
+
+    read(scWizardMintingProgress.notifier).setPercent(0);
 
     showDialog(
-        context: context,
-        builder: (context) {
-          return const ScWizardMintingProgressDialog();
-        });
+      context: context,
+      builder: (context) {
+        return const ScWizardMintingProgressDialog();
+      },
+    );
 
     final totalItems = state.map((e) => e.entry.quantity).toList().sum;
     int totalProgress = 0;
@@ -262,39 +362,23 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
         return;
       }
 
-      // final filename = entry.primaryAssetUrl.split('/').last;
-      // final extension = filename.split(".").last;
-
-      // final downloadDirectory = await getTemporaryDirectory();
-      // final path = "${downloadDirectory.path}/$filename";
-      // await Dio().download(entry.primaryAssetUrl, path, onReceiveProgress: (value1, value2) {
-      //   print("Downloading $value1/$value2");
-      // });
-      // final fileSize = (await File(path).readAsBytes()).length;
-
-      // final asset = Asset(
-      //   id: "00000000-0000-0000-0000-000000000000",
-      //   name: filename,
-      //   authorName: entry.creatorName,
-      //   location: path,
-      //   extension: extension,
-      //   fileSize: fileSize,
-      // );
       final sc = SmartContract(
         owner: owner,
         name: entry.name,
         minterName: entry.creatorName,
         description: entry.description,
         primaryAsset: entry.primaryAsset,
+        royalties: entry.royalty != null ? [entry.royalty!] : [],
+        multiAssets: entry.additionalAssets.isNotEmpty ? [MultiAsset(assets: entry.additionalAssets)] : [],
       );
 
       final timezoneName = read(sessionProvider).timezoneName;
       final payload = sc.serializeForCompiler(timezoneName);
       int i = 0;
-      while (i <= entry.quantity) {
+      while (i < entry.quantity) {
         i += 1;
 
-        read(scWizardMintingProgress.notifier).setLabel("Minting $totalProgress/$totalItems...");
+        read(scWizardMintingProgress.notifier).setLabel("Minting ${totalProgress + 1}/$totalItems...");
 
         final csc = await SmartContractService().compileSmartContract(payload);
 
@@ -337,18 +421,17 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
 
       }
 
-      read(scWizardMintingProgress.notifier).setPercent(1);
-      read(scWizardMintingProgress.notifier).setLabel("Complete");
-
-      read(mintedNftListProvider.notifier).reloadCurrentPage();
-
-      read(mySmartContractsProvider.notifier).load();
-      kIsWeb
-          ? read(nftListProvider.notifier).reloadCurrentPage(read(webSessionProvider).keypair?.email, read(webSessionProvider).keypair?.public)
-          : read(nftListProvider.notifier).reloadCurrentPage();
-
       // clear();
     }
+    read(scWizardMintingProgress.notifier).setPercent(1);
+    read(scWizardMintingProgress.notifier).setLabel("Complete");
+
+    read(mintedNftListProvider.notifier).reloadCurrentPage();
+
+    read(mySmartContractsProvider.notifier).load();
+    kIsWeb
+        ? read(nftListProvider.notifier).reloadCurrentPage(read(webSessionProvider).keypair?.email, read(webSessionProvider).keypair?.public)
+        : read(nftListProvider.notifier).reloadCurrentPage();
   }
 }
 

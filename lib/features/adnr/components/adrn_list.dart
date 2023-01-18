@@ -110,7 +110,7 @@ class AdnrList extends BaseComponent {
                                 if (!guardWalletIsSynced(ref.read)) {
                                   return;
                                 }
-                                if (wallet.balance < (MIN_RBX_FOR_SC_ACTION)) {
+                                if (wallet.balance < (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
                                   Toast.error("Not enough RBX in this wallet to create a transaction.");
                                   return;
                                 }
@@ -155,7 +155,8 @@ class AdnrList extends BaseComponent {
                           if (!guardWalletIsSynced(ref.read)) {
                             return;
                           }
-                          if (wallet.balance < (MIN_RBX_FOR_SC_ACTION)) {
+
+                          if (wallet.balance < (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
                             Toast.error("Not enough RBX in this wallet to create a transaction.");
 
                             return;

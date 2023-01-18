@@ -18,7 +18,6 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$BulkSmartContractEntry {
   String get name => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
-  String get primaryAssetUrl => throw _privateConstructorUsedError;
   String get creatorName => throw _privateConstructorUsedError;
   Asset? get primaryAsset => throw _privateConstructorUsedError;
   int get quantity => throw _privateConstructorUsedError;
@@ -38,7 +37,6 @@ abstract class $BulkSmartContractEntryCopyWith<$Res> {
   $Res call(
       {String name,
       String description,
-      String primaryAssetUrl,
       String creatorName,
       Asset? primaryAsset,
       int quantity,
@@ -62,7 +60,6 @@ class _$BulkSmartContractEntryCopyWithImpl<$Res>
   $Res call({
     Object? name = freezed,
     Object? description = freezed,
-    Object? primaryAssetUrl = freezed,
     Object? creatorName = freezed,
     Object? primaryAsset = freezed,
     Object? quantity = freezed,
@@ -77,10 +74,6 @@ class _$BulkSmartContractEntryCopyWithImpl<$Res>
       description: description == freezed
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      primaryAssetUrl: primaryAssetUrl == freezed
-          ? _value.primaryAssetUrl
-          : primaryAssetUrl // ignore: cast_nullable_to_non_nullable
               as String,
       creatorName: creatorName == freezed
           ? _value.creatorName
@@ -138,7 +131,6 @@ abstract class _$$_BulkSmartContractEntryCopyWith<$Res>
   $Res call(
       {String name,
       String description,
-      String primaryAssetUrl,
       String creatorName,
       Asset? primaryAsset,
       int quantity,
@@ -167,7 +159,6 @@ class __$$_BulkSmartContractEntryCopyWithImpl<$Res>
   $Res call({
     Object? name = freezed,
     Object? description = freezed,
-    Object? primaryAssetUrl = freezed,
     Object? creatorName = freezed,
     Object? primaryAsset = freezed,
     Object? quantity = freezed,
@@ -182,10 +173,6 @@ class __$$_BulkSmartContractEntryCopyWithImpl<$Res>
       description: description == freezed
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      primaryAssetUrl: primaryAssetUrl == freezed
-          ? _value.primaryAssetUrl
-          : primaryAssetUrl // ignore: cast_nullable_to_non_nullable
               as String,
       creatorName: creatorName == freezed
           ? _value.creatorName
@@ -217,7 +204,6 @@ class _$_BulkSmartContractEntry extends _BulkSmartContractEntry {
   _$_BulkSmartContractEntry(
       {required this.name,
       required this.description,
-      required this.primaryAssetUrl,
       required this.creatorName,
       this.primaryAsset,
       this.quantity = 1,
@@ -230,8 +216,6 @@ class _$_BulkSmartContractEntry extends _BulkSmartContractEntry {
   final String name;
   @override
   final String description;
-  @override
-  final String primaryAssetUrl;
   @override
   final String creatorName;
   @override
@@ -251,7 +235,7 @@ class _$_BulkSmartContractEntry extends _BulkSmartContractEntry {
 
   @override
   String toString() {
-    return 'BulkSmartContractEntry(name: $name, description: $description, primaryAssetUrl: $primaryAssetUrl, creatorName: $creatorName, primaryAsset: $primaryAsset, quantity: $quantity, royalty: $royalty, additionalAssets: $additionalAssets)';
+    return 'BulkSmartContractEntry(name: $name, description: $description, creatorName: $creatorName, primaryAsset: $primaryAsset, quantity: $quantity, royalty: $royalty, additionalAssets: $additionalAssets)';
   }
 
   @override
@@ -262,8 +246,6 @@ class _$_BulkSmartContractEntry extends _BulkSmartContractEntry {
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality()
                 .equals(other.description, description) &&
-            const DeepCollectionEquality()
-                .equals(other.primaryAssetUrl, primaryAssetUrl) &&
             const DeepCollectionEquality()
                 .equals(other.creatorName, creatorName) &&
             const DeepCollectionEquality()
@@ -279,7 +261,6 @@ class _$_BulkSmartContractEntry extends _BulkSmartContractEntry {
       runtimeType,
       const DeepCollectionEquality().hash(name),
       const DeepCollectionEquality().hash(description),
-      const DeepCollectionEquality().hash(primaryAssetUrl),
       const DeepCollectionEquality().hash(creatorName),
       const DeepCollectionEquality().hash(primaryAsset),
       const DeepCollectionEquality().hash(quantity),
@@ -297,7 +278,6 @@ abstract class _BulkSmartContractEntry extends BulkSmartContractEntry {
   factory _BulkSmartContractEntry(
       {required final String name,
       required final String description,
-      required final String primaryAssetUrl,
       required final String creatorName,
       final Asset? primaryAsset,
       final int quantity,
@@ -309,8 +289,6 @@ abstract class _BulkSmartContractEntry extends BulkSmartContractEntry {
   String get name => throw _privateConstructorUsedError;
   @override
   String get description => throw _privateConstructorUsedError;
-  @override
-  String get primaryAssetUrl => throw _privateConstructorUsedError;
   @override
   String get creatorName => throw _privateConstructorUsedError;
   @override

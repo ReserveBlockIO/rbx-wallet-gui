@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/smart_contracts/providers/sc_wizard_provider.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/theme/app_theme.dart';
@@ -44,10 +45,15 @@ class ScWizardMintingProgressDialog extends BaseComponent {
             const SizedBox(height: 8),
             LinearProgressIndicator(
               value: model.percent,
-              color: Theme.of(context).colorScheme.success,
-              backgroundColor: Colors.black38,
+              color: Theme.of(context).colorScheme.secondary,
+              backgroundColor: Colors.white24,
               minHeight: 16,
-            )
+            ),
+            const SizedBox(height: 4),
+            Text(
+              "${(model.percent * 100).round()}%",
+              style: Theme.of(context).textTheme.caption,
+            ),
           ],
         ),
       ),
@@ -55,6 +61,8 @@ class ScWizardMintingProgressDialog extends BaseComponent {
         TextButton(
             onPressed: model.percent >= 1
                 ? () {
+                    ref.read(scWizardProvider.notifier).clear();
+                    Navigator.of(context).pop();
                     Navigator.of(context).pop();
                   }
                 : null,

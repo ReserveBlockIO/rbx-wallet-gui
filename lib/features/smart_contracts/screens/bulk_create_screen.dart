@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/components/buttons.dart';
@@ -191,8 +192,16 @@ class BulkCreateScreen extends BaseScreen {
                           label: "Upload CSV",
                           variant: AppColorVariant.Success,
                           icon: Icons.upload,
-                          onPressed: () {
-                            ref.read(scWizardProvider.notifier).uploadCsv();
+                          onPressed: () async {
+                            ref.read(globalLoadingProvider.notifier).start();
+                            final shouldPush = await ref.read(scWizardProvider.notifier).uploadCsv();
+                            ref.read(globalLoadingProvider.notifier).complete();
+
+                            if (shouldPush == true) {
+                              await Navigator.of(context).push(
+                                MaterialPageRoute(builder: (context) => const SmartContractWizardScreen()),
+                              );
+                            }
                           },
                         ),
                       )
