@@ -1,12 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/components/centered_loader.dart';
-
-import 'package:rbx_wallet/features/asset/proxied_asset.dart';
-import 'package:rbx_wallet/utils/html_helpers.dart';
-
 import 'package:video_player/video_player.dart';
+
+import '../../../core/components/buttons.dart';
+import '../../../core/components/centered_loader.dart';
+import '../../../utils/html_helpers.dart';
+import '../../asset/proxied_asset.dart';
 
 class ProxiedAssetCard extends StatelessWidget {
   final ProxiedAsset? asset;
@@ -29,7 +28,7 @@ class ProxiedAssetCard extends StatelessWidget {
       return Future.value(value);
     }
 
-    if (asset == null) return SizedBox();
+    if (asset == null) return const SizedBox();
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,9 +51,9 @@ class ProxiedAssetCard extends StatelessWidget {
                             if (snapshot.data != null) {
                               return SelectableText(snapshot.data!);
                             }
-                            return Text("Error");
+                            return const Text("Error");
                           } else {
-                            return Center(child: CenteredLoader());
+                            return const Center(child: CenteredLoader());
                           }
                         })
                     : Icon(asset!.icon),
@@ -113,6 +112,7 @@ class VideoPreview extends StatefulWidget {
 
 class _VideoPreviewState extends State<VideoPreview> {
   late VideoPlayerController _controller;
+  @override
   void initState() {
     super.initState();
     _controller = VideoPlayerController.network(widget.videoUrl)
@@ -128,7 +128,7 @@ class _VideoPreviewState extends State<VideoPreview> {
         ? Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              ConstrainedBox(constraints: BoxConstraints(maxHeight: 300), child: VideoPlayer(_controller)),
+              ConstrainedBox(constraints: const BoxConstraints(maxHeight: 300), child: VideoPlayer(_controller)),
               IconButton(
                   onPressed: () {
                     setState(() {
@@ -140,8 +140,8 @@ class _VideoPreviewState extends State<VideoPreview> {
                   ))
             ],
           )
-        : Padding(
-            padding: const EdgeInsets.all(8.0),
+        : const Padding(
+            padding: EdgeInsets.all(8.0),
             child: CenteredLoader(),
           );
   }

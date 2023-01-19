@@ -8,16 +8,14 @@ part of 'royalty.dart';
 
 _$_Royalty _$$_RoyaltyFromJson(Map<String, dynamic> json) => _$_Royalty(
       id: json['id'] as String? ?? "",
-      type: $enumDecodeNullable(_$RoyaltyTypeEnumMap, json['type']) ??
-          RoyaltyType.percent,
+      type: $enumDecodeNullable(_$RoyaltyTypeEnumMap, json['type']) ?? RoyaltyType.percent,
       amount: (json['amount'] as num?)?.toDouble() ?? 0,
       address: json['address'] as String? ?? "",
     );
 
-Map<String, dynamic> _$$_RoyaltyToJson(_$_Royalty instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$$_RoyaltyToJson(_$_Royalty instance) => <String, dynamic>{
       'id': instance.id,
-      'type': _$RoyaltyTypeEnumMap[instance.type],
+      'type': _$RoyaltyTypeEnumMap[instance.type]!,
       'amount': instance.amount,
       'address': instance.address,
     };

@@ -1,17 +1,18 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/features/transactions/components/transaction_list_tile.dart';
-import 'package:rbx_wallet/features/transactions/providers/transaction_list_provider.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/components/buttons.dart';
+import '../../transactions/components/transaction_list_tile.dart';
+import '../../transactions/providers/transaction_list_provider.dart';
 
 class TransactionWindow extends BaseComponent {
   const TransactionWindow({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final transactions = ref.watch(transactionListProvider);
+    final transactions = ref.watch(transactionListProvider(TransactionListType.All));
 
     final recentTransactions = transactions.take(5);
 
@@ -27,7 +28,7 @@ class TransactionWindow extends BaseComponent {
         Card(
           margin: EdgeInsets.zero,
           child: SizedBox(
-            height: 200,
+            height: MediaQuery.of(context).size.height * 0.4,
             width: double.infinity,
             child: recentTransactions.isEmpty
                 ? Center(

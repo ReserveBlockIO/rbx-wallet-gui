@@ -1,8 +1,14 @@
 {
-    "title": "RBX Wallet",
+    "title": "RBXWallet Installer",
     "icon": "AppIcon.icns",
     "background": "background.png",
     "background-color": "#000000",
+    "window": {
+        "size": {
+            "width": 600,
+            "height": 490
+        }
+    },
     "contents": [
         {
             "x": 400,

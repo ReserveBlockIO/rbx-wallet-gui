@@ -4,18 +4,17 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/breakpoints.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/services/transaction_service.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/asset/asset.dart';
-import 'package:rbx_wallet/utils/files.dart';
-import 'package:rbx_wallet/utils/formatting.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+
+import '../../../../../core/app_constants.dart';
+import '../../../../../core/base_component.dart';
+import '../../../../../core/breakpoints.dart';
+import '../../../../../core/components/buttons.dart';
+import '../../../../../core/dialogs.dart';
+import '../../../../../core/services/transaction_service.dart';
+import '../../../../../utils/files.dart';
+import '../../../../../utils/validation.dart';
+import '../../../../asset/asset.dart';
+import '../../../../config/providers/config_provider.dart';
 
 class FileSelector extends BaseComponent {
   final bool transparentBackground;
@@ -36,7 +35,7 @@ class FileSelector extends BaseComponent {
     this.allowReplace = true,
   }) : super(key: key);
 
-  Future<void> _handleUpload() async {
+  Future<void> _handleUpload(WidgetRef ref) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
 
     if (result == null) {
@@ -76,7 +75,13 @@ class FileSelector extends BaseComponent {
       final fileSize = (await File(filePath).readAsBytes()).length;
 
       if (fileSize > MAX_ASSET_BYTES) {
-        Toast.error("Max file size is 150MB.");
+        // Toast.error("Max file size is 150MB.");
+        InfoDialog.show(title: "File is too large", body: "Max file size is 150MB.");
+        return;
+      }
+
+      if (MALWARE_FILE_EXTENSIONS.contains(extension) || ref.read(configProvider).rejectAssetExtensionTypes.contains(extension.toLowerCase())) {
+        InfoDialog.show(title: "Unsupported File", body: "This file extension (.$extension) is not permitted.");
         return;
       }
 
@@ -133,11 +138,11 @@ class FileSelector extends BaseComponent {
             if (_subtitle != null) Text(_subtitle, style: const TextStyle(fontSize: 12)),
             const SizedBox(height: 16),
             asset == null
-                ? buildChooseFileButton()
+                ? buildChooseFileButton(ref)
                 : Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      buildReplaceButton(),
+                      buildReplaceButton(ref),
                       const SizedBox(height: 8),
                       buildRemoveButton(context),
                     ],
@@ -164,6 +169,7 @@ class FileSelector extends BaseComponent {
         Card(
           margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
           color: transparentBackground ? Colors.transparent : null,
+          shadowColor: transparentBackground ? Colors.transparent : null,
           child: ListTile(
             tileColor: transparentBackground ? Colors.transparent : null,
             leading: _IconPreview(asset: asset),
@@ -173,14 +179,14 @@ class FileSelector extends BaseComponent {
                 ? Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      buildChooseFileButton(),
+                      buildChooseFileButton(ref),
                     ],
                   )
                 : Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       if (!kIsWeb) buildRevealButton(),
-                      if (allowReplace) buildReplaceButton(),
+                      if (allowReplace) buildReplaceButton(ref),
                       const SizedBox(width: 6),
                       buildRemoveButton(context),
                     ],
@@ -205,13 +211,17 @@ class FileSelector extends BaseComponent {
     );
   }
 
-  Padding buildReplaceButton() {
+  Padding buildReplaceButton(WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.only(left: 6.0),
       child: AppButton(
         label: "Replace",
         icon: Icons.upload,
-        onPressed: readOnly ? null : _handleUpload,
+        onPressed: readOnly
+            ? null
+            : () {
+                _handleUpload(ref);
+              },
       ),
     );
   }
@@ -226,11 +236,15 @@ class FileSelector extends BaseComponent {
     );
   }
 
-  AppButton buildChooseFileButton() {
+  AppButton buildChooseFileButton(WidgetRef ref) {
     return AppButton(
       label: "Choose File",
       icon: Icons.upload,
-      onPressed: readOnly ? null : _handleUpload,
+      onPressed: readOnly
+          ? null
+          : () {
+              _handleUpload(ref);
+            },
     );
   }
 }

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/features/send/components/send_form.dart';
-import 'package:rbx_wallet/features/web/components/web_no_wallet.dart';
+
+import '../../../core/base_screen.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../web/components/web_no_wallet.dart';
+import '../components/send_form.dart';
 
 class WebSendScreen extends BaseScreen {
   const WebSendScreen({Key? key})
@@ -28,7 +29,7 @@ class WebSendScreen extends BaseScreen {
   Widget body(BuildContext context, WidgetRef ref) {
     final keypair = ref.watch(webSessionProvider).keypair;
     if (keypair == null) {
-      return Center(child: const WebNotWallet());
+      return const Center(child: WebNotWallet());
     }
 
     return Center(child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: 720), child: SendForm(keypair: keypair)));

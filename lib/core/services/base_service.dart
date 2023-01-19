@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:rbx_wallet/core/env.dart';
+
+import '../../features/inspector/network_inspector.dart';
+import '../env.dart';
 
 class BaseService {
   final String? hostOverride;
@@ -25,6 +27,7 @@ class BaseService {
   BaseOptions _options({
     bool auth = true,
     bool json = false,
+    int timeout = 30000,
   }) {
     String host = Env.apiBaseUrl;
     if (hostOverride != null) {
@@ -32,7 +35,12 @@ class BaseService {
     }
 
     final baseUrl = apiBasePathOverride == null ? host : host.replaceAll("/api/V1", apiBasePathOverride!);
-    return BaseOptions(baseUrl: baseUrl, headers: _headers(auth, json));
+    return BaseOptions(
+      baseUrl: baseUrl,
+      headers: _headers(auth, json),
+      connectTimeout: 10000,
+      receiveTimeout: timeout,
+    );
   }
 
   String _cleanPath(String path) {
@@ -48,10 +56,17 @@ class BaseService {
     Map<String, dynamic> params = const {},
     bool auth = true,
     bool cleanPath = true,
+    int timeout = 30000,
+    bool inspect = false,
   }) async {
     try {
-      var response = await Dio(_options(auth: auth)).get(
-        cleanPath ? _cleanPath(path) : path,
+      final dio = Dio(_options(auth: auth, timeout: timeout));
+      if (inspect) {
+        NetworkInspector.attach(dio);
+      }
+      final p = cleanPath ? _cleanPath(path) : path;
+      var response = await dio.get(
+        p,
         queryParameters: params,
       );
 
@@ -67,10 +82,16 @@ class BaseService {
     bool auth = true,
     bool cleanPath = true,
     bool responseIsJson = false,
+    int timeout = 30000,
+    bool inspect = false,
   }) async {
     try {
+      final dio = Dio(_options(auth: auth, timeout: timeout));
+      if (inspect) {
+        NetworkInspector.attach(dio);
+      }
       final url = cleanPath ? _cleanPath(path) : path;
-      var response = await Dio(_options(auth: auth)).get(
+      var response = await dio.get(
         url,
         queryParameters: params,
       );
@@ -100,9 +121,15 @@ class BaseService {
     Map<String, dynamic> params = const {},
     bool auth = true,
     bool responseIsJson = false,
+    int timeout = 30000,
+    bool inspect = false,
   }) async {
     try {
-      var response = await Dio(_options(auth: auth, json: true)).post(
+      final dio = Dio(_options(auth: auth, json: true, timeout: timeout));
+      if (inspect) {
+        NetworkInspector.attach(dio);
+      }
+      var response = await dio.post(
         _cleanPath(path),
         data: params,
       );
@@ -207,8 +234,9 @@ class BaseService {
   Future<Map<String, dynamic>> postFormData(
     String path, {
     required FormData data,
+    int timeout = 30000,
   }) async {
-    var response = await Dio(_options(json: false, auth: false)).post(
+    var response = await Dio(_options(json: false, auth: false, timeout: timeout)).post(
       _cleanPath(path),
       data: data,
     );

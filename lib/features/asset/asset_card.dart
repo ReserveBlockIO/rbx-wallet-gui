@@ -1,13 +1,13 @@
 import 'dart:io' as io;
-import 'package:file_picker/file_picker.dart';
+
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/features/asset/asset.dart';
-import 'package:rbx_wallet/features/asset/download_or_associate_asset.dart';
-import 'package:rbx_wallet/features/asset/polling_image_preview.dart';
-import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
-import 'package:rbx_wallet/utils/files.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+
+import '../../core/components/buttons.dart';
+import '../../utils/files.dart';
+import '../smart_contracts/services/smart_contract_service.dart';
+import 'asset.dart';
+import 'download_or_associate_asset.dart';
+import 'polling_image_preview.dart';
 
 class AssetCard extends StatelessWidget {
   final Asset asset;

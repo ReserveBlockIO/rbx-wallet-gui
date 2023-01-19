@@ -1,7 +1,6 @@
-import 'dart:convert';
-
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/features/asset/asset.dart';
+
+import '../../asset/asset.dart';
 
 part 'multi_asset.freezed.dart';
 part 'multi_asset.g.dart';

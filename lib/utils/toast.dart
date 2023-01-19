@@ -1,9 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/app.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/utils/html_helpers.dart';
+
+import '../app.dart';
+import '../core/dialogs.dart';
+import '../core/theme/app_theme.dart';
+import 'html_helpers.dart';
 
 class Toast {
   static message(String message) {
@@ -42,10 +43,9 @@ class Toast {
 
 class OverlayToast {
   static error([String? message]) {
-    final context = rootNavigatorKey.currentContext!;
-
     InfoDialog.show(title: "Error", body: message ?? "An error occurred");
 
+    // final context = rootNavigatorKey.currentContext!;
     // showTopSnackBar(
     //   context,
     //   CustomSnackBar.error(

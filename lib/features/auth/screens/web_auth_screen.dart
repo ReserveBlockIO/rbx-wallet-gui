@@ -1,18 +1,21 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/breakpoints.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/core/singletons.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/core/web_router.gr.dart';
-import 'package:rbx_wallet/features/auth/auth_utils.dart';
-import 'package:rbx_wallet/generated/assets.gen.dart';
+
+import '../../../core/app_constants.dart';
+import '../../../core/app_router.gr.dart';
+import '../../../core/base_screen.dart';
+import '../../../core/breakpoints.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/env.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../../core/singletons.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../core/web_router.gr.dart';
+import '../../../generated/assets.gen.dart';
+import '../../../utils/validation.dart';
+import '../auth_utils.dart';
+import '../components/auth_type_modal.dart';
 
 class WebAuthScreen extends BaseStatefulScreen {
   const WebAuthScreen({Key? key})
@@ -28,7 +31,6 @@ class WebAuthScreen extends BaseStatefulScreen {
 class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
   @override
   void initState() {
-    final currentPath = singleton<AppRouter>().current.path;
     _handleSession(ref.read(webSessionProvider));
     super.initState();
   }
@@ -56,18 +58,18 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
 
     return Stack(
       children: [
-        Align(
-          alignment: Alignment.bottomRight,
-          child: Opacity(
-            opacity: 0.5,
-            child: Image.asset(
-              Assets.images.decorBottomRight.path,
-              width: 300,
-              height: 300,
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
+        // Align(
+        //   alignment: Alignment.bottomRight,
+        //   child: Opacity(
+        //     opacity: 0.5,
+        //     child: Image.asset(
+        //       Assets.images.decorBottomRight.path,
+        //       width: 300,
+        //       height: 300,
+        //       fit: BoxFit.contain,
+        //     ),
+        //   ),
+        // ),
         Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -103,7 +105,7 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                   style: Theme.of(context).textTheme.headlineLarge!.copyWith(fontWeight: FontWeight.bold, fontSize: isMobile ? 20 : 30),
                 ),
               ),
-              Text(
+              const Text(
                 WEB_APP_VERSION,
                 style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, letterSpacing: 2),
               ),
@@ -115,40 +117,60 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                     label: "Create Wallet",
                     icon: Icons.add,
                     onPressed: () {
-                      AuthModal.show(
-                          context: context,
-                          onValidSubmission: (auth) async {
-                            await handleCreateWithEmail(
-                              context,
-                              ref,
-                              auth.email,
-                              auth.password,
-                            );
-                            if (ref.read(webSessionProvider).isAuthenticated) {
-                              redirectToDashboard();
-                            }
-                          });
+                      // AuthModal.show(
+                      //     context: context,
+                      //     onValidSubmission: (auth) async {
+                      //       await handleCreateWithEmail(
+                      //         context,
+                      //         ref,
+                      //         auth.email,
+                      //         auth.password,
+                      //       );
+                      //       if (ref.read(webSessionProvider).isAuthenticated) {
+                      //         redirectToDashboard();
+                      //       }
+                      //     });
 
-                      // showModalBottomSheet(
-                      //   backgroundColor: Colors.transparent,
-                      //   context: context,
-                      //   builder: (context) {
-                      //     return AuthTypeModal(
-                      //       handleMneumonic: () async {
-                      //         await handleCreateWithMnemonic(context, ref);
-                      //         print('done');
-                      //         if (ref
-                      //             .read(webSessionProvider)
-                      //             .isAuthenticated) {
-                      //           redirectToDashboard();
-                      //         }
-                      //       },
-                      //       handleUsername: () {
+                      showModalBottomSheet(
+                        backgroundColor: Colors.transparent,
+                        context: context,
+                        builder: (context) {
+                          return AuthTypeModal(
+                            handleMneumonic: () async {
+                              final email = await PromptModal.show(
+                                contextOverride: context,
+                                title: "Email Address",
+                                labelText: "Email",
+                                validator: formValidatorEmail,
+                              );
 
-                      //       },
-                      //     );
-                      //   },
-                      // );
+                              if (email == null || email.isEmpty) {
+                                return;
+                              }
+
+                              await handleCreateWithMnemonic(context, ref, email);
+                              if (ref.read(webSessionProvider).isAuthenticated) {
+                                redirectToDashboard();
+                              }
+                            },
+                            handleUsername: () {
+                              AuthModal.show(
+                                  context: context,
+                                  onValidSubmission: (auth) async {
+                                    await handleCreateWithEmail(
+                                      context,
+                                      ref,
+                                      auth.email,
+                                      auth.password,
+                                    );
+                                    if (ref.read(webSessionProvider).isAuthenticated) {
+                                      redirectToDashboard();
+                                    }
+                                  });
+                            },
+                          );
+                        },
+                      );
                     },
                     variant: AppColorVariant.Light,
                   ),
@@ -157,59 +179,82 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                     label: "Login",
                     icon: Icons.upload,
                     onPressed: () {
-                      AuthModal.show(
-                        context: context,
-                        forCreate: false,
-                        onValidSubmission: (auth) async {
-                          await handleCreateWithEmail(context, ref, auth.email, auth.password, false);
-
-                          if (ref.read(webSessionProvider).isAuthenticated) {
-                            redirectToDashboard();
-                          }
-                        },
-                      );
-
-                      // showModalBottomSheet(
-                      //   backgroundColor: Colors.transparent,
+                      // AuthModal.show(
                       //   context: context,
-                      //   builder: (context) {
-                      //     return AuthTypeModal(
-                      //       handleMneumonic: () async {
-                      //         await handleRecoverFromMnemonic(context, ref);
+                      //   forCreate: false,
+                      //   onValidSubmission: (auth) async {
+                      //     await handleCreateWithEmail(context, ref, auth.email, auth.password, false);
 
-                      //         //do stuff
-                      //       },
-                      //       handleUsername: () {
-                      //         AuthModal.show(
-                      //           context: context,
-                      //           forCreate: false,
-                      //           onValidSubmission: (auth) async {
-                      //             await handleCreateWithEmail(context, ref, auth.email, auth.password, false);
-
-                      //             if (ref.read(webSessionProvider).isAuthenticated) {
-                      //               redirectToDashboard();
-                      //             }
-                      //           },
-                      //         );
-                      //       },
-                      //       handlePrivateKey: (context) async {
-                      //         await handleImportWithPrivateKey(context, ref);
-
-                      //         if (ref.read(webSessionProvider).isAuthenticated) {
-                      //           redirectToDashboard();
-                      //         }
-                      //       },
-                      //     );
+                      //     if (ref.read(webSessionProvider).isAuthenticated) {
+                      //       redirectToDashboard();
+                      //     }
                       //   },
                       // );
+
+                      showModalBottomSheet(
+                        backgroundColor: const Color.fromRGBO(0, 0, 0, 0),
+                        context: context,
+                        builder: (context) {
+                          return AuthTypeModal(
+                            handleMneumonic: () async {
+                              final email = await PromptModal.show(
+                                contextOverride: context,
+                                title: "Email Address",
+                                labelText: "Email",
+                                validator: formValidatorEmail,
+                              );
+
+                              if (email == null || email.isEmpty) {
+                                return;
+                              }
+
+                              await handleRecoverFromMnemonic(context, ref, email);
+
+                              //do stuff
+                            },
+                            handleUsername: () {
+                              AuthModal.show(
+                                context: context,
+                                forCreate: false,
+                                onValidSubmission: (auth) async {
+                                  await handleCreateWithEmail(context, ref, auth.email, auth.password, false);
+
+                                  if (ref.read(webSessionProvider).isAuthenticated) {
+                                    redirectToDashboard();
+                                  }
+                                },
+                              );
+                            },
+                            handlePrivateKey: (context) async {
+                              final email = await PromptModal.show(
+                                contextOverride: context,
+                                title: "Email Address",
+                                labelText: "Email",
+                                validator: formValidatorEmail,
+                              );
+
+                              if (email == null || email.isEmpty) {
+                                return;
+                              }
+
+                              await handleImportWithPrivateKey(context, ref, email);
+                              await Future.delayed(const Duration(milliseconds: 300));
+
+                              if (ref.read(webSessionProvider).isAuthenticated) {
+                                redirectToDashboard();
+                              }
+                            },
+                          );
+                        },
+                      );
                     },
                     variant: AppColorVariant.Light,
                   ),
                 ],
               ),
               if (Env.isTestNet)
-                Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
+                const Padding(
+                  padding: EdgeInsets.only(top: 16.0),
                   child: Text(
                     "TESTNET",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.green, letterSpacing: 2),

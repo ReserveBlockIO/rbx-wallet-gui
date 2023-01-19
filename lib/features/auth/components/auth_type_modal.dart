@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
+import '../../smart_contracts/components/sc_creator/common/modal_container.dart';
 
 class AuthTypeModal extends StatelessWidget {
   final Function() handleMneumonic;
@@ -23,21 +23,9 @@ class AuthTypeModal extends StatelessWidget {
       color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
       children: [
         ListTile(
-          leading: const Icon(FontAwesomeIcons.paragraph),
-          title: const Text(
-            "With Mneumonic",
-          ),
-          trailing: const Icon(
-            Icons.chevron_right,
-            size: 32,
-          ),
-          onTap: handleMneumonic,
-        ),
-        const Divider(height: 1),
-        ListTile(
           leading: const Icon(Icons.email),
           title: const Text(
-            "With Email & Password",
+            "Email & Password",
           ),
           trailing: const Icon(
             Icons.chevron_right,
@@ -45,12 +33,24 @@ class AuthTypeModal extends StatelessWidget {
           ),
           onTap: handleUsername,
         ),
+        const Divider(height: 1),
+        ListTile(
+          leading: const Icon(FontAwesomeIcons.paragraph),
+          title: const Text(
+            "Mneumonic (HD Wallet)",
+          ),
+          trailing: const Icon(
+            Icons.chevron_right,
+            size: 32,
+          ),
+          onTap: handleMneumonic,
+        ),
         if (handlePrivateKey != null) const Divider(height: 1),
         if (handlePrivateKey != null)
           ListTile(
             leading: const Icon(FontAwesomeIcons.key),
             title: const Text(
-              "With Private Key",
+              "Private Key",
             ),
             trailing: const Icon(
               Icons.chevron_right,

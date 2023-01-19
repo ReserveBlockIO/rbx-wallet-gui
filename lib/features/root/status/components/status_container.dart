@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/badges.dart';
-import 'package:rbx_wallet/core/components/centered_loader.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/block/latest_block.dart';
-import 'package:rbx_wallet/features/bridge/providers/status_provider.dart';
-import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
-import 'package:rbx_wallet/generated/assets.gen.dart';
-import 'package:rbx_wallet/utils/formatting.dart';
+
+import '../../../../core/base_component.dart';
+import '../../../../core/components/badges.dart';
+import '../../../../core/providers/session_provider.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../../../../generated/assets.gen.dart';
+import '../../../../utils/formatting.dart';
+import '../../../block/latest_block.dart';
+import '../../../bridge/providers/status_provider.dart';
+import '../../../bridge/providers/wallet_info_provider.dart';
 
 class StatusContainer extends BaseComponent {
   const StatusContainer({Key? key}) : super(key: key);
@@ -334,13 +334,20 @@ class _ProgressIndicator extends StatelessWidget {
   }
 }
 
-class _StatusIndicator extends StatelessWidget {
+class _StatusIndicator extends BaseComponent {
   final BridgeStatus status;
 
   const _StatusIndicator(this.status, {Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    if (!ref.watch(sessionProvider).cliStarted) {
+      return const AppBadge(
+        label: "CLI Inactive",
+        variant: AppColorVariant.Danger,
+      );
+    }
+
     switch (status) {
       case BridgeStatus.Loading:
         return const AppBadge(

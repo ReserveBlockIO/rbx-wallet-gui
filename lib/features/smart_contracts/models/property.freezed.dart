@@ -25,14 +25,12 @@ mixin _$Property {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $PropertyCopyWith<Property> get copyWith =>
-      throw _privateConstructorUsedError;
+  $PropertyCopyWith<Property> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $PropertyCopyWith<$Res> {
-  factory $PropertyCopyWith(Property value, $Res Function(Property) then) =
-      _$PropertyCopyWithImpl<$Res>;
+  factory $PropertyCopyWith(Property value, $Res Function(Property) then) = _$PropertyCopyWithImpl<$Res>;
   $Res call({String label, String value});
 }
 
@@ -64,19 +62,14 @@ class _$PropertyCopyWithImpl<$Res> implements $PropertyCopyWith<$Res> {
 
 /// @nodoc
 abstract class _$$_PropertyCopyWith<$Res> implements $PropertyCopyWith<$Res> {
-  factory _$$_PropertyCopyWith(
-          _$_Property value, $Res Function(_$_Property) then) =
-      __$$_PropertyCopyWithImpl<$Res>;
+  factory _$$_PropertyCopyWith(_$_Property value, $Res Function(_$_Property) then) = __$$_PropertyCopyWithImpl<$Res>;
   @override
   $Res call({String label, String value});
 }
 
 /// @nodoc
-class __$$_PropertyCopyWithImpl<$Res> extends _$PropertyCopyWithImpl<$Res>
-    implements _$$_PropertyCopyWith<$Res> {
-  __$$_PropertyCopyWithImpl(
-      _$_Property _value, $Res Function(_$_Property) _then)
-      : super(_value, (v) => _then(v as _$_Property));
+class __$$_PropertyCopyWithImpl<$Res> extends _$PropertyCopyWithImpl<$Res> implements _$$_PropertyCopyWith<$Res> {
+  __$$_PropertyCopyWithImpl(_$_Property _value, $Res Function(_$_Property) _then) : super(_value, (v) => _then(v as _$_Property));
 
   @override
   _$_Property get _value => super._value as _$_Property;
@@ -105,8 +98,7 @@ class __$$_PropertyCopyWithImpl<$Res> extends _$PropertyCopyWithImpl<$Res>
 class _$_Property extends _Property {
   const _$_Property({this.label = "", this.value = ""}) : super._();
 
-  factory _$_Property.fromJson(Map<String, dynamic> json) =>
-      _$$_PropertyFromJson(json);
+  factory _$_Property.fromJson(Map<String, dynamic> json) => _$$_PropertyFromJson(json);
 
   @override
   @JsonKey()
@@ -131,15 +123,11 @@ class _$_Property extends _Property {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(label),
-      const DeepCollectionEquality().hash(value));
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(label), const DeepCollectionEquality().hash(value));
 
   @JsonKey(ignore: true)
   @override
-  _$$_PropertyCopyWith<_$_Property> get copyWith =>
-      __$$_PropertyCopyWithImpl<_$_Property>(this, _$identity);
+  _$$_PropertyCopyWith<_$_Property> get copyWith => __$$_PropertyCopyWithImpl<_$_Property>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -148,8 +136,7 @@ class _$_Property extends _Property {
 }
 
 abstract class _Property extends Property {
-  const factory _Property({final String label, final String value}) =
-      _$_Property;
+  const factory _Property({final String label, final String value}) = _$_Property;
   const _Property._() : super._();
 
   factory _Property.fromJson(Map<String, dynamic> json) = _$_Property.fromJson;
@@ -160,6 +147,5 @@ abstract class _Property extends Property {
   String get value => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$$_PropertyCopyWith<_$_Property> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$_PropertyCopyWith<_$_Property> get copyWith => throw _privateConstructorUsedError;
 }

@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/features/asset/asset.dart';
+
+import '../../asset/asset.dart';
 
 part 'compiler_payload.freezed.dart';
 part 'compiler_payload.g.dart';

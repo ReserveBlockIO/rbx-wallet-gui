@@ -1,12 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/core/web_router.gr.dart';
-import 'package:rbx_wallet/features/auth/auth_utils.dart';
-import 'package:rbx_wallet/features/root/web_dashboard_container.dart';
-import 'package:rbx_wallet/generated/assets.gen.dart';
+
+import '../../../../core/base_component.dart';
+import '../../../../generated/assets.gen.dart';
+import '../../../auth/auth_utils.dart';
+import '../../web_dashboard_container.dart';
 
 class WebDrawer extends BaseComponent {
   const WebDrawer({Key? key}) : super(key: key);

@@ -2,25 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/features/keygen/models/keypair.dart';
-import 'package:rbx_wallet/features/keygen/services/keygen_service.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
+import '../../../utils/toast.dart';
+import '../../../utils/validation.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../models/keypair.dart';
+import '../services/keygen_service.dart';
 
 class KeygenCta extends BaseComponent {
   const KeygenCta({Key? key}) : super(key: key);
 
-  Future<void> handleImport(BuildContext context, WidgetRef ref) async {
+  Future<void> handleImport(BuildContext context, WidgetRef ref, String email) async {
     PromptModal.show(
       title: "Import Wallet",
       validator: (String? value) => formValidatorNotEmpty(value, "Private Key"),
       labelText: "Private Key",
       onValidSubmission: (value) async {
-        final keypair = await KeygenService.importPrivateKey(value, "todo@test.com"); //TODO email
+        final keypair = await KeygenService.importPrivateKey(value, email);
 
         showKeys(context, keypair);
       },
@@ -30,9 +31,20 @@ class KeygenCta extends BaseComponent {
   Future<void> handleCreate(BuildContext context, WidgetRef ref) async {
     ref.read(globalLoadingProvider.notifier).start();
 
+    final email = await PromptModal.show(
+      contextOverride: context,
+      title: "Email Address",
+      labelText: "Email",
+      validator: formValidatorEmail,
+    );
+
+    if (email == null || email.isEmpty) {
+      return;
+    }
+
     await Future.delayed(const Duration(milliseconds: 300));
 
-    final keypair = await KeygenService.generate();
+    final keypair = await KeygenService.generate(email);
     if (keypair == null) {
       ref.read(globalLoadingProvider.notifier).complete();
       Toast.error();
@@ -44,7 +56,21 @@ class KeygenCta extends BaseComponent {
     showKeys(context, keypair);
   }
 
-  Future<void> handleRecover(BuildContext context, WidgetRef ref) async {
+  Future<void> handleRecover(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
+    final email = await PromptModal.show(
+      contextOverride: context,
+      title: "Email Address",
+      labelText: "Email",
+      validator: formValidatorEmail,
+    );
+
+    if (email == null || email.isEmpty) {
+      return;
+    }
+
     await PromptModal.show(
       title: "Input Recovery Mnemonic",
       validator: (value) => formValidatorNotEmpty(value, "Recovery Mnemonic"),
@@ -55,7 +81,7 @@ class KeygenCta extends BaseComponent {
 
         await Future.delayed(const Duration(milliseconds: 300));
 
-        final keypair = await KeygenService.recover(value.trim());
+        final keypair = await KeygenService.recover(value.trim(), email);
 
         if (keypair == null) {
           Toast.error();
@@ -163,8 +189,15 @@ class KeygenCta extends BaseComponent {
       children: [
         AppButton(
           label: "Import Private Key",
-          onPressed: () {
-            handleImport(context, ref);
+          onPressed: () async {
+            final email = await PromptModal.show(
+              title: "Email Address",
+              validator: (value) => formValidatorEmail(value),
+              labelText: "Email",
+            );
+            if (email != null) {
+              handleImport(context, ref, email);
+            }
           },
         ),
         const SizedBox(
@@ -173,7 +206,10 @@ class KeygenCta extends BaseComponent {
         AppButton(
           label: "Generate Keypair",
           onPressed: () {
-            handleCreate(context, ref);
+            handleCreate(
+              context,
+              ref,
+            );
           },
         ),
         const SizedBox(

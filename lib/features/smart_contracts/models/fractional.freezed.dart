@@ -28,21 +28,13 @@ mixin _$Fractional {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $FractionalCopyWith<Fractional> get copyWith =>
-      throw _privateConstructorUsedError;
+  $FractionalCopyWith<Fractional> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $FractionalCopyWith<$Res> {
-  factory $FractionalCopyWith(
-          Fractional value, $Res Function(Fractional) then) =
-      _$FractionalCopyWithImpl<$Res>;
-  $Res call(
-      {String id,
-      double creatorRetains,
-      double fractionalInterest,
-      bool allowVoting,
-      String votingDescription});
+  factory $FractionalCopyWith(Fractional value, $Res Function(Fractional) then) = _$FractionalCopyWithImpl<$Res>;
+  $Res call({String id, double creatorRetains, double fractionalInterest, bool allowVoting, String votingDescription});
 }
 
 /// @nodoc
@@ -87,26 +79,15 @@ class _$FractionalCopyWithImpl<$Res> implements $FractionalCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$$_FractionalCopyWith<$Res>
-    implements $FractionalCopyWith<$Res> {
-  factory _$$_FractionalCopyWith(
-          _$_Fractional value, $Res Function(_$_Fractional) then) =
-      __$$_FractionalCopyWithImpl<$Res>;
+abstract class _$$_FractionalCopyWith<$Res> implements $FractionalCopyWith<$Res> {
+  factory _$$_FractionalCopyWith(_$_Fractional value, $Res Function(_$_Fractional) then) = __$$_FractionalCopyWithImpl<$Res>;
   @override
-  $Res call(
-      {String id,
-      double creatorRetains,
-      double fractionalInterest,
-      bool allowVoting,
-      String votingDescription});
+  $Res call({String id, double creatorRetains, double fractionalInterest, bool allowVoting, String votingDescription});
 }
 
 /// @nodoc
-class __$$_FractionalCopyWithImpl<$Res> extends _$FractionalCopyWithImpl<$Res>
-    implements _$$_FractionalCopyWith<$Res> {
-  __$$_FractionalCopyWithImpl(
-      _$_Fractional _value, $Res Function(_$_Fractional) _then)
-      : super(_value, (v) => _then(v as _$_Fractional));
+class __$$_FractionalCopyWithImpl<$Res> extends _$FractionalCopyWithImpl<$Res> implements _$$_FractionalCopyWith<$Res> {
+  __$$_FractionalCopyWithImpl(_$_Fractional _value, $Res Function(_$_Fractional) _then) : super(_value, (v) => _then(v as _$_Fractional));
 
   @override
   _$_Fractional get _value => super._value as _$_Fractional;
@@ -148,16 +129,10 @@ class __$$_FractionalCopyWithImpl<$Res> extends _$FractionalCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$_Fractional extends _Fractional {
-  const _$_Fractional(
-      {this.id = "",
-      this.creatorRetains = 0,
-      this.fractionalInterest = 5,
-      this.allowVoting = false,
-      this.votingDescription = ""})
+  const _$_Fractional({this.id = "", this.creatorRetains = 0, this.fractionalInterest = 5, this.allowVoting = false, this.votingDescription = ""})
       : super._();
 
-  factory _$_Fractional.fromJson(Map<String, dynamic> json) =>
-      _$$_FractionalFromJson(json);
+  factory _$_Fractional.fromJson(Map<String, dynamic> json) => _$$_FractionalFromJson(json);
 
   @override
   @JsonKey()
@@ -186,14 +161,10 @@ class _$_Fractional extends _Fractional {
         (other.runtimeType == runtimeType &&
             other is _$_Fractional &&
             const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality()
-                .equals(other.creatorRetains, creatorRetains) &&
-            const DeepCollectionEquality()
-                .equals(other.fractionalInterest, fractionalInterest) &&
-            const DeepCollectionEquality()
-                .equals(other.allowVoting, allowVoting) &&
-            const DeepCollectionEquality()
-                .equals(other.votingDescription, votingDescription));
+            const DeepCollectionEquality().equals(other.creatorRetains, creatorRetains) &&
+            const DeepCollectionEquality().equals(other.fractionalInterest, fractionalInterest) &&
+            const DeepCollectionEquality().equals(other.allowVoting, allowVoting) &&
+            const DeepCollectionEquality().equals(other.votingDescription, votingDescription));
   }
 
   @JsonKey(ignore: true)
@@ -208,8 +179,7 @@ class _$_Fractional extends _Fractional {
 
   @JsonKey(ignore: true)
   @override
-  _$$_FractionalCopyWith<_$_Fractional> get copyWith =>
-      __$$_FractionalCopyWithImpl<_$_Fractional>(this, _$identity);
+  _$$_FractionalCopyWith<_$_Fractional> get copyWith => __$$_FractionalCopyWithImpl<_$_Fractional>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -226,8 +196,7 @@ abstract class _Fractional extends Fractional {
       final String votingDescription}) = _$_Fractional;
   const _Fractional._() : super._();
 
-  factory _Fractional.fromJson(Map<String, dynamic> json) =
-      _$_Fractional.fromJson;
+  factory _Fractional.fromJson(Map<String, dynamic> json) = _$_Fractional.fromJson;
 
   @override
   String get id => throw _privateConstructorUsedError;
@@ -241,6 +210,5 @@ abstract class _Fractional extends Fractional {
   String get votingDescription => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$$_FractionalCopyWith<_$_Fractional> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$_FractionalCopyWith<_$_Fractional> get copyWith => throw _privateConstructorUsedError;
 }

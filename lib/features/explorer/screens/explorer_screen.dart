@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
+
+import '../../../core/base_screen.dart';
+import '../../wallet/components/wallet_selector.dart';
 
 class ExplorerScreen extends BaseStatefulScreen {
   const ExplorerScreen({Key? key}) : super(key: key);

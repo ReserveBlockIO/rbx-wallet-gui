@@ -1,19 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/services/transaction_service.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/adnr/components/adrn_list.dart';
-import 'package:rbx_wallet/features/adnr/components/create_adnr_dialog.dart';
-import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
-import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
-import 'package:rbx_wallet/features/wallet/models/wallet.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+
+import '../../../core/app_constants.dart';
+import '../../../core/base_screen.dart';
+import '../../wallet/providers/wallet_list_provider.dart';
+import '../components/adrn_list.dart';
 
 class AdnrScreen extends BaseScreen {
   const AdnrScreen({Key? key}) : super(key: key);
@@ -41,17 +32,17 @@ class AdnrScreen extends BaseScreen {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
+              const Text(
                 "Create an RBX Domain as an alias to your wallet's address for receiving funds.",
                 style: TextStyle(
                   fontSize: 17,
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 4,
               ),
-              Text(
+              const Text(
                 "RBX domains cost $ADNR_COST RBX plus the transaction fee.",
                 textAlign: TextAlign.center,
               ),
@@ -59,50 +50,48 @@ class AdnrScreen extends BaseScreen {
           ),
         ),
         Expanded(child: AdnrList(wallets: wallets)),
-        Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              AppButton(
-                label: "Create New Wallet",
-                onPressed: () async {
-                  await ref.read(walletListProvider.notifier).create();
-                },
-              ),
-              AppButton(
-                label: "Import Wallet",
-                onPressed: () {
-                  PromptModal.show(
-                    title: "Import Wallet",
-                    validator: (String? value) =>
-                        formValidatorNotEmpty(value, "Private Key"),
-                    labelText: "Private Key",
-                    onValidSubmission: (value) async {
-                      final wallet = await ref
-                          .read(walletListProvider.notifier)
-                          .import(value);
+        // Center(
+        //   child: Row(
+        //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        //     children: [
+        //       AppButton(
+        //         label: "Create New Wallet",
+        //         onPressed: () async {
+        //           if (!await passwordRequiredGuard(context, ref)) return;
 
-                      if (wallet == null) return;
-                      if (wallet.balance >=
-                              (ADNR_COST + MIN_RBX_FOR_SC_ACTION) &&
-                          wallet.adnr == null) {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return CreateAdnrDialog(
-                              address: wallet.address,
-                              adnr: wallet.adnr,
-                            );
-                          },
-                        );
-                      }
-                    },
-                  );
-                },
-              ),
-            ],
-          ),
-        )
+        //           await ref.read(walletListProvider.notifier).create();
+        //         },
+        //       ),
+        //       AppButton(
+        //         label: "Import Wallet",
+        //         onPressed: () async {
+        //           if (!await passwordRequiredGuard(context, ref)) return;
+        //           PromptModal.show(
+        //             title: "Import Wallet",
+        //             validator: (String? value) => formValidatorNotEmpty(value, "Private Key"),
+        //             labelText: "Private Key",
+        //             onValidSubmission: (value) async {
+        //               final wallet = await ref.read(walletListProvider.notifier).import(value);
+
+        //               if (wallet == null) return;
+        //               if (wallet.balance >= (ADNR_COST + MIN_RBX_FOR_SC_ACTION) && wallet.adnr == null) {
+        //                 showDialog(
+        //                   context: context,
+        //                   builder: (context) {
+        //                     return CreateAdnrDialog(
+        //                       address: wallet.address,
+        //                       adnr: wallet.adnr,
+        //                     );
+        //                   },
+        //                 );
+        //               }
+        //             },
+        //           );
+        //         },
+        //       ),
+        //     ],
+        //   ),
+        // )
       ],
     );
   }

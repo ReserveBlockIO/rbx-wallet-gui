@@ -1,4 +1,4 @@
-import 'package:rbx_wallet/core/env.dart';
+import '../core/env.dart';
 
 bool isInt(String number) {
   return int.tryParse(number) == null ? false : true;
@@ -33,6 +33,7 @@ bool isValidPassword(String password) {
 }
 
 bool isValidRbxAddress(String address) {
+  address = address.trim().replaceAll("\n", "");
   if (address.length != 34) {
     return false;
   }
@@ -110,9 +111,13 @@ String? formValidatorNotEmpty(String? value, String label) {
   return null;
 }
 
-String? formValidatorRbxAddress(String? value) {
+String? formValidatorRbxAddress(String? value, [bool allowAdnr = false]) {
   if (value == null || value.isEmpty) {
-    return "Address is required.";
+    return allowAdnr ? "Address or RBX domain required" : "Address required";
+  }
+
+  if (allowAdnr && value.contains(".rbx")) {
+    return null;
   }
 
   if (!isValidRbxAddress(value)) {
@@ -184,6 +189,4 @@ String? formValidatorAlphaNumeric(String? value, String label) {
   }
 
   return RegExp(r"^[a-zA-Z0-9]+$").hasMatch(value) ? null : "A DNR may only contain letters and numbers.";
-
-  return null;
 }

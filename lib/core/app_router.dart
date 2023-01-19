@@ -1,23 +1,30 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:rbx_wallet/features/adjudicator/adjudicator_screen.dart';
-import 'package:rbx_wallet/features/adnr/screens/adnr_screen.dart';
-import 'package:rbx_wallet/features/datanode/screens/datanode_screen.dart';
-import 'package:rbx_wallet/features/dsts/screens/dst_screen.dart';
-import 'package:rbx_wallet/features/explorer/screens/explorer_screen.dart';
-import 'package:rbx_wallet/features/node/screens/node_list_screen.dart';
-import 'package:rbx_wallet/features/root/root_container.dart';
-import 'package:rbx_wallet/features/home/screens/home_screen.dart';
-import 'package:rbx_wallet/features/nft/screens/nft_list_screen.dart';
-import 'package:rbx_wallet/features/receive/screens/receive_screen.dart';
-import 'package:rbx_wallet/features/send/screens/send_screen.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/smart_contract_creator_main.dart';
-import 'package:rbx_wallet/features/smart_contracts/screens/my_smart_contracts_screen.dart';
-import 'package:rbx_wallet/features/smart_contracts/screens/smart_contract_creator_container_screen.dart';
-import 'package:rbx_wallet/features/smart_contracts/screens/smart_contract_drafts_screen.dart';
-import 'package:rbx_wallet/features/smart_contracts/screens/smart_contracts_screen.dart';
-import 'package:rbx_wallet/features/smart_contracts/screens/template_chooser_screen.dart';
-import 'package:rbx_wallet/features/transactions/screens/transactions_screen.dart';
-import 'package:rbx_wallet/features/validator/screens/validator_screen.dart';
+
+import '../features/adjudicator/adjudicator_screen.dart';
+import '../features/adnr/screens/adnr_screen.dart';
+import '../features/beacon/screens/beacon_list_screen.dart';
+import '../features/config/screens/config_container_screen.dart';
+import '../features/datanode/screens/datanode_screen.dart';
+import '../features/dsts/screens/dst_screen.dart';
+import '../features/home/screens/home_screen.dart';
+import '../features/mother/screens/mother_dashboard_screen.dart';
+import '../features/nft/screens/nft_list_screen.dart';
+import '../features/node/screens/node_list_screen.dart';
+import '../features/receive/screens/receive_screen.dart';
+import '../features/root/root_container.dart';
+import '../features/send/screens/send_screen.dart';
+import '../features/smart_contracts/components/sc_creator/smart_contract_creator_main.dart';
+import '../features/smart_contracts/screens/bulk_create_screen.dart';
+import '../features/smart_contracts/screens/my_smart_contracts_screen.dart';
+import '../features/smart_contracts/screens/smart_contract_creator_container_screen.dart';
+import '../features/smart_contracts/screens/smart_contract_drafts_screen.dart';
+import '../features/smart_contracts/screens/smart_contracts_screen.dart';
+import '../features/smart_contracts/screens/template_chooser_screen.dart';
+import '../features/transactions/screens/transactions_screen.dart';
+import '../features/validator/screens/validator_screen.dart';
+import '../features/voting/screens/create_topic_screen.dart';
+import '../features/voting/screens/topic_detail_screen.dart';
+import '../features/voting/screens/topic_list_screen.dart';
 
 const List<AutoRoute> appRoutes = [
   AutoRoute(
@@ -121,6 +128,24 @@ const List<AutoRoute> appRoutes = [
           AutoRoute(path: "", page: AdnrScreen),
         ],
       ),
+      AutoRoute(
+        path: "voting",
+        name: "VotingTabRouter",
+        page: EmptyRouterPage,
+        children: [
+          AutoRoute(path: "", page: TopicListScreen),
+          AutoRoute(path: ":uid", page: TopicDetailScreen),
+          AutoRoute(path: "create", page: CreateTopicScreen),
+        ],
+      ),
+      AutoRoute(
+        path: "beacons",
+        name: "BeaconTabRouter",
+        page: EmptyRouterPage,
+        children: [
+          AutoRoute(path: "", page: BeaconListScreen),
+        ],
+      ),
       // AutoRoute(
       //   path: "explorer",
       //   name: "ExplorerTabRouter",
@@ -144,6 +169,14 @@ const List<AutoRoute> appRoutes = [
     page: TemplateChooserScreen,
   ),
   AutoRoute(
+    path: "bulk-create-smart-contracts",
+    page: BulkCreateScreen,
+  ),
+  AutoRoute(
+    path: "config",
+    page: ConfigContainerScreen,
+  ),
+  AutoRoute(
     path: "create-smart-contract",
     page: SmartContractCreatorContainerScreen,
     children: [
@@ -154,6 +187,7 @@ const List<AutoRoute> appRoutes = [
       ),
     ],
   ),
+  AutoRoute(path: "mother-dashboard", page: MotherDashboardScreen)
 ];
 
 @AdaptiveAutoRouter(replaceInRouteName: 'Page,Route,Screen', routes: appRoutes)

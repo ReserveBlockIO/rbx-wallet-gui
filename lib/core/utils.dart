@@ -7,9 +7,10 @@ import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+
+import '../features/wallet/providers/wallet_list_provider.dart';
+import '../utils/toast.dart';
+import 'env.dart';
 
 Future<bool> backupKeys(BuildContext context, WidgetRef ref) async {
   try {
@@ -38,7 +39,7 @@ Future<bool> backupKeys(BuildContext context, WidgetRef ref) async {
 
     return true;
   } catch (e) {
-    print("ERRROR");
+    print("Error on backupKeys");
     print(e);
     return false;
   }
@@ -60,7 +61,6 @@ Future<bool> backupMedia(BuildContext context, WidgetRef ref) async {
 
     String inputPath = "$rbxPath${Platform.isWindows ? '\\' : '/'}$assetsFolderName";
 
-    //TODO the windows version probably works on mac too, but test out before removing.
     final archive =
         Platform.isMacOS ? createArchiveFromDirectory(Directory.fromUri(Uri.parse(inputPath))) : createArchiveFromDirectory(Directory(inputPath));
 

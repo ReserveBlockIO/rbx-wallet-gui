@@ -1,10 +1,12 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/features/nft/components/nft_list_tile.dart';
-import 'package:rbx_wallet/features/nft/components/nft_navigator.dart';
-import 'package:rbx_wallet/features/nft/providers/minted_nft_list_provider.dart';
-import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
+
+import '../../../core/base_component.dart';
+import '../providers/minted_nft_list_provider.dart';
+import '../providers/nft_list_provider.dart';
+import 'nft_list_tile.dart';
+import 'nft_navigator.dart';
 
 class NftList extends BaseComponent {
   final bool minted;
@@ -17,10 +19,11 @@ class NftList extends BaseComponent {
 
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(6.0),
-          child: NftNavigator(minted: minted),
-        ),
+        if (!kIsWeb)
+          Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: NftNavigator(minted: minted),
+          ),
         Expanded(
           child: Builder(builder: (context) {
             if (_model.data.results.isEmpty) {
@@ -35,6 +38,7 @@ class NftList extends BaseComponent {
 
                 return NftListTile(
                   nft,
+                  key: Key(nft.id),
                   manageOnPress: minted,
                 );
               },

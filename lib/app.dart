@@ -1,19 +1,23 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/core/components/boot_container.dart';
-import 'package:rbx_wallet/core/components/centered_loader.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/providers/ready_provider.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/core/singletons.dart';
-import 'package:rbx_wallet/core/storage.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/core/web_router.gr.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/features/root/components/system_manager.dart';
+
+import 'core/app_router.gr.dart';
+import 'core/components/boot_container.dart';
+import 'core/components/centered_loader.dart';
+import 'core/env.dart';
+import 'core/providers/ready_provider.dart';
+import 'core/providers/session_provider.dart';
+import 'core/providers/web_session_provider.dart';
+import 'core/singletons.dart';
+import 'core/storage.dart';
+import 'core/theme/app_theme.dart';
+import 'core/web_router.gr.dart';
+import 'features/encrypt/providers/password_required_provider.dart';
+import 'features/encrypt/providers/wallet_is_encrypted_provider.dart';
+import 'features/global_loader/global_loading_provider.dart';
+import 'features/root/components/system_manager.dart';
+import 'features/transactions/components/notification_overlay.dart';
 
 final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
@@ -27,13 +31,15 @@ class App extends ConsumerWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    print("App Build");
+    // print("App Build");
 
     if (kIsWeb) {
       ref.read(webSessionProvider.notifier);
       return const AppContainer();
     }
     ref.read(sessionProvider.notifier);
+    ref.read(passwordRequiredProvider.notifier);
+    ref.read(walletIsEncryptedProvider.notifier);
 
     singleton<Storage>().setStringList(Storage.BURNED_NFT_IDS, []);
     singleton<Storage>().setStringList(Storage.TRANSFERRED_NFT_IDS, []);
@@ -78,19 +84,42 @@ class AppContainer extends ConsumerWidget {
         return Stack(
           children: [
             widget!,
+            const NotificationOverlay(),
             if (ref.watch(globalLoadingProvider))
               Container(
                 color: Colors.black54,
-                child: Center(
-                  child: Text(
-                    "Loading...",
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
+                child: Stack(
+                  children: [
+                    Center(
+                      child: Text(
+                        "Loading...",
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+                    ),
+                    Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 72.0),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () => ref.read(globalLoadingProvider.notifier).complete(),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "[CLOSE]",
+                                  style: Theme.of(context).textTheme.caption,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ))
+                  ],
                 ),
-              )
+              ),
           ],
         );
       },

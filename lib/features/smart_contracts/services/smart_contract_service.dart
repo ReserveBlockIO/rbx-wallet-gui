@@ -1,16 +1,18 @@
-import 'dart:convert';
-import 'dart:io';
+// ignore_for_file: unused_local_variable
 
-import 'package:rbx_wallet/core/services/base_service.dart';
-import 'package:rbx_wallet/core/singletons.dart';
-import 'package:rbx_wallet/core/storage.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/compiled_smart_contract.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/compiler_response.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/detailed_smart_contract.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/smart_contract.dart';
+import 'dart:convert';
+
 import 'package:collection/collection.dart';
-import 'package:rbx_wallet/utils/generators.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+
+import '../../../core/services/base_service.dart';
+import '../../../core/singletons.dart';
+import '../../../core/storage.dart';
+import '../../../utils/generators.dart';
+import '../../../utils/toast.dart';
+import '../models/compiled_smart_contract.dart';
+import '../models/compiler_response.dart';
+import '../models/detailed_smart_contract.dart';
+import '../models/smart_contract.dart';
 
 class SmartContractService extends BaseService {
   SmartContractService() : super(apiBasePathOverride: "/scapi/scv1");
@@ -53,20 +55,8 @@ class SmartContractService extends BaseService {
   Future<CompilerResponse?> compileSmartContract(Map<String, dynamic> payload) async {
     final Map<String, dynamic> p = {...payload}..remove('hash');
 
-    print("------------");
-    print("--/CreateSmartContract PAYLOAD--");
-    print(jsonEncode(p));
-    print("------------");
-
     try {
-      final response = await postJson(
-        "/CreateSmartContract",
-        params: p,
-      );
-
-      // print("==============");
-      // print(jsonEncode(response['data'][0]));
-      // print("==============");
+      final response = await postJson("/CreateSmartContract", params: p, timeout: 0);
 
       final csc = CompilerResponse.fromJson(response['data'][0]);
       return csc;
@@ -133,8 +123,11 @@ class SmartContractService extends BaseService {
 
   Future<bool> mint(String id) async {
     try {
-      print("-------------ID $id------------");
-      final response = await getText("/MintSmartContract/$id");
+      final response = await getText(
+        "/MintSmartContract/$id",
+        timeout: 0,
+        inspect: true,
+      );
 
       if (response == "Smart contract has been published to mempool") {
         return true;
@@ -146,20 +139,27 @@ class SmartContractService extends BaseService {
     }
   }
 
-  Future<bool> transfer(String id, String address, String? url) async {
+  Future<String?> transfer(String id, String address, String? backupUrl) async {
     try {
-      final text = await getText(url != null && url.isNotEmpty ? "/TransferNFT/$id/$address/$url" : "/TransferNFT/$id/$address");
-      print("TRANSFER: $text");
+      final url = backupUrl != null && backupUrl.isNotEmpty ? "/TransferNFT/$id/$address/$backupUrl" : "/TransferNFT/$id/$address";
+      final text = await getText(url, timeout: 0);
 
-      final Map<String, dynamic> data = jsonDecode(text);
-      if (!data.containsKey("Hash") && data['Hash'] != null && data['Hash'] != "") {
-        return false;
+      if (text.isEmpty) {
+        print("No response on transfer API call ($url)");
+        return "No response on transfer API call";
       }
 
-      return true;
+      final Map<String, dynamic> data = jsonDecode(text);
+      if (data.containsKey("Result") && data['Result'] == "Success") {
+        return null;
+      }
+      if (data.containsKey("Message") && data['Message'].toString().isNotEmpty) {
+        return data['Message'];
+      }
+      return "A problem occurred";
     } catch (e) {
       print(e);
-      return false;
+      return e.toString();
     }
   }
 
@@ -189,10 +189,8 @@ class SmartContractService extends BaseService {
       assetPath = assetPath.replaceAll("/", "%2F").replaceAll("\\", "%5C");
       final url = "/AssociateNFTAsset/$nftId/$assetPath";
 
-      final response = await getText(url, cleanPath: false);
+      final response = await getText(url, cleanPath: false, timeout: 0);
       final data = jsonDecode(response);
-
-      print(response);
 
       if (data['Result'] == "Success") {
         Toast.message(data['Message']);
@@ -210,8 +208,7 @@ class SmartContractService extends BaseService {
 
   Future<bool> downloadAssets(String nftId) async {
     try {
-      final data = await getText("/DownloadNftAssets/$nftId");
-      print(data);
+      final data = await getText("/DownloadNftAssets/$nftId", timeout: 0);
       return true;
     } catch (e) {
       print(e);

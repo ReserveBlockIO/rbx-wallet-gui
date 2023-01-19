@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/features/wallet/components/invalid_wallet.dart';
-import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
-import 'package:rbx_wallet/features/wallet/models/wallet.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+
+import '../../../core/base_screen.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../utils/toast.dart';
+import '../../../utils/validation.dart';
+import '../../encrypt/utils.dart';
+import '../../wallet/components/invalid_wallet.dart';
+import '../../wallet/components/wallet_selector.dart';
+import '../../wallet/models/wallet.dart';
+import '../../wallet/providers/wallet_list_provider.dart';
 
 class ReceiveScreen extends BaseScreen {
   const ReceiveScreen({Key? key}) : super(key: key);
@@ -79,6 +81,7 @@ class ReceiveScreen extends BaseScreen {
               label: "New Address",
               icon: Icons.add,
               onPressed: () async {
+                if (!await passwordRequiredGuard(context, ref)) return;
                 await ref.read(walletListProvider.notifier).create();
               },
             ),
@@ -86,10 +89,11 @@ class ReceiveScreen extends BaseScreen {
               label: "Import Private Key",
               icon: Icons.upload,
               onPressed: () async {
+                if (!await passwordRequiredGuard(context, ref)) return;
+
                 PromptModal.show(
                   title: "Import Wallet",
-                  validator: (String? value) =>
-                      formValidatorNotEmpty(value, "Private Key"),
+                  validator: (String? value) => formValidatorNotEmpty(value, "Private Key"),
                   labelText: "Private Key",
                   onValidSubmission: (value) async {
                     await ref.read(walletListProvider.notifier).import(value);

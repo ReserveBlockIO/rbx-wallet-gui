@@ -1,14 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/providers/is_active_provider.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/block/block.dart';
-import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
-import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
-import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
+
+import '../../../core/app_constants.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../block/block.dart';
+import '../models/log_entry.dart';
+import '../services/bridge_service.dart';
+import 'log_provider.dart';
 
 class WalletInfoModel {
   final int blockHeight;
@@ -17,6 +17,9 @@ class WalletInfoModel {
   final bool isResyncing;
   final bool isChainSynced;
   final Block? lastestBlock;
+  final bool duplicateValidatorIp;
+  final bool duplicateValidatorAddress;
+  final bool connectedToMother;
 
   const WalletInfoModel({
     required this.blockHeight,
@@ -24,6 +27,9 @@ class WalletInfoModel {
     required this.isSyncing,
     required this.isResyncing,
     required this.isChainSynced,
+    required this.duplicateValidatorIp,
+    required this.duplicateValidatorAddress,
+    this.connectedToMother = false,
     this.lastestBlock,
   });
 }
@@ -48,73 +54,69 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
     } catch (e) {
       print(e);
       print("fetch error");
+      if (loop) {
+        await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
+        infoLoop();
+      }
       return;
     }
 
-    if (data.isEmpty) {
-      return;
-    }
+    if (data.isNotEmpty) {
+      final prevIsChainSynced = state == null ? false : state!.isChainSynced;
 
-    final prevIsSyncing = state == null ? true : state!.isSyncing;
+      final int blockHeight = int.parse(data['BlockHeight']);
+      final int peerCount = int.parse(data['PeerCount']);
+      final bool isSyncing = data['BlocksDownloading'].toString().toLowerCase() == "true";
+      final bool isChainSynced = data['IsChainSynced'].toString().toLowerCase() == "true";
+      final bool isResyncing = data['IsResyncing'].toString().toLowerCase() == "true";
+      final bool duplicateValidatorIp = data['DuplicateValIP'].toString().toLowerCase() == "true";
+      final bool duplicateValidatorAddress = data['DuplicateValAddress'].toString().toLowerCase() == "true";
+      final bool connectedToMother = data['ConnectedToMother'].toString().toLowerCase() == 'true';
+      final latestBlock = blockHeight > 0 ? await BridgeService().blockInfo(blockHeight) : null;
 
-    final int blockHeight = int.parse(data['BlockHeight']);
-    final int peerCount = int.parse(data['PeerCount']);
-    final bool isSyncing = data['BlocksDownloading'].toString().toLowerCase() == "true";
-    final bool isChainSynced = data['IsChainSynced'].toString().toLowerCase() == "true";
-    final bool isResyncing = data['IsResyncing'].toString().toLowerCase() == "true";
+      final prevBlockHeight = state?.blockHeight;
+      final prevPeerCount = state?.peerCount;
 
-    final latestBlock = blockHeight > 0 ? await BridgeService().blockInfo(blockHeight) : null;
-
-    final prevBlockHeight = state?.blockHeight;
-    final prevPeerCount = state?.peerCount;
-
-    state = WalletInfoModel(
-      blockHeight: blockHeight,
-      peerCount: peerCount,
-      isSyncing: isSyncing,
-      lastestBlock: latestBlock,
-      isResyncing: isResyncing,
-      isChainSynced: isChainSynced,
-    );
-
-    read(sessionProvider.notifier).setBlocksAreSyncing(isSyncing);
-    read(sessionProvider.notifier).setBlocksAreResyncing(isResyncing);
-
-    if (blockHeight != prevBlockHeight) {
-      read(logProvider.notifier).append(
-        LogEntry(message: "Current Block Height is $blockHeight."),
+      state = WalletInfoModel(
+        blockHeight: blockHeight,
+        peerCount: peerCount,
+        isSyncing: isSyncing,
+        lastestBlock: latestBlock,
+        isResyncing: isResyncing,
+        isChainSynced: isChainSynced,
+        duplicateValidatorIp: duplicateValidatorIp,
+        duplicateValidatorAddress: duplicateValidatorAddress,
+        connectedToMother: connectedToMother,
       );
-    }
 
-    if (peerCount != prevPeerCount) {
-      read(logProvider.notifier).append(
-        LogEntry(message: "You are connected to $peerCount peers."),
-      );
-    }
+      read(sessionProvider.notifier).setBlocksAreSyncing(isSyncing);
+      read(sessionProvider.notifier).setBlocksAreResyncing(isResyncing);
 
-    if (prevIsSyncing && !isSyncing) {
-      read(logProvider.notifier).append(
-        LogEntry(
-          message: "Your wallet is now synced. Thank you for waiting.",
-          variant: AppColorVariant.Secondary,
-        ),
-      );
-    }
+      if (blockHeight != prevBlockHeight) {
+        read(logProvider.notifier).append(
+          LogEntry(message: "Current Block Height is $blockHeight."),
+        );
+      }
 
-    // read(sessionProvider.notifier).load();
+      if (peerCount != prevPeerCount) {
+        read(logProvider.notifier).append(
+          LogEntry(message: "You are connected to $peerCount peers."),
+        );
+      }
+
+      if (!prevIsChainSynced && isChainSynced) {
+        read(logProvider.notifier).append(
+          LogEntry(
+            message: "Your wallet is now synced. Thank you for waiting.",
+            variant: AppColorVariant.Secondary,
+          ),
+        );
+      }
+    }
 
     if (loop) {
-      await Future.delayed(Duration(seconds: REFRESH_TIMEOUT_SECONDS));
+      await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
       infoLoop();
-
-      // final isActive = read(isActiveProvider).isActive;
-      // await Future.delayed(
-      //   Duration(
-      //     seconds: isActive ? REFRESH_TIMEOUT_SECONDS : REFRESH_TIMEOUT_SECONDS_INACTIVE,
-      //   ),
-      // );
-
-      // fetch();
     }
   }
 }

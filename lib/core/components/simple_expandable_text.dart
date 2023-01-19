@@ -1,12 +1,14 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 
 class SimpleExpandableText extends StatefulWidget {
-  SimpleExpandableText(this.text);
+  const SimpleExpandableText(this.text, {Key? key}) : super(key: key);
 
   final String text;
 
   @override
-  _SimpleExpandableTextState createState() => new _SimpleExpandableTextState();
+  _SimpleExpandableTextState createState() => _SimpleExpandableTextState();
 }
 
 class _SimpleExpandableTextState extends State<SimpleExpandableText> {
@@ -16,12 +18,12 @@ class _SimpleExpandableTextState extends State<SimpleExpandableText> {
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
       ConstrainedBox(
-          constraints: isExpanded ? BoxConstraints() : BoxConstraints(maxHeight: 200.0),
+          constraints: isExpanded ? const BoxConstraints() : const BoxConstraints(maxHeight: 200.0),
           child: Text(
             widget.text,
             softWrap: true,
             // overflow: TextOverflow.fade,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 18,
               color: Colors.white,
               height: 1.4,
@@ -34,7 +36,7 @@ class _SimpleExpandableTextState extends State<SimpleExpandableText> {
           child: InkWell(
               child: Text(
                 isExpanded ? "Read Less" : 'Read More',
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18,
                   color: Colors.white70,
                   height: 1.4,

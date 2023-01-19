@@ -6,6 +6,10 @@ gen:
 gen_watch:
 	fvm flutter packages pub run build_runner watch --delete-conflicting-outputs
 
+fix_gen:
+	mkdir ./.dart_tool/flutter_gen
+	echo "version: 1.0.0" > ./.dart_tool/flutter_gen/pubspec.yaml
+
 
 wingen:
 	flutter packages pub run build_runner build --delete-conflicting-outputs
@@ -25,6 +29,7 @@ package_mac:
 	rm -rf ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
 	mkdir ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
 	cp -r ../Core-CLI/ReserveBlockCore/bin/Release/net6.0/osx-x64/publish/ ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
+	cp -r ./installers/resources/BIP39/ ./installers/resources/Runner/RBXWallet.app/Contents/MacOS/BIP39
 	appdmg ./installers/dmg/config.json ./installers/exports/RBX-OSX-Intel-Installer.dmg
 	rm -f ./installers/exports/rbx-corecli-mac-intel.zip
 	cd ./installers/resources/Runner/RBXWallet.app/Contents/Resources/ && zip -r /Users/tylersavery/Projects/rbx/rbx_wallet/installers/exports/rbx-corecli-mac-intel.zip ./RBXCore/
@@ -40,6 +45,7 @@ package_m1:
 	rm -rf ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
 	mkdir ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
 	cp -r ../Core-CLI/ReserveBlockCore/bin/Release/net6.0/osx-x64/publish/ ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
+	cp -r ./installers/resources/BIP39/ ./installers/resources/Runner/RBXWallet.app/Contents/MacOS/BIP39	
 	appdmg ./installers/dmg/config.json ./installers/exports/RBX-OSX-ARM-Installer.dmg
 	rm -f ./installers/exports/rbx-corecli-mac-arm.zip
 	cd ./installers/resources/Runner/RBXWallet.app/Contents/Resources/ && zip -r /Users/tyler/prj/rbx/rbx-wallet-gui/installers/exports/rbx-corecli-mac-arm.zip ./RBXCore/
@@ -58,6 +64,7 @@ build_win:
 	copy ".\installers\resources\windows-64\msvcp140.dll" ".\build\windows\runner\Release\msvcp140.dll" 
 	copy ".\installers\resources\windows-64\vcruntime140.dll" ".\build\windows\runner\Release\vcruntime140.dll" 
 	copy ".\installers\resources\windows-64\vcruntime140_1.dll" ".\build\windows\runner\Release\vcruntime140_1.dll" 
+	Xcopy ".\installers\resources\BIP39" ".\build\windows\runner\Release\BIP39\" /E /Y /K
 	C:\"Program Files (x86)"\"Inno Setup 6"\ISCC .\installers\resources\WindowsInstallerScript.iss
 
 
@@ -72,6 +79,7 @@ build_win7:
 	copy ".\installers\resources\win7-64\vcruntime140.dll" ".\build\windows\runner\Release\vcruntime140.dll" 
 	copy ".\installers\resources\win7-64\vcruntime140_1.dll" ".\build\windows\runner\Release\vcruntime140_1.dll"
 	copy ".\installers\resources\win7-64\api-ms-win-core-winrt-l1-1-0.dll" ".\build\windows\runner\Release\api-ms-win-core-winrt-l1-1-0.dll"
+	Xcopy ".\installers\resources\BIP39" ".\build\windows\runner\Release\BIP39\" /E /Y /K
 
 	
 	C:\"Program Files (x86)"\"Inno Setup 6"\ISCC .\installers\resources\WindowsInstallerScript-win7.iss
@@ -95,3 +103,6 @@ deploy_web:
 
 deploy_web_no_build:
 	firebase deploy --only hosting
+
+delete_gen:
+	find . -maxdepth 20 -type f \( -name "*.freezed.dart" -o  -name "*.g.dart" \) -delete

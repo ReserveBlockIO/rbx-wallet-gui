@@ -1,10 +1,11 @@
-import 'package:rbx_wallet/features/keygen/models/keypair.dart';
+import '../models/keypair.dart';
 
 // mock version of keygen service to allow compiling on non web devices
 
 class KeygenService {
   static Future<Keypair> importPrivateKey(
-    String privateKey, [
+    String privateKey,
+    String email, [
     String? mneumonic,
   ]) async {
     return Keypair(
@@ -18,6 +19,7 @@ class KeygenService {
   static Future<Keypair?> seedToKeypair(
     String seed,
     int index,
+    String email,
   ) async {
     return Keypair(
       private: "mock",
@@ -27,11 +29,11 @@ class KeygenService {
     );
   }
 
-  static Future<Keypair?> generate([int index = 0]) async {
+  static Future<Keypair?> generate(String email, [int index = 0]) async {
     return null;
   }
 
-  static Future<Keypair?> recover(String mnemonic, [int index = 0]) async {
+  static Future<Keypair?> recover(String mnemonic, String email, [int index = 0]) async {
     return null;
   }
 }

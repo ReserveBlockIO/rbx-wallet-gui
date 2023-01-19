@@ -1,30 +1,25 @@
 import 'dart:io';
 
-import 'package:auto_route/auto_route.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/badges.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/components/centered_loader.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/core/web_router.gr.dart';
-import 'package:rbx_wallet/features/asset/asset_thumbnail.dart';
-import 'package:rbx_wallet/features/asset/polling_image_preview.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
-import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
-import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
-import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
-import 'package:rbx_wallet/utils/files.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/components/badges.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../utils/files.dart';
+import '../../../utils/toast.dart';
+import '../../asset/asset_thumbnail.dart';
+import '../../asset/polling_image_preview.dart';
+import '../../smart_contracts/features/evolve/evolve_phase.dart';
+import '../../smart_contracts/services/smart_contract_service.dart';
+import '../../wallet/providers/wallet_list_provider.dart';
+import '../models/nft.dart';
+import '../providers/nft_detail_provider.dart';
+import '../providers/nft_list_provider.dart';
+import '../screens/nft_detail_screen.dart';
 
 class NftMangementModal extends BaseComponent {
   final String id;
@@ -148,13 +143,13 @@ class NftMangementModal extends BaseComponent {
                 final nftIds = ref.watch(nftListProvider).data.results.map((n) => n.id).toList();
 
                 if (nftIds.contains(nft.id)) {
-                  return AppBadge(
+                  return const AppBadge(
                     label: "Owned by Me",
                     variant: AppColorVariant.Success,
                   );
                 }
 
-                return AppBadge(
+                return const AppBadge(
                   label: "Transferred",
                   variant: AppColorVariant.Danger,
                 );
@@ -163,12 +158,12 @@ class NftMangementModal extends BaseComponent {
           ),
           // Text("Owner: ${nft.currentOwner} "),
           // Text("Minter: ${nft.minterAddress}"),
-          SizedBox(
+          const SizedBox(
             height: 6,
           ),
           Text(
             "Current Stage: ${nft.currentEvolvePhase.name}",
-            style: TextStyle(fontSize: 18),
+            style: const TextStyle(fontSize: 18),
           ),
           // if (nft.canEvolve)
           //   Column(
@@ -195,62 +190,6 @@ class NftMangementModal extends BaseComponent {
                 nft.evolveIsDynamic ? "Evolution" : "Manage Evolution",
                 style: Theme.of(context).textTheme.headline5,
               ),
-              if (nft.manageable && false)
-                Card(
-                  color: Colors.white10,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        AppButton(
-                          label: "Devolve",
-                          variant: AppColorVariant.Danger,
-                          icon: FontAwesomeIcons.circleChevronDown,
-                          onPressed: nft.currentEvolvePhase.evolutionState + 1 > 0
-                              ? () async {
-                                  devolve(context, ref);
-                                }
-                              : null,
-                        ),
-                        AppButton(
-                          label: "Evolve",
-                          variant: AppColorVariant.Success,
-                          icon: FontAwesomeIcons.circleChevronUp,
-                          onPressed: nft.currentEvolvePhase.evolutionState <= nft.evolutionPhases.length
-                              ? () async {
-                                  evolve(context, ref);
-                                }
-                              : null,
-                        ),
-                        AppButton(
-                          label: "Set Evolution",
-                          variant: AppColorVariant.Primary,
-                          icon: FontAwesomeIcons.circleChevronUp,
-                          helpType: HelpType.setEvolution,
-                          onPressed: () {
-                            PromptModal.show(
-                              title: "Evolve To",
-                              validator: (value) => formValidatorNotEmpty(value, "Value"),
-                              labelText: "Value",
-                              inputFormatters: [
-                                FilteringTextInputFormatter.allow(
-                                  RegExp("[0-9]"),
-                                )
-                              ],
-                              onValidSubmission: (val) async {
-                                final i = int.tryParse(val);
-                                if (i != null) {
-                                  setEvolve(context, ref, i);
-                                }
-                              },
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
               EvolutionStateRow(
                 nft.baseEvolutionPhase,
                 nft: nft,
@@ -322,6 +261,10 @@ class EvolutionStateRow extends BaseComponent {
     // const isCurrent = false; // TEMP
     final isCurrent = phase.isCurrentState;
 
+    final isMinter = ref.watch(walletListProvider).firstWhereOrNull((w) => w.address == nft.minterAddress) != null;
+
+    final showMedia = isMinter || index <= nft.currentEvolvePhaseIndex + 1;
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 4.0),
       child: Container(
@@ -345,87 +288,104 @@ class EvolutionStateRow extends BaseComponent {
                         ),
                       ),
                     ),
-                    InkWell(
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AssetThumbnailDialog(
-                              asset: phase.asset!,
-                              nftId: nftId,
-                              onAssociate: () {
-                                if (onAssociate != null) {
-                                  onAssociate!();
-                                }
-                              },
-                            );
-                          },
-                        );
-                      },
-                      child: SizedBox(
+                    if (!showMedia)
+                      const SizedBox(
                         width: 100,
                         height: 100,
-                        child: Stack(
-                          alignment: Alignment.bottomCenter,
-                          children: [
-                            if (phase.asset != null && phase.asset!.isImage)
-                              phase.asset!.localPath != null
-                                  ? SizedBox(
-                                      width: 100,
-                                      height: 100,
-                                      child: PollingImagePreview(
-                                        localPath: phase.asset!.localPath!,
-                                        expectedSize: phase.asset!.fileSize,
-                                        withProgress: false,
-                                      ),
-                                    )
-                                  : Text(""),
-                            if (phase.asset == null)
-                              const SizedBox(
-                                width: 100,
-                                height: 100,
-                              ),
-                            Container(
-                              color: Colors.black38,
+                        // ignore: unnecessary_const
+                        child: const Center(
+                          child: Text(
+                            "?",
+                            style: TextStyle(
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white38,
                             ),
-                            if (phase.asset != null && phase.asset!.localPath == null)
-                              AppButton(
-                                label: "Associate",
-                                type: AppButtonType.Text,
-                                variant: AppColorVariant.Light,
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AssetThumbnailDialog(
-                                        asset: phase.asset!,
-                                        nftId: nftId,
-                                        onAssociate: () {
-                                          if (onAssociate != null) {
-                                            onAssociate!();
-                                          }
-                                        },
-                                      );
-                                    },
-                                  );
-                                },
-                              ),
-                            if (phase.asset?.localPath != null)
-                              AppButton(
-                                label: "Open File",
-                                type: AppButtonType.Text,
-                                variant: AppColorVariant.Light,
-                                onPressed: () async {
-                                  final path = await SmartContractService().getAssetPath(nftId, phase.asset!.name!);
-                                  if (path != null) {
-                                    openFile(File(path));
-                                  }
-                                },
-                              )
-                          ],
+                          ),
                         ),
                       ),
-                    ),
+                    if (showMedia)
+                      InkWell(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AssetThumbnailDialog(
+                                asset: phase.asset!,
+                                nftId: nftId,
+                                onAssociate: () {
+                                  if (onAssociate != null) {
+                                    onAssociate!();
+                                  }
+                                },
+                              );
+                            },
+                          );
+                        },
+                        child: SizedBox(
+                          width: 100,
+                          height: 100,
+                          child: Stack(
+                            alignment: Alignment.bottomCenter,
+                            children: [
+                              if (phase.asset != null && phase.asset!.isImage)
+                                phase.asset!.localPath != null
+                                    ? SizedBox(
+                                        width: 100,
+                                        height: 100,
+                                        child: PollingImagePreview(
+                                          localPath: phase.asset!.localPath!,
+                                          expectedSize: phase.asset!.fileSize,
+                                          withProgress: false,
+                                        ),
+                                      )
+                                    : const Text(""),
+                              if (phase.asset == null)
+                                const SizedBox(
+                                  width: 100,
+                                  height: 100,
+                                ),
+                              Container(
+                                color: Colors.black38,
+                              ),
+                              if (phase.asset != null && phase.asset!.localPath == null)
+                                AppButton(
+                                  label: "Associate",
+                                  type: AppButtonType.Text,
+                                  variant: AppColorVariant.Light,
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AssetThumbnailDialog(
+                                          asset: phase.asset!,
+                                          nftId: nftId,
+                                          onAssociate: () {
+                                            if (onAssociate != null) {
+                                              onAssociate!();
+                                            }
+                                          },
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              if (phase.asset?.localPath != null)
+                                AppButton(
+                                  label: "Open File",
+                                  type: AppButtonType.Text,
+                                  variant: AppColorVariant.Light,
+                                  onPressed: () async {
+                                    final path = await SmartContractService().getAssetPath(nftId, phase.asset!.name!);
+                                    if (path != null) {
+                                      openFile(File(path));
+                                    }
+                                  },
+                                )
+                            ],
+                          ),
+                        ),
+                      ),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),

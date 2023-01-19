@@ -2,18 +2,19 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/smart_contract.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/draft_smart_contracts_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/my_smart_contracts_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
-import 'package:rbx_wallet/features/wallet/models/wallet.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+
+import '../../../core/app_router.gr.dart';
+import '../../../core/base_component.dart';
+import '../../../core/base_screen.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../../utils/toast.dart';
+import '../../wallet/models/wallet.dart';
+import '../models/smart_contract.dart';
+import '../providers/create_smart_contract_provider.dart';
+import '../providers/draft_smart_contracts_provider.dart';
+import '../providers/my_smart_contracts_provider.dart';
+import '../services/smart_contract_service.dart';
 
 class MySmartContractsScreen extends BaseScreen {
   const MySmartContractsScreen({Key? key}) : super(key: key);

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/components/badges.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/node/models/masternode.dart';
+
+import '../../../core/components/badges.dart';
+import '../../../core/theme/app_theme.dart';
+import '../models/masternode.dart';
 
 class MasternodeCard extends StatelessWidget {
   final Masternode masternode;
@@ -20,9 +21,7 @@ class MasternodeCard extends StatelessWidget {
               children: [
                 AppBadge(
                   label: masternode.isActive ? "Active" : "Inactive",
-                  variant: masternode.isActive
-                      ? AppColorVariant.Success
-                      : AppColorVariant.Danger,
+                  variant: masternode.isActive ? AppColorVariant.Success : AppColorVariant.Danger,
                 ),
                 const SizedBox(width: 12),
                 Expanded(

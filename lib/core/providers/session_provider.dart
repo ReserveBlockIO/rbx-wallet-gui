@@ -1,42 +1,51 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:process/process.dart';
-import 'package:rbx_wallet/app.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/providers/ready_provider.dart';
-import 'package:rbx_wallet/core/singletons.dart';
-import 'package:rbx_wallet/core/storage.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
-import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
-import 'package:rbx_wallet/features/bridge/providers/status_provider.dart';
-import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
-import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
-import 'package:rbx_wallet/features/nft/providers/minted_nft_list_provider.dart';
-import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
-import 'package:rbx_wallet/features/node/providers/node_info_provider.dart';
-import 'package:rbx_wallet/features/node/providers/node_list_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/draft_smart_contracts_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/my_smart_contracts_provider.dart';
-import 'package:rbx_wallet/features/transactions/providers/transaction_list_provider.dart';
-import 'package:rbx_wallet/features/validator/providers/current_validator_provider.dart';
-import 'package:rbx_wallet/features/validator/providers/validator_list_provider.dart';
-import 'package:rbx_wallet/features/wallet/models/wallet.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
-import 'package:collection/collection.dart';
-
 import 'package:intl/intl.dart';
+import 'package:process/process.dart';
 import 'package:process_run/shell.dart';
-import 'package:rbx_wallet/utils/guards.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+
+import '../../app.dart';
+import '../../features/beacon/providers/beacon_list_provider.dart';
+import '../../features/bridge/models/log_entry.dart';
+import '../../features/bridge/providers/log_provider.dart';
+import '../../features/bridge/providers/status_provider.dart';
+import '../../features/bridge/providers/wallet_info_provider.dart';
+import '../../features/bridge/services/bridge_service.dart';
+import '../../features/config/models/config.dart';
+import '../../features/config/providers/config_provider.dart';
+import '../../features/encrypt/providers/password_required_provider.dart';
+import '../../features/encrypt/providers/startup_password_required_provider.dart';
+import '../../features/encrypt/providers/wallet_is_encrypted_provider.dart';
+import '../../features/nft/providers/minted_nft_list_provider.dart';
+import '../../features/nft/providers/nft_list_provider.dart';
+import '../../features/node/providers/node_info_provider.dart';
+import '../../features/node/providers/node_list_provider.dart';
+import '../../features/smart_contracts/providers/draft_smart_contracts_provider.dart';
+import '../../features/smart_contracts/providers/my_smart_contracts_provider.dart';
+import '../../features/transactions/providers/transaction_list_provider.dart';
+import '../../features/validator/providers/current_validator_provider.dart';
+import '../../features/validator/providers/validator_list_provider.dart';
+import '../../features/voting/providers/my_vote_list_provider.dart';
+import '../../features/voting/providers/topic_list_provider.dart';
+import '../../features/wallet/models/wallet.dart';
+import '../../features/wallet/providers/wallet_list_provider.dart';
+import '../../utils/files.dart';
+import '../../utils/guards.dart';
+import '../../utils/validation.dart';
+import '../app_constants.dart';
+import '../components/buttons.dart';
+import '../dialogs.dart';
+import '../env.dart';
+import '../singletons.dart';
+import '../storage.dart';
+import '../theme/app_theme.dart';
+import 'ready_provider.dart';
 
 class SessionModel {
   final Wallet? currentWallet;
@@ -119,7 +128,6 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   Future<void> init() async {
-    print("init");
     read(logProvider.notifier).append(LogEntry(message: "Welcome to RBXWallet version $APP_VERSION"));
 
     bool cliStarted = state.cliStarted;
@@ -134,27 +142,37 @@ class SessionProvider extends StateNotifier<SessionModel> {
       print("CLI Could not start");
       return;
     }
-
-    final now = DateTime.now();
-
     read(readyProvider.notifier).setReady(true);
+
+    final authenticated = await authenticate();
+
+    if (authenticated) {
+      finishSetup();
+    }
+  }
+
+  Future<void> finishSetup() async {
+    final now = DateTime.now();
 
     final timezoneName = DateTime.now().timeZoneName.toString();
 
     state = state.copyWith(
       // ready: true,
       startTime: now,
-      cliStarted: cliStarted,
+      cliStarted: true,
       timezoneName: timezoneName,
     );
 
     // mainLoop();
-    await mainLoop();
-    await smartContractLoop();
+    mainLoop();
+    smartContractLoop();
+    read(beaconListProvider.notifier).refresh();
 
     Future.delayed(const Duration(milliseconds: 300)).then((_) {
       read(walletInfoProvider.notifier).infoLoop();
-      _onboardWallet();
+      if (!read(passwordRequiredProvider)) {
+        _onboardWallet();
+      }
     });
   }
 
@@ -166,15 +184,51 @@ class SessionProvider extends StateNotifier<SessionModel> {
   //   mainLoop();
   // }
 
+  Future<bool> authenticate() async {
+    // final isEncrypted = await BridgeService().checkIfEncrypted();
+    // if (isEncrypted) {
+    //   return true;
+    // }
+
+    final passwordNeeded = await BridgeService().startupPasswordRequired();
+
+    if (passwordNeeded) {
+      await Future.delayed(const Duration(milliseconds: 100));
+      read(startupPasswordRequiredProvider.notifier).set(true);
+      return false;
+    }
+
+    return true;
+  }
+
   Future<void> mainLoop([inLoop = true]) async {
-    await _loadWallets();
+    await loadWallets();
     await loadValidators();
     // await loadMasterNodes();
     // await loadPeerInfo();
     await loadTransactions();
 
-    await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
-    mainLoop();
+    loadTopics();
+
+    if (inLoop) {
+      await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
+      mainLoop();
+    }
+  }
+
+  void loadTopics() {
+    for (var topicType in [
+      TopicListType.Active,
+      TopicListType.Inactive,
+      TopicListType.VotedOn,
+      TopicListType.NotVotedOn,
+      TopicListType.All,
+      TopicListType.Mine,
+    ]) {
+      read(topicListProvider(topicType).notifier).refresh();
+    }
+
+    read(myVoteListProvider.notifier).refresh();
   }
 
   Future<void> smartContractLoop([inLoop = true]) async {
@@ -198,7 +252,10 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
     await Future.delayed(const Duration(milliseconds: 300));
 
-    init();
+    await init();
+    await fetchConfig();
+
+    read(beaconListProvider.notifier).refresh();
   }
 
   // Future<void> _checkBlockSyncStatus() async {
@@ -219,7 +276,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
   //   );
   // }
 
-  Future<void> _loadWallets() async {
+  Future<void> loadWallets() async {
     final List<Wallet> wallets = [];
 
     final response = await BridgeService().wallets();
@@ -306,7 +363,15 @@ class SessionProvider extends StateNotifier<SessionModel> {
       return;
     }
 
-    await read(transactionListProvider.notifier).load();
+    for (var type in [
+      TransactionListType.All,
+      TransactionListType.Success,
+      TransactionListType.Failed,
+      TransactionListType.Pending,
+      TransactionListType.Mined,
+    ]) {
+      await read(transactionListProvider(type).notifier).load();
+    }
   }
 
   void setCurrentWallet(Wallet wallet) {
@@ -325,6 +390,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   Future<void> _onboardWallet() async {
+    await Future.delayed(const Duration(seconds: 10));
     if (read(walletListProvider).isNotEmpty) {
       return;
     }
@@ -347,7 +413,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
             children: [
               AppButton(
                 label: "Import Private Key",
-                onPressed: () {
+                onPressed: () async {
                   if (!guardWalletIsNotResyncing(read)) return;
 
                   PromptModal.show(
@@ -357,7 +423,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
                     labelText: "Private Key",
                     onValidSubmission: (value) async {
                       await read(walletListProvider.notifier).import(value);
-                      await mainLoop(false);
+                      mainLoop(false);
                       Navigator.of(context).pop();
                     },
                   );
@@ -370,7 +436,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
                 label: "Create New Wallet",
                 onPressed: () async {
                   await read(walletListProvider.notifier).create();
-                  await mainLoop(false);
+                  mainLoop(false);
                   Navigator.of(context).pop();
                   // Navigator.of(context).pop(); // do we need this? lol
                 },
@@ -404,7 +470,6 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
   String getCliPath() {
     if (kIsWeb) {
-      print("no cli path for web");
       return '';
     }
     if (Platform.isMacOS) {
@@ -434,14 +499,16 @@ class SessionProvider extends StateNotifier<SessionModel> {
     final isRunning = await _cliIsActive();
     if (isRunning) {
       read(logProvider.notifier).append(LogEntry(message: "ReserveBlockCore Started Successfully", variant: AppColorVariant.Success));
-
+      await fetchConfig();
       final cliVersion = await BridgeService().getCliVersion();
       read(logProvider.notifier).append(LogEntry(message: "CLI Version: $cliVersion", variant: AppColorVariant.Info));
       state = state.copyWith(cliVersion: cliVersion);
+      read(passwordRequiredProvider.notifier).check();
+      read(walletIsEncryptedProvider.notifier).check();
       return true;
     }
 
-    read(logProvider.notifier).append(LogEntry(message: "CLI not ready yet. Trying again in 5 seconds."));
+    read(logProvider.notifier).append(LogEntry(message: "CLI loading..."));
 
     await Future.delayed(const Duration(seconds: 5));
     return _cliCheck(attempt + 1, maxAttempts);
@@ -450,7 +517,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
   Future<bool> _startCli() async {
     if (Env.launchCli) {
       if (await _cliIsActive()) {
-        print("CLI is already running");
+        await fetchConfig();
         read(logProvider.notifier).append(LogEntry(message: "CLI is already running!"));
 
         return true;
@@ -496,11 +563,12 @@ class SessionProvider extends StateNotifier<SessionModel> {
         }
       } else {
         var stdOutController = ShellLinesController();
-        final shell = Shell(throwOnError: false, stdout: Env.hideCliOutput ? stdOutController.sink : null);
+        final shell = Shell(
+          throwOnError: false,
+          stdout: Env.hideCliOutput ? stdOutController.sink : null,
+          workingDirectory: "/Applications/RBXWallet.app/Contents/MacOS/",
+        );
         cmd = '"$cliPath" ${options.join(' ')}';
-
-        print("CMD: $cmd");
-        print("-------------");
 
         read(logProvider.notifier).append(LogEntry(message: "Launching $cmd in the background."));
 
@@ -521,6 +589,32 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
   void setIsMintingOrCompiling(bool value) {
     state = state.copyWith(isMintingOrCompiling: value);
+  }
+
+  Future<void> fetchConfig() async {
+    read(logProvider.notifier).append(LogEntry(
+      message: "Fetching Config...",
+    ));
+    final path = await configPath();
+
+    try {
+      final lines = await File(path).readAsLines();
+
+      Map<String, dynamic> kwargs = {};
+      for (final line in lines) {
+        final kwarg = line.split("=");
+        kwargs[kwarg[0].trim()] = kwarg[1].trim();
+      }
+
+      final config = Config.fromJson(kwargs);
+
+      read(configProvider.notifier).setConfig(config);
+      read(logProvider.notifier).append(LogEntry(
+        message: "Config Loaded...",
+      ));
+    } catch (e) {
+      print(e);
+    }
   }
 }
 

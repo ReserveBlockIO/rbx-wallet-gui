@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/soul_bound/soul_bound.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/ticket/ticket.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/fractional.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/multi_asset.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/pair.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/tokenization.dart';
+
+import '../features/evolve/evolve.dart';
+import '../features/royalty/royalty.dart';
+import '../features/soul_bound/soul_bound.dart';
+import '../features/ticket/ticket.dart';
+import 'fractional.dart';
+import 'multi_asset.dart';
+import 'pair.dart';
+import 'tokenization.dart';
 
 part 'feature.freezed.dart';
 part 'feature.g.dart';
@@ -42,8 +43,6 @@ abstract class Feature with _$Feature {
   factory Feature.fromJson(Map<String, dynamic> json) => _$FeatureFromJson(json);
 
   factory Feature.fromCompiler(Map<String, dynamic> f) {
-    print(f);
-    print("---------");
     switch (f['FeatureName']) {
       case Evolve.compilerEnum:
         final payload = {'phases': f['FeatureFeatures']};
@@ -119,15 +118,15 @@ abstract class Feature with _$Feature {
       FeatureType.royalty,
       FeatureType.evolution,
       FeatureType.multiAsset,
-      FeatureType.tokenization,
-      FeatureType.fractionalization,
+      // FeatureType.tokenization,
+      // FeatureType.fractionalization,
       FeatureType.pair,
-      FeatureType.soulBound,
-      FeatureType.ticket,
-      FeatureType.music,
-      FeatureType.additionalOwners,
-      FeatureType.selfDestructive,
-      FeatureType.consumable,
+      // FeatureType.soulBound,
+      // FeatureType.ticket,
+      // FeatureType.music,
+      // FeatureType.additionalOwners,
+      // FeatureType.selfDestructive,
+      // FeatureType.consumable,
       // FeatureType.wrap,
     ];
   }

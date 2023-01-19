@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_awesome_select/flutter_awesome_select.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_container.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_header.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/smart_contract.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
-import 'package:rbx_wallet/features/wallet/models/wallet.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+
+import '../../../../../core/base_component.dart';
+import '../../../../../utils/validation.dart';
+import '../../../models/smart_contract.dart';
+import '../../../providers/create_smart_contract_provider.dart';
+import '../common/form_group_container.dart';
+import '../common/form_group_header.dart';
+import '../common/help_button.dart';
 
 class BasicPropertiesFormGroup extends BaseComponent {
   const BasicPropertiesFormGroup({Key? key}) : super(key: key);
@@ -98,41 +96,6 @@ class _Description extends StatelessWidget {
       onChanged: (val) {
         provider.setDescription(val);
       },
-    );
-  }
-}
-
-class _OwnerAddress extends BaseComponent {
-  const _OwnerAddress({
-    Key? key,
-    required this.model,
-    required this.provider,
-  }) : super(key: key);
-
-  final SmartContract model;
-  final CreateSmartContractProvider provider;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return IgnorePointer(
-      ignoring: model.isCompiled,
-      child: SmartSelect<Wallet>.single(
-        title: "Owner Address",
-        modalType: S2ModalType.bottomSheet,
-        selectedValue: model.owner,
-        onChange: (option) {
-          provider.setOwner(option.value);
-        },
-        choiceItems: ref
-            .read(walletListProvider)
-            .map(
-              (w) => S2Choice<Wallet>(
-                value: w,
-                title: w.fullLabel,
-              ),
-            )
-            .toList(),
-      ),
     );
   }
 }

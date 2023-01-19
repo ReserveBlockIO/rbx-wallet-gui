@@ -3,26 +3,26 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/form_groups/basic_properties_form_group.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/form_groups/features_form_group.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/form_groups/primary_asset_form_group.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/compiled_smart_contract.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/smart_contract.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/draft_smart_contracts_provider.dart';
-import 'package:rbx_wallet/utils/formatting.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+
+import '../../../../core/app_constants.dart';
+import '../../../../core/base_component.dart';
+import '../../../../core/components/buttons.dart';
+import '../../../../core/dialogs.dart';
+import '../../../../core/providers/session_provider.dart';
+import '../../../../core/providers/web_session_provider.dart';
+import '../../../../core/theme/app_theme.dart';
+import '../../../../utils/toast.dart';
+import '../../../encrypt/utils.dart';
+import '../../../nft/providers/nft_detail_provider.dart';
+import '../../models/compiled_smart_contract.dart';
+import '../../models/smart_contract.dart';
+import '../../providers/create_smart_contract_provider.dart';
+import '../../providers/draft_smart_contracts_provider.dart';
+import 'common/help_button.dart';
+import 'form_groups/basic_properties_form_group.dart';
+import 'form_groups/features_form_group.dart';
+import 'form_groups/primary_asset_form_group.dart';
 
 class SmartContractCreatorMain extends BaseComponent {
   const SmartContractCreatorMain({Key? key}) : super(key: key);
@@ -63,9 +63,28 @@ class SmartContractCreatorMain extends BaseComponent {
       return;
     }
 
+    if (_provider.shouldWarnEvo) {
+      final shouldContinue = await ConfirmDialog.show(
+        title: "Evolve stage(s) in the past",
+        body: "One or more of your evolve stages will have already evolved at the time of minting.\n\nAre your sure you want to proceed?",
+        confirmText: "Continue",
+        cancelText: "Cancel",
+      );
+      if (shouldContinue != true) {
+        return;
+      }
+    }
+
     if (!kIsWeb) {
       if (ref.read(sessionProvider).currentWallet!.balance < MIN_RBX_FOR_SC_ACTION) {
         Toast.error("Not enough RBX balance to mint a smart contract.");
+        return;
+      }
+    }
+
+    if (kIsWeb) {
+      if (ref.read(webSessionProvider).currentWallet == null) {
+        Toast.error("No wallet");
         return;
       }
     }
@@ -88,7 +107,7 @@ class SmartContractCreatorMain extends BaseComponent {
 
       // amountInt = int.tryParse(amount);
 
-      if (amountInt == null || amountInt < 1) {
+      if (amountInt < 1) {
         return;
       }
 
@@ -109,7 +128,8 @@ class SmartContractCreatorMain extends BaseComponent {
     if (confirmed == true) {
       final extraConfirm = await ConfirmDialog.show(
         title: "Confirm Address",
-        body: "This will be minted by ${ref.read(sessionProvider).currentWallet!.labelWithoutTruncation}",
+        body:
+            "This will be minted by ${kIsWeb ? ref.read(webSessionProvider).currentWallet!.labelWithoutTruncation : ref.read(sessionProvider).currentWallet!.labelWithoutTruncation}",
         confirmText: "Compile & Mint",
         cancelText: "Cancel",
       );
@@ -269,7 +289,6 @@ class SmartContractCreatorMain extends BaseComponent {
 
   @override
   Widget desktopBody(BuildContext context, WidgetRef ref) {
-    final _provider = ref.read(createSmartContractProvider.notifier);
     final _model = ref.watch(createSmartContractProvider);
 
     return Column(
@@ -331,7 +350,8 @@ class SmartContractCreatorMain extends BaseComponent {
       disabled: ref.watch(sessionProvider).isMintingOrCompiling,
       onPressed: _model.isPublished
           ? null
-          : () {
+          : () async {
+              if (!await passwordRequiredGuard(context, ref)) return;
               compileAndMint(context, ref);
             },
       icon: Icons.computer,

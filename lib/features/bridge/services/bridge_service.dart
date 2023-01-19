@@ -1,17 +1,90 @@
 import 'dart:convert';
 
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/services/base_service.dart';
-import 'package:rbx_wallet/features/block/block.dart';
-import 'package:rbx_wallet/features/genesis/models/genesis_block.dart';
-import 'package:rbx_wallet/features/node/models/node.dart';
-import 'package:rbx_wallet/features/node/models/node_info.dart';
-import 'package:rbx_wallet/features/transactions/models/transaction.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../core/env.dart';
+import '../../../core/services/base_service.dart';
+import '../../../utils/toast.dart';
+import '../../block/block.dart';
+import '../../genesis/models/genesis_block.dart';
+import '../../node/models/node.dart';
+import '../../node/models/node_info.dart';
 
 class BridgeService extends BaseService {
   Future<dynamic> status() async {
     return await getText('/CheckStatus');
+  }
+
+  Future<bool> startupPasswordRequired() async {
+    try {
+      final value = await getText("/CheckPasswordNeeded");
+      return value == "true";
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> checkIfEncrypted() async {
+    try {
+      final value = await getText("/GetIsWalletEncrypted");
+      return value == "true";
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> checkIfPasswordIsNeeded() async {
+    final value = await getText("/GetIsEncryptedPasswordStored");
+    return value == "false";
+  }
+
+  Future<String?> encryptWallet(String password) async {
+    try {
+      final data = await getText("/GetEncryptWallet/$password", cleanPath: false, timeout: 0);
+      final response = jsonDecode(data);
+      if (response['Result'] != null && response['Result'] == "Success") {
+        return null;
+      }
+      if (response['Message'] != null) {
+        return response['Message'];
+      }
+
+      return "A problem occurred";
+    } catch (e) {
+      print("Unlock Wallet Error");
+      print(e);
+      return "$e";
+    }
+  }
+
+  Future<bool> unlockWallet(String password) async {
+    try {
+      final data = await getText("/GetDecryptWallet/$password", cleanPath: false);
+      final response = jsonDecode(data);
+
+      if (response['Result'] != null && response['Result'] == "Success") {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      print("Unlock Wallet Error");
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> lockWallet() async {
+    try {
+      final data = await getText("/GetEncryptLock", cleanPath: false);
+      final response = jsonDecode(data);
+
+      if (response['Result'] != null && response['Result'] == "Success") {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      print("Lock Wallet Error");
+      print(e);
+      return false;
+    }
   }
 
   Future<String> getCliVersion() async {
@@ -41,31 +114,6 @@ class BridgeService extends BaseService {
       print(e);
       return null;
     }
-  }
-
-  Future<List<Transaction>?> transactions() async {
-    final response = await getText('/GetAllTransactions');
-
-    if (response.isEmpty) {
-      return null;
-    }
-
-    if (response == "FAIL") {
-      return null;
-    }
-
-    if (response == "No TX") {
-      return null;
-    }
-
-    final items = jsonDecode(response);
-
-    final List<Transaction> transactions = [];
-    for (final item in items) {
-      transactions.add(Transaction.fromJson(item));
-    }
-
-    return transactions.reversed.toList();
   }
 
   Future<Map<String, dynamic>?> importPrivateKey(String key) async {
@@ -219,6 +267,59 @@ class BridgeService extends BaseService {
     try {
       await getText("/ChangeValidatorName/${name.trim()}");
       return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<String?> getHdWallet([int strength = 24]) async {
+    try {
+      final response = await getText("/GetHDWallet/$strength", cleanPath: false);
+      final data = jsonDecode(response);
+      print(data);
+      if (data != null && data['Result'] != null) {
+        if (data['Result'] == true) {
+          if (data['Message'] != null) {
+            return data['Message'];
+          }
+          return null;
+        } else {
+          if (data['Message'] != null) {
+            Toast.error(data['Message']);
+            return null;
+          }
+          Toast.error();
+          return null;
+        }
+      }
+      Toast.error();
+      return null;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<bool> restoreHd(String mnumonic) async {
+    try {
+      final response = await getText("/GetRestoreHDWallet/${mnumonic.trim()}", cleanPath: false);
+      final data = jsonDecode(response);
+      print(data);
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> validateSendToAddress(String address) async {
+    try {
+      final response = await getText("/ValidateAddress/$address", cleanPath: false);
+      if (response.toLowerCase() == "true") {
+        return true;
+      }
+      return false;
     } catch (e) {
       print(e);
       return false;

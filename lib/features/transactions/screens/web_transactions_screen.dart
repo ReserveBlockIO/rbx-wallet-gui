@@ -1,15 +1,11 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/breakpoints.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/core/web_router.gr.dart';
-import 'package:rbx_wallet/features/transactions/components/web_transaction_card.dart';
-import 'package:rbx_wallet/features/transactions/models/web_transaction.dart';
-import 'package:rbx_wallet/features/transactions/providers/web_transaction_list_provider.dart';
-import 'package:rbx_wallet/features/web/components/web_no_wallet.dart';
+
+import '../../../core/base_screen.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../web/components/web_no_wallet.dart';
+import '../components/web_transaction_card.dart';
+import '../providers/web_transaction_list_provider.dart';
 
 class WebTransactionScreen extends BaseScreen {
   const WebTransactionScreen({Key? key})
@@ -34,7 +30,6 @@ class WebTransactionScreen extends BaseScreen {
   Widget body(BuildContext context, WidgetRef ref) {
     final transactions = ref.watch(webTransactionListProvider);
     final address = ref.read(webSessionProvider).keypair?.public;
-    final isMobile = BreakPoints.useMobileLayout(context);
 
     if (address == null) return const WebNotWallet();
 
@@ -43,7 +38,6 @@ class WebTransactionScreen extends BaseScreen {
         itemBuilder: (context, index) {
           final tx = transactions[index];
 
-          final toMe = tx.toAddress == address;
           return WebTransactionCard(tx);
         });
   }

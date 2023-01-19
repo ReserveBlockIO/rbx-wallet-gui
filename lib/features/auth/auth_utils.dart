@@ -1,25 +1,24 @@
 import 'dart:convert';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rbx_wallet/core/breakpoints.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/core/services/transaction_service.dart';
-import 'package:rbx_wallet/core/web_router.gr.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/features/keygen/models/keypair.dart';
-
 import 'package:rbx_wallet/features/keygen/services/keygen_service.dart'
     if (dart.library.io) 'package:rbx_wallet/features/keygen/services/keygen_service_mock.dart';
-
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
-import 'package:crypto/crypto.dart';
+
+import '../../core/breakpoints.dart';
+import '../../core/components/buttons.dart';
+import '../../core/dialogs.dart';
+import '../../core/providers/web_session_provider.dart';
+import '../../core/services/transaction_service.dart';
+import '../../core/web_router.gr.dart';
+import '../global_loader/global_loading_provider.dart';
+import '../keygen/models/keypair.dart';
 
 Future<void> login(
   BuildContext context,
@@ -32,6 +31,7 @@ Future<void> login(
 Future<void> handleImportWithPrivateKey(
   BuildContext context,
   WidgetRef ref,
+  String email,
 ) async {
   await PromptModal.show(
     contextOverride: context,
@@ -40,7 +40,8 @@ Future<void> handleImportWithPrivateKey(
     validator: (String? value) => formValidatorNotEmpty(value, "Private Key"),
     labelText: "Private Key",
     onValidSubmission: (value) async {
-      final keypair = await KeygenService.importPrivateKey(value, "test@test.com"); //TODO: need to ask for email
+      final keypair = await KeygenService.importPrivateKey(value, email);
+      await TransactionService().createWallet(email, keypair.public);
       login(context, ref, keypair);
     },
   );
@@ -74,7 +75,7 @@ Future<void> handleCreateWithEmail(
     seed = sha256.convert(utf8.encode(seed)).toString();
   }
 
-  final keypair = await KeygenService.seedToKeypair(seed, 0);
+  final keypair = await KeygenService.seedToKeypair(seed, 0, email);
   if (keypair == null) {
     ref.read(globalLoadingProvider.notifier).complete();
     Toast.error();
@@ -89,12 +90,12 @@ Future<void> handleCreateWithEmail(
   login(context, ref, keypair.copyWith(email: email));
 }
 
-Future<void> handleCreateWithMnemonic(BuildContext context, WidgetRef ref) async {
+Future<void> handleCreateWithMnemonic(BuildContext context, WidgetRef ref, String email) async {
   ref.read(globalLoadingProvider.notifier).start();
 
   await Future.delayed(const Duration(milliseconds: 300));
 
-  final keypair = await KeygenService.generate();
+  final keypair = await KeygenService.generate(email);
   if (keypair == null) {
     ref.read(globalLoadingProvider.notifier).complete();
     Toast.error();
@@ -102,11 +103,13 @@ Future<void> handleCreateWithMnemonic(BuildContext context, WidgetRef ref) async
   }
   ref.read(globalLoadingProvider.notifier).complete();
 
+  await TransactionService().createWallet(email, keypair.public);
+
   login(context, ref, keypair);
   await showKeys(context, keypair);
 }
 
-Future<dynamic> handleRecoverFromMnemonic(BuildContext context, WidgetRef ref) async {
+Future<dynamic> handleRecoverFromMnemonic(BuildContext context, WidgetRef ref, String email) async {
   return await PromptModal.show(
     contextOverride: context,
     title: "Input Recovery Mnemonic",
@@ -119,7 +122,7 @@ Future<dynamic> handleRecoverFromMnemonic(BuildContext context, WidgetRef ref) a
 
       await Future.delayed(const Duration(milliseconds: 300));
 
-      final keypair = await KeygenService.recover(value.trim());
+      final keypair = await KeygenService.recover(value.trim(), email);
 
       if (keypair == null) {
         Toast.error();
@@ -130,6 +133,7 @@ Future<dynamic> handleRecoverFromMnemonic(BuildContext context, WidgetRef ref) a
       ref.read(globalLoadingProvider.notifier).complete();
 
       // showKeys(context, keypair);
+      await TransactionService().createWallet(email, keypair.public);
       login(context, ref, keypair);
       if (ref.read(webSessionProvider).isAuthenticated) {
         AutoRouter.of(context).push(WebDashboardContainerRoute());
@@ -140,8 +144,9 @@ Future<dynamic> handleRecoverFromMnemonic(BuildContext context, WidgetRef ref) a
 
 Future<void> showKeys(
   BuildContext context,
-  Keypair keypair,
-) async {
+  Keypair keypair, [
+  bool forReveal = false,
+]) async {
   final isMobile = BreakPoints.useMobileLayout(context);
 
   await showDialog(
@@ -149,13 +154,13 @@ Future<void> showKeys(
     barrierDismissible: false,
     builder: (context) {
       return AlertDialog(
-        title: const Text("Key Generated"),
+        title: Text(forReveal ? "Keys" : "Key Generated"),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             const Align(
               alignment: Alignment.centerLeft,
-              child: Text("Here is your wallet details. Please ensure to back up your private key in a safe place."),
+              child: Text("Here are your wallet details. Please ensure to back up your private key in a safe place."),
             ),
             if (keypair.mneumonic != null)
               ListTile(
@@ -197,7 +202,7 @@ Future<void> showKeys(
             ListTile(
               leading: isMobile ? null : const Icon(Icons.security),
               title: TextFormField(
-                initialValue: keypair.private,
+                initialValue: keypair.privateCorrected,
                 decoration: const InputDecoration(
                   label: Text("Private Key"),
                 ),
@@ -207,7 +212,7 @@ Future<void> showKeys(
               trailing: IconButton(
                 icon: const Icon(Icons.copy),
                 onPressed: () async {
-                  await Clipboard.setData(ClipboardData(text: keypair.private));
+                  await Clipboard.setData(ClipboardData(text: keypair.privateCorrected));
                   Toast.message("Private key copied to clipboard");
                 },
               ),

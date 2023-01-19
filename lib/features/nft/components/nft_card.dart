@@ -1,22 +1,26 @@
+import 'dart:async';
 import 'dart:io';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/badges.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/asset/asset_card.dart';
-import 'package:rbx_wallet/features/asset/polling_image_preview.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/nft/providers/burned_provider.dart';
-import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
-import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
-import 'package:rbx_wallet/features/nft/providers/transferred_provider.dart';
-import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
-import 'package:rbx_wallet/features/nft/modals/nft_management_modal.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
+import 'package:path_provider/path_provider.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/components/badges.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/env.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../utils/toast.dart';
+import '../../asset/polling_image_preview.dart';
+import '../../smart_contracts/components/sc_creator/common/modal_container.dart';
+import '../modals/nft_management_modal.dart';
+import '../models/nft.dart';
+import '../providers/burned_provider.dart';
+import '../providers/nft_detail_provider.dart';
+import '../providers/nft_list_provider.dart';
+import '../providers/transferred_provider.dart';
+import '../screens/nft_detail_screen.dart';
 
 class NftCard extends BaseComponent {
   final Nft nft;
@@ -75,7 +79,7 @@ class NftCard extends BaseComponent {
                     )
                   : nft.assetsAvailable
                       ? const Icon(Icons.file_present_outlined)
-                      : Text("NFT assets have not been transfered to the RBX Web Wallet."),
+                      : const Text("NFT assets have not been transfered to the RBX Web Wallet."),
             if (!kIsWeb)
               nft.currentEvolveAsset.isImage
                   ? AspectRatio(
@@ -86,7 +90,7 @@ class NftCard extends BaseComponent {
                               expectedSize: nft.currentEvolveAsset.fileSize,
                               withProgress: false,
                             )
-                          : Text(""),
+                          : const Text(""),
                     )
                   : const Icon(Icons.file_present_outlined),
             Container(
@@ -127,25 +131,6 @@ class NftCard extends BaseComponent {
                       textAlign: TextAlign.center,
                     ),
                   ),
-
-                  //TODO: put this back in
-                  // if (nft.featureListLabel != null)
-                  //   Padding(
-                  //     padding: const EdgeInsets.symmetric(vertical: 4),
-                  //     child: Text(
-                  //       nft.featureListLabel!,
-                  //       style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                  //         shadows: [
-                  //           Shadow(
-                  //             color: Colors.black87,
-                  //             offset: Offset.zero,
-                  //             blurRadius: 4.0,
-                  //           )
-                  //         ],
-                  //       ),
-                  //       textAlign: TextAlign.center,
-                  //     ),
-                  //   ),
                 ],
               ),
             ),
@@ -161,11 +146,11 @@ class NftCard extends BaseComponent {
                         final nftIds = ref.watch(nftListProvider).data.results.map((n) => n.id).toList();
 
                         if (nftIds.contains(nft.id)) {
-                          return SizedBox.shrink();
+                          return const SizedBox.shrink();
                         }
 
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
+                        return const Padding(
+                          padding: EdgeInsets.all(8.0),
                           child: AppBadge(
                             label: "Transferred",
                             variant: AppColorVariant.Danger,
@@ -203,20 +188,181 @@ class NftCard extends BaseComponent {
                 )),
               ),
             if (isTransferred && !manageOnPress)
-              Container(
-                color: Colors.black54,
-                child: const Center(
-                    child: Text(
-                  "Transferring",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                )),
+              TransferingOverlay(
+                nft,
+                withLog: true,
               )
           ],
         ),
       ),
+    );
+  }
+}
+
+class TransferingOverlay extends StatelessWidget {
+  final Nft nft;
+  final bool withLog;
+  final bool small;
+  const TransferingOverlay(
+    this.nft, {
+    Key? key,
+    this.withLog = false,
+    this.small = false,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.black54,
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "Transferring...",
+              style: TextStyle(
+                fontSize: small ? 14 : 20,
+                fontWeight: small ? FontWeight.w500 : FontWeight.bold,
+              ),
+            ),
+            if (withLog)
+              AppButton(
+                label: "View Upload Progress",
+                onPressed: () {
+                  final List<String> fileNames = [nft.primaryAsset.fileName];
+                  for (final a in nft.additionalAssets) {
+                    fileNames.add(a.fileName);
+                  }
+
+                  showDialog(context: context, builder: (context) => UploadProgressModal(fileNames: fileNames));
+                },
+                type: AppButtonType.Text,
+                variant: AppColorVariant.Info,
+              )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class UploadProgressModal extends StatefulWidget {
+  final List<String> fileNames;
+  const UploadProgressModal({
+    Key? key,
+    required this.fileNames,
+  }) : super(key: key);
+
+  @override
+  State<UploadProgressModal> createState() => _UploadProgressModalState();
+}
+
+class _UploadProgressModalState extends State<UploadProgressModal> {
+  String logLocation = "";
+  List<String> lines = [];
+  Timer? timer;
+
+  @override
+  void initState() {
+    run();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
+  Future<void> run() async {
+    await setup();
+    await update();
+    timer = Timer.periodic(const Duration(seconds: 3), (Timer t) => update());
+  }
+
+  Future<void> setup() async {
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    String appDocPath = appDocDir.path;
+    String location = "";
+
+    if (Platform.isMacOS) {
+      appDocPath = appDocPath.replaceAll("/Documents", Env.isTestNet ? "/rbxtest" : "/rbx");
+      location = "$appDocPath/Databases${Env.isTestNet ? 'TestNet' : ''}/beaconlog.txt";
+    } else {
+      appDocDir = await getApplicationSupportDirectory();
+
+      appDocPath = appDocDir.path;
+
+      appDocPath = appDocPath.replaceAll("\\Roaming\\com.example\\rbx_wallet_gui", "\\Local\\RBX${Env.isTestNet ? 'Test' : ''}");
+      location = "$appDocPath\\Databases${Env.isTestNet ? 'TestNet' : ''}\\beaconlog.txt";
+    }
+
+    setState(() {
+      logLocation = location;
+    });
+  }
+
+  Future<void> update() async {
+    print("UPDATE");
+    if (logLocation.isEmpty) {
+      Toast.error();
+      return;
+    }
+
+    final allLines = await File(logLocation).readAsLines();
+
+    final List<String> _lines = [];
+
+    for (final line in allLines) {
+      for (final f in widget.fileNames) {
+        if (line.contains(f)) {
+          _lines.add(line);
+        }
+      }
+    }
+
+    print(_lines);
+
+    setState(() {
+      lines = _lines;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text("Media Upload Progress"),
+      content: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 900),
+        child: Container(
+          color: Colors.black,
+          width: double.maxFinite,
+          height: 200,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: lines.length,
+              itemBuilder: (context, index) {
+                return Text(lines[index]);
+              },
+            ),
+          ),
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text(
+            "Close",
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        )
+      ],
     );
   }
 }

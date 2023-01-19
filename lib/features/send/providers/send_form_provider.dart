@@ -1,19 +1,20 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/core/services/transaction_service.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
-import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
-import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
-import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
-import 'package:rbx_wallet/utils/guards.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+
+import '../../../core/dialogs.dart';
+import '../../../core/env.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../../core/services/transaction_service.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../utils/guards.dart';
+import '../../../utils/toast.dart';
+import '../../../utils/validation.dart';
+import '../../bridge/models/log_entry.dart';
+import '../../bridge/providers/log_provider.dart';
+import '../../bridge/services/bridge_service.dart';
+import '../../web/utils/raw_transaction.dart';
 // import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 
 class SendFormModel {
@@ -111,11 +112,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
       return "Address or RBX domain required";
     }
 
-    if (value.contains(".rbx")) {
-      return null;
-    }
-
-    return formValidatorRbxAddress(value);
+    return formValidatorRbxAddress(value, true);
   }
 
   void _updateState() {
@@ -153,6 +150,13 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
 
       if (!guardWalletIsSynced(read)) return;
       if (!guardWalletIsNotResyncing(read)) return;
+
+      final addressIsValid = await BridgeService().validateSendToAddress(address.trim().replaceAll("\n", ""));
+
+      if (!addressIsValid) {
+        Toast.error("Invalid Address");
+        return;
+      }
 
       final amountDouble = double.tryParse(amount);
       if (amountDouble == null) {
@@ -223,10 +227,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
           if (tx != null) {
             if (tx['data']['Result'] == "Success") {
               Toast.message("$amount RBX sent to $address");
-              state = const SendFormModel(
-                address: "",
-                amount: "",
-              );
+              clear();
               return;
             }
           }
@@ -238,19 +239,15 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
       try {
         final message = await BridgeService().sendFunds(
           amount: double.parse(amount),
-          to: address,
+          to: address.trim().replaceAll("\n", ""),
           from: read(sessionProvider).currentWallet!.address,
         );
         state = state.copyWith(isProcessing: false);
 
         if (message != null) {
-          Toast.message(
-              "$amount RBX has been sent to $address. See dashboard for TX ID.");
+          Toast.message("$amount RBX has been sent to $address. See dashboard for TX ID.");
           read(logProvider.notifier).append(
-            LogEntry(
-                message: message,
-                textToCopy: message.replaceAll("Success! TxId: ", ""),
-                variant: AppColorVariant.Success),
+            LogEntry(message: message, textToCopy: message.replaceAll("Success! TxId: ", ""), variant: AppColorVariant.Success),
           );
           clear();
         }
@@ -263,7 +260,6 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
   }
 }
 
-final sendFormProvider =
-    StateNotifierProvider<SendFormProvider, SendFormModel>((ref) {
+final sendFormProvider = StateNotifierProvider<SendFormProvider, SendFormModel>((ref) {
   return SendFormProvider(ref.read);
 });

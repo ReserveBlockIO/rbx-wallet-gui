@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
+
+import '../../../../../core/app_constants.dart';
+import '../../../../../core/dialogs.dart';
 
 enum HelpType {
   unknown,
@@ -30,18 +32,40 @@ enum HelpType {
   minting,
   setEvolution,
   manageProperties,
+  configuration,
+  apiPort,
+  apiCallUrl,
+  walletUnlockTime,
+  nftTimeout,
+  passwordClearTime,
+  autoDownloadNftAsset,
+  ignoreIncomingNfts,
+  rejectAssetExtensionTypes,
+  allowedAssetExtensionTypes,
+  motherAddress,
+  motherPassword,
+  mintQuantity,
 }
 
 class HelpButton extends StatelessWidget {
   final HelpType type;
   final bool subtle;
   final Color? color;
-  const HelpButton(this.type, {Key? key, this.subtle = false, this.color}) : super(key: key);
+  final bool mini;
+  const HelpButton(
+    this.type, {
+    Key? key,
+    this.subtle = false,
+    this.color,
+    this.mini = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
       padding: EdgeInsets.zero,
+      constraints: mini ? const BoxConstraints() : null,
+      visualDensity: mini ? VisualDensity.compact : VisualDensity.standard,
       icon: Icon(
         Icons.help,
         color: color != null ? color! : Theme.of(context).colorScheme.secondary.withOpacity(subtle ? 0.7 : 1),
@@ -112,6 +136,33 @@ class HelpButton extends StatelessWidget {
         return "Set Evolution";
       case HelpType.manageProperties:
         return "Properties";
+
+      case HelpType.configuration:
+        return "Configuration";
+      case HelpType.apiPort:
+        return "Api Port";
+      case HelpType.apiCallUrl:
+        return "Api Call Url";
+      case HelpType.walletUnlockTime:
+        return "Wallet Unlock Time";
+      case HelpType.nftTimeout:
+        return "Nft Timeout";
+      case HelpType.passwordClearTime:
+        return "Password Clear Time";
+      case HelpType.autoDownloadNftAsset:
+        return "Auto Download NFT Asset";
+      case HelpType.ignoreIncomingNfts:
+        return "Ignore Incoming NFTs";
+      case HelpType.rejectAssetExtensionTypes:
+        return "Reject Asset Extension Types";
+      case HelpType.allowedAssetExtensionTypes:
+        return "Allowed Asset Extension Types";
+      case HelpType.motherAddress:
+        return "Mother Address";
+      case HelpType.motherPassword:
+        return "Mother Password";
+      case HelpType.mintQuantity:
+        return "Quantity to Mint";
     }
   }
 
@@ -173,6 +224,33 @@ class HelpButton extends StatelessWidget {
         return "With an NFT that has more than 2 phases the user can go directly from one stage to another with the “Set Evolution” button instead of evolving and devolving stage by stage";
       case HelpType.manageProperties:
         return "Create label & value pairs.\nFor example:\n\nLabel: Color\nValue: Blue";
+
+      case HelpType.configuration:
+        return "This values will modify the config.txt file located in the CLIs database, for this changes to take effect the CLI needs to be restarted";
+      case HelpType.apiPort:
+        return "This is the port to call the API. This may be changed to whatever you want. \n\nDefault value: 7292";
+      case HelpType.apiCallUrl:
+        return "This URL is used to send incoming transactions to an outside URL. This is something used for like incoming deposits or other notification. services. \n\nDefault value: null";
+      case HelpType.walletUnlockTime:
+        return "This is the amount of time once a password has been entered the wallet will remain unlocked and not need password again \n\nDefault value: 15";
+      case HelpType.nftTimeout:
+        return "This will control the timeout for processing an incoming NFT \n\nDefault value: 15";
+      case HelpType.passwordClearTime:
+        return "This will control the clear time for an ecrypted wallets password \n\nDefault value: 10";
+      case HelpType.autoDownloadNftAsset:
+        return "This will control whether or not an NFT's asset is automatically downloaded \n\nDefault value: true";
+      case HelpType.ignoreIncomingNfts:
+        return "This will control whether or not incoming NFTs are processed or just added as a TX record \n\nDefault value: false";
+      case HelpType.rejectAssetExtensionTypes:
+        return "This will add extension types to the already defined list and will reject any NFT assets with these known extension types \nEx: exe,zip,pdf... (ensure there are no spaces between types) \n\nDefault value: (leave blank)\n\nIf left blank, this is the default:\n${DEFAULT_REJECTED_EXTENIONS.join(',')}";
+      case HelpType.allowedAssetExtensionTypes:
+        return "This will remove extension types to the already defined list and will allow any NFT assets with these known extension types to be downloaded \nEx: pdf,doc,xls \n\nDefault value: (leave blank)";
+      case HelpType.motherAddress:
+        return "The IP address of the HOST wallet. \n\n Default value: (leave blank)";
+      case HelpType.motherPassword:
+        return "The password set in your HOST wallet when configuring MOTHER.\n\n Default value: (leave blank)";
+      case HelpType.mintQuantity:
+        return "The number of Smart Contracts / NFTs you want to mint from this template.";
     }
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/generated/assets.gen.dart';
+
+import '../../../../../generated/assets.gen.dart';
 
 class ModalContainer extends StatelessWidget {
   final List<Widget> children;
@@ -24,7 +25,7 @@ class ModalContainer extends StatelessWidget {
       child: Stack(
         alignment: Alignment.bottomRight,
         children: [
-          if (withDecor)
+          if (withDecor && !kIsWeb)
             Opacity(
               opacity: kIsWeb ? 0.1 : 0.5,
               child: Image.asset(

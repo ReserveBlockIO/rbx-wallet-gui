@@ -23,8 +23,7 @@ mixin _$Keypair {
   String get private => throw _privateConstructorUsedError;
   String get public => throw _privateConstructorUsedError;
   String get publicInflated => throw _privateConstructorUsedError;
-  String get email =>
-      throw _privateConstructorUsedError; // @JsonKey(toJson: null) ECPrivateKey? ecPrivateKey,
+  String get email => throw _privateConstructorUsedError; // @JsonKey(toJson: null) ECPrivateKey? ecPrivateKey,
   String? get mneumonic => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -34,14 +33,8 @@ mixin _$Keypair {
 
 /// @nodoc
 abstract class $KeypairCopyWith<$Res> {
-  factory $KeypairCopyWith(Keypair value, $Res Function(Keypair) then) =
-      _$KeypairCopyWithImpl<$Res>;
-  $Res call(
-      {String private,
-      String public,
-      String publicInflated,
-      String email,
-      String? mneumonic});
+  factory $KeypairCopyWith(Keypair value, $Res Function(Keypair) then) = _$KeypairCopyWithImpl<$Res>;
+  $Res call({String private, String public, String publicInflated, String email, String? mneumonic});
 }
 
 /// @nodoc
@@ -87,23 +80,14 @@ class _$KeypairCopyWithImpl<$Res> implements $KeypairCopyWith<$Res> {
 
 /// @nodoc
 abstract class _$$_KeypairCopyWith<$Res> implements $KeypairCopyWith<$Res> {
-  factory _$$_KeypairCopyWith(
-          _$_Keypair value, $Res Function(_$_Keypair) then) =
-      __$$_KeypairCopyWithImpl<$Res>;
+  factory _$$_KeypairCopyWith(_$_Keypair value, $Res Function(_$_Keypair) then) = __$$_KeypairCopyWithImpl<$Res>;
   @override
-  $Res call(
-      {String private,
-      String public,
-      String publicInflated,
-      String email,
-      String? mneumonic});
+  $Res call({String private, String public, String publicInflated, String email, String? mneumonic});
 }
 
 /// @nodoc
-class __$$_KeypairCopyWithImpl<$Res> extends _$KeypairCopyWithImpl<$Res>
-    implements _$$_KeypairCopyWith<$Res> {
-  __$$_KeypairCopyWithImpl(_$_Keypair _value, $Res Function(_$_Keypair) _then)
-      : super(_value, (v) => _then(v as _$_Keypair));
+class __$$_KeypairCopyWithImpl<$Res> extends _$KeypairCopyWithImpl<$Res> implements _$$_KeypairCopyWith<$Res> {
+  __$$_KeypairCopyWithImpl(_$_Keypair _value, $Res Function(_$_Keypair) _then) : super(_value, (v) => _then(v as _$_Keypair));
 
   @override
   _$_Keypair get _value => super._value as _$_Keypair;
@@ -144,16 +128,9 @@ class __$$_KeypairCopyWithImpl<$Res> extends _$KeypairCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Keypair extends _Keypair {
-  _$_Keypair(
-      {required this.private,
-      required this.public,
-      required this.publicInflated,
-      required this.email,
-      this.mneumonic})
-      : super._();
+  _$_Keypair({required this.private, required this.public, required this.publicInflated, required this.email, this.mneumonic}) : super._();
 
-  factory _$_Keypair.fromJson(Map<String, dynamic> json) =>
-      _$$_KeypairFromJson(json);
+  factory _$_Keypair.fromJson(Map<String, dynamic> json) => _$$_KeypairFromJson(json);
 
   @override
   final String private;
@@ -179,8 +156,7 @@ class _$_Keypair extends _Keypair {
             other is _$_Keypair &&
             const DeepCollectionEquality().equals(other.private, private) &&
             const DeepCollectionEquality().equals(other.public, public) &&
-            const DeepCollectionEquality()
-                .equals(other.publicInflated, publicInflated) &&
+            const DeepCollectionEquality().equals(other.publicInflated, publicInflated) &&
             const DeepCollectionEquality().equals(other.email, email) &&
             const DeepCollectionEquality().equals(other.mneumonic, mneumonic));
   }
@@ -197,8 +173,7 @@ class _$_Keypair extends _Keypair {
 
   @JsonKey(ignore: true)
   @override
-  _$$_KeypairCopyWith<_$_Keypair> get copyWith =>
-      __$$_KeypairCopyWithImpl<_$_Keypair>(this, _$identity);
+  _$$_KeypairCopyWith<_$_Keypair> get copyWith => __$$_KeypairCopyWithImpl<_$_Keypair>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -229,6 +204,5 @@ abstract class _Keypair extends Keypair {
   String? get mneumonic => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$$_KeypairCopyWith<_$_Keypair> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$_KeypairCopyWith<_$_Keypair> get copyWith => throw _privateConstructorUsedError;
 }

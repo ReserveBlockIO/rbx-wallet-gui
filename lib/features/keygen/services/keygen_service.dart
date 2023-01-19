@@ -1,10 +1,11 @@
 // ignore_for_file: avoid_web_libraries_in_flutter
 import 'dart:js' as js;
+
+import 'package:bip39/bip39.dart' as bip39;
+import 'package:hex/hex.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/features/keygen/bip32/bip32.dart' as bip32;
 import 'package:rbx_wallet/features/keygen/models/keypair.dart';
-import 'package:bip39/bip39.dart' as bip39;
-import 'package:hex/hex.dart';
 
 class KeygenService {
   static Future<Keypair> importPrivateKey(
@@ -31,6 +32,7 @@ class KeygenService {
   static Future<Keypair?> _mneumonicToKeypair(
     String mnemonic,
     int index,
+    String email,
   ) async {
     final isValid = bip39.validateMnemonic(mnemonic);
 
@@ -45,6 +47,7 @@ class KeygenService {
 
     final keypair = await KeygenService.importPrivateKey(
       key.privateKeyHex(),
+      email,
       mnemonic,
     );
     return keypair;
@@ -53,30 +56,30 @@ class KeygenService {
   static Future<Keypair?> seedToKeypair(
     String seed,
     int index,
+    String email,
   ) async {
-    print("SEED: $seed");
     final String privateKeyHex = await js.context.callMethod('seedToPrivate', [seed]);
-    print("Private Key Hex: $privateKeyHex");
 
     // final chain = bip32.Chain.seed(seed);
     // final key = chain.forPath("m/0'/0'/$index'") as bip32.ExtendedPrivateKey;
 
     final keypair = await KeygenService.importPrivateKey(
       privateKeyHex,
-      "todo@test.com", //TODO
+      email,
     );
     return keypair;
   }
 
-  static Future<Keypair?> generate([int index = 0]) async {
+  static Future<Keypair?> generate(String email, [int index = 0]) async {
     final mnemonic = bip39.generateMnemonic();
+
     // const mnemonic =
     //     "memory kidney tuition describe rhythm expose display dress unique course midnight notice";
 
-    return _mneumonicToKeypair(mnemonic, index);
+    return _mneumonicToKeypair(mnemonic, index, email);
   }
 
-  static Future<Keypair?> recover(String mnemonic, [int index = 0]) async {
-    return _mneumonicToKeypair(mnemonic, index);
+  static Future<Keypair?> recover(String mnemonic, String email, [int index = 0]) async {
+    return _mneumonicToKeypair(mnemonic, index, email);
   }
 }

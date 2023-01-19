@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
+
+import '../../features/bridge/providers/wallet_info_provider.dart';
+import '../app_constants.dart';
 
 class IsActiveModel {
   final bool isActive;

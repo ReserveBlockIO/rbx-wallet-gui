@@ -1,10 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/asset/asset.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase_form_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
-import 'package:rbx_wallet/utils/generators.dart';
+
+import '../../../../utils/generators.dart';
+import '../../../asset/asset.dart';
+import '../../providers/create_smart_contract_provider.dart';
+import 'evolve.dart';
+import 'evolve_phase.dart';
+import 'evolve_phase_form_provider.dart';
 
 class EvolveFormProvider extends StateNotifier<Evolve> {
   final Reader read;
@@ -41,6 +42,7 @@ class EvolveFormProvider extends StateNotifier<Evolve> {
   }
 
   removePhase(int index) {
+    read(evolvePhaseFormProvider(index).notifier).clear();
     state = state.copyWith(phases: [...state.phases]..removeAt(index));
   }
 

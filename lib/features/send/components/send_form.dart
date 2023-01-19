@@ -4,16 +4,18 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/breakpoints.dart';
-import 'package:rbx_wallet/core/components/badges.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/keygen/models/keypair.dart';
-import 'package:rbx_wallet/features/send/providers/send_form_provider.dart';
-import 'package:rbx_wallet/features/wallet/models/wallet.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/breakpoints.dart';
+import '../../../core/components/badges.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../utils/toast.dart';
+import '../../encrypt/utils.dart';
+import '../../keygen/models/keypair.dart';
+import '../../wallet/models/wallet.dart';
+import '../providers/send_form_provider.dart';
 
 class SendForm extends BaseComponent {
   final Wallet? wallet;
@@ -120,7 +122,7 @@ class SendForm extends BaseComponent {
                   validator: formProvider.amountValidator,
                   inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
                   decoration: const InputDecoration(hintText: "Amount of RBX to send"),
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 ),
               ),
               const Padding(
@@ -148,7 +150,9 @@ class SendForm extends BaseComponent {
                         label: "Send",
                         type: AppButtonType.Elevated,
                         processing: formModel.isProcessing,
-                        onPressed: () {
+                        onPressed: () async {
+                          if (!await passwordRequiredGuard(context, ref)) return;
+
                           if (!formProvider.formKey.currentState!.validate()) {
                             return;
                           }

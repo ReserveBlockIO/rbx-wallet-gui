@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/features/keygen/models/keypair.dart';
+
+import '../../keygen/models/keypair.dart';
 
 part 'wallet.freezed.dart';
 part 'wallet.g.dart';
@@ -11,7 +12,7 @@ class Wallet with _$Wallet {
   factory Wallet({
     @JsonKey(name: 'Id') required int id,
     @JsonKey(name: 'PublicKey') required String publicKey,
-    @JsonKey(name: 'PrivateKey') required String privateKey,
+    @JsonKey(name: 'GetKey') String? privateKey,
     @JsonKey(name: 'Address') required String address,
     String? friendlyName,
     @JsonKey(name: 'Balance') required double balance,

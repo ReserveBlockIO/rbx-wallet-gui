@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
+
+import '../../../core/base_screen.dart';
+import '../../wallet/components/wallet_selector.dart';
 
 class DataNodeScreen extends BaseScreen {
   const DataNodeScreen({Key? key}) : super(key: key);

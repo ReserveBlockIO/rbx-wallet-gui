@@ -24,16 +24,15 @@ mixin _$Wallet {
   int get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'PublicKey')
   String get publicKey => throw _privateConstructorUsedError;
-  @JsonKey(name: 'PrivateKey')
-  String get privateKey => throw _privateConstructorUsedError;
+  @JsonKey(name: 'GetKey')
+  String? get privateKey => throw _privateConstructorUsedError;
   @JsonKey(name: 'Address')
   String get address => throw _privateConstructorUsedError;
   String? get friendlyName => throw _privateConstructorUsedError;
   @JsonKey(name: 'Balance')
   double get balance => throw _privateConstructorUsedError;
   @JsonKey(name: 'IsValidating')
-  bool get isValidating =>
-      throw _privateConstructorUsedError; // @JsonKey(name: 'IsEncrypted') required bool isEncrypted,
+  bool get isValidating => throw _privateConstructorUsedError; // @JsonKey(name: 'IsEncrypted') required bool isEncrypted,
   @JsonKey(name: "ADNR")
   String? get adnr => throw _privateConstructorUsedError;
 
@@ -44,12 +43,11 @@ mixin _$Wallet {
 
 /// @nodoc
 abstract class $WalletCopyWith<$Res> {
-  factory $WalletCopyWith(Wallet value, $Res Function(Wallet) then) =
-      _$WalletCopyWithImpl<$Res>;
+  factory $WalletCopyWith(Wallet value, $Res Function(Wallet) then) = _$WalletCopyWithImpl<$Res>;
   $Res call(
       {@JsonKey(name: 'Id') int id,
       @JsonKey(name: 'PublicKey') String publicKey,
-      @JsonKey(name: 'PrivateKey') String privateKey,
+      @JsonKey(name: 'GetKey') String? privateKey,
       @JsonKey(name: 'Address') String address,
       String? friendlyName,
       @JsonKey(name: 'Balance') double balance,
@@ -88,7 +86,7 @@ class _$WalletCopyWithImpl<$Res> implements $WalletCopyWith<$Res> {
       privateKey: privateKey == freezed
           ? _value.privateKey
           : privateKey // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       address: address == freezed
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -115,13 +113,12 @@ class _$WalletCopyWithImpl<$Res> implements $WalletCopyWith<$Res> {
 
 /// @nodoc
 abstract class _$$_WalletCopyWith<$Res> implements $WalletCopyWith<$Res> {
-  factory _$$_WalletCopyWith(_$_Wallet value, $Res Function(_$_Wallet) then) =
-      __$$_WalletCopyWithImpl<$Res>;
+  factory _$$_WalletCopyWith(_$_Wallet value, $Res Function(_$_Wallet) then) = __$$_WalletCopyWithImpl<$Res>;
   @override
   $Res call(
       {@JsonKey(name: 'Id') int id,
       @JsonKey(name: 'PublicKey') String publicKey,
-      @JsonKey(name: 'PrivateKey') String privateKey,
+      @JsonKey(name: 'GetKey') String? privateKey,
       @JsonKey(name: 'Address') String address,
       String? friendlyName,
       @JsonKey(name: 'Balance') double balance,
@@ -130,10 +127,8 @@ abstract class _$$_WalletCopyWith<$Res> implements $WalletCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_WalletCopyWithImpl<$Res> extends _$WalletCopyWithImpl<$Res>
-    implements _$$_WalletCopyWith<$Res> {
-  __$$_WalletCopyWithImpl(_$_Wallet _value, $Res Function(_$_Wallet) _then)
-      : super(_value, (v) => _then(v as _$_Wallet));
+class __$$_WalletCopyWithImpl<$Res> extends _$WalletCopyWithImpl<$Res> implements _$$_WalletCopyWith<$Res> {
+  __$$_WalletCopyWithImpl(_$_Wallet _value, $Res Function(_$_Wallet) _then) : super(_value, (v) => _then(v as _$_Wallet));
 
   @override
   _$_Wallet get _value => super._value as _$_Wallet;
@@ -161,7 +156,7 @@ class __$$_WalletCopyWithImpl<$Res> extends _$WalletCopyWithImpl<$Res>
       privateKey: privateKey == freezed
           ? _value.privateKey
           : privateKey // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       address: address == freezed
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -192,7 +187,7 @@ class _$_Wallet extends _Wallet {
   _$_Wallet(
       {@JsonKey(name: 'Id') required this.id,
       @JsonKey(name: 'PublicKey') required this.publicKey,
-      @JsonKey(name: 'PrivateKey') required this.privateKey,
+      @JsonKey(name: 'GetKey') this.privateKey,
       @JsonKey(name: 'Address') required this.address,
       this.friendlyName,
       @JsonKey(name: 'Balance') required this.balance,
@@ -200,8 +195,7 @@ class _$_Wallet extends _Wallet {
       @JsonKey(name: "ADNR") this.adnr})
       : super._();
 
-  factory _$_Wallet.fromJson(Map<String, dynamic> json) =>
-      _$$_WalletFromJson(json);
+  factory _$_Wallet.fromJson(Map<String, dynamic> json) => _$$_WalletFromJson(json);
 
   @override
   @JsonKey(name: 'Id')
@@ -210,8 +204,8 @@ class _$_Wallet extends _Wallet {
   @JsonKey(name: 'PublicKey')
   final String publicKey;
   @override
-  @JsonKey(name: 'PrivateKey')
-  final String privateKey;
+  @JsonKey(name: 'GetKey')
+  final String? privateKey;
   @override
   @JsonKey(name: 'Address')
   final String address;
@@ -240,14 +234,11 @@ class _$_Wallet extends _Wallet {
             other is _$_Wallet &&
             const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.publicKey, publicKey) &&
-            const DeepCollectionEquality()
-                .equals(other.privateKey, privateKey) &&
+            const DeepCollectionEquality().equals(other.privateKey, privateKey) &&
             const DeepCollectionEquality().equals(other.address, address) &&
-            const DeepCollectionEquality()
-                .equals(other.friendlyName, friendlyName) &&
+            const DeepCollectionEquality().equals(other.friendlyName, friendlyName) &&
             const DeepCollectionEquality().equals(other.balance, balance) &&
-            const DeepCollectionEquality()
-                .equals(other.isValidating, isValidating) &&
+            const DeepCollectionEquality().equals(other.isValidating, isValidating) &&
             const DeepCollectionEquality().equals(other.adnr, adnr));
   }
 
@@ -266,8 +257,7 @@ class _$_Wallet extends _Wallet {
 
   @JsonKey(ignore: true)
   @override
-  _$$_WalletCopyWith<_$_Wallet> get copyWith =>
-      __$$_WalletCopyWithImpl<_$_Wallet>(this, _$identity);
+  _$$_WalletCopyWith<_$_Wallet> get copyWith => __$$_WalletCopyWithImpl<_$_Wallet>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -279,7 +269,7 @@ abstract class _Wallet extends Wallet {
   factory _Wallet(
       {@JsonKey(name: 'Id') required final int id,
       @JsonKey(name: 'PublicKey') required final String publicKey,
-      @JsonKey(name: 'PrivateKey') required final String privateKey,
+      @JsonKey(name: 'GetKey') final String? privateKey,
       @JsonKey(name: 'Address') required final String address,
       final String? friendlyName,
       @JsonKey(name: 'Balance') required final double balance,
@@ -296,8 +286,8 @@ abstract class _Wallet extends Wallet {
   @JsonKey(name: 'PublicKey')
   String get publicKey => throw _privateConstructorUsedError;
   @override
-  @JsonKey(name: 'PrivateKey')
-  String get privateKey => throw _privateConstructorUsedError;
+  @JsonKey(name: 'GetKey')
+  String? get privateKey => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'Address')
   String get address => throw _privateConstructorUsedError;
@@ -314,6 +304,5 @@ abstract class _Wallet extends Wallet {
   String? get adnr => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$$_WalletCopyWith<_$_Wallet> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$_WalletCopyWith<_$_Wallet> get copyWith => throw _privateConstructorUsedError;
 }

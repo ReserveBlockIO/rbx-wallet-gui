@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/services/explorer_service.dart';
-import 'package:rbx_wallet/features/web/models/web_block.dart';
+
+import '../../../core/services/explorer_service.dart';
+import '../models/web_block.dart';
 
 class WebLatestBlockProvider extends StateNotifier<WebBlock?> {
   final Reader read;
@@ -25,7 +26,6 @@ class WebLatestBlockProvider extends StateNotifier<WebBlock?> {
   }
 }
 
-final webLatestBlockProvider =
-    StateNotifierProvider<WebLatestBlockProvider, WebBlock?>(
+final webLatestBlockProvider = StateNotifierProvider<WebLatestBlockProvider, WebBlock?>(
   (ref) => WebLatestBlockProvider(ref.read),
 );

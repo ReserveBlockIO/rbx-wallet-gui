@@ -13,11 +13,11 @@ enum _Environment {
   WinTestNet,
   BlockExplorer,
   Web,
-  WebDev,
+  WebTestNet,
   BlockExplorerTestNet,
 }
 
-const _env = _Environment.Release;
+const _env = _Environment.ReleaseTestNet;
 
 class Env {
   static init() async {
@@ -53,12 +53,25 @@ class Env {
       case _Environment.Web:
         envPath = Assets.env.webEnv;
         break;
-      case _Environment.WebDev:
+      case _Environment.WebTestNet:
         envPath = Assets.env.webDevEnv;
         break;
     }
 
     await DotEnv.dotenv.load(fileName: envPath);
+  }
+
+  static String get baseExplorerUrl {
+    switch (_env) {
+      case _Environment.MacTestNet:
+      case _Environment.WinTestNet:
+      case _Environment.ReleaseTestNet:
+      case _Environment.BlockExplorerTestNet:
+      case _Environment.WebTestNet:
+        return 'https://testnet.rbx.network/';
+      default:
+        return 'https://rbx.network/';
+    }
   }
 
   static String get envName {

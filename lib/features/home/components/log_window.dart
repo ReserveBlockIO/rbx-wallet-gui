@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
-import 'package:rbx_wallet/features/home/components/log_item.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../bridge/providers/log_provider.dart';
+import 'log_item.dart';
 
 class LogWindow extends BaseComponent {
   const LogWindow({Key? key}) : super(key: key);
@@ -13,13 +14,6 @@ class LogWindow extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final logEntries = ref.watch(logProvider);
-
-    final scrollController = ScrollController();
-
-    ref.listen(logProvider, (_, __) {
-      scrollController.animateTo(scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 500), curve: Curves.ease);
-    });
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -35,27 +29,41 @@ class LogWindow extends BaseComponent {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
             child: SizedBox(
-              height: ref.watch(sessionProvider).logWindowExpanded ? 600 : 150,
+              height: ref.watch(sessionProvider).logWindowExpanded ? 600 : 130,
               width: double.infinity,
               child: Stack(
                 children: [
-                  SingleChildScrollView(
-                    controller: scrollController,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children:
-                          logEntries.map((entry) => LogItem(entry)).toList(),
-                    ),
+                  ListView.builder(
+                    controller: ref.read(logProvider.notifier).scrollController,
+                    itemCount: logEntries.length,
+                    itemBuilder: (context, index) {
+                      final entry = logEntries[index];
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          LogItem(entry),
+                          if (index + 1 == logEntries.length)
+                            const SizedBox(
+                              height: 28,
+                            )
+                        ],
+                      );
+                    },
                   ),
+                  // SingleChildScrollView(
+                  //   controller: scrollController,
+                  //   child: Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: logEntries.map((entry) => LogItem(entry)).toList(),
+                  //   ),
+                  // ),
                   Align(
                     alignment: Alignment.bottomRight,
                     child: ref.watch(sessionProvider).logWindowExpanded
                         ? AppButton(
                             label: "Collapse",
                             onPressed: () {
-                              ref
-                                  .read(sessionProvider.notifier)
-                                  .setLogWindowExpanded(false);
+                              ref.read(sessionProvider.notifier).setLogWindowExpanded(false);
                             },
                             variant: AppColorVariant.Info,
                             size: AppSizeVariant.Sm,

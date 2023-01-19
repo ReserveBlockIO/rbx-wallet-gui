@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
-import 'package:rbx_wallet/utils/generators.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+
+import '../../../../utils/generators.dart';
+import '../../../../utils/toast.dart';
+import '../../../../utils/validation.dart';
+import '../../providers/create_smart_contract_provider.dart';
+import 'royalty.dart';
 
 class RoyaltyFormProvider extends StateNotifier<Royalty> {
   final Reader read;
@@ -15,8 +16,7 @@ class RoyaltyFormProvider extends StateNotifier<Royalty> {
     this.read, [
     Royalty model = const Royalty(),
   ]) : super(model) {
-    amountController =
-        TextEditingController(text: model.amount > 0 ? "${model.amount}" : "");
+    amountController = TextEditingController(text: model.amount > 0 ? "${model.amount}" : "");
     addressController = TextEditingController(text: model.address);
 
     setRoyalty(model);
@@ -25,9 +25,7 @@ class RoyaltyFormProvider extends StateNotifier<Royalty> {
   setRoyalty(Royalty royalty) {
     state = royalty;
 
-    amountController.text = state.type == RoyaltyType.percent
-        ? "${royalty.amount * 100}"
-        : "${royalty.amount}";
+    amountController.text = state.type == RoyaltyType.percent ? "${royalty.amount * 100}" : "${royalty.amount}";
     addressController.text = royalty.address;
   }
 
@@ -50,7 +48,7 @@ class RoyaltyFormProvider extends StateNotifier<Royalty> {
     return formValidatorNotEmpty(val, "Amount");
   }
 
-  String? addressValidator(String? val) => formValidatorRbxAddress(val);
+  String? addressValidator(String? val) => formValidatorRbxAddress(val, false);
 
   complete() {
     double? amount = double.tryParse(amountController.text);

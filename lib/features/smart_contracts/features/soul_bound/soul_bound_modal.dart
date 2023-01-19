@@ -1,26 +1,21 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/dropdowns.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_header.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_bottom_actions.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty_form_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/soul_bound/sould_bound_form_provider.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
+
+import '../../../../core/base_component.dart';
+import '../../../../core/providers/web_session_provider.dart';
+import '../../../wallet/providers/wallet_list_provider.dart';
+import '../../components/sc_creator/common/form_group_header.dart';
+import '../../components/sc_creator/common/help_button.dart';
+import '../../components/sc_creator/common/modal_bottom_actions.dart';
+import '../../components/sc_creator/common/modal_container.dart';
+import 'sould_bound_form_provider.dart';
 
 class SoulBoundModal extends BaseComponent {
   const SoulBoundModal({Key? key}) : super(key: key);
 
   Future<void> chooseAddress(BuildContext context, WidgetRef ref, TextEditingController controller) async {
-    final _provider = ref.read(soulBoundFormProvider.notifier);
-
     final wallets = ref.read(walletListProvider);
 
     final address = await showDialog(
@@ -66,7 +61,6 @@ class SoulBoundModal extends BaseComponent {
   @override
   Widget desktopBody(BuildContext context, WidgetRef ref) {
     final _provider = ref.read(soulBoundFormProvider.notifier);
-    final _model = ref.watch(soulBoundFormProvider);
 
     final GlobalKey<FormState> _formKey = GlobalKey();
 

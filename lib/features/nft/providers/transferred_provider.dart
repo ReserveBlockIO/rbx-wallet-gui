@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/singletons.dart';
-import 'package:rbx_wallet/core/storage.dart';
+
+import '../../../core/singletons.dart';
+import '../../../core/storage.dart';
 
 class TransferredProvider extends StateNotifier<List<String>> {
   TransferredProvider() : super([]) {
@@ -10,6 +11,12 @@ class TransferredProvider extends StateNotifier<List<String>> {
 
   addId(String id) {
     final update = [...state, id];
+    singleton<Storage>().setStringList(Storage.TRANSFERRED_NFT_IDS, update);
+    state = update;
+  }
+
+  removeId(String id) {
+    final update = [...state]..removeWhere((_id) => id == _id);
     singleton<Storage>().setStringList(Storage.TRANSFERRED_NFT_IDS, update);
     state = update;
   }

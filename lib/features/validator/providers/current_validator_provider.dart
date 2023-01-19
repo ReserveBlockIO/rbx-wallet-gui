@@ -1,8 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
-import 'package:rbx_wallet/features/wallet/models/wallet.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+
+import '../../../core/env.dart';
+import '../../../utils/toast.dart';
+import '../../bridge/services/bridge_service.dart';
+import '../../wallet/models/wallet.dart';
 
 class CurrentValidatorProvider extends StateNotifier<Wallet?> {
   final Reader read;
@@ -23,8 +24,7 @@ class CurrentValidatorProvider extends StateNotifier<Wallet?> {
       return false;
     }
 
-    final response =
-        await BridgeService().startValidating(state!.address, name);
+    final response = await BridgeService().startValidating(state!.address, name);
 
     if (response == "FAIL") {
       Toast.error();
@@ -49,7 +49,6 @@ class CurrentValidatorProvider extends StateNotifier<Wallet?> {
   }
 }
 
-final currentValidatorProvider =
-    StateNotifierProvider<CurrentValidatorProvider, Wallet?>((ref) {
+final currentValidatorProvider = StateNotifierProvider<CurrentValidatorProvider, Wallet?>((ref) {
   return CurrentValidatorProvider(ref.read);
 });

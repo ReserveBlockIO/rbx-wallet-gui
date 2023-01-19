@@ -1,12 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/breakpoints.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/features/nft/components/nft_card.dart';
-import 'package:rbx_wallet/features/nft/components/nft_navigator.dart';
-import 'package:rbx_wallet/features/nft/providers/minted_nft_list_provider.dart';
-import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
+
+import '../../../core/base_component.dart';
+import '../../../core/breakpoints.dart';
+import '../providers/minted_nft_list_provider.dart';
+import '../providers/nft_list_provider.dart';
+import 'nft_card.dart';
+import 'nft_navigator.dart';
 
 class NftGrid extends BaseComponent {
   final bool minted;
@@ -22,10 +23,11 @@ class NftGrid extends BaseComponent {
 
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(6.0),
-          child: NftNavigator(minted: minted),
-        ),
+        if (!kIsWeb)
+          Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: NftNavigator(minted: minted),
+          ),
         Expanded(
           child: Builder(builder: (context) {
             if (_model.data.results.isEmpty) {
@@ -45,6 +47,7 @@ class NftGrid extends BaseComponent {
               itemBuilder: (context, index) {
                 final nft = _model.data.results[index];
                 return NftCard(
+                  key: Key(nft.id),
                   nft,
                   manageOnPress: minted,
                 );

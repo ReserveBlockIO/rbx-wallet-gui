@@ -2,13 +2,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/breakpoints.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/core/web_router.gr.dart';
-import 'package:rbx_wallet/features/transactions/models/web_transaction.dart';
+
+import '../../../core/app_constants.dart';
+import '../../../core/base_component.dart';
+import '../../../core/breakpoints.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../core/web_router.gr.dart';
+import '../models/web_transaction.dart';
 
 class WebTransactionCard extends BaseComponent {
   final WebTransaction tx;
@@ -49,9 +50,9 @@ class WebTransactionCard extends BaseComponent {
       subtitle: toMe
           ? Text(
               "From: ${tx.fromAddress}\n$date",
-              style: TextStyle(fontSize: 12),
+              style: const TextStyle(fontSize: 12),
             )
-          : Text("To: ${tx.toAddress}\n$date", style: TextStyle(fontSize: 12)),
+          : Text("To: ${tx.toAddress}\n$date", style: const TextStyle(fontSize: 12)),
       trailing: const Icon(Icons.chevron_right),
       onTap: () {
         AutoRouter.of(context).push(WebTransactionDetailScreenRoute(hash: tx.hash));

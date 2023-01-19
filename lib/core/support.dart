@@ -10,11 +10,11 @@ FloatingActionButton buildSupportButton() {
     label: Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(FontAwesomeIcons.discord),
-        SizedBox(
+        const Icon(FontAwesomeIcons.discord),
+        const SizedBox(
           width: 10,
         ),
-        Text(
+        const Text(
           "Support",
           style: TextStyle(fontWeight: FontWeight.bold),
         )

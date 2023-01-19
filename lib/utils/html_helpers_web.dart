@@ -1,5 +1,8 @@
-import 'package:rbx_wallet/utils/html_helpers_interface.dart';
+// ignore_for_file: avoid_web_libraries_in_flutter
+
 import 'dart:html' as html;
+
+import 'html_helpers_interface.dart';
 
 class HtmlHelpersImplementation extends HtmlHelpersInterface {
   @override

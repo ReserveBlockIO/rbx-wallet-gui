@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/features/block/block.dart';
+
+import '../../block/block.dart';
 
 part 'web_block.freezed.dart';
 part 'web_block.g.dart';

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+
+import '../../../core/theme/app_theme.dart';
+import '../../../utils/toast.dart';
+import '../../bridge/models/log_entry.dart';
 
 class LogItem extends StatelessWidget {
   final LogEntry entry;

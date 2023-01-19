@@ -1,31 +1,38 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/components/badges.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/components/centered_loader.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/core/web_router.gr.dart';
-import 'package:rbx_wallet/features/asset/asset_card.dart';
-import 'package:rbx_wallet/features/asset/asset_thumbnail.dart';
-import 'package:rbx_wallet/features/nft/components/nft_qr_code.dart';
-import 'package:rbx_wallet/features/nft/components/proxy_asset_card.dart';
-import 'package:rbx_wallet/features/nft/components/proxy_asset_thumbnail.dart';
-import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
-import 'package:rbx_wallet/features/nft/modals/nft_management_modal.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/modals/code_modal.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/feature.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/my_smart_contracts_provider.dart';
-import 'package:rbx_wallet/generated/assets.gen.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-import 'package:rbx_wallet/utils/validation.dart';
-import 'package:url_launcher/url_launcher.dart';
+
+import '../../../core/app_constants.dart';
+import '../../../core/base_screen.dart';
+import '../../../core/components/badges.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/components/centered_loader.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../utils/toast.dart';
+import '../../../utils/validation.dart';
+import '../../asset/asset_card.dart';
+import '../../asset/asset_thumbnail.dart';
+import '../../bridge/services/bridge_service.dart';
+import '../../encrypt/utils.dart';
+import '../../smart_contracts/components/sc_creator/common/help_button.dart';
+import '../../smart_contracts/components/sc_creator/common/modal_container.dart';
+import '../../smart_contracts/components/sc_creator/modals/code_modal.dart';
+import '../../smart_contracts/models/feature.dart';
+import '../../smart_contracts/providers/my_smart_contracts_provider.dart';
+import '../../wallet/models/wallet.dart';
+import '../../wallet/providers/wallet_list_provider.dart';
+import '../components/media_backup.dart';
+import '../components/nft_qr_code.dart';
+import '../components/proxy_asset_card.dart';
+import '../components/proxy_asset_thumbnail.dart';
+import '../modals/nft_management_modal.dart';
+import '../providers/nft_detail_provider.dart';
+import '../providers/transferred_provider.dart';
+import '../utils.dart';
 
 class NftDetailScreen extends BaseScreen {
   final String id;
@@ -109,7 +116,7 @@ class NftDetailScreen extends BaseScreen {
     final nft = ref.watch(nftDetailProvider(id));
 
     if (nft == null) {
-      return CenteredLoader();
+      return const CenteredLoader();
     }
 
     return Column(
@@ -155,7 +162,7 @@ class NftDetailScreen extends BaseScreen {
                         child: ListTile(
                           contentPadding: EdgeInsets.zero,
                           title: Text(nft.currentOwner,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 13,
                               )),
                           subtitle: const Text(
@@ -164,7 +171,7 @@ class NftDetailScreen extends BaseScreen {
                           leading: IconButton(
                             icon: const Icon(Icons.copy),
                             onPressed: () {
-                              copyToClipboard(nft.id);
+                              copyToClipboard(nft.currentOwner);
                             },
                           ),
                         ),
@@ -174,7 +181,7 @@ class NftDetailScreen extends BaseScreen {
                         child: ListTile(
                           contentPadding: EdgeInsets.zero,
                           title: Text(nft.minterAddress,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 13,
                               )),
                           subtitle: const Text("Minter Address"),
@@ -225,7 +232,7 @@ class NftDetailScreen extends BaseScreen {
                                             "Additional Assets:",
                                             style: Theme.of(context).textTheme.headline5,
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             height: 6,
                                           ),
                                           kIsWeb && !nft.assetsAvailable
@@ -278,6 +285,7 @@ class NftDetailScreen extends BaseScreen {
                             data: nft.explorerUrl,
                             size: 200,
                           ),
+                          MediaBackup(nft),
                         ],
                       ),
                     )
@@ -385,24 +393,61 @@ class NftDetailScreen extends BaseScreen {
                     // helpType: HelpType.transfer,
                     icon: Icons.send,
                     onPressed: nft.isPublished
-                        ? () {
+                        ? () async {
+                            if (!await passwordRequiredGuard(context, ref)) {
+                              return;
+                            }
+                            Wallet? wallet = ref.read(walletListProvider).firstWhereOrNull((w) => w.address == nft.currentOwner);
+                            if (wallet == null) {
+                              Toast.error("No wallet selected");
+                              return;
+                            }
+
+                            if (wallet.balance < MIN_RBX_FOR_SC_ACTION) {
+                              Toast.error("Not enough balance for transaction");
+                              return;
+                            }
+
+                            final _nft = await setAssetPath(nft);
+
+                            final filesReady = await _nft.areFilesReady();
+
+                            if (!filesReady) {
+                              Toast.error("Media files not found on this machine.");
+                              return;
+                            }
+
                             PromptModal.show(
                               contextOverride: context,
                               title: "Transfer NFT",
-                              validator: (value) => formValidatorRbxAddress(value),
+                              validator: (value) => formValidatorRbxAddress(value, true),
                               labelText: "RBX Address",
                               confirmText: "Continue",
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9.]')),
+                              ],
+                              lines: 1,
                               onValidSubmission: (address) async {
                                 bool? success;
+
+                                address = address.trim().replaceAll("\n", "");
 
                                 if (kIsWeb) {
                                   success = await _provider.transferWebOut(address);
                                   if (success == true) {
+                                    ref.read(transferredProvider.notifier).addId(id);
+
                                     Toast.message("NFT Transfer sent successfully to $address!");
                                   } else {
                                     Toast.error();
                                   }
                                 } else {
+                                  final isValid = await BridgeService().validateSendToAddress(address);
+                                  if (!isValid) {
+                                    Toast.error("Invalid Address");
+                                    return;
+                                  }
+
                                   PromptModal.show(
                                     contextOverride: context,
                                     title: "Backup URL (Optional)",
@@ -413,9 +458,31 @@ class NftDetailScreen extends BaseScreen {
                                     labelText: "URL (Optional)",
                                     confirmText: "Transfer",
                                     onValidSubmission: (url) async {
-                                      success = await _provider.transfer(address, url);
-                                      if (success == true) {
-                                        Navigator.of(context).pop();
+                                      final confirmed = await ConfirmDialog.show(
+                                        title: "Confirm Transfer",
+                                        body:
+                                            "Please confirm you want to send the NFT to \"$address\".\n\nIf this address is not correct, there will be no way to recover the ownership of the NFT.",
+                                        confirmText: "Send",
+                                      );
+
+                                      if (confirmed == true) {
+                                        final error = await _provider.transfer(address, url);
+                                        if (error != null) {
+                                          Toast.error(error);
+                                          return;
+                                        }
+                                        success = error == null;
+                                        if (success == true) {
+                                          Toast.message("NFT Transfer TX sent.");
+                                          await InfoDialog.show(
+                                            title: "Transfer in Progress",
+                                            body:
+                                                "Please ensure to keep your wallet open until this NFT transfer transaction appears in your transaction list.\n\nTo monitor the asset transfer progress, open your 'nftlog.txt' in your databases folder.",
+                                            closeText: "Okay",
+                                          );
+
+                                          Navigator.of(context).pop();
+                                        }
                                       }
                                     },
                                   );
@@ -447,16 +514,17 @@ class NftDetailScreen extends BaseScreen {
                       },
                     ),
                   ),
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: AppButton(
-                    label: nft.isPublic ? "Make Private" : "Make Public",
-                    icon: nft.isPublic ? Icons.visibility_off : Icons.visibility,
-                    onPressed: () {
-                      _provider.togglePrivate();
-                    },
+                if (!kIsWeb)
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: AppButton(
+                      label: nft.isPublic ? "Make Private" : "Make Public",
+                      icon: nft.isPublic ? Icons.visibility_off : Icons.visibility,
+                      onPressed: () {
+                        _provider.togglePrivate();
+                      },
+                    ),
                   ),
-                ),
                 if (nft.code != null)
                   Padding(
                     padding: const EdgeInsets.all(4.0),
@@ -483,6 +551,7 @@ class NftDetailScreen extends BaseScreen {
                     variant: AppColorVariant.Danger,
                     onPressed: nft.isPublished
                         ? () async {
+                            if (!await passwordRequiredGuard(context, ref)) return;
                             final confirmed = await ConfirmDialog.show(
                               title: "Burn NFT?",
                               body: "Are you sure you want to burn ${nft.name}",
@@ -525,7 +594,7 @@ class NftDetailScreen extends BaseScreen {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
+                const Text(
                   "NFT assets have not been transfered to the RBX Web Wallet.",
                   textAlign: TextAlign.center,
                 ),
