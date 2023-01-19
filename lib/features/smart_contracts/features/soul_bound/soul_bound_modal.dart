@@ -16,8 +16,6 @@ class SoulBoundModal extends BaseComponent {
   const SoulBoundModal({Key? key}) : super(key: key);
 
   Future<void> chooseAddress(BuildContext context, WidgetRef ref, TextEditingController controller) async {
-    final _provider = ref.read(soulBoundFormProvider.notifier);
-
     final wallets = ref.read(walletListProvider);
 
     final address = await showDialog(
@@ -63,7 +61,6 @@ class SoulBoundModal extends BaseComponent {
   @override
   Widget desktopBody(BuildContext context, WidgetRef ref) {
     final _provider = ref.read(soulBoundFormProvider.notifier);
-    final _model = ref.watch(soulBoundFormProvider);
 
     final GlobalKey<FormState> _formKey = GlobalKey();
 

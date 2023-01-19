@@ -61,7 +61,6 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
       return;
     }
 
-    final prevIsSyncing = state == null ? true : state!.isSyncing;
     final prevIsChainSynced = state == null ? false : state!.isChainSynced;
 
     final int blockHeight = int.parse(data['BlockHeight']);

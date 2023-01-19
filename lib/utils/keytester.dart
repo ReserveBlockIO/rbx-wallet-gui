@@ -29,7 +29,7 @@ Future<Keypair?> create(String emailValue, String passwordValue) async {
   for (int i = 0; i <= 50; i++) {
     seed = sha256.convert(utf8.encode(seed)).toString();
   }
-  final keypair = await KeygenService.seedToKeypair(seed, 0);
+  final keypair = await KeygenService.seedToKeypair(seed, 0, email);
 
   // if (keypair != null) {
   //   return [keypair.private, keypair.public, keypair.privateCorrected];
@@ -90,6 +90,8 @@ void runTests() async {
       print("PROBLEM");
     }
   }
+
+  print("Successes: $successes");
 }
 
 void otherTest() {

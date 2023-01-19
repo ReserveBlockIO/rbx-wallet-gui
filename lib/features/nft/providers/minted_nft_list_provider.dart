@@ -18,18 +18,12 @@ class MintedNftListProvider extends StateNotifier<NftListModel> {
   }
 
   Future<void> load(int page) async {
-    //TODO: make web work
-
     if (kIsWeb) {
       final nfts = await TransactionService().listMintedNfts(read(webSessionProvider).keypair!.email, read(webSessionProvider).keypair!.public);
       final d = CliPaginatedResponse(count: nfts.length, results: nfts, page: 1);
       state = state.copyWith(data: d, page: 1, currentSearch: '');
       return;
     }
-
-    // final nfts = kIsWeb
-    //     ? (await TransactionService().listMintedNfts(read(webSessionProvider).keypair!.email, read(webSessionProvider).keypair!.public))
-    //     : (await NftService().minted()).where((nft) => nft.manageable == true).toList();
 
     final data = await NftService().minted(page, search: state.search);
 

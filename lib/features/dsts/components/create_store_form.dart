@@ -18,7 +18,6 @@ class CreateStoreForm extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref.read(createStoreProvider(accountId).notifier);
-    final store = ref.watch(createStoreProvider(accountId));
 
     return Form(
       key: provider.formKey,

@@ -8,7 +8,6 @@ import 'package:rbx_wallet/features/smart_contracts/screens/sc_wizard_edit_item_
 
 import '../../../core/base_component.dart';
 import '../providers/sc_wizard_provider.dart';
-import 'sc_wizard_card_preview.dart';
 
 class ScWizardList extends BaseComponent {
   const ScWizardList({Key? key}) : super(key: key);

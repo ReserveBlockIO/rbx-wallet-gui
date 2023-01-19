@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_awesome_select/flutter_awesome_select.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/base_component.dart';
 import '../../../../../utils/validation.dart';
-import '../../../../wallet/models/wallet.dart';
-import '../../../../wallet/providers/wallet_list_provider.dart';
 import '../../../models/smart_contract.dart';
 import '../../../providers/create_smart_contract_provider.dart';
 import '../common/form_group_container.dart';
@@ -99,41 +96,6 @@ class _Description extends StatelessWidget {
       onChanged: (val) {
         provider.setDescription(val);
       },
-    );
-  }
-}
-
-class _OwnerAddress extends BaseComponent {
-  const _OwnerAddress({
-    Key? key,
-    required this.model,
-    required this.provider,
-  }) : super(key: key);
-
-  final SmartContract model;
-  final CreateSmartContractProvider provider;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return IgnorePointer(
-      ignoring: model.isCompiled,
-      child: SmartSelect<Wallet>.single(
-        title: "Owner Address",
-        modalType: S2ModalType.bottomSheet,
-        selectedValue: model.owner,
-        onChange: (option) {
-          provider.setOwner(option.value);
-        },
-        choiceItems: ref
-            .read(walletListProvider)
-            .map(
-              (w) => S2Choice<Wallet>(
-                value: w,
-                title: w.fullLabel,
-              ),
-            )
-            .toList(),
-      ),
     );
   }
 }

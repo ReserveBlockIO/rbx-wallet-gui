@@ -63,7 +63,7 @@ class MotherService extends BaseService {
       'Password': password,
     };
     try {
-      final data = await postJson('/JoinMother', params: params);
+      await postJson('/JoinMother', params: params);
       return true;
     } catch (e) {
       print(e);
@@ -73,7 +73,7 @@ class MotherService extends BaseService {
 
   Future<bool> stopHost() async {
     try {
-      final data = await getText('/StopMother');
+      await getText('/StopMother');
       return true;
     } catch (e) {
       print(e);

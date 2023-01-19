@@ -32,10 +32,6 @@ Future<bool> passwordRequiredGuard(
       return false;
     }
 
-    if (forValidating) {
-      //TODO: Might have to do something here differently.
-    }
-
     await ref.read(sessionProvider.notifier).loadWallets();
 
     if (success == false) {

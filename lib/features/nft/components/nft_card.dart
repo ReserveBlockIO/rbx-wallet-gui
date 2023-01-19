@@ -131,25 +131,6 @@ class NftCard extends BaseComponent {
                       textAlign: TextAlign.center,
                     ),
                   ),
-
-                  //TODO: put this back in
-                  // if (nft.featureListLabel != null)
-                  //   Padding(
-                  //     padding: const EdgeInsets.symmetric(vertical: 4),
-                  //     child: Text(
-                  //       nft.featureListLabel!,
-                  //       style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                  //         shadows: [
-                  //           Shadow(
-                  //             color: Colors.black87,
-                  //             offset: Offset.zero,
-                  //             blurRadius: 4.0,
-                  //           )
-                  //         ],
-                  //       ),
-                  //       textAlign: TextAlign.center,
-                  //     ),
-                  //   ),
                 ],
               ),
             ),

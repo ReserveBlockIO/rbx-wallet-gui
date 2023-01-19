@@ -29,8 +29,6 @@ class BulkCreateScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final items = ref.watch(scWizardProvider);
-
     return SingleChildScrollView(
       child: Column(
         mainAxisSize: MainAxisSize.min,

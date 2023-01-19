@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/base_screen.dart';
-import '../../../core/breakpoints.dart';
 import '../../../core/providers/web_session_provider.dart';
 import '../../web/components/web_no_wallet.dart';
 import '../components/web_transaction_card.dart';
@@ -31,7 +30,6 @@ class WebTransactionScreen extends BaseScreen {
   Widget body(BuildContext context, WidgetRef ref) {
     final transactions = ref.watch(webTransactionListProvider);
     final address = ref.read(webSessionProvider).keypair?.public;
-    final isMobile = BreakPoints.useMobileLayout(context);
 
     if (address == null) return const WebNotWallet();
 
@@ -40,7 +38,6 @@ class WebTransactionScreen extends BaseScreen {
         itemBuilder: (context, index) {
           final tx = transactions[index];
 
-          final toMe = tx.toAddress == address;
           return WebTransactionCard(tx);
         });
   }

@@ -31,7 +31,6 @@ class WebAuthScreen extends BaseStatefulScreen {
 class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
   @override
   void initState() {
-    final currentPath = singleton<AppRouter>().current.path;
     _handleSession(ref.read(webSessionProvider));
     super.initState();
   }

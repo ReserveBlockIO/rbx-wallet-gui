@@ -18,7 +18,7 @@ class VoteService extends BaseService {
         votes.add(Vote.fromJson(item));
       }
       return votes;
-    } catch (e, st) {
+    } catch (e) {
       return [];
     }
   }

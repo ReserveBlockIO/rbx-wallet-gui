@@ -56,6 +56,7 @@ class KeygenService {
   static Future<Keypair?> seedToKeypair(
     String seed,
     int index,
+    String email,
   ) async {
     final String privateKeyHex = await js.context.callMethod('seedToPrivate', [seed]);
 
@@ -64,7 +65,7 @@ class KeygenService {
 
     final keypair = await KeygenService.importPrivateKey(
       privateKeyHex,
-      "todo@test.com", //TODO
+      email,
     );
     return keypair;
   }

@@ -30,8 +30,6 @@ class TransactionsScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final filtering = ref.watch(sessionProvider).filteringTransactions;
-
     return DefaultTabController(
       length: 5,
       child: Column(

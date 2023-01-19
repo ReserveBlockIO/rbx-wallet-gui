@@ -280,7 +280,8 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       }
     }
 
-    Toast.error("The fact something went wrong here but not until this point is odd.");
+    Toast.error();
+    return false;
   }
 
   Future<bool> transferWebIn() async {

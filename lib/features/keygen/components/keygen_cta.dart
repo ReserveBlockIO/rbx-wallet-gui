@@ -15,13 +15,13 @@ import '../services/keygen_service.dart';
 class KeygenCta extends BaseComponent {
   const KeygenCta({Key? key}) : super(key: key);
 
-  Future<void> handleImport(BuildContext context, WidgetRef ref) async {
+  Future<void> handleImport(BuildContext context, WidgetRef ref, String email) async {
     PromptModal.show(
       title: "Import Wallet",
       validator: (String? value) => formValidatorNotEmpty(value, "Private Key"),
       labelText: "Private Key",
       onValidSubmission: (value) async {
-        final keypair = await KeygenService.importPrivateKey(value, "todo@test.com"); //TODO email
+        final keypair = await KeygenService.importPrivateKey(value, email);
 
         showKeys(context, keypair);
       },
@@ -189,8 +189,15 @@ class KeygenCta extends BaseComponent {
       children: [
         AppButton(
           label: "Import Private Key",
-          onPressed: () {
-            handleImport(context, ref);
+          onPressed: () async {
+            final email = await PromptModal.show(
+              title: "Email Address",
+              validator: (value) => formValidatorEmail(value),
+              labelText: "Email",
+            );
+            if (email != null) {
+              handleImport(context, ref, email);
+            }
           },
         ),
         const SizedBox(

@@ -209,7 +209,7 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
     final input = File(file.path!).openRead();
     final fields = await input.transform(utf8.decoder).transform(const CsvToListConverter()).toList();
 
-    final headers = fields.first;
+    // final headers = fields.first;
     final rows = [...fields]..removeAt(0);
     final List<BulkSmartContractEntry> entries = [];
     for (final row in rows) {
@@ -221,8 +221,6 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
       final royaltyAmount = row[4].toString();
       final royaltyAddress = row[5].toString();
       final additionalAssetUrls = row[6].toString();
-
-      // TODO multi asset
 
       final quantity = row[7];
 

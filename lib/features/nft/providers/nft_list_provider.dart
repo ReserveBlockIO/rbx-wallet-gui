@@ -45,8 +45,6 @@ class NftListProvider extends StateNotifier<NftListModel> {
   }
 
   Future<void> load(int page, [String? email, String? address]) async {
-    // TODO WEB: fix for web
-    // final nfts = kIsWeb ? await TransactionService().listNfts(email ?? "", address ?? "") : await NftService().list();
     if (kIsWeb) {
       final nfts = await TransactionService().listNfts(email ?? "", address ?? "");
       final d = CliPaginatedResponse(count: nfts.length, results: nfts, page: 1);

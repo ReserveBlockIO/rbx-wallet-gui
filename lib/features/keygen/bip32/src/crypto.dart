@@ -80,7 +80,6 @@ ExtendedPrivateKey deriveExtendedPrivateChildKey(ExtendedPrivateKey parent, int 
 
   var hash = hmacSha512(parent.chainCode!, message);
 
-  var left = _leftFrom(hash);
   var leftSide = utils.decodeBigIntWithSign(1, _leftFrom(hash));
   if (leftSide >= curve.n) {
     throw KeyBiggerThanOrder();

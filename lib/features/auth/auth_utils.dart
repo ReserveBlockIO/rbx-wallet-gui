@@ -75,7 +75,7 @@ Future<void> handleCreateWithEmail(
     seed = sha256.convert(utf8.encode(seed)).toString();
   }
 
-  final keypair = await KeygenService.seedToKeypair(seed, 0);
+  final keypair = await KeygenService.seedToKeypair(seed, 0, email);
   if (keypair == null) {
     ref.read(globalLoadingProvider.notifier).complete();
     Toast.error();

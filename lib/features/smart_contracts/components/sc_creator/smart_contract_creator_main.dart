@@ -107,7 +107,7 @@ class SmartContractCreatorMain extends BaseComponent {
 
       // amountInt = int.tryParse(amount);
 
-      if (amountInt == null || amountInt < 1) {
+      if (amountInt < 1) {
         return;
       }
 
@@ -289,7 +289,6 @@ class SmartContractCreatorMain extends BaseComponent {
 
   @override
   Widget desktopBody(BuildContext context, WidgetRef ref) {
-    final _provider = ref.read(createSmartContractProvider.notifier);
     final _model = ref.watch(createSmartContractProvider);
 
     return Column(
