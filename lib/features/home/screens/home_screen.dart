@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/home/components/home_buttons/mother_button.dart';
 import 'package:rbx_wallet/features/keygen/components/keygen_cta.dart'
     if (dart.library.io) 'package:rbx_wallet/features/keygen/components/keygen_cta_mock.dart';
@@ -36,8 +37,10 @@ class HomeScreen extends BaseScreen {
       title: const Text("Dashboard"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
+      // centerTitle: false,
       leading: IconButton(
         onPressed: () {
+          ref.read(walletInfoProvider.notifier).infoLoop(false);
           ref.read(sessionProvider.notifier).mainLoop(false);
           ref.read(sessionProvider.notifier).smartContractLoop(false);
         },

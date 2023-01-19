@@ -143,7 +143,9 @@ class SessionProvider extends StateNotifier<SessionModel> {
       return;
     }
     read(readyProvider.notifier).setReady(true);
+
     final authenticated = await authenticate();
+
     if (authenticated) {
       finishSetup();
     }
@@ -162,8 +164,8 @@ class SessionProvider extends StateNotifier<SessionModel> {
     );
 
     // mainLoop();
-    await mainLoop();
-    await smartContractLoop();
+    mainLoop();
+    smartContractLoop();
     read(beaconListProvider.notifier).refresh();
 
     Future.delayed(const Duration(milliseconds: 300)).then((_) {
@@ -388,6 +390,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   Future<void> _onboardWallet() async {
+    await Future.delayed(const Duration(seconds: 10));
     if (read(walletListProvider).isNotEmpty) {
       return;
     }
@@ -420,7 +423,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
                     labelText: "Private Key",
                     onValidSubmission: (value) async {
                       await read(walletListProvider.notifier).import(value);
-                      await mainLoop(false);
+                      mainLoop(false);
                       Navigator.of(context).pop();
                     },
                   );
@@ -433,7 +436,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
                 label: "Create New Wallet",
                 onPressed: () async {
                   await read(walletListProvider.notifier).create();
-                  await mainLoop(false);
+                  mainLoop(false);
                   Navigator.of(context).pop();
                   // Navigator.of(context).pop(); // do we need this? lol
                 },

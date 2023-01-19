@@ -54,78 +54,69 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
     } catch (e) {
       print(e);
       print("fetch error");
+      if (loop) {
+        await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
+        infoLoop();
+      }
       return;
     }
 
-    if (data.isEmpty) {
-      return;
-    }
+    if (data.isNotEmpty) {
+      final prevIsChainSynced = state == null ? false : state!.isChainSynced;
 
-    final prevIsChainSynced = state == null ? false : state!.isChainSynced;
+      final int blockHeight = int.parse(data['BlockHeight']);
+      final int peerCount = int.parse(data['PeerCount']);
+      final bool isSyncing = data['BlocksDownloading'].toString().toLowerCase() == "true";
+      final bool isChainSynced = data['IsChainSynced'].toString().toLowerCase() == "true";
+      final bool isResyncing = data['IsResyncing'].toString().toLowerCase() == "true";
+      final bool duplicateValidatorIp = data['DuplicateValIP'].toString().toLowerCase() == "true";
+      final bool duplicateValidatorAddress = data['DuplicateValAddress'].toString().toLowerCase() == "true";
+      final bool connectedToMother = data['ConnectedToMother'].toString().toLowerCase() == 'true';
+      final latestBlock = blockHeight > 0 ? await BridgeService().blockInfo(blockHeight) : null;
 
-    final int blockHeight = int.parse(data['BlockHeight']);
-    final int peerCount = int.parse(data['PeerCount']);
-    final bool isSyncing = data['BlocksDownloading'].toString().toLowerCase() == "true";
-    final bool isChainSynced = data['IsChainSynced'].toString().toLowerCase() == "true";
-    final bool isResyncing = data['IsResyncing'].toString().toLowerCase() == "true";
-    final bool duplicateValidatorIp = data['DuplicateValIP'].toString().toLowerCase() == "true";
-    final bool duplicateValidatorAddress = data['DuplicateValAddress'].toString().toLowerCase() == "true";
-    final bool connectedToMother = data['ConnectedToMother'].toString().toLowerCase() == 'true';
-    final latestBlock = blockHeight > 0 ? await BridgeService().blockInfo(blockHeight) : null;
+      final prevBlockHeight = state?.blockHeight;
+      final prevPeerCount = state?.peerCount;
 
-    final prevBlockHeight = state?.blockHeight;
-    final prevPeerCount = state?.peerCount;
-
-    state = WalletInfoModel(
-      blockHeight: blockHeight,
-      peerCount: peerCount,
-      isSyncing: isSyncing,
-      lastestBlock: latestBlock,
-      isResyncing: isResyncing,
-      isChainSynced: isChainSynced,
-      duplicateValidatorIp: duplicateValidatorIp,
-      duplicateValidatorAddress: duplicateValidatorAddress,
-      connectedToMother: connectedToMother,
-    );
-
-    read(sessionProvider.notifier).setBlocksAreSyncing(isSyncing);
-    read(sessionProvider.notifier).setBlocksAreResyncing(isResyncing);
-
-    if (blockHeight != prevBlockHeight) {
-      read(logProvider.notifier).append(
-        LogEntry(message: "Current Block Height is $blockHeight."),
+      state = WalletInfoModel(
+        blockHeight: blockHeight,
+        peerCount: peerCount,
+        isSyncing: isSyncing,
+        lastestBlock: latestBlock,
+        isResyncing: isResyncing,
+        isChainSynced: isChainSynced,
+        duplicateValidatorIp: duplicateValidatorIp,
+        duplicateValidatorAddress: duplicateValidatorAddress,
+        connectedToMother: connectedToMother,
       );
-    }
 
-    if (peerCount != prevPeerCount) {
-      read(logProvider.notifier).append(
-        LogEntry(message: "You are connected to $peerCount peers."),
-      );
-    }
+      read(sessionProvider.notifier).setBlocksAreSyncing(isSyncing);
+      read(sessionProvider.notifier).setBlocksAreResyncing(isResyncing);
 
-    if (!prevIsChainSynced && isChainSynced) {
-      read(logProvider.notifier).append(
-        LogEntry(
-          message: "Your wallet is now synced. Thank you for waiting.",
-          variant: AppColorVariant.Secondary,
-        ),
-      );
-    }
+      if (blockHeight != prevBlockHeight) {
+        read(logProvider.notifier).append(
+          LogEntry(message: "Current Block Height is $blockHeight."),
+        );
+      }
 
-    // read(sessionProvider.notifier).load();
+      if (peerCount != prevPeerCount) {
+        read(logProvider.notifier).append(
+          LogEntry(message: "You are connected to $peerCount peers."),
+        );
+      }
+
+      if (!prevIsChainSynced && isChainSynced) {
+        read(logProvider.notifier).append(
+          LogEntry(
+            message: "Your wallet is now synced. Thank you for waiting.",
+            variant: AppColorVariant.Secondary,
+          ),
+        );
+      }
+    }
 
     if (loop) {
       await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
       infoLoop();
-
-      // final isActive = read(isActiveProvider).isActive;
-      // await Future.delayed(
-      //   Duration(
-      //     seconds: isActive ? REFRESH_TIMEOUT_SECONDS : REFRESH_TIMEOUT_SECONDS_INACTIVE,
-      //   ),
-      // );
-
-      // fetch();
     }
   }
 }

@@ -19,6 +19,7 @@ class KeygenService {
   static Future<Keypair?> seedToKeypair(
     String seed,
     int index,
+    String email,
   ) async {
     return Keypair(
       private: "mock",
