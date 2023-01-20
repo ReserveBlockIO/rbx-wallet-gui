@@ -325,4 +325,13 @@ class BridgeService extends BaseService {
       return false;
     }
   }
+
+  Future<bool?> isValidating() async {
+    try {
+      final data = await getText("/IsValidating");
+      return data.toString().toLowerCase() == 'true';
+    } catch (e) {
+      return null;
+    }
+  }
 }

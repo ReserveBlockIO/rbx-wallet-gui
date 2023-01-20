@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/validator/providers/validating_status_provider.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/components/buttons.dart';
@@ -33,22 +34,6 @@ class ValidatorScreen extends BaseScreen {
       shadowColor: Colors.transparent,
       actions: const [WalletSelector()],
     );
-  }
-
-  Future<bool> checkPort([bool withSuccessMessage = true]) async {
-    final port = Env.validatorPort;
-
-    final open = await HealthService().pingPort();
-
-    if (open) {
-      if (withSuccessMessage) {
-        Toast.message("Port $port is open!");
-      }
-      return true;
-    } else {
-      Toast.error("Port $port is NOT open. Please configure your firewall.");
-      return false;
-    }
   }
 
   Future<String?> _validatorName(String address) async {
@@ -106,17 +91,6 @@ class ValidatorScreen extends BaseScreen {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text("You must have port $port open to external networks in order to validate."),
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: AppButton(
-            //     label: "Check Port",
-            //     type: AppButtonType.Outlined,
-            //     variant: AppColorVariant.Secondary,
-            //     onPressed: () {
-            //       checkPort();
-            //     },
-            //   ),
-            // ),
             const SizedBox(
               height: 40,
             ),
@@ -128,8 +102,6 @@ class ValidatorScreen extends BaseScreen {
                 if (!guardWalletIsSynced(ref.read)) return;
                 if (!guardWalletIsNotResyncing(ref.read)) return;
                 if (!await passwordRequiredGuard(context, ref, true, true)) return;
-
-                // if (!await checkPort(false)) return;
 
                 if (currentWallet.balance < 1000.0) {
                   Toast.error("Balance not currently sufficient to validate. 1000 RBX required.");
@@ -161,6 +133,7 @@ class ValidatorScreen extends BaseScreen {
 
                       if (success) {
                         Toast.message("$name [${currentWallet.label}] is now validating.");
+                        ref.read(validatingStatusProvider.notifier).check(false);
                         await ref.read(sessionProvider.notifier).mainLoop(false);
                       } else {
                         Toast.error();
@@ -168,6 +141,27 @@ class ValidatorScreen extends BaseScreen {
                     });
               },
             ),
+          ],
+        ),
+      );
+    }
+
+    if (!ref.watch(validatingStatusProvider)) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "${currentWallet.labelWithoutTruncation} is NOT Validating...",
+              style: Theme.of(context).textTheme.headline5,
+            ),
+            const SizedBox(height: 8),
+            AppButton(
+              label: "Check Again",
+              onPressed: () {
+                ref.read(validatingStatusProvider.notifier).check();
+              },
+            )
           ],
         ),
       );
@@ -196,7 +190,7 @@ class ValidatorScreen extends BaseScreen {
             }),
         const Padding(
           padding: EdgeInsets.all(32),
-          child: _RotatingIcon(),
+          child: RotatingGear(),
         ),
         AppButton(
           label: "Stop Validating",
@@ -208,6 +202,8 @@ class ValidatorScreen extends BaseScreen {
 
             if (success) {
               Toast.message("${currentWallet.label} hast stopped validating.");
+
+              ref.read(validatingStatusProvider.notifier).check(false);
               await ref.read(sessionProvider.notifier).mainLoop(false);
             } else {
               Toast.error();
@@ -255,16 +251,20 @@ class ValidatorScreen extends BaseScreen {
   }
 }
 
-class _RotatingIcon extends StatefulWidget {
-  const _RotatingIcon({
+class RotatingGear extends StatefulWidget {
+  final Color? color;
+  final double size;
+  const RotatingGear({
     Key? key,
+    this.color,
+    this.size = 24,
   }) : super(key: key);
 
   @override
-  State<_RotatingIcon> createState() => _RotatingIconState();
+  State<RotatingGear> createState() => RotatingGearState();
 }
 
-class _RotatingIconState extends State<_RotatingIcon> with SingleTickerProviderStateMixin {
+class RotatingGearState extends State<RotatingGear> with SingleTickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(vsync: this, duration: const Duration(seconds: 4))..repeat();
 
   @override
@@ -277,9 +277,10 @@ class _RotatingIconState extends State<_RotatingIcon> with SingleTickerProviderS
         builder: (_, child) {
           return Transform.rotate(
             angle: _controller.value * 2 * math.pi,
-            child: const Icon(
+            child: Icon(
               Icons.settings,
-              size: 24,
+              size: widget.size,
+              color: widget.color,
             ),
           );
         },
