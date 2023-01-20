@@ -80,8 +80,6 @@ build_win7:
 	copy ".\installers\resources\win7-64\vcruntime140_1.dll" ".\build\windows\runner\Release\vcruntime140_1.dll"
 	copy ".\installers\resources\win7-64\api-ms-win-core-winrt-l1-1-0.dll" ".\build\windows\runner\Release\api-ms-win-core-winrt-l1-1-0.dll"
 	Xcopy ".\installers\resources\BIP39" ".\build\windows\runner\Release\BIP39\" /E /Y /K
-
-	
 	C:\"Program Files (x86)"\"Inno Setup 6"\ISCC .\installers\resources\WindowsInstallerScript-win7.iss
 
 

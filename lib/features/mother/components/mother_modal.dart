@@ -42,7 +42,7 @@ class MotherModal extends BaseComponent {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Monitor Of THe Roster",
+                    "Monitor Of The Roster",
                     style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.white),
                   ),
                   Text(
@@ -186,7 +186,7 @@ class MotherModal extends BaseComponent {
           trailing: const Icon(Icons.chevron_right),
           onTap: () {
             InfoDialog.show(
-              title: "Monitor Of THe Roster",
+              title: "Monitor Of The Roster",
               body:
                   "MOTHER is a tool for monitoring the state of your remote validators.\n\nFirst you must setup one of your wallets as the HOST and then add your additional node as a REMOTE.\n\nWhen adding a REMOTE node, you will need to know the IP address and the password for the HOST.\n\nOnce complete, you'll be able to view a dashboard tracking all of your node's activity from one wallet.\n\nNote: you must have port '${Env.validatorPort}' open on the HOST machine.",
             );
