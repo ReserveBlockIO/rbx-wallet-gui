@@ -170,8 +170,10 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
     Future.delayed(const Duration(milliseconds: 300)).then((_) {
       read(walletInfoProvider.notifier).infoLoop();
-      if (!read(passwordRequiredProvider)) {
-        _onboardWallet();
+      if (!kIsWeb) {
+        if (!read(passwordRequiredProvider)) {
+          _onboardWallet();
+        }
       }
     });
   }
