@@ -188,94 +188,70 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
       ..insert(index, item);
   }
 
-  Future<bool> uploadCsv() async {
-    state = [];
+  Future<PlatformFile?> _getFile(List<String> extensions) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-      allowedExtensions: ['csv'],
+      allowedExtensions: extensions,
       allowMultiple: false,
     );
     if (result == null) {
-      return false;
+      return null;
     }
     if (result.files.isEmpty) {
+      return null;
+    }
+
+    final file = result.files.first;
+
+    return file;
+  }
+
+  Future<bool> uploadJson() async {
+    state = [];
+    final file = await _getFile(['json']);
+    if (file == null || file.path == null) {
       return false;
     }
 
-    PlatformFile file = result.files.first;
-    if (file.path == null) {
+    final input = File(file.path!).readAsStringSync();
+
+    List<dynamic> data = [];
+    try {
+      data = jsonDecode(input);
+    } catch (e) {
+      print(e);
+      Toast.error("Invalid JSON");
       return false;
     }
 
-    final input = File(file.path!).openRead();
-    final fields = await input.transform(utf8.decoder).transform(const CsvToListConverter()).toList();
-
-    // final headers = fields.first;
-    final rows = [...fields]..removeAt(0);
     final List<BulkSmartContractEntry> entries = [];
-    for (final row in rows) {
-      final name = row[0].toString();
-      final description = row[1].toString();
-      final primaryAssetUrl = row[2].toString();
-      final creatorName = row[3].toString();
+    final List<Map<String, dynamic>> items = data.map((e) => e as Map<String, dynamic>).toList();
 
-      final royaltyAmount = row[4].toString();
-      final royaltyAddress = row[5].toString();
-      final additionalAssetUrls = row[6].toString();
+    for (final item in items) {
+      final name = item['name'].toString();
+      final description = item['description'].toString();
+      final primaryAssetUrl = item['image'].toString();
+      final creatorName = item['creator_name'].toString() == "null" ? " " : item['creator_name'];
 
-      final quantity = row[7];
+      final royaltyAmount = item.containsKey('royalty') ? item['royalty']['amount'].toString() : null;
+      final royaltyAddress = item.containsKey('royalty') ? item['royalty']['address'].toString() : null;
+      final List<String>? additionalAssetUrls =
+          item.containsKey('additional_images') ? item['additional_images'].map<String>((e) => e as String).toList() : null;
 
-      //TODO stats
-
-      //TODO validation
-
-      final primaryAsset = await urlToAsset(primaryAssetUrl, creatorName);
-      if (primaryAsset == null) {
-        Toast.error("Problem downloading $primaryAssetUrl. Skipping.");
-        continue;
-      }
-
-      Royalty? royalty;
-      if (royaltyAmount.isNotEmpty && royaltyAddress.isNotEmpty) {
-        if (isValidRbxAddress(royaltyAddress)) {
-          if (royaltyAmount.contains('%')) {
-            final parsed = double.tryParse(royaltyAmount.replaceAll("%", ''));
-            if (parsed != null) {
-              royalty = Royalty(amount: parsed / 100, address: royaltyAddress, type: RoyaltyType.percent);
-            }
-          } else {
-            final parsed = double.tryParse(royaltyAmount);
-            if (parsed != null) {
-              royalty = Royalty(amount: parsed, address: royaltyAddress, type: RoyaltyType.fixed);
-            }
-          }
-        }
-      }
-
-      final List<Asset> additionalAssets = [];
-      if (additionalAssetUrls.isNotEmpty) {
-        final urls = additionalAssetUrls.split(",").map((e) => e.trim()).toList();
-
-        if (urls.isNotEmpty) {
-          for (final url in urls) {
-            final a = await urlToAsset(url, creatorName);
-            if (a != null) {
-              additionalAssets.add(a);
-            }
-          }
-        }
-      }
-
-      entries.add(
-        BulkSmartContractEntry(
-          name: name,
-          description: description,
-          primaryAsset: primaryAsset,
-          creatorName: creatorName,
-          quantity: quantity,
-          royalty: royalty,
-          additionalAssets: additionalAssets,
-        ),
+      final quantity = item.containsKey('quantity') ? item['quantity'] : 1;
+      final entry = await _propertiesToEntry(
+        name: name,
+        description: description,
+        primaryAssetUrl: primaryAssetUrl,
+        creatorName: creatorName,
+        quantity: quantity,
+        royaltyAmount: royaltyAmount,
+        royaltyAddress: royaltyAddress,
+        additionalAssetUrls: additionalAssetUrls,
       );
+
+      if (entry != null) {
+        entries.add(entry);
+      }
     }
 
     state = entries
@@ -290,6 +266,119 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
         .toList();
 
     return entries.isNotEmpty;
+  }
+
+  Future<bool> uploadCsv() async {
+    state = [];
+    final file = await _getFile(['csv']);
+    if (file == null || file.path == null) {
+      return false;
+    }
+
+    final input = File(file.path!).openRead();
+
+    final fields = await input.transform(utf8.decoder).transform(const CsvToListConverter()).toList();
+
+    // final headers = fields.first;
+    final rows = [...fields]..removeAt(0);
+    final List<BulkSmartContractEntry> entries = [];
+    for (final row in rows) {
+      final name = row[0].toString();
+      final description = row[1].toString();
+      final primaryAssetUrl = row[2].toString();
+      final creatorName = row[3].toString();
+
+      final royaltyAmount = row[4].toString();
+      final royaltyAddress = row[5].toString();
+      final additionalAssetUrls = row[6].toString().isNotEmpty ? row[6].toString().split(',').map((e) => e.trim()).toList() : null;
+
+      final quantity = row[7];
+
+      final entry = await _propertiesToEntry(
+        name: name,
+        description: description,
+        primaryAssetUrl: primaryAssetUrl,
+        creatorName: creatorName,
+        quantity: quantity,
+        royaltyAmount: royaltyAmount,
+        royaltyAddress: royaltyAddress,
+        additionalAssetUrls: additionalAssetUrls,
+      );
+      if (entry != null) {
+        entries.add(entry);
+      }
+    }
+
+    state = entries
+        .asMap()
+        .entries
+        .map((e) => ScWizardItem(
+              entry: e.value,
+              index: e.key,
+              x: 0,
+              y: 0,
+            ))
+        .toList();
+
+    return entries.isNotEmpty;
+  }
+
+  Future<BulkSmartContractEntry?> _propertiesToEntry({
+    required String name,
+    required String description,
+    required String primaryAssetUrl,
+    required String creatorName,
+    required int quantity,
+    required String? royaltyAmount,
+    required String? royaltyAddress,
+    required List<String>? additionalAssetUrls,
+  }) async {
+    final primaryAsset = await urlToAsset(primaryAssetUrl, creatorName);
+    if (primaryAsset == null) {
+      Toast.error("Problem downloading $primaryAssetUrl. Skipping.");
+      return null;
+    }
+
+    //TODO stats
+
+    //TODO validation
+
+    Royalty? royalty;
+    if (royaltyAmount != null && royaltyAddress != null && royaltyAmount.isNotEmpty && royaltyAddress.isNotEmpty) {
+      if (isValidRbxAddress(royaltyAddress)) {
+        if (royaltyAmount.contains('%')) {
+          final parsed = double.tryParse(royaltyAmount.replaceAll("%", ''));
+          if (parsed != null) {
+            royalty = Royalty(amount: parsed / 100, address: royaltyAddress, type: RoyaltyType.percent);
+          }
+        } else {
+          final parsed = double.tryParse(royaltyAmount);
+          if (parsed != null) {
+            royalty = Royalty(amount: parsed, address: royaltyAddress, type: RoyaltyType.fixed);
+          }
+        }
+      }
+    }
+
+    final List<Asset> additionalAssets = [];
+    if (additionalAssetUrls != null && additionalAssetUrls.isNotEmpty) {
+      for (final url in additionalAssetUrls) {
+        final a = await urlToAsset(url, creatorName);
+        if (a != null) {
+          additionalAssets.add(a);
+        }
+      }
+    }
+
+    return BulkSmartContractEntry(
+      name: name,
+      description: description,
+      primaryAsset: primaryAsset,
+      creatorName: creatorName,
+      quantity: quantity,
+      royalty: royalty,
+      additionalAssets: additionalAssets,
+    );
   }
 
   Future<Asset?> urlToAsset(String url, String creatorName) async {

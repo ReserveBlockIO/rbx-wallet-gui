@@ -43,6 +43,13 @@ abstract class Asset with _$Asset {
     return "";
   }
 
+  String truncatedFileName([int maxLength = 24]) {
+    if (maxLength >= fileName.length) {
+      return fileName;
+    }
+    return fileName.replaceRange(maxLength, fileName.length, "...");
+  }
+
   String get ext {
     return fileName.split('.').last.toLowerCase();
   }

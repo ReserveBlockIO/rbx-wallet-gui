@@ -403,7 +403,7 @@ class ScWizedCard extends BaseComponent {
                                               ),
                                               const SizedBox(width: 6),
                                               Text(
-                                                asset.fileName,
+                                                asset.truncatedFileName(),
                                                 maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
                                               ),
