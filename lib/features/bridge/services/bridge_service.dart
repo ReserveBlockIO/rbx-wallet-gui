@@ -242,15 +242,25 @@ class BridgeService extends BaseService {
     }
   }
 
+  Future<bool> checkIfCliIsKilled() async {
+    try {
+      final response = await getText("/SendExitComplete", timeout: 1000);
+      if (response == "SA") {
+        await Future.delayed(const Duration(seconds: 5));
+        return checkIfCliIsKilled();
+      }
+      return true;
+    } catch (e) {
+      return true;
+    }
+  }
+
   Future<bool> killCli() async {
     if (Env.launchCli) {
-      try {
-        await getText("/SendExit");
-      } catch (e) {
-        return true;
-      }
+      getText("/SendExit");
+      await Future.delayed(const Duration(milliseconds: 300));
+      // return await checkIfCliIsKilled();
     }
-
     return true;
   }
 

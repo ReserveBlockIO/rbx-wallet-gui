@@ -36,6 +36,21 @@ Future<String> configPath() async {
   return path;
 }
 
+Future<String> startupProgressPath() async {
+  Directory appDocDir = await getApplicationDocumentsDirectory();
+  String path = appDocDir.path;
+
+  if (Platform.isMacOS) {
+    path = path.replaceAll("/Documents", Env.isTestNet ? "/rbxtest/DatabasesTestNet/statesynclog.txt" : "/rbx/Databases/statesynclog.txt");
+  } else {
+    final winDir = await getApplicationSupportDirectory();
+    path = winDir.path;
+    path = path.replaceAll("\\Roaming\\com.example\\rbx_wallet_gui",
+        "\\Local\\${Env.isTestNet ? 'RBXTest\\DatabasesTestNet\\statesynclog.txt' : 'RBX\\Databases\\statesynclog.txt'}");
+  }
+  return path;
+}
+
 Future<Asset?> selectAsset(WidgetRef ref) async {
   FilePickerResult? result = await FilePicker.platform.pickFiles();
 

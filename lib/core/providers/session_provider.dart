@@ -9,6 +9,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:process/process.dart';
 import 'package:process_run/shell.dart';
+import 'package:rbx_wallet/features/startup/startup_data.dart';
+import 'package:rbx_wallet/features/startup/startup_data_provider.dart';
 
 import '../../app.dart';
 import '../../features/beacon/providers/beacon_list_provider.dart';
@@ -252,7 +254,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
     await BridgeService().killCli();
     read(logProvider.notifier).append(LogEntry(message: "CLI terminated."));
 
-    await Future.delayed(const Duration(milliseconds: 300));
+    await Future.delayed(const Duration(milliseconds: 5000));
 
     await init();
     await fetchConfig();
@@ -491,7 +493,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
     }
   }
 
-  Future<bool> _cliCheck([int attempt = 1, int maxAttempts = 100]) async {
+  Future<bool> _cliCheck([int attempt = 1, int maxAttempts = 500]) async {
     if (attempt > maxAttempts) {
       read(logProvider.notifier).append(LogEntry(message: "Attempted $maxAttempts. Something went wrong."));
 
@@ -516,6 +518,17 @@ class SessionProvider extends StateNotifier<SessionModel> {
     return _cliCheck(attempt + 1, maxAttempts);
   }
 
+  Future<void> startupDataLoop() async {
+    final data = await fetchStartupData();
+
+    read(startupDataProvider.notifier).set(data);
+
+    await Future.delayed(const Duration(milliseconds: 200));
+    if (!state.cliStarted) {
+      startupDataLoop();
+    }
+  }
+
   Future<bool> _startCli() async {
     if (Env.launchCli) {
       if (await _cliIsActive()) {
@@ -524,6 +537,8 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
         return true;
       }
+
+      startupDataLoop();
 
       final cliPath = Env.cliPathOverride ?? getCliPath();
       List<String> options = ['enableapi', 'gui'];
@@ -591,6 +606,23 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
   void setIsMintingOrCompiling(bool value) {
     state = state.copyWith(isMintingOrCompiling: value);
+  }
+
+  Future<StartupData?> fetchStartupData() async {
+    final path = await startupProgressPath();
+
+    if (!File(path).existsSync()) {
+      return null;
+    }
+
+    final string = await File(path).readAsString();
+    final Map<String, dynamic> data = jsonDecode(string);
+
+    if (data.containsKey('NextBlock') && data.containsKey('CurrentPercent')) {
+      return StartupData(data['NextBlock'].toString(), data['CurrentPercent'].toString());
+    }
+
+    return null;
   }
 
   Future<void> fetchConfig() async {
