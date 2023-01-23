@@ -523,7 +523,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
     read(startupDataProvider.notifier).set(data);
 
-    await Future.delayed(const Duration(milliseconds: 200));
+    await Future.delayed(const Duration(seconds: 1));
     if (!state.cliStarted) {
       startupDataLoop();
     }
