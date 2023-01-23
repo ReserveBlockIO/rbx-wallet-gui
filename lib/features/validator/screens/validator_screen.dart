@@ -17,7 +17,6 @@ import '../../../utils/validation.dart';
 import '../../bridge/services/bridge_service.dart';
 import '../../encrypt/utils.dart';
 import '../../global_loader/global_loading_provider.dart';
-import '../../health/health_service.dart';
 import '../../wallet/components/invalid_wallet.dart';
 import '../../wallet/components/wallet_selector.dart';
 import '../../wallet/providers/wallet_list_provider.dart';

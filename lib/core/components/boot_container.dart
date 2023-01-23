@@ -54,10 +54,8 @@ class BootContainer extends BaseComponent {
                         "Syncing state treis due to improper shutdown".toUpperCase(),
                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.warning),
                       ),
-                      SizedBox(
-                        height: 6,
-                      ),
-                      Divider(),
+                      const SizedBox(height: 6),
+                      const Divider(),
                       Text(
                         "Block: ${data.block}",
                         style: const TextStyle(fontFamily: 'RobotoMono', fontSize: 16, fontWeight: FontWeight.bold),
@@ -69,19 +67,22 @@ class BootContainer extends BaseComponent {
                       ),
                       const SizedBox(height: 10),
                       SizedBox(
-                          width: 200,
-                          child: LinearProgressIndicator(
-                            color: Colors.green,
-                            minHeight: 8,
-                            backgroundColor: Colors.black45,
-                            value: data.fraction,
-                          )),
+                        width: 200,
+                        child: LinearProgressIndicator(
+                          color: Colors.green,
+                          minHeight: 8,
+                          backgroundColor: Colors.black45,
+                          value: data.fraction,
+                        ),
+                      ),
                       const SizedBox(height: 10),
-                      const Text("Please do not close your wallet.",
-                          style: TextStyle(
-                            color: Colors.white38,
-                            fontSize: 13,
-                          ))
+                      const Text(
+                        "Please do not close your wallet.",
+                        style: TextStyle(
+                          color: Colors.white38,
+                          fontSize: 13,
+                        ),
+                      )
                     ],
                   ),
                 ),
