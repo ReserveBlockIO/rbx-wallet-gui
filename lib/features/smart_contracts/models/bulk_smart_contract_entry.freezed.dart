@@ -23,6 +23,7 @@ mixin _$BulkSmartContractEntry {
   int get quantity => throw _privateConstructorUsedError;
   Royalty? get royalty => throw _privateConstructorUsedError;
   List<Asset> get additionalAssets => throw _privateConstructorUsedError;
+  Evolve get evolve => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $BulkSmartContractEntryCopyWith<BulkSmartContractEntry> get copyWith =>
@@ -41,10 +42,12 @@ abstract class $BulkSmartContractEntryCopyWith<$Res> {
       Asset? primaryAsset,
       int quantity,
       Royalty? royalty,
-      List<Asset> additionalAssets});
+      List<Asset> additionalAssets,
+      Evolve evolve});
 
   $AssetCopyWith<$Res>? get primaryAsset;
   $RoyaltyCopyWith<$Res>? get royalty;
+  $EvolveCopyWith<$Res> get evolve;
 }
 
 /// @nodoc
@@ -65,6 +68,7 @@ class _$BulkSmartContractEntryCopyWithImpl<$Res>
     Object? quantity = freezed,
     Object? royalty = freezed,
     Object? additionalAssets = freezed,
+    Object? evolve = freezed,
   }) {
     return _then(_value.copyWith(
       name: name == freezed
@@ -95,6 +99,10 @@ class _$BulkSmartContractEntryCopyWithImpl<$Res>
           ? _value.additionalAssets
           : additionalAssets // ignore: cast_nullable_to_non_nullable
               as List<Asset>,
+      evolve: evolve == freezed
+          ? _value.evolve
+          : evolve // ignore: cast_nullable_to_non_nullable
+              as Evolve,
     ));
   }
 
@@ -119,6 +127,13 @@ class _$BulkSmartContractEntryCopyWithImpl<$Res>
       return _then(_value.copyWith(royalty: value));
     });
   }
+
+  @override
+  $EvolveCopyWith<$Res> get evolve {
+    return $EvolveCopyWith<$Res>(_value.evolve, (value) {
+      return _then(_value.copyWith(evolve: value));
+    });
+  }
 }
 
 /// @nodoc
@@ -135,12 +150,15 @@ abstract class _$$_BulkSmartContractEntryCopyWith<$Res>
       Asset? primaryAsset,
       int quantity,
       Royalty? royalty,
-      List<Asset> additionalAssets});
+      List<Asset> additionalAssets,
+      Evolve evolve});
 
   @override
   $AssetCopyWith<$Res>? get primaryAsset;
   @override
   $RoyaltyCopyWith<$Res>? get royalty;
+  @override
+  $EvolveCopyWith<$Res> get evolve;
 }
 
 /// @nodoc
@@ -164,6 +182,7 @@ class __$$_BulkSmartContractEntryCopyWithImpl<$Res>
     Object? quantity = freezed,
     Object? royalty = freezed,
     Object? additionalAssets = freezed,
+    Object? evolve = freezed,
   }) {
     return _then(_$_BulkSmartContractEntry(
       name: name == freezed
@@ -194,6 +213,10 @@ class __$$_BulkSmartContractEntryCopyWithImpl<$Res>
           ? _value._additionalAssets
           : additionalAssets // ignore: cast_nullable_to_non_nullable
               as List<Asset>,
+      evolve: evolve == freezed
+          ? _value.evolve
+          : evolve // ignore: cast_nullable_to_non_nullable
+              as Evolve,
     ));
   }
 }
@@ -208,7 +231,8 @@ class _$_BulkSmartContractEntry extends _BulkSmartContractEntry {
       this.primaryAsset,
       this.quantity = 1,
       this.royalty,
-      final List<Asset> additionalAssets = const []})
+      final List<Asset> additionalAssets = const [],
+      this.evolve = const Evolve()})
       : _additionalAssets = additionalAssets,
         super._();
 
@@ -234,8 +258,12 @@ class _$_BulkSmartContractEntry extends _BulkSmartContractEntry {
   }
 
   @override
+  @JsonKey()
+  final Evolve evolve;
+
+  @override
   String toString() {
-    return 'BulkSmartContractEntry(name: $name, description: $description, creatorName: $creatorName, primaryAsset: $primaryAsset, quantity: $quantity, royalty: $royalty, additionalAssets: $additionalAssets)';
+    return 'BulkSmartContractEntry(name: $name, description: $description, creatorName: $creatorName, primaryAsset: $primaryAsset, quantity: $quantity, royalty: $royalty, additionalAssets: $additionalAssets, evolve: $evolve)';
   }
 
   @override
@@ -253,7 +281,8 @@ class _$_BulkSmartContractEntry extends _BulkSmartContractEntry {
             const DeepCollectionEquality().equals(other.quantity, quantity) &&
             const DeepCollectionEquality().equals(other.royalty, royalty) &&
             const DeepCollectionEquality()
-                .equals(other._additionalAssets, _additionalAssets));
+                .equals(other._additionalAssets, _additionalAssets) &&
+            const DeepCollectionEquality().equals(other.evolve, evolve));
   }
 
   @override
@@ -265,7 +294,8 @@ class _$_BulkSmartContractEntry extends _BulkSmartContractEntry {
       const DeepCollectionEquality().hash(primaryAsset),
       const DeepCollectionEquality().hash(quantity),
       const DeepCollectionEquality().hash(royalty),
-      const DeepCollectionEquality().hash(_additionalAssets));
+      const DeepCollectionEquality().hash(_additionalAssets),
+      const DeepCollectionEquality().hash(evolve));
 
   @JsonKey(ignore: true)
   @override
@@ -282,7 +312,8 @@ abstract class _BulkSmartContractEntry extends BulkSmartContractEntry {
       final Asset? primaryAsset,
       final int quantity,
       final Royalty? royalty,
-      final List<Asset> additionalAssets}) = _$_BulkSmartContractEntry;
+      final List<Asset> additionalAssets,
+      final Evolve evolve}) = _$_BulkSmartContractEntry;
   _BulkSmartContractEntry._() : super._();
 
   @override
@@ -299,6 +330,8 @@ abstract class _BulkSmartContractEntry extends BulkSmartContractEntry {
   Royalty? get royalty => throw _privateConstructorUsedError;
   @override
   List<Asset> get additionalAssets => throw _privateConstructorUsedError;
+  @override
+  Evolve get evolve => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_BulkSmartContractEntryCopyWith<_$_BulkSmartContractEntry> get copyWith =>

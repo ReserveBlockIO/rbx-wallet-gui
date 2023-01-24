@@ -14,7 +14,7 @@ _$_Feature _$$_FeatureFromJson(Map<String, dynamic> json) => _$_Feature(
 
 Map<String, dynamic> _$$_FeatureToJson(_$_Feature instance) =>
     <String, dynamic>{
-      'type': _$FeatureTypeEnumMap[instance.type]!,
+      'type': _$FeatureTypeEnumMap[instance.type],
       'data': instance.data,
     };
 

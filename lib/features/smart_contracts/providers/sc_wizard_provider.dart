@@ -9,6 +9,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase_wizard_form_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/multi_asset.dart';
 import 'package:path/path.dart';
 import 'package:rbx_wallet/utils/validation.dart';
@@ -158,6 +161,25 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
       ..insert(index, item);
   }
 
+  void addEvolvePhase(int index, EvolvePhase? value) {
+    ScWizardItem? item = itemAtIndex(index);
+
+    if (item == null) return;
+    if (value != null) {
+      item = item.copyWith(
+        entry: item.entry.copyWith(
+          evolve: item.entry.evolve.copyWith(
+            phases: [...item.entry.evolve.phases, value],
+          ),
+        ),
+      );
+    }
+
+    state = [...state]
+      ..removeAt(index)
+      ..insert(index, item);
+  }
+
   void addAdditionalAsset(int index, Asset asset) {
     ScWizardItem? item = itemAtIndex(index);
 
@@ -181,6 +203,54 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
     item = item.copyWith(
       entry: item.entry.copyWith(
         additionalAssets: [...item.entry.additionalAssets]..removeAt(assetIndex),
+      ),
+    );
+    state = [...state]
+      ..removeAt(index)
+      ..insert(index, item);
+  }
+
+  void removeEvolutionPhase(int index, int assetIndex) {
+    ScWizardItem? item = itemAtIndex(index);
+    read(evolvePhaseWizardFormProvider(assetIndex).notifier).clear();
+
+    if (item == null) return;
+
+    item = item.copyWith(
+      entry: item.entry.copyWith(
+        evolve: item.entry.evolve.copyWith(
+          phases: [...item.entry.evolve.phases]..removeAt(assetIndex),
+        ),
+      ),
+    );
+    state = [...state]
+      ..removeAt(index)
+      ..insert(index, item);
+  }
+
+  void setEvolvingType(int index, EvolveType type) {
+    ScWizardItem? item = itemAtIndex(index);
+
+    if (item == null) return;
+
+    item = item.copyWith(
+      entry: item.entry.copyWith(
+        evolve: item.entry.evolve.copyWith(type: type),
+      ),
+    );
+    state = [...state]
+      ..removeAt(index)
+      ..insert(index, item);
+  }
+
+  void removePhase(int index, int phaseIndex) {
+    ScWizardItem? item = itemAtIndex(index);
+
+    if (item == null) return;
+
+    item = item.copyWith(
+      entry: item.entry.copyWith(
+        additionalAssets: [...item.entry.additionalAssets]..removeAt(phaseIndex),
       ),
     );
     state = [...state]
@@ -381,6 +451,10 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
     );
   }
 
+  EvolveType getEvolveType(int index) {
+    return state[index].entry.evolve.type;
+  }
+
   Future<Asset?> urlToAsset(String url, String creatorName) async {
     try {
       final uri = Uri.parse(url).replace(queryParameters: {});
@@ -455,6 +529,7 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
         minterName: entry.creatorName,
         description: entry.description,
         primaryAsset: entry.primaryAsset,
+        evolves: [entry.evolve],
         royalties: entry.royalty != null ? [entry.royalty!] : [],
         multiAssets: entry.additionalAssets.isNotEmpty ? [MultiAsset(assets: entry.additionalAssets)] : [],
       );
