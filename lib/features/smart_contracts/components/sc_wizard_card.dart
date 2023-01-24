@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_evolve_dialog.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_wizard_evolve_type_dialog.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase_wizard_form_provider.dart';
@@ -465,57 +466,31 @@ class ScWizedCard extends BaseComponent {
                     children: [
                       Expanded(
                         child: Text(
-                          "Evolve",
+                          entry.evolve.phases.isEmpty ? "Evolve" : "Evolve (${entry.evolve.typeLabel})",
                           style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                 color: entry.evolve.phases.isEmpty ? Colors.white54 : Colors.white,
                               ),
                         ),
                       ),
-                      entry.evolve.phases.isEmpty
-                          ? PopupMenuButton(
-                              itemBuilder: (context) {
-                                return [
-                                  PopupMenuItem(
-                                    child: const Text('Manual Only'),
-                                    onTap: () {
-                                      provider.setEvolvingType(index, EvolveType.manualOnly);
-                                    },
-                                  ),
-                                  PopupMenuItem(
-                                    child: const Text('Block Height'),
-                                    onTap: () {
-                                      provider.setEvolvingType(index, EvolveType.blockHeight);
-                                    },
-                                  ),
-                                  PopupMenuItem(
-                                    child: const Text('Date'),
-                                    onTap: () {
-                                      provider.setEvolvingType(index, EvolveType.time);
-                                    },
-                                  ),
-                                ];
-                              },
-                              padding: EdgeInsets.zero,
-                              constraints: const BoxConstraints(),
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.build_circle_outlined,
-                                    size: 16,
-                                  ),
-                                  const SizedBox(
-                                    width: 2,
-                                  ),
-                                  Text(Evolve.typeToString(provider.getEvolveType(index))),
-                                ],
-                              ),
-                            )
-                          : Text(entry.evolve.typeLabel),
                       IconButton(
                         visualDensity: VisualDensity.compact,
                         padding: EdgeInsets.zero,
                         constraints: const BoxConstraints(),
                         onPressed: () async {
+                          if (entry.evolve.phases.isEmpty) {
+                            final EvolveType? type = await showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const ScWizardEvolveTypeDialog();
+                              },
+                            );
+
+                            if (type == null) {
+                              return;
+                            }
+                            provider.setEvolvingType(index, type);
+                          }
+
                           ref.read(evolvePhaseWizardFormProvider(item.entry.evolve.phases.length).notifier).clear();
                           final EvolvePhase? evolve = await showDialog(
                             context: context,
