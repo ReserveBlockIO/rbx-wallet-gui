@@ -81,8 +81,8 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
       return "Not a valid amount";
     }
 
-    if (parsed < 1) {
-      return "Minimum to send is 1 RBX";
+    if (parsed <= 0) {
+      return "The amount has to be a positive value";
     }
 
     if (kIsWeb) {
