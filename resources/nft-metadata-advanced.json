@@ -25,7 +25,7 @@
             "address": "RKY4KEZrYc1Uj7vcKnmuSkqCkCPwFxPono"
         },
         "evolve": {
-            "type": "time",
+            "type": "date",
             "phases": [
                 {
                     "name": "Cool Phase",
