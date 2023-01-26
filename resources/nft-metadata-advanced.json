@@ -24,6 +24,17 @@
             "amount": "10%",
             "address": "RKY4KEZrYc1Uj7vcKnmuSkqCkCPwFxPono"
         },
+        "evolve": {
+            "type": "date",
+            "phases": [
+                {
+                    "name": "Cool Phase",
+                    "description": "This is the description",
+                    "image": "https://storage.googleapis.com/opensea-prod.appspot.com/puffs/5.png",
+                    "date": "2022-02-01T01:30:00.000-05:00"
+                }
+            ]
+        },
         "additional_images": [
             "https://media.npr.org/assets/img/2013/07/15/t-rex-jurassic-park_wide-a2deb59155d62f291d237da020badc44ffeea557.jpg",
             "https://i0.wp.com/sitn.hms.harvard.edu/wp-content/uploads/2020/05/blue.jpg?fit=1024%2C683&ssl=1",
