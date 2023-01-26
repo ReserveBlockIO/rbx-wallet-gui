@@ -308,16 +308,17 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
           item.containsKey('additional_images') ? item['additional_images'].map<String>((e) => e as String).toList() : null;
 
       final quantity = item.containsKey('quantity') ? item['quantity'] : 1;
+      final evolve = item.containsKey('evolve') ? item['evolve'] : null;
       final entry = await _propertiesToEntry(
-        name: name,
-        description: description,
-        primaryAssetUrl: primaryAssetUrl,
-        creatorName: creatorName,
-        quantity: quantity,
-        royaltyAmount: royaltyAmount,
-        royaltyAddress: royaltyAddress,
-        additionalAssetUrls: additionalAssetUrls,
-      );
+          name: name,
+          description: description,
+          primaryAssetUrl: primaryAssetUrl,
+          creatorName: creatorName,
+          quantity: quantity,
+          royaltyAmount: royaltyAmount,
+          royaltyAddress: royaltyAddress,
+          additionalAssetUrls: additionalAssetUrls,
+          evolve: evolve);
 
       if (entry != null) {
         entries.add(entry);
@@ -393,16 +394,16 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
     return entries.isNotEmpty;
   }
 
-  Future<BulkSmartContractEntry?> _propertiesToEntry({
-    required String name,
-    required String description,
-    required String primaryAssetUrl,
-    required String creatorName,
-    required int quantity,
-    required String? royaltyAmount,
-    required String? royaltyAddress,
-    required List<String>? additionalAssetUrls,
-  }) async {
+  Future<BulkSmartContractEntry?> _propertiesToEntry(
+      {required String name,
+      required String description,
+      required String primaryAssetUrl,
+      required String creatorName,
+      required int quantity,
+      required String? royaltyAmount,
+      required String? royaltyAddress,
+      required List<String>? additionalAssetUrls,
+      Map<String, dynamic>? evolve}) async {
     final primaryAsset = await urlToAsset(primaryAssetUrl, creatorName);
     if (primaryAsset == null) {
       Toast.error("Problem downloading $primaryAssetUrl. Skipping.");
@@ -429,6 +430,61 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
         }
       }
     }
+    Evolve? entryEvolve;
+    if (evolve != null) {
+      if (evolve.containsKey('type')) {
+        switch (evolve['type']) {
+          case 'date':
+            if (evolve.containsKey('phases')) {
+              List<EvolvePhase> phases = [];
+              for (var e in (evolve['phases'] as List)) {
+                Asset? asset = await urlToAsset(e['image'], name);
+                phases.add(EvolvePhase(
+                  name: e['name'],
+                  description: e['description'],
+                  asset: asset,
+                  dateTime: DateTime.parse(e['date']),
+                ));
+              }
+              print("Date phases: $phases");
+
+              entryEvolve = Evolve(type: EvolveType.time, phases: phases);
+            }
+            break;
+          case 'height':
+            if (evolve.containsKey('phases')) {
+              List<EvolvePhase> phases = [];
+              for (var e in (evolve['phases'] as List)) {
+                Asset? asset = await urlToAsset(e['image'], name);
+                phases.add(EvolvePhase(
+                  name: e['name'],
+                  description: e['description'],
+                  asset: asset,
+                  blockHeight: e['height'],
+                ));
+              }
+              print("Height phases: $phases");
+              entryEvolve = Evolve(type: EvolveType.time, phases: phases);
+            }
+            break;
+          default:
+            if (evolve.containsKey('phases')) {
+              List<EvolvePhase> phases = [];
+              for (var e in (evolve['phases'] as List)) {
+                Asset? asset = await urlToAsset(e['image'], name);
+                phases.add(EvolvePhase(
+                  name: e['name'],
+                  description: e['description'],
+                  asset: asset,
+                ));
+              }
+              print("Default phases: $phases");
+
+              entryEvolve = Evolve(type: EvolveType.time, phases: phases);
+            }
+        }
+      }
+    }
 
     final List<Asset> additionalAssets = [];
     if (additionalAssetUrls != null && additionalAssetUrls.isNotEmpty) {
@@ -441,14 +497,14 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
     }
 
     return BulkSmartContractEntry(
-      name: name,
-      description: description,
-      primaryAsset: primaryAsset,
-      creatorName: creatorName,
-      quantity: quantity,
-      royalty: royalty,
-      additionalAssets: additionalAssets,
-    );
+        name: name,
+        description: description,
+        primaryAsset: primaryAsset,
+        creatorName: creatorName,
+        quantity: quantity,
+        royalty: royalty,
+        additionalAssets: additionalAssets,
+        evolve: entryEvolve ?? const Evolve());
   }
 
   EvolveType getEvolveType(int index) {
