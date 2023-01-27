@@ -2,8 +2,11 @@
 
 import 'dart:convert';
 
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/singletons.dart';
+import 'package:rbx_wallet/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class Storage {
@@ -122,5 +125,73 @@ class StorageImplementation extends Storage {
   void setStringList(String key, List<dynamic> value) {
     final str = jsonEncode(value);
     _instance.setString(key, str);
+  }
+}
+
+class StorageWebImplementation extends Storage {
+  late final Box _instance;
+
+  StorageWebImplementation() {
+    init();
+  }
+
+  @override
+  Future<void> init() async {
+    _instance = rbxBox;
+    isInitialized = true;
+  }
+
+  String _buildKey(String key) => "${Env.storagePrefix}${Env.isTestNet ? '_TESTNET' : ''}_$key";
+
+  @override
+  Future<void> remove(String key) async {
+    _instance.delete(_buildKey(key));
+  }
+
+  @override
+  String? getString(String key) => _instance.get(_buildKey(key));
+  @override
+  void setString(String key, String value) => _instance.put(_buildKey(key), value);
+
+  @override
+  bool? getBool(String key) => _instance.get(_buildKey(key));
+  @override
+  void setBool(String key, bool value) => _instance.put(_buildKey(key), value);
+
+  @override
+  int? getInt(String key) => _instance.get(_buildKey(key));
+  @override
+  void setInt(String key, int value) => _instance.put(_buildKey(key), value);
+
+  @override
+  Map<String, dynamic>? getMap(String key) {
+    var value = _instance.get(_buildKey(key));
+    final map = json.decode(json.encode(value)) as Map<String, dynamic>;
+    return map;
+  }
+
+  @override
+  void setMap(String key, Map<String, dynamic> value) {
+    _instance.put(_buildKey(key), value);
+  }
+
+  @override
+  List<dynamic>? getList(String key) {
+    return _instance.get(_buildKey(key));
+  }
+
+  @override
+  void setList(String key, List<dynamic> value) {
+    _instance.put(_buildKey(key), value);
+  }
+
+  @override
+  List<String>? getStringList(String key) {
+    return _instance.get(_buildKey(key));
+  }
+
+  @override
+  void setStringList(String key, List<dynamic> value) {
+    _instance.put(_buildKey(key), value);
   }
 }
