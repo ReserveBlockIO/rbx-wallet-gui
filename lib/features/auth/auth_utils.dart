@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/keygen/services/keygen_service.dart'
     if (dart.library.io) 'package:rbx_wallet/features/keygen/services/keygen_service_mock.dart';
 import 'package:rbx_wallet/utils/toast.dart';
@@ -39,10 +40,14 @@ Future<void> handleImportWithPrivateKey(
     title: "Import Wallet",
     validator: (String? value) => formValidatorNotEmpty(value, "Private Key"),
     labelText: "Private Key",
-    onValidSubmission: (value) async {
-      final keypair = await KeygenService.importPrivateKey(value, email);
+    onValidSubmission: (submission) async {
+      await handleRememberMe(context, ref);
+      final keypair = await KeygenService.importPrivateKey(submission, email);
       await TransactionService().createWallet(email, keypair.public);
       login(context, ref, keypair);
+      if (ref.read(webSessionProvider).isAuthenticated) {
+        AutoRouter.of(context).push(WebDashboardContainerRoute());
+      }
     },
   );
 }
@@ -86,7 +91,7 @@ Future<void> handleCreateWithEmail(
   }
 
   await TransactionService().createWallet(email, keypair.public);
-
+  await handleRememberMe(context, ref);
   login(context, ref, keypair.copyWith(email: email));
 }
 
@@ -109,6 +114,51 @@ Future<void> handleCreateWithMnemonic(BuildContext context, WidgetRef ref, Strin
   await showKeys(context, keypair);
 }
 
+Future<dynamic> handleRememberMe(BuildContext context, WidgetRef ref) async {
+  return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Store Private Key?'),
+          content: const Text('Would you like the web wallet to store and remember your private key? Choose "No" if this is a shared computer.'),
+          actions: [
+            TextButton(
+              style: TextButton.styleFrom(
+                primary: Theme.of(context).colorScheme.darkButtonBg,
+                textStyle: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              onPressed: () {
+                ref.read(webSessionProvider.notifier).setRememberMe(false);
+                Navigator.of(context).pop();
+              },
+              child: const Text(
+                "No",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                primary: Theme.of(context).colorScheme.info,
+                textStyle: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              onPressed: () {
+                ref.read(webSessionProvider.notifier).setRememberMe(true);
+                Navigator.of(context).pop();
+              },
+              child: const Text(
+                "Yes",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            )
+          ],
+        );
+      });
+}
+
 Future<dynamic> handleRecoverFromMnemonic(BuildContext context, WidgetRef ref, String email) async {
   return await PromptModal.show(
     contextOverride: context,
@@ -118,6 +168,7 @@ Future<dynamic> handleRecoverFromMnemonic(BuildContext context, WidgetRef ref, S
     lines: 3,
     tightPadding: true,
     onValidSubmission: (value) async {
+      await handleRememberMe(context, ref);
       ref.read(globalLoadingProvider.notifier).start();
 
       await Future.delayed(const Duration(milliseconds: 300));

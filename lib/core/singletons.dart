@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,8 +13,12 @@ Future<void> initSingletons() async {
   singleton.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
   singleton.registerSingleton<AppRouter>(AppRouter());
   singleton.registerSingleton<WebRouter>(WebRouter());
-
   singleton.registerLazySingleton<Storage>(
-    () => StorageImplementation(),
+    () {
+      if (kIsWeb) {
+        return StorageWebImplementation();
+      }
+      return StorageImplementation();
+    },
   );
 }
