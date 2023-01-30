@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:rbx_wallet/core/api_token_manager.dart';
+import 'package:rbx_wallet/core/singletons.dart';
 
 import '../../features/inspector/network_inspector.dart';
 import '../env.dart';
@@ -16,12 +19,17 @@ class BaseService {
   });
 
   Map<String, dynamic> _headers([bool auth = true, bool json = false]) {
+    final token = singleton<ApiTokenManager>().get();
+
     return json
         ? {
             HttpHeaders.contentTypeHeader: "application/json",
             HttpHeaders.acceptHeader: "application/json",
+            'apitoken': token,
           }
-        : {};
+        : {
+            'apitoken': token,
+          };
   }
 
   BaseOptions _options({
@@ -61,6 +69,11 @@ class BaseService {
   }) async {
     try {
       final dio = Dio(_options(auth: auth, timeout: timeout));
+      (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
+        client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+        return client;
+      };
+
       if (inspect) {
         NetworkInspector.attach(dio);
       }
@@ -87,6 +100,10 @@ class BaseService {
   }) async {
     try {
       final dio = Dio(_options(auth: auth, timeout: timeout));
+      (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
+        client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+        return client;
+      };
       if (inspect) {
         NetworkInspector.attach(dio);
       }
@@ -126,6 +143,10 @@ class BaseService {
   }) async {
     try {
       final dio = Dio(_options(auth: auth, json: true, timeout: timeout));
+      (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
+        client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+        return client;
+      };
       if (inspect) {
         NetworkInspector.attach(dio);
       }
@@ -236,7 +257,14 @@ class BaseService {
     required FormData data,
     int timeout = 30000,
   }) async {
-    var response = await Dio(_options(json: false, auth: false, timeout: timeout)).post(
+    final dio = Dio(_options(json: false, auth: false, timeout: timeout));
+
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
+      client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+      return client;
+    };
+
+    var response = await dio.post(
       _cleanPath(path),
       data: data,
     );
