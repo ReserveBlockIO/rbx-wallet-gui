@@ -35,7 +35,8 @@ mixin _$Bid {
 
 /// @nodoc
 abstract class $BidCopyWith<$Res> {
-  factory $BidCopyWith(Bid value, $Res Function(Bid) then) = _$BidCopyWithImpl<$Res>;
+  factory $BidCopyWith(Bid value, $Res Function(Bid) then) =
+      _$BidCopyWithImpl<$Res>;
   $Res call(
       {@JsonKey(name: "wallet_address") String walletAddress,
       double amount,
@@ -81,7 +82,8 @@ class _$BidCopyWithImpl<$Res> implements $BidCopyWith<$Res> {
 
 /// @nodoc
 abstract class _$$_BidCopyWith<$Res> implements $BidCopyWith<$Res> {
-  factory _$$_BidCopyWith(_$_Bid value, $Res Function(_$_Bid) then) = __$$_BidCopyWithImpl<$Res>;
+  factory _$$_BidCopyWith(_$_Bid value, $Res Function(_$_Bid) then) =
+      __$$_BidCopyWithImpl<$Res>;
   @override
   $Res call(
       {@JsonKey(name: "wallet_address") String walletAddress,
@@ -91,8 +93,10 @@ abstract class _$$_BidCopyWith<$Res> implements $BidCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_BidCopyWithImpl<$Res> extends _$BidCopyWithImpl<$Res> implements _$$_BidCopyWith<$Res> {
-  __$$_BidCopyWithImpl(_$_Bid _value, $Res Function(_$_Bid) _then) : super(_value, (v) => _then(v as _$_Bid));
+class __$$_BidCopyWithImpl<$Res> extends _$BidCopyWithImpl<$Res>
+    implements _$$_BidCopyWith<$Res> {
+  __$$_BidCopyWithImpl(_$_Bid _value, $Res Function(_$_Bid) _then)
+      : super(_value, (v) => _then(v as _$_Bid));
 
   @override
   _$_Bid get _value => super._value as _$_Bid;
@@ -159,7 +163,8 @@ class _$_Bid extends _Bid {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Bid &&
-            const DeepCollectionEquality().equals(other.walletAddress, walletAddress) &&
+            const DeepCollectionEquality()
+                .equals(other.walletAddress, walletAddress) &&
             const DeepCollectionEquality().equals(other.amount, amount) &&
             const DeepCollectionEquality().equals(other.amountRbx, amountRbx) &&
             const DeepCollectionEquality().equals(other.createdAt, createdAt));
@@ -167,12 +172,17 @@ class _$_Bid extends _Bid {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(walletAddress), const DeepCollectionEquality().hash(amount),
-      const DeepCollectionEquality().hash(amountRbx), const DeepCollectionEquality().hash(createdAt));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(walletAddress),
+      const DeepCollectionEquality().hash(amount),
+      const DeepCollectionEquality().hash(amountRbx),
+      const DeepCollectionEquality().hash(createdAt));
 
   @JsonKey(ignore: true)
   @override
-  _$$_BidCopyWith<_$_Bid> get copyWith => __$$_BidCopyWithImpl<_$_Bid>(this, _$identity);
+  _$$_BidCopyWith<_$_Bid> get copyWith =>
+      __$$_BidCopyWithImpl<_$_Bid>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {

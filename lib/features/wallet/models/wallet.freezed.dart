@@ -32,7 +32,8 @@ mixin _$Wallet {
   @JsonKey(name: 'Balance')
   double get balance => throw _privateConstructorUsedError;
   @JsonKey(name: 'IsValidating')
-  bool get isValidating => throw _privateConstructorUsedError; // @JsonKey(name: 'IsEncrypted') required bool isEncrypted,
+  bool get isValidating =>
+      throw _privateConstructorUsedError; // @JsonKey(name: 'IsEncrypted') required bool isEncrypted,
   @JsonKey(name: "ADNR")
   String? get adnr => throw _privateConstructorUsedError;
 
@@ -43,7 +44,8 @@ mixin _$Wallet {
 
 /// @nodoc
 abstract class $WalletCopyWith<$Res> {
-  factory $WalletCopyWith(Wallet value, $Res Function(Wallet) then) = _$WalletCopyWithImpl<$Res>;
+  factory $WalletCopyWith(Wallet value, $Res Function(Wallet) then) =
+      _$WalletCopyWithImpl<$Res>;
   $Res call(
       {@JsonKey(name: 'Id') int id,
       @JsonKey(name: 'PublicKey') String publicKey,
@@ -113,7 +115,8 @@ class _$WalletCopyWithImpl<$Res> implements $WalletCopyWith<$Res> {
 
 /// @nodoc
 abstract class _$$_WalletCopyWith<$Res> implements $WalletCopyWith<$Res> {
-  factory _$$_WalletCopyWith(_$_Wallet value, $Res Function(_$_Wallet) then) = __$$_WalletCopyWithImpl<$Res>;
+  factory _$$_WalletCopyWith(_$_Wallet value, $Res Function(_$_Wallet) then) =
+      __$$_WalletCopyWithImpl<$Res>;
   @override
   $Res call(
       {@JsonKey(name: 'Id') int id,
@@ -127,8 +130,10 @@ abstract class _$$_WalletCopyWith<$Res> implements $WalletCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_WalletCopyWithImpl<$Res> extends _$WalletCopyWithImpl<$Res> implements _$$_WalletCopyWith<$Res> {
-  __$$_WalletCopyWithImpl(_$_Wallet _value, $Res Function(_$_Wallet) _then) : super(_value, (v) => _then(v as _$_Wallet));
+class __$$_WalletCopyWithImpl<$Res> extends _$WalletCopyWithImpl<$Res>
+    implements _$$_WalletCopyWith<$Res> {
+  __$$_WalletCopyWithImpl(_$_Wallet _value, $Res Function(_$_Wallet) _then)
+      : super(_value, (v) => _then(v as _$_Wallet));
 
   @override
   _$_Wallet get _value => super._value as _$_Wallet;
@@ -195,7 +200,8 @@ class _$_Wallet extends _Wallet {
       @JsonKey(name: "ADNR") this.adnr})
       : super._();
 
-  factory _$_Wallet.fromJson(Map<String, dynamic> json) => _$$_WalletFromJson(json);
+  factory _$_Wallet.fromJson(Map<String, dynamic> json) =>
+      _$$_WalletFromJson(json);
 
   @override
   @JsonKey(name: 'Id')
@@ -234,11 +240,14 @@ class _$_Wallet extends _Wallet {
             other is _$_Wallet &&
             const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.publicKey, publicKey) &&
-            const DeepCollectionEquality().equals(other.privateKey, privateKey) &&
+            const DeepCollectionEquality()
+                .equals(other.privateKey, privateKey) &&
             const DeepCollectionEquality().equals(other.address, address) &&
-            const DeepCollectionEquality().equals(other.friendlyName, friendlyName) &&
+            const DeepCollectionEquality()
+                .equals(other.friendlyName, friendlyName) &&
             const DeepCollectionEquality().equals(other.balance, balance) &&
-            const DeepCollectionEquality().equals(other.isValidating, isValidating) &&
+            const DeepCollectionEquality()
+                .equals(other.isValidating, isValidating) &&
             const DeepCollectionEquality().equals(other.adnr, adnr));
   }
 
@@ -257,7 +266,8 @@ class _$_Wallet extends _Wallet {
 
   @JsonKey(ignore: true)
   @override
-  _$$_WalletCopyWith<_$_Wallet> get copyWith => __$$_WalletCopyWithImpl<_$_Wallet>(this, _$identity);
+  _$$_WalletCopyWith<_$_Wallet> get copyWith =>
+      __$$_WalletCopyWithImpl<_$_Wallet>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -304,5 +314,6 @@ abstract class _Wallet extends Wallet {
   String? get adnr => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$$_WalletCopyWith<_$_Wallet> get copyWith => throw _privateConstructorUsedError;
+  _$$_WalletCopyWith<_$_Wallet> get copyWith =>
+      throw _privateConstructorUsedError;
 }

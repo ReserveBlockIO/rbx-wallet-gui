@@ -32,7 +32,8 @@ mixin _$Royalty {
 
 /// @nodoc
 abstract class $RoyaltyCopyWith<$Res> {
-  factory $RoyaltyCopyWith(Royalty value, $Res Function(Royalty) then) = _$RoyaltyCopyWithImpl<$Res>;
+  factory $RoyaltyCopyWith(Royalty value, $Res Function(Royalty) then) =
+      _$RoyaltyCopyWithImpl<$Res>;
   $Res call({String id, RoyaltyType type, double amount, String address});
 }
 
@@ -74,14 +75,18 @@ class _$RoyaltyCopyWithImpl<$Res> implements $RoyaltyCopyWith<$Res> {
 
 /// @nodoc
 abstract class _$$_RoyaltyCopyWith<$Res> implements $RoyaltyCopyWith<$Res> {
-  factory _$$_RoyaltyCopyWith(_$_Royalty value, $Res Function(_$_Royalty) then) = __$$_RoyaltyCopyWithImpl<$Res>;
+  factory _$$_RoyaltyCopyWith(
+          _$_Royalty value, $Res Function(_$_Royalty) then) =
+      __$$_RoyaltyCopyWithImpl<$Res>;
   @override
   $Res call({String id, RoyaltyType type, double amount, String address});
 }
 
 /// @nodoc
-class __$$_RoyaltyCopyWithImpl<$Res> extends _$RoyaltyCopyWithImpl<$Res> implements _$$_RoyaltyCopyWith<$Res> {
-  __$$_RoyaltyCopyWithImpl(_$_Royalty _value, $Res Function(_$_Royalty) _then) : super(_value, (v) => _then(v as _$_Royalty));
+class __$$_RoyaltyCopyWithImpl<$Res> extends _$RoyaltyCopyWithImpl<$Res>
+    implements _$$_RoyaltyCopyWith<$Res> {
+  __$$_RoyaltyCopyWithImpl(_$_Royalty _value, $Res Function(_$_Royalty) _then)
+      : super(_value, (v) => _then(v as _$_Royalty));
 
   @override
   _$_Royalty get _value => super._value as _$_Royalty;
@@ -117,9 +122,15 @@ class __$$_RoyaltyCopyWithImpl<$Res> extends _$RoyaltyCopyWithImpl<$Res> impleme
 /// @nodoc
 @JsonSerializable()
 class _$_Royalty extends _Royalty {
-  const _$_Royalty({this.id = "", this.type = RoyaltyType.percent, this.amount = 0, this.address = ""}) : super._();
+  const _$_Royalty(
+      {this.id = "",
+      this.type = RoyaltyType.percent,
+      this.amount = 0,
+      this.address = ""})
+      : super._();
 
-  factory _$_Royalty.fromJson(Map<String, dynamic> json) => _$$_RoyaltyFromJson(json);
+  factory _$_Royalty.fromJson(Map<String, dynamic> json) =>
+      _$$_RoyaltyFromJson(json);
 
   @override
   @JsonKey()
@@ -152,12 +163,17 @@ class _$_Royalty extends _Royalty {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(id), const DeepCollectionEquality().hash(type),
-      const DeepCollectionEquality().hash(amount), const DeepCollectionEquality().hash(address));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(id),
+      const DeepCollectionEquality().hash(type),
+      const DeepCollectionEquality().hash(amount),
+      const DeepCollectionEquality().hash(address));
 
   @JsonKey(ignore: true)
   @override
-  _$$_RoyaltyCopyWith<_$_Royalty> get copyWith => __$$_RoyaltyCopyWithImpl<_$_Royalty>(this, _$identity);
+  _$$_RoyaltyCopyWith<_$_Royalty> get copyWith =>
+      __$$_RoyaltyCopyWithImpl<_$_Royalty>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -166,7 +182,11 @@ class _$_Royalty extends _Royalty {
 }
 
 abstract class _Royalty extends Royalty {
-  const factory _Royalty({final String id, final RoyaltyType type, final double amount, final String address}) = _$_Royalty;
+  const factory _Royalty(
+      {final String id,
+      final RoyaltyType type,
+      final double amount,
+      final String address}) = _$_Royalty;
   const _Royalty._() : super._();
 
   factory _Royalty.fromJson(Map<String, dynamic> json) = _$_Royalty.fromJson;
@@ -181,5 +201,6 @@ abstract class _Royalty extends Royalty {
   String get address => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$$_RoyaltyCopyWith<_$_Royalty> get copyWith => throw _privateConstructorUsedError;
+  _$$_RoyaltyCopyWith<_$_Royalty> get copyWith =>
+      throw _privateConstructorUsedError;
 }

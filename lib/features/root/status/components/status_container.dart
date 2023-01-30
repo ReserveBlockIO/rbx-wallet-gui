@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../core/base_component.dart';
 import '../../../../core/components/badges.dart';
@@ -59,6 +61,24 @@ class StatusContainer extends BaseComponent {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
+                if (ref.watch(sessionProvider).updateAvailable)
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton.icon(
+                            icon: const Icon(Icons.download),
+                            style: ElevatedButton.styleFrom(primary: Theme.of(context).colorScheme.danger),
+                            label: const Text("Update Available"),
+                            onPressed: () {
+                              final url = ref.read(sessionProvider).remoteInfo!.gui.url;
+                              launchUrlString(url);
+                            },
+                          )),
+                    ),
+                  ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

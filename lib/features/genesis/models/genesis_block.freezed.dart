@@ -39,12 +39,15 @@ mixin _$GenesisBlock {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $GenesisBlockCopyWith<GenesisBlock> get copyWith => throw _privateConstructorUsedError;
+  $GenesisBlockCopyWith<GenesisBlock> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $GenesisBlockCopyWith<$Res> {
-  factory $GenesisBlockCopyWith(GenesisBlock value, $Res Function(GenesisBlock) then) = _$GenesisBlockCopyWithImpl<$Res>;
+  factory $GenesisBlockCopyWith(
+          GenesisBlock value, $Res Function(GenesisBlock) then) =
+      _$GenesisBlockCopyWithImpl<$Res>;
   $Res call(
       {@JsonKey(name: 'Height') int height,
       @JsonKey(name: 'ChainRefId') String chainRefId,
@@ -113,8 +116,11 @@ class _$GenesisBlockCopyWithImpl<$Res> implements $GenesisBlockCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$$_GenesisBlockCopyWith<$Res> implements $GenesisBlockCopyWith<$Res> {
-  factory _$$_GenesisBlockCopyWith(_$_GenesisBlock value, $Res Function(_$_GenesisBlock) then) = __$$_GenesisBlockCopyWithImpl<$Res>;
+abstract class _$$_GenesisBlockCopyWith<$Res>
+    implements $GenesisBlockCopyWith<$Res> {
+  factory _$$_GenesisBlockCopyWith(
+          _$_GenesisBlock value, $Res Function(_$_GenesisBlock) then) =
+      __$$_GenesisBlockCopyWithImpl<$Res>;
   @override
   $Res call(
       {@JsonKey(name: 'Height') int height,
@@ -128,8 +134,12 @@ abstract class _$$_GenesisBlockCopyWith<$Res> implements $GenesisBlockCopyWith<$
 }
 
 /// @nodoc
-class __$$_GenesisBlockCopyWithImpl<$Res> extends _$GenesisBlockCopyWithImpl<$Res> implements _$$_GenesisBlockCopyWith<$Res> {
-  __$$_GenesisBlockCopyWithImpl(_$_GenesisBlock _value, $Res Function(_$_GenesisBlock) _then) : super(_value, (v) => _then(v as _$_GenesisBlock));
+class __$$_GenesisBlockCopyWithImpl<$Res>
+    extends _$GenesisBlockCopyWithImpl<$Res>
+    implements _$$_GenesisBlockCopyWith<$Res> {
+  __$$_GenesisBlockCopyWithImpl(
+      _$_GenesisBlock _value, $Res Function(_$_GenesisBlock) _then)
+      : super(_value, (v) => _then(v as _$_GenesisBlock));
 
   @override
   _$_GenesisBlock get _value => super._value as _$_GenesisBlock;
@@ -196,7 +206,8 @@ class _$_GenesisBlock extends _GenesisBlock {
       @JsonKey(name: 'BCraftTime') required this.bCraftTime})
       : super._();
 
-  factory _$_GenesisBlock.fromJson(Map<String, dynamic> json) => _$$_GenesisBlockFromJson(json);
+  factory _$_GenesisBlock.fromJson(Map<String, dynamic> json) =>
+      _$$_GenesisBlockFromJson(json);
 
   @override
   @JsonKey(name: 'Height')
@@ -234,13 +245,17 @@ class _$_GenesisBlock extends _GenesisBlock {
         (other.runtimeType == runtimeType &&
             other is _$_GenesisBlock &&
             const DeepCollectionEquality().equals(other.height, height) &&
-            const DeepCollectionEquality().equals(other.chainRefId, chainRefId) &&
+            const DeepCollectionEquality()
+                .equals(other.chainRefId, chainRefId) &&
             const DeepCollectionEquality().equals(other.timestamp, timestamp) &&
             const DeepCollectionEquality().equals(other.hash, hash) &&
-            const DeepCollectionEquality().equals(other.totalAmount, totalAmount) &&
-            const DeepCollectionEquality().equals(other.totalReward, totalReward) &&
+            const DeepCollectionEquality()
+                .equals(other.totalAmount, totalAmount) &&
+            const DeepCollectionEquality()
+                .equals(other.totalReward, totalReward) &&
             const DeepCollectionEquality().equals(other.size, size) &&
-            const DeepCollectionEquality().equals(other.bCraftTime, bCraftTime));
+            const DeepCollectionEquality()
+                .equals(other.bCraftTime, bCraftTime));
   }
 
   @JsonKey(ignore: true)
@@ -258,7 +273,8 @@ class _$_GenesisBlock extends _GenesisBlock {
 
   @JsonKey(ignore: true)
   @override
-  _$$_GenesisBlockCopyWith<_$_GenesisBlock> get copyWith => __$$_GenesisBlockCopyWithImpl<_$_GenesisBlock>(this, _$identity);
+  _$$_GenesisBlockCopyWith<_$_GenesisBlock> get copyWith =>
+      __$$_GenesisBlockCopyWithImpl<_$_GenesisBlock>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -268,17 +284,19 @@ class _$_GenesisBlock extends _GenesisBlock {
 
 abstract class _GenesisBlock extends GenesisBlock {
   factory _GenesisBlock(
-      {@JsonKey(name: 'Height') required final int height,
-      @JsonKey(name: 'ChainRefId') required final String chainRefId,
-      @JsonKey(name: 'Timestamp') required final int timestamp,
-      @JsonKey(name: 'Hash') required final String hash,
-      @JsonKey(name: 'TotalAmount') required final double totalAmount,
-      @JsonKey(name: 'TotalReward') required final double totalReward,
-      @JsonKey(name: 'Size') required final double size,
-      @JsonKey(name: 'BCraftTime') required final int bCraftTime}) = _$_GenesisBlock;
+          {@JsonKey(name: 'Height') required final int height,
+          @JsonKey(name: 'ChainRefId') required final String chainRefId,
+          @JsonKey(name: 'Timestamp') required final int timestamp,
+          @JsonKey(name: 'Hash') required final String hash,
+          @JsonKey(name: 'TotalAmount') required final double totalAmount,
+          @JsonKey(name: 'TotalReward') required final double totalReward,
+          @JsonKey(name: 'Size') required final double size,
+          @JsonKey(name: 'BCraftTime') required final int bCraftTime}) =
+      _$_GenesisBlock;
   _GenesisBlock._() : super._();
 
-  factory _GenesisBlock.fromJson(Map<String, dynamic> json) = _$_GenesisBlock.fromJson;
+  factory _GenesisBlock.fromJson(Map<String, dynamic> json) =
+      _$_GenesisBlock.fromJson;
 
   @override
   @JsonKey(name: 'Height')
@@ -306,5 +324,6 @@ abstract class _GenesisBlock extends GenesisBlock {
   int get bCraftTime => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$$_GenesisBlockCopyWith<_$_GenesisBlock> get copyWith => throw _privateConstructorUsedError;
+  _$$_GenesisBlockCopyWith<_$_GenesisBlock> get copyWith =>
+      throw _privateConstructorUsedError;
 }

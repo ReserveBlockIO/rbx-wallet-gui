@@ -21,18 +21,20 @@ class OpenDbFolderButton extends BaseComponent {
       onPressed: () async {
         // final shell = Shell(throwOnError: false);
 
-        Directory appDocDir = await getApplicationDocumentsDirectory();
-        String appDocPath = appDocDir.path;
+        // Directory appDocDir = await getApplicationDocumentsDirectory();
+        // String appDocPath = appDocDir.path;
 
-        if (Platform.isMacOS) {
-          appDocPath = appDocPath.replaceAll("/Documents", Env.isTestNet ? "/rbxtest" : "/rbx");
-        } else {
-          final winDir = await getApplicationSupportDirectory();
-          appDocPath = winDir.path;
-          appDocPath = appDocPath.replaceAll("\\Roaming\\com.example\\rbx_wallet_gui", "\\Local\\${Env.isTestNet ? 'RBXTest' : 'RBX'}");
-        }
+        // if (Platform.isMacOS) {
+        //   appDocPath = appDocPath.replaceAll("/Documents", Env.isTestNet ? "/rbxtest" : "/rbx");
+        // } else {
+        //   final winDir = await getApplicationSupportDirectory();
+        //   appDocPath = winDir.path;
+        //   appDocPath = appDocPath.replaceAll("\\Roaming\\com.example\\rbx_wallet_gui", "\\Local\\${Env.isTestNet ? 'RBXTest' : 'RBX'}");
+        // }
 
-        openFile(File(appDocPath));
+        final path = await dbPath();
+
+        openFile(File(path));
 
         // String cmd = "";
         // if (Platform.isMacOS) {

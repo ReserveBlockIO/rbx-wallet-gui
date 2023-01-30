@@ -17,7 +17,8 @@ _$_AdjVote _$$_AdjVoteFromJson(Map<String, dynamic> json) => _$_AdjVote(
       machineCPUCores: json['MachineCPUCores'] as int,
       machineCPUThreads: json['MachineCPUThreads'] as int,
       machineHDDSize: json['MachineHDDSize'] as int,
-      machineHDDSpecifier: hdSizeSpecifierFromJson(json['MachineHDDSpecifier'] as int),
+      machineHDDSpecifier:
+          hdSizeSpecifierFromJson(json['MachineHDDSpecifier'] as int),
       internetSpeedUp: json['InternetSpeedUp'] as int,
       internetSpeedDown: json['InternetSpeedDown'] as int,
       bandwith: json['Bandwith'] as int,
@@ -27,7 +28,8 @@ _$_AdjVote _$$_AdjVoteFromJson(Map<String, dynamic> json) => _$_AdjVote(
       supplementalURLs: json['SupplementalURLs'] as String,
     );
 
-Map<String, dynamic> _$$_AdjVoteToJson(_$_AdjVote instance) => <String, dynamic>{
+Map<String, dynamic> _$$_AdjVoteToJson(_$_AdjVote instance) =>
+    <String, dynamic>{
       'RBXAddress': instance.rbxAddress,
       'IPAddress': instance.ipAddress,
       'ProviderForMachine': providerToJson(instance.provider),
@@ -38,7 +40,8 @@ Map<String, dynamic> _$$_AdjVoteToJson(_$_AdjVote instance) => <String, dynamic>
       'MachineCPUCores': instance.machineCPUCores,
       'MachineCPUThreads': instance.machineCPUThreads,
       'MachineHDDSize': instance.machineHDDSize,
-      'MachineHDDSpecifier': hdSizeSpecifierToJson(instance.machineHDDSpecifier),
+      'MachineHDDSpecifier':
+          hdSizeSpecifierToJson(instance.machineHDDSpecifier),
       'InternetSpeedUp': instance.internetSpeedUp,
       'InternetSpeedDown': instance.internetSpeedDown,
       'Bandwith': instance.bandwith,

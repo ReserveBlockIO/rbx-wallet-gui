@@ -9,8 +9,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:process/process.dart';
 import 'package:process_run/shell.dart';
+import 'package:rbx_wallet/features/remote_info/components/snapshot_downloader.dart';
+import 'package:rbx_wallet/features/remote_info/models/remote_info.dart';
+import 'package:rbx_wallet/features/remote_info/services/remote_info_service.dart';
 import 'package:rbx_wallet/features/startup/startup_data.dart';
 import 'package:rbx_wallet/features/startup/startup_data_provider.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../app.dart';
 import '../../features/beacon/providers/beacon_list_provider.dart';
@@ -63,6 +67,7 @@ class SessionModel {
   final bool logWindowExpanded;
   final bool isMintingOrCompiling;
   final String timezoneName;
+  final RemoteInfo? remoteInfo;
 
   const SessionModel({
     this.currentWallet,
@@ -78,23 +83,24 @@ class SessionModel {
     this.logWindowExpanded = false,
     this.isMintingOrCompiling = false,
     this.timezoneName = "America/Los_Angeles",
+    this.remoteInfo,
   });
 
-  SessionModel copyWith({
-    Wallet? currentWallet,
-    DateTime? startTime,
-    // bool? ready,
-    bool? filteringTransactions,
-    bool? cliStarted,
-    int? remoteBlockHeight,
-    bool? blocksAreSyncing,
-    bool? blocksAreResyncing,
-    double? totalBalance,
-    String? cliVersion,
-    bool? logWindowExpanded,
-    bool? isMintingOrCompiling,
-    String? timezoneName,
-  }) {
+  SessionModel copyWith(
+      {Wallet? currentWallet,
+      DateTime? startTime,
+      // bool? ready,
+      bool? filteringTransactions,
+      bool? cliStarted,
+      int? remoteBlockHeight,
+      bool? blocksAreSyncing,
+      bool? blocksAreResyncing,
+      double? totalBalance,
+      String? cliVersion,
+      bool? logWindowExpanded,
+      bool? isMintingOrCompiling,
+      String? timezoneName,
+      RemoteInfo? remoteInfo}) {
     return SessionModel(
       startTime: startTime ?? this.startTime,
       currentWallet: currentWallet ?? this.currentWallet,
@@ -109,6 +115,7 @@ class SessionModel {
       logWindowExpanded: logWindowExpanded ?? this.logWindowExpanded,
       isMintingOrCompiling: isMintingOrCompiling ?? this.isMintingOrCompiling,
       timezoneName: timezoneName ?? this.timezoneName,
+      remoteInfo: remoteInfo ?? this.remoteInfo,
     );
   }
 
@@ -117,6 +124,14 @@ class SessionModel {
       return "-";
     }
     return DateFormat('MM/dd – kk:mm').format(startTime!);
+  }
+
+  bool get updateAvailable {
+    if (remoteInfo == null) {
+      return false;
+    }
+
+    return remoteInfo!.gui.updateAvailable;
   }
 }
 
@@ -173,11 +188,81 @@ class SessionProvider extends StateNotifier<SessionModel> {
     Future.delayed(const Duration(milliseconds: 300)).then((_) {
       read(walletInfoProvider.notifier).infoLoop();
       if (!kIsWeb) {
-        if (!read(passwordRequiredProvider)) {
-          _onboardWallet();
-        }
+        // if (!read(passwordRequiredProvider)) {
+        //   _onboardWallet();
+        // }
+
+        checkRemoteInfo();
       }
     });
+  }
+
+  Future<void> checkRemoteInfo() async {
+    final remoteInfo = await RemoteInfoService.fetchInfo();
+    state = state.copyWith(remoteInfo: remoteInfo);
+
+    await Future.delayed(const Duration(seconds: 3));
+
+    if (remoteInfo != null) {
+      final snapshotHeight = remoteInfo.snapshot.height;
+      final blockHeight = read(walletInfoProvider)?.blockHeight;
+
+      if (blockHeight != null && blockHeight < snapshotHeight - 5000) {
+        promptForSnapshotImport();
+      }
+    }
+  }
+
+  Future<void> promptForSnapshotImport() async {
+    // final context = rootNavigatorKey.currentContext!;
+
+    final blockHeight = read(walletInfoProvider)!.blockHeight;
+    final snapshotHeight = state.remoteInfo!.snapshot.height;
+
+    final confirmed = await ConfirmDialog.show(
+      title: "Import Snapshot?",
+      body:
+          "You are only at $blockHeight block height locally. The network has a snapshot at $snapshotHeight block height that will help you sync more quickly. \n\nWould you like to import it now?",
+      confirmText: "Import",
+      cancelText: "No",
+    );
+
+    if (confirmed == true) {
+      // importSnapshot();
+      bool? shouldContinue = true;
+      if (read(walletListProvider).isNotEmpty) {
+        shouldContinue = await ConfirmDialog.show(
+          title: "Warning",
+          body:
+              "Be sure your private keys are backed up as this process will wipe your database folder.\n\nIf they are NOT backed up, click cancel now, back them up, and then restart your wallet to be prompted with this again.",
+          confirmText: "I'm Backed Up",
+          cancelText: "Cancel",
+        );
+      }
+
+      if (shouldContinue == true) {
+        importSnapshot();
+      }
+    }
+  }
+
+  Future<void> importSnapshot() async {
+    if (state.remoteInfo?.snapshot.url == null) {
+      Toast.error();
+      return;
+    }
+
+    final url = state.remoteInfo!.snapshot.url;
+
+    showDialog(
+        context: rootNavigatorKey.currentContext!,
+        builder: (context) {
+          return SnapshotDownloader(
+            downloadUrl: url,
+            initFunction: init,
+            configFunction: fetchConfig,
+          );
+        });
   }
 
   // Future<void> mainLoop() async {

@@ -40,12 +40,14 @@ mixin _$WebBlock {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $WebBlockCopyWith<WebBlock> get copyWith => throw _privateConstructorUsedError;
+  $WebBlockCopyWith<WebBlock> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $WebBlockCopyWith<$Res> {
-  factory $WebBlockCopyWith(WebBlock value, $Res Function(WebBlock) then) = _$WebBlockCopyWithImpl<$Res>;
+  factory $WebBlockCopyWith(WebBlock value, $Res Function(WebBlock) then) =
+      _$WebBlockCopyWithImpl<$Res>;
   $Res call(
       {int height,
       @JsonKey(name: "date_crafted") DateTime dateCrafted,
@@ -127,7 +129,9 @@ class _$WebBlockCopyWithImpl<$Res> implements $WebBlockCopyWith<$Res> {
 
 /// @nodoc
 abstract class _$$_WebBlockCopyWith<$Res> implements $WebBlockCopyWith<$Res> {
-  factory _$$_WebBlockCopyWith(_$_WebBlock value, $Res Function(_$_WebBlock) then) = __$$_WebBlockCopyWithImpl<$Res>;
+  factory _$$_WebBlockCopyWith(
+          _$_WebBlock value, $Res Function(_$_WebBlock) then) =
+      __$$_WebBlockCopyWithImpl<$Res>;
   @override
   $Res call(
       {int height,
@@ -143,8 +147,11 @@ abstract class _$$_WebBlockCopyWith<$Res> implements $WebBlockCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_WebBlockCopyWithImpl<$Res> extends _$WebBlockCopyWithImpl<$Res> implements _$$_WebBlockCopyWith<$Res> {
-  __$$_WebBlockCopyWithImpl(_$_WebBlock _value, $Res Function(_$_WebBlock) _then) : super(_value, (v) => _then(v as _$_WebBlock));
+class __$$_WebBlockCopyWithImpl<$Res> extends _$WebBlockCopyWithImpl<$Res>
+    implements _$$_WebBlockCopyWith<$Res> {
+  __$$_WebBlockCopyWithImpl(
+      _$_WebBlock _value, $Res Function(_$_WebBlock) _then)
+      : super(_value, (v) => _then(v as _$_WebBlock));
 
   @override
   _$_WebBlock get _value => super._value as _$_WebBlock;
@@ -212,18 +219,26 @@ class __$$_WebBlockCopyWithImpl<$Res> extends _$WebBlockCopyWithImpl<$Res> imple
 class _$_WebBlock extends _WebBlock {
   _$_WebBlock(
       {required this.height,
-      @JsonKey(name: "date_crafted") required this.dateCrafted,
+      @JsonKey(name: "date_crafted")
+          required this.dateCrafted,
       required this.hash,
-      @JsonKey(name: "validator_address") required this.validator,
-      @JsonKey(name: "total_amount") required this.totalAmount,
-      @JsonKey(name: "total_reward") required this.totalReward,
-      @JsonKey(name: "number_of_transactions") required this.numberOfTransactions,
+      @JsonKey(name: "validator_address")
+          required this.validator,
+      @JsonKey(name: "total_amount")
+          required this.totalAmount,
+      @JsonKey(name: "total_reward")
+          required this.totalReward,
+      @JsonKey(name: "number_of_transactions")
+          required this.numberOfTransactions,
       required this.size,
-      @JsonKey(name: "craft_time") required this.craftTime,
-      @JsonKey(name: "previous_hash") required this.prevHash})
+      @JsonKey(name: "craft_time")
+          required this.craftTime,
+      @JsonKey(name: "previous_hash")
+          required this.prevHash})
       : super._();
 
-  factory _$_WebBlock.fromJson(Map<String, dynamic> json) => _$$_WebBlockFromJson(json);
+  factory _$_WebBlock.fromJson(Map<String, dynamic> json) =>
+      _$$_WebBlockFromJson(json);
 
   @override
   final int height;
@@ -264,12 +279,16 @@ class _$_WebBlock extends _WebBlock {
         (other.runtimeType == runtimeType &&
             other is _$_WebBlock &&
             const DeepCollectionEquality().equals(other.height, height) &&
-            const DeepCollectionEquality().equals(other.dateCrafted, dateCrafted) &&
+            const DeepCollectionEquality()
+                .equals(other.dateCrafted, dateCrafted) &&
             const DeepCollectionEquality().equals(other.hash, hash) &&
             const DeepCollectionEquality().equals(other.validator, validator) &&
-            const DeepCollectionEquality().equals(other.totalAmount, totalAmount) &&
-            const DeepCollectionEquality().equals(other.totalReward, totalReward) &&
-            const DeepCollectionEquality().equals(other.numberOfTransactions, numberOfTransactions) &&
+            const DeepCollectionEquality()
+                .equals(other.totalAmount, totalAmount) &&
+            const DeepCollectionEquality()
+                .equals(other.totalReward, totalReward) &&
+            const DeepCollectionEquality()
+                .equals(other.numberOfTransactions, numberOfTransactions) &&
             const DeepCollectionEquality().equals(other.size, size) &&
             const DeepCollectionEquality().equals(other.craftTime, craftTime) &&
             const DeepCollectionEquality().equals(other.prevHash, prevHash));
@@ -292,7 +311,8 @@ class _$_WebBlock extends _WebBlock {
 
   @JsonKey(ignore: true)
   @override
-  _$$_WebBlockCopyWith<_$_WebBlock> get copyWith => __$$_WebBlockCopyWithImpl<_$_WebBlock>(this, _$identity);
+  _$$_WebBlockCopyWith<_$_WebBlock> get copyWith =>
+      __$$_WebBlockCopyWithImpl<_$_WebBlock>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -303,15 +323,22 @@ class _$_WebBlock extends _WebBlock {
 abstract class _WebBlock extends WebBlock {
   factory _WebBlock(
       {required final int height,
-      @JsonKey(name: "date_crafted") required final DateTime dateCrafted,
+      @JsonKey(name: "date_crafted")
+          required final DateTime dateCrafted,
       required final String hash,
-      @JsonKey(name: "validator_address") required final String validator,
-      @JsonKey(name: "total_amount") required final double totalAmount,
-      @JsonKey(name: "total_reward") required final double totalReward,
-      @JsonKey(name: "number_of_transactions") required final int numberOfTransactions,
+      @JsonKey(name: "validator_address")
+          required final String validator,
+      @JsonKey(name: "total_amount")
+          required final double totalAmount,
+      @JsonKey(name: "total_reward")
+          required final double totalReward,
+      @JsonKey(name: "number_of_transactions")
+          required final int numberOfTransactions,
       required final int size,
-      @JsonKey(name: "craft_time") required final int craftTime,
-      @JsonKey(name: "previous_hash") required final String prevHash}) = _$_WebBlock;
+      @JsonKey(name: "craft_time")
+          required final int craftTime,
+      @JsonKey(name: "previous_hash")
+          required final String prevHash}) = _$_WebBlock;
   _WebBlock._() : super._();
 
   factory _WebBlock.fromJson(Map<String, dynamic> json) = _$_WebBlock.fromJson;
@@ -345,5 +372,6 @@ abstract class _WebBlock extends WebBlock {
   String get prevHash => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$$_WebBlockCopyWith<_$_WebBlock> get copyWith => throw _privateConstructorUsedError;
+  _$$_WebBlockCopyWith<_$_WebBlock> get copyWith =>
+      throw _privateConstructorUsedError;
 }

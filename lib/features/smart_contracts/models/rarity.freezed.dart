@@ -31,7 +31,8 @@ mixin _$Rarity {
 
 /// @nodoc
 abstract class $RarityCopyWith<$Res> {
-  factory $RarityCopyWith(Rarity value, $Res Function(Rarity) then) = _$RarityCopyWithImpl<$Res>;
+  factory $RarityCopyWith(Rarity value, $Res Function(Rarity) then) =
+      _$RarityCopyWithImpl<$Res>;
   $Res call({String name, double weight, String description});
 }
 
@@ -68,14 +69,17 @@ class _$RarityCopyWithImpl<$Res> implements $RarityCopyWith<$Res> {
 
 /// @nodoc
 abstract class _$$_RarityCopyWith<$Res> implements $RarityCopyWith<$Res> {
-  factory _$$_RarityCopyWith(_$_Rarity value, $Res Function(_$_Rarity) then) = __$$_RarityCopyWithImpl<$Res>;
+  factory _$$_RarityCopyWith(_$_Rarity value, $Res Function(_$_Rarity) then) =
+      __$$_RarityCopyWithImpl<$Res>;
   @override
   $Res call({String name, double weight, String description});
 }
 
 /// @nodoc
-class __$$_RarityCopyWithImpl<$Res> extends _$RarityCopyWithImpl<$Res> implements _$$_RarityCopyWith<$Res> {
-  __$$_RarityCopyWithImpl(_$_Rarity _value, $Res Function(_$_Rarity) _then) : super(_value, (v) => _then(v as _$_Rarity));
+class __$$_RarityCopyWithImpl<$Res> extends _$RarityCopyWithImpl<$Res>
+    implements _$$_RarityCopyWith<$Res> {
+  __$$_RarityCopyWithImpl(_$_Rarity _value, $Res Function(_$_Rarity) _then)
+      : super(_value, (v) => _then(v as _$_Rarity));
 
   @override
   _$_Rarity get _value => super._value as _$_Rarity;
@@ -106,9 +110,11 @@ class __$$_RarityCopyWithImpl<$Res> extends _$RarityCopyWithImpl<$Res> implement
 /// @nodoc
 @JsonSerializable()
 class _$_Rarity extends _Rarity {
-  _$_Rarity({this.name = "", this.weight = 1, this.description = ""}) : super._();
+  _$_Rarity({this.name = "", this.weight = 1, this.description = ""})
+      : super._();
 
-  factory _$_Rarity.fromJson(Map<String, dynamic> json) => _$$_RarityFromJson(json);
+  factory _$_Rarity.fromJson(Map<String, dynamic> json) =>
+      _$$_RarityFromJson(json);
 
   @override
   @JsonKey()
@@ -132,17 +138,22 @@ class _$_Rarity extends _Rarity {
             other is _$_Rarity &&
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality().equals(other.weight, weight) &&
-            const DeepCollectionEquality().equals(other.description, description));
+            const DeepCollectionEquality()
+                .equals(other.description, description));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(name), const DeepCollectionEquality().hash(weight),
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(name),
+      const DeepCollectionEquality().hash(weight),
       const DeepCollectionEquality().hash(description));
 
   @JsonKey(ignore: true)
   @override
-  _$$_RarityCopyWith<_$_Rarity> get copyWith => __$$_RarityCopyWithImpl<_$_Rarity>(this, _$identity);
+  _$$_RarityCopyWith<_$_Rarity> get copyWith =>
+      __$$_RarityCopyWithImpl<_$_Rarity>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -151,7 +162,10 @@ class _$_Rarity extends _Rarity {
 }
 
 abstract class _Rarity extends Rarity {
-  factory _Rarity({final String name, final double weight, final String description}) = _$_Rarity;
+  factory _Rarity(
+      {final String name,
+      final double weight,
+      final String description}) = _$_Rarity;
   _Rarity._() : super._();
 
   factory _Rarity.fromJson(Map<String, dynamic> json) = _$_Rarity.fromJson;
@@ -164,5 +178,6 @@ abstract class _Rarity extends Rarity {
   String get description => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$$_RarityCopyWith<_$_Rarity> get copyWith => throw _privateConstructorUsedError;
+  _$$_RarityCopyWith<_$_Rarity> get copyWith =>
+      throw _privateConstructorUsedError;
 }

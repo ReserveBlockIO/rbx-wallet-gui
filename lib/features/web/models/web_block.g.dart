@@ -19,7 +19,8 @@ _$_WebBlock _$$_WebBlockFromJson(Map<String, dynamic> json) => _$_WebBlock(
       prevHash: json['previous_hash'] as String,
     );
 
-Map<String, dynamic> _$$_WebBlockToJson(_$_WebBlock instance) => <String, dynamic>{
+Map<String, dynamic> _$$_WebBlockToJson(_$_WebBlock instance) =>
+    <String, dynamic>{
       'height': instance.height,
       'date_crafted': instance.dateCrafted.toIso8601String(),
       'hash': instance.hash,

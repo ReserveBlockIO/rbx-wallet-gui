@@ -32,12 +32,15 @@ mixin _$Masternode {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $MasternodeCopyWith<Masternode> get copyWith => throw _privateConstructorUsedError;
+  $MasternodeCopyWith<Masternode> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $MasternodeCopyWith<$Res> {
-  factory $MasternodeCopyWith(Masternode value, $Res Function(Masternode) then) = _$MasternodeCopyWithImpl<$Res>;
+  factory $MasternodeCopyWith(
+          Masternode value, $Res Function(Masternode) then) =
+      _$MasternodeCopyWithImpl<$Res>;
   $Res call(
       {String address,
       @JsonKey(name: 'unique_name') String uniqueName,
@@ -88,8 +91,11 @@ class _$MasternodeCopyWithImpl<$Res> implements $MasternodeCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$$_MasternodeCopyWith<$Res> implements $MasternodeCopyWith<$Res> {
-  factory _$$_MasternodeCopyWith(_$_Masternode value, $Res Function(_$_Masternode) then) = __$$_MasternodeCopyWithImpl<$Res>;
+abstract class _$$_MasternodeCopyWith<$Res>
+    implements $MasternodeCopyWith<$Res> {
+  factory _$$_MasternodeCopyWith(
+          _$_Masternode value, $Res Function(_$_Masternode) then) =
+      __$$_MasternodeCopyWithImpl<$Res>;
   @override
   $Res call(
       {String address,
@@ -100,8 +106,11 @@ abstract class _$$_MasternodeCopyWith<$Res> implements $MasternodeCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_MasternodeCopyWithImpl<$Res> extends _$MasternodeCopyWithImpl<$Res> implements _$$_MasternodeCopyWith<$Res> {
-  __$$_MasternodeCopyWithImpl(_$_Masternode _value, $Res Function(_$_Masternode) _then) : super(_value, (v) => _then(v as _$_Masternode));
+class __$$_MasternodeCopyWithImpl<$Res> extends _$MasternodeCopyWithImpl<$Res>
+    implements _$$_MasternodeCopyWith<$Res> {
+  __$$_MasternodeCopyWithImpl(
+      _$_Masternode _value, $Res Function(_$_Masternode) _then)
+      : super(_value, (v) => _then(v as _$_Masternode));
 
   @override
   _$_Masternode get _value => super._value as _$_Masternode;
@@ -150,7 +159,8 @@ class _$_Masternode extends _Masternode {
       @JsonKey(name: 'block_count') required this.blockCount})
       : super._();
 
-  factory _$_Masternode.fromJson(Map<String, dynamic> json) => _$$_MasternodeFromJson(json);
+  factory _$_Masternode.fromJson(Map<String, dynamic> json) =>
+      _$$_MasternodeFromJson(json);
 
   @override
   final String address;
@@ -178,10 +188,13 @@ class _$_Masternode extends _Masternode {
         (other.runtimeType == runtimeType &&
             other is _$_Masternode &&
             const DeepCollectionEquality().equals(other.address, address) &&
-            const DeepCollectionEquality().equals(other.uniqueName, uniqueName) &&
-            const DeepCollectionEquality().equals(other.connectDate, connectDate) &&
+            const DeepCollectionEquality()
+                .equals(other.uniqueName, uniqueName) &&
+            const DeepCollectionEquality()
+                .equals(other.connectDate, connectDate) &&
             const DeepCollectionEquality().equals(other.isActive, isActive) &&
-            const DeepCollectionEquality().equals(other.blockCount, blockCount));
+            const DeepCollectionEquality()
+                .equals(other.blockCount, blockCount));
   }
 
   @JsonKey(ignore: true)
@@ -196,7 +209,8 @@ class _$_Masternode extends _Masternode {
 
   @JsonKey(ignore: true)
   @override
-  _$$_MasternodeCopyWith<_$_Masternode> get copyWith => __$$_MasternodeCopyWithImpl<_$_Masternode>(this, _$identity);
+  _$$_MasternodeCopyWith<_$_Masternode> get copyWith =>
+      __$$_MasternodeCopyWithImpl<_$_Masternode>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -206,14 +220,16 @@ class _$_Masternode extends _Masternode {
 
 abstract class _Masternode extends Masternode {
   factory _Masternode(
-      {required final String address,
-      @JsonKey(name: 'unique_name') required final String uniqueName,
-      @JsonKey(name: 'connect_date') required final DateTime connectDate,
-      @JsonKey(name: 'is_active') required final bool isActive,
-      @JsonKey(name: 'block_count') required final int blockCount}) = _$_Masternode;
+          {required final String address,
+          @JsonKey(name: 'unique_name') required final String uniqueName,
+          @JsonKey(name: 'connect_date') required final DateTime connectDate,
+          @JsonKey(name: 'is_active') required final bool isActive,
+          @JsonKey(name: 'block_count') required final int blockCount}) =
+      _$_Masternode;
   _Masternode._() : super._();
 
-  factory _Masternode.fromJson(Map<String, dynamic> json) = _$_Masternode.fromJson;
+  factory _Masternode.fromJson(Map<String, dynamic> json) =
+      _$_Masternode.fromJson;
 
   @override
   String get address => throw _privateConstructorUsedError;
@@ -231,5 +247,6 @@ abstract class _Masternode extends Masternode {
   int get blockCount => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$$_MasternodeCopyWith<_$_Masternode> get copyWith => throw _privateConstructorUsedError;
+  _$$_MasternodeCopyWith<_$_Masternode> get copyWith =>
+      throw _privateConstructorUsedError;
 }

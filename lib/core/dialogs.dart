@@ -87,7 +87,7 @@ class ConfirmDialog {
       builder: (context) {
         return AlertDialog(
           title: Text(title),
-          content: body != null ? Text(body) : content,
+          content: body != null ? ConstrainedBox(constraints: const BoxConstraints(maxWidth: 500), child: Text(body)) : content,
           actions: [
             TextButton(
               style: TextButton.styleFrom(
