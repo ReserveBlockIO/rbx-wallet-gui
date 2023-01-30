@@ -9,6 +9,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:process/process.dart';
 import 'package:process_run/shell.dart';
+import 'package:rbx_wallet/core/api_token_manager.dart';
+import 'package:rbx_wallet/core/utils.dart';
 import 'package:rbx_wallet/features/remote_info/components/snapshot_downloader.dart';
 import 'package:rbx_wallet/features/remote_info/models/remote_info.dart';
 import 'package:rbx_wallet/features/remote_info/services/remote_info_service.dart';
@@ -145,12 +147,14 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   Future<void> init() async {
+    final token = kDebugMode ? DEV_API_TOKEN : generateRandomString(32).toLowerCase();
+
     read(logProvider.notifier).append(LogEntry(message: "Welcome to RBXWallet version $APP_VERSION"));
 
     bool cliStarted = state.cliStarted;
     if (!cliStarted) {
       read(logProvider.notifier).append(LogEntry(message: "Starting RBXCore..."));
-      cliStarted = await _startCli();
+      cliStarted = await _startCli(token);
     } else {
       read(logProvider.notifier).append(LogEntry(message: "RBXCore already running."));
     }
@@ -614,7 +618,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
     }
   }
 
-  Future<bool> _startCli() async {
+  Future<bool> _startCli(String apiToken) async {
     if (Env.launchCli) {
       if (await _cliIsActive()) {
         await fetchConfig();
@@ -626,7 +630,8 @@ class SessionProvider extends StateNotifier<SessionModel> {
       startupDataLoop();
 
       final cliPath = Env.cliPathOverride ?? getCliPath();
-      List<String> options = ['enableapi', 'gui'];
+      List<String> options = ['enableapi', 'gui', 'apitoken=$apiToken'];
+
       if (Env.isTestNet) {
         options.add("testnet");
       }
@@ -640,13 +645,14 @@ class SessionProvider extends StateNotifier<SessionModel> {
           final appPath = Directory.current.path;
           cmd = Env.isTestNet ? "$appPath\\RbxCore\\RBXLauncherTestNet" : "$appPath\\RbxCore\\RBXLauncher";
 
-          read(logProvider.notifier).append(LogEntry(message: "Launching $cmd in the background."));
+          read(logProvider.notifier).append(LogEntry(message: "Launching CLI in the background."));
 
           read(logProvider.notifier).append(LogEntry(message: "This update may take longer than usual. Expect a few minutes."));
 
           pm.run([cmd]).then((result) {
             read(logProvider.notifier).append(LogEntry(message: "Command ran successfully."));
           });
+          singleton<ApiTokenManager>().set(apiToken);
 
           await Future.delayed(const Duration(seconds: 3));
           return await _cliCheck();
@@ -672,11 +678,14 @@ class SessionProvider extends StateNotifier<SessionModel> {
         );
         cmd = '"$cliPath" ${options.join(' ')}';
 
-        read(logProvider.notifier).append(LogEntry(message: "Launching $cmd in the background."));
+        read(logProvider.notifier).append(LogEntry(message: "Launching CLI in the background."));
 
         try {
           shell.run(cmd);
+          singleton<ApiTokenManager>().set(apiToken);
+
           await Future.delayed(const Duration(seconds: 3));
+
           return await _cliCheck();
         } catch (e) {
           read(logProvider.notifier).append(LogEntry(message: "Process Error.", variant: AppColorVariant.Danger));

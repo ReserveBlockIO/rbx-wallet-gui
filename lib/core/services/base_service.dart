@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:rbx_wallet/core/api_token_manager.dart';
+import 'package:rbx_wallet/core/singletons.dart';
 
 import '../../features/inspector/network_inspector.dart';
 import '../env.dart';
@@ -17,12 +19,17 @@ class BaseService {
   });
 
   Map<String, dynamic> _headers([bool auth = true, bool json = false]) {
+    final token = singleton<ApiTokenManager>().get();
+
     return json
         ? {
             HttpHeaders.contentTypeHeader: "application/json",
             HttpHeaders.acceptHeader: "application/json",
+            'apitoken': token,
           }
-        : {};
+        : {
+            'apitoken': token,
+          };
   }
 
   BaseOptions _options({
