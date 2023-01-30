@@ -1,5 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/web_router.gr.dart';
 
+import '../../app.dart';
 import '../../features/keygen/models/keypair.dart';
 import '../../features/nft/providers/nft_list_provider.dart';
 import '../../features/wallet/models/wallet.dart';
@@ -14,25 +17,24 @@ class WebSessionModel {
   final double? balance;
   final bool isAuthenticated;
   final String timezoneName;
+  final bool rememberMe;
 
-  const WebSessionModel({
-    this.keypair,
-    this.balance,
-    this.isAuthenticated = false,
-    this.timezoneName = "America/Los_Angeles",
-  });
+  const WebSessionModel(
+      {this.keypair, this.balance, this.isAuthenticated = false, this.timezoneName = "America/Los_Angeles", this.rememberMe = false});
 
   WebSessionModel copyWith({
     Keypair? keypair,
     double? balance,
     bool? isAuthenticated,
     String? timezoneName,
+    bool? rememberMe,
   }) {
     return WebSessionModel(
       keypair: keypair ?? this.keypair,
       balance: balance ?? this.balance,
       isAuthenticated: isAuthenticated ?? this.isAuthenticated,
       timezoneName: timezoneName ?? this.timezoneName,
+      rememberMe: rememberMe ?? this.rememberMe,
     );
   }
 
@@ -60,10 +62,21 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
   }
 
   void init() {
-    final savedKeypair = singleton<Storage>().getMap(Storage.WEB_KEYPAIR);
-    if (savedKeypair != null) {
-      final keypair = Keypair.fromJson(savedKeypair);
-      login(keypair, false);
+    state = _initial;
+    final rememberMe = singleton<Storage>().getBool(Storage.REMEMBER_ME) ?? false;
+    if (rememberMe) {
+      final savedKeypair = singleton<Storage>().getMap(Storage.WEB_KEYPAIR);
+      if (savedKeypair != null) {
+        final keypair = Keypair.fromJson(savedKeypair);
+        login(keypair, false);
+      }
+    } else {
+      Future.delayed(const Duration(milliseconds: 500), () {
+        final context = rootNavigatorKey.currentContext;
+        //TODO set whitelisted routes
+        if (context != null) AutoRouter.of(context).replace(const WebAuthRouter());
+      });
+      state = state.copyWith(isAuthenticated: false);
     }
     read(readyProvider.notifier).setReady(true);
 
@@ -71,8 +84,13 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     state = state.copyWith(timezoneName: timezoneName);
   }
 
+  void setRememberMe(bool val) {
+    singleton<Storage>().setBool(Storage.REMEMBER_ME, val);
+  }
+
   void login(Keypair keypair, [bool andSave = true]) {
-    if (andSave) {
+    final rememberMe = singleton<Storage>().getBool(Storage.REMEMBER_ME) ?? false;
+    if (rememberMe) {
       singleton<Storage>().setMap(Storage.WEB_KEYPAIR, keypair.toJson());
     }
 
