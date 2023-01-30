@@ -643,13 +643,13 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
         try {
           final appPath = Directory.current.path;
-          cmd = Env.isTestNet ? "$appPath\\RbxCore\\RBXLauncherTestNet" : "$appPath\\RbxCore\\RBXLauncher";
+          cmd = Env.isTestNet ? "$appPath\\RbxCore\\RBXLauncherTestNet.exe" : "$appPath\\RbxCore\\RBXLauncher.exe";
 
           read(logProvider.notifier).append(LogEntry(message: "Launching CLI in the background."));
 
           read(logProvider.notifier).append(LogEntry(message: "This update may take longer than usual. Expect a few minutes."));
 
-          pm.run([cmd]).then((result) {
+          pm.run([cmd, 'apitoken=$apiToken']).then((result) {
             read(logProvider.notifier).append(LogEntry(message: "Command ran successfully."));
           });
           singleton<ApiTokenManager>().set(apiToken);

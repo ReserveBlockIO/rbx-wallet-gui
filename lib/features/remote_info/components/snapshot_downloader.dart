@@ -107,15 +107,18 @@ class _SnapshotDownloaderState extends State<SnapshotDownloader> {
     final archive = ZipDecoder().decodeBytes(bytes);
     for (final file in archive) {
       String filename = file.name;
+      print("filename before: $filename");
+
       if (Platform.isWindows) {
-        if (filename.contains('\\')) {
-          filename = filename.split('\\').last;
+        if (filename.contains('/')) {
+          filename = filename.split('/').last;
         }
       } else {
         if (filename.contains('/')) {
           filename = filename.split('/').last;
         }
       }
+      print("filename after: $filename");
       if (file.isFile) {
         final data = file.content as List<int>;
 
