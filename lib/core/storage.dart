@@ -167,8 +167,7 @@ class StorageWebImplementation extends Storage {
   @override
   Map<String, dynamic>? getMap(String key) {
     var value = _instance.get(_buildKey(key));
-    final map = json.decode(json.encode(value)) as Map<String, dynamic>;
-    return map;
+    return json.decode(json.encode(value)) as Map<String, dynamic>?;
   }
 
   @override
@@ -188,7 +187,15 @@ class StorageWebImplementation extends Storage {
 
   @override
   List<String>? getStringList(String key) {
-    return _instance.get(_buildKey(key));
+    final str = _instance.get(_buildKey(key));
+
+    if (str == null) {
+      return null;
+    }
+    final List<dynamic> data = jsonDecode(str);
+
+    final List<String> items = data.map((item) => item.toString()).toList();
+    return items;
   }
 
   @override

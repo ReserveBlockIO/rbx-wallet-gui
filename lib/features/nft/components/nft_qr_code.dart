@@ -31,7 +31,7 @@ class NftQrCode extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.white12,
+      color: Colors.grey.shade800,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(

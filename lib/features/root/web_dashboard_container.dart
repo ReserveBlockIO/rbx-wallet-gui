@@ -17,6 +17,7 @@ class WebRouteIndex {
   static get nfts => 4;
   static get smartContracts => 5;
   static get dst => 6;
+  static get adnrs => 7;
 }
 
 class WebDashboardContainer extends StatelessWidget {
@@ -30,6 +31,7 @@ class WebDashboardContainer extends StatelessWidget {
     const WebNftTabRouter(),
     const WebSmartContractTabRouter(),
     const WebDstTabRouter(),
+    const WebAdnrTabRouter(),
   ];
 
   @override

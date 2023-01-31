@@ -104,3 +104,7 @@ deploy_web_no_build:
 
 delete_gen:
 	find . -maxdepth 20 -type f \( -name "*.freezed.dart" -o  -name "*.g.dart" \) -delete
+
+
+run_web:
+	fvm flutter run -d chrome --web-port 42069

@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/models/web_session_model.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
 
 import '../../app.dart';
@@ -12,57 +13,15 @@ import '../singletons.dart';
 import '../storage.dart';
 import 'ready_provider.dart';
 
-class WebSessionModel {
-  final Keypair? keypair;
-  final double? balance;
-  final bool isAuthenticated;
-  final String timezoneName;
-  final bool rememberMe;
-
-  const WebSessionModel(
-      {this.keypair, this.balance, this.isAuthenticated = false, this.timezoneName = "America/Los_Angeles", this.rememberMe = false});
-
-  WebSessionModel copyWith({
-    Keypair? keypair,
-    double? balance,
-    bool? isAuthenticated,
-    String? timezoneName,
-    bool? rememberMe,
-  }) {
-    return WebSessionModel(
-      keypair: keypair ?? this.keypair,
-      balance: balance ?? this.balance,
-      isAuthenticated: isAuthenticated ?? this.isAuthenticated,
-      timezoneName: timezoneName ?? this.timezoneName,
-      rememberMe: rememberMe ?? this.rememberMe,
-    );
-  }
-
-  Wallet? get currentWallet {
-    if (keypair == null) return null;
-    return Wallet(
-      id: 0,
-      publicKey: keypair!.publicInflated,
-      privateKey: keypair!.private,
-      address: keypair!.public,
-      balance: balance ?? 0,
-      isValidating: false,
-      // isEncrypted: false,
-    );
-  }
-}
-
 class WebSessionProvider extends StateNotifier<WebSessionModel> {
   final Reader read;
 
-  static const _initial = WebSessionModel();
-
-  WebSessionProvider(this.read, [WebSessionModel model = _initial]) : super(model) {
+  WebSessionProvider(this.read, WebSessionModel model) : super(model) {
     init();
   }
 
   void init() {
-    state = _initial;
+    state = WebSessionModel();
     final rememberMe = singleton<Storage>().getBool(Storage.REMEMBER_ME) ?? false;
     if (rememberMe) {
       final savedKeypair = singleton<Storage>().getMap(Storage.WEB_KEYPAIR);
@@ -99,20 +58,33 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
   }
 
   void loop() async {
-    getBalance();
+    // getBalance();
+    getAddress();
     getNfts();
     await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
     loop();
   }
 
-  Future<void> getBalance() async {
+  Future<void> getAddress() async {
     if (state.keypair == null) {
       return;
     }
-    final balance = await ExplorerService().getBalance(state.keypair!.public);
+    final webAddress = await ExplorerService().getWebAddress(state.keypair!.public);
 
-    state = state.copyWith(balance: balance);
+    state = state.copyWith(
+      balance: webAddress.balance,
+      adnr: webAddress.adnr,
+    );
   }
+
+  // Future<void> getBalance() async {
+  //   if (state.keypair == null) {
+  //     return;
+  //   }
+  //   final balance = await ExplorerService().getBalance(state.keypair!.public);
+
+  //   state = state.copyWith(balance: balance);
+  // }
 
   Future<void> getNfts() async {
     if (state.keypair == null) {
@@ -123,12 +95,12 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
 
   Future<void> logout() async {
     singleton<Storage>().remove(Storage.WEB_KEYPAIR);
-    state = _initial;
+    state = WebSessionModel();
 
     await Future.delayed(const Duration(milliseconds: 150));
   }
 }
 
 final webSessionProvider = StateNotifierProvider<WebSessionProvider, WebSessionModel>(
-  (ref) => WebSessionProvider(ref.read),
+  (ref) => WebSessionProvider(ref.read, WebSessionModel()),
 );

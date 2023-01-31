@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:rbx_wallet/core/models/web_session_model.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/app_router.gr.dart';

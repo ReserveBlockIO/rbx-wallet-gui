@@ -24,7 +24,7 @@ class WebWalletDetails extends BaseComponent {
       color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
       child: ListTile(
         title: SelectableText(
-          keypair.public,
+          sessionModel.adnr != null && sessionModel.adnr!.isNotEmpty ? "${sessionModel.adnr} [${keypair.public}]" : keypair.public,
           style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 13),
         ),
         subtitle: sessionModel.balance != null

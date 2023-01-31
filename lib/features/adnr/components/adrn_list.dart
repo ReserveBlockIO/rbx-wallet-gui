@@ -118,6 +118,7 @@ class AdnrList extends BaseComponent {
                                 PromptModal.show(
                                     contextOverride: context,
                                     title: "Transfer RBX Domain",
+                                    body: "There is a cost of $ADNR_COST RBX to transfer an RBX Domain.",
                                     validator: (value) => formValidatorRbxAddress(value, false),
                                     labelText: "Address",
                                     onValidSubmission: (toAddress) async {
@@ -165,7 +166,7 @@ class AdnrList extends BaseComponent {
                           final confirmed = await ConfirmDialog.show(
                             title: "Delete RBX Domain?",
                             body:
-                                "Are you sure you want to delete this RBX Domain?\n\nOnce deleted, this ADNR will no longer be able to receive any transactions.",
+                                "Are you sure you want to delete this RBX Domain?\nThere is a cost of $ADNR_COST RBX to delete an RBX Domain.\n\nOnce deleted, this ADNR will no longer be able to receive any transactions.",
                             destructive: true,
                             cancelText: "Cancel",
                             confirmText: "Delete",

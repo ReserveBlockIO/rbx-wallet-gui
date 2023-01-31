@@ -1,6 +1,13 @@
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/core/providers/web_session_provider.dart';
+import 'package:rbx_wallet/core/services/explorer_service.dart';
+import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/base_component.dart';
@@ -74,28 +81,90 @@ class CreateAdnrDialog extends BaseComponent {
               Toast.error("Maximum characters for domain is 65");
               return;
             }
-            ref.read(globalLoadingProvider.notifier).start();
-            final result = await TransactionService().createAdnr(address, controller.text);
-            ref.read(globalLoadingProvider.notifier).complete();
 
-            if (result.success) {
-              Toast.message("Transaction has been broadcasted. See log for hash.");
-              if (result.hash != null) {
-                ref.read(logProvider.notifier).append(
-                      LogEntry(
-                          message: "ADNR create transaction broadcasted. Tx Hash: ${result.hash}",
-                          textToCopy: result.hash,
-                          variant: AppColorVariant.Success),
-                    );
-
-                ref.read(adnrPendingProvider.notifier).addId(address, "create", adnr ?? "null");
+            if (kIsWeb) {
+              final keyPair = ref.read(webSessionProvider).keypair;
+              if (keyPair == null) {
+                Toast.error("No wallet");
+                return;
               }
 
-              Navigator.of(context).pop();
-              return;
-            }
+              final domainWithoutSuffix = controller.text;
+              final domain = "$domainWithoutSuffix.rbx";
 
-            Toast.error(result.message);
+              final available = await ExplorerService().adnrAvailable(domain);
+              if (!available) {
+                Toast.error("This RBX Domain already exists");
+                return;
+              }
+
+              final txData = await RawTransaction.generate(
+                keypair: ref.read(webSessionProvider).keypair!,
+                amount: 1.0,
+                toAddress: "Adnr_Base",
+                txType: TxType.adnr,
+                data: {"Function": "AdnrCreate()", "Name": domainWithoutSuffix},
+              );
+
+              if (txData == null) {
+                Toast.error("Invalid transaction data.");
+                return;
+              }
+
+              final txFee = txData['Fee'];
+
+              final confirmed = await ConfirmDialog.show(
+                title: "Valid Transaction",
+                body:
+                    "The RBX Domain transaction is valid.\nAre you sure you want to proceed?\n\nDomain: $domain\nAmount: $ADNR_COST RBX\nFee: $txFee RBX\nTotal: ${ADNR_COST + txFee} RBX",
+                confirmText: "Send",
+                cancelText: "Cancel",
+              );
+
+              if (confirmed != true) {
+                Navigator.of(context).pop();
+                Toast.message("Transaction Cancelled");
+                return;
+              }
+
+              final tx = await TransactionService().sendTransaction(
+                transactionData: txData,
+                execute: true,
+              );
+
+              if (tx != null && tx['data']['Result'] == "Success") {
+                ref.read(adnrPendingProvider.notifier).addId(address, "create", "null");
+                Toast.message("RBX Domain Transaction has been broadcasted. See log for hash.");
+                Navigator.of(context).pop();
+
+                return;
+              }
+
+              Toast.error();
+            } else {
+              ref.read(globalLoadingProvider.notifier).start();
+              final result = await TransactionService().createAdnr(address, controller.text);
+              ref.read(globalLoadingProvider.notifier).complete();
+
+              if (result.success) {
+                Toast.message("RBX Domain Transaction has been broadcasted. See log for hash.");
+                if (result.hash != null) {
+                  ref.read(logProvider.notifier).append(
+                        LogEntry(
+                            message: "ADNR create transaction broadcasted. Tx Hash: ${result.hash}",
+                            textToCopy: result.hash,
+                            variant: AppColorVariant.Success),
+                      );
+
+                  ref.read(adnrPendingProvider.notifier).addId(address, "create", adnr ?? "null");
+                }
+
+                Navigator.of(context).pop();
+                return;
+              }
+
+              Toast.error(result.message);
+            }
           },
           child: const Text(
             "Create",

@@ -116,11 +116,11 @@ class WebMenu extends BaseComponent {
           },
         ),
         ListTile(
-          title: const Text("NFTs"),
-          leading: const Icon(Icons.lightbulb_outline),
+          title: const Text("RBX Domains"),
+          leading: const Icon(Icons.link),
           trailing: const Icon(Icons.chevron_right),
           onTap: () {
-            tabsRouter.setActiveIndex(WebRouteIndex.nfts);
+            tabsRouter.setActiveIndex(WebRouteIndex.adnrs);
             if (inDrawer) {
               Navigator.of(context).pop();
             }
@@ -138,7 +138,18 @@ class WebMenu extends BaseComponent {
           },
         ),
         ListTile(
-          title: const Text("DST Auctions"),
+          title: const Text("NFTs"),
+          leading: const Icon(Icons.lightbulb_outline),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () {
+            tabsRouter.setActiveIndex(WebRouteIndex.nfts);
+            if (inDrawer) {
+              Navigator.of(context).pop();
+            }
+          },
+        ),
+        ListTile(
+          title: const Text("P2P Auctions"),
           leading: const Icon(Icons.leak_add),
           trailing: const Icon(Icons.chevron_right),
           onTap: () {

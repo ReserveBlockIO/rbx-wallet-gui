@@ -36,11 +36,15 @@ class RawTransaction {
     int txType = TxType.rbxTransfer,
     dynamic data,
   }) async {
+    print("generate()");
     final rawTx = await _getTransactionForSignature(fromAddress: keypair.public, toAddress: toAddress, amount: amount, data: data, txType: txType);
 
     if (rawTx == null) {
       return null;
     }
+
+    print("_getTransactionForSignature");
+    print(rawTx);
 
     final hash = rawTx.hash;
 
@@ -53,6 +57,9 @@ class RawTransaction {
     if (signature == null) {
       return null;
     }
+
+    print("getSignature");
+    print(signature);
 
     final txService = TransactionService();
 
@@ -80,10 +87,20 @@ class RawTransaction {
       data: data,
     );
 
+    print("_______");
+    print(txData);
+    print("_______");
+    print(jsonEncode(txData));
+    print("_______");
+
     final verifyTransactionData = (await txService.sendTransaction(
       transactionData: txData,
       execute: false,
     ))!['data'];
+    print("**********");
+
+    print(verifyTransactionData);
+    print("**********");
 
     if (!_responseIsValid(verifyTransactionData)) {
       print("Transaction not valid");

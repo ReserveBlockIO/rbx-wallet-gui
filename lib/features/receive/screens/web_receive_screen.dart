@@ -62,7 +62,8 @@ class WebReceiveScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final address = ref.read(webSessionProvider).keypair?.public;
+    final address = ref.watch(webSessionProvider).keypair?.public;
+    final adnr = ref.watch(webSessionProvider).adnr;
 
     if (address == null) {
       return const WebNotWallet();
@@ -100,6 +101,30 @@ class WebReceiveScreen extends BaseScreen {
                     "This is the address the sender needs to send funds to.",
                     style: Theme.of(context).textTheme.caption,
                   ),
+                  if (adnr != null && adnr.isNotEmpty) ...[
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 500),
+                      child: TextFormField(
+                        initialValue: adnr,
+                        readOnly: true,
+                        decoration: InputDecoration(
+                          label: const Text("Your RBX Domain"),
+                          border: InputBorder.none,
+                          suffixIcon: IconButton(
+                            icon: const Icon(Icons.copy),
+                            onPressed: () {
+                              copyToClipboard(adnr);
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      "Alternatively, you can receive funds to your RBX Domain.",
+                      style: Theme.of(context).textTheme.caption,
+                    ),
+                  ],
                   const Divider(),
                 ],
               ),
@@ -124,7 +149,8 @@ class WebReceiveScreen extends BaseScreen {
                       address: address,
                       onValidSubmission: (amount) async {
                         if (double.tryParse(amount) != null) {
-                          final url = generateLink(address, double.parse(amount));
+                          final value = adnr != null && adnr.isNotEmpty ? adnr : address;
+                          final url = generateLink(value, double.parse(amount));
 
                           await copyToClipboard(url, "Request funds link copied to clipboard");
                         } else {
@@ -144,7 +170,8 @@ class WebReceiveScreen extends BaseScreen {
                       address: address,
                       onValidSubmission: (amount) async {
                         if (double.tryParse(amount) != null) {
-                          final url = generateLink(address, double.parse(amount));
+                          final value = adnr != null && adnr.isNotEmpty ? adnr : address;
+                          final url = generateLink(value, double.parse(amount));
 
                           showDialog(
                               context: context,
