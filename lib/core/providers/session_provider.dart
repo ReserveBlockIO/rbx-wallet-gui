@@ -410,6 +410,8 @@ class SessionProvider extends StateNotifier<SessionModel> {
         if (currentWallet != null) {
           state = state.copyWith(currentWallet: currentWallet, totalBalance: totalBalance);
           read(currentValidatorProvider.notifier).set(currentWallet);
+        } else {
+          state = state.copyWith(totalBalance: totalBalance);
         }
       } else {
         state = state.copyWith(currentWallet: wallets.first, totalBalance: totalBalance);
