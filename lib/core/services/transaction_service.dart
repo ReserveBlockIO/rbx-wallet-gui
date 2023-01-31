@@ -536,7 +536,8 @@ class TransactionService extends BaseService {
 
   Future<bool> beaconAssets(String scId, String locators, String signature) async {
     try {
-      await getText("/beacon-assets/$scId/$locators/$signature/");
+      final path = "/beacon-assets/$scId/$locators/$signature/";
+      await getText(path);
       return true;
     } catch (e) {
       print(e);

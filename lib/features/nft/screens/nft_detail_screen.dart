@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/base_screen.dart';
@@ -394,27 +395,29 @@ class NftDetailScreen extends BaseScreen {
                     icon: Icons.send,
                     onPressed: nft.isPublished
                         ? () async {
-                            if (!await passwordRequiredGuard(context, ref)) {
-                              return;
-                            }
-                            Wallet? wallet = ref.read(walletListProvider).firstWhereOrNull((w) => w.address == nft.currentOwner);
-                            if (wallet == null) {
-                              Toast.error("No wallet selected");
-                              return;
-                            }
+                            if (!kIsWeb) {
+                              if (!await passwordRequiredGuard(context, ref)) {
+                                return;
+                              }
+                              Wallet? wallet = ref.read(walletListProvider).firstWhereOrNull((w) => w.address == nft.currentOwner);
+                              if (wallet == null) {
+                                Toast.error("No wallet selected");
+                                return;
+                              }
 
-                            if (wallet.balance < MIN_RBX_FOR_SC_ACTION) {
-                              Toast.error("Not enough balance for transaction");
-                              return;
-                            }
+                              if (wallet.balance < MIN_RBX_FOR_SC_ACTION) {
+                                Toast.error("Not enough balance for transaction");
+                                return;
+                              }
 
-                            final _nft = await setAssetPath(nft);
+                              final _nft = await setAssetPath(nft);
 
-                            final filesReady = await _nft.areFilesReady();
+                              final filesReady = await _nft.areFilesReady();
 
-                            if (!filesReady) {
-                              Toast.error("Media files not found on this machine.");
-                              return;
+                              if (!filesReady) {
+                                Toast.error("Media files not found on this machine.");
+                                return;
+                              }
                             }
 
                             PromptModal.show(
@@ -433,14 +436,17 @@ class NftDetailScreen extends BaseScreen {
                                 address = address.trim().replaceAll("\n", "");
 
                                 if (kIsWeb) {
+                                  ref.read(globalLoadingProvider.notifier).start();
                                   success = await _provider.transferWebOut(address);
                                   if (success == true) {
                                     ref.read(transferredProvider.notifier).addId(id);
 
                                     Toast.message("NFT Transfer sent successfully to $address!");
+                                    Navigator.of(context).pop();
                                   } else {
                                     Toast.error();
                                   }
+                                  ref.read(globalLoadingProvider.notifier).complete();
                                 } else {
                                   final isValid = await BridgeService().validateSendToAddress(address);
                                   if (!isValid) {

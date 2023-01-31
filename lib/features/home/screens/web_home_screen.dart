@@ -75,10 +75,6 @@ class WebHomeScreen extends BaseScreen {
             ],
           ),
         ),
-        // SelectableText(
-        //   "${ref.watch(webSessionProvider).keypair?.private}",
-        //   style: TextStyle(color: Colors.white),
-        // ),
         const _Brand(),
         const _Actions(),
         const WebLatestBlock(),
