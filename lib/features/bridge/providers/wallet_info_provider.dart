@@ -59,7 +59,7 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
       print("fetch error");
       if (shouldLoop) {
         await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
-        infoLoop(shouldLoop);
+        infoLoop(true);
       }
       return;
     }
@@ -119,7 +119,7 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
 
     if (shouldLoop) {
       await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
-      infoLoop(shouldLoop);
+      infoLoop(true);
     }
   }
 }

@@ -404,8 +404,10 @@ class SessionProvider extends StateNotifier<SessionModel> {
       read(draftsSmartContractProvider.notifier).load();
     }
 
-    await Future.delayed(const Duration(seconds: 30));
-    smartContractLoop();
+    if (inLoop) {
+      await Future.delayed(const Duration(seconds: 30));
+      smartContractLoop(true);
+    }
   }
 
   Future<void> restartCli() async {
