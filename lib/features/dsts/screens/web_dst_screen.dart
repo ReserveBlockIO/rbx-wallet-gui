@@ -19,7 +19,7 @@ class WebDstScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: const Text("DST Auctions"),
+      title: const Text("P2P Auctions"),
       backgroundColor: Colors.black,
       shadowColor: Colors.transparent,
     );

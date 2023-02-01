@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/app_constants.dart';
@@ -48,6 +49,8 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
   }
 
   infoLoop([bool loop = true]) async {
+    if (kIsWeb) return;
+
     Map<String, dynamic> data = {};
     try {
       data = await BridgeService().walletInfo();

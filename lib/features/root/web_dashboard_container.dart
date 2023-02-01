@@ -81,7 +81,7 @@ class _ContentWrapper extends BaseComponent {
               Container(
                 width: 250,
                 decoration: const BoxDecoration(color: Colors.black87),
-                child: const WebMenu(),
+                child: WebMenu(),
               ),
               Expanded(child: child),
             ],

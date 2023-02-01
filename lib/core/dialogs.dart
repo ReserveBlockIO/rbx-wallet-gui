@@ -106,7 +106,7 @@ class ConfirmDialog {
             ),
             TextButton(
               style: TextButton.styleFrom(
-                primary: destructive ? Theme.of(context).colorScheme.danger : Theme.of(context).colorScheme.info,
+                primary: destructive ? Colors.red.shade600 : Theme.of(context).colorScheme.info,
                 textStyle: const TextStyle(fontWeight: FontWeight.bold),
               ),
               onPressed: () {
@@ -115,7 +115,7 @@ class ConfirmDialog {
               child: Text(
                 confirmText ?? "Yes",
                 style: TextStyle(
-                  color: destructive ? Theme.of(context).colorScheme.danger : Colors.white,
+                  color: destructive ? Colors.red.shade600 : Colors.white,
                 ),
               ),
             )
@@ -209,7 +209,7 @@ class PromptModal {
               ),
             TextButton(
               style: TextButton.styleFrom(
-                primary: destructive ? Theme.of(context).colorScheme.danger : Theme.of(context).colorScheme.info,
+                primary: destructive ? Colors.red.shade600 : Theme.of(context).colorScheme.info,
                 textStyle: const TextStyle(fontWeight: FontWeight.bold),
               ),
               onPressed: () {

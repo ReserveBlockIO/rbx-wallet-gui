@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 
 import '../../../core/env.dart';
 import '../../../core/services/base_service.dart';
@@ -343,5 +346,76 @@ class BridgeService extends BaseService {
     } catch (e) {
       return null;
     }
+  }
+
+  Future<List<String>?> getLatestCliFiles() async {
+    try {
+      final data = await getJson('/GetLatestReleaseFiles', cleanPath: false);
+      if (data.containsKey('Result') && data['Result'] == "Success") {
+        if (data.containsKey("Message")) {
+          print(data['Message']);
+          final filenames = jsonDecode(data['Message'].toString()) as List<dynamic>;
+          return filenames.map((e) => e.toString()).toList();
+        }
+      }
+      return null;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<bool?> updateCli(bool execute) async {
+    if (kIsWeb) {
+      return null;
+    }
+
+    final filenames = await getLatestCliFiles();
+    if (filenames == null) {
+      return null;
+    }
+
+    print(filenames);
+
+    String osVersion = Platform.version;
+    print("OS Version:");
+    print(osVersion);
+    print("********");
+
+    String? filename;
+    if (Platform.isMacOS) {
+      if (osVersion.contains("macos_x64")) {
+        filename = "rbx-corecli-mac-intel.zip";
+      } else {
+        filename = "rbx-corecli-mac-arm.zip";
+      }
+    } else if (Platform.isWindows) {
+      filename = "rbx-corecli-win7-x64.zip";
+    }
+
+    if (filename == null) {
+      return null;
+    }
+
+    if (!filenames.contains(filename)) {
+      return null;
+    }
+
+    final data = await getJson('/GetLatestRelease/${execute ? 'true' : 'false'}/$filename', cleanPath: false);
+    if (data.containsKey('Result') && data['Result'] == "Success") {
+      if (data.containsKey("Message")) {
+        final message = data['Message'];
+        if (message == "CLI is up to date.") {
+          return false;
+        }
+        if (message == "Update was not successful.") {
+          return false;
+        }
+        if (message == "Update was successful. Please Restart CLI.") {
+          return true;
+        }
+      }
+    }
+    return null;
   }
 }

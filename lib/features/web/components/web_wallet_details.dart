@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/providers/web_session_provider.dart';
@@ -18,10 +19,10 @@ class WebWalletDetails extends BaseComponent {
       return Container();
     }
 
-    return Card(
-      margin: EdgeInsets.zero,
-      // color: Color(0xFF050505),
-      color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.primary,
+      ),
       child: ListTile(
         title: SelectableText(
           sessionModel.adnr != null && sessionModel.adnr!.isNotEmpty ? "${sessionModel.adnr} [${keypair.public}]" : keypair.public,
@@ -50,7 +51,15 @@ class WebWalletDetails extends BaseComponent {
                 )),
             InkWell(
                 onTap: () async {
-                  await showKeys(context, keypair, true);
+                  final confirmed = await ConfirmDialog.show(
+                    title: "Reveal Private Key?",
+                    body: "Are you sure you want to reveal your private key?",
+                    confirmText: "Reveal",
+                    cancelText: "Cancel",
+                  );
+                  if (confirmed == true) {
+                    showKeys(context, keypair, true);
+                  }
                 },
                 child: const Padding(
                   padding: EdgeInsets.all(4.0),

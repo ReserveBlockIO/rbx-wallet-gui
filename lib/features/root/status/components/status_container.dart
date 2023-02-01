@@ -73,8 +73,7 @@ class StatusContainer extends BaseComponent {
                             style: ElevatedButton.styleFrom(primary: Theme.of(context).colorScheme.danger),
                             label: const Text("Update Available"),
                             onPressed: () {
-                              final url = ref.read(sessionProvider).remoteInfo!.gui.url;
-                              launchUrlString(url);
+                              ref.read(sessionProvider.notifier).updateGui();
                             },
                           )),
                     ),

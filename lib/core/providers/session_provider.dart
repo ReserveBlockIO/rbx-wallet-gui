@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:intl/intl.dart';
 import 'package:process/process.dart';
 import 'package:process_run/shell.dart';
@@ -17,6 +18,7 @@ import 'package:rbx_wallet/features/remote_info/services/remote_info_service.dar
 import 'package:rbx_wallet/features/startup/startup_data.dart';
 import 'package:rbx_wallet/features/startup/startup_data_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../app.dart';
 import '../../features/beacon/providers/beacon_list_provider.dart';
@@ -201,6 +203,46 @@ class SessionProvider extends StateNotifier<SessionModel> {
     });
   }
 
+  Future<void> updateGui() async {
+    final remoteInfo = state.remoteInfo;
+    if (remoteInfo == null) {
+      return;
+    }
+
+    final updateGui = await ConfirmDialog.show(
+      title: "GUI Update Available",
+      body: "A GUI update is available. Download now?",
+      confirmText: "Update",
+      cancelText: "No",
+    );
+
+    if (updateGui != true) {
+      return;
+    }
+
+    final confirmUpdate = await ConfirmDialog.show(
+      title: "GUI Update",
+      body:
+          "The RBX GUI download will be launched in your browser. Once launched, the CLI will be shutdown and your wallet will be closed to ensure a safe update.",
+      confirmText: "Update",
+      cancelText: "Cancel",
+    );
+
+    if (confirmUpdate != true) {
+      return;
+    }
+
+    if (updateGui == true) {
+      final url = remoteInfo.gui.url;
+      await launchUrlString(url);
+    }
+
+    await BridgeService().killCli();
+    await Future.delayed(const Duration(milliseconds: 3000));
+
+    FlutterWindowClose.closeWindow();
+  }
+
   Future<void> checkRemoteInfo() async {
     final remoteInfo = await RemoteInfoService.fetchInfo();
     state = state.copyWith(remoteInfo: remoteInfo);
@@ -208,11 +250,41 @@ class SessionProvider extends StateNotifier<SessionModel> {
     await Future.delayed(const Duration(seconds: 3));
 
     if (remoteInfo != null) {
+      if (remoteInfo.gui.updateAvailable) {
+        updateGui();
+        return;
+      }
+
       final snapshotHeight = remoteInfo.snapshot.height;
       final blockHeight = read(walletInfoProvider)?.blockHeight;
 
       if (blockHeight != null && blockHeight < snapshotHeight - 5000) {
         promptForSnapshotImport();
+      }
+
+      final cliUpdateAvailable = await BridgeService().updateCli(false);
+      if (cliUpdateAvailable == true) {
+        final confirmed = await ConfirmDialog.show(
+          title: "CLI Update Available",
+          body: "A CLI update is available. Download and install now?",
+          confirmText: "Update",
+          cancelText: "No",
+        );
+        if (confirmed == true) {
+          final success = await BridgeService().updateCli(true);
+
+          if (success == true) {
+            final shouldRestart = await ConfirmDialog.show(
+              title: "CLI Updated",
+              body: "A restart of the CLI is required. Restart Now?",
+              confirmText: "Restart",
+              cancelText: "No",
+            );
+            if (shouldRestart == true) {
+              await restartCli();
+            }
+          }
+        }
       }
     }
   }
