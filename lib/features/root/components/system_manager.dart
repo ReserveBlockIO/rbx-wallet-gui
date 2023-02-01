@@ -23,9 +23,8 @@ class _AppSystemManagerState extends ConsumerState<AppSystemManager> with Widget
     super.initState();
     WidgetsBinding.instance.addObserver(this);
 
-    activityTick();
-
-    ref.read(isActiveProvider.notifier).init();
+    // activityTick();
+    // ref.read(isActiveProvider.notifier).init();
     FlutterWindowClose.setWindowShouldCloseHandler(() async {
       await BridgeService().killCli();
       return true;

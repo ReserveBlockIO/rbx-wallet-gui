@@ -50,6 +50,13 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
 
   infoLoop([bool inLoop = true]) async {
     if (kIsWeb) return;
+    if (!read(sessionProvider).cliStarted) {
+      if (inLoop) {
+        await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
+        infoLoop(true);
+      }
+      return;
+    }
 
     Map<String, dynamic> data = {};
     try {

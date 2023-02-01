@@ -367,13 +367,14 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   Future<void> mainLoop([inLoop = true]) async {
-    await loadWallets();
-    await loadValidators();
-    // await loadMasterNodes();
-    // await loadPeerInfo();
-    await loadTransactions();
-
-    loadTopics();
+    if (state.cliStarted) {
+      loadWallets();
+      loadValidators();
+      // await loadMasterNodes();
+      // await loadPeerInfo();
+      loadTransactions();
+      loadTopics();
+    }
 
     if (inLoop) {
       await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
