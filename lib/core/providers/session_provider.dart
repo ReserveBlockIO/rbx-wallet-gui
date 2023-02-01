@@ -145,10 +145,10 @@ class SessionProvider extends StateNotifier<SessionModel> {
   static const _initial = SessionModel();
 
   SessionProvider(this.read, [SessionModel sessionModel = _initial]) : super(sessionModel) {
-    init();
+    init(true);
   }
 
-  Future<void> init() async {
+  Future<void> init(bool inLoop) async {
     final token = kDebugMode ? DEV_API_TOKEN : generateRandomString(32).toLowerCase();
 
     read(logProvider.notifier).append(LogEntry(message: "Welcome to RBXWallet version $APP_VERSION"));
@@ -170,11 +170,11 @@ class SessionProvider extends StateNotifier<SessionModel> {
     final authenticated = await authenticate();
 
     if (authenticated) {
-      finishSetup();
+      finishSetup(inLoop);
     }
   }
 
-  Future<void> finishSetup() async {
+  Future<void> finishSetup(bool inLoop) async {
     final now = DateTime.now();
 
     final timezoneName = DateTime.now().timeZoneName.toString();
@@ -187,12 +187,12 @@ class SessionProvider extends StateNotifier<SessionModel> {
     );
 
     // mainLoop();
-    mainLoop();
-    smartContractLoop();
+    mainLoop(inLoop);
+    smartContractLoop(inLoop);
     read(beaconListProvider.notifier).refresh();
 
     Future.delayed(const Duration(milliseconds: 300)).then((_) {
-      read(walletInfoProvider.notifier).infoLoop();
+      read(walletInfoProvider.notifier).infoLoop(inLoop);
       if (!kIsWeb) {
         // if (!read(passwordRequiredProvider)) {
         //   _onboardWallet();
@@ -367,17 +367,18 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   Future<void> mainLoop([inLoop = true]) async {
-    await loadWallets();
-    await loadValidators();
-    // await loadMasterNodes();
-    // await loadPeerInfo();
-    await loadTransactions();
-
-    loadTopics();
+    if (state.cliStarted) {
+      loadWallets();
+      loadValidators();
+      // await loadMasterNodes();
+      // await loadPeerInfo();
+      loadTransactions();
+      loadTopics();
+    }
 
     if (inLoop) {
       await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
-      mainLoop();
+      mainLoop(true);
     }
   }
 
@@ -404,8 +405,10 @@ class SessionProvider extends StateNotifier<SessionModel> {
       read(draftsSmartContractProvider.notifier).load();
     }
 
-    await Future.delayed(const Duration(seconds: 30));
-    smartContractLoop();
+    if (inLoop) {
+      await Future.delayed(const Duration(seconds: 15));
+      smartContractLoop(true);
+    }
   }
 
   Future<void> restartCli() async {
@@ -417,7 +420,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
     await Future.delayed(const Duration(milliseconds: 5000));
 
-    await init();
+    await init(false);
     await fetchConfig();
 
     read(beaconListProvider.notifier).refresh();
