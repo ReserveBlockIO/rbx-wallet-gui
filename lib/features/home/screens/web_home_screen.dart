@@ -234,6 +234,7 @@ class _Actions extends BaseComponent {
                 if (ref.read(webSessionProvider).keypair != null)
                   AppButton(
                     label: "Logout",
+                    icon: Icons.logout,
                     onPressed: () async {
                       final confirmed = await ConfirmDialog.show(
                         title: "Logout",
