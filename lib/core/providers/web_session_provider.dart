@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/models/web_session_model.dart';
@@ -16,7 +18,10 @@ import 'ready_provider.dart';
 class WebSessionProvider extends StateNotifier<WebSessionModel> {
   final Reader read;
 
+  late final Timer loopTimer;
+
   WebSessionProvider(this.read, WebSessionModel model) : super(model) {
+    loopTimer = Timer.periodic(const Duration(seconds: REFRESH_TIMEOUT_SECONDS), (_) => loop());
     init();
   }
 
@@ -32,6 +37,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     } else {
       Future.delayed(const Duration(milliseconds: 500), () {
         final context = rootNavigatorKey.currentContext;
+
         //TODO set whitelisted routes
         if (context != null) AutoRouter.of(context).replace(const WebAuthRouter());
       });
@@ -58,11 +64,8 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
   }
 
   void loop() async {
-    // getBalance();
     getAddress();
     getNfts();
-    await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
-    loop();
   }
 
   Future<void> getAddress() async {

@@ -40,7 +40,6 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
   void _handleSession(WebSessionModel session) {
     final currentPath = singleton<AppRouter>().current.path;
     final bool rememberMe = singleton<Storage>().getBool(Storage.REMEMBER_ME) ?? false;
-    print("isAuthenticated: ${session.isAuthenticated} rememberMe: $rememberMe");
     if (session.isAuthenticated && rememberMe) {
       if (currentPath == '') {
         AutoRouter.of(context).push(WebDashboardContainerRoute());

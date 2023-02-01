@@ -51,7 +51,6 @@ class NftListProvider extends StateNotifier<NftListModel> {
 
     if (kIsWeb) {
       if (email == null || address == null) {
-        print("email or password is null");
         return;
       }
 

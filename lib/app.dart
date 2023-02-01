@@ -37,6 +37,7 @@ class App extends ConsumerWidget {
       ref.read(webSessionProvider.notifier);
       return const AppContainer();
     }
+
     ref.read(sessionProvider.notifier);
     ref.read(passwordRequiredProvider.notifier);
     ref.read(walletIsEncryptedProvider.notifier);
