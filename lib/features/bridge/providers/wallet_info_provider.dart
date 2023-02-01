@@ -64,8 +64,6 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
       return;
     }
 
-    print("INFO LOOP ${DateTime.now().second}");
-
     if (data.isNotEmpty) {
       final prevIsChainSynced = state == null ? false : state!.isChainSynced;
 
