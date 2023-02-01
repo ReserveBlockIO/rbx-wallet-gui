@@ -47,7 +47,7 @@ class ManageWalletBottomSheet extends BaseComponent {
                         variant: AppColorVariant.Info,
                         onPressed: () {
                           singleton<Storage>().setList(Storage.DELETED_WALLETS_KEY, []);
-                          ref.read(sessionProvider.notifier).init();
+                          ref.read(sessionProvider.notifier).init(false);
                         },
                       ),
                       AppButton(

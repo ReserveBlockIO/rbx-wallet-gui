@@ -48,7 +48,7 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
     // fetch();
   }
 
-  infoLoop([bool loop = true]) async {
+  infoLoop([bool shouldLoop = true]) async {
     if (kIsWeb) return;
 
     Map<String, dynamic> data = {};
@@ -57,12 +57,14 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
     } catch (e) {
       print(e);
       print("fetch error");
-      if (loop) {
+      if (shouldLoop) {
         await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
-        infoLoop();
+        infoLoop(shouldLoop);
       }
       return;
     }
+
+    print("INFO LOOP ${DateTime.now().second}");
 
     if (data.isNotEmpty) {
       final prevIsChainSynced = state == null ? false : state!.isChainSynced;
@@ -117,9 +119,9 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
       }
     }
 
-    if (loop) {
+    if (shouldLoop) {
       await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
-      infoLoop();
+      infoLoop(shouldLoop);
     }
   }
 }

@@ -145,10 +145,10 @@ class SessionProvider extends StateNotifier<SessionModel> {
   static const _initial = SessionModel();
 
   SessionProvider(this.read, [SessionModel sessionModel = _initial]) : super(sessionModel) {
-    init();
+    init(true);
   }
 
-  Future<void> init() async {
+  Future<void> init(bool invokeLoop) async {
     final token = kDebugMode ? DEV_API_TOKEN : generateRandomString(32).toLowerCase();
 
     read(logProvider.notifier).append(LogEntry(message: "Welcome to RBXWallet version $APP_VERSION"));
@@ -170,11 +170,11 @@ class SessionProvider extends StateNotifier<SessionModel> {
     final authenticated = await authenticate();
 
     if (authenticated) {
-      finishSetup();
+      finishSetup(invokeLoop);
     }
   }
 
-  Future<void> finishSetup() async {
+  Future<void> finishSetup(bool invokeLoop) async {
     final now = DateTime.now();
 
     final timezoneName = DateTime.now().timeZoneName.toString();
@@ -187,12 +187,12 @@ class SessionProvider extends StateNotifier<SessionModel> {
     );
 
     // mainLoop();
-    mainLoop();
-    smartContractLoop();
+    mainLoop(invokeLoop);
+    smartContractLoop(invokeLoop);
     read(beaconListProvider.notifier).refresh();
 
     Future.delayed(const Duration(milliseconds: 300)).then((_) {
-      read(walletInfoProvider.notifier).infoLoop();
+      read(walletInfoProvider.notifier).infoLoop(invokeLoop);
       if (!kIsWeb) {
         // if (!read(passwordRequiredProvider)) {
         //   _onboardWallet();
@@ -417,7 +417,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
     await Future.delayed(const Duration(milliseconds: 5000));
 
-    await init();
+    await init(false);
     await fetchConfig();
 
     read(beaconListProvider.notifier).refresh();

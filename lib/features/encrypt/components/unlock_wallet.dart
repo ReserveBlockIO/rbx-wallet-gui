@@ -27,7 +27,7 @@ class _UnlockWalletState extends State<UnlockWallet> {
     if (success == true) {
       Toast.message("Wallet unlocked!");
       widget.read(startupPasswordRequiredProvider.notifier).set(false);
-      widget.read(sessionProvider.notifier).finishSetup();
+      widget.read(sessionProvider.notifier).finishSetup(true);
       await widget.read(sessionProvider.notifier).loadWallets();
     } else {
       Toast.error("Incorrect wallet decryption password");
