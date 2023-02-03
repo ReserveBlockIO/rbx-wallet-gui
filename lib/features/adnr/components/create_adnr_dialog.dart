@@ -126,11 +126,13 @@ class CreateAdnrDialog extends BaseComponent {
                 Toast.message("Transaction Cancelled");
                 return;
               }
+              ref.read(globalLoadingProvider.notifier).start();
 
               final tx = await TransactionService().sendTransaction(
                 transactionData: txData,
                 execute: true,
               );
+              ref.read(globalLoadingProvider.notifier).complete();
 
               if (tx != null && tx['data']['Result'] == "Success") {
                 ref.read(adnrPendingProvider.notifier).addId(address, "create", "null");
