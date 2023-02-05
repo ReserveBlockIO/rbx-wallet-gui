@@ -22,6 +22,7 @@ class StatusContainer extends BaseComponent {
     final walletInfo = ref.watch(walletInfoProvider);
 
     final cliVersion = ref.read(sessionProvider).cliVersion;
+    final blockchainVersion = walletInfo?.blockchainVersion;
 
     return Container(
       decoration: const BoxDecoration(
@@ -88,11 +89,12 @@ class StatusContainer extends BaseComponent {
                     _StatusIndicator(status),
                   ],
                 ),
-                const _DetailItem(
-                  label: "Blockchain Version",
-                  value: "1.0",
-                  icon: Icons.sentiment_very_satisfied_outlined,
-                ),
+                if (blockchainVersion != null)
+                  _DetailItem(
+                    label: "Blockchain Version",
+                    value: blockchainVersion,
+                    icon: Icons.sentiment_very_satisfied_outlined,
+                  ),
                 if (cliVersion != null)
                   _DetailItem(
                     label: "CLI Version",
@@ -116,6 +118,65 @@ class StatusContainer extends BaseComponent {
                     label: "Wallet Started",
                     value: ref.watch(sessionProvider).startTimeFormatted,
                     icon: Icons.timer,
+                  ),
+                if (walletInfo?.networkMetrics != null)
+                  _DetailItem(
+                    label: "Network Metrics",
+                    value: "",
+                    content: Align(
+                      alignment: Alignment.centerLeft,
+                      child: InkWell(
+                        child: const Text(
+                          "View Metrics",
+                          style: TextStyle(
+                            color: Colors.white,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                final metrics = walletInfo!.networkMetrics!;
+
+                                const style = TextStyle(
+                                  fontSize: 14,
+                                  fontFamily: 'RobotoMono',
+                                  height: 1.5,
+                                );
+
+                                return AlertDialog(
+                                  title: const Text("Network Metrics"),
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text("Block Diff Avg: ${metrics.blockDiffAvg}", style: style),
+                                      Text("Block Last Received: ${metrics.blockLastReceived.toLocal()}", style: style),
+                                      Text("Block Last Delay: ${metrics.blockLastDelay}", style: style),
+                                      Text("Time Since Last Block: ${metrics.timeSinceLastBlockSeconds}s", style: style),
+                                      Text("Blocks Averaged: ${metrics.blocksAveraged}", style: style),
+                                    ],
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text(
+                                        "Close",
+                                        style: TextStyle(
+                                          color: Colors.white70,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                );
+                              });
+                        },
+                      ),
+                    ),
+                    icon: Icons.analytics,
                   ),
                 Expanded(
                   child: Align(
@@ -391,12 +452,14 @@ class _DetailItem extends StatelessWidget {
   final String label;
   final String value;
   final IconData icon;
+  final Widget? content;
 
   const _DetailItem({
     Key? key,
     required this.label,
     required this.value,
     required this.icon,
+    this.content,
   }) : super(key: key);
 
   @override
@@ -406,7 +469,7 @@ class _DetailItem extends StatelessWidget {
       horizontalTitleGap: 8,
       dense: true,
       visualDensity: VisualDensity.compact,
-      title: Text(value),
+      title: content ?? Text(value),
       subtitle: Text(label),
       leading: Icon(
         icon,

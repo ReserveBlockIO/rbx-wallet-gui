@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:rbx_wallet/features/metrics/models/network_metrics.dart';
 
 import '../../../core/env.dart';
 import '../../../core/services/base_service.dart';
@@ -417,5 +418,16 @@ class BridgeService extends BaseService {
       }
     }
     return null;
+  }
+
+  Future<NetworkMetrics?> networkMetrics() async {
+    try {
+      final data = await getJson("/NetworkMetrics");
+      print(data);
+      return NetworkMetrics.fromJson(data);
+    } catch (e) {
+      print(e);
+      return null;
+    }
   }
 }
