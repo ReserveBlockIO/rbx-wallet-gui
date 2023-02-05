@@ -1,13 +1,17 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/home/components/home_buttons/mother_button.dart';
 import 'package:rbx_wallet/features/home/components/home_buttons/validating_check_button.dart';
 import 'package:rbx_wallet/features/keygen/components/keygen_cta.dart'
     if (dart.library.io) 'package:rbx_wallet/features/keygen/components/keygen_cta_mock.dart';
+import 'package:rbx_wallet/features/transactions/models/transaction_notification.dart';
+import 'package:rbx_wallet/features/transactions/providers/transaction_notification_provider.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/providers/session_provider.dart';

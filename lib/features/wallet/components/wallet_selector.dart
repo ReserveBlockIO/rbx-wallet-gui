@@ -63,32 +63,17 @@ class WalletSelector extends BaseComponent {
           itemBuilder: (context) {
             final list = <PopupMenuEntry<int>>[];
 
-            for (final wallet in allWallets) {
-              final isSelected = currentWallet != null && wallet.address == currentWallet.address;
-
-              final color = isSelected ? Theme.of(context).colorScheme.secondary : Theme.of(context).textTheme.bodyText1!.color;
-
-              list.add(
-                PopupMenuItem(
-                  child: Text(
-                    truncatedLabel ? wallet.label : wallet.labelWithoutTruncation,
-                    style: TextStyle(color: color),
-                  ),
-                  onTap: () {
-                    ref.read(sessionProvider.notifier).setCurrentWallet(wallet);
-                  },
-                ),
-              );
-            }
-
             if (withOptions) {
-              if (list.isNotEmpty) {
-                list.add(const PopupMenuDivider());
-              }
-
               list.add(
                 PopupMenuItem(
-                  child: const Text("Import Wallet"),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      Icon(Icons.publish, size: 16),
+                      SizedBox(width: 8),
+                      Text("Import Wallet"),
+                    ],
+                  ),
                   onTap: () async {
                     if (!await passwordRequiredGuard(context, ref)) return;
                     if (!guardWalletIsNotResyncing(ref.read)) return;
@@ -107,7 +92,14 @@ class WalletSelector extends BaseComponent {
               );
               list.add(
                 PopupMenuItem(
-                  child: const Text("New Wallet"),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      Icon(Icons.add, size: 16),
+                      SizedBox(width: 8),
+                      Text("New Wallet"),
+                    ],
+                  ),
                   onTap: () async {
                     if (!await passwordRequiredGuard(context, ref)) return;
                     await ref.read(walletListProvider.notifier).create();
@@ -117,7 +109,14 @@ class WalletSelector extends BaseComponent {
 
               list.add(
                 PopupMenuItem(
-                  child: const Text("Manage Wallets"),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      Icon(Icons.wallet, size: 16),
+                      SizedBox(width: 8),
+                      Text("Manage Wallets"),
+                    ],
+                  ),
                   onTap: () async {
                     showModalBottomSheet(
                       backgroundColor: Colors.transparent,
@@ -128,6 +127,27 @@ class WalletSelector extends BaseComponent {
                         return const ManageWalletBottomSheet();
                       },
                     );
+                  },
+                ),
+              );
+              if (list.isNotEmpty) {
+                list.add(const PopupMenuDivider());
+              }
+            }
+
+            for (final wallet in allWallets) {
+              final isSelected = currentWallet != null && wallet.address == currentWallet.address;
+
+              final color = isSelected ? Theme.of(context).colorScheme.secondary : Theme.of(context).textTheme.bodyText1!.color;
+
+              list.add(
+                PopupMenuItem(
+                  child: Text(
+                    truncatedLabel ? wallet.label : wallet.labelWithoutTruncation,
+                    style: TextStyle(color: color),
+                  ),
+                  onTap: () {
+                    ref.read(sessionProvider.notifier).setCurrentWallet(wallet);
                   },
                 ),
               );

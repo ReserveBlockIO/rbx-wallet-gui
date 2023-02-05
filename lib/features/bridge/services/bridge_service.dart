@@ -423,7 +423,6 @@ class BridgeService extends BaseService {
   Future<NetworkMetrics?> networkMetrics() async {
     try {
       final data = await getJson("/NetworkMetrics");
-      print(data);
       return NetworkMetrics.fromJson(data);
     } catch (e) {
       print(e);
