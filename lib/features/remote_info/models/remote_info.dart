@@ -49,11 +49,12 @@ class RemoteInfoGui with _$RemoteInfoGui {
     if (currentMajor < versionMajor) {
       return true;
     }
-    if (currentMinor < versionMinor) {
+
+    if (currentMajor == versionMajor && currentMinor < versionMinor) {
       return true;
     }
 
-    if (currentPatch < versionPatch) {
+    if (currentMajor == versionMajor && currentMinor == versionMinor && currentPatch < versionPatch) {
       return true;
     }
 
