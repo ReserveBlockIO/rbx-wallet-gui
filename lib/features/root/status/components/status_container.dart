@@ -114,12 +114,12 @@ class StatusContainer extends BaseComponent {
                     value: "${walletInfo.peerCount} / 8",
                     icon: Icons.people_alt,
                   ),
-                if (walletInfo != null)
-                  _DetailItem(
-                    label: "Wallet Started",
-                    value: ref.watch(sessionProvider).startTimeFormatted,
-                    icon: Icons.timer,
-                  ),
+                // if ( walletInfo != null)
+                //   _DetailItem(
+                //     label: "Wallet Started",
+                //     value: ref.watch(sessionProvider).startTimeFormatted,
+                //     icon: Icons.timer,
+                //   ),
                 if (walletInfo?.networkMetrics != null)
                   _DetailItem(
                     label: "Network Metrics",
