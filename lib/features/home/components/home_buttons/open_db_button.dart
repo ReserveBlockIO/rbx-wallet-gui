@@ -1,11 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 
 import '../../../../core/base_component.dart';
 import '../../../../core/components/buttons.dart';
-import '../../../../core/env.dart';
 import '../../../../utils/files.dart';
 
 class OpenDbFolderButton extends BaseComponent {

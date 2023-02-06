@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/wallet/components/bulk_import_wallet_modal.dart';
 
 import '../../../app.dart';
 import '../../../core/base_component.dart';
@@ -80,6 +81,25 @@ class WalletSelector extends BaseComponent {
 
                     PromptModal.show(
                       title: "Import Wallet",
+                      titleTrailing: InkWell(
+                        child: const Text(
+                          "Bulk Import",
+                          style: TextStyle(
+                            fontSize: 12,
+                            // decoration: TextDecoration.underline,
+                            color: Colors.white70,
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.of(rootNavigatorKey.currentContext!).pop();
+
+                          showModalBottomSheet(
+                              context: rootNavigatorKey.currentContext!,
+                              builder: (context) {
+                                return const BulkImportWalletModal();
+                              });
+                        },
+                      ),
                       validator: (String? value) => formValidatorNotEmpty(value, "Private Key"),
                       labelText: "Private Key",
                       inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]'))],
@@ -130,7 +150,7 @@ class WalletSelector extends BaseComponent {
                   },
                 ),
               );
-              if (list.isNotEmpty) {
+              if (allWallets.isNotEmpty) {
                 list.add(const PopupMenuDivider());
               }
             }

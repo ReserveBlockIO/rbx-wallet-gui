@@ -8,7 +8,6 @@ import 'package:rbx_wallet/core/web_router.gr.dart';
 import '../../app.dart';
 import '../../features/keygen/models/keypair.dart';
 import '../../features/nft/providers/nft_list_provider.dart';
-import '../../features/wallet/models/wallet.dart';
 import '../app_constants.dart';
 import '../services/explorer_service.dart';
 import '../singletons.dart';

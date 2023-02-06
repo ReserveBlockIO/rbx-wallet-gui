@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/base_screen.dart';
-import '../../../core/providers/web_session_provider.dart';
-import '../../web/components/web_no_wallet.dart';
-import '../providers/my_stores_provider.dart';
 
 class WebDstScreen extends BaseScreen {
   const WebDstScreen({Key? key})

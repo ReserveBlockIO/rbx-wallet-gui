@@ -228,6 +228,17 @@ class _BlockStatus extends BaseComponent {
         child: Builder(builder: (context) {
           final walletInfo = ref.watch(walletInfoProvider);
 
+          if (!ref.watch(sessionProvider).cliStarted) {
+            return const SizedBox(
+              width: 16,
+              height: 16,
+              child: Text(
+                "CLI Inactive",
+                style: TextStyle(fontSize: 11),
+              ),
+            );
+          }
+
           if (walletInfo == null) {
             return const SizedBox(
               width: 16,

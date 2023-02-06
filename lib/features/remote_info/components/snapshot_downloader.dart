@@ -3,27 +3,22 @@ import 'dart:io';
 import 'package:archive/archive_io.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/beacon/providers/beacon_list_provider.dart';
-import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
 import 'package:rbx_wallet/utils/files.dart';
 import 'package:rbx_wallet/utils/formatting.dart';
 
 class SnapshotDownloader extends StatefulWidget {
   final String downloadUrl;
-  final Function initFunction;
-  final Function configFunction;
+  final Reader read;
+
   const SnapshotDownloader({
     Key? key,
     required this.downloadUrl,
-    required this.initFunction,
-    required this.configFunction,
+    required this.read,
   }) : super(key: key);
 
   @override
@@ -45,12 +40,13 @@ class _SnapshotDownloaderState extends State<SnapshotDownloader> {
   void initState() {
     super.initState();
 
-    init();
+    Future.delayed(const Duration(milliseconds: 300)).then((_) {
+      init();
+    });
   }
 
   Future<void> init() async {
-    await BridgeService().killCli();
-    await Future.delayed(const Duration(milliseconds: 3000));
+    await widget.read(sessionProvider.notifier).stopCli();
 
     download();
   }
@@ -134,14 +130,13 @@ class _SnapshotDownloaderState extends State<SnapshotDownloader> {
 
     installLogAdd("Snapshot extracted");
     installLogAdd("Starting CLI");
-
-    // await widget.initFunction();
-    // await widget.configFunction();
-
     setState(() {
       isInstalling = false;
       isReady = true;
     });
+
+    await widget.read(sessionProvider.notifier).init(false);
+    await widget.read(sessionProvider.notifier).fetchConfig();
   }
 
   @override
@@ -228,7 +223,7 @@ class _SnapshotDownloaderState extends State<SnapshotDownloader> {
                 ),
                 const Text("Database Snapshot Imported."),
                 const Text(
-                  "Please restart your wallet now!",
+                  "Starting up CLI now...",
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
@@ -253,6 +248,18 @@ class _SnapshotDownloaderState extends State<SnapshotDownloader> {
                       openFile(File(backupDir!));
                     },
                   ),
+                  const SizedBox(height: 8),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text(
+                          "Close",
+                          style: TextStyle(color: Colors.white70),
+                        )),
+                  )
                 ]
               ],
             );

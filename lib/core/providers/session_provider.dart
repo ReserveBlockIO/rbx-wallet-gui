@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:intl/intl.dart';
@@ -24,7 +23,6 @@ import '../../app.dart';
 import '../../features/beacon/providers/beacon_list_provider.dart';
 import '../../features/bridge/models/log_entry.dart';
 import '../../features/bridge/providers/log_provider.dart';
-import '../../features/bridge/providers/status_provider.dart';
 import '../../features/bridge/providers/wallet_info_provider.dart';
 import '../../features/bridge/services/bridge_service.dart';
 import '../../features/config/models/config.dart';
@@ -46,10 +44,7 @@ import '../../features/voting/providers/topic_list_provider.dart';
 import '../../features/wallet/models/wallet.dart';
 import '../../features/wallet/providers/wallet_list_provider.dart';
 import '../../utils/files.dart';
-import '../../utils/guards.dart';
-import '../../utils/validation.dart';
 import '../app_constants.dart';
-import '../components/buttons.dart';
 import '../dialogs.dart';
 import '../env.dart';
 import '../singletons.dart';
@@ -335,8 +330,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
         builder: (context) {
           return SnapshotDownloader(
             downloadUrl: url,
-            initFunction: init,
-            configFunction: fetchConfig,
+            read: read,
           );
         });
   }
@@ -411,15 +405,17 @@ class SessionProvider extends StateNotifier<SessionModel> {
     }
   }
 
-  Future<void> restartCli() async {
-    read(logProvider.notifier).clear();
+  Future<void> stopCli() async {
+    // read(logProvider.notifier).clear();
     state = state = _initial;
-    read(logProvider.notifier).append(LogEntry(message: "Shutting down CLI..."));
+    // read(logProvider.notifier).append(LogEntry(message: "Shutting down CLI..."));
     await BridgeService().killCli();
-    read(logProvider.notifier).append(LogEntry(message: "CLI terminated."));
-
+    // read(logProvider.notifier).append(LogEntry(message: "CLI terminated."));
     await Future.delayed(const Duration(milliseconds: 5000));
+  }
 
+  Future<void> restartCli() async {
+    await stopCli();
     await init(false);
     await fetchConfig();
 
@@ -557,73 +553,6 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
   void setFilteringTransactions(bool val) {
     state = state.copyWith(filteringTransactions: val);
-  }
-
-  Future<void> _onboardWallet() async {
-    await Future.delayed(const Duration(seconds: 10));
-    if (read(walletListProvider).isNotEmpty) {
-      return;
-    }
-
-    if (read(statusProvider) == BridgeStatus.Offline) {
-      return;
-    }
-
-    // if (!guardWalletIsNotResyncing(read, false)) return;
-
-    final context = rootNavigatorKey.currentContext!;
-
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text("No wallets found"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              AppButton(
-                label: "Import Private Key",
-                onPressed: () async {
-                  if (!guardWalletIsNotResyncing(read)) return;
-
-                  PromptModal.show(
-                    title: "Import Wallet",
-                    inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]'))],
-                    validator: (String? value) => formValidatorNotEmpty(value, "Private Key"),
-                    labelText: "Private Key",
-                    onValidSubmission: (value) async {
-                      await read(walletListProvider.notifier).import(value);
-                      mainLoop(false);
-                      Navigator.of(context).pop();
-                    },
-                  );
-                },
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              AppButton(
-                label: "Create New Wallet",
-                onPressed: () async {
-                  await read(walletListProvider.notifier).create();
-                  mainLoop(false);
-                  Navigator.of(context).pop();
-                  // Navigator.of(context).pop(); // do we need this? lol
-                },
-              )
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text("Cancel"),
-            )
-          ],
-        );
-      },
-    );
   }
 
   void setBlocksAreSyncing(bool value) {
