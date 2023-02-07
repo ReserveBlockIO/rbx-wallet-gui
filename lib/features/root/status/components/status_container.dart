@@ -138,6 +138,7 @@ class StatusContainer extends BaseComponent {
                                 style: TextStyle(
                                   color: Colors.white,
                                   decoration: TextDecoration.underline,
+                                  fontSize: 13,
                                 ),
                               ),
                               onTap: () async {
@@ -488,25 +489,16 @@ class _DetailItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 6.0),
       child: Row(
         children: [
-          Icon(
-            icon,
-            size: 20,
-          ),
-          const SizedBox(
-            width: 12,
-          ),
+          Icon(icon, size: 20),
+          const SizedBox(width: 12),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              content ??
-                  Text(
-                    value,
-                    style: TextStyle(fontSize: 13),
-                  ),
+              content ?? Text(value, style: const TextStyle(fontSize: 13)),
               const SizedBox(height: 1),
               Text(
                 label,
-                style: TextStyle(fontSize: 10, color: Colors.white60),
+                style: const TextStyle(fontSize: 10, color: Colors.white60),
               ),
             ],
           )
