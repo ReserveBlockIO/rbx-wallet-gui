@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/models/web_session_model.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
+import 'package:rbx_wallet/features/transactions/providers/web_transaction_list_provider.dart';
 
 import '../../app.dart';
 import '../../features/keygen/models/keypair.dart';
@@ -60,6 +61,8 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
 
     state = state.copyWith(keypair: keypair, isAuthenticated: true);
     loop();
+
+    read(webTransactionListProvider.notifier).load(keypair.public, true);
   }
 
   void loop() async {

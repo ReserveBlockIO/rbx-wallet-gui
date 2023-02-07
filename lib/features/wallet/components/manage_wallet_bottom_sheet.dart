@@ -27,44 +27,47 @@ class ManageWalletBottomSheet extends BaseComponent {
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Center(
-                  child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  // mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    AppButton(
-                      label: "Restore Hidden Accounts",
-                      type: AppButtonType.Text,
-                      variant: AppColorVariant.Info,
-                      onPressed: () {
-                        singleton<Storage>().setList(Storage.DELETED_WALLETS_KEY, []);
-                        ref.read(sessionProvider.notifier).init(false);
-                      },
-                    ),
-                    AppButton(
-                      label: "Close",
-                      type: AppButtonType.Text,
-                      variant: AppColorVariant.Info,
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
-                ),
-              )),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: wallets.length,
-                itemBuilder: (context, index) {
-                  final wallet = wallets[index];
-                  final isLast = index >= wallets.length - 1;
+          child: ListView.builder(
+            itemCount: wallets.length,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              final wallet = wallets[index];
+              final isLast = index >= wallets.length - 1;
+              final isFirst = index == 0;
 
-                  return Container(
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (isFirst)
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          // mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            AppButton(
+                              label: "Restore Hidden Accounts",
+                              type: AppButtonType.Text,
+                              variant: AppColorVariant.Info,
+                              onPressed: () {
+                                singleton<Storage>().setList(Storage.DELETED_WALLETS_KEY, []);
+                                ref.read(sessionProvider.notifier).init(false);
+                              },
+                            ),
+                            AppButton(
+                              label: "Close",
+                              type: AppButtonType.Text,
+                              variant: AppColorVariant.Info,
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  Container(
                     decoration: BoxDecoration(
                       border: Border(
                         bottom: BorderSide(
@@ -200,10 +203,10 @@ class ManageWalletBottomSheet extends BaseComponent {
                         ),
                       ),
                     ),
-                  );
-                },
-              ),
-            ],
+                  ),
+                ],
+              );
+            },
           ),
         ),
       ),

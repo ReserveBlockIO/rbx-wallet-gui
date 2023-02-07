@@ -23,7 +23,8 @@ class WebTransactionCard extends BaseComponent {
   Widget build(BuildContext context, WidgetRef ref) {
     final DateFormat formatter = DateFormat('MM-dd-yyyy hh:mm a');
 
-    final date = formatter.format(tx.date);
+    var date1 = DateTime.fromMillisecondsSinceEpoch((tx.date.millisecondsSinceEpoch).round());
+    var date = DateFormat('MM-dd-yyyy hh:mm a').format(date1);
 
     final address = ref.read(webSessionProvider).keypair?.public;
     final isMobile = BreakPoints.useMobileLayout(context);
@@ -37,26 +38,30 @@ class WebTransactionCard extends BaseComponent {
 
     final text = tx.type == TxType.rbxTransfer ? "${tx.amount} RBX" : tx.typeLabel;
 
-    return ListTile(
-      leading: isMobile
-          ? null
-          : toMe
-              ? const Icon(Icons.move_to_inbox)
-              : const Icon(Icons.outbox),
-      title: Text(
-        text,
-        style: TextStyle(color: color),
+    return Card(
+      // color: Theme.of(context).colorScheme.primary.withOpacity(0.4),
+      color: Colors.white10,
+      child: ListTile(
+        leading: isMobile
+            ? null
+            : toMe
+                ? const Icon(Icons.move_to_inbox)
+                : const Icon(Icons.outbox),
+        title: Text(
+          text,
+          style: TextStyle(color: color),
+        ),
+        subtitle: toMe
+            ? Text(
+                "From: ${tx.fromAddress}\n$date",
+                style: const TextStyle(fontSize: 12),
+              )
+            : Text("To: ${tx.toAddress}\n$date", style: const TextStyle(fontSize: 12)),
+        trailing: const Icon(Icons.chevron_right),
+        onTap: () {
+          AutoRouter.of(context).push(WebTransactionDetailScreenRoute(hash: tx.hash));
+        },
       ),
-      subtitle: toMe
-          ? Text(
-              "From: ${tx.fromAddress}\n$date",
-              style: const TextStyle(fontSize: 12),
-            )
-          : Text("To: ${tx.toAddress}\n$date", style: const TextStyle(fontSize: 12)),
-      trailing: const Icon(Icons.chevron_right),
-      onTap: () {
-        AutoRouter.of(context).push(WebTransactionDetailScreenRoute(hash: tx.hash));
-      },
     );
   }
 }

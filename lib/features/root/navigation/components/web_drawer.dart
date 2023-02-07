@@ -134,7 +134,12 @@ class WebMenu extends BaseComponent {
           leading: const Icon(Icons.paid),
           trailing: const Icon(Icons.chevron_right),
           onTap: () {
-            tabsRouter.setActiveIndex(WebRouteIndex.transactions);
+            if (tabsRouter.activeIndex == WebRouteIndex.transactions) {
+              tabsRouter.stackRouterOfIndex(WebRouteIndex.transactions)!.popUntilRoot();
+            } else {
+              tabsRouter.setActiveIndex(WebRouteIndex.transactions);
+            }
+
             if (inDrawer) {
               Navigator.of(context).pop();
             }
