@@ -23,7 +23,7 @@ build_core:
 	dotnet publish -c Release -r osx-x64 ../Core-Cli/
 
 package_mac:
-	make build_core
+	# make build_core
 	# ./build_mac.sh
 	rm -f ./installers/exports/RBX-OSX-Intel-Installer.dmg
 	rm -rf ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore

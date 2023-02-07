@@ -62,137 +62,144 @@ class StatusContainer extends BaseComponent {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                if (ref.watch(sessionProvider).updateAvailable)
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton.icon(
-                            icon: const Icon(Icons.download),
-                            style: ElevatedButton.styleFrom(primary: Theme.of(context).colorScheme.danger),
-                            label: const Text("Update Available"),
-                            onPressed: () {
-                              ref.read(sessionProvider.notifier).updateGui();
-                            },
-                          )),
-                    ),
-                  ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "Status",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    _StatusIndicator(status),
-                  ],
-                ),
-                if (blockchainVersion != null)
-                  _DetailItem(
-                    label: "Blockchain Version",
-                    value: blockchainVersion,
-                    icon: Icons.sentiment_very_satisfied_outlined,
-                  ),
-                if (cliVersion != null)
-                  _DetailItem(
-                    label: "CLI Version",
-                    value: cliVersion,
-                    icon: Icons.code,
-                  ),
-                if (walletInfo != null)
-                  _DetailItem(
-                    label: "Block Height",
-                    value: "${walletInfo.blockHeight}",
-                    icon: Icons.summarize,
-                  ),
-                if (walletInfo != null)
-                  _DetailItem(
-                    label: "Peers (In / Out)",
-                    value: "${walletInfo.peerCount} / 8",
-                    icon: Icons.people_alt,
-                  ),
-                // if ( walletInfo != null)
-                //   _DetailItem(
-                //     label: "Wallet Started",
-                //     value: ref.watch(sessionProvider).startTimeFormatted,
-                //     icon: Icons.timer,
-                //   ),
-                if (walletInfo?.networkMetrics != null)
-                  _DetailItem(
-                    label: "Network Metrics",
-                    value: "",
-                    content: Align(
-                      alignment: Alignment.centerLeft,
-                      child: InkWell(
-                        child: const Text(
-                          "View Metrics",
-                          style: TextStyle(
-                            color: Colors.white,
-                            decoration: TextDecoration.underline,
+                Expanded(
+                  child: ListView(
+                    // mainAxisSize: MainAxisSize.min,
+                    shrinkWrap: true,
+                    children: [
+                      if (ref.watch(sessionProvider).updateAvailable)
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 8),
+                            child: SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton.icon(
+                                  icon: const Icon(Icons.download),
+                                  style: ElevatedButton.styleFrom(primary: Theme.of(context).colorScheme.danger),
+                                  label: const Text("Update Available"),
+                                  onPressed: () {
+                                    ref.read(sessionProvider.notifier).updateGui();
+                                  },
+                                )),
                           ),
                         ),
-                        onTap: () async {
-                          final m = await BridgeService().networkMetrics();
-                          showDialog(
-                              context: context,
-                              builder: (context) {
-                                final metrics = m ?? walletInfo!.networkMetrics!;
-
-                                const style = TextStyle(
-                                  fontSize: 14,
-                                  fontFamily: 'RobotoMono',
-                                  height: 1.5,
-                                );
-
-                                return AlertDialog(
-                                  title: const Text("Network Metrics"),
-                                  content: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text("Block Diff Avg: ${metrics.blockDiffAvg}", style: style),
-                                      Text("Block Last Received: ${metrics.blockLastReceived.toLocal()}", style: style),
-                                      Text("Block Last Delay: ${metrics.blockLastDelay}", style: style),
-                                      Text("Time Since Last Block: ${metrics.timeSinceLastBlockSeconds}s", style: style),
-                                      Text("Blocks Averaged: ${metrics.blocksAveraged}", style: style),
-                                    ],
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: const Text(
-                                        "Close",
-                                        style: TextStyle(
-                                          color: Colors.white70,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                );
-                              });
-                        },
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "Status",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          _StatusIndicator(status),
+                        ],
                       ),
-                    ),
-                    icon: Icons.analytics,
-                  ),
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: const [
-                        LatestBlock(),
-                        SizedBox(
-                          height: 8,
+                      if (blockchainVersion != null)
+                        _DetailItem(
+                          label: "Blockchain Version",
+                          value: blockchainVersion,
+                          icon: Icons.sentiment_very_satisfied_outlined,
                         ),
-                        _BlockStatus(),
-                      ],
-                    ),
+                      if (cliVersion != null)
+                        _DetailItem(
+                          label: "CLI Version",
+                          value: cliVersion,
+                          icon: Icons.code,
+                        ),
+                      if (walletInfo != null)
+                        _DetailItem(
+                          label: "Block Height",
+                          value: "${walletInfo.blockHeight}",
+                          icon: Icons.summarize,
+                        ),
+                      if (walletInfo != null)
+                        _DetailItem(
+                          label: "Peers (In / Out)",
+                          value: "${walletInfo.peerCount} / 8",
+                          icon: Icons.people_alt,
+                        ),
+                      if (walletInfo != null)
+                        _DetailItem(
+                          label: "Wallet Started",
+                          value: ref.watch(sessionProvider).startTimeFormatted,
+                          icon: Icons.timer,
+                        ),
+                      if (walletInfo?.networkMetrics != null)
+                        _DetailItem(
+                          label: "Network Metrics",
+                          value: "",
+                          content: Align(
+                            alignment: Alignment.centerLeft,
+                            child: InkWell(
+                              child: const Text(
+                                "View Metrics",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                              onTap: () async {
+                                final m = await BridgeService().networkMetrics();
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      final metrics = m ?? walletInfo!.networkMetrics!;
+
+                                      const style = TextStyle(
+                                        fontSize: 14,
+                                        fontFamily: 'RobotoMono',
+                                        height: 1.5,
+                                      );
+
+                                      return AlertDialog(
+                                        title: const Text("Network Metrics"),
+                                        content: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text("Block Diff Avg: ${metrics.blockDiffAvg}", style: style),
+                                            Text("Block Last Received: ${metrics.blockLastReceived.toLocal()}", style: style),
+                                            Text("Block Last Delay: ${metrics.blockLastDelay}", style: style),
+                                            Text("Time Since Last Block: ${metrics.timeSinceLastBlockSeconds}s", style: style),
+                                            Text("Blocks Averaged: ${metrics.blocksAveraged}", style: style),
+                                          ],
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text(
+                                              "Close",
+                                              style: TextStyle(
+                                                color: Colors.white70,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      );
+                                    });
+                              },
+                            ),
+                          ),
+                          icon: Icons.analytics,
+                        ),
+                    ],
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      LatestBlock(),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      _BlockStatus(),
+                    ],
                   ),
                 )
               ],
@@ -477,16 +484,33 @@ class _DetailItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: EdgeInsets.zero,
-      horizontalTitleGap: 8,
-      dense: true,
-      visualDensity: VisualDensity.compact,
-      title: content ?? Text(value),
-      subtitle: Text(label),
-      leading: Icon(
-        icon,
-        size: 30,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6.0),
+      child: Row(
+        children: [
+          Icon(
+            icon,
+            size: 20,
+          ),
+          const SizedBox(
+            width: 12,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              content ??
+                  Text(
+                    value,
+                    style: TextStyle(fontSize: 13),
+                  ),
+              const SizedBox(height: 1),
+              Text(
+                label,
+                style: TextStyle(fontSize: 10, color: Colors.white60),
+              ),
+            ],
+          )
+        ],
       ),
     );
   }

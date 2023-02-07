@@ -130,7 +130,11 @@ class LatestBlock extends BaseComponent {
                 ),
               ],
             ),
-            _DetailItem(label: "Validated By", value: latestBlock.validator),
+            _DetailItem(
+              label: "Validated By",
+              value: latestBlock.validator,
+              mono: true,
+            ),
           ],
         ),
       ),
@@ -141,10 +145,12 @@ class LatestBlock extends BaseComponent {
 class _DetailItem extends StatelessWidget {
   final String label;
   final String value;
+  final bool mono;
   const _DetailItem({
     Key? key,
     required this.label,
     required this.value,
+    this.mono = false,
   }) : super(key: key);
 
   @override
@@ -162,7 +168,10 @@ class _DetailItem extends StatelessWidget {
         ),
         Text(
           value,
-          style: Theme.of(context).textTheme.caption!.copyWith(fontSize: 10, color: Colors.white38),
+          style: Theme.of(context)
+              .textTheme
+              .caption!
+              .copyWith(fontSize: mono ? 10 : null, fontFamily: mono ? "RobotoMono" : null, color: Colors.white38),
         ),
         const SizedBox(
           height: 8,
