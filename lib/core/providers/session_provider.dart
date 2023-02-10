@@ -238,7 +238,18 @@ class SessionProvider extends StateNotifier<SessionModel> {
     FlutterWindowClose.closeWindow();
   }
 
-  Future<void> checkRemoteInfo() async {
+  Future<void> checkRemoteInfo([int attempt = 1]) async {
+    final blockHeight = read(walletInfoProvider)?.blockHeight;
+    if (blockHeight == null) {
+      if (attempt > 20) {
+        print("block height still null after 20 attempts so we shall stop the remote check");
+        return;
+      }
+      await Future.delayed(const Duration(seconds: 5));
+      checkRemoteInfo(attempt + 1);
+      return;
+    }
+
     final remoteInfo = await RemoteInfoService.fetchInfo();
     state = state.copyWith(remoteInfo: remoteInfo);
 
@@ -251,9 +262,8 @@ class SessionProvider extends StateNotifier<SessionModel> {
       }
 
       final snapshotHeight = remoteInfo.snapshot.height;
-      final blockHeight = read(walletInfoProvider)?.blockHeight;
 
-      if (blockHeight != null && blockHeight < snapshotHeight - 5000) {
+      if (blockHeight < snapshotHeight - 5000) {
         promptForSnapshotImport();
       }
 
