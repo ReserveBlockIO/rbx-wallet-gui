@@ -1,34 +1,31 @@
 import 'dart:io';
 
+import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:rbx_wallet/core/env.dart';
+import 'package:rbx_wallet/features/debug/DebugLogger.dart';
 import 'package:rbx_wallet/features/remote_info/models/remote_info.dart';
 import 'package:rbx_wallet/utils/files.dart';
 
 class RemoteInfoService {
   static Future<RemoteInfo?> fetchInfo() async {
     try {
-      final response = await Dio(BaseOptions(baseUrl: Env.explorerApiBaseUrl)).get('/applications/');
+      final dio = Dio(BaseOptions(baseUrl: Env.explorerApiBaseUrl));
+
+      if (!kIsWeb) {
+        (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
+          client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+          return client;
+        };
+      }
+
+      final response = await dio.get('/applications/');
       return RemoteInfo.fromJson(response.data);
     } catch (e, st) {
       print(e);
 
-      final path = await dbPath();
-      final debugOutputPath = "$path/Databases/debug-gui.txt";
-      print(debugOutputPath);
-
-      if (!File(debugOutputPath).existsSync()) {
-        File(debugOutputPath).createSync();
-      }
-
-      final currentLines = await File(debugOutputPath).readAsLines();
-
-      final newLines = [e.toString(), st.toString()];
-
-      final linesToWrite = [...currentLines, "", "----", "", ...newLines];
-      print(debugOutputPath);
-
-      File(debugOutputPath).writeAsStringSync(linesToWrite.join("\n"));
+      DebugLogger.log(e, st);
 
       return null;
     }
