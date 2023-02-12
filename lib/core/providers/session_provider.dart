@@ -104,8 +104,7 @@ class SessionModel {
       startTime: startTime ?? this.startTime,
       currentWallet: currentWallet ?? this.currentWallet,
       // ready: ready ?? this.ready,
-      filteringTransactions:
-          filteringTransactions ?? this.filteringTransactions,
+      filteringTransactions: filteringTransactions ?? this.filteringTransactions,
       cliStarted: cliStarted ?? this.cliStarted,
       remoteBlockHeight: remoteBlockHeight ?? this.remoteBlockHeight,
       blocksAreSyncing: blocksAreSyncing ?? this.blocksAreSyncing,
@@ -140,26 +139,21 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
   static const _initial = SessionModel();
 
-  SessionProvider(this.read, [SessionModel sessionModel = _initial])
-      : super(sessionModel) {
+  SessionProvider(this.read, [SessionModel sessionModel = _initial]) : super(sessionModel) {
     init(true);
   }
 
   Future<void> init(bool inLoop) async {
-    final token =
-        kDebugMode ? DEV_API_TOKEN : generateRandomString(32).toLowerCase();
+    final token = kDebugMode ? DEV_API_TOKEN : generateRandomString(32).toLowerCase();
 
-    read(logProvider.notifier)
-        .append(LogEntry(message: "Welcome to RBXWallet version $APP_VERSION"));
+    read(logProvider.notifier).append(LogEntry(message: "Welcome to RBXWallet version $APP_VERSION"));
 
     bool cliStarted = state.cliStarted;
     if (!cliStarted) {
-      read(logProvider.notifier)
-          .append(LogEntry(message: "Starting RBXCore..."));
+      read(logProvider.notifier).append(LogEntry(message: "Starting RBXCore..."));
       cliStarted = await _startCli(token);
     } else {
-      read(logProvider.notifier)
-          .append(LogEntry(message: "RBXCore already running."));
+      read(logProvider.notifier).append(LogEntry(message: "RBXCore already running."));
     }
 
     if (!cliStarted) {
@@ -190,6 +184,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
     // mainLoop();
     mainLoop(inLoop);
     smartContractLoop(inLoop);
+    checkGuiUpdateStatus(inLoop);
     read(beaconListProvider.notifier).refresh();
 
     Future.delayed(const Duration(milliseconds: 300)).then((_) {
@@ -244,6 +239,16 @@ class SessionProvider extends StateNotifier<SessionModel> {
     FlutterWindowClose.closeWindow();
   }
 
+  Future<void> checkGuiUpdateStatus([bool inLoop = false]) async {
+    final remoteInfo = await RemoteInfoService.fetchInfo();
+    state = state.copyWith(remoteInfo: remoteInfo);
+
+    if (inLoop) {
+      await Future.delayed(const Duration(minutes: 10));
+      checkGuiUpdateStatus();
+    }
+  }
+
   Future<void> checkRemoteInfo([int attempt = 1]) async {
     // final blockHeight = read(walletInfoProvider)?.blockHeight;
     final data = await BridgeService().walletInfo();
@@ -251,8 +256,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
     if (blockHeight == null) {
       if (attempt > 20) {
-        print(
-            "block height still null after 20 attempts so we shall stop the remote check");
+        print("block height still null after 20 attempts so we shall stop the remote check");
         return;
       }
       await Future.delayed(const Duration(seconds: 5));
@@ -465,19 +469,15 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
     final response = await BridgeService().wallets();
 
-    Map<String, dynamic>? names =
-        singleton<Storage>().getMap(Storage.RENAMED_WALLETS_KEY);
+    Map<String, dynamic>? names = singleton<Storage>().getMap(Storage.RENAMED_WALLETS_KEY);
 
     names ??= {};
 
-    List<dynamic>? deleted =
-        singleton<Storage>().getList(Storage.DELETED_WALLETS_KEY);
+    List<dynamic>? deleted = singleton<Storage>().getList(Storage.DELETED_WALLETS_KEY);
 
     deleted ??= [];
 
-    if (response.isNotEmpty &&
-        response != "Command not recognized." &&
-        response != "No Accounts") {
+    if (response.isNotEmpty && response != "Command not recognized." && response != "No Accounts") {
       final items = jsonDecode(response);
       for (final item in items) {
         if (deleted.contains(item['Address'])) {
@@ -486,9 +486,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
         final Map<String, dynamic> _item = {
           ...item,
-          'friendlyName': names.containsKey(item['Address'])
-              ? names[item['Address']]
-              : null,
+          'friendlyName': names.containsKey(item['Address']) ? names[item['Address']] : null,
         };
         wallets.add(Wallet.fromJson(_item));
       }
@@ -499,23 +497,19 @@ class SessionProvider extends StateNotifier<SessionModel> {
     if (wallets.isNotEmpty) {
       final totalBalance = wallets.map((e) => e.balance).toList().sum;
 
-      final currentWalletAddress =
-          singleton<Storage>().getString(Storage.CURRENT_WALLET_ADDRESS_KEY);
+      final currentWalletAddress = singleton<Storage>().getString(Storage.CURRENT_WALLET_ADDRESS_KEY);
 
       if (currentWalletAddress != null) {
-        final currentWallet = wallets.firstWhereOrNull(
-            (element) => element.address == currentWalletAddress);
+        final currentWallet = wallets.firstWhereOrNull((element) => element.address == currentWalletAddress);
 
         if (currentWallet != null) {
-          state = state.copyWith(
-              currentWallet: currentWallet, totalBalance: totalBalance);
+          state = state.copyWith(currentWallet: currentWallet, totalBalance: totalBalance);
           read(currentValidatorProvider.notifier).set(currentWallet);
         } else {
           state = state.copyWith(totalBalance: totalBalance);
         }
       } else {
-        state = state.copyWith(
-            currentWallet: wallets.first, totalBalance: totalBalance);
+        state = state.copyWith(currentWallet: wallets.first, totalBalance: totalBalance);
         read(currentValidatorProvider.notifier).set(wallets.first);
       }
     }
@@ -572,13 +566,11 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
   void setCurrentWallet(Wallet wallet) {
     state = state.copyWith(currentWallet: wallet);
-    singleton<Storage>()
-        .setString(Storage.CURRENT_WALLET_ADDRESS_KEY, wallet.address);
+    singleton<Storage>().setString(Storage.CURRENT_WALLET_ADDRESS_KEY, wallet.address);
 
     final validators = read(validatorListProvider);
 
-    final currentValidator = validators
-        .firstWhereOrNull((element) => element.address == wallet.address);
+    final currentValidator = validators.firstWhereOrNull((element) => element.address == wallet.address);
 
     read(currentValidatorProvider.notifier).set(currentValidator);
   }
@@ -622,21 +614,17 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
   Future<bool> _cliCheck([int attempt = 1, int maxAttempts = 500]) async {
     if (attempt > maxAttempts) {
-      read(logProvider.notifier).append(
-          LogEntry(message: "Attempted $maxAttempts. Something went wrong."));
+      read(logProvider.notifier).append(LogEntry(message: "Attempted $maxAttempts. Something went wrong."));
 
       return false;
     }
 
     final isRunning = await _cliIsActive();
     if (isRunning) {
-      read(logProvider.notifier).append(LogEntry(
-          message: "ReserveBlockCore Started Successfully",
-          variant: AppColorVariant.Success));
+      read(logProvider.notifier).append(LogEntry(message: "ReserveBlockCore Started Successfully", variant: AppColorVariant.Success));
       await fetchConfig();
       final cliVersion = await BridgeService().getCliVersion();
-      read(logProvider.notifier).append(LogEntry(
-          message: "CLI Version: $cliVersion", variant: AppColorVariant.Info));
+      read(logProvider.notifier).append(LogEntry(message: "CLI Version: $cliVersion", variant: AppColorVariant.Info));
       state = state.copyWith(cliVersion: cliVersion);
       read(passwordRequiredProvider.notifier).check();
       read(walletIsEncryptedProvider.notifier).check();
@@ -664,8 +652,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
     if (Env.launchCli) {
       if (await _cliIsActive()) {
         await fetchConfig();
-        read(logProvider.notifier)
-            .append(LogEntry(message: "CLI is already running!"));
+        read(logProvider.notifier).append(LogEntry(message: "CLI is already running!"));
 
         return true;
       }
@@ -686,16 +673,12 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
         try {
           final appPath = Directory.current.path;
-          cmd = Env.isTestNet
-              ? "$appPath\\RbxCore\\RBXLauncherTestNet.exe"
-              : "$appPath\\RbxCore\\RBXLauncher.exe";
+          cmd = Env.isTestNet ? "$appPath\\RbxCore\\RBXLauncherTestNet.exe" : "$appPath\\RbxCore\\RBXLauncher.exe";
 
-          read(logProvider.notifier)
-              .append(LogEntry(message: "Launching CLI in the background."));
+          read(logProvider.notifier).append(LogEntry(message: "Launching CLI in the background."));
 
           pm.run([cmd, 'apitoken=$apiToken']).then((result) {
-            read(logProvider.notifier)
-                .append(LogEntry(message: "Command ran successfully."));
+            read(logProvider.notifier).append(LogEntry(message: "Command ran successfully."));
           });
           singleton<ApiTokenManager>().set(apiToken);
 
@@ -723,8 +706,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
         );
         cmd = '"$cliPath" ${options.join(' ')}';
 
-        read(logProvider.notifier)
-            .append(LogEntry(message: "Launching CLI in the background."));
+        read(logProvider.notifier).append(LogEntry(message: "Launching CLI in the background."));
 
         try {
           shell.run(cmd);
@@ -734,10 +716,8 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
           return await _cliCheck();
         } catch (e) {
-          read(logProvider.notifier).append(LogEntry(
-              message: "Process Error.", variant: AppColorVariant.Danger));
-          read(logProvider.notifier)
-              .append(LogEntry(message: "$e", variant: AppColorVariant.Danger));
+          read(logProvider.notifier).append(LogEntry(message: "Process Error.", variant: AppColorVariant.Danger));
+          read(logProvider.notifier).append(LogEntry(message: "$e", variant: AppColorVariant.Danger));
 
           return false;
         }
@@ -761,8 +741,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
     final Map<String, dynamic> data = jsonDecode(string);
 
     if (data.containsKey('NextBlock') && data.containsKey('CurrentPercent')) {
-      return StartupData(
-          data['NextBlock'].toString(), data['CurrentPercent'].toString());
+      return StartupData(data['NextBlock'].toString(), data['CurrentPercent'].toString());
     }
 
     return null;

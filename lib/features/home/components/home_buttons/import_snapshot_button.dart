@@ -18,22 +18,20 @@ class ImportSnapshotButton extends BaseComponent {
 
     return AppButton(
       label: "Import Snapshot",
-      icon: Icons.restart_alt,
+      icon: Icons.settings_backup_restore,
       onPressed: cliStarted
           ? () async {
               final data = await BridgeService().walletInfo();
               final int? blockHeight = int.tryParse(data['BlockHeight']);
 
               if (blockHeight == null) {
-                Toast.error(
-                    "Problem fetching local block height. Please try again.");
+                Toast.error("Problem fetching local block height. Please try again.");
                 return;
               }
 
               final remoteInfo = await RemoteInfoService.fetchInfo();
               if (remoteInfo == null) {
-                Toast.error(
-                    "Problem fetching snapshot block height. Please try again.");
+                Toast.error("Problem fetching snapshot block height. Please try again.");
                 return;
               }
               final snapshotHeight = remoteInfo.snapshot.height;
@@ -41,8 +39,7 @@ class ImportSnapshotButton extends BaseComponent {
               if (blockHeight < snapshotHeight) {
                 ref.read(sessionProvider.notifier).promptForSnapshotImport();
               } else {
-                Toast.message(
-                    "Your local blockheight is further along than the snapshot.");
+                Toast.message("Your local blockheight is further along than the snapshot.");
               }
             }
           : null,
