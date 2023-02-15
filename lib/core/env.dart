@@ -17,7 +17,7 @@ enum _Environment {
   BlockExplorerTestNet,
 }
 
-const _env = _Environment.Release;
+const _env = _Environment.ReleaseTestNet;
 
 class Env {
   static init() async {
@@ -112,6 +112,10 @@ class Env {
 
   static bool get isTestNet {
     return DotEnv.dotenv.env['IS_TEST_NET'] == "true";
+  }
+
+  static bool get promptForUpdates {
+    return _env == _Environment.Release;
   }
 
   static String get validatorPort {

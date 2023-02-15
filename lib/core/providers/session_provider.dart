@@ -250,6 +250,9 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   Future<void> checkRemoteInfo([int attempt = 1]) async {
+    if (!Env.promptForUpdates) {
+      return;
+    }
     // final blockHeight = read(walletInfoProvider)?.blockHeight;
     final data = await BridgeService().walletInfo();
     final int? blockHeight = int.tryParse(data['BlockHeight']);

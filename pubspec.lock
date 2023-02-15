@@ -377,6 +377,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.4.0"
+  flutter_colorpicker:
+    dependency: "direct main"
+    description:
+      name: flutter_colorpicker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.3"
   flutter_dotenv:
     dependency: "direct main"
     description:

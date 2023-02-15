@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
 
 import '../../../core/app_constants.dart';
 import '../../asset/asset.dart';
@@ -47,6 +48,7 @@ abstract class SmartContract with _$SmartContract {
     @Default("") String code,
     @Default(false) bool isCompiled,
     @Default(false) bool isPublished,
+    @Default([]) List<ScProperty> properties,
   }) = _SmartContract;
 
   factory SmartContract.fromJson(Map<String, dynamic> json) => _$SmartContractFromJson(json);

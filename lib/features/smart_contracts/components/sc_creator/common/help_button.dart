@@ -45,6 +45,7 @@ enum HelpType {
   motherAddress,
   motherPassword,
   mintQuantity,
+  properties,
 }
 
 class HelpButton extends StatelessWidget {
@@ -163,6 +164,8 @@ class HelpButton extends StatelessWidget {
         return "Mother Password";
       case HelpType.mintQuantity:
         return "Quantity to Mint";
+      case HelpType.properties:
+        return "Properties";
     }
   }
 
@@ -251,6 +254,8 @@ class HelpButton extends StatelessWidget {
         return "The password set in your HOST wallet when configuring MOTHER.\n\n Default value: (leave blank)";
       case HelpType.mintQuantity:
         return "The number of Smart Contracts / NFTs you want to mint from this template.";
+      case HelpType.properties:
+        return "Define multiple properties for your Smart Contract";
     }
   }
 }
