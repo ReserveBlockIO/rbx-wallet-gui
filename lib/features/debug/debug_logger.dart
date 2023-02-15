@@ -10,7 +10,7 @@ class DebugLogger {
     }
     final currentLines = await File(debugOutputPath).readAsLines();
     final newLines = [error.toString(), stackTrace.toString()];
-    final linesToWrite = [...currentLines, "", "----", "", ...newLines];
+    final linesToWrite = [...currentLines, "", "--${DateTime.now().toString()}--", "", ...newLines];
     File(debugOutputPath).writeAsStringSync(linesToWrite.join("\n"));
   }
 }

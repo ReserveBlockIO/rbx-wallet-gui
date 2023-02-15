@@ -4,9 +4,8 @@ import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/features/debug/DebugLogger.dart';
+import 'package:rbx_wallet/features/debug/debug_logger.dart';
 import 'package:rbx_wallet/features/remote_info/models/remote_info.dart';
-import 'package:rbx_wallet/utils/files.dart';
 
 class RemoteInfoService {
   static Future<RemoteInfo?> fetchInfo() async {
