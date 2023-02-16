@@ -149,6 +149,7 @@ abstract class Nft with _$Nft {
       asset: primaryAsset,
       evolutionState: 0,
       isCurrentState: evolutionPhases.firstWhereOrNull((p) => p.isCurrentState == true) == null ? true : false,
+      properties: properties,
     );
   }
 
@@ -170,6 +171,7 @@ abstract class Nft with _$Nft {
 
   EvolvePhase get currentEvolvePhase {
     final current = updatedEvolutionPhases.firstWhereOrNull((p) => p.isCurrentState == true);
+
     if (current == null) {
       return baseEvolutionPhase;
     }
@@ -193,6 +195,14 @@ abstract class Nft with _$Nft {
     }
 
     return primaryAsset;
+  }
+
+  List<ScProperty> get currentEvolveProperties {
+    if (!canEvolve) {
+      return properties;
+    }
+
+    return currentEvolvePhase.properties;
   }
 
   ProxiedAsset? get currentEvolveAssetWeb {

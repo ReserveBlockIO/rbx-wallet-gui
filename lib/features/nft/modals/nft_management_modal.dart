@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/badges.dart';
@@ -397,9 +398,36 @@ class EvolutionStateRow extends BaseComponent {
                             Text(
                               descriptionText,
                               style: Theme.of(context).textTheme.bodyMedium,
-                              maxLines: 4,
+                              maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
+                            if (phase.properties.isNotEmpty)
+                              InkWell(
+                                onTap: showMedia
+                                    ? () {
+                                        showModalBottomSheet(
+                                            context: context,
+                                            builder: (context) {
+                                              return ModalContainer(
+                                                withDecor: false,
+                                                withClose: true,
+                                                children: [
+                                                  NftPropertiesWrap(
+                                                    properties: phase.properties,
+                                                  )
+                                                ],
+                                              );
+                                            });
+                                      }
+                                    : null,
+                                child: Text(
+                                  "Properties",
+                                  style: TextStyle(
+                                    color: Theme.of(context).colorScheme.secondary.withOpacity(0.75),
+                                    decoration: showMedia ? TextDecoration.underline : TextDecoration.none,
+                                  ),
+                                ),
+                              )
                           ],
                         ),
                       ),
