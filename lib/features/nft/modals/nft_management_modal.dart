@@ -395,11 +395,14 @@ class EvolutionStateRow extends BaseComponent {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text("Name: ${phase.name}", style: Theme.of(context).textTheme.headline4),
-                            Text(
-                              descriptionText,
-                              style: Theme.of(context).textTheme.bodyMedium,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4.0),
+                              child: Text(
+                                descriptionText,
+                                style: Theme.of(context).textTheme.bodyMedium,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
                             if (phase.properties.isNotEmpty)
                               InkWell(
@@ -421,9 +424,9 @@ class EvolutionStateRow extends BaseComponent {
                                       }
                                     : null,
                                 child: Text(
-                                  "Properties",
+                                  "${phase.properties.length} ${phase.properties.length == 1 ? 'Property' : 'Properties'}",
                                   style: TextStyle(
-                                    color: Theme.of(context).colorScheme.secondary.withOpacity(0.75),
+                                    color: Colors.white,
                                     decoration: showMedia ? TextDecoration.underline : TextDecoration.none,
                                   ),
                                 ),
