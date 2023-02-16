@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../asset/asset.dart';
@@ -178,6 +180,14 @@ abstract class Evolve with _$Evolve {
         _isDynamic = true;
       }
 
+      Map<String, String>? propertiesOutput;
+      if (p.properties.isNotEmpty) {
+        propertiesOutput = {};
+        for (final property in p.properties) {
+          propertiesOutput[property.name] = property.value;
+        }
+      }
+
       final Map<String, dynamic> data = {
         'Name': p.name,
         'Description': p.description,
@@ -190,7 +200,10 @@ abstract class Evolve with _$Evolve {
         'SmartContractAsset': p.asset != null ? p.asset!.copyWith(authorName: minterName).toJson() : null,
         'EvolveDate': type == EvolveType.time ? p.dateTimeForCompiler(timezoneName) : null,
         'EvolveBlockHeight': type == EvolveType.blockHeight ? p.blockHeight : null,
+        ...propertiesOutput != null ? {'Properties': propertiesOutput} : {}
       };
+
+      print(jsonEncode(data));
 
       return data;
     }).toList();
