@@ -39,6 +39,8 @@ mixin _$CompilerPayload {
   String get minterAddress => throw _privateConstructorUsedError;
   @JsonKey(name: "IsMinter")
   bool get isMinter => throw _privateConstructorUsedError;
+  @JsonKey(name: "Properties")
+  Map<String, String>? get properties => throw _privateConstructorUsedError;
   String get hash => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -62,6 +64,7 @@ abstract class $CompilerPayloadCopyWith<$Res> {
       @JsonKey(name: "Features") List<Map<String, dynamic>>? features,
       @JsonKey(name: "MinterAddress") String minterAddress,
       @JsonKey(name: "IsMinter") bool isMinter,
+      @JsonKey(name: "Properties") Map<String, String>? properties,
       String hash});
 
   $AssetCopyWith<$Res> get asset;
@@ -87,6 +90,7 @@ class _$CompilerPayloadCopyWithImpl<$Res>
     Object? features = freezed,
     Object? minterAddress = freezed,
     Object? isMinter = freezed,
+    Object? properties = freezed,
     Object? hash = freezed,
   }) {
     return _then(_value.copyWith(
@@ -126,6 +130,10 @@ class _$CompilerPayloadCopyWithImpl<$Res>
           ? _value.isMinter
           : isMinter // ignore: cast_nullable_to_non_nullable
               as bool,
+      properties: properties == freezed
+          ? _value.properties
+          : properties // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>?,
       hash: hash == freezed
           ? _value.hash
           : hash // ignore: cast_nullable_to_non_nullable
@@ -158,6 +166,7 @@ abstract class _$$_CompilerPayloadCopyWith<$Res>
       @JsonKey(name: "Features") List<Map<String, dynamic>>? features,
       @JsonKey(name: "MinterAddress") String minterAddress,
       @JsonKey(name: "IsMinter") bool isMinter,
+      @JsonKey(name: "Properties") Map<String, String>? properties,
       String hash});
 
   @override
@@ -186,6 +195,7 @@ class __$$_CompilerPayloadCopyWithImpl<$Res>
     Object? features = freezed,
     Object? minterAddress = freezed,
     Object? isMinter = freezed,
+    Object? properties = freezed,
     Object? hash = freezed,
   }) {
     return _then(_$_CompilerPayload(
@@ -225,6 +235,10 @@ class __$$_CompilerPayloadCopyWithImpl<$Res>
           ? _value.isMinter
           : isMinter // ignore: cast_nullable_to_non_nullable
               as bool,
+      properties: properties == freezed
+          ? _value._properties
+          : properties // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>?,
       hash: hash == freezed
           ? _value.hash
           : hash // ignore: cast_nullable_to_non_nullable
@@ -247,8 +261,10 @@ class _$_CompilerPayload extends _CompilerPayload {
       @JsonKey(name: "Features") final List<Map<String, dynamic>>? features,
       @JsonKey(name: "MinterAddress") required this.minterAddress,
       @JsonKey(name: "IsMinter") required this.isMinter,
+      @JsonKey(name: "Properties") final Map<String, String>? properties,
       required this.hash})
       : _features = features,
+        _properties = properties,
         super._();
 
   factory _$_CompilerPayload.fromJson(Map<String, dynamic> json) =>
@@ -288,12 +304,22 @@ class _$_CompilerPayload extends _CompilerPayload {
   @override
   @JsonKey(name: "IsMinter")
   final bool isMinter;
+  final Map<String, String>? _properties;
+  @override
+  @JsonKey(name: "Properties")
+  Map<String, String>? get properties {
+    final value = _properties;
+    if (value == null) return null;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
+
   @override
   final String hash;
 
   @override
   String toString() {
-    return 'CompilerPayload(name: $name, minterName: $minterName, description: $description, asset: $asset, isPublic: $isPublic, uuid: $uuid, features: $features, minterAddress: $minterAddress, isMinter: $isMinter, hash: $hash)';
+    return 'CompilerPayload(name: $name, minterName: $minterName, description: $description, asset: $asset, isPublic: $isPublic, uuid: $uuid, features: $features, minterAddress: $minterAddress, isMinter: $isMinter, properties: $properties, hash: $hash)';
   }
 
   @override
@@ -313,6 +339,8 @@ class _$_CompilerPayload extends _CompilerPayload {
             const DeepCollectionEquality()
                 .equals(other.minterAddress, minterAddress) &&
             const DeepCollectionEquality().equals(other.isMinter, isMinter) &&
+            const DeepCollectionEquality()
+                .equals(other._properties, _properties) &&
             const DeepCollectionEquality().equals(other.hash, hash));
   }
 
@@ -329,6 +357,7 @@ class _$_CompilerPayload extends _CompilerPayload {
       const DeepCollectionEquality().hash(_features),
       const DeepCollectionEquality().hash(minterAddress),
       const DeepCollectionEquality().hash(isMinter),
+      const DeepCollectionEquality().hash(_properties),
       const DeepCollectionEquality().hash(hash));
 
   @JsonKey(ignore: true)
@@ -362,6 +391,8 @@ abstract class _CompilerPayload extends CompilerPayload {
           required final String minterAddress,
       @JsonKey(name: "IsMinter")
           required final bool isMinter,
+      @JsonKey(name: "Properties")
+          final Map<String, String>? properties,
       required final String hash}) = _$_CompilerPayload;
   _CompilerPayload._() : super._();
 
@@ -396,6 +427,9 @@ abstract class _CompilerPayload extends CompilerPayload {
   @override
   @JsonKey(name: "IsMinter")
   bool get isMinter => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: "Properties")
+  Map<String, String>? get properties => throw _privateConstructorUsedError;
   @override
   String get hash => throw _privateConstructorUsedError;
   @override

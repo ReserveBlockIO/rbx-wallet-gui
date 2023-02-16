@@ -3,8 +3,10 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
+import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/base_screen.dart';
@@ -292,6 +294,39 @@ class NftDetailScreen extends BaseScreen {
                     )
                   ],
                 ),
+                if (nft.properties.isNotEmpty) ...[
+                  const Divider(),
+                  Text("Properties:", style: Theme.of(context).textTheme.headline5),
+                  Wrap(
+                    // mainAxisSize: MainAxisSize.min,
+                    children: nft.properties.map((p) {
+                      return ConstrainedBox(
+                        constraints: BoxConstraints(maxWidth: 250),
+                        child: Card(
+                          child: ListTile(
+                            // dense: true,
+                            visualDensity: VisualDensity.compact,
+                            leading: Builder(builder: (context) {
+                              switch (p.type) {
+                                case ScPropertyType.color:
+                                  return Icon(
+                                    Icons.color_lens,
+                                    color: colorFromHex(p.value),
+                                  );
+                                case ScPropertyType.number:
+                                  return Icon(Icons.numbers);
+                                default:
+                                  return Icon(Icons.text_fields);
+                              }
+                            }),
+                            title: Text(p.value),
+                            subtitle: Text(p.name),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  )
+                ],
                 const Divider(),
                 Text("Features:", style: Theme.of(context).textTheme.headline5),
                 if (nft.features.isEmpty)

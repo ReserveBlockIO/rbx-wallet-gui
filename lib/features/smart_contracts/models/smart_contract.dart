@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
 
@@ -166,6 +168,13 @@ abstract class SmartContract with _$SmartContract {
       final f = {'FeatureName': MultiAsset.compilerEnum, 'FeatureFeatures': m.serializeForCompiler(minterName)};
       features.add(f);
     }
+    Map<String, String>? propertiesOutput;
+    if (properties.isNotEmpty) {
+      propertiesOutput = {};
+      for (final property in properties) {
+        propertiesOutput[property.name] = property.value;
+      }
+    }
 
     final payload = CompilerPayload(
       name: name,
@@ -178,9 +187,16 @@ abstract class SmartContract with _$SmartContract {
       minterAddress: owner.address,
       isMinter: true,
       hash: "",
+      properties: propertiesOutput,
     );
 
-    final data = payload.toJson();
+    Map<String, dynamic> data = payload.toJson();
+
+    if (properties.isEmpty) {
+      data.remove('Properties');
+    }
+
+    print(jsonEncode(data));
 
     return data;
   }

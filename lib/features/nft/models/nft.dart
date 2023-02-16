@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/core/utils.dart';
+import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
 
 import '../../../core/env.dart';
 import '../../asset/asset.dart';
@@ -15,6 +17,32 @@ part 'nft.freezed.dart';
 part 'nft.g.dart';
 
 nullToNull(dynamic blah) => null;
+
+propertiesFromJson(Map<String, dynamic>? properties) {
+  if (properties == null) {
+    return [];
+  }
+
+  final List<ScProperty> output = [];
+  for (final kv in properties.entries) {
+    final key = kv.key;
+    final String value = kv.value;
+
+    ScPropertyType type = ScPropertyType.text;
+
+    if (isNumeric(value)) {
+      type = ScPropertyType.number;
+    }
+
+    if (value.length == 7 && value.startsWith("#")) {
+      type = ScPropertyType.color;
+    }
+
+    output.add(ScProperty(name: key, value: value, type: type));
+  }
+
+  return output;
+}
 
 @freezed
 abstract class Nft with _$Nft {
@@ -33,6 +61,7 @@ abstract class Nft with _$Nft {
     @JsonKey(name: "IsPublished") required bool isPublished,
     @JsonKey(name: "IsMinter") required bool isMinter,
     @JsonKey(name: "Features", defaultValue: []) required List<Map<String, dynamic>> features,
+    @JsonKey(name: "Properties", fromJson: propertiesFromJson) @Default([]) List<ScProperty> properties,
     @JsonKey(defaultValue: false) required bool isProcessing,
     String? code,
     @JsonKey(toJson: nullToNull, fromJson: nullToNull) ProxiedAsset? proxiedAsset,

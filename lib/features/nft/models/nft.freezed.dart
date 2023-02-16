@@ -42,6 +42,8 @@ mixin _$Nft {
   bool get isMinter => throw _privateConstructorUsedError;
   @JsonKey(name: "Features", defaultValue: [])
   List<Map<String, dynamic>> get features => throw _privateConstructorUsedError;
+  @JsonKey(name: "Properties", fromJson: propertiesFromJson)
+  List<ScProperty> get properties => throw _privateConstructorUsedError;
   @JsonKey(defaultValue: false)
   bool get isProcessing => throw _privateConstructorUsedError;
   String? get code => throw _privateConstructorUsedError;
@@ -90,6 +92,8 @@ abstract class $NftCopyWith<$Res> {
           bool isMinter,
       @JsonKey(name: "Features", defaultValue: [])
           List<Map<String, dynamic>> features,
+      @JsonKey(name: "Properties", fromJson: propertiesFromJson)
+          List<ScProperty> properties,
       @JsonKey(defaultValue: false)
           bool isProcessing,
       String? code,
@@ -129,6 +133,7 @@ class _$NftCopyWithImpl<$Res> implements $NftCopyWith<$Res> {
     Object? isPublished = freezed,
     Object? isMinter = freezed,
     Object? features = freezed,
+    Object? properties = freezed,
     Object? isProcessing = freezed,
     Object? code = freezed,
     Object? proxiedAsset = freezed,
@@ -182,6 +187,10 @@ class _$NftCopyWithImpl<$Res> implements $NftCopyWith<$Res> {
           ? _value.features
           : features // ignore: cast_nullable_to_non_nullable
               as List<Map<String, dynamic>>,
+      properties: properties == freezed
+          ? _value.properties
+          : properties // ignore: cast_nullable_to_non_nullable
+              as List<ScProperty>,
       isProcessing: isProcessing == freezed
           ? _value.isProcessing
           : isProcessing // ignore: cast_nullable_to_non_nullable
@@ -260,6 +269,8 @@ abstract class _$$_NftCopyWith<$Res> implements $NftCopyWith<$Res> {
           bool isMinter,
       @JsonKey(name: "Features", defaultValue: [])
           List<Map<String, dynamic>> features,
+      @JsonKey(name: "Properties", fromJson: propertiesFromJson)
+          List<ScProperty> properties,
       @JsonKey(defaultValue: false)
           bool isProcessing,
       String? code,
@@ -302,6 +313,7 @@ class __$$_NftCopyWithImpl<$Res> extends _$NftCopyWithImpl<$Res>
     Object? isPublished = freezed,
     Object? isMinter = freezed,
     Object? features = freezed,
+    Object? properties = freezed,
     Object? isProcessing = freezed,
     Object? code = freezed,
     Object? proxiedAsset = freezed,
@@ -355,6 +367,10 @@ class __$$_NftCopyWithImpl<$Res> extends _$NftCopyWithImpl<$Res>
           ? _value._features
           : features // ignore: cast_nullable_to_non_nullable
               as List<Map<String, dynamic>>,
+      properties: properties == freezed
+          ? _value._properties
+          : properties // ignore: cast_nullable_to_non_nullable
+              as List<ScProperty>,
       isProcessing: isProcessing == freezed
           ? _value.isProcessing
           : isProcessing // ignore: cast_nullable_to_non_nullable
@@ -414,6 +430,8 @@ class _$_Nft extends _Nft {
           required this.isMinter,
       @JsonKey(name: "Features", defaultValue: [])
           required final List<Map<String, dynamic>> features,
+      @JsonKey(name: "Properties", fromJson: propertiesFromJson)
+          final List<ScProperty> properties = const [],
       @JsonKey(defaultValue: false)
           required this.isProcessing,
       this.code,
@@ -428,6 +446,7 @@ class _$_Nft extends _Nft {
       @JsonKey(defaultValue: false)
           required this.assetsAvailable})
       : _features = features,
+        _properties = properties,
         _additionalProxiedAssets = additionalProxiedAssets,
         _additionalLocalAssets = additionalLocalAssets,
         _updatedEvolutionPhases = updatedEvolutionPhases,
@@ -473,6 +492,14 @@ class _$_Nft extends _Nft {
     return EqualUnmodifiableListView(_features);
   }
 
+  final List<ScProperty> _properties;
+  @override
+  @JsonKey(name: "Properties", fromJson: propertiesFromJson)
+  List<ScProperty> get properties {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_properties);
+  }
+
   @override
   @JsonKey(defaultValue: false)
   final bool isProcessing;
@@ -513,7 +540,7 @@ class _$_Nft extends _Nft {
 
   @override
   String toString() {
-    return 'Nft(name: $name, description: $description, currentOwner: $currentOwner, minterAddress: $minterAddress, minterName: $minterName, id: $id, primaryAsset: $primaryAsset, isPublic: $isPublic, isPublished: $isPublished, isMinter: $isMinter, features: $features, isProcessing: $isProcessing, code: $code, proxiedAsset: $proxiedAsset, additionalProxiedAssets: $additionalProxiedAssets, additionalLocalAssets: $additionalLocalAssets, updatedEvolutionPhases: $updatedEvolutionPhases, assetsAvailable: $assetsAvailable)';
+    return 'Nft(name: $name, description: $description, currentOwner: $currentOwner, minterAddress: $minterAddress, minterName: $minterName, id: $id, primaryAsset: $primaryAsset, isPublic: $isPublic, isPublished: $isPublished, isMinter: $isMinter, features: $features, properties: $properties, isProcessing: $isProcessing, code: $code, proxiedAsset: $proxiedAsset, additionalProxiedAssets: $additionalProxiedAssets, additionalLocalAssets: $additionalLocalAssets, updatedEvolutionPhases: $updatedEvolutionPhases, assetsAvailable: $assetsAvailable)';
   }
 
   @override
@@ -539,6 +566,8 @@ class _$_Nft extends _Nft {
             const DeepCollectionEquality().equals(other.isMinter, isMinter) &&
             const DeepCollectionEquality().equals(other._features, _features) &&
             const DeepCollectionEquality()
+                .equals(other._properties, _properties) &&
+            const DeepCollectionEquality()
                 .equals(other.isProcessing, isProcessing) &&
             const DeepCollectionEquality().equals(other.code, code) &&
             const DeepCollectionEquality()
@@ -555,26 +584,28 @@ class _$_Nft extends _Nft {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(description),
-      const DeepCollectionEquality().hash(currentOwner),
-      const DeepCollectionEquality().hash(minterAddress),
-      const DeepCollectionEquality().hash(minterName),
-      const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(primaryAsset),
-      const DeepCollectionEquality().hash(isPublic),
-      const DeepCollectionEquality().hash(isPublished),
-      const DeepCollectionEquality().hash(isMinter),
-      const DeepCollectionEquality().hash(_features),
-      const DeepCollectionEquality().hash(isProcessing),
-      const DeepCollectionEquality().hash(code),
-      const DeepCollectionEquality().hash(proxiedAsset),
-      const DeepCollectionEquality().hash(_additionalProxiedAssets),
-      const DeepCollectionEquality().hash(_additionalLocalAssets),
-      const DeepCollectionEquality().hash(_updatedEvolutionPhases),
-      const DeepCollectionEquality().hash(assetsAvailable));
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        const DeepCollectionEquality().hash(name),
+        const DeepCollectionEquality().hash(description),
+        const DeepCollectionEquality().hash(currentOwner),
+        const DeepCollectionEquality().hash(minterAddress),
+        const DeepCollectionEquality().hash(minterName),
+        const DeepCollectionEquality().hash(id),
+        const DeepCollectionEquality().hash(primaryAsset),
+        const DeepCollectionEquality().hash(isPublic),
+        const DeepCollectionEquality().hash(isPublished),
+        const DeepCollectionEquality().hash(isMinter),
+        const DeepCollectionEquality().hash(_features),
+        const DeepCollectionEquality().hash(_properties),
+        const DeepCollectionEquality().hash(isProcessing),
+        const DeepCollectionEquality().hash(code),
+        const DeepCollectionEquality().hash(proxiedAsset),
+        const DeepCollectionEquality().hash(_additionalProxiedAssets),
+        const DeepCollectionEquality().hash(_additionalLocalAssets),
+        const DeepCollectionEquality().hash(_updatedEvolutionPhases),
+        const DeepCollectionEquality().hash(assetsAvailable)
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -611,6 +642,8 @@ abstract class _Nft extends Nft {
           required final bool isMinter,
       @JsonKey(name: "Features", defaultValue: [])
           required final List<Map<String, dynamic>> features,
+      @JsonKey(name: "Properties", fromJson: propertiesFromJson)
+          final List<ScProperty> properties,
       @JsonKey(defaultValue: false)
           required final bool isProcessing,
       final String? code,
@@ -661,6 +694,9 @@ abstract class _Nft extends Nft {
   @override
   @JsonKey(name: "Features", defaultValue: [])
   List<Map<String, dynamic>> get features => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: "Properties", fromJson: propertiesFromJson)
+  List<ScProperty> get properties => throw _privateConstructorUsedError;
   @override
   @JsonKey(defaultValue: false)
   bool get isProcessing => throw _privateConstructorUsedError;
