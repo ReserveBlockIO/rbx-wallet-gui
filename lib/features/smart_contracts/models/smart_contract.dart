@@ -172,7 +172,9 @@ abstract class SmartContract with _$SmartContract {
     if (properties.isNotEmpty) {
       propertiesOutput = {};
       for (final property in properties) {
-        propertiesOutput[property.name] = property.value;
+        final name = property.name.replaceAll(":", "").replaceAll("<|>", "");
+        final value = property.value.replaceAll(":", "").replaceAll("<|>", "");
+        propertiesOutput[name] = value;
       }
     }
 

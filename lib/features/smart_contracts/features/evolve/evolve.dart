@@ -222,7 +222,9 @@ abstract class Evolve with _$Evolve {
       if (p.properties.isNotEmpty) {
         propertiesOutput = {};
         for (final property in p.properties) {
-          propertiesOutput[property.name] = property.value;
+          final name = property.name.replaceAll(":", "").replaceAll("<|>", "");
+          final value = property.value.replaceAll(":", "").replaceAll("<|>", "");
+          propertiesOutput[name] = value;
         }
       }
 
