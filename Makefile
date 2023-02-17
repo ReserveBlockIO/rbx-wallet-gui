@@ -44,7 +44,7 @@ package_m1:
 	rm -f ./installers/exports/RBX-OSX-ARM-Installer.dmg
 	rm -rf ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
 	mkdir ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
-	cp -r ../Core-CLI/ReserveBlockCore/bin/Release/net6.0/osx-x64/publish/ ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
+	cp -r ../Core-CLI/ReserveBlockCore/bin/Release/net6.0/osx-arm64/publish/ ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
 	cp -r ./installers/resources/BIP39/ ./installers/resources/Runner/RBXWallet.app/Contents/MacOS/BIP39	
 	appdmg ./installers/dmg/config.json ./installers/exports/RBX-OSX-ARM-Installer.dmg
 	rm -f ./installers/exports/rbx-corecli-mac-arm.zip
