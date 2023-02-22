@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_evolve_dialog.dart';
@@ -632,13 +633,26 @@ class ScWizedCard extends BaseComponent {
                         Builder(builder: (context) {
                           switch (property.type) {
                             case ScPropertyType.text:
-                              return Icon(Icons.text_fields);
+                              return Icon(
+                                Icons.text_fields,
+                                size: 18,
+                              );
                             case ScPropertyType.number:
-                              return Icon(Icons.numbers);
+                              return Icon(
+                                Icons.numbers,
+                                size: 18,
+                              );
                             case ScPropertyType.color:
-                              return Icon(Icons.color_lens);
+                              return Icon(
+                                Icons.color_lens,
+                                size: 18,
+                                color: colorFromHex(property.value),
+                              );
                           }
                         }),
+                        SizedBox(
+                          width: 4,
+                        ),
                         Expanded(child: Text('${property.name}: ${property.value}')),
                         IconButton(
                           visualDensity: VisualDensity.compact,
@@ -646,7 +660,7 @@ class ScWizedCard extends BaseComponent {
                           constraints: const BoxConstraints(),
                           onPressed: () async {
                             final confirmed = await ConfirmDialog.show(
-                              title: "Remove Asset?",
+                              title: "Remove Property?",
                               body: "Are you sure you want to remove this property?",
                               confirmText: "Remove",
                               cancelText: "Cancel",

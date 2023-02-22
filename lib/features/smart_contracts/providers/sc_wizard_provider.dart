@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rbx_wallet/core/utils.dart';
 import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
@@ -343,6 +344,33 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
 
       final quantity = item.containsKey('quantity') ? item['quantity'] : 1;
       final evolve = item.containsKey('evolve') ? item['evolve'] : null;
+
+      final List<ScProperty> properties = [];
+
+      if (item.containsKey('attributes')) {
+        final attributes = item['attributes'].map<Map<String, dynamic>>((e) => e as Map<String, dynamic>).toList();
+        print(attributes);
+        print("***********");
+        for (final attribute in attributes) {
+          final String name = attribute['trait_type']?.toString() ?? '';
+          final String value = attribute['value']?.toString() ?? '';
+
+          ScPropertyType type = ScPropertyType.text;
+
+          if (isNumeric(value)) {
+            type = ScPropertyType.number;
+          }
+
+          if (value.length == 7 && value.startsWith("#")) {
+            type = ScPropertyType.color;
+          }
+
+          if (name.isNotEmpty && value.isNotEmpty) {
+            properties.add(ScProperty(name: name, value: value, type: type));
+          }
+        }
+      }
+
       final entry = await _propertiesToEntry(
         name: name,
         description: description,
@@ -353,6 +381,7 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
         royaltyAddress: royaltyAddress,
         additionalAssetUrls: additionalAssetUrls,
         evolve: evolve,
+        properties: properties,
       );
 
       if (entry != null) {
@@ -400,6 +429,29 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
 
       final quantity = row[7];
 
+      final List<ScProperty> properties = [];
+
+      print(rows.length);
+
+      for (int i = 8; i < row.length; i++) {
+        final String name = fields.first[i]?.toString() ?? '';
+        final String value = row[i]?.toString() ?? '';
+
+        ScPropertyType type = ScPropertyType.text;
+
+        if (isNumeric(value)) {
+          type = ScPropertyType.number;
+        }
+
+        if (value.length == 7 && value.startsWith("#")) {
+          type = ScPropertyType.color;
+        }
+
+        if (name.isNotEmpty && value.isNotEmpty) {
+          properties.add(ScProperty(name: name, value: value, type: type));
+        }
+      }
+
       final entry = await _propertiesToEntry(
         name: name,
         description: description,
@@ -409,7 +461,9 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
         royaltyAmount: royaltyAmount,
         royaltyAddress: royaltyAddress,
         additionalAssetUrls: additionalAssetUrls,
+        properties: properties,
       );
+
       if (entry != null) {
         entries.add(entry);
       }
@@ -626,7 +680,7 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
         minterName: entry.creatorName,
         description: entry.description,
         primaryAsset: entry.primaryAsset,
-        evolves: entry.evolve != null ? [entry.evolve!] : [],
+        evolves: [entry.evolve],
         royalties: entry.royalty != null ? [entry.royalty!] : [],
         properties: entry.properties,
         multiAssets: entry.additionalAssets.isNotEmpty ? [MultiAsset(assets: entry.additionalAssets)] : [],
@@ -634,7 +688,7 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
 
       final timezoneName = read(sessionProvider).timezoneName;
       final payload = sc.serializeForCompiler(timezoneName);
-      print(jsonEncode(payload));
+
       int i = 0;
       while (i < entry.quantity) {
         i += 1;
