@@ -15,6 +15,7 @@ import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase_wizard_form_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/multi_asset.dart';
 import 'package:path/path.dart';
+import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 
 import '../../../core/providers/session_provider.dart';
@@ -593,7 +594,11 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
   }
 
   Future<void> mint(BuildContext context) async {
-    // TODO: Confirmation dialog
+    if (!kDebugMode) {
+      if (!guardWalletIsSynced(read)) {
+        return;
+      }
+    }
 
     read(scWizardMintingProgress.notifier).setPercent(0);
 
@@ -621,7 +626,7 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
         minterName: entry.creatorName,
         description: entry.description,
         primaryAsset: entry.primaryAsset,
-        evolves: [entry.evolve],
+        evolves: entry.evolve != null ? [entry.evolve!] : [],
         royalties: entry.royalty != null ? [entry.royalty!] : [],
         properties: entry.properties,
         multiAssets: entry.additionalAssets.isNotEmpty ? [MultiAsset(assets: entry.additionalAssets)] : [],

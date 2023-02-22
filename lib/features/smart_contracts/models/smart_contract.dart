@@ -144,6 +144,10 @@ abstract class SmartContract with _$SmartContract {
 
   Map<String, dynamic> serializeForCompiler(String timezoneName) {
     final List<Map<String, dynamic>> features = [];
+    print("------------");
+
+    print(evolves);
+    print("------------");
 
     for (final r in royalties) {
       final f = {'FeatureName': Royalty.compilerEnum, 'FeatureFeatures': r.serializeForCompiler()};
@@ -151,9 +155,10 @@ abstract class SmartContract with _$SmartContract {
     }
 
     for (final e in evolves) {
-      final f = {'FeatureName': Evolve.compilerEnum, 'FeatureFeatures': e.serializeForCompiler(minterName, timezoneName)};
-
-      features.add(f);
+      if (e.phases.isNotEmpty) {
+        final f = {'FeatureName': Evolve.compilerEnum, 'FeatureFeatures': e.serializeForCompiler(minterName, timezoneName)};
+        features.add(f);
+      }
     }
 
     for (final t in tickets) {
