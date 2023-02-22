@@ -12,6 +12,10 @@
             {
                 "trait_type": "Eyes",
                 "value": "Big"
+            },
+            {
+                "trait_type": "Color",
+                "value": "#ff00ff"
             }
         ]
     },

@@ -13,7 +13,7 @@ enum ScPropertyType {
 class ScProperty with _$ScProperty {
   const ScProperty._();
 
-  factory ScProperty({
+  const factory ScProperty({
     @Default("") String name,
     @Default("") String value,
     @Default(ScPropertyType.text) ScPropertyType type,
@@ -21,6 +21,7 @@ class ScProperty with _$ScProperty {
 
   factory ScProperty.fromJson(Map<String, dynamic> json) => _$ScPropertyFromJson(json);
 
+  factory ScProperty.empty() => ScProperty();
   String get typeLabel {
     switch (type) {
       case ScPropertyType.text:

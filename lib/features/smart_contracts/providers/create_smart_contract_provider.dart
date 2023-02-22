@@ -414,8 +414,10 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
   }
 
   Future<CompiledSmartContract?> compile() async {
-    if (!guardWalletIsSynced(read)) {
-      return null;
+    if (!kDebugMode) {
+      if (!guardWalletIsSynced(read)) {
+        return null;
+      }
     }
 
     final timezoneName = read(sessionProvider).timezoneName;

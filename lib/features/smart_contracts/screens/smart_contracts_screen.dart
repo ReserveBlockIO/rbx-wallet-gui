@@ -71,11 +71,11 @@ class SmartContractsScreen extends BaseScreen {
                   iconData: Icons.create,
                   body: "Start with a baseline smart contract and add customized features",
                   onPressed: () async {
-                    // if (!Env.isTestNet) {
-                    if (!guardWalletIsSynced(ref.read)) {
-                      return;
+                    if (!kDebugMode) {
+                      if (!guardWalletIsSynced(ref.read)) {
+                        return;
+                      }
                     }
-                    // }
 
                     ref.read(createSmartContractProvider.notifier).clearSmartContract();
 

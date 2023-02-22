@@ -115,7 +115,7 @@ class __$$_ScPropertyCopyWithImpl<$Res> extends _$ScPropertyCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_ScProperty extends _ScProperty {
-  _$_ScProperty(
+  const _$_ScProperty(
       {this.name = "", this.value = "", this.type = ScPropertyType.text})
       : super._();
 
@@ -167,11 +167,11 @@ class _$_ScProperty extends _ScProperty {
 }
 
 abstract class _ScProperty extends ScProperty {
-  factory _ScProperty(
+  const factory _ScProperty(
       {final String name,
       final String value,
       final ScPropertyType type}) = _$_ScProperty;
-  _ScProperty._() : super._();
+  const _ScProperty._() : super._();
 
   factory _ScProperty.fromJson(Map<String, dynamic> json) =
       _$_ScProperty.fromJson;

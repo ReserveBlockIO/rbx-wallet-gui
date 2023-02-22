@@ -6,7 +6,6 @@ import '../../../../utils/validation.dart';
 import '../../../asset/asset.dart';
 import '../../../bridge/providers/wallet_info_provider.dart';
 import 'evolve.dart';
-import 'evolve_form_provider.dart';
 import 'evolve_phase.dart';
 
 class EvolvePhaseWizardFormProvider extends StateNotifier<EvolvePhase> {
