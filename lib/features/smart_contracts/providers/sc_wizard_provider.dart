@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
 import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase_wizard_form_provider.dart';
@@ -30,6 +31,7 @@ import '../models/bulk_smart_contract_entry.dart';
 import '../models/smart_contract.dart';
 import '../services/smart_contract_service.dart';
 import 'my_smart_contracts_provider.dart';
+import 'property_wizard_form_provider.dart';
 import 'sc_wizard_minting_progress_provider.dart';
 
 const LOG_HISTORY_LENGTH = 1000;
@@ -180,6 +182,21 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
       ..insert(index, item);
   }
 
+  void addProperty(int index, ScProperty? value) {
+    ScWizardItem? item = itemAtIndex(index);
+
+    if (item == null) return;
+    if (value != null) {
+      item = item.copyWith(
+        entry: item.entry.copyWith(properties: [...item.entry.properties, value]),
+      );
+    }
+
+    state = [...state]
+      ..removeAt(index)
+      ..insert(index, item);
+  }
+
   void addAdditionalAsset(int index, Asset asset) {
     ScWizardItem? item = itemAtIndex(index);
 
@@ -221,6 +238,22 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
         evolve: item.entry.evolve.copyWith(
           phases: [...item.entry.evolve.phases]..removeAt(assetIndex),
         ),
+      ),
+    );
+    state = [...state]
+      ..removeAt(index)
+      ..insert(index, item);
+  }
+
+  void removeProperty(int index, int assetIndex) {
+    ScWizardItem? item = itemAtIndex(index);
+    read(propertyWizardFormProvider(assetIndex).notifier).clear();
+
+    if (item == null) return;
+
+    item = item.copyWith(
+      entry: item.entry.copyWith(
+        properties: [...item.entry.properties]..removeAt(assetIndex),
       ),
     );
     state = [...state]
@@ -310,15 +343,16 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
       final quantity = item.containsKey('quantity') ? item['quantity'] : 1;
       final evolve = item.containsKey('evolve') ? item['evolve'] : null;
       final entry = await _propertiesToEntry(
-          name: name,
-          description: description,
-          primaryAssetUrl: primaryAssetUrl,
-          creatorName: creatorName,
-          quantity: quantity,
-          royaltyAmount: royaltyAmount,
-          royaltyAddress: royaltyAddress,
-          additionalAssetUrls: additionalAssetUrls,
-          evolve: evolve);
+        name: name,
+        description: description,
+        primaryAssetUrl: primaryAssetUrl,
+        creatorName: creatorName,
+        quantity: quantity,
+        royaltyAmount: royaltyAmount,
+        royaltyAddress: royaltyAddress,
+        additionalAssetUrls: additionalAssetUrls,
+        evolve: evolve,
+      );
 
       if (entry != null) {
         entries.add(entry);
@@ -403,6 +437,7 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
       required String? royaltyAmount,
       required String? royaltyAddress,
       required List<String>? additionalAssetUrls,
+      List<ScProperty> properties = const [],
       Map<String, dynamic>? evolve}) async {
     final primaryAsset = await urlToAsset(primaryAssetUrl, creatorName);
     if (primaryAsset == null) {
@@ -504,6 +539,7 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
         quantity: quantity,
         royalty: royalty,
         additionalAssets: additionalAssets,
+        properties: properties,
         evolve: entryEvolve ?? const Evolve());
   }
 
@@ -587,11 +623,13 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
         primaryAsset: entry.primaryAsset,
         evolves: [entry.evolve],
         royalties: entry.royalty != null ? [entry.royalty!] : [],
+        properties: entry.properties,
         multiAssets: entry.additionalAssets.isNotEmpty ? [MultiAsset(assets: entry.additionalAssets)] : [],
       );
 
       final timezoneName = read(sessionProvider).timezoneName;
       final payload = sc.serializeForCompiler(timezoneName);
+      print(jsonEncode(payload));
       int i = 0;
       while (i < entry.quantity) {
         i += 1;
@@ -611,6 +649,9 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
           print("CSC not successful");
           return;
         }
+        print('-----');
+        print(csc.smartContract);
+        print(csc.smartContract.id);
         final details = await SmartContractService().retrieve(csc.smartContract.id);
         if (details == null) {
           Toast.error();
