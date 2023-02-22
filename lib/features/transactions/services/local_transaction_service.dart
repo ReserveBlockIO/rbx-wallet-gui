@@ -48,6 +48,8 @@ class LocalTransactionService extends BaseService {
   }
 
   Future<List<Transaction>> transactionsMined() async {
-    return await _transactions('/GetMinedLocalTX');
+    List<Transaction> mined = await _transactions('/GetMinedLocalTX');
+    mined.sort((a, b) => b.height.compareTo(a.height));
+    return mined;
   }
 }

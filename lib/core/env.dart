@@ -114,6 +114,10 @@ class Env {
     return DotEnv.dotenv.env['IS_TEST_NET'] == "true";
   }
 
+  static bool get promptForUpdates {
+    return _env == _Environment.Release;
+  }
+
   static String get validatorPort {
     return DotEnv.dotenv.env['VALIDATOR_PORT'] ?? '3338';
   }

@@ -47,12 +47,15 @@ mixin _$MotherChild {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $MotherChildCopyWith<MotherChild> get copyWith => throw _privateConstructorUsedError;
+  $MotherChildCopyWith<MotherChild> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $MotherChildCopyWith<$Res> {
-  factory $MotherChildCopyWith(MotherChild value, $Res Function(MotherChild) then) = _$MotherChildCopyWithImpl<$Res>;
+  factory $MotherChildCopyWith(
+          MotherChild value, $Res Function(MotherChild) then) =
+      _$MotherChildCopyWithImpl<$Res>;
   $Res call(
       {@JsonKey(name: "Address") String address,
       @JsonKey(name: "IPAddress") String ipAddress,
@@ -145,8 +148,11 @@ class _$MotherChildCopyWithImpl<$Res> implements $MotherChildCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$$_MotherChildCopyWith<$Res> implements $MotherChildCopyWith<$Res> {
-  factory _$$_MotherChildCopyWith(_$_MotherChild value, $Res Function(_$_MotherChild) then) = __$$_MotherChildCopyWithImpl<$Res>;
+abstract class _$$_MotherChildCopyWith<$Res>
+    implements $MotherChildCopyWith<$Res> {
+  factory _$$_MotherChildCopyWith(
+          _$_MotherChild value, $Res Function(_$_MotherChild) then) =
+      __$$_MotherChildCopyWithImpl<$Res>;
   @override
   $Res call(
       {@JsonKey(name: "Address") String address,
@@ -164,8 +170,11 @@ abstract class _$$_MotherChildCopyWith<$Res> implements $MotherChildCopyWith<$Re
 }
 
 /// @nodoc
-class __$$_MotherChildCopyWithImpl<$Res> extends _$MotherChildCopyWithImpl<$Res> implements _$$_MotherChildCopyWith<$Res> {
-  __$$_MotherChildCopyWithImpl(_$_MotherChild _value, $Res Function(_$_MotherChild) _then) : super(_value, (v) => _then(v as _$_MotherChild));
+class __$$_MotherChildCopyWithImpl<$Res> extends _$MotherChildCopyWithImpl<$Res>
+    implements _$$_MotherChildCopyWith<$Res> {
+  __$$_MotherChildCopyWithImpl(
+      _$_MotherChild _value, $Res Function(_$_MotherChild) _then)
+      : super(_value, (v) => _then(v as _$_MotherChild));
 
   @override
   _$_MotherChild get _value => super._value as _$_MotherChild;
@@ -256,7 +265,8 @@ class _$_MotherChild extends _MotherChild {
       @JsonKey(name: "LastTaskSent") required this.lastTaskSent})
       : super._();
 
-  factory _$_MotherChild.fromJson(Map<String, dynamic> json) => _$$_MotherChildFromJson(json);
+  factory _$_MotherChild.fromJson(Map<String, dynamic> json) =>
+      _$$_MotherChildFromJson(json);
 
   @override
   @JsonKey(name: "Address")
@@ -309,14 +319,22 @@ class _$_MotherChild extends _MotherChild {
             const DeepCollectionEquality().equals(other.ipAddress, ipAddress) &&
             const DeepCollectionEquality().equals(other.peerCount, peerCount) &&
             const DeepCollectionEquality().equals(other.balance, balance) &&
-            const DeepCollectionEquality().equals(other.blockHeight, blockHeight) &&
-            const DeepCollectionEquality().equals(other.validatorName, validatorName) &&
-            const DeepCollectionEquality().equals(other.isValidating, isValidating) &&
-            const DeepCollectionEquality().equals(other.activeWithMother, activeWithMother) &&
-            const DeepCollectionEquality().equals(other.activeWithValidating, activeWithValidating) &&
-            const DeepCollectionEquality().equals(other.connectTime, connectTime) &&
-            const DeepCollectionEquality().equals(other.lastDataSentTime, lastDataSentTime) &&
-            const DeepCollectionEquality().equals(other.lastTaskSent, lastTaskSent));
+            const DeepCollectionEquality()
+                .equals(other.blockHeight, blockHeight) &&
+            const DeepCollectionEquality()
+                .equals(other.validatorName, validatorName) &&
+            const DeepCollectionEquality()
+                .equals(other.isValidating, isValidating) &&
+            const DeepCollectionEquality()
+                .equals(other.activeWithMother, activeWithMother) &&
+            const DeepCollectionEquality()
+                .equals(other.activeWithValidating, activeWithValidating) &&
+            const DeepCollectionEquality()
+                .equals(other.connectTime, connectTime) &&
+            const DeepCollectionEquality()
+                .equals(other.lastDataSentTime, lastDataSentTime) &&
+            const DeepCollectionEquality()
+                .equals(other.lastTaskSent, lastTaskSent));
   }
 
   @JsonKey(ignore: true)
@@ -338,7 +356,8 @@ class _$_MotherChild extends _MotherChild {
 
   @JsonKey(ignore: true)
   @override
-  _$$_MotherChildCopyWith<_$_MotherChild> get copyWith => __$$_MotherChildCopyWithImpl<_$_MotherChild>(this, _$identity);
+  _$$_MotherChildCopyWith<_$_MotherChild> get copyWith =>
+      __$$_MotherChildCopyWithImpl<_$_MotherChild>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -348,21 +367,34 @@ class _$_MotherChild extends _MotherChild {
 
 abstract class _MotherChild extends MotherChild {
   factory _MotherChild(
-      {@JsonKey(name: "Address") required final String address,
-      @JsonKey(name: "IPAddress") required final String ipAddress,
-      @JsonKey(name: "PeerCount") required final int peerCount,
-      @JsonKey(name: "Balance") required final double balance,
-      @JsonKey(name: "BlockHeight") required final int blockHeight,
-      @JsonKey(name: "ValidatorName") required final String validatorName,
-      @JsonKey(name: "IsValidating") required final bool isValidating,
-      @JsonKey(name: "ActiveWithMother") required final bool activeWithMother,
-      @JsonKey(name: "ActiveWithValidating") required final bool activeWithValidating,
-      @JsonKey(name: "ConnectTime") required final DateTime connectTime,
-      @JsonKey(name: "LastDataSentTime") required final DateTime lastDataSentTime,
-      @JsonKey(name: "LastTaskSent") required final DateTime lastTaskSent}) = _$_MotherChild;
+      {@JsonKey(name: "Address")
+          required final String address,
+      @JsonKey(name: "IPAddress")
+          required final String ipAddress,
+      @JsonKey(name: "PeerCount")
+          required final int peerCount,
+      @JsonKey(name: "Balance")
+          required final double balance,
+      @JsonKey(name: "BlockHeight")
+          required final int blockHeight,
+      @JsonKey(name: "ValidatorName")
+          required final String validatorName,
+      @JsonKey(name: "IsValidating")
+          required final bool isValidating,
+      @JsonKey(name: "ActiveWithMother")
+          required final bool activeWithMother,
+      @JsonKey(name: "ActiveWithValidating")
+          required final bool activeWithValidating,
+      @JsonKey(name: "ConnectTime")
+          required final DateTime connectTime,
+      @JsonKey(name: "LastDataSentTime")
+          required final DateTime lastDataSentTime,
+      @JsonKey(name: "LastTaskSent")
+          required final DateTime lastTaskSent}) = _$_MotherChild;
   _MotherChild._() : super._();
 
-  factory _MotherChild.fromJson(Map<String, dynamic> json) = _$_MotherChild.fromJson;
+  factory _MotherChild.fromJson(Map<String, dynamic> json) =
+      _$_MotherChild.fromJson;
 
   @override
   @JsonKey(name: "Address")
@@ -402,5 +434,6 @@ abstract class _MotherChild extends MotherChild {
   DateTime get lastTaskSent => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$$_MotherChildCopyWith<_$_MotherChild> get copyWith => throw _privateConstructorUsedError;
+  _$$_MotherChildCopyWith<_$_MotherChild> get copyWith =>
+      throw _privateConstructorUsedError;
 }

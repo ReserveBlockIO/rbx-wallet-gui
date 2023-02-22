@@ -20,6 +20,11 @@ class Toast {
         ),
       ),
       backgroundColor: Theme.of(context).colorScheme.success,
+      action: SnackBarAction(
+        label: "Dismiss",
+        textColor: Colors.white70,
+        onPressed: () {},
+      ),
     );
     rootScaffoldMessengerKey.currentState?.showSnackBar(snackBar);
   }
@@ -36,6 +41,11 @@ class Toast {
         ),
       ),
       backgroundColor: Theme.of(context).colorScheme.danger,
+      action: SnackBarAction(
+        label: "Dismiss",
+        textColor: Colors.white70,
+        onPressed: () {},
+      ),
     );
     rootScaffoldMessengerKey.currentState?.showSnackBar(snackBar);
   }

@@ -47,25 +47,40 @@ mixin _$Transaction {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $TransactionCopyWith<Transaction> get copyWith => throw _privateConstructorUsedError;
+  $TransactionCopyWith<Transaction> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $TransactionCopyWith<$Res> {
-  factory $TransactionCopyWith(Transaction value, $Res Function(Transaction) then) = _$TransactionCopyWithImpl<$Res>;
+  factory $TransactionCopyWith(
+          Transaction value, $Res Function(Transaction) then) =
+      _$TransactionCopyWithImpl<$Res>;
   $Res call(
-      {@JsonKey(name: 'Hash') String hash,
-      @JsonKey(name: 'ToAddress') String toAddress,
-      @JsonKey(name: 'FromAddress') String fromAddress,
-      @JsonKey(name: 'TransactionType') int type,
-      @JsonKey(name: 'TransactionStatus', fromJson: statusFromJson) TransactionStatus? status,
-      @JsonKey(name: 'Amount') double amount,
-      @JsonKey(name: 'Nonce') int nonce,
-      @JsonKey(name: 'Fee') double fee,
-      @JsonKey(name: 'Timestamp') int timestamp,
-      @JsonKey(name: 'Data') dynamic nftData,
-      @JsonKey(name: 'Signature') String? signature,
-      @JsonKey(name: 'Height') int height});
+      {@JsonKey(name: 'Hash')
+          String hash,
+      @JsonKey(name: 'ToAddress')
+          String toAddress,
+      @JsonKey(name: 'FromAddress')
+          String fromAddress,
+      @JsonKey(name: 'TransactionType')
+          int type,
+      @JsonKey(name: 'TransactionStatus', fromJson: statusFromJson)
+          TransactionStatus? status,
+      @JsonKey(name: 'Amount')
+          double amount,
+      @JsonKey(name: 'Nonce')
+          int nonce,
+      @JsonKey(name: 'Fee')
+          double fee,
+      @JsonKey(name: 'Timestamp')
+          int timestamp,
+      @JsonKey(name: 'Data')
+          dynamic nftData,
+      @JsonKey(name: 'Signature')
+          String? signature,
+      @JsonKey(name: 'Height')
+          int height});
 }
 
 /// @nodoc
@@ -145,27 +160,45 @@ class _$TransactionCopyWithImpl<$Res> implements $TransactionCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$$_TransactionCopyWith<$Res> implements $TransactionCopyWith<$Res> {
-  factory _$$_TransactionCopyWith(_$_Transaction value, $Res Function(_$_Transaction) then) = __$$_TransactionCopyWithImpl<$Res>;
+abstract class _$$_TransactionCopyWith<$Res>
+    implements $TransactionCopyWith<$Res> {
+  factory _$$_TransactionCopyWith(
+          _$_Transaction value, $Res Function(_$_Transaction) then) =
+      __$$_TransactionCopyWithImpl<$Res>;
   @override
   $Res call(
-      {@JsonKey(name: 'Hash') String hash,
-      @JsonKey(name: 'ToAddress') String toAddress,
-      @JsonKey(name: 'FromAddress') String fromAddress,
-      @JsonKey(name: 'TransactionType') int type,
-      @JsonKey(name: 'TransactionStatus', fromJson: statusFromJson) TransactionStatus? status,
-      @JsonKey(name: 'Amount') double amount,
-      @JsonKey(name: 'Nonce') int nonce,
-      @JsonKey(name: 'Fee') double fee,
-      @JsonKey(name: 'Timestamp') int timestamp,
-      @JsonKey(name: 'Data') dynamic nftData,
-      @JsonKey(name: 'Signature') String? signature,
-      @JsonKey(name: 'Height') int height});
+      {@JsonKey(name: 'Hash')
+          String hash,
+      @JsonKey(name: 'ToAddress')
+          String toAddress,
+      @JsonKey(name: 'FromAddress')
+          String fromAddress,
+      @JsonKey(name: 'TransactionType')
+          int type,
+      @JsonKey(name: 'TransactionStatus', fromJson: statusFromJson)
+          TransactionStatus? status,
+      @JsonKey(name: 'Amount')
+          double amount,
+      @JsonKey(name: 'Nonce')
+          int nonce,
+      @JsonKey(name: 'Fee')
+          double fee,
+      @JsonKey(name: 'Timestamp')
+          int timestamp,
+      @JsonKey(name: 'Data')
+          dynamic nftData,
+      @JsonKey(name: 'Signature')
+          String? signature,
+      @JsonKey(name: 'Height')
+          int height});
 }
 
 /// @nodoc
-class __$$_TransactionCopyWithImpl<$Res> extends _$TransactionCopyWithImpl<$Res> implements _$$_TransactionCopyWith<$Res> {
-  __$$_TransactionCopyWithImpl(_$_Transaction _value, $Res Function(_$_Transaction) _then) : super(_value, (v) => _then(v as _$_Transaction));
+class __$$_TransactionCopyWithImpl<$Res> extends _$TransactionCopyWithImpl<$Res>
+    implements _$$_TransactionCopyWith<$Res> {
+  __$$_TransactionCopyWithImpl(
+      _$_Transaction _value, $Res Function(_$_Transaction) _then)
+      : super(_value, (v) => _then(v as _$_Transaction));
 
   @override
   _$_Transaction get _value => super._value as _$_Transaction;
@@ -256,7 +289,8 @@ class _$_Transaction extends _Transaction {
       @JsonKey(name: 'Height') required this.height})
       : super._();
 
-  factory _$_Transaction.fromJson(Map<String, dynamic> json) => _$$_TransactionFromJson(json);
+  factory _$_Transaction.fromJson(Map<String, dynamic> json) =>
+      _$$_TransactionFromJson(json);
 
   @override
   @JsonKey(name: 'Hash')
@@ -307,7 +341,8 @@ class _$_Transaction extends _Transaction {
             other is _$_Transaction &&
             const DeepCollectionEquality().equals(other.hash, hash) &&
             const DeepCollectionEquality().equals(other.toAddress, toAddress) &&
-            const DeepCollectionEquality().equals(other.fromAddress, fromAddress) &&
+            const DeepCollectionEquality()
+                .equals(other.fromAddress, fromAddress) &&
             const DeepCollectionEquality().equals(other.type, type) &&
             const DeepCollectionEquality().equals(other.status, status) &&
             const DeepCollectionEquality().equals(other.amount, amount) &&
@@ -338,7 +373,8 @@ class _$_Transaction extends _Transaction {
 
   @JsonKey(ignore: true)
   @override
-  _$$_TransactionCopyWith<_$_Transaction> get copyWith => __$$_TransactionCopyWithImpl<_$_Transaction>(this, _$identity);
+  _$$_TransactionCopyWith<_$_Transaction> get copyWith =>
+      __$$_TransactionCopyWithImpl<_$_Transaction>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -348,21 +384,34 @@ class _$_Transaction extends _Transaction {
 
 abstract class _Transaction extends Transaction {
   factory _Transaction(
-      {@JsonKey(name: 'Hash') required final String hash,
-      @JsonKey(name: 'ToAddress') required final String toAddress,
-      @JsonKey(name: 'FromAddress') required final String fromAddress,
-      @JsonKey(name: 'TransactionType') required final int type,
-      @JsonKey(name: 'TransactionStatus', fromJson: statusFromJson) final TransactionStatus? status,
-      @JsonKey(name: 'Amount') required final double amount,
-      @JsonKey(name: 'Nonce') required final int nonce,
-      @JsonKey(name: 'Fee') required final double fee,
-      @JsonKey(name: 'Timestamp') required final int timestamp,
-      @JsonKey(name: 'Data') required final dynamic nftData,
-      @JsonKey(name: 'Signature') final String? signature,
-      @JsonKey(name: 'Height') required final int height}) = _$_Transaction;
+      {@JsonKey(name: 'Hash')
+          required final String hash,
+      @JsonKey(name: 'ToAddress')
+          required final String toAddress,
+      @JsonKey(name: 'FromAddress')
+          required final String fromAddress,
+      @JsonKey(name: 'TransactionType')
+          required final int type,
+      @JsonKey(name: 'TransactionStatus', fromJson: statusFromJson)
+          final TransactionStatus? status,
+      @JsonKey(name: 'Amount')
+          required final double amount,
+      @JsonKey(name: 'Nonce')
+          required final int nonce,
+      @JsonKey(name: 'Fee')
+          required final double fee,
+      @JsonKey(name: 'Timestamp')
+          required final int timestamp,
+      @JsonKey(name: 'Data')
+          required final dynamic nftData,
+      @JsonKey(name: 'Signature')
+          final String? signature,
+      @JsonKey(name: 'Height')
+          required final int height}) = _$_Transaction;
   _Transaction._() : super._();
 
-  factory _Transaction.fromJson(Map<String, dynamic> json) = _$_Transaction.fromJson;
+  factory _Transaction.fromJson(Map<String, dynamic> json) =
+      _$_Transaction.fromJson;
 
   @override
   @JsonKey(name: 'Hash')
@@ -402,5 +451,6 @@ abstract class _Transaction extends Transaction {
   int get height => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$$_TransactionCopyWith<_$_Transaction> get copyWith => throw _privateConstructorUsedError;
+  _$$_TransactionCopyWith<_$_Transaction> get copyWith =>
+      throw _privateConstructorUsedError;
 }

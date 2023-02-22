@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/badges.dart';
@@ -394,12 +395,42 @@ class EvolutionStateRow extends BaseComponent {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text("Name: ${phase.name}", style: Theme.of(context).textTheme.headline4),
-                            Text(
-                              descriptionText,
-                              style: Theme.of(context).textTheme.bodyMedium,
-                              maxLines: 4,
-                              overflow: TextOverflow.ellipsis,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4.0),
+                              child: Text(
+                                descriptionText,
+                                style: Theme.of(context).textTheme.bodyMedium,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
+                            if (phase.properties.isNotEmpty)
+                              InkWell(
+                                onTap: showMedia
+                                    ? () {
+                                        showModalBottomSheet(
+                                            context: context,
+                                            builder: (context) {
+                                              return ModalContainer(
+                                                withDecor: false,
+                                                withClose: true,
+                                                children: [
+                                                  NftPropertiesWrap(
+                                                    properties: phase.properties,
+                                                  )
+                                                ],
+                                              );
+                                            });
+                                      }
+                                    : null,
+                                child: Text(
+                                  "${phase.properties.length} ${phase.properties.length == 1 ? 'Property' : 'Properties'}",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    decoration: showMedia ? TextDecoration.underline : TextDecoration.none,
+                                  ),
+                                ),
+                              )
                           ],
                         ),
                       ),

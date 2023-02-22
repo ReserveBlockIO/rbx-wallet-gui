@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/breakpoints.dart';
@@ -31,6 +33,49 @@ class SendForm extends BaseComponent {
       formProvider.addressController.text = normalizedText;
     } else {
       Toast.error("Clipboard text is invalid");
+    }
+  }
+
+  Future<void> chooseAddress(BuildContext context, WidgetRef ref, SendFormProvider formProvider) async {
+    final wallets = ref.read(walletListProvider);
+
+    final address = await showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Choose an address"),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(null);
+                },
+                child: const Text(
+                  "Cancel",
+                  style: TextStyle(color: Colors.white60),
+                ),
+              )
+            ],
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: wallets
+                  .map(
+                    (w) => TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(w.address);
+                      },
+                      child: Text(
+                        w.fullLabel,
+                        style: const TextStyle(color: Colors.white, decoration: TextDecoration.underline),
+                      ),
+                    ),
+                  )
+                  .toList(),
+            ),
+          );
+        });
+    if (address != null) {
+      formProvider.addressController.text = address;
     }
   }
 
@@ -108,11 +153,27 @@ class SendForm extends BaseComponent {
                 ),
                 trailing: isMobile
                     ? null
-                    : IconButton(
-                        icon: const Icon(Icons.paste),
-                        onPressed: () {
-                          _pasteAddress(formProvider);
-                        },
+                    : Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.paste),
+                            onPressed: () {
+                              _pasteAddress(formProvider);
+                            },
+                          ),
+                          if (!kIsWeb)
+                            IconButton(
+                              icon: const Icon(
+                                FontAwesomeIcons.folderOpen,
+                                size: 18,
+                              ),
+                              onPressed: () {
+                                // _pasteAddress(formProvider);
+                                chooseAddress(context, ref, formProvider);
+                              },
+                            ),
+                        ],
                       ),
               ),
               ListTile(

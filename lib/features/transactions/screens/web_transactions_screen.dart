@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/components/centered_loader.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/providers/web_session_provider.dart';
@@ -23,15 +24,30 @@ class WebTransactionScreen extends BaseScreen {
       title: const Text("Transactions"),
       backgroundColor: Colors.black,
       shadowColor: Colors.transparent,
+      actions: [
+        IconButton(
+            onPressed: () {
+              final address = ref.read(webSessionProvider).keypair?.public;
+              if (address != null) {
+                ref.read(webTransactionListProvider.notifier).load(address);
+              }
+            },
+            icon: const Icon(Icons.refresh))
+      ],
     );
   }
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final transactions = ref.watch(webTransactionListProvider);
+    final model = ref.watch(webTransactionListProvider);
+    final transactions = model.transactions;
     final address = ref.read(webSessionProvider).keypair?.public;
 
     if (address == null) return const WebNotWallet();
+
+    if (model.isLoading) {
+      return const CenteredLoader();
+    }
 
     return ListView.builder(
         itemCount: transactions.length,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
 
 import '../../../../utils/toast.dart';
 import '../../../../utils/validation.dart';
@@ -134,6 +135,21 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
     state = state.copyWith(dateTime: d);
 
     timeController.text = state.timeLabel;
+  }
+
+  addProperty(ScProperty property) {
+    state = state.copyWith(properties: [...state.properties, property]);
+  }
+
+  void updateProperty(ScProperty property, int index) {
+    final updatedProperties = [...state.properties];
+    updatedProperties.removeAt(index);
+    updatedProperties.insert(index, property);
+    state = state.copyWith(properties: updatedProperties);
+  }
+
+  removeProperty(int index) {
+    state = state.copyWith(properties: [...state.properties]..removeAt(index));
   }
 
   clear() {

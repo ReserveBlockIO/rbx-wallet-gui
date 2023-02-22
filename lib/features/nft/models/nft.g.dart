@@ -22,6 +22,9 @@ _$_Nft _$$_NftFromJson(Map<String, dynamic> json) => _$_Nft(
               ?.map((e) => e as Map<String, dynamic>)
               .toList() ??
           [],
+      properties: json['Properties'] == null
+          ? const []
+          : propertiesFromJson(json['Properties'] as Map<String, dynamic>?),
       isProcessing: json['isProcessing'] as bool? ?? false,
       code: json['code'] as String?,
       proxiedAsset: nullToNull(json['proxiedAsset']),
@@ -47,6 +50,7 @@ Map<String, dynamic> _$$_NftToJson(_$_Nft instance) => <String, dynamic>{
       'IsPublished': instance.isPublished,
       'IsMinter': instance.isMinter,
       'Features': instance.features,
+      'Properties': instance.properties.map((e) => e.toJson()).toList(),
       'isProcessing': instance.isProcessing,
       'code': instance.code,
       'proxiedAsset': nullToNull(instance.proxiedAsset),

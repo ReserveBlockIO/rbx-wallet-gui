@@ -1,16 +1,18 @@
 // ignore_for_file: constant_identifier_names
 
-const APP_VERSION = "beta2.3.25";
+const APP_V = "3.3.0";
+const APP_VERSION = "beta$APP_V";
+
 const REFRESH_TIMEOUT_SECONDS = 10;
 const REFRESH_TIMEOUT_SECONDS_INACTIVE = 300;
 const ALLOW_DOUBLE_MINTES = false;
 const MIN_RBX_FOR_SC_ACTION = 0.001;
 const DELETE_DRAFT_ON_MINT = true;
 const USD_TO_RBX = 5.0;
-const WEB_APP_VERSION = "beta1.2.0";
 const ADNR_COST = 1.0;
 const MAX_COMPILE_QUANTITY = 10;
 const MAX_ASSET_BYTES = 157286400;
+const DEV_API_TOKEN = "devtoken";
 
 class TxType {
   static const int rbxTransfer = 0;

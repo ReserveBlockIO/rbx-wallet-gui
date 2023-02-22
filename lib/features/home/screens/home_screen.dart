@@ -1,8 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
+import 'package:rbx_wallet/features/home/components/home_buttons/import_snapshot_button.dart';
 import 'package:rbx_wallet/features/home/components/home_buttons/mother_button.dart';
+import 'package:rbx_wallet/features/home/components/home_buttons/validating_check_button.dart';
 import 'package:rbx_wallet/features/keygen/components/keygen_cta.dart'
     if (dart.library.io) 'package:rbx_wallet/features/keygen/components/keygen_cta_mock.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
@@ -80,6 +83,7 @@ class HomeScreen extends BaseScreen {
                 children: [
                   const PrintAdressesButton(),
                   const PrintValidatorsButton(),
+                  const ValidatingCheckButton(),
                   const MotherButton(),
                   const HdWalletButton(),
                   if (ref.watch(walletListProvider).isEmpty) const RestoreHdWalletButton(),
@@ -88,6 +92,7 @@ class HomeScreen extends BaseScreen {
                   const OpenDbFolderButton(),
                   const OpenLogButton(),
                   const BackupButton(),
+                  if (Env.promptForUpdates) const ImportSnapshotButton(),
                   const RestartCliButton(),
                 ],
               ),

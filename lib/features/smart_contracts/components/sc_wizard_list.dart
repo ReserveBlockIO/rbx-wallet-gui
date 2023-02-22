@@ -72,6 +72,14 @@ class ScWizardList extends BaseComponent {
           }
         }
 
+        if (item.entry.evolve.phases.isNotEmpty) {
+          description = "$description | ${item.entry.evolve.phases.length} Evolve Phase${item.entry.evolve.phases.length == 1 ? '' : 's'}";
+        }
+
+        if (item.entry.properties.isNotEmpty) {
+          description = "$description | ${item.entry.properties.length} ${item.entry.properties.length == 1 ? 'Property' : 'Properties'}";
+        }
+
         return Card(
           child: ListTile(
             title: RichText(

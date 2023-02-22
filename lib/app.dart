@@ -37,6 +37,7 @@ class App extends ConsumerWidget {
       ref.read(webSessionProvider.notifier);
       return const AppContainer();
     }
+
     ref.read(sessionProvider.notifier);
     ref.read(passwordRequiredProvider.notifier);
     ref.read(walletIsEncryptedProvider.notifier);
@@ -84,7 +85,10 @@ class AppContainer extends ConsumerWidget {
         return Stack(
           children: [
             widget!,
-            const NotificationOverlay(),
+            const Align(
+              alignment: Alignment.topRight,
+              child: NotificationOverlay(),
+            ),
             if (ref.watch(globalLoadingProvider))
               Container(
                 color: Colors.black54,

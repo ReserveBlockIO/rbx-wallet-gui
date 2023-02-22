@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:rbx_wallet/core/models/web_session_model.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/app_router.gr.dart';
@@ -10,6 +11,7 @@ import '../../../core/dialogs.dart';
 import '../../../core/env.dart';
 import '../../../core/providers/web_session_provider.dart';
 import '../../../core/singletons.dart';
+import '../../../core/storage.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/web_router.gr.dart';
 import '../../../generated/assets.gen.dart';
@@ -37,7 +39,8 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
 
   void _handleSession(WebSessionModel session) {
     final currentPath = singleton<AppRouter>().current.path;
-    if (session.isAuthenticated) {
+    final bool rememberMe = singleton<Storage>().getBool(Storage.REMEMBER_ME) ?? false;
+    if (session.isAuthenticated && rememberMe) {
       if (currentPath == '') {
         AutoRouter.of(context).push(WebDashboardContainerRoute());
       }
@@ -106,7 +109,7 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                 ),
               ),
               const Text(
-                WEB_APP_VERSION,
+                APP_VERSION,
                 style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, letterSpacing: 2),
               ),
               const SizedBox(height: 16),
@@ -237,12 +240,12 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                                 return;
                               }
 
-                              await handleImportWithPrivateKey(context, ref, email);
-                              await Future.delayed(const Duration(milliseconds: 300));
-
-                              if (ref.read(webSessionProvider).isAuthenticated) {
-                                redirectToDashboard();
-                              }
+                              await handleImportWithPrivateKey(context, ref, email).then((value) {
+                                if (ref.read(webSessionProvider).isAuthenticated) {
+                                  redirectToDashboard();
+                                }
+                              });
+                              // await Future.delayed(const Duration(milliseconds: 300));
                             },
                           );
                         },

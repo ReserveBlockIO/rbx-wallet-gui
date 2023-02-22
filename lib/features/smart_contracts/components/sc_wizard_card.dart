@@ -1,6 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_evolve_dialog.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_property_dialog.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_property_type_dialog.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_wizard_evolve_type_dialog.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase_wizard_form_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/bulk_smart_contract_entry.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/property.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/dialogs.dart';
@@ -9,6 +20,7 @@ import '../../../utils/files.dart';
 import '../../../utils/toast.dart';
 import '../../../utils/validation.dart';
 import '../features/royalty/royalty.dart';
+import '../providers/property_wizard_form_provider.dart';
 import '../providers/sc_wizard_provider.dart';
 import 'sc_creator/common/file_selector.dart';
 import 'sc_creator/common/help_button.dart';
@@ -403,7 +415,7 @@ class ScWizedCard extends BaseComponent {
                                               ),
                                               const SizedBox(width: 6),
                                               Text(
-                                                asset.fileName,
+                                                asset.truncatedFileName(),
                                                 maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
                                               ),
@@ -438,7 +450,6 @@ class ScWizedCard extends BaseComponent {
                                   );
 
                                   if (confirmed == true) {
-                                    // provider.updateRoyalty(item.index, null);
                                     provider.removeAdditionalAsset(item.index, i);
                                   }
                                 },
@@ -455,10 +466,225 @@ class ScWizedCard extends BaseComponent {
                   ),
                 ),
               ),
+              const Divider(),
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          entry.evolve.phases.isEmpty ? "Evolve" : "Evolve (${entry.evolve.typeLabel})",
+                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                color: entry.evolve.phases.isEmpty ? Colors.white54 : Colors.white,
+                              ),
+                        ),
+                      ),
+                      IconButton(
+                        visualDensity: VisualDensity.compact,
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
+                        onPressed: () async {
+                          if (entry.evolve.phases.isEmpty) {
+                            final EvolveType? type = await showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const ScWizardEvolveTypeDialog();
+                              },
+                            );
+
+                            if (type == null) {
+                              return;
+                            }
+                            provider.setEvolvingType(index, type);
+                          }
+
+                          ref.read(evolvePhaseWizardFormProvider(item.entry.evolve.phases.length).notifier).clear();
+                          final EvolvePhase? evolve = await showDialog(
+                            context: context,
+                            builder: (context) {
+                              return ScWizardEvolvesDialog(entryIndex: item.index, phaseIndex: item.entry.evolve.phases.length);
+                            },
+                          );
+                          provider.addEvolvePhase(item.index, evolve);
+                        },
+                        icon: const Icon(
+                          Icons.add,
+                          size: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(maxHeight: 200),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: entry.evolve.phases.asMap().entries.map(
+                          (e) {
+                            final i = e.key;
+                            final phase = e.value;
+                            return Padding(
+                              key: Key("$i-${phase.toString()}"),
+                              padding: const EdgeInsets.symmetric(vertical: 6.0),
+                              child: Row(
+                                children: [
+                                  Expanded(child: Text('Phase #${i + 1}: ${phase.name}')),
+                                  IconButton(
+                                    visualDensity: VisualDensity.compact,
+                                    padding: EdgeInsets.zero,
+                                    constraints: const BoxConstraints(),
+                                    onPressed: () async {
+                                      final confirmed = await ConfirmDialog.show(
+                                        title: "Remove Asset?",
+                                        body: "Are you sure you want to remove this evolution phase?",
+                                        confirmText: "Remove",
+                                        cancelText: "Cancel",
+                                        destructive: true,
+                                      );
+
+                                      if (confirmed == true) {
+                                        provider.removeEvolutionPhase(item.index, i);
+                                      }
+                                    },
+                                    icon: const Icon(
+                                      Icons.delete,
+                                      size: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ).toList(),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const Divider(),
+              _showProperties(context, entry, ref, item, provider),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _showProperties(BuildContext context, BulkSmartContractEntry entry, WidgetRef ref, ScWizardItem item, ScWizardProvider provider) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                "Properties",
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: entry.evolve.phases.isEmpty ? Colors.white54 : Colors.white,
+                    ),
+              ),
+            ),
+            IconButton(
+              visualDensity: VisualDensity.compact,
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+              onPressed: () async {
+                final ScPropertyType? type = await showDialog(
+                  context: context,
+                  builder: (context) {
+                    return const ScWizardPropertyTypeDialog();
+                  },
+                );
+
+                if (type == null) {
+                  return;
+                }
+
+                ref.read(propertyWizardFormProvider(item.entry.properties.length).notifier).clear();
+                final ScProperty? property = await showDialog(
+                  context: context,
+                  builder: (context) {
+                    return ScWizardPropertyDialog(
+                      propertyIndex: item.entry.properties.length,
+                      type: type,
+                    );
+                  },
+                );
+                provider.addProperty(item.index, property);
+              },
+              icon: const Icon(
+                Icons.add,
+                size: 16,
+              ),
+            ),
+          ],
+        ),
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxHeight: 200),
+          child: SingleChildScrollView(
+            child: Column(
+              children: entry.properties.asMap().entries.map(
+                (e) {
+                  final i = e.key;
+                  final property = e.value;
+                  return Padding(
+                    key: Key("$i-${property.toString()}"),
+                    padding: const EdgeInsets.symmetric(vertical: 6.0),
+                    child: Row(
+                      children: [
+                        Builder(builder: (context) {
+                          switch (property.type) {
+                            case ScPropertyType.text:
+                              return Icon(
+                                Icons.text_fields,
+                                size: 18,
+                              );
+                            case ScPropertyType.number:
+                              return Icon(
+                                Icons.numbers,
+                                size: 18,
+                              );
+                            case ScPropertyType.color:
+                              return Icon(
+                                Icons.color_lens,
+                                size: 18,
+                                color: colorFromHex(property.value),
+                              );
+                          }
+                        }),
+                        SizedBox(
+                          width: 4,
+                        ),
+                        Expanded(child: Text('${property.name}: ${property.value}')),
+                        IconButton(
+                          visualDensity: VisualDensity.compact,
+                          padding: EdgeInsets.zero,
+                          constraints: const BoxConstraints(),
+                          onPressed: () async {
+                            final confirmed = await ConfirmDialog.show(
+                              title: "Remove Property?",
+                              body: "Are you sure you want to remove this property?",
+                              confirmText: "Remove",
+                              cancelText: "Cancel",
+                              destructive: true,
+                            );
+
+                            if (confirmed == true) {
+                              provider.removeProperty(item.index, i);
+                            }
+                          },
+                          icon: const Icon(
+                            Icons.delete,
+                            size: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ).toList(),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

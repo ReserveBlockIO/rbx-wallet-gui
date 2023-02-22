@@ -28,3 +28,19 @@ Note: if the program starts but the loading spinner persists for more than 60s, 
 ## Running
 
 Launch the app and wait for the wallet to finish syncing. You can safely import/create your existing/new wallet while it is syncing but sending transactions and validating is disabled until you have reached sync. If your wallet block height is matching (or ahead) of the [rbx.network](https://rbx.network) explorer and it still says "syncing" try closing your wallet and opening again.
+
+## Developing
+
+### Windows Desktop
+
+Pre-requisites:
+
+- [Install Visual Studio 2022 (Community Edition is fine)](https://visualstudio.microsoft.com/downloads/)
+- [Install Desktop Development with C++ workload](https://docs.microsoft.com/en-us/cpp/build/vscpp-step-0-installation?view=msvc-170)
+- [Flutter SDK](https://flutter.dev/docs/get-started/install/windows)
+
+Once you have the pre-requisites installed, navigate to the `RBXWallet` directory and run `flutter pub get` to install the dependencies.
+
+To check that everything is working, run `flutter doctor` and make sure you have no errors.
+
+To run the app, run `flutter run` in the `RBXWallet` directory. Choose the `Windows` option when prompted.

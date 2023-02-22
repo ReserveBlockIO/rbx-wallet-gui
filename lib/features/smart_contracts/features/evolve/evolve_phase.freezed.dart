@@ -28,6 +28,7 @@ mixin _$EvolvePhase {
   int get evolutionState => throw _privateConstructorUsedError;
   bool get isCurrentState => throw _privateConstructorUsedError;
   Asset? get asset => throw _privateConstructorUsedError;
+  List<ScProperty> get properties => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -47,7 +48,8 @@ abstract class $EvolvePhaseCopyWith<$Res> {
       String description,
       int evolutionState,
       bool isCurrentState,
-      Asset? asset});
+      Asset? asset,
+      List<ScProperty> properties});
 
   $AssetCopyWith<$Res>? get asset;
 }
@@ -69,6 +71,7 @@ class _$EvolvePhaseCopyWithImpl<$Res> implements $EvolvePhaseCopyWith<$Res> {
     Object? evolutionState = freezed,
     Object? isCurrentState = freezed,
     Object? asset = freezed,
+    Object? properties = freezed,
   }) {
     return _then(_value.copyWith(
       name: name == freezed
@@ -99,6 +102,10 @@ class _$EvolvePhaseCopyWithImpl<$Res> implements $EvolvePhaseCopyWith<$Res> {
           ? _value.asset
           : asset // ignore: cast_nullable_to_non_nullable
               as Asset?,
+      properties: properties == freezed
+          ? _value.properties
+          : properties // ignore: cast_nullable_to_non_nullable
+              as List<ScProperty>,
     ));
   }
 
@@ -128,7 +135,8 @@ abstract class _$$_EvolvePhaseCopyWith<$Res>
       String description,
       int evolutionState,
       bool isCurrentState,
-      Asset? asset});
+      Asset? asset,
+      List<ScProperty> properties});
 
   @override
   $AssetCopyWith<$Res>? get asset;
@@ -153,6 +161,7 @@ class __$$_EvolvePhaseCopyWithImpl<$Res> extends _$EvolvePhaseCopyWithImpl<$Res>
     Object? evolutionState = freezed,
     Object? isCurrentState = freezed,
     Object? asset = freezed,
+    Object? properties = freezed,
   }) {
     return _then(_$_EvolvePhase(
       name: name == freezed
@@ -183,6 +192,10 @@ class __$$_EvolvePhaseCopyWithImpl<$Res> extends _$EvolvePhaseCopyWithImpl<$Res>
           ? _value.asset
           : asset // ignore: cast_nullable_to_non_nullable
               as Asset?,
+      properties: properties == freezed
+          ? _value._properties
+          : properties // ignore: cast_nullable_to_non_nullable
+              as List<ScProperty>,
     ));
   }
 }
@@ -198,8 +211,10 @@ class _$_EvolvePhase extends _EvolvePhase {
       this.description = "",
       this.evolutionState = 0,
       this.isCurrentState = false,
-      this.asset})
-      : super._();
+      this.asset,
+      final List<ScProperty> properties = const []})
+      : _properties = properties,
+        super._();
 
   factory _$_EvolvePhase.fromJson(Map<String, dynamic> json) =>
       _$$_EvolvePhaseFromJson(json);
@@ -223,10 +238,17 @@ class _$_EvolvePhase extends _EvolvePhase {
   final bool isCurrentState;
   @override
   final Asset? asset;
+  final List<ScProperty> _properties;
+  @override
+  @JsonKey()
+  List<ScProperty> get properties {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_properties);
+  }
 
   @override
   String toString() {
-    return 'EvolvePhase(name: $name, dateTime: $dateTime, blockHeight: $blockHeight, description: $description, evolutionState: $evolutionState, isCurrentState: $isCurrentState, asset: $asset)';
+    return 'EvolvePhase(name: $name, dateTime: $dateTime, blockHeight: $blockHeight, description: $description, evolutionState: $evolutionState, isCurrentState: $isCurrentState, asset: $asset, properties: $properties)';
   }
 
   @override
@@ -244,7 +266,9 @@ class _$_EvolvePhase extends _EvolvePhase {
                 .equals(other.evolutionState, evolutionState) &&
             const DeepCollectionEquality()
                 .equals(other.isCurrentState, isCurrentState) &&
-            const DeepCollectionEquality().equals(other.asset, asset));
+            const DeepCollectionEquality().equals(other.asset, asset) &&
+            const DeepCollectionEquality()
+                .equals(other._properties, _properties));
   }
 
   @JsonKey(ignore: true)
@@ -257,7 +281,8 @@ class _$_EvolvePhase extends _EvolvePhase {
       const DeepCollectionEquality().hash(description),
       const DeepCollectionEquality().hash(evolutionState),
       const DeepCollectionEquality().hash(isCurrentState),
-      const DeepCollectionEquality().hash(asset));
+      const DeepCollectionEquality().hash(asset),
+      const DeepCollectionEquality().hash(_properties));
 
   @JsonKey(ignore: true)
   @override
@@ -278,7 +303,8 @@ abstract class _EvolvePhase extends EvolvePhase {
       final String description,
       final int evolutionState,
       final bool isCurrentState,
-      final Asset? asset}) = _$_EvolvePhase;
+      final Asset? asset,
+      final List<ScProperty> properties}) = _$_EvolvePhase;
   const _EvolvePhase._() : super._();
 
   factory _EvolvePhase.fromJson(Map<String, dynamic> json) =
@@ -298,6 +324,8 @@ abstract class _EvolvePhase extends EvolvePhase {
   bool get isCurrentState => throw _privateConstructorUsedError;
   @override
   Asset? get asset => throw _privateConstructorUsedError;
+  @override
+  List<ScProperty> get properties => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_EvolvePhaseCopyWith<_$_EvolvePhase> get copyWith =>

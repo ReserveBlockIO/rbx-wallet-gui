@@ -45,8 +45,15 @@ class NftListProvider extends StateNotifier<NftListModel> {
   }
 
   Future<void> load(int page, [String? email, String? address]) async {
+    // email ??= read(webSessionProvider).keypair?.email;
+    // address ??= read(webSessionProvider).keypair?.public;
+
     if (kIsWeb) {
-      final nfts = await TransactionService().listNfts(email ?? "", address ?? "");
+      if (email == null || address == null) {
+        return;
+      }
+
+      final nfts = await TransactionService().listNfts(email, address);
       final d = CliPaginatedResponse(count: nfts.length, results: nfts, page: 1);
       state = state.copyWith(data: d, page: 1, currentSearch: '');
       return;

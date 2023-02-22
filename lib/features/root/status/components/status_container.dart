@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../core/base_component.dart';
 import '../../../../core/components/badges.dart';
@@ -20,6 +23,7 @@ class StatusContainer extends BaseComponent {
     final walletInfo = ref.watch(walletInfoProvider);
 
     final cliVersion = ref.read(sessionProvider).cliVersion;
+    final blockchainVersion = walletInfo?.blockchainVersion;
 
     return Container(
       decoration: const BoxDecoration(
@@ -58,59 +62,145 @@ class StatusContainer extends BaseComponent {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "Status",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    _StatusIndicator(status),
-                  ],
-                ),
-                const _DetailItem(
-                  label: "Blockchain Version",
-                  value: "1.0",
-                  icon: Icons.sentiment_very_satisfied_outlined,
-                ),
-                if (cliVersion != null)
-                  _DetailItem(
-                    label: "CLI Version",
-                    value: cliVersion,
-                    icon: Icons.code,
-                  ),
-                if (walletInfo != null)
-                  _DetailItem(
-                    label: "Block Height",
-                    value: "${walletInfo.blockHeight}",
-                    icon: Icons.summarize,
-                  ),
-                if (walletInfo != null)
-                  _DetailItem(
-                    label: "Peers (In / Out)",
-                    value: "${walletInfo.peerCount} / 8",
-                    icon: Icons.people_alt,
-                  ),
-                if (walletInfo != null)
-                  _DetailItem(
-                    label: "Wallet Started",
-                    value: ref.watch(sessionProvider).startTimeFormatted,
-                    icon: Icons.timer,
-                  ),
                 Expanded(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: const [
-                        LatestBlock(),
-                        SizedBox(
-                          height: 8,
+                  child: ListView(
+                    // mainAxisSize: MainAxisSize.min,
+                    shrinkWrap: true,
+                    children: [
+                      if (ref.watch(sessionProvider).updateAvailable)
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 8),
+                            child: SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton.icon(
+                                  icon: const Icon(Icons.download),
+                                  style: ElevatedButton.styleFrom(primary: Theme.of(context).colorScheme.danger),
+                                  label: const Text("Update Available"),
+                                  onPressed: () {
+                                    ref.read(sessionProvider.notifier).updateGui();
+                                  },
+                                )),
+                          ),
                         ),
-                        _BlockStatus(),
-                      ],
-                    ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "Status",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          _StatusIndicator(status),
+                        ],
+                      ),
+                      if (blockchainVersion != null)
+                        _DetailItem(
+                          label: "Blockchain Version",
+                          value: blockchainVersion,
+                          icon: Icons.sentiment_very_satisfied_outlined,
+                        ),
+                      if (cliVersion != null)
+                        _DetailItem(
+                          label: "CLI Version",
+                          value: cliVersion,
+                          icon: Icons.code,
+                        ),
+                      if (walletInfo != null)
+                        _DetailItem(
+                          label: "Block Height",
+                          value: "${walletInfo.blockHeight}",
+                          icon: Icons.summarize,
+                        ),
+                      if (walletInfo != null)
+                        _DetailItem(
+                          label: "Peers (In / Out)",
+                          value: "${walletInfo.peerCount} / 8",
+                          icon: Icons.people_alt,
+                        ),
+                      if (walletInfo != null)
+                        _DetailItem(
+                          label: "Wallet Started",
+                          value: ref.watch(sessionProvider).startTimeFormatted,
+                          icon: Icons.timer,
+                        ),
+                      if (walletInfo?.networkMetrics != null)
+                        _DetailItem(
+                          label: "Network Metrics",
+                          value: "",
+                          content: Align(
+                            alignment: Alignment.centerLeft,
+                            child: InkWell(
+                              child: const Text(
+                                "View Metrics",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  decoration: TextDecoration.underline,
+                                  fontSize: 13,
+                                ),
+                              ),
+                              onTap: () async {
+                                final m = await BridgeService().networkMetrics();
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      final metrics = m ?? walletInfo!.networkMetrics!;
+
+                                      const style = TextStyle(
+                                        fontSize: 14,
+                                        fontFamily: 'RobotoMono',
+                                        height: 1.5,
+                                      );
+
+                                      return AlertDialog(
+                                        title: const Text("Network Metrics"),
+                                        content: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text("Block Diff Avg: ${metrics.blockDiffAvg}", style: style),
+                                            Text("Block Last Received: ${metrics.blockLastReceived.toLocal()}", style: style),
+                                            Text("Block Last Delay: ${metrics.blockLastDelay}", style: style),
+                                            Text("Time Since Last Block: ${metrics.timeSinceLastBlockSeconds}s", style: style),
+                                            Text("Blocks Averaged: ${metrics.blocksAveraged}", style: style),
+                                          ],
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text(
+                                              "Close",
+                                              style: TextStyle(
+                                                color: Colors.white70,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      );
+                                    });
+                              },
+                            ),
+                          ),
+                          icon: Icons.analytics,
+                        ),
+                    ],
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      LatestBlock(),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      _BlockStatus(),
+                    ],
                   ),
                 )
               ],
@@ -145,6 +235,17 @@ class _BlockStatus extends BaseComponent {
         padding: const EdgeInsets.all(6.0),
         child: Builder(builder: (context) {
           final walletInfo = ref.watch(walletInfoProvider);
+
+          if (!ref.watch(sessionProvider).cliStarted) {
+            return const SizedBox(
+              width: 16,
+              height: 16,
+              child: Text(
+                "CLI Inactive",
+                style: TextStyle(fontSize: 11),
+              ),
+            );
+          }
 
           if (walletInfo == null) {
             return const SizedBox(
@@ -372,26 +473,36 @@ class _DetailItem extends StatelessWidget {
   final String label;
   final String value;
   final IconData icon;
+  final Widget? content;
 
   const _DetailItem({
     Key? key,
     required this.label,
     required this.value,
     required this.icon,
+    this.content,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: EdgeInsets.zero,
-      horizontalTitleGap: 8,
-      dense: true,
-      visualDensity: VisualDensity.compact,
-      title: Text(value),
-      subtitle: Text(label),
-      leading: Icon(
-        icon,
-        size: 30,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6.0),
+      child: Row(
+        children: [
+          Icon(icon, size: 20),
+          const SizedBox(width: 12),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              content ?? Text(value, style: const TextStyle(fontSize: 13)),
+              const SizedBox(height: 1),
+              Text(
+                label,
+                style: const TextStyle(fontSize: 10, color: Colors.white60),
+              ),
+            ],
+          )
+        ],
       ),
     );
   }

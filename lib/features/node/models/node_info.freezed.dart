@@ -31,12 +31,14 @@ mixin _$NodeInfo {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $NodeInfoCopyWith<NodeInfo> get copyWith => throw _privateConstructorUsedError;
+  $NodeInfoCopyWith<NodeInfo> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $NodeInfoCopyWith<$Res> {
-  factory $NodeInfoCopyWith(NodeInfo value, $Res Function(NodeInfo) then) = _$NodeInfoCopyWithImpl<$Res>;
+  factory $NodeInfoCopyWith(NodeInfo value, $Res Function(NodeInfo) then) =
+      _$NodeInfoCopyWithImpl<$Res>;
   $Res call(
       {@JsonKey(name: 'NodeIP') String ip,
       @JsonKey(name: 'NodeHeight') int height,
@@ -82,7 +84,9 @@ class _$NodeInfoCopyWithImpl<$Res> implements $NodeInfoCopyWith<$Res> {
 
 /// @nodoc
 abstract class _$$_NodeInfoCopyWith<$Res> implements $NodeInfoCopyWith<$Res> {
-  factory _$$_NodeInfoCopyWith(_$_NodeInfo value, $Res Function(_$_NodeInfo) then) = __$$_NodeInfoCopyWithImpl<$Res>;
+  factory _$$_NodeInfoCopyWith(
+          _$_NodeInfo value, $Res Function(_$_NodeInfo) then) =
+      __$$_NodeInfoCopyWithImpl<$Res>;
   @override
   $Res call(
       {@JsonKey(name: 'NodeIP') String ip,
@@ -92,8 +96,11 @@ abstract class _$$_NodeInfoCopyWith<$Res> implements $NodeInfoCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_NodeInfoCopyWithImpl<$Res> extends _$NodeInfoCopyWithImpl<$Res> implements _$$_NodeInfoCopyWith<$Res> {
-  __$$_NodeInfoCopyWithImpl(_$_NodeInfo _value, $Res Function(_$_NodeInfo) _then) : super(_value, (v) => _then(v as _$_NodeInfo));
+class __$$_NodeInfoCopyWithImpl<$Res> extends _$NodeInfoCopyWithImpl<$Res>
+    implements _$$_NodeInfoCopyWith<$Res> {
+  __$$_NodeInfoCopyWithImpl(
+      _$_NodeInfo _value, $Res Function(_$_NodeInfo) _then)
+      : super(_value, (v) => _then(v as _$_NodeInfo));
 
   @override
   _$_NodeInfo get _value => super._value as _$_NodeInfo;
@@ -136,7 +143,8 @@ class _$_NodeInfo extends _NodeInfo {
       @JsonKey(name: 'NodeLastChecked') this.lastCheked})
       : super._();
 
-  factory _$_NodeInfo.fromJson(Map<String, dynamic> json) => _$$_NodeInfoFromJson(json);
+  factory _$_NodeInfo.fromJson(Map<String, dynamic> json) =>
+      _$$_NodeInfoFromJson(json);
 
   @override
   @JsonKey(name: 'NodeIP')
@@ -164,17 +172,23 @@ class _$_NodeInfo extends _NodeInfo {
             const DeepCollectionEquality().equals(other.ip, ip) &&
             const DeepCollectionEquality().equals(other.height, height) &&
             const DeepCollectionEquality().equals(other.latency, latency) &&
-            const DeepCollectionEquality().equals(other.lastCheked, lastCheked));
+            const DeepCollectionEquality()
+                .equals(other.lastCheked, lastCheked));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(ip), const DeepCollectionEquality().hash(height),
-      const DeepCollectionEquality().hash(latency), const DeepCollectionEquality().hash(lastCheked));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(ip),
+      const DeepCollectionEquality().hash(height),
+      const DeepCollectionEquality().hash(latency),
+      const DeepCollectionEquality().hash(lastCheked));
 
   @JsonKey(ignore: true)
   @override
-  _$$_NodeInfoCopyWith<_$_NodeInfo> get copyWith => __$$_NodeInfoCopyWithImpl<_$_NodeInfo>(this, _$identity);
+  _$$_NodeInfoCopyWith<_$_NodeInfo> get copyWith =>
+      __$$_NodeInfoCopyWithImpl<_$_NodeInfo>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -184,10 +198,11 @@ class _$_NodeInfo extends _NodeInfo {
 
 abstract class _NodeInfo extends NodeInfo {
   factory _NodeInfo(
-      {@JsonKey(name: 'NodeIP') required final String ip,
-      @JsonKey(name: 'NodeHeight') required final int height,
-      @JsonKey(name: 'NodeLatency') required final int latency,
-      @JsonKey(name: 'NodeLastChecked') final DateTime? lastCheked}) = _$_NodeInfo;
+          {@JsonKey(name: 'NodeIP') required final String ip,
+          @JsonKey(name: 'NodeHeight') required final int height,
+          @JsonKey(name: 'NodeLatency') required final int latency,
+          @JsonKey(name: 'NodeLastChecked') final DateTime? lastCheked}) =
+      _$_NodeInfo;
   _NodeInfo._() : super._();
 
   factory _NodeInfo.fromJson(Map<String, dynamic> json) = _$_NodeInfo.fromJson;
@@ -206,5 +221,6 @@ abstract class _NodeInfo extends NodeInfo {
   DateTime? get lastCheked => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$$_NodeInfoCopyWith<_$_NodeInfo> get copyWith => throw _privateConstructorUsedError;
+  _$$_NodeInfoCopyWith<_$_NodeInfo> get copyWith =>
+      throw _privateConstructorUsedError;
 }

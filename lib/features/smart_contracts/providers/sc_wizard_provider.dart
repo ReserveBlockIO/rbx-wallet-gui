@@ -9,8 +9,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rbx_wallet/core/utils.dart';
+import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase_wizard_form_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/multi_asset.dart';
 import 'package:path/path.dart';
+import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 
 import '../../../core/providers/session_provider.dart';
@@ -27,6 +33,7 @@ import '../models/bulk_smart_contract_entry.dart';
 import '../models/smart_contract.dart';
 import '../services/smart_contract_service.dart';
 import 'my_smart_contracts_provider.dart';
+import 'property_wizard_form_provider.dart';
 import 'sc_wizard_minting_progress_provider.dart';
 
 const LOG_HISTORY_LENGTH = 1000;
@@ -158,6 +165,40 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
       ..insert(index, item);
   }
 
+  void addEvolvePhase(int index, EvolvePhase? value) {
+    ScWizardItem? item = itemAtIndex(index);
+
+    if (item == null) return;
+    if (value != null) {
+      item = item.copyWith(
+        entry: item.entry.copyWith(
+          evolve: item.entry.evolve.copyWith(
+            phases: [...item.entry.evolve.phases, value],
+          ),
+        ),
+      );
+    }
+
+    state = [...state]
+      ..removeAt(index)
+      ..insert(index, item);
+  }
+
+  void addProperty(int index, ScProperty? value) {
+    ScWizardItem? item = itemAtIndex(index);
+
+    if (item == null) return;
+    if (value != null) {
+      item = item.copyWith(
+        entry: item.entry.copyWith(properties: [...item.entry.properties, value]),
+      );
+    }
+
+    state = [...state]
+      ..removeAt(index)
+      ..insert(index, item);
+  }
+
   void addAdditionalAsset(int index, Asset asset) {
     ScWizardItem? item = itemAtIndex(index);
 
@@ -188,94 +229,164 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
       ..insert(index, item);
   }
 
-  Future<bool> uploadCsv() async {
-    state = [];
+  void removeEvolutionPhase(int index, int assetIndex) {
+    ScWizardItem? item = itemAtIndex(index);
+    read(evolvePhaseWizardFormProvider(assetIndex).notifier).clear();
+
+    if (item == null) return;
+
+    item = item.copyWith(
+      entry: item.entry.copyWith(
+        evolve: item.entry.evolve.copyWith(
+          phases: [...item.entry.evolve.phases]..removeAt(assetIndex),
+        ),
+      ),
+    );
+    state = [...state]
+      ..removeAt(index)
+      ..insert(index, item);
+  }
+
+  void removeProperty(int index, int assetIndex) {
+    ScWizardItem? item = itemAtIndex(index);
+    read(propertyWizardFormProvider(assetIndex).notifier).clear();
+
+    if (item == null) return;
+
+    item = item.copyWith(
+      entry: item.entry.copyWith(
+        properties: [...item.entry.properties]..removeAt(assetIndex),
+      ),
+    );
+    state = [...state]
+      ..removeAt(index)
+      ..insert(index, item);
+  }
+
+  void setEvolvingType(int index, EvolveType type) {
+    ScWizardItem? item = itemAtIndex(index);
+
+    if (item == null) return;
+
+    item = item.copyWith(
+      entry: item.entry.copyWith(
+        evolve: item.entry.evolve.copyWith(type: type),
+      ),
+    );
+    state = [...state]
+      ..removeAt(index)
+      ..insert(index, item);
+  }
+
+  void removePhase(int index, int phaseIndex) {
+    ScWizardItem? item = itemAtIndex(index);
+
+    if (item == null) return;
+
+    item = item.copyWith(
+      entry: item.entry.copyWith(
+        additionalAssets: [...item.entry.additionalAssets]..removeAt(phaseIndex),
+      ),
+    );
+    state = [...state]
+      ..removeAt(index)
+      ..insert(index, item);
+  }
+
+  Future<PlatformFile?> _getFile(List<String> extensions) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-      allowedExtensions: ['csv'],
+      allowedExtensions: extensions,
       allowMultiple: false,
     );
     if (result == null) {
-      return false;
+      return null;
     }
     if (result.files.isEmpty) {
+      return null;
+    }
+
+    final file = result.files.first;
+
+    return file;
+  }
+
+  Future<bool> uploadJson() async {
+    state = [];
+    final file = await _getFile(['json']);
+    if (file == null || file.path == null) {
       return false;
     }
 
-    PlatformFile file = result.files.first;
-    if (file.path == null) {
+    final input = File(file.path!).readAsStringSync();
+
+    List<dynamic> data = [];
+    try {
+      data = jsonDecode(input);
+    } catch (e) {
+      print(e);
+      Toast.error("Invalid JSON");
       return false;
     }
 
-    final input = File(file.path!).openRead();
-    final fields = await input.transform(utf8.decoder).transform(const CsvToListConverter()).toList();
-
-    // final headers = fields.first;
-    final rows = [...fields]..removeAt(0);
     final List<BulkSmartContractEntry> entries = [];
-    for (final row in rows) {
-      final name = row[0].toString();
-      final description = row[1].toString();
-      final primaryAssetUrl = row[2].toString();
-      final creatorName = row[3].toString();
+    final List<Map<String, dynamic>> items = data.map((e) => e as Map<String, dynamic>).toList();
 
-      final royaltyAmount = row[4].toString();
-      final royaltyAddress = row[5].toString();
-      final additionalAssetUrls = row[6].toString();
+    for (final item in items) {
+      final name = item['name'].toString();
+      final description = item['description'].toString();
+      final primaryAssetUrl = item['image'].toString();
+      final creatorName = item['creator_name'].toString() == "null" ? " " : item['creator_name'];
 
-      final quantity = row[7];
+      final royaltyAmount = item.containsKey('royalty') ? item['royalty']['amount'].toString() : null;
+      final royaltyAddress = item.containsKey('royalty') ? item['royalty']['address'].toString() : null;
+      final List<String>? additionalAssetUrls =
+          item.containsKey('additional_images') ? item['additional_images'].map<String>((e) => e as String).toList() : null;
 
-      //TODO stats
+      final quantity = item.containsKey('quantity') ? item['quantity'] : 1;
+      final evolve = item.containsKey('evolve') ? item['evolve'] : null;
 
-      //TODO validation
+      final List<ScProperty> properties = [];
 
-      final primaryAsset = await urlToAsset(primaryAssetUrl, creatorName);
-      if (primaryAsset == null) {
-        Toast.error("Problem downloading $primaryAssetUrl. Skipping.");
-        continue;
-      }
+      if (item.containsKey('attributes')) {
+        final attributes = item['attributes'].map<Map<String, dynamic>>((e) => e as Map<String, dynamic>).toList();
+        print(attributes);
+        print("***********");
+        for (final attribute in attributes) {
+          final String name = attribute['trait_type']?.toString() ?? '';
+          final String value = attribute['value']?.toString() ?? '';
 
-      Royalty? royalty;
-      if (royaltyAmount.isNotEmpty && royaltyAddress.isNotEmpty) {
-        if (isValidRbxAddress(royaltyAddress)) {
-          if (royaltyAmount.contains('%')) {
-            final parsed = double.tryParse(royaltyAmount.replaceAll("%", ''));
-            if (parsed != null) {
-              royalty = Royalty(amount: parsed / 100, address: royaltyAddress, type: RoyaltyType.percent);
-            }
-          } else {
-            final parsed = double.tryParse(royaltyAmount);
-            if (parsed != null) {
-              royalty = Royalty(amount: parsed, address: royaltyAddress, type: RoyaltyType.fixed);
-            }
+          ScPropertyType type = ScPropertyType.text;
+
+          if (isNumeric(value)) {
+            type = ScPropertyType.number;
+          }
+
+          if (value.length == 7 && value.startsWith("#")) {
+            type = ScPropertyType.color;
+          }
+
+          if (name.isNotEmpty && value.isNotEmpty) {
+            properties.add(ScProperty(name: name, value: value, type: type));
           }
         }
       }
 
-      final List<Asset> additionalAssets = [];
-      if (additionalAssetUrls.isNotEmpty) {
-        final urls = additionalAssetUrls.split(",").map((e) => e.trim()).toList();
-
-        if (urls.isNotEmpty) {
-          for (final url in urls) {
-            final a = await urlToAsset(url, creatorName);
-            if (a != null) {
-              additionalAssets.add(a);
-            }
-          }
-        }
-      }
-
-      entries.add(
-        BulkSmartContractEntry(
-          name: name,
-          description: description,
-          primaryAsset: primaryAsset,
-          creatorName: creatorName,
-          quantity: quantity,
-          royalty: royalty,
-          additionalAssets: additionalAssets,
-        ),
+      final entry = await _propertiesToEntry(
+        name: name,
+        description: description,
+        primaryAssetUrl: primaryAssetUrl,
+        creatorName: creatorName,
+        quantity: quantity,
+        royaltyAmount: royaltyAmount,
+        royaltyAddress: royaltyAddress,
+        additionalAssetUrls: additionalAssetUrls,
+        evolve: evolve,
+        properties: properties,
       );
+
+      if (entry != null) {
+        entries.add(entry);
+      }
     }
 
     state = entries
@@ -290,6 +401,205 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
         .toList();
 
     return entries.isNotEmpty;
+  }
+
+  Future<bool> uploadCsv() async {
+    state = [];
+    final file = await _getFile(['csv']);
+    if (file == null || file.path == null) {
+      return false;
+    }
+
+    final input = File(file.path!).openRead();
+
+    final fields = await input.transform(utf8.decoder).transform(const CsvToListConverter()).toList();
+
+    // final headers = fields.first;
+    final rows = [...fields]..removeAt(0);
+    final List<BulkSmartContractEntry> entries = [];
+    for (final row in rows) {
+      final name = row[0].toString();
+      final description = row[1].toString();
+      final primaryAssetUrl = row[2].toString();
+      final creatorName = row[3].toString();
+
+      final royaltyAmount = row[4].toString();
+      final royaltyAddress = row[5].toString();
+      final additionalAssetUrls = row[6].toString().isNotEmpty ? row[6].toString().split(',').map((e) => e.trim()).toList() : null;
+
+      final quantity = row[7];
+
+      final List<ScProperty> properties = [];
+
+      print(rows.length);
+
+      for (int i = 8; i < row.length; i++) {
+        final String name = fields.first[i]?.toString() ?? '';
+        final String value = row[i]?.toString() ?? '';
+
+        ScPropertyType type = ScPropertyType.text;
+
+        if (isNumeric(value)) {
+          type = ScPropertyType.number;
+        }
+
+        if (value.length == 7 && value.startsWith("#")) {
+          type = ScPropertyType.color;
+        }
+
+        if (name.isNotEmpty && value.isNotEmpty) {
+          properties.add(ScProperty(name: name, value: value, type: type));
+        }
+      }
+
+      final entry = await _propertiesToEntry(
+        name: name,
+        description: description,
+        primaryAssetUrl: primaryAssetUrl,
+        creatorName: creatorName,
+        quantity: quantity,
+        royaltyAmount: royaltyAmount,
+        royaltyAddress: royaltyAddress,
+        additionalAssetUrls: additionalAssetUrls,
+        properties: properties,
+      );
+
+      if (entry != null) {
+        entries.add(entry);
+      }
+    }
+
+    state = entries
+        .asMap()
+        .entries
+        .map((e) => ScWizardItem(
+              entry: e.value,
+              index: e.key,
+              x: 0,
+              y: 0,
+            ))
+        .toList();
+
+    return entries.isNotEmpty;
+  }
+
+  Future<BulkSmartContractEntry?> _propertiesToEntry(
+      {required String name,
+      required String description,
+      required String primaryAssetUrl,
+      required String creatorName,
+      required int quantity,
+      required String? royaltyAmount,
+      required String? royaltyAddress,
+      required List<String>? additionalAssetUrls,
+      List<ScProperty> properties = const [],
+      Map<String, dynamic>? evolve}) async {
+    final primaryAsset = await urlToAsset(primaryAssetUrl, creatorName);
+    if (primaryAsset == null) {
+      Toast.error("Problem downloading $primaryAssetUrl. Skipping.");
+      return null;
+    }
+
+    //TODO stats
+
+    //TODO validation
+
+    Royalty? royalty;
+    if (royaltyAmount != null && royaltyAddress != null && royaltyAmount.isNotEmpty && royaltyAddress.isNotEmpty) {
+      if (isValidRbxAddress(royaltyAddress)) {
+        if (royaltyAmount.contains('%')) {
+          final parsed = double.tryParse(royaltyAmount.replaceAll("%", ''));
+          if (parsed != null) {
+            royalty = Royalty(amount: parsed / 100, address: royaltyAddress, type: RoyaltyType.percent);
+          }
+        } else {
+          final parsed = double.tryParse(royaltyAmount);
+          if (parsed != null) {
+            royalty = Royalty(amount: parsed, address: royaltyAddress, type: RoyaltyType.fixed);
+          }
+        }
+      }
+    }
+    Evolve? entryEvolve;
+    if (evolve != null) {
+      if (evolve.containsKey('type')) {
+        switch (evolve['type']) {
+          case 'date':
+            if (evolve.containsKey('phases')) {
+              List<EvolvePhase> phases = [];
+              for (var e in (evolve['phases'] as List)) {
+                Asset? asset = await urlToAsset(e['image'], name);
+                phases.add(EvolvePhase(
+                  name: e['name'],
+                  description: e['description'],
+                  asset: asset,
+                  dateTime: DateTime.parse(e['date']),
+                ));
+              }
+              print("Date phases: $phases");
+
+              entryEvolve = Evolve(type: EvolveType.time, phases: phases);
+            }
+            break;
+          case 'height':
+            if (evolve.containsKey('phases')) {
+              List<EvolvePhase> phases = [];
+              for (var e in (evolve['phases'] as List)) {
+                Asset? asset = await urlToAsset(e['image'], name);
+                phases.add(EvolvePhase(
+                  name: e['name'],
+                  description: e['description'],
+                  asset: asset,
+                  blockHeight: e['height'],
+                ));
+              }
+              print("Height phases: $phases");
+              entryEvolve = Evolve(type: EvolveType.time, phases: phases);
+            }
+            break;
+          default:
+            if (evolve.containsKey('phases')) {
+              List<EvolvePhase> phases = [];
+              for (var e in (evolve['phases'] as List)) {
+                Asset? asset = await urlToAsset(e['image'], name);
+                phases.add(EvolvePhase(
+                  name: e['name'],
+                  description: e['description'],
+                  asset: asset,
+                ));
+              }
+              print("Default phases: $phases");
+
+              entryEvolve = Evolve(type: EvolveType.time, phases: phases);
+            }
+        }
+      }
+    }
+
+    final List<Asset> additionalAssets = [];
+    if (additionalAssetUrls != null && additionalAssetUrls.isNotEmpty) {
+      for (final url in additionalAssetUrls) {
+        final a = await urlToAsset(url, creatorName);
+        if (a != null) {
+          additionalAssets.add(a);
+        }
+      }
+    }
+
+    return BulkSmartContractEntry(
+        name: name,
+        description: description,
+        primaryAsset: primaryAsset,
+        creatorName: creatorName,
+        quantity: quantity,
+        royalty: royalty,
+        additionalAssets: additionalAssets,
+        properties: properties,
+        evolve: entryEvolve ?? const Evolve());
+  }
+
+  EvolveType getEvolveType(int index) {
+    return state[index].entry.evolve.type;
   }
 
   Future<Asset?> urlToAsset(String url, String creatorName) async {
@@ -338,7 +648,11 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
   }
 
   Future<void> mint(BuildContext context) async {
-    // TODO: Confirmation dialog
+    if (!kDebugMode) {
+      if (!guardWalletIsSynced(read)) {
+        return;
+      }
+    }
 
     read(scWizardMintingProgress.notifier).setPercent(0);
 
@@ -366,12 +680,15 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
         minterName: entry.creatorName,
         description: entry.description,
         primaryAsset: entry.primaryAsset,
+        evolves: [entry.evolve],
         royalties: entry.royalty != null ? [entry.royalty!] : [],
+        properties: entry.properties,
         multiAssets: entry.additionalAssets.isNotEmpty ? [MultiAsset(assets: entry.additionalAssets)] : [],
       );
 
       final timezoneName = read(sessionProvider).timezoneName;
       final payload = sc.serializeForCompiler(timezoneName);
+
       int i = 0;
       while (i < entry.quantity) {
         i += 1;
@@ -391,6 +708,9 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
           print("CSC not successful");
           return;
         }
+        print('-----');
+        print(csc.smartContract);
+        print(csc.smartContract.id);
         final details = await SmartContractService().retrieve(csc.smartContract.id);
         if (details == null) {
           Toast.error();

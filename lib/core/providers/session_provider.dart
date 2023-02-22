@@ -4,17 +4,25 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:intl/intl.dart';
 import 'package:process/process.dart';
 import 'package:process_run/shell.dart';
+import 'package:rbx_wallet/core/api_token_manager.dart';
+import 'package:rbx_wallet/core/utils.dart';
+import 'package:rbx_wallet/features/remote_info/components/snapshot_downloader.dart';
+import 'package:rbx_wallet/features/remote_info/models/remote_info.dart';
+import 'package:rbx_wallet/features/remote_info/services/remote_info_service.dart';
+import 'package:rbx_wallet/features/startup/startup_data.dart';
+import 'package:rbx_wallet/features/startup/startup_data_provider.dart';
+import 'package:rbx_wallet/utils/toast.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../app.dart';
 import '../../features/beacon/providers/beacon_list_provider.dart';
 import '../../features/bridge/models/log_entry.dart';
 import '../../features/bridge/providers/log_provider.dart';
-import '../../features/bridge/providers/status_provider.dart';
 import '../../features/bridge/providers/wallet_info_provider.dart';
 import '../../features/bridge/services/bridge_service.dart';
 import '../../features/config/models/config.dart';
@@ -36,10 +44,7 @@ import '../../features/voting/providers/topic_list_provider.dart';
 import '../../features/wallet/models/wallet.dart';
 import '../../features/wallet/providers/wallet_list_provider.dart';
 import '../../utils/files.dart';
-import '../../utils/guards.dart';
-import '../../utils/validation.dart';
 import '../app_constants.dart';
-import '../components/buttons.dart';
 import '../dialogs.dart';
 import '../env.dart';
 import '../singletons.dart';
@@ -61,6 +66,7 @@ class SessionModel {
   final bool logWindowExpanded;
   final bool isMintingOrCompiling;
   final String timezoneName;
+  final RemoteInfo? remoteInfo;
 
   const SessionModel({
     this.currentWallet,
@@ -76,23 +82,24 @@ class SessionModel {
     this.logWindowExpanded = false,
     this.isMintingOrCompiling = false,
     this.timezoneName = "America/Los_Angeles",
+    this.remoteInfo,
   });
 
-  SessionModel copyWith({
-    Wallet? currentWallet,
-    DateTime? startTime,
-    // bool? ready,
-    bool? filteringTransactions,
-    bool? cliStarted,
-    int? remoteBlockHeight,
-    bool? blocksAreSyncing,
-    bool? blocksAreResyncing,
-    double? totalBalance,
-    String? cliVersion,
-    bool? logWindowExpanded,
-    bool? isMintingOrCompiling,
-    String? timezoneName,
-  }) {
+  SessionModel copyWith(
+      {Wallet? currentWallet,
+      DateTime? startTime,
+      // bool? ready,
+      bool? filteringTransactions,
+      bool? cliStarted,
+      int? remoteBlockHeight,
+      bool? blocksAreSyncing,
+      bool? blocksAreResyncing,
+      double? totalBalance,
+      String? cliVersion,
+      bool? logWindowExpanded,
+      bool? isMintingOrCompiling,
+      String? timezoneName,
+      RemoteInfo? remoteInfo}) {
     return SessionModel(
       startTime: startTime ?? this.startTime,
       currentWallet: currentWallet ?? this.currentWallet,
@@ -107,6 +114,7 @@ class SessionModel {
       logWindowExpanded: logWindowExpanded ?? this.logWindowExpanded,
       isMintingOrCompiling: isMintingOrCompiling ?? this.isMintingOrCompiling,
       timezoneName: timezoneName ?? this.timezoneName,
+      remoteInfo: remoteInfo ?? this.remoteInfo,
     );
   }
 
@@ -116,6 +124,14 @@ class SessionModel {
     }
     return DateFormat('MM/dd – kk:mm').format(startTime!);
   }
+
+  bool get updateAvailable {
+    if (remoteInfo == null) {
+      return false;
+    }
+
+    return remoteInfo!.gui.updateAvailable;
+  }
 }
 
 class SessionProvider extends StateNotifier<SessionModel> {
@@ -124,16 +140,18 @@ class SessionProvider extends StateNotifier<SessionModel> {
   static const _initial = SessionModel();
 
   SessionProvider(this.read, [SessionModel sessionModel = _initial]) : super(sessionModel) {
-    init();
+    init(true);
   }
 
-  Future<void> init() async {
+  Future<void> init(bool inLoop) async {
+    final token = kDebugMode ? DEV_API_TOKEN : generateRandomString(32).toLowerCase();
+
     read(logProvider.notifier).append(LogEntry(message: "Welcome to RBXWallet version $APP_VERSION"));
 
     bool cliStarted = state.cliStarted;
     if (!cliStarted) {
       read(logProvider.notifier).append(LogEntry(message: "Starting RBXCore..."));
-      cliStarted = await _startCli();
+      cliStarted = await _startCli(token);
     } else {
       read(logProvider.notifier).append(LogEntry(message: "RBXCore already running."));
     }
@@ -147,11 +165,11 @@ class SessionProvider extends StateNotifier<SessionModel> {
     final authenticated = await authenticate();
 
     if (authenticated) {
-      finishSetup();
+      finishSetup(inLoop);
     }
   }
 
-  Future<void> finishSetup() async {
+  Future<void> finishSetup(bool inLoop) async {
     final now = DateTime.now();
 
     final timezoneName = DateTime.now().timeZoneName.toString();
@@ -164,16 +182,184 @@ class SessionProvider extends StateNotifier<SessionModel> {
     );
 
     // mainLoop();
-    mainLoop();
-    smartContractLoop();
+    mainLoop(inLoop);
+    smartContractLoop(inLoop);
+    checkGuiUpdateStatus(inLoop);
     read(beaconListProvider.notifier).refresh();
 
     Future.delayed(const Duration(milliseconds: 300)).then((_) {
-      read(walletInfoProvider.notifier).infoLoop();
-      if (!read(passwordRequiredProvider)) {
-        _onboardWallet();
+      read(walletInfoProvider.notifier).infoLoop(inLoop);
+      if (!kIsWeb) {
+        // if (!read(passwordRequiredProvider)) {
+        //   _onboardWallet();
+        // }
+
+        checkRemoteInfo();
       }
     });
+  }
+
+  Future<void> updateGui() async {
+    final remoteInfo = state.remoteInfo;
+    if (remoteInfo == null) {
+      return;
+    }
+
+    final updateGui = await ConfirmDialog.show(
+      title: "GUI Update Available",
+      body: "A GUI update is available. Download now?",
+      confirmText: "Update",
+      cancelText: "No",
+    );
+
+    if (updateGui != true) {
+      return;
+    }
+
+    final confirmUpdate = await ConfirmDialog.show(
+      title: "GUI Update",
+      body:
+          "The RBX GUI download will be launched in your browser. Once launched, the CLI will be shutdown and your wallet will be closed to ensure a safe update.",
+      confirmText: "Update",
+      cancelText: "Cancel",
+    );
+
+    if (confirmUpdate != true) {
+      return;
+    }
+
+    if (updateGui == true) {
+      final url = remoteInfo.gui.url;
+      await launchUrlString(url);
+    }
+
+    await BridgeService().killCli();
+    await Future.delayed(const Duration(milliseconds: 3000));
+
+    FlutterWindowClose.closeWindow();
+  }
+
+  Future<void> checkGuiUpdateStatus([bool inLoop = false]) async {
+    final remoteInfo = await RemoteInfoService.fetchInfo();
+    state = state.copyWith(remoteInfo: remoteInfo);
+
+    if (inLoop) {
+      await Future.delayed(const Duration(minutes: 10));
+      checkGuiUpdateStatus();
+    }
+  }
+
+  Future<void> checkRemoteInfo([int attempt = 1]) async {
+    if (!Env.promptForUpdates) {
+      return;
+    }
+    // final blockHeight = read(walletInfoProvider)?.blockHeight;
+    final data = await BridgeService().walletInfo();
+    final int? blockHeight = int.tryParse(data['BlockHeight']);
+
+    if (blockHeight == null) {
+      if (attempt > 20) {
+        print("block height still null after 20 attempts so we shall stop the remote check");
+        return;
+      }
+      await Future.delayed(const Duration(seconds: 5));
+      checkRemoteInfo(attempt + 1);
+      return;
+    }
+
+    final remoteInfo = await RemoteInfoService.fetchInfo();
+    state = state.copyWith(remoteInfo: remoteInfo);
+
+    await Future.delayed(const Duration(seconds: 3));
+
+    if (remoteInfo != null) {
+      if (remoteInfo.gui.updateAvailable) {
+        updateGui();
+        return;
+      }
+
+      final snapshotHeight = remoteInfo.snapshot.height;
+
+      if (blockHeight < (snapshotHeight - 5000)) {
+        promptForSnapshotImport();
+      }
+
+      final cliUpdateAvailable = await BridgeService().updateCli(false);
+      if (cliUpdateAvailable == true) {
+        final confirmed = await ConfirmDialog.show(
+          title: "CLI Update Available",
+          body: "A CLI update is available. Download and install now?",
+          confirmText: "Update",
+          cancelText: "No",
+        );
+        if (confirmed == true) {
+          final success = await BridgeService().updateCli(true);
+
+          if (success == true) {
+            final shouldRestart = await ConfirmDialog.show(
+              title: "CLI Updated",
+              body: "A restart of the CLI is required. Restart Now?",
+              confirmText: "Restart",
+              cancelText: "No",
+            );
+            if (shouldRestart == true) {
+              await restartCli();
+            }
+          }
+        }
+      }
+    }
+  }
+
+  Future<void> promptForSnapshotImport() async {
+    // final context = rootNavigatorKey.currentContext!;
+
+    final blockHeight = read(walletInfoProvider)!.blockHeight;
+    final snapshotHeight = state.remoteInfo!.snapshot.height;
+
+    final confirmed = await ConfirmDialog.show(
+      title: "Import Snapshot?",
+      body:
+          "You are only at $blockHeight block height locally. The network has a snapshot at $snapshotHeight block height that will help you sync more quickly. \n\nWould you like to import it now?",
+      confirmText: "Import",
+      cancelText: "No",
+    );
+
+    if (confirmed == true) {
+      // importSnapshot();
+      bool? shouldContinue = true;
+      if (read(walletListProvider).isNotEmpty) {
+        shouldContinue = await ConfirmDialog.show(
+          title: "Warning",
+          body:
+              "Be sure your private keys are backed up as this process will wipe your database folder.\n\nIf they are NOT backed up, click cancel now, back them up, and then restart your wallet to be prompted with this again.",
+          confirmText: "I'm Backed Up",
+          cancelText: "Cancel",
+        );
+      }
+
+      if (shouldContinue == true) {
+        importSnapshot();
+      }
+    }
+  }
+
+  Future<void> importSnapshot() async {
+    if (state.remoteInfo?.snapshot.url == null) {
+      Toast.error();
+      return;
+    }
+
+    final url = state.remoteInfo!.snapshot.url;
+
+    showDialog(
+        context: rootNavigatorKey.currentContext!,
+        builder: (context) {
+          return SnapshotDownloader(
+            downloadUrl: url,
+            read: read,
+          );
+        });
   }
 
   // Future<void> mainLoop() async {
@@ -202,17 +388,18 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   Future<void> mainLoop([inLoop = true]) async {
-    await loadWallets();
-    await loadValidators();
-    // await loadMasterNodes();
-    // await loadPeerInfo();
-    await loadTransactions();
-
-    loadTopics();
+    if (state.cliStarted) {
+      loadWallets();
+      loadValidators();
+      // await loadMasterNodes();
+      // await loadPeerInfo();
+      loadTransactions();
+      loadTopics();
+    }
 
     if (inLoop) {
       await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
-      mainLoop();
+      mainLoop(true);
     }
   }
 
@@ -239,20 +426,24 @@ class SessionProvider extends StateNotifier<SessionModel> {
       read(draftsSmartContractProvider.notifier).load();
     }
 
-    await Future.delayed(const Duration(seconds: 30));
-    smartContractLoop();
+    if (inLoop) {
+      await Future.delayed(const Duration(seconds: 15));
+      smartContractLoop(true);
+    }
+  }
+
+  Future<void> stopCli() async {
+    // read(logProvider.notifier).clear();
+    state = state = _initial;
+    // read(logProvider.notifier).append(LogEntry(message: "Shutting down CLI..."));
+    await BridgeService().killCli();
+    // read(logProvider.notifier).append(LogEntry(message: "CLI terminated."));
+    await Future.delayed(const Duration(milliseconds: 5000));
   }
 
   Future<void> restartCli() async {
-    read(logProvider.notifier).clear();
-    state = state = _initial;
-    read(logProvider.notifier).append(LogEntry(message: "Shutting down CLI..."));
-    await BridgeService().killCli();
-    read(logProvider.notifier).append(LogEntry(message: "CLI terminated."));
-
-    await Future.delayed(const Duration(milliseconds: 300));
-
-    await init();
+    await stopCli();
+    await init(false);
     await fetchConfig();
 
     read(beaconListProvider.notifier).refresh();
@@ -317,6 +508,8 @@ class SessionProvider extends StateNotifier<SessionModel> {
         if (currentWallet != null) {
           state = state.copyWith(currentWallet: currentWallet, totalBalance: totalBalance);
           read(currentValidatorProvider.notifier).set(currentWallet);
+        } else {
+          state = state.copyWith(totalBalance: totalBalance);
         }
       } else {
         state = state.copyWith(currentWallet: wallets.first, totalBalance: totalBalance);
@@ -389,73 +582,6 @@ class SessionProvider extends StateNotifier<SessionModel> {
     state = state.copyWith(filteringTransactions: val);
   }
 
-  Future<void> _onboardWallet() async {
-    await Future.delayed(const Duration(seconds: 10));
-    if (read(walletListProvider).isNotEmpty) {
-      return;
-    }
-
-    if (read(statusProvider) == BridgeStatus.Offline) {
-      return;
-    }
-
-    // if (!guardWalletIsNotResyncing(read, false)) return;
-
-    final context = rootNavigatorKey.currentContext!;
-
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text("No wallets found"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              AppButton(
-                label: "Import Private Key",
-                onPressed: () async {
-                  if (!guardWalletIsNotResyncing(read)) return;
-
-                  PromptModal.show(
-                    title: "Import Wallet",
-                    inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]'))],
-                    validator: (String? value) => formValidatorNotEmpty(value, "Private Key"),
-                    labelText: "Private Key",
-                    onValidSubmission: (value) async {
-                      await read(walletListProvider.notifier).import(value);
-                      mainLoop(false);
-                      Navigator.of(context).pop();
-                    },
-                  );
-                },
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              AppButton(
-                label: "Create New Wallet",
-                onPressed: () async {
-                  await read(walletListProvider.notifier).create();
-                  mainLoop(false);
-                  Navigator.of(context).pop();
-                  // Navigator.of(context).pop(); // do we need this? lol
-                },
-              )
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text("Cancel"),
-            )
-          ],
-        );
-      },
-    );
-  }
-
   void setBlocksAreSyncing(bool value) {
     state = state.copyWith(blocksAreSyncing: value);
   }
@@ -489,7 +615,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
     }
   }
 
-  Future<bool> _cliCheck([int attempt = 1, int maxAttempts = 100]) async {
+  Future<bool> _cliCheck([int attempt = 1, int maxAttempts = 500]) async {
     if (attempt > maxAttempts) {
       read(logProvider.notifier).append(LogEntry(message: "Attempted $maxAttempts. Something went wrong."));
 
@@ -514,7 +640,18 @@ class SessionProvider extends StateNotifier<SessionModel> {
     return _cliCheck(attempt + 1, maxAttempts);
   }
 
-  Future<bool> _startCli() async {
+  Future<void> startupDataLoop() async {
+    final data = await fetchStartupData();
+
+    read(startupDataProvider.notifier).set(data);
+
+    await Future.delayed(const Duration(seconds: 1));
+    if (!state.cliStarted) {
+      startupDataLoop();
+    }
+  }
+
+  Future<bool> _startCli(String apiToken) async {
     if (Env.launchCli) {
       if (await _cliIsActive()) {
         await fetchConfig();
@@ -523,8 +660,11 @@ class SessionProvider extends StateNotifier<SessionModel> {
         return true;
       }
 
+      startupDataLoop();
+
       final cliPath = Env.cliPathOverride ?? getCliPath();
-      List<String> options = ['enableapi', 'gui'];
+      List<String> options = ['enableapi', 'gui', 'apitoken=$apiToken'];
+
       if (Env.isTestNet) {
         options.add("testnet");
       }
@@ -536,15 +676,14 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
         try {
           final appPath = Directory.current.path;
-          cmd = Env.isTestNet ? "$appPath\\RbxCore\\RBXLauncherTestNet" : "$appPath\\RbxCore\\RBXLauncher";
+          cmd = Env.isTestNet ? "$appPath\\RbxCore\\RBXLauncherTestNet.exe" : "$appPath\\RbxCore\\RBXLauncher.exe";
 
-          read(logProvider.notifier).append(LogEntry(message: "Launching $cmd in the background."));
+          read(logProvider.notifier).append(LogEntry(message: "Launching CLI in the background."));
 
-          read(logProvider.notifier).append(LogEntry(message: "This update may take longer than usual. Expect a few minutes."));
-
-          pm.run([cmd]).then((result) {
+          pm.run([cmd, 'apitoken=$apiToken']).then((result) {
             read(logProvider.notifier).append(LogEntry(message: "Command ran successfully."));
           });
+          singleton<ApiTokenManager>().set(apiToken);
 
           await Future.delayed(const Duration(seconds: 3));
           return await _cliCheck();
@@ -570,11 +709,14 @@ class SessionProvider extends StateNotifier<SessionModel> {
         );
         cmd = '"$cliPath" ${options.join(' ')}';
 
-        read(logProvider.notifier).append(LogEntry(message: "Launching $cmd in the background."));
+        read(logProvider.notifier).append(LogEntry(message: "Launching CLI in the background."));
 
         try {
           shell.run(cmd);
+          singleton<ApiTokenManager>().set(apiToken);
+
           await Future.delayed(const Duration(seconds: 3));
+
           return await _cliCheck();
         } catch (e) {
           read(logProvider.notifier).append(LogEntry(message: "Process Error.", variant: AppColorVariant.Danger));
@@ -589,6 +731,23 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
   void setIsMintingOrCompiling(bool value) {
     state = state.copyWith(isMintingOrCompiling: value);
+  }
+
+  Future<StartupData?> fetchStartupData() async {
+    final path = await startupProgressPath();
+
+    if (!File(path).existsSync()) {
+      return null;
+    }
+
+    final string = await File(path).readAsString();
+    final Map<String, dynamic> data = jsonDecode(string);
+
+    if (data.containsKey('NextBlock') && data.containsKey('CurrentPercent')) {
+      return StartupData(data['NextBlock'].toString(), data['CurrentPercent'].toString());
+    }
+
+    return null;
   }
 
   Future<void> fetchConfig() async {

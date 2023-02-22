@@ -1,4 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
+import 'package:rbx_wallet/features/metrics/models/network_metrics.dart';
 
 import '../../../core/env.dart';
 import '../../../core/services/base_service.dart';
@@ -38,7 +42,8 @@ class BridgeService extends BaseService {
 
   Future<String?> encryptWallet(String password) async {
     try {
-      final data = await getText("/GetEncryptWallet/$password", cleanPath: false, timeout: 0);
+      final data = await getText("/GetEncryptWallet/$password",
+          cleanPath: false, timeout: 0);
       final response = jsonDecode(data);
       if (response['Result'] != null && response['Result'] == "Success") {
         return null;
@@ -57,7 +62,8 @@ class BridgeService extends BaseService {
 
   Future<bool> unlockWallet(String password) async {
     try {
-      final data = await getText("/GetDecryptWallet/$password", cleanPath: false);
+      final data =
+          await getText("/GetDecryptWallet/$password", cleanPath: false);
       final response = jsonDecode(data);
 
       if (response['Result'] != null && response['Result'] == "Success") {
@@ -92,9 +98,13 @@ class BridgeService extends BaseService {
   }
 
   Future<Map<String, dynamic>> walletInfo() async {
-    final d = await getText('/GetWalletInfo');
-    final a = jsonDecode(d);
-    return a[0];
+    try {
+      final d = await getText('/GetWalletInfo');
+      final a = jsonDecode(d);
+      return a[0];
+    } catch (e) {
+      return {};
+    }
   }
 
   Future<String> wallets() async {
@@ -146,7 +156,8 @@ class BridgeService extends BaseService {
       return null;
     }
 
-    if (response == "This is not a valid RBX address to send to. Please verify again.") {
+    if (response ==
+        "This is not a valid RBX address to send to. Please verify again.") {
       Toast.error(response);
       return null;
     }
@@ -242,15 +253,25 @@ class BridgeService extends BaseService {
     }
   }
 
+  Future<bool> checkIfCliIsKilled() async {
+    try {
+      final response = await getText("/SendExitComplete", timeout: 1000);
+      if (response == "SA") {
+        await Future.delayed(const Duration(seconds: 5));
+        return checkIfCliIsKilled();
+      }
+      return true;
+    } catch (e) {
+      return true;
+    }
+  }
+
   Future<bool> killCli() async {
     if (Env.launchCli) {
-      try {
-        await getText("/SendExit");
-      } catch (e) {
-        return true;
-      }
+      getText("/SendExit");
+      await Future.delayed(const Duration(milliseconds: 300));
+      // return await checkIfCliIsKilled();
     }
-
     return true;
   }
 
@@ -275,7 +296,8 @@ class BridgeService extends BaseService {
 
   Future<String?> getHdWallet([int strength = 24]) async {
     try {
-      final response = await getText("/GetHDWallet/$strength", cleanPath: false);
+      final response =
+          await getText("/GetHDWallet/$strength", cleanPath: false);
       final data = jsonDecode(response);
       print(data);
       if (data != null && data['Result'] != null) {
@@ -303,7 +325,8 @@ class BridgeService extends BaseService {
 
   Future<bool> restoreHd(String mnumonic) async {
     try {
-      final response = await getText("/GetRestoreHDWallet/${mnumonic.trim()}", cleanPath: false);
+      final response = await getText("/GetRestoreHDWallet/${mnumonic.trim()}",
+          cleanPath: false);
       final data = jsonDecode(response);
       print(data);
       return true;
@@ -315,7 +338,8 @@ class BridgeService extends BaseService {
 
   Future<bool> validateSendToAddress(String address) async {
     try {
-      final response = await getText("/ValidateAddress/$address", cleanPath: false);
+      final response =
+          await getText("/ValidateAddress/$address", cleanPath: false);
       if (response.toLowerCase() == "true") {
         return true;
       }
@@ -323,6 +347,99 @@ class BridgeService extends BaseService {
     } catch (e) {
       print(e);
       return false;
+    }
+  }
+
+  Future<bool?> isValidating() async {
+    try {
+      final data = await getText("/IsValidating");
+      return data.toString().toLowerCase() == 'true';
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<List<String>?> getLatestCliFiles() async {
+    try {
+      final data = await getJson('/GetLatestReleaseFiles', cleanPath: false);
+      if (data.containsKey('Result') && data['Result'] == "Success") {
+        if (data.containsKey("Message")) {
+          print(data['Message']);
+          final filenames =
+              jsonDecode(data['Message'].toString()) as List<dynamic>;
+          return filenames.map((e) => e.toString()).toList();
+        }
+      }
+      return null;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<bool?> updateCli(bool execute) async {
+    if (kIsWeb) {
+      return null;
+    }
+
+    final filenames = await getLatestCliFiles();
+    if (filenames == null) {
+      return null;
+    }
+
+    print(filenames);
+
+    String osVersion = Platform.version;
+    print("OS Version:");
+    print(osVersion);
+    print("********");
+
+    String? filename;
+    if (Platform.isMacOS) {
+      if (osVersion.contains("macos_x64")) {
+        filename = "rbx-corecli-mac-intel.zip";
+      } else {
+        filename = "rbx-corecli-mac-arm.zip";
+      }
+    } else if (Platform.isWindows) {
+      filename = "rbx-corecli-win7-x64.zip";
+    }
+
+    if (filename == null) {
+      return null;
+    }
+
+    if (!filenames.contains(filename)) {
+      return null;
+    }
+
+    final data = await getJson(
+        '/GetLatestRelease/${execute ? 'true' : 'false'}/$filename',
+        cleanPath: false);
+    if (data.containsKey('Result') && data['Result'] == "Success") {
+      if (data.containsKey("Message")) {
+        final message = data['Message'];
+        if (message == "CLI is up to date.") {
+          return false;
+        }
+        if (message == "Update was not successful.") {
+          return false;
+        }
+        if (message == "Update was successful. Please Restart CLI.") {
+          return true;
+        }
+      }
+    }
+    return null;
+  }
+
+  Future<NetworkMetrics?> networkMetrics() async {
+    try {
+      final data = await getJson("/NetworkMetrics");
+      return NetworkMetrics.fromJson(data);
+    } catch (e) {
+      print(e);
+      return null;
     }
   }
 }

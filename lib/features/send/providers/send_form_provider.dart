@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 
 import '../../../core/dialogs.dart';
 import '../../../core/env.dart';
@@ -81,8 +82,8 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
       return "Not a valid amount";
     }
 
-    if (parsed < 1) {
-      return "Minimum to send is 1 RBX";
+    if (parsed <= 0) {
+      return "The amount has to be a positive value";
     }
 
     if (kIsWeb) {
@@ -219,10 +220,12 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
         );
 
         if (confirmed == true) {
+          read(globalLoadingProvider.notifier).start();
           final tx = await TransactionService().sendTransaction(
             transactionData: txData,
             execute: true,
           );
+          read(globalLoadingProvider.notifier).complete();
 
           if (tx != null) {
             if (tx['data']['Result'] == "Success") {

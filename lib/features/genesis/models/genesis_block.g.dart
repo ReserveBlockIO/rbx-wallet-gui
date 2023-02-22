@@ -6,7 +6,8 @@ part of 'genesis_block.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_GenesisBlock _$$_GenesisBlockFromJson(Map<String, dynamic> json) => _$_GenesisBlock(
+_$_GenesisBlock _$$_GenesisBlockFromJson(Map<String, dynamic> json) =>
+    _$_GenesisBlock(
       height: json['Height'] as int,
       chainRefId: json['ChainRefId'] as String,
       timestamp: json['Timestamp'] as int,
@@ -17,7 +18,8 @@ _$_GenesisBlock _$$_GenesisBlockFromJson(Map<String, dynamic> json) => _$_Genesi
       bCraftTime: json['BCraftTime'] as int,
     );
 
-Map<String, dynamic> _$$_GenesisBlockToJson(_$_GenesisBlock instance) => <String, dynamic>{
+Map<String, dynamic> _$$_GenesisBlockToJson(_$_GenesisBlock instance) =>
+    <String, dynamic>{
       'Height': instance.height,
       'ChainRefId': instance.chainRefId,
       'Timestamp': instance.timestamp,

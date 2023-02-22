@@ -5,8 +5,8 @@ import '../../../core/storage.dart';
 
 class TransferredProvider extends StateNotifier<List<String>> {
   TransferredProvider() : super([]) {
-    final items = singleton<Storage>().getStringList(Storage.TRANSFERRED_NFT_IDS) ?? [];
-    state = items;
+    // final items = singleton<Storage>().getStringList(Storage.TRANSFERRED_NFT_IDS) ?? [];
+    // state = [];
   }
 
   addId(String id) {

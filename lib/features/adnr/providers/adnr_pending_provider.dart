@@ -5,8 +5,8 @@ import '../../../core/storage.dart';
 
 class AdnrPendingProvider extends StateNotifier<List<String>> {
   AdnrPendingProvider() : super([]) {
-    final items = singleton<Storage>().getStringList(Storage.PENDING_ADNRS) ?? [];
-    state = items;
+    // final items = singleton<Storage>().getStringList(Storage.PENDING_ADNRS) ?? [];
+    state = [];
   }
 
   addId(String id, String type, String adnr) {

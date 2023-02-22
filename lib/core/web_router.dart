@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:rbx_wallet/features/adnr/screens/web_adnr_screen.dart';
 
 import '../features/auth/screens/web_auth_screen.dart';
 import '../features/dsts/screens/create_store_screen.dart';
@@ -87,6 +88,14 @@ const webDashboardTabRouter = AutoRoute(
       children: [
         AutoRoute(path: "", page: NftListScreen),
         AutoRoute(path: "detail/:id", page: NftDetailScreen),
+      ],
+    ),
+    AutoRoute(
+      path: 'adnrs',
+      name: "WebAdnrTabRouter",
+      page: EmptyRouterPage,
+      children: [
+        AutoRoute(path: "", page: WebAdnrScreen),
       ],
     ),
     AutoRoute(

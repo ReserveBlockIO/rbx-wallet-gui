@@ -22,12 +22,15 @@ mixin _$ProxiedAsset {
   String get authorName => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $ProxiedAssetCopyWith<ProxiedAsset> get copyWith => throw _privateConstructorUsedError;
+  $ProxiedAssetCopyWith<ProxiedAsset> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $ProxiedAssetCopyWith<$Res> {
-  factory $ProxiedAssetCopyWith(ProxiedAsset value, $Res Function(ProxiedAsset) then) = _$ProxiedAssetCopyWithImpl<$Res>;
+  factory $ProxiedAssetCopyWith(
+          ProxiedAsset value, $Res Function(ProxiedAsset) then) =
+      _$ProxiedAssetCopyWithImpl<$Res>;
   $Res call({String key, int fileSize, String fileName, String authorName});
 }
 
@@ -68,15 +71,22 @@ class _$ProxiedAssetCopyWithImpl<$Res> implements $ProxiedAssetCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$$_ProxiedAssetCopyWith<$Res> implements $ProxiedAssetCopyWith<$Res> {
-  factory _$$_ProxiedAssetCopyWith(_$_ProxiedAsset value, $Res Function(_$_ProxiedAsset) then) = __$$_ProxiedAssetCopyWithImpl<$Res>;
+abstract class _$$_ProxiedAssetCopyWith<$Res>
+    implements $ProxiedAssetCopyWith<$Res> {
+  factory _$$_ProxiedAssetCopyWith(
+          _$_ProxiedAsset value, $Res Function(_$_ProxiedAsset) then) =
+      __$$_ProxiedAssetCopyWithImpl<$Res>;
   @override
   $Res call({String key, int fileSize, String fileName, String authorName});
 }
 
 /// @nodoc
-class __$$_ProxiedAssetCopyWithImpl<$Res> extends _$ProxiedAssetCopyWithImpl<$Res> implements _$$_ProxiedAssetCopyWith<$Res> {
-  __$$_ProxiedAssetCopyWithImpl(_$_ProxiedAsset _value, $Res Function(_$_ProxiedAsset) _then) : super(_value, (v) => _then(v as _$_ProxiedAsset));
+class __$$_ProxiedAssetCopyWithImpl<$Res>
+    extends _$ProxiedAssetCopyWithImpl<$Res>
+    implements _$$_ProxiedAssetCopyWith<$Res> {
+  __$$_ProxiedAssetCopyWithImpl(
+      _$_ProxiedAsset _value, $Res Function(_$_ProxiedAsset) _then)
+      : super(_value, (v) => _then(v as _$_ProxiedAsset));
 
   @override
   _$_ProxiedAsset get _value => super._value as _$_ProxiedAsset;
@@ -112,7 +122,12 @@ class __$$_ProxiedAssetCopyWithImpl<$Res> extends _$ProxiedAssetCopyWithImpl<$Re
 /// @nodoc
 
 class _$_ProxiedAsset extends _ProxiedAsset {
-  _$_ProxiedAsset({required this.key, required this.fileSize, required this.fileName, required this.authorName}) : super._();
+  _$_ProxiedAsset(
+      {required this.key,
+      required this.fileSize,
+      required this.fileName,
+      required this.authorName})
+      : super._();
 
   @override
   final String key;
@@ -136,21 +151,30 @@ class _$_ProxiedAsset extends _ProxiedAsset {
             const DeepCollectionEquality().equals(other.key, key) &&
             const DeepCollectionEquality().equals(other.fileSize, fileSize) &&
             const DeepCollectionEquality().equals(other.fileName, fileName) &&
-            const DeepCollectionEquality().equals(other.authorName, authorName));
+            const DeepCollectionEquality()
+                .equals(other.authorName, authorName));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(key), const DeepCollectionEquality().hash(fileSize),
-      const DeepCollectionEquality().hash(fileName), const DeepCollectionEquality().hash(authorName));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(key),
+      const DeepCollectionEquality().hash(fileSize),
+      const DeepCollectionEquality().hash(fileName),
+      const DeepCollectionEquality().hash(authorName));
 
   @JsonKey(ignore: true)
   @override
-  _$$_ProxiedAssetCopyWith<_$_ProxiedAsset> get copyWith => __$$_ProxiedAssetCopyWithImpl<_$_ProxiedAsset>(this, _$identity);
+  _$$_ProxiedAssetCopyWith<_$_ProxiedAsset> get copyWith =>
+      __$$_ProxiedAssetCopyWithImpl<_$_ProxiedAsset>(this, _$identity);
 }
 
 abstract class _ProxiedAsset extends ProxiedAsset {
-  factory _ProxiedAsset({required final String key, required final int fileSize, required final String fileName, required final String authorName}) =
-      _$_ProxiedAsset;
+  factory _ProxiedAsset(
+      {required final String key,
+      required final int fileSize,
+      required final String fileName,
+      required final String authorName}) = _$_ProxiedAsset;
   _ProxiedAsset._() : super._();
 
   @override
@@ -163,5 +187,6 @@ abstract class _ProxiedAsset extends ProxiedAsset {
   String get authorName => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$$_ProxiedAssetCopyWith<_$_ProxiedAsset> get copyWith => throw _privateConstructorUsedError;
+  _$$_ProxiedAssetCopyWith<_$_ProxiedAsset> get copyWith =>
+      throw _privateConstructorUsedError;
 }

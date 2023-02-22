@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
+import 'package:rbx_wallet/core/api_token_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app_router.gr.dart';
@@ -12,8 +14,13 @@ Future<void> initSingletons() async {
   singleton.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
   singleton.registerSingleton<AppRouter>(AppRouter());
   singleton.registerSingleton<WebRouter>(WebRouter());
-
+  singleton.registerSingleton<ApiTokenManager>(ApiTokenManagerImplementation());
   singleton.registerLazySingleton<Storage>(
-    () => StorageImplementation(),
+    () {
+      if (kIsWeb) {
+        return StorageWebImplementation();
+      }
+      return StorageImplementation();
+    },
   );
 }

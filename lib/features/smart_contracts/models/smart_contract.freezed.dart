@@ -42,6 +42,7 @@ mixin _$SmartContract {
   String get code => throw _privateConstructorUsedError;
   bool get isCompiled => throw _privateConstructorUsedError;
   bool get isPublished => throw _privateConstructorUsedError;
+  List<ScProperty> get properties => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -75,7 +76,8 @@ abstract class $SmartContractCopyWith<$Res> {
       List<SoulBound> soulBounds,
       String code,
       bool isCompiled,
-      bool isPublished});
+      bool isPublished,
+      List<ScProperty> properties});
 
   $WalletCopyWith<$Res> get owner;
   $AssetCopyWith<$Res>? get primaryAsset;
@@ -113,6 +115,7 @@ class _$SmartContractCopyWithImpl<$Res>
     Object? code = freezed,
     Object? isCompiled = freezed,
     Object? isPublished = freezed,
+    Object? properties = freezed,
   }) {
     return _then(_value.copyWith(
       owner: owner == freezed
@@ -199,6 +202,10 @@ class _$SmartContractCopyWithImpl<$Res>
           ? _value.isPublished
           : isPublished // ignore: cast_nullable_to_non_nullable
               as bool,
+      properties: properties == freezed
+          ? _value.properties
+          : properties // ignore: cast_nullable_to_non_nullable
+              as List<ScProperty>,
     ));
   }
 
@@ -249,7 +256,8 @@ abstract class _$$_SmartContractCopyWith<$Res>
       List<SoulBound> soulBounds,
       String code,
       bool isCompiled,
-      bool isPublished});
+      bool isPublished,
+      List<ScProperty> properties});
 
   @override
   $WalletCopyWith<$Res> get owner;
@@ -291,6 +299,7 @@ class __$$_SmartContractCopyWithImpl<$Res>
     Object? code = freezed,
     Object? isCompiled = freezed,
     Object? isPublished = freezed,
+    Object? properties = freezed,
   }) {
     return _then(_$_SmartContract(
       owner: owner == freezed
@@ -377,6 +386,10 @@ class __$$_SmartContractCopyWithImpl<$Res>
           ? _value.isPublished
           : isPublished // ignore: cast_nullable_to_non_nullable
               as bool,
+      properties: properties == freezed
+          ? _value._properties
+          : properties // ignore: cast_nullable_to_non_nullable
+              as List<ScProperty>,
     ));
   }
 }
@@ -405,7 +418,8 @@ class _$_SmartContract extends _SmartContract {
       final List<SoulBound> soulBounds = const [],
       this.code = "",
       this.isCompiled = false,
-      this.isPublished = false})
+      this.isPublished = false,
+      final List<ScProperty> properties = const []})
       : _rarities = rarities,
         _stats = stats,
         _royalties = royalties,
@@ -416,6 +430,7 @@ class _$_SmartContract extends _SmartContract {
         _fractionals = fractionals,
         _pairs = pairs,
         _soulBounds = soulBounds,
+        _properties = properties,
         super._();
 
   factory _$_SmartContract.fromJson(Map<String, dynamic> json) =>
@@ -534,10 +549,17 @@ class _$_SmartContract extends _SmartContract {
   @override
   @JsonKey()
   final bool isPublished;
+  final List<ScProperty> _properties;
+  @override
+  @JsonKey()
+  List<ScProperty> get properties {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_properties);
+  }
 
   @override
   String toString() {
-    return 'SmartContract(owner: $owner, draftId: $draftId, id: $id, name: $name, minterName: $minterName, description: $description, thumbnail: $thumbnail, primaryAsset: $primaryAsset, rarities: $rarities, stats: $stats, royalties: $royalties, evolves: $evolves, tickets: $tickets, multiAssets: $multiAssets, tokenizations: $tokenizations, fractionals: $fractionals, pairs: $pairs, soulBounds: $soulBounds, code: $code, isCompiled: $isCompiled, isPublished: $isPublished)';
+    return 'SmartContract(owner: $owner, draftId: $draftId, id: $id, name: $name, minterName: $minterName, description: $description, thumbnail: $thumbnail, primaryAsset: $primaryAsset, rarities: $rarities, stats: $stats, royalties: $royalties, evolves: $evolves, tickets: $tickets, multiAssets: $multiAssets, tokenizations: $tokenizations, fractionals: $fractionals, pairs: $pairs, soulBounds: $soulBounds, code: $code, isCompiled: $isCompiled, isPublished: $isPublished, properties: $properties)';
   }
 
   @override
@@ -575,7 +597,9 @@ class _$_SmartContract extends _SmartContract {
             const DeepCollectionEquality()
                 .equals(other.isCompiled, isCompiled) &&
             const DeepCollectionEquality()
-                .equals(other.isPublished, isPublished));
+                .equals(other.isPublished, isPublished) &&
+            const DeepCollectionEquality()
+                .equals(other._properties, _properties));
   }
 
   @JsonKey(ignore: true)
@@ -602,7 +626,8 @@ class _$_SmartContract extends _SmartContract {
         const DeepCollectionEquality().hash(_soulBounds),
         const DeepCollectionEquality().hash(code),
         const DeepCollectionEquality().hash(isCompiled),
-        const DeepCollectionEquality().hash(isPublished)
+        const DeepCollectionEquality().hash(isPublished),
+        const DeepCollectionEquality().hash(_properties)
       ]);
 
   @JsonKey(ignore: true)
@@ -638,7 +663,8 @@ abstract class _SmartContract extends SmartContract {
       final List<SoulBound> soulBounds,
       final String code,
       final bool isCompiled,
-      final bool isPublished}) = _$_SmartContract;
+      final bool isPublished,
+      final List<ScProperty> properties}) = _$_SmartContract;
   _SmartContract._() : super._();
 
   factory _SmartContract.fromJson(Map<String, dynamic> json) =
@@ -686,6 +712,8 @@ abstract class _SmartContract extends SmartContract {
   bool get isCompiled => throw _privateConstructorUsedError;
   @override
   bool get isPublished => throw _privateConstructorUsedError;
+  @override
+  List<ScProperty> get properties => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_SmartContractCopyWith<_$_SmartContract> get copyWith =>

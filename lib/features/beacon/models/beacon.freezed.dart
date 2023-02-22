@@ -48,7 +48,8 @@ mixin _$Beacon {
 
 /// @nodoc
 abstract class $BeaconCopyWith<$Res> {
-  factory $BeaconCopyWith(Beacon value, $Res Function(Beacon) then) = _$BeaconCopyWithImpl<$Res>;
+  factory $BeaconCopyWith(Beacon value, $Res Function(Beacon) then) =
+      _$BeaconCopyWithImpl<$Res>;
   $Res call(
       {@JsonKey(name: "Id") int id,
       @JsonKey(name: "IPAddress") String ipAddress,
@@ -130,7 +131,8 @@ class _$BeaconCopyWithImpl<$Res> implements $BeaconCopyWith<$Res> {
 
 /// @nodoc
 abstract class _$$_BeaconCopyWith<$Res> implements $BeaconCopyWith<$Res> {
-  factory _$$_BeaconCopyWith(_$_Beacon value, $Res Function(_$_Beacon) then) = __$$_BeaconCopyWithImpl<$Res>;
+  factory _$$_BeaconCopyWith(_$_Beacon value, $Res Function(_$_Beacon) then) =
+      __$$_BeaconCopyWithImpl<$Res>;
   @override
   $Res call(
       {@JsonKey(name: "Id") int id,
@@ -146,8 +148,10 @@ abstract class _$$_BeaconCopyWith<$Res> implements $BeaconCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_BeaconCopyWithImpl<$Res> extends _$BeaconCopyWithImpl<$Res> implements _$$_BeaconCopyWith<$Res> {
-  __$$_BeaconCopyWithImpl(_$_Beacon _value, $Res Function(_$_Beacon) _then) : super(_value, (v) => _then(v as _$_Beacon));
+class __$$_BeaconCopyWithImpl<$Res> extends _$BeaconCopyWithImpl<$Res>
+    implements _$$_BeaconCopyWith<$Res> {
+  __$$_BeaconCopyWithImpl(_$_Beacon _value, $Res Function(_$_Beacon) _then)
+      : super(_value, (v) => _then(v as _$_Beacon));
 
   @override
   _$_Beacon get _value => super._value as _$_Beacon;
@@ -214,19 +218,30 @@ class __$$_BeaconCopyWithImpl<$Res> extends _$BeaconCopyWithImpl<$Res> implement
 @JsonSerializable()
 class _$_Beacon extends _Beacon {
   _$_Beacon(
-      {@JsonKey(name: "Id") required this.id,
-      @JsonKey(name: "IPAddress") required this.ipAddress,
-      @JsonKey(name: "Port") required this.port,
-      @JsonKey(name: "Name") required this.name,
-      @JsonKey(name: "BeaconUID") required this.uid,
-      @JsonKey(name: "SelfBeacon") required this.selfBeacon,
-      @JsonKey(name: "SelfBeaconActive") required this.selfBeaconActive,
-      @JsonKey(name: "IsPrivateBeacon") required this.isBeaconPrivate,
-      @JsonKey(name: "AutoDeleteAfterDownload") required this.autoDeleteAfterDownload,
-      @JsonKey(name: "FileCachePeriodDays") required this.fileCachePeriodDays})
+      {@JsonKey(name: "Id")
+          required this.id,
+      @JsonKey(name: "IPAddress")
+          required this.ipAddress,
+      @JsonKey(name: "Port")
+          required this.port,
+      @JsonKey(name: "Name")
+          required this.name,
+      @JsonKey(name: "BeaconUID")
+          required this.uid,
+      @JsonKey(name: "SelfBeacon")
+          required this.selfBeacon,
+      @JsonKey(name: "SelfBeaconActive")
+          required this.selfBeaconActive,
+      @JsonKey(name: "IsPrivateBeacon")
+          required this.isBeaconPrivate,
+      @JsonKey(name: "AutoDeleteAfterDownload")
+          required this.autoDeleteAfterDownload,
+      @JsonKey(name: "FileCachePeriodDays")
+          required this.fileCachePeriodDays})
       : super._();
 
-  factory _$_Beacon.fromJson(Map<String, dynamic> json) => _$$_BeaconFromJson(json);
+  factory _$_Beacon.fromJson(Map<String, dynamic> json) =>
+      _$$_BeaconFromJson(json);
 
   @override
   @JsonKey(name: "Id")
@@ -274,11 +289,16 @@ class _$_Beacon extends _Beacon {
             const DeepCollectionEquality().equals(other.port, port) &&
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality().equals(other.uid, uid) &&
-            const DeepCollectionEquality().equals(other.selfBeacon, selfBeacon) &&
-            const DeepCollectionEquality().equals(other.selfBeaconActive, selfBeaconActive) &&
-            const DeepCollectionEquality().equals(other.isBeaconPrivate, isBeaconPrivate) &&
-            const DeepCollectionEquality().equals(other.autoDeleteAfterDownload, autoDeleteAfterDownload) &&
-            const DeepCollectionEquality().equals(other.fileCachePeriodDays, fileCachePeriodDays));
+            const DeepCollectionEquality()
+                .equals(other.selfBeacon, selfBeacon) &&
+            const DeepCollectionEquality()
+                .equals(other.selfBeaconActive, selfBeaconActive) &&
+            const DeepCollectionEquality()
+                .equals(other.isBeaconPrivate, isBeaconPrivate) &&
+            const DeepCollectionEquality().equals(
+                other.autoDeleteAfterDownload, autoDeleteAfterDownload) &&
+            const DeepCollectionEquality()
+                .equals(other.fileCachePeriodDays, fileCachePeriodDays));
   }
 
   @JsonKey(ignore: true)
@@ -298,7 +318,8 @@ class _$_Beacon extends _Beacon {
 
   @JsonKey(ignore: true)
   @override
-  _$$_BeaconCopyWith<_$_Beacon> get copyWith => __$$_BeaconCopyWithImpl<_$_Beacon>(this, _$identity);
+  _$$_BeaconCopyWith<_$_Beacon> get copyWith =>
+      __$$_BeaconCopyWithImpl<_$_Beacon>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -308,16 +329,26 @@ class _$_Beacon extends _Beacon {
 
 abstract class _Beacon extends Beacon {
   factory _Beacon(
-      {@JsonKey(name: "Id") required final int id,
-      @JsonKey(name: "IPAddress") required final String ipAddress,
-      @JsonKey(name: "Port") required final int port,
-      @JsonKey(name: "Name") required final String name,
-      @JsonKey(name: "BeaconUID") required final String uid,
-      @JsonKey(name: "SelfBeacon") required final bool selfBeacon,
-      @JsonKey(name: "SelfBeaconActive") required final bool selfBeaconActive,
-      @JsonKey(name: "IsPrivateBeacon") required final bool isBeaconPrivate,
-      @JsonKey(name: "AutoDeleteAfterDownload") required final bool autoDeleteAfterDownload,
-      @JsonKey(name: "FileCachePeriodDays") required final int fileCachePeriodDays}) = _$_Beacon;
+      {@JsonKey(name: "Id")
+          required final int id,
+      @JsonKey(name: "IPAddress")
+          required final String ipAddress,
+      @JsonKey(name: "Port")
+          required final int port,
+      @JsonKey(name: "Name")
+          required final String name,
+      @JsonKey(name: "BeaconUID")
+          required final String uid,
+      @JsonKey(name: "SelfBeacon")
+          required final bool selfBeacon,
+      @JsonKey(name: "SelfBeaconActive")
+          required final bool selfBeaconActive,
+      @JsonKey(name: "IsPrivateBeacon")
+          required final bool isBeaconPrivate,
+      @JsonKey(name: "AutoDeleteAfterDownload")
+          required final bool autoDeleteAfterDownload,
+      @JsonKey(name: "FileCachePeriodDays")
+          required final int fileCachePeriodDays}) = _$_Beacon;
   _Beacon._() : super._();
 
   factory _Beacon.fromJson(Map<String, dynamic> json) = _$_Beacon.fromJson;
@@ -354,5 +385,6 @@ abstract class _Beacon extends Beacon {
   int get fileCachePeriodDays => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$$_BeaconCopyWith<_$_Beacon> get copyWith => throw _privateConstructorUsedError;
+  _$$_BeaconCopyWith<_$_Beacon> get copyWith =>
+      throw _privateConstructorUsedError;
 }

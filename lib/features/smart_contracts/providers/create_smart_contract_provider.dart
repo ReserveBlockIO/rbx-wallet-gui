@@ -4,6 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/providers/session_provider.dart';
@@ -283,6 +284,21 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
     state = state.copyWith(soulBounds: [...state.soulBounds]..removeAt(index));
   }
 
+  void addProperty(ScProperty property) {
+    state = state.copyWith(properties: [...state.properties, property]);
+  }
+
+  void updateProperty(ScProperty property, int index) {
+    final updatedProperties = [...state.properties];
+    updatedProperties.removeAt(index);
+    updatedProperties.insert(index, property);
+    state = state.copyWith(properties: updatedProperties);
+  }
+
+  void removeProperty(int index) {
+    state = state.copyWith(properties: [...state.properties]..removeAt(index));
+  }
+
   // Future<Asset> initAsset(String filePath) async {
   //   final name = filePath.split("/").last;
   //   final extension = name.split(".").last;
@@ -398,8 +414,10 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
   }
 
   Future<CompiledSmartContract?> compile() async {
-    if (!guardWalletIsSynced(read)) {
-      return null;
+    if (!kDebugMode) {
+      if (!guardWalletIsSynced(read)) {
+        return null;
+      }
     }
 
     final timezoneName = read(sessionProvider).timezoneName;

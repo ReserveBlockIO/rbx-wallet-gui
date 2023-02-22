@@ -17,6 +17,7 @@ class WebRouteIndex {
   static get nfts => 4;
   static get smartContracts => 5;
   static get dst => 6;
+  static get adnrs => 7;
 }
 
 class WebDashboardContainer extends StatelessWidget {
@@ -30,6 +31,7 @@ class WebDashboardContainer extends StatelessWidget {
     const WebNftTabRouter(),
     const WebSmartContractTabRouter(),
     const WebDstTabRouter(),
+    const WebAdnrTabRouter(),
   ];
 
   @override
@@ -79,7 +81,7 @@ class _ContentWrapper extends BaseComponent {
               Container(
                 width: 250,
                 decoration: const BoxDecoration(color: Colors.black87),
-                child: const WebMenu(),
+                child: WebMenu(),
               ),
               Expanded(child: child),
             ],

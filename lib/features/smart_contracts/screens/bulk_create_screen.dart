@@ -144,7 +144,7 @@ class BulkCreateScreen extends BaseScreen {
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: Text(
-                            "Upload CSV",
+                            "Upload JSON / CSV",
                             style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.white),
                           ),
                         ),
@@ -164,45 +164,99 @@ class BulkCreateScreen extends BaseScreen {
                       Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            AppButton(
-                              label: "Download Example CSV",
-                              onPressed: () {},
-                              variant: AppColorVariant.Light,
-                              icon: Icons.download,
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  "JSON",
+                                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                        color: Colors.white,
+                                      ),
+                                ),
+                                const SizedBox(height: 8),
+                                AppButton(
+                                  label: "Download Example JSON",
+                                  onPressed: () {},
+                                  variant: AppColorVariant.Light,
+                                  icon: Icons.download,
+                                ),
+                                const SizedBox(height: 16),
+                                AppButton(
+                                  label: "Download Template JSON",
+                                  onPressed: () {},
+                                  variant: AppColorVariant.Light,
+                                  icon: Icons.download,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: AppButton(
+                                    label: "Upload JSON",
+                                    variant: AppColorVariant.Success,
+                                    icon: Icons.upload,
+                                    onPressed: () async {
+                                      ref.read(globalLoadingProvider.notifier).start();
+                                      final shouldPush = await ref.read(scWizardProvider.notifier).uploadJson();
+                                      ref.read(globalLoadingProvider.notifier).complete();
+
+                                      if (shouldPush == true) {
+                                        await Navigator.of(context).push(
+                                          MaterialPageRoute(builder: (context) => const SmartContractWizardScreen()),
+                                        );
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ],
                             ),
-                            const SizedBox(
-                              width: 16,
-                            ),
-                            AppButton(
-                              label: "Download Template CSV",
-                              onPressed: () {},
-                              variant: AppColorVariant.Light,
-                              icon: Icons.download,
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  "CSV",
+                                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                        color: Colors.white,
+                                      ),
+                                ),
+                                const SizedBox(height: 8),
+                                AppButton(
+                                  label: "Download Example CSV",
+                                  onPressed: () {},
+                                  variant: AppColorVariant.Light,
+                                  icon: Icons.download,
+                                ),
+                                const SizedBox(height: 16),
+                                AppButton(
+                                  label: "Download Template CSV",
+                                  onPressed: () {},
+                                  variant: AppColorVariant.Light,
+                                  icon: Icons.download,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: AppButton(
+                                    label: "Upload CSV",
+                                    variant: AppColorVariant.Success,
+                                    icon: Icons.upload,
+                                    onPressed: () async {
+                                      ref.read(globalLoadingProvider.notifier).start();
+                                      final shouldPush = await ref.read(scWizardProvider.notifier).uploadCsv();
+                                      ref.read(globalLoadingProvider.notifier).complete();
+
+                                      if (shouldPush == true) {
+                                        await Navigator.of(context).push(
+                                          MaterialPageRoute(builder: (context) => const SmartContractWizardScreen()),
+                                        );
+                                      }
+                                    },
+                                  ),
+                                )
+                              ],
                             ),
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: AppButton(
-                          label: "Upload CSV",
-                          variant: AppColorVariant.Success,
-                          icon: Icons.upload,
-                          onPressed: () async {
-                            ref.read(globalLoadingProvider.notifier).start();
-                            final shouldPush = await ref.read(scWizardProvider.notifier).uploadCsv();
-                            ref.read(globalLoadingProvider.notifier).complete();
-
-                            if (shouldPush == true) {
-                              await Navigator.of(context).push(
-                                MaterialPageRoute(builder: (context) => const SmartContractWizardScreen()),
-                              );
-                            }
-                          },
-                        ),
-                      )
                     ],
                   ),
                 ),

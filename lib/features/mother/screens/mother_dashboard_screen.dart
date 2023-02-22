@@ -18,7 +18,8 @@ class MotherDashboardScreen extends BaseScreen {
       actions: [
         TextButton(
             onPressed: () {
-              launchUrlString("${Env.apiBaseUrl}/mother");
+              final url = "${Env.apiBaseUrl}/mother".replaceAll("https://", "http://");
+              launchUrlString(url);
             },
             child: const Text(
               "Open in Browser",

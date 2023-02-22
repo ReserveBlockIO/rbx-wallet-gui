@@ -24,6 +24,7 @@ class HtmlHelpersImplementation extends HtmlHelpersInterface {
   void triggerDownload(String url) {
     html.AnchorElement anchorElement = html.AnchorElement(href: url);
     anchorElement.download = url;
+    anchorElement.target = "_blank";
     anchorElement.click();
   }
 }

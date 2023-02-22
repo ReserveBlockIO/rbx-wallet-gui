@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/metrics/models/network_metrics.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/providers/session_provider.dart';
@@ -20,6 +22,8 @@ class WalletInfoModel {
   final bool duplicateValidatorIp;
   final bool duplicateValidatorAddress;
   final bool connectedToMother;
+  final String? blockchainVersion;
+  final NetworkMetrics? networkMetrics;
 
   const WalletInfoModel({
     required this.blockHeight,
@@ -31,6 +35,8 @@ class WalletInfoModel {
     required this.duplicateValidatorAddress,
     this.connectedToMother = false,
     this.lastestBlock,
+    this.blockchainVersion,
+    this.networkMetrics,
   });
 }
 
@@ -47,19 +53,30 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
     // fetch();
   }
 
-  infoLoop([bool loop = true]) async {
+  infoLoop([bool inLoop = true]) async {
+    if (kIsWeb) return;
+    if (!read(sessionProvider).cliStarted) {
+      if (inLoop) {
+        await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
+        infoLoop(true);
+      }
+      return;
+    }
+
     Map<String, dynamic> data = {};
     try {
       data = await BridgeService().walletInfo();
     } catch (e) {
       print(e);
       print("fetch error");
-      if (loop) {
+      if (inLoop) {
         await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
-        infoLoop();
+        infoLoop(true);
       }
       return;
     }
+
+    final networkMetrics = await BridgeService().networkMetrics();
 
     if (data.isNotEmpty) {
       final prevIsChainSynced = state == null ? false : state!.isChainSynced;
@@ -72,6 +89,8 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
       final bool duplicateValidatorIp = data['DuplicateValIP'].toString().toLowerCase() == "true";
       final bool duplicateValidatorAddress = data['DuplicateValAddress'].toString().toLowerCase() == "true";
       final bool connectedToMother = data['ConnectedToMother'].toString().toLowerCase() == 'true';
+      final String blockchainVersion = data['BlockVersion'].toString();
+
       final latestBlock = blockHeight > 0 ? await BridgeService().blockInfo(blockHeight) : null;
 
       final prevBlockHeight = state?.blockHeight;
@@ -87,6 +106,8 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
         duplicateValidatorIp: duplicateValidatorIp,
         duplicateValidatorAddress: duplicateValidatorAddress,
         connectedToMother: connectedToMother,
+        blockchainVersion: blockchainVersion,
+        networkMetrics: networkMetrics,
       );
 
       read(sessionProvider.notifier).setBlocksAreSyncing(isSyncing);
@@ -114,9 +135,9 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
       }
     }
 
-    if (loop) {
+    if (inLoop) {
       await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
-      infoLoop();
+      infoLoop(true);
     }
   }
 }

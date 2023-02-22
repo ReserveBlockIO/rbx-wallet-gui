@@ -1,3 +1,5 @@
+import 'package:rbx_wallet/features/web/models/web_address.dart';
+
 import '../../features/nft/models/nft.dart';
 import '../../features/node/models/masternode.dart';
 import '../../features/transactions/models/web_transaction.dart';
@@ -30,16 +32,25 @@ class ExplorerService extends BaseService {
     }
   }
 
-  Future<double> getBalance(String publicKey) async {
+  Future<WebAddress> getWebAddress(String address) async {
     try {
-      final response = await getJson('/addresses/$publicKey');
-
-      return response['balance'];
+      final data = await getJson('/addresses/$address');
+      return WebAddress.fromJson(data);
     } catch (e) {
-      // print(e);
-      return 0.0;
+      return WebAddress(address: address, balance: 0.0);
     }
   }
+
+  // Future<double> getBalance(String address) async {
+  //   try {
+  //     final response = await getJson('/addresses/$address');
+
+  //     return response['balance'];
+  //   } catch (e) {
+  //     // print(e);
+  //     return 0.0;
+  //   }
+  // }
 
   Future<WebTransaction?> retrieveTransaction(String hash) async {
     try {
@@ -108,6 +119,15 @@ class ExplorerService extends BaseService {
     } catch (e) {
       print(e);
       return null;
+    }
+  }
+
+  Future<bool> adnrAvailable(String adnr) async {
+    try {
+      await getJson('/addresses/adnr/$adnr');
+      return false;
+    } catch (e) {
+      return true;
     }
   }
 }

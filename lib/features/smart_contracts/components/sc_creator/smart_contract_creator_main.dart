@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/sc_property/components/properties_manager.dart';
 
 import '../../../../core/app_constants.dart';
 import '../../../../core/base_component.dart';
@@ -269,6 +270,7 @@ class SmartContractCreatorMain extends BaseComponent {
                   ],
                 ),
                 const FeaturesFormGroup(),
+                const PropertiesManager(),
               ],
             ),
           ),
@@ -301,7 +303,13 @@ class SmartContractCreatorMain extends BaseComponent {
               children: [
                 const BasicPropertiesFormGroup(),
                 const FeaturesFormGroup(),
-                const PrimaryAssetFormGroup(),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Expanded(child: PropertiesManager()),
+                    const Expanded(child: PrimaryAssetFormGroup()),
+                  ],
+                ),
               ],
             ),
           ),
