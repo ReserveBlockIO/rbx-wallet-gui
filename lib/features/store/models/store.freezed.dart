@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'store.dart';
 
@@ -33,43 +33,47 @@ mixin _$Store {
 /// @nodoc
 abstract class $StoreCopyWith<$Res> {
   factory $StoreCopyWith(Store value, $Res Function(Store) then) =
-      _$StoreCopyWithImpl<$Res>;
+      _$StoreCopyWithImpl<$Res, Store>;
+  @useResult
   $Res call({int id, String uuid, String slug, String name});
 }
 
 /// @nodoc
-class _$StoreCopyWithImpl<$Res> implements $StoreCopyWith<$Res> {
+class _$StoreCopyWithImpl<$Res, $Val extends Store>
+    implements $StoreCopyWith<$Res> {
   _$StoreCopyWithImpl(this._value, this._then);
 
-  final Store _value;
   // ignore: unused_field
-  final $Res Function(Store) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? uuid = freezed,
-    Object? slug = freezed,
-    Object? name = freezed,
+    Object? id = null,
+    Object? uuid = null,
+    Object? slug = null,
+    Object? name = null,
   }) {
     return _then(_value.copyWith(
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      uuid: uuid == freezed
+      uuid: null == uuid
           ? _value.uuid
           : uuid // ignore: cast_nullable_to_non_nullable
               as String,
-      slug: slug == freezed
+      slug: null == slug
           ? _value.slug
           : slug // ignore: cast_nullable_to_non_nullable
               as String,
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 }
 
@@ -78,39 +82,38 @@ abstract class _$$_StoreCopyWith<$Res> implements $StoreCopyWith<$Res> {
   factory _$$_StoreCopyWith(_$_Store value, $Res Function(_$_Store) then) =
       __$$_StoreCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({int id, String uuid, String slug, String name});
 }
 
 /// @nodoc
-class __$$_StoreCopyWithImpl<$Res> extends _$StoreCopyWithImpl<$Res>
+class __$$_StoreCopyWithImpl<$Res> extends _$StoreCopyWithImpl<$Res, _$_Store>
     implements _$$_StoreCopyWith<$Res> {
   __$$_StoreCopyWithImpl(_$_Store _value, $Res Function(_$_Store) _then)
-      : super(_value, (v) => _then(v as _$_Store));
+      : super(_value, _then);
 
-  @override
-  _$_Store get _value => super._value as _$_Store;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? uuid = freezed,
-    Object? slug = freezed,
-    Object? name = freezed,
+    Object? id = null,
+    Object? uuid = null,
+    Object? slug = null,
+    Object? name = null,
   }) {
     return _then(_$_Store(
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      uuid: uuid == freezed
+      uuid: null == uuid
           ? _value.uuid
           : uuid // ignore: cast_nullable_to_non_nullable
               as String,
-      slug: slug == freezed
+      slug: null == slug
           ? _value.slug
           : slug // ignore: cast_nullable_to_non_nullable
               as String,
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
@@ -150,29 +153,27 @@ class _$_Store extends _Store {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Store &&
-            const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.uuid, uuid) &&
-            const DeepCollectionEquality().equals(other.slug, slug) &&
-            const DeepCollectionEquality().equals(other.name, name));
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.uuid, uuid) || other.uuid == uuid) &&
+            (identical(other.slug, slug) || other.slug == slug) &&
+            (identical(other.name, name) || other.name == name));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(uuid),
-      const DeepCollectionEquality().hash(slug),
-      const DeepCollectionEquality().hash(name));
+  int get hashCode => Object.hash(runtimeType, id, uuid, slug, name);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_StoreCopyWith<_$_Store> get copyWith =>
       __$$_StoreCopyWithImpl<_$_Store>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_StoreToJson(this);
+    return _$$_StoreToJson(
+      this,
+    );
   }
 }
 
@@ -187,13 +188,13 @@ abstract class _Store extends Store {
   factory _Store.fromJson(Map<String, dynamic> json) = _$_Store.fromJson;
 
   @override
-  int get id => throw _privateConstructorUsedError;
+  int get id;
   @override
-  String get uuid => throw _privateConstructorUsedError;
+  String get uuid;
   @override
-  String get slug => throw _privateConstructorUsedError;
+  String get slug;
   @override
-  String get name => throw _privateConstructorUsedError;
+  String get name;
   @override
   @JsonKey(ignore: true)
   _$$_StoreCopyWith<_$_Store> get copyWith =>

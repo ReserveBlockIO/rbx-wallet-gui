@@ -71,10 +71,10 @@ class ScWizardItem {
 }
 
 class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
-  final Reader read;
+  final Ref ref;
   final ScrollController scrollController = ScrollController();
 
-  ScWizardProvider(this.read, [List<ScWizardItem> model = const []]) : super(model);
+  ScWizardProvider(this.ref, [List<ScWizardItem> model = const []]) : super(model);
 
   void insert({
     required BulkSmartContractEntry entry,
@@ -231,7 +231,7 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
 
   void removeEvolutionPhase(int index, int assetIndex) {
     ScWizardItem? item = itemAtIndex(index);
-    read(evolvePhaseWizardFormProvider(assetIndex).notifier).clear();
+    ref.read(evolvePhaseWizardFormProvider(assetIndex).notifier).clear();
 
     if (item == null) return;
 
@@ -249,7 +249,7 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
 
   void removeProperty(int index, int assetIndex) {
     ScWizardItem? item = itemAtIndex(index);
-    read(propertyWizardFormProvider(assetIndex).notifier).clear();
+    ref.read(propertyWizardFormProvider(assetIndex).notifier).clear();
 
     if (item == null) return;
 
@@ -649,12 +649,12 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
 
   Future<void> mint(BuildContext context) async {
     if (!kDebugMode) {
-      if (!guardWalletIsSynced(read)) {
+      if (!guardWalletIsSynced(ref)) {
         return;
       }
     }
 
-    read(scWizardMintingProgress.notifier).setPercent(0);
+    ref.read(scWizardMintingProgress.notifier).setPercent(0);
 
     showDialog(
       context: context,
@@ -668,7 +668,7 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
 
     for (final item in state) {
       final entry = item.entry;
-      final owner = read(sessionProvider).currentWallet;
+      final owner = ref.read(sessionProvider).currentWallet;
       if (owner == null) {
         Toast.error("No wallet selected.");
         return;
@@ -686,14 +686,14 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
         multiAssets: entry.additionalAssets.isNotEmpty ? [MultiAsset(assets: entry.additionalAssets)] : [],
       );
 
-      final timezoneName = read(sessionProvider).timezoneName;
+      final timezoneName = ref.read(sessionProvider).timezoneName;
       final payload = sc.serializeForCompiler(timezoneName);
 
       int i = 0;
       while (i < entry.quantity) {
         i += 1;
 
-        read(scWizardMintingProgress.notifier).setLabel("Minting ${totalProgress + 1}/$totalItems...");
+        ref.read(scWizardMintingProgress.notifier).setLabel("Minting ${totalProgress + 1}/$totalItems...");
 
         final csc = await SmartContractService().compileSmartContract(payload);
 
@@ -733,7 +733,7 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
 
         final percent = totalProgress / totalItems;
 
-        read(scWizardMintingProgress.notifier).setPercent(percent);
+        ref.read(scWizardMintingProgress.notifier).setPercent(percent);
 
         // final updatedDetails = kIsWeb ? await TransactionService().retrieveSmartContract(id) : await SmartContractService().retrieve(id);
 
@@ -741,18 +741,20 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
 
       // clear();
     }
-    read(scWizardMintingProgress.notifier).setPercent(1);
-    read(scWizardMintingProgress.notifier).setLabel("Complete");
+    ref.read(scWizardMintingProgress.notifier).setPercent(1);
+    ref.read(scWizardMintingProgress.notifier).setLabel("Complete");
 
-    read(mintedNftListProvider.notifier).reloadCurrentPage();
+    ref.read(mintedNftListProvider.notifier).reloadCurrentPage();
 
-    read(mySmartContractsProvider.notifier).load();
+    ref.read(mySmartContractsProvider.notifier).load();
     kIsWeb
-        ? read(nftListProvider.notifier).reloadCurrentPage(read(webSessionProvider).keypair?.email, read(webSessionProvider).keypair?.public)
-        : read(nftListProvider.notifier).reloadCurrentPage();
+        ? ref
+            .read(nftListProvider.notifier)
+            .reloadCurrentPage(ref.read(webSessionProvider).keypair?.email, ref.read(webSessionProvider).keypair?.public)
+        : ref.read(nftListProvider.notifier).reloadCurrentPage();
   }
 }
 
 final scWizardProvider = StateNotifierProvider<ScWizardProvider, List<ScWizardItem>>((ref) {
-  return ScWizardProvider(ref.read);
+  return ScWizardProvider(ref);
 });

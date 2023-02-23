@@ -77,7 +77,7 @@ class WalletSelector extends BaseComponent {
                   ),
                   onTap: () async {
                     if (!await passwordRequiredGuard(context, ref)) return;
-                    if (!guardWalletIsNotResyncing(ref.read)) return;
+                    if (!widgetGuardWalletIsNotResyncing(ref)) return;
 
                     PromptModal.show(
                       title: "Import Wallet",

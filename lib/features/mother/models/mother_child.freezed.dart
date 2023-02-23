@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'mother_child.dart';
 
@@ -55,7 +55,8 @@ mixin _$MotherChild {
 abstract class $MotherChildCopyWith<$Res> {
   factory $MotherChildCopyWith(
           MotherChild value, $Res Function(MotherChild) then) =
-      _$MotherChildCopyWithImpl<$Res>;
+      _$MotherChildCopyWithImpl<$Res, MotherChild>;
+  @useResult
   $Res call(
       {@JsonKey(name: "Address") String address,
       @JsonKey(name: "IPAddress") String ipAddress,
@@ -72,78 +73,81 @@ abstract class $MotherChildCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$MotherChildCopyWithImpl<$Res> implements $MotherChildCopyWith<$Res> {
+class _$MotherChildCopyWithImpl<$Res, $Val extends MotherChild>
+    implements $MotherChildCopyWith<$Res> {
   _$MotherChildCopyWithImpl(this._value, this._then);
 
-  final MotherChild _value;
   // ignore: unused_field
-  final $Res Function(MotherChild) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? address = freezed,
-    Object? ipAddress = freezed,
-    Object? peerCount = freezed,
-    Object? balance = freezed,
-    Object? blockHeight = freezed,
-    Object? validatorName = freezed,
-    Object? isValidating = freezed,
-    Object? activeWithMother = freezed,
-    Object? activeWithValidating = freezed,
-    Object? connectTime = freezed,
-    Object? lastDataSentTime = freezed,
-    Object? lastTaskSent = freezed,
+    Object? address = null,
+    Object? ipAddress = null,
+    Object? peerCount = null,
+    Object? balance = null,
+    Object? blockHeight = null,
+    Object? validatorName = null,
+    Object? isValidating = null,
+    Object? activeWithMother = null,
+    Object? activeWithValidating = null,
+    Object? connectTime = null,
+    Object? lastDataSentTime = null,
+    Object? lastTaskSent = null,
   }) {
     return _then(_value.copyWith(
-      address: address == freezed
+      address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as String,
-      ipAddress: ipAddress == freezed
+      ipAddress: null == ipAddress
           ? _value.ipAddress
           : ipAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      peerCount: peerCount == freezed
+      peerCount: null == peerCount
           ? _value.peerCount
           : peerCount // ignore: cast_nullable_to_non_nullable
               as int,
-      balance: balance == freezed
+      balance: null == balance
           ? _value.balance
           : balance // ignore: cast_nullable_to_non_nullable
               as double,
-      blockHeight: blockHeight == freezed
+      blockHeight: null == blockHeight
           ? _value.blockHeight
           : blockHeight // ignore: cast_nullable_to_non_nullable
               as int,
-      validatorName: validatorName == freezed
+      validatorName: null == validatorName
           ? _value.validatorName
           : validatorName // ignore: cast_nullable_to_non_nullable
               as String,
-      isValidating: isValidating == freezed
+      isValidating: null == isValidating
           ? _value.isValidating
           : isValidating // ignore: cast_nullable_to_non_nullable
               as bool,
-      activeWithMother: activeWithMother == freezed
+      activeWithMother: null == activeWithMother
           ? _value.activeWithMother
           : activeWithMother // ignore: cast_nullable_to_non_nullable
               as bool,
-      activeWithValidating: activeWithValidating == freezed
+      activeWithValidating: null == activeWithValidating
           ? _value.activeWithValidating
           : activeWithValidating // ignore: cast_nullable_to_non_nullable
               as bool,
-      connectTime: connectTime == freezed
+      connectTime: null == connectTime
           ? _value.connectTime
           : connectTime // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      lastDataSentTime: lastDataSentTime == freezed
+      lastDataSentTime: null == lastDataSentTime
           ? _value.lastDataSentTime
           : lastDataSentTime // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      lastTaskSent: lastTaskSent == freezed
+      lastTaskSent: null == lastTaskSent
           ? _value.lastTaskSent
           : lastTaskSent // ignore: cast_nullable_to_non_nullable
               as DateTime,
-    ));
+    ) as $Val);
   }
 }
 
@@ -154,6 +158,7 @@ abstract class _$$_MotherChildCopyWith<$Res>
           _$_MotherChild value, $Res Function(_$_MotherChild) then) =
       __$$_MotherChildCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {@JsonKey(name: "Address") String address,
       @JsonKey(name: "IPAddress") String ipAddress,
@@ -170,76 +175,75 @@ abstract class _$$_MotherChildCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_MotherChildCopyWithImpl<$Res> extends _$MotherChildCopyWithImpl<$Res>
+class __$$_MotherChildCopyWithImpl<$Res>
+    extends _$MotherChildCopyWithImpl<$Res, _$_MotherChild>
     implements _$$_MotherChildCopyWith<$Res> {
   __$$_MotherChildCopyWithImpl(
       _$_MotherChild _value, $Res Function(_$_MotherChild) _then)
-      : super(_value, (v) => _then(v as _$_MotherChild));
+      : super(_value, _then);
 
-  @override
-  _$_MotherChild get _value => super._value as _$_MotherChild;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? address = freezed,
-    Object? ipAddress = freezed,
-    Object? peerCount = freezed,
-    Object? balance = freezed,
-    Object? blockHeight = freezed,
-    Object? validatorName = freezed,
-    Object? isValidating = freezed,
-    Object? activeWithMother = freezed,
-    Object? activeWithValidating = freezed,
-    Object? connectTime = freezed,
-    Object? lastDataSentTime = freezed,
-    Object? lastTaskSent = freezed,
+    Object? address = null,
+    Object? ipAddress = null,
+    Object? peerCount = null,
+    Object? balance = null,
+    Object? blockHeight = null,
+    Object? validatorName = null,
+    Object? isValidating = null,
+    Object? activeWithMother = null,
+    Object? activeWithValidating = null,
+    Object? connectTime = null,
+    Object? lastDataSentTime = null,
+    Object? lastTaskSent = null,
   }) {
     return _then(_$_MotherChild(
-      address: address == freezed
+      address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as String,
-      ipAddress: ipAddress == freezed
+      ipAddress: null == ipAddress
           ? _value.ipAddress
           : ipAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      peerCount: peerCount == freezed
+      peerCount: null == peerCount
           ? _value.peerCount
           : peerCount // ignore: cast_nullable_to_non_nullable
               as int,
-      balance: balance == freezed
+      balance: null == balance
           ? _value.balance
           : balance // ignore: cast_nullable_to_non_nullable
               as double,
-      blockHeight: blockHeight == freezed
+      blockHeight: null == blockHeight
           ? _value.blockHeight
           : blockHeight // ignore: cast_nullable_to_non_nullable
               as int,
-      validatorName: validatorName == freezed
+      validatorName: null == validatorName
           ? _value.validatorName
           : validatorName // ignore: cast_nullable_to_non_nullable
               as String,
-      isValidating: isValidating == freezed
+      isValidating: null == isValidating
           ? _value.isValidating
           : isValidating // ignore: cast_nullable_to_non_nullable
               as bool,
-      activeWithMother: activeWithMother == freezed
+      activeWithMother: null == activeWithMother
           ? _value.activeWithMother
           : activeWithMother // ignore: cast_nullable_to_non_nullable
               as bool,
-      activeWithValidating: activeWithValidating == freezed
+      activeWithValidating: null == activeWithValidating
           ? _value.activeWithValidating
           : activeWithValidating // ignore: cast_nullable_to_non_nullable
               as bool,
-      connectTime: connectTime == freezed
+      connectTime: null == connectTime
           ? _value.connectTime
           : connectTime // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      lastDataSentTime: lastDataSentTime == freezed
+      lastDataSentTime: null == lastDataSentTime
           ? _value.lastDataSentTime
           : lastDataSentTime // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      lastTaskSent: lastTaskSent == freezed
+      lastTaskSent: null == lastTaskSent
           ? _value.lastTaskSent
           : lastTaskSent // ignore: cast_nullable_to_non_nullable
               as DateTime,
@@ -315,53 +319,58 @@ class _$_MotherChild extends _MotherChild {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_MotherChild &&
-            const DeepCollectionEquality().equals(other.address, address) &&
-            const DeepCollectionEquality().equals(other.ipAddress, ipAddress) &&
-            const DeepCollectionEquality().equals(other.peerCount, peerCount) &&
-            const DeepCollectionEquality().equals(other.balance, balance) &&
-            const DeepCollectionEquality()
-                .equals(other.blockHeight, blockHeight) &&
-            const DeepCollectionEquality()
-                .equals(other.validatorName, validatorName) &&
-            const DeepCollectionEquality()
-                .equals(other.isValidating, isValidating) &&
-            const DeepCollectionEquality()
-                .equals(other.activeWithMother, activeWithMother) &&
-            const DeepCollectionEquality()
-                .equals(other.activeWithValidating, activeWithValidating) &&
-            const DeepCollectionEquality()
-                .equals(other.connectTime, connectTime) &&
-            const DeepCollectionEquality()
-                .equals(other.lastDataSentTime, lastDataSentTime) &&
-            const DeepCollectionEquality()
-                .equals(other.lastTaskSent, lastTaskSent));
+            (identical(other.address, address) || other.address == address) &&
+            (identical(other.ipAddress, ipAddress) ||
+                other.ipAddress == ipAddress) &&
+            (identical(other.peerCount, peerCount) ||
+                other.peerCount == peerCount) &&
+            (identical(other.balance, balance) || other.balance == balance) &&
+            (identical(other.blockHeight, blockHeight) ||
+                other.blockHeight == blockHeight) &&
+            (identical(other.validatorName, validatorName) ||
+                other.validatorName == validatorName) &&
+            (identical(other.isValidating, isValidating) ||
+                other.isValidating == isValidating) &&
+            (identical(other.activeWithMother, activeWithMother) ||
+                other.activeWithMother == activeWithMother) &&
+            (identical(other.activeWithValidating, activeWithValidating) ||
+                other.activeWithValidating == activeWithValidating) &&
+            (identical(other.connectTime, connectTime) ||
+                other.connectTime == connectTime) &&
+            (identical(other.lastDataSentTime, lastDataSentTime) ||
+                other.lastDataSentTime == lastDataSentTime) &&
+            (identical(other.lastTaskSent, lastTaskSent) ||
+                other.lastTaskSent == lastTaskSent));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(address),
-      const DeepCollectionEquality().hash(ipAddress),
-      const DeepCollectionEquality().hash(peerCount),
-      const DeepCollectionEquality().hash(balance),
-      const DeepCollectionEquality().hash(blockHeight),
-      const DeepCollectionEquality().hash(validatorName),
-      const DeepCollectionEquality().hash(isValidating),
-      const DeepCollectionEquality().hash(activeWithMother),
-      const DeepCollectionEquality().hash(activeWithValidating),
-      const DeepCollectionEquality().hash(connectTime),
-      const DeepCollectionEquality().hash(lastDataSentTime),
-      const DeepCollectionEquality().hash(lastTaskSent));
+      address,
+      ipAddress,
+      peerCount,
+      balance,
+      blockHeight,
+      validatorName,
+      isValidating,
+      activeWithMother,
+      activeWithValidating,
+      connectTime,
+      lastDataSentTime,
+      lastTaskSent);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_MotherChildCopyWith<_$_MotherChild> get copyWith =>
       __$$_MotherChildCopyWithImpl<_$_MotherChild>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_MotherChildToJson(this);
+    return _$$_MotherChildToJson(
+      this,
+    );
   }
 }
 
@@ -398,40 +407,40 @@ abstract class _MotherChild extends MotherChild {
 
   @override
   @JsonKey(name: "Address")
-  String get address => throw _privateConstructorUsedError;
+  String get address;
   @override
   @JsonKey(name: "IPAddress")
-  String get ipAddress => throw _privateConstructorUsedError;
+  String get ipAddress;
   @override
   @JsonKey(name: "PeerCount")
-  int get peerCount => throw _privateConstructorUsedError;
+  int get peerCount;
   @override
   @JsonKey(name: "Balance")
-  double get balance => throw _privateConstructorUsedError;
+  double get balance;
   @override
   @JsonKey(name: "BlockHeight")
-  int get blockHeight => throw _privateConstructorUsedError;
+  int get blockHeight;
   @override
   @JsonKey(name: "ValidatorName")
-  String get validatorName => throw _privateConstructorUsedError;
+  String get validatorName;
   @override
   @JsonKey(name: "IsValidating")
-  bool get isValidating => throw _privateConstructorUsedError;
+  bool get isValidating;
   @override
   @JsonKey(name: "ActiveWithMother")
-  bool get activeWithMother => throw _privateConstructorUsedError;
+  bool get activeWithMother;
   @override
   @JsonKey(name: "ActiveWithValidating")
-  bool get activeWithValidating => throw _privateConstructorUsedError;
+  bool get activeWithValidating;
   @override
   @JsonKey(name: "ConnectTime")
-  DateTime get connectTime => throw _privateConstructorUsedError;
+  DateTime get connectTime;
   @override
   @JsonKey(name: "LastDataSentTime")
-  DateTime get lastDataSentTime => throw _privateConstructorUsedError;
+  DateTime get lastDataSentTime;
   @override
   @JsonKey(name: "LastTaskSent")
-  DateTime get lastTaskSent => throw _privateConstructorUsedError;
+  DateTime get lastTaskSent;
   @override
   @JsonKey(ignore: true)
   _$$_MotherChildCopyWith<_$_MotherChild> get copyWith =>

@@ -4,6 +4,7 @@ import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../wallet/components/wallet_selector.dart';
 import '../providers/sc_wizard_provider.dart';

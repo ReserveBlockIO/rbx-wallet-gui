@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'smart_contract.dart';
 
@@ -54,7 +54,8 @@ mixin _$SmartContract {
 abstract class $SmartContractCopyWith<$Res> {
   factory $SmartContractCopyWith(
           SmartContract value, $Res Function(SmartContract) then) =
-      _$SmartContractCopyWithImpl<$Res>;
+      _$SmartContractCopyWithImpl<$Res, SmartContract>;
+  @useResult
   $Res call(
       {Wallet owner,
       String draftId,
@@ -84,146 +85,150 @@ abstract class $SmartContractCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$SmartContractCopyWithImpl<$Res>
+class _$SmartContractCopyWithImpl<$Res, $Val extends SmartContract>
     implements $SmartContractCopyWith<$Res> {
   _$SmartContractCopyWithImpl(this._value, this._then);
 
-  final SmartContract _value;
   // ignore: unused_field
-  final $Res Function(SmartContract) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? owner = freezed,
-    Object? draftId = freezed,
-    Object? id = freezed,
-    Object? name = freezed,
-    Object? minterName = freezed,
-    Object? description = freezed,
-    Object? thumbnail = freezed,
+    Object? owner = null,
+    Object? draftId = null,
+    Object? id = null,
+    Object? name = null,
+    Object? minterName = null,
+    Object? description = null,
+    Object? thumbnail = null,
     Object? primaryAsset = freezed,
-    Object? rarities = freezed,
-    Object? stats = freezed,
-    Object? royalties = freezed,
-    Object? evolves = freezed,
-    Object? tickets = freezed,
-    Object? multiAssets = freezed,
-    Object? tokenizations = freezed,
-    Object? fractionals = freezed,
-    Object? pairs = freezed,
-    Object? soulBounds = freezed,
-    Object? code = freezed,
-    Object? isCompiled = freezed,
-    Object? isPublished = freezed,
-    Object? properties = freezed,
+    Object? rarities = null,
+    Object? stats = null,
+    Object? royalties = null,
+    Object? evolves = null,
+    Object? tickets = null,
+    Object? multiAssets = null,
+    Object? tokenizations = null,
+    Object? fractionals = null,
+    Object? pairs = null,
+    Object? soulBounds = null,
+    Object? code = null,
+    Object? isCompiled = null,
+    Object? isPublished = null,
+    Object? properties = null,
   }) {
     return _then(_value.copyWith(
-      owner: owner == freezed
+      owner: null == owner
           ? _value.owner
           : owner // ignore: cast_nullable_to_non_nullable
               as Wallet,
-      draftId: draftId == freezed
+      draftId: null == draftId
           ? _value.draftId
           : draftId // ignore: cast_nullable_to_non_nullable
               as String,
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      minterName: minterName == freezed
+      minterName: null == minterName
           ? _value.minterName
           : minterName // ignore: cast_nullable_to_non_nullable
               as String,
-      description: description == freezed
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      thumbnail: thumbnail == freezed
+      thumbnail: null == thumbnail
           ? _value.thumbnail
           : thumbnail // ignore: cast_nullable_to_non_nullable
               as String,
-      primaryAsset: primaryAsset == freezed
+      primaryAsset: freezed == primaryAsset
           ? _value.primaryAsset
           : primaryAsset // ignore: cast_nullable_to_non_nullable
               as Asset?,
-      rarities: rarities == freezed
+      rarities: null == rarities
           ? _value.rarities
           : rarities // ignore: cast_nullable_to_non_nullable
               as List<Rarity>,
-      stats: stats == freezed
+      stats: null == stats
           ? _value.stats
           : stats // ignore: cast_nullable_to_non_nullable
               as List<Stat>,
-      royalties: royalties == freezed
+      royalties: null == royalties
           ? _value.royalties
           : royalties // ignore: cast_nullable_to_non_nullable
               as List<Royalty>,
-      evolves: evolves == freezed
+      evolves: null == evolves
           ? _value.evolves
           : evolves // ignore: cast_nullable_to_non_nullable
               as List<Evolve>,
-      tickets: tickets == freezed
+      tickets: null == tickets
           ? _value.tickets
           : tickets // ignore: cast_nullable_to_non_nullable
               as List<Ticket>,
-      multiAssets: multiAssets == freezed
+      multiAssets: null == multiAssets
           ? _value.multiAssets
           : multiAssets // ignore: cast_nullable_to_non_nullable
               as List<MultiAsset>,
-      tokenizations: tokenizations == freezed
+      tokenizations: null == tokenizations
           ? _value.tokenizations
           : tokenizations // ignore: cast_nullable_to_non_nullable
               as List<Tokenization>,
-      fractionals: fractionals == freezed
+      fractionals: null == fractionals
           ? _value.fractionals
           : fractionals // ignore: cast_nullable_to_non_nullable
               as List<Fractional>,
-      pairs: pairs == freezed
+      pairs: null == pairs
           ? _value.pairs
           : pairs // ignore: cast_nullable_to_non_nullable
               as List<Pair>,
-      soulBounds: soulBounds == freezed
+      soulBounds: null == soulBounds
           ? _value.soulBounds
           : soulBounds // ignore: cast_nullable_to_non_nullable
               as List<SoulBound>,
-      code: code == freezed
+      code: null == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String,
-      isCompiled: isCompiled == freezed
+      isCompiled: null == isCompiled
           ? _value.isCompiled
           : isCompiled // ignore: cast_nullable_to_non_nullable
               as bool,
-      isPublished: isPublished == freezed
+      isPublished: null == isPublished
           ? _value.isPublished
           : isPublished // ignore: cast_nullable_to_non_nullable
               as bool,
-      properties: properties == freezed
+      properties: null == properties
           ? _value.properties
           : properties // ignore: cast_nullable_to_non_nullable
               as List<ScProperty>,
-    ));
+    ) as $Val);
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $WalletCopyWith<$Res> get owner {
     return $WalletCopyWith<$Res>(_value.owner, (value) {
-      return _then(_value.copyWith(owner: value));
+      return _then(_value.copyWith(owner: value) as $Val);
     });
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $AssetCopyWith<$Res>? get primaryAsset {
     if (_value.primaryAsset == null) {
       return null;
     }
 
     return $AssetCopyWith<$Res>(_value.primaryAsset!, (value) {
-      return _then(_value.copyWith(primaryAsset: value));
+      return _then(_value.copyWith(primaryAsset: value) as $Val);
     });
   }
 }
@@ -235,6 +240,7 @@ abstract class _$$_SmartContractCopyWith<$Res>
           _$_SmartContract value, $Res Function(_$_SmartContract) then) =
       __$$_SmartContractCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {Wallet owner,
       String draftId,
@@ -267,126 +273,124 @@ abstract class _$$_SmartContractCopyWith<$Res>
 
 /// @nodoc
 class __$$_SmartContractCopyWithImpl<$Res>
-    extends _$SmartContractCopyWithImpl<$Res>
+    extends _$SmartContractCopyWithImpl<$Res, _$_SmartContract>
     implements _$$_SmartContractCopyWith<$Res> {
   __$$_SmartContractCopyWithImpl(
       _$_SmartContract _value, $Res Function(_$_SmartContract) _then)
-      : super(_value, (v) => _then(v as _$_SmartContract));
+      : super(_value, _then);
 
-  @override
-  _$_SmartContract get _value => super._value as _$_SmartContract;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? owner = freezed,
-    Object? draftId = freezed,
-    Object? id = freezed,
-    Object? name = freezed,
-    Object? minterName = freezed,
-    Object? description = freezed,
-    Object? thumbnail = freezed,
+    Object? owner = null,
+    Object? draftId = null,
+    Object? id = null,
+    Object? name = null,
+    Object? minterName = null,
+    Object? description = null,
+    Object? thumbnail = null,
     Object? primaryAsset = freezed,
-    Object? rarities = freezed,
-    Object? stats = freezed,
-    Object? royalties = freezed,
-    Object? evolves = freezed,
-    Object? tickets = freezed,
-    Object? multiAssets = freezed,
-    Object? tokenizations = freezed,
-    Object? fractionals = freezed,
-    Object? pairs = freezed,
-    Object? soulBounds = freezed,
-    Object? code = freezed,
-    Object? isCompiled = freezed,
-    Object? isPublished = freezed,
-    Object? properties = freezed,
+    Object? rarities = null,
+    Object? stats = null,
+    Object? royalties = null,
+    Object? evolves = null,
+    Object? tickets = null,
+    Object? multiAssets = null,
+    Object? tokenizations = null,
+    Object? fractionals = null,
+    Object? pairs = null,
+    Object? soulBounds = null,
+    Object? code = null,
+    Object? isCompiled = null,
+    Object? isPublished = null,
+    Object? properties = null,
   }) {
     return _then(_$_SmartContract(
-      owner: owner == freezed
+      owner: null == owner
           ? _value.owner
           : owner // ignore: cast_nullable_to_non_nullable
               as Wallet,
-      draftId: draftId == freezed
+      draftId: null == draftId
           ? _value.draftId
           : draftId // ignore: cast_nullable_to_non_nullable
               as String,
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      minterName: minterName == freezed
+      minterName: null == minterName
           ? _value.minterName
           : minterName // ignore: cast_nullable_to_non_nullable
               as String,
-      description: description == freezed
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      thumbnail: thumbnail == freezed
+      thumbnail: null == thumbnail
           ? _value.thumbnail
           : thumbnail // ignore: cast_nullable_to_non_nullable
               as String,
-      primaryAsset: primaryAsset == freezed
+      primaryAsset: freezed == primaryAsset
           ? _value.primaryAsset
           : primaryAsset // ignore: cast_nullable_to_non_nullable
               as Asset?,
-      rarities: rarities == freezed
+      rarities: null == rarities
           ? _value._rarities
           : rarities // ignore: cast_nullable_to_non_nullable
               as List<Rarity>,
-      stats: stats == freezed
+      stats: null == stats
           ? _value._stats
           : stats // ignore: cast_nullable_to_non_nullable
               as List<Stat>,
-      royalties: royalties == freezed
+      royalties: null == royalties
           ? _value._royalties
           : royalties // ignore: cast_nullable_to_non_nullable
               as List<Royalty>,
-      evolves: evolves == freezed
+      evolves: null == evolves
           ? _value._evolves
           : evolves // ignore: cast_nullable_to_non_nullable
               as List<Evolve>,
-      tickets: tickets == freezed
+      tickets: null == tickets
           ? _value._tickets
           : tickets // ignore: cast_nullable_to_non_nullable
               as List<Ticket>,
-      multiAssets: multiAssets == freezed
+      multiAssets: null == multiAssets
           ? _value._multiAssets
           : multiAssets // ignore: cast_nullable_to_non_nullable
               as List<MultiAsset>,
-      tokenizations: tokenizations == freezed
+      tokenizations: null == tokenizations
           ? _value._tokenizations
           : tokenizations // ignore: cast_nullable_to_non_nullable
               as List<Tokenization>,
-      fractionals: fractionals == freezed
+      fractionals: null == fractionals
           ? _value._fractionals
           : fractionals // ignore: cast_nullable_to_non_nullable
               as List<Fractional>,
-      pairs: pairs == freezed
+      pairs: null == pairs
           ? _value._pairs
           : pairs // ignore: cast_nullable_to_non_nullable
               as List<Pair>,
-      soulBounds: soulBounds == freezed
+      soulBounds: null == soulBounds
           ? _value._soulBounds
           : soulBounds // ignore: cast_nullable_to_non_nullable
               as List<SoulBound>,
-      code: code == freezed
+      code: null == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String,
-      isCompiled: isCompiled == freezed
+      isCompiled: null == isCompiled
           ? _value.isCompiled
           : isCompiled // ignore: cast_nullable_to_non_nullable
               as bool,
-      isPublished: isPublished == freezed
+      isPublished: null == isPublished
           ? _value.isPublished
           : isPublished // ignore: cast_nullable_to_non_nullable
               as bool,
-      properties: properties == freezed
+      properties: null == properties
           ? _value._properties
           : properties // ignore: cast_nullable_to_non_nullable
               as List<ScProperty>,
@@ -462,6 +466,7 @@ class _$_SmartContract extends _SmartContract {
   @override
   @JsonKey()
   List<Rarity> get rarities {
+    if (_rarities is EqualUnmodifiableListView) return _rarities;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_rarities);
   }
@@ -472,6 +477,7 @@ class _$_SmartContract extends _SmartContract {
   @override
   @JsonKey()
   List<Stat> get stats {
+    if (_stats is EqualUnmodifiableListView) return _stats;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_stats);
   }
@@ -480,6 +486,7 @@ class _$_SmartContract extends _SmartContract {
   @override
   @JsonKey()
   List<Royalty> get royalties {
+    if (_royalties is EqualUnmodifiableListView) return _royalties;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_royalties);
   }
@@ -488,6 +495,7 @@ class _$_SmartContract extends _SmartContract {
   @override
   @JsonKey()
   List<Evolve> get evolves {
+    if (_evolves is EqualUnmodifiableListView) return _evolves;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_evolves);
   }
@@ -496,6 +504,7 @@ class _$_SmartContract extends _SmartContract {
   @override
   @JsonKey()
   List<Ticket> get tickets {
+    if (_tickets is EqualUnmodifiableListView) return _tickets;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_tickets);
   }
@@ -504,6 +513,7 @@ class _$_SmartContract extends _SmartContract {
   @override
   @JsonKey()
   List<MultiAsset> get multiAssets {
+    if (_multiAssets is EqualUnmodifiableListView) return _multiAssets;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_multiAssets);
   }
@@ -512,6 +522,7 @@ class _$_SmartContract extends _SmartContract {
   @override
   @JsonKey()
   List<Tokenization> get tokenizations {
+    if (_tokenizations is EqualUnmodifiableListView) return _tokenizations;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_tokenizations);
   }
@@ -520,6 +531,7 @@ class _$_SmartContract extends _SmartContract {
   @override
   @JsonKey()
   List<Fractional> get fractionals {
+    if (_fractionals is EqualUnmodifiableListView) return _fractionals;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_fractionals);
   }
@@ -528,6 +540,7 @@ class _$_SmartContract extends _SmartContract {
   @override
   @JsonKey()
   List<Pair> get pairs {
+    if (_pairs is EqualUnmodifiableListView) return _pairs;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_pairs);
   }
@@ -536,6 +549,7 @@ class _$_SmartContract extends _SmartContract {
   @override
   @JsonKey()
   List<SoulBound> get soulBounds {
+    if (_soulBounds is EqualUnmodifiableListView) return _soulBounds;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_soulBounds);
   }
@@ -553,6 +567,7 @@ class _$_SmartContract extends _SmartContract {
   @override
   @JsonKey()
   List<ScProperty> get properties {
+    if (_properties is EqualUnmodifiableListView) return _properties;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_properties);
   }
@@ -567,17 +582,18 @@ class _$_SmartContract extends _SmartContract {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_SmartContract &&
-            const DeepCollectionEquality().equals(other.owner, owner) &&
-            const DeepCollectionEquality().equals(other.draftId, draftId) &&
-            const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality()
-                .equals(other.minterName, minterName) &&
-            const DeepCollectionEquality()
-                .equals(other.description, description) &&
-            const DeepCollectionEquality().equals(other.thumbnail, thumbnail) &&
-            const DeepCollectionEquality()
-                .equals(other.primaryAsset, primaryAsset) &&
+            (identical(other.owner, owner) || other.owner == owner) &&
+            (identical(other.draftId, draftId) || other.draftId == draftId) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.minterName, minterName) ||
+                other.minterName == minterName) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.thumbnail, thumbnail) ||
+                other.thumbnail == thumbnail) &&
+            (identical(other.primaryAsset, primaryAsset) ||
+                other.primaryAsset == primaryAsset) &&
             const DeepCollectionEquality().equals(other._rarities, _rarities) &&
             const DeepCollectionEquality().equals(other._stats, _stats) &&
             const DeepCollectionEquality()
@@ -593,11 +609,11 @@ class _$_SmartContract extends _SmartContract {
             const DeepCollectionEquality().equals(other._pairs, _pairs) &&
             const DeepCollectionEquality()
                 .equals(other._soulBounds, _soulBounds) &&
-            const DeepCollectionEquality().equals(other.code, code) &&
-            const DeepCollectionEquality()
-                .equals(other.isCompiled, isCompiled) &&
-            const DeepCollectionEquality()
-                .equals(other.isPublished, isPublished) &&
+            (identical(other.code, code) || other.code == code) &&
+            (identical(other.isCompiled, isCompiled) ||
+                other.isCompiled == isCompiled) &&
+            (identical(other.isPublished, isPublished) ||
+                other.isPublished == isPublished) &&
             const DeepCollectionEquality()
                 .equals(other._properties, _properties));
   }
@@ -606,14 +622,14 @@ class _$_SmartContract extends _SmartContract {
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
-        const DeepCollectionEquality().hash(owner),
-        const DeepCollectionEquality().hash(draftId),
-        const DeepCollectionEquality().hash(id),
-        const DeepCollectionEquality().hash(name),
-        const DeepCollectionEquality().hash(minterName),
-        const DeepCollectionEquality().hash(description),
-        const DeepCollectionEquality().hash(thumbnail),
-        const DeepCollectionEquality().hash(primaryAsset),
+        owner,
+        draftId,
+        id,
+        name,
+        minterName,
+        description,
+        thumbnail,
+        primaryAsset,
         const DeepCollectionEquality().hash(_rarities),
         const DeepCollectionEquality().hash(_stats),
         const DeepCollectionEquality().hash(_royalties),
@@ -624,20 +640,23 @@ class _$_SmartContract extends _SmartContract {
         const DeepCollectionEquality().hash(_fractionals),
         const DeepCollectionEquality().hash(_pairs),
         const DeepCollectionEquality().hash(_soulBounds),
-        const DeepCollectionEquality().hash(code),
-        const DeepCollectionEquality().hash(isCompiled),
-        const DeepCollectionEquality().hash(isPublished),
+        code,
+        isCompiled,
+        isPublished,
         const DeepCollectionEquality().hash(_properties)
       ]);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_SmartContractCopyWith<_$_SmartContract> get copyWith =>
       __$$_SmartContractCopyWithImpl<_$_SmartContract>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_SmartContractToJson(this);
+    return _$$_SmartContractToJson(
+      this,
+    );
   }
 }
 
@@ -671,49 +690,49 @@ abstract class _SmartContract extends SmartContract {
       _$_SmartContract.fromJson;
 
   @override
-  Wallet get owner => throw _privateConstructorUsedError;
+  Wallet get owner;
   @override
-  String get draftId => throw _privateConstructorUsedError;
+  String get draftId;
   @override
-  String get id => throw _privateConstructorUsedError;
+  String get id;
   @override
-  String get name => throw _privateConstructorUsedError;
+  String get name;
   @override
-  String get minterName => throw _privateConstructorUsedError;
+  String get minterName;
   @override
-  String get description => throw _privateConstructorUsedError;
+  String get description;
   @override
-  String get thumbnail => throw _privateConstructorUsedError;
+  String get thumbnail;
   @override
-  Asset? get primaryAsset => throw _privateConstructorUsedError;
+  Asset? get primaryAsset;
   @override
-  List<Rarity> get rarities => throw _privateConstructorUsedError;
+  List<Rarity> get rarities;
   @override // @Default([]) List<Feature> features,
-  List<Stat> get stats => throw _privateConstructorUsedError;
+  List<Stat> get stats;
   @override
-  List<Royalty> get royalties => throw _privateConstructorUsedError;
+  List<Royalty> get royalties;
   @override
-  List<Evolve> get evolves => throw _privateConstructorUsedError;
+  List<Evolve> get evolves;
   @override
-  List<Ticket> get tickets => throw _privateConstructorUsedError;
+  List<Ticket> get tickets;
   @override
-  List<MultiAsset> get multiAssets => throw _privateConstructorUsedError;
+  List<MultiAsset> get multiAssets;
   @override
-  List<Tokenization> get tokenizations => throw _privateConstructorUsedError;
+  List<Tokenization> get tokenizations;
   @override
-  List<Fractional> get fractionals => throw _privateConstructorUsedError;
+  List<Fractional> get fractionals;
   @override
-  List<Pair> get pairs => throw _privateConstructorUsedError;
+  List<Pair> get pairs;
   @override
-  List<SoulBound> get soulBounds => throw _privateConstructorUsedError;
+  List<SoulBound> get soulBounds;
   @override
-  String get code => throw _privateConstructorUsedError;
+  String get code;
   @override
-  bool get isCompiled => throw _privateConstructorUsedError;
+  bool get isCompiled;
   @override
-  bool get isPublished => throw _privateConstructorUsedError;
+  bool get isPublished;
   @override
-  List<ScProperty> get properties => throw _privateConstructorUsedError;
+  List<ScProperty> get properties;
   @override
   @JsonKey(ignore: true)
   _$$_SmartContractCopyWith<_$_SmartContract> get copyWith =>

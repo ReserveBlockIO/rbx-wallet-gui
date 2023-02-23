@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'wallet.dart';
 
@@ -45,7 +45,8 @@ mixin _$Wallet {
 /// @nodoc
 abstract class $WalletCopyWith<$Res> {
   factory $WalletCopyWith(Wallet value, $Res Function(Wallet) then) =
-      _$WalletCopyWithImpl<$Res>;
+      _$WalletCopyWithImpl<$Res, Wallet>;
+  @useResult
   $Res call(
       {@JsonKey(name: 'Id') int id,
       @JsonKey(name: 'PublicKey') String publicKey,
@@ -58,58 +59,61 @@ abstract class $WalletCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$WalletCopyWithImpl<$Res> implements $WalletCopyWith<$Res> {
+class _$WalletCopyWithImpl<$Res, $Val extends Wallet>
+    implements $WalletCopyWith<$Res> {
   _$WalletCopyWithImpl(this._value, this._then);
 
-  final Wallet _value;
   // ignore: unused_field
-  final $Res Function(Wallet) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? publicKey = freezed,
+    Object? id = null,
+    Object? publicKey = null,
     Object? privateKey = freezed,
-    Object? address = freezed,
+    Object? address = null,
     Object? friendlyName = freezed,
-    Object? balance = freezed,
-    Object? isValidating = freezed,
+    Object? balance = null,
+    Object? isValidating = null,
     Object? adnr = freezed,
   }) {
     return _then(_value.copyWith(
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      publicKey: publicKey == freezed
+      publicKey: null == publicKey
           ? _value.publicKey
           : publicKey // ignore: cast_nullable_to_non_nullable
               as String,
-      privateKey: privateKey == freezed
+      privateKey: freezed == privateKey
           ? _value.privateKey
           : privateKey // ignore: cast_nullable_to_non_nullable
               as String?,
-      address: address == freezed
+      address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as String,
-      friendlyName: friendlyName == freezed
+      friendlyName: freezed == friendlyName
           ? _value.friendlyName
           : friendlyName // ignore: cast_nullable_to_non_nullable
               as String?,
-      balance: balance == freezed
+      balance: null == balance
           ? _value.balance
           : balance // ignore: cast_nullable_to_non_nullable
               as double,
-      isValidating: isValidating == freezed
+      isValidating: null == isValidating
           ? _value.isValidating
           : isValidating // ignore: cast_nullable_to_non_nullable
               as bool,
-      adnr: adnr == freezed
+      adnr: freezed == adnr
           ? _value.adnr
           : adnr // ignore: cast_nullable_to_non_nullable
               as String?,
-    ));
+    ) as $Val);
   }
 }
 
@@ -118,6 +122,7 @@ abstract class _$$_WalletCopyWith<$Res> implements $WalletCopyWith<$Res> {
   factory _$$_WalletCopyWith(_$_Wallet value, $Res Function(_$_Wallet) then) =
       __$$_WalletCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {@JsonKey(name: 'Id') int id,
       @JsonKey(name: 'PublicKey') String publicKey,
@@ -130,55 +135,54 @@ abstract class _$$_WalletCopyWith<$Res> implements $WalletCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_WalletCopyWithImpl<$Res> extends _$WalletCopyWithImpl<$Res>
+class __$$_WalletCopyWithImpl<$Res>
+    extends _$WalletCopyWithImpl<$Res, _$_Wallet>
     implements _$$_WalletCopyWith<$Res> {
   __$$_WalletCopyWithImpl(_$_Wallet _value, $Res Function(_$_Wallet) _then)
-      : super(_value, (v) => _then(v as _$_Wallet));
+      : super(_value, _then);
 
-  @override
-  _$_Wallet get _value => super._value as _$_Wallet;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? publicKey = freezed,
+    Object? id = null,
+    Object? publicKey = null,
     Object? privateKey = freezed,
-    Object? address = freezed,
+    Object? address = null,
     Object? friendlyName = freezed,
-    Object? balance = freezed,
-    Object? isValidating = freezed,
+    Object? balance = null,
+    Object? isValidating = null,
     Object? adnr = freezed,
   }) {
     return _then(_$_Wallet(
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      publicKey: publicKey == freezed
+      publicKey: null == publicKey
           ? _value.publicKey
           : publicKey // ignore: cast_nullable_to_non_nullable
               as String,
-      privateKey: privateKey == freezed
+      privateKey: freezed == privateKey
           ? _value.privateKey
           : privateKey // ignore: cast_nullable_to_non_nullable
               as String?,
-      address: address == freezed
+      address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as String,
-      friendlyName: friendlyName == freezed
+      friendlyName: freezed == friendlyName
           ? _value.friendlyName
           : friendlyName // ignore: cast_nullable_to_non_nullable
               as String?,
-      balance: balance == freezed
+      balance: null == balance
           ? _value.balance
           : balance // ignore: cast_nullable_to_non_nullable
               as double,
-      isValidating: isValidating == freezed
+      isValidating: null == isValidating
           ? _value.isValidating
           : isValidating // ignore: cast_nullable_to_non_nullable
               as bool,
-      adnr: adnr == freezed
+      adnr: freezed == adnr
           ? _value.adnr
           : adnr // ignore: cast_nullable_to_non_nullable
               as String?,
@@ -238,40 +242,36 @@ class _$_Wallet extends _Wallet {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Wallet &&
-            const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.publicKey, publicKey) &&
-            const DeepCollectionEquality()
-                .equals(other.privateKey, privateKey) &&
-            const DeepCollectionEquality().equals(other.address, address) &&
-            const DeepCollectionEquality()
-                .equals(other.friendlyName, friendlyName) &&
-            const DeepCollectionEquality().equals(other.balance, balance) &&
-            const DeepCollectionEquality()
-                .equals(other.isValidating, isValidating) &&
-            const DeepCollectionEquality().equals(other.adnr, adnr));
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.publicKey, publicKey) ||
+                other.publicKey == publicKey) &&
+            (identical(other.privateKey, privateKey) ||
+                other.privateKey == privateKey) &&
+            (identical(other.address, address) || other.address == address) &&
+            (identical(other.friendlyName, friendlyName) ||
+                other.friendlyName == friendlyName) &&
+            (identical(other.balance, balance) || other.balance == balance) &&
+            (identical(other.isValidating, isValidating) ||
+                other.isValidating == isValidating) &&
+            (identical(other.adnr, adnr) || other.adnr == adnr));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(publicKey),
-      const DeepCollectionEquality().hash(privateKey),
-      const DeepCollectionEquality().hash(address),
-      const DeepCollectionEquality().hash(friendlyName),
-      const DeepCollectionEquality().hash(balance),
-      const DeepCollectionEquality().hash(isValidating),
-      const DeepCollectionEquality().hash(adnr));
+  int get hashCode => Object.hash(runtimeType, id, publicKey, privateKey,
+      address, friendlyName, balance, isValidating, adnr);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_WalletCopyWith<_$_Wallet> get copyWith =>
       __$$_WalletCopyWithImpl<_$_Wallet>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_WalletToJson(this);
+    return _$$_WalletToJson(
+      this,
+    );
   }
 }
 
@@ -291,27 +291,27 @@ abstract class _Wallet extends Wallet {
 
   @override
   @JsonKey(name: 'Id')
-  int get id => throw _privateConstructorUsedError;
+  int get id;
   @override
   @JsonKey(name: 'PublicKey')
-  String get publicKey => throw _privateConstructorUsedError;
+  String get publicKey;
   @override
   @JsonKey(name: 'GetKey')
-  String? get privateKey => throw _privateConstructorUsedError;
+  String? get privateKey;
   @override
   @JsonKey(name: 'Address')
-  String get address => throw _privateConstructorUsedError;
+  String get address;
   @override
-  String? get friendlyName => throw _privateConstructorUsedError;
+  String? get friendlyName;
   @override
   @JsonKey(name: 'Balance')
-  double get balance => throw _privateConstructorUsedError;
+  double get balance;
   @override
   @JsonKey(name: 'IsValidating')
-  bool get isValidating => throw _privateConstructorUsedError;
+  bool get isValidating;
   @override // @JsonKey(name: 'IsEncrypted') required bool isEncrypted,
   @JsonKey(name: "ADNR")
-  String? get adnr => throw _privateConstructorUsedError;
+  String? get adnr;
   @override
   @JsonKey(ignore: true)
   _$$_WalletCopyWith<_$_Wallet> get copyWith =>

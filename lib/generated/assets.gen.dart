@@ -5,15 +5,12 @@
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
-// ignore_for_file: directives_ordering,unnecessary_import
+// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal,deprecated_member_use
 
 import 'package:flutter/widgets.dart';
 
 class $AssetsEnvGen {
   const $AssetsEnvGen();
-
-  /// File path: assets/env/block_explorer_env
-  String get blockExplorerEnv => 'assets/env/block_explorer_env';
 
   /// File path: assets/env/block_explorer_test_net_env
   String get blockExplorerTestNetEnv =>
@@ -45,6 +42,20 @@ class $AssetsEnvGen {
 
   /// File path: assets/env/win_testnet_env
   String get winTestnetEnv => 'assets/env/win_testnet_env';
+
+  /// List of all assets
+  List<String> get values => [
+        blockExplorerTestNetEnv,
+        devEnv,
+        devWinEnv,
+        macDevEnv,
+        macTestnetEnv,
+        releaseEnv,
+        releaseTestnet,
+        webDevEnv,
+        webEnv,
+        winTestnetEnv
+      ];
 }
 
 class $AssetsFontsGen {
@@ -52,6 +63,9 @@ class $AssetsFontsGen {
 
   /// File path: assets/fonts/RobotoMono-Regular.ttf
   String get robotoMonoRegular => 'assets/fonts/RobotoMono-Regular.ttf';
+
+  /// List of all assets
+  List<String> get values => [robotoMonoRegular];
 }
 
 class $AssetsImagesGen {
@@ -183,6 +197,43 @@ class $AssetsImagesGen {
   /// File path: assets/images/wordmark.png
   AssetGenImage get wordmark =>
       const AssetGenImage('assets/images/wordmark.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [
+        animatedCube,
+        animatedCubeFast,
+        decorBottom,
+        decorBottomLeft,
+        decorBottomRight,
+        decorTopLeft,
+        globe,
+        grid,
+        gridBg,
+        gridCropped,
+        icon,
+        nester,
+        nodelines,
+        rbxWallet,
+        templateBasic1a,
+        templateBasic2a,
+        templateBasic3a,
+        templateEvolving1a,
+        templateEvolving2a,
+        templateEvolving3a,
+        templateRoyalty1a,
+        templateRoyalty2a,
+        templateRoyalty3a,
+        tutBasic1,
+        tutBasic2,
+        tutBasic3,
+        tutEvolve1,
+        tutEvolve2,
+        tutEvolve3,
+        tutRoyalty1,
+        tutRoyalty2,
+        tutRoyalty3,
+        wordmark
+      ];
 }
 
 class $AssetsJsGen {
@@ -190,6 +241,9 @@ class $AssetsJsGen {
 
   /// File path: assets/js/keygen.js
   String get keygen => 'assets/js/keygen.js';
+
+  /// List of all assets
+  List<String> get values => [keygen];
 }
 
 class Assets {
@@ -258,6 +312,8 @@ class AssetGenImage {
       cacheHeight: cacheHeight,
     );
   }
+
+  ImageProvider provider() => AssetImage(_assetName);
 
   String get path => _assetName;
 

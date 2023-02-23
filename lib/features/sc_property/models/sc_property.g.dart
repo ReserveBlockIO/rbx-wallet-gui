@@ -18,7 +18,7 @@ Map<String, dynamic> _$$_ScPropertyToJson(_$_ScProperty instance) =>
     <String, dynamic>{
       'name': instance.name,
       'value': instance.value,
-      'type': _$ScPropertyTypeEnumMap[instance.type],
+      'type': _$ScPropertyTypeEnumMap[instance.type]!,
     };
 
 const _$ScPropertyTypeEnumMap = {

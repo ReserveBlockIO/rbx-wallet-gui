@@ -15,13 +15,13 @@ import 'adj_vote_form_provider.dart';
 import 'topic_list_provider.dart';
 
 class TopicFormProvider extends StateNotifier<NewTopic> {
-  final Reader read;
+  final Ref ref;
   final GlobalKey<FormState> formKey = GlobalKey();
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
 
-  TopicFormProvider(this.read, NewTopic model) : super(model) {
+  TopicFormProvider(this.ref, NewTopic model) : super(model) {
     nameController.addListener(() {
       state = state.copyWith(name: nameController.text);
     });
@@ -64,7 +64,7 @@ class TopicFormProvider extends StateNotifier<NewTopic> {
   Future<bool?> submit() async {
     Map<String, dynamic>? adjVoteData;
     if (state.category == VoteTopicCategory.AdjVoteIn) {
-      final adjFormKey = read(adjVoteFormProvider.notifier).formKey;
+      final adjFormKey = ref.read(adjVoteFormProvider.notifier).formKey;
 
       bool isValid = true;
       if (!formKey.currentState!.validate()) {
@@ -78,7 +78,7 @@ class TopicFormProvider extends StateNotifier<NewTopic> {
         return null;
       }
 
-      adjVoteData = read(adjVoteFormProvider.notifier).serialize();
+      adjVoteData = ref.read(adjVoteFormProvider.notifier).serialize();
 
       final charLength = jsonEncode(adjVoteData).length;
       if (charLength > 2800) {
@@ -91,15 +91,15 @@ class TopicFormProvider extends StateNotifier<NewTopic> {
       }
     }
 
-    read(globalLoadingProvider.notifier).start();
+    ref.read(globalLoadingProvider.notifier).start();
 
     final success = await TopicService().create(state, adjVoteData);
-    read(globalLoadingProvider.notifier).complete();
+    ref.read(globalLoadingProvider.notifier).complete();
 
     if (success) {
       clear();
       for (final t in TopicListType.values) {
-        read(topicListProvider(t).notifier).refresh();
+        ref.read(topicListProvider(t).notifier).refresh();
       }
     }
     return success;
@@ -107,5 +107,5 @@ class TopicFormProvider extends StateNotifier<NewTopic> {
 }
 
 final topicFormProvider = StateNotifierProvider<TopicFormProvider, NewTopic>((ref) {
-  return TopicFormProvider(ref.read, NewTopic.empty());
+  return TopicFormProvider(ref, NewTopic.empty());
 });

@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'evolve_phase.dart';
 
@@ -40,7 +40,8 @@ mixin _$EvolvePhase {
 abstract class $EvolvePhaseCopyWith<$Res> {
   factory $EvolvePhaseCopyWith(
           EvolvePhase value, $Res Function(EvolvePhase) then) =
-      _$EvolvePhaseCopyWithImpl<$Res>;
+      _$EvolvePhaseCopyWithImpl<$Res, EvolvePhase>;
+  @useResult
   $Res call(
       {String name,
       DateTime? dateTime,
@@ -55,68 +56,72 @@ abstract class $EvolvePhaseCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$EvolvePhaseCopyWithImpl<$Res> implements $EvolvePhaseCopyWith<$Res> {
+class _$EvolvePhaseCopyWithImpl<$Res, $Val extends EvolvePhase>
+    implements $EvolvePhaseCopyWith<$Res> {
   _$EvolvePhaseCopyWithImpl(this._value, this._then);
 
-  final EvolvePhase _value;
   // ignore: unused_field
-  final $Res Function(EvolvePhase) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
+    Object? name = null,
     Object? dateTime = freezed,
     Object? blockHeight = freezed,
-    Object? description = freezed,
-    Object? evolutionState = freezed,
-    Object? isCurrentState = freezed,
+    Object? description = null,
+    Object? evolutionState = null,
+    Object? isCurrentState = null,
     Object? asset = freezed,
-    Object? properties = freezed,
+    Object? properties = null,
   }) {
     return _then(_value.copyWith(
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      dateTime: dateTime == freezed
+      dateTime: freezed == dateTime
           ? _value.dateTime
           : dateTime // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      blockHeight: blockHeight == freezed
+      blockHeight: freezed == blockHeight
           ? _value.blockHeight
           : blockHeight // ignore: cast_nullable_to_non_nullable
               as int?,
-      description: description == freezed
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      evolutionState: evolutionState == freezed
+      evolutionState: null == evolutionState
           ? _value.evolutionState
           : evolutionState // ignore: cast_nullable_to_non_nullable
               as int,
-      isCurrentState: isCurrentState == freezed
+      isCurrentState: null == isCurrentState
           ? _value.isCurrentState
           : isCurrentState // ignore: cast_nullable_to_non_nullable
               as bool,
-      asset: asset == freezed
+      asset: freezed == asset
           ? _value.asset
           : asset // ignore: cast_nullable_to_non_nullable
               as Asset?,
-      properties: properties == freezed
+      properties: null == properties
           ? _value.properties
           : properties // ignore: cast_nullable_to_non_nullable
               as List<ScProperty>,
-    ));
+    ) as $Val);
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $AssetCopyWith<$Res>? get asset {
     if (_value.asset == null) {
       return null;
     }
 
     return $AssetCopyWith<$Res>(_value.asset!, (value) {
-      return _then(_value.copyWith(asset: value));
+      return _then(_value.copyWith(asset: value) as $Val);
     });
   }
 }
@@ -128,6 +133,7 @@ abstract class _$$_EvolvePhaseCopyWith<$Res>
           _$_EvolvePhase value, $Res Function(_$_EvolvePhase) then) =
       __$$_EvolvePhaseCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String name,
       DateTime? dateTime,
@@ -143,56 +149,55 @@ abstract class _$$_EvolvePhaseCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_EvolvePhaseCopyWithImpl<$Res> extends _$EvolvePhaseCopyWithImpl<$Res>
+class __$$_EvolvePhaseCopyWithImpl<$Res>
+    extends _$EvolvePhaseCopyWithImpl<$Res, _$_EvolvePhase>
     implements _$$_EvolvePhaseCopyWith<$Res> {
   __$$_EvolvePhaseCopyWithImpl(
       _$_EvolvePhase _value, $Res Function(_$_EvolvePhase) _then)
-      : super(_value, (v) => _then(v as _$_EvolvePhase));
+      : super(_value, _then);
 
-  @override
-  _$_EvolvePhase get _value => super._value as _$_EvolvePhase;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
+    Object? name = null,
     Object? dateTime = freezed,
     Object? blockHeight = freezed,
-    Object? description = freezed,
-    Object? evolutionState = freezed,
-    Object? isCurrentState = freezed,
+    Object? description = null,
+    Object? evolutionState = null,
+    Object? isCurrentState = null,
     Object? asset = freezed,
-    Object? properties = freezed,
+    Object? properties = null,
   }) {
     return _then(_$_EvolvePhase(
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      dateTime: dateTime == freezed
+      dateTime: freezed == dateTime
           ? _value.dateTime
           : dateTime // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      blockHeight: blockHeight == freezed
+      blockHeight: freezed == blockHeight
           ? _value.blockHeight
           : blockHeight // ignore: cast_nullable_to_non_nullable
               as int?,
-      description: description == freezed
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      evolutionState: evolutionState == freezed
+      evolutionState: null == evolutionState
           ? _value.evolutionState
           : evolutionState // ignore: cast_nullable_to_non_nullable
               as int,
-      isCurrentState: isCurrentState == freezed
+      isCurrentState: null == isCurrentState
           ? _value.isCurrentState
           : isCurrentState // ignore: cast_nullable_to_non_nullable
               as bool,
-      asset: asset == freezed
+      asset: freezed == asset
           ? _value.asset
           : asset // ignore: cast_nullable_to_non_nullable
               as Asset?,
-      properties: properties == freezed
+      properties: null == properties
           ? _value._properties
           : properties // ignore: cast_nullable_to_non_nullable
               as List<ScProperty>,
@@ -242,6 +247,7 @@ class _$_EvolvePhase extends _EvolvePhase {
   @override
   @JsonKey()
   List<ScProperty> get properties {
+    if (_properties is EqualUnmodifiableListView) return _properties;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_properties);
   }
@@ -256,17 +262,18 @@ class _$_EvolvePhase extends _EvolvePhase {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_EvolvePhase &&
-            const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality().equals(other.dateTime, dateTime) &&
-            const DeepCollectionEquality()
-                .equals(other.blockHeight, blockHeight) &&
-            const DeepCollectionEquality()
-                .equals(other.description, description) &&
-            const DeepCollectionEquality()
-                .equals(other.evolutionState, evolutionState) &&
-            const DeepCollectionEquality()
-                .equals(other.isCurrentState, isCurrentState) &&
-            const DeepCollectionEquality().equals(other.asset, asset) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.dateTime, dateTime) ||
+                other.dateTime == dateTime) &&
+            (identical(other.blockHeight, blockHeight) ||
+                other.blockHeight == blockHeight) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.evolutionState, evolutionState) ||
+                other.evolutionState == evolutionState) &&
+            (identical(other.isCurrentState, isCurrentState) ||
+                other.isCurrentState == isCurrentState) &&
+            (identical(other.asset, asset) || other.asset == asset) &&
             const DeepCollectionEquality()
                 .equals(other._properties, _properties));
   }
@@ -275,23 +282,26 @@ class _$_EvolvePhase extends _EvolvePhase {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(dateTime),
-      const DeepCollectionEquality().hash(blockHeight),
-      const DeepCollectionEquality().hash(description),
-      const DeepCollectionEquality().hash(evolutionState),
-      const DeepCollectionEquality().hash(isCurrentState),
-      const DeepCollectionEquality().hash(asset),
+      name,
+      dateTime,
+      blockHeight,
+      description,
+      evolutionState,
+      isCurrentState,
+      asset,
       const DeepCollectionEquality().hash(_properties));
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_EvolvePhaseCopyWith<_$_EvolvePhase> get copyWith =>
       __$$_EvolvePhaseCopyWithImpl<_$_EvolvePhase>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_EvolvePhaseToJson(this);
+    return _$$_EvolvePhaseToJson(
+      this,
+    );
   }
 }
 
@@ -311,21 +321,21 @@ abstract class _EvolvePhase extends EvolvePhase {
       _$_EvolvePhase.fromJson;
 
   @override
-  String get name => throw _privateConstructorUsedError;
+  String get name;
   @override
-  DateTime? get dateTime => throw _privateConstructorUsedError;
+  DateTime? get dateTime;
   @override
-  int? get blockHeight => throw _privateConstructorUsedError;
+  int? get blockHeight;
   @override // @Default("") String expectedValue,
-  String get description => throw _privateConstructorUsedError;
+  String get description;
   @override
-  int get evolutionState => throw _privateConstructorUsedError;
+  int get evolutionState;
   @override
-  bool get isCurrentState => throw _privateConstructorUsedError;
+  bool get isCurrentState;
   @override
-  Asset? get asset => throw _privateConstructorUsedError;
+  Asset? get asset;
   @override
-  List<ScProperty> get properties => throw _privateConstructorUsedError;
+  List<ScProperty> get properties;
   @override
   @JsonKey(ignore: true)
   _$$_EvolvePhaseCopyWith<_$_EvolvePhase> get copyWith =>

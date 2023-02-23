@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TopicListViewProvider extends StateNotifier<bool> {
-  final Reader read;
+  final Ref ref;
 
-  TopicListViewProvider(this.read, [bool isGrid = true]) : super(isGrid);
+  TopicListViewProvider(this.ref, [bool isGrid = true]) : super(isGrid);
 
   void setGrid() {
     state = true;
@@ -19,5 +19,5 @@ class TopicListViewProvider extends StateNotifier<bool> {
 }
 
 final topicListViewProvider = StateNotifierProvider<TopicListViewProvider, bool>(
-  (ref) => TopicListViewProvider(ref.read),
+  (ref) => TopicListViewProvider(ref),
 );

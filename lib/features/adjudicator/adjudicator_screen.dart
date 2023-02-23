@@ -69,8 +69,8 @@ class AdjudicatorScreen extends BaseScreen {
               icon: Icons.star,
               variant: AppColorVariant.Success,
               onPressed: () async {
-                if (!guardWalletIsSynced(ref.read)) return;
-                if (!guardWalletIsNotResyncing(ref.read)) return;
+                if (!widgetGuardWalletIsSynced(ref)) return;
+                if (!widgetGuardWalletIsNotResyncing(ref)) return;
 
                 // if (!await checkPort(false)) return;
 

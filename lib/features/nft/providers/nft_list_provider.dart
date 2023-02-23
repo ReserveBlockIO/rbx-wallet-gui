@@ -31,13 +31,13 @@ class NftListModel {
 }
 
 class NftListProvider extends StateNotifier<NftListModel> {
-  final Reader read;
+  final Ref ref;
   final dynamic refresh;
 
   final TextEditingController searchController = TextEditingController();
 
   NftListProvider(
-    this.read,
+    this.ref,
     this.refresh,
     NftListModel model,
   ) : super(model) {
@@ -45,8 +45,8 @@ class NftListProvider extends StateNotifier<NftListModel> {
   }
 
   Future<void> load(int page, [String? email, String? address]) async {
-    // email ??= read(webSessionProvider).keypair?.email;
-    // address ??= read(webSessionProvider).keypair?.public;
+    // email ??= ref.read(webSessionProvider).keypair?.email;
+    // address ??= ref.read(webSessionProvider).keypair?.public;
 
     if (kIsWeb) {
       if (email == null || address == null) {
@@ -77,5 +77,5 @@ class NftListProvider extends StateNotifier<NftListModel> {
 }
 
 final nftListProvider = StateNotifierProvider<NftListProvider, NftListModel>(
-  (ref) => NftListProvider(ref.read, ref.refresh, NftListModel(page: 0, data: CliPaginatedResponse.empty())),
+  (ref) => NftListProvider(ref, ref.refresh, NftListModel(page: 0, data: CliPaginatedResponse.empty())),
 );

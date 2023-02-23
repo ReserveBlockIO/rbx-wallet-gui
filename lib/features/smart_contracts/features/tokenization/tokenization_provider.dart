@@ -9,13 +9,13 @@ import '../../models/tokenization.dart';
 import '../../providers/create_smart_contract_provider.dart';
 
 class TokenizationFormProvider extends StateNotifier<Tokenization> {
-  final Reader read;
+  final Ref ref;
 
   late final TextEditingController nameController;
   late final TextEditingController descriptionController;
   final GlobalKey<FormState> formKey = GlobalKey();
 
-  TokenizationFormProvider(this.read, [Tokenization model = const Tokenization()]) : super(model) {
+  TokenizationFormProvider(this.ref, [Tokenization model = const Tokenization()]) : super(model) {
     nameController = TextEditingController(text: model.name);
     descriptionController = TextEditingController(text: model.description);
   }
@@ -70,12 +70,12 @@ class TokenizationFormProvider extends StateNotifier<Tokenization> {
       description: descriptionController.text,
     );
 
-    read(createSmartContractProvider.notifier).saveTokenization(state);
+    ref.read(createSmartContractProvider.notifier).saveTokenization(state);
     clear();
     Navigator.of(context).pop();
   }
 }
 
 final tokenizationFormProvider = StateNotifierProvider<TokenizationFormProvider, Tokenization>(
-  (ref) => TokenizationFormProvider(ref.read),
+  (ref) => TokenizationFormProvider(ref),
 );

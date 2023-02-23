@@ -72,13 +72,12 @@ class SmartContractsScreen extends BaseScreen {
                   body: "Start with a baseline smart contract and add customized features",
                   onPressed: () async {
                     if (!kDebugMode) {
-                      if (!guardWalletIsSynced(ref.read)) {
+                      if (!widgetGuardWalletIsSynced(ref)) {
                         return;
                       }
                     }
 
                     ref.read(createSmartContractProvider.notifier).clearSmartContract();
-
                     final id = await AutoRouter.of(context).push(const SmartContractCreatorContainerScreenRoute());
 
                     if (id != null) {
