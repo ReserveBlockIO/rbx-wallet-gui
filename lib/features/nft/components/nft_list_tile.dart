@@ -15,11 +15,13 @@ import 'nft_card.dart';
 class NftListTile extends BaseComponent {
   final Nft nft;
   final bool manageOnPress;
+  final Function()? onPressedOverride;
 
   const NftListTile(
     this.nft, {
     Key? key,
     this.manageOnPress = false,
+    this.onPressedOverride,
   }) : super(key: key);
 
   Future<void> _showDetails(BuildContext context, WidgetRef ref) async {
@@ -53,11 +55,12 @@ class NftListTile extends BaseComponent {
     final isTransferred = ref.watch(transferredProvider).contains(nft.id);
 
     return ListTile(
-      onTap: isBurned || (isTransferred && !manageOnPress)
-          ? null
-          : () {
-              _showDetails(context, ref);
-            },
+      onTap: onPressedOverride ??
+          (isBurned || (isTransferred && !manageOnPress)
+              ? null
+              : () {
+                  _showDetails(context, ref);
+                }),
       title: Text("${nft.currentEvolveName}${isBurned ? ' (Burned)' : ''}"),
       subtitle: Text(nft.id),
       leading: Stack(
@@ -85,7 +88,7 @@ class NftListTile extends BaseComponent {
               return const Icon(Icons.file_present_outlined);
             },
           ),
-          if (isTransferred && !manageOnPress) TransferingOverlay(nft, small: true)
+          if (isTransferred && !manageOnPress && onPressedOverride == null) TransferingOverlay(nft, small: true)
           // TransferingOverlay(nft, small: true)
         ],
       ),
