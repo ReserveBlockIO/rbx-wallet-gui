@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:rbx_wallet/features/dsts_legacy/screens/dst_screen.dart';
 
 import '../features/adjudicator/adjudicator_screen.dart';
 import '../features/adnr/screens/adnr_screen.dart';
 import '../features/beacon/screens/beacon_list_screen.dart';
 import '../features/config/screens/config_container_screen.dart';
 import '../features/datanode/screens/datanode_screen.dart';
-import '../features/dsts/screens/dst_screen.dart';
 import '../features/home/screens/home_screen.dart';
 import '../features/mother/screens/mother_dashboard_screen.dart';
 import '../features/nft/screens/nft_list_screen.dart';
