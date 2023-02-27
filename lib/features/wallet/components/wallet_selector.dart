@@ -104,14 +104,14 @@ class WalletSelector extends BaseComponent {
                       labelText: "Private Key",
                       inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]'))],
                       onValidSubmission: (value) async {
-                        final sync = await ConfirmDialog.show(
+                        final resync = await ConfirmDialog.show(
                           title: "Rescan Blocks?",
                           body: "Would you like to rescan the chain to include any transactions relevant to this key?",
                           confirmText: "Yes",
                           cancelText: "No",
                         );
 
-                        await ref.read(walletListProvider.notifier).import(value, false, sync == true);
+                        await ref.read(walletListProvider.notifier).import(value, false, resync == true);
                       },
                     );
                   },

@@ -2,6 +2,7 @@ import "package:collection/collection.dart";
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/buttons.dart';
@@ -181,6 +182,27 @@ class ManageWalletBottomSheet extends BaseComponent {
                                     },
                                   );
                                 }),
+                            AppButton(
+                              label: "Rescan",
+                              type: AppButtonType.Text,
+                              variant: AppColorVariant.Light,
+                              onPressed: () async {
+                                final resync = await ConfirmDialog.show(
+                                  title: "Rescan Blocks?",
+                                  body: "Would you like to rescan the chain to include any transactions relevant to this address?",
+                                  confirmText: "Yes",
+                                  cancelText: "No",
+                                );
+                                if (resync == true) {
+                                  final success = await BridgeService().rescanAddress(wallet.address);
+                                  if (success) {
+                                    InfoDialog.show(title: "Rescan has started", body: "Updated TXs will show up shortly");
+                                  } else {
+                                    OverlayToast.error();
+                                  }
+                                }
+                              },
+                            ),
                             AppButton(
                               type: AppButtonType.Text,
                               variant: AppColorVariant.Danger,

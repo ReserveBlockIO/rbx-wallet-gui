@@ -133,6 +133,22 @@ class BridgeService extends BaseService {
     return jsonDecode(response);
   }
 
+  Future<bool> rescanAddress(String address) async {
+    try {
+      final response = await getText("/RescanForTx/$address");
+
+      final data = jsonDecode(response);
+      if (data['Success'] == true) {
+        return true;
+      }
+
+      return false;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
   Future<String?> newAddress() async {
     final response = await getText("/GetNewAddress");
     if (response == "Fail") {
