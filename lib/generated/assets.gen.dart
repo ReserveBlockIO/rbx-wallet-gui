@@ -12,6 +12,9 @@ import 'package:flutter/widgets.dart';
 class $AssetsEnvGen {
   const $AssetsEnvGen();
 
+  /// File path: assets/env/block_explorer_env
+  String get blockExplorerEnv => 'assets/env/block_explorer_env';
+
   /// File path: assets/env/block_explorer_test_net_env
   String get blockExplorerTestNetEnv =>
       'assets/env/block_explorer_test_net_env';
@@ -45,6 +48,7 @@ class $AssetsEnvGen {
 
   /// List of all assets
   List<String> get values => [
+        blockExplorerEnv,
         blockExplorerTestNetEnv,
         devEnv,
         devWinEnv,

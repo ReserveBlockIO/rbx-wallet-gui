@@ -23,7 +23,8 @@ import 'package:rbx_wallet/features/config/screens/config_container_screen.dart'
     as _i6;
 import 'package:rbx_wallet/features/datanode/screens/datanode_screen.dart'
     as _i17;
-import 'package:rbx_wallet/features/dsts/screens/dst_screen.dart' as _i20;
+import 'package:rbx_wallet/features/dsts_legacy/screens/dst_screen.dart'
+    as _i20;
 import 'package:rbx_wallet/features/home/screens/home_screen.dart' as _i10;
 import 'package:rbx_wallet/features/mother/screens/mother_dashboard_screen.dart'
     as _i8;

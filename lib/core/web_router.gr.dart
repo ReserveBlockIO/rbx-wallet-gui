@@ -16,9 +16,10 @@ import 'package:auto_route/empty_router_widgets.dart' as _i1;
 import 'package:flutter/material.dart' as _i22;
 import 'package:rbx_wallet/features/adnr/screens/web_adnr_screen.dart' as _i14;
 import 'package:rbx_wallet/features/auth/screens/web_auth_screen.dart' as _i5;
-import 'package:rbx_wallet/features/dsts/screens/create_store_screen.dart'
+import 'package:rbx_wallet/features/dsts_legacy/screens/create_store_screen.dart'
     as _i18;
-import 'package:rbx_wallet/features/dsts/screens/web_dst_screen.dart' as _i17;
+import 'package:rbx_wallet/features/dsts_legacy/screens/web_dst_screen.dart'
+    as _i17;
 import 'package:rbx_wallet/features/home/screens/web_home_screen.dart' as _i6;
 import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart' as _i13;
 import 'package:rbx_wallet/features/nft/screens/nft_list_screen.dart' as _i12;

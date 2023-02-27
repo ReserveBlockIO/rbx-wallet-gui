@@ -23,6 +23,7 @@ build_core:
 	dotnet publish -c Release -r osx-x64 ../Core-Cli/ --self-contained true -f net6.0 -p:PublishSingleFile=true -p:PublishTrimmed=true
 
 package_mac:
+	nvm use
 	make build_core
 	# ./build_mac.sh
 	rm -f ./installers/exports/RBX-OSX-Intel-Installer.dmg
