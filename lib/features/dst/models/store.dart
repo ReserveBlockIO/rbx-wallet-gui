@@ -16,4 +16,14 @@ class Store with _$Store {
   }) = _Store;
 
   factory Store.fromJson(Map<String, dynamic> json) => _$StoreFromJson(json);
+
+  factory Store.empty() {
+    return Store(
+      id: 0,
+      name: '',
+      description: '',
+      isLive: false,
+      isDefault: false,
+    );
+  }
 }

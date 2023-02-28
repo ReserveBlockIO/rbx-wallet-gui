@@ -53,6 +53,16 @@ class DstService extends BaseService {
     }
   }
 
+  Future<bool> saveStore(Store store) async {
+    try {
+      final response = await postJson('/SaveStore', params: store.toJson());
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
   Future<List<Listing>> listListings(int storeId) async {
     try {
       final response = await getText("/GetStoreListings/$storeId", cleanPath: false);
