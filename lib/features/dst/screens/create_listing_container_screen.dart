@@ -1,26 +1,28 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/dst/components/create_listing_form_group.dart';
 import 'package:rbx_wallet/features/dst/providers/store_form_provider.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/theme/app_theme.dart';
-import '../components/create_store_form_group .dart';
+import '../providers/listing_form_provider.dart';
 
-class CreateStoreContainerScreen extends BaseScreen {
-  const CreateStoreContainerScreen({Key? key}) : super(key: key, verticalPadding: 0, horizontalPadding: 0);
+class CreateListingContainerScreen extends BaseScreen {
+  final int storeId;
+  const CreateListingContainerScreen(@PathParam("storeId") this.storeId, {Key? key}) : super(key: key, verticalPadding: 0, horizontalPadding: 0);
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
-    final provider = ref.read(storeFormProvider.notifier);
+    final provider = ref.read(listingFormProvider.notifier);
     return AppBar(
-      title: const Text("Store Creation"),
+      title: const Text("Listing Creation"),
       leading: IconButton(
         onPressed: () async {
           final confirmed = await ConfirmDialog.show(
-            title: "Are you sure you want to close the Store creation screen?",
+            title: "Are you sure you want to close the Listing creation screen?",
             body: "All unsaved changes will be lost.",
             cancelText: "Cancel",
             confirmText: "Continue",
@@ -29,7 +31,7 @@ class CreateStoreContainerScreen extends BaseScreen {
           if (confirmed == true) {
             AutoRouter.of(context).pop();
             provider.clear();
-            ref.invalidate(storeFormProvider);
+            ref.invalidate(listingFormProvider);
           }
         },
         icon: const Icon(Icons.close),
@@ -39,7 +41,7 @@ class CreateStoreContainerScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final provider = ref.read(storeFormProvider.notifier);
+    final provider = ref.read(listingFormProvider.notifier);
     return Column(
       children: [
         const SizedBox(
@@ -51,7 +53,7 @@ class CreateStoreContainerScreen extends BaseScreen {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const CreateStoreFormGroup(),
+                const CreateListingFormGroup(),
               ],
             ),
           ),
@@ -70,7 +72,7 @@ class CreateStoreContainerScreen extends BaseScreen {
                   label: 'Create',
                   variant: AppColorVariant.Success,
                   onPressed: () async {
-                    await provider.complete(context);
+                    await provider.complete(context, storeId);
                   },
                 )
               ],

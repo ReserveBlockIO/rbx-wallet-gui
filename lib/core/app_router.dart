@@ -12,6 +12,7 @@ import '../features/adnr/screens/adnr_screen.dart';
 import '../features/beacon/screens/beacon_list_screen.dart';
 import '../features/config/screens/config_container_screen.dart';
 import '../features/datanode/screens/datanode_screen.dart';
+import '../features/dst/screens/create_listing_container_screen.dart';
 import '../features/home/screens/home_screen.dart';
 import '../features/mother/screens/mother_dashboard_screen.dart';
 import '../features/nft/screens/nft_list_screen.dart';
@@ -126,6 +127,7 @@ const List<AutoRoute> appRoutes = [
           AutoRoute(path: "", page: MyStoresListScreen),
           AutoRoute(path: ":storeId", page: MyStoreDetailScreen),
           AutoRoute(path: "createStore", page: CreateStoreContainerScreen),
+          AutoRoute(path: "createListing/:storeId", page: CreateListingContainerScreen),
         ],
       ),
       AutoRoute(

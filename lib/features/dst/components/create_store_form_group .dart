@@ -6,7 +6,6 @@ import '../../../core/base_component.dart';
 import '../../../utils/validation.dart';
 import '../../smart_contracts/components/sc_creator/common/form_group_container.dart';
 import '../../smart_contracts/components/sc_creator/common/form_group_header.dart';
-import '../../smart_contracts/components/sc_creator/common/help_button.dart';
 
 class CreateStoreFormGroup extends BaseComponent {
   const CreateStoreFormGroup({Key? key}) : super(key: key);
