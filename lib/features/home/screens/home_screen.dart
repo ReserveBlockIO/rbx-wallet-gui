@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
+import 'package:rbx_wallet/features/dst/components/nft_selector.dart';
 import 'package:rbx_wallet/features/home/components/home_buttons/import_snapshot_button.dart';
 import 'package:rbx_wallet/features/home/components/home_buttons/mother_button.dart';
 import 'package:rbx_wallet/features/home/components/home_buttons/validating_check_button.dart';
