@@ -25,7 +25,18 @@ class Listing with _$Listing {
     @JsonKey(name: "FinalPrice") double? finalPrice,
     @JsonKey(name: "WinningAddress") String? winningAddress,
     @JsonKey(name: "StoreId") required int storeId,
+    @Default(false) @JsonKey(ignore: true) bool enableBuyNow,
+    @Default(false) @JsonKey(ignore: true) bool enableAuction,
   }) = _Listing;
 
   factory Listing.fromJson(Map<String, dynamic> json) => _$ListingFromJson(json);
+
+  factory Listing.empty() => Listing(
+        id: 0,
+        smartContractUid: '',
+        ownerAddress: '',
+        startDate: DateTime.now(),
+        endDate: DateTime.now(),
+        storeId: 0,
+      );
 }

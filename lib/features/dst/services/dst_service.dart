@@ -53,6 +53,26 @@ class DstService extends BaseService {
     }
   }
 
+  Future<bool> saveStore(Store store) async {
+    try {
+      final response = await postJson('/SaveStore', params: store.toJson());
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  saveListing(Listing listing) async {
+    try {
+      final response = await postJson('/SaveListing', params: listing.toJson());
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
   Future<List<Listing>> listListings(int storeId) async {
     try {
       final response = await getText("/GetStoreListings/$storeId", cleanPath: false);
@@ -76,7 +96,7 @@ class DstService extends BaseService {
 
       return listings;
     } catch (e) {
-      print("Error listing listings");
+      print("Error listing listings $e");
       return [];
     }
   }

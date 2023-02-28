@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/centered_loader.dart';
+import 'package:rbx_wallet/features/dst/components/listing_list.dart';
 import 'package:rbx_wallet/features/dst/providers/store_detail_provider.dart';
+
+import '../../../core/app_router.gr.dart';
 
 class MyStoreDetailScreen extends BaseScreen {
   final int storeId;
@@ -25,6 +28,17 @@ class MyStoreDetailScreen extends BaseScreen {
         }
         return AppBar(
           title: Text(store.name),
+          actions: [
+            TextButton(
+              onPressed: () {
+                AutoRouter.of(context).push(CreateListingContainerScreenRoute(storeId: storeId));
+              },
+              child: Text(
+                "Add Listing",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
         );
       },
     );
@@ -54,6 +68,7 @@ class MyStoreDetailScreen extends BaseScreen {
                 maxLines: 4,
                 overflow: TextOverflow.ellipsis,
               ),
+              Expanded(child: ListingList(storeId))
             ],
           ),
         );
