@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 
 import 'package:auto_route/empty_router_widgets.dart';
+import 'package:rbx_wallet/features/dst/screens/create_store_container_screen.dart';
 import 'package:rbx_wallet/features/dst/screens/my_store_detail_screen.dart';
 import 'package:rbx_wallet/features/dst/screens/my_stores_list_screen.dart';
+import 'package:rbx_wallet/features/dsts_legacy/screens/create_store_screen.dart';
 import 'package:rbx_wallet/features/dsts_legacy/screens/dst_screen.dart';
 
 import '../features/adjudicator/adjudicator_screen.dart';
@@ -10,6 +12,8 @@ import '../features/adnr/screens/adnr_screen.dart';
 import '../features/beacon/screens/beacon_list_screen.dart';
 import '../features/config/screens/config_container_screen.dart';
 import '../features/datanode/screens/datanode_screen.dart';
+import '../features/dst/screens/create_listing_container_screen.dart';
+import '../features/dst/screens/listing_detail_screen.dart';
 import '../features/home/screens/home_screen.dart';
 import '../features/mother/screens/mother_dashboard_screen.dart';
 import '../features/nft/screens/nft_list_screen.dart';
@@ -123,6 +127,9 @@ const List<AutoRoute> appRoutes = [
         children: [
           AutoRoute(path: "", page: MyStoresListScreen),
           AutoRoute(path: ":storeId", page: MyStoreDetailScreen),
+          AutoRoute(path: "createStore", page: CreateStoreContainerScreen),
+          AutoRoute(path: ":listingId", page: ListingDetailScreen),
+          AutoRoute(path: "createListing/:storeId", page: CreateListingContainerScreen),
         ],
       ),
       AutoRoute(

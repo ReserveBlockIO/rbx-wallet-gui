@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/features/dst/providers/store_list_provider.dart';
-import 'package:rbx_wallet/features/dst/screens/my_store_detail_screen.dart';
 
 class StoreList extends BaseComponent {
   const StoreList({Key? key}) : super(key: key);

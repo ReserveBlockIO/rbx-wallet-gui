@@ -54,6 +54,10 @@ mixin _$Listing {
   String? get winningAddress => throw _privateConstructorUsedError;
   @JsonKey(name: "StoreId")
   int get storeId => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  bool get enableBuyNow => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  bool get enableAuction => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -82,7 +86,9 @@ abstract class $ListingCopyWith<$Res> {
       @JsonKey(name: "IsVisibleAfterEndDate") bool isVisibleAfterEndDate,
       @JsonKey(name: "FinalPrice") double? finalPrice,
       @JsonKey(name: "WinningAddress") String? winningAddress,
-      @JsonKey(name: "StoreId") int storeId});
+      @JsonKey(name: "StoreId") int storeId,
+      @JsonKey(ignore: true) bool enableBuyNow,
+      @JsonKey(ignore: true) bool enableAuction});
 }
 
 /// @nodoc
@@ -115,6 +121,8 @@ class _$ListingCopyWithImpl<$Res, $Val extends Listing>
     Object? finalPrice = freezed,
     Object? winningAddress = freezed,
     Object? storeId = null,
+    Object? enableBuyNow = null,
+    Object? enableAuction = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -185,6 +193,14 @@ class _$ListingCopyWithImpl<$Res, $Val extends Listing>
           ? _value.storeId
           : storeId // ignore: cast_nullable_to_non_nullable
               as int,
+      enableBuyNow: null == enableBuyNow
+          ? _value.enableBuyNow
+          : enableBuyNow // ignore: cast_nullable_to_non_nullable
+              as bool,
+      enableAuction: null == enableAuction
+          ? _value.enableAuction
+          : enableAuction // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -213,7 +229,9 @@ abstract class _$$_ListingCopyWith<$Res> implements $ListingCopyWith<$Res> {
       @JsonKey(name: "IsVisibleAfterEndDate") bool isVisibleAfterEndDate,
       @JsonKey(name: "FinalPrice") double? finalPrice,
       @JsonKey(name: "WinningAddress") String? winningAddress,
-      @JsonKey(name: "StoreId") int storeId});
+      @JsonKey(name: "StoreId") int storeId,
+      @JsonKey(ignore: true) bool enableBuyNow,
+      @JsonKey(ignore: true) bool enableAuction});
 }
 
 /// @nodoc
@@ -243,6 +261,8 @@ class __$$_ListingCopyWithImpl<$Res>
     Object? finalPrice = freezed,
     Object? winningAddress = freezed,
     Object? storeId = null,
+    Object? enableBuyNow = null,
+    Object? enableAuction = null,
   }) {
     return _then(_$_Listing(
       id: null == id
@@ -313,6 +333,14 @@ class __$$_ListingCopyWithImpl<$Res>
           ? _value.storeId
           : storeId // ignore: cast_nullable_to_non_nullable
               as int,
+      enableBuyNow: null == enableBuyNow
+          ? _value.enableBuyNow
+          : enableBuyNow // ignore: cast_nullable_to_non_nullable
+              as bool,
+      enableAuction: null == enableAuction
+          ? _value.enableAuction
+          : enableAuction // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -354,7 +382,11 @@ class _$_Listing extends _Listing {
       @JsonKey(name: "WinningAddress")
           this.winningAddress,
       @JsonKey(name: "StoreId")
-          required this.storeId})
+          required this.storeId,
+      @JsonKey(ignore: true)
+          this.enableBuyNow = false,
+      @JsonKey(ignore: true)
+          this.enableAuction = false})
       : super._();
 
   factory _$_Listing.fromJson(Map<String, dynamic> json) =>
@@ -411,10 +443,16 @@ class _$_Listing extends _Listing {
   @override
   @JsonKey(name: "StoreId")
   final int storeId;
+  @override
+  @JsonKey(ignore: true)
+  final bool enableBuyNow;
+  @override
+  @JsonKey(ignore: true)
+  final bool enableAuction;
 
   @override
   String toString() {
-    return 'Listing(id: $id, smartContractUid: $smartContractUid, ownerAddress: $ownerAddress, buyNowPrice: $buyNowPrice, isBuyNowOnly: $isBuyNowOnly, isRoyaltyEnforced: $isRoyaltyEnforced, isCancelled: $isCancelled, requireBalanceCheck: $requireBalanceCheck, floorPrice: $floorPrice, reservePrice: $reservePrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, finalPrice: $finalPrice, winningAddress: $winningAddress, storeId: $storeId)';
+    return 'Listing(id: $id, smartContractUid: $smartContractUid, ownerAddress: $ownerAddress, buyNowPrice: $buyNowPrice, isBuyNowOnly: $isBuyNowOnly, isRoyaltyEnforced: $isRoyaltyEnforced, isCancelled: $isCancelled, requireBalanceCheck: $requireBalanceCheck, floorPrice: $floorPrice, reservePrice: $reservePrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, finalPrice: $finalPrice, winningAddress: $winningAddress, storeId: $storeId, enableBuyNow: $enableBuyNow, enableAuction: $enableAuction)';
   }
 
   @override
@@ -453,30 +491,37 @@ class _$_Listing extends _Listing {
                 other.finalPrice == finalPrice) &&
             (identical(other.winningAddress, winningAddress) ||
                 other.winningAddress == winningAddress) &&
-            (identical(other.storeId, storeId) || other.storeId == storeId));
+            (identical(other.storeId, storeId) || other.storeId == storeId) &&
+            (identical(other.enableBuyNow, enableBuyNow) ||
+                other.enableBuyNow == enableBuyNow) &&
+            (identical(other.enableAuction, enableAuction) ||
+                other.enableAuction == enableAuction));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      smartContractUid,
-      ownerAddress,
-      buyNowPrice,
-      isBuyNowOnly,
-      isRoyaltyEnforced,
-      isCancelled,
-      requireBalanceCheck,
-      floorPrice,
-      reservePrice,
-      startDate,
-      endDate,
-      isVisibleBeforeStartDate,
-      isVisibleAfterEndDate,
-      finalPrice,
-      winningAddress,
-      storeId);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        smartContractUid,
+        ownerAddress,
+        buyNowPrice,
+        isBuyNowOnly,
+        isRoyaltyEnforced,
+        isCancelled,
+        requireBalanceCheck,
+        floorPrice,
+        reservePrice,
+        startDate,
+        endDate,
+        isVisibleBeforeStartDate,
+        isVisibleAfterEndDate,
+        finalPrice,
+        winningAddress,
+        storeId,
+        enableBuyNow,
+        enableAuction
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -527,7 +572,11 @@ abstract class _Listing extends Listing {
       @JsonKey(name: "WinningAddress")
           final String? winningAddress,
       @JsonKey(name: "StoreId")
-          required final int storeId}) = _$_Listing;
+          required final int storeId,
+      @JsonKey(ignore: true)
+          final bool enableBuyNow,
+      @JsonKey(ignore: true)
+          final bool enableAuction}) = _$_Listing;
   _Listing._() : super._();
 
   factory _Listing.fromJson(Map<String, dynamic> json) = _$_Listing.fromJson;
@@ -583,6 +632,12 @@ abstract class _Listing extends Listing {
   @override
   @JsonKey(name: "StoreId")
   int get storeId;
+  @override
+  @JsonKey(ignore: true)
+  bool get enableBuyNow;
+  @override
+  @JsonKey(ignore: true)
+  bool get enableAuction;
   @override
   @JsonKey(ignore: true)
   _$$_ListingCopyWith<_$_Listing> get copyWith =>
