@@ -19,8 +19,8 @@ class ListingFormProvider extends StateNotifier<Listing> {
   late final TextEditingController startDateController;
   late final TextEditingController endDateController;
   final GlobalKey<FormState> formKey = GlobalKey();
-  bool enableAuction = false;
-  bool enableBuyNow = false;
+  // bool enableAuction = false;
+  // bool enableBuyNow = false;
 
   ListingFormProvider(this.ref, Listing model) : super(model) {
     startDateController = TextEditingController(
@@ -57,6 +57,7 @@ class ListingFormProvider extends StateNotifier<Listing> {
     state = state.copyWith(
       ownerAddress: nft.currentOwner != '' ? nft.currentOwner : nft.minterAddress,
       smartContractUid: nft.id,
+      nft: nft,
     );
   }
 
@@ -102,6 +103,14 @@ class ListingFormProvider extends StateNotifier<Listing> {
     if (!formKey.currentState!.validate()) {
       return;
     }
+
+    if (state.enableAuction && state.reservePrice != null && state.floorPrice != null) {
+      if (state.reservePrice! < state.floorPrice!) {
+        Toast.error("The reserve price must be greater or equal to the floor price.");
+        return;
+      }
+    }
+
     if (state.smartContractUid.isEmpty) {
       Toast.error('The NFT must be set');
       return;

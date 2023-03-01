@@ -11,7 +11,7 @@ class CreateStoreFormGroup extends BaseComponent {
   const CreateStoreFormGroup({Key? key}) : super(key: key);
 
   @override
-  Widget desktopBody(BuildContext context, WidgetRef ref) {
+  Widget body(BuildContext context, WidgetRef ref) {
     final provider = ref.read(storeFormProvider.notifier);
     final model = ref.read(storeFormProvider);
     return FormGroupContainer(
@@ -19,9 +19,6 @@ class CreateStoreFormGroup extends BaseComponent {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          FormGroupHeader(
-            model.id != 0 ? "Edit Store" : "Create Store",
-          ),
           Center(
               child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 600),
@@ -36,6 +33,9 @@ class CreateStoreFormGroup extends BaseComponent {
                   ),
                   Flexible(
                     child: _StoreDescription(),
+                  ),
+                  SizedBox(
+                    height: 6,
                   ),
                   Flexible(child: _IsLiveCheckbox()),
                 ],
@@ -70,7 +70,7 @@ class _IsLiveCheckbox extends BaseComponent {
           onTap: () {
             provider.updateIsLive(!model.isLive);
           },
-          child: const Text("Will the Store be Live?"),
+          child: const Text("Publish Live"),
         ),
       ],
     );

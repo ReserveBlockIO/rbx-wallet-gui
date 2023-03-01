@@ -17,8 +17,10 @@ class CreateListingContainerScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     final provider = ref.read(listingFormProvider.notifier);
+    final model = ref.watch(listingFormProvider);
+
     return AppBar(
-      title: const Text("Listing Creation"),
+      title: Text(model.id == 0 ? "Create Listing" : "Edit Listing"),
       leading: IconButton(
         onPressed: () async {
           final confirmed = await ConfirmDialog.show(
@@ -42,6 +44,8 @@ class CreateListingContainerScreen extends BaseScreen {
   @override
   Widget body(BuildContext context, WidgetRef ref) {
     final provider = ref.read(listingFormProvider.notifier);
+    final model = ref.watch(listingFormProvider);
+
     return Column(
       children: [
         const SizedBox(
@@ -69,7 +73,7 @@ class CreateListingContainerScreen extends BaseScreen {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 AppButton(
-                  label: 'Create',
+                  label: model.id == 0 ? 'Create' : 'Update',
                   variant: AppColorVariant.Success,
                   onPressed: () async {
                     await provider.complete(context, storeId);

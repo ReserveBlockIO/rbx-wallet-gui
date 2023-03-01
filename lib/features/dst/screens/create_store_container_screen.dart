@@ -17,7 +17,7 @@ class CreateStoreContainerScreen extends BaseScreen {
     final provider = ref.read(storeFormProvider.notifier);
     final model = ref.read(storeFormProvider);
     return AppBar(
-      title: Text(model.id != 0 ? "Edit Store" : "Store Creation"),
+      title: Text(model.id != 0 ? "Edit Store" : "Create New Store"),
       leading: IconButton(
         onPressed: () async {
           final confirmed = await ConfirmDialog.show(

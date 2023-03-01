@@ -58,6 +58,8 @@ mixin _$Listing {
   bool get enableBuyNow => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   bool get enableAuction => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  Nft? get nft => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -88,7 +90,10 @@ abstract class $ListingCopyWith<$Res> {
       @JsonKey(name: "WinningAddress") String? winningAddress,
       @JsonKey(name: "StoreId") int storeId,
       @JsonKey(ignore: true) bool enableBuyNow,
-      @JsonKey(ignore: true) bool enableAuction});
+      @JsonKey(ignore: true) bool enableAuction,
+      @JsonKey(ignore: true) Nft? nft});
+
+  $NftCopyWith<$Res>? get nft;
 }
 
 /// @nodoc
@@ -123,6 +128,7 @@ class _$ListingCopyWithImpl<$Res, $Val extends Listing>
     Object? storeId = null,
     Object? enableBuyNow = null,
     Object? enableAuction = null,
+    Object? nft = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -201,7 +207,23 @@ class _$ListingCopyWithImpl<$Res, $Val extends Listing>
           ? _value.enableAuction
           : enableAuction // ignore: cast_nullable_to_non_nullable
               as bool,
+      nft: freezed == nft
+          ? _value.nft
+          : nft // ignore: cast_nullable_to_non_nullable
+              as Nft?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $NftCopyWith<$Res>? get nft {
+    if (_value.nft == null) {
+      return null;
+    }
+
+    return $NftCopyWith<$Res>(_value.nft!, (value) {
+      return _then(_value.copyWith(nft: value) as $Val);
+    });
   }
 }
 
@@ -231,7 +253,11 @@ abstract class _$$_ListingCopyWith<$Res> implements $ListingCopyWith<$Res> {
       @JsonKey(name: "WinningAddress") String? winningAddress,
       @JsonKey(name: "StoreId") int storeId,
       @JsonKey(ignore: true) bool enableBuyNow,
-      @JsonKey(ignore: true) bool enableAuction});
+      @JsonKey(ignore: true) bool enableAuction,
+      @JsonKey(ignore: true) Nft? nft});
+
+  @override
+  $NftCopyWith<$Res>? get nft;
 }
 
 /// @nodoc
@@ -263,6 +289,7 @@ class __$$_ListingCopyWithImpl<$Res>
     Object? storeId = null,
     Object? enableBuyNow = null,
     Object? enableAuction = null,
+    Object? nft = freezed,
   }) {
     return _then(_$_Listing(
       id: null == id
@@ -341,6 +368,10 @@ class __$$_ListingCopyWithImpl<$Res>
           ? _value.enableAuction
           : enableAuction // ignore: cast_nullable_to_non_nullable
               as bool,
+      nft: freezed == nft
+          ? _value.nft
+          : nft // ignore: cast_nullable_to_non_nullable
+              as Nft?,
     ));
   }
 }
@@ -386,7 +417,9 @@ class _$_Listing extends _Listing {
       @JsonKey(ignore: true)
           this.enableBuyNow = false,
       @JsonKey(ignore: true)
-          this.enableAuction = false})
+          this.enableAuction = false,
+      @JsonKey(ignore: true)
+          this.nft})
       : super._();
 
   factory _$_Listing.fromJson(Map<String, dynamic> json) =>
@@ -449,10 +482,13 @@ class _$_Listing extends _Listing {
   @override
   @JsonKey(ignore: true)
   final bool enableAuction;
+  @override
+  @JsonKey(ignore: true)
+  final Nft? nft;
 
   @override
   String toString() {
-    return 'Listing(id: $id, smartContractUid: $smartContractUid, ownerAddress: $ownerAddress, buyNowPrice: $buyNowPrice, isBuyNowOnly: $isBuyNowOnly, isRoyaltyEnforced: $isRoyaltyEnforced, isCancelled: $isCancelled, requireBalanceCheck: $requireBalanceCheck, floorPrice: $floorPrice, reservePrice: $reservePrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, finalPrice: $finalPrice, winningAddress: $winningAddress, storeId: $storeId, enableBuyNow: $enableBuyNow, enableAuction: $enableAuction)';
+    return 'Listing(id: $id, smartContractUid: $smartContractUid, ownerAddress: $ownerAddress, buyNowPrice: $buyNowPrice, isBuyNowOnly: $isBuyNowOnly, isRoyaltyEnforced: $isRoyaltyEnforced, isCancelled: $isCancelled, requireBalanceCheck: $requireBalanceCheck, floorPrice: $floorPrice, reservePrice: $reservePrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, finalPrice: $finalPrice, winningAddress: $winningAddress, storeId: $storeId, enableBuyNow: $enableBuyNow, enableAuction: $enableAuction, nft: $nft)';
   }
 
   @override
@@ -495,7 +531,8 @@ class _$_Listing extends _Listing {
             (identical(other.enableBuyNow, enableBuyNow) ||
                 other.enableBuyNow == enableBuyNow) &&
             (identical(other.enableAuction, enableAuction) ||
-                other.enableAuction == enableAuction));
+                other.enableAuction == enableAuction) &&
+            (identical(other.nft, nft) || other.nft == nft));
   }
 
   @JsonKey(ignore: true)
@@ -520,7 +557,8 @@ class _$_Listing extends _Listing {
         winningAddress,
         storeId,
         enableBuyNow,
-        enableAuction
+        enableAuction,
+        nft
       ]);
 
   @JsonKey(ignore: true)
@@ -576,7 +614,9 @@ abstract class _Listing extends Listing {
       @JsonKey(ignore: true)
           final bool enableBuyNow,
       @JsonKey(ignore: true)
-          final bool enableAuction}) = _$_Listing;
+          final bool enableAuction,
+      @JsonKey(ignore: true)
+          final Nft? nft}) = _$_Listing;
   _Listing._() : super._();
 
   factory _Listing.fromJson(Map<String, dynamic> json) = _$_Listing.fromJson;
@@ -638,6 +678,9 @@ abstract class _Listing extends Listing {
   @override
   @JsonKey(ignore: true)
   bool get enableAuction;
+  @override
+  @JsonKey(ignore: true)
+  Nft? get nft;
   @override
   @JsonKey(ignore: true)
   _$$_ListingCopyWith<_$_Listing> get copyWith =>

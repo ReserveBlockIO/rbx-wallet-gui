@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/features/nft/models/nft.dart';
 
 part 'listing.freezed.dart';
 part 'listing.g.dart';
@@ -27,6 +28,7 @@ class Listing with _$Listing {
     @JsonKey(name: "StoreId") required int storeId,
     @Default(false) @JsonKey(ignore: true) bool enableBuyNow,
     @Default(false) @JsonKey(ignore: true) bool enableAuction,
+    @JsonKey(ignore: true) Nft? nft,
   }) = _Listing;
 
   factory Listing.fromJson(Map<String, dynamic> json) => _$ListingFromJson(json);
@@ -39,4 +41,25 @@ class Listing with _$Listing {
         endDate: DateTime.now(),
         storeId: 0,
       );
+
+  bool get isBuyNow {
+    return buyNowPrice != null && buyNowPrice != 0;
+  }
+
+  bool get isAuction {
+    return floorPrice != null && floorPrice != 0;
+  }
+
+  String get label {
+    final List<String> components = [];
+    if (isBuyNow) {
+      components.add("Buy Now: $buyNowPrice RBX");
+    }
+    if (isAuction) {
+      components.add("Floor: $floorPrice RBX");
+      components.add("Reserve: $reservePrice RBX");
+    }
+
+    return components.join(' | ');
+  }
 }

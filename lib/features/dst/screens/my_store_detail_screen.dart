@@ -4,10 +4,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/components/centered_loader.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/dst/components/listing_list.dart';
 import 'package:rbx_wallet/features/dst/providers/store_detail_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/store_form_provider.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/app_router.gr.dart';
 
@@ -37,7 +39,7 @@ class MyStoreDetailScreen extends BaseScreen {
                 AutoRouter.of(context).push(CreateListingContainerScreenRoute(storeId: storeId));
               },
               child: Text(
-                "Add Listing",
+                "Create Listing",
                 style: TextStyle(color: Colors.white),
               ),
             ),
@@ -71,6 +73,7 @@ class MyStoreDetailScreen extends BaseScreen {
                 maxLines: 4,
                 overflow: TextOverflow.ellipsis,
               ),
+              Divider(),
               Expanded(child: ListingList(storeId)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -84,11 +87,30 @@ class MyStoreDetailScreen extends BaseScreen {
                     },
                   ),
                   AppButton(
+                    label: 'Create Listing',
+                    icon: Icons.add,
+                    variant: AppColorVariant.Success,
+                    onPressed: () {
+                      AutoRouter.of(context).push(CreateListingContainerScreenRoute(storeId: storeId));
+                    },
+                  ),
+                  AppButton(
                     label: 'Delete Store',
                     variant: AppColorVariant.Danger,
                     icon: Icons.fire_hydrant,
-                    onPressed: () {
-                      ref.read(storeFormProvider.notifier).delete(context);
+                    onPressed: () async {
+                      final confirmed = await ConfirmDialog.show(
+                        title: "Delete Store",
+                        body: "Are you sure you want to delete this store?",
+                        destructive: true,
+                        confirmText: "Delete",
+                        cancelText: "Cancel",
+                      );
+
+                      if (confirmed == true) {
+                        ref.read(storeFormProvider.notifier).delete(context, store);
+                        Toast.message("Store deleted.");
+                      }
                     },
                   )
                 ],

@@ -11,9 +11,6 @@ class StoreListProvider extends StateNotifier<List<Store>> {
 
   Future<void> load() async {
     final data = await DstService().listStores();
-
-    state = data;
-
     state = data;
   }
 

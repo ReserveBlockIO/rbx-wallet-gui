@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:rbx_wallet/features/dst/models/listing.dart';
 import 'package:rbx_wallet/features/dst/models/store.dart';
+import 'package:rbx_wallet/features/nft/models/nft.dart';
+import 'package:rbx_wallet/features/nft/services/nft_service.dart';
 
 import '../../../core/services/base_service.dart';
 
@@ -35,7 +37,15 @@ class DstService extends BaseService {
         return null;
       }
 
-      return Listing.fromJson(data['Listing']);
+      Nft? nft;
+
+      try {
+        nft = await NftService().retrieve(data['Listing']['SmartContractUID']);
+      } catch (e) {
+        print(e);
+      }
+
+      return Listing.fromJson(data['Listing']).copyWith(nft: nft);
     } catch (e, st) {
       print(e);
       print(st);
@@ -73,7 +83,7 @@ class DstService extends BaseService {
 
   Future<bool> saveStore(Store store) async {
     try {
-      final response = await postJson('/SaveStore', params: store.toJson());
+      await postJson('/SaveStore', params: store.toJson());
       return true;
     } catch (e) {
       print(e);
@@ -119,7 +129,14 @@ class DstService extends BaseService {
 
       final List<Listing> listings = [];
       for (final item in items) {
-        listings.add(Listing.fromJson(item));
+        Nft? nft;
+        try {
+          nft = await NftService().retrieve(item['SmartContractUID']);
+        } catch (e) {
+          print(e);
+        }
+
+        listings.add(Listing.fromJson(item).copyWith(nft: nft));
       }
 
       return listings;

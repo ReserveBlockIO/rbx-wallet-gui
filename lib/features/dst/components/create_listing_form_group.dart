@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/asset/polling_image_preview.dart';
 import 'package:rbx_wallet/features/dst/components/nft_selector.dart';
 import 'package:rbx_wallet/features/dst/providers/store_form_provider.dart';
 
@@ -22,9 +23,6 @@ class CreateListingFormGroup extends BaseComponent {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          const FormGroupHeader(
-            "Create Listing",
-          ),
           Center(
               child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 600),
@@ -34,11 +32,21 @@ class CreateListingFormGroup extends BaseComponent {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Flexible(child: _NFT()),
+                  Flexible(
+                    child: Card(
+                      margin: EdgeInsets.zero,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        child: _NFT(),
+                      ),
+                    ),
+                  ),
                   Flexible(child: _StartDate()),
                   Flexible(child: _EndDate()),
+                  SizedBox(height: 16),
                   Flexible(child: _EnableBuyNow()),
                   if (model.enableBuyNow) Flexible(child: _BuyNow()),
+                  SizedBox(height: 16),
                   Flexible(child: _EnableAuction()),
                   if (model.enableAuction) ...[
                     Flexible(child: _FloorPrice()),
@@ -125,9 +133,7 @@ class _BuyNow extends BaseComponent {
     return TextFormField(
       controller: provider.buyNowController,
       onChanged: provider.updateBuyNow,
-      inputFormatters: [
-        FilteringTextInputFormatter.digitsOnly,
-      ],
+      inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
       validator: (value) => formValidatorNotEmpty(value, "Buy Now"),
       decoration: InputDecoration(
         label: const Text(
@@ -150,13 +156,11 @@ class _FloorPrice extends BaseComponent {
     return TextFormField(
       controller: provider.floorPriceController,
       onChanged: provider.updateFloorPrice,
-      inputFormatters: [
-        FilteringTextInputFormatter.digitsOnly,
-      ],
+      inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
       validator: (value) => formValidatorNotEmpty(value, "Floor Price"),
       decoration: InputDecoration(
         label: const Text(
-          "Floor  Price",
+          "Floor Price",
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -175,9 +179,7 @@ class _ReservePrice extends BaseComponent {
     return TextFormField(
       controller: provider.reservePriceController,
       onChanged: provider.updateReservePrice,
-      inputFormatters: [
-        FilteringTextInputFormatter.digitsOnly,
-      ],
+      inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
       validator: (value) => formValidatorNotEmpty(value, "Reserve Price"),
       decoration: InputDecoration(
         label: const Text(
@@ -198,15 +200,74 @@ class _NFT extends BaseComponent {
   Widget build(BuildContext context, ref) {
     final provider = ref.read(listingFormProvider.notifier);
     final model = ref.watch(listingFormProvider);
+
+    if (model.nft == null) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text("NFT:"),
+            NftSelector(onSelect: (nft) {
+              provider.updateNFT(nft);
+            }),
+          ],
+        ),
+      );
+    }
+
+    final nft = model.nft!;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text("NFT: ${model.smartContractUid}"),
-          NftSelector(onSelect: (nft) {
-            provider.updateNFT(nft);
-          }),
+          Builder(
+            builder: (context) {
+              if (nft.currentEvolveAsset.isImage) {
+                if (nft.currentEvolveAsset.localPath == null) {
+                  return const SizedBox(
+                    width: 32,
+                    height: 32,
+                  );
+                }
+
+                return SizedBox(
+                  width: 32,
+                  height: 32,
+                  child: PollingImagePreview(
+                    localPath: nft.currentEvolveAsset.localPath!,
+                    expectedSize: nft.currentEvolveAsset.fileSize,
+                    withProgress: false,
+                  ),
+                );
+              }
+              return const Icon(Icons.file_present_outlined);
+            },
+          ),
+          SizedBox(
+            width: 6,
+          ),
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("NFT: ${nft.name}"),
+                Text(
+                  nft.id,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ],
+            ),
+          ),
+          NftSelector(
+            labelOverride: "Replace NFT",
+            onSelect: (nft) {
+              provider.updateNFT(nft);
+            },
+          ),
         ],
       ),
     );
@@ -226,6 +287,9 @@ Future<void> _showDatePicker(BuildContext context, WidgetRef ref, bool isStartDa
 
   if (_d != null) {
     _provider.updateDate(_d, isStartDate);
+    if (isStartDate) {
+      _provider.updateDate(_d.add(Duration(days: 7)), false);
+    }
   }
 }
 

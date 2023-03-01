@@ -26,9 +26,9 @@ import 'package:rbx_wallet/features/datanode/screens/datanode_screen.dart'
 import 'package:rbx_wallet/features/dst/screens/create_listing_container_screen.dart'
     as _i24;
 import 'package:rbx_wallet/features/dst/screens/create_store_container_screen.dart'
-    as _i23;
-import 'package:rbx_wallet/features/dst/screens/listing_detail_screen.dart'
     as _i22;
+import 'package:rbx_wallet/features/dst/screens/listing_detail_screen.dart'
+    as _i23;
 import 'package:rbx_wallet/features/dst/screens/my_store_detail_screen.dart'
     as _i21;
 import 'package:rbx_wallet/features/dst/screens/my_stores_list_screen.dart'
@@ -284,6 +284,12 @@ class AppRouter extends _i31.RootStackRouter {
         ),
       );
     },
+    CreateStoreContainerScreenRoute.name: (routeData) {
+      return _i31.AdaptivePage<dynamic>(
+        routeData: routeData,
+        child: const _i22.CreateStoreContainerScreen(),
+      );
+    },
     ListingDetailScreenRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
       final args = routeData.argsAs<ListingDetailScreenRouteArgs>(
@@ -291,16 +297,10 @@ class AppRouter extends _i31.RootStackRouter {
               listingId: pathParams.getInt('listingId')));
       return _i31.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: _i22.ListingDetailScreen(
+        child: _i23.ListingDetailScreen(
           key: args.key,
           listingId: args.listingId,
         ),
-      );
-    },
-    CreateStoreContainerScreenRoute.name: (routeData) {
-      return _i31.AdaptivePage<dynamic>(
-        routeData: routeData,
-        child: const _i23.CreateStoreContainerScreen(),
       );
     },
     CreateListingContainerScreenRoute.name: (routeData) {
@@ -503,13 +503,13 @@ class AppRouter extends _i31.RootStackRouter {
                   parent: DstsTabRouter.name,
                 ),
                 _i31.RouteConfig(
-                  ListingDetailScreenRoute.name,
-                  path: ':listingId',
+                  CreateStoreContainerScreenRoute.name,
+                  path: 'createStore',
                   parent: DstsTabRouter.name,
                 ),
                 _i31.RouteConfig(
-                  CreateStoreContainerScreenRoute.name,
-                  path: 'createStore',
+                  ListingDetailScreenRoute.name,
+                  path: ':listingId',
                   parent: DstsTabRouter.name,
                 ),
                 _i31.RouteConfig(
@@ -1063,7 +1063,19 @@ class MyStoreDetailScreenRouteArgs {
 }
 
 /// generated route for
-/// [_i22.ListingDetailScreen]
+/// [_i22.CreateStoreContainerScreen]
+class CreateStoreContainerScreenRoute extends _i31.PageRouteInfo<void> {
+  const CreateStoreContainerScreenRoute()
+      : super(
+          CreateStoreContainerScreenRoute.name,
+          path: 'createStore',
+        );
+
+  static const String name = 'CreateStoreContainerScreenRoute';
+}
+
+/// generated route for
+/// [_i23.ListingDetailScreen]
 class ListingDetailScreenRoute
     extends _i31.PageRouteInfo<ListingDetailScreenRouteArgs> {
   ListingDetailScreenRoute({
@@ -1096,18 +1108,6 @@ class ListingDetailScreenRouteArgs {
   String toString() {
     return 'ListingDetailScreenRouteArgs{key: $key, listingId: $listingId}';
   }
-}
-
-/// generated route for
-/// [_i23.CreateStoreContainerScreen]
-class CreateStoreContainerScreenRoute extends _i31.PageRouteInfo<void> {
-  const CreateStoreContainerScreenRoute()
-      : super(
-          CreateStoreContainerScreenRoute.name,
-          path: 'createStore',
-        );
-
-  static const String name = 'CreateStoreContainerScreenRoute';
 }
 
 /// generated route for
