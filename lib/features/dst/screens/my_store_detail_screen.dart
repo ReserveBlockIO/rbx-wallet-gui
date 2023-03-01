@@ -2,9 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
+import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/components/centered_loader.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/dst/components/listing_list.dart';
 import 'package:rbx_wallet/features/dst/providers/store_detail_provider.dart';
+import 'package:rbx_wallet/features/dst/providers/store_form_provider.dart';
 
 import '../../../core/app_router.gr.dart';
 
@@ -68,7 +71,28 @@ class MyStoreDetailScreen extends BaseScreen {
                 maxLines: 4,
                 overflow: TextOverflow.ellipsis,
               ),
-              Expanded(child: ListingList(storeId))
+              Expanded(child: ListingList(storeId)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  AppButton(
+                    label: 'Edit Store',
+                    icon: Icons.edit,
+                    onPressed: () {
+                      ref.read(storeFormProvider.notifier).load(store);
+                      AutoRouter.of(context).push(const CreateStoreContainerScreenRoute());
+                    },
+                  ),
+                  AppButton(
+                    label: 'Delete Store',
+                    variant: AppColorVariant.Danger,
+                    icon: Icons.fire_hydrant,
+                    onPressed: () {
+                      ref.read(storeFormProvider.notifier).delete(context);
+                    },
+                  )
+                ],
+              )
             ],
           ),
         );
