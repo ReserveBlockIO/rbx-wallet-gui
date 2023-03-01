@@ -13,13 +13,14 @@ class CreateStoreFormGroup extends BaseComponent {
   @override
   Widget desktopBody(BuildContext context, WidgetRef ref) {
     final provider = ref.read(storeFormProvider.notifier);
+    final model = ref.read(storeFormProvider);
     return FormGroupContainer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          const FormGroupHeader(
-            "Create Store",
+          FormGroupHeader(
+            model.id != 0 ? "Edit Store" : "Create Store",
           ),
           Center(
               child: ConstrainedBox(

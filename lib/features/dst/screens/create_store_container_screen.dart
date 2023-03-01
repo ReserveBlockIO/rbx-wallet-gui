@@ -15,12 +15,13 @@ class CreateStoreContainerScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     final provider = ref.read(storeFormProvider.notifier);
+    final model = ref.read(storeFormProvider);
     return AppBar(
-      title: const Text("Store Creation"),
+      title: Text(model.id != 0 ? "Edit Store" : "Store Creation"),
       leading: IconButton(
         onPressed: () async {
           final confirmed = await ConfirmDialog.show(
-            title: "Are you sure you want to close the Store creation screen?",
+            title: "Are you sure you want to close the Store ${model.id != 0 ? 'editing' : 'creation'} screen?",
             body: "All unsaved changes will be lost.",
             cancelText: "Cancel",
             confirmText: "Continue",
@@ -40,6 +41,8 @@ class CreateStoreContainerScreen extends BaseScreen {
   @override
   Widget body(BuildContext context, WidgetRef ref) {
     final provider = ref.read(storeFormProvider.notifier);
+    final model = ref.read(storeFormProvider);
+
     return Column(
       children: [
         const SizedBox(
@@ -67,7 +70,7 @@ class CreateStoreContainerScreen extends BaseScreen {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 AppButton(
-                  label: 'Create',
+                  label: model.id != 0 ? 'Save' : 'Create',
                   variant: AppColorVariant.Success,
                   onPressed: () async {
                     await provider.complete(context);

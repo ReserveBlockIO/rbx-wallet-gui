@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:rbx_wallet/features/dst/providers/listing_detail_provider.dart';
 import 'package:rbx_wallet/features/dst/services/dst_service.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
@@ -36,6 +37,19 @@ class ListingFormProvider extends StateNotifier<Listing> {
     );
     reservePriceController = TextEditingController(
       text: model.reservePrice != null ? model.reservePrice.toString() : '',
+    );
+  }
+
+  load(Listing listing) {
+    state = listing;
+    startDateController.text = DateFormat.yMd().format(listing.startDate);
+    endDateController.text = DateFormat.yMd().format(listing.endDate);
+    buyNowController.text = listing.buyNowPrice.toString();
+    floorPriceController.text = listing.floorPrice.toString();
+    reservePriceController.text = listing.reservePrice.toString();
+    state = state.copyWith(
+      enableBuyNow: listing.buyNowPrice != 0,
+      enableAuction: listing.floorPrice != 0 || listing.reservePrice != 0,
     );
   }
 
@@ -98,10 +112,15 @@ class ListingFormProvider extends StateNotifier<Listing> {
     }
     ref.read(globalLoadingProvider.notifier).start();
     state = state.copyWith(storeId: storeId);
+
     if (await DstService().saveListing(state)) {
-      clear();
       ref.read(listingListProvider(storeId).notifier).refresh();
+      if (state.id != 0) {
+        print('invalidating');
+        ref.invalidate(listingDetailProvider(state.id));
+      }
       ref.read(globalLoadingProvider.notifier).complete();
+      clear();
       AutoRouter.of(context).pop();
     }
     ref.read(globalLoadingProvider.notifier).complete();
@@ -114,6 +133,14 @@ class ListingFormProvider extends StateNotifier<Listing> {
     floorPriceController.text = "";
     reservePriceController.text = "";
     state = Listing.empty();
+  }
+
+  delete(BuildContext context, int storeId, Listing listing) async {
+    if (await DstService().deleteListing(listing)) {
+      clear();
+      ref.read(listingListProvider(storeId).notifier).refresh();
+      AutoRouter.of(context).pop();
+    }
   }
 }
 

@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/dst/models/store.dart';
+import 'package:rbx_wallet/features/dst/providers/store_detail_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/store_list_provider.dart';
 import 'package:rbx_wallet/features/dst/services/dst_service.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
@@ -15,6 +16,12 @@ class StoreFormProvider extends StateNotifier<Store> {
   StoreFormProvider(this.ref, Store model) : super(model) {
     nameController = TextEditingController(text: model.name);
     descriptionController = TextEditingController(text: model.description);
+  }
+
+  load(Store store) {
+    state = store;
+    nameController.text = store.name;
+    descriptionController.text = store.description;
   }
 
   updateName(String name) {
@@ -37,10 +44,21 @@ class StoreFormProvider extends StateNotifier<Store> {
     if (await DstService().saveStore(state)) {
       clear();
       ref.read(storeListProvider.notifier).refresh();
+      if (state.id != 0) {
+        ref.invalidate(storeDetailProvider(state.id));
+      }
       ref.read(globalLoadingProvider.notifier).complete();
       AutoRouter.of(context).pop();
     }
     ref.read(globalLoadingProvider.notifier).complete();
+  }
+
+  delete(BuildContext context) async {
+    if (await DstService().deleteStore(state)) {
+      clear();
+      ref.read(storeListProvider.notifier).refresh();
+      AutoRouter.of(context).popUntilRoot();
+    }
   }
 
   clear() {

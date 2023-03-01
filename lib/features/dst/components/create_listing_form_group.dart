@@ -272,7 +272,6 @@ class _EndDate extends BaseComponent {
     return TextFormField(
       controller: provider.endDateController,
       validator: (String? val) {
-        print("Start: ${model.startDate} End: ${model.endDate}");
         if (model.endDate.isBefore(model.startDate) || model.endDate.isAtSameMomentAs(model.startDate)) {
           return 'The end date must be set and it must be a later date than the start date';
         }

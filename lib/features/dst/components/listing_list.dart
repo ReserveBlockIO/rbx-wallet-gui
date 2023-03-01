@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/features/dst/providers/listing_list_provider.dart';
-import 'package:rbx_wallet/features/dst/providers/store_list_provider.dart';
 
 class ListingList extends BaseComponent {
   const ListingList(this.storeId, {Key? key}) : super(key: key);
@@ -12,7 +11,6 @@ class ListingList extends BaseComponent {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final provider = ref.read(listingListProvider(storeId).notifier);
     final listings = ref.watch(listingListProvider(storeId));
 
     return listings.isNotEmpty
@@ -25,7 +23,7 @@ class ListingList extends BaseComponent {
                   title: Text(listing.smartContractUid),
                   trailing: Icon(Icons.chevron_right),
                   onTap: () {
-                    // AutoRouter.of(context).push(MyStoreDetailScreenRoute(storeId: listing.id));
+                    AutoRouter.of(context).push(ListingDetailScreenRoute(listingId: listing.id));
                   },
                 ),
               );
