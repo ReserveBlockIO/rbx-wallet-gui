@@ -51,7 +51,6 @@ class StoreFormProvider extends StateNotifier<Store> {
       // would be nice if the store data could just come back in the API response (so we know the ID)
       final thisStore = stores.where((s) => s.name == state.name).toList();
 
-      clear();
       ref.read(storeListProvider.notifier).refresh();
 
       if (state.id == 0 && thisStore.length == 1) {
@@ -63,6 +62,7 @@ class StoreFormProvider extends StateNotifier<Store> {
         }
         AutoRouter.of(context).pop();
       }
+      clear();
     } else {
       Toast.error();
     }
@@ -83,6 +83,7 @@ class StoreFormProvider extends StateNotifier<Store> {
   clear() {
     nameController.text = "";
     descriptionController.text = "";
+    state = Store.empty();
   }
 }
 

@@ -6,6 +6,7 @@ import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/dst/components/store_list.dart';
+import 'package:rbx_wallet/features/dst/providers/store_form_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/store_list_provider.dart';
 import 'package:rbx_wallet/features/dsts_legacy/providers/my_store_listings_provider.dart';
 
@@ -39,6 +40,7 @@ class MyStoresListScreen extends BaseScreen {
           label: "Create Store",
           variant: AppColorVariant.Success,
           onPressed: () {
+            ref.read(storeFormProvider.notifier).clear();
             AutoRouter.of(context).push(const CreateStoreContainerScreenRoute());
           },
         ),
@@ -67,6 +69,7 @@ class MyStoresListScreen extends BaseScreen {
                   label: 'Create Store',
                   variant: AppColorVariant.Success,
                   onPressed: () async {
+                    ref.read(storeFormProvider.notifier).clear();
                     AutoRouter.of(context).push(const CreateStoreContainerScreenRoute());
                   },
                 )

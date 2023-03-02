@@ -45,9 +45,9 @@ class ListingFormProvider extends StateNotifier<Listing> {
     state = listing;
     startDateController.text = DateFormat.yMd().format(listing.startDate);
     endDateController.text = DateFormat.yMd().format(listing.endDate);
-    buyNowController.text = listing.buyNowPrice.toString();
-    floorPriceController.text = listing.floorPrice.toString();
-    reservePriceController.text = listing.reservePrice.toString();
+    buyNowController.text = (listing.buyNowPrice ?? '').toString();
+    floorPriceController.text = (listing.floorPrice ?? '').toString();
+    reservePriceController.text = (listing.reservePrice ?? '').toString();
     state = state.copyWith(
       enableBuyNow: listing.isBuyNow,
       enableAuction: listing.isAuction,
@@ -117,7 +117,7 @@ class ListingFormProvider extends StateNotifier<Listing> {
       return;
     }
     if (!state.enableAuction && !state.enableBuyNow) {
-      Toast.error('Enable at leas one of the options (Buy now or Auction)');
+      Toast.error('Enable at least one of the options (Buy now or Auction)');
       return;
     }
 
