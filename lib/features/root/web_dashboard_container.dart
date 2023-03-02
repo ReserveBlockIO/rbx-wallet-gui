@@ -64,7 +64,7 @@ class _ContentWrapper extends BaseComponent {
               padding: EdgeInsets.all(4.0),
               child: Center(
                 child: Text(
-                  "RBX TEST NET",
+                  "RBX TESTNET",
                   style: TextStyle(
                     fontSize: 13,
                     letterSpacing: 2,
@@ -102,7 +102,7 @@ class _ContentWrapper extends BaseComponent {
             padding: EdgeInsets.all(4.0),
             child: Center(
               child: Text(
-                "RBX TEST NET",
+                "RBX TESTNET",
                 style: TextStyle(
                   fontSize: 13,
                   letterSpacing: 2,

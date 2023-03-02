@@ -50,12 +50,12 @@ class RootContainer extends BaseComponent {
                 if (Env.isTestNet)
                   Container(
                     width: double.infinity,
-                    color: Colors.green.shade800,
+                    color: Colors.green.shade900,
                     child: const Padding(
                       padding: EdgeInsets.all(4.0),
                       child: Center(
                         child: Text(
-                          "RBX TEST NET",
+                          "RBX TESTNET",
                           style: TextStyle(
                             fontSize: 12,
                             letterSpacing: 1,
