@@ -63,6 +63,9 @@ class MyStoreDetailScreen extends BaseScreen {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            SizedBox(
+              height: 16,
+            ),
             Text(
               store.name,
               style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.white),
@@ -71,6 +74,9 @@ class MyStoreDetailScreen extends BaseScreen {
               store.description,
               maxLines: 4,
               overflow: TextOverflow.ellipsis,
+            ),
+            SizedBox(
+              height: 8,
             ),
             Divider(),
             Expanded(child: ListingList(storeId)),

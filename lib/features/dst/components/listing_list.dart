@@ -6,6 +6,7 @@ import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/asset/polling_image_preview.dart';
+import 'package:rbx_wallet/features/dst/providers/listing_form_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/listing_list_provider.dart';
 
 class ListingList extends BaseComponent {
@@ -53,7 +54,28 @@ class ListingList extends BaseComponent {
                   ),
                   title: Text(listing.nft != null ? listing.nft!.name : listing.smartContractUid),
                   subtitle: Text(listing.label),
-                  trailing: Icon(Icons.chevron_right),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      AppButton(
+                        label: "Edit",
+                        variant: AppColorVariant.Light,
+                        onPressed: () {
+                          ref.read(listingFormProvider.notifier).load(listing);
+                          AutoRouter.of(context).push(CreateListingContainerScreenRoute(storeId: listing.storeId));
+                        },
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      AppButton(
+                        label: "Details",
+                        onPressed: () {
+                          AutoRouter.of(context).push(ListingDetailScreenRoute(listingId: listing.id));
+                        },
+                      )
+                    ],
+                  ),
                   onTap: () {
                     AutoRouter.of(context).push(ListingDetailScreenRoute(listingId: listing.id));
                   },

@@ -61,7 +61,7 @@ class MyStoresListScreen extends BaseScreen {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 AppButton(
                   label: 'Create Store',

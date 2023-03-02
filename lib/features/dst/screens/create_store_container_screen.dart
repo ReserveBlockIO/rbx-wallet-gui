@@ -21,7 +21,7 @@ class CreateStoreContainerScreen extends BaseScreen {
       leading: IconButton(
         onPressed: () async {
           final confirmed = await ConfirmDialog.show(
-            title: "Are you sure you want to close the Store ${model.id != 0 ? 'editing' : 'creation'} screen?",
+            title: "Are you sure you want to close the store ${model.id != 0 ? 'editing' : 'creation'} screen?",
             body: "All unsaved changes will be lost.",
             cancelText: "Cancel",
             confirmText: "Continue",
@@ -67,8 +67,26 @@ class CreateStoreContainerScreen extends BaseScreen {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                AppButton(
+                  label: "Discard Changes",
+                  variant: AppColorVariant.Danger,
+                  onPressed: () async {
+                    final confirmed = await ConfirmDialog.show(
+                      title: "Are you sure you want to close the store ${model.id != 0 ? 'editing' : 'creation'} screen?",
+                      body: "All unsaved changes will be lost.",
+                      cancelText: "Cancel",
+                      confirmText: "Continue",
+                    );
+
+                    if (confirmed == true) {
+                      AutoRouter.of(context).pop();
+                      provider.clear();
+                      ref.invalidate(storeFormProvider);
+                    }
+                  },
+                ),
                 AppButton(
                   label: model.id != 0 ? 'Save' : 'Create',
                   variant: AppColorVariant.Success,
