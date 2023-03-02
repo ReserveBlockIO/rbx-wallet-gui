@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/features/dst/models/store.dart';
+import 'package:rbx_wallet/features/dst/providers/listing_list_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/store_detail_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/store_list_provider.dart';
 import 'package:rbx_wallet/features/dst/services/dst_service.dart';
@@ -71,6 +72,7 @@ class StoreFormProvider extends StateNotifier<Store> {
     final success = await DstService().deleteStore(store);
     if (success) {
       clear();
+      ref.invalidate(listingListProvider(store.id));
       ref.read(storeListProvider.notifier).refresh();
       AutoRouter.of(context).popUntilRoot();
     } else {

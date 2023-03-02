@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/features/dst/providers/listing_detail_provider.dart';
 import 'package:rbx_wallet/features/dst/services/dst_service.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
@@ -143,10 +144,19 @@ class ListingFormProvider extends StateNotifier<Listing> {
   }
 
   delete(BuildContext context, int storeId, Listing listing) async {
-    if (await DstService().deleteListing(listing)) {
-      clear();
-      ref.read(listingListProvider(storeId).notifier).refresh();
-      AutoRouter.of(context).pop();
+    final confirmed = await ConfirmDialog.show(
+      title: "Delete Listing",
+      body: "Are you sure you want to delete this listing?",
+      destructive: true,
+      confirmText: "Delete",
+      cancelText: "Cancel",
+    );
+    if (confirmed == true) {
+      if (await DstService().deleteListing(listing)) {
+        clear();
+        ref.read(listingListProvider(storeId).notifier).refresh();
+        AutoRouter.of(context).pop();
+      }
     }
   }
 }
