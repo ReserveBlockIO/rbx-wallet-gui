@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class NftListViewProvider extends StateNotifier<bool> {
-  final Reader read;
+  final Ref ref;
 
-  NftListViewProvider(this.read, [bool isGrid = true]) : super(isGrid);
+  NftListViewProvider(this.ref, [bool isGrid = true]) : super(isGrid);
 
   void setGrid() {
     state = true;
@@ -19,5 +19,5 @@ class NftListViewProvider extends StateNotifier<bool> {
 }
 
 final nftListViewProvider = StateNotifierProvider<NftListViewProvider, bool>(
-  (ref) => NftListViewProvider(ref.read),
+  (ref) => NftListViewProvider(ref),
 );

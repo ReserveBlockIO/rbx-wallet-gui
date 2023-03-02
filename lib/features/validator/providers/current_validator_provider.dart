@@ -6,9 +6,9 @@ import '../../bridge/services/bridge_service.dart';
 import '../../wallet/models/wallet.dart';
 
 class CurrentValidatorProvider extends StateNotifier<Wallet?> {
-  final Reader read;
+  final Ref ref;
 
-  CurrentValidatorProvider(this.read, [Wallet? wallet]) : super(wallet);
+  CurrentValidatorProvider(this.ref, [Wallet? wallet]) : super(wallet);
 
   void set(Wallet? wallet) {
     state = wallet;
@@ -50,5 +50,5 @@ class CurrentValidatorProvider extends StateNotifier<Wallet?> {
 }
 
 final currentValidatorProvider = StateNotifierProvider<CurrentValidatorProvider, Wallet?>((ref) {
-  return CurrentValidatorProvider(ref.read);
+  return CurrentValidatorProvider(ref);
 });

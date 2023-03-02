@@ -1,9 +1,12 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_route/empty_router_widgets.dart';
 import 'package:rbx_wallet/features/adnr/screens/web_adnr_screen.dart';
+import 'package:rbx_wallet/features/dsts_legacy/screens/create_store_screen.dart';
+import 'package:rbx_wallet/features/dsts_legacy/screens/web_dst_screen.dart';
 
 import '../features/auth/screens/web_auth_screen.dart';
-import '../features/dsts/screens/create_store_screen.dart';
-import '../features/dsts/screens/web_dst_screen.dart';
+// import '../features/dsts/screens/create_store_screen.dart';
+// import '../features/dsts/screens/web_dst_screen.dart';
 import '../features/home/screens/web_home_screen.dart';
 import '../features/nft/screens/nft_detail_screen.dart';
 import '../features/nft/screens/nft_list_screen.dart';

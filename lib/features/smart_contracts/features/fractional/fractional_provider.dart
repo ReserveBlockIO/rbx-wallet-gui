@@ -7,14 +7,14 @@ import '../../models/fractional.dart';
 import '../../providers/create_smart_contract_provider.dart';
 
 class FractionalFormProvider extends StateNotifier<Fractional> {
-  final Reader read;
+  final Ref ref;
 
   late final TextEditingController creatorRetainsController;
   late final TextEditingController fractionalInterestController;
   late final TextEditingController votingDescriptionController;
   final GlobalKey<FormState> formKey = GlobalKey();
 
-  FractionalFormProvider(this.read, [Fractional model = const Fractional()]) : super(model) {
+  FractionalFormProvider(this.ref, [Fractional model = const Fractional()]) : super(model) {
     creatorRetainsController = TextEditingController(text: model.creatorRetains.toString());
     fractionalInterestController = TextEditingController(text: model.fractionalInterest.toString());
     votingDescriptionController = TextEditingController(text: model.votingDescription);
@@ -50,12 +50,12 @@ class FractionalFormProvider extends StateNotifier<Fractional> {
       fractionalInterest: double.parse(fractionalInterestController.text),
     );
 
-    read(createSmartContractProvider.notifier).saveFractional(state);
+    ref.read(createSmartContractProvider.notifier).saveFractional(state);
     clear();
     Navigator.of(context).pop();
   }
 }
 
 final fractionalFormProvider = StateNotifierProvider<FractionalFormProvider, Fractional>(
-  (ref) => FractionalFormProvider(ref.read),
+  (ref) => FractionalFormProvider(ref),
 );

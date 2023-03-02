@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'compiled_smart_contract.dart';
 
@@ -50,7 +50,8 @@ mixin _$CompiledSmartContract {
 abstract class $CompiledSmartContractCopyWith<$Res> {
   factory $CompiledSmartContractCopyWith(CompiledSmartContract value,
           $Res Function(CompiledSmartContract) then) =
-      _$CompiledSmartContractCopyWithImpl<$Res>;
+      _$CompiledSmartContractCopyWithImpl<$Res, CompiledSmartContract>;
+  @useResult
   $Res call(
       {@JsonKey(name: "Name") String name,
       @JsonKey(name: "MinterName") String? minterName,
@@ -65,65 +66,69 @@ abstract class $CompiledSmartContractCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$CompiledSmartContractCopyWithImpl<$Res>
+class _$CompiledSmartContractCopyWithImpl<$Res,
+        $Val extends CompiledSmartContract>
     implements $CompiledSmartContractCopyWith<$Res> {
   _$CompiledSmartContractCopyWithImpl(this._value, this._then);
 
-  final CompiledSmartContract _value;
   // ignore: unused_field
-  final $Res Function(CompiledSmartContract) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
+    Object? name = null,
     Object? minterName = freezed,
-    Object? description = freezed,
-    Object? id = freezed,
-    Object? primaryAsset = freezed,
-    Object? isPublic = freezed,
-    Object? isPublished = freezed,
-    Object? features = freezed,
+    Object? description = null,
+    Object? id = null,
+    Object? primaryAsset = null,
+    Object? isPublic = null,
+    Object? isPublished = null,
+    Object? features = null,
   }) {
     return _then(_value.copyWith(
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      minterName: minterName == freezed
+      minterName: freezed == minterName
           ? _value.minterName
           : minterName // ignore: cast_nullable_to_non_nullable
               as String?,
-      description: description == freezed
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      primaryAsset: primaryAsset == freezed
+      primaryAsset: null == primaryAsset
           ? _value.primaryAsset
           : primaryAsset // ignore: cast_nullable_to_non_nullable
               as Asset,
-      isPublic: isPublic == freezed
+      isPublic: null == isPublic
           ? _value.isPublic
           : isPublic // ignore: cast_nullable_to_non_nullable
               as bool,
-      isPublished: isPublished == freezed
+      isPublished: null == isPublished
           ? _value.isPublished
           : isPublished // ignore: cast_nullable_to_non_nullable
               as bool,
-      features: features == freezed
+      features: null == features
           ? _value.features
           : features // ignore: cast_nullable_to_non_nullable
               as List<Map<String, dynamic>>,
-    ));
+    ) as $Val);
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $AssetCopyWith<$Res> get primaryAsset {
     return $AssetCopyWith<$Res>(_value.primaryAsset, (value) {
-      return _then(_value.copyWith(primaryAsset: value));
+      return _then(_value.copyWith(primaryAsset: value) as $Val);
     });
   }
 }
@@ -135,6 +140,7 @@ abstract class _$$_CompiledSmartContractCopyWith<$Res>
           $Res Function(_$_CompiledSmartContract) then) =
       __$$_CompiledSmartContractCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {@JsonKey(name: "Name") String name,
       @JsonKey(name: "MinterName") String? minterName,
@@ -151,57 +157,54 @@ abstract class _$$_CompiledSmartContractCopyWith<$Res>
 
 /// @nodoc
 class __$$_CompiledSmartContractCopyWithImpl<$Res>
-    extends _$CompiledSmartContractCopyWithImpl<$Res>
+    extends _$CompiledSmartContractCopyWithImpl<$Res, _$_CompiledSmartContract>
     implements _$$_CompiledSmartContractCopyWith<$Res> {
   __$$_CompiledSmartContractCopyWithImpl(_$_CompiledSmartContract _value,
       $Res Function(_$_CompiledSmartContract) _then)
-      : super(_value, (v) => _then(v as _$_CompiledSmartContract));
+      : super(_value, _then);
 
-  @override
-  _$_CompiledSmartContract get _value =>
-      super._value as _$_CompiledSmartContract;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
+    Object? name = null,
     Object? minterName = freezed,
-    Object? description = freezed,
-    Object? id = freezed,
-    Object? primaryAsset = freezed,
-    Object? isPublic = freezed,
-    Object? isPublished = freezed,
-    Object? features = freezed,
+    Object? description = null,
+    Object? id = null,
+    Object? primaryAsset = null,
+    Object? isPublic = null,
+    Object? isPublished = null,
+    Object? features = null,
   }) {
     return _then(_$_CompiledSmartContract(
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      minterName: minterName == freezed
+      minterName: freezed == minterName
           ? _value.minterName
           : minterName // ignore: cast_nullable_to_non_nullable
               as String?,
-      description: description == freezed
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      primaryAsset: primaryAsset == freezed
+      primaryAsset: null == primaryAsset
           ? _value.primaryAsset
           : primaryAsset // ignore: cast_nullable_to_non_nullable
               as Asset,
-      isPublic: isPublic == freezed
+      isPublic: null == isPublic
           ? _value.isPublic
           : isPublic // ignore: cast_nullable_to_non_nullable
               as bool,
-      isPublished: isPublished == freezed
+      isPublished: null == isPublished
           ? _value.isPublished
           : isPublished // ignore: cast_nullable_to_non_nullable
               as bool,
-      features: features == freezed
+      features: null == features
           ? _value._features
           : features // ignore: cast_nullable_to_non_nullable
               as List<Map<String, dynamic>>,
@@ -262,6 +265,7 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
   @override
   @JsonKey(name: "Features")
   List<Map<String, dynamic>> get features {
+    if (_features is EqualUnmodifiableListView) return _features;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_features);
   }
@@ -276,17 +280,18 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_CompiledSmartContract &&
-            const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality()
-                .equals(other.minterName, minterName) &&
-            const DeepCollectionEquality()
-                .equals(other.description, description) &&
-            const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality()
-                .equals(other.primaryAsset, primaryAsset) &&
-            const DeepCollectionEquality().equals(other.isPublic, isPublic) &&
-            const DeepCollectionEquality()
-                .equals(other.isPublished, isPublished) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.minterName, minterName) ||
+                other.minterName == minterName) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.primaryAsset, primaryAsset) ||
+                other.primaryAsset == primaryAsset) &&
+            (identical(other.isPublic, isPublic) ||
+                other.isPublic == isPublic) &&
+            (identical(other.isPublished, isPublished) ||
+                other.isPublished == isPublished) &&
             const DeepCollectionEquality().equals(other._features, _features));
   }
 
@@ -294,24 +299,27 @@ class _$_CompiledSmartContract extends _CompiledSmartContract {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(minterName),
-      const DeepCollectionEquality().hash(description),
-      const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(primaryAsset),
-      const DeepCollectionEquality().hash(isPublic),
-      const DeepCollectionEquality().hash(isPublished),
+      name,
+      minterName,
+      description,
+      id,
+      primaryAsset,
+      isPublic,
+      isPublished,
       const DeepCollectionEquality().hash(_features));
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_CompiledSmartContractCopyWith<_$_CompiledSmartContract> get copyWith =>
       __$$_CompiledSmartContractCopyWithImpl<_$_CompiledSmartContract>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_CompiledSmartContractToJson(this);
+    return _$$_CompiledSmartContractToJson(
+      this,
+    );
   }
 }
 
@@ -341,28 +349,28 @@ abstract class _CompiledSmartContract extends CompiledSmartContract {
 
   @override
   @JsonKey(name: "Name")
-  String get name => throw _privateConstructorUsedError;
+  String get name;
   @override
   @JsonKey(name: "MinterName")
-  String? get minterName => throw _privateConstructorUsedError;
+  String? get minterName;
   @override
   @JsonKey(name: "Description")
-  String get description => throw _privateConstructorUsedError;
+  String get description;
   @override // @JsonKey(name: "CurrentOwner") required String CurrentOwner,
   @JsonKey(name: "SmartContractUID")
-  String get id => throw _privateConstructorUsedError;
+  String get id;
   @override // @JsonKey(name: "Signature") String? signature,
   @JsonKey(name: "SmartContractAsset")
-  Asset get primaryAsset => throw _privateConstructorUsedError;
+  Asset get primaryAsset;
   @override
   @JsonKey(name: "IsPublic")
-  bool get isPublic => throw _privateConstructorUsedError;
+  bool get isPublic;
   @override
   @JsonKey(name: "IsPublished")
-  bool get isPublished => throw _privateConstructorUsedError;
+  bool get isPublished;
   @override
   @JsonKey(name: "Features")
-  List<Map<String, dynamic>> get features => throw _privateConstructorUsedError;
+  List<Map<String, dynamic>> get features;
   @override
   @JsonKey(ignore: true)
   _$$_CompiledSmartContractCopyWith<_$_CompiledSmartContract> get copyWith =>

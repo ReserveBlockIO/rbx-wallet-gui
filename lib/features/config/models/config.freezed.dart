@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'config.dart';
 
@@ -57,7 +57,8 @@ mixin _$Config {
 /// @nodoc
 abstract class $ConfigCopyWith<$Res> {
   factory $ConfigCopyWith(Config value, $Res Function(Config) then) =
-      _$ConfigCopyWithImpl<$Res>;
+      _$ConfigCopyWithImpl<$Res, Config>;
+  @useResult
   $Res call(
       {@JsonKey(name: "Port", fromJson: stringToInt)
           int port,
@@ -88,83 +89,86 @@ abstract class $ConfigCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ConfigCopyWithImpl<$Res> implements $ConfigCopyWith<$Res> {
+class _$ConfigCopyWithImpl<$Res, $Val extends Config>
+    implements $ConfigCopyWith<$Res> {
   _$ConfigCopyWithImpl(this._value, this._then);
 
-  final Config _value;
   // ignore: unused_field
-  final $Res Function(Config) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? port = freezed,
-    Object? apiPort = freezed,
-    Object? walletUnlockTime = freezed,
-    Object? passwordClearTime = freezed,
+    Object? port = null,
+    Object? apiPort = null,
+    Object? walletUnlockTime = null,
+    Object? passwordClearTime = null,
     Object? apiCallUrl = freezed,
     Object? motherAddress = freezed,
     Object? motherPassword = freezed,
-    Object? testnet = freezed,
-    Object? nftTimeout = freezed,
-    Object? autoDownloadNftAsset = freezed,
-    Object? ignoreIncomingNfts = freezed,
-    Object? rejectAssetExtensionTypes = freezed,
+    Object? testnet = null,
+    Object? nftTimeout = null,
+    Object? autoDownloadNftAsset = null,
+    Object? ignoreIncomingNfts = null,
+    Object? rejectAssetExtensionTypes = null,
     Object? allowedAssetExtensionTypes = freezed,
   }) {
     return _then(_value.copyWith(
-      port: port == freezed
+      port: null == port
           ? _value.port
           : port // ignore: cast_nullable_to_non_nullable
               as int,
-      apiPort: apiPort == freezed
+      apiPort: null == apiPort
           ? _value.apiPort
           : apiPort // ignore: cast_nullable_to_non_nullable
               as int,
-      walletUnlockTime: walletUnlockTime == freezed
+      walletUnlockTime: null == walletUnlockTime
           ? _value.walletUnlockTime
           : walletUnlockTime // ignore: cast_nullable_to_non_nullable
               as int,
-      passwordClearTime: passwordClearTime == freezed
+      passwordClearTime: null == passwordClearTime
           ? _value.passwordClearTime
           : passwordClearTime // ignore: cast_nullable_to_non_nullable
               as int,
-      apiCallUrl: apiCallUrl == freezed
+      apiCallUrl: freezed == apiCallUrl
           ? _value.apiCallUrl
           : apiCallUrl // ignore: cast_nullable_to_non_nullable
               as String?,
-      motherAddress: motherAddress == freezed
+      motherAddress: freezed == motherAddress
           ? _value.motherAddress
           : motherAddress // ignore: cast_nullable_to_non_nullable
               as String?,
-      motherPassword: motherPassword == freezed
+      motherPassword: freezed == motherPassword
           ? _value.motherPassword
           : motherPassword // ignore: cast_nullable_to_non_nullable
               as String?,
-      testnet: testnet == freezed
+      testnet: null == testnet
           ? _value.testnet
           : testnet // ignore: cast_nullable_to_non_nullable
               as bool,
-      nftTimeout: nftTimeout == freezed
+      nftTimeout: null == nftTimeout
           ? _value.nftTimeout
           : nftTimeout // ignore: cast_nullable_to_non_nullable
               as int,
-      autoDownloadNftAsset: autoDownloadNftAsset == freezed
+      autoDownloadNftAsset: null == autoDownloadNftAsset
           ? _value.autoDownloadNftAsset
           : autoDownloadNftAsset // ignore: cast_nullable_to_non_nullable
               as bool,
-      ignoreIncomingNfts: ignoreIncomingNfts == freezed
+      ignoreIncomingNfts: null == ignoreIncomingNfts
           ? _value.ignoreIncomingNfts
           : ignoreIncomingNfts // ignore: cast_nullable_to_non_nullable
               as bool,
-      rejectAssetExtensionTypes: rejectAssetExtensionTypes == freezed
+      rejectAssetExtensionTypes: null == rejectAssetExtensionTypes
           ? _value.rejectAssetExtensionTypes
           : rejectAssetExtensionTypes // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      allowedAssetExtensionTypes: allowedAssetExtensionTypes == freezed
+      allowedAssetExtensionTypes: freezed == allowedAssetExtensionTypes
           ? _value.allowedAssetExtensionTypes
           : allowedAssetExtensionTypes // ignore: cast_nullable_to_non_nullable
               as List<String>?,
-    ));
+    ) as $Val);
   }
 }
 
@@ -173,6 +177,7 @@ abstract class _$$_ConfigCopyWith<$Res> implements $ConfigCopyWith<$Res> {
   factory _$$_ConfigCopyWith(_$_Config value, $Res Function(_$_Config) then) =
       __$$_ConfigCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {@JsonKey(name: "Port", fromJson: stringToInt)
           int port,
@@ -203,80 +208,79 @@ abstract class _$$_ConfigCopyWith<$Res> implements $ConfigCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_ConfigCopyWithImpl<$Res> extends _$ConfigCopyWithImpl<$Res>
+class __$$_ConfigCopyWithImpl<$Res>
+    extends _$ConfigCopyWithImpl<$Res, _$_Config>
     implements _$$_ConfigCopyWith<$Res> {
   __$$_ConfigCopyWithImpl(_$_Config _value, $Res Function(_$_Config) _then)
-      : super(_value, (v) => _then(v as _$_Config));
+      : super(_value, _then);
 
-  @override
-  _$_Config get _value => super._value as _$_Config;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? port = freezed,
-    Object? apiPort = freezed,
-    Object? walletUnlockTime = freezed,
-    Object? passwordClearTime = freezed,
+    Object? port = null,
+    Object? apiPort = null,
+    Object? walletUnlockTime = null,
+    Object? passwordClearTime = null,
     Object? apiCallUrl = freezed,
     Object? motherAddress = freezed,
     Object? motherPassword = freezed,
-    Object? testnet = freezed,
-    Object? nftTimeout = freezed,
-    Object? autoDownloadNftAsset = freezed,
-    Object? ignoreIncomingNfts = freezed,
-    Object? rejectAssetExtensionTypes = freezed,
+    Object? testnet = null,
+    Object? nftTimeout = null,
+    Object? autoDownloadNftAsset = null,
+    Object? ignoreIncomingNfts = null,
+    Object? rejectAssetExtensionTypes = null,
     Object? allowedAssetExtensionTypes = freezed,
   }) {
     return _then(_$_Config(
-      port: port == freezed
+      port: null == port
           ? _value.port
           : port // ignore: cast_nullable_to_non_nullable
               as int,
-      apiPort: apiPort == freezed
+      apiPort: null == apiPort
           ? _value.apiPort
           : apiPort // ignore: cast_nullable_to_non_nullable
               as int,
-      walletUnlockTime: walletUnlockTime == freezed
+      walletUnlockTime: null == walletUnlockTime
           ? _value.walletUnlockTime
           : walletUnlockTime // ignore: cast_nullable_to_non_nullable
               as int,
-      passwordClearTime: passwordClearTime == freezed
+      passwordClearTime: null == passwordClearTime
           ? _value.passwordClearTime
           : passwordClearTime // ignore: cast_nullable_to_non_nullable
               as int,
-      apiCallUrl: apiCallUrl == freezed
+      apiCallUrl: freezed == apiCallUrl
           ? _value.apiCallUrl
           : apiCallUrl // ignore: cast_nullable_to_non_nullable
               as String?,
-      motherAddress: motherAddress == freezed
+      motherAddress: freezed == motherAddress
           ? _value.motherAddress
           : motherAddress // ignore: cast_nullable_to_non_nullable
               as String?,
-      motherPassword: motherPassword == freezed
+      motherPassword: freezed == motherPassword
           ? _value.motherPassword
           : motherPassword // ignore: cast_nullable_to_non_nullable
               as String?,
-      testnet: testnet == freezed
+      testnet: null == testnet
           ? _value.testnet
           : testnet // ignore: cast_nullable_to_non_nullable
               as bool,
-      nftTimeout: nftTimeout == freezed
+      nftTimeout: null == nftTimeout
           ? _value.nftTimeout
           : nftTimeout // ignore: cast_nullable_to_non_nullable
               as int,
-      autoDownloadNftAsset: autoDownloadNftAsset == freezed
+      autoDownloadNftAsset: null == autoDownloadNftAsset
           ? _value.autoDownloadNftAsset
           : autoDownloadNftAsset // ignore: cast_nullable_to_non_nullable
               as bool,
-      ignoreIncomingNfts: ignoreIncomingNfts == freezed
+      ignoreIncomingNfts: null == ignoreIncomingNfts
           ? _value.ignoreIncomingNfts
           : ignoreIncomingNfts // ignore: cast_nullable_to_non_nullable
               as bool,
-      rejectAssetExtensionTypes: rejectAssetExtensionTypes == freezed
+      rejectAssetExtensionTypes: null == rejectAssetExtensionTypes
           ? _value._rejectAssetExtensionTypes
           : rejectAssetExtensionTypes // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      allowedAssetExtensionTypes: allowedAssetExtensionTypes == freezed
+      allowedAssetExtensionTypes: freezed == allowedAssetExtensionTypes
           ? _value._allowedAssetExtensionTypes
           : allowedAssetExtensionTypes // ignore: cast_nullable_to_non_nullable
               as List<String>?,
@@ -360,6 +364,8 @@ class _$_Config extends _Config with DiagnosticableTreeMixin {
   @override
   @JsonKey(name: "RejectAssetExtensionTypes", fromJson: stringToList)
   List<String> get rejectAssetExtensionTypes {
+    if (_rejectAssetExtensionTypes is EqualUnmodifiableListView)
+      return _rejectAssetExtensionTypes;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_rejectAssetExtensionTypes);
   }
@@ -370,6 +376,8 @@ class _$_Config extends _Config with DiagnosticableTreeMixin {
   List<String>? get allowedAssetExtensionTypes {
     final value = _allowedAssetExtensionTypes;
     if (value == null) return null;
+    if (_allowedAssetExtensionTypes is EqualUnmodifiableListView)
+      return _allowedAssetExtensionTypes;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(value);
   }
@@ -406,25 +414,25 @@ class _$_Config extends _Config with DiagnosticableTreeMixin {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Config &&
-            const DeepCollectionEquality().equals(other.port, port) &&
-            const DeepCollectionEquality().equals(other.apiPort, apiPort) &&
-            const DeepCollectionEquality()
-                .equals(other.walletUnlockTime, walletUnlockTime) &&
-            const DeepCollectionEquality()
-                .equals(other.passwordClearTime, passwordClearTime) &&
-            const DeepCollectionEquality()
-                .equals(other.apiCallUrl, apiCallUrl) &&
-            const DeepCollectionEquality()
-                .equals(other.motherAddress, motherAddress) &&
-            const DeepCollectionEquality()
-                .equals(other.motherPassword, motherPassword) &&
-            const DeepCollectionEquality().equals(other.testnet, testnet) &&
-            const DeepCollectionEquality()
-                .equals(other.nftTimeout, nftTimeout) &&
-            const DeepCollectionEquality()
-                .equals(other.autoDownloadNftAsset, autoDownloadNftAsset) &&
-            const DeepCollectionEquality()
-                .equals(other.ignoreIncomingNfts, ignoreIncomingNfts) &&
+            (identical(other.port, port) || other.port == port) &&
+            (identical(other.apiPort, apiPort) || other.apiPort == apiPort) &&
+            (identical(other.walletUnlockTime, walletUnlockTime) ||
+                other.walletUnlockTime == walletUnlockTime) &&
+            (identical(other.passwordClearTime, passwordClearTime) ||
+                other.passwordClearTime == passwordClearTime) &&
+            (identical(other.apiCallUrl, apiCallUrl) ||
+                other.apiCallUrl == apiCallUrl) &&
+            (identical(other.motherAddress, motherAddress) ||
+                other.motherAddress == motherAddress) &&
+            (identical(other.motherPassword, motherPassword) ||
+                other.motherPassword == motherPassword) &&
+            (identical(other.testnet, testnet) || other.testnet == testnet) &&
+            (identical(other.nftTimeout, nftTimeout) ||
+                other.nftTimeout == nftTimeout) &&
+            (identical(other.autoDownloadNftAsset, autoDownloadNftAsset) ||
+                other.autoDownloadNftAsset == autoDownloadNftAsset) &&
+            (identical(other.ignoreIncomingNfts, ignoreIncomingNfts) ||
+                other.ignoreIncomingNfts == ignoreIncomingNfts) &&
             const DeepCollectionEquality().equals(
                 other._rejectAssetExtensionTypes, _rejectAssetExtensionTypes) &&
             const DeepCollectionEquality().equals(
@@ -436,28 +444,31 @@ class _$_Config extends _Config with DiagnosticableTreeMixin {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(port),
-      const DeepCollectionEquality().hash(apiPort),
-      const DeepCollectionEquality().hash(walletUnlockTime),
-      const DeepCollectionEquality().hash(passwordClearTime),
-      const DeepCollectionEquality().hash(apiCallUrl),
-      const DeepCollectionEquality().hash(motherAddress),
-      const DeepCollectionEquality().hash(motherPassword),
-      const DeepCollectionEquality().hash(testnet),
-      const DeepCollectionEquality().hash(nftTimeout),
-      const DeepCollectionEquality().hash(autoDownloadNftAsset),
-      const DeepCollectionEquality().hash(ignoreIncomingNfts),
+      port,
+      apiPort,
+      walletUnlockTime,
+      passwordClearTime,
+      apiCallUrl,
+      motherAddress,
+      motherPassword,
+      testnet,
+      nftTimeout,
+      autoDownloadNftAsset,
+      ignoreIncomingNfts,
       const DeepCollectionEquality().hash(_rejectAssetExtensionTypes),
       const DeepCollectionEquality().hash(_allowedAssetExtensionTypes));
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_ConfigCopyWith<_$_Config> get copyWith =>
       __$$_ConfigCopyWithImpl<_$_Config>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ConfigToJson(this);
+    return _$$_ConfigToJson(
+      this,
+    );
   }
 }
 
@@ -495,45 +506,43 @@ abstract class _Config extends Config {
 
   @override
   @JsonKey(name: "Port", fromJson: stringToInt)
-  int get port => throw _privateConstructorUsedError;
+  int get port;
   @override
   @JsonKey(name: "APIPort", fromJson: stringToInt)
-  int get apiPort => throw _privateConstructorUsedError;
+  int get apiPort;
   @override
   @JsonKey(name: "WalletUnlockTime", fromJson: stringToInt)
-  int get walletUnlockTime => throw _privateConstructorUsedError;
+  int get walletUnlockTime;
   @override
   @JsonKey(name: "PasswordClearTime", fromJson: stringToInt)
-  int get passwordClearTime => throw _privateConstructorUsedError;
+  int get passwordClearTime;
   @override
   @JsonKey(name: "APICallURL")
-  String? get apiCallUrl => throw _privateConstructorUsedError;
+  String? get apiCallUrl;
   @override
   @JsonKey(name: "MotherAddress")
-  String? get motherAddress => throw _privateConstructorUsedError;
+  String? get motherAddress;
   @override
   @JsonKey(name: "MotherPassword")
-  String? get motherPassword => throw _privateConstructorUsedError;
+  String? get motherPassword;
   @override
   @JsonKey(name: "TestNet", fromJson: stringToBool)
-  bool get testnet => throw _privateConstructorUsedError;
+  bool get testnet;
   @override
   @JsonKey(name: "NFTTimeout", fromJson: stringToInt)
-  int get nftTimeout => throw _privateConstructorUsedError;
+  int get nftTimeout;
   @override
   @JsonKey(name: "AutoDownloadNFTAsset", fromJson: stringToBool)
-  bool get autoDownloadNftAsset => throw _privateConstructorUsedError;
+  bool get autoDownloadNftAsset;
   @override
   @JsonKey(name: "IgnoreIncomingNFTs", fromJson: stringToBool)
-  bool get ignoreIncomingNfts => throw _privateConstructorUsedError;
+  bool get ignoreIncomingNfts;
   @override
   @JsonKey(name: "RejectAssetExtensionTypes", fromJson: stringToList)
-  List<String> get rejectAssetExtensionTypes =>
-      throw _privateConstructorUsedError;
+  List<String> get rejectAssetExtensionTypes;
   @override
   @JsonKey(name: "AllowedExtensionsTypes", fromJson: stringToList)
-  List<String>? get allowedAssetExtensionTypes =>
-      throw _privateConstructorUsedError;
+  List<String>? get allowedAssetExtensionTypes;
   @override
   @JsonKey(ignore: true)
   _$$_ConfigCopyWith<_$_Config> get copyWith =>

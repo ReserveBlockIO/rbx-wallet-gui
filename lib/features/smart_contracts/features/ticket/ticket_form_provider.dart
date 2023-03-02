@@ -6,7 +6,7 @@ import '../../providers/create_smart_contract_provider.dart';
 import 'ticket.dart';
 
 class TicketFormProvider extends StateNotifier<Ticket> {
-  final Reader read;
+  final Ref ref;
   late final TextEditingController eventNameController;
   late final TextEditingController eventAddressController;
   late final TextEditingController descriptionController;
@@ -18,7 +18,7 @@ class TicketFormProvider extends StateNotifier<Ticket> {
   late final TextEditingController eventExpireDateController;
   late final TextEditingController eventExpireTimeController;
 
-  TicketFormProvider(this.read, [Ticket model = const Ticket()]) : super(model) {
+  TicketFormProvider(this.ref, [Ticket model = const Ticket()]) : super(model) {
     eventNameController = TextEditingController(text: model.eventName);
     eventAddressController = TextEditingController(text: model.eventAddress);
     descriptionController = TextEditingController(text: model.description);
@@ -127,12 +127,12 @@ class TicketFormProvider extends StateNotifier<Ticket> {
       seatInfo: seatInfoController.text,
     );
 
-    read(createSmartContractProvider.notifier).saveTicket(state);
+    ref.read(createSmartContractProvider.notifier).saveTicket(state);
 
     clear();
   }
 }
 
 final ticketFormProvider = StateNotifierProvider<TicketFormProvider, Ticket>(
-  (ref) => TicketFormProvider(ref.read),
+  (ref) => TicketFormProvider(ref),
 );

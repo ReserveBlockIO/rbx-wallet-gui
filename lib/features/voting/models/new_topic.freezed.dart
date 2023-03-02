@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'new_topic.dart';
 
@@ -38,7 +38,8 @@ mixin _$NewTopic {
 /// @nodoc
 abstract class $NewTopicCopyWith<$Res> {
   factory $NewTopicCopyWith(NewTopic value, $Res Function(NewTopic) then) =
-      _$NewTopicCopyWithImpl<$Res>;
+      _$NewTopicCopyWithImpl<$Res, NewTopic>;
+  @useResult
   $Res call(
       {@JsonKey(name: "TopicName")
           String name,
@@ -51,38 +52,41 @@ abstract class $NewTopicCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$NewTopicCopyWithImpl<$Res> implements $NewTopicCopyWith<$Res> {
+class _$NewTopicCopyWithImpl<$Res, $Val extends NewTopic>
+    implements $NewTopicCopyWith<$Res> {
   _$NewTopicCopyWithImpl(this._value, this._then);
 
-  final NewTopic _value;
   // ignore: unused_field
-  final $Res Function(NewTopic) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
-    Object? description = freezed,
-    Object? votingEndDays = freezed,
-    Object? category = freezed,
+    Object? name = null,
+    Object? description = null,
+    Object? votingEndDays = null,
+    Object? category = null,
   }) {
     return _then(_value.copyWith(
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      description: description == freezed
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      votingEndDays: votingEndDays == freezed
+      votingEndDays: null == votingEndDays
           ? _value.votingEndDays
           : votingEndDays // ignore: cast_nullable_to_non_nullable
               as VotingDays,
-      category: category == freezed
+      category: null == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
               as VoteTopicCategory,
-    ));
+    ) as $Val);
   }
 }
 
@@ -92,6 +96,7 @@ abstract class _$$_NewTopicCopyWith<$Res> implements $NewTopicCopyWith<$Res> {
           _$_NewTopic value, $Res Function(_$_NewTopic) then) =
       __$$_NewTopicCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {@JsonKey(name: "TopicName")
           String name,
@@ -104,36 +109,35 @@ abstract class _$$_NewTopicCopyWith<$Res> implements $NewTopicCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_NewTopicCopyWithImpl<$Res> extends _$NewTopicCopyWithImpl<$Res>
+class __$$_NewTopicCopyWithImpl<$Res>
+    extends _$NewTopicCopyWithImpl<$Res, _$_NewTopic>
     implements _$$_NewTopicCopyWith<$Res> {
   __$$_NewTopicCopyWithImpl(
       _$_NewTopic _value, $Res Function(_$_NewTopic) _then)
-      : super(_value, (v) => _then(v as _$_NewTopic));
+      : super(_value, _then);
 
-  @override
-  _$_NewTopic get _value => super._value as _$_NewTopic;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
-    Object? description = freezed,
-    Object? votingEndDays = freezed,
-    Object? category = freezed,
+    Object? name = null,
+    Object? description = null,
+    Object? votingEndDays = null,
+    Object? category = null,
   }) {
     return _then(_$_NewTopic(
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      description: description == freezed
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      votingEndDays: votingEndDays == freezed
+      votingEndDays: null == votingEndDays
           ? _value.votingEndDays
           : votingEndDays // ignore: cast_nullable_to_non_nullable
               as VotingDays,
-      category: category == freezed
+      category: null == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
               as VoteTopicCategory,
@@ -181,31 +185,31 @@ class _$_NewTopic extends _NewTopic {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_NewTopic &&
-            const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality()
-                .equals(other.description, description) &&
-            const DeepCollectionEquality()
-                .equals(other.votingEndDays, votingEndDays) &&
-            const DeepCollectionEquality().equals(other.category, category));
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.votingEndDays, votingEndDays) ||
+                other.votingEndDays == votingEndDays) &&
+            (identical(other.category, category) ||
+                other.category == category));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(description),
-      const DeepCollectionEquality().hash(votingEndDays),
-      const DeepCollectionEquality().hash(category));
+  int get hashCode =>
+      Object.hash(runtimeType, name, description, votingEndDays, category);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_NewTopicCopyWith<_$_NewTopic> get copyWith =>
       __$$_NewTopicCopyWithImpl<_$_NewTopic>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_NewTopicToJson(this);
+    return _$$_NewTopicToJson(
+      this,
+    );
   }
 }
 
@@ -225,16 +229,16 @@ abstract class _NewTopic extends NewTopic {
 
   @override
   @JsonKey(name: "TopicName")
-  String get name => throw _privateConstructorUsedError;
+  String get name;
   @override
   @JsonKey(name: "TopicDescription")
-  String get description => throw _privateConstructorUsedError;
+  String get description;
   @override
   @JsonKey(name: "VotingEndDays", toJson: votingDaysToJson)
-  VotingDays get votingEndDays => throw _privateConstructorUsedError;
+  VotingDays get votingEndDays;
   @override
   @JsonKey(name: "VoteTopicCategory", toJson: categoryToJson)
-  VoteTopicCategory get category => throw _privateConstructorUsedError;
+  VoteTopicCategory get category;
   @override
   @JsonKey(ignore: true)
   _$$_NewTopicCopyWith<_$_NewTopic> get copyWith =>

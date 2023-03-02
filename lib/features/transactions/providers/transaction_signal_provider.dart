@@ -14,12 +14,12 @@ import '../models/transaction_notification.dart';
 import 'transaction_notification_provider.dart';
 
 class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
-  final Reader read;
+  final Ref ref;
 
-  TransactionSignalProvider(this.read) : super([]);
+  TransactionSignalProvider(this.ref) : super([]);
 
   List<String> get _addresses {
-    return read(walletListProvider).map((w) => w.address).toList();
+    return ref.read(walletListProvider).map((w) => w.address).toList();
   }
 
   bool _hasAddress(String address) {
@@ -107,7 +107,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       TransactionNotification(identifier: transaction.hash, transaction: transaction, title: "NFT Minted", body: body, icon: Icons.lightbulb_outline),
     );
 
-    read(sessionProvider.notifier).smartContractLoop(false);
+    ref.read(sessionProvider.notifier).smartContractLoop(false);
   }
 
   void _handleVoteTopic(Transaction transaction) {
@@ -154,7 +154,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
               body: "NFT evolved to state $evoState.",
               icon: Icons.change_circle),
         );
-        read(sessionProvider.notifier).smartContractLoop(false);
+        ref.read(sessionProvider.notifier).smartContractLoop(false);
 
         return;
       }
@@ -164,7 +164,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       if (nftData != null) {
         final id = _nftDataValue(nftData, 'ContractUID');
         if (id != null) {
-          read(transferredProvider.notifier).removeId(id);
+          ref.read(transferredProvider.notifier).removeId(id);
         }
       }
 
@@ -189,7 +189,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       );
     }
 
-    read(sessionProvider.notifier).smartContractLoop(false);
+    ref.read(sessionProvider.notifier).smartContractLoop(false);
   }
 
   void _handleAdnr(Transaction transaction) {
@@ -265,7 +265,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
         color: AppColorVariant.Danger,
       ),
     );
-    read(sessionProvider.notifier).smartContractLoop(false);
+    ref.read(sessionProvider.notifier).smartContractLoop(false);
   }
 
   Map<String, dynamic>? _parseNftData(Transaction transaction) {
@@ -302,10 +302,10 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
   }
 
   void _broadcastNotification(TransactionNotification notification) {
-    read(transactionNotificationProvider.notifier).add(notification);
+    ref.read(transactionNotificationProvider.notifier).add(notification);
   }
 }
 
 final transactionSignalProvider = StateNotifierProvider<TransactionSignalProvider, List<Transaction>>((ref) {
-  return TransactionSignalProvider(ref.read);
+  return TransactionSignalProvider(ref);
 });

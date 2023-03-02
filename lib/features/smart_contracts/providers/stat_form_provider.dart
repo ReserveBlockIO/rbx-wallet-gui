@@ -5,14 +5,14 @@ import '../models/stat.dart';
 import 'create_smart_contract_provider.dart';
 
 class StatFormProvider extends StateNotifier<Stat> {
-  final Reader read;
+  final Ref ref;
   final int index;
   late final TextEditingController labelController;
   late final TextEditingController valueController;
   late final TextEditingController descriptionController;
 
   StatFormProvider(
-    this.read,
+    this.ref,
     this.index, [
     Stat model = const Stat(),
   ]) : super(model) {
@@ -36,17 +36,17 @@ class StatFormProvider extends StateNotifier<Stat> {
       description: descriptionController.text,
     );
 
-    if (index >= read(createSmartContractProvider).stats.length) {
-      read(createSmartContractProvider.notifier).addStat(state);
+    if (index >= ref.read(createSmartContractProvider).stats.length) {
+      ref.read(createSmartContractProvider.notifier).addStat(state);
     } else {
-      final updatedStats = [...read(createSmartContractProvider).stats];
+      final updatedStats = [...ref.read(createSmartContractProvider).stats];
       updatedStats.removeAt(index);
       updatedStats.insert(index, state);
-      read(createSmartContractProvider.notifier).setStats(updatedStats);
+      ref.read(createSmartContractProvider.notifier).setStats(updatedStats);
     }
   }
 }
 
 final statFormProvider = StateNotifierProvider.family<StatFormProvider, Stat, int>(
-  (ref, index) => StatFormProvider(ref.read, index),
+  (ref, index) => StatFormProvider(ref, index),
 );

@@ -4,10 +4,10 @@ import '../../../core/services/explorer_service.dart';
 import '../models/nft.dart';
 
 class WebNftListProvider extends StateNotifier<List<Nft>> {
-  final Reader read;
+  final Ref ref;
 
   WebNftListProvider(
-    this.read, [
+    this.ref, [
     List<Nft> nfts = const [],
   ]) : super(nfts) {
     load();
@@ -20,5 +20,5 @@ class WebNftListProvider extends StateNotifier<List<Nft>> {
 }
 
 final webnftListProvider = StateNotifierProvider<WebNftListProvider, List<Nft>>(
-  (ref) => WebNftListProvider(ref.read),
+  (ref) => WebNftListProvider(ref),
 );

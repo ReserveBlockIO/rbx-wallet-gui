@@ -77,7 +77,7 @@ class WalletSelector extends BaseComponent {
                   ),
                   onTap: () async {
                     if (!await passwordRequiredGuard(context, ref)) return;
-                    if (!guardWalletIsNotResyncing(ref.read)) return;
+                    if (!widgetGuardWalletIsNotResyncing(ref)) return;
 
                     PromptModal.show(
                       title: "Import Wallet",
@@ -104,7 +104,14 @@ class WalletSelector extends BaseComponent {
                       labelText: "Private Key",
                       inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]'))],
                       onValidSubmission: (value) async {
-                        await ref.read(walletListProvider.notifier).import(value);
+                        final resync = await ConfirmDialog.show(
+                          title: "Rescan Blocks?",
+                          body: "Would you like to rescan the chain to include any transactions relevant to this key?",
+                          confirmText: "Yes",
+                          cancelText: "No",
+                        );
+
+                        await ref.read(walletListProvider.notifier).import(value, false, resync == true);
                       },
                     );
                   },

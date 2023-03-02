@@ -6,12 +6,12 @@ import '../../../../utils/toast.dart';
 import '../../../../utils/validation.dart';
 
 class PropertyWizardFormProvider extends StateNotifier<ScProperty> {
-  final Reader read;
+  final Ref ref;
   final int index;
   late final TextEditingController nameController;
   late final TextEditingController valueController;
 
-  PropertyWizardFormProvider(this.read, this.index, [ScProperty model = const ScProperty()]) : super(model) {
+  PropertyWizardFormProvider(this.ref, this.index, [ScProperty model = const ScProperty()]) : super(model) {
     nameController = TextEditingController(text: model.name);
     valueController = TextEditingController(text: model.value);
   }
@@ -43,5 +43,5 @@ class PropertyWizardFormProvider extends StateNotifier<ScProperty> {
 }
 
 final propertyWizardFormProvider = StateNotifierProvider.family<PropertyWizardFormProvider, ScProperty, int>(
-  (ref, index) => PropertyWizardFormProvider(ref.read, index),
+  (ref, index) => PropertyWizardFormProvider(ref, index),
 );

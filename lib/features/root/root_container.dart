@@ -143,7 +143,7 @@ class RootContainer extends BaseComponent {
             Consumer(builder: (context, ref, _) {
               return ref.watch(startupPasswordRequiredProvider)
                   ? UnlockWallet(
-                      read: ref.read,
+                      ref: ref,
                     )
                   : const SizedBox.shrink();
             })

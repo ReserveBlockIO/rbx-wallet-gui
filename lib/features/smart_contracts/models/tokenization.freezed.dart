@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'tokenization.dart';
 
@@ -37,7 +37,8 @@ mixin _$Tokenization {
 abstract class $TokenizationCopyWith<$Res> {
   factory $TokenizationCopyWith(
           Tokenization value, $Res Function(Tokenization) then) =
-      _$TokenizationCopyWithImpl<$Res>;
+      _$TokenizationCopyWithImpl<$Res, Tokenization>;
+  @useResult
   $Res call(
       {String id,
       String name,
@@ -51,69 +52,74 @@ abstract class $TokenizationCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$TokenizationCopyWithImpl<$Res> implements $TokenizationCopyWith<$Res> {
+class _$TokenizationCopyWithImpl<$Res, $Val extends Tokenization>
+    implements $TokenizationCopyWith<$Res> {
   _$TokenizationCopyWithImpl(this._value, this._then);
 
-  final Tokenization _value;
   // ignore: unused_field
-  final $Res Function(Tokenization) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? name = freezed,
-    Object? description = freezed,
-    Object? properties = freezed,
+    Object? id = null,
+    Object? name = null,
+    Object? description = null,
+    Object? properties = null,
     Object? photo = freezed,
     Object? provenance = freezed,
   }) {
     return _then(_value.copyWith(
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      description: description == freezed
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      properties: properties == freezed
+      properties: null == properties
           ? _value.properties
           : properties // ignore: cast_nullable_to_non_nullable
               as List<Property>,
-      photo: photo == freezed
+      photo: freezed == photo
           ? _value.photo
           : photo // ignore: cast_nullable_to_non_nullable
               as Asset?,
-      provenance: provenance == freezed
+      provenance: freezed == provenance
           ? _value.provenance
           : provenance // ignore: cast_nullable_to_non_nullable
               as Asset?,
-    ));
+    ) as $Val);
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $AssetCopyWith<$Res>? get photo {
     if (_value.photo == null) {
       return null;
     }
 
     return $AssetCopyWith<$Res>(_value.photo!, (value) {
-      return _then(_value.copyWith(photo: value));
+      return _then(_value.copyWith(photo: value) as $Val);
     });
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $AssetCopyWith<$Res>? get provenance {
     if (_value.provenance == null) {
       return null;
     }
 
     return $AssetCopyWith<$Res>(_value.provenance!, (value) {
-      return _then(_value.copyWith(provenance: value));
+      return _then(_value.copyWith(provenance: value) as $Val);
     });
   }
 }
@@ -125,6 +131,7 @@ abstract class _$$_TokenizationCopyWith<$Res>
           _$_Tokenization value, $Res Function(_$_Tokenization) then) =
       __$$_TokenizationCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String id,
       String name,
@@ -141,46 +148,44 @@ abstract class _$$_TokenizationCopyWith<$Res>
 
 /// @nodoc
 class __$$_TokenizationCopyWithImpl<$Res>
-    extends _$TokenizationCopyWithImpl<$Res>
+    extends _$TokenizationCopyWithImpl<$Res, _$_Tokenization>
     implements _$$_TokenizationCopyWith<$Res> {
   __$$_TokenizationCopyWithImpl(
       _$_Tokenization _value, $Res Function(_$_Tokenization) _then)
-      : super(_value, (v) => _then(v as _$_Tokenization));
+      : super(_value, _then);
 
-  @override
-  _$_Tokenization get _value => super._value as _$_Tokenization;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? name = freezed,
-    Object? description = freezed,
-    Object? properties = freezed,
+    Object? id = null,
+    Object? name = null,
+    Object? description = null,
+    Object? properties = null,
     Object? photo = freezed,
     Object? provenance = freezed,
   }) {
     return _then(_$_Tokenization(
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      description: description == freezed
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      properties: properties == freezed
+      properties: null == properties
           ? _value._properties
           : properties // ignore: cast_nullable_to_non_nullable
               as List<Property>,
-      photo: photo == freezed
+      photo: freezed == photo
           ? _value.photo
           : photo // ignore: cast_nullable_to_non_nullable
               as Asset?,
-      provenance: provenance == freezed
+      provenance: freezed == provenance
           ? _value.provenance
           : provenance // ignore: cast_nullable_to_non_nullable
               as Asset?,
@@ -218,6 +223,7 @@ class _$_Tokenization extends _Tokenization {
   @override
   @JsonKey()
   List<Property> get properties {
+    if (_properties is EqualUnmodifiableListView) return _properties;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_properties);
   }
@@ -237,36 +243,33 @@ class _$_Tokenization extends _Tokenization {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Tokenization &&
-            const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality()
-                .equals(other.description, description) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
             const DeepCollectionEquality()
                 .equals(other._properties, _properties) &&
-            const DeepCollectionEquality().equals(other.photo, photo) &&
-            const DeepCollectionEquality()
-                .equals(other.provenance, provenance));
+            (identical(other.photo, photo) || other.photo == photo) &&
+            (identical(other.provenance, provenance) ||
+                other.provenance == provenance));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(description),
-      const DeepCollectionEquality().hash(_properties),
-      const DeepCollectionEquality().hash(photo),
-      const DeepCollectionEquality().hash(provenance));
+  int get hashCode => Object.hash(runtimeType, id, name, description,
+      const DeepCollectionEquality().hash(_properties), photo, provenance);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_TokenizationCopyWith<_$_Tokenization> get copyWith =>
       __$$_TokenizationCopyWithImpl<_$_Tokenization>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_TokenizationToJson(this);
+    return _$$_TokenizationToJson(
+      this,
+    );
   }
 }
 
@@ -284,17 +287,17 @@ abstract class _Tokenization extends Tokenization {
       _$_Tokenization.fromJson;
 
   @override
-  String get id => throw _privateConstructorUsedError;
+  String get id;
   @override
-  String get name => throw _privateConstructorUsedError;
+  String get name;
   @override
-  String get description => throw _privateConstructorUsedError;
+  String get description;
   @override
-  List<Property> get properties => throw _privateConstructorUsedError;
+  List<Property> get properties;
   @override
-  Asset? get photo => throw _privateConstructorUsedError;
+  Asset? get photo;
   @override
-  Asset? get provenance => throw _privateConstructorUsedError;
+  Asset? get provenance;
   @override
   @JsonKey(ignore: true)
   _$$_TokenizationCopyWith<_$_Tokenization> get copyWith =>

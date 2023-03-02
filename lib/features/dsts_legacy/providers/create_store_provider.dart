@@ -26,14 +26,14 @@ class CreateStoreModel {
 }
 
 class CreateStoreProvider extends StateNotifier<CreateStoreModel> {
-  final Reader read;
+  final Ref ref;
   final String accountId;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController stripeController = TextEditingController();
 
-  CreateStoreProvider(this.read, this.accountId, [CreateStoreModel model = const CreateStoreModel()]) : super(model) {
+  CreateStoreProvider(this.ref, this.accountId, [CreateStoreModel model = const CreateStoreModel()]) : super(model) {
     init();
   }
 
@@ -45,9 +45,9 @@ class CreateStoreProvider extends StateNotifier<CreateStoreModel> {
   String? stripeValidator(String? value) => formValidatorNotEmpty(value, "Stripe Account");
 
   onboardStripe() async {
-    read(globalLoadingProvider.notifier).start();
+    ref.read(globalLoadingProvider.notifier).start();
     final redirect = await TransactionService().stripeOnboard();
-    read(globalLoadingProvider.notifier).complete();
+    ref.read(globalLoadingProvider.notifier).complete();
 
     if (redirect != null) {
       HtmlHelpers().redirect(redirect);
@@ -58,7 +58,7 @@ class CreateStoreProvider extends StateNotifier<CreateStoreModel> {
   }
 
   Future<Store?> submit() async {
-    final keypair = read(webSessionProvider).keypair;
+    final keypair = ref.read(webSessionProvider).keypair;
     if (keypair == null) {
       Toast.error("No keypair");
       return null;
@@ -85,5 +85,5 @@ class CreateStoreProvider extends StateNotifier<CreateStoreModel> {
 }
 
 final createStoreProvider = StateNotifierProvider.family<CreateStoreProvider, CreateStoreModel, String>((ref, accountId) {
-  return CreateStoreProvider(ref.read, accountId);
+  return CreateStoreProvider(ref, accountId);
 });

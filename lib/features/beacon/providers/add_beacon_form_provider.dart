@@ -8,14 +8,14 @@ import '../models/beacon.dart';
 import '../services/beacon_service.dart';
 
 class AddBeaconFormProvider extends StateNotifier<Beacon> {
-  final Reader read;
+  final Ref ref;
   final GlobalKey<FormState> formKey = GlobalKey();
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController ipController = TextEditingController();
   final TextEditingController portController = TextEditingController();
 
-  AddBeaconFormProvider(this.read, Beacon model) : super(model) {
+  AddBeaconFormProvider(this.ref, Beacon model) : super(model) {
     nameController.addListener(() {
       state = state.copyWith(name: nameController.text);
     });
@@ -49,10 +49,10 @@ class AddBeaconFormProvider extends StateNotifier<Beacon> {
     if (!formKey.currentState!.validate()) {
       return null;
     }
-    read(globalLoadingProvider.notifier).start();
+    ref.read(globalLoadingProvider.notifier).start();
 
     final error = await BeaconService().add(state.name, state.ipAddress, state.port);
-    read(globalLoadingProvider.notifier).complete();
+    ref.read(globalLoadingProvider.notifier).complete();
 
     if (error != null) {
       OverlayToast.error(error);
@@ -66,5 +66,5 @@ class AddBeaconFormProvider extends StateNotifier<Beacon> {
 }
 
 final addBeaconFormProvider = StateNotifierProvider<AddBeaconFormProvider, Beacon>((ref) {
-  return AddBeaconFormProvider(ref.read, Beacon.empty());
+  return AddBeaconFormProvider(ref, Beacon.empty());
 });

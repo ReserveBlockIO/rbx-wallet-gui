@@ -6,9 +6,9 @@ import '../../models/multi_asset.dart';
 import '../../providers/create_smart_contract_provider.dart';
 
 class MultiAssetFormProvider extends StateNotifier<MultiAsset> {
-  final Reader read;
+  final Ref ref;
 
-  MultiAssetFormProvider(this.read, [MultiAsset model = const MultiAsset()]) : super(model);
+  MultiAssetFormProvider(this.ref, [MultiAsset model = const MultiAsset()]) : super(model);
 
   void setMultiAsset(MultiAsset multiAsset) {
     state = multiAsset;
@@ -24,19 +24,21 @@ class MultiAssetFormProvider extends StateNotifier<MultiAsset> {
 
   void clear() {
     final id = uniqueId();
-    state = MultiAsset(id: id);
+    Future.delayed(Duration(milliseconds: 300), () {
+      state = MultiAsset(id: id);
+    });
   }
 
   void complete() {
     if (state.assets.isEmpty) {
-      read(createSmartContractProvider.notifier).removeMultiAsset(state);
+      ref.read(createSmartContractProvider.notifier).removeMultiAsset(state);
     } else {
-      read(createSmartContractProvider.notifier).saveMultiAsset(state);
+      ref.read(createSmartContractProvider.notifier).saveMultiAsset(state);
     }
     clear();
   }
 }
 
 final multiAssetFormProvider = StateNotifierProvider<MultiAssetFormProvider, MultiAsset>(
-  (ref) => MultiAssetFormProvider(ref.read),
+  (ref) => MultiAssetFormProvider(ref),
 );

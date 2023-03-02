@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'feature.dart';
 
@@ -31,33 +31,37 @@ mixin _$Feature {
 /// @nodoc
 abstract class $FeatureCopyWith<$Res> {
   factory $FeatureCopyWith(Feature value, $Res Function(Feature) then) =
-      _$FeatureCopyWithImpl<$Res>;
+      _$FeatureCopyWithImpl<$Res, Feature>;
+  @useResult
   $Res call({FeatureType type, Map<String, dynamic> data});
 }
 
 /// @nodoc
-class _$FeatureCopyWithImpl<$Res> implements $FeatureCopyWith<$Res> {
+class _$FeatureCopyWithImpl<$Res, $Val extends Feature>
+    implements $FeatureCopyWith<$Res> {
   _$FeatureCopyWithImpl(this._value, this._then);
 
-  final Feature _value;
   // ignore: unused_field
-  final $Res Function(Feature) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? type = freezed,
-    Object? data = freezed,
+    Object? type = null,
+    Object? data = null,
   }) {
     return _then(_value.copyWith(
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as FeatureType,
-      data: data == freezed
+      data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
-    ));
+    ) as $Val);
   }
 }
 
@@ -67,29 +71,29 @@ abstract class _$$_FeatureCopyWith<$Res> implements $FeatureCopyWith<$Res> {
           _$_Feature value, $Res Function(_$_Feature) then) =
       __$$_FeatureCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({FeatureType type, Map<String, dynamic> data});
 }
 
 /// @nodoc
-class __$$_FeatureCopyWithImpl<$Res> extends _$FeatureCopyWithImpl<$Res>
+class __$$_FeatureCopyWithImpl<$Res>
+    extends _$FeatureCopyWithImpl<$Res, _$_Feature>
     implements _$$_FeatureCopyWith<$Res> {
   __$$_FeatureCopyWithImpl(_$_Feature _value, $Res Function(_$_Feature) _then)
-      : super(_value, (v) => _then(v as _$_Feature));
+      : super(_value, _then);
 
-  @override
-  _$_Feature get _value => super._value as _$_Feature;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? type = freezed,
-    Object? data = freezed,
+    Object? type = null,
+    Object? data = null,
   }) {
     return _then(_$_Feature(
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as FeatureType,
-      data: data == freezed
+      data: null == data
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
@@ -116,6 +120,7 @@ class _$_Feature extends _Feature {
   @override
   @JsonKey()
   Map<String, dynamic> get data {
+    if (_data is EqualUnmodifiableMapView) return _data;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_data);
   }
@@ -130,25 +135,26 @@ class _$_Feature extends _Feature {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Feature &&
-            const DeepCollectionEquality().equals(other.type, type) &&
+            (identical(other.type, type) || other.type == type) &&
             const DeepCollectionEquality().equals(other._data, _data));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(type),
-      const DeepCollectionEquality().hash(_data));
+      runtimeType, type, const DeepCollectionEquality().hash(_data));
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_FeatureCopyWith<_$_Feature> get copyWith =>
       __$$_FeatureCopyWithImpl<_$_Feature>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_FeatureToJson(this);
+    return _$$_FeatureToJson(
+      this,
+    );
   }
 }
 
@@ -160,9 +166,9 @@ abstract class _Feature extends Feature {
   factory _Feature.fromJson(Map<String, dynamic> json) = _$_Feature.fromJson;
 
   @override
-  FeatureType get type => throw _privateConstructorUsedError;
+  FeatureType get type;
   @override
-  Map<String, dynamic> get data => throw _privateConstructorUsedError;
+  Map<String, dynamic> get data;
   @override
   @JsonKey(ignore: true)
   _$$_FeatureCopyWith<_$_Feature> get copyWith =>

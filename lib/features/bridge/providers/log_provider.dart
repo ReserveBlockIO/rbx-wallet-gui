@@ -6,10 +6,10 @@ import '../models/log_entry.dart';
 const LOG_HISTORY_LENGTH = 1000;
 
 class LogProvider extends StateNotifier<List<LogEntry>> {
-  final Reader read;
+  final Ref ref;
   final ScrollController scrollController = ScrollController();
 
-  LogProvider(this.read, [List<LogEntry> model = const []]) : super(model);
+  LogProvider(this.ref, [List<LogEntry> model = const []]) : super(model);
 
   void append(LogEntry entry) async {
     final items = [...state, entry];
@@ -35,5 +35,5 @@ class LogProvider extends StateNotifier<List<LogEntry>> {
 }
 
 final logProvider = StateNotifierProvider<LogProvider, List<LogEntry>>((ref) {
-  return LogProvider(ref.read);
+  return LogProvider(ref);
 });

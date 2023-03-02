@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'network_metrics.dart';
 
@@ -41,7 +41,8 @@ mixin _$NetworkMetrics {
 abstract class $NetworkMetricsCopyWith<$Res> {
   factory $NetworkMetricsCopyWith(
           NetworkMetrics value, $Res Function(NetworkMetrics) then) =
-      _$NetworkMetricsCopyWithImpl<$Res>;
+      _$NetworkMetricsCopyWithImpl<$Res, NetworkMetrics>;
+  @useResult
   $Res call(
       {@JsonKey(name: "BlockDiffAvg")
           String? blockDiffAvg,
@@ -56,44 +57,46 @@ abstract class $NetworkMetricsCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$NetworkMetricsCopyWithImpl<$Res>
+class _$NetworkMetricsCopyWithImpl<$Res, $Val extends NetworkMetrics>
     implements $NetworkMetricsCopyWith<$Res> {
   _$NetworkMetricsCopyWithImpl(this._value, this._then);
 
-  final NetworkMetrics _value;
   // ignore: unused_field
-  final $Res Function(NetworkMetrics) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? blockDiffAvg = freezed,
-    Object? blockLastReceived = freezed,
-    Object? blockLastDelay = freezed,
-    Object? timeSinceLastBlockSeconds = freezed,
-    Object? blocksAveraged = freezed,
+    Object? blockLastReceived = null,
+    Object? blockLastDelay = null,
+    Object? timeSinceLastBlockSeconds = null,
+    Object? blocksAveraged = null,
   }) {
     return _then(_value.copyWith(
-      blockDiffAvg: blockDiffAvg == freezed
+      blockDiffAvg: freezed == blockDiffAvg
           ? _value.blockDiffAvg
           : blockDiffAvg // ignore: cast_nullable_to_non_nullable
               as String?,
-      blockLastReceived: blockLastReceived == freezed
+      blockLastReceived: null == blockLastReceived
           ? _value.blockLastReceived
           : blockLastReceived // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      blockLastDelay: blockLastDelay == freezed
+      blockLastDelay: null == blockLastDelay
           ? _value.blockLastDelay
           : blockLastDelay // ignore: cast_nullable_to_non_nullable
               as String,
-      timeSinceLastBlockSeconds: timeSinceLastBlockSeconds == freezed
+      timeSinceLastBlockSeconds: null == timeSinceLastBlockSeconds
           ? _value.timeSinceLastBlockSeconds
           : timeSinceLastBlockSeconds // ignore: cast_nullable_to_non_nullable
               as String,
-      blocksAveraged: blocksAveraged == freezed
+      blocksAveraged: null == blocksAveraged
           ? _value.blocksAveraged
           : blocksAveraged // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 }
 
@@ -104,6 +107,7 @@ abstract class _$$_NetworkMetricsCopyWith<$Res>
           _$_NetworkMetrics value, $Res Function(_$_NetworkMetrics) then) =
       __$$_NetworkMetricsCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {@JsonKey(name: "BlockDiffAvg")
           String? blockDiffAvg,
@@ -119,41 +123,39 @@ abstract class _$$_NetworkMetricsCopyWith<$Res>
 
 /// @nodoc
 class __$$_NetworkMetricsCopyWithImpl<$Res>
-    extends _$NetworkMetricsCopyWithImpl<$Res>
+    extends _$NetworkMetricsCopyWithImpl<$Res, _$_NetworkMetrics>
     implements _$$_NetworkMetricsCopyWith<$Res> {
   __$$_NetworkMetricsCopyWithImpl(
       _$_NetworkMetrics _value, $Res Function(_$_NetworkMetrics) _then)
-      : super(_value, (v) => _then(v as _$_NetworkMetrics));
+      : super(_value, _then);
 
-  @override
-  _$_NetworkMetrics get _value => super._value as _$_NetworkMetrics;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? blockDiffAvg = freezed,
-    Object? blockLastReceived = freezed,
-    Object? blockLastDelay = freezed,
-    Object? timeSinceLastBlockSeconds = freezed,
-    Object? blocksAveraged = freezed,
+    Object? blockLastReceived = null,
+    Object? blockLastDelay = null,
+    Object? timeSinceLastBlockSeconds = null,
+    Object? blocksAveraged = null,
   }) {
     return _then(_$_NetworkMetrics(
-      blockDiffAvg: blockDiffAvg == freezed
+      blockDiffAvg: freezed == blockDiffAvg
           ? _value.blockDiffAvg
           : blockDiffAvg // ignore: cast_nullable_to_non_nullable
               as String?,
-      blockLastReceived: blockLastReceived == freezed
+      blockLastReceived: null == blockLastReceived
           ? _value.blockLastReceived
           : blockLastReceived // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      blockLastDelay: blockLastDelay == freezed
+      blockLastDelay: null == blockLastDelay
           ? _value.blockLastDelay
           : blockLastDelay // ignore: cast_nullable_to_non_nullable
               as String,
-      timeSinceLastBlockSeconds: timeSinceLastBlockSeconds == freezed
+      timeSinceLastBlockSeconds: null == timeSinceLastBlockSeconds
           ? _value.timeSinceLastBlockSeconds
           : timeSinceLastBlockSeconds // ignore: cast_nullable_to_non_nullable
               as String,
-      blocksAveraged: blocksAveraged == freezed
+      blocksAveraged: null == blocksAveraged
           ? _value.blocksAveraged
           : blocksAveraged // ignore: cast_nullable_to_non_nullable
               as String,
@@ -206,36 +208,35 @@ class _$_NetworkMetrics extends _NetworkMetrics {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_NetworkMetrics &&
-            const DeepCollectionEquality()
-                .equals(other.blockDiffAvg, blockDiffAvg) &&
-            const DeepCollectionEquality()
-                .equals(other.blockLastReceived, blockLastReceived) &&
-            const DeepCollectionEquality()
-                .equals(other.blockLastDelay, blockLastDelay) &&
-            const DeepCollectionEquality().equals(
-                other.timeSinceLastBlockSeconds, timeSinceLastBlockSeconds) &&
-            const DeepCollectionEquality()
-                .equals(other.blocksAveraged, blocksAveraged));
+            (identical(other.blockDiffAvg, blockDiffAvg) ||
+                other.blockDiffAvg == blockDiffAvg) &&
+            (identical(other.blockLastReceived, blockLastReceived) ||
+                other.blockLastReceived == blockLastReceived) &&
+            (identical(other.blockLastDelay, blockLastDelay) ||
+                other.blockLastDelay == blockLastDelay) &&
+            (identical(other.timeSinceLastBlockSeconds,
+                    timeSinceLastBlockSeconds) ||
+                other.timeSinceLastBlockSeconds == timeSinceLastBlockSeconds) &&
+            (identical(other.blocksAveraged, blocksAveraged) ||
+                other.blocksAveraged == blocksAveraged));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(blockDiffAvg),
-      const DeepCollectionEquality().hash(blockLastReceived),
-      const DeepCollectionEquality().hash(blockLastDelay),
-      const DeepCollectionEquality().hash(timeSinceLastBlockSeconds),
-      const DeepCollectionEquality().hash(blocksAveraged));
+  int get hashCode => Object.hash(runtimeType, blockDiffAvg, blockLastReceived,
+      blockLastDelay, timeSinceLastBlockSeconds, blocksAveraged);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_NetworkMetricsCopyWith<_$_NetworkMetrics> get copyWith =>
       __$$_NetworkMetricsCopyWithImpl<_$_NetworkMetrics>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_NetworkMetricsToJson(this);
+    return _$$_NetworkMetricsToJson(
+      this,
+    );
   }
 }
 
@@ -258,19 +259,19 @@ abstract class _NetworkMetrics extends NetworkMetrics {
 
   @override
   @JsonKey(name: "BlockDiffAvg")
-  String? get blockDiffAvg => throw _privateConstructorUsedError;
+  String? get blockDiffAvg;
   @override
   @JsonKey(name: "BlockLastReceived")
-  DateTime get blockLastReceived => throw _privateConstructorUsedError;
+  DateTime get blockLastReceived;
   @override
   @JsonKey(name: "BlockLastDelay")
-  String get blockLastDelay => throw _privateConstructorUsedError;
+  String get blockLastDelay;
   @override
   @JsonKey(name: "TimeSinceLastBlockSeconds")
-  String get timeSinceLastBlockSeconds => throw _privateConstructorUsedError;
+  String get timeSinceLastBlockSeconds;
   @override
   @JsonKey(name: "BlocksAveraged")
-  String get blocksAveraged => throw _privateConstructorUsedError;
+  String get blocksAveraged;
   @override
   @JsonKey(ignore: true)
   _$$_NetworkMetricsCopyWith<_$_NetworkMetrics> get copyWith =>

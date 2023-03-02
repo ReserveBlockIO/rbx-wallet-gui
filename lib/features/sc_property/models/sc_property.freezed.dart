@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'sc_property.dart';
 
@@ -34,38 +34,42 @@ mixin _$ScProperty {
 abstract class $ScPropertyCopyWith<$Res> {
   factory $ScPropertyCopyWith(
           ScProperty value, $Res Function(ScProperty) then) =
-      _$ScPropertyCopyWithImpl<$Res>;
+      _$ScPropertyCopyWithImpl<$Res, ScProperty>;
+  @useResult
   $Res call({String name, String value, ScPropertyType type});
 }
 
 /// @nodoc
-class _$ScPropertyCopyWithImpl<$Res> implements $ScPropertyCopyWith<$Res> {
+class _$ScPropertyCopyWithImpl<$Res, $Val extends ScProperty>
+    implements $ScPropertyCopyWith<$Res> {
   _$ScPropertyCopyWithImpl(this._value, this._then);
 
-  final ScProperty _value;
   // ignore: unused_field
-  final $Res Function(ScProperty) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
-    Object? value = freezed,
-    Object? type = freezed,
+    Object? name = null,
+    Object? value = null,
+    Object? type = null,
   }) {
     return _then(_value.copyWith(
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      value: value == freezed
+      value: null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as String,
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as ScPropertyType,
-    ));
+    ) as $Val);
   }
 }
 
@@ -76,35 +80,35 @@ abstract class _$$_ScPropertyCopyWith<$Res>
           _$_ScProperty value, $Res Function(_$_ScProperty) then) =
       __$$_ScPropertyCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({String name, String value, ScPropertyType type});
 }
 
 /// @nodoc
-class __$$_ScPropertyCopyWithImpl<$Res> extends _$ScPropertyCopyWithImpl<$Res>
+class __$$_ScPropertyCopyWithImpl<$Res>
+    extends _$ScPropertyCopyWithImpl<$Res, _$_ScProperty>
     implements _$$_ScPropertyCopyWith<$Res> {
   __$$_ScPropertyCopyWithImpl(
       _$_ScProperty _value, $Res Function(_$_ScProperty) _then)
-      : super(_value, (v) => _then(v as _$_ScProperty));
+      : super(_value, _then);
 
-  @override
-  _$_ScProperty get _value => super._value as _$_ScProperty;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
-    Object? value = freezed,
-    Object? type = freezed,
+    Object? name = null,
+    Object? value = null,
+    Object? type = null,
   }) {
     return _then(_$_ScProperty(
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      value: value == freezed
+      value: null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as String,
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as ScPropertyType,
@@ -142,27 +146,26 @@ class _$_ScProperty extends _ScProperty {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_ScProperty &&
-            const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality().equals(other.value, value) &&
-            const DeepCollectionEquality().equals(other.type, type));
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.value, value) || other.value == value) &&
+            (identical(other.type, type) || other.type == type));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(value),
-      const DeepCollectionEquality().hash(type));
+  int get hashCode => Object.hash(runtimeType, name, value, type);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_ScPropertyCopyWith<_$_ScProperty> get copyWith =>
       __$$_ScPropertyCopyWithImpl<_$_ScProperty>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ScPropertyToJson(this);
+    return _$$_ScPropertyToJson(
+      this,
+    );
   }
 }
 
@@ -177,11 +180,11 @@ abstract class _ScProperty extends ScProperty {
       _$_ScProperty.fromJson;
 
   @override
-  String get name => throw _privateConstructorUsedError;
+  String get name;
   @override
-  String get value => throw _privateConstructorUsedError;
+  String get value;
   @override
-  ScPropertyType get type => throw _privateConstructorUsedError;
+  ScPropertyType get type;
   @override
   @JsonKey(ignore: true)
   _$$_ScPropertyCopyWith<_$_ScProperty> get copyWith =>

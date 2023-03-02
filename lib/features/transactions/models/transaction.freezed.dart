@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'transaction.dart';
 
@@ -55,7 +55,8 @@ mixin _$Transaction {
 abstract class $TransactionCopyWith<$Res> {
   factory $TransactionCopyWith(
           Transaction value, $Res Function(Transaction) then) =
-      _$TransactionCopyWithImpl<$Res>;
+      _$TransactionCopyWithImpl<$Res, Transaction>;
+  @useResult
   $Res call(
       {@JsonKey(name: 'Hash')
           String hash,
@@ -84,78 +85,81 @@ abstract class $TransactionCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$TransactionCopyWithImpl<$Res> implements $TransactionCopyWith<$Res> {
+class _$TransactionCopyWithImpl<$Res, $Val extends Transaction>
+    implements $TransactionCopyWith<$Res> {
   _$TransactionCopyWithImpl(this._value, this._then);
 
-  final Transaction _value;
   // ignore: unused_field
-  final $Res Function(Transaction) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? hash = freezed,
-    Object? toAddress = freezed,
-    Object? fromAddress = freezed,
-    Object? type = freezed,
+    Object? hash = null,
+    Object? toAddress = null,
+    Object? fromAddress = null,
+    Object? type = null,
     Object? status = freezed,
-    Object? amount = freezed,
-    Object? nonce = freezed,
-    Object? fee = freezed,
-    Object? timestamp = freezed,
+    Object? amount = null,
+    Object? nonce = null,
+    Object? fee = null,
+    Object? timestamp = null,
     Object? nftData = freezed,
     Object? signature = freezed,
-    Object? height = freezed,
+    Object? height = null,
   }) {
     return _then(_value.copyWith(
-      hash: hash == freezed
+      hash: null == hash
           ? _value.hash
           : hash // ignore: cast_nullable_to_non_nullable
               as String,
-      toAddress: toAddress == freezed
+      toAddress: null == toAddress
           ? _value.toAddress
           : toAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      fromAddress: fromAddress == freezed
+      fromAddress: null == fromAddress
           ? _value.fromAddress
           : fromAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as int,
-      status: status == freezed
+      status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as TransactionStatus?,
-      amount: amount == freezed
+      amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as double,
-      nonce: nonce == freezed
+      nonce: null == nonce
           ? _value.nonce
           : nonce // ignore: cast_nullable_to_non_nullable
               as int,
-      fee: fee == freezed
+      fee: null == fee
           ? _value.fee
           : fee // ignore: cast_nullable_to_non_nullable
               as double,
-      timestamp: timestamp == freezed
+      timestamp: null == timestamp
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
               as int,
-      nftData: nftData == freezed
+      nftData: freezed == nftData
           ? _value.nftData
           : nftData // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      signature: signature == freezed
+      signature: freezed == signature
           ? _value.signature
           : signature // ignore: cast_nullable_to_non_nullable
               as String?,
-      height: height == freezed
+      height: null == height
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
               as int,
-    ));
+    ) as $Val);
   }
 }
 
@@ -166,6 +170,7 @@ abstract class _$$_TransactionCopyWith<$Res>
           _$_Transaction value, $Res Function(_$_Transaction) then) =
       __$$_TransactionCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {@JsonKey(name: 'Hash')
           String hash,
@@ -194,76 +199,75 @@ abstract class _$$_TransactionCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_TransactionCopyWithImpl<$Res> extends _$TransactionCopyWithImpl<$Res>
+class __$$_TransactionCopyWithImpl<$Res>
+    extends _$TransactionCopyWithImpl<$Res, _$_Transaction>
     implements _$$_TransactionCopyWith<$Res> {
   __$$_TransactionCopyWithImpl(
       _$_Transaction _value, $Res Function(_$_Transaction) _then)
-      : super(_value, (v) => _then(v as _$_Transaction));
+      : super(_value, _then);
 
-  @override
-  _$_Transaction get _value => super._value as _$_Transaction;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? hash = freezed,
-    Object? toAddress = freezed,
-    Object? fromAddress = freezed,
-    Object? type = freezed,
+    Object? hash = null,
+    Object? toAddress = null,
+    Object? fromAddress = null,
+    Object? type = null,
     Object? status = freezed,
-    Object? amount = freezed,
-    Object? nonce = freezed,
-    Object? fee = freezed,
-    Object? timestamp = freezed,
+    Object? amount = null,
+    Object? nonce = null,
+    Object? fee = null,
+    Object? timestamp = null,
     Object? nftData = freezed,
     Object? signature = freezed,
-    Object? height = freezed,
+    Object? height = null,
   }) {
     return _then(_$_Transaction(
-      hash: hash == freezed
+      hash: null == hash
           ? _value.hash
           : hash // ignore: cast_nullable_to_non_nullable
               as String,
-      toAddress: toAddress == freezed
+      toAddress: null == toAddress
           ? _value.toAddress
           : toAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      fromAddress: fromAddress == freezed
+      fromAddress: null == fromAddress
           ? _value.fromAddress
           : fromAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as int,
-      status: status == freezed
+      status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as TransactionStatus?,
-      amount: amount == freezed
+      amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as double,
-      nonce: nonce == freezed
+      nonce: null == nonce
           ? _value.nonce
           : nonce // ignore: cast_nullable_to_non_nullable
               as int,
-      fee: fee == freezed
+      fee: null == fee
           ? _value.fee
           : fee // ignore: cast_nullable_to_non_nullable
               as double,
-      timestamp: timestamp == freezed
+      timestamp: null == timestamp
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
               as int,
-      nftData: nftData == freezed
+      nftData: freezed == nftData
           ? _value.nftData
           : nftData // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      signature: signature == freezed
+      signature: freezed == signature
           ? _value.signature
           : signature // ignore: cast_nullable_to_non_nullable
               as String?,
-      height: height == freezed
+      height: null == height
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
               as int,
@@ -339,46 +343,52 @@ class _$_Transaction extends _Transaction {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Transaction &&
-            const DeepCollectionEquality().equals(other.hash, hash) &&
-            const DeepCollectionEquality().equals(other.toAddress, toAddress) &&
-            const DeepCollectionEquality()
-                .equals(other.fromAddress, fromAddress) &&
-            const DeepCollectionEquality().equals(other.type, type) &&
-            const DeepCollectionEquality().equals(other.status, status) &&
-            const DeepCollectionEquality().equals(other.amount, amount) &&
-            const DeepCollectionEquality().equals(other.nonce, nonce) &&
-            const DeepCollectionEquality().equals(other.fee, fee) &&
-            const DeepCollectionEquality().equals(other.timestamp, timestamp) &&
+            (identical(other.hash, hash) || other.hash == hash) &&
+            (identical(other.toAddress, toAddress) ||
+                other.toAddress == toAddress) &&
+            (identical(other.fromAddress, fromAddress) ||
+                other.fromAddress == fromAddress) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.nonce, nonce) || other.nonce == nonce) &&
+            (identical(other.fee, fee) || other.fee == fee) &&
+            (identical(other.timestamp, timestamp) ||
+                other.timestamp == timestamp) &&
             const DeepCollectionEquality().equals(other.nftData, nftData) &&
-            const DeepCollectionEquality().equals(other.signature, signature) &&
-            const DeepCollectionEquality().equals(other.height, height));
+            (identical(other.signature, signature) ||
+                other.signature == signature) &&
+            (identical(other.height, height) || other.height == height));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(hash),
-      const DeepCollectionEquality().hash(toAddress),
-      const DeepCollectionEquality().hash(fromAddress),
-      const DeepCollectionEquality().hash(type),
-      const DeepCollectionEquality().hash(status),
-      const DeepCollectionEquality().hash(amount),
-      const DeepCollectionEquality().hash(nonce),
-      const DeepCollectionEquality().hash(fee),
-      const DeepCollectionEquality().hash(timestamp),
+      hash,
+      toAddress,
+      fromAddress,
+      type,
+      status,
+      amount,
+      nonce,
+      fee,
+      timestamp,
       const DeepCollectionEquality().hash(nftData),
-      const DeepCollectionEquality().hash(signature),
-      const DeepCollectionEquality().hash(height));
+      signature,
+      height);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_TransactionCopyWith<_$_Transaction> get copyWith =>
       __$$_TransactionCopyWithImpl<_$_Transaction>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_TransactionToJson(this);
+    return _$$_TransactionToJson(
+      this,
+    );
   }
 }
 
@@ -415,40 +425,40 @@ abstract class _Transaction extends Transaction {
 
   @override
   @JsonKey(name: 'Hash')
-  String get hash => throw _privateConstructorUsedError;
+  String get hash;
   @override
   @JsonKey(name: 'ToAddress')
-  String get toAddress => throw _privateConstructorUsedError;
+  String get toAddress;
   @override
   @JsonKey(name: 'FromAddress')
-  String get fromAddress => throw _privateConstructorUsedError;
+  String get fromAddress;
   @override
   @JsonKey(name: 'TransactionType')
-  int get type => throw _privateConstructorUsedError;
+  int get type;
   @override
   @JsonKey(name: 'TransactionStatus', fromJson: statusFromJson)
-  TransactionStatus? get status => throw _privateConstructorUsedError;
+  TransactionStatus? get status;
   @override
   @JsonKey(name: 'Amount')
-  double get amount => throw _privateConstructorUsedError;
+  double get amount;
   @override
   @JsonKey(name: 'Nonce')
-  int get nonce => throw _privateConstructorUsedError;
+  int get nonce;
   @override
   @JsonKey(name: 'Fee')
-  double get fee => throw _privateConstructorUsedError;
+  double get fee;
   @override
   @JsonKey(name: 'Timestamp')
-  int get timestamp => throw _privateConstructorUsedError;
+  int get timestamp;
   @override
   @JsonKey(name: 'Data')
-  dynamic get nftData => throw _privateConstructorUsedError;
+  dynamic get nftData;
   @override
   @JsonKey(name: 'Signature')
-  String? get signature => throw _privateConstructorUsedError;
+  String? get signature;
   @override
   @JsonKey(name: 'Height')
-  int get height => throw _privateConstructorUsedError;
+  int get height;
   @override
   @JsonKey(ignore: true)
   _$$_TransactionCopyWith<_$_Transaction> get copyWith =>
