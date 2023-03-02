@@ -42,7 +42,6 @@ class StoreFormProvider extends StateNotifier<Store> {
     if (!formKey.currentState!.validate()) {
       return null;
     }
-    ref.read(globalLoadingProvider.notifier).start();
 
     final success = await DstService().saveStore(state);
 
@@ -53,7 +52,6 @@ class StoreFormProvider extends StateNotifier<Store> {
 
       clear();
       ref.read(storeListProvider.notifier).refresh();
-      ref.read(globalLoadingProvider.notifier).complete();
 
       if (state.id == 0 && thisStore.length == 1) {
         AutoRouter.of(context).popAndPush(MyStoreDetailScreenRoute(storeId: thisStore.first.id));
@@ -67,7 +65,6 @@ class StoreFormProvider extends StateNotifier<Store> {
     } else {
       Toast.error();
     }
-    ref.read(globalLoadingProvider.notifier).complete();
   }
 
   delete(BuildContext context, Store store) async {

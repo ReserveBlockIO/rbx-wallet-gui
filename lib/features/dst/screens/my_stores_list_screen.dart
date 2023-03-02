@@ -10,7 +10,7 @@ import 'package:rbx_wallet/features/dst/providers/store_list_provider.dart';
 import 'package:rbx_wallet/features/dsts_legacy/providers/my_store_listings_provider.dart';
 
 class MyStoresListScreen extends BaseScreen {
-  const MyStoresListScreen({Key? key}) : super(key: key);
+  const MyStoresListScreen({Key? key}) : super(key: key, verticalPadding: 0, horizontalPadding: 0);
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
@@ -45,6 +45,36 @@ class MyStoresListScreen extends BaseScreen {
       );
     }
 
-    return StoreList();
+    return Column(
+      children: [
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: StoreList(),
+          ),
+        ),
+        Container(
+          width: double.infinity,
+          decoration: const BoxDecoration(
+            color: Color(0xFF040f26),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                AppButton(
+                  label: 'Create Store',
+                  variant: AppColorVariant.Success,
+                  onPressed: () async {
+                    AutoRouter.of(context).push(const CreateStoreContainerScreenRoute());
+                  },
+                )
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

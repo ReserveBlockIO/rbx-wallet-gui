@@ -18,7 +18,7 @@ class MyStoreDetailScreen extends BaseScreen {
   const MyStoreDetailScreen({
     Key? key,
     @PathParam("storeId") required this.storeId,
-  }) : super(key: key);
+  }) : super(key: key, verticalPadding: 0, horizontalPadding: 0);
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
@@ -60,63 +60,71 @@ class MyStoreDetailScreen extends BaseScreen {
         if (store == null) {
           return Center(child: Text("An error occurred."));
         }
-        return Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                store.name,
-                style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.white),
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              store.name,
+              style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.white),
+            ),
+            Text(
+              store.description,
+              maxLines: 4,
+              overflow: TextOverflow.ellipsis,
+            ),
+            Divider(),
+            Expanded(child: ListingList(storeId)),
+            Container(
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                color: Color(0xFF040f26),
               ),
-              Text(
-                store.description,
-                maxLines: 4,
-                overflow: TextOverflow.ellipsis,
-              ),
-              Divider(),
-              Expanded(child: ListingList(storeId)),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  AppButton(
-                    label: 'Edit Store',
-                    icon: Icons.edit,
-                    onPressed: () {
-                      ref.read(storeFormProvider.notifier).load(store);
-                      AutoRouter.of(context).push(const CreateStoreContainerScreenRoute());
-                    },
-                  ),
-                  AppButton(
-                    label: 'Create Listing',
-                    icon: Icons.add,
-                    variant: AppColorVariant.Success,
-                    onPressed: () {
-                      AutoRouter.of(context).push(CreateListingContainerScreenRoute(storeId: storeId));
-                    },
-                  ),
-                  AppButton(
-                    label: 'Delete Store',
-                    variant: AppColorVariant.Danger,
-                    icon: Icons.fire_hydrant,
-                    onPressed: () async {
-                      final confirmed = await ConfirmDialog.show(
-                        title: "Delete Store",
-                        body: "Are you sure you want to delete this store?",
-                        destructive: true,
-                        confirmText: "Delete",
-                        cancelText: "Cancel",
-                      );
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    AppButton(
+                      label: 'Edit Store',
+                      icon: Icons.edit,
+                      variant: AppColorVariant.Light,
+                      onPressed: () {
+                        ref.read(storeFormProvider.notifier).load(store);
+                        AutoRouter.of(context).push(const CreateStoreContainerScreenRoute());
+                      },
+                    ),
+                    AppButton(
+                      label: 'Create Listing',
+                      icon: Icons.add,
+                      variant: AppColorVariant.Success,
+                      onPressed: () {
+                        AutoRouter.of(context).push(CreateListingContainerScreenRoute(storeId: storeId));
+                      },
+                    ),
+                    AppButton(
+                      label: 'Delete Store',
+                      variant: AppColorVariant.Danger,
+                      icon: Icons.fire_hydrant,
+                      onPressed: () async {
+                        final confirmed = await ConfirmDialog.show(
+                          title: "Delete Store",
+                          body: "Are you sure you want to delete this store?",
+                          destructive: true,
+                          confirmText: "Delete",
+                          cancelText: "Cancel",
+                        );
 
-                      if (confirmed == true) {
-                        ref.read(storeFormProvider.notifier).delete(context, store);
-                        Toast.message("Store deleted.");
-                      }
-                    },
-                  )
-                ],
-              )
-            ],
-          ),
+                        if (confirmed == true) {
+                          ref.read(storeFormProvider.notifier).delete(context, store);
+                          Toast.message("Store deleted.");
+                        }
+                      },
+                    )
+                  ],
+                ),
+              ),
+            )
+          ],
         );
       },
     );

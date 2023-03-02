@@ -48,8 +48,8 @@ class ListingFormProvider extends StateNotifier<Listing> {
     floorPriceController.text = listing.floorPrice.toString();
     reservePriceController.text = listing.reservePrice.toString();
     state = state.copyWith(
-      enableBuyNow: listing.buyNowPrice != 0,
-      enableAuction: listing.floorPrice != 0 || listing.reservePrice != 0,
+      enableBuyNow: listing.isBuyNow,
+      enableAuction: listing.isAuction,
     );
   }
 
@@ -119,7 +119,7 @@ class ListingFormProvider extends StateNotifier<Listing> {
       Toast.error('Enable at leas one of the options (Buy now or Auction)');
       return;
     }
-    ref.read(globalLoadingProvider.notifier).start();
+
     state = state.copyWith(storeId: storeId);
 
     if (await DstService().saveListing(state)) {
@@ -128,11 +128,9 @@ class ListingFormProvider extends StateNotifier<Listing> {
         print('invalidating');
         ref.invalidate(listingDetailProvider(state.id));
       }
-      ref.read(globalLoadingProvider.notifier).complete();
       clear();
       AutoRouter.of(context).pop();
     }
-    ref.read(globalLoadingProvider.notifier).complete();
   }
 
   clear() {
