@@ -17,6 +17,7 @@ Future<void> openFile(File file) async {
   try {
     await launchUrl(file.uri);
   } catch (e) {
+    print(e);
     launchUrl(File(file.parent.path).uri);
   }
 }

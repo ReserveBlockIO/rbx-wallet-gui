@@ -9,6 +9,19 @@
 
 import 'package:flutter/widgets.dart';
 
+class $AssetsDocsGen {
+  const $AssetsDocsGen();
+
+  /// File path: assets/docs/nft-metadata-example.csv
+  String get nftMetadataExampleCsv => 'assets/docs/nft-metadata-example.csv';
+
+  /// File path: assets/docs/nft-metadata-example.json
+  String get nftMetadataExampleJson => 'assets/docs/nft-metadata-example.json';
+
+  /// List of all assets
+  List<String> get values => [nftMetadataExampleCsv, nftMetadataExampleJson];
+}
+
 class $AssetsEnvGen {
   const $AssetsEnvGen();
 
@@ -253,6 +266,7 @@ class $AssetsJsGen {
 class Assets {
   Assets._();
 
+  static const $AssetsDocsGen docs = $AssetsDocsGen();
   static const $AssetsEnvGen env = $AssetsEnvGen();
   static const $AssetsFontsGen fonts = $AssetsFontsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
