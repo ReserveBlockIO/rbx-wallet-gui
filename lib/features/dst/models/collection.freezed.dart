@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'store.dart';
+part of 'collection.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-Store _$StoreFromJson(Map<String, dynamic> json) {
-  return _Store.fromJson(json);
+Collection _$CollectionFromJson(Map<String, dynamic> json) {
+  return _Collection.fromJson(json);
 }
 
 /// @nodoc
-mixin _$Store {
+mixin _$Collection {
   @JsonKey(name: "Id")
   int get id => throw _privateConstructorUsedError;
   @JsonKey(name: "Name")
@@ -33,13 +33,15 @@ mixin _$Store {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $StoreCopyWith<Store> get copyWith => throw _privateConstructorUsedError;
+  $CollectionCopyWith<Collection> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $StoreCopyWith<$Res> {
-  factory $StoreCopyWith(Store value, $Res Function(Store) then) =
-      _$StoreCopyWithImpl<$Res, Store>;
+abstract class $CollectionCopyWith<$Res> {
+  factory $CollectionCopyWith(
+          Collection value, $Res Function(Collection) then) =
+      _$CollectionCopyWithImpl<$Res, Collection>;
   @useResult
   $Res call(
       {@JsonKey(name: "Id") int id,
@@ -50,9 +52,9 @@ abstract class $StoreCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$StoreCopyWithImpl<$Res, $Val extends Store>
-    implements $StoreCopyWith<$Res> {
-  _$StoreCopyWithImpl(this._value, this._then);
+class _$CollectionCopyWithImpl<$Res, $Val extends Collection>
+    implements $CollectionCopyWith<$Res> {
+  _$CollectionCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -94,9 +96,11 @@ class _$StoreCopyWithImpl<$Res, $Val extends Store>
 }
 
 /// @nodoc
-abstract class _$$_StoreCopyWith<$Res> implements $StoreCopyWith<$Res> {
-  factory _$$_StoreCopyWith(_$_Store value, $Res Function(_$_Store) then) =
-      __$$_StoreCopyWithImpl<$Res>;
+abstract class _$$_CollectionCopyWith<$Res>
+    implements $CollectionCopyWith<$Res> {
+  factory _$$_CollectionCopyWith(
+          _$_Collection value, $Res Function(_$_Collection) then) =
+      __$$_CollectionCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -108,9 +112,11 @@ abstract class _$$_StoreCopyWith<$Res> implements $StoreCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_StoreCopyWithImpl<$Res> extends _$StoreCopyWithImpl<$Res, _$_Store>
-    implements _$$_StoreCopyWith<$Res> {
-  __$$_StoreCopyWithImpl(_$_Store _value, $Res Function(_$_Store) _then)
+class __$$_CollectionCopyWithImpl<$Res>
+    extends _$CollectionCopyWithImpl<$Res, _$_Collection>
+    implements _$$_CollectionCopyWith<$Res> {
+  __$$_CollectionCopyWithImpl(
+      _$_Collection _value, $Res Function(_$_Collection) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -122,7 +128,7 @@ class __$$_StoreCopyWithImpl<$Res> extends _$StoreCopyWithImpl<$Res, _$_Store>
     Object? isLive = null,
     Object? isDefault = null,
   }) {
-    return _then(_$_Store(
+    return _then(_$_Collection(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -149,8 +155,8 @@ class __$$_StoreCopyWithImpl<$Res> extends _$StoreCopyWithImpl<$Res, _$_Store>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Store extends _Store {
-  _$_Store(
+class _$_Collection extends _Collection {
+  _$_Collection(
       {@JsonKey(name: "Id") required this.id,
       @JsonKey(name: "Name") required this.name,
       @JsonKey(name: "Description") required this.description,
@@ -158,8 +164,8 @@ class _$_Store extends _Store {
       @JsonKey(name: "IsDefault") required this.isDefault})
       : super._();
 
-  factory _$_Store.fromJson(Map<String, dynamic> json) =>
-      _$$_StoreFromJson(json);
+  factory _$_Collection.fromJson(Map<String, dynamic> json) =>
+      _$$_CollectionFromJson(json);
 
   @override
   @JsonKey(name: "Id")
@@ -179,14 +185,14 @@ class _$_Store extends _Store {
 
   @override
   String toString() {
-    return 'Store(id: $id, name: $name, description: $description, isLive: $isLive, isDefault: $isDefault)';
+    return 'Collection(id: $id, name: $name, description: $description, isLive: $isLive, isDefault: $isDefault)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Store &&
+            other is _$_Collection &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
@@ -204,27 +210,29 @@ class _$_Store extends _Store {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_StoreCopyWith<_$_Store> get copyWith =>
-      __$$_StoreCopyWithImpl<_$_Store>(this, _$identity);
+  _$$_CollectionCopyWith<_$_Collection> get copyWith =>
+      __$$_CollectionCopyWithImpl<_$_Collection>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_StoreToJson(
+    return _$$_CollectionToJson(
       this,
     );
   }
 }
 
-abstract class _Store extends Store {
-  factory _Store(
-      {@JsonKey(name: "Id") required final int id,
-      @JsonKey(name: "Name") required final String name,
-      @JsonKey(name: "Description") required final String description,
-      @JsonKey(name: "CollectionLive") required final bool isLive,
-      @JsonKey(name: "IsDefault") required final bool isDefault}) = _$_Store;
-  _Store._() : super._();
+abstract class _Collection extends Collection {
+  factory _Collection(
+          {@JsonKey(name: "Id") required final int id,
+          @JsonKey(name: "Name") required final String name,
+          @JsonKey(name: "Description") required final String description,
+          @JsonKey(name: "CollectionLive") required final bool isLive,
+          @JsonKey(name: "IsDefault") required final bool isDefault}) =
+      _$_Collection;
+  _Collection._() : super._();
 
-  factory _Store.fromJson(Map<String, dynamic> json) = _$_Store.fromJson;
+  factory _Collection.fromJson(Map<String, dynamic> json) =
+      _$_Collection.fromJson;
 
   @override
   @JsonKey(name: "Id")
@@ -243,6 +251,6 @@ abstract class _Store extends Store {
   bool get isDefault;
   @override
   @JsonKey(ignore: true)
-  _$$_StoreCopyWith<_$_Store> get copyWith =>
+  _$$_CollectionCopyWith<_$_Collection> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -125,11 +125,11 @@ const List<AutoRoute> appRoutes = [
         name: "DstsTabRouter",
         page: EmptyRouterPage,
         children: [
-          AutoRoute(path: "", page: MyStoresListScreen),
-          AutoRoute(path: ":storeId", page: MyStoreDetailScreen),
-          AutoRoute(path: "createStore", page: CreateStoreContainerScreen),
+          AutoRoute(path: "", page: MyCollectionsListScreen),
+          AutoRoute(path: ":collectionId", page: MyCollectionDetailScreen),
+          AutoRoute(path: "createCollection", page: CreateCollectionContainerScreen),
           AutoRoute(path: ":listingId", page: ListingDetailScreen),
-          AutoRoute(path: "createListing/:storeId", page: CreateListingContainerScreen),
+          AutoRoute(path: "createListing/:collectionId", page: CreateListingContainerScreen),
         ],
       ),
       AutoRoute(

@@ -10,12 +10,12 @@ import 'package:rbx_wallet/features/dst/providers/listing_form_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/listing_list_provider.dart';
 
 class ListingList extends BaseComponent {
-  const ListingList(this.storeId, {Key? key}) : super(key: key);
-  final int storeId;
+  const ListingList(this.collectionId, {Key? key}) : super(key: key);
+  final int collectionId;
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final listings = ref.watch(listingListProvider(storeId));
+    final listings = ref.watch(listingListProvider(collectionId));
 
     return listings.isNotEmpty
         ? ListView.builder(
@@ -62,7 +62,7 @@ class ListingList extends BaseComponent {
                         variant: AppColorVariant.Light,
                         onPressed: () {
                           ref.read(listingFormProvider.notifier).load(listing);
-                          AutoRouter.of(context).push(CreateListingContainerScreenRoute(storeId: listing.collectionId));
+                          AutoRouter.of(context).push(CreateListingContainerScreenRoute(collectionId: listing.collectionId));
                         },
                       ),
                       SizedBox(
@@ -100,7 +100,7 @@ class ListingList extends BaseComponent {
                     label: "Create First Listing",
                     variant: AppColorVariant.Success,
                     onPressed: () {
-                      AutoRouter.of(context).push(CreateListingContainerScreenRoute(storeId: storeId));
+                      AutoRouter.of(context).push(CreateListingContainerScreenRoute(collectionId: collectionId));
                     },
                   ),
                 ],

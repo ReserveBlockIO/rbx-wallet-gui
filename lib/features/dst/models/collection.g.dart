@@ -1,12 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'store.dart';
+part of 'collection.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Store _$$_StoreFromJson(Map<String, dynamic> json) => _$_Store(
+_$_Collection _$$_CollectionFromJson(Map<String, dynamic> json) =>
+    _$_Collection(
       id: json['Id'] as int,
       name: json['Name'] as String,
       description: json['Description'] as String,
@@ -14,7 +15,8 @@ _$_Store _$$_StoreFromJson(Map<String, dynamic> json) => _$_Store(
       isDefault: json['IsDefault'] as bool,
     );
 
-Map<String, dynamic> _$$_StoreToJson(_$_Store instance) => <String, dynamic>{
+Map<String, dynamic> _$$_CollectionToJson(_$_Collection instance) =>
+    <String, dynamic>{
       'Id': instance.id,
       'Name': instance.name,
       'Description': instance.description,

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/dst/providers/store_form_provider.dart';
+import 'package:rbx_wallet/features/dst/providers/collection_form_provider.dart';
 
 import '../../../core/base_component.dart';
 import '../../../utils/validation.dart';
 import '../../smart_contracts/components/sc_creator/common/form_group_container.dart';
 import '../../smart_contracts/components/sc_creator/common/form_group_header.dart';
 
-class CreateStoreFormGroup extends BaseComponent {
-  const CreateStoreFormGroup({Key? key}) : super(key: key);
+class CreateCollectionFormGroup extends BaseComponent {
+  const CreateCollectionFormGroup({Key? key}) : super(key: key);
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
@@ -29,10 +29,10 @@ class CreateStoreFormGroup extends BaseComponent {
                 mainAxisSize: MainAxisSize.min,
                 children: const [
                   Flexible(
-                    child: _StoreName(),
+                    child: _CollectionName(),
                   ),
                   Flexible(
-                    child: _StoreDescription(),
+                    child: _CollectionDescription(),
                   ),
                   SizedBox(
                     height: 6,
@@ -77,8 +77,8 @@ class _IsLiveCheckbox extends BaseComponent {
   }
 }
 
-class _StoreName extends BaseComponent {
-  const _StoreName({
+class _CollectionName extends BaseComponent {
+  const _CollectionName({
     Key? key,
   }) : super(key: key);
 
@@ -88,10 +88,10 @@ class _StoreName extends BaseComponent {
     return TextFormField(
       controller: provider.nameController,
       onChanged: provider.updateName,
-      validator: (value) => formValidatorNotEmpty(value, "Store Name"),
+      validator: (value) => formValidatorNotEmpty(value, "Collection Name"),
       decoration: InputDecoration(
         label: const Text(
-          "Store Name",
+          "Collection Name",
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -99,8 +99,8 @@ class _StoreName extends BaseComponent {
   }
 }
 
-class _StoreDescription extends BaseComponent {
-  const _StoreDescription({
+class _CollectionDescription extends BaseComponent {
+  const _CollectionDescription({
     Key? key,
   }) : super(key: key);
 
@@ -110,11 +110,11 @@ class _StoreDescription extends BaseComponent {
     return TextFormField(
       controller: provider.descriptionController,
       onChanged: provider.updateDescription,
-      validator: (value) => formValidatorNotEmpty(value, "Store Description"),
+      validator: (value) => formValidatorNotEmpty(value, "Collection Description"),
       maxLines: 3,
       decoration: InputDecoration(
         label: const Text(
-          "Store Description",
+          "Collection Description",
           style: TextStyle(color: Colors.white),
         ),
       ),

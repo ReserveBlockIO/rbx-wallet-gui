@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/features/dst/providers/store_list_provider.dart';
+import 'package:rbx_wallet/features/dst/providers/collection_list_provider.dart';
 
-class StoreList extends BaseComponent {
-  const StoreList({Key? key}) : super(key: key);
+class CollectionList extends BaseComponent {
+  const CollectionList({Key? key}) : super(key: key);
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
@@ -22,7 +22,7 @@ class StoreList extends BaseComponent {
             title: Text(store.name),
             trailing: Icon(Icons.chevron_right),
             onTap: () {
-              AutoRouter.of(context).push(MyStoreDetailScreenRoute(storeId: store.id));
+              AutoRouter.of(context).push(MyCollectionDetailScreenRoute(collectionId: store.id));
             },
           ),
         );
