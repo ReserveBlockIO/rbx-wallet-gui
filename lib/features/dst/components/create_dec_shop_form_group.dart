@@ -142,6 +142,8 @@ class _DecUrl extends BaseComponent {
   Widget build(BuildContext context, ref) {
     final provider = ref.read(decShopFormProvider.notifier);
     return TextFormField(
+      maxLength: 62,
+      maxLengthEnforcement: MaxLengthEnforcement.enforced,
       controller: provider.urlController,
       onChanged: provider.updateUrl,
       inputFormatters: [
