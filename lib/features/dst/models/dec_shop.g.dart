@@ -7,7 +7,8 @@ part of 'dec_shop.dart';
 // **************************************************************************
 
 _$_DecShop _$$_DecShopFromJson(Map<String, dynamic> json) => _$_DecShop(
-      id: json['UniqueId'] as String,
+      id: json['Id'] as int,
+      uuid: json['UniqueId'] as String,
       name: json['Name'] as String,
       url: json['DecShopURL'] as String,
       ip: json['IP'] as String?,
@@ -21,7 +22,8 @@ _$_DecShop _$$_DecShopFromJson(Map<String, dynamic> json) => _$_DecShop(
 
 Map<String, dynamic> _$$_DecShopToJson(_$_DecShop instance) =>
     <String, dynamic>{
-      'UniqueId': instance.id,
+      'Id': instance.id,
+      'UniqueId': instance.uuid,
       'Name': instance.name,
       'DecShopURL': instance.url,
       'IP': instance.ip,

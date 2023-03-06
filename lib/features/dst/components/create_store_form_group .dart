@@ -5,7 +5,6 @@ import 'package:rbx_wallet/features/dst/providers/collection_form_provider.dart'
 import '../../../core/base_component.dart';
 import '../../../utils/validation.dart';
 import '../../smart_contracts/components/sc_creator/common/form_group_container.dart';
-import '../../smart_contracts/components/sc_creator/common/form_group_header.dart';
 
 class CreateCollectionFormGroup extends BaseComponent {
   const CreateCollectionFormGroup({Key? key}) : super(key: key);

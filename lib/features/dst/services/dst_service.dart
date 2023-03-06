@@ -5,6 +5,7 @@ import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
 
 import '../../../core/services/base_service.dart';
+import '../models/dec_shop.dart';
 
 class DstService extends BaseService {
   DstService() : super(apiBasePathOverride: "/dstapi/DSTV1");
@@ -85,6 +86,21 @@ class DstService extends BaseService {
     try {
       await postJson('/SaveCollection', params: store.toJson());
       return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> saveDecShop(DecShop decShop) async {
+    try {
+      final response = await postJson('/SaveDecShop', params: decShop.toJson());
+      print(response);
+      if (response['data']['Success']) {
+        return true;
+      } else {
+        throw ('Error saving dec shop');
+      }
     } catch (e) {
       print(e);
       return false;

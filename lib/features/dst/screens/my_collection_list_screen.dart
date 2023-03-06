@@ -10,6 +10,8 @@ import 'package:rbx_wallet/features/dst/providers/collection_form_provider.dart'
 import 'package:rbx_wallet/features/dst/providers/collection_list_provider.dart';
 import 'package:rbx_wallet/features/dsts_legacy/providers/my_store_listings_provider.dart';
 
+import '../providers/dec_shop_form_provider.dart';
+
 class MyCollectionsListScreen extends BaseScreen {
   const MyCollectionsListScreen({Key? key}) : super(key: key, verticalPadding: 0, horizontalPadding: 0);
 
@@ -63,8 +65,16 @@ class MyCollectionsListScreen extends BaseScreen {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
+                AppButton(
+                  label: 'Create Dec Shop',
+                  variant: AppColorVariant.Success,
+                  onPressed: () async {
+                    ref.read(decShopFormProvider.notifier).clear();
+                    AutoRouter.of(context).push(const CreateDecShopContainerScreenRoute());
+                  },
+                ),
                 AppButton(
                   label: 'Create Collection',
                   variant: AppColorVariant.Success,
