@@ -25,7 +25,7 @@ class Listing with _$Listing {
     @JsonKey(name: "IsVisibleAfterEndDate") @Default(true) bool isVisibleAfterEndDate,
     @JsonKey(name: "FinalPrice") double? finalPrice,
     @JsonKey(name: "WinningAddress") String? winningAddress,
-    @JsonKey(name: "StoreId") required int storeId,
+    @JsonKey(name: "CollectionId") required int collectionId,
     @Default(false) @JsonKey(ignore: true) bool enableBuyNow,
     @Default(false) @JsonKey(ignore: true) bool enableAuction,
     @JsonKey(ignore: true) Nft? nft,
@@ -39,7 +39,7 @@ class Listing with _$Listing {
         ownerAddress: '',
         startDate: DateTime.now(),
         endDate: DateTime.now(),
-        storeId: 0,
+        collectionId: 0,
       );
 
   bool get isBuyNow {

@@ -121,7 +121,7 @@ class ListingFormProvider extends StateNotifier<Listing> {
       return;
     }
 
-    state = state.copyWith(storeId: storeId);
+    state = state.copyWith(collectionId: storeId);
 
     if (await DstService().saveListing(state)) {
       ref.read(listingListProvider(storeId).notifier).refresh();

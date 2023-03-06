@@ -62,7 +62,7 @@ class ListingList extends BaseComponent {
                         variant: AppColorVariant.Light,
                         onPressed: () {
                           ref.read(listingFormProvider.notifier).load(listing);
-                          AutoRouter.of(context).push(CreateListingContainerScreenRoute(storeId: listing.storeId));
+                          AutoRouter.of(context).push(CreateListingContainerScreenRoute(storeId: listing.collectionId));
                         },
                       ),
                       SizedBox(

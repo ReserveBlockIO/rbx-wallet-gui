@@ -11,7 +11,7 @@ class Store with _$Store {
     @JsonKey(name: "Id") required int id,
     @JsonKey(name: "Name") required String name,
     @JsonKey(name: "Description") required String description,
-    @JsonKey(name: "StoreLive") required bool isLive,
+    @JsonKey(name: "CollectionLive") required bool isLive,
     @JsonKey(name: "IsDefault") required bool isDefault,
   }) = _Store;
 

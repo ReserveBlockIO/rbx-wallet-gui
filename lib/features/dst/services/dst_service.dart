@@ -11,7 +11,7 @@ class DstService extends BaseService {
 
   Future<Store?> retreiveStore(int id) async {
     try {
-      final response = await getText("/GetStore/$id");
+      final response = await getText("/GetCollection/$id");
       final data = jsonDecode(response);
 
       if (data['Success'] != true) {
@@ -19,7 +19,7 @@ class DstService extends BaseService {
         return null;
       }
 
-      return Store.fromJson(data['Store']);
+      return Store.fromJson(data['Collection']);
     } catch (e, st) {
       print(e);
       print(st);
@@ -55,7 +55,7 @@ class DstService extends BaseService {
 
   Future<List<Store>> listStores() async {
     try {
-      final response = await getText("/GetAllStores", cleanPath: false);
+      final response = await getText("/GetAllCollections", cleanPath: false);
       if (response.isEmpty) {
         return [];
       }
@@ -67,7 +67,7 @@ class DstService extends BaseService {
         return [];
       }
 
-      final items = data['Stores'];
+      final items = data['Collections'];
 
       final List<Store> stores = [];
       for (final item in items) {
@@ -83,7 +83,7 @@ class DstService extends BaseService {
 
   Future<bool> saveStore(Store store) async {
     try {
-      await postJson('/SaveStore', params: store.toJson());
+      await postJson('/SaveCollection', params: store.toJson());
       return true;
     } catch (e) {
       print(e);
@@ -93,7 +93,7 @@ class DstService extends BaseService {
 
   Future<bool> deleteStore(Store store) async {
     try {
-      final response = await getText('/DeleteStore/${store.id}');
+      final response = await getText('/DeleteCollection/${store.id}');
       return true;
     } catch (e) {
       print(e);
@@ -106,14 +106,14 @@ class DstService extends BaseService {
       final response = await postJson('/SaveListing', params: listing.toJson());
       return true;
     } catch (e) {
-      print(e);
+      print("Error Saving: $e");
       return false;
     }
   }
 
   Future<List<Listing>> listListings(int storeId) async {
     try {
-      final response = await getText("/GetStoreListings/$storeId", cleanPath: false);
+      final response = await getText("/GetCollectionListings/$storeId", cleanPath: false);
 
       if (response.isEmpty) {
         return [];

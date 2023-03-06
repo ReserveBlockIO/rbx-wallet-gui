@@ -250,7 +250,7 @@ class ListingDetailScreen extends BaseScreen {
                       variant: AppColorVariant.Light,
                       onPressed: () {
                         ref.read(listingFormProvider.notifier).load(listing);
-                        AutoRouter.of(context).push(CreateListingContainerScreenRoute(storeId: listing.storeId));
+                        AutoRouter.of(context).push(CreateListingContainerScreenRoute(storeId: listing.collectionId));
                       },
                     ),
                     AppButton(
@@ -258,7 +258,7 @@ class ListingDetailScreen extends BaseScreen {
                       variant: AppColorVariant.Danger,
                       icon: Icons.fire_hydrant,
                       onPressed: () {
-                        ref.read(listingFormProvider.notifier).delete(context, listing.storeId, listing);
+                        ref.read(listingFormProvider.notifier).delete(context, listing.collectionId, listing);
                       },
                     )
                   ],

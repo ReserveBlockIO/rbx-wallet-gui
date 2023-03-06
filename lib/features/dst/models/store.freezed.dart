@@ -26,7 +26,7 @@ mixin _$Store {
   String get name => throw _privateConstructorUsedError;
   @JsonKey(name: "Description")
   String get description => throw _privateConstructorUsedError;
-  @JsonKey(name: "StoreLive")
+  @JsonKey(name: "CollectionLive")
   bool get isLive => throw _privateConstructorUsedError;
   @JsonKey(name: "IsDefault")
   bool get isDefault => throw _privateConstructorUsedError;
@@ -45,7 +45,7 @@ abstract class $StoreCopyWith<$Res> {
       {@JsonKey(name: "Id") int id,
       @JsonKey(name: "Name") String name,
       @JsonKey(name: "Description") String description,
-      @JsonKey(name: "StoreLive") bool isLive,
+      @JsonKey(name: "CollectionLive") bool isLive,
       @JsonKey(name: "IsDefault") bool isDefault});
 }
 
@@ -103,7 +103,7 @@ abstract class _$$_StoreCopyWith<$Res> implements $StoreCopyWith<$Res> {
       {@JsonKey(name: "Id") int id,
       @JsonKey(name: "Name") String name,
       @JsonKey(name: "Description") String description,
-      @JsonKey(name: "StoreLive") bool isLive,
+      @JsonKey(name: "CollectionLive") bool isLive,
       @JsonKey(name: "IsDefault") bool isDefault});
 }
 
@@ -154,7 +154,7 @@ class _$_Store extends _Store {
       {@JsonKey(name: "Id") required this.id,
       @JsonKey(name: "Name") required this.name,
       @JsonKey(name: "Description") required this.description,
-      @JsonKey(name: "StoreLive") required this.isLive,
+      @JsonKey(name: "CollectionLive") required this.isLive,
       @JsonKey(name: "IsDefault") required this.isDefault})
       : super._();
 
@@ -171,7 +171,7 @@ class _$_Store extends _Store {
   @JsonKey(name: "Description")
   final String description;
   @override
-  @JsonKey(name: "StoreLive")
+  @JsonKey(name: "CollectionLive")
   final bool isLive;
   @override
   @JsonKey(name: "IsDefault")
@@ -220,7 +220,7 @@ abstract class _Store extends Store {
       {@JsonKey(name: "Id") required final int id,
       @JsonKey(name: "Name") required final String name,
       @JsonKey(name: "Description") required final String description,
-      @JsonKey(name: "StoreLive") required final bool isLive,
+      @JsonKey(name: "CollectionLive") required final bool isLive,
       @JsonKey(name: "IsDefault") required final bool isDefault}) = _$_Store;
   _Store._() : super._();
 
@@ -236,7 +236,7 @@ abstract class _Store extends Store {
   @JsonKey(name: "Description")
   String get description;
   @override
-  @JsonKey(name: "StoreLive")
+  @JsonKey(name: "CollectionLive")
   bool get isLive;
   @override
   @JsonKey(name: "IsDefault")
