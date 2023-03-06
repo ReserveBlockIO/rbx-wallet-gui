@@ -74,7 +74,7 @@ class CreateCollectionContainerScreen extends BaseScreen {
                   variant: AppColorVariant.Danger,
                   onPressed: () async {
                     final confirmed = await ConfirmDialog.show(
-                      title: "Are you sure you want to close the store ${model.id != 0 ? 'editing' : 'creation'} screen?",
+                      title: "Are you sure you want to close the collection ${model.id != 0 ? 'editing' : 'creation'} screen?",
                       body: "All unsaved changes will be lost.",
                       cancelText: "Cancel",
                       confirmText: "Continue",

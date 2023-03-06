@@ -1,9 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 
 import 'package:auto_route/empty_router_widgets.dart';
-import 'package:rbx_wallet/features/dst/screens/create_store_container_screen.dart';
-import 'package:rbx_wallet/features/dst/screens/my_store_detail_screen.dart';
-import 'package:rbx_wallet/features/dst/screens/my_stores_list_screen.dart';
+import 'package:rbx_wallet/features/dst/screens/create_collection_container_screen.dart';
+import 'package:rbx_wallet/features/dst/screens/create_dec_shop_container_screen.dart';
+import 'package:rbx_wallet/features/dst/screens/my_collection_detail_screen.dart';
+import 'package:rbx_wallet/features/dst/screens/my_collection_list_screen.dart';
 import 'package:rbx_wallet/features/dsts_legacy/screens/create_store_screen.dart';
 import 'package:rbx_wallet/features/dsts_legacy/screens/dst_screen.dart';
 
@@ -128,6 +129,7 @@ const List<AutoRoute> appRoutes = [
           AutoRoute(path: "", page: MyCollectionsListScreen),
           AutoRoute(path: ":collectionId", page: MyCollectionDetailScreen),
           AutoRoute(path: "createCollection", page: CreateCollectionContainerScreen),
+          AutoRoute(path: "createDecShop", page: CreateDecShopContainerScreen),
           AutoRoute(path: ":listingId", page: ListingDetailScreen),
           AutoRoute(path: "createListing/:collectionId", page: CreateListingContainerScreen),
         ],

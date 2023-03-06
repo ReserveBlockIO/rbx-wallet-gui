@@ -8,7 +8,8 @@ class DecShop with _$DecShop {
   const DecShop._();
 
   factory DecShop({
-    @JsonKey(name: "UniqueId") required String id,
+    @JsonKey(name: "Id") required int id,
+    @JsonKey(name: "UniqueId") required String uuid,
     @JsonKey(name: "Name") required String name,
     @JsonKey(name: "DecShopURL") required String url,
     @JsonKey(name: "IP") String? ip,
@@ -21,4 +22,16 @@ class DecShop with _$DecShop {
   }) = _DecShop;
 
   factory DecShop.fromJson(Map<String, dynamic> json) => _$DecShopFromJson(json);
+
+  factory DecShop.empty() => DecShop(
+        id: 0,
+        uuid: '',
+        name: '',
+        url: '',
+        description: '',
+        address: '',
+        type: 0,
+        needsPublishToNetwork: true,
+        isOffline: false,
+      );
 }

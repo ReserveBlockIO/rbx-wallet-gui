@@ -20,8 +20,10 @@ DecShop _$DecShopFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$DecShop {
+  @JsonKey(name: "Id")
+  int get id => throw _privateConstructorUsedError;
   @JsonKey(name: "UniqueId")
-  String get id => throw _privateConstructorUsedError;
+  String get uuid => throw _privateConstructorUsedError;
   @JsonKey(name: "Name")
   String get name => throw _privateConstructorUsedError;
   @JsonKey(name: "DecShopURL")
@@ -52,7 +54,8 @@ abstract class $DecShopCopyWith<$Res> {
       _$DecShopCopyWithImpl<$Res, DecShop>;
   @useResult
   $Res call(
-      {@JsonKey(name: "UniqueId") String id,
+      {@JsonKey(name: "Id") int id,
+      @JsonKey(name: "UniqueId") String uuid,
       @JsonKey(name: "Name") String name,
       @JsonKey(name: "DecShopURL") String url,
       @JsonKey(name: "IP") String? ip,
@@ -78,6 +81,7 @@ class _$DecShopCopyWithImpl<$Res, $Val extends DecShop>
   @override
   $Res call({
     Object? id = null,
+    Object? uuid = null,
     Object? name = null,
     Object? url = null,
     Object? ip = freezed,
@@ -92,6 +96,10 @@ class _$DecShopCopyWithImpl<$Res, $Val extends DecShop>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      uuid: null == uuid
+          ? _value.uuid
+          : uuid // ignore: cast_nullable_to_non_nullable
               as String,
       name: null == name
           ? _value.name
@@ -141,7 +149,8 @@ abstract class _$$_DecShopCopyWith<$Res> implements $DecShopCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "UniqueId") String id,
+      {@JsonKey(name: "Id") int id,
+      @JsonKey(name: "UniqueId") String uuid,
       @JsonKey(name: "Name") String name,
       @JsonKey(name: "DecShopURL") String url,
       @JsonKey(name: "IP") String? ip,
@@ -164,6 +173,7 @@ class __$$_DecShopCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
+    Object? uuid = null,
     Object? name = null,
     Object? url = null,
     Object? ip = freezed,
@@ -178,6 +188,10 @@ class __$$_DecShopCopyWithImpl<$Res>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      uuid: null == uuid
+          ? _value.uuid
+          : uuid // ignore: cast_nullable_to_non_nullable
               as String,
       name: null == name
           ? _value.name
@@ -223,8 +237,10 @@ class __$$_DecShopCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_DecShop extends _DecShop {
   _$_DecShop(
-      {@JsonKey(name: "UniqueId")
+      {@JsonKey(name: "Id")
           required this.id,
+      @JsonKey(name: "UniqueId")
+          required this.uuid,
       @JsonKey(name: "Name")
           required this.name,
       @JsonKey(name: "DecShopURL")
@@ -249,8 +265,11 @@ class _$_DecShop extends _DecShop {
       _$$_DecShopFromJson(json);
 
   @override
+  @JsonKey(name: "Id")
+  final int id;
+  @override
   @JsonKey(name: "UniqueId")
-  final String id;
+  final String uuid;
   @override
   @JsonKey(name: "Name")
   final String name;
@@ -281,7 +300,7 @@ class _$_DecShop extends _DecShop {
 
   @override
   String toString() {
-    return 'DecShop(id: $id, name: $name, url: $url, ip: $ip, description: $description, address: $address, blockHeight: $blockHeight, type: $type, needsPublishToNetwork: $needsPublishToNetwork, isOffline: $isOffline)';
+    return 'DecShop(id: $id, uuid: $uuid, name: $name, url: $url, ip: $ip, description: $description, address: $address, blockHeight: $blockHeight, type: $type, needsPublishToNetwork: $needsPublishToNetwork, isOffline: $isOffline)';
   }
 
   @override
@@ -290,6 +309,7 @@ class _$_DecShop extends _DecShop {
         (other.runtimeType == runtimeType &&
             other is _$_DecShop &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.uuid, uuid) || other.uuid == uuid) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.url, url) || other.url == url) &&
             (identical(other.ip, ip) || other.ip == ip) &&
@@ -307,8 +327,19 @@ class _$_DecShop extends _DecShop {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, url, ip, description,
-      address, blockHeight, type, needsPublishToNetwork, isOffline);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      uuid,
+      name,
+      url,
+      ip,
+      description,
+      address,
+      blockHeight,
+      type,
+      needsPublishToNetwork,
+      isOffline);
 
   @JsonKey(ignore: true)
   @override
@@ -326,8 +357,10 @@ class _$_DecShop extends _DecShop {
 
 abstract class _DecShop extends DecShop {
   factory _DecShop(
-      {@JsonKey(name: "UniqueId")
-          required final String id,
+      {@JsonKey(name: "Id")
+          required final int id,
+      @JsonKey(name: "UniqueId")
+          required final String uuid,
       @JsonKey(name: "Name")
           required final String name,
       @JsonKey(name: "DecShopURL")
@@ -351,8 +384,11 @@ abstract class _DecShop extends DecShop {
   factory _DecShop.fromJson(Map<String, dynamic> json) = _$_DecShop.fromJson;
 
   @override
+  @JsonKey(name: "Id")
+  int get id;
+  @override
   @JsonKey(name: "UniqueId")
-  String get id;
+  String get uuid;
   @override
   @JsonKey(name: "Name")
   String get name;
