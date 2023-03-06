@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:rbx_wallet/features/dst/models/listing.dart';
-import 'package:rbx_wallet/features/dst/models/store.dart';
+import 'package:rbx_wallet/features/dst/models/collection.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
 
@@ -9,7 +9,7 @@ import '../../../core/services/base_service.dart';
 class DstService extends BaseService {
   DstService() : super(apiBasePathOverride: "/dstapi/DSTV1");
 
-  Future<Store?> retreiveStore(int id) async {
+  Future<Collection?> retreiveCollection(int id) async {
     try {
       final response = await getText("/GetCollection/$id");
       final data = jsonDecode(response);
@@ -19,7 +19,7 @@ class DstService extends BaseService {
         return null;
       }
 
-      return Store.fromJson(data['Collection']);
+      return Collection.fromJson(data['Collection']);
     } catch (e, st) {
       print(e);
       print(st);
@@ -53,7 +53,7 @@ class DstService extends BaseService {
     }
   }
 
-  Future<List<Store>> listStores() async {
+  Future<List<Collection>> listCollections() async {
     try {
       final response = await getText("/GetAllCollections", cleanPath: false);
       if (response.isEmpty) {
@@ -69,9 +69,9 @@ class DstService extends BaseService {
 
       final items = data['Collections'];
 
-      final List<Store> stores = [];
+      final List<Collection> stores = [];
       for (final item in items) {
-        stores.add(Store.fromJson(item));
+        stores.add(Collection.fromJson(item));
       }
       return stores;
     } catch (e, st) {
@@ -81,7 +81,7 @@ class DstService extends BaseService {
     }
   }
 
-  Future<bool> saveStore(Store store) async {
+  Future<bool> saveCollection(Collection store) async {
     try {
       await postJson('/SaveCollection', params: store.toJson());
       return true;
@@ -91,7 +91,7 @@ class DstService extends BaseService {
     }
   }
 
-  Future<bool> deleteStore(Store store) async {
+  Future<bool> deleteCollection(Collection store) async {
     try {
       final response = await getText('/DeleteCollection/${store.id}');
       return true;

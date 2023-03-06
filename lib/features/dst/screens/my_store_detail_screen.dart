@@ -7,22 +7,22 @@ import 'package:rbx_wallet/core/components/centered_loader.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/dst/components/listing_list.dart';
-import 'package:rbx_wallet/features/dst/providers/store_detail_provider.dart';
-import 'package:rbx_wallet/features/dst/providers/store_form_provider.dart';
+import 'package:rbx_wallet/features/dst/providers/collection_detail_provider.dart';
+import 'package:rbx_wallet/features/dst/providers/collection_form_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/app_router.gr.dart';
 
-class MyStoreDetailScreen extends BaseScreen {
-  final int storeId;
-  const MyStoreDetailScreen({
+class MyCollectionDetailScreen extends BaseScreen {
+  final int collectionId;
+  const MyCollectionDetailScreen({
     Key? key,
-    @PathParam("storeId") required this.storeId,
+    @PathParam("collectionId") required this.collectionId,
   }) : super(key: key, verticalPadding: 0, horizontalPadding: 0);
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
-    final data = ref.watch(storeDetailProvider(storeId));
+    final data = ref.watch(storeDetailProvider(collectionId));
 
     return data.when(
       loading: () => null,
@@ -36,7 +36,7 @@ class MyStoreDetailScreen extends BaseScreen {
           actions: [
             TextButton(
               onPressed: () {
-                AutoRouter.of(context).push(CreateListingContainerScreenRoute(storeId: storeId));
+                AutoRouter.of(context).push(CreateListingContainerScreenRoute(collectionId: collectionId));
               },
               child: Text(
                 "Create Listing",
@@ -51,7 +51,7 @@ class MyStoreDetailScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final data = ref.watch(storeDetailProvider(storeId));
+    final data = ref.watch(storeDetailProvider(collectionId));
 
     return data.when(
       loading: () => CenteredLoader(),
@@ -79,7 +79,7 @@ class MyStoreDetailScreen extends BaseScreen {
               height: 8,
             ),
             Divider(),
-            Expanded(child: ListingList(storeId)),
+            Expanded(child: ListingList(collectionId)),
             Container(
               width: double.infinity,
               decoration: const BoxDecoration(
@@ -91,12 +91,12 @@ class MyStoreDetailScreen extends BaseScreen {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     AppButton(
-                      label: 'Edit Store',
+                      label: 'Edit Collection',
                       icon: Icons.edit,
                       variant: AppColorVariant.Light,
                       onPressed: () {
                         ref.read(storeFormProvider.notifier).load(store);
-                        AutoRouter.of(context).push(const CreateStoreContainerScreenRoute());
+                        AutoRouter.of(context).push(const CreateCollectionContainerScreenRoute());
                       },
                     ),
                     AppButton(
@@ -104,16 +104,16 @@ class MyStoreDetailScreen extends BaseScreen {
                       icon: Icons.add,
                       variant: AppColorVariant.Success,
                       onPressed: () {
-                        AutoRouter.of(context).push(CreateListingContainerScreenRoute(storeId: storeId));
+                        AutoRouter.of(context).push(CreateListingContainerScreenRoute(collectionId: collectionId));
                       },
                     ),
                     AppButton(
-                      label: 'Delete Store',
+                      label: 'Delete Collection',
                       variant: AppColorVariant.Danger,
-                      icon: Icons.fire_hydrant,
+                      icon: Icons.delete,
                       onPressed: () async {
                         final confirmed = await ConfirmDialog.show(
-                          title: "Delete Store",
+                          title: "Delete Collection",
                           body: "Are you sure you want to delete this store?",
                           destructive: true,
                           confirmText: "Delete",
@@ -122,7 +122,7 @@ class MyStoreDetailScreen extends BaseScreen {
 
                         if (confirmed == true) {
                           ref.read(storeFormProvider.notifier).delete(context, store);
-                          Toast.message("Store deleted.");
+                          Toast.message("Collection deleted.");
                         }
                       },
                     )

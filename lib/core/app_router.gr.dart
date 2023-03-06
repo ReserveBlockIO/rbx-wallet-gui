@@ -265,29 +265,29 @@ class AppRouter extends _i31.RootStackRouter {
         child: const _i19.SmartContractsScreen(),
       );
     },
-    MyStoresListScreenRoute.name: (routeData) {
+    MyCollectionsListScreenRoute.name: (routeData) {
       return _i31.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i20.MyStoresListScreen(),
+        child: const _i20.MyCollectionsListScreen(),
       );
     },
-    MyStoreDetailScreenRoute.name: (routeData) {
+    MyCollectionDetailScreenRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
-      final args = routeData.argsAs<MyStoreDetailScreenRouteArgs>(
-          orElse: () => MyStoreDetailScreenRouteArgs(
-              storeId: pathParams.getInt('storeId')));
+      final args = routeData.argsAs<MyCollectionDetailScreenRouteArgs>(
+          orElse: () => MyCollectionDetailScreenRouteArgs(
+              collectionId: pathParams.getInt('collectionId')));
       return _i31.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: _i21.MyStoreDetailScreen(
+        child: _i21.MyCollectionDetailScreen(
           key: args.key,
-          storeId: args.storeId,
+          collectionId: args.collectionId,
         ),
       );
     },
-    CreateStoreContainerScreenRoute.name: (routeData) {
+    CreateCollectionContainerScreenRoute.name: (routeData) {
       return _i31.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i22.CreateStoreContainerScreen(),
+        child: const _i22.CreateCollectionContainerScreen(),
       );
     },
     ListingDetailScreenRoute.name: (routeData) {
@@ -307,11 +307,11 @@ class AppRouter extends _i31.RootStackRouter {
       final pathParams = routeData.inheritedPathParams;
       final args = routeData.argsAs<CreateListingContainerScreenRouteArgs>(
           orElse: () => CreateListingContainerScreenRouteArgs(
-              storeId: pathParams.getInt('storeId')));
+              collectionId: pathParams.getInt('collectionId')));
       return _i31.AdaptivePage<dynamic>(
         routeData: routeData,
         child: _i24.CreateListingContainerScreen(
-          args.storeId,
+          args.collectionId,
           key: args.key,
         ),
       );
@@ -493,18 +493,18 @@ class AppRouter extends _i31.RootStackRouter {
               parent: RootContainerRoute.name,
               children: [
                 _i31.RouteConfig(
-                  MyStoresListScreenRoute.name,
+                  MyCollectionsListScreenRoute.name,
                   path: '',
                   parent: DstsTabRouter.name,
                 ),
                 _i31.RouteConfig(
-                  MyStoreDetailScreenRoute.name,
-                  path: ':storeId',
+                  MyCollectionDetailScreenRoute.name,
+                  path: ':collectionId',
                   parent: DstsTabRouter.name,
                 ),
                 _i31.RouteConfig(
-                  CreateStoreContainerScreenRoute.name,
-                  path: 'createStore',
+                  CreateCollectionContainerScreenRoute.name,
+                  path: 'createCollection',
                   parent: DstsTabRouter.name,
                 ),
                 _i31.RouteConfig(
@@ -514,7 +514,7 @@ class AppRouter extends _i31.RootStackRouter {
                 ),
                 _i31.RouteConfig(
                   CreateListingContainerScreenRoute.name,
-                  path: 'createListing/:storeId',
+                  path: 'createListing/:collectionId',
                   parent: DstsTabRouter.name,
                 ),
               ],
@@ -1015,63 +1015,63 @@ class SmartContractsScreenRoute extends _i31.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i20.MyStoresListScreen]
-class MyStoresListScreenRoute extends _i31.PageRouteInfo<void> {
-  const MyStoresListScreenRoute()
+/// [_i20.MyCollectionsListScreen]
+class MyCollectionsListScreenRoute extends _i31.PageRouteInfo<void> {
+  const MyCollectionsListScreenRoute()
       : super(
-          MyStoresListScreenRoute.name,
+          MyCollectionsListScreenRoute.name,
           path: '',
         );
 
-  static const String name = 'MyStoresListScreenRoute';
+  static const String name = 'MyCollectionsListScreenRoute';
 }
 
 /// generated route for
-/// [_i21.MyStoreDetailScreen]
-class MyStoreDetailScreenRoute
-    extends _i31.PageRouteInfo<MyStoreDetailScreenRouteArgs> {
-  MyStoreDetailScreenRoute({
+/// [_i21.MyCollectionDetailScreen]
+class MyCollectionDetailScreenRoute
+    extends _i31.PageRouteInfo<MyCollectionDetailScreenRouteArgs> {
+  MyCollectionDetailScreenRoute({
     _i32.Key? key,
-    required int storeId,
+    required int collectionId,
   }) : super(
-          MyStoreDetailScreenRoute.name,
-          path: ':storeId',
-          args: MyStoreDetailScreenRouteArgs(
+          MyCollectionDetailScreenRoute.name,
+          path: ':collectionId',
+          args: MyCollectionDetailScreenRouteArgs(
             key: key,
-            storeId: storeId,
+            collectionId: collectionId,
           ),
-          rawPathParams: {'storeId': storeId},
+          rawPathParams: {'collectionId': collectionId},
         );
 
-  static const String name = 'MyStoreDetailScreenRoute';
+  static const String name = 'MyCollectionDetailScreenRoute';
 }
 
-class MyStoreDetailScreenRouteArgs {
-  const MyStoreDetailScreenRouteArgs({
+class MyCollectionDetailScreenRouteArgs {
+  const MyCollectionDetailScreenRouteArgs({
     this.key,
-    required this.storeId,
+    required this.collectionId,
   });
 
   final _i32.Key? key;
 
-  final int storeId;
+  final int collectionId;
 
   @override
   String toString() {
-    return 'MyStoreDetailScreenRouteArgs{key: $key, storeId: $storeId}';
+    return 'MyCollectionDetailScreenRouteArgs{key: $key, collectionId: $collectionId}';
   }
 }
 
 /// generated route for
-/// [_i22.CreateStoreContainerScreen]
-class CreateStoreContainerScreenRoute extends _i31.PageRouteInfo<void> {
-  const CreateStoreContainerScreenRoute()
+/// [_i22.CreateCollectionContainerScreen]
+class CreateCollectionContainerScreenRoute extends _i31.PageRouteInfo<void> {
+  const CreateCollectionContainerScreenRoute()
       : super(
-          CreateStoreContainerScreenRoute.name,
-          path: 'createStore',
+          CreateCollectionContainerScreenRoute.name,
+          path: 'createCollection',
         );
 
-  static const String name = 'CreateStoreContainerScreenRoute';
+  static const String name = 'CreateCollectionContainerScreenRoute';
 }
 
 /// generated route for
@@ -1115,16 +1115,16 @@ class ListingDetailScreenRouteArgs {
 class CreateListingContainerScreenRoute
     extends _i31.PageRouteInfo<CreateListingContainerScreenRouteArgs> {
   CreateListingContainerScreenRoute({
-    required int storeId,
+    required int collectionId,
     _i32.Key? key,
   }) : super(
           CreateListingContainerScreenRoute.name,
-          path: 'createListing/:storeId',
+          path: 'createListing/:collectionId',
           args: CreateListingContainerScreenRouteArgs(
-            storeId: storeId,
+            collectionId: collectionId,
             key: key,
           ),
-          rawPathParams: {'storeId': storeId},
+          rawPathParams: {'collectionId': collectionId},
         );
 
   static const String name = 'CreateListingContainerScreenRoute';
@@ -1132,17 +1132,17 @@ class CreateListingContainerScreenRoute
 
 class CreateListingContainerScreenRouteArgs {
   const CreateListingContainerScreenRouteArgs({
-    required this.storeId,
+    required this.collectionId,
     this.key,
   });
 
-  final int storeId;
+  final int collectionId;
 
   final _i32.Key? key;
 
   @override
   String toString() {
-    return 'CreateListingContainerScreenRouteArgs{storeId: $storeId, key: $key}';
+    return 'CreateListingContainerScreenRouteArgs{collectionId: $collectionId, key: $key}';
   }
 }
 

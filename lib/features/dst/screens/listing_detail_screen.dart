@@ -250,13 +250,13 @@ class ListingDetailScreen extends BaseScreen {
                       variant: AppColorVariant.Light,
                       onPressed: () {
                         ref.read(listingFormProvider.notifier).load(listing);
-                        AutoRouter.of(context).push(CreateListingContainerScreenRoute(storeId: listing.collectionId));
+                        AutoRouter.of(context).push(CreateListingContainerScreenRoute(collectionId: listing.collectionId));
                       },
                     ),
                     AppButton(
                       label: 'Delete Listing',
                       variant: AppColorVariant.Danger,
-                      icon: Icons.fire_hydrant,
+                      icon: Icons.delete,
                       onPressed: () {
                         ref.read(listingFormProvider.notifier).delete(context, listing.collectionId, listing);
                       },

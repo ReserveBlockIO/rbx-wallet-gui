@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/dst/components/create_listing_form_group.dart';
-import 'package:rbx_wallet/features/dst/providers/store_form_provider.dart';
+import 'package:rbx_wallet/features/dst/providers/collection_form_provider.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/components/buttons.dart';
@@ -11,8 +11,9 @@ import '../../../core/theme/app_theme.dart';
 import '../providers/listing_form_provider.dart';
 
 class CreateListingContainerScreen extends BaseScreen {
-  final int storeId;
-  const CreateListingContainerScreen(@PathParam("storeId") this.storeId, {Key? key}) : super(key: key, verticalPadding: 0, horizontalPadding: 0);
+  final int collectionId;
+  const CreateListingContainerScreen(@PathParam("collectionId") this.collectionId, {Key? key})
+      : super(key: key, verticalPadding: 0, horizontalPadding: 0);
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
@@ -45,6 +46,7 @@ class CreateListingContainerScreen extends BaseScreen {
   Widget body(BuildContext context, WidgetRef ref) {
     final provider = ref.read(listingFormProvider.notifier);
     final model = ref.watch(listingFormProvider);
+    bool isCreating = model.id == 0;
 
     return Column(
       children: [
@@ -73,28 +75,33 @@ class CreateListingContainerScreen extends BaseScreen {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AppButton(
-                  label: "Discard Changes",
+                  label: isCreating ? "Discard Changes" : "Delete Listing",
                   variant: AppColorVariant.Danger,
+                  icon: isCreating ? null : Icons.delete,
                   onPressed: () async {
-                    final confirmed = await ConfirmDialog.show(
-                      title: "Are you sure you want to close the listing ${model.id != 0 ? 'editing' : 'creation'} screen?",
-                      body: "All unsaved changes will be lost.",
-                      cancelText: "Cancel",
-                      confirmText: "Continue",
-                    );
+                    if (isCreating) {
+                      final confirmed = await ConfirmDialog.show(
+                        title: "Are you sure you want to discard the listing?",
+                        body: "All unsaved changes will be lost.",
+                        cancelText: "Cancel",
+                        confirmText: "Continue",
+                      );
 
-                    if (confirmed == true) {
-                      AutoRouter.of(context).pop();
-                      provider.clear();
-                      ref.invalidate(storeFormProvider);
+                      if (confirmed == true) {
+                        AutoRouter.of(context).pop();
+                        provider.clear();
+                        ref.invalidate(storeFormProvider);
+                      }
+                    } else {
+                      provider.delete(context, collectionId, model);
                     }
                   },
                 ),
                 AppButton(
-                  label: model.id == 0 ? 'Create' : 'Update',
+                  label: isCreating ? 'Create' : 'Update',
                   variant: AppColorVariant.Success,
                   onPressed: () async {
-                    await provider.complete(context, storeId);
+                    await provider.complete(context, collectionId);
                   },
                 )
               ],

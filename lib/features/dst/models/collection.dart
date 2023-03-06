@@ -1,24 +1,24 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'store.freezed.dart';
-part 'store.g.dart';
+part 'collection.freezed.dart';
+part 'collection.g.dart';
 
 @freezed
-class Store with _$Store {
-  const Store._();
+class Collection with _$Collection {
+  const Collection._();
 
-  factory Store({
+  factory Collection({
     @JsonKey(name: "Id") required int id,
     @JsonKey(name: "Name") required String name,
     @JsonKey(name: "Description") required String description,
     @JsonKey(name: "CollectionLive") required bool isLive,
     @JsonKey(name: "IsDefault") required bool isDefault,
-  }) = _Store;
+  }) = _Collection;
 
-  factory Store.fromJson(Map<String, dynamic> json) => _$StoreFromJson(json);
+  factory Collection.fromJson(Map<String, dynamic> json) => _$CollectionFromJson(json);
 
-  factory Store.empty() {
-    return Store(
+  factory Collection.empty() {
+    return Collection(
       id: 0,
       name: '',
       description: '',

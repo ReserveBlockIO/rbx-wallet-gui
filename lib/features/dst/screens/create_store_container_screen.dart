@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/dst/providers/store_form_provider.dart';
+import 'package:rbx_wallet/features/dst/providers/collection_form_provider.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/components/buttons.dart';
@@ -9,15 +9,15 @@ import '../../../core/dialogs.dart';
 import '../../../core/theme/app_theme.dart';
 import '../components/create_store_form_group .dart';
 
-class CreateStoreContainerScreen extends BaseScreen {
-  const CreateStoreContainerScreen({Key? key}) : super(key: key, verticalPadding: 0, horizontalPadding: 0);
+class CreateCollectionContainerScreen extends BaseScreen {
+  const CreateCollectionContainerScreen({Key? key}) : super(key: key, verticalPadding: 0, horizontalPadding: 0);
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     final provider = ref.read(storeFormProvider.notifier);
     final model = ref.read(storeFormProvider);
     return AppBar(
-      title: Text(model.id != 0 ? "Edit Store" : "Create New Store"),
+      title: Text(model.id != 0 ? "Edit Collection" : "Create New Collection"),
       leading: IconButton(
         onPressed: () async {
           final confirmed = await ConfirmDialog.show(
@@ -54,7 +54,7 @@ class CreateStoreContainerScreen extends BaseScreen {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const CreateStoreFormGroup(),
+                const CreateCollectionFormGroup(),
               ],
             ),
           ),
