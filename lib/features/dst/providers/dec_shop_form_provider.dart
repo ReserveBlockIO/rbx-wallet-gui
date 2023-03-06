@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/dst/providers/collection_list_provider.dart';
+import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/listing_list_provider.dart';
 import 'package:rbx_wallet/features/dst/services/dst_service.dart';
 import 'package:rbx_wallet/utils/toast.dart';
@@ -63,6 +64,7 @@ class DecShopFormProvider extends StateNotifier<DecShop> {
       // ref.invalidate(storeDetailProvider(state.id));
       AutoRouter.of(context).pop();
       clear();
+      ref.invalidate(decShopProvider);
     } else {
       Toast.error();
     }
@@ -75,6 +77,7 @@ class DecShopFormProvider extends StateNotifier<DecShop> {
       ref.invalidate(listingListProvider(store.id));
       ref.read(storeListProvider.notifier).refresh();
       AutoRouter.of(context).popUntilRoot();
+      ref.invalidate(decShopProvider);
     } else {
       Toast.error();
     }

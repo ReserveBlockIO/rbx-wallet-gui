@@ -92,6 +92,17 @@ class DstService extends BaseService {
     }
   }
 
+  Future<DecShop?> retreiveShop() async {
+    try {
+      final response = await getText('/GetDecShop');
+      final data = jsonDecode(response);
+      return DecShop.fromJson(data);
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
   Future<bool> saveDecShop(DecShop decShop) async {
     try {
       final response = await postJson('/SaveDecShop', params: decShop.toJson());

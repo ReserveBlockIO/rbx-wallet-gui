@@ -122,10 +122,10 @@ class _DecShopName extends BaseComponent {
     return TextFormField(
       controller: provider.nameController,
       onChanged: provider.updateName,
-      validator: (value) => formValidatorNotEmpty(value, "Dec Shop Name"),
+      validator: (value) => formValidatorNotEmpty(value, "Shop Name"),
       decoration: InputDecoration(
         label: const Text(
-          "Dec Shop Name",
+          "Shop Name",
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -149,13 +149,13 @@ class _DecUrl extends BaseComponent {
       inputFormatters: [
         FilteringTextInputFormatter.allow(RegExp("^[A-Za-z][a-zA-Z0-9-.]{0,62}")),
       ],
-      validator: (value) => formValidatorNotEmpty(value, "Dec Shop Url"),
+      validator: (value) => formValidatorNotEmpty(value, "Shop Identifier"),
       decoration: InputDecoration(
-        label: const Text(
-          "Dec Shop Url",
-          style: TextStyle(color: Colors.white),
-        ),
-      ),
+          label: const Text(
+            "Shop Identifier",
+            style: TextStyle(color: Colors.white),
+          ),
+          hintText: "ie. MyShop"),
     );
   }
 }
@@ -171,11 +171,11 @@ class _DecShopDescription extends BaseComponent {
     return TextFormField(
       controller: provider.descriptionController,
       onChanged: provider.updateDescription,
-      validator: (value) => formValidatorNotEmpty(value, "DecShop Description"),
+      validator: (value) => formValidatorNotEmpty(value, "Shop Description"),
       maxLines: 3,
       decoration: InputDecoration(
         label: const Text(
-          "DecShop Description",
+          "Shop Description",
           style: TextStyle(color: Colors.white),
         ),
       ),

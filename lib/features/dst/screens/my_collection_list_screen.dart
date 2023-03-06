@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
+import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
@@ -11,6 +12,7 @@ import 'package:rbx_wallet/features/dst/providers/collection_list_provider.dart'
 import 'package:rbx_wallet/features/dsts_legacy/providers/my_store_listings_provider.dart';
 
 import '../providers/dec_shop_form_provider.dart';
+import '../providers/dec_shop_provider.dart';
 
 class MyCollectionsListScreen extends BaseScreen {
   const MyCollectionsListScreen({Key? key}) : super(key: key, verticalPadding: 0, horizontalPadding: 0);
@@ -67,14 +69,7 @@ class MyCollectionsListScreen extends BaseScreen {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                AppButton(
-                  label: 'Create Dec Shop',
-                  variant: AppColorVariant.Success,
-                  onPressed: () async {
-                    ref.read(decShopFormProvider.notifier).clear();
-                    AutoRouter.of(context).push(const CreateDecShopContainerScreenRoute());
-                  },
-                ),
+                DecShopButton(),
                 AppButton(
                   label: 'Create Collection',
                   variant: AppColorVariant.Success,
@@ -88,6 +83,43 @@ class MyCollectionsListScreen extends BaseScreen {
           ),
         ),
       ],
+    );
+  }
+}
+
+class DecShopButton extends BaseComponent {
+  const DecShopButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final data = ref.watch(decShopProvider);
+
+    return data.when(
+      loading: () => SizedBox(),
+      error: (_, __) => SizedBox(),
+      data: (shop) {
+        if (shop == null) {
+          return AppButton(
+            label: 'Launch Shop',
+            variant: AppColorVariant.Success,
+            onPressed: () async {
+              ref.read(decShopFormProvider.notifier).clear();
+              AutoRouter.of(context).push(const CreateDecShopContainerScreenRoute());
+            },
+          );
+        }
+
+        return AppButton(
+          label: 'Edit Shop',
+          variant: AppColorVariant.Success,
+          onPressed: () async {
+            ref.read(decShopFormProvider.notifier).load(shop);
+            AutoRouter.of(context).push(const CreateDecShopContainerScreenRoute());
+          },
+        );
+      },
     );
   }
 }
