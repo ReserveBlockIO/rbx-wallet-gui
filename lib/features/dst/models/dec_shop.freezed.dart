@@ -25,23 +25,44 @@ mixin _$DecShop {
   @JsonKey(name: "UniqueId")
   String get uuid => throw _privateConstructorUsedError;
   @JsonKey(name: "Name")
-  String get name => throw _privateConstructorUsedError;
+  String get name =>
+      throw _privateConstructorUsedError; //* submit   // * updating when published
   @JsonKey(name: "DecShopURL")
-  String get url => throw _privateConstructorUsedError;
-  @JsonKey(name: "IP")
-  String? get ip => throw _privateConstructorUsedError;
+  String get url =>
+      throw _privateConstructorUsedError; //* submit  // * updating when published
   @JsonKey(name: "Description")
-  String get description => throw _privateConstructorUsedError;
-  @JsonKey(name: "Address")
-  String get address => throw _privateConstructorUsedError;
-  @JsonKey(name: "BlockHeight")
-  int? get blockHeight => throw _privateConstructorUsedError;
-  @JsonKey(name: "DecShopHostingType")
-  int get type => throw _privateConstructorUsedError;
+  String get description =>
+      throw _privateConstructorUsedError; //* submit  // * updating when published
+  @JsonKey(name: "OwnerAddress")
+  String get ownerAddress => throw _privateConstructorUsedError; //* submit
+  @JsonKey(name: "HostingType")
+  int get type => throw _privateConstructorUsedError; //* submit
+  @JsonKey(name: "IP")
+  String get ip =>
+      throw _privateConstructorUsedError; //* submit IF self hosted  // * updating
+  @JsonKey(name: "Port")
+  int get port =>
+      throw _privateConstructorUsedError; //* submit IF self hosted  // * updating
+  @JsonKey(name: "OriginalBlockHeight")
+  double get originalBlockHeight => throw _privateConstructorUsedError;
+  @JsonKey(name: "OriginalTXHash")
+  String? get originaTxHash => throw _privateConstructorUsedError;
+  @JsonKey(name: "LatestBlockHeight")
+  double get latestBlockHeight => throw _privateConstructorUsedError;
+  @JsonKey(name: "LatestTXHash")
+  String? get lastestTxHash => throw _privateConstructorUsedError;
+  @JsonKey(name: "UpdateTimestamp")
+  double get updateTimestamp => throw _privateConstructorUsedError;
+  @JsonKey(name: "AutoUpdateNetworkDNS")
+  bool get autoUpdateNetworkDns =>
+      throw _privateConstructorUsedError; //* submit  // * updating when published
   @JsonKey(name: "NeedsPublishToNetwork")
   bool get needsPublishToNetwork => throw _privateConstructorUsedError;
   @JsonKey(name: "IsOffline")
-  bool get isOffline => throw _privateConstructorUsedError;
+  bool get isOffline =>
+      throw _privateConstructorUsedError; // * updating when published
+  @JsonKey(name: "IsPublished")
+  bool get isPublished => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -58,13 +79,20 @@ abstract class $DecShopCopyWith<$Res> {
       @JsonKey(name: "UniqueId") String uuid,
       @JsonKey(name: "Name") String name,
       @JsonKey(name: "DecShopURL") String url,
-      @JsonKey(name: "IP") String? ip,
       @JsonKey(name: "Description") String description,
-      @JsonKey(name: "Address") String address,
-      @JsonKey(name: "BlockHeight") int? blockHeight,
-      @JsonKey(name: "DecShopHostingType") int type,
+      @JsonKey(name: "OwnerAddress") String ownerAddress,
+      @JsonKey(name: "HostingType") int type,
+      @JsonKey(name: "IP") String ip,
+      @JsonKey(name: "Port") int port,
+      @JsonKey(name: "OriginalBlockHeight") double originalBlockHeight,
+      @JsonKey(name: "OriginalTXHash") String? originaTxHash,
+      @JsonKey(name: "LatestBlockHeight") double latestBlockHeight,
+      @JsonKey(name: "LatestTXHash") String? lastestTxHash,
+      @JsonKey(name: "UpdateTimestamp") double updateTimestamp,
+      @JsonKey(name: "AutoUpdateNetworkDNS") bool autoUpdateNetworkDns,
       @JsonKey(name: "NeedsPublishToNetwork") bool needsPublishToNetwork,
-      @JsonKey(name: "IsOffline") bool isOffline});
+      @JsonKey(name: "IsOffline") bool isOffline,
+      @JsonKey(name: "IsPublished") bool isPublished});
 }
 
 /// @nodoc
@@ -84,13 +112,20 @@ class _$DecShopCopyWithImpl<$Res, $Val extends DecShop>
     Object? uuid = null,
     Object? name = null,
     Object? url = null,
-    Object? ip = freezed,
     Object? description = null,
-    Object? address = null,
-    Object? blockHeight = freezed,
+    Object? ownerAddress = null,
     Object? type = null,
+    Object? ip = null,
+    Object? port = null,
+    Object? originalBlockHeight = null,
+    Object? originaTxHash = freezed,
+    Object? latestBlockHeight = null,
+    Object? lastestTxHash = freezed,
+    Object? updateTimestamp = null,
+    Object? autoUpdateNetworkDns = null,
     Object? needsPublishToNetwork = null,
     Object? isOffline = null,
+    Object? isPublished = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -109,26 +144,50 @@ class _$DecShopCopyWithImpl<$Res, $Val extends DecShop>
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
-      ip: freezed == ip
-          ? _value.ip
-          : ip // ignore: cast_nullable_to_non_nullable
-              as String?,
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      address: null == address
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
+      ownerAddress: null == ownerAddress
+          ? _value.ownerAddress
+          : ownerAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      blockHeight: freezed == blockHeight
-          ? _value.blockHeight
-          : blockHeight // ignore: cast_nullable_to_non_nullable
-              as int?,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as int,
+      ip: null == ip
+          ? _value.ip
+          : ip // ignore: cast_nullable_to_non_nullable
+              as String,
+      port: null == port
+          ? _value.port
+          : port // ignore: cast_nullable_to_non_nullable
+              as int,
+      originalBlockHeight: null == originalBlockHeight
+          ? _value.originalBlockHeight
+          : originalBlockHeight // ignore: cast_nullable_to_non_nullable
+              as double,
+      originaTxHash: freezed == originaTxHash
+          ? _value.originaTxHash
+          : originaTxHash // ignore: cast_nullable_to_non_nullable
+              as String?,
+      latestBlockHeight: null == latestBlockHeight
+          ? _value.latestBlockHeight
+          : latestBlockHeight // ignore: cast_nullable_to_non_nullable
+              as double,
+      lastestTxHash: freezed == lastestTxHash
+          ? _value.lastestTxHash
+          : lastestTxHash // ignore: cast_nullable_to_non_nullable
+              as String?,
+      updateTimestamp: null == updateTimestamp
+          ? _value.updateTimestamp
+          : updateTimestamp // ignore: cast_nullable_to_non_nullable
+              as double,
+      autoUpdateNetworkDns: null == autoUpdateNetworkDns
+          ? _value.autoUpdateNetworkDns
+          : autoUpdateNetworkDns // ignore: cast_nullable_to_non_nullable
+              as bool,
       needsPublishToNetwork: null == needsPublishToNetwork
           ? _value.needsPublishToNetwork
           : needsPublishToNetwork // ignore: cast_nullable_to_non_nullable
@@ -136,6 +195,10 @@ class _$DecShopCopyWithImpl<$Res, $Val extends DecShop>
       isOffline: null == isOffline
           ? _value.isOffline
           : isOffline // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isPublished: null == isPublished
+          ? _value.isPublished
+          : isPublished // ignore: cast_nullable_to_non_nullable
               as bool,
     ) as $Val);
   }
@@ -153,13 +216,20 @@ abstract class _$$_DecShopCopyWith<$Res> implements $DecShopCopyWith<$Res> {
       @JsonKey(name: "UniqueId") String uuid,
       @JsonKey(name: "Name") String name,
       @JsonKey(name: "DecShopURL") String url,
-      @JsonKey(name: "IP") String? ip,
       @JsonKey(name: "Description") String description,
-      @JsonKey(name: "Address") String address,
-      @JsonKey(name: "BlockHeight") int? blockHeight,
-      @JsonKey(name: "DecShopHostingType") int type,
+      @JsonKey(name: "OwnerAddress") String ownerAddress,
+      @JsonKey(name: "HostingType") int type,
+      @JsonKey(name: "IP") String ip,
+      @JsonKey(name: "Port") int port,
+      @JsonKey(name: "OriginalBlockHeight") double originalBlockHeight,
+      @JsonKey(name: "OriginalTXHash") String? originaTxHash,
+      @JsonKey(name: "LatestBlockHeight") double latestBlockHeight,
+      @JsonKey(name: "LatestTXHash") String? lastestTxHash,
+      @JsonKey(name: "UpdateTimestamp") double updateTimestamp,
+      @JsonKey(name: "AutoUpdateNetworkDNS") bool autoUpdateNetworkDns,
       @JsonKey(name: "NeedsPublishToNetwork") bool needsPublishToNetwork,
-      @JsonKey(name: "IsOffline") bool isOffline});
+      @JsonKey(name: "IsOffline") bool isOffline,
+      @JsonKey(name: "IsPublished") bool isPublished});
 }
 
 /// @nodoc
@@ -176,13 +246,20 @@ class __$$_DecShopCopyWithImpl<$Res>
     Object? uuid = null,
     Object? name = null,
     Object? url = null,
-    Object? ip = freezed,
     Object? description = null,
-    Object? address = null,
-    Object? blockHeight = freezed,
+    Object? ownerAddress = null,
     Object? type = null,
+    Object? ip = null,
+    Object? port = null,
+    Object? originalBlockHeight = null,
+    Object? originaTxHash = freezed,
+    Object? latestBlockHeight = null,
+    Object? lastestTxHash = freezed,
+    Object? updateTimestamp = null,
+    Object? autoUpdateNetworkDns = null,
     Object? needsPublishToNetwork = null,
     Object? isOffline = null,
+    Object? isPublished = null,
   }) {
     return _then(_$_DecShop(
       id: null == id
@@ -201,26 +278,50 @@ class __$$_DecShopCopyWithImpl<$Res>
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
-      ip: freezed == ip
-          ? _value.ip
-          : ip // ignore: cast_nullable_to_non_nullable
-              as String?,
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      address: null == address
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
+      ownerAddress: null == ownerAddress
+          ? _value.ownerAddress
+          : ownerAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      blockHeight: freezed == blockHeight
-          ? _value.blockHeight
-          : blockHeight // ignore: cast_nullable_to_non_nullable
-              as int?,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as int,
+      ip: null == ip
+          ? _value.ip
+          : ip // ignore: cast_nullable_to_non_nullable
+              as String,
+      port: null == port
+          ? _value.port
+          : port // ignore: cast_nullable_to_non_nullable
+              as int,
+      originalBlockHeight: null == originalBlockHeight
+          ? _value.originalBlockHeight
+          : originalBlockHeight // ignore: cast_nullable_to_non_nullable
+              as double,
+      originaTxHash: freezed == originaTxHash
+          ? _value.originaTxHash
+          : originaTxHash // ignore: cast_nullable_to_non_nullable
+              as String?,
+      latestBlockHeight: null == latestBlockHeight
+          ? _value.latestBlockHeight
+          : latestBlockHeight // ignore: cast_nullable_to_non_nullable
+              as double,
+      lastestTxHash: freezed == lastestTxHash
+          ? _value.lastestTxHash
+          : lastestTxHash // ignore: cast_nullable_to_non_nullable
+              as String?,
+      updateTimestamp: null == updateTimestamp
+          ? _value.updateTimestamp
+          : updateTimestamp // ignore: cast_nullable_to_non_nullable
+              as double,
+      autoUpdateNetworkDns: null == autoUpdateNetworkDns
+          ? _value.autoUpdateNetworkDns
+          : autoUpdateNetworkDns // ignore: cast_nullable_to_non_nullable
+              as bool,
       needsPublishToNetwork: null == needsPublishToNetwork
           ? _value.needsPublishToNetwork
           : needsPublishToNetwork // ignore: cast_nullable_to_non_nullable
@@ -228,6 +329,10 @@ class __$$_DecShopCopyWithImpl<$Res>
       isOffline: null == isOffline
           ? _value.isOffline
           : isOffline // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isPublished: null == isPublished
+          ? _value.isPublished
+          : isPublished // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
   }
@@ -245,20 +350,34 @@ class _$_DecShop extends _DecShop {
           required this.name,
       @JsonKey(name: "DecShopURL")
           required this.url,
-      @JsonKey(name: "IP")
-          this.ip,
       @JsonKey(name: "Description")
           required this.description,
-      @JsonKey(name: "Address")
-          required this.address,
-      @JsonKey(name: "BlockHeight")
-          this.blockHeight,
-      @JsonKey(name: "DecShopHostingType")
+      @JsonKey(name: "OwnerAddress")
+          required this.ownerAddress,
+      @JsonKey(name: "HostingType")
           required this.type,
+      @JsonKey(name: "IP")
+          this.ip = "",
+      @JsonKey(name: "Port")
+          this.port = 0,
+      @JsonKey(name: "OriginalBlockHeight")
+          required this.originalBlockHeight,
+      @JsonKey(name: "OriginalTXHash")
+          this.originaTxHash,
+      @JsonKey(name: "LatestBlockHeight")
+          required this.latestBlockHeight,
+      @JsonKey(name: "LatestTXHash")
+          this.lastestTxHash,
+      @JsonKey(name: "UpdateTimestamp")
+          required this.updateTimestamp,
+      @JsonKey(name: "AutoUpdateNetworkDNS")
+          required this.autoUpdateNetworkDns,
       @JsonKey(name: "NeedsPublishToNetwork")
           required this.needsPublishToNetwork,
       @JsonKey(name: "IsOffline")
-          required this.isOffline})
+          required this.isOffline,
+      @JsonKey(name: "IsPublished")
+          required this.isPublished})
       : super._();
 
   factory _$_DecShop.fromJson(Map<String, dynamic> json) =>
@@ -273,34 +392,64 @@ class _$_DecShop extends _DecShop {
   @override
   @JsonKey(name: "Name")
   final String name;
+//* submit   // * updating when published
   @override
   @JsonKey(name: "DecShopURL")
   final String url;
-  @override
-  @JsonKey(name: "IP")
-  final String? ip;
+//* submit  // * updating when published
   @override
   @JsonKey(name: "Description")
   final String description;
+//* submit  // * updating when published
   @override
-  @JsonKey(name: "Address")
-  final String address;
+  @JsonKey(name: "OwnerAddress")
+  final String ownerAddress;
+//* submit
   @override
-  @JsonKey(name: "BlockHeight")
-  final int? blockHeight;
-  @override
-  @JsonKey(name: "DecShopHostingType")
+  @JsonKey(name: "HostingType")
   final int type;
+//* submit
+  @override
+  @JsonKey(name: "IP")
+  final String ip;
+//* submit IF self hosted  // * updating
+  @override
+  @JsonKey(name: "Port")
+  final int port;
+//* submit IF self hosted  // * updating
+  @override
+  @JsonKey(name: "OriginalBlockHeight")
+  final double originalBlockHeight;
+  @override
+  @JsonKey(name: "OriginalTXHash")
+  final String? originaTxHash;
+  @override
+  @JsonKey(name: "LatestBlockHeight")
+  final double latestBlockHeight;
+  @override
+  @JsonKey(name: "LatestTXHash")
+  final String? lastestTxHash;
+  @override
+  @JsonKey(name: "UpdateTimestamp")
+  final double updateTimestamp;
+  @override
+  @JsonKey(name: "AutoUpdateNetworkDNS")
+  final bool autoUpdateNetworkDns;
+//* submit  // * updating when published
   @override
   @JsonKey(name: "NeedsPublishToNetwork")
   final bool needsPublishToNetwork;
   @override
   @JsonKey(name: "IsOffline")
   final bool isOffline;
+// * updating when published
+  @override
+  @JsonKey(name: "IsPublished")
+  final bool isPublished;
 
   @override
   String toString() {
-    return 'DecShop(id: $id, uuid: $uuid, name: $name, url: $url, ip: $ip, description: $description, address: $address, blockHeight: $blockHeight, type: $type, needsPublishToNetwork: $needsPublishToNetwork, isOffline: $isOffline)';
+    return 'DecShop(id: $id, uuid: $uuid, name: $name, url: $url, description: $description, ownerAddress: $ownerAddress, type: $type, ip: $ip, port: $port, originalBlockHeight: $originalBlockHeight, originaTxHash: $originaTxHash, latestBlockHeight: $latestBlockHeight, lastestTxHash: $lastestTxHash, updateTimestamp: $updateTimestamp, autoUpdateNetworkDns: $autoUpdateNetworkDns, needsPublishToNetwork: $needsPublishToNetwork, isOffline: $isOffline, isPublished: $isPublished)';
   }
 
   @override
@@ -312,17 +461,31 @@ class _$_DecShop extends _DecShop {
             (identical(other.uuid, uuid) || other.uuid == uuid) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.url, url) || other.url == url) &&
-            (identical(other.ip, ip) || other.ip == ip) &&
             (identical(other.description, description) ||
                 other.description == description) &&
-            (identical(other.address, address) || other.address == address) &&
-            (identical(other.blockHeight, blockHeight) ||
-                other.blockHeight == blockHeight) &&
+            (identical(other.ownerAddress, ownerAddress) ||
+                other.ownerAddress == ownerAddress) &&
             (identical(other.type, type) || other.type == type) &&
+            (identical(other.ip, ip) || other.ip == ip) &&
+            (identical(other.port, port) || other.port == port) &&
+            (identical(other.originalBlockHeight, originalBlockHeight) ||
+                other.originalBlockHeight == originalBlockHeight) &&
+            (identical(other.originaTxHash, originaTxHash) ||
+                other.originaTxHash == originaTxHash) &&
+            (identical(other.latestBlockHeight, latestBlockHeight) ||
+                other.latestBlockHeight == latestBlockHeight) &&
+            (identical(other.lastestTxHash, lastestTxHash) ||
+                other.lastestTxHash == lastestTxHash) &&
+            (identical(other.updateTimestamp, updateTimestamp) ||
+                other.updateTimestamp == updateTimestamp) &&
+            (identical(other.autoUpdateNetworkDns, autoUpdateNetworkDns) ||
+                other.autoUpdateNetworkDns == autoUpdateNetworkDns) &&
             (identical(other.needsPublishToNetwork, needsPublishToNetwork) ||
                 other.needsPublishToNetwork == needsPublishToNetwork) &&
             (identical(other.isOffline, isOffline) ||
-                other.isOffline == isOffline));
+                other.isOffline == isOffline) &&
+            (identical(other.isPublished, isPublished) ||
+                other.isPublished == isPublished));
   }
 
   @JsonKey(ignore: true)
@@ -333,13 +496,20 @@ class _$_DecShop extends _DecShop {
       uuid,
       name,
       url,
-      ip,
       description,
-      address,
-      blockHeight,
+      ownerAddress,
       type,
+      ip,
+      port,
+      originalBlockHeight,
+      originaTxHash,
+      latestBlockHeight,
+      lastestTxHash,
+      updateTimestamp,
+      autoUpdateNetworkDns,
       needsPublishToNetwork,
-      isOffline);
+      isOffline,
+      isPublished);
 
   @JsonKey(ignore: true)
   @override
@@ -365,20 +535,34 @@ abstract class _DecShop extends DecShop {
           required final String name,
       @JsonKey(name: "DecShopURL")
           required final String url,
-      @JsonKey(name: "IP")
-          final String? ip,
       @JsonKey(name: "Description")
           required final String description,
-      @JsonKey(name: "Address")
-          required final String address,
-      @JsonKey(name: "BlockHeight")
-          final int? blockHeight,
-      @JsonKey(name: "DecShopHostingType")
+      @JsonKey(name: "OwnerAddress")
+          required final String ownerAddress,
+      @JsonKey(name: "HostingType")
           required final int type,
+      @JsonKey(name: "IP")
+          final String ip,
+      @JsonKey(name: "Port")
+          final int port,
+      @JsonKey(name: "OriginalBlockHeight")
+          required final double originalBlockHeight,
+      @JsonKey(name: "OriginalTXHash")
+          final String? originaTxHash,
+      @JsonKey(name: "LatestBlockHeight")
+          required final double latestBlockHeight,
+      @JsonKey(name: "LatestTXHash")
+          final String? lastestTxHash,
+      @JsonKey(name: "UpdateTimestamp")
+          required final double updateTimestamp,
+      @JsonKey(name: "AutoUpdateNetworkDNS")
+          required final bool autoUpdateNetworkDns,
       @JsonKey(name: "NeedsPublishToNetwork")
           required final bool needsPublishToNetwork,
       @JsonKey(name: "IsOffline")
-          required final bool isOffline}) = _$_DecShop;
+          required final bool isOffline,
+      @JsonKey(name: "IsPublished")
+          required final bool isPublished}) = _$_DecShop;
   _DecShop._() : super._();
 
   factory _DecShop.fromJson(Map<String, dynamic> json) = _$_DecShop.fromJson;
@@ -392,30 +576,51 @@ abstract class _DecShop extends DecShop {
   @override
   @JsonKey(name: "Name")
   String get name;
-  @override
+  @override //* submit   // * updating when published
   @JsonKey(name: "DecShopURL")
   String get url;
-  @override
-  @JsonKey(name: "IP")
-  String? get ip;
-  @override
+  @override //* submit  // * updating when published
   @JsonKey(name: "Description")
   String get description;
-  @override
-  @JsonKey(name: "Address")
-  String get address;
-  @override
-  @JsonKey(name: "BlockHeight")
-  int? get blockHeight;
-  @override
-  @JsonKey(name: "DecShopHostingType")
+  @override //* submit  // * updating when published
+  @JsonKey(name: "OwnerAddress")
+  String get ownerAddress;
+  @override //* submit
+  @JsonKey(name: "HostingType")
   int get type;
+  @override //* submit
+  @JsonKey(name: "IP")
+  String get ip;
+  @override //* submit IF self hosted  // * updating
+  @JsonKey(name: "Port")
+  int get port;
+  @override //* submit IF self hosted  // * updating
+  @JsonKey(name: "OriginalBlockHeight")
+  double get originalBlockHeight;
   @override
+  @JsonKey(name: "OriginalTXHash")
+  String? get originaTxHash;
+  @override
+  @JsonKey(name: "LatestBlockHeight")
+  double get latestBlockHeight;
+  @override
+  @JsonKey(name: "LatestTXHash")
+  String? get lastestTxHash;
+  @override
+  @JsonKey(name: "UpdateTimestamp")
+  double get updateTimestamp;
+  @override
+  @JsonKey(name: "AutoUpdateNetworkDNS")
+  bool get autoUpdateNetworkDns;
+  @override //* submit  // * updating when published
   @JsonKey(name: "NeedsPublishToNetwork")
   bool get needsPublishToNetwork;
   @override
   @JsonKey(name: "IsOffline")
   bool get isOffline;
+  @override // * updating when published
+  @JsonKey(name: "IsPublished")
+  bool get isPublished;
   @override
   @JsonKey(ignore: true)
   _$$_DecShopCopyWith<_$_DecShop> get copyWith =>

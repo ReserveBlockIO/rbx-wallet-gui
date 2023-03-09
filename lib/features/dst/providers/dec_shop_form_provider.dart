@@ -10,6 +10,8 @@ import 'package:rbx_wallet/utils/toast.dart';
 import '../models/collection.dart';
 import '../models/dec_shop.dart';
 
+// TODO: Hosting Type + IP / Port + AutoUpdateNetworkDNS
+
 class DecShopFormProvider extends StateNotifier<DecShop> {
   final Ref ref;
   late final TextEditingController nameController;
@@ -21,7 +23,7 @@ class DecShopFormProvider extends StateNotifier<DecShop> {
   DecShopFormProvider(this.ref, DecShop model) : super(model) {
     nameController = TextEditingController(text: model.name);
     descriptionController = TextEditingController(text: model.description);
-    addressController = TextEditingController(text: model.address);
+    addressController = TextEditingController(text: model.ownerAddress);
     urlController = TextEditingController(text: model.url);
   }
 
@@ -29,7 +31,8 @@ class DecShopFormProvider extends StateNotifier<DecShop> {
     state = decShop;
     nameController.text = decShop.name;
     descriptionController.text = decShop.description;
-    addressController.text = decShop.address;
+    addressController.text = decShop.ownerAddress;
+    urlController.text = decShop.url.replaceAll("rbx://", "");
   }
 
   updateName(String name) {
@@ -45,14 +48,14 @@ class DecShopFormProvider extends StateNotifier<DecShop> {
   }
 
   updateAddress(String address) {
-    state = state.copyWith(address: address);
+    state = state.copyWith(ownerAddress: address);
   }
 
-  updateNeedsPublishToNetwork(bool needsPublishToNetwork) {
-    state = state.copyWith(needsPublishToNetwork: needsPublishToNetwork);
+  updateAutoUpdateNetworkDns(bool value) {
+    state = state.copyWith(autoUpdateNetworkDns: value);
   }
 
-  complete(BuildContext context) async {
+  Future<bool?> complete(BuildContext context) async {
     if (!formKey.currentState!.validate()) {
       return null;
     }
@@ -60,13 +63,15 @@ class DecShopFormProvider extends StateNotifier<DecShop> {
     final success = await DstService().saveDecShop(state);
 
     if (success) {
-      ref.read(storeListProvider.notifier).refresh();
+      // ref.read(storeListProvider.notifier).refresh();
       // ref.invalidate(storeDetailProvider(state.id));
-      AutoRouter.of(context).pop();
-      clear();
-      ref.invalidate(decShopProvider);
+      // AutoRouter.of(context).pop();
+      // clear();
+      // ref.invalidate(decShopProvider);
+      return true;
     } else {
-      Toast.error();
+      // Toast.error();
+      return false;
     }
   }
 

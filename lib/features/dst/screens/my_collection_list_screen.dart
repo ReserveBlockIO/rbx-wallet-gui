@@ -1,15 +1,21 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/dst/components/publish_shop_button.dart';
+import 'package:rbx_wallet/features/dst/components/shop_online_button.dart';
 import 'package:rbx_wallet/features/dst/components/store_list.dart';
 import 'package:rbx_wallet/features/dst/providers/collection_form_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/collection_list_provider.dart';
+import 'package:rbx_wallet/features/dst/services/dst_service.dart';
 import 'package:rbx_wallet/features/dsts_legacy/providers/my_store_listings_provider.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 import '../providers/dec_shop_form_provider.dart';
 import '../providers/dec_shop_provider.dart';
@@ -20,25 +26,25 @@ class MyCollectionsListScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: Text("My Collections"),
-      actions: [
-        TextButton(
-          onPressed: () {
-            AutoRouter.of(context).push(const CreateCollectionContainerScreenRoute());
-          },
-          child: Text(
-            "Create Collection",
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
-      ],
+      title: Text("My Auction House"),
+      // actions: [
+      //   TextButton(
+      //     onPressed: () {
+      //       AutoRouter.of(context).push(const CreateCollectionContainerScreenRoute());
+      //     },
+      //     child: Text(
+      //       "Create Collection",
+      //       style: TextStyle(color: Colors.white),
+      //     ),
+      //   ),
+      // ],
     );
   }
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final stores = ref.watch(storeListProvider);
-    if (stores.isEmpty) {
+    final collections = ref.watch(storeListProvider);
+    if (collections.isEmpty) {
       return Center(
         child: AppButton(
           label: "Create Collection",
@@ -53,6 +59,87 @@ class MyCollectionsListScreen extends BaseScreen {
 
     return Column(
       children: [
+        Builder(
+          builder: (context) {
+            final data = ref.watch(decShopProvider);
+
+            return data.when(
+              error: (_, __) => SizedBox(),
+              loading: () => SizedBox(),
+              data: (shop) {
+                if (shop == null) {
+                  return SizedBox();
+                }
+
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        shop.name,
+                        style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.white),
+                      ),
+                      // SizedBox(
+                      //   height: 4,
+                      // ),
+                      // Text(
+                      //   shop.description,
+                      //   maxLines: 3,
+                      //   overflow: TextOverflow.ellipsis,
+                      // ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      Container(
+                        color: Colors.black38,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text("URL: ${shop.url}"),
+                              SizedBox(
+                                width: 6,
+                              ),
+                              InkWell(
+                                onTap: () async {
+                                  await Clipboard.setData(ClipboardData(text: shop.url));
+                                  Toast.message("URL copied to clipboard");
+                                },
+                                child: Icon(
+                                  Icons.copy,
+                                  size: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Divider(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ShopOnlineButton(),
+                          AppButton(
+                            variant: AppColorVariant.Primary,
+                            label: "Edit Details",
+                            onPressed: () {
+                              ref.read(decShopFormProvider.notifier).load(shop);
+                              AutoRouter.of(context).push(const CreateDecShopContainerScreenRoute());
+                            },
+                          ),
+                          DecPublishShopButton(),
+                        ],
+                      ),
+                      Divider(),
+                    ],
+                  ),
+                );
+              },
+            );
+          },
+        ),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -112,7 +199,7 @@ class DecShopButton extends BaseComponent {
         }
 
         return AppButton(
-          label: 'Edit Shop',
+          label: 'Edit Auction House',
           variant: AppColorVariant.Success,
           onPressed: () async {
             ref.read(decShopFormProvider.notifier).load(shop);

@@ -11,9 +11,9 @@ class NotificationOverlay extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (Env.isTestNet) {
-      return SizedBox.shrink();
-    }
+    // if (Env.isTestNet) {
+    //   return SizedBox.shrink();
+    // }
 
     final notifications = ref.watch(transactionNotificationProvider);
 
