@@ -92,10 +92,16 @@ class MyCollectionsListScreen extends BaseScreen {
                         height: 12,
                       ),
                       Container(
-                        color: Colors.black38,
+                        decoration: BoxDecoration(color: Colors.black38, borderRadius: BorderRadius.circular(4.0)),
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.only(
+                            left: 10,
+                            right: 10,
+                            top: 4,
+                            bottom: 8,
+                          ),
                           child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text("URL: ${shop.url}"),
@@ -109,7 +115,7 @@ class MyCollectionsListScreen extends BaseScreen {
                                 },
                                 child: Icon(
                                   Icons.copy,
-                                  size: 16,
+                                  size: 12,
                                 ),
                               ),
                             ],
