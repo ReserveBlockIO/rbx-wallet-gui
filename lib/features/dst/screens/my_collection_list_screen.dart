@@ -21,7 +21,8 @@ import '../providers/dec_shop_form_provider.dart';
 import '../providers/dec_shop_provider.dart';
 
 class MyCollectionsListScreen extends BaseScreen {
-  const MyCollectionsListScreen({Key? key}) : super(key: key, verticalPadding: 0, horizontalPadding: 0);
+  const MyCollectionsListScreen({Key? key})
+      : super(key: key, verticalPadding: 0, horizontalPadding: 0);
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
@@ -44,18 +45,36 @@ class MyCollectionsListScreen extends BaseScreen {
   @override
   Widget body(BuildContext context, WidgetRef ref) {
     final collections = ref.watch(storeListProvider);
-    if (collections.isEmpty) {
-      return Center(
-        child: AppButton(
-          label: "Create Collection",
-          variant: AppColorVariant.Success,
-          onPressed: () {
-            ref.read(storeFormProvider.notifier).clear();
-            AutoRouter.of(context).push(const CreateCollectionContainerScreenRoute());
-          },
-        ),
-      );
-    }
+    // if (collections.isEmpty) {
+    //   return Center(
+    //     child: Column(
+    //       mainAxisSize: MainAxisSize.min,
+    //       children: [
+    //         AppButton(
+    //           label: "Setup Auction House",
+    //           variant: AppColorVariant.Success,
+    //           onPressed: () {
+    //             ref.read(decShopFormProvider.notifier).clear();
+    //             AutoRouter.of(context)
+    //                 .push(const CreateDecShopContainerScreenRoute());
+    //           },
+    //         ),
+    //         SizedBox(
+    //           height: 8,
+    //         ),
+    //         AppButton(
+    //           label: "Create Collection",
+    //           variant: AppColorVariant.Success,
+    //           onPressed: () {
+    //             ref.read(storeFormProvider.notifier).clear();
+    //             AutoRouter.of(context)
+    //                 .push(const CreateCollectionContainerScreenRoute());
+    //           },
+    //         ),
+    //       ],
+    //     ),
+    //   );
+    // }
 
     return Column(
       children: [
@@ -78,7 +97,10 @@ class MyCollectionsListScreen extends BaseScreen {
                     children: [
                       Text(
                         shop.name,
-                        style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.white),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium!
+                            .copyWith(color: Colors.white),
                       ),
                       // SizedBox(
                       //   height: 4,
@@ -110,7 +132,8 @@ class MyCollectionsListScreen extends BaseScreen {
                               ),
                               InkWell(
                                 onTap: () async {
-                                  await Clipboard.setData(ClipboardData(text: shop.url));
+                                  await Clipboard.setData(
+                                      ClipboardData(text: shop.url));
                                   Toast.message("URL copied to clipboard");
                                 },
                                 child: Icon(
@@ -132,7 +155,8 @@ class MyCollectionsListScreen extends BaseScreen {
                             label: "Edit Details",
                             onPressed: () {
                               ref.read(decShopFormProvider.notifier).load(shop);
-                              AutoRouter.of(context).push(const CreateDecShopContainerScreenRoute());
+                              AutoRouter.of(context).push(
+                                  const CreateDecShopContainerScreenRoute());
                             },
                           ),
                           DecPublishShopButton(),
@@ -146,12 +170,27 @@ class MyCollectionsListScreen extends BaseScreen {
             );
           },
         ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CollectionList(),
+        if (collections.isEmpty)
+          Expanded(
+            child: Center(
+              child: AppButton(
+                label: 'Create Collection',
+                variant: AppColorVariant.Success,
+                onPressed: () async {
+                  ref.read(storeFormProvider.notifier).clear();
+                  AutoRouter.of(context)
+                      .push(const CreateCollectionContainerScreenRoute());
+                },
+              ),
+            ),
           ),
-        ),
+        if (collections.isNotEmpty)
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CollectionList(),
+            ),
+          ),
         Container(
           width: double.infinity,
           decoration: const BoxDecoration(
@@ -168,7 +207,8 @@ class MyCollectionsListScreen extends BaseScreen {
                   variant: AppColorVariant.Success,
                   onPressed: () async {
                     ref.read(storeFormProvider.notifier).clear();
-                    AutoRouter.of(context).push(const CreateCollectionContainerScreenRoute());
+                    AutoRouter.of(context)
+                        .push(const CreateCollectionContainerScreenRoute());
                   },
                 )
               ],
@@ -199,7 +239,8 @@ class DecShopButton extends BaseComponent {
             variant: AppColorVariant.Success,
             onPressed: () async {
               ref.read(decShopFormProvider.notifier).clear();
-              AutoRouter.of(context).push(const CreateDecShopContainerScreenRoute());
+              AutoRouter.of(context)
+                  .push(const CreateDecShopContainerScreenRoute());
             },
           );
         }
@@ -209,7 +250,8 @@ class DecShopButton extends BaseComponent {
           variant: AppColorVariant.Success,
           onPressed: () async {
             ref.read(decShopFormProvider.notifier).load(shop);
-            AutoRouter.of(context).push(const CreateDecShopContainerScreenRoute());
+            AutoRouter.of(context)
+                .push(const CreateDecShopContainerScreenRoute());
           },
         );
       },
