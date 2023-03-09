@@ -21,8 +21,7 @@ import '../providers/dec_shop_form_provider.dart';
 import '../providers/dec_shop_provider.dart';
 
 class MyCollectionsListScreen extends BaseScreen {
-  const MyCollectionsListScreen({Key? key})
-      : super(key: key, verticalPadding: 0, horizontalPadding: 0);
+  const MyCollectionsListScreen({Key? key}) : super(key: key, verticalPadding: 0, horizontalPadding: 0);
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
@@ -97,10 +96,7 @@ class MyCollectionsListScreen extends BaseScreen {
                     children: [
                       Text(
                         shop.name,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineMedium!
-                            .copyWith(color: Colors.white),
+                        style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.white),
                       ),
                       // SizedBox(
                       //   height: 4,
@@ -119,26 +115,31 @@ class MyCollectionsListScreen extends BaseScreen {
                           padding: const EdgeInsets.only(
                             left: 10,
                             right: 10,
-                            top: 4,
+                            top: 8,
                             bottom: 8,
                           ),
                           child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text("URL: ${shop.url}"),
+                              Text(
+                                "URL: ${shop.url}",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
                               SizedBox(
                                 width: 6,
                               ),
                               InkWell(
                                 onTap: () async {
-                                  await Clipboard.setData(
-                                      ClipboardData(text: shop.url));
+                                  await Clipboard.setData(ClipboardData(text: shop.url));
                                   Toast.message("URL copied to clipboard");
                                 },
                                 child: Icon(
                                   Icons.copy,
-                                  size: 12,
+                                  size: 16,
                                 ),
                               ),
                             ],
@@ -153,10 +154,10 @@ class MyCollectionsListScreen extends BaseScreen {
                           AppButton(
                             variant: AppColorVariant.Primary,
                             label: "Edit Details",
+                            icon: Icons.edit,
                             onPressed: () {
                               ref.read(decShopFormProvider.notifier).load(shop);
-                              AutoRouter.of(context).push(
-                                  const CreateDecShopContainerScreenRoute());
+                              AutoRouter.of(context).push(const CreateDecShopContainerScreenRoute());
                             },
                           ),
                           DecPublishShopButton(),
@@ -175,11 +176,11 @@ class MyCollectionsListScreen extends BaseScreen {
             child: Center(
               child: AppButton(
                 label: 'Create Collection',
+                icon: Icons.add,
                 variant: AppColorVariant.Success,
                 onPressed: () async {
                   ref.read(storeFormProvider.notifier).clear();
-                  AutoRouter.of(context)
-                      .push(const CreateCollectionContainerScreenRoute());
+                  AutoRouter.of(context).push(const CreateCollectionContainerScreenRoute());
                 },
               ),
             ),
@@ -204,11 +205,11 @@ class MyCollectionsListScreen extends BaseScreen {
                 DecShopButton(),
                 AppButton(
                   label: 'Create Collection',
+                  icon: Icons.add,
                   variant: AppColorVariant.Success,
                   onPressed: () async {
                     ref.read(storeFormProvider.notifier).clear();
-                    AutoRouter.of(context)
-                        .push(const CreateCollectionContainerScreenRoute());
+                    AutoRouter.of(context).push(const CreateCollectionContainerScreenRoute());
                   },
                 )
               ],
@@ -235,23 +236,23 @@ class DecShopButton extends BaseComponent {
       data: (shop) {
         if (shop == null) {
           return AppButton(
-            label: 'Launch Shop',
-            variant: AppColorVariant.Success,
+            label: 'Setup Auction House',
+            icon: Icons.store,
+            variant: AppColorVariant.Light,
             onPressed: () async {
               ref.read(decShopFormProvider.notifier).clear();
-              AutoRouter.of(context)
-                  .push(const CreateDecShopContainerScreenRoute());
+              AutoRouter.of(context).push(const CreateDecShopContainerScreenRoute());
             },
           );
         }
 
         return AppButton(
           label: 'Edit Auction House',
-          variant: AppColorVariant.Success,
+          icon: Icons.store,
+          variant: AppColorVariant.Light,
           onPressed: () async {
             ref.read(decShopFormProvider.notifier).load(shop);
-            AutoRouter.of(context)
-                .push(const CreateDecShopContainerScreenRoute());
+            AutoRouter.of(context).push(const CreateDecShopContainerScreenRoute());
           },
         );
       },

@@ -38,6 +38,7 @@ class DecPublishShopButton extends BaseComponent {
             return AppButton(
               variant: AppColorVariant.Warning,
               label: "Publish Changes",
+              icon: Icons.publish,
               onPressed: () async {
                 if (shop.updateWillCost) {
                   final confirm = await ConfirmDialog.show(
@@ -65,7 +66,10 @@ class DecPublishShopButton extends BaseComponent {
               },
             );
           }
-          return AppButton(label: "Published");
+          return AppButton(
+            label: "Published",
+            icon: Icons.check,
+          );
         }
 
         return AppButton(
