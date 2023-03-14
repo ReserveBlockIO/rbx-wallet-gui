@@ -14,6 +14,7 @@ import 'package:rbx_wallet/core/utils.dart';
 import 'package:rbx_wallet/features/remote_info/components/snapshot_downloader.dart';
 import 'package:rbx_wallet/features/remote_info/models/remote_info.dart';
 import 'package:rbx_wallet/features/remote_info/services/remote_info_service.dart';
+import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
 import 'package:rbx_wallet/features/startup/startup_data.dart';
 import 'package:rbx_wallet/features/startup/startup_data_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
@@ -471,6 +472,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
     final List<Wallet> wallets = [];
 
     final response = await BridgeService().wallets();
+    final reserveResponse = await ReserveAccountService().wallets();
 
     Map<String, dynamic>? names = singleton<Storage>().getMap(Storage.RENAMED_WALLETS_KEY);
 
@@ -482,6 +484,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
     if (response.isNotEmpty && response != "Command not recognized." && response != "No Accounts") {
       final items = jsonDecode(response);
+
       for (final item in items) {
         if (deleted.contains(item['Address'])) {
           continue;
@@ -492,6 +495,22 @@ class SessionProvider extends StateNotifier<SessionModel> {
           'friendlyName': names.containsKey(item['Address']) ? names[item['Address']] : null,
         };
         wallets.add(Wallet.fromJson(_item));
+      }
+
+      if (reserveResponse.isNotEmpty) {
+        final data = jsonDecode(reserveResponse);
+        if (data['Success'] == true && data['ReserveAccounts'] != null) {
+          final reserveItems = data['ReserveAccounts'];
+          for (Map<String, dynamic> item in reserveItems) {
+            item['Balance'] = item['TotalBalance'];
+            item['IsValidating'] = false;
+            final Map<String, dynamic> _item = {
+              ...item,
+              'friendlyName': names.containsKey(item['Address']) ? names[item['Address']] : null,
+            };
+            wallets.add(Wallet.fromJson(_item));
+          }
+        }
       }
     }
 

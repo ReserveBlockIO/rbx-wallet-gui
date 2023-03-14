@@ -38,6 +38,10 @@ bool isValidRbxAddress(String address) {
     return false;
   }
 
+  if (address.contains("xRBX")) {
+    return true;
+  }
+
   String firstChar = "R";
   if (Env.isTestNet) {
     firstChar = "x";

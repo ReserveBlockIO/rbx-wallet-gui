@@ -8,7 +8,12 @@ import '../../../core/theme/app_theme.dart';
 part 'transaction.freezed.dart';
 part 'transaction.g.dart';
 
-enum TransactionStatus { Pending, Success, Fail }
+enum TransactionStatus {
+  Pending,
+  Success,
+  Fail,
+  Reserved,
+}
 
 statusFromJson(int? status) {
   if (status == null) return null;
@@ -77,6 +82,8 @@ class Transaction with _$Transaction {
         return "Pending";
       case TransactionStatus.Fail:
         return "Fail";
+      case TransactionStatus.Reserved:
+        return "Reserved";
       default:
         return "-";
     }
@@ -91,7 +98,8 @@ class Transaction with _$Transaction {
 
       case TransactionStatus.Fail:
         return Theme.of(context).colorScheme.danger;
-
+      case TransactionStatus.Reserved:
+        return Colors.deepPurple.shade200;
       default:
         return Colors.white;
     }

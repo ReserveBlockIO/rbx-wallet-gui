@@ -15,6 +15,15 @@ _$_Wallet _$$_WalletFromJson(Map<String, dynamic> json) => _$_Wallet(
       balance: (json['Balance'] as num).toDouble(),
       isValidating: json['IsValidating'] as bool,
       adnr: json['ADNR'] as String?,
+      recoveryAddress: json['RecoveryAddress'] as String?,
+      recoveryPrivateKey: json['RecoveryPrivateKey'] as String?,
+      recoveryEncryptedDecryptKey:
+          json['RecoveryEncryptedDecryptKey'] as String?,
+      encryptedDecryptKey: json['EncryptedDecryptKey'] as String?,
+      availableBalance: (json['AvailableBalance'] as num?)?.toDouble(),
+      lockedBalance: (json['LockedBalance'] as num?)?.toDouble(),
+      totalBalance: (json['TotalBalance'] as num?)?.toDouble(),
+      isNetworkProtected: json['IsNetworkProtected'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$_WalletToJson(_$_Wallet instance) => <String, dynamic>{
@@ -26,4 +35,12 @@ Map<String, dynamic> _$$_WalletToJson(_$_Wallet instance) => <String, dynamic>{
       'Balance': instance.balance,
       'IsValidating': instance.isValidating,
       'ADNR': instance.adnr,
+      'RecoveryAddress': instance.recoveryAddress,
+      'RecoveryPrivateKey': instance.recoveryPrivateKey,
+      'RecoveryEncryptedDecryptKey': instance.recoveryEncryptedDecryptKey,
+      'EncryptedDecryptKey': instance.encryptedDecryptKey,
+      'AvailableBalance': instance.availableBalance,
+      'LockedBalance': instance.lockedBalance,
+      'TotalBalance': instance.totalBalance,
+      'IsNetworkProtected': instance.isNetworkProtected,
     };

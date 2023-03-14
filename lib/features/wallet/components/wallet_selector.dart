@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
+import 'package:rbx_wallet/features/reserve/models/new_reserve_account.dart';
+import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:rbx_wallet/features/wallet/components/bulk_import_wallet_modal.dart';
 
 import '../../../app.dart';
@@ -129,7 +134,101 @@ class WalletSelector extends BaseComponent {
                   ),
                   onTap: () async {
                     if (!await passwordRequiredGuard(context, ref)) return;
+
                     await ref.read(walletListProvider.notifier).create();
+                  },
+                ),
+              );
+
+              list.add(
+                PopupMenuItem(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      Icon(Icons.security, size: 16),
+                      SizedBox(width: 8),
+                      Text("Reserve Accounts"),
+                    ],
+                  ),
+                  onTap: () async {
+                    if (!await passwordRequiredGuard(context, ref)) return;
+
+                    final createNew = await showModalBottomSheet(
+                        context: context,
+                        builder: (context) {
+                          return ModalContainer(
+                            withDecor: false,
+                            children: [
+                              Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                      "Reserve accounts are protected accounts that are timelocked and recoverable.\nCreate or recover one now.")),
+                              ListTile(
+                                title: Text("New Reserve Account"),
+                                trailing: Icon(Icons.chevron_right),
+                                leading: Icon(Icons.add),
+                                onTap: () {
+                                  Navigator.of(context).pop(true);
+                                },
+                              ),
+                              ListTile(
+                                title: Text("Recover Reserve Account"),
+                                trailing: Icon(Icons.chevron_right),
+                                leading: Icon(Icons.rotate_90_degrees_cw_rounded),
+                                onTap: () {
+                                  Navigator.of(context).pop(false);
+                                },
+                              )
+                            ],
+                          );
+                        });
+
+                    if (createNew == null) {
+                      return;
+                    }
+
+                    if (createNew == false) {
+                      final restoreCode = await PromptModal.show(title: "Restore Code", validator: (v) => null, labelText: "Restore Code");
+                      if (restoreCode == null) return;
+                      final password =
+                          await PromptModal.show(title: "Password", validator: (v) => null, lines: 1, obscureText: true, labelText: "Password");
+                      if (password == null) return;
+
+                      final account = await ReserveAccountService().recover(restoreCode: restoreCode, password: password);
+                      if (account != null) {
+                        await ref.read(sessionProvider.notifier).loadWallets();
+
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return ReserveAccountDetails(account: account);
+                            });
+                      }
+                      return;
+                    }
+                    await PromptModal.show(
+                        title: "New Reserve Account",
+                        body: "Reserve accounts are timelocked and recoverable accounts.\n\nCreate a password to continue.",
+                        validator: (value) => formValidatorNotEmpty(value, "Password"),
+                        labelText: "Password",
+                        obscureText: true,
+                        lines: 1,
+                        onValidSubmission: (password) async {
+                          if (password.isNotEmpty) {
+                            final account = await ReserveAccountService().create(password);
+                            if (account == null) {
+                              return;
+                            }
+
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return ReserveAccountDetails(account: account);
+                                });
+                          }
+                        });
+
+                    // await ref.read(walletListProvider.notifier).create();
                   },
                 ),
               );
@@ -165,7 +264,11 @@ class WalletSelector extends BaseComponent {
             for (final wallet in allWallets) {
               final isSelected = currentWallet != null && wallet.address == currentWallet.address;
 
-              final color = isSelected ? Theme.of(context).colorScheme.secondary : Theme.of(context).textTheme.bodyText1!.color;
+              Color? color = isSelected ? Theme.of(context).colorScheme.secondary : Theme.of(context).textTheme.bodyText1!.color;
+
+              if (wallet.isReserved) {
+                color = isSelected ? Theme.of(context).colorScheme.secondary : Colors.deepPurple.shade200;
+              }
 
               list.add(
                 PopupMenuItem(
@@ -184,6 +287,110 @@ class WalletSelector extends BaseComponent {
           },
         ),
       ],
+    );
+  }
+}
+
+class ReserveAccountDetails extends StatelessWidget {
+  final NewReserveAccount account;
+
+  const ReserveAccountDetails({
+    Key? key,
+    required this.account,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text("Reserve Account Created"),
+      content: SizedBox(
+        width: 600,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Make sure to backup your restore code somewhere safe."),
+            ListTile(
+              title: TextFormField(
+                decoration: InputDecoration(
+                  label: Text("Restore Code"),
+                ),
+                minLines: 3,
+                maxLines: 6,
+                readOnly: true,
+                initialValue: account.restoreCode,
+              ),
+              trailing: IconButton(
+                icon: const Icon(Icons.copy),
+                onPressed: () async {
+                  await Clipboard.setData(ClipboardData(text: account.restoreCode));
+                  Toast.message("Restore Code copied to clipboard");
+                },
+              ),
+            ),
+            ListTile(
+              title: TextFormField(
+                initialValue: account.address,
+                decoration: const InputDecoration(label: Text("Address")),
+                readOnly: true,
+                style: const TextStyle(fontSize: 13),
+              ),
+            ),
+            ListTile(
+              title: TextFormField(
+                initialValue: account.privateKey,
+                decoration: const InputDecoration(
+                  label: Text("Private Key"),
+                ),
+                style: const TextStyle(fontSize: 13),
+                readOnly: true,
+              ),
+              trailing: IconButton(
+                icon: const Icon(Icons.copy),
+                onPressed: () async {
+                  await Clipboard.setData(ClipboardData(text: account.privateKey));
+                  Toast.message("Private Key copied to clipboard");
+                },
+              ),
+            ),
+            const Divider(),
+            ListTile(
+              title: TextFormField(
+                initialValue: account.recoveryAddress,
+                decoration: const InputDecoration(label: Text("Recovery Address")),
+                readOnly: true,
+                style: const TextStyle(fontSize: 13),
+              ),
+            ),
+            ListTile(
+              title: TextFormField(
+                initialValue: account.recoveryPrivateKey,
+                decoration: const InputDecoration(
+                  label: Text("Recovery Private Key"),
+                ),
+                style: const TextStyle(fontSize: 13),
+                readOnly: true,
+              ),
+              trailing: IconButton(
+                icon: const Icon(Icons.copy),
+                onPressed: () async {
+                  await Clipboard.setData(ClipboardData(text: account.recoveryPrivateKey));
+                  Toast.message("Recovery Private Key copied to clipboard");
+                },
+              ),
+            ),
+            const Divider(),
+            Center(
+              child: AppButton(
+                label: "Done",
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

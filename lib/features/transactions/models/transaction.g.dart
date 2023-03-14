@@ -42,4 +42,5 @@ const _$TransactionStatusEnumMap = {
   TransactionStatus.Pending: 'Pending',
   TransactionStatus.Success: 'Success',
   TransactionStatus.Fail: 'Fail',
+  TransactionStatus.Reserved: 'Reserved',
 };

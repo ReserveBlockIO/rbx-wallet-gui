@@ -96,6 +96,8 @@ class SendForm extends BaseComponent {
     final balance = isWeb ? ref.read(webSessionProvider).balance : wallet!.balance;
     final isMobile = BreakPoints.useMobileLayout(context);
 
+    final color = wallet!.isReserved ? Colors.deepPurple.shade200 : Colors.white;
+
     return Form(
       key: formProvider.formKey,
       child: Card(
@@ -110,12 +112,72 @@ class SendForm extends BaseComponent {
                 dense: isMobile,
                 visualDensity: isMobile ? VisualDensity.compact : VisualDensity.comfortable,
                 leading: isMobile ? null : const SizedBox(width: leadingWidth, child: Text("From:")),
-                title: Text(isWeb ? "${isMobile ? "From: " : ""}${keypair!.public}" : wallet!.address),
+                title: Text(
+                  isWeb ? "${isMobile ? "From: " : ""}${keypair!.public}" : wallet!.address,
+                  style: TextStyle(color: color),
+                ),
                 subtitle: isWeb ? Text("Balance: $balance RBX") : Text(wallet!.friendlyName ?? ""),
                 trailing: !isWeb
-                    ? AppBadge(
-                        label: "$balance RBX",
-                        variant: AppColorVariant.Light,
+                    ? Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (!wallet!.isReserved)
+                            AppBadge(
+                              label: "$balance RBX",
+                              variant: AppColorVariant.Light,
+                            ),
+                          if (wallet!.isReserved)
+                            Row(mainAxisSize: MainAxisSize.min, children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 4),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    AppBadge(
+                                      label: "${wallet!.availableBalance} RBX",
+                                      variant: AppColorVariant.Light,
+                                    ),
+                                    Text(
+                                      "Available",
+                                      style: Theme.of(context).textTheme.caption,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 4),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    AppBadge(
+                                      label: "${wallet!.lockedBalance} RBX",
+                                      variant: AppColorVariant.Light,
+                                    ),
+                                    Text(
+                                      "Locked",
+                                      style: Theme.of(context).textTheme.caption,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 4),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    AppBadge(
+                                      label: "${wallet!.totalBalance} RBX",
+                                      variant: AppColorVariant.Light,
+                                    ),
+                                    Text(
+                                      "Total",
+                                      style: Theme.of(context).textTheme.caption,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ])
+                        ],
                       )
                     : null,
               ),
@@ -217,6 +279,7 @@ class SendForm extends BaseComponent {
                           if (!formProvider.formKey.currentState!.validate()) {
                             return;
                           }
+
                           formProvider.submit();
                         },
                       );
