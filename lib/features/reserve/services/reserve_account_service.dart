@@ -105,4 +105,19 @@ class ReserveAccountService extends BaseService {
       return null;
     }
   }
+
+  Future<String?> callBack(String password, String txHash) async {
+    try {
+      final response = await getText("/CallBackReserveAccountTx/$txHash/$password", cleanPath: false);
+      final data = jsonDecode(response);
+      if (data['Success'] != null && data["Success"] == true) {
+        return data['Hash'];
+      }
+      Toast.error(data['Message']);
+      return null;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 }

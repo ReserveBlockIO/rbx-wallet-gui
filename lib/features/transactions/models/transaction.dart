@@ -39,6 +39,7 @@ class Transaction with _$Transaction {
     @JsonKey(name: 'Data') required dynamic nftData,
     @JsonKey(name: 'Signature') String? signature,
     @JsonKey(name: 'Height') required int height,
+    @JsonKey(name: 'UnlockTime') double? unlockTime,
   }) = _Transaction;
 
   factory Transaction.fromJson(Map<String, dynamic> json) => _$TransactionFromJson(json);
@@ -71,6 +72,8 @@ class Transaction with _$Transaction {
         return "Topic Create";
       case 9:
         return "Topic Vote";
+      case 10:
+        return "Reserve";
       default:
         return type.toString();
     }

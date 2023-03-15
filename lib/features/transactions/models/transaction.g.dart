@@ -20,6 +20,7 @@ _$_Transaction _$$_TransactionFromJson(Map<String, dynamic> json) =>
       nftData: json['Data'],
       signature: json['Signature'] as String?,
       height: json['Height'] as int,
+      unlockTime: (json['UnlockTime'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$$_TransactionToJson(_$_Transaction instance) =>
@@ -36,6 +37,7 @@ Map<String, dynamic> _$$_TransactionToJson(_$_Transaction instance) =>
       'Data': instance.nftData,
       'Signature': instance.signature,
       'Height': instance.height,
+      'UnlockTime': instance.unlockTime,
     };
 
 const _$TransactionStatusEnumMap = {
@@ -43,4 +45,6 @@ const _$TransactionStatusEnumMap = {
   TransactionStatus.Success: 'Success',
   TransactionStatus.Fail: 'Fail',
   TransactionStatus.Reserved: 'Reserved',
+  TransactionStatus.CalledBack: 'CalledBack',
+  TransactionStatus.Recovered: 'Recovered',
 };

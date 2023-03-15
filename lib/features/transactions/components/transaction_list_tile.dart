@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
+import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
+import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../core/base_component.dart';
 import '../../../core/components/buttons.dart';
@@ -42,6 +47,10 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
 
     final toMe = toWallet != null;
     final fromMe = fromWallet != null;
+
+    final bool canCallBack = widget.transaction.status == TransactionStatus.Reserved &&
+        fromMe &&
+        (widget.transaction.unlockTime != null && widget.transaction.unlockTime! > (DateTime.now().millisecondsSinceEpoch / 1000));
 
     return Card(
       margin: widget.compact ? EdgeInsets.zero : const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
@@ -202,6 +211,38 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                                 },
                               ),
                             ),
+                          if (canCallBack)
+                            AppButton(
+                              // label: "Callback (${timeago.format(DateTime.fromMillisecondsSinceEpoch((widget.transaction.unlockTime! * 1000).round()), allowFromNow: true)})",
+                              label: "Callback",
+                              variant: AppColorVariant.Warning,
+                              type: AppButtonType.Outlined,
+                              onPressed: () async {
+                                final password = await PromptModal.show(
+                                  title: "Callback Transaction",
+                                  body: "Input your password to callback this transaction.",
+                                  validator: (v) => null,
+                                  lines: 1,
+                                  obscureText: true,
+                                  labelText: "Password",
+                                );
+
+                                if (password != null) {
+                                  final hash = await ReserveAccountService().callBack(password, widget.transaction.hash);
+                                  if (hash != null) {
+                                    final message = "Callback TX sent with hash of $hash";
+                                    Toast.message(message);
+                                    ref.read(logProvider.notifier).append(
+                                          LogEntry(
+                                            message: message,
+                                            textToCopy: hash,
+                                            variant: AppColorVariant.Success,
+                                          ),
+                                        );
+                                  }
+                                }
+                              },
+                            )
                         ],
                       ),
                       if (_expanded)
