@@ -13,6 +13,8 @@ enum TransactionStatus {
   Success,
   Fail,
   Reserved,
+  CalledBack,
+  Recovered,
 }
 
 statusFromJson(int? status) {
@@ -84,6 +86,10 @@ class Transaction with _$Transaction {
         return "Fail";
       case TransactionStatus.Reserved:
         return "Reserved";
+      case TransactionStatus.CalledBack:
+        return "Called Back";
+      case TransactionStatus.Recovered:
+        return "Recovered";
       default:
         return "-";
     }
@@ -99,6 +105,8 @@ class Transaction with _$Transaction {
       case TransactionStatus.Fail:
         return Theme.of(context).colorScheme.danger;
       case TransactionStatus.Reserved:
+      case TransactionStatus.CalledBack:
+      case TransactionStatus.Recovered:
         return Colors.deepPurple.shade200;
       default:
         return Colors.white;
