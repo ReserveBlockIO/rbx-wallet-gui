@@ -226,24 +226,27 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
           hours = 24;
         }
 
-        try {
-          final message = await ReserveAccountService().sendTx(
-            fromAddress: currentWallet.address,
-            toAddress: address.trim().replaceAll("\n", ""),
-            amount: double.parse(amount),
-            password: password,
-            unlockDelayHours: hours - 24,
-          );
+        state = state.copyWith(isProcessing: true);
 
-          if (message != null) {
-            Toast.message("$amount RBX has been sent to $address. See dashboard for TX ID.");
-            ref.read(logProvider.notifier).append(
-                  LogEntry(message: message, textToCopy: message.replaceAll("Success! TxId: ", ""), variant: AppColorVariant.Success),
-                );
-            clear();
-          }
-        } catch (e) {
-          Toast.error();
+        final message = await ReserveAccountService().sendTx(
+          fromAddress: currentWallet.address,
+          toAddress: address.trim().replaceAll("\n", ""),
+          amount: double.parse(amount),
+          password: password,
+          unlockDelayHours: hours - 24,
+        );
+
+        if (message != null) {
+          Toast.message("$amount RBX has been sent to $address. See dashboard for TX ID.");
+          ref.read(logProvider.notifier).append(
+                LogEntry(
+                  message: message,
+                  textToCopy: message.replaceAll("Success! TX ID: ", ""),
+                  variant: AppColorVariant.Success,
+                ),
+              );
+          clear();
+        } else {
           state = state.copyWith(isProcessing: false);
         }
 

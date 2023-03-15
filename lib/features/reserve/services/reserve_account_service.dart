@@ -92,12 +92,13 @@ class ReserveAccountService extends BaseService {
     };
 
     try {
-      final response = await getText("/SendReserveTransaction", params: params);
+      final response = await postJson("/SendReserveTransaction", params: params, inspect: true);
+      final data = response['data'];
 
-      final data = jsonDecode(response);
       if (data['Success'] != null && data['Success'] == true) {
         return data['Message'];
       }
+      Toast.error(data['Message']);
       return null;
     } catch (e) {
       print(e);

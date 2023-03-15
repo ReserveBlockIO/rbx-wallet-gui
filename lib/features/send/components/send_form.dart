@@ -127,56 +127,59 @@ class SendForm extends BaseComponent {
                               variant: AppColorVariant.Light,
                             ),
                           if (wallet!.isReserved)
-                            Row(mainAxisSize: MainAxisSize.min, children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 4),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    AppBadge(
-                                      label: "${wallet!.availableBalance} RBX",
-                                      variant: AppColorVariant.Light,
-                                    ),
-                                    Text(
-                                      "Available",
-                                      style: Theme.of(context).textTheme.caption,
-                                    )
-                                  ],
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      AppBadge(
+                                        label: "${wallet!.availableBalance} RBX",
+                                        variant: AppColorVariant.Light,
+                                      ),
+                                      Text(
+                                        "Available",
+                                        style: Theme.of(context).textTheme.caption,
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 4),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    AppBadge(
-                                      label: "${wallet!.lockedBalance} RBX",
-                                      variant: AppColorVariant.Light,
-                                    ),
-                                    Text(
-                                      "Locked",
-                                      style: Theme.of(context).textTheme.caption,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 4),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    AppBadge(
-                                      label: "${wallet!.totalBalance} RBX",
-                                      variant: AppColorVariant.Light,
-                                    ),
-                                    Text(
-                                      "Total",
-                                      style: Theme.of(context).textTheme.caption,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ])
+                                // Padding(
+                                //   padding: const EdgeInsets.symmetric(horizontal: 4),
+                                //   child: Column(
+                                //     mainAxisSize: MainAxisSize.min,
+                                //     children: [
+                                //       AppBadge(
+                                //         label: "${wallet!.lockedBalance} RBX",
+                                //         variant: AppColorVariant.Light,
+                                //       ),
+                                //       Text(
+                                //         "Locked",
+                                //         style: Theme.of(context).textTheme.caption,
+                                //       )
+                                //     ],
+                                //   ),
+                                // ),
+                                // Padding(
+                                //   padding: const EdgeInsets.symmetric(horizontal: 4),
+                                //   child: Column(
+                                //     mainAxisSize: MainAxisSize.min,
+                                //     children: [
+                                //       AppBadge(
+                                //         label: "${wallet!.totalBalance} RBX",
+                                //         variant: AppColorVariant.Light,
+                                //       ),
+                                //       Text(
+                                //         "Total",
+                                //         style: Theme.of(context).textTheme.caption,
+                                //       )
+                                //     ],
+                                //   ),
+                                // ),
+                              ],
+                            )
                         ],
                       )
                     : null,
