@@ -53,7 +53,8 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
     //     widget.transaction.amount < 0 &&
     //     (widget.transaction.unlockTime != null && widget.transaction.unlockTime! > (DateTime.now().millisecondsSinceEpoch / 1000));
 
-    final bool canCallBack = widget.transaction.status == TransactionStatus.Reserved && fromMe && widget.transaction.amount < 0;
+    // final bool canCallBack = widget.transaction.status == TransactionStatus.Reserved && fromMe && widget.transaction.amount < 0;
+    final bool canCallBack = widget.transaction.status == TransactionStatus.Reserved && fromMe;
 
     return Card(
       margin: widget.compact ? EdgeInsets.zero : const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
@@ -214,6 +215,7 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                                 },
                               ),
                             ),
+                          if (canCallBack) Text("${widget.transaction.unlockTime}"),
                           if (canCallBack)
                             AppButton(
                               // label: "Callback (${timeago.format(DateTime.fromMillisecondsSinceEpoch((widget.transaction.unlockTime! * 1000).round()), allowFromNow: true)})",

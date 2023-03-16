@@ -183,8 +183,8 @@ class _Top extends BaseComponent {
           ),
           SizedBox(width: 8),
           AppButton(
-            label: "Recover Account",
-            icon: Icons.rotate_90_degrees_cw_rounded,
+            label: "Restore Account",
+            icon: Icons.upload,
             type: AppButtonType.Text,
             variant: AppColorVariant.Light,
             onPressed: () async {
