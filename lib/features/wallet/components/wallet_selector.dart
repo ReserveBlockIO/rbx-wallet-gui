@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/reserve/models/new_reserve_account.dart';
 import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
@@ -226,15 +227,29 @@ class ReserveAccountDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Reserve Account Created"),
+      title: Text(
+        "Reserve Account Created",
+        style: TextStyle(
+          color: Colors.white,
+        ),
+      ),
       content: SizedBox(
         width: 600,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Make sure to backup your restore code somewhere safe."),
+            Center(
+              child: Text(
+                "🚨 Make sure to backup your RESTORE CODE somewhere safe. 🚨",
+                style: TextStyle(
+                  color: Colors.red.shade400,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
             ListTile(
+              contentPadding: EdgeInsets.zero,
               title: TextFormField(
                 decoration: InputDecoration(
                   label: Text("Restore Code"),
@@ -244,15 +259,41 @@ class ReserveAccountDetails extends StatelessWidget {
                 readOnly: true,
                 initialValue: account.restoreCode,
               ),
-              trailing: IconButton(
-                icon: const Icon(Icons.copy),
+              // trailing: AppButton(
+              //   icon: Icons.copy,
+              //   label: "Copy",
+              //   variant: AppColorVariant.Success,
+              //   onPressed: () async {
+              //     await Clipboard.setData(ClipboardData(text: account.restoreCode));
+              //     Toast.message("Restore Code copied to clipboard");
+              //   },
+              // ),
+              // trailing: IconButton(
+              //   icon: const Icon(Icons.copy),
+
+              //   onPressed: () async {
+              //     await Clipboard.setData(ClipboardData(text: account.restoreCode));
+              //     Toast.message("Restore Code copied to clipboard");
+              //   },
+              // ),
+            ),
+            SizedBox(
+              height: 4,
+            ),
+            Center(
+              child: AppButton(
+                icon: Icons.copy,
+                label: "Copy Restore Code",
+                variant: AppColorVariant.Success,
                 onPressed: () async {
                   await Clipboard.setData(ClipboardData(text: account.restoreCode));
                   Toast.message("Restore Code copied to clipboard");
                 },
               ),
             ),
+            SizedBox(height: 6),
             ListTile(
+              contentPadding: EdgeInsets.zero,
               title: TextFormField(
                 initialValue: account.address,
                 decoration: const InputDecoration(label: Text("Address")),
@@ -261,6 +302,7 @@ class ReserveAccountDetails extends StatelessWidget {
               ),
             ),
             ListTile(
+              contentPadding: EdgeInsets.zero,
               title: TextFormField(
                 initialValue: account.privateKey,
                 decoration: const InputDecoration(
@@ -269,16 +311,16 @@ class ReserveAccountDetails extends StatelessWidget {
                 style: const TextStyle(fontSize: 13),
                 readOnly: true,
               ),
-              trailing: IconButton(
-                icon: const Icon(Icons.copy),
-                onPressed: () async {
-                  await Clipboard.setData(ClipboardData(text: account.privateKey));
-                  Toast.message("Private Key copied to clipboard");
-                },
-              ),
+              // trailing: IconButton(
+              //   icon: const Icon(Icons.copy),
+              //   onPressed: () async {
+              //     await Clipboard.setData(ClipboardData(text: account.privateKey));
+              //     Toast.message("Private Key copied to clipboard");
+              //   },
+              // ),
             ),
-            const Divider(),
             ListTile(
+              contentPadding: EdgeInsets.zero,
               title: TextFormField(
                 initialValue: account.recoveryAddress,
                 decoration: const InputDecoration(label: Text("Recovery Address")),
@@ -287,6 +329,7 @@ class ReserveAccountDetails extends StatelessWidget {
               ),
             ),
             ListTile(
+              contentPadding: EdgeInsets.zero,
               title: TextFormField(
                 initialValue: account.recoveryPrivateKey,
                 decoration: const InputDecoration(
@@ -295,13 +338,13 @@ class ReserveAccountDetails extends StatelessWidget {
                 style: const TextStyle(fontSize: 13),
                 readOnly: true,
               ),
-              trailing: IconButton(
-                icon: const Icon(Icons.copy),
-                onPressed: () async {
-                  await Clipboard.setData(ClipboardData(text: account.recoveryPrivateKey));
-                  Toast.message("Recovery Private Key copied to clipboard");
-                },
-              ),
+              // trailing: IconButton(
+              //   icon: const Icon(Icons.copy),
+              //   onPressed: () async {
+              //     await Clipboard.setData(ClipboardData(text: account.recoveryPrivateKey));
+              //     Toast.message("Recovery Private Key copied to clipboard");
+              //   },
+              // ),
             ),
             const Divider(),
             Center(

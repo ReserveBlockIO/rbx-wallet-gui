@@ -151,6 +151,12 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
 
         return;
       }
+
+      if (currentWallet.isReserved && currentWallet.isNetworkProtected == false) {
+        Toast.error("You must activate your Reserve Account before proceeding.");
+        return;
+      }
+
       senderAddress = currentWallet.labelWithoutTruncation;
 
       if (!guardWalletIsSynced(ref)) return;

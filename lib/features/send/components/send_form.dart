@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rbx_wallet/features/reserve/providers/reserve_account_provider.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 
 import '../../../core/base_component.dart';
@@ -139,9 +140,25 @@ class SendForm extends BaseComponent {
                                         label: "${wallet!.availableBalance} RBX",
                                         variant: AppColorVariant.Light,
                                       ),
-                                      Text(
-                                        "Available",
-                                        style: Theme.of(context).textTheme.caption,
+                                      SizedBox(height: 2),
+                                      Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(
+                                            "Available",
+                                            style: Theme.of(context).textTheme.caption,
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              ref.read(reserveAccountProvider.notifier).showBalanceInfo(wallet!);
+                                            },
+                                            child: Icon(
+                                              Icons.help,
+                                              size: 14,
+                                              color: Theme.of(context).colorScheme.secondary,
+                                            ),
+                                          )
+                                        ],
                                       )
                                     ],
                                   ),

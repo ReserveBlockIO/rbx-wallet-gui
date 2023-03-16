@@ -12,6 +12,7 @@ import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
 import 'package:rbx_wallet/features/encrypt/utils.dart';
 import 'package:rbx_wallet/features/reserve/models/new_reserve_account.dart';
+import 'package:rbx_wallet/features/reserve/providers/pending_activation_provider.dart';
 import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
@@ -26,17 +27,18 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
   ReserveAccountProvider(this.ref, [List<Wallet> model = const []]) : super(model);
 
   set(List<Wallet> wallets) {
-    state = wallets;
+    state = wallets.reversed.toList();
   }
 
   Future<void> newAccount(BuildContext context) async {
     final password = await PromptModal.show(
-      title: "New Reserve Account",
-      body: "Reserve accounts are timelocked and recoverable.\n\nCreate a new password to continue.",
+      title: "Setup Reserve Account",
+      body: "Create a password to continue.",
       validator: (value) => formValidatorNotEmpty(value, "Password"),
       labelText: "Password",
       obscureText: true,
       lines: 1,
+      revealObscure: true,
     );
 
     if (password == null || password.isEmpty) {
@@ -50,7 +52,13 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
       labelText: "Password",
       obscureText: true,
       lines: 1,
+      revealObscure: true,
     );
+
+    if (passwordConfirmation == null) {
+      Toast.error("You must confirm your password.");
+      return;
+    }
 
     if (password != passwordConfirmation) {
       Toast.error("Passwords do not match.");
@@ -89,10 +97,10 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
             children: [
               Text("You must now fund your Reserve Account with a minimum of 5 RBX."),
               Text(""),
-              Text("Please send funds to ${wallet.address}"),
+              SelectableText("Please send funds to ${wallet.address}"),
               Text(""),
               Text(
-                  "You have a wallet with a sufficient balance.\nWould you like to send 5 RBX from ${fundingWallet.address} [Balance: ${fundingWallet.balance} RBX]?"),
+                  "You have a wallet with a sufficient balance.\n\nWould you like to send 5 RBX from:\n${fundingWallet.address}\n[Balance: ${fundingWallet.balance} RBX]?"),
             ],
           ),
         ),
@@ -215,7 +223,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
 
     final confirmed = await ConfirmDialog.show(
       title: "Activate on Network?",
-      body: "There is a cost of 4 RBX plus TX fee to publish this reserve account to the network. Continue?",
+      body: "There is a cost of 4 RBX (which is burned) plus TX fee to activate this Reserve Account on the network.  Continue?",
       confirmText: "Activate Now",
       cancelText: "Cancel",
     );
@@ -237,8 +245,9 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
       );
 
       if (success) {
-        OverlayToast.message(message: 'Reserve Account publish transaction sent.\n\nPlease wait for it to reflect as "Activated".');
+        OverlayToast.message(message: 'Reserve Account activation transaction sent.\n\nPlease wait for it to reflect as "Activated".');
         // Toast.message("Reserve Account publish transaction sent.");
+        ref.read(pendingActivationProvider.notifier).addId(wallet.address);
       }
     }
   }

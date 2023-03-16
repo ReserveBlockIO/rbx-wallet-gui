@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
 
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/reserve/providers/pending_activation_provider.dart';
 
 import 'package:rbx_wallet/features/reserve/providers/reserve_account_provider.dart';
+import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 
 class ReserveAccountOverviewScreen extends BaseScreen {
   const ReserveAccountOverviewScreen({Key? key})
@@ -37,64 +41,20 @@ class ReserveAccountOverviewScreen extends BaseScreen {
     final provider = ref.read(reserveAccountProvider.notifier);
     final wallets = ref.watch(reserveAccountProvider);
 
-    return Column(
-      children: [
-        Text(
-          "Reserve Accounts",
-          style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.white),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Center(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 600),
-              child: Text(
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-        ),
-        SizedBox(
-          height: 16,
-        ),
-        AppButton(
-          label: "Setup Account",
-          icon: Icons.add,
-          variant: AppColorVariant.Success,
-          onPressed: () {
-            provider.newAccount(context);
-          },
-        ),
-        SizedBox(
-          height: 8,
-        ),
-        AppButton(
-          label: "Recover Account",
-          icon: Icons.rotate_90_degrees_cw_rounded,
-          type: AppButtonType.Text,
-          variant: AppColorVariant.Light,
-          onPressed: () async {
-            provider.recoverAccount(context);
-          },
-        ),
-        Divider(),
-        Text(
-          "Existing Accounts",
-          style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white),
-        ),
-        SizedBox(height: 3),
-        wallets.isEmpty
-            ? Text("No Reserve Accounts")
-            : Expanded(
-                child: ListView.builder(
-                  itemCount: wallets.length,
-                  itemBuilder: (context, index) {
-                    final wallet = wallets[index];
+    return wallets.isEmpty
+        ? _Top()
+        : Expanded(
+            child: ListView.builder(
+              itemCount: wallets.length,
+              itemBuilder: (context, index) {
+                final wallet = wallets[index];
 
-                    return Card(
+                return Column(
+                  children: [
+                    if (index == 0) _Top(),
+                    Card(
                       child: ListTile(
-                        title: Text(wallet.address),
+                        title: SelectableText(wallet.address),
                         subtitle: Row(mainAxisSize: MainAxisSize.min, children: [
                           Text("Available: ${wallet.availableBalance} RBX"),
                           SizedBox(width: 4),
@@ -117,6 +77,26 @@ class ReserveAccountOverviewScreen extends BaseScreen {
                             );
                           }
 
+                          if (ref.watch(pendingActivationProvider).contains(wallet.address)) {
+                            return AppBadge(
+                              label: "Activation Pending",
+                              variant: AppColorVariant.Warning,
+                            );
+                          }
+
+                          if (wallet.balance < 5) {
+                            return AppButton(
+                              label: "Awaiting Funds",
+                              variant: AppColorVariant.Danger,
+                              onPressed: () {
+                                InfoDialog.show(
+                                  title: "Funds Required",
+                                  content: SelectableText("To activate, please send a minimum of 5 RBX to:\n\n${wallet.address}."),
+                                );
+                              },
+                            );
+                          }
+
                           return AppButton(
                             label: "Activate",
                             onPressed: () {
@@ -125,11 +105,104 @@ class ReserveAccountOverviewScreen extends BaseScreen {
                           );
                         }),
                       ),
-                    );
-                  },
+                    ),
+                  ],
+                );
+              },
+            ),
+          );
+  }
+}
+
+class _Top extends BaseComponent {
+  const _Top({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final provider = ref.read(reserveAccountProvider.notifier);
+    final wallets = ref.watch(reserveAccountProvider);
+
+    return Column(children: [
+      Text(
+        "Reserve Accounts",
+        style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.white),
+      ),
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Center(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 800),
+            child: RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500,
                 ),
+                children: [
+                  TextSpan(
+                    text: "Reserve Accounts [",
+                  ),
+                  TextSpan(
+                      text: "xRBX",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.secondary,
+                      )),
+                  TextSpan(
+                    text: "] is a personal safe deposit storage feature that is on-chain to help keep your RBX funds and / or NFT assets safe.\n\n",
+                  ),
+                  TextSpan(
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
+                    text:
+                        "This feature is separate from your RBX instant settlement address and enables both recovery and call-back on chain escrow features that allows you to be able to revert funds and assets back to your Reserve Account in the event of theft, misplacement, or from a recipient that requires trustless escrow within 24 hours of occurrence or within a user pre-set defined time.\n\n",
+                  ),
+                  TextSpan(
+                    text: "These features are all on-chain and all peers are aware of their current state.",
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
-      ],
-    );
+            ),
+          ),
+        ),
+      ),
+      SizedBox(
+        height: 16,
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          AppButton(
+            label: "Setup Account",
+            icon: Icons.add,
+            variant: AppColorVariant.Success,
+            onPressed: () {
+              provider.newAccount(context);
+            },
+          ),
+          SizedBox(width: 8),
+          AppButton(
+            label: "Recover Account",
+            icon: Icons.rotate_90_degrees_cw_rounded,
+            type: AppButtonType.Text,
+            variant: AppColorVariant.Light,
+            onPressed: () async {
+              provider.recoverAccount(context);
+            },
+          ),
+        ],
+      ),
+      SizedBox(
+        height: 8,
+      ),
+      Divider(),
+      Text(
+        "Existing Accounts",
+        style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white),
+      ),
+      SizedBox(height: 3),
+      if (wallets.isEmpty) Text("No Reserve Accounts")
+    ]);
   }
 }

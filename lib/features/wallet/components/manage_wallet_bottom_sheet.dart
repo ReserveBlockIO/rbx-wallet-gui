@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
+import 'package:rbx_wallet/features/reserve/providers/reserve_account_provider.dart';
 import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 
@@ -64,13 +65,32 @@ class ManageWalletBottomSheet extends BaseComponent {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(
-                                    "${wallet.label}${wallet.isReserved ? ' (RESERVE)' : ''}",
+                                    wallet.label,
                                     style: TextStyle(color: color),
                                   ),
-                                  Text(
-                                    " [${wallet.balance} RBX]",
-                                    style: TextStyle(color: color),
-                                  ),
+                                  wallet.isReserved
+                                      ? Text(
+                                          " [Available: ${wallet.availableBalance} RBX]",
+                                          style: TextStyle(color: color),
+                                        )
+                                      : Text(
+                                          " [${wallet.balance} RBX]",
+                                          style: TextStyle(color: color),
+                                        ),
+                                  if (wallet.isReserved)
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 6.0),
+                                      child: InkWell(
+                                        onTap: () {
+                                          ref.read(reserveAccountProvider.notifier).showBalanceInfo(wallet!);
+                                        },
+                                        child: Icon(
+                                          Icons.help,
+                                          size: 14,
+                                          color: Theme.of(context).colorScheme.secondary,
+                                        ),
+                                      ),
+                                    ),
                                   IconButton(
                                     onPressed: () {
                                       PromptModal.show(
@@ -116,49 +136,18 @@ class ManageWalletBottomSheet extends BaseComponent {
                                 children: [
                                   if (wallet.isReserved && wallet.isNetworkProtected)
                                     Text(
-                                      "Published",
+                                      "Activated",
                                       style: TextStyle(color: color),
                                     ),
-                                  if (wallet.isReserved && !wallet.isNetworkProtected)
-                                    AppButton(
-                                      label: "Publish",
-                                      type: AppButtonType.Text,
-                                      variant: AppColorVariant.Info,
-                                      onPressed: () async {
-                                        if (wallet.balance < 5) {
-                                          OverlayToast.error("At least 5 RBX is required");
-                                          return;
-                                        }
-
-                                        final confirmed = await ConfirmDialog.show(
-                                          title: "Publish to Network?",
-                                          body: "There is a cost of 4 RBX plus TX fee to publish this reserve account to the network. Continue?",
-                                          confirmText: "Publish",
-                                          cancelText: "Cancel",
-                                        );
-
-                                        if (confirmed == true) {
-                                          final password = await PromptModal.show(
-                                            title: "Password",
-                                            validator: (v) => null,
-                                            lines: 1,
-                                            obscureText: true,
-                                            labelText: "Password",
-                                          );
-                                          if (password == null) {
-                                            return;
-                                          }
-                                          final success = await ReserveAccountService().publish(
-                                            address: wallet.address,
-                                            password: password,
-                                          );
-
-                                          if (success) {
-                                            OverlayToast.message(message: "Reserve Account publish transaction sent");
-                                          }
-                                        }
-                                      },
-                                    ),
+                                  // if (wallet.isReserved && !wallet.isNetworkProtected)
+                                  //   AppButton(
+                                  //     label: "Publish",
+                                  //     type: AppButtonType.Text,
+                                  //     variant: AppColorVariant.Info,
+                                  //     onPressed: () async {
+                                  //       await ref.read(reserveAccountProvider.notifier).activate(wallet);
+                                  //     },
+                                  //   ),
                                   if (!wallet.isReserved)
                                     AppButton(
                                         type: AppButtonType.Text,
