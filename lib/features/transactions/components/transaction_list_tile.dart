@@ -48,9 +48,12 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
     final toMe = toWallet != null;
     final fromMe = fromWallet != null;
 
-    final bool canCallBack = widget.transaction.status == TransactionStatus.Reserved &&
-        fromMe &&
-        (widget.transaction.unlockTime != null && widget.transaction.unlockTime! > (DateTime.now().millisecondsSinceEpoch / 1000));
+    // final bool canCallBack = widget.transaction.status == TransactionStatus.Reserved &&
+    //     fromMe &&
+    //     widget.transaction.amount < 0 &&
+    //     (widget.transaction.unlockTime != null && widget.transaction.unlockTime! > (DateTime.now().millisecondsSinceEpoch / 1000));
+
+    final bool canCallBack = widget.transaction.status == TransactionStatus.Reserved && fromMe && widget.transaction.amount < 0;
 
     return Card(
       margin: widget.compact ? EdgeInsets.zero : const EdgeInsets.symmetric(vertical: 4, horizontal: 0),

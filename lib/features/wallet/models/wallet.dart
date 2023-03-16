@@ -52,6 +52,14 @@ class Wallet with _$Wallet {
     return recoveryAddress != null;
   }
 
+  String get balanceLabel {
+    if (isReserved) {
+      return "Available: $availableBalance RBX";
+    }
+
+    return "$balance RBX";
+  }
+
   String get label {
     if (friendlyName != null) {
       return friendlyName!;

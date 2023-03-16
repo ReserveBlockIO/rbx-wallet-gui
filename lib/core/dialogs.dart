@@ -13,12 +13,13 @@ class InfoDialog {
     Widget? content,
     String? closeText,
     IconData? icon,
-    Color? headerColor = Colors.white38,
+    Color? headerColor = Colors.white,
+    BuildContext? contextOverride,
   }) async {
     final context = rootNavigatorKey.currentContext!;
 
     return await showDialog(
-      context: context,
+      context: contextOverride ?? context,
       builder: (context) {
         return AlertDialog(
           title: Row(

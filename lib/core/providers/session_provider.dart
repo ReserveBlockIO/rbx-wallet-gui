@@ -14,6 +14,7 @@ import 'package:rbx_wallet/core/utils.dart';
 import 'package:rbx_wallet/features/remote_info/components/snapshot_downloader.dart';
 import 'package:rbx_wallet/features/remote_info/models/remote_info.dart';
 import 'package:rbx_wallet/features/remote_info/services/remote_info_service.dart';
+import 'package:rbx_wallet/features/reserve/providers/reserve_account_provider.dart';
 import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
 import 'package:rbx_wallet/features/startup/startup_data.dart';
 import 'package:rbx_wallet/features/startup/startup_data_provider.dart';
@@ -534,6 +535,8 @@ class SessionProvider extends StateNotifier<SessionModel> {
         state = state.copyWith(currentWallet: wallets.first, totalBalance: totalBalance);
         ref.read(currentValidatorProvider.notifier).set(wallets.first);
       }
+      final reserveWallets = wallets.where((w) => w.isReserved).toList();
+      ref.read(reserveAccountProvider.notifier).set(reserveWallets);
     }
   }
 

@@ -140,98 +140,22 @@ class WalletSelector extends BaseComponent {
                 ),
               );
 
-              list.add(
-                PopupMenuItem(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: const [
-                      Icon(Icons.security, size: 16),
-                      SizedBox(width: 8),
-                      Text("Reserve Accounts"),
-                    ],
-                  ),
-                  onTap: () async {
-                    if (!await passwordRequiredGuard(context, ref)) return;
+              // list.add(
+              //   PopupMenuItem(
+              //     child: Row(
+              //       mainAxisSize: MainAxisSize.min,
+              //       children: const [
+              //         Icon(Icons.security, size: 16),
+              //         SizedBox(width: 8),
+              //         Text("Reserve Accounts"),
+              //       ],
+              //     ),
+              //     onTap: () async {
 
-                    final createNew = await showModalBottomSheet(
-                        context: context,
-                        builder: (context) {
-                          return ModalContainer(
-                            withDecor: false,
-                            children: [
-                              Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                      "Reserve accounts are protected accounts that are timelocked and recoverable.\nCreate or recover one now.")),
-                              ListTile(
-                                title: Text("New Reserve Account"),
-                                trailing: Icon(Icons.chevron_right),
-                                leading: Icon(Icons.add),
-                                onTap: () {
-                                  Navigator.of(context).pop(true);
-                                },
-                              ),
-                              ListTile(
-                                title: Text("Recover Reserve Account"),
-                                trailing: Icon(Icons.chevron_right),
-                                leading: Icon(Icons.rotate_90_degrees_cw_rounded),
-                                onTap: () {
-                                  Navigator.of(context).pop(false);
-                                },
-                              )
-                            ],
-                          );
-                        });
-
-                    if (createNew == null) {
-                      return;
-                    }
-
-                    if (createNew == false) {
-                      final restoreCode = await PromptModal.show(title: "Restore Code", validator: (v) => null, labelText: "Restore Code");
-                      if (restoreCode == null) return;
-                      final password =
-                          await PromptModal.show(title: "Password", validator: (v) => null, lines: 1, obscureText: true, labelText: "Password");
-                      if (password == null) return;
-
-                      final account = await ReserveAccountService().recover(restoreCode: restoreCode, password: password);
-                      if (account != null) {
-                        await ref.read(sessionProvider.notifier).loadWallets();
-
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return ReserveAccountDetails(account: account);
-                            });
-                      }
-                      return;
-                    }
-                    await PromptModal.show(
-                        title: "New Reserve Account",
-                        body: "Reserve accounts are timelocked and recoverable accounts.\n\nCreate a password to continue.",
-                        validator: (value) => formValidatorNotEmpty(value, "Password"),
-                        labelText: "Password",
-                        obscureText: true,
-                        lines: 1,
-                        onValidSubmission: (password) async {
-                          if (password.isNotEmpty) {
-                            final account = await ReserveAccountService().create(password);
-                            if (account == null) {
-                              return;
-                            }
-
-                            showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return ReserveAccountDetails(account: account);
-                                });
-                          }
-                        });
-
-                    // await ref.read(walletListProvider.notifier).create();
-                  },
-                ),
-              );
+              //       // await ref.read(walletListProvider.notifier).create();
+              //     },
+              //   ),
+              // );
 
               list.add(
                 PopupMenuItem(
@@ -383,8 +307,17 @@ class ReserveAccountDetails extends StatelessWidget {
             Center(
               child: AppButton(
                 label: "Done",
-                onPressed: () {
-                  Navigator.of(context).pop();
+                onPressed: () async {
+                  final shouldClose = await ConfirmDialog.show(
+                    title: "Backed up?",
+                    body: "Please confirm you have backed up your RESTORE CODE as well as your PASSWORD.",
+                    confirmText: "I'm Backed Up",
+                    cancelText: "Cancel",
+                  );
+
+                  if (shouldClose == true) {
+                    Navigator.of(context).pop();
+                  }
                 },
               ),
             )

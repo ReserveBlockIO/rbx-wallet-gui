@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
 import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
+import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/buttons.dart';
@@ -23,269 +24,280 @@ class ManageWalletBottomSheet extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final wallets = ref.watch(walletListProvider);
+    // final List<Wallet> wallets = [];
 
     return Container(
       color: Colors.black,
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: ListView.builder(
-            itemCount: wallets.length,
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              final wallet = wallets[index];
-              final isLast = index >= wallets.length - 1;
-              final isFirst = index == 0;
+          child: wallets.isEmpty
+              ? _Header()
+              : ListView.builder(
+                  itemCount: wallets.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    final wallet = wallets[index];
+                    final isLast = index >= wallets.length - 1;
+                    final isFirst = index == 0;
 
-              final color = wallet.isReserved ? Colors.deepPurple.shade300 : Colors.white;
+                    final color = wallet.isReserved ? Colors.deepPurple.shade300 : Colors.white;
 
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (isFirst)
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          // mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            AppButton(
-                              label: "Restore Hidden Accounts",
-                              type: AppButtonType.Text,
-                              variant: AppColorVariant.Info,
-                              onPressed: () {
-                                singleton<Storage>().setList(Storage.DELETED_WALLETS_KEY, []);
-                                ref.read(sessionProvider.notifier).init(false);
-                              },
-                            ),
-                            AppButton(
-                              label: "Close",
-                              type: AppButtonType.Text,
-                              variant: AppColorVariant.Info,
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          width: isLast ? 0 : 1,
-                          color: isLast ? Colors.transparent : Colors.white24,
-                        ),
-                      ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 4),
-                      child: ListTile(
-                        leading: Icon(Icons.account_balance_wallet_outlined, color: color),
-                        title: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              "${wallet.label}${wallet.isReserved ? ' (RESERVE)' : ''}",
-                              style: TextStyle(color: color),
-                            ),
-                            Text(
-                              " [${wallet.balance} RBX]",
-                              style: TextStyle(color: color),
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                PromptModal.show(
-                                  title: "Rename ${wallet.label}",
-                                  validator: (_) => null,
-                                  labelText: "Name",
-                                  initialValue: wallet.friendlyName ?? "",
-                                  onValidSubmission: (value) {
-                                    ref.read(walletDetailProvider(wallet).notifier).rename(value);
-                                  },
-                                );
-                              },
-                              icon: const Icon(
-                                Icons.edit,
-                                size: 12,
-                              ),
-                            )
-                          ],
-                        ),
-                        subtitle: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(wallet.address),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 6.0),
-                              child: InkWell(
-                                child: const Icon(
-                                  Icons.copy,
-                                  size: 12,
-                                ),
-                                onTap: () async {
-                                  await Clipboard.setData(
-                                    ClipboardData(text: wallet.address),
-                                  );
-                                  Toast.message("Address copied to clipboard");
-                                },
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (isFirst) Center(child: _Header()),
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                width: isLast ? 0 : 1,
+                                color: isLast ? Colors.transparent : Colors.white24,
                               ),
                             ),
-                          ],
-                        ),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            if (wallet.isReserved && wallet.isNetworkProtected)
-                              Text(
-                                "Published",
-                                style: TextStyle(color: color),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 4),
+                            child: ListTile(
+                              leading: Icon(Icons.account_balance_wallet_outlined, color: color),
+                              title: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    "${wallet.label}${wallet.isReserved ? ' (RESERVE)' : ''}",
+                                    style: TextStyle(color: color),
+                                  ),
+                                  Text(
+                                    " [${wallet.balance} RBX]",
+                                    style: TextStyle(color: color),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      PromptModal.show(
+                                        title: "Rename ${wallet.label}",
+                                        validator: (_) => null,
+                                        labelText: "Name",
+                                        initialValue: wallet.friendlyName ?? "",
+                                        onValidSubmission: (value) {
+                                          ref.read(walletDetailProvider(wallet).notifier).rename(value);
+                                        },
+                                      );
+                                    },
+                                    icon: const Icon(
+                                      Icons.edit,
+                                      size: 12,
+                                    ),
+                                  )
+                                ],
                               ),
-                            if (wallet.isReserved && !wallet.isNetworkProtected)
-                              AppButton(
-                                label: "Publish",
-                                type: AppButtonType.Text,
-                                variant: AppColorVariant.Info,
-                                onPressed: () async {
-                                  if (wallet.balance < 5) {
-                                    OverlayToast.error("At least 5 RBX is required");
-                                    return;
-                                  }
-
-                                  final confirmed = await ConfirmDialog.show(
-                                    title: "Publish to Network?",
-                                    body: "There is a cost of 4 RBX plus TX fee to publish this reserve account to the network. Continue?",
-                                    confirmText: "Publish",
-                                    cancelText: "Cancel",
-                                  );
-
-                                  if (confirmed == true) {
-                                    final password = await PromptModal.show(
-                                      title: "Password",
-                                      validator: (v) => null,
-                                      lines: 1,
-                                      obscureText: true,
-                                      labelText: "Password",
-                                    );
-                                    if (password == null) {
-                                      return;
-                                    }
-                                    final success = await ReserveAccountService().publish(
-                                      address: wallet.address,
-                                      password: password,
-                                    );
-
-                                    if (success) {
-                                      OverlayToast.message(message: "Reserve Account publish transaction sent");
-                                    }
-                                  }
-                                },
-                              ),
-                            if (!wallet.isReserved)
-                              AppButton(
-                                  type: AppButtonType.Text,
-                                  label: "Reveal Private Key",
-                                  variant: AppColorVariant.Info,
-                                  onPressed: () async {
-                                    if (!await passwordRequiredGuard(context, ref)) return;
-
-                                    final decryptedWallet = ref.read(walletListProvider).firstWhereOrNull((w) => w.address == wallet.address);
-                                    if (decryptedWallet == null) {
-                                      return;
-                                    }
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          title: const Text("Private Key"),
-                                          content: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              ListTile(
-                                                leading: const Icon(Icons.security),
-                                                title: SizedBox(
-                                                  width: 500,
-                                                  child: TextFormField(
-                                                    initialValue: decryptedWallet.privateKey,
-                                                    decoration: const InputDecoration(
-                                                      label: Text("Private Key"),
-                                                    ),
-                                                    style: const TextStyle(fontSize: 12),
-                                                    readOnly: true,
-                                                  ),
-                                                ),
-                                                trailing: IconButton(
-                                                  icon: const Icon(Icons.copy),
-                                                  onPressed: () async {
-                                                    await Clipboard.setData(ClipboardData(text: decryptedWallet.privateKey));
-                                                    Toast.message("Private Key copied to clipboard");
-                                                  },
-                                                ),
-                                              ),
-                                              const Divider(),
-                                              AppButton(
-                                                label: "Close",
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                              )
-                                            ],
-                                          ),
+                              subtitle: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(wallet.address),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 6.0),
+                                    child: InkWell(
+                                      child: const Icon(
+                                        Icons.copy,
+                                        size: 12,
+                                      ),
+                                      onTap: () async {
+                                        await Clipboard.setData(
+                                          ClipboardData(text: wallet.address),
                                         );
+                                        Toast.message("Address copied to clipboard");
                                       },
-                                    );
-                                  }),
-                            AppButton(
-                              label: "Rescan",
-                              type: AppButtonType.Text,
-                              variant: AppColorVariant.Light,
-                              onPressed: () async {
-                                final resync = await ConfirmDialog.show(
-                                  title: "Rescan Blocks?",
-                                  body: "Would you like to rescan the chain to include any transactions relevant to this address?",
-                                  confirmText: "Yes",
-                                  cancelText: "No",
-                                );
-                                if (resync == true) {
-                                  final success = await BridgeService().rescanAddress(wallet.address);
-                                  if (success) {
-                                    InfoDialog.show(title: "Rescan has started", body: "Updated TXs will show up shortly");
-                                  } else {
-                                    OverlayToast.error();
-                                  }
-                                }
-                              },
-                            ),
-                            AppButton(
-                              type: AppButtonType.Text,
-                              variant: AppColorVariant.Danger,
-                              label: "Hide Account",
-                              onPressed: () async {
-                                final confirmed = await ConfirmDialog.show(
-                                  title: "Hide wallet?",
-                                  body: "Are you sure you want to hide this wallet from the GUI?",
-                                  destructive: true,
-                                  confirmText: "Hide",
-                                  cancelText: "Cancel",
-                                );
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  if (wallet.isReserved && wallet.isNetworkProtected)
+                                    Text(
+                                      "Published",
+                                      style: TextStyle(color: color),
+                                    ),
+                                  if (wallet.isReserved && !wallet.isNetworkProtected)
+                                    AppButton(
+                                      label: "Publish",
+                                      type: AppButtonType.Text,
+                                      variant: AppColorVariant.Info,
+                                      onPressed: () async {
+                                        if (wallet.balance < 5) {
+                                          OverlayToast.error("At least 5 RBX is required");
+                                          return;
+                                        }
 
-                                if (confirmed) {
-                                  ref.read(walletDetailProvider(wallet).notifier).delete();
-                                }
-                              },
-                            )
-                          ],
+                                        final confirmed = await ConfirmDialog.show(
+                                          title: "Publish to Network?",
+                                          body: "There is a cost of 4 RBX plus TX fee to publish this reserve account to the network. Continue?",
+                                          confirmText: "Publish",
+                                          cancelText: "Cancel",
+                                        );
+
+                                        if (confirmed == true) {
+                                          final password = await PromptModal.show(
+                                            title: "Password",
+                                            validator: (v) => null,
+                                            lines: 1,
+                                            obscureText: true,
+                                            labelText: "Password",
+                                          );
+                                          if (password == null) {
+                                            return;
+                                          }
+                                          final success = await ReserveAccountService().publish(
+                                            address: wallet.address,
+                                            password: password,
+                                          );
+
+                                          if (success) {
+                                            OverlayToast.message(message: "Reserve Account publish transaction sent");
+                                          }
+                                        }
+                                      },
+                                    ),
+                                  if (!wallet.isReserved)
+                                    AppButton(
+                                        type: AppButtonType.Text,
+                                        label: "Reveal Private Key",
+                                        variant: AppColorVariant.Info,
+                                        onPressed: () async {
+                                          if (!await passwordRequiredGuard(context, ref)) return;
+
+                                          final decryptedWallet = ref.read(walletListProvider).firstWhereOrNull((w) => w.address == wallet.address);
+                                          if (decryptedWallet == null) {
+                                            return;
+                                          }
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return AlertDialog(
+                                                title: const Text("Private Key"),
+                                                content: Column(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: [
+                                                    ListTile(
+                                                      leading: const Icon(Icons.security),
+                                                      title: SizedBox(
+                                                        width: 500,
+                                                        child: TextFormField(
+                                                          initialValue: decryptedWallet.privateKey,
+                                                          decoration: const InputDecoration(
+                                                            label: Text("Private Key"),
+                                                          ),
+                                                          style: const TextStyle(fontSize: 12),
+                                                          readOnly: true,
+                                                        ),
+                                                      ),
+                                                      trailing: IconButton(
+                                                        icon: const Icon(Icons.copy),
+                                                        onPressed: () async {
+                                                          await Clipboard.setData(ClipboardData(text: decryptedWallet.privateKey));
+                                                          Toast.message("Private Key copied to clipboard");
+                                                        },
+                                                      ),
+                                                    ),
+                                                    const Divider(),
+                                                    AppButton(
+                                                      label: "Close",
+                                                      onPressed: () {
+                                                        Navigator.of(context).pop();
+                                                      },
+                                                    )
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        }),
+                                  AppButton(
+                                    label: "Rescan",
+                                    type: AppButtonType.Text,
+                                    variant: AppColorVariant.Light,
+                                    onPressed: () async {
+                                      final resync = await ConfirmDialog.show(
+                                        title: "Rescan Blocks?",
+                                        body: "Would you like to rescan the chain to include any transactions relevant to this address?",
+                                        confirmText: "Yes",
+                                        cancelText: "No",
+                                      );
+                                      if (resync == true) {
+                                        final success = await BridgeService().rescanAddress(wallet.address);
+                                        if (success) {
+                                          InfoDialog.show(title: "Rescan has started", body: "Updated TXs will show up shortly");
+                                        } else {
+                                          OverlayToast.error();
+                                        }
+                                      }
+                                    },
+                                  ),
+                                  AppButton(
+                                    type: AppButtonType.Text,
+                                    variant: AppColorVariant.Danger,
+                                    label: "Hide Account",
+                                    onPressed: () async {
+                                      final confirmed = await ConfirmDialog.show(
+                                        title: "Hide wallet?",
+                                        body: "Are you sure you want to hide this wallet from the GUI?",
+                                        destructive: true,
+                                        confirmText: "Hide",
+                                        cancelText: "Cancel",
+                                      );
+
+                                      if (confirmed) {
+                                        ref.read(walletDetailProvider(wallet).notifier).delete();
+                                      }
+                                    },
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                ],
-              );
+                      ],
+                    );
+                  },
+                ),
+        ),
+      ),
+    );
+  }
+}
+
+class _Header extends BaseComponent {
+  const _Header({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        // mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          AppButton(
+            label: "Restore Hidden Accounts",
+            type: AppButtonType.Text,
+            variant: AppColorVariant.Info,
+            onPressed: () {
+              singleton<Storage>().setList(Storage.DELETED_WALLETS_KEY, []);
+              ref.read(sessionProvider.notifier).init(false);
             },
           ),
-        ),
+          AppButton(
+            label: "Close",
+            type: AppButtonType.Text,
+            variant: AppColorVariant.Info,
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
       ),
     );
   }

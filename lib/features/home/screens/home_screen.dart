@@ -6,6 +6,7 @@ import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/dst/components/nft_selector.dart';
 import 'package:rbx_wallet/features/home/components/home_buttons/import_snapshot_button.dart';
 import 'package:rbx_wallet/features/home/components/home_buttons/mother_button.dart';
+import 'package:rbx_wallet/features/home/components/home_buttons/reserve_accounts_button.dart';
 import 'package:rbx_wallet/features/home/components/home_buttons/validating_check_button.dart';
 import 'package:rbx_wallet/features/keygen/components/keygen_cta.dart'
     if (dart.library.io) 'package:rbx_wallet/features/keygen/components/keygen_cta_mock.dart';
@@ -89,6 +90,7 @@ class HomeScreen extends BaseScreen {
                   const HdWalletButton(),
                   if (ref.watch(walletListProvider).isEmpty) const RestoreHdWalletButton(),
                   const EncryptWalletButton(),
+                  const ReserveAccountsButton(),
                   const ShowDebugDataButton(),
                   const OpenDbFolderButton(),
                   const OpenLogButton(),

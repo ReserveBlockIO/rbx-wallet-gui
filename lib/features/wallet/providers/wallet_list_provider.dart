@@ -36,6 +36,8 @@ class WalletListProvider extends StateNotifier<List<Wallet>> {
     }
 
     final wallet = Wallet.fromJson(data);
+    List<dynamic>? updatedList = (singleton<Storage>().getList(Storage.DELETED_WALLETS_KEY) ?? [])..removeWhere((a) => a == wallet.address);
+    singleton<Storage>().setList(Storage.DELETED_WALLETS_KEY, updatedList);
     state = [...state, wallet];
     ref.read(sessionProvider.notifier).setCurrentWallet(wallet);
     // ref.read(sessionProvider.notifier).load();
