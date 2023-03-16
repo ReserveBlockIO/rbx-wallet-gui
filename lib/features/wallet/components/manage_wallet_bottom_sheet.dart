@@ -60,7 +60,18 @@ class ManageWalletBottomSheet extends BaseComponent {
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 4),
                             child: ListTile(
-                              leading: Icon(Icons.account_balance_wallet_outlined, color: color),
+                              // leading: Icon(Icons.account_balance_wallet_outlined, color: color),
+                              leading: wallet.address == ref.watch(sessionProvider).currentWallet?.address
+                                  ? IconButton(
+                                      onPressed: null,
+                                      icon: Icon(Icons.check_box_rounded, color: color),
+                                    )
+                                  : IconButton(
+                                      onPressed: () {
+                                        ref.read(sessionProvider.notifier).setCurrentWallet(wallet);
+                                      },
+                                      icon: Icon(Icons.check_box_outline_blank_outlined, color: color),
+                                    ),
                               title: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
