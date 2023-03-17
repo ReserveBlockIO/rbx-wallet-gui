@@ -194,7 +194,7 @@ class SmartContractCreatorMain extends BaseComponent {
               final completedDialogContext = await completeAnimation.future;
               await Future.delayed(const Duration(seconds: 3));
               Navigator.pop(completedDialogContext);
-              Toast.message("Mint transaction sent successfully. Please wait until the the smart contract is minted on chain.");
+              Toast.message("Mint transaction sent successfully. Please wait until the the smart contract is minted on-chain.");
 
               mintedComplete(sc.id, context, ref);
             } else {

@@ -33,7 +33,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
   Future<void> newAccount(BuildContext context) async {
     final password = await PromptModal.show(
       title: "Setup Reserve Account",
-      body: "Create a password to continue.",
+      body: "Create a password to continue. You must remember this password as it will be required for any transaction with this Reserve Account.",
       validator: (value) => formValidatorNotEmpty(value, "Password"),
       labelText: "Password",
       obscureText: true,
@@ -95,7 +95,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("You must now fund your Reserve Account with a minimum of 5 RBX."),
+              Text("You must now fund your Reserve Account with a minimum of 5 RBX. 4 RBX will be burned upon activation."),
               Text(""),
               SelectableText("Please send funds to ${wallet.address}"),
               Text(""),
@@ -169,7 +169,11 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
   }
 
   Future<void> recoverAccount(BuildContext context) async {
-    final restoreCode = await PromptModal.show(title: "Restore Code", validator: (v) => null, labelText: "Restore Code");
+    final restoreCode = await PromptModal.show(
+        title: "Restore Code",
+        body: "Paste in your RESTORE CODE to import your existing Reserve Account.",
+        validator: (v) => null,
+        labelText: "Restore Code");
     if (restoreCode == null) return;
     final password = await PromptModal.show(title: "Password", validator: (v) => null, lines: 1, obscureText: true, labelText: "Password");
     if (password == null) return;

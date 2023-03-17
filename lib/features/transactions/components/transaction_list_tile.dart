@@ -185,14 +185,20 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                             children: [
                               SelectableText(
                                 "To: ${widget.transaction.toAddress}${toWallet != null && toWallet.friendlyName != null ? ' (${toWallet.friendlyName})' : ''}",
-                                style: Theme.of(context).textTheme.caption,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .caption!
+                                    .copyWith(color: widget.transaction.isToReserveAccount ? Colors.deepPurple.shade200 : null),
                               ),
                               const SizedBox(
                                 height: 4,
                               ),
                               SelectableText(
                                 "From: ${widget.transaction.fromAddress}${fromWallet != null && fromWallet.friendlyName != null ? ' (${fromWallet.friendlyName})' : ''}",
-                                style: Theme.of(context).textTheme.caption,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .caption!
+                                    .copyWith(color: widget.transaction.isFromReserveAccount ? Colors.deepPurple.shade200 : null),
                               ),
                               const SizedBox(
                                 height: 4,
@@ -239,7 +245,8 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                                   onPressed: () async {
                                     final password = await PromptModal.show(
                                       title: "Recover Transaction",
-                                      body: "Input your password to recover this transaction. Funds will be sent to the recovery address.",
+                                      body:
+                                          "Recover should be used mainly for theft of coin or assets. Input your password to recover this transaction and funds/assets will be sent to the recovery address.",
                                       validator: (v) => null,
                                       lines: 1,
                                       obscureText: true,
@@ -273,7 +280,8 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                                   onPressed: () async {
                                     final password = await PromptModal.show(
                                       title: "Callback Transaction",
-                                      body: "Input your password to callback this transaction.",
+                                      body:
+                                          " Callbacks can be used to return the funds/assets to the same account for escrow purposes. Input your password to callback this transaction.",
                                       validator: (v) => null,
                                       lines: 1,
                                       obscureText: true,

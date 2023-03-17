@@ -159,4 +159,12 @@ class Transaction with _$Transaction {
     var d12 = DateFormat('MM-dd-yyyy hh:mm a').format(date);
     return d12;
   }
+
+  bool get isFromReserveAccount {
+    return fromAddress.startsWith("xRBX");
+  }
+
+  bool get isToReserveAccount {
+    return toAddress.startsWith("xRBX");
+  }
 }

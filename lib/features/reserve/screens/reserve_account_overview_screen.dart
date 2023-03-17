@@ -155,10 +155,14 @@ class _Top extends BaseComponent {
                   TextSpan(
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
                     text:
-                        "This feature is separate from your RBX instant settlement address and enables both recovery and call-back on chain escrow features that allows you to be able to revert funds and assets back to your Reserve Account in the event of theft, misplacement, or from a recipient that requires trustless escrow within 24 hours of occurrence or within a user pre-set defined time.\n\n",
+                        "This feature is separate from your RBX instant settlement address and enables both recovery and call-back on-chain escrow features that allows you to be able to revert funds and assets back to your Reserve Account in the event of theft, misplacement, or from a recipient that requires trustless escrow within 24 hours of occurrence or within a user pre-set defined time.\n\n",
                   ),
                   TextSpan(
-                    text: "These features are all on-chain and all peers are aware of their current state.",
+                    text: "These features are all on-chain and all peers are aware of their current state.\n",
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(
+                    text: "Note: Activating this feature requires a 5 RBX deposit, 4 of which will be burned upon activation.",
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                   ),
                 ],
