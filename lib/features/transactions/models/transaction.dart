@@ -124,11 +124,17 @@ class Transaction with _$Transaction {
     if (unlockTime == null) {
       return null;
     }
+    if (status != TransactionStatus.Reserved) {
+      return null;
+    }
     return DateTime.fromMillisecondsSinceEpoch(unlockTime! * 1000);
   }
 
   DateTime? get callbackUntil {
     if (unlockTime == null) {
+      return null;
+    }
+    if (status != TransactionStatus.Reserved) {
       return null;
     }
 
@@ -143,6 +149,9 @@ class Transaction with _$Transaction {
 
   String get parseUnlockTimeAsDate {
     if (unlockTime == null) {
+      return "-";
+    }
+    if (status != TransactionStatus.Reserved) {
       return "-";
     }
 
