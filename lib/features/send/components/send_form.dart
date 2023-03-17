@@ -133,17 +133,23 @@ class SendForm extends BaseComponent {
                           for (final wallet in allWallets) {
                             final isSelected = currentWallet != null && wallet.address == currentWallet.address;
 
-                            Color? color = isSelected ? Theme.of(context).colorScheme.secondary : Theme.of(context).textTheme.bodyText1!.color;
-
-                            if (wallet.isReserved) {
-                              color = isSelected ? Theme.of(context).colorScheme.secondary : Colors.deepPurple.shade200;
-                            }
+                            final color = wallet.isReserved ? Colors.deepPurple.shade200 : Theme.of(context).textTheme.bodyText1!.color!;
 
                             list.add(
                               PopupMenuItem(
-                                child: Text(
-                                  wallet.labelWithoutTruncation,
-                                  style: TextStyle(color: color),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    if (isSelected)
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 4.0),
+                                        child: Icon(Icons.check),
+                                      ),
+                                    Text(
+                                      wallet.labelWithoutTruncation,
+                                      style: TextStyle(color: color),
+                                    ),
+                                  ],
                                 ),
                                 onTap: () {
                                   ref.read(sessionProvider.notifier).setCurrentWallet(wallet);
