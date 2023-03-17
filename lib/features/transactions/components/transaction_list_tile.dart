@@ -48,13 +48,15 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
     final toMe = toWallet != null;
     final fromMe = fromWallet != null;
 
-    // final bool canCallBack = widget.transaction.status == TransactionStatus.Reserved &&
-    //     fromMe &&
-    //     widget.transaction.amount < 0 &&
-    //     (widget.transaction.unlockTime != null && widget.transaction.unlockTime! > (DateTime.now().millisecondsSinceEpoch / 1000));
+    final bool canCallBack = widget.transaction.status == TransactionStatus.Reserved &&
+        fromMe &&
+        widget.transaction.amount < 0 &&
+        (widget.transaction.unlockTime != null && widget.transaction.unlockTime! > (DateTime.now().millisecondsSinceEpoch / 1000));
 
     // final bool canCallBack = widget.transaction.status == TransactionStatus.Reserved && fromMe && widget.transaction.amount < 0;
-    final bool canCallBack = widget.transaction.status == TransactionStatus.Reserved && fromMe;
+    // final bool canCallBack = widget.transaction.status == TransactionStatus.Reserved && fromMe;
+
+    // final DateTime? callbackUntil = widget.transaction.unlockTime != null ?
 
     return Card(
       margin: widget.compact ? EdgeInsets.zero : const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
@@ -199,6 +201,15 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                                 "Date: ${widget.transaction.parseTimeStamp}",
                                 style: Theme.of(context).textTheme.caption,
                               ),
+                              if (widget.transaction.callbackUntil != null) ...[
+                                const SizedBox(
+                                  height: 4,
+                                ),
+                                Text(
+                                  "Recoverable Until: ${widget.transaction.parseUnlockTimeAsDate}",
+                                  style: Theme.of(context).textTheme.caption,
+                                ),
+                              ],
                             ],
                           )),
                           if (widget.transaction.nftData != null)
@@ -215,38 +226,77 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                                 },
                               ),
                             ),
-                          if (canCallBack) Text("${widget.transaction.unlockTime}"),
+                          // if (canCallBack) Text("${widget.transaction.unlockTime}"),
                           if (canCallBack)
-                            AppButton(
-                              // label: "Callback (${timeago.format(DateTime.fromMillisecondsSinceEpoch((widget.transaction.unlockTime! * 1000).round()), allowFromNow: true)})",
-                              label: "Callback",
-                              variant: AppColorVariant.Warning,
-                              type: AppButtonType.Outlined,
-                              onPressed: () async {
-                                final password = await PromptModal.show(
-                                  title: "Callback Transaction",
-                                  body: "Input your password to callback this transaction.",
-                                  validator: (v) => null,
-                                  lines: 1,
-                                  obscureText: true,
-                                  labelText: "Password",
-                                );
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                AppButton(
+                                  // label: "Callback (${timeago.format(DateTime.fromMillisecondsSinceEpoch((widget.transaction.unlockTime! * 1000).round()), allowFromNow: true)})",
+                                  label: "Recover",
+                                  variant: AppColorVariant.Danger,
+                                  // type: AppButtonType.Outlined,
+                                  onPressed: () async {
+                                    final password = await PromptModal.show(
+                                      title: "Recover Transaction",
+                                      body: "Input your password to recover this transaction. Funds will be sent to the recovery address.",
+                                      validator: (v) => null,
+                                      lines: 1,
+                                      obscureText: true,
+                                      labelText: "Password",
+                                    );
 
-                                if (password != null) {
-                                  final hash = await ReserveAccountService().callBack(password, widget.transaction.hash);
-                                  if (hash != null) {
-                                    final message = "Callback TX sent with hash of $hash";
-                                    Toast.message(message);
-                                    ref.read(logProvider.notifier).append(
-                                          LogEntry(
-                                            message: message,
-                                            textToCopy: hash,
-                                            variant: AppColorVariant.Success,
-                                          ),
-                                        );
-                                  }
-                                }
-                              },
+                                    if (password != null) {
+                                      final hash = await ReserveAccountService().recoverTx(password, widget.transaction.hash);
+                                      if (hash != null) {
+                                        final message = "Recover TX sent with hash of $hash";
+                                        Toast.message(message);
+                                        ref.read(logProvider.notifier).append(
+                                              LogEntry(
+                                                message: message,
+                                                textToCopy: hash,
+                                                variant: AppColorVariant.Success,
+                                              ),
+                                            );
+                                      }
+                                    }
+                                  },
+                                ),
+                                SizedBox(
+                                  width: 6,
+                                ),
+                                AppButton(
+                                  // label: "Callback (${timeago.format(DateTime.fromMillisecondsSinceEpoch((widget.transaction.unlockTime! * 1000).round()), allowFromNow: true)})",
+                                  label: "Callback",
+                                  variant: AppColorVariant.Warning,
+                                  // type: AppButtonType.Outlined,
+                                  onPressed: () async {
+                                    final password = await PromptModal.show(
+                                      title: "Callback Transaction",
+                                      body: "Input your password to callback this transaction.",
+                                      validator: (v) => null,
+                                      lines: 1,
+                                      obscureText: true,
+                                      labelText: "Password",
+                                    );
+
+                                    if (password != null) {
+                                      final hash = await ReserveAccountService().callBack(password, widget.transaction.hash);
+                                      if (hash != null) {
+                                        final message = "Callback TX sent with hash of $hash";
+                                        Toast.message(message);
+                                        ref.read(logProvider.notifier).append(
+                                              LogEntry(
+                                                message: message,
+                                                textToCopy: hash,
+                                                variant: AppColorVariant.Success,
+                                              ),
+                                            );
+                                      }
+                                    }
+                                  },
+                                ),
+                              ],
                             )
                         ],
                       ),

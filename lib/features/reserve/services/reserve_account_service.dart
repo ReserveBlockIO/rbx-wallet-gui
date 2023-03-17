@@ -120,4 +120,19 @@ class ReserveAccountService extends BaseService {
       return null;
     }
   }
+
+  Future<String?> recoverTx(String password, String txHash) async {
+    try {
+      final response = await getText("/RecoverReserveAccountTx/$txHash/$password", cleanPath: false);
+      final data = jsonDecode(response);
+      if (data['Success'] != null && data["Success"] == true) {
+        return data['Hash'];
+      }
+      Toast.error(data['Message']);
+      return null;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 }

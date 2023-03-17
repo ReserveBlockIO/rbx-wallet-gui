@@ -45,7 +45,7 @@ mixin _$Transaction {
   @JsonKey(name: 'Height')
   int get height => throw _privateConstructorUsedError;
   @JsonKey(name: 'UnlockTime')
-  double? get unlockTime => throw _privateConstructorUsedError;
+  int? get unlockTime => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -85,7 +85,7 @@ abstract class $TransactionCopyWith<$Res> {
       @JsonKey(name: 'Height')
           int height,
       @JsonKey(name: 'UnlockTime')
-          double? unlockTime});
+          int? unlockTime});
 }
 
 /// @nodoc
@@ -167,7 +167,7 @@ class _$TransactionCopyWithImpl<$Res, $Val extends Transaction>
       unlockTime: freezed == unlockTime
           ? _value.unlockTime
           : unlockTime // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as int?,
     ) as $Val);
   }
 }
@@ -206,7 +206,7 @@ abstract class _$$_TransactionCopyWith<$Res>
       @JsonKey(name: 'Height')
           int height,
       @JsonKey(name: 'UnlockTime')
-          double? unlockTime});
+          int? unlockTime});
 }
 
 /// @nodoc
@@ -286,7 +286,7 @@ class __$$_TransactionCopyWithImpl<$Res>
       unlockTime: freezed == unlockTime
           ? _value.unlockTime
           : unlockTime // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as int?,
     ));
   }
 }
@@ -351,7 +351,7 @@ class _$_Transaction extends _Transaction {
   final int height;
   @override
   @JsonKey(name: 'UnlockTime')
-  final double? unlockTime;
+  final int? unlockTime;
 
   @override
   String toString() {
@@ -442,7 +442,7 @@ abstract class _Transaction extends Transaction {
       @JsonKey(name: 'Height')
           required final int height,
       @JsonKey(name: 'UnlockTime')
-          final double? unlockTime}) = _$_Transaction;
+          final int? unlockTime}) = _$_Transaction;
   _Transaction._() : super._();
 
   factory _Transaction.fromJson(Map<String, dynamic> json) =
@@ -486,7 +486,7 @@ abstract class _Transaction extends Transaction {
   int get height;
   @override
   @JsonKey(name: 'UnlockTime')
-  double? get unlockTime;
+  int? get unlockTime;
   @override
   @JsonKey(ignore: true)
   _$$_TransactionCopyWith<_$_Transaction> get copyWith =>

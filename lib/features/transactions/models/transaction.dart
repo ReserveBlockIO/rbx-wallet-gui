@@ -39,7 +39,7 @@ class Transaction with _$Transaction {
     @JsonKey(name: 'Data') required dynamic nftData,
     @JsonKey(name: 'Signature') String? signature,
     @JsonKey(name: 'Height') required int height,
-    @JsonKey(name: 'UnlockTime') double? unlockTime,
+    @JsonKey(name: 'UnlockTime') int? unlockTime,
   }) = _Transaction;
 
   factory Transaction.fromJson(Map<String, dynamic> json) => _$TransactionFromJson(json);
@@ -118,5 +118,36 @@ class Transaction with _$Transaction {
 
   Uri get explorerUrl {
     return Uri.parse("${Env.explorerWebsiteBaseUrl}/transaction/$hash");
+  }
+
+  DateTime? get unlockTimeAsDate {
+    if (unlockTime == null) {
+      return null;
+    }
+    return DateTime.fromMillisecondsSinceEpoch(unlockTime! * 1000);
+  }
+
+  DateTime? get callbackUntil {
+    if (unlockTime == null) {
+      return null;
+    }
+
+    final now = DateTime.now();
+
+    if (unlockTimeAsDate!.isBefore(now)) {
+      return null;
+    }
+
+    return unlockTimeAsDate;
+  }
+
+  String get parseUnlockTimeAsDate {
+    if (unlockTime == null) {
+      return "-";
+    }
+
+    var date = DateTime.fromMillisecondsSinceEpoch(unlockTime! * 1000);
+    var d12 = DateFormat('MM-dd-yyyy hh:mm a').format(date);
+    return d12;
   }
 }

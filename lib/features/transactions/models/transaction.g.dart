@@ -20,7 +20,7 @@ _$_Transaction _$$_TransactionFromJson(Map<String, dynamic> json) =>
       nftData: json['Data'],
       signature: json['Signature'] as String?,
       height: json['Height'] as int,
-      unlockTime: (json['UnlockTime'] as num?)?.toDouble(),
+      unlockTime: json['UnlockTime'] as int?,
     );
 
 Map<String, dynamic> _$$_TransactionToJson(_$_Transaction instance) =>
