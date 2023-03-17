@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/features/reserve/providers/reserve_account_provider.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 
@@ -113,9 +114,47 @@ class SendForm extends BaseComponent {
                 dense: isMobile,
                 visualDensity: isMobile ? VisualDensity.compact : VisualDensity.comfortable,
                 leading: isMobile ? null : const SizedBox(width: leadingWidth, child: Text("From:")),
-                title: Text(
-                  isWeb ? "${isMobile ? "From: " : ""}${keypair!.public}" : wallet!.address,
-                  style: TextStyle(color: color),
+                title: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      isWeb ? "${isMobile ? "From: " : ""}${keypair!.public}" : wallet!.address,
+                      style: TextStyle(color: color),
+                    ),
+                    if (!isWeb)
+                      PopupMenuButton(
+                        child: const Icon(Icons.arrow_drop_down, size: 18),
+                        constraints: BoxConstraints(maxWidth: 500),
+                        itemBuilder: (context) {
+                          final currentWallet = ref.watch(sessionProvider).currentWallet;
+                          final allWallets = ref.watch(walletListProvider);
+                          final list = <PopupMenuEntry<int>>[];
+
+                          for (final wallet in allWallets) {
+                            final isSelected = currentWallet != null && wallet.address == currentWallet.address;
+
+                            Color? color = isSelected ? Theme.of(context).colorScheme.secondary : Theme.of(context).textTheme.bodyText1!.color;
+
+                            if (wallet.isReserved) {
+                              color = isSelected ? Theme.of(context).colorScheme.secondary : Colors.deepPurple.shade200;
+                            }
+
+                            list.add(
+                              PopupMenuItem(
+                                child: Text(
+                                  wallet.labelWithoutTruncation,
+                                  style: TextStyle(color: color),
+                                ),
+                                onTap: () {
+                                  ref.read(sessionProvider.notifier).setCurrentWallet(wallet);
+                                },
+                              ),
+                            );
+                          }
+                          return list;
+                        },
+                      )
+                  ],
                 ),
                 subtitle: isWeb ? Text("Balance: $balance RBX") : Text(wallet!.friendlyName ?? ""),
                 trailing: !isWeb
