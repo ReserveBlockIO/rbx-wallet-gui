@@ -62,6 +62,7 @@ abstract class Nft with _$Nft {
     @JsonKey(name: "IsMinter") required bool isMinter,
     @JsonKey(name: "Features", defaultValue: []) required List<Map<String, dynamic>> features,
     @JsonKey(name: "Properties", fromJson: propertiesFromJson) @Default([]) List<ScProperty> properties,
+    @JsonKey(name: "NextOwner") String? nextOwner,
     @JsonKey(defaultValue: false) required bool isProcessing,
     String? code,
     @JsonKey(toJson: nullToNull, fromJson: nullToNull) ProxiedAsset? proxiedAsset,

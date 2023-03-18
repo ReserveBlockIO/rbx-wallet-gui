@@ -166,9 +166,7 @@ class NftDetailScreen extends BaseScreen {
                         child: ListTile(
                           contentPadding: EdgeInsets.zero,
                           title: Text(nft.currentOwner,
-                              style: const TextStyle(
-                                fontSize: 13,
-                              )),
+                              style: TextStyle(fontSize: 13, color: nft.currentOwner.startsWith("xRBX") ? Colors.deepPurple.shade200 : Colors.white)),
                           subtitle: const Text(
                             "Owner",
                           ),
@@ -222,7 +220,7 @@ class NftDetailScreen extends BaseScreen {
                                           : buildAssetsNotAvailable(_provider)
                                       : AssetCard(
                                           nft.currentEvolveAsset,
-                                          ownerAddress: nft.currentOwner,
+                                          ownerAddress: nft.nextOwner ?? nft.currentOwner,
                                           nftId: nft.id,
                                         ),
                                   if (nft.additionalAssets.isNotEmpty)
@@ -261,7 +259,7 @@ class NftDetailScreen extends BaseScreen {
                                                               child: AssetThumbnail(
                                                                 a,
                                                                 nftId: nft.id,
-                                                                ownerAddress: nft.currentOwner,
+                                                                ownerAddress: nft.nextOwner ?? nft.currentOwner,
                                                               ),
                                                             ),
                                                           )

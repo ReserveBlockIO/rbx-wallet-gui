@@ -165,10 +165,11 @@ class ReserveAccountService extends BaseService {
       final response = await postJson(url, timeout: 0, params: params, inspect: true, cleanPath: false);
       final data = response['data'];
 
-      if (data['Result'] == "Success") {
+      if (data['Success'] == true) {
         Toast.message(data['Message'] ?? 'Success: NFT Transfer has been started.');
         return true;
       }
+
       Toast.error(data['Message']);
       return false;
     } catch (e) {
