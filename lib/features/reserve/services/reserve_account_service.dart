@@ -135,4 +135,71 @@ class ReserveAccountService extends BaseService {
       return null;
     }
   }
+
+  Future<String?> transferFromReserveAccount({
+    required String id,
+    required String toAddress,
+    required String fromAddress,
+    required String password,
+    required int delayHours,
+    String? backupUrl,
+  }) async {
+    try {
+      const url = "/ReserveTransferNFT";
+      final params = {
+        'FromAddress': fromAddress,
+        'ToAddress': toAddress,
+        'DecryptPassword': password,
+        'UnlockDelayHours': delayHours - 24,
+        'SmartContractUID': id,
+      };
+
+      if (backupUrl != null && backupUrl.isNotEmpty) {
+        params['BackupURL'] = backupUrl;
+      }
+
+      print("**********");
+      print(jsonEncode(params));
+      print("**********");
+
+      final response = await postJson(url, timeout: 0, inspect: true, cleanPath: false);
+      final data = response['data'];
+      print(data);
+
+      if (data.isEmpty) {
+        print("No response on transfer API call ($url)");
+        return "No response on transfer API call";
+      }
+
+      if (data.containsKey("Result") && data['Result'] == "Success") {
+        return null;
+      }
+      if (data.containsKey("Message") && data['Message'].toString().isNotEmpty) {
+        return data['Message'];
+      }
+      return "A problem occurred";
+    } catch (e) {
+      print(e);
+      return e.toString();
+    }
+  }
+
+  Future<bool> downloadAssets(String scId, String address, String password) async {
+    try {
+      final response = await getText("/GetReserveAccountNFTAssets/$scId/$address/$password", cleanPath: false, inspect: true);
+      final data = jsonDecode(response);
+
+      if (data['Success'] == true) {
+        Toast.message(data['Message']);
+        return true;
+      }
+
+      Toast.error(data['Message']);
+      return false;
+    } catch (e) {
+      print(e);
+      Toast.error("A problem occurred");
+      return false;
+    }
+  }
 }

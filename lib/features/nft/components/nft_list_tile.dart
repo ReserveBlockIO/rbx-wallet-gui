@@ -63,34 +63,37 @@ class NftListTile extends BaseComponent {
                 }),
       title: Text("${nft.currentEvolveName}${isBurned ? ' (Burned)' : ''}"),
       subtitle: Text(nft.id),
-      leading: Stack(
-        children: [
-          Builder(
-            builder: (context) {
-              if (nft.currentEvolveAsset.isImage) {
-                if (nft.currentEvolveAsset.localPath == null) {
-                  return const SizedBox(
+      leading: SizedBox(
+        height: 32,
+        child: Stack(
+          children: [
+            Builder(
+              builder: (context) {
+                if (nft.currentEvolveAsset.isImage) {
+                  if (nft.currentEvolveAsset.localPath == null) {
+                    return const SizedBox(
+                      width: 32,
+                      height: 32,
+                    );
+                  }
+
+                  return SizedBox(
                     width: 32,
                     height: 32,
+                    child: PollingImagePreview(
+                      localPath: nft.currentEvolveAsset.localPath!,
+                      expectedSize: nft.currentEvolveAsset.fileSize,
+                      withProgress: false,
+                    ),
                   );
                 }
-
-                return SizedBox(
-                  width: 32,
-                  height: 32,
-                  child: PollingImagePreview(
-                    localPath: nft.currentEvolveAsset.localPath!,
-                    expectedSize: nft.currentEvolveAsset.fileSize,
-                    withProgress: false,
-                  ),
-                );
-              }
-              return const Icon(Icons.file_present_outlined);
-            },
-          ),
-          if (isTransferred && !manageOnPress && onPressedOverride == null) TransferingOverlay(nft, small: true)
-          // TransferingOverlay(nft, small: true)
-        ],
+                return const Icon(Icons.file_present_outlined);
+              },
+            ),
+            if (isTransferred && !manageOnPress && onPressedOverride == null) TransferingOverlay(nft, small: true)
+            // TransferingOverlay(nft, small: true)
+          ],
+        ),
       ),
       trailing: const Icon(Icons.chevron_right),
     );

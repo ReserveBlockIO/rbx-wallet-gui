@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/providers/web_session_provider.dart';
@@ -124,6 +125,31 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     // if (!canTransact()) return false;
     ref.read(globalLoadingProvider.notifier).start();
     final error = await SmartContractService().transfer(id, address, url);
+    ref.read(globalLoadingProvider.notifier).complete();
+    if (error == null) {
+      ref.read(transferredProvider.notifier).addId(id);
+    }
+    return error;
+  }
+
+  Future<String?> transferFromReserveAccount({
+    required String toAddress,
+    required String fromAddress,
+    required String password,
+    required int delayHours,
+    String? backupUrl,
+  }) async {
+    // if (!canTransact()) return false;
+    print("HERE");
+    ref.read(globalLoadingProvider.notifier).start();
+    final error = await ReserveAccountService().transferFromReserveAccount(
+      id: id,
+      fromAddress: fromAddress,
+      toAddress: toAddress,
+      password: password,
+      delayHours: delayHours,
+      backupUrl: backupUrl,
+    );
     ref.read(globalLoadingProvider.notifier).complete();
     if (error == null) {
       ref.read(transferredProvider.notifier).addId(id);

@@ -145,6 +145,7 @@ class BaseService {
     bool responseIsJson = false,
     int timeout = 30000,
     bool inspect = false,
+    bool cleanPath = true,
   }) async {
     try {
       final dio = Dio(_options(auth: auth, json: true, timeout: timeout));
@@ -158,7 +159,7 @@ class BaseService {
         NetworkInspector.attach(dio);
       }
       var response = await dio.post(
-        _cleanPath(path),
+        cleanPath ? _cleanPath(path) : path,
         data: params,
       );
 

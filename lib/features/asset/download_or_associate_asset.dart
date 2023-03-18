@@ -3,6 +3,9 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../core/components/buttons.dart';
 import '../nft/providers/minted_nft_list_provider.dart';
@@ -14,11 +17,13 @@ class DownloadOrAssociate extends StatefulWidget {
   final Asset asset;
   final String nftId;
   final Function() onComplete;
+  final String ownerAddress;
   const DownloadOrAssociate({
     Key? key,
     required this.asset,
     required this.nftId,
     required this.onComplete,
+    required this.ownerAddress,
   }) : super(key: key);
 
   @override
@@ -60,6 +65,41 @@ class _DownloadOrAssociateState extends State<DownloadOrAssociate> {
     }
 
     return Consumer(builder: (context, ref, _) {
+      if (widget.ownerAddress.startsWith("xRBX")) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(
+              "Since this is a Reserve Account you'll need to authorize the download.",
+              style: TextStyle(color: Colors.deepPurple.shade200),
+            ),
+            const SizedBox(
+              height: 6,
+            ),
+            AppButton(
+              label: "Authorize Now",
+              onPressed: () async {
+                final password = await PromptModal.show(
+                  title: "Reserve Account Password",
+                  validator: (_) => null,
+                  labelText: "Password",
+                  lines: 1,
+                  obscureText: true,
+                );
+                if (password == null) {
+                  return;
+                }
+                final success = await ReserveAccountService().downloadAssets(widget.nftId, widget.ownerAddress, password);
+
+                if (!success) {
+                  Toast.error();
+                  return;
+                }
+              },
+            )
+          ]),
+        );
+      }
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Column(

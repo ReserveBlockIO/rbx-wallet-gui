@@ -142,7 +142,7 @@ class SmartContractService extends BaseService {
   Future<String?> transfer(String id, String address, String? backupUrl) async {
     try {
       final url = backupUrl != null && backupUrl.isNotEmpty ? "/TransferNFT/$id/$address/$backupUrl" : "/TransferNFT/$id/$address";
-      final text = await getText(url, timeout: 0);
+      final text = await getText(url, timeout: 0, inspect: true);
 
       if (text.isEmpty) {
         print("No response on transfer API call ($url)");

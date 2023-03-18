@@ -222,6 +222,7 @@ class NftDetailScreen extends BaseScreen {
                                           : buildAssetsNotAvailable(_provider)
                                       : AssetCard(
                                           nft.currentEvolveAsset,
+                                          ownerAddress: nft.currentOwner,
                                           nftId: nft.id,
                                         ),
                                   if (nft.additionalAssets.isNotEmpty)
@@ -260,6 +261,7 @@ class NftDetailScreen extends BaseScreen {
                                                               child: AssetThumbnail(
                                                                 a,
                                                                 nftId: nft.id,
+                                                                ownerAddress: nft.currentOwner,
                                                               ),
                                                             ),
                                                           )
@@ -405,6 +407,10 @@ class NftDetailScreen extends BaseScreen {
                     icon: Icons.send,
                     onPressed: nft.isPublished
                         ? () async {
+                            String? reservePassword;
+                            int? delayHours;
+                            String? fromAddress;
+
                             if (!kIsWeb) {
                               if (!await passwordRequiredGuard(context, ref)) {
                                 return;
@@ -414,6 +420,8 @@ class NftDetailScreen extends BaseScreen {
                                 Toast.error("No wallet selected");
                                 return;
                               }
+
+                              fromAddress = wallet.address;
 
                               if (wallet.balance < MIN_RBX_FOR_SC_ACTION) {
                                 Toast.error("Not enough balance for transaction");
@@ -427,6 +435,31 @@ class NftDetailScreen extends BaseScreen {
                               if (!filesReady) {
                                 Toast.error("Media files not found on this machine.");
                                 return;
+                              }
+                              if (wallet.isReserved) {
+                                reservePassword = await PromptModal.show(
+                                  title: "Reserve Account Password",
+                                  validator: (_) => null,
+                                  labelText: "Password",
+                                  lines: 1,
+                                  obscureText: true,
+                                );
+                                if (reservePassword == null) {
+                                  return;
+                                }
+
+                                final hoursString = await PromptModal.show(
+                                  title: "Timelock Duration",
+                                  validator: (_) => null,
+                                  labelText: "Hours (24 Minimum)",
+                                  initialValue: "24",
+                                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                );
+
+                                delayHours = (hoursString != null ? int.tryParse(hoursString) : 24) ?? 24;
+                                if (delayHours < 24) {
+                                  delayHours = 24;
+                                }
                               }
                             }
 
@@ -481,8 +514,19 @@ class NftDetailScreen extends BaseScreen {
                                         confirmText: "Send",
                                       );
 
+                                      print("password: $reservePassword");
+                                      print("-------------");
+
                                       if (confirmed == true) {
-                                        final error = await _provider.transfer(address, url);
+                                        final error = reservePassword != null
+                                            ? await _provider.transferFromReserveAccount(
+                                                toAddress: address,
+                                                fromAddress: fromAddress!,
+                                                password: reservePassword,
+                                                backupUrl: url,
+                                                delayHours: delayHours!)
+                                            : await _provider.transfer(address, url);
+
                                         if (error != null) {
                                           Toast.error(error);
                                           return;
