@@ -90,19 +90,7 @@ class _DownloadOrAssociateState extends State<DownloadOrAssociate> {
                 if (password == null) {
                   return;
                 }
-                final success = await ReserveAccountService().downloadAssets(widget.nftId, widget.ownerAddress, password);
-
-                if (!success) {
-                  final address = await PromptModal.show(
-                      title: "Your RBX Address", validator: (val) => formValidatorNotEmpty(val, "Address"), labelText: "RBX Address");
-                  // Toast.error();
-                  if (address == null || address.isEmpty) {
-                    return;
-                  }
-                  final success2 = await ReserveAccountService().downloadAssets(widget.nftId, address, password);
-
-                  return;
-                }
+                await ReserveAccountService().downloadAssets(widget.nftId, widget.ownerAddress, password);
               },
             )
           ]),

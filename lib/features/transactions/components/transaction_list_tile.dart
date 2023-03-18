@@ -50,7 +50,7 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
 
     final bool canCallBack = widget.transaction.status == TransactionStatus.Reserved &&
         fromMe &&
-        widget.transaction.amount < 0 &&
+        widget.transaction.amount <= 0 &&
         (widget.transaction.unlockTime != null && widget.transaction.unlockTime! > (DateTime.now().millisecondsSinceEpoch / 1000));
 
     // final bool canCallBack = widget.transaction.status == TransactionStatus.Reserved && fromMe && widget.transaction.amount < 0;
@@ -219,24 +219,24 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                             ],
                           )),
                           if (widget.transaction.nftData != null)
-                            Padding(
-                              padding: const EdgeInsets.only(top: 6.0),
-                              child: AppButton(
-                                label: "View Data",
-                                onPressed: () {
-                                  showModalBottomSheet(
-                                      context: context,
-                                      builder: (context) {
-                                        return NftDataModal(widget.transaction.nftData);
-                                      });
-                                },
-                              ),
+                            AppButton(
+                              label: "View Data",
+                              onPressed: () {
+                                showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) {
+                                      return NftDataModal(widget.transaction.nftData);
+                                    });
+                              },
                             ),
                           // if (canCallBack) Text("${widget.transaction.unlockTime}"),
                           if (canCallBack)
                             Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
+                                SizedBox(
+                                  width: 6,
+                                ),
                                 AppButton(
                                   // label: "Callback (${timeago.format(DateTime.fromMillisecondsSinceEpoch((widget.transaction.unlockTime! * 1000).round()), allowFromNow: true)})",
                                   label: "Recover",
@@ -281,7 +281,7 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                                     final password = await PromptModal.show(
                                       title: "Callback Transaction",
                                       body:
-                                          " Callbacks can be used to return the funds/assets to the same account for escrow purposes. Input your password to callback this transaction.",
+                                          "Callbacks can be used to return the funds/assets to the same account for escrow purposes. Input your password to callback this transaction.",
                                       validator: (v) => null,
                                       lines: 1,
                                       obscureText: true,

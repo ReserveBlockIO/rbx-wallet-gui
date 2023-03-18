@@ -223,6 +223,21 @@ class NftDetailScreen extends BaseScreen {
                       ),
                   ],
                 ),
+                if (nft.nextOwner != null && nft.nextOwner!.isNotEmpty)
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(nft.nextOwner!,
+                        style: TextStyle(fontSize: 13, color: nft.nextOwner!.startsWith("xRBX") ? Colors.deepPurple.shade200 : Colors.white)),
+                    subtitle: const Text(
+                      "Next Owner",
+                    ),
+                    leading: IconButton(
+                      icon: const Icon(Icons.copy),
+                      onPressed: () {
+                        copyToClipboard(nft.nextOwner!);
+                      },
+                    ),
+                  ),
                 const Divider(),
                 Wrap(
                   children: [
