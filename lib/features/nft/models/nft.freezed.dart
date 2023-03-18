@@ -46,6 +46,8 @@ mixin _$Nft {
   List<ScProperty> get properties => throw _privateConstructorUsedError;
   @JsonKey(name: "NextOwner")
   String? get nextOwner => throw _privateConstructorUsedError;
+  @JsonKey(name: "IsLocked")
+  bool get isLocked => throw _privateConstructorUsedError;
   @JsonKey(defaultValue: false)
   bool get isProcessing => throw _privateConstructorUsedError;
   String? get code => throw _privateConstructorUsedError;
@@ -99,6 +101,8 @@ abstract class $NftCopyWith<$Res> {
           List<ScProperty> properties,
       @JsonKey(name: "NextOwner")
           String? nextOwner,
+      @JsonKey(name: "IsLocked")
+          bool isLocked,
       @JsonKey(defaultValue: false)
           bool isProcessing,
       String? code,
@@ -142,6 +146,7 @@ class _$NftCopyWithImpl<$Res, $Val extends Nft> implements $NftCopyWith<$Res> {
     Object? features = null,
     Object? properties = null,
     Object? nextOwner = freezed,
+    Object? isLocked = null,
     Object? isProcessing = null,
     Object? code = freezed,
     Object? proxiedAsset = freezed,
@@ -203,6 +208,10 @@ class _$NftCopyWithImpl<$Res, $Val extends Nft> implements $NftCopyWith<$Res> {
           ? _value.nextOwner
           : nextOwner // ignore: cast_nullable_to_non_nullable
               as String?,
+      isLocked: null == isLocked
+          ? _value.isLocked
+          : isLocked // ignore: cast_nullable_to_non_nullable
+              as bool,
       isProcessing: null == isProcessing
           ? _value.isProcessing
           : isProcessing // ignore: cast_nullable_to_non_nullable
@@ -288,6 +297,8 @@ abstract class _$$_NftCopyWith<$Res> implements $NftCopyWith<$Res> {
           List<ScProperty> properties,
       @JsonKey(name: "NextOwner")
           String? nextOwner,
+      @JsonKey(name: "IsLocked")
+          bool isLocked,
       @JsonKey(defaultValue: false)
           bool isProcessing,
       String? code,
@@ -330,6 +341,7 @@ class __$$_NftCopyWithImpl<$Res> extends _$NftCopyWithImpl<$Res, _$_Nft>
     Object? features = null,
     Object? properties = null,
     Object? nextOwner = freezed,
+    Object? isLocked = null,
     Object? isProcessing = null,
     Object? code = freezed,
     Object? proxiedAsset = freezed,
@@ -391,6 +403,10 @@ class __$$_NftCopyWithImpl<$Res> extends _$NftCopyWithImpl<$Res, _$_Nft>
           ? _value.nextOwner
           : nextOwner // ignore: cast_nullable_to_non_nullable
               as String?,
+      isLocked: null == isLocked
+          ? _value.isLocked
+          : isLocked // ignore: cast_nullable_to_non_nullable
+              as bool,
       isProcessing: null == isProcessing
           ? _value.isProcessing
           : isProcessing // ignore: cast_nullable_to_non_nullable
@@ -454,6 +470,8 @@ class _$_Nft extends _Nft {
           final List<ScProperty> properties = const [],
       @JsonKey(name: "NextOwner")
           this.nextOwner,
+      @JsonKey(name: "IsLocked")
+          this.isLocked = false,
       @JsonKey(defaultValue: false)
           required this.isProcessing,
       this.code,
@@ -528,6 +546,9 @@ class _$_Nft extends _Nft {
   @JsonKey(name: "NextOwner")
   final String? nextOwner;
   @override
+  @JsonKey(name: "IsLocked")
+  final bool isLocked;
+  @override
   @JsonKey(defaultValue: false)
   final bool isProcessing;
   @override
@@ -573,7 +594,7 @@ class _$_Nft extends _Nft {
 
   @override
   String toString() {
-    return 'Nft(name: $name, description: $description, currentOwner: $currentOwner, minterAddress: $minterAddress, minterName: $minterName, id: $id, primaryAsset: $primaryAsset, isPublic: $isPublic, isPublished: $isPublished, isMinter: $isMinter, features: $features, properties: $properties, nextOwner: $nextOwner, isProcessing: $isProcessing, code: $code, proxiedAsset: $proxiedAsset, additionalProxiedAssets: $additionalProxiedAssets, additionalLocalAssets: $additionalLocalAssets, updatedEvolutionPhases: $updatedEvolutionPhases, assetsAvailable: $assetsAvailable)';
+    return 'Nft(name: $name, description: $description, currentOwner: $currentOwner, minterAddress: $minterAddress, minterName: $minterName, id: $id, primaryAsset: $primaryAsset, isPublic: $isPublic, isPublished: $isPublished, isMinter: $isMinter, features: $features, properties: $properties, nextOwner: $nextOwner, isLocked: $isLocked, isProcessing: $isProcessing, code: $code, proxiedAsset: $proxiedAsset, additionalProxiedAssets: $additionalProxiedAssets, additionalLocalAssets: $additionalLocalAssets, updatedEvolutionPhases: $updatedEvolutionPhases, assetsAvailable: $assetsAvailable)';
   }
 
   @override
@@ -604,6 +625,8 @@ class _$_Nft extends _Nft {
                 .equals(other._properties, _properties) &&
             (identical(other.nextOwner, nextOwner) ||
                 other.nextOwner == nextOwner) &&
+            (identical(other.isLocked, isLocked) ||
+                other.isLocked == isLocked) &&
             (identical(other.isProcessing, isProcessing) ||
                 other.isProcessing == isProcessing) &&
             (identical(other.code, code) || other.code == code) &&
@@ -636,6 +659,7 @@ class _$_Nft extends _Nft {
         const DeepCollectionEquality().hash(_features),
         const DeepCollectionEquality().hash(_properties),
         nextOwner,
+        isLocked,
         isProcessing,
         code,
         proxiedAsset,
@@ -687,6 +711,8 @@ abstract class _Nft extends Nft {
           final List<ScProperty> properties,
       @JsonKey(name: "NextOwner")
           final String? nextOwner,
+      @JsonKey(name: "IsLocked")
+          final bool isLocked,
       @JsonKey(defaultValue: false)
           required final bool isProcessing,
       final String? code,
@@ -743,6 +769,9 @@ abstract class _Nft extends Nft {
   @override
   @JsonKey(name: "NextOwner")
   String? get nextOwner;
+  @override
+  @JsonKey(name: "IsLocked")
+  bool get isLocked;
   @override
   @JsonKey(defaultValue: false)
   bool get isProcessing;
