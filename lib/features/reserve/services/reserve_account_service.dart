@@ -136,7 +136,7 @@ class ReserveAccountService extends BaseService {
     }
   }
 
-  Future<String?> transferFromReserveAccount({
+  Future<bool> transferFromReserveAccount({
     required String id,
     required String toAddress,
     required String fromAddress,
@@ -162,25 +162,19 @@ class ReserveAccountService extends BaseService {
       print(jsonEncode(params));
       print("**********");
 
-      final response = await postJson(url, timeout: 0, inspect: true, cleanPath: false);
+      final response = await postJson(url, timeout: 0, params: params, inspect: true, cleanPath: false);
       final data = response['data'];
-      print(data);
 
-      if (data.isEmpty) {
-        print("No response on transfer API call ($url)");
-        return "No response on transfer API call";
+      if (data['Result'] == "Success") {
+        Toast.message(data['Message'] ?? 'Success: NFT Transfer has been started.');
+        return true;
       }
-
-      if (data.containsKey("Result") && data['Result'] == "Success") {
-        return null;
-      }
-      if (data.containsKey("Message") && data['Message'].toString().isNotEmpty) {
-        return data['Message'];
-      }
-      return "A problem occurred";
+      Toast.error(data['Message']);
+      return false;
     } catch (e) {
       print(e);
-      return e.toString();
+      Toast.error(e.toString());
+      return false;
     }
   }
 

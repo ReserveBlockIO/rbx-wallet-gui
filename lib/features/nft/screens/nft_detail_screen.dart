@@ -514,11 +514,8 @@ class NftDetailScreen extends BaseScreen {
                                         confirmText: "Send",
                                       );
 
-                                      print("password: $reservePassword");
-                                      print("-------------");
-
                                       if (confirmed == true) {
-                                        final error = reservePassword != null
+                                        final success = reservePassword != null
                                             ? await _provider.transferFromReserveAccount(
                                                 toAddress: address,
                                                 fromAddress: fromAddress!,
@@ -527,22 +524,18 @@ class NftDetailScreen extends BaseScreen {
                                                 delayHours: delayHours!)
                                             : await _provider.transfer(address, url);
 
-                                        if (error != null) {
-                                          Toast.error(error);
+                                        if (!success) {
                                           return;
                                         }
-                                        success = error == null;
-                                        if (success == true) {
-                                          Toast.message("NFT Transfer TX sent.");
-                                          await InfoDialog.show(
-                                            title: "Transfer in Progress",
-                                            body:
-                                                "Please ensure to keep your wallet open until this NFT transfer transaction appears in your transaction list.\n\nTo monitor the asset transfer progress, open your 'nftlog.txt' in your databases folder.",
-                                            closeText: "Okay",
-                                          );
 
-                                          Navigator.of(context).pop();
-                                        }
+                                        await InfoDialog.show(
+                                          title: "Transfer in Progress",
+                                          body:
+                                              "Please ensure to keep your wallet open until this NFT transfer transaction appears in your transaction list.\n\nTo monitor the asset transfer progress, open your 'nftlog.txt' in your databases folder.",
+                                          closeText: "Okay",
+                                        );
+
+                                        Navigator.of(context).pop();
                                       }
                                     },
                                   );

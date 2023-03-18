@@ -121,18 +121,19 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     return true;
   }
 
-  Future<String?> transfer(String address, String? url) async {
+  Future<bool> transfer(String address, String? url) async {
     // if (!canTransact()) return false;
     ref.read(globalLoadingProvider.notifier).start();
-    final error = await SmartContractService().transfer(id, address, url);
+    final success = await SmartContractService().transfer(id, address, url);
     ref.read(globalLoadingProvider.notifier).complete();
-    if (error == null) {
+    if (success) {
       ref.read(transferredProvider.notifier).addId(id);
+      return true;
     }
-    return error;
+    return false;
   }
 
-  Future<String?> transferFromReserveAccount({
+  Future<bool> transferFromReserveAccount({
     required String toAddress,
     required String fromAddress,
     required String password,
@@ -140,9 +141,8 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     String? backupUrl,
   }) async {
     // if (!canTransact()) return false;
-    print("HERE");
     ref.read(globalLoadingProvider.notifier).start();
-    final error = await ReserveAccountService().transferFromReserveAccount(
+    final success = await ReserveAccountService().transferFromReserveAccount(
       id: id,
       fromAddress: fromAddress,
       toAddress: toAddress,
@@ -151,10 +151,12 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       backupUrl: backupUrl,
     );
     ref.read(globalLoadingProvider.notifier).complete();
-    if (error == null) {
+
+    if (success) {
       ref.read(transferredProvider.notifier).addId(id);
+      return true;
     }
-    return error;
+    return false;
   }
 
   static bool _txResponseIsValid(Map<String, dynamic>? data) {
