@@ -20,9 +20,9 @@ _$_Wallet _$$_WalletFromJson(Map<String, dynamic> json) => _$_Wallet(
       recoveryEncryptedDecryptKey:
           json['RecoveryEncryptedDecryptKey'] as String?,
       encryptedDecryptKey: json['EncryptedDecryptKey'] as String?,
-      availableBalance: (json['AvailableBalance'] as num?)?.toDouble(),
-      lockedBalance: (json['LockedBalance'] as num?)?.toDouble(),
-      totalBalance: (json['TotalBalance'] as num?)?.toDouble(),
+      availableBalance: (json['AvailableBalance'] as num?)?.toDouble() ?? 0.0,
+      lockedBalance: (json['LockedBalance'] as num?)?.toDouble() ?? 0.0,
+      totalBalance: (json['TotalBalance'] as num?)?.toDouble() ?? 0.0,
       isNetworkProtected: json['IsNetworkProtected'] as bool? ?? false,
     );
 

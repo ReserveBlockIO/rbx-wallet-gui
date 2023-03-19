@@ -88,7 +88,7 @@ class ManageWalletBottomSheet extends BaseComponent {
                                           " [${wallet.balance} RBX]",
                                           style: TextStyle(color: color),
                                         ),
-                                  if (wallet.isReserved)
+                                  if (wallet.isReserved || wallet.lockedBalance > 0)
                                     Padding(
                                       padding: const EdgeInsets.only(left: 6.0),
                                       child: InkWell(

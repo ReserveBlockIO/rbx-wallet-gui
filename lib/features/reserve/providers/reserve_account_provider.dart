@@ -10,7 +10,6 @@ import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
 import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
-import 'package:rbx_wallet/features/encrypt/utils.dart';
 import 'package:rbx_wallet/features/reserve/models/new_reserve_account.dart';
 import 'package:rbx_wallet/features/reserve/providers/pending_activation_provider.dart';
 import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
@@ -19,6 +18,7 @@ import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
+import '../components/balance_indicator.dart';
 
 class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
   final Ref ref;
@@ -191,23 +191,63 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
   }
 
   void showBalanceInfo(Wallet wallet) {
-    if (!wallet.isReserved) {
-      return;
+    if (wallet.isReserved) {
+      InfoDialog.show(
+        title: "Reserve Account Balance",
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            BalanceIndicator(
+              label: "Available",
+              value: wallet!.availableBalance,
+              bgColor: Colors.deepPurple.shade400,
+              fgColor: Colors.white,
+            ),
+            BalanceIndicator(
+              label: "Locked",
+              value: wallet!.lockedBalance,
+              bgColor: Colors.red.shade700,
+              fgColor: Colors.white,
+            ),
+            BalanceIndicator(
+              label: "Total",
+              value: wallet!.totalBalance,
+              bgColor: Colors.green.shade700,
+              fgColor: Colors.white,
+            ),
+          ],
+        ),
+      );
+    } else {
+      InfoDialog.show(
+        title: "Account Balance",
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            BalanceIndicator(
+              label: "Available",
+              value: wallet.balance,
+              bgColor: Colors.deepPurple.shade400,
+              fgColor: Colors.white,
+            ),
+            BalanceIndicator(
+              label: "Locked",
+              value: wallet.lockedBalance,
+              bgColor: Colors.red.shade700,
+              fgColor: Colors.white,
+            ),
+            BalanceIndicator(
+              label: "Total",
+              value: wallet.balance + wallet.lockedBalance,
+              bgColor: Colors.green.shade700,
+              fgColor: Colors.white,
+            ),
+          ],
+        ),
+      );
     }
-    InfoDialog.show(
-      title: "Reserve Account Balance",
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("Available: ${wallet.availableBalance} RBX"),
-          Divider(),
-          Text("Locked: ${wallet.lockedBalance} RBX"),
-          Divider(),
-          Text("Total: ${wallet.totalBalance} RBX"),
-        ],
-      ),
-    );
   }
 
   Future<void> activate(Wallet wallet) async {

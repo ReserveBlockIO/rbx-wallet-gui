@@ -23,9 +23,9 @@ class Wallet with _$Wallet {
     @JsonKey(name: "RecoveryPrivateKey") String? recoveryPrivateKey,
     @JsonKey(name: "RecoveryEncryptedDecryptKey") String? recoveryEncryptedDecryptKey,
     @JsonKey(name: "EncryptedDecryptKey") String? encryptedDecryptKey,
-    @JsonKey(name: "AvailableBalance") double? availableBalance,
-    @JsonKey(name: "LockedBalance") double? lockedBalance,
-    @JsonKey(name: "TotalBalance") double? totalBalance,
+    @JsonKey(name: "AvailableBalance") @Default(0.0) double availableBalance,
+    @JsonKey(name: "LockedBalance") @Default(0.0) double lockedBalance,
+    @JsonKey(name: "TotalBalance") @Default(0.0) double totalBalance,
     @JsonKey(name: "IsNetworkProtected") @Default(false) bool isNetworkProtected,
 
     // @Default(false) bool adnrPending,

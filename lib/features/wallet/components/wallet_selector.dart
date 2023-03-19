@@ -57,11 +57,14 @@ class WalletSelector extends BaseComponent {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(currentWallet != null
-                      ? truncatedLabel
-                          ? currentWallet.label
-                          : currentWallet.labelWithoutTruncation
-                      : "Wallet"),
+                  Text(
+                    currentWallet != null
+                        ? truncatedLabel
+                            ? currentWallet.label
+                            : currentWallet.labelWithoutTruncation
+                        : "Wallet",
+                    style: TextStyle(color: currentWallet != null && currentWallet.isReserved ? Colors.deepPurple.shade200 : Colors.white),
+                  ),
                   const Icon(Icons.arrow_drop_down, size: 18),
                 ],
               ),

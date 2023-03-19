@@ -19,6 +19,7 @@ import '../../../utils/toast.dart';
 import '../../encrypt/utils.dart';
 import '../../keygen/models/keypair.dart';
 import '../../wallet/models/wallet.dart';
+import '../../reserve/components/balance_indicator.dart';
 import '../providers/send_form_provider.dart';
 
 class SendForm extends BaseComponent {
@@ -110,141 +111,136 @@ class SendForm extends BaseComponent {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ListTile(
-                dense: isMobile,
-                visualDensity: isMobile ? VisualDensity.compact : VisualDensity.comfortable,
-                leading: isMobile ? null : const SizedBox(width: leadingWidth, child: Text("From:")),
-                title: Row(
-                  mainAxisSize: MainAxisSize.min,
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
                   children: [
-                    Text(
-                      isWeb ? "${isMobile ? "From: " : ""}${keypair!.public}" : wallet!.address,
-                      style: TextStyle(color: color),
+                    SizedBox(
+                      width: 72,
+                      child: Text("From:"),
                     ),
-                    if (!isWeb)
-                      PopupMenuButton(
-                        child: const Icon(Icons.arrow_drop_down, size: 18),
-                        constraints: BoxConstraints(maxWidth: 500),
-                        itemBuilder: (context) {
-                          final currentWallet = ref.watch(sessionProvider).currentWallet;
-                          final allWallets = ref.watch(walletListProvider);
-                          final list = <PopupMenuEntry<int>>[];
-
-                          for (final wallet in allWallets) {
-                            final isSelected = currentWallet != null && wallet.address == currentWallet.address;
-
-                            final color = wallet.isReserved ? Colors.deepPurple.shade200 : Theme.of(context).textTheme.bodyText1!.color!;
-
-                            list.add(
-                              PopupMenuItem(
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    if (isSelected)
-                                      Padding(
-                                        padding: const EdgeInsets.only(right: 4.0),
-                                        child: Icon(Icons.check),
-                                      ),
-                                    Text(
-                                      wallet.labelWithoutTruncation,
-                                      style: TextStyle(color: color),
-                                    ),
-                                  ],
-                                ),
-                                onTap: () {
-                                  ref.read(sessionProvider.notifier).setCurrentWallet(wallet);
-                                },
-                              ),
-                            );
-                          }
-                          return list;
-                        },
-                      )
-                  ],
-                ),
-                subtitle: isWeb ? Text("Balance: $balance RBX") : Text(wallet!.friendlyName ?? ""),
-                trailing: !isWeb
-                    ? Row(
+                    Expanded(
+                      child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          if (!wallet!.isReserved)
-                            AppBadge(
-                              label: "$balance RBX",
-                              variant: AppColorVariant.Light,
+                          if (isWeb)
+                            Text(
+                              "${isMobile ? "From: " : ""}${keypair!.public}",
+                              style: TextStyle(color: color, fontSize: 16),
                             ),
-                          if (wallet!.isReserved)
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 4),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      AppBadge(
-                                        label: "${wallet!.availableBalance} RBX",
-                                        variant: AppColorVariant.Light,
-                                      ),
-                                      SizedBox(height: 2),
-                                      Row(
+                          if (!isWeb)
+                            PopupMenuButton(
+                              constraints: BoxConstraints(maxWidth: 500),
+                              itemBuilder: (context) {
+                                final currentWallet = ref.watch(sessionProvider).currentWallet;
+                                final allWallets = ref.watch(walletListProvider);
+                                final list = <PopupMenuEntry<int>>[];
+
+                                for (final wallet in allWallets) {
+                                  final isSelected = currentWallet != null && wallet.address == currentWallet.address;
+
+                                  final color = wallet.isReserved ? Colors.deepPurple.shade200 : Theme.of(context).textTheme.bodyText1!.color!;
+
+                                  list.add(
+                                    PopupMenuItem(
+                                      child: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          Text(
-                                            "Available",
-                                            style: Theme.of(context).textTheme.caption,
-                                          ),
-                                          InkWell(
-                                            onTap: () {
-                                              ref.read(reserveAccountProvider.notifier).showBalanceInfo(wallet!);
-                                            },
-                                            child: Icon(
-                                              Icons.help,
-                                              size: 14,
-                                              color: Theme.of(context).colorScheme.secondary,
+                                          if (isSelected)
+                                            Padding(
+                                              padding: const EdgeInsets.only(right: 4.0),
+                                              child: Icon(Icons.check),
                                             ),
-                                          )
+                                          Text(
+                                            wallet.labelWithoutTruncation,
+                                            style: TextStyle(color: color),
+                                          ),
                                         ],
-                                      )
-                                    ],
+                                      ),
+                                      onTap: () {
+                                        ref.read(sessionProvider.notifier).setCurrentWallet(wallet);
+                                      },
+                                    ),
+                                  );
+                                }
+                                return list;
+                              },
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    wallet!.address,
+                                    style: TextStyle(color: color, fontSize: 16),
                                   ),
-                                ),
-                                // Padding(
-                                //   padding: const EdgeInsets.symmetric(horizontal: 4),
-                                //   child: Column(
-                                //     mainAxisSize: MainAxisSize.min,
-                                //     children: [
-                                //       AppBadge(
-                                //         label: "${wallet!.lockedBalance} RBX",
-                                //         variant: AppColorVariant.Light,
-                                //       ),
-                                //       Text(
-                                //         "Locked",
-                                //         style: Theme.of(context).textTheme.caption,
-                                //       )
-                                //     ],
-                                //   ),
-                                // ),
-                                // Padding(
-                                //   padding: const EdgeInsets.symmetric(horizontal: 4),
-                                //   child: Column(
-                                //     mainAxisSize: MainAxisSize.min,
-                                //     children: [
-                                //       AppBadge(
-                                //         label: "${wallet!.totalBalance} RBX",
-                                //         variant: AppColorVariant.Light,
-                                //       ),
-                                //       Text(
-                                //         "Total",
-                                //         style: Theme.of(context).textTheme.caption,
-                                //       )
-                                //     ],
-                                //   ),
-                                // ),
-                              ],
+                                  Icon(
+                                    Icons.arrow_drop_down,
+                                    size: 24,
+                                    color: wallet!.isReserved ? Colors.deepPurple.shade200 : Theme.of(context).textTheme.bodyText1!.color!,
+                                  ),
+                                ],
+                              ),
                             )
                         ],
-                      )
-                    : null,
+                      ),
+                    ),
+                    !wallet!.isReserved
+                        ? Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              if (wallet!.lockedBalance == 0.0)
+                                AppBadge(
+                                  label: "$balance RBX",
+                                  variant: AppColorVariant.Light,
+                                ),
+                              if (wallet!.lockedBalance > 0) ...[
+                                BalanceIndicator(
+                                  label: "Available",
+                                  value: wallet!.balance,
+                                  bgColor: Colors.deepPurple.shade400,
+                                  fgColor: Colors.white,
+                                ),
+                                BalanceIndicator(
+                                  label: "Locked",
+                                  value: wallet!.lockedBalance,
+                                  bgColor: Colors.red.shade700,
+                                  fgColor: Colors.white,
+                                ),
+                                BalanceIndicator(
+                                  label: "Total",
+                                  value: wallet!.balance + wallet!.lockedBalance,
+                                  bgColor: Colors.green.shade700,
+                                  fgColor: Colors.white,
+                                ),
+                              ]
+                            ],
+                          )
+                        : Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              BalanceIndicator(
+                                label: "Available",
+                                value: wallet!.availableBalance,
+                                bgColor: Colors.deepPurple.shade400,
+                                fgColor: Colors.white,
+                              ),
+                              BalanceIndicator(
+                                label: "Locked",
+                                value: wallet!.lockedBalance,
+                                bgColor: Colors.red.shade700,
+                                fgColor: Colors.white,
+                              ),
+                              BalanceIndicator(
+                                label: "Total",
+                                value: wallet!.totalBalance,
+                                bgColor: Colors.green.shade700,
+                                fgColor: Colors.white,
+                              ),
+                            ],
+                          ),
+                  ],
+                ),
               ),
               ListTile(
                 leading: isMobile ? null : const SizedBox(width: leadingWidth, child: Text("To:")),

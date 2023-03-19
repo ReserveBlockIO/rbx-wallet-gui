@@ -45,11 +45,11 @@ mixin _$Wallet {
   @JsonKey(name: "EncryptedDecryptKey")
   String? get encryptedDecryptKey => throw _privateConstructorUsedError;
   @JsonKey(name: "AvailableBalance")
-  double? get availableBalance => throw _privateConstructorUsedError;
+  double get availableBalance => throw _privateConstructorUsedError;
   @JsonKey(name: "LockedBalance")
-  double? get lockedBalance => throw _privateConstructorUsedError;
+  double get lockedBalance => throw _privateConstructorUsedError;
   @JsonKey(name: "TotalBalance")
-  double? get totalBalance => throw _privateConstructorUsedError;
+  double get totalBalance => throw _privateConstructorUsedError;
   @JsonKey(name: "IsNetworkProtected")
   bool get isNetworkProtected => throw _privateConstructorUsedError;
 
@@ -88,11 +88,11 @@ abstract class $WalletCopyWith<$Res> {
       @JsonKey(name: "EncryptedDecryptKey")
           String? encryptedDecryptKey,
       @JsonKey(name: "AvailableBalance")
-          double? availableBalance,
+          double availableBalance,
       @JsonKey(name: "LockedBalance")
-          double? lockedBalance,
+          double lockedBalance,
       @JsonKey(name: "TotalBalance")
-          double? totalBalance,
+          double totalBalance,
       @JsonKey(name: "IsNetworkProtected")
           bool isNetworkProtected});
 }
@@ -122,9 +122,9 @@ class _$WalletCopyWithImpl<$Res, $Val extends Wallet>
     Object? recoveryPrivateKey = freezed,
     Object? recoveryEncryptedDecryptKey = freezed,
     Object? encryptedDecryptKey = freezed,
-    Object? availableBalance = freezed,
-    Object? lockedBalance = freezed,
-    Object? totalBalance = freezed,
+    Object? availableBalance = null,
+    Object? lockedBalance = null,
+    Object? totalBalance = null,
     Object? isNetworkProtected = null,
   }) {
     return _then(_value.copyWith(
@@ -176,18 +176,18 @@ class _$WalletCopyWithImpl<$Res, $Val extends Wallet>
           ? _value.encryptedDecryptKey
           : encryptedDecryptKey // ignore: cast_nullable_to_non_nullable
               as String?,
-      availableBalance: freezed == availableBalance
+      availableBalance: null == availableBalance
           ? _value.availableBalance
           : availableBalance // ignore: cast_nullable_to_non_nullable
-              as double?,
-      lockedBalance: freezed == lockedBalance
+              as double,
+      lockedBalance: null == lockedBalance
           ? _value.lockedBalance
           : lockedBalance // ignore: cast_nullable_to_non_nullable
-              as double?,
-      totalBalance: freezed == totalBalance
+              as double,
+      totalBalance: null == totalBalance
           ? _value.totalBalance
           : totalBalance // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as double,
       isNetworkProtected: null == isNetworkProtected
           ? _value.isNetworkProtected
           : isNetworkProtected // ignore: cast_nullable_to_non_nullable
@@ -227,11 +227,11 @@ abstract class _$$_WalletCopyWith<$Res> implements $WalletCopyWith<$Res> {
       @JsonKey(name: "EncryptedDecryptKey")
           String? encryptedDecryptKey,
       @JsonKey(name: "AvailableBalance")
-          double? availableBalance,
+          double availableBalance,
       @JsonKey(name: "LockedBalance")
-          double? lockedBalance,
+          double lockedBalance,
       @JsonKey(name: "TotalBalance")
-          double? totalBalance,
+          double totalBalance,
       @JsonKey(name: "IsNetworkProtected")
           bool isNetworkProtected});
 }
@@ -258,9 +258,9 @@ class __$$_WalletCopyWithImpl<$Res>
     Object? recoveryPrivateKey = freezed,
     Object? recoveryEncryptedDecryptKey = freezed,
     Object? encryptedDecryptKey = freezed,
-    Object? availableBalance = freezed,
-    Object? lockedBalance = freezed,
-    Object? totalBalance = freezed,
+    Object? availableBalance = null,
+    Object? lockedBalance = null,
+    Object? totalBalance = null,
     Object? isNetworkProtected = null,
   }) {
     return _then(_$_Wallet(
@@ -312,18 +312,18 @@ class __$$_WalletCopyWithImpl<$Res>
           ? _value.encryptedDecryptKey
           : encryptedDecryptKey // ignore: cast_nullable_to_non_nullable
               as String?,
-      availableBalance: freezed == availableBalance
+      availableBalance: null == availableBalance
           ? _value.availableBalance
           : availableBalance // ignore: cast_nullable_to_non_nullable
-              as double?,
-      lockedBalance: freezed == lockedBalance
+              as double,
+      lockedBalance: null == lockedBalance
           ? _value.lockedBalance
           : lockedBalance // ignore: cast_nullable_to_non_nullable
-              as double?,
-      totalBalance: freezed == totalBalance
+              as double,
+      totalBalance: null == totalBalance
           ? _value.totalBalance
           : totalBalance // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as double,
       isNetworkProtected: null == isNetworkProtected
           ? _value.isNetworkProtected
           : isNetworkProtected // ignore: cast_nullable_to_non_nullable
@@ -360,11 +360,11 @@ class _$_Wallet extends _Wallet {
       @JsonKey(name: "EncryptedDecryptKey")
           this.encryptedDecryptKey,
       @JsonKey(name: "AvailableBalance")
-          this.availableBalance,
+          this.availableBalance = 0.0,
       @JsonKey(name: "LockedBalance")
-          this.lockedBalance,
+          this.lockedBalance = 0.0,
       @JsonKey(name: "TotalBalance")
-          this.totalBalance,
+          this.totalBalance = 0.0,
       @JsonKey(name: "IsNetworkProtected")
           this.isNetworkProtected = false})
       : super._();
@@ -410,13 +410,13 @@ class _$_Wallet extends _Wallet {
   final String? encryptedDecryptKey;
   @override
   @JsonKey(name: "AvailableBalance")
-  final double? availableBalance;
+  final double availableBalance;
   @override
   @JsonKey(name: "LockedBalance")
-  final double? lockedBalance;
+  final double lockedBalance;
   @override
   @JsonKey(name: "TotalBalance")
-  final double? totalBalance;
+  final double totalBalance;
   @override
   @JsonKey(name: "IsNetworkProtected")
   final bool isNetworkProtected;
@@ -524,11 +524,11 @@ abstract class _Wallet extends Wallet {
       @JsonKey(name: "EncryptedDecryptKey")
           final String? encryptedDecryptKey,
       @JsonKey(name: "AvailableBalance")
-          final double? availableBalance,
+          final double availableBalance,
       @JsonKey(name: "LockedBalance")
-          final double? lockedBalance,
+          final double lockedBalance,
       @JsonKey(name: "TotalBalance")
-          final double? totalBalance,
+          final double totalBalance,
       @JsonKey(name: "IsNetworkProtected")
           final bool isNetworkProtected}) = _$_Wallet;
   _Wallet._() : super._();
@@ -572,13 +572,13 @@ abstract class _Wallet extends Wallet {
   String? get encryptedDecryptKey;
   @override
   @JsonKey(name: "AvailableBalance")
-  double? get availableBalance;
+  double get availableBalance;
   @override
   @JsonKey(name: "LockedBalance")
-  double? get lockedBalance;
+  double get lockedBalance;
   @override
   @JsonKey(name: "TotalBalance")
-  double? get totalBalance;
+  double get totalBalance;
   @override
   @JsonKey(name: "IsNetworkProtected")
   bool get isNetworkProtected;
