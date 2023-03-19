@@ -168,25 +168,49 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
     }
   }
 
-  Future<void> recoverAccount(BuildContext context) async {
+  Future<void> restoreAccount(BuildContext context) async {
     final restoreCode = await PromptModal.show(
-        title: "Restore Code",
-        body: "Paste in your RESTORE CODE to import your existing Reserve Account.",
-        validator: (v) => null,
-        labelText: "Restore Code");
+      title: "Restore Code",
+      body: "Paste in your RESTORE CODE to import your existing Reserve Account.",
+      validator: (v) => null,
+      labelText: "Restore Code",
+    );
+
     if (restoreCode == null) return;
     final password = await PromptModal.show(title: "Password", validator: (v) => null, lines: 1, obscureText: true, labelText: "Password");
     if (password == null) return;
 
-    final account = await ReserveAccountService().recover(restoreCode: restoreCode, password: password);
+    final account = await ReserveAccountService().restore(restoreCode: restoreCode, password: password);
+
     if (account != null) {
       await ref.read(sessionProvider.notifier).loadWallets();
 
       showDialog(
-          context: context,
-          builder: (context) {
-            return ReserveAccountDetails(account: account);
-          });
+        context: context,
+        builder: (context) {
+          return ReserveAccountDetails(account: account);
+        },
+      );
+    }
+  }
+
+  Future<void> recoverAccount(BuildContext context) async {
+    final restoreCode = await PromptModal.show(
+      title: "Restore Code",
+      body: "Paste in your RESTORE CODE to import the recovery account for this Reserve Account.",
+      validator: (v) => null,
+      labelText: "Restore Code",
+    );
+
+    if (restoreCode == null) return;
+    final password = await PromptModal.show(title: "Password", validator: (v) => null, lines: 1, obscureText: true, labelText: "Password");
+    if (password == null) return;
+
+    final wallet = await ReserveAccountService().recover(restoreCode: restoreCode, password: password);
+
+    if (wallet != null) {
+      await ref.read(sessionProvider.notifier).loadWallets();
+      Toast.message("Recovery Account Restored");
     }
   }
 

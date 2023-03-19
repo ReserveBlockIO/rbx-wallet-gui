@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:rbx_wallet/features/reserve/models/new_reserve_account.dart';
+import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/services/base_service.dart';
@@ -29,7 +30,7 @@ class ReserveAccountService extends BaseService {
     return null;
   }
 
-  Future<NewReserveAccount?> recover({
+  Future<NewReserveAccount?> restore({
     required String restoreCode,
     required String password,
     bool store = true,
@@ -40,7 +41,9 @@ class ReserveAccountService extends BaseService {
       "Password": password,
       "StoreRecoveryAccount": store,
       "RescanForTx": rescan,
+      "OnlyRestoreRecovery": false,
     };
+
     final response = await postJson('/RestoreReserveAddress', params: payload);
     print(response);
     print("****");
@@ -50,6 +53,38 @@ class ReserveAccountService extends BaseService {
       if (data['Success'] == true) {
         if (data['ReserveAccount'] != null && data['ReserveAccount']['Result'] != null) {
           return NewReserveAccount.fromJson(data['ReserveAccount']['Result']);
+        }
+      }
+    }
+
+    Toast.error(data['Message'] ?? "A problem occurred.");
+
+    return null;
+  }
+
+  Future<Wallet?> recover({
+    required String restoreCode,
+    required String password,
+    bool store = true,
+    bool rescan = true,
+  }) async {
+    final payload = {
+      "RestoreCode": restoreCode,
+      "Password": password,
+      "StoreRecoveryAccount": store,
+      "RescanForTx": rescan,
+      "OnlyRestoreRecovery": true,
+    };
+
+    final response = await postJson('/RestoreReserveAddress', params: payload);
+    print(response);
+    print("****");
+    final data = response['data'];
+    if (data != null) {
+      print(jsonEncode(data));
+      if (data['Success'] == true) {
+        if (data['Account'] != null) {
+          return Wallet.fromJson(data['Account']);
         }
       }
     }

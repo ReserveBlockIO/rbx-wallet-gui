@@ -183,12 +183,28 @@ class _Top extends BaseComponent {
               provider.newAccount(context);
             },
           ),
-          SizedBox(width: 8),
+        ],
+      ),
+      SizedBox(
+        height: 4,
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
           AppButton(
-            label: "Restore Account",
-            icon: Icons.upload,
+            label: "Restore Reserve Account",
+            icon: Icons.refresh,
             type: AppButtonType.Text,
             variant: AppColorVariant.Light,
+            onPressed: () async {
+              provider.restoreAccount(context);
+            },
+          ),
+          AppButton(
+            label: "Restore Recovery Account",
+            icon: Icons.warning,
+            type: AppButtonType.Text,
+            variant: AppColorVariant.Warning,
             onPressed: () async {
               provider.recoverAccount(context);
             },
