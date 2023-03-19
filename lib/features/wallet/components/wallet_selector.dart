@@ -34,6 +34,8 @@ class WalletSelector extends BaseComponent {
     final currentWallet = ref.watch(sessionProvider).currentWallet;
     final allWallets = ref.watch(walletListProvider);
 
+    final color = currentWallet != null && currentWallet.isReserved ? Colors.deepPurple.shade200 : Colors.white;
+
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -45,9 +47,10 @@ class WalletSelector extends BaseComponent {
               );
               Toast.message("${currentWallet.address} copied to clipboard");
             },
-            child: const Icon(
+            child: Icon(
               Icons.copy,
               size: 12,
+              color: color,
             ),
           ),
         PopupMenuButton(
@@ -63,9 +66,13 @@ class WalletSelector extends BaseComponent {
                             ? currentWallet.label
                             : currentWallet.labelWithoutTruncation
                         : "Wallet",
-                    style: TextStyle(color: currentWallet != null && currentWallet.isReserved ? Colors.deepPurple.shade200 : Colors.white),
+                    style: TextStyle(color: color),
                   ),
-                  const Icon(Icons.arrow_drop_down, size: 18),
+                  Icon(
+                    Icons.arrow_drop_down,
+                    size: 18,
+                    color: color,
+                  ),
                 ],
               ),
             ),

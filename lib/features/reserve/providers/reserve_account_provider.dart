@@ -256,11 +256,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
       return;
     }
 
-    if (wallet.availableBalance == null) {
-      return;
-    }
-
-    if (wallet.availableBalance! < 5) {
+    if (wallet.availableBalance < 5) {
       Toast.error("A minimum balance of 5 RBX is required to activate.");
       return;
     }
