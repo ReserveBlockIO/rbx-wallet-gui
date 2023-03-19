@@ -550,7 +550,7 @@ class NftDetailScreen extends BaseScreen {
                                         final confirmed = await ConfirmDialog.show(
                                           title: "Confirm Transfer",
                                           body:
-                                              "Please confirm you want to send the NFT to \"$address\".\n\nIf this address is not correct, there will be no way to recover the ownership of the NFT.",
+                                              "Please confirm you want to send the NFT to \"$address\".${reservePassword == null ? '\n\nIf this address is not correct, there will be no way to recover the ownership of the NFT.' : ''}",
                                           confirmText: "Send",
                                         );
 
