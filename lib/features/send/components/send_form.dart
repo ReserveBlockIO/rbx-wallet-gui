@@ -197,8 +197,8 @@ class SendForm extends BaseComponent {
                                 BalanceIndicator(
                                   label: "Available",
                                   value: wallet!.balance,
-                                  bgColor: Colors.deepPurple.shade400,
-                                  fgColor: Colors.white,
+                                  bgColor: Colors.white,
+                                  fgColor: Colors.black,
                                 ),
                                 BalanceIndicator(
                                   label: "Locked",
