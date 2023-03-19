@@ -160,14 +160,14 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       }
     }
 
-    if (isIncoming) {
-      if (nftData != null) {
-        final id = _nftDataValue(nftData, 'ContractUID');
-        if (id != null) {
-          ref.read(transferredProvider.notifier).removeId(id);
-        }
+    if (nftData != null) {
+      final id = _nftDataValue(nftData, 'ContractUID');
+      if (id != null) {
+        ref.read(transferredProvider.notifier).removeId(id);
       }
+    }
 
+    if (isIncoming) {
       _broadcastNotification(
         TransactionNotification(
             identifier: "${transaction.hash}_incoming",
