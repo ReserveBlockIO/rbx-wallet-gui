@@ -200,19 +200,19 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
           children: [
             BalanceIndicator(
               label: "Available",
-              value: wallet!.availableBalance,
+              value: wallet.availableBalance,
               bgColor: Colors.deepPurple.shade400,
               fgColor: Colors.white,
             ),
             BalanceIndicator(
               label: "Locked",
-              value: wallet!.lockedBalance,
+              value: wallet.lockedBalance,
               bgColor: Colors.red.shade700,
               fgColor: Colors.white,
             ),
             BalanceIndicator(
               label: "Total",
-              value: wallet!.totalBalance,
+              value: wallet.totalBalance,
               bgColor: Colors.green.shade700,
               fgColor: Colors.white,
             ),

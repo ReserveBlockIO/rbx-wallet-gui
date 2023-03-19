@@ -233,13 +233,13 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                             Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                SizedBox(
-                                  width: 6,
-                                ),
-                                RecoverButton(transaction: widget.transaction),
-                                SizedBox(
-                                  width: 6,
-                                ),
+                                // SizedBox(
+                                //   width: 6,
+                                // ),
+                                // RecoverButton(transaction: widget.transaction),
+                                // SizedBox(
+                                //   width: 6,
+                                // ),
                                 CallbackButton(transaction: widget.transaction),
                               ],
                             )
