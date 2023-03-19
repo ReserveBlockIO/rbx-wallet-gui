@@ -43,73 +43,71 @@ class ReserveAccountOverviewScreen extends BaseScreen {
 
     return wallets.isEmpty
         ? _Top()
-        : Expanded(
-            child: ListView.builder(
-              itemCount: wallets.length,
-              itemBuilder: (context, index) {
-                final wallet = wallets[index];
+        : ListView.builder(
+            itemCount: wallets.length,
+            itemBuilder: (context, index) {
+              final wallet = wallets[index];
 
-                return Column(
-                  children: [
-                    if (index == 0) _Top(),
-                    Card(
-                      child: ListTile(
-                        title: SelectableText(wallet.address),
-                        subtitle: Row(mainAxisSize: MainAxisSize.min, children: [
-                          Text("Available: ${wallet.availableBalance} RBX"),
-                          SizedBox(width: 4),
-                          InkWell(
-                            onTap: () {
-                              provider.showBalanceInfo(wallet);
-                            },
-                            child: Icon(
-                              Icons.help,
-                              size: 16,
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
-                          )
-                        ]),
-                        trailing: Builder(builder: (context) {
-                          if (wallet.isNetworkProtected) {
-                            return AppBadge(
-                              label: "Activated",
-                              variant: AppColorVariant.Success,
-                            );
-                          }
+              return Column(
+                children: [
+                  if (index == 0) _Top(),
+                  Card(
+                    child: ListTile(
+                      title: SelectableText(wallet.address),
+                      subtitle: Row(mainAxisSize: MainAxisSize.min, children: [
+                        Text("Available: ${wallet.availableBalance} RBX"),
+                        SizedBox(width: 4),
+                        InkWell(
+                          onTap: () {
+                            provider.showBalanceInfo(wallet);
+                          },
+                          child: Icon(
+                            Icons.help,
+                            size: 16,
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
+                        )
+                      ]),
+                      trailing: Builder(builder: (context) {
+                        if (wallet.isNetworkProtected) {
+                          return AppBadge(
+                            label: "Activated",
+                            variant: AppColorVariant.Success,
+                          );
+                        }
 
-                          if (ref.watch(pendingActivationProvider).contains(wallet.address)) {
-                            return AppBadge(
-                              label: "Activation Pending",
-                              variant: AppColorVariant.Warning,
-                            );
-                          }
+                        if (ref.watch(pendingActivationProvider).contains(wallet.address)) {
+                          return AppBadge(
+                            label: "Activation Pending",
+                            variant: AppColorVariant.Warning,
+                          );
+                        }
 
-                          if (wallet.balance < 5) {
-                            return AppButton(
-                              label: "Awaiting Funds",
-                              variant: AppColorVariant.Danger,
-                              onPressed: () {
-                                InfoDialog.show(
-                                  title: "Funds Required",
-                                  content: SelectableText("To activate, please send a minimum of 5 RBX to:\n\n${wallet.address}."),
-                                );
-                              },
-                            );
-                          }
-
+                        if (wallet.balance < 5) {
                           return AppButton(
-                            label: "Activate",
+                            label: "Awaiting Funds",
+                            variant: AppColorVariant.Danger,
                             onPressed: () {
-                              provider.activate(wallet);
+                              InfoDialog.show(
+                                title: "Funds Required",
+                                content: SelectableText("To activate, please send a minimum of 5 RBX to:\n\n${wallet.address}."),
+                              );
                             },
                           );
-                        }),
-                      ),
+                        }
+
+                        return AppButton(
+                          label: "Activate",
+                          onPressed: () {
+                            provider.activate(wallet);
+                          },
+                        );
+                      }),
                     ),
-                  ],
-                );
-              },
-            ),
+                  ),
+                ],
+              );
+            },
           );
   }
 }
