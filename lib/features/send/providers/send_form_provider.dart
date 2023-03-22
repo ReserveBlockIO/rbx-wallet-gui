@@ -1,7 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
+import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
+import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 
 import '../../../core/dialogs.dart';
 import '../../../core/env.dart';
@@ -140,13 +143,20 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
 
   Future<void> submit() async {
     String senderAddress = "";
+    Wallet? currentWallet;
     if (!kIsWeb) {
-      final currentWallet = ref.read(sessionProvider).currentWallet;
+      currentWallet = ref.read(sessionProvider).currentWallet;
       if (currentWallet == null) {
         Toast.error("No wallet selected");
 
         return;
       }
+
+      if (currentWallet.isReserved && currentWallet.isNetworkProtected == false) {
+        Toast.error("You must activate your Reserve Account before proceeding.");
+        return;
+      }
+
       senderAddress = currentWallet.labelWithoutTruncation;
 
       if (!guardWalletIsSynced(ref)) return;
@@ -194,6 +204,60 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
 
     if (!confirmed) {
       return;
+    }
+
+    if (!kIsWeb && currentWallet != null) {
+      if (currentWallet.isReserved) {
+        final password = await PromptModal.show(
+          title: "Reserve Account Password",
+          validator: (_) => null,
+          labelText: "Password",
+          lines: 1,
+          obscureText: true,
+        );
+        if (password == null) {
+          return;
+        }
+
+        final hoursString = await PromptModal.show(
+          title: "Timelock Duration",
+          validator: (_) => null,
+          labelText: "Hours (24 Minimum)",
+          initialValue: "24",
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+        );
+
+        int hours = (hoursString != null ? int.tryParse(hoursString) : 24) ?? 24;
+        if (hours < 24) {
+          hours = 24;
+        }
+
+        state = state.copyWith(isProcessing: true);
+
+        final message = await ReserveAccountService().sendTx(
+          fromAddress: currentWallet.address,
+          toAddress: address.trim().replaceAll("\n", ""),
+          amount: double.parse(amount),
+          password: password,
+          unlockDelayHours: hours - 24,
+        );
+
+        if (message != null) {
+          Toast.message("$amount RBX has been sent to $address. See dashboard for TX ID.");
+          ref.read(logProvider.notifier).append(
+                LogEntry(
+                  message: message,
+                  textToCopy: message.replaceAll("Success! TX ID: ", ""),
+                  variant: AppColorVariant.Success,
+                ),
+              );
+          clear();
+        } else {
+          state = state.copyWith(isProcessing: false);
+        }
+
+        return;
+      }
     }
 
     state = state.copyWith(isProcessing: true);

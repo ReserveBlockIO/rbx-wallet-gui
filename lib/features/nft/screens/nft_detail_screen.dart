@@ -132,6 +132,32 @@ class NftDetailScreen extends BaseScreen {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
+                if (nft.isLocked)
+                  Container(
+                    decoration: BoxDecoration(color: Colors.red.shade800),
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Center(
+                          child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.lock,
+                            size: 16,
+                          ),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          Text(
+                            "NFT Locked",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      )),
+                    ),
+                  ),
                 Text(
                   nft.currentEvolveName,
                   style: Theme.of(context).textTheme.headline4!.copyWith(color: Colors.white),
@@ -166,9 +192,7 @@ class NftDetailScreen extends BaseScreen {
                         child: ListTile(
                           contentPadding: EdgeInsets.zero,
                           title: Text(nft.currentOwner,
-                              style: const TextStyle(
-                                fontSize: 13,
-                              )),
+                              style: TextStyle(fontSize: 13, color: nft.currentOwner.startsWith("xRBX") ? Colors.deepPurple.shade200 : Colors.white)),
                           subtitle: const Text(
                             "Owner",
                           ),
@@ -199,6 +223,21 @@ class NftDetailScreen extends BaseScreen {
                       ),
                   ],
                 ),
+                if (nft.nextOwner != null && nft.nextOwner!.isNotEmpty)
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(nft.nextOwner!,
+                        style: TextStyle(fontSize: 13, color: nft.nextOwner!.startsWith("xRBX") ? Colors.deepPurple.shade200 : Colors.white)),
+                    subtitle: const Text(
+                      "Next Owner",
+                    ),
+                    leading: IconButton(
+                      icon: const Icon(Icons.copy),
+                      onPressed: () {
+                        copyToClipboard(nft.nextOwner!);
+                      },
+                    ),
+                  ),
                 const Divider(),
                 Wrap(
                   children: [
@@ -222,6 +261,7 @@ class NftDetailScreen extends BaseScreen {
                                           : buildAssetsNotAvailable(_provider)
                                       : AssetCard(
                                           nft.currentEvolveAsset,
+                                          ownerAddress: nft.nextOwner ?? nft.currentOwner,
                                           nftId: nft.id,
                                         ),
                                   if (nft.additionalAssets.isNotEmpty)
@@ -260,6 +300,7 @@ class NftDetailScreen extends BaseScreen {
                                                               child: AssetThumbnail(
                                                                 a,
                                                                 nftId: nft.id,
+                                                                ownerAddress: nft.nextOwner ?? nft.currentOwner,
                                                               ),
                                                             ),
                                                           )
@@ -386,110 +427,147 @@ class NftDetailScreen extends BaseScreen {
           ),
         ),
         const Divider(),
-        Text("Actions:", style: Theme.of(context).textTheme.headline5),
-        Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: Center(
-            child: Wrap(
-              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              alignment: WrapAlignment.center,
-              runAlignment: WrapAlignment.center,
-              crossAxisAlignment: WrapCrossAlignment.center,
+        if (!nft.isLocked) Text("Actions:", style: Theme.of(context).textTheme.headline5),
+        if (!nft.isLocked)
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Center(
+              child: Wrap(
+                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                alignment: WrapAlignment.center,
+                runAlignment: WrapAlignment.center,
+                crossAxisAlignment: WrapCrossAlignment.center,
 
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: AppButton(
-                    label: "Transfer",
-                    // helpType: HelpType.transfer,
-                    icon: Icons.send,
-                    onPressed: nft.isPublished
-                        ? () async {
-                            if (!kIsWeb) {
-                              if (!await passwordRequiredGuard(context, ref)) {
-                                return;
-                              }
-                              Wallet? wallet = ref.read(walletListProvider).firstWhereOrNull((w) => w.address == nft.currentOwner);
-                              if (wallet == null) {
-                                Toast.error("No wallet selected");
-                                return;
-                              }
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: AppButton(
+                      label: "Transfer",
+                      // helpType: HelpType.transfer,
+                      icon: Icons.send,
+                      onPressed: nft.isPublished
+                          ? () async {
+                              String? reservePassword;
+                              int? delayHours;
+                              String? fromAddress;
 
-                              if (wallet.balance < MIN_RBX_FOR_SC_ACTION) {
-                                Toast.error("Not enough balance for transaction");
-                                return;
-                              }
+                              if (!kIsWeb) {
+                                if (!await passwordRequiredGuard(context, ref)) {
+                                  return;
+                                }
+                                Wallet? wallet = ref.read(walletListProvider).firstWhereOrNull((w) => w.address == nft.currentOwner);
+                                if (wallet == null) {
+                                  Toast.error("No wallet selected");
+                                  return;
+                                }
 
-                              final _nft = await setAssetPath(nft);
+                                fromAddress = wallet.address;
 
-                              final filesReady = await _nft.areFilesReady();
+                                if (wallet.balance < MIN_RBX_FOR_SC_ACTION) {
+                                  Toast.error("Not enough balance for transaction");
+                                  return;
+                                }
 
-                              if (!filesReady) {
-                                Toast.error("Media files not found on this machine.");
-                                return;
-                              }
-                            }
+                                final _nft = await setAssetPath(nft);
 
-                            PromptModal.show(
-                              contextOverride: context,
-                              title: "Transfer NFT",
-                              validator: (value) => formValidatorRbxAddress(value, true),
-                              labelText: "RBX Address",
-                              confirmText: "Continue",
-                              inputFormatters: [
-                                FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9.]')),
-                              ],
-                              lines: 1,
-                              onValidSubmission: (address) async {
-                                bool? success;
+                                final filesReady = await _nft.areFilesReady();
 
-                                address = address.trim().replaceAll("\n", "");
-
-                                if (kIsWeb) {
-                                  ref.read(globalLoadingProvider.notifier).start();
-                                  success = await _provider.transferWebOut(address);
-                                  if (success == true) {
-                                    ref.read(transferredProvider.notifier).addId(id);
-
-                                    Toast.message("NFT Transfer sent successfully to $address!");
-                                    Navigator.of(context).pop();
-                                  } else {
-                                    Toast.error();
-                                  }
-                                  ref.read(globalLoadingProvider.notifier).complete();
-                                } else {
-                                  final isValid = await BridgeService().validateSendToAddress(address);
-                                  if (!isValid) {
-                                    Toast.error("Invalid Address");
+                                if (!filesReady) {
+                                  Toast.error("Media files not found on this machine.");
+                                  return;
+                                }
+                                if (wallet.isReserved) {
+                                  reservePassword = await PromptModal.show(
+                                    title: "Reserve Account Password",
+                                    validator: (_) => null,
+                                    labelText: "Password",
+                                    lines: 1,
+                                    obscureText: true,
+                                  );
+                                  if (reservePassword == null) {
                                     return;
                                   }
 
-                                  PromptModal.show(
-                                    contextOverride: context,
-                                    title: "Backup URL (Optional)",
-                                    body: "Paste in a public URL to a hosted zipfile containing the assets.",
-                                    validator: (value) {
-                                      return null;
-                                    },
-                                    labelText: "URL (Optional)",
-                                    confirmText: "Transfer",
-                                    onValidSubmission: (url) async {
-                                      final confirmed = await ConfirmDialog.show(
-                                        title: "Confirm Transfer",
-                                        body:
-                                            "Please confirm you want to send the NFT to \"$address\".\n\nIf this address is not correct, there will be no way to recover the ownership of the NFT.",
-                                        confirmText: "Send",
-                                      );
+                                  final hoursString = await PromptModal.show(
+                                    title: "Timelock Duration",
+                                    validator: (_) => null,
+                                    labelText: "Hours (24 Minimum)",
+                                    initialValue: "24",
+                                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                  );
 
-                                      if (confirmed == true) {
-                                        final error = await _provider.transfer(address, url);
-                                        if (error != null) {
-                                          Toast.error(error);
-                                          return;
-                                        }
-                                        success = error == null;
-                                        if (success == true) {
-                                          Toast.message("NFT Transfer TX sent.");
+                                  delayHours = (hoursString != null ? int.tryParse(hoursString) : 24) ?? 24;
+                                  if (delayHours < 24) {
+                                    delayHours = 24;
+                                  }
+                                }
+                              }
+
+                              PromptModal.show(
+                                contextOverride: context,
+                                title: "Transfer NFT",
+                                validator: (value) => formValidatorRbxAddress(value, true),
+                                labelText: "RBX Address",
+                                confirmText: "Continue",
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9.]')),
+                                ],
+                                lines: 1,
+                                onValidSubmission: (address) async {
+                                  bool? success;
+
+                                  address = address.trim().replaceAll("\n", "");
+
+                                  if (kIsWeb) {
+                                    ref.read(globalLoadingProvider.notifier).start();
+                                    success = await _provider.transferWebOut(address);
+                                    if (success == true) {
+                                      ref.read(transferredProvider.notifier).addId(id);
+
+                                      Toast.message("NFT Transfer sent successfully to $address!");
+                                      Navigator.of(context).pop();
+                                    } else {
+                                      Toast.error();
+                                    }
+                                    ref.read(globalLoadingProvider.notifier).complete();
+                                  } else {
+                                    final isValid = await BridgeService().validateSendToAddress(address);
+                                    if (!isValid) {
+                                      Toast.error("Invalid Address");
+                                      return;
+                                    }
+
+                                    PromptModal.show(
+                                      contextOverride: context,
+                                      title: "Backup URL (Optional)",
+                                      body: "Paste in a public URL to a hosted zipfile containing the assets.",
+                                      validator: (value) {
+                                        return null;
+                                      },
+                                      labelText: "URL (Optional)",
+                                      confirmText: "Transfer",
+                                      onValidSubmission: (url) async {
+                                        final confirmed = await ConfirmDialog.show(
+                                          title: "Confirm Transfer",
+                                          body:
+                                              "Please confirm you want to send the NFT to \"$address\".${reservePassword == null ? '\n\nIf this address is not correct, there will be no way to recover the ownership of the NFT.' : ''}",
+                                          confirmText: "Send",
+                                        );
+
+                                        if (confirmed == true) {
+                                          final success = reservePassword != null
+                                              ? await _provider.transferFromReserveAccount(
+                                                  toAddress: address,
+                                                  fromAddress: fromAddress!,
+                                                  password: reservePassword,
+                                                  backupUrl: url,
+                                                  delayHours: delayHours!)
+                                              : await _provider.transfer(address, url);
+
+                                          if (!success) {
+                                            return;
+                                          }
+
                                           await InfoDialog.show(
                                             title: "Transfer in Progress",
                                             body:
@@ -499,102 +577,101 @@ class NftDetailScreen extends BaseScreen {
 
                                           Navigator.of(context).pop();
                                         }
-                                      }
-                                    },
-                                  );
+                                      },
+                                    );
+                                  }
+                                },
+                              );
+                            }
+                          : null,
+                    ),
+                  ),
+                  if (nft.manageable && nft.isMinter)
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: AppButton(
+                        label: "Manage",
+                        icon: Icons.settings,
+                        onPressed: () {
+                          showModalBottomSheet(
+                            isScrollControlled: true,
+                            backgroundColor: Colors.black87,
+                            context: context,
+                            builder: (context) {
+                              return ModalContainer(
+                                color: Colors.black26,
+                                children: [NftMangementModal(nft.id, nft)],
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  if (!kIsWeb)
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: AppButton(
+                        label: nft.isPublic ? "Make Private" : "Make Public",
+                        icon: nft.isPublic ? Icons.visibility_off : Icons.visibility,
+                        onPressed: () {
+                          _provider.togglePrivate();
+                        },
+                      ),
+                    ),
+                  if (nft.code != null)
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: AppButton(
+                        label: "View Code",
+                        icon: Icons.code,
+                        variant: AppColorVariant.Primary,
+                        onPressed: () {
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return CodeModal(nft.code!);
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: AppButton(
+                      label: "Burn",
+                      icon: Icons.fire_hydrant,
+                      // helpType: HelpType.burn,
+                      variant: AppColorVariant.Danger,
+                      onPressed: nft.isPublished
+                          ? () async {
+                              if (!await passwordRequiredGuard(context, ref)) return;
+                              final confirmed = await ConfirmDialog.show(
+                                title: "Burn NFT?",
+                                body: "Are you sure you want to burn ${nft.name}",
+                                destructive: true,
+                                confirmText: "Burn",
+                                cancelText: "Cancel",
+                              );
+
+                              if (confirmed == true) {
+                                final success = kIsWeb ? await _provider.burnWeb() : await _provider.burn();
+
+                                if (success) {
+                                  Toast.message("Burn transaction sent successfully!");
+                                  ref.read(mySmartContractsProvider.notifier).load();
+                                  Navigator.of(context).pop();
+                                } else {
+                                  Toast.error();
                                 }
-                              },
-                            );
-                          }
-                        : null,
-                  ),
-                ),
-                if (nft.manageable && nft.isMinter)
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: AppButton(
-                      label: "Manage",
-                      icon: Icons.settings,
-                      onPressed: () {
-                        showModalBottomSheet(
-                          isScrollControlled: true,
-                          backgroundColor: Colors.black87,
-                          context: context,
-                          builder: (context) {
-                            return ModalContainer(
-                              color: Colors.black26,
-                              children: [NftMangementModal(nft.id, nft)],
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                if (!kIsWeb)
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: AppButton(
-                      label: nft.isPublic ? "Make Private" : "Make Public",
-                      icon: nft.isPublic ? Icons.visibility_off : Icons.visibility,
-                      onPressed: () {
-                        _provider.togglePrivate();
-                      },
-                    ),
-                  ),
-                if (nft.code != null)
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: AppButton(
-                      label: "View Code",
-                      icon: Icons.code,
-                      variant: AppColorVariant.Primary,
-                      onPressed: () {
-                        showModalBottomSheet(
-                          context: context,
-                          builder: (context) {
-                            return CodeModal(nft.code!);
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: AppButton(
-                    label: "Burn",
-                    icon: Icons.fire_hydrant,
-                    // helpType: HelpType.burn,
-                    variant: AppColorVariant.Danger,
-                    onPressed: nft.isPublished
-                        ? () async {
-                            if (!await passwordRequiredGuard(context, ref)) return;
-                            final confirmed = await ConfirmDialog.show(
-                              title: "Burn NFT?",
-                              body: "Are you sure you want to burn ${nft.name}",
-                              destructive: true,
-                              confirmText: "Burn",
-                              cancelText: "Cancel",
-                            );
-
-                            if (confirmed == true) {
-                              final success = kIsWeb ? await _provider.burnWeb() : await _provider.burn();
-
-                              if (success) {
-                                Toast.message("Burn transaction sent successfully!");
-                                ref.read(mySmartContractsProvider.notifier).load();
-                                Navigator.of(context).pop();
-                              } else {
-                                Toast.error();
                               }
                             }
-                          }
-                        : null,
+                          : null,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        )
+          )
       ],
     );
   }

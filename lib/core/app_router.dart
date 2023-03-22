@@ -7,6 +7,7 @@ import 'package:rbx_wallet/features/dst/screens/my_collection_detail_screen.dart
 import 'package:rbx_wallet/features/dst/screens/my_collection_list_screen.dart';
 import 'package:rbx_wallet/features/dsts_legacy/screens/create_store_screen.dart';
 import 'package:rbx_wallet/features/dsts_legacy/screens/dst_screen.dart';
+import 'package:rbx_wallet/features/reserve/screens/reserve_account_overview_screen.dart';
 
 import '../features/adjudicator/adjudicator_screen.dart';
 import '../features/adnr/screens/adnr_screen.dart';
@@ -47,6 +48,7 @@ const List<AutoRoute> appRoutes = [
         page: EmptyRouterPage,
         children: [
           AutoRoute(path: "", page: HomeScreen),
+          AutoRoute(path: "reserve-accounts", page: ReserveAccountOverviewScreen),
         ],
       ),
       AutoRoute(

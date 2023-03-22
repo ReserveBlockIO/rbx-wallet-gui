@@ -14,6 +14,7 @@ class AssetCard extends StatelessWidget {
   final bool interactive;
   final String nftId;
   final Function()? onAssociate;
+  final String ownerAddress;
 
   const AssetCard(
     this.asset, {
@@ -21,6 +22,7 @@ class AssetCard extends StatelessWidget {
     required this.nftId,
     this.interactive = false,
     this.onAssociate,
+    required this.ownerAddress,
   }) : super(key: key);
 
   @override
@@ -36,6 +38,7 @@ class AssetCard extends StatelessWidget {
             : DownloadOrAssociate(
                 asset: asset,
                 nftId: nftId,
+                ownerAddress: ownerAddress,
                 onComplete: () {
                   if (onAssociate != null) {
                     onAssociate!();

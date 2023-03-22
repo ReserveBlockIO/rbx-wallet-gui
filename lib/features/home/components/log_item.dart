@@ -25,10 +25,11 @@ class LogItem extends StatelessWidget {
                 child: SelectableText(
                   entry.message,
                   style: TextStyle(
-                    color: AppTheme.appVariantToColor(context, entry.variant),
+                    color: entry.colorOverride ?? AppTheme.appVariantToColor(context, entry.variant),
                   ),
                 ),
               ),
+              if (entry.trailing != null) entry.trailing!,
               if (entry.textToCopy != null)
                 Padding(
                   padding: const EdgeInsets.only(left: 4, right: 12),

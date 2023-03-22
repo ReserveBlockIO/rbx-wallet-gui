@@ -36,6 +36,22 @@ mixin _$Wallet {
       throw _privateConstructorUsedError; // @JsonKey(name: 'IsEncrypted') required bool isEncrypted,
   @JsonKey(name: "ADNR")
   String? get adnr => throw _privateConstructorUsedError;
+  @JsonKey(name: "RecoveryAddress")
+  String? get recoveryAddress => throw _privateConstructorUsedError;
+  @JsonKey(name: "RecoveryPrivateKey")
+  String? get recoveryPrivateKey => throw _privateConstructorUsedError;
+  @JsonKey(name: "RecoveryEncryptedDecryptKey")
+  String? get recoveryEncryptedDecryptKey => throw _privateConstructorUsedError;
+  @JsonKey(name: "EncryptedDecryptKey")
+  String? get encryptedDecryptKey => throw _privateConstructorUsedError;
+  @JsonKey(name: "AvailableBalance")
+  double get availableBalance => throw _privateConstructorUsedError;
+  @JsonKey(name: "LockedBalance")
+  double get lockedBalance => throw _privateConstructorUsedError;
+  @JsonKey(name: "TotalBalance")
+  double get totalBalance => throw _privateConstructorUsedError;
+  @JsonKey(name: "IsNetworkProtected")
+  bool get isNetworkProtected => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -48,14 +64,37 @@ abstract class $WalletCopyWith<$Res> {
       _$WalletCopyWithImpl<$Res, Wallet>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'Id') int id,
-      @JsonKey(name: 'PublicKey') String publicKey,
-      @JsonKey(name: 'GetKey') String? privateKey,
-      @JsonKey(name: 'Address') String address,
+      {@JsonKey(name: 'Id')
+          int id,
+      @JsonKey(name: 'PublicKey')
+          String publicKey,
+      @JsonKey(name: 'GetKey')
+          String? privateKey,
+      @JsonKey(name: 'Address')
+          String address,
       String? friendlyName,
-      @JsonKey(name: 'Balance') double balance,
-      @JsonKey(name: 'IsValidating') bool isValidating,
-      @JsonKey(name: "ADNR") String? adnr});
+      @JsonKey(name: 'Balance')
+          double balance,
+      @JsonKey(name: 'IsValidating')
+          bool isValidating,
+      @JsonKey(name: "ADNR")
+          String? adnr,
+      @JsonKey(name: "RecoveryAddress")
+          String? recoveryAddress,
+      @JsonKey(name: "RecoveryPrivateKey")
+          String? recoveryPrivateKey,
+      @JsonKey(name: "RecoveryEncryptedDecryptKey")
+          String? recoveryEncryptedDecryptKey,
+      @JsonKey(name: "EncryptedDecryptKey")
+          String? encryptedDecryptKey,
+      @JsonKey(name: "AvailableBalance")
+          double availableBalance,
+      @JsonKey(name: "LockedBalance")
+          double lockedBalance,
+      @JsonKey(name: "TotalBalance")
+          double totalBalance,
+      @JsonKey(name: "IsNetworkProtected")
+          bool isNetworkProtected});
 }
 
 /// @nodoc
@@ -79,6 +118,14 @@ class _$WalletCopyWithImpl<$Res, $Val extends Wallet>
     Object? balance = null,
     Object? isValidating = null,
     Object? adnr = freezed,
+    Object? recoveryAddress = freezed,
+    Object? recoveryPrivateKey = freezed,
+    Object? recoveryEncryptedDecryptKey = freezed,
+    Object? encryptedDecryptKey = freezed,
+    Object? availableBalance = null,
+    Object? lockedBalance = null,
+    Object? totalBalance = null,
+    Object? isNetworkProtected = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -113,6 +160,38 @@ class _$WalletCopyWithImpl<$Res, $Val extends Wallet>
           ? _value.adnr
           : adnr // ignore: cast_nullable_to_non_nullable
               as String?,
+      recoveryAddress: freezed == recoveryAddress
+          ? _value.recoveryAddress
+          : recoveryAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      recoveryPrivateKey: freezed == recoveryPrivateKey
+          ? _value.recoveryPrivateKey
+          : recoveryPrivateKey // ignore: cast_nullable_to_non_nullable
+              as String?,
+      recoveryEncryptedDecryptKey: freezed == recoveryEncryptedDecryptKey
+          ? _value.recoveryEncryptedDecryptKey
+          : recoveryEncryptedDecryptKey // ignore: cast_nullable_to_non_nullable
+              as String?,
+      encryptedDecryptKey: freezed == encryptedDecryptKey
+          ? _value.encryptedDecryptKey
+          : encryptedDecryptKey // ignore: cast_nullable_to_non_nullable
+              as String?,
+      availableBalance: null == availableBalance
+          ? _value.availableBalance
+          : availableBalance // ignore: cast_nullable_to_non_nullable
+              as double,
+      lockedBalance: null == lockedBalance
+          ? _value.lockedBalance
+          : lockedBalance // ignore: cast_nullable_to_non_nullable
+              as double,
+      totalBalance: null == totalBalance
+          ? _value.totalBalance
+          : totalBalance // ignore: cast_nullable_to_non_nullable
+              as double,
+      isNetworkProtected: null == isNetworkProtected
+          ? _value.isNetworkProtected
+          : isNetworkProtected // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -124,14 +203,37 @@ abstract class _$$_WalletCopyWith<$Res> implements $WalletCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'Id') int id,
-      @JsonKey(name: 'PublicKey') String publicKey,
-      @JsonKey(name: 'GetKey') String? privateKey,
-      @JsonKey(name: 'Address') String address,
+      {@JsonKey(name: 'Id')
+          int id,
+      @JsonKey(name: 'PublicKey')
+          String publicKey,
+      @JsonKey(name: 'GetKey')
+          String? privateKey,
+      @JsonKey(name: 'Address')
+          String address,
       String? friendlyName,
-      @JsonKey(name: 'Balance') double balance,
-      @JsonKey(name: 'IsValidating') bool isValidating,
-      @JsonKey(name: "ADNR") String? adnr});
+      @JsonKey(name: 'Balance')
+          double balance,
+      @JsonKey(name: 'IsValidating')
+          bool isValidating,
+      @JsonKey(name: "ADNR")
+          String? adnr,
+      @JsonKey(name: "RecoveryAddress")
+          String? recoveryAddress,
+      @JsonKey(name: "RecoveryPrivateKey")
+          String? recoveryPrivateKey,
+      @JsonKey(name: "RecoveryEncryptedDecryptKey")
+          String? recoveryEncryptedDecryptKey,
+      @JsonKey(name: "EncryptedDecryptKey")
+          String? encryptedDecryptKey,
+      @JsonKey(name: "AvailableBalance")
+          double availableBalance,
+      @JsonKey(name: "LockedBalance")
+          double lockedBalance,
+      @JsonKey(name: "TotalBalance")
+          double totalBalance,
+      @JsonKey(name: "IsNetworkProtected")
+          bool isNetworkProtected});
 }
 
 /// @nodoc
@@ -152,6 +254,14 @@ class __$$_WalletCopyWithImpl<$Res>
     Object? balance = null,
     Object? isValidating = null,
     Object? adnr = freezed,
+    Object? recoveryAddress = freezed,
+    Object? recoveryPrivateKey = freezed,
+    Object? recoveryEncryptedDecryptKey = freezed,
+    Object? encryptedDecryptKey = freezed,
+    Object? availableBalance = null,
+    Object? lockedBalance = null,
+    Object? totalBalance = null,
+    Object? isNetworkProtected = null,
   }) {
     return _then(_$_Wallet(
       id: null == id
@@ -186,6 +296,38 @@ class __$$_WalletCopyWithImpl<$Res>
           ? _value.adnr
           : adnr // ignore: cast_nullable_to_non_nullable
               as String?,
+      recoveryAddress: freezed == recoveryAddress
+          ? _value.recoveryAddress
+          : recoveryAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      recoveryPrivateKey: freezed == recoveryPrivateKey
+          ? _value.recoveryPrivateKey
+          : recoveryPrivateKey // ignore: cast_nullable_to_non_nullable
+              as String?,
+      recoveryEncryptedDecryptKey: freezed == recoveryEncryptedDecryptKey
+          ? _value.recoveryEncryptedDecryptKey
+          : recoveryEncryptedDecryptKey // ignore: cast_nullable_to_non_nullable
+              as String?,
+      encryptedDecryptKey: freezed == encryptedDecryptKey
+          ? _value.encryptedDecryptKey
+          : encryptedDecryptKey // ignore: cast_nullable_to_non_nullable
+              as String?,
+      availableBalance: null == availableBalance
+          ? _value.availableBalance
+          : availableBalance // ignore: cast_nullable_to_non_nullable
+              as double,
+      lockedBalance: null == lockedBalance
+          ? _value.lockedBalance
+          : lockedBalance // ignore: cast_nullable_to_non_nullable
+              as double,
+      totalBalance: null == totalBalance
+          ? _value.totalBalance
+          : totalBalance // ignore: cast_nullable_to_non_nullable
+              as double,
+      isNetworkProtected: null == isNetworkProtected
+          ? _value.isNetworkProtected
+          : isNetworkProtected // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -194,14 +336,37 @@ class __$$_WalletCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Wallet extends _Wallet {
   _$_Wallet(
-      {@JsonKey(name: 'Id') required this.id,
-      @JsonKey(name: 'PublicKey') required this.publicKey,
-      @JsonKey(name: 'GetKey') this.privateKey,
-      @JsonKey(name: 'Address') required this.address,
+      {@JsonKey(name: 'Id')
+          required this.id,
+      @JsonKey(name: 'PublicKey')
+          required this.publicKey,
+      @JsonKey(name: 'GetKey')
+          this.privateKey,
+      @JsonKey(name: 'Address')
+          required this.address,
       this.friendlyName,
-      @JsonKey(name: 'Balance') required this.balance,
-      @JsonKey(name: 'IsValidating') required this.isValidating,
-      @JsonKey(name: "ADNR") this.adnr})
+      @JsonKey(name: 'Balance')
+          required this.balance,
+      @JsonKey(name: 'IsValidating')
+          required this.isValidating,
+      @JsonKey(name: "ADNR")
+          this.adnr,
+      @JsonKey(name: "RecoveryAddress")
+          this.recoveryAddress,
+      @JsonKey(name: "RecoveryPrivateKey")
+          this.recoveryPrivateKey,
+      @JsonKey(name: "RecoveryEncryptedDecryptKey")
+          this.recoveryEncryptedDecryptKey,
+      @JsonKey(name: "EncryptedDecryptKey")
+          this.encryptedDecryptKey,
+      @JsonKey(name: "AvailableBalance")
+          this.availableBalance = 0.0,
+      @JsonKey(name: "LockedBalance")
+          this.lockedBalance = 0.0,
+      @JsonKey(name: "TotalBalance")
+          this.totalBalance = 0.0,
+      @JsonKey(name: "IsNetworkProtected")
+          this.isNetworkProtected = false})
       : super._();
 
   factory _$_Wallet.fromJson(Map<String, dynamic> json) =>
@@ -231,10 +396,34 @@ class _$_Wallet extends _Wallet {
   @override
   @JsonKey(name: "ADNR")
   final String? adnr;
+  @override
+  @JsonKey(name: "RecoveryAddress")
+  final String? recoveryAddress;
+  @override
+  @JsonKey(name: "RecoveryPrivateKey")
+  final String? recoveryPrivateKey;
+  @override
+  @JsonKey(name: "RecoveryEncryptedDecryptKey")
+  final String? recoveryEncryptedDecryptKey;
+  @override
+  @JsonKey(name: "EncryptedDecryptKey")
+  final String? encryptedDecryptKey;
+  @override
+  @JsonKey(name: "AvailableBalance")
+  final double availableBalance;
+  @override
+  @JsonKey(name: "LockedBalance")
+  final double lockedBalance;
+  @override
+  @JsonKey(name: "TotalBalance")
+  final double totalBalance;
+  @override
+  @JsonKey(name: "IsNetworkProtected")
+  final bool isNetworkProtected;
 
   @override
   String toString() {
-    return 'Wallet(id: $id, publicKey: $publicKey, privateKey: $privateKey, address: $address, friendlyName: $friendlyName, balance: $balance, isValidating: $isValidating, adnr: $adnr)';
+    return 'Wallet(id: $id, publicKey: $publicKey, privateKey: $privateKey, address: $address, friendlyName: $friendlyName, balance: $balance, isValidating: $isValidating, adnr: $adnr, recoveryAddress: $recoveryAddress, recoveryPrivateKey: $recoveryPrivateKey, recoveryEncryptedDecryptKey: $recoveryEncryptedDecryptKey, encryptedDecryptKey: $encryptedDecryptKey, availableBalance: $availableBalance, lockedBalance: $lockedBalance, totalBalance: $totalBalance, isNetworkProtected: $isNetworkProtected)';
   }
 
   @override
@@ -253,13 +442,47 @@ class _$_Wallet extends _Wallet {
             (identical(other.balance, balance) || other.balance == balance) &&
             (identical(other.isValidating, isValidating) ||
                 other.isValidating == isValidating) &&
-            (identical(other.adnr, adnr) || other.adnr == adnr));
+            (identical(other.adnr, adnr) || other.adnr == adnr) &&
+            (identical(other.recoveryAddress, recoveryAddress) ||
+                other.recoveryAddress == recoveryAddress) &&
+            (identical(other.recoveryPrivateKey, recoveryPrivateKey) ||
+                other.recoveryPrivateKey == recoveryPrivateKey) &&
+            (identical(other.recoveryEncryptedDecryptKey,
+                    recoveryEncryptedDecryptKey) ||
+                other.recoveryEncryptedDecryptKey ==
+                    recoveryEncryptedDecryptKey) &&
+            (identical(other.encryptedDecryptKey, encryptedDecryptKey) ||
+                other.encryptedDecryptKey == encryptedDecryptKey) &&
+            (identical(other.availableBalance, availableBalance) ||
+                other.availableBalance == availableBalance) &&
+            (identical(other.lockedBalance, lockedBalance) ||
+                other.lockedBalance == lockedBalance) &&
+            (identical(other.totalBalance, totalBalance) ||
+                other.totalBalance == totalBalance) &&
+            (identical(other.isNetworkProtected, isNetworkProtected) ||
+                other.isNetworkProtected == isNetworkProtected));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, publicKey, privateKey,
-      address, friendlyName, balance, isValidating, adnr);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      publicKey,
+      privateKey,
+      address,
+      friendlyName,
+      balance,
+      isValidating,
+      adnr,
+      recoveryAddress,
+      recoveryPrivateKey,
+      recoveryEncryptedDecryptKey,
+      encryptedDecryptKey,
+      availableBalance,
+      lockedBalance,
+      totalBalance,
+      isNetworkProtected);
 
   @JsonKey(ignore: true)
   @override
@@ -277,14 +500,37 @@ class _$_Wallet extends _Wallet {
 
 abstract class _Wallet extends Wallet {
   factory _Wallet(
-      {@JsonKey(name: 'Id') required final int id,
-      @JsonKey(name: 'PublicKey') required final String publicKey,
-      @JsonKey(name: 'GetKey') final String? privateKey,
-      @JsonKey(name: 'Address') required final String address,
+      {@JsonKey(name: 'Id')
+          required final int id,
+      @JsonKey(name: 'PublicKey')
+          required final String publicKey,
+      @JsonKey(name: 'GetKey')
+          final String? privateKey,
+      @JsonKey(name: 'Address')
+          required final String address,
       final String? friendlyName,
-      @JsonKey(name: 'Balance') required final double balance,
-      @JsonKey(name: 'IsValidating') required final bool isValidating,
-      @JsonKey(name: "ADNR") final String? adnr}) = _$_Wallet;
+      @JsonKey(name: 'Balance')
+          required final double balance,
+      @JsonKey(name: 'IsValidating')
+          required final bool isValidating,
+      @JsonKey(name: "ADNR")
+          final String? adnr,
+      @JsonKey(name: "RecoveryAddress")
+          final String? recoveryAddress,
+      @JsonKey(name: "RecoveryPrivateKey")
+          final String? recoveryPrivateKey,
+      @JsonKey(name: "RecoveryEncryptedDecryptKey")
+          final String? recoveryEncryptedDecryptKey,
+      @JsonKey(name: "EncryptedDecryptKey")
+          final String? encryptedDecryptKey,
+      @JsonKey(name: "AvailableBalance")
+          final double availableBalance,
+      @JsonKey(name: "LockedBalance")
+          final double lockedBalance,
+      @JsonKey(name: "TotalBalance")
+          final double totalBalance,
+      @JsonKey(name: "IsNetworkProtected")
+          final bool isNetworkProtected}) = _$_Wallet;
   _Wallet._() : super._();
 
   factory _Wallet.fromJson(Map<String, dynamic> json) = _$_Wallet.fromJson;
@@ -312,6 +558,30 @@ abstract class _Wallet extends Wallet {
   @override // @JsonKey(name: 'IsEncrypted') required bool isEncrypted,
   @JsonKey(name: "ADNR")
   String? get adnr;
+  @override
+  @JsonKey(name: "RecoveryAddress")
+  String? get recoveryAddress;
+  @override
+  @JsonKey(name: "RecoveryPrivateKey")
+  String? get recoveryPrivateKey;
+  @override
+  @JsonKey(name: "RecoveryEncryptedDecryptKey")
+  String? get recoveryEncryptedDecryptKey;
+  @override
+  @JsonKey(name: "EncryptedDecryptKey")
+  String? get encryptedDecryptKey;
+  @override
+  @JsonKey(name: "AvailableBalance")
+  double get availableBalance;
+  @override
+  @JsonKey(name: "LockedBalance")
+  double get lockedBalance;
+  @override
+  @JsonKey(name: "TotalBalance")
+  double get totalBalance;
+  @override
+  @JsonKey(name: "IsNetworkProtected")
+  bool get isNetworkProtected;
   @override
   @JsonKey(ignore: true)
   _$$_WalletCopyWith<_$_Wallet> get copyWith =>

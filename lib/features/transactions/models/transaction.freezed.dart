@@ -44,6 +44,8 @@ mixin _$Transaction {
   String? get signature => throw _privateConstructorUsedError;
   @JsonKey(name: 'Height')
   int get height => throw _privateConstructorUsedError;
+  @JsonKey(name: 'UnlockTime')
+  int? get unlockTime => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -81,7 +83,9 @@ abstract class $TransactionCopyWith<$Res> {
       @JsonKey(name: 'Signature')
           String? signature,
       @JsonKey(name: 'Height')
-          int height});
+          int height,
+      @JsonKey(name: 'UnlockTime')
+          int? unlockTime});
 }
 
 /// @nodoc
@@ -109,6 +113,7 @@ class _$TransactionCopyWithImpl<$Res, $Val extends Transaction>
     Object? nftData = freezed,
     Object? signature = freezed,
     Object? height = null,
+    Object? unlockTime = freezed,
   }) {
     return _then(_value.copyWith(
       hash: null == hash
@@ -159,6 +164,10 @@ class _$TransactionCopyWithImpl<$Res, $Val extends Transaction>
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
               as int,
+      unlockTime: freezed == unlockTime
+          ? _value.unlockTime
+          : unlockTime // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -195,7 +204,9 @@ abstract class _$$_TransactionCopyWith<$Res>
       @JsonKey(name: 'Signature')
           String? signature,
       @JsonKey(name: 'Height')
-          int height});
+          int height,
+      @JsonKey(name: 'UnlockTime')
+          int? unlockTime});
 }
 
 /// @nodoc
@@ -221,6 +232,7 @@ class __$$_TransactionCopyWithImpl<$Res>
     Object? nftData = freezed,
     Object? signature = freezed,
     Object? height = null,
+    Object? unlockTime = freezed,
   }) {
     return _then(_$_Transaction(
       hash: null == hash
@@ -271,6 +283,10 @@ class __$$_TransactionCopyWithImpl<$Res>
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
               as int,
+      unlockTime: freezed == unlockTime
+          ? _value.unlockTime
+          : unlockTime // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -290,7 +306,8 @@ class _$_Transaction extends _Transaction {
       @JsonKey(name: 'Timestamp') required this.timestamp,
       @JsonKey(name: 'Data') required this.nftData,
       @JsonKey(name: 'Signature') this.signature,
-      @JsonKey(name: 'Height') required this.height})
+      @JsonKey(name: 'Height') required this.height,
+      @JsonKey(name: 'UnlockTime') this.unlockTime})
       : super._();
 
   factory _$_Transaction.fromJson(Map<String, dynamic> json) =>
@@ -332,10 +349,13 @@ class _$_Transaction extends _Transaction {
   @override
   @JsonKey(name: 'Height')
   final int height;
+  @override
+  @JsonKey(name: 'UnlockTime')
+  final int? unlockTime;
 
   @override
   String toString() {
-    return 'Transaction(hash: $hash, toAddress: $toAddress, fromAddress: $fromAddress, type: $type, status: $status, amount: $amount, nonce: $nonce, fee: $fee, timestamp: $timestamp, nftData: $nftData, signature: $signature, height: $height)';
+    return 'Transaction(hash: $hash, toAddress: $toAddress, fromAddress: $fromAddress, type: $type, status: $status, amount: $amount, nonce: $nonce, fee: $fee, timestamp: $timestamp, nftData: $nftData, signature: $signature, height: $height, unlockTime: $unlockTime)';
   }
 
   @override
@@ -358,7 +378,9 @@ class _$_Transaction extends _Transaction {
             const DeepCollectionEquality().equals(other.nftData, nftData) &&
             (identical(other.signature, signature) ||
                 other.signature == signature) &&
-            (identical(other.height, height) || other.height == height));
+            (identical(other.height, height) || other.height == height) &&
+            (identical(other.unlockTime, unlockTime) ||
+                other.unlockTime == unlockTime));
   }
 
   @JsonKey(ignore: true)
@@ -376,7 +398,8 @@ class _$_Transaction extends _Transaction {
       timestamp,
       const DeepCollectionEquality().hash(nftData),
       signature,
-      height);
+      height,
+      unlockTime);
 
   @JsonKey(ignore: true)
   @override
@@ -417,7 +440,9 @@ abstract class _Transaction extends Transaction {
       @JsonKey(name: 'Signature')
           final String? signature,
       @JsonKey(name: 'Height')
-          required final int height}) = _$_Transaction;
+          required final int height,
+      @JsonKey(name: 'UnlockTime')
+          final int? unlockTime}) = _$_Transaction;
   _Transaction._() : super._();
 
   factory _Transaction.fromJson(Map<String, dynamic> json) =
@@ -459,6 +484,9 @@ abstract class _Transaction extends Transaction {
   @override
   @JsonKey(name: 'Height')
   int get height;
+  @override
+  @JsonKey(name: 'UnlockTime')
+  int? get unlockTime;
   @override
   @JsonKey(ignore: true)
   _$$_TransactionCopyWith<_$_Transaction> get copyWith =>

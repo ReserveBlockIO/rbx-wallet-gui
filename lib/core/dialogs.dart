@@ -13,12 +13,13 @@ class InfoDialog {
     Widget? content,
     String? closeText,
     IconData? icon,
-    Color? headerColor = Colors.white38,
+    Color? headerColor = Colors.white,
+    BuildContext? contextOverride,
   }) async {
     final context = rootNavigatorKey.currentContext!;
 
     return await showDialog(
-      context: context,
+      context: contextOverride ?? context,
       builder: (context) {
         return AlertDialog(
           title: Row(
@@ -134,6 +135,7 @@ class PromptModal {
     BuildContext? contextOverride,
     String? body,
     bool obscureText = false,
+    bool revealObscure = false,
     String? cancelText,
     String? confirmText,
     String initialValue = "",
@@ -153,6 +155,8 @@ class PromptModal {
     final GlobalKey<FormState> _formKey = GlobalKey();
 
     final TextEditingController _controller = TextEditingController(text: initialValue);
+
+    bool _obscureText = obscureText;
 
     return await showDialog(
       context: context,
@@ -185,19 +189,39 @@ class PromptModal {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   if (body != null) Text(body),
-                  TextFormField(
-                    controller: _controller,
-                    obscureText: obscureText,
-                    autofocus: true,
-                    minLines: lines,
-                    maxLines: lines,
-                    keyboardType: keyboardType,
-                    decoration: InputDecoration(
-                      label: Text(labelText),
-                    ),
-                    validator: validator,
-                    inputFormatters: inputFormatters,
-                  ),
+                  StatefulBuilder(builder: (context, setState) {
+                    return Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            controller: _controller,
+                            obscureText: _obscureText,
+                            autofocus: true,
+                            minLines: lines,
+                            maxLines: lines,
+                            keyboardType: keyboardType,
+                            decoration: InputDecoration(
+                              label: Text(labelText),
+                            ),
+                            validator: validator,
+                            inputFormatters: inputFormatters,
+                          ),
+                        ),
+                        if (obscureText && revealObscure)
+                          IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _obscureText = !_obscureText;
+                              });
+                            },
+                            icon: Icon(
+                              _obscureText ? Icons.remove_red_eye : Icons.hide_source_outlined,
+                            ),
+                          )
+                      ],
+                    );
+                  }),
                 ],
               ),
             ),

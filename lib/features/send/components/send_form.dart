@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/features/reserve/providers/reserve_account_provider.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 
 import '../../../core/base_component.dart';
@@ -17,6 +19,7 @@ import '../../../utils/toast.dart';
 import '../../encrypt/utils.dart';
 import '../../keygen/models/keypair.dart';
 import '../../wallet/models/wallet.dart';
+import '../../reserve/components/balance_indicator.dart';
 import '../providers/send_form_provider.dart';
 
 class SendForm extends BaseComponent {
@@ -96,6 +99,8 @@ class SendForm extends BaseComponent {
     final balance = isWeb ? ref.read(webSessionProvider).balance : wallet!.balance;
     final isMobile = BreakPoints.useMobileLayout(context);
 
+    final color = wallet!.isReserved ? Colors.deepPurple.shade200 : Colors.white;
+
     return Form(
       key: formProvider.formKey,
       child: Card(
@@ -106,18 +111,136 @@ class SendForm extends BaseComponent {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ListTile(
-                dense: isMobile,
-                visualDensity: isMobile ? VisualDensity.compact : VisualDensity.comfortable,
-                leading: isMobile ? null : const SizedBox(width: leadingWidth, child: Text("From:")),
-                title: Text(isWeb ? "${isMobile ? "From: " : ""}${keypair!.public}" : wallet!.address),
-                subtitle: isWeb ? Text("Balance: $balance RBX") : Text(wallet!.friendlyName ?? ""),
-                trailing: !isWeb
-                    ? AppBadge(
-                        label: "$balance RBX",
-                        variant: AppColorVariant.Light,
-                      )
-                    : null,
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 72,
+                      child: Text("From:"),
+                    ),
+                    Expanded(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (isWeb)
+                            Text(
+                              "${isMobile ? "From: " : ""}${keypair!.public}",
+                              style: TextStyle(color: color, fontSize: 16),
+                            ),
+                          if (!isWeb)
+                            PopupMenuButton(
+                              constraints: BoxConstraints(maxWidth: 500),
+                              itemBuilder: (context) {
+                                final currentWallet = ref.watch(sessionProvider).currentWallet;
+                                final allWallets = ref.watch(walletListProvider);
+                                final list = <PopupMenuEntry<int>>[];
+
+                                for (final wallet in allWallets) {
+                                  final isSelected = currentWallet != null && wallet.address == currentWallet.address;
+
+                                  final color = wallet.isReserved ? Colors.deepPurple.shade200 : Theme.of(context).textTheme.bodyText1!.color!;
+
+                                  list.add(
+                                    PopupMenuItem(
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          if (isSelected)
+                                            Padding(
+                                              padding: const EdgeInsets.only(right: 4.0),
+                                              child: Icon(Icons.check),
+                                            ),
+                                          Text(
+                                            wallet.labelWithoutTruncation,
+                                            style: TextStyle(color: color),
+                                          ),
+                                        ],
+                                      ),
+                                      onTap: () {
+                                        ref.read(sessionProvider.notifier).setCurrentWallet(wallet);
+                                      },
+                                    ),
+                                  );
+                                }
+                                return list;
+                              },
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    wallet!.address,
+                                    style: TextStyle(color: color, fontSize: 16),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_drop_down,
+                                    size: 24,
+                                    color: wallet!.isReserved ? Colors.deepPurple.shade200 : Theme.of(context).textTheme.bodyText1!.color!,
+                                  ),
+                                ],
+                              ),
+                            )
+                        ],
+                      ),
+                    ),
+                    !wallet!.isReserved
+                        ? Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              if (wallet!.lockedBalance == 0.0)
+                                AppBadge(
+                                  label: "$balance RBX",
+                                  variant: AppColorVariant.Light,
+                                ),
+                              if (wallet!.lockedBalance > 0) ...[
+                                BalanceIndicator(
+                                  label: "Available",
+                                  value: wallet!.balance,
+                                  bgColor: Colors.white,
+                                  fgColor: Colors.black,
+                                ),
+                                BalanceIndicator(
+                                  label: "Locked",
+                                  value: wallet!.lockedBalance,
+                                  bgColor: Colors.red.shade700,
+                                  fgColor: Colors.white,
+                                ),
+                                BalanceIndicator(
+                                  label: "Total",
+                                  value: wallet!.balance + wallet!.lockedBalance,
+                                  bgColor: Colors.green.shade700,
+                                  fgColor: Colors.white,
+                                ),
+                              ]
+                            ],
+                          )
+                        : Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              BalanceIndicator(
+                                label: "Available",
+                                value: wallet!.availableBalance,
+                                bgColor: Colors.deepPurple.shade400,
+                                fgColor: Colors.white,
+                              ),
+                              BalanceIndicator(
+                                label: "Locked",
+                                value: wallet!.lockedBalance,
+                                bgColor: Colors.red.shade700,
+                                fgColor: Colors.white,
+                              ),
+                              BalanceIndicator(
+                                label: "Total",
+                                value: wallet!.totalBalance,
+                                bgColor: Colors.green.shade700,
+                                fgColor: Colors.white,
+                              ),
+                            ],
+                          ),
+                  ],
+                ),
               ),
               ListTile(
                 leading: isMobile ? null : const SizedBox(width: leadingWidth, child: Text("To:")),
@@ -217,6 +340,7 @@ class SendForm extends BaseComponent {
                           if (!formProvider.formKey.currentState!.validate()) {
                             return;
                           }
+
                           formProvider.submit();
                         },
                       );
