@@ -3,6 +3,9 @@ import 'dart:convert';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/env.dart';
+import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
+import 'package:rbx_wallet/features/dst/providers/dst_tx_pending_provider.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/providers/session_provider.dart';
@@ -65,6 +68,9 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       case TxType.nftBurn:
         _handleNftBurn(transaction);
         break;
+      case TxType.dstShop:
+        _handleDstShop(transaction);
+        break;
     }
   }
 
@@ -73,6 +79,10 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
     bool isOutgoing = false,
     bool isIncoming = false,
   }) {
+    if (Env.isTestNet) {
+      return;
+    }
+
     if (isIncoming) {
       _broadcastNotification(
         TransactionNotification(
@@ -295,6 +305,21 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       print(e);
       return null;
     }
+  }
+
+  void _handleDstShop(Transaction transaction) {
+    ref.invalidate(decShopProvider);
+    ref.read(dstTxPendingProvider.notifier).set(false);
+
+    _broadcastNotification(
+      TransactionNotification(
+        identifier: transaction.hash,
+        transaction: transaction,
+        title: "DecShop TX",
+        body: "DecShop TX Complete",
+        icon: Icons.store,
+      ),
+    );
   }
 
   String? _nftDataValue(Map<String, dynamic> nftData, String key) {

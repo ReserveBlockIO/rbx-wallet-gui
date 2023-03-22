@@ -1,6 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/dst/components/publish_shop_button.dart';
+import 'package:rbx_wallet/features/dst/components/shop_online_button.dart';
+import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
+import 'package:rbx_wallet/features/dst/providers/dst_tx_pending_provider.dart';
+import 'package:rbx_wallet/features/dst/services/dst_service.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/components/buttons.dart';
@@ -17,8 +23,9 @@ class CreateDecShopContainerScreen extends BaseScreen {
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     final provider = ref.read(decShopFormProvider.notifier);
     final model = ref.read(decShopFormProvider);
+
     return AppBar(
-      title: Text(model.id != 0 ? "Edit Shop" : "Create New Shop"),
+      title: Text(model.id != 0 ? "Edit Auction House" : "Create Auction House"),
       leading: IconButton(
         onPressed: () async {
           final confirmed = await ConfirmDialog.show(
@@ -36,6 +43,12 @@ class CreateDecShopContainerScreen extends BaseScreen {
         },
         icon: const Icon(Icons.close),
       ),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.only(right: 8.0),
+          child: ShopOnlineButton(),
+        )
+      ],
     );
   }
 
@@ -88,11 +101,37 @@ class CreateDecShopContainerScreen extends BaseScreen {
                     }
                   },
                 ),
+                if (model.id != 0) DecPublishShopButton(),
                 AppButton(
-                  label: model.id != 0 ? 'Save' : 'Create',
+                  label: model.id != 0 ? 'Save Changes' : 'Create',
                   variant: AppColorVariant.Success,
                   onPressed: () async {
-                    await provider.complete(context);
+                    final success = await provider.complete(context);
+                    if (success == true) {
+                      final confirmed = await ConfirmDialog.show(
+                        title: "Publish Updates?",
+                        body:
+                            "Your local changes were saved succesfully. Would you like to publish this to the network?${model.updateWillCost ? '\n\n1 RBX is required since you have already published within the past 24 hours.' : ''}",
+                      );
+
+                      ref.invalidate(decShopProvider);
+
+                      if (confirmed == true) {
+                        final success = model.id == 0 ? await DstService().publishShop() : await DstService().updateShop();
+                        if (success) {
+                          ref.read(dstTxPendingProvider.notifier).set(true);
+                          ref.invalidate(decShopProvider);
+                          Toast.message("Publish Transaction Sent!");
+                          AutoRouter.of(context).pop();
+                        } else {
+                          Toast.error();
+                        }
+                      } else {
+                        Toast.message("Local changes saved!");
+
+                        AutoRouter.of(context).pop();
+                      }
+                    }
                   },
                 )
               ],

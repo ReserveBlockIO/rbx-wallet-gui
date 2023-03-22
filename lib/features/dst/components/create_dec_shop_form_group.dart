@@ -43,23 +43,46 @@ class CreateDecShopFormGroup extends BaseComponent {
                     height: 6,
                   ),
                   Flexible(
-                      child: Row(
-                    children: [
-                      Text('Select Address:'),
-                      Expanded(
-                        child: Text(model.address),
-                      ),
-                      IconButton(
-                        icon: const Icon(
-                          FontAwesomeIcons.folderOpen,
-                          size: 18,
+                    child: Row(
+                      children: [
+                        Text('Address: '),
+                        Expanded(
+                          child: Text(model.ownerAddress),
                         ),
-                        onPressed: () {
-                          chooseAddress(context, ref, provider);
+                        if (model.id == 0)
+                          IconButton(
+                            icon: const Icon(
+                              FontAwesomeIcons.folderOpen,
+                              size: 18,
+                            ),
+                            onPressed: () {
+                              chooseAddress(context, ref, provider);
+                            },
+                          ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 6,
+                  ),
+                  Flexible(
+                      child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Checkbox(
+                        value: model.autoUpdateNetworkDns,
+                        onChanged: (val) {
+                          if (val != null) {
+                            provider.updateAutoUpdateNetworkDns(val);
+                          }
                         },
                       ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Text("Auto Update on DNS Change")
                     ],
-                  )),
+                  ))
                 ],
               ),
             ),

@@ -96,16 +96,74 @@ class DstService extends BaseService {
     try {
       final response = await getText('/GetDecShop');
       final data = jsonDecode(response);
-      return DecShop.fromJson(data);
+      if (data['Success'] == true) {
+        return DecShop.fromJson(data['DecShop']);
+      }
+      return null;
     } catch (e) {
       print(e);
       return null;
     }
   }
 
-  Future<bool> saveDecShop(DecShop decShop) async {
+  // use if not published
+  Future<bool> publishShop() async {
     try {
-      final response = await postJson('/SaveDecShop', params: decShop.toJson());
+      final response = await getText('/GetPublishDecShop');
+      final data = jsonDecode(response);
+
+      if (data['Success'] == true) {
+        return true;
+      }
+
+      return false;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  // use if published
+  Future<bool> updateShop() async {
+    try {
+      final response = await getText('/GetUpdateDecShop');
+      final data = jsonDecode(response);
+      if (data['Success'] == true) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> toggleOnlineOffline() async {
+    try {
+      final response = await getText('/GetSetShopStatus');
+      final data = jsonDecode(response);
+      print(data);
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> saveDecShop(DecShop decShop) async {
+    final payload = {
+      'Name': decShop.name.trim(),
+      'DecShopURL': decShop.url.trim().replaceAll("rbx://", ""),
+      'Description': decShop.description.trim(),
+      'OwnerAddress': decShop.ownerAddress,
+      'DecShopHostingType': decShop.type,
+      // TODO: IP (if self host)
+      // TODO: Port, (if self host)
+      'AutoUpdateNetworkDNS': decShop.autoUpdateNetworkDns,
+    };
+
+    try {
+      final response = await postJson('/SaveDecShop', params: payload);
       print(response);
       if (response['data']['Success']) {
         return true;
@@ -175,13 +233,41 @@ class DstService extends BaseService {
 
   Future<bool> deleteListing(Listing listing) async {
     try {
-      print(listing);
       final response = await getText('/DeleteListing/${listing.id}');
       print(response);
       return true;
     } catch (e) {
       print(e);
       return false;
+    }
+  }
+
+  Future<bool> cancelListing(Listing listing) async {
+    try {
+      final response = await getText('/CancelListing/${listing.id}');
+      print(response);
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<DecShop?> getRemoteDecShop(String url) async {
+    if (!url.contains("rbx://")) {
+      url = "rbx://$url";
+    }
+
+    try {
+      final response = await getText('/GetDecShop/$url');
+      final data = jsonDecode(response);
+      if (data['Success'] == true) {
+        return DecShop.fromJson(data['DecShop']);
+      }
+      return null;
+    } catch (e) {
+      print(e);
+      return null;
     }
   }
 }
