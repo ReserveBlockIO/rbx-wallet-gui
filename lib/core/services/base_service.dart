@@ -26,10 +26,10 @@ class BaseService {
         ? {
             HttpHeaders.contentTypeHeader: "application/json",
             HttpHeaders.acceptHeader: "application/json",
-            ...!kIsWeb ? {'apitoken': token} : {},
+            ...!kIsWeb && !Env.isTestNet ? {'apitoken': token} : {},
           }
         : {
-            ...!kIsWeb ? {'apitoken': token} : {},
+            ...!kIsWeb && !Env.isTestNet ? {'apitoken': token} : {},
           };
   }
 

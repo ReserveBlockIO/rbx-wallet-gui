@@ -685,7 +685,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
       startupDataLoop();
 
       final cliPath = Env.cliPathOverride ?? getCliPath();
-      List<String> options = ['enableapi', 'gui', 'apitoken=$apiToken'];
+      List<String> options = Env.isTestNet ? ['enableapi', 'gui'] : ['enableapi', 'gui', 'apitoken=$apiToken'];
 
       if (Env.isTestNet) {
         options.add("testnet");
@@ -701,8 +701,8 @@ class SessionProvider extends StateNotifier<SessionModel> {
           cmd = Env.isTestNet ? "$appPath\\RbxCore\\RBXLauncherTestNet.exe" : "$appPath\\RbxCore\\RBXLauncher.exe";
 
           ref.read(logProvider.notifier).append(LogEntry(message: "Launching CLI in the background."));
-
-          pm.run([cmd, 'apitoken=$apiToken']).then((result) {
+          final params = Env.isTestNet ? [cmd] : [cmd, 'apitoken=$apiToken'];
+          pm.run(params).then((result) {
             ref.read(logProvider.notifier).append(LogEntry(message: "Command ran successfully."));
           });
           singleton<ApiTokenManager>().set(apiToken);
