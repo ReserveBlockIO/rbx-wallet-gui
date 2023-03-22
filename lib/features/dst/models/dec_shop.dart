@@ -13,7 +13,7 @@ class DecShop with _$DecShop {
     @JsonKey(name: "Name") required String name, //* submit   // * updating when published
     @JsonKey(name: "DecShopURL") required String url, //* submit  // * updating when published
     @JsonKey(name: "Description") required String description, //* submit  // * updating when published
-    @JsonKey(name: "OwnerAddress") required String ownerAddress, //* submit
+    @JsonKey(name: "OwnerAddress") String? ownerAddress, //* submit
     @JsonKey(name: "HostingType") required int type, //* submit
     @JsonKey(name: "IP") @Default("") String ip, //* submit IF self hosted  // * updating
     @JsonKey(name: "Port") @Default(0) int port, //* submit IF self hosted  // * updating

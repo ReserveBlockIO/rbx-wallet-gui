@@ -12,7 +12,7 @@ _$_DecShop _$$_DecShopFromJson(Map<String, dynamic> json) => _$_DecShop(
       name: json['Name'] as String,
       url: json['DecShopURL'] as String,
       description: json['Description'] as String,
-      ownerAddress: json['OwnerAddress'] as String,
+      ownerAddress: json['OwnerAddress'] as String?,
       type: json['HostingType'] as int,
       ip: json['IP'] as String? ?? "",
       port: json['Port'] as int? ?? 0,

@@ -47,7 +47,7 @@ class CreateDecShopFormGroup extends BaseComponent {
                       children: [
                         Text('Address: '),
                         Expanded(
-                          child: Text(model.ownerAddress),
+                          child: Text(model.ownerAddress ?? "-"),
                         ),
                         if (model.id == 0)
                           IconButton(
@@ -55,8 +55,11 @@ class CreateDecShopFormGroup extends BaseComponent {
                               FontAwesomeIcons.folderOpen,
                               size: 18,
                             ),
-                            onPressed: () {
-                              chooseAddress(context, ref, provider);
+                            onPressed: () async {
+                              final address = await chooseAddress(context, ref, provider);
+                              if (address != null) {
+                                provider.updateAddress(address);
+                              }
                             },
                           ),
                       ],
@@ -92,7 +95,7 @@ class CreateDecShopFormGroup extends BaseComponent {
     );
   }
 
-  Future<void> chooseAddress(BuildContext context, WidgetRef ref, DecShopFormProvider formProvider) async {
+  Future<String?> chooseAddress(BuildContext context, WidgetRef ref, DecShopFormProvider formProvider) async {
     final wallets = ref.read(walletListProvider);
 
     final address = await showDialog(
@@ -130,7 +133,7 @@ class CreateDecShopFormGroup extends BaseComponent {
             ),
           );
         });
-    formProvider.updateAddress(address);
+    return address;
   }
 }
 

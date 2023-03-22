@@ -97,6 +97,7 @@ class DstService extends BaseService {
       final response = await getText('/GetDecShop');
       final data = jsonDecode(response);
       if (data['Success'] == true) {
+        print(response);
         return DecShop.fromJson(data['DecShop']);
       }
       return null;

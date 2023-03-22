@@ -16,14 +16,14 @@ class DecShopFormProvider extends StateNotifier<DecShop> {
   final Ref ref;
   late final TextEditingController nameController;
   late final TextEditingController descriptionController;
-  late final TextEditingController addressController;
+  // late final TextEditingController addressController;
   late final TextEditingController urlController;
   final GlobalKey<FormState> formKey = GlobalKey();
 
   DecShopFormProvider(this.ref, DecShop model) : super(model) {
     nameController = TextEditingController(text: model.name);
     descriptionController = TextEditingController(text: model.description);
-    addressController = TextEditingController(text: model.ownerAddress);
+    // addressController = TextEditingController(text: model.ownerAddress);
     urlController = TextEditingController(text: model.url);
   }
 
@@ -31,7 +31,7 @@ class DecShopFormProvider extends StateNotifier<DecShop> {
     state = decShop;
     nameController.text = decShop.name;
     descriptionController.text = decShop.description;
-    addressController.text = decShop.ownerAddress;
+    // addressController.text = decShop.ownerAddress ?? '';
     urlController.text = decShop.url.replaceAll("rbx://", "");
   }
 
@@ -57,6 +57,11 @@ class DecShopFormProvider extends StateNotifier<DecShop> {
 
   Future<bool?> complete(BuildContext context) async {
     if (!formKey.currentState!.validate()) {
+      return null;
+    }
+
+    if (state.ownerAddress == null || state.ownerAddress!.isEmpty) {
+      Toast.error("Address Required.");
       return null;
     }
 

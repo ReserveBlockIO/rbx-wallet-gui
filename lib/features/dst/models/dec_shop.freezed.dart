@@ -34,7 +34,7 @@ mixin _$DecShop {
   String get description =>
       throw _privateConstructorUsedError; //* submit  // * updating when published
   @JsonKey(name: "OwnerAddress")
-  String get ownerAddress => throw _privateConstructorUsedError; //* submit
+  String? get ownerAddress => throw _privateConstructorUsedError; //* submit
   @JsonKey(name: "HostingType")
   int get type => throw _privateConstructorUsedError; //* submit
   @JsonKey(name: "IP")
@@ -80,7 +80,7 @@ abstract class $DecShopCopyWith<$Res> {
       @JsonKey(name: "Name") String name,
       @JsonKey(name: "DecShopURL") String url,
       @JsonKey(name: "Description") String description,
-      @JsonKey(name: "OwnerAddress") String ownerAddress,
+      @JsonKey(name: "OwnerAddress") String? ownerAddress,
       @JsonKey(name: "HostingType") int type,
       @JsonKey(name: "IP") String ip,
       @JsonKey(name: "Port") int port,
@@ -113,7 +113,7 @@ class _$DecShopCopyWithImpl<$Res, $Val extends DecShop>
     Object? name = null,
     Object? url = null,
     Object? description = null,
-    Object? ownerAddress = null,
+    Object? ownerAddress = freezed,
     Object? type = null,
     Object? ip = null,
     Object? port = null,
@@ -148,10 +148,10 @@ class _$DecShopCopyWithImpl<$Res, $Val extends DecShop>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      ownerAddress: null == ownerAddress
+      ownerAddress: freezed == ownerAddress
           ? _value.ownerAddress
           : ownerAddress // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -217,7 +217,7 @@ abstract class _$$_DecShopCopyWith<$Res> implements $DecShopCopyWith<$Res> {
       @JsonKey(name: "Name") String name,
       @JsonKey(name: "DecShopURL") String url,
       @JsonKey(name: "Description") String description,
-      @JsonKey(name: "OwnerAddress") String ownerAddress,
+      @JsonKey(name: "OwnerAddress") String? ownerAddress,
       @JsonKey(name: "HostingType") int type,
       @JsonKey(name: "IP") String ip,
       @JsonKey(name: "Port") int port,
@@ -247,7 +247,7 @@ class __$$_DecShopCopyWithImpl<$Res>
     Object? name = null,
     Object? url = null,
     Object? description = null,
-    Object? ownerAddress = null,
+    Object? ownerAddress = freezed,
     Object? type = null,
     Object? ip = null,
     Object? port = null,
@@ -282,10 +282,10 @@ class __$$_DecShopCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      ownerAddress: null == ownerAddress
+      ownerAddress: freezed == ownerAddress
           ? _value.ownerAddress
           : ownerAddress // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -353,7 +353,7 @@ class _$_DecShop extends _DecShop {
       @JsonKey(name: "Description")
           required this.description,
       @JsonKey(name: "OwnerAddress")
-          required this.ownerAddress,
+          this.ownerAddress,
       @JsonKey(name: "HostingType")
           required this.type,
       @JsonKey(name: "IP")
@@ -403,7 +403,7 @@ class _$_DecShop extends _DecShop {
 //* submit  // * updating when published
   @override
   @JsonKey(name: "OwnerAddress")
-  final String ownerAddress;
+  final String? ownerAddress;
 //* submit
   @override
   @JsonKey(name: "HostingType")
@@ -538,7 +538,7 @@ abstract class _DecShop extends DecShop {
       @JsonKey(name: "Description")
           required final String description,
       @JsonKey(name: "OwnerAddress")
-          required final String ownerAddress,
+          final String? ownerAddress,
       @JsonKey(name: "HostingType")
           required final int type,
       @JsonKey(name: "IP")
@@ -584,7 +584,7 @@ abstract class _DecShop extends DecShop {
   String get description;
   @override //* submit  // * updating when published
   @JsonKey(name: "OwnerAddress")
-  String get ownerAddress;
+  String? get ownerAddress;
   @override //* submit
   @JsonKey(name: "HostingType")
   int get type;
