@@ -152,6 +152,11 @@ class DstService extends BaseService {
   }
 
   Future<bool> saveDecShop(DecShop decShop) async {
+    // String url = decShop.url;
+    // if (!url.startsWith("rbx://")) {
+    //   url = "rbx://$url";
+    // }
+
     final payload = {
       'Name': decShop.name.trim(),
       'DecShopURL': decShop.url.trim().replaceAll("rbx://", ""),
@@ -162,6 +167,8 @@ class DstService extends BaseService {
       // TODO: Port, (if self host)
       'AutoUpdateNetworkDNS': decShop.autoUpdateNetworkDns,
     };
+
+    print(payload);
 
     try {
       final response = await postJson('/SaveDecShop', params: payload);

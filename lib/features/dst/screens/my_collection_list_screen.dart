@@ -109,7 +109,7 @@ class MyCollectionsListScreen extends BaseScreen {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          ShopOnlineButton(),
+                          if (shop.isPublished) ShopOnlineButton(),
                           AppButton(
                             variant: AppColorVariant.Primary,
                             label: "Edit Details",

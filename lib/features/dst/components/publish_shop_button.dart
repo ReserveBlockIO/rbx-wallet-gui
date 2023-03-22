@@ -28,7 +28,7 @@ class DecPublishShopButton extends BaseComponent {
 
         if (ref.watch(dstTxPendingProvider)) {
           return AppButton(
-            label: "Update Pending",
+            label: " Pending",
             processing: true,
           );
         }

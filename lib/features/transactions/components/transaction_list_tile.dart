@@ -112,16 +112,17 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                           const SizedBox(
                             width: 4,
                           ),
-                          InkWell(
-                            onTap: () async {
-                              final url = "${Env.baseExplorerUrl}transaction/${widget.transaction.hash}";
-                              await launchUrl(Uri.parse(url));
-                            },
-                            child: const Icon(
-                              Icons.open_in_new,
-                              size: 12,
+                          if (widget.transaction.status != TransactionStatus.Fail && widget.transaction.status != TransactionStatus.Pending)
+                            InkWell(
+                              onTap: () async {
+                                final url = "${Env.baseExplorerUrl}transaction/${widget.transaction.hash}";
+                                await launchUrl(Uri.parse(url));
+                              },
+                              child: const Icon(
+                                Icons.open_in_new,
+                                size: 12,
+                              ),
                             ),
-                          ),
                         ],
                       ),
                       const SizedBox(height: 4),

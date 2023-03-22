@@ -31,7 +31,7 @@ class RemoteShopListScreen extends BaseScreen {
     final shop = await RemoteShopService().getShopInfo(url);
 
     if (shop == null) {
-      Toast.error("Could not load shop info.");
+      Toast.error("Could not find auction house with url of $url");
       return;
     }
 
@@ -62,7 +62,7 @@ class RemoteShopListScreen extends BaseScreen {
           return "Shop URL required";
         }
 
-        if (value.startsWith("rbx://")) {
+        if (!value.startsWith("rbx://")) {
           return "Invalid URL. Must start with 'rbx://'";
         }
         return null;
@@ -70,7 +70,7 @@ class RemoteShopListScreen extends BaseScreen {
       labelText: "Shop URL",
     );
 
-    return url;
+    return url?.toLowerCase();
   }
 
   Future<void> loadShopWithPrompt(
