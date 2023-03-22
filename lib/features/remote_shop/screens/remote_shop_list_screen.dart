@@ -1,17 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/components/big_button.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/saved_shops_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/app_router.gr.dart';
 import '../../../core/base_screen.dart';
-import '../../../generated/assets.gen.dart';
 import '../../wallet/components/wallet_selector.dart';
 
 class RemoteShopListScreen extends BaseScreen {
@@ -68,7 +67,7 @@ class RemoteShopListScreen extends BaseScreen {
         }
         return null;
       },
-      labelText: "Connect",
+      labelText: "Shop URL",
     );
 
     return url;
@@ -93,10 +92,15 @@ class RemoteShopListScreen extends BaseScreen {
       shadowColor: Colors.transparent,
       actions: [
         TextButton(
-            onPressed: () async {
-              await loadShopWithPrompt(context, ref);
-            },
-            child: Text("Connect"))
+          onPressed: () async {
+            await loadShopWithPrompt(context, ref);
+          },
+          child: Text(
+            "Connect",
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+        // WalletSelector(),
       ],
     );
   }
@@ -108,7 +112,8 @@ class RemoteShopListScreen extends BaseScreen {
     if (savedShops.isEmpty) {
       return Center(
         child: AppButton(
-          label: "Connect",
+          label: "Connect to Auction House",
+          variant: AppColorVariant.Success,
           onPressed: () async {
             await loadShopWithPrompt(context, ref);
           },
