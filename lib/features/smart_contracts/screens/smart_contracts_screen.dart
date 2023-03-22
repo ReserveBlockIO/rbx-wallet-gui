@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/components/big_button.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -126,83 +127,6 @@ class SmartContractsScreen extends BaseScreen {
           ),
         ),
       ],
-    );
-  }
-}
-
-class BigButton extends StatelessWidget {
-  final String title;
-  final String body;
-  final IconData iconData;
-  final Function() onPressed;
-  const BigButton({
-    Key? key,
-    required this.title,
-    required this.body,
-    required this.iconData,
-    required this.onPressed,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final isMobile = BreakPoints.useMobileLayout(context);
-
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        width: 600,
-        decoration: BoxDecoration(
-          // color: Theme.of(context).colorScheme.primary,
-          color: Colors.black.withOpacity(0.6),
-          borderRadius: BorderRadius.circular(10.0),
-          border: Border.all(color: Theme.of(context).colorScheme.secondary.withOpacity(0.2), width: 3),
-          boxShadow: const [
-            BoxShadow(blurRadius: 12.0, color: Colors.white12),
-          ],
-        ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: onPressed,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 20,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    iconData,
-                    size: isMobile ? 28 : 48,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      title,
-                      style: isMobile
-                          ? Theme.of(context).textTheme.headline5!.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              )
-                          : Theme.of(context).textTheme.headline3,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 32),
-                    child: Text(
-                      body,
-                      style: Theme.of(context).textTheme.bodyText2,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

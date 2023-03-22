@@ -27,53 +27,12 @@ class MyCollectionsListScreen extends BaseScreen {
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
       title: Text("My Auction House"),
-      // actions: [
-      //   TextButton(
-      //     onPressed: () {
-      //       AutoRouter.of(context).push(const CreateCollectionContainerScreenRoute());
-      //     },
-      //     child: Text(
-      //       "Create Collection",
-      //       style: TextStyle(color: Colors.white),
-      //     ),
-      //   ),
-      // ],
     );
   }
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
     final collections = ref.watch(storeListProvider);
-    // if (collections.isEmpty) {
-    //   return Center(
-    //     child: Column(
-    //       mainAxisSize: MainAxisSize.min,
-    //       children: [
-    //         AppButton(
-    //           label: "Setup Auction House",
-    //           variant: AppColorVariant.Success,
-    //           onPressed: () {
-    //             ref.read(decShopFormProvider.notifier).clear();
-    //             AutoRouter.of(context)
-    //                 .push(const CreateDecShopContainerScreenRoute());
-    //           },
-    //         ),
-    //         SizedBox(
-    //           height: 8,
-    //         ),
-    //         AppButton(
-    //           label: "Create Collection",
-    //           variant: AppColorVariant.Success,
-    //           onPressed: () {
-    //             ref.read(storeFormProvider.notifier).clear();
-    //             AutoRouter.of(context)
-    //                 .push(const CreateCollectionContainerScreenRoute());
-    //           },
-    //         ),
-    //       ],
-    //     ),
-    //   );
-    // }
 
     return Column(
       children: [

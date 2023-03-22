@@ -20,6 +20,7 @@ abstract class Storage {
   static const PENDING_ADNRS = "PENDING_ADNRS";
   static const WEB_KEYPAIR = "WEB_KEYPAIR";
   static const REMEMBER_ME = "REMEMBER_ME";
+  static const SAVED_SHOPS = "SAVE_SHOPS";
 
   bool isInitialized = false;
 

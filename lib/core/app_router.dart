@@ -5,8 +5,9 @@ import 'package:rbx_wallet/features/dst/screens/create_collection_container_scre
 import 'package:rbx_wallet/features/dst/screens/create_dec_shop_container_screen.dart';
 import 'package:rbx_wallet/features/dst/screens/my_collection_detail_screen.dart';
 import 'package:rbx_wallet/features/dst/screens/my_collection_list_screen.dart';
-import 'package:rbx_wallet/features/dsts_legacy/screens/create_store_screen.dart';
-import 'package:rbx_wallet/features/dsts_legacy/screens/dst_screen.dart';
+import 'package:rbx_wallet/features/dst/screens/dst_landing_screen.dart';
+import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_list_screen.dart';
+import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_detail_screen.dart';
 import 'package:rbx_wallet/features/reserve/screens/reserve_account_overview_screen.dart';
 
 import '../features/adjudicator/adjudicator_screen.dart';
@@ -128,7 +129,10 @@ const List<AutoRoute> appRoutes = [
         name: "DstsTabRouter",
         page: EmptyRouterPage,
         children: [
-          AutoRoute(path: "", page: MyCollectionsListScreen),
+          AutoRoute(path: "", page: DstLandingScreen),
+          AutoRoute(path: "shops", page: RemoteShopListScreen),
+          AutoRoute(path: "shops/:url", page: RemoteShopDetailScreen),
+          AutoRoute(path: "me", page: MyCollectionsListScreen),
           AutoRoute(path: ":collectionId", page: MyCollectionDetailScreen),
           AutoRoute(path: "createCollection", page: CreateCollectionContainerScreen),
           AutoRoute(path: "createDecShop", page: CreateDecShopContainerScreen),
@@ -162,14 +166,6 @@ const List<AutoRoute> appRoutes = [
           AutoRoute(path: "", page: BeaconListScreen),
         ],
       ),
-      // AutoRoute(
-      //   path: "explorer",
-      //   name: "ExplorerTabRouter",
-      //   page: EmptyRouterPage,
-      //   children: [
-      //     AutoRoute(path: "", page: ExplorerScreen),
-      //   ],
-      // ),
     ],
   ),
   AutoRoute(

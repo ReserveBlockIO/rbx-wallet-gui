@@ -252,22 +252,4 @@ class DstService extends BaseService {
       return false;
     }
   }
-
-  Future<DecShop?> getRemoteDecShop(String url) async {
-    if (!url.contains("rbx://")) {
-      url = "rbx://$url";
-    }
-
-    try {
-      final response = await getText('/GetDecShop/$url');
-      final data = jsonDecode(response);
-      if (data['Success'] == true) {
-        return DecShop.fromJson(data['DecShop']);
-      }
-      return null;
-    } catch (e) {
-      print(e);
-      return null;
-    }
-  }
 }
