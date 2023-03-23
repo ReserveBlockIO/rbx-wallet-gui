@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/remote_shop/components/remote_shop_details.dart';
+import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/remote_shop_detail_provider.dart';
 
 import '../../../core/base_screen.dart';
@@ -20,6 +21,23 @@ class RemoteShopDetailScreen extends BaseScreen {
       data: (shop) => shop != null
           ? AppBar(
               title: Text(shop.name),
+              leading: IconButton(
+                icon: Icon(
+                  Icons.navigate_before,
+                  size: 32,
+                ),
+                onPressed: () {
+                  ref.read(connectedShopProvider.notifier).disconnect();
+                  Navigator.of(context).pop();
+                },
+              ),
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      ref.read(connectedShopProvider.notifier).refresh(true);
+                    },
+                    icon: Icon(Icons.refresh))
+              ],
             )
           : AppBar(
               title: const Text("Error"),
@@ -38,7 +56,7 @@ class RemoteShopDetailScreen extends BaseScreen {
     final data = ref.watch(remoteShopDetailProvider(shopUrl));
 
     return data.when(
-      data: (shop) => shop != null ? RemoteShopDetails(shop) : const Center(child: Text("Error")),
+      data: (shop) => shop != null ? RemoteShopDetails() : const Center(child: Text("Error")),
       error: (_, __) => const Text("Error"),
       loading: () => const CenteredLoader(),
     );

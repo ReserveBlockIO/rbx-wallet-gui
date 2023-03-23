@@ -113,6 +113,11 @@ class DstService extends BaseService {
       final response = await getText('/GetPublishDecShop');
       final data = jsonDecode(response);
 
+      print("********");
+
+      print(response);
+      print("********");
+
       if (data['Success'] == true) {
         return true;
       }

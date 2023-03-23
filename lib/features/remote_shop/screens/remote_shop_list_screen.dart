@@ -5,6 +5,8 @@ import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
+import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/saved_shops_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
 import 'package:rbx_wallet/utils/toast.dart';
@@ -45,9 +47,14 @@ class RemoteShopListScreen extends BaseScreen {
     );
 
     if (confirmed == true) {
-      RemoteShopService().connectToShop(myAddress: address, shopUrl: shop.url);
-      await Future.delayed(Duration(milliseconds: 500));
+      ref.read(globalLoadingProvider.notifier).start();
+      await RemoteShopService().connectToShop(myAddress: address, shopUrl: shop.url);
+      await Future.delayed(Duration(milliseconds: 2500));
+      // await RemoteShopService().getConnectedShopData();
+      ref.read(connectedShopProvider.notifier).connect(shop);
       AutoRouter.of(context).push(RemoteShopDetailScreenRoute(shopUrl: shop.url));
+      // AutoRouter.of(context).push(RemoteShopContainerScreenRoute());
+      ref.read(globalLoadingProvider.notifier).complete();
     }
   }
 
@@ -130,7 +137,15 @@ class RemoteShopListScreen extends BaseScreen {
             leading: Icon(Icons.house),
             title: Text(url),
             onTap: () async {
-              await loadShop(context, ref, url);
+              final currentUrl = ref.read(connectedShopProvider).url;
+              print(url);
+              print(currentUrl);
+              if (currentUrl == url) {
+                ref.read(connectedShopProvider.notifier).refresh();
+                AutoRouter.of(context).push(RemoteShopDetailScreenRoute(shopUrl: url));
+              } else {
+                await loadShop(context, ref, url);
+              }
             },
           ),
         );

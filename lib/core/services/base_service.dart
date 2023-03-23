@@ -67,6 +67,7 @@ class BaseService {
     bool cleanPath = true,
     int timeout = 30000,
     bool inspect = false,
+    bool preventError = false,
   }) async {
     try {
       final dio = Dio(_options(auth: auth, timeout: timeout));
@@ -86,9 +87,18 @@ class BaseService {
         queryParameters: params,
       );
 
-      return response.data;
-    } catch (e) {
-      rethrow;
+      if (response.data != null) {
+        return response.data.toString();
+      }
+
+      return response.toString();
+    } catch (e, st) {
+      print(e);
+      print(st);
+      if (!preventError) {
+        rethrow;
+      }
+      return "";
     }
   }
 
