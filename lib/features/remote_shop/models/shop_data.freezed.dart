@@ -427,7 +427,6 @@ mixin _$OrganizedListing {
   bool get isRoyaltyEnforced => throw _privateConstructorUsedError;
   bool get isCancelled => throw _privateConstructorUsedError;
   bool get requireBalanceCheck => throw _privateConstructorUsedError;
-  bool get isDefault => throw _privateConstructorUsedError;
   double? get floorPrice => throw _privateConstructorUsedError;
   double? get reservePrice => throw _privateConstructorUsedError;
   DateTime get startDate => throw _privateConstructorUsedError;
@@ -436,6 +435,7 @@ mixin _$OrganizedListing {
   bool get isVisibleAfterEndDate => throw _privateConstructorUsedError;
   double? get finalPrice => throw _privateConstructorUsedError;
   String? get winningAddress => throw _privateConstructorUsedError;
+  Nft? get nft => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $OrganizedListingCopyWith<OrganizedListing> get copyWith =>
@@ -457,7 +457,6 @@ abstract class $OrganizedListingCopyWith<$Res> {
       bool isRoyaltyEnforced,
       bool isCancelled,
       bool requireBalanceCheck,
-      bool isDefault,
       double? floorPrice,
       double? reservePrice,
       DateTime startDate,
@@ -465,7 +464,10 @@ abstract class $OrganizedListingCopyWith<$Res> {
       bool isVisibleBeforeStartDate,
       bool isVisibleAfterEndDate,
       double? finalPrice,
-      String? winningAddress});
+      String? winningAddress,
+      Nft? nft});
+
+  $NftCopyWith<$Res>? get nft;
 }
 
 /// @nodoc
@@ -489,7 +491,6 @@ class _$OrganizedListingCopyWithImpl<$Res, $Val extends OrganizedListing>
     Object? isRoyaltyEnforced = null,
     Object? isCancelled = null,
     Object? requireBalanceCheck = null,
-    Object? isDefault = null,
     Object? floorPrice = freezed,
     Object? reservePrice = freezed,
     Object? startDate = null,
@@ -498,6 +499,7 @@ class _$OrganizedListingCopyWithImpl<$Res, $Val extends OrganizedListing>
     Object? isVisibleAfterEndDate = null,
     Object? finalPrice = freezed,
     Object? winningAddress = freezed,
+    Object? nft = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -532,10 +534,6 @@ class _$OrganizedListingCopyWithImpl<$Res, $Val extends OrganizedListing>
           ? _value.requireBalanceCheck
           : requireBalanceCheck // ignore: cast_nullable_to_non_nullable
               as bool,
-      isDefault: null == isDefault
-          ? _value.isDefault
-          : isDefault // ignore: cast_nullable_to_non_nullable
-              as bool,
       floorPrice: freezed == floorPrice
           ? _value.floorPrice
           : floorPrice // ignore: cast_nullable_to_non_nullable
@@ -568,7 +566,23 @@ class _$OrganizedListingCopyWithImpl<$Res, $Val extends OrganizedListing>
           ? _value.winningAddress
           : winningAddress // ignore: cast_nullable_to_non_nullable
               as String?,
+      nft: freezed == nft
+          ? _value.nft
+          : nft // ignore: cast_nullable_to_non_nullable
+              as Nft?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $NftCopyWith<$Res>? get nft {
+    if (_value.nft == null) {
+      return null;
+    }
+
+    return $NftCopyWith<$Res>(_value.nft!, (value) {
+      return _then(_value.copyWith(nft: value) as $Val);
+    });
   }
 }
 
@@ -589,7 +603,6 @@ abstract class _$$_OrganizedListingCopyWith<$Res>
       bool isRoyaltyEnforced,
       bool isCancelled,
       bool requireBalanceCheck,
-      bool isDefault,
       double? floorPrice,
       double? reservePrice,
       DateTime startDate,
@@ -597,7 +610,11 @@ abstract class _$$_OrganizedListingCopyWith<$Res>
       bool isVisibleBeforeStartDate,
       bool isVisibleAfterEndDate,
       double? finalPrice,
-      String? winningAddress});
+      String? winningAddress,
+      Nft? nft});
+
+  @override
+  $NftCopyWith<$Res>? get nft;
 }
 
 /// @nodoc
@@ -619,7 +636,6 @@ class __$$_OrganizedListingCopyWithImpl<$Res>
     Object? isRoyaltyEnforced = null,
     Object? isCancelled = null,
     Object? requireBalanceCheck = null,
-    Object? isDefault = null,
     Object? floorPrice = freezed,
     Object? reservePrice = freezed,
     Object? startDate = null,
@@ -628,6 +644,7 @@ class __$$_OrganizedListingCopyWithImpl<$Res>
     Object? isVisibleAfterEndDate = null,
     Object? finalPrice = freezed,
     Object? winningAddress = freezed,
+    Object? nft = freezed,
   }) {
     return _then(_$_OrganizedListing(
       id: null == id
@@ -662,10 +679,6 @@ class __$$_OrganizedListingCopyWithImpl<$Res>
           ? _value.requireBalanceCheck
           : requireBalanceCheck // ignore: cast_nullable_to_non_nullable
               as bool,
-      isDefault: null == isDefault
-          ? _value.isDefault
-          : isDefault // ignore: cast_nullable_to_non_nullable
-              as bool,
       floorPrice: freezed == floorPrice
           ? _value.floorPrice
           : floorPrice // ignore: cast_nullable_to_non_nullable
@@ -698,6 +711,10 @@ class __$$_OrganizedListingCopyWithImpl<$Res>
           ? _value.winningAddress
           : winningAddress // ignore: cast_nullable_to_non_nullable
               as String?,
+      nft: freezed == nft
+          ? _value.nft
+          : nft // ignore: cast_nullable_to_non_nullable
+              as Nft?,
     ));
   }
 }
@@ -714,7 +731,6 @@ class _$_OrganizedListing extends _OrganizedListing {
       required this.isRoyaltyEnforced,
       required this.isCancelled,
       required this.requireBalanceCheck,
-      required this.isDefault,
       this.floorPrice,
       this.reservePrice,
       required this.startDate,
@@ -722,7 +738,8 @@ class _$_OrganizedListing extends _OrganizedListing {
       required this.isVisibleBeforeStartDate,
       required this.isVisibleAfterEndDate,
       this.finalPrice,
-      this.winningAddress})
+      this.winningAddress,
+      this.nft})
       : super._();
 
   @override
@@ -742,8 +759,6 @@ class _$_OrganizedListing extends _OrganizedListing {
   @override
   final bool requireBalanceCheck;
   @override
-  final bool isDefault;
-  @override
   final double? floorPrice;
   @override
   final double? reservePrice;
@@ -759,10 +774,12 @@ class _$_OrganizedListing extends _OrganizedListing {
   final double? finalPrice;
   @override
   final String? winningAddress;
+  @override
+  final Nft? nft;
 
   @override
   String toString() {
-    return 'OrganizedListing(id: $id, smartContractUid: $smartContractUid, addressOwner: $addressOwner, buyNowPrice: $buyNowPrice, isBuyNowOnly: $isBuyNowOnly, isRoyaltyEnforced: $isRoyaltyEnforced, isCancelled: $isCancelled, requireBalanceCheck: $requireBalanceCheck, isDefault: $isDefault, floorPrice: $floorPrice, reservePrice: $reservePrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, finalPrice: $finalPrice, winningAddress: $winningAddress)';
+    return 'OrganizedListing(id: $id, smartContractUid: $smartContractUid, addressOwner: $addressOwner, buyNowPrice: $buyNowPrice, isBuyNowOnly: $isBuyNowOnly, isRoyaltyEnforced: $isRoyaltyEnforced, isCancelled: $isCancelled, requireBalanceCheck: $requireBalanceCheck, floorPrice: $floorPrice, reservePrice: $reservePrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, finalPrice: $finalPrice, winningAddress: $winningAddress, nft: $nft)';
   }
 
   @override
@@ -785,8 +802,6 @@ class _$_OrganizedListing extends _OrganizedListing {
                 other.isCancelled == isCancelled) &&
             (identical(other.requireBalanceCheck, requireBalanceCheck) ||
                 other.requireBalanceCheck == requireBalanceCheck) &&
-            (identical(other.isDefault, isDefault) ||
-                other.isDefault == isDefault) &&
             (identical(other.floorPrice, floorPrice) ||
                 other.floorPrice == floorPrice) &&
             (identical(other.reservePrice, reservePrice) ||
@@ -802,7 +817,8 @@ class _$_OrganizedListing extends _OrganizedListing {
             (identical(other.finalPrice, finalPrice) ||
                 other.finalPrice == finalPrice) &&
             (identical(other.winningAddress, winningAddress) ||
-                other.winningAddress == winningAddress));
+                other.winningAddress == winningAddress) &&
+            (identical(other.nft, nft) || other.nft == nft));
   }
 
   @override
@@ -816,7 +832,6 @@ class _$_OrganizedListing extends _OrganizedListing {
       isRoyaltyEnforced,
       isCancelled,
       requireBalanceCheck,
-      isDefault,
       floorPrice,
       reservePrice,
       startDate,
@@ -824,7 +839,8 @@ class _$_OrganizedListing extends _OrganizedListing {
       isVisibleBeforeStartDate,
       isVisibleAfterEndDate,
       finalPrice,
-      winningAddress);
+      winningAddress,
+      nft);
 
   @JsonKey(ignore: true)
   @override
@@ -843,7 +859,6 @@ abstract class _OrganizedListing extends OrganizedListing {
       required final bool isRoyaltyEnforced,
       required final bool isCancelled,
       required final bool requireBalanceCheck,
-      required final bool isDefault,
       final double? floorPrice,
       final double? reservePrice,
       required final DateTime startDate,
@@ -851,7 +866,8 @@ abstract class _OrganizedListing extends OrganizedListing {
       required final bool isVisibleBeforeStartDate,
       required final bool isVisibleAfterEndDate,
       final double? finalPrice,
-      final String? winningAddress}) = _$_OrganizedListing;
+      final String? winningAddress,
+      final Nft? nft}) = _$_OrganizedListing;
   _OrganizedListing._() : super._();
 
   @override
@@ -871,8 +887,6 @@ abstract class _OrganizedListing extends OrganizedListing {
   @override
   bool get requireBalanceCheck;
   @override
-  bool get isDefault;
-  @override
   double? get floorPrice;
   @override
   double? get reservePrice;
@@ -888,6 +902,8 @@ abstract class _OrganizedListing extends OrganizedListing {
   double? get finalPrice;
   @override
   String? get winningAddress;
+  @override
+  Nft? get nft;
   @override
   @JsonKey(ignore: true)
   _$$_OrganizedListingCopyWith<_$_OrganizedListing> get copyWith =>
@@ -1433,8 +1449,6 @@ mixin _$ListingData {
   bool get isCancelled => throw _privateConstructorUsedError;
   @JsonKey(name: "RequireBalanceCheck")
   bool get requireBalanceCheck => throw _privateConstructorUsedError;
-  @JsonKey(name: "IsDefault")
-  bool get isDefault => throw _privateConstructorUsedError;
   @JsonKey(name: "FloorPrice")
   double? get floorPrice => throw _privateConstructorUsedError;
   @JsonKey(name: "ReservePrice")
@@ -1474,7 +1488,6 @@ abstract class $ListingDataCopyWith<$Res> {
       @JsonKey(name: "IsRoyaltyEnforced") bool isRoyaltyEnforced,
       @JsonKey(name: "IsCancelled") bool isCancelled,
       @JsonKey(name: "RequireBalanceCheck") bool requireBalanceCheck,
-      @JsonKey(name: "IsDefault") bool isDefault,
       @JsonKey(name: "FloorPrice") double? floorPrice,
       @JsonKey(name: "ReservePrice") double? reservePrice,
       @JsonKey(name: "StartDate") DateTime startDate,
@@ -1507,7 +1520,6 @@ class _$ListingDataCopyWithImpl<$Res, $Val extends ListingData>
     Object? isRoyaltyEnforced = null,
     Object? isCancelled = null,
     Object? requireBalanceCheck = null,
-    Object? isDefault = null,
     Object? floorPrice = freezed,
     Object? reservePrice = freezed,
     Object? startDate = null,
@@ -1553,10 +1565,6 @@ class _$ListingDataCopyWithImpl<$Res, $Val extends ListingData>
       requireBalanceCheck: null == requireBalanceCheck
           ? _value.requireBalanceCheck
           : requireBalanceCheck // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isDefault: null == isDefault
-          ? _value.isDefault
-          : isDefault // ignore: cast_nullable_to_non_nullable
               as bool,
       floorPrice: freezed == floorPrice
           ? _value.floorPrice
@@ -1612,7 +1620,6 @@ abstract class _$$_ListingDataCopyWith<$Res>
       @JsonKey(name: "IsRoyaltyEnforced") bool isRoyaltyEnforced,
       @JsonKey(name: "IsCancelled") bool isCancelled,
       @JsonKey(name: "RequireBalanceCheck") bool requireBalanceCheck,
-      @JsonKey(name: "IsDefault") bool isDefault,
       @JsonKey(name: "FloorPrice") double? floorPrice,
       @JsonKey(name: "ReservePrice") double? reservePrice,
       @JsonKey(name: "StartDate") DateTime startDate,
@@ -1643,7 +1650,6 @@ class __$$_ListingDataCopyWithImpl<$Res>
     Object? isRoyaltyEnforced = null,
     Object? isCancelled = null,
     Object? requireBalanceCheck = null,
-    Object? isDefault = null,
     Object? floorPrice = freezed,
     Object? reservePrice = freezed,
     Object? startDate = null,
@@ -1689,10 +1695,6 @@ class __$$_ListingDataCopyWithImpl<$Res>
       requireBalanceCheck: null == requireBalanceCheck
           ? _value.requireBalanceCheck
           : requireBalanceCheck // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isDefault: null == isDefault
-          ? _value.isDefault
-          : isDefault // ignore: cast_nullable_to_non_nullable
               as bool,
       floorPrice: freezed == floorPrice
           ? _value.floorPrice
@@ -1752,8 +1754,6 @@ class _$_ListingData extends _ListingData {
           required this.isCancelled,
       @JsonKey(name: "RequireBalanceCheck")
           required this.requireBalanceCheck,
-      @JsonKey(name: "IsDefault")
-          required this.isDefault,
       @JsonKey(name: "FloorPrice")
           this.floorPrice,
       @JsonKey(name: "ReservePrice")
@@ -1803,9 +1803,6 @@ class _$_ListingData extends _ListingData {
   @JsonKey(name: "RequireBalanceCheck")
   final bool requireBalanceCheck;
   @override
-  @JsonKey(name: "IsDefault")
-  final bool isDefault;
-  @override
   @JsonKey(name: "FloorPrice")
   final double? floorPrice;
   @override
@@ -1832,7 +1829,7 @@ class _$_ListingData extends _ListingData {
 
   @override
   String toString() {
-    return 'ListingData(id: $id, collectionId: $collectionId, smartContractUid: $smartContractUid, addressOwner: $addressOwner, buyNowPrice: $buyNowPrice, isBuyNowOnly: $isBuyNowOnly, isRoyaltyEnforced: $isRoyaltyEnforced, isCancelled: $isCancelled, requireBalanceCheck: $requireBalanceCheck, isDefault: $isDefault, floorPrice: $floorPrice, reservePrice: $reservePrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, finalPrice: $finalPrice, winningAddress: $winningAddress)';
+    return 'ListingData(id: $id, collectionId: $collectionId, smartContractUid: $smartContractUid, addressOwner: $addressOwner, buyNowPrice: $buyNowPrice, isBuyNowOnly: $isBuyNowOnly, isRoyaltyEnforced: $isRoyaltyEnforced, isCancelled: $isCancelled, requireBalanceCheck: $requireBalanceCheck, floorPrice: $floorPrice, reservePrice: $reservePrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, finalPrice: $finalPrice, winningAddress: $winningAddress)';
   }
 
   @override
@@ -1857,8 +1854,6 @@ class _$_ListingData extends _ListingData {
                 other.isCancelled == isCancelled) &&
             (identical(other.requireBalanceCheck, requireBalanceCheck) ||
                 other.requireBalanceCheck == requireBalanceCheck) &&
-            (identical(other.isDefault, isDefault) ||
-                other.isDefault == isDefault) &&
             (identical(other.floorPrice, floorPrice) ||
                 other.floorPrice == floorPrice) &&
             (identical(other.reservePrice, reservePrice) ||
@@ -1890,7 +1885,6 @@ class _$_ListingData extends _ListingData {
       isRoyaltyEnforced,
       isCancelled,
       requireBalanceCheck,
-      isDefault,
       floorPrice,
       reservePrice,
       startDate,
@@ -1934,8 +1928,6 @@ abstract class _ListingData extends ListingData {
           required final bool isCancelled,
       @JsonKey(name: "RequireBalanceCheck")
           required final bool requireBalanceCheck,
-      @JsonKey(name: "IsDefault")
-          required final bool isDefault,
       @JsonKey(name: "FloorPrice")
           final double? floorPrice,
       @JsonKey(name: "ReservePrice")
@@ -1984,9 +1976,6 @@ abstract class _ListingData extends ListingData {
   @override
   @JsonKey(name: "RequireBalanceCheck")
   bool get requireBalanceCheck;
-  @override
-  @JsonKey(name: "IsDefault")
-  bool get isDefault;
   @override
   @JsonKey(name: "FloorPrice")
   double? get floorPrice;

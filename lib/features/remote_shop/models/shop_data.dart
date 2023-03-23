@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rbx_wallet/features/dst/models/dec_shop.dart';
+import 'package:rbx_wallet/features/nft/models/nft.dart';
 
 part 'shop_data.freezed.dart';
 part 'shop_data.g.dart';
@@ -41,7 +42,6 @@ class OrganizedListing with _$OrganizedListing {
     required bool isRoyaltyEnforced,
     required bool isCancelled,
     required bool requireBalanceCheck,
-    required bool isDefault,
     double? floorPrice,
     double? reservePrice,
     required DateTime startDate,
@@ -50,6 +50,7 @@ class OrganizedListing with _$OrganizedListing {
     required bool isVisibleAfterEndDate,
     double? finalPrice,
     String? winningAddress,
+    Nft? nft,
   }) = _OrganizedListing;
 }
 
@@ -99,7 +100,6 @@ class ListingData with _$ListingData {
     @JsonKey(name: "IsRoyaltyEnforced") required bool isRoyaltyEnforced,
     @JsonKey(name: "IsCancelled") required bool isCancelled,
     @JsonKey(name: "RequireBalanceCheck") required bool requireBalanceCheck,
-    @JsonKey(name: "IsDefault") required bool isDefault,
     @JsonKey(name: "FloorPrice") double? floorPrice,
     @JsonKey(name: "ReservePrice") double? reservePrice,
     @JsonKey(name: "StartDate") required DateTime startDate,

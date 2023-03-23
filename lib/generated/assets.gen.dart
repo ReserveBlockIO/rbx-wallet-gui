@@ -9,6 +9,16 @@
 
 import 'package:flutter/widgets.dart';
 
+class $AssetsDataGen {
+  const $AssetsDataGen();
+
+  /// File path: assets/data/store_response.json
+  String get storeResponse => 'assets/data/store_response.json';
+
+  /// List of all assets
+  List<String> get values => [storeResponse];
+}
+
 class $AssetsDocsGen {
   const $AssetsDocsGen();
 
@@ -266,6 +276,7 @@ class $AssetsJsGen {
 class Assets {
   Assets._();
 
+  static const $AssetsDataGen data = $AssetsDataGen();
   static const $AssetsDocsGen docs = $AssetsDocsGen();
   static const $AssetsEnvGen env = $AssetsEnvGen();
   static const $AssetsFontsGen fonts = $AssetsFontsGen();

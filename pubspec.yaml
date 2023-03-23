@@ -89,6 +89,7 @@ flutter:
     - assets/fonts/
     - assets/js/
     - assets/docs/
+    - assets/data/
 
   fonts:
     - family: RobotoMono

@@ -26,10 +26,10 @@ class ConnectedShopProvider extends StateNotifier<ConnectedShop> {
 
   ConnectedShopProvider(this.ref, ConnectedShop initialState) : super(initialState);
 
-  connect(DecShop shop) {
+  Future<void> connect(DecShop shop) async {
     state = ConnectedShop(url: shop.url, decShop: shop);
 
-    refresh(true);
+    await refresh(true);
 
     refreshTimer = Timer.periodic(Duration(seconds: 30), (timer) {
       refresh();

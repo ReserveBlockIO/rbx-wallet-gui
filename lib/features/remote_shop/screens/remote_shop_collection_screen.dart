@@ -54,6 +54,8 @@ class RemoteShopCollectionScreen extends BaseScreen {
       return Center(child: Text("Collection Error"));
     }
 
+    final validListings = collection.listings.where((l) => l.nft != null).toList();
+
     return Column(
       children: [
         Center(
@@ -79,19 +81,17 @@ class RemoteShopCollectionScreen extends BaseScreen {
         Divider(),
         Expanded(
           child: ListView.builder(
-            itemCount: collection.listings.length,
+            itemCount: validListings.length,
             itemBuilder: (context, index) {
-              final listing = collection.listings[index];
+              final listing = validListings[index];
               return Card(
                 child: ListTile(
-                  title: Text(listing.addressOwner),
+                  title: Text(listing.nft!.name),
                   subtitle: Text(
-                    collection.description,
+                    listing.nft!.description,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  trailing: Icon(Icons.chevron_right),
-                  onTap: () {},
                 ),
               );
             },

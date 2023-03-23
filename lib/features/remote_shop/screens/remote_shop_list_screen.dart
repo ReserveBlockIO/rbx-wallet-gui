@@ -51,7 +51,7 @@ class RemoteShopListScreen extends BaseScreen {
       await RemoteShopService().connectToShop(myAddress: address, shopUrl: shop.url);
       await Future.delayed(Duration(milliseconds: 2500));
       // await RemoteShopService().getConnectedShopData();
-      ref.read(connectedShopProvider.notifier).connect(shop);
+      await ref.read(connectedShopProvider.notifier).connect(shop);
       AutoRouter.of(context).push(RemoteShopDetailScreenRoute(shopUrl: shop.url));
       // AutoRouter.of(context).push(RemoteShopContainerScreenRoute());
       ref.read(globalLoadingProvider.notifier).complete();
