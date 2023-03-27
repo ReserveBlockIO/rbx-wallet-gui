@@ -51,11 +51,11 @@ class ShopChatScreen extends BaseScreen {
               children: [
                 Expanded(
                   child: ShopChatList(
-                    shopUrl: shopUrl,
+                    identifier: shopUrl,
                   ),
                 ),
                 NewChatMessage(
-                  shopUrl: shopUrl,
+                  identifier: shopUrl,
                 )
               ],
             )

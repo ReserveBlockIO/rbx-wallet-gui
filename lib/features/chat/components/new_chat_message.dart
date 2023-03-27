@@ -3,14 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/features/chat/providers/shop_chat_list_provider.dart';
+import 'package:rbx_wallet/features/chat/providers/seller_chat_list_provider.dart';
 
 class NewChatMessage extends BaseComponent {
-  final String shopUrl;
-  const NewChatMessage({super.key, required this.shopUrl});
+  final String identifier;
+  final bool isSeller;
+  const NewChatMessage({
+    super.key,
+    required this.identifier,
+    this.isSeller = false,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final provider = ref.read(shopChatListProvider(shopUrl).notifier);
+    final provider = isSeller ? ref.read(sellerChatListProvider(identifier).notifier) : ref.read(shopChatListProvider(identifier).notifier);
+
     return Container(
       color: Colors.black87,
       child: Padding(
@@ -35,10 +42,11 @@ class NewChatMessage extends BaseComponent {
               ),
             ),
             IconButton(
-                onPressed: () {
-                  provider.sendMessage();
-                },
-                icon: Icon(Icons.send))
+              onPressed: () {
+                provider.sendMessage();
+              },
+              icon: Icon(Icons.send),
+            )
           ],
         ),
       ),

@@ -6,15 +6,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/features/chat/models/chat_message.dart';
 import 'package:rbx_wallet/features/chat/providers/shop_chat_list_provider.dart';
+import 'package:rbx_wallet/features/chat/providers/seller_chat_list_provider.dart';
 import 'package:rbx_wallet/utils/dates.dart';
 
 class ShopChatList extends BaseComponent {
-  final String shopUrl;
-  const ShopChatList({super.key, required this.shopUrl});
+  final String identifier;
+  final bool isSeller;
+  const ShopChatList({
+    super.key,
+    required this.identifier,
+    this.isSeller = false,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final messages = ref.watch(shopChatListProvider(shopUrl));
+    final messages = isSeller ? ref.watch(sellerChatListProvider(identifier)) : ref.watch(shopChatListProvider(identifier));
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -22,7 +28,7 @@ class ShopChatList extends BaseComponent {
         _ChatPoller(
           pollFunction: () {
             print("Poll");
-            ref.read(shopChatListProvider(shopUrl).notifier).fetch();
+            ref.read(shopChatListProvider(identifier).notifier).fetch();
           },
         ),
         Expanded(

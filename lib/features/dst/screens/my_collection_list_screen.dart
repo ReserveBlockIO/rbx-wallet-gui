@@ -27,6 +27,14 @@ class MyCollectionsListScreen extends BaseScreen {
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
       title: Text("My Auction House"),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.chat_bubble_outline),
+          onPressed: () {
+            AutoRouter.of(context).push(SellerChatThreadListScreenRoute());
+          },
+        ),
+      ],
     );
   }
 

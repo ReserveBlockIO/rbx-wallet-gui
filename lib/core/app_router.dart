@@ -39,6 +39,8 @@ import '../features/voting/screens/create_topic_screen.dart';
 import '../features/voting/screens/topic_detail_screen.dart';
 import '../features/voting/screens/topic_list_screen.dart';
 import '../features/chat/screens/shop_chat_screen.dart';
+import '../features/chat/screens/seller_chat_thread_list_screen.dart';
+import '../features/chat/screens/seller_chat_screen.dart';
 
 const List<AutoRoute> appRoutes = [
   AutoRoute(
@@ -133,6 +135,8 @@ const List<AutoRoute> appRoutes = [
         page: EmptyRouterPage,
         children: [
           AutoRoute(path: "", page: DstLandingScreen),
+          AutoRoute(path: "chat", page: SellerChatThreadListScreen),
+          AutoRoute(path: "chat/:address", page: SellerChatScreen),
           // AutoRoute(path: "shops", page: RemoteShopListScreen),
           // AutoRoute(path: "shops/:url", page: RemoteShopDetailScreen),
           // AutoRoute(path: "shops/:url/chat", page: ShopChatScreen),
