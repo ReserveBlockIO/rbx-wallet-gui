@@ -100,9 +100,13 @@ class _Preview extends StatefulWidget {
 
 class _PreviewState extends State<_Preview> {
   int selectedIndex = 0;
+  bool rebuilding = false;
 
   @override
   Widget build(BuildContext context) {
+    if (rebuilding) {
+      return SizedBox();
+    }
     final isMobile = BreakPoints.useMobileLayout(context);
 
     CarouselController controller = CarouselController();
@@ -180,11 +184,21 @@ class _PreviewState extends State<_Preview> {
                         child: Image.file(
                           File(path),
                           errorBuilder: (context, _, __) {
+                            // return Text(path);
                             return Center(
                               child: IconButton(
                                 icon: Icon(Icons.refresh),
                                 onPressed: () {
-                                  setState(() {});
+                                  setState(() {
+                                    rebuilding = true;
+                                  });
+
+                                  Future.delayed(Duration(milliseconds: 300))
+                                      .then((value) {
+                                    setState(() {
+                                      rebuilding = false;
+                                    });
+                                  });
                                 },
                               ),
                             );
@@ -361,7 +375,8 @@ class _NftData extends StatelessWidget {
     required this.nft,
   });
 
-  TableRow buildDetailRow(BuildContext context, String label, String value, [bool copyValue = false]) {
+  TableRow buildDetailRow(BuildContext context, String label, String value,
+      [bool copyValue = false]) {
     final isMobile = BreakPoints.useMobileLayout(context);
 
     if (isMobile) {
@@ -427,7 +442,8 @@ class _NftData extends StatelessWidget {
         children: [
           const Text(
             "Details",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+            style: TextStyle(
+                fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
           ),
           const SizedBox(height: 8),
           Table(
@@ -437,7 +453,8 @@ class _NftData extends StatelessWidget {
               // buildDetailRow(context, "Owner Address", nft.currentOwner, true),
               // buildDetailRow(context, "Minted On", nft.mintedAt),
               buildDetailRow(context, "Minted By", nft.minterName),
-              buildDetailRow(context, "Minter Address", nft.minterAddress, true),
+              buildDetailRow(
+                  context, "Minter Address", nft.minterAddress, true),
               buildDetailRow(context, "Chain", "RBX"),
               //TODO: Auction stuff
             ],
