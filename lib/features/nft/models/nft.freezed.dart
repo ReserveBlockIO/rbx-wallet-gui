@@ -63,6 +63,8 @@ mixin _$Nft {
       throw _privateConstructorUsedError;
   @JsonKey(defaultValue: false)
   bool get assetsAvailable => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  String? get thumbsPath => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -115,7 +117,9 @@ abstract class $NftCopyWith<$Res> {
       @JsonKey(toJson: nullToNull, fromJson: nullToNull)
           List<EvolvePhase> updatedEvolutionPhases,
       @JsonKey(defaultValue: false)
-          bool assetsAvailable});
+          bool assetsAvailable,
+      @JsonKey(ignore: true)
+          String? thumbsPath});
 
   $AssetCopyWith<$Res> get primaryAsset;
   $ProxiedAssetCopyWith<$Res>? get proxiedAsset;
@@ -154,6 +158,7 @@ class _$NftCopyWithImpl<$Res, $Val extends Nft> implements $NftCopyWith<$Res> {
     Object? additionalLocalAssets = null,
     Object? updatedEvolutionPhases = null,
     Object? assetsAvailable = null,
+    Object? thumbsPath = freezed,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -240,6 +245,10 @@ class _$NftCopyWithImpl<$Res, $Val extends Nft> implements $NftCopyWith<$Res> {
           ? _value.assetsAvailable
           : assetsAvailable // ignore: cast_nullable_to_non_nullable
               as bool,
+      thumbsPath: freezed == thumbsPath
+          ? _value.thumbsPath
+          : thumbsPath // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -311,7 +320,9 @@ abstract class _$$_NftCopyWith<$Res> implements $NftCopyWith<$Res> {
       @JsonKey(toJson: nullToNull, fromJson: nullToNull)
           List<EvolvePhase> updatedEvolutionPhases,
       @JsonKey(defaultValue: false)
-          bool assetsAvailable});
+          bool assetsAvailable,
+      @JsonKey(ignore: true)
+          String? thumbsPath});
 
   @override
   $AssetCopyWith<$Res> get primaryAsset;
@@ -349,6 +360,7 @@ class __$$_NftCopyWithImpl<$Res> extends _$NftCopyWithImpl<$Res, _$_Nft>
     Object? additionalLocalAssets = null,
     Object? updatedEvolutionPhases = null,
     Object? assetsAvailable = null,
+    Object? thumbsPath = freezed,
   }) {
     return _then(_$_Nft(
       name: null == name
@@ -435,6 +447,10 @@ class __$$_NftCopyWithImpl<$Res> extends _$NftCopyWithImpl<$Res, _$_Nft>
           ? _value.assetsAvailable
           : assetsAvailable // ignore: cast_nullable_to_non_nullable
               as bool,
+      thumbsPath: freezed == thumbsPath
+          ? _value.thumbsPath
+          : thumbsPath // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -484,7 +500,9 @@ class _$_Nft extends _Nft {
       @JsonKey(toJson: nullToNull, fromJson: nullToNull)
           final List<EvolvePhase> updatedEvolutionPhases = const [],
       @JsonKey(defaultValue: false)
-          required this.assetsAvailable})
+          required this.assetsAvailable,
+      @JsonKey(ignore: true)
+          this.thumbsPath})
       : _features = features,
         _properties = properties,
         _additionalProxiedAssets = additionalProxiedAssets,
@@ -591,10 +609,13 @@ class _$_Nft extends _Nft {
   @override
   @JsonKey(defaultValue: false)
   final bool assetsAvailable;
+  @override
+  @JsonKey(ignore: true)
+  final String? thumbsPath;
 
   @override
   String toString() {
-    return 'Nft(name: $name, description: $description, currentOwner: $currentOwner, minterAddress: $minterAddress, minterName: $minterName, id: $id, primaryAsset: $primaryAsset, isPublic: $isPublic, isPublished: $isPublished, isMinter: $isMinter, features: $features, properties: $properties, nextOwner: $nextOwner, isLocked: $isLocked, isProcessing: $isProcessing, code: $code, proxiedAsset: $proxiedAsset, additionalProxiedAssets: $additionalProxiedAssets, additionalLocalAssets: $additionalLocalAssets, updatedEvolutionPhases: $updatedEvolutionPhases, assetsAvailable: $assetsAvailable)';
+    return 'Nft(name: $name, description: $description, currentOwner: $currentOwner, minterAddress: $minterAddress, minterName: $minterName, id: $id, primaryAsset: $primaryAsset, isPublic: $isPublic, isPublished: $isPublished, isMinter: $isMinter, features: $features, properties: $properties, nextOwner: $nextOwner, isLocked: $isLocked, isProcessing: $isProcessing, code: $code, proxiedAsset: $proxiedAsset, additionalProxiedAssets: $additionalProxiedAssets, additionalLocalAssets: $additionalLocalAssets, updatedEvolutionPhases: $updatedEvolutionPhases, assetsAvailable: $assetsAvailable, thumbsPath: $thumbsPath)';
   }
 
   @override
@@ -639,7 +660,9 @@ class _$_Nft extends _Nft {
             const DeepCollectionEquality().equals(
                 other._updatedEvolutionPhases, _updatedEvolutionPhases) &&
             (identical(other.assetsAvailable, assetsAvailable) ||
-                other.assetsAvailable == assetsAvailable));
+                other.assetsAvailable == assetsAvailable) &&
+            (identical(other.thumbsPath, thumbsPath) ||
+                other.thumbsPath == thumbsPath));
   }
 
   @JsonKey(ignore: true)
@@ -666,7 +689,8 @@ class _$_Nft extends _Nft {
         const DeepCollectionEquality().hash(_additionalProxiedAssets),
         const DeepCollectionEquality().hash(_additionalLocalAssets),
         const DeepCollectionEquality().hash(_updatedEvolutionPhases),
-        assetsAvailable
+        assetsAvailable,
+        thumbsPath
       ]);
 
   @JsonKey(ignore: true)
@@ -725,7 +749,9 @@ abstract class _Nft extends Nft {
       @JsonKey(toJson: nullToNull, fromJson: nullToNull)
           final List<EvolvePhase> updatedEvolutionPhases,
       @JsonKey(defaultValue: false)
-          required final bool assetsAvailable}) = _$_Nft;
+          required final bool assetsAvailable,
+      @JsonKey(ignore: true)
+          final String? thumbsPath}) = _$_Nft;
   _Nft._() : super._();
 
   factory _Nft.fromJson(Map<String, dynamic> json) = _$_Nft.fromJson;
@@ -792,6 +818,9 @@ abstract class _Nft extends Nft {
   @override
   @JsonKey(defaultValue: false)
   bool get assetsAvailable;
+  @override
+  @JsonKey(ignore: true)
+  String? get thumbsPath;
   @override
   @JsonKey(ignore: true)
   _$$_NftCopyWith<_$_Nft> get copyWith => throw _privateConstructorUsedError;

@@ -16,7 +16,7 @@ class DstService extends BaseService {
       final data = jsonDecode(response);
 
       if (data['Success'] != true) {
-        print(data['Message']);
+        // print(data['Message']);
         return null;
       }
 
@@ -34,7 +34,7 @@ class DstService extends BaseService {
       final data = jsonDecode(response);
 
       if (data['Success'] != true) {
-        print(data['Message']);
+        // print(data['Message']);
         return null;
       }
 
@@ -63,7 +63,7 @@ class DstService extends BaseService {
       final data = jsonDecode(response);
 
       if (data["Success"] != true) {
-        print(data['Message']);
+        // print(data['Message']);
 
         return [];
       }
@@ -97,7 +97,7 @@ class DstService extends BaseService {
       final response = await getText('/GetDecShop');
       final data = jsonDecode(response);
       if (data['Success'] == true) {
-        print(response);
+        // print(response);
         return DecShop.fromJson(data['DecShop']);
       }
       return null;
@@ -113,10 +113,9 @@ class DstService extends BaseService {
       final response = await getText('/GetPublishDecShop');
       final data = jsonDecode(response);
 
-      print("********");
-
-      print(response);
-      print("********");
+      // print("********");
+      // print(response);
+      // print("********");
 
       if (data['Success'] == true) {
         return true;
@@ -148,7 +147,7 @@ class DstService extends BaseService {
     try {
       final response = await getText('/GetSetShopStatus');
       final data = jsonDecode(response);
-      print(data);
+      // print(data);
       return true;
     } catch (e) {
       print(e);
@@ -173,11 +172,11 @@ class DstService extends BaseService {
       'AutoUpdateNetworkDNS': decShop.autoUpdateNetworkDns,
     };
 
-    print(payload);
+    // print(payload);
 
     try {
       final response = await postJson('/SaveDecShop', params: payload);
-      print(response);
+      // print(response);
       if (response['data']['Success']) {
         return true;
       } else {
@@ -191,7 +190,7 @@ class DstService extends BaseService {
 
   Future<bool> deleteCollection(Collection store) async {
     try {
-      final response = await getText('/DeleteCollection/${store.id}');
+      await getText('/DeleteCollection/${store.id}');
       return true;
     } catch (e) {
       print(e);
@@ -201,7 +200,7 @@ class DstService extends BaseService {
 
   saveListing(Listing listing) async {
     try {
-      final response = await postJson('/SaveListing', params: listing.toJson());
+      await postJson('/SaveListing', params: listing.toJson());
       return true;
     } catch (e) {
       print("Error Saving: $e");
@@ -219,7 +218,7 @@ class DstService extends BaseService {
       final data = jsonDecode(response);
 
       if (data["Success"] != true) {
-        print(data['Message']);
+        // print(data['Message']);
         return [];
       }
 
@@ -247,7 +246,7 @@ class DstService extends BaseService {
   Future<bool> deleteListing(Listing listing) async {
     try {
       final response = await getText('/DeleteListing/${listing.id}');
-      print(response);
+      // print(response);
       return true;
     } catch (e) {
       print(e);
@@ -258,7 +257,7 @@ class DstService extends BaseService {
   Future<bool> cancelListing(Listing listing) async {
     try {
       final response = await getText('/CancelListing/${listing.id}');
-      print(response);
+      // print(response);
       return true;
     } catch (e) {
       print(e);

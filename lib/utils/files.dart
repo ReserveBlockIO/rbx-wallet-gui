@@ -37,6 +37,18 @@ Future<String> dbPath() async {
   return appDocPath;
 }
 
+Future<String> assetsPath() async {
+  String _dbPath = await dbPath();
+
+  if (Platform.isMacOS) {
+    _dbPath = "$_dbPath/${Env.isTestNet ? 'AssetsTestNet' : 'Assets'}";
+  } else {
+    _dbPath = "$_dbPath\\${Env.isTestNet ? 'AssetsTestNet' : 'Assets'}";
+  }
+
+  return _dbPath;
+}
+
 Future<String> configPath() async {
   Directory appDocDir = await getApplicationDocumentsDirectory();
   String path = appDocDir.path;

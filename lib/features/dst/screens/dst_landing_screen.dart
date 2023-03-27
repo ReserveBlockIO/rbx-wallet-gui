@@ -57,7 +57,8 @@ class DstLandingScreen extends BaseScreen {
                   iconData: Icons.connect_without_contact,
                   body: "Connect to a remote auction house to trade NFTs.",
                   onPressed: () async {
-                    AutoRouter.of(context).push(RemoteShopListScreenRoute());
+                    // AutoRouter.of(context).push(RemoteShopListScreenRoute());
+                    AutoRouter.of(context).push(RemoteShopContainerScreenRoute());
                   },
                 ),
                 BigButton(

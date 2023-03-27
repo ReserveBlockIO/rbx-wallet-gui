@@ -20,6 +20,7 @@ class RemoteShopDetails extends BaseComponent {
     }
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Center(
           child: Text(
@@ -42,6 +43,13 @@ class RemoteShopDetails extends BaseComponent {
           ),
         ),
         Divider(),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            "Collections",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+          ),
+        ),
         Expanded(
           child: ListView.builder(
             itemCount: shop.collections.length,

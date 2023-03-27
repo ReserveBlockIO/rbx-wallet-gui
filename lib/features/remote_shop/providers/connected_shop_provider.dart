@@ -32,7 +32,7 @@ class ConnectedShopProvider extends StateNotifier<ConnectedShop> {
     await refresh(true);
 
     refreshTimer = Timer.periodic(Duration(seconds: 30), (timer) {
-      refresh();
+      // refresh();
     });
   }
 

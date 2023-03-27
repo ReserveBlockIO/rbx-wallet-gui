@@ -71,6 +71,7 @@ abstract class Nft with _$Nft {
     @JsonKey(toJson: nullToNull, fromJson: nullToNull) @Default([]) List<Asset> additionalLocalAssets,
     @JsonKey(toJson: nullToNull, fromJson: nullToNull) @Default([]) List<EvolvePhase> updatedEvolutionPhases,
     @JsonKey(defaultValue: false) required bool assetsAvailable,
+    @JsonKey(ignore: true) String? thumbsPath,
   }) = _Nft;
 
   factory Nft.fromJson(Map<String, dynamic> json) => _$NftFromJson(json);

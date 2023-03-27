@@ -6,6 +6,7 @@ import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
 import 'package:rbx_wallet/features/voting/models/adj_vote.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
+import 'package:rbx_wallet/utils/files.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/services/base_service.dart';
@@ -22,7 +23,6 @@ class RemoteShopService extends BaseService {
 
     try {
       final response = await getText('/GetNetworkDecShopInfo/$url', cleanPath: false);
-      print(response);
       final data = jsonDecode(response);
       if (data['Success'] == true) {
         return DecShop.fromJson(data['DecShop']);
@@ -42,7 +42,6 @@ class RemoteShopService extends BaseService {
 
     try {
       final data = await getText("/ConnectToDecShop/$myAddress/$shopUrl", cleanPath: false, inspect: true);
-      print("ConnectToDecShop: $data");
       return data == "true";
     } catch (e) {
       print(e);
@@ -57,9 +56,13 @@ class RemoteShopService extends BaseService {
 
     for (final scId in scIds) {
       if (!nfts.containsKey(scId)) {
-        final nft = await NftService().getNftData(scId);
+        Nft? nft = await NftService().getNftData(scId);
         if (nft != null) {
-          nfts[scId] = nft;
+          await getNftAssets(scId);
+
+          String thumbsPath = await assetsPath();
+          thumbsPath = Platform.isMacOS ? "$thumbsPath/${scId.replaceAll(':', '')}/thumbs" : "$thumbsPath\\${scId.replaceAll(':', '')}\\thumbs";
+          nfts[scId] = nft.copyWith(thumbsPath: thumbsPath);
         }
       }
     }
@@ -108,9 +111,9 @@ class RemoteShopService extends BaseService {
     final response = await getText("/GetDecShopData", cleanPath: false);
     final data = jsonDecode(response);
 
-    print("----- /GetDecShopData ------");
-    print(response);
-    print("----------------------------");
+    // print("----- /GetDecShopData ------");
+    // print(response);
+    // print("----------------------------");
 
     if (data['Success'] == true) {
       return ShopData.fromJson(data['DecShopData']);
@@ -123,7 +126,6 @@ class RemoteShopService extends BaseService {
     final info = await getText("/GetShopInfo", cleanPath: false);
 
     if (info != "true") {
-      print(info);
       if (showErrors) {
         Toast.error("Couldn't get shop info.");
       }
@@ -161,5 +163,11 @@ class RemoteShopService extends BaseService {
     return await _organizeShopData(shopData);
 
     // return _organizeShopData(shopData);
+  }
+
+  Future<dynamic> getNftAssets(String scId) async {
+    final response = await getText("/GetNFTAssets/$scId", cleanPath: false);
+
+    final data = jsonDecode(response);
   }
 }

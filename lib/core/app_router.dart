@@ -9,6 +9,7 @@ import 'package:rbx_wallet/features/dst/screens/dst_landing_screen.dart';
 import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_list_screen.dart';
 import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_detail_screen.dart';
 import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_collection_screen.dart';
+import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_container_screen.dart';
 import 'package:rbx_wallet/features/reserve/screens/reserve_account_overview_screen.dart';
 
 import '../features/adjudicator/adjudicator_screen.dart';
@@ -37,6 +38,7 @@ import '../features/validator/screens/validator_screen.dart';
 import '../features/voting/screens/create_topic_screen.dart';
 import '../features/voting/screens/topic_detail_screen.dart';
 import '../features/voting/screens/topic_list_screen.dart';
+import '../features/chat/screens/shop_chat_screen.dart';
 
 const List<AutoRoute> appRoutes = [
   AutoRoute(
@@ -131,9 +133,10 @@ const List<AutoRoute> appRoutes = [
         page: EmptyRouterPage,
         children: [
           AutoRoute(path: "", page: DstLandingScreen),
-          AutoRoute(path: "shops", page: RemoteShopListScreen),
-          AutoRoute(path: "shops/:url", page: RemoteShopDetailScreen),
-          AutoRoute(path: "shops/:url/collection/:collectionId", page: RemoteShopCollectionScreen),
+          // AutoRoute(path: "shops", page: RemoteShopListScreen),
+          // AutoRoute(path: "shops/:url", page: RemoteShopDetailScreen),
+          // AutoRoute(path: "shops/:url/chat", page: ShopChatScreen),
+          // AutoRoute(path: "shops/:url/collection/:collectionId", page: RemoteShopCollectionScreen),
           AutoRoute(path: "me", page: MyCollectionsListScreen),
           AutoRoute(path: ":collectionId", page: MyCollectionDetailScreen),
           AutoRoute(path: "createCollection", page: CreateCollectionContainerScreen),
@@ -204,17 +207,16 @@ const List<AutoRoute> appRoutes = [
 
   AutoRoute(path: "mother-dashboard", page: MotherDashboardScreen),
 
-  //  AutoRoute(
-  //   path: "create-smart-contract",
-  //   page: RemoteShopContainerScreen,
-  //   children: [
-  //     AutoRoute(
-  //       path: "main",
-  //       page: RemoteShopDetailScreen,
-  //       initial: true,
-  //     ),
-  //   ],
-  // ),
+  AutoRoute(
+    path: "remote-shop-container",
+    page: RemoteShopContainerScreen,
+    children: [
+      AutoRoute(path: "shops", page: RemoteShopListScreen, initial: true),
+      AutoRoute(path: "shops/:url", page: RemoteShopDetailScreen),
+      AutoRoute(path: "shops/:url/chat", page: ShopChatScreen),
+      AutoRoute(path: "shops/:url/collection/:collectionId", page: RemoteShopCollectionScreen),
+    ],
+  ),
   // AutoRoute(path: "shops/:url", page: RemoteShopDetailScreen),
 ];
 

@@ -1,11 +1,16 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/features/dst/models/dec_shop.dart';
+import 'package:rbx_wallet/features/remote_shop/components/remote_asset_preview.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
 import 'package:collection/collection.dart';
+
+import "../components/listing_details.dart";
 
 class RemoteShopCollectionScreen extends BaseScreen {
   final int collectionId;
@@ -15,7 +20,9 @@ class RemoteShopCollectionScreen extends BaseScreen {
     super.key,
     @PathParam("collectionId") required this.collectionId,
     @PathParam("url") required this.url,
-  });
+  }) : super(
+          backgroundColor: const Color(0xFF010715),
+        );
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
@@ -58,23 +65,29 @@ class RemoteShopCollectionScreen extends BaseScreen {
 
     return Column(
       children: [
-        Center(
-          child: Text(
-            collection.name,
-            style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                  color: Colors.white,
-                ),
-          ),
-        ),
-        Center(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 600),
-            child: Text(
-              collection.description,
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: Colors.white,
-                  ),
-              textAlign: TextAlign.center,
+        // Padding(
+        //   padding: const EdgeInsets.all(8.0),
+        //   child: Center(
+        //     child: Text(
+        //       collection.name,
+        //       style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+        //             color: Colors.white,
+        //           ),
+        //     ),
+        //   ),
+        // ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 600),
+              child: Text(
+                collection.description,
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: Colors.white,
+                    ),
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
         ),
@@ -84,16 +97,8 @@ class RemoteShopCollectionScreen extends BaseScreen {
             itemCount: validListings.length,
             itemBuilder: (context, index) {
               final listing = validListings[index];
-              return Card(
-                child: ListTile(
-                  title: Text(listing.nft!.name),
-                  subtitle: Text(
-                    listing.nft!.description,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              );
+
+              return ListingDetails(listing: listing);
             },
           ),
         )

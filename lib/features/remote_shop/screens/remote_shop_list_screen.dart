@@ -103,7 +103,7 @@ class RemoteShopListScreen extends BaseScreen {
             await loadShopWithPrompt(context, ref);
           },
           child: Text(
-            "Connect",
+            "Add Shop",
             style: TextStyle(color: Colors.white),
           ),
         ),

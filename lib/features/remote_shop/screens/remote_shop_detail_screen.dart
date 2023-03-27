@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/features/remote_shop/components/remote_shop_details.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/remote_shop_detail_provider.dart';
@@ -20,6 +21,7 @@ class RemoteShopDetailScreen extends BaseScreen {
     return data.when(
       data: (shop) => shop != null
           ? AppBar(
+              centerTitle: true,
               title: Text(shop.name),
               leading: IconButton(
                 icon: Icon(
@@ -33,10 +35,17 @@ class RemoteShopDetailScreen extends BaseScreen {
               ),
               actions: [
                 IconButton(
-                    onPressed: () {
-                      ref.read(connectedShopProvider.notifier).refresh(true);
-                    },
-                    icon: Icon(Icons.refresh))
+                  onPressed: () {
+                    ref.read(connectedShopProvider.notifier).refresh(true);
+                  },
+                  icon: Icon(Icons.refresh),
+                ),
+                IconButton(
+                  onPressed: () {
+                    AutoRouter.of(context).push(ShopChatScreenRoute(shopUrl: shopUrl));
+                  },
+                  icon: Icon(Icons.chat_bubble_outline),
+                )
               ],
             )
           : AppBar(
