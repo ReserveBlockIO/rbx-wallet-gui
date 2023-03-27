@@ -108,6 +108,7 @@ class _PreviewState extends State<_Preview> {
     CarouselController controller = CarouselController();
 
     final assets = [widget.nft.primaryAsset, ...widget.nft.additionalAssets];
+
     final paths = assets.map((a) {
       final filename = a.name;
       final ds = Platform.isMacOS ? "/" : "\\";
@@ -178,6 +179,16 @@ class _PreviewState extends State<_Preview> {
                         },
                         child: Image.file(
                           File(path),
+                          errorBuilder: (context, _, __) {
+                            return Center(
+                              child: IconButton(
+                                icon: Icon(Icons.refresh),
+                                onPressed: () {
+                                  setState(() {});
+                                },
+                              ),
+                            );
+                          },
                         ),
                       ),
                     );

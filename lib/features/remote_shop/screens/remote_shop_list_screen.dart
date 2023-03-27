@@ -97,6 +97,15 @@ class RemoteShopListScreen extends BaseScreen {
       title: const Text("Auction Houses"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
+      leading: IconButton(
+        icon: Icon(
+          Icons.navigate_before,
+          size: 32,
+        ),
+        onPressed: () {
+          AutoRouter.of(context).pop();
+        },
+      ),
       actions: [
         TextButton(
           onPressed: () async {
