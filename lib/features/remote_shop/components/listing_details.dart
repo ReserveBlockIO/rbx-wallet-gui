@@ -8,6 +8,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/breakpoints.dart';
+import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/remote_shop/models/shop_data.dart';
 import 'package:rbx_wallet/utils/toast.dart';
@@ -31,6 +33,7 @@ class ListingDetails extends BaseComponent {
           _Details(nft: nft),
           _Preview(nft: nft),
           //TODO: Auction Stuff
+          if (listing.canBuyNow) _BuyNow(listing: listing),
           _Features(nft: nft),
           _NftDetails(nft: nft),
           _NftData(nft: nft),
@@ -58,7 +61,6 @@ class ListingDetails extends BaseComponent {
               mainAxisSize: MainAxisSize.min,
               children: [
                 _Preview(nft: nft),
-                //TODO: Auction
                 _Features(nft: nft),
               ],
             ),
@@ -76,6 +78,17 @@ class ListingDetails extends BaseComponent {
                   const SizedBox(height: 16),
                   _NftData(nft: nft),
                   const SizedBox(height: 8),
+                  //TODO: Auction
+                  Row(
+                    children: [
+                      if (listing.canBuyNow) _BuyNow(listing: listing),
+                      if (listing.canBuyNow && listing.canBid)
+                        SizedBox(
+                          width: 8,
+                        ),
+                      if (listing.canBid) _Auction(listing: listing),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -193,8 +206,7 @@ class _PreviewState extends State<_Preview> {
                                     rebuilding = true;
                                   });
 
-                                  Future.delayed(Duration(milliseconds: 300))
-                                      .then((value) {
+                                  Future.delayed(Duration(milliseconds: 300)).then((value) {
                                     setState(() {
                                       rebuilding = false;
                                     });
@@ -312,6 +324,9 @@ class _Features extends StatelessWidget {
                       (f) => ConstrainedBox(
                         constraints: const BoxConstraints(maxWidth: 300),
                         child: ListTile(
+                          dense: true,
+                          visualDensity: VisualDensity.compact,
+                          contentPadding: EdgeInsets.zero,
                           leading: Icon(f.icon),
                           title: Text(f.nameLabel),
                           subtitle: Text(f.description),
@@ -375,8 +390,7 @@ class _NftData extends StatelessWidget {
     required this.nft,
   });
 
-  TableRow buildDetailRow(BuildContext context, String label, String value,
-      [bool copyValue = false]) {
+  TableRow buildDetailRow(BuildContext context, String label, String value, [bool copyValue = false]) {
     final isMobile = BreakPoints.useMobileLayout(context);
 
     if (isMobile) {
@@ -442,8 +456,7 @@ class _NftData extends StatelessWidget {
         children: [
           const Text(
             "Details",
-            style: TextStyle(
-                fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
           ),
           const SizedBox(height: 8),
           Table(
@@ -453,13 +466,179 @@ class _NftData extends StatelessWidget {
               // buildDetailRow(context, "Owner Address", nft.currentOwner, true),
               // buildDetailRow(context, "Minted On", nft.mintedAt),
               buildDetailRow(context, "Minted By", nft.minterName),
-              buildDetailRow(
-                  context, "Minter Address", nft.minterAddress, true),
+              buildDetailRow(context, "Minter Address", nft.minterAddress, true),
               buildDetailRow(context, "Chain", "RBX"),
               //TODO: Auction stuff
             ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _BuyNow extends StatelessWidget {
+  final OrganizedListing listing;
+  const _BuyNow({super.key, required this.listing});
+
+  @override
+  Widget build(BuildContext context) {
+    if (listing.buyNowPrice == null) {
+      return SizedBox.shrink();
+    }
+
+    final isMobile = BreakPoints.useMobileLayout(context);
+    return SizedBox(
+      width: isMobile ? double.infinity : null,
+      child: Card(
+        color: Colors.white10.withOpacity(0.05),
+        margin: EdgeInsets.zero,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Buy Now",
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                  letterSpacing: 1,
+                ),
+              ),
+              const SizedBox(height: 8),
+              _Price(
+                label: "Price",
+                amount: listing.buyNowPrice!,
+              ),
+              const SizedBox(height: 16),
+              AppButton(
+                label: "Buy Now",
+                icon: Icons.money,
+                size: AppSizeVariant.Lg,
+                onPressed: () {
+                  // handlePurchase(context, ref);
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _Price extends StatelessWidget {
+  final String label;
+  final double amount;
+  final Color priceColor;
+  const _Price({
+    super.key,
+    required this.label,
+    required this.amount,
+    this.priceColor = Colors.white,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Text(
+          "$label: ",
+          style: TextStyle(
+            fontSize: 18,
+            color: Theme.of(context).colorScheme.secondary,
+            fontWeight: FontWeight.w600,
+            letterSpacing: 1,
+          ),
+        ),
+        Text(
+          "$amount RBX",
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: priceColor,
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class _Auction extends StatelessWidget {
+  final OrganizedListing listing;
+  const _Auction({
+    super.key,
+    required this.listing,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (listing.floorPrice == null) {
+      return SizedBox.shrink();
+    }
+
+    final isMobile = BreakPoints.useMobileLayout(context);
+    return SizedBox(
+      width: isMobile ? double.infinity : null,
+      child: Card(
+        color: Colors.white10.withOpacity(0.05),
+        margin: EdgeInsets.zero,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Auction",
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                  letterSpacing: 1,
+                ),
+              ),
+              const SizedBox(height: 8),
+
+              _Price(label: "Floor Price", amount: listing.floorPrice!),
+              // if (listing.highestBid != null)
+              //   buildPrice(
+              //     context,
+              //     "Highest Bid",
+              //     listing.allowRbx ? listing.highestBid!.amountLabel : listing.highestBid!.amountLabelWithoutRbx,
+              //     Theme.of(context).colorScheme.success,
+              //   ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  AppButton(
+                      label: "Bid Now",
+                      icon: Icons.gavel,
+                      size: AppSizeVariant.Lg,
+                      onPressed: () {
+                        //TODO
+                      }),
+                  const SizedBox(
+                    width: 6,
+                  ),
+                  AppButton(
+                    label: "History",
+                    icon: Icons.punch_clock,
+                    size: AppSizeVariant.Lg,
+                    onPressed: () {
+                      //TODO
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

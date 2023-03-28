@@ -52,6 +52,19 @@ class OrganizedListing with _$OrganizedListing {
     String? winningAddress,
     Nft? nft,
   }) = _OrganizedListing;
+
+  bool get isActive {
+    final now = DateTime.now();
+    return startDate.isBefore(now) && endDate.isAfter(now);
+  }
+
+  bool get canBuyNow {
+    return isActive && buyNowPrice != null;
+  }
+
+  bool get canBid {
+    return isActive && floorPrice != null;
+  }
 }
 
 /// RAW DATA

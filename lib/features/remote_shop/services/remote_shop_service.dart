@@ -84,6 +84,8 @@ class RemoteShopService extends BaseService {
                     smartContractUid: l.smartContractUid,
                     addressOwner: l.addressOwner,
                     isBuyNowOnly: l.isBuyNowOnly,
+                    buyNowPrice: l.buyNowPrice,
+                    floorPrice: l.floorPrice,
                     isRoyaltyEnforced: l.isRoyaltyEnforced,
                     isCancelled: l.isCancelled,
                     requireBalanceCheck: l.requireBalanceCheck,
