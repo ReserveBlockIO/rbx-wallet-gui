@@ -32,7 +32,6 @@ class ListingDetails extends BaseComponent {
         children: [
           _Details(nft: nft),
           _Preview(nft: nft),
-          //TODO: Auction Stuff
           if (listing.canBuyNow) _BuyNow(listing: listing),
           _Features(nft: nft),
           _NftDetails(nft: nft),
@@ -78,7 +77,6 @@ class ListingDetails extends BaseComponent {
                   const SizedBox(height: 16),
                   _NftData(nft: nft),
                   const SizedBox(height: 8),
-                  //TODO: Auction
                   Row(
                     children: [
                       if (listing.canBuyNow) _BuyNow(listing: listing),
