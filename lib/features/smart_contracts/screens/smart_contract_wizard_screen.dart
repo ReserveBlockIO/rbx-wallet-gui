@@ -56,10 +56,6 @@ class SmartContractWizardScreen extends BaseScreen {
     final items = ref.watch(scWizardProvider);
     return Column(
       children: [
-        const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: CollectionForm(),
-        ),
         const Expanded(child: ScWizardList()),
         if (items.isNotEmpty)
           Container(
