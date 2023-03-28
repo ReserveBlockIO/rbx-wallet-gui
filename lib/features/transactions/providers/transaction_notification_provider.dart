@@ -8,14 +8,12 @@ class TransactionNotificationProvider extends StateNotifier<List<TransactionNoti
 
   TransactionNotificationProvider(this.ref) : super([]);
 
-  Future<void> add(TransactionNotification notification, [bool persist = false]) async {
+  Future<void> add(TransactionNotification notification, [int seconds = 5]) async {
     if (state.firstWhereOrNull((n) => n.identifier == notification.identifier) == null) {
       state = [...state, notification];
 
-      if (!persist) {
-        await Future.delayed(const Duration(seconds: 5));
-        remove(notification.identifier);
-      }
+      await Future.delayed(Duration(seconds: seconds));
+      remove(notification.identifier);
     }
   }
 

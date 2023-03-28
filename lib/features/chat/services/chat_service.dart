@@ -21,17 +21,36 @@ class ChatService extends BaseService {
         return [];
       }
 
-      final messages = (data['ChatMessages'] as List<dynamic>).toList().map((m) => ChatThread.fromJson(m)).toList();
-      return messages;
+      final threads = (data['ChatMessages'] as List<dynamic>).toList().map((m) => ChatThread.fromJson(m)).toList();
+      return threads;
     } catch (e) {
       print(e);
       return [];
     }
   }
 
-  Future<List<ChatMessage>?> listMessages(String shopUrl) async {
+  Future<List<ChatThread>> listBuyerChatThreads() async {
     try {
-      final response = await getText("/GetDetailedChatMessages/$shopUrl", cleanPath: false);
+      final response = await getText("/GetSimpleShopChatMessages", cleanPath: false);
+
+      final data = jsonDecode(response);
+      if (data['Success'] != true) {
+        // Toast.error(data['Message']);
+        print(data['Message']);
+        return [];
+      }
+
+      final threads = (data['ChatMessages'] as List<dynamic>).toList().map((m) => ChatThread.fromJson(m)).toList();
+      return threads;
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  Future<List<ChatMessage>?> listMessages(String identifier) async {
+    try {
+      final response = await getText("/GetDetailedChatMessages/$identifier", cleanPath: false);
 
       final data = jsonDecode(response);
       if (data['Success'] != true) {

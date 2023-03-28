@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/chat/providers/chat_notification_provider.dart';
 
 import 'core/app_router.gr.dart';
 import 'core/components/boot_container.dart';

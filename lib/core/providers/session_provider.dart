@@ -11,6 +11,9 @@ import 'package:process/process.dart';
 import 'package:process_run/shell.dart';
 import 'package:rbx_wallet/core/api_token_manager.dart';
 import 'package:rbx_wallet/core/utils.dart';
+import 'package:rbx_wallet/features/chat/providers/chat_notification_provider.dart';
+import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
+import 'package:rbx_wallet/features/dst/services/dst_service.dart';
 import 'package:rbx_wallet/features/remote_info/components/snapshot_downloader.dart';
 import 'package:rbx_wallet/features/remote_info/models/remote_info.dart';
 import 'package:rbx_wallet/features/remote_info/services/remote_info_service.dart';
@@ -190,8 +193,13 @@ class SessionProvider extends StateNotifier<SessionModel> {
     checkGuiUpdateStatus(inLoop);
     ref.read(beaconListProvider.notifier).refresh();
 
-    Future.delayed(const Duration(milliseconds: 300)).then((_) {
+    Future.delayed(const Duration(milliseconds: 300)).then((_) async {
       ref.read(walletInfoProvider.notifier).infoLoop(inLoop);
+
+      await Future.delayed(Duration(seconds: 5));
+
+      setupChatListeners();
+
       if (!kIsWeb) {
         // if (!read(passwordRequiredProvider)) {
         //   _onboardWallet();
@@ -200,6 +208,18 @@ class SessionProvider extends StateNotifier<SessionModel> {
         checkRemoteInfo();
       }
     });
+  }
+
+  Future<void> setupChatListeners() async {
+    final decShop = await DstService().retreiveShop();
+    if (decShop != null && !decShop.isOffline) {
+      ref.read(chatNotificationProvider("${decShop.ownerAddress}|seller").notifier);
+    } else {
+      final address = state.currentWallet?.address;
+      if (address != null) {
+        ref.read(chatNotificationProvider("$address|buyer").notifier);
+      }
+    }
   }
 
   Future<void> updateGui() async {
@@ -600,6 +620,8 @@ class SessionProvider extends StateNotifier<SessionModel> {
     final currentValidator = validators.firstWhereOrNull((element) => element.address == wallet.address);
 
     ref.read(currentValidatorProvider.notifier).set(currentValidator);
+
+    setupChatListeners();
   }
 
   void setFilteringTransactions(bool val) {

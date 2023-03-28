@@ -31,7 +31,7 @@ mixin _$ChatMessage {
   @JsonKey(name: "TimeStamp")
   int get timestamp => throw _privateConstructorUsedError;
   @JsonKey(name: "ShopURL")
-  String get shopUrl => throw _privateConstructorUsedError;
+  String? get shopUrl => throw _privateConstructorUsedError;
   @JsonKey(name: "MessageReceived")
   bool get received => throw _privateConstructorUsedError;
   @JsonKey(name: "IsShopSentMessage")
@@ -55,7 +55,7 @@ abstract class $ChatMessageCopyWith<$Res> {
       @JsonKey(name: "ToAddress") String toAddress,
       @JsonKey(name: "FromAddress") String fromAddress,
       @JsonKey(name: "TimeStamp") int timestamp,
-      @JsonKey(name: "ShopURL") String shopUrl,
+      @JsonKey(name: "ShopURL") String? shopUrl,
       @JsonKey(name: "MessageReceived") bool received,
       @JsonKey(name: "IsShopSentMessage") bool isShopSentMessage});
 }
@@ -78,7 +78,7 @@ class _$ChatMessageCopyWithImpl<$Res, $Val extends ChatMessage>
     Object? toAddress = null,
     Object? fromAddress = null,
     Object? timestamp = null,
-    Object? shopUrl = null,
+    Object? shopUrl = freezed,
     Object? received = null,
     Object? isShopSentMessage = null,
   }) {
@@ -103,10 +103,10 @@ class _$ChatMessageCopyWithImpl<$Res, $Val extends ChatMessage>
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
               as int,
-      shopUrl: null == shopUrl
+      shopUrl: freezed == shopUrl
           ? _value.shopUrl
           : shopUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       received: null == received
           ? _value.received
           : received // ignore: cast_nullable_to_non_nullable
@@ -133,7 +133,7 @@ abstract class _$$_ChatMessageCopyWith<$Res>
       @JsonKey(name: "ToAddress") String toAddress,
       @JsonKey(name: "FromAddress") String fromAddress,
       @JsonKey(name: "TimeStamp") int timestamp,
-      @JsonKey(name: "ShopURL") String shopUrl,
+      @JsonKey(name: "ShopURL") String? shopUrl,
       @JsonKey(name: "MessageReceived") bool received,
       @JsonKey(name: "IsShopSentMessage") bool isShopSentMessage});
 }
@@ -154,7 +154,7 @@ class __$$_ChatMessageCopyWithImpl<$Res>
     Object? toAddress = null,
     Object? fromAddress = null,
     Object? timestamp = null,
-    Object? shopUrl = null,
+    Object? shopUrl = freezed,
     Object? received = null,
     Object? isShopSentMessage = null,
   }) {
@@ -179,10 +179,10 @@ class __$$_ChatMessageCopyWithImpl<$Res>
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
               as int,
-      shopUrl: null == shopUrl
+      shopUrl: freezed == shopUrl
           ? _value.shopUrl
           : shopUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       received: null == received
           ? _value.received
           : received // ignore: cast_nullable_to_non_nullable
@@ -204,8 +204,8 @@ class _$_ChatMessage extends _ChatMessage {
       @JsonKey(name: "ToAddress") required this.toAddress,
       @JsonKey(name: "FromAddress") required this.fromAddress,
       @JsonKey(name: "TimeStamp") required this.timestamp,
-      @JsonKey(name: "ShopURL") required this.shopUrl,
-      @JsonKey(name: "MessageReceived") required this.received,
+      @JsonKey(name: "ShopURL") this.shopUrl,
+      @JsonKey(name: "MessageReceived") this.received = false,
       @JsonKey(name: "IsShopSentMessage") required this.isShopSentMessage})
       : super._();
 
@@ -229,7 +229,7 @@ class _$_ChatMessage extends _ChatMessage {
   final int timestamp;
   @override
   @JsonKey(name: "ShopURL")
-  final String shopUrl;
+  final String? shopUrl;
   @override
   @JsonKey(name: "MessageReceived")
   final bool received;
@@ -294,9 +294,9 @@ abstract class _ChatMessage extends ChatMessage {
       @JsonKey(name: "TimeStamp")
           required final int timestamp,
       @JsonKey(name: "ShopURL")
-          required final String shopUrl,
+          final String? shopUrl,
       @JsonKey(name: "MessageReceived")
-          required final bool received,
+          final bool received,
       @JsonKey(name: "IsShopSentMessage")
           required final bool isShopSentMessage}) = _$_ChatMessage;
   _ChatMessage._() : super._();
@@ -321,7 +321,7 @@ abstract class _ChatMessage extends ChatMessage {
   int get timestamp;
   @override
   @JsonKey(name: "ShopURL")
-  String get shopUrl;
+  String? get shopUrl;
   @override
   @JsonKey(name: "MessageReceived")
   bool get received;

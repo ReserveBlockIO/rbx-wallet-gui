@@ -14,8 +14,8 @@ abstract class ChatMessage with _$ChatMessage {
     @JsonKey(name: "ToAddress") required String toAddress,
     @JsonKey(name: "FromAddress") required String fromAddress,
     @JsonKey(name: "TimeStamp") required int timestamp,
-    @JsonKey(name: "ShopURL") required String shopUrl,
-    @JsonKey(name: "MessageReceived") required bool received,
+    @JsonKey(name: "ShopURL") String? shopUrl,
+    @JsonKey(name: "MessageReceived") @Default(false) bool received,
     @JsonKey(name: "IsShopSentMessage") required bool isShopSentMessage,
   }) = _ChatMessage;
 

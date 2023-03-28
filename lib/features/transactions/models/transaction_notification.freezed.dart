@@ -22,6 +22,7 @@ mixin _$TransactionNotification {
   String? get body => throw _privateConstructorUsedError;
   IconData? get icon => throw _privateConstructorUsedError;
   AppColorVariant get color => throw _privateConstructorUsedError;
+  dynamic Function()? get onPressed => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TransactionNotificationCopyWith<TransactionNotification> get copyWith =>
@@ -40,7 +41,8 @@ abstract class $TransactionNotificationCopyWith<$Res> {
       String title,
       String? body,
       IconData? icon,
-      AppColorVariant color});
+      AppColorVariant color,
+      dynamic Function()? onPressed});
 
   $TransactionCopyWith<$Res>? get transaction;
 }
@@ -65,6 +67,7 @@ class _$TransactionNotificationCopyWithImpl<$Res,
     Object? body = freezed,
     Object? icon = freezed,
     Object? color = null,
+    Object? onPressed = freezed,
   }) {
     return _then(_value.copyWith(
       identifier: null == identifier
@@ -91,6 +94,10 @@ class _$TransactionNotificationCopyWithImpl<$Res,
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
               as AppColorVariant,
+      onPressed: freezed == onPressed
+          ? _value.onPressed
+          : onPressed // ignore: cast_nullable_to_non_nullable
+              as dynamic Function()?,
     ) as $Val);
   }
 
@@ -121,7 +128,8 @@ abstract class _$$_TransactionNotificationCopyWith<$Res>
       String title,
       String? body,
       IconData? icon,
-      AppColorVariant color});
+      AppColorVariant color,
+      dynamic Function()? onPressed});
 
   @override
   $TransactionCopyWith<$Res>? get transaction;
@@ -145,6 +153,7 @@ class __$$_TransactionNotificationCopyWithImpl<$Res>
     Object? body = freezed,
     Object? icon = freezed,
     Object? color = null,
+    Object? onPressed = freezed,
   }) {
     return _then(_$_TransactionNotification(
       identifier: null == identifier
@@ -171,6 +180,10 @@ class __$$_TransactionNotificationCopyWithImpl<$Res>
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
               as AppColorVariant,
+      onPressed: freezed == onPressed
+          ? _value.onPressed
+          : onPressed // ignore: cast_nullable_to_non_nullable
+              as dynamic Function()?,
     ));
   }
 }
@@ -184,7 +197,8 @@ class _$_TransactionNotification extends _TransactionNotification {
       required this.title,
       this.body,
       this.icon,
-      this.color = AppColorVariant.Success})
+      this.color = AppColorVariant.Success,
+      this.onPressed})
       : super._();
 
   @override
@@ -200,10 +214,12 @@ class _$_TransactionNotification extends _TransactionNotification {
   @override
   @JsonKey()
   final AppColorVariant color;
+  @override
+  final dynamic Function()? onPressed;
 
   @override
   String toString() {
-    return 'TransactionNotification(identifier: $identifier, transaction: $transaction, title: $title, body: $body, icon: $icon, color: $color)';
+    return 'TransactionNotification(identifier: $identifier, transaction: $transaction, title: $title, body: $body, icon: $icon, color: $color, onPressed: $onPressed)';
   }
 
   @override
@@ -218,12 +234,14 @@ class _$_TransactionNotification extends _TransactionNotification {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.body, body) || other.body == body) &&
             (identical(other.icon, icon) || other.icon == icon) &&
-            (identical(other.color, color) || other.color == color));
+            (identical(other.color, color) || other.color == color) &&
+            (identical(other.onPressed, onPressed) ||
+                other.onPressed == onPressed));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, identifier, transaction, title, body, icon, color);
+  int get hashCode => Object.hash(runtimeType, identifier, transaction, title,
+      body, icon, color, onPressed);
 
   @JsonKey(ignore: true)
   @override
@@ -241,7 +259,8 @@ abstract class _TransactionNotification extends TransactionNotification {
       required final String title,
       final String? body,
       final IconData? icon,
-      final AppColorVariant color}) = _$_TransactionNotification;
+      final AppColorVariant color,
+      final dynamic Function()? onPressed}) = _$_TransactionNotification;
   _TransactionNotification._() : super._();
 
   @override
@@ -256,6 +275,8 @@ abstract class _TransactionNotification extends TransactionNotification {
   IconData? get icon;
   @override
   AppColorVariant get color;
+  @override
+  dynamic Function()? get onPressed;
   @override
   @JsonKey(ignore: true)
   _$$_TransactionNotificationCopyWith<_$_TransactionNotification>

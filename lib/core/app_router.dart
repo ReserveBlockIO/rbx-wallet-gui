@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 
 import 'package:auto_route/empty_router_widgets.dart';
+import 'package:rbx_wallet/features/chat/screens/buyer_chat_thread_list_screen.dart';
 import 'package:rbx_wallet/features/dst/screens/create_collection_container_screen.dart';
 import 'package:rbx_wallet/features/dst/screens/create_dec_shop_container_screen.dart';
 import 'package:rbx_wallet/features/dst/screens/my_collection_detail_screen.dart';
@@ -216,11 +217,15 @@ const List<AutoRoute> appRoutes = [
     page: RemoteShopContainerScreen,
     children: [
       AutoRoute(path: "shops", page: RemoteShopListScreen, initial: true),
+      AutoRoute(path: "shops/chat", page: BuyerChatThreadListScreen),
       AutoRoute(path: "shops/:url", page: RemoteShopDetailScreen),
       AutoRoute(path: "shops/:url/chat", page: ShopChatScreen),
       AutoRoute(path: "shops/:url/collection/:collectionId", page: RemoteShopCollectionScreen),
     ],
   ),
+  AutoRoute(path: "chat/:address", page: SellerChatScreen),
+  AutoRoute(path: "shops/:url/chat", page: ShopChatScreen),
+
   // AutoRoute(path: "shops/:url", page: RemoteShopDetailScreen),
 ];
 

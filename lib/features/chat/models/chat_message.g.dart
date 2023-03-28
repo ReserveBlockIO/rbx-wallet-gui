@@ -13,8 +13,8 @@ _$_ChatMessage _$$_ChatMessageFromJson(Map<String, dynamic> json) =>
       toAddress: json['ToAddress'] as String,
       fromAddress: json['FromAddress'] as String,
       timestamp: json['TimeStamp'] as int,
-      shopUrl: json['ShopURL'] as String,
-      received: json['MessageReceived'] as bool,
+      shopUrl: json['ShopURL'] as String?,
+      received: json['MessageReceived'] as bool? ?? false,
       isShopSentMessage: json['IsShopSentMessage'] as bool,
     );
 

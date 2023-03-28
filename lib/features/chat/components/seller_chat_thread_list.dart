@@ -23,7 +23,7 @@ class SellerChatThreadList extends BaseComponent {
       itemBuilder: (context, index) {
         final thread = threads[index];
 
-        final message = thread.messages.first; // latest??
+        final message = thread.messages.first;
 
         return Card(
           child: ListTile(

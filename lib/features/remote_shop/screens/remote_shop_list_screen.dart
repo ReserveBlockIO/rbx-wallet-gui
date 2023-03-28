@@ -97,6 +97,7 @@ class RemoteShopListScreen extends BaseScreen {
       title: const Text("Auction Houses"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
+      centerTitle: true,
       leading: IconButton(
         icon: Icon(
           Icons.navigate_before,
@@ -107,6 +108,12 @@ class RemoteShopListScreen extends BaseScreen {
         },
       ),
       actions: [
+        IconButton(
+          icon: Icon(Icons.chat_bubble_outline),
+          onPressed: () {
+            AutoRouter.of(context).push(BuyerChatThreadListScreenRoute());
+          },
+        ),
         TextButton(
           onPressed: () async {
             await loadShopWithPrompt(context, ref);

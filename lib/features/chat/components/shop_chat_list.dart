@@ -5,8 +5,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
+import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/features/chat/models/chat_message.dart';
 import 'package:rbx_wallet/features/chat/providers/chat_list_provider_interface.dart';
+import 'package:rbx_wallet/features/chat/providers/chat_notification_provider.dart';
 import 'package:rbx_wallet/features/chat/providers/shop_chat_list_provider.dart';
 import 'package:rbx_wallet/features/chat/providers/seller_chat_list_provider.dart';
 import 'package:rbx_wallet/utils/dates.dart';
@@ -32,9 +34,18 @@ class ShopChatList extends BaseComponent {
       children: [
         _ChatPoller(
           pollFunction: () {
-            print("Poll");
             provider.fetch();
           },
+          // markAsReadFunction: () {
+          //   if (isSeller) {
+          //   } else {
+          //     final address = ref.watch(sessionProvider).currentWallet?.address;
+
+          //     if (address != null) {
+          //       ref.read(chatNotificationProvider(address).notifier).markAsRead(identifier);
+          //     }
+          //   }
+          // },
         ),
         Expanded(
           child: ListView.builder(
@@ -192,7 +203,12 @@ class _DateHeader extends StatelessWidget {
 
 class _ChatPoller extends StatefulWidget {
   final Function pollFunction;
-  const _ChatPoller({super.key, required this.pollFunction});
+  // final Function markAsReadFunction;
+  const _ChatPoller({
+    super.key,
+    required this.pollFunction,
+    // required this.markAsReadFunction,
+  });
 
   @override
   State<_ChatPoller> createState() => __ChatPollerState();
@@ -205,9 +221,11 @@ class __ChatPollerState extends State<_ChatPoller> {
   void initState() {
     timer = Timer.periodic(Duration(seconds: 5), (timer) {
       widget.pollFunction();
+      // widget.markAsReadFunction();
     });
     super.initState();
     widget.pollFunction();
+    // widget.markAsReadFunction();
   }
 
   @override
