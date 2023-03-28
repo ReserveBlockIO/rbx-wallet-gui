@@ -125,8 +125,6 @@ class _ChatMessageCard extends StatelessWidget {
                           size: 16,
                         ),
                         onPressed: () async {
-                          // provider.deleteMessage();
-
                           await Clipboard.setData(ClipboardData(text: message.message));
                           Toast.message("Message copied to clipboard.");
                         },

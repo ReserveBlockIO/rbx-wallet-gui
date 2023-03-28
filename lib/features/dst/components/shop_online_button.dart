@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
 import 'package:rbx_wallet/features/dst/services/dst_service.dart';
@@ -10,6 +11,20 @@ import 'package:rbx_wallet/utils/toast.dart';
 
 class ShopOnlineButton extends BaseComponent {
   const ShopOnlineButton({super.key});
+
+  Future<void> promptForRestart(WidgetRef ref) async {
+    final confirmed = await ConfirmDialog.show(
+      title: "CLI Restart Required",
+      body: "A CLI restart is required for this change to take affect. Would you like to restart now?",
+      confirmText: "Restart",
+      cancelText: "Cancel",
+      destructive: true,
+    );
+
+    if (confirmed) {
+      ref.read(sessionProvider.notifier).restartCli();
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -38,7 +53,7 @@ class ShopOnlineButton extends BaseComponent {
                 final success = await DstService().toggleOnlineOffline();
                 if (success) {
                   ref.invalidate(decShopProvider);
-                  Toast.message("Shop is now online!");
+                  promptForRestart(ref);
                 }
               }
             },
@@ -54,7 +69,7 @@ class ShopOnlineButton extends BaseComponent {
                 final success = await DstService().toggleOnlineOffline();
                 if (success) {
                   ref.invalidate(decShopProvider);
-                  Toast.message("Shop is now offline.");
+                  promptForRestart(ref);
                 }
               }
             },
