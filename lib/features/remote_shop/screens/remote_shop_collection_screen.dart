@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/features/dst/models/dec_shop.dart';
@@ -42,6 +43,13 @@ class RemoteShopCollectionScreen extends BaseScreen {
       title: Text(collection.name),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
+      actions: [
+        IconButton(
+            onPressed: () {
+              AutoRouter.of(context).push(ShopChatScreenRoute(shopUrl: url));
+            },
+            icon: Icon(Icons.chat_bubble_outline))
+      ],
     );
   }
 

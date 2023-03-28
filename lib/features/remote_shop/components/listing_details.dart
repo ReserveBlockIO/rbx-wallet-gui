@@ -115,14 +115,22 @@ class _PreviewState extends State<_Preview> {
   int selectedIndex = 0;
   bool rebuilding = false;
 
+  late CarouselController controller;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    controller = CarouselController();
+  }
+
   @override
   Widget build(BuildContext context) {
     if (rebuilding) {
       return SizedBox();
     }
-    final isMobile = BreakPoints.useMobileLayout(context);
 
-    CarouselController controller = CarouselController();
+    final isMobile = BreakPoints.useMobileLayout(context);
 
     final assets = [widget.nft.primaryAsset, ...widget.nft.additionalAssets];
 
@@ -201,10 +209,11 @@ class _PreviewState extends State<_Preview> {
                             return Center(
                               child: IconButton(
                                 icon: Icon(Icons.refresh),
-                                onPressed: () {
+                                onPressed: () async {
                                   setState(() {
                                     rebuilding = true;
                                   });
+                                  await FileImage(File(path)).evict();
 
                                   Future.delayed(Duration(milliseconds: 300)).then((value) {
                                     setState(() {
@@ -225,15 +234,38 @@ class _PreviewState extends State<_Preview> {
         const SizedBox(
           height: 8,
         ),
-        if (paths.isNotEmpty)
-          DotsIndicator(
-            dotsCount: paths.length,
-            position: selectedIndex.toDouble(),
-            decorator: const DotsDecorator(
-              activeColor: Colors.white,
-              color: Colors.white54,
-              size: Size.fromRadius(3),
-              activeSize: Size.fromRadius(4),
+        if (paths.length > 1)
+          SizedBox(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.chevron_left),
+                  onPressed: () {
+                    controller.previousPage();
+                  },
+                ),
+                DotsIndicator(
+                  dotsCount: paths.length,
+                  position: selectedIndex.toDouble(),
+                  decorator: const DotsDecorator(
+                    activeColor: Colors.white,
+                    color: Colors.white54,
+                    size: Size.fromRadius(3),
+                    activeSize: Size.fromRadius(4),
+                  ),
+                  onTap: (v) {
+                    print(v);
+                    controller.animateToPage(v.round());
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.chevron_right),
+                  onPressed: () {
+                    controller.nextPage();
+                  },
+                ),
+              ],
             ),
           )
       ],
@@ -303,12 +335,13 @@ class _Features extends StatelessWidget {
                       Icon(
                         Icons.cancel,
                         size: 16,
+                        color: Colors.white54,
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 4.0),
                         child: Text(
                           "No Smart Contract Features",
-                          style: TextStyle(fontSize: 16),
+                          style: TextStyle(fontSize: 14, color: Colors.white54),
                         ),
                       ),
                     ],
