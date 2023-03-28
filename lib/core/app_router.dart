@@ -137,7 +137,7 @@ const List<AutoRoute> appRoutes = [
         children: [
           AutoRoute(path: "", page: DstLandingScreen),
           AutoRoute(path: "chat", page: SellerChatThreadListScreen),
-          AutoRoute(path: "chat/:address", page: SellerChatScreen),
+          // AutoRoute(path: "chat/:address", page: SellerChatScreen),
           // AutoRoute(path: "shops", page: RemoteShopListScreen),
           // AutoRoute(path: "shops/:url", page: RemoteShopDetailScreen),
           // AutoRoute(path: "shops/:url/chat", page: ShopChatScreen),
@@ -219,7 +219,7 @@ const List<AutoRoute> appRoutes = [
       AutoRoute(path: "shops", page: RemoteShopListScreen, initial: true),
       AutoRoute(path: "shops/chat", page: BuyerChatThreadListScreen),
       AutoRoute(path: "shops/:url", page: RemoteShopDetailScreen),
-      AutoRoute(path: "shops/:url/chat", page: ShopChatScreen),
+      // AutoRoute(path: "shops/:url/chat", page: ShopChatScreen),
       AutoRoute(path: "shops/:url/collection/:collectionId", page: RemoteShopCollectionScreen),
     ],
   ),

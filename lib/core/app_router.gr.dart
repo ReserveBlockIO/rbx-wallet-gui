@@ -626,11 +626,6 @@ class AppRouter extends _i42.RootStackRouter {
                   parent: DstsTabRouter.name,
                 ),
                 _i42.RouteConfig(
-                  SellerChatScreenRoute.name,
-                  path: 'chat/:address',
-                  parent: DstsTabRouter.name,
-                ),
-                _i42.RouteConfig(
                   MyCollectionsListScreenRoute.name,
                   path: 'me',
                   parent: DstsTabRouter.name,
@@ -776,11 +771,6 @@ class AppRouter extends _i42.RootStackRouter {
             _i42.RouteConfig(
               RemoteShopDetailScreenRoute.name,
               path: 'shops/:url',
-              parent: RemoteShopContainerScreenRoute.name,
-            ),
-            _i42.RouteConfig(
-              ShopChatScreenRoute.name,
-              path: 'shops/:url/chat',
               parent: RemoteShopContainerScreenRoute.name,
             ),
             _i42.RouteConfig(
