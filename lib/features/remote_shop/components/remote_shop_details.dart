@@ -22,14 +22,14 @@ class RemoteShopDetails extends BaseComponent {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Center(
-          child: Text(
-            shop.decShop.name,
-            style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                  color: Colors.white,
-                ),
-          ),
-        ),
+        // Center(
+        //   child: Text(
+        //     shop.decShop.name,
+        //     style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+        //           color: Colors.white,
+        //         ),
+        //   ),
+        // ),
         Center(
           child: ConstrainedBox(
             constraints: BoxConstraints(maxWidth: 600),
@@ -42,7 +42,6 @@ class RemoteShopDetails extends BaseComponent {
             ),
           ),
         ),
-        Divider(),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
@@ -56,6 +55,7 @@ class RemoteShopDetails extends BaseComponent {
             itemBuilder: (context, index) {
               final collection = shop.collections[index];
               return Card(
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
                 child: ListTile(
                   title: Text(collection.name),
                   subtitle: Text(

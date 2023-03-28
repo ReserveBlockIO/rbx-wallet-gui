@@ -12,7 +12,7 @@ import '../../wallet/components/wallet_selector.dart';
 
 class RemoteShopDetailScreen extends BaseScreen {
   final String shopUrl;
-  const RemoteShopDetailScreen({Key? key, @PathParam("url") required this.shopUrl}) : super(key: key);
+  const RemoteShopDetailScreen({Key? key, @PathParam("url") required this.shopUrl}) : super(key: key, backgroundColor: const Color(0xFF010715));
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
@@ -23,6 +23,8 @@ class RemoteShopDetailScreen extends BaseScreen {
           ? AppBar(
               centerTitle: true,
               title: Text(shop.name),
+              backgroundColor: Colors.black12,
+              shadowColor: Colors.transparent,
               leading: IconButton(
                 icon: Icon(
                   Icons.navigate_before,

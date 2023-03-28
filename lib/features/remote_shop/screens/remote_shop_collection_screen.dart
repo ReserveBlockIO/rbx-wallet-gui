@@ -21,9 +21,7 @@ class RemoteShopCollectionScreen extends BaseScreen {
     super.key,
     @PathParam("collectionId") required this.collectionId,
     @PathParam("url") required this.url,
-  }) : super(
-          backgroundColor: const Color(0xFF010715),
-        );
+  }) : super(backgroundColor: const Color(0xFF010715));
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
