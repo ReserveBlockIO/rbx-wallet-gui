@@ -8,6 +8,7 @@ abstract class ChatListProviderInterface extends StateNotifier<List<ChatMessage>
 
   final newMessageController = TextEditingController();
   final newMessageFocusNode = FocusNode();
+  final scrollController = ScrollController();
 
   ChatListProviderInterface(this.ref, this.identifier) : super([]);
 

@@ -18,6 +18,7 @@ import 'features/encrypt/providers/wallet_is_encrypted_provider.dart';
 import 'features/global_loader/global_loading_provider.dart';
 import 'features/root/components/system_manager.dart';
 import 'features/transactions/components/notification_overlay.dart';
+import 'package:context_menus/context_menus.dart';
 
 final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
@@ -84,7 +85,9 @@ class AppContainer extends ConsumerWidget {
 
         return Stack(
           children: [
-            widget!,
+            ContextMenuOverlay(
+              child: widget!,
+            ),
             const Align(
               alignment: Alignment.topRight,
               child: NotificationOverlay(),

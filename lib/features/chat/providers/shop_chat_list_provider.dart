@@ -15,8 +15,18 @@ class ShopChatListProvider extends ChatListProviderInterface {
   @override
   fetch() async {
     final messages = await ChatService().listMessages(identifier);
+
     if (messages != null) {
+      if (messages.length > state.length) {
+        Future.delayed(Duration(milliseconds: 100)).then((value) => scrollToBottom());
+      }
       state = messages;
+    }
+  }
+
+  scrollToBottom() {
+    if (scrollController.hasClients) {
+      scrollController.jumpTo(scrollController.position.maxScrollExtent);
     }
   }
 

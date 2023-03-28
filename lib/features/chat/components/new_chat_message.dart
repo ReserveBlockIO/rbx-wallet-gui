@@ -19,7 +19,12 @@ class NewChatMessage extends BaseComponent {
     final provider = isSeller ? ref.read(sellerChatListProvider(identifier).notifier) : ref.read(shopChatListProvider(identifier).notifier);
 
     return Container(
-      color: Colors.black87,
+      decoration: BoxDecoration(color: Colors.black87, borderRadius: BorderRadius.circular(8.0), boxShadow: [
+        BoxShadow(
+          color: Colors.white24,
+          blurRadius: 12.0,
+        )
+      ]),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
         child: Row(
