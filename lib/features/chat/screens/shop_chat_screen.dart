@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/centered_loader.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/features/chat/components/new_chat_message.dart';
 import 'package:rbx_wallet/features/chat/components/shop_chat_list.dart';
 import 'package:rbx_wallet/features/chat/providers/shop_chat_list_provider.dart';
@@ -20,6 +21,7 @@ class ShopChatScreen extends BaseScreen {
       data: (shop) => shop != null
           ? AppBar(
               title: Text("Chatting with ${shop.name}"),
+              centerTitle: true,
               actions: [
                 IconButton(
                   onPressed: () {
@@ -27,6 +29,26 @@ class ShopChatScreen extends BaseScreen {
                   },
                   icon: Icon(Icons.refresh),
                 ),
+                IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () async {
+                    final confirmed = await ConfirmDialog.show(
+                      title: "Delete Chat Thread",
+                      body: "Are you sure you want to delete this chat thread locally?",
+                      destructive: true,
+                      confirmText: "Delete",
+                      cancelText: "Cancel",
+                    );
+
+                    if (confirmed == true) {
+                      final success = await ref.read(shopChatListProvider(shopUrl).notifier).deleteThread();
+                      if (success) {
+                        Navigator.of(context).pop();
+                        return;
+                      }
+                    }
+                  },
+                )
               ],
             )
           : AppBar(

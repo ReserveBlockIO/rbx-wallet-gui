@@ -84,4 +84,14 @@ abstract class ChatListProviderInterface extends StateNotifier<List<ChatMessage>
     }
     fetch();
   }
+
+  Future<bool> deleteThread() async {
+    final success = await ChatService().deleteChatThread(identifier);
+    if (success) {
+      singleton<Storage>().remove(storageKey);
+      ref.invalidateSelf();
+      return true;
+    }
+    return false;
+  }
 }

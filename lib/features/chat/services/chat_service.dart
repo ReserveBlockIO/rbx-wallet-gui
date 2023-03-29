@@ -172,4 +172,15 @@ class ChatService extends BaseService {
   //     return null;
   //   }
   // }
+
+  Future<bool> deleteChatThread(String identifier) async {
+    try {
+      final response = await getText("/DeleteChatMessages/$identifier", cleanPath: false);
+      print(response);
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
 }
