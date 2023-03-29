@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/core/storage.dart';
 import 'package:rbx_wallet/features/chat/models/chat_message.dart';
 import 'package:rbx_wallet/features/chat/models/chat_payload.dart';
 import 'package:rbx_wallet/features/chat/providers/chat_list_provider_interface.dart';
@@ -9,25 +10,19 @@ import 'package:rbx_wallet/utils/toast.dart';
 
 class ShopChatListProvider extends ChatListProviderInterface {
   ShopChatListProvider(ref, shopUrl) : super(ref, shopUrl) {
+    loadSavedMessages();
     fetch();
+  }
+
+  @override
+  String get storageKey {
+    return "${Storage.CHAT_PREPEND}_buyer_$identifier";
   }
 
   @override
   fetch() async {
     final messages = await ChatService().listMessages(identifier);
-
-    if (messages != null) {
-      if (messages.length > state.length) {
-        Future.delayed(Duration(milliseconds: 100)).then((value) => scrollToBottom());
-      }
-      state = messages;
-    }
-  }
-
-  scrollToBottom() {
-    if (scrollController.hasClients) {
-      scrollController.jumpTo(scrollController.position.maxScrollExtent);
-    }
+    handleMessages(messages);
   }
 
   @override

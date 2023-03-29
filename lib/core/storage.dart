@@ -21,6 +21,9 @@ abstract class Storage {
   static const WEB_KEYPAIR = "WEB_KEYPAIR";
   static const REMEMBER_ME = "REMEMBER_ME";
   static const SAVED_SHOPS = "SAVE_SHOPS";
+  static const CHAT_PREPEND = "CHAT_";
+  static const BUYER_CHAT_THREADS = "BUYER_CHAT_THREADS";
+  static const SELLER_CHAT_THREADS = "SELLER_CHAT_THREADS";
 
   bool isInitialized = false;
 

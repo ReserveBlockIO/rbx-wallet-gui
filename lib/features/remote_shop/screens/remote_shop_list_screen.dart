@@ -23,41 +23,6 @@ class RemoteShopListScreen extends BaseScreen {
           horizontalPadding: 0,
         );
 
-  Future<void> loadShop(BuildContext context, WidgetRef ref, String url) async {
-    final address = ref.read(sessionProvider).currentWallet?.address;
-    if (address == null) {
-      Toast.error("No wallet selected");
-      return;
-    }
-
-    final shop = await RemoteShopService().getShopInfo(url);
-
-    if (shop == null) {
-      Toast.error("Could not find auction house with url of $url");
-      return;
-    }
-
-    ref.read(savedShopsProvider.notifier).save(shop);
-
-    final confirmed = await ConfirmDialog.show(
-      title: "Connect to Auction House?",
-      body: "Would you like to connect to ${shop.name} (${shop.url})?",
-      confirmText: "Connect",
-      cancelText: "Cancel",
-    );
-
-    if (confirmed == true) {
-      ref.read(globalLoadingProvider.notifier).start();
-      await RemoteShopService().connectToShop(myAddress: address, shopUrl: shop.url);
-      await Future.delayed(Duration(milliseconds: 2500));
-      // await RemoteShopService().getConnectedShopData();
-      await ref.read(connectedShopProvider.notifier).connect(shop);
-      AutoRouter.of(context).push(RemoteShopDetailScreenRoute(shopUrl: shop.url));
-      // AutoRouter.of(context).push(RemoteShopContainerScreenRoute());
-      ref.read(globalLoadingProvider.notifier).complete();
-    }
-  }
-
   Future<String?> promptForShopUrl(
     BuildContext context,
     WidgetRef ref,
@@ -87,7 +52,7 @@ class RemoteShopListScreen extends BaseScreen {
     final url = await promptForShopUrl(context, ref);
 
     if (url != null) {
-      loadShop(context, ref, url);
+      ref.read(connectedShopProvider.notifier).loadShop(context, ref, url);
     }
   }
 
@@ -154,13 +119,12 @@ class RemoteShopListScreen extends BaseScreen {
             title: Text(url),
             onTap: () async {
               final currentUrl = ref.read(connectedShopProvider).url;
-              print(url);
-              print(currentUrl);
+
               if (currentUrl == url) {
                 ref.read(connectedShopProvider.notifier).refresh();
                 AutoRouter.of(context).push(RemoteShopDetailScreenRoute(shopUrl: url));
               } else {
-                await loadShop(context, ref, url);
+                await ref.read(connectedShopProvider.notifier).loadShop(context, ref, url);
               }
             },
           ),

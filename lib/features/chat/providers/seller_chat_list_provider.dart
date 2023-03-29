@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/core/singletons.dart';
+import 'package:rbx_wallet/core/storage.dart';
 import 'package:rbx_wallet/features/chat/models/chat_message.dart';
 import 'package:rbx_wallet/features/chat/models/chat_payload.dart';
 import 'package:rbx_wallet/features/chat/services/chat_service.dart';
@@ -9,29 +13,20 @@ import 'package:rbx_wallet/utils/toast.dart';
 import "./chat_list_provider_interface.dart";
 
 class SellerChatListProvider extends ChatListProviderInterface {
-  // final Ref ref;
-  // final String shopUrl;
-
   SellerChatListProvider(ref, address) : super(ref, address) {
+    loadSavedMessages();
     fetch();
+  }
+
+  @override
+  String get storageKey {
+    return "${Storage.CHAT_PREPEND}_seller_$identifier";
   }
 
   @override
   fetch() async {
     final messages = await ChatService().listMessages(identifier);
-    if (messages != null) {
-      if (messages.length > state.length) {
-        Future.delayed(Duration(milliseconds: 100)).then((value) => scrollToBottom());
-      }
-
-      state = messages;
-    }
-  }
-
-  scrollToBottom() {
-    if (scrollController.hasClients) {
-      scrollController.jumpTo(scrollController.position.maxScrollExtent);
-    }
+    handleMessages(messages);
   }
 
   @override
@@ -40,12 +35,6 @@ class SellerChatListProvider extends ChatListProviderInterface {
     if (message.isEmpty) {
       return;
     }
-
-    // final fromAddress = ref.read(sessionProvider).currentWallet?.address;
-    // if (fromAddress == null) {
-    //   Toast.error("No wallet selected");
-    //   return;
-    // }
 
     final shop = await DstService().retreiveShop();
     if (shop == null || shop.ownerAddress == null) {

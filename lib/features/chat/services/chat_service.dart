@@ -127,6 +127,17 @@ class ChatService extends BaseService {
     }
   }
 
+  Future<bool> resendMessage(String messageId, String shopUrl) async {
+    try {
+      final response = await getText("/ResendChatMessage/$messageId/$shopUrl", cleanPath: false);
+      print(response);
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
   // Future<List<ChatMessage>?> listSimpleMessages(String shopUrl) async {
   //   try {
   //     final response = await getText("/GetSimpleChatMessages/$shopUrl", cleanPath: false);

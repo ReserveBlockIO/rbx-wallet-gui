@@ -7,6 +7,7 @@ import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/features/chat/providers/buyer_chat_thread_list_provider.dart';
 import 'package:rbx_wallet/features/chat/providers/chat_notification_provider.dart';
 import 'package:collection/collection.dart';
+import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
 
 class BuyerChatThreadList extends BaseComponent {
   const BuyerChatThreadList({super.key});
@@ -65,7 +66,11 @@ class BuyerChatThreadList extends BaseComponent {
               overflow: TextOverflow.ellipsis,
             ),
             trailing: Icon(Icons.chevron_right),
-            onTap: () {
+            onTap: () async {
+              final currentUrl = ref.read(connectedShopProvider).url;
+              if (currentUrl != thread.user) {
+                await ref.read(connectedShopProvider.notifier).loadShop(context, ref, thread.user);
+              }
               AutoRouter.of(context).push(ShopChatScreenRoute(shopUrl: thread.user));
             },
           ),

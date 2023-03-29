@@ -112,6 +112,14 @@ class _ChatMessageCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 1, right: 4),
+            child: Icon(
+              Icons.error,
+              size: 16,
+              color: message.received ? Colors.transparent : Colors.white60,
+            ),
+          ),
           SizedBox(
             width: 60,
             child: continued
@@ -140,6 +148,17 @@ class _ChatMessageCard extends StatelessWidget {
                           Toast.message("Message copied to clipboard.");
                         },
                       ),
+                      if (!message.received)
+                        ContextMenuButtonConfig(
+                          "Resend Message",
+                          icon: Icon(
+                            Icons.refresh,
+                            size: 16,
+                          ),
+                          onPressed: () async {
+                            provider.resendMessage(message.id);
+                          },
+                        ),
                     ],
                   ),
                   child: RichText(
