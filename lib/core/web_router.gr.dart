@@ -44,9 +44,9 @@ import 'package:rbx_wallet/features/transactions/screens/web_transaction_detail_
     as _i12;
 import 'package:rbx_wallet/features/transactions/screens/web_transactions_screen.dart'
     as _i11;
-import 'package:rbx_wallet/features/web_shop/components/web_shop_container_screen.dart'
+import 'package:rbx_wallet/features/web_shop/screens/web_shop_container_screen.dart'
     as _i6;
-import 'package:rbx_wallet/features/web_shop/components/web_shop_list.dart'
+import 'package:rbx_wallet/features/web_shop/screens/web_shop_list_screen.dart'
     as _i22;
 
 class WebRouter extends _i23.RootStackRouter {

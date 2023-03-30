@@ -1,23 +1,24 @@
 import 'package:auto_route/auto_route.dart';
-
 import 'package:auto_route/empty_router_widgets.dart';
 import 'package:rbx_wallet/features/chat/screens/buyer_chat_thread_list_screen.dart';
 import 'package:rbx_wallet/features/dst/screens/create_collection_container_screen.dart';
 import 'package:rbx_wallet/features/dst/screens/create_dec_shop_container_screen.dart';
+import 'package:rbx_wallet/features/dst/screens/dst_landing_screen.dart';
 import 'package:rbx_wallet/features/dst/screens/my_collection_detail_screen.dart';
 import 'package:rbx_wallet/features/dst/screens/my_collection_list_screen.dart';
-import 'package:rbx_wallet/features/dst/screens/dst_landing_screen.dart';
-import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_list_screen.dart';
-import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_detail_screen.dart';
 import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_collection_screen.dart';
 import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_container_screen.dart';
+import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_detail_screen.dart';
+import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_list_screen.dart';
 import 'package:rbx_wallet/features/reserve/screens/reserve_account_overview_screen.dart';
-import 'package:rbx_wallet/features/web_shop/components/web_shop_container_screen.dart';
-import 'package:rbx_wallet/features/web_shop/components/web_shop_list.dart';
+import 'package:rbx_wallet/features/web_shop/screens/web_shop_container_screen.dart';
 
 import '../features/adjudicator/adjudicator_screen.dart';
 import '../features/adnr/screens/adnr_screen.dart';
 import '../features/beacon/screens/beacon_list_screen.dart';
+import '../features/chat/screens/seller_chat_screen.dart';
+import '../features/chat/screens/seller_chat_thread_list_screen.dart';
+import '../features/chat/screens/shop_chat_screen.dart';
 import '../features/config/screens/config_container_screen.dart';
 import '../features/datanode/screens/datanode_screen.dart';
 import '../features/dst/screens/create_listing_container_screen.dart';
@@ -41,9 +42,7 @@ import '../features/validator/screens/validator_screen.dart';
 import '../features/voting/screens/create_topic_screen.dart';
 import '../features/voting/screens/topic_detail_screen.dart';
 import '../features/voting/screens/topic_list_screen.dart';
-import '../features/chat/screens/shop_chat_screen.dart';
-import '../features/chat/screens/seller_chat_thread_list_screen.dart';
-import '../features/chat/screens/seller_chat_screen.dart';
+import '../features/web_shop/screens/web_shop_list_screen.dart';
 
 const List<AutoRoute> appRoutes = [
   AutoRoute(

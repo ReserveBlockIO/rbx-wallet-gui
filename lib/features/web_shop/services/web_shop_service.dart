@@ -14,7 +14,7 @@ class WebShopService extends BaseService {
 
   // Shops
 
-  Future<ServerPaginatedReponse<dynamic>> listShops() async {
+  Future<ServerPaginatedReponse<WebShop>> listShops() async {
     try {
       final data = await getJson("/shop/");
       final List<WebShop> results = data['results'].map<WebShop>((item) => WebShop.fromJson(item)).toList();
@@ -28,32 +28,34 @@ class WebShopService extends BaseService {
       print(e);
       print(st);
     }
-    return ServerPaginatedReponse.empty();
+    return ServerPaginatedReponse<WebShop>.empty();
   }
 
-  Future<dynamic> retrieveShop(int shopId) async {
+  Future<WebShop?> retrieveShop(int shopId) async {
     try {
       final data = await getJson("/shop/$shopId/");
       return WebShop.fromJson(data);
     } catch (e, st) {
       print(e);
       print(st);
+      return null;
     }
   }
 
-  Future<dynamic> lookupShop(String url) async {
+  Future<WebShop?> lookupShop(String url) async {
     try {
       final data = await getJson("/shop/url", params: {'url': url});
       return WebShop.fromJson(data);
     } catch (e, st) {
       print(e);
       print(st);
+      return null;
     }
   }
 
   // Collections
 
-  Future<ServerPaginatedReponse<dynamic>> listCollections(int shopId) async {
+  Future<ServerPaginatedReponse<WebCollection>> listCollections(int shopId) async {
     try {
       final data = await getJson("/shop/$shopId/collection/");
       final List<WebCollection> results = data['results'].map<WebCollection>((item) => WebCollection.fromJson(item)).toList();
@@ -68,25 +70,23 @@ class WebShopService extends BaseService {
       print(st);
     }
 
-    return ServerPaginatedReponse.empty();
+    return ServerPaginatedReponse<WebCollection>.empty();
   }
 
-  Future<dynamic> retrieveCollection(int shopId, int collectionId) async {
+  Future<WebCollection?> retrieveCollection(int shopId, int collectionId) async {
     try {
       final data = await getJson("/shop/$shopId/collection/$collectionId/");
       return WebCollection.fromJson(data);
     } catch (e, st) {
-      if (e is DioError) {
-        print(e.response);
-      }
       print(e);
       print(st);
+      return null;
     }
   }
 
   // Listings
 
-  Future<ServerPaginatedReponse<dynamic>> listListings(int shopId, int collectionId) async {
+  Future<ServerPaginatedReponse<WebListing>> listListings(int shopId, int collectionId) async {
     try {
       final data = await getJson("/shop/$shopId/collection/$collectionId/listing");
       final List<WebListing> results = data['results'].map<WebListing>((item) => WebListing.fromJson(item)).toList();
@@ -102,10 +102,10 @@ class WebShopService extends BaseService {
       print(st);
     }
 
-    return ServerPaginatedReponse.empty();
+    return ServerPaginatedReponse<WebListing>.empty();
   }
 
-  Future<dynamic> retrieveListing(int shopId, int collectionId, int listingId) async {
+  Future<WebListing?> retrieveListing(int shopId, int collectionId, int listingId) async {
     try {
       final data = await getJson("/shop/$shopId/collection/$collectionId/listing/$listingId/");
       print(WebListing.fromJson(data));
@@ -113,7 +113,7 @@ class WebShopService extends BaseService {
     } catch (e, st) {
       print(e);
       print(st);
+      return null;
     }
-    // TODO: map to model and return
   }
 }

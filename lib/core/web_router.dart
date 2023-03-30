@@ -3,7 +3,7 @@ import 'package:auto_route/empty_router_widgets.dart';
 import 'package:rbx_wallet/features/adnr/screens/web_adnr_screen.dart';
 import 'package:rbx_wallet/features/dsts_legacy/screens/create_store_screen.dart';
 import 'package:rbx_wallet/features/dsts_legacy/screens/web_dst_screen.dart';
-import 'package:rbx_wallet/features/web_shop/components/web_shop_container_screen.dart';
+import 'package:rbx_wallet/features/web_shop/screens/web_shop_container_screen.dart';
 import 'package:rbx_wallet/features/web_shop/components/web_shop_list.dart';
 
 import '../features/auth/screens/web_auth_screen.dart';
@@ -24,6 +24,7 @@ import '../features/store/screens/store_listing_screen.dart';
 import '../features/store/screens/store_screen.dart';
 import '../features/transactions/screens/web_transaction_detail_screen.dart';
 import '../features/transactions/screens/web_transactions_screen.dart';
+import '../features/web_shop/screens/web_shop_list_screen.dart';
 
 const List<AutoRoute> webRoutes = [
   // AutoRoute(initial: true, path: "", name: "WebAuthRoute", page: WebAuthScreen),

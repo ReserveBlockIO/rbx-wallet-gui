@@ -87,9 +87,9 @@ import 'package:rbx_wallet/features/voting/screens/topic_detail_screen.dart'
     as _i35;
 import 'package:rbx_wallet/features/voting/screens/topic_list_screen.dart'
     as _i34;
-import 'package:rbx_wallet/features/web_shop/components/web_shop_container_screen.dart'
+import 'package:rbx_wallet/features/web_shop/screens/web_shop_container_screen.dart'
     as _i13;
-import 'package:rbx_wallet/features/web_shop/components/web_shop_list.dart'
+import 'package:rbx_wallet/features/web_shop/screens/web_shop_list_screen.dart'
     as _i38;
 
 class AppRouter extends _i44.RootStackRouter {
