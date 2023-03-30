@@ -171,7 +171,7 @@ class WebAdnrScreen extends BaseScreen {
                             onValidSubmission: (toAddress) async {
                               final txData = await RawTransaction.generate(
                                 keypair: ref.read(webSessionProvider).keypair!,
-                                amount: 1.0,
+                                amount: ADNR_COST,
                                 toAddress: toAddress,
                                 txType: TxType.adnr,
                                 data: {"Function": "AdnrTransfer()", "Name": adnr},
