@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/features/validator/providers/validating_status_provider.dart';
 
 import '../../../core/base_screen.dart';
@@ -102,8 +103,8 @@ class ValidatorScreen extends BaseScreen {
                 if (!guardWalletIsNotResyncing(ref.read)) return;
                 if (!await passwordRequiredGuard(context, ref, true, true)) return;
 
-                if (currentWallet.balance < 1000.0) {
-                  Toast.error("Balance not currently sufficient to validate. 1000 RBX required.");
+                if (currentWallet.balance < ASSURED_AMOUNT_TO_VALIDATE) {
+                  Toast.error("Balance not currently sufficient to validate. $ASSURED_AMOUNT_TO_VALIDATE RBX required.");
                   return;
                 }
 
