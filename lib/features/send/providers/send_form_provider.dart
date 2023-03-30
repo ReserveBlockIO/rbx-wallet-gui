@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
@@ -181,7 +182,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
       }
 
       if (currentWallet.isValidating) {
-        if (amountDouble > currentWallet.balance - 1000) {
+        if (amountDouble > currentWallet.balance - ASSURED_AMOUNT_TO_VALIDATE) {
           Toast.error("Insufficent balance since you are validating.");
           return;
         }

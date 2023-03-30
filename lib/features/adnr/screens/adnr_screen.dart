@@ -50,48 +50,6 @@ class AdnrScreen extends BaseScreen {
           ),
         ),
         Expanded(child: AdnrList(wallets: wallets)),
-        // Center(
-        //   child: Row(
-        //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        //     children: [
-        //       AppButton(
-        //         label: "Create New Wallet",
-        //         onPressed: () async {
-        //           if (!await passwordRequiredGuard(context, ref)) return;
-
-        //           await ref.read(walletListProvider.notifier).create();
-        //         },
-        //       ),
-        //       AppButton(
-        //         label: "Import Wallet",
-        //         onPressed: () async {
-        //           if (!await passwordRequiredGuard(context, ref)) return;
-        //           PromptModal.show(
-        //             title: "Import Wallet",
-        //             validator: (String? value) => formValidatorNotEmpty(value, "Private Key"),
-        //             labelText: "Private Key",
-        //             onValidSubmission: (value) async {
-        //               final wallet = await ref.read(walletListProvider.notifier).import(value);
-
-        //               if (wallet == null) return;
-        //               if (wallet.balance >= (ADNR_COST + MIN_RBX_FOR_SC_ACTION) && wallet.adnr == null) {
-        //                 showDialog(
-        //                   context: context,
-        //                   builder: (context) {
-        //                     return CreateAdnrDialog(
-        //                       address: wallet.address,
-        //                       adnr: wallet.adnr,
-        //                     );
-        //                   },
-        //                 );
-        //               }
-        //             },
-        //           );
-        //         },
-        //       ),
-        //     ],
-        //   ),
-        // )
       ],
     );
   }
