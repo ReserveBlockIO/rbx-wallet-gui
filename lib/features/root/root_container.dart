@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/validator/components/validating_status.dart';
@@ -36,6 +37,7 @@ class RootContainer extends BaseComponent {
       const AdnrTabRouter(),
       const VotingTabRouter(),
       const BeaconTabRouter(),
+      if (kDebugMode) const DebugWebShopTabsRouter(),
     ];
 
     return AutoTabsScaffold(
@@ -126,11 +128,21 @@ class RootContainer extends BaseComponent {
                 Expanded(
                   child: Row(
                     children: [
-                      Container(color: Colors.black, height: double.infinity, child: MainMenu()),
+                      Container(
+                        color: Colors.black,
+                        height: double.infinity,
+                        child: MainMenu(),
+                      ),
                       Expanded(
                           child: Column(
                         children: [
-                          Expanded(child: Container(clipBehavior: Clip.antiAlias, decoration: const BoxDecoration(), child: child)),
+                          Expanded(
+                            child: Container(
+                              clipBehavior: Clip.antiAlias,
+                              decoration: const BoxDecoration(),
+                              child: child,
+                            ),
+                          ),
                           const Footer(),
                         ],
                       )),

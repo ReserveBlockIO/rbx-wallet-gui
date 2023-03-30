@@ -12,6 +12,8 @@ import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_detail_scree
 import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_collection_screen.dart';
 import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_container_screen.dart';
 import 'package:rbx_wallet/features/reserve/screens/reserve_account_overview_screen.dart';
+import 'package:rbx_wallet/features/web_shop/components/web_shop_container_screen.dart';
+import 'package:rbx_wallet/features/web_shop/components/web_shop_list.dart';
 
 import '../features/adjudicator/adjudicator_screen.dart';
 import '../features/adnr/screens/adnr_screen.dart';
@@ -174,6 +176,18 @@ const List<AutoRoute> appRoutes = [
         page: EmptyRouterPage,
         children: [
           AutoRoute(path: "", page: BeaconListScreen),
+        ],
+      ),
+      AutoRoute(
+        path: "web-shop",
+        name: "DebugWebShopTabsRouter",
+        page: WebShopContainerScreen,
+        children: [
+          AutoRoute(
+            path: "main",
+            page: WebShopListScreen,
+            initial: true,
+          ),
         ],
       ),
     ],

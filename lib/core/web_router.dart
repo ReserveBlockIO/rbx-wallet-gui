@@ -3,6 +3,8 @@ import 'package:auto_route/empty_router_widgets.dart';
 import 'package:rbx_wallet/features/adnr/screens/web_adnr_screen.dart';
 import 'package:rbx_wallet/features/dsts_legacy/screens/create_store_screen.dart';
 import 'package:rbx_wallet/features/dsts_legacy/screens/web_dst_screen.dart';
+import 'package:rbx_wallet/features/web_shop/components/web_shop_container_screen.dart';
+import 'package:rbx_wallet/features/web_shop/components/web_shop_list.dart';
 
 import '../features/auth/screens/web_auth_screen.dart';
 // import '../features/dsts/screens/create_store_screen.dart';
@@ -119,6 +121,14 @@ const webDashboardTabRouter = AutoRoute(
         AutoRoute(path: "create/:accountId", page: CreateStoreScreen),
         AutoRoute(path: "store/:slug", page: StoreScreen),
         AutoRoute(path: "store/:storeId/create-listing", page: CreateListingScreen),
+      ],
+    ),
+    AutoRoute(
+      path: 'shop',
+      name: "WebShopTabRouter",
+      page: WebShopContainerScreen,
+      children: [
+        AutoRoute(path: "", page: WebShopListScreen, initial: true),
       ],
     ),
   ],

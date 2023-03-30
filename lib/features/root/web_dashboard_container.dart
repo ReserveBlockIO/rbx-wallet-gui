@@ -16,7 +16,7 @@ class WebRouteIndex {
   static get transactions => 3;
   static get nfts => 4;
   static get smartContracts => 5;
-  static get dst => 6;
+  static get shop => 6;
   static get adnrs => 7;
 }
 
@@ -30,7 +30,7 @@ class WebDashboardContainer extends StatelessWidget {
     const WebTransactionsTabRouter(),
     const WebNftTabRouter(),
     const WebSmartContractTabRouter(),
-    const WebDstTabRouter(),
+    const WebShopTabRouter(),
     const WebAdnrTabRouter(),
   ];
 
