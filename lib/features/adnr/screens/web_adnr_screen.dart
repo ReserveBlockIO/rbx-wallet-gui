@@ -235,7 +235,7 @@ class WebAdnrScreen extends BaseScreen {
                         if (confirmed == true) {
                           final txData = await RawTransaction.generate(
                             keypair: ref.read(webSessionProvider).keypair!,
-                            amount: 1.0,
+                            amount: ADNR_COST,
                             toAddress: "Adnr_Base",
                             txType: TxType.adnr,
                             data: {"Function": "AdnrDelete()", "Name": adnr},
