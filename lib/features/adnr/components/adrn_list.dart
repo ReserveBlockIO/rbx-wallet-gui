@@ -111,7 +111,7 @@ class AdnrList extends BaseComponent {
                                   return;
                                 }
                                 if (wallet.balance < (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
-                                  Toast.error("Not enough RBX in this wallet to create a transaction.");
+                                  Toast.error("Not enough RBX in this wallet to transfer an RBX domain. $ADNR_COST RBX required (plus TX fee).");
                                   return;
                                 }
 
@@ -158,7 +158,7 @@ class AdnrList extends BaseComponent {
                           }
 
                           if (wallet.balance < (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
-                            Toast.error("Not enough RBX in this wallet to create a transaction.");
+                            Toast.error("Not enough RBX in this wallet to delete an RBX domain. $ADNR_COST RBX required (plus TX fee).");
 
                             return;
                           }
