@@ -1,4 +1,5 @@
 import 'package:rbx_wallet/core/env.dart';
+import 'package:rbx_wallet/core/models/paginated_response.dart';
 import 'package:rbx_wallet/core/services/base_service.dart';
 
 class WebShopService extends BaseService {
@@ -9,42 +10,82 @@ class WebShopService extends BaseService {
 
   // Shops
 
-  Future<dynamic> listShops() async {
-    final data = await getJson("/shop/");
-    // TODO: map to model and return
+  Future<ServerPaginatedReponse<dynamic>> listShops() async {
+    try {
+      final data = await getJson("/shop/");
+      // TODO: map to model and return
+    } catch (e, st) {
+      print(e);
+      print(st);
+    }
+    return ServerPaginatedReponse.empty();
   }
 
   Future<dynamic> retrieveShop(int shopId) async {
-    final data = await getJson("/shop/$shopId/");
-    // TODO: map to model and return
+    try {
+      final data = await getJson("/shop/$shopId/");
+      // TODO: map to model and return
+    } catch (e, st) {
+      print(e);
+      print(st);
+    }
   }
 
   Future<dynamic> lookupShop(String url) async {
-    final data = await getJson("/shop/url/", params: {'url': url});
-    // TODO: map to model and return
+    try {
+      final data = await getJson("/shop/url/", params: {'url': url});
+      // TODO: map to model and return
+    } catch (e, st) {
+      print(e);
+      print(st);
+    }
   }
 
   // Collections
 
-  Future<dynamic> listCollections(int shopId) async {
-    final data = await getJson("/shop/$shopId/collection/");
-    // TODO: map to model and return
+  Future<ServerPaginatedReponse<dynamic>> listCollections(int shopId) async {
+    try {
+      final data = await getJson("/shop/$shopId/collection/");
+      // TODO: map to model and return
+    } catch (e, st) {
+      print(e);
+      print(st);
+    }
+
+    return ServerPaginatedReponse.empty();
   }
 
   Future<dynamic> retrieveCollection(int shopId, int collectionId) async {
-    final data = await getJson("/shop/$shopId/collection/$collectionId/");
-    // TODO: map to model and return
+    try {
+      final data = await getJson("/shop/$shopId/collection/$collectionId/");
+      // TODO: map to model and return
+    } catch (e, st) {
+      print(e);
+      print(st);
+    }
   }
 
   // Listings
 
-  Future<dynamic> listListings(int shopId, int collectionId) async {
-    final data = await getJson("/shop/$shopId/collection/$collectionId/listings/");
-    // TODO: map to model and return
+  Future<ServerPaginatedReponse<dynamic>> listListings(int shopId, int collectionId) async {
+    try {
+      final data = await getJson("/shop/$shopId/collection/$collectionId/listings/");
+      // TODO: map to model and return
+    } catch (e, st) {
+      print(e);
+      print(st);
+    }
+
+    return ServerPaginatedReponse.empty();
   }
 
   Future<dynamic> retrieveListing(int shopId, int collectionId, int listingId) async {
-    final data = await getJson("/shop/$shopId/collection/$collectionId/listing/$listingId/");
+    try {
+      final data = await getJson("/shop/$shopId/collection/$collectionId/listing/$listingId/");
+    } catch (e, st) {
+      print(e);
+      print(st);
+    }
     // TODO: map to model and return
   }
 }

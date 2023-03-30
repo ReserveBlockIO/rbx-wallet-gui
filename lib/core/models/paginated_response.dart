@@ -24,3 +24,21 @@ class CliPaginatedResponse<T> {
     return false;
   }
 }
+
+class ServerPaginatedReponse<T> {
+  final int count;
+  final int page;
+  final int num_pages;
+  final List<T> results;
+
+  const ServerPaginatedReponse({
+    required this.count,
+    required this.page,
+    required this.num_pages,
+    required this.results,
+  });
+
+  factory ServerPaginatedReponse.empty() {
+    return ServerPaginatedReponse(count: 0, page: 0, num_pages: 0, results: []);
+  }
+}
