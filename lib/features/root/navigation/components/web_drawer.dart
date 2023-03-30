@@ -197,13 +197,13 @@ class WebMenu extends BaseComponent {
           title: Text(
             "P2P Auctions",
             style: TextStyle(
-              color: tabsRouter.activeIndex == WebRouteIndex.dst ? activeColor : color,
+              color: tabsRouter.activeIndex == WebRouteIndex.shop ? activeColor : color,
             ),
           ),
           leading: const Icon(Icons.leak_add),
           trailing: const Icon(Icons.chevron_right),
           onTap: () {
-            tabsRouter.setActiveIndex(WebRouteIndex.dst);
+            tabsRouter.setActiveIndex(WebRouteIndex.shop);
             if (inDrawer) {
               Navigator.of(context).pop();
             }

@@ -13,12 +13,12 @@ import 'package:rbx_wallet/utils/formatting.dart';
 
 class SnapshotDownloader extends StatefulWidget {
   final String downloadUrl;
-  final Reader read;
+  final Ref ref;
 
   const SnapshotDownloader({
     Key? key,
     required this.downloadUrl,
-    required this.read,
+    required this.ref,
   }) : super(key: key);
 
   @override
@@ -46,7 +46,7 @@ class _SnapshotDownloaderState extends State<SnapshotDownloader> {
   }
 
   Future<void> init() async {
-    await widget.read(sessionProvider.notifier).stopCli();
+    await widget.ref.read(sessionProvider.notifier).stopCli();
 
     download();
   }
@@ -135,8 +135,8 @@ class _SnapshotDownloaderState extends State<SnapshotDownloader> {
       isReady = true;
     });
 
-    await widget.read(sessionProvider.notifier).init(false);
-    await widget.read(sessionProvider.notifier).fetchConfig();
+    await widget.ref.read(sessionProvider.notifier).init(false);
+    await widget.ref.read(sessionProvider.notifier).fetchConfig();
   }
 
   @override

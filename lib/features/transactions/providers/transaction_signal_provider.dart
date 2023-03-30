@@ -3,6 +3,9 @@ import 'dart:convert';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/env.dart';
+import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
+import 'package:rbx_wallet/features/dst/providers/dst_tx_pending_provider.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/providers/session_provider.dart';
@@ -14,12 +17,12 @@ import '../models/transaction_notification.dart';
 import 'transaction_notification_provider.dart';
 
 class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
-  final Reader read;
+  final Ref ref;
 
-  TransactionSignalProvider(this.read) : super([]);
+  TransactionSignalProvider(this.ref) : super([]);
 
   List<String> get _addresses {
-    return read(walletListProvider).map((w) => w.address).toList();
+    return ref.read(walletListProvider).map((w) => w.address).toList();
   }
 
   bool _hasAddress(String address) {
@@ -65,6 +68,9 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       case TxType.nftBurn:
         _handleNftBurn(transaction);
         break;
+      case TxType.dstShop:
+        _handleDstShop(transaction);
+        break;
     }
   }
 
@@ -73,6 +79,10 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
     bool isOutgoing = false,
     bool isIncoming = false,
   }) {
+    if (Env.isTestNet) {
+      return;
+    }
+
     if (isIncoming) {
       _broadcastNotification(
         TransactionNotification(
@@ -107,7 +117,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       TransactionNotification(identifier: transaction.hash, transaction: transaction, title: "NFT Minted", body: body, icon: Icons.lightbulb_outline),
     );
 
-    read(sessionProvider.notifier).smartContractLoop(false);
+    ref.read(sessionProvider.notifier).smartContractLoop(false);
   }
 
   void _handleVoteTopic(Transaction transaction) {
@@ -154,20 +164,20 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
               body: "NFT evolved to state $evoState.",
               icon: Icons.change_circle),
         );
-        read(sessionProvider.notifier).smartContractLoop(false);
+        ref.read(sessionProvider.notifier).smartContractLoop(false);
 
         return;
       }
     }
 
-    if (isIncoming) {
-      if (nftData != null) {
-        final id = _nftDataValue(nftData, 'ContractUID');
-        if (id != null) {
-          read(transferredProvider.notifier).removeId(id);
-        }
+    if (nftData != null) {
+      final id = _nftDataValue(nftData, 'ContractUID');
+      if (id != null) {
+        ref.read(transferredProvider.notifier).removeId(id);
       }
+    }
 
+    if (isIncoming) {
       _broadcastNotification(
         TransactionNotification(
             identifier: "${transaction.hash}_incoming",
@@ -189,7 +199,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       );
     }
 
-    read(sessionProvider.notifier).smartContractLoop(false);
+    ref.read(sessionProvider.notifier).smartContractLoop(false);
   }
 
   void _handleAdnr(Transaction transaction) {
@@ -265,7 +275,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
         color: AppColorVariant.Danger,
       ),
     );
-    read(sessionProvider.notifier).smartContractLoop(false);
+    ref.read(sessionProvider.notifier).smartContractLoop(false);
   }
 
   Map<String, dynamic>? _parseNftData(Transaction transaction) {
@@ -297,15 +307,30 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
     }
   }
 
+  void _handleDstShop(Transaction transaction) {
+    ref.invalidate(decShopProvider);
+    ref.read(dstTxPendingProvider.notifier).set(false);
+
+    _broadcastNotification(
+      TransactionNotification(
+        identifier: transaction.hash,
+        transaction: transaction,
+        title: "DecShop TX",
+        body: "DecShop TX Complete",
+        icon: Icons.store,
+      ),
+    );
+  }
+
   String? _nftDataValue(Map<String, dynamic> nftData, String key) {
     return nftData.containsKey(key) ? nftData[key].toString() : null;
   }
 
   void _broadcastNotification(TransactionNotification notification) {
-    read(transactionNotificationProvider.notifier).add(notification);
+    ref.read(transactionNotificationProvider.notifier).add(notification);
   }
 }
 
 final transactionSignalProvider = StateNotifierProvider<TransactionSignalProvider, List<Transaction>>((ref) {
-  return TransactionSignalProvider(ref.read);
+  return TransactionSignalProvider(ref);
 });

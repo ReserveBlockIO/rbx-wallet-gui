@@ -7,12 +7,12 @@ import '../models/wallet.dart';
 import 'wallet_list_provider.dart';
 
 class WalletDetailProvider extends StateNotifier<Wallet> {
-  final Reader read;
+  final Ref ref;
 
-  WalletDetailProvider(this.read, Wallet wallet) : super(wallet);
+  WalletDetailProvider(this.ref, Wallet wallet) : super(wallet);
 
   void rename(String name) {
-    read(walletListProvider.notifier).rename(state, name);
+    ref.read(walletListProvider.notifier).rename(state, name);
   }
 
   void delete() {
@@ -23,7 +23,7 @@ class WalletDetailProvider extends StateNotifier<Wallet> {
       );
       return;
     }
-    read(walletListProvider.notifier).delete(state);
+    ref.read(walletListProvider.notifier).delete(state);
     List<dynamic>? deleted = singleton<Storage>().getList(Storage.DELETED_WALLETS_KEY);
 
     deleted ??= [];
@@ -34,5 +34,5 @@ class WalletDetailProvider extends StateNotifier<Wallet> {
 }
 
 final walletDetailProvider = StateNotifierProviderFamily<WalletDetailProvider, Wallet, Wallet>((ref, wallet) {
-  return WalletDetailProvider(ref.read, wallet);
+  return WalletDetailProvider(ref, wallet);
 });

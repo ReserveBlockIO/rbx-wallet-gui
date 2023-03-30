@@ -16,7 +16,7 @@ class WebRouteIndex {
   static get transactions => 3;
   static get nfts => 4;
   static get smartContracts => 5;
-  static get dst => 6;
+  static get shop => 6;
   static get adnrs => 7;
 }
 
@@ -30,7 +30,7 @@ class WebDashboardContainer extends StatelessWidget {
     const WebTransactionsTabRouter(),
     const WebNftTabRouter(),
     const WebSmartContractTabRouter(),
-    const WebDstTabRouter(),
+    const WebShopTabRouter(),
     const WebAdnrTabRouter(),
   ];
 
@@ -64,7 +64,7 @@ class _ContentWrapper extends BaseComponent {
               padding: EdgeInsets.all(4.0),
               child: Center(
                 child: Text(
-                  "RBX TEST NET",
+                  "RBX TESTNET",
                   style: TextStyle(
                     fontSize: 13,
                     letterSpacing: 2,
@@ -102,7 +102,7 @@ class _ContentWrapper extends BaseComponent {
             padding: EdgeInsets.all(4.0),
             child: Center(
               child: Text(
-                "RBX TEST NET",
+                "RBX TESTNET",
                 style: TextStyle(
                   fontSize: 13,
                   letterSpacing: 2,

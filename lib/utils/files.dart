@@ -17,6 +17,7 @@ Future<void> openFile(File file) async {
   try {
     await launchUrl(file.uri);
   } catch (e) {
+    print(e);
     launchUrl(File(file.parent.path).uri);
   }
 }
@@ -34,6 +35,18 @@ Future<String> dbPath() async {
   }
 
   return appDocPath;
+}
+
+Future<String> assetsPath() async {
+  String _dbPath = await dbPath();
+
+  if (Platform.isMacOS) {
+    _dbPath = "$_dbPath/${Env.isTestNet ? 'AssetsTestNet' : 'Assets'}";
+  } else {
+    _dbPath = "$_dbPath\\${Env.isTestNet ? 'AssetsTestNet' : 'Assets'}";
+  }
+
+  return _dbPath;
 }
 
 Future<String> configPath() async {

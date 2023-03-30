@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../reserve/components/callback_button.dart';
+import '../../reserve/components/recover_button.dart';
+
 import '../../../core/base_component.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/env.dart';
@@ -42,6 +45,16 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
 
     final toMe = toWallet != null;
     final fromMe = fromWallet != null;
+
+    final bool canCallBack = widget.transaction.status == TransactionStatus.Reserved &&
+        fromMe &&
+        widget.transaction.amount <= 0 &&
+        (widget.transaction.unlockTime != null && widget.transaction.unlockTime! > (DateTime.now().millisecondsSinceEpoch / 1000));
+
+    // final bool canCallBack = widget.transaction.status == TransactionStatus.Reserved && fromMe && widget.transaction.amount < 0;
+    // final bool canCallBack = widget.transaction.status == TransactionStatus.Reserved && fromMe;
+
+    // final DateTime? callbackUntil = widget.transaction.unlockTime != null ?
 
     return Card(
       margin: widget.compact ? EdgeInsets.zero : const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
@@ -99,16 +112,17 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                           const SizedBox(
                             width: 4,
                           ),
-                          InkWell(
-                            onTap: () async {
-                              final url = "${Env.baseExplorerUrl}transaction/${widget.transaction.hash}";
-                              await launchUrl(Uri.parse(url));
-                            },
-                            child: const Icon(
-                              Icons.open_in_new,
-                              size: 12,
+                          if (widget.transaction.status != TransactionStatus.Fail && widget.transaction.status != TransactionStatus.Pending)
+                            InkWell(
+                              onTap: () async {
+                                final url = "${Env.baseExplorerUrl}transaction/${widget.transaction.hash}";
+                                await launchUrl(Uri.parse(url));
+                              },
+                              child: const Icon(
+                                Icons.open_in_new,
+                                size: 12,
+                              ),
                             ),
-                          ),
                         ],
                       ),
                       const SizedBox(height: 4),
@@ -121,7 +135,8 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                               TextSpan(
                                 text: "${widget.transaction.amount} RBX",
                                 style: TextStyle(
-                                  color: widget.transaction.amount < 0 ? Theme.of(context).colorScheme.danger : Theme.of(context).colorScheme.success,
+                                  color: widget.transaction.amount < 0 ? Colors.red.shade500 : Theme.of(context).colorScheme.success,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
                             ],
@@ -170,14 +185,20 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                             children: [
                               SelectableText(
                                 "To: ${widget.transaction.toAddress}${toWallet != null && toWallet.friendlyName != null ? ' (${toWallet.friendlyName})' : ''}",
-                                style: Theme.of(context).textTheme.caption,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .caption!
+                                    .copyWith(color: widget.transaction.isToReserveAccount ? Colors.deepPurple.shade200 : null),
                               ),
                               const SizedBox(
                                 height: 4,
                               ),
                               SelectableText(
                                 "From: ${widget.transaction.fromAddress}${fromWallet != null && fromWallet.friendlyName != null ? ' (${fromWallet.friendlyName})' : ''}",
-                                style: Theme.of(context).textTheme.caption,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .caption!
+                                    .copyWith(color: widget.transaction.isFromReserveAccount ? Colors.deepPurple.shade200 : null),
                               ),
                               const SizedBox(
                                 height: 4,
@@ -186,22 +207,43 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                                 "Date: ${widget.transaction.parseTimeStamp}",
                                 style: Theme.of(context).textTheme.caption,
                               ),
+                              if (widget.transaction.callbackUntil != null) ...[
+                                const SizedBox(
+                                  height: 4,
+                                ),
+                                Text(
+                                  "Recoverable Until: ${widget.transaction.parseUnlockTimeAsDate}",
+                                  style: Theme.of(context).textTheme.caption,
+                                ),
+                              ],
                             ],
                           )),
                           if (widget.transaction.nftData != null)
-                            Padding(
-                              padding: const EdgeInsets.only(top: 6.0),
-                              child: AppButton(
-                                label: "View Data",
-                                onPressed: () {
-                                  showModalBottomSheet(
-                                      context: context,
-                                      builder: (context) {
-                                        return NftDataModal(widget.transaction.nftData);
-                                      });
-                                },
-                              ),
+                            AppButton(
+                              label: "View Data",
+                              onPressed: () {
+                                showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) {
+                                      return NftDataModal(widget.transaction.nftData);
+                                    });
+                              },
                             ),
+                          // if (canCallBack) Text("${widget.transaction.unlockTime}"),
+                          if (canCallBack)
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                // SizedBox(
+                                //   width: 6,
+                                // ),
+                                // RecoverButton(transaction: widget.transaction),
+                                // SizedBox(
+                                //   width: 6,
+                                // ),
+                                CallbackButton(transaction: widget.transaction),
+                              ],
+                            )
                         ],
                       ),
                       if (_expanded)

@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'pair.dart';
 
@@ -37,7 +37,8 @@ mixin _$Pair {
 /// @nodoc
 abstract class $PairCopyWith<$Res> {
   factory $PairCopyWith(Pair value, $Res Function(Pair) then) =
-      _$PairCopyWithImpl<$Res>;
+      _$PairCopyWithImpl<$Res, Pair>;
+  @useResult
   $Res call(
       {String id,
       String network,
@@ -52,68 +53,72 @@ abstract class $PairCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$PairCopyWithImpl<$Res> implements $PairCopyWith<$Res> {
+class _$PairCopyWithImpl<$Res, $Val extends Pair>
+    implements $PairCopyWith<$Res> {
   _$PairCopyWithImpl(this._value, this._then);
 
-  final Pair _value;
   // ignore: unused_field
-  final $Res Function(Pair) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? network = freezed,
-    Object? nftAddress = freezed,
-    Object? description = freezed,
-    Object? reason = freezed,
-    Object? metadataUrl = freezed,
+    Object? id = null,
+    Object? network = null,
+    Object? nftAddress = null,
+    Object? description = null,
+    Object? reason = null,
+    Object? metadataUrl = null,
     Object? provenance = freezed,
-    Object? properties = freezed,
+    Object? properties = null,
   }) {
     return _then(_value.copyWith(
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      network: network == freezed
+      network: null == network
           ? _value.network
           : network // ignore: cast_nullable_to_non_nullable
               as String,
-      nftAddress: nftAddress == freezed
+      nftAddress: null == nftAddress
           ? _value.nftAddress
           : nftAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      description: description == freezed
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      reason: reason == freezed
+      reason: null == reason
           ? _value.reason
           : reason // ignore: cast_nullable_to_non_nullable
               as String,
-      metadataUrl: metadataUrl == freezed
+      metadataUrl: null == metadataUrl
           ? _value.metadataUrl
           : metadataUrl // ignore: cast_nullable_to_non_nullable
               as String,
-      provenance: provenance == freezed
+      provenance: freezed == provenance
           ? _value.provenance
           : provenance // ignore: cast_nullable_to_non_nullable
               as Asset?,
-      properties: properties == freezed
+      properties: null == properties
           ? _value.properties
           : properties // ignore: cast_nullable_to_non_nullable
               as List<Property>,
-    ));
+    ) as $Val);
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $AssetCopyWith<$Res>? get provenance {
     if (_value.provenance == null) {
       return null;
     }
 
     return $AssetCopyWith<$Res>(_value.provenance!, (value) {
-      return _then(_value.copyWith(provenance: value));
+      return _then(_value.copyWith(provenance: value) as $Val);
     });
   }
 }
@@ -123,6 +128,7 @@ abstract class _$$_PairCopyWith<$Res> implements $PairCopyWith<$Res> {
   factory _$$_PairCopyWith(_$_Pair value, $Res Function(_$_Pair) then) =
       __$$_PairCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String id,
       String network,
@@ -138,55 +144,53 @@ abstract class _$$_PairCopyWith<$Res> implements $PairCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_PairCopyWithImpl<$Res> extends _$PairCopyWithImpl<$Res>
+class __$$_PairCopyWithImpl<$Res> extends _$PairCopyWithImpl<$Res, _$_Pair>
     implements _$$_PairCopyWith<$Res> {
   __$$_PairCopyWithImpl(_$_Pair _value, $Res Function(_$_Pair) _then)
-      : super(_value, (v) => _then(v as _$_Pair));
+      : super(_value, _then);
 
-  @override
-  _$_Pair get _value => super._value as _$_Pair;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? network = freezed,
-    Object? nftAddress = freezed,
-    Object? description = freezed,
-    Object? reason = freezed,
-    Object? metadataUrl = freezed,
+    Object? id = null,
+    Object? network = null,
+    Object? nftAddress = null,
+    Object? description = null,
+    Object? reason = null,
+    Object? metadataUrl = null,
     Object? provenance = freezed,
-    Object? properties = freezed,
+    Object? properties = null,
   }) {
     return _then(_$_Pair(
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      network: network == freezed
+      network: null == network
           ? _value.network
           : network // ignore: cast_nullable_to_non_nullable
               as String,
-      nftAddress: nftAddress == freezed
+      nftAddress: null == nftAddress
           ? _value.nftAddress
           : nftAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      description: description == freezed
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      reason: reason == freezed
+      reason: null == reason
           ? _value.reason
           : reason // ignore: cast_nullable_to_non_nullable
               as String,
-      metadataUrl: metadataUrl == freezed
+      metadataUrl: null == metadataUrl
           ? _value.metadataUrl
           : metadataUrl // ignore: cast_nullable_to_non_nullable
               as String,
-      provenance: provenance == freezed
+      provenance: freezed == provenance
           ? _value.provenance
           : provenance // ignore: cast_nullable_to_non_nullable
               as Asset?,
-      properties: properties == freezed
+      properties: null == properties
           ? _value._properties
           : properties // ignore: cast_nullable_to_non_nullable
               as List<Property>,
@@ -236,6 +240,7 @@ class _$_Pair extends _Pair {
   @override
   @JsonKey()
   List<Property> get properties {
+    if (_properties is EqualUnmodifiableListView) return _properties;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_properties);
   }
@@ -250,17 +255,17 @@ class _$_Pair extends _Pair {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Pair &&
-            const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.network, network) &&
-            const DeepCollectionEquality()
-                .equals(other.nftAddress, nftAddress) &&
-            const DeepCollectionEquality()
-                .equals(other.description, description) &&
-            const DeepCollectionEquality().equals(other.reason, reason) &&
-            const DeepCollectionEquality()
-                .equals(other.metadataUrl, metadataUrl) &&
-            const DeepCollectionEquality()
-                .equals(other.provenance, provenance) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.network, network) || other.network == network) &&
+            (identical(other.nftAddress, nftAddress) ||
+                other.nftAddress == nftAddress) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.reason, reason) || other.reason == reason) &&
+            (identical(other.metadataUrl, metadataUrl) ||
+                other.metadataUrl == metadataUrl) &&
+            (identical(other.provenance, provenance) ||
+                other.provenance == provenance) &&
             const DeepCollectionEquality()
                 .equals(other._properties, _properties));
   }
@@ -269,23 +274,26 @@ class _$_Pair extends _Pair {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(network),
-      const DeepCollectionEquality().hash(nftAddress),
-      const DeepCollectionEquality().hash(description),
-      const DeepCollectionEquality().hash(reason),
-      const DeepCollectionEquality().hash(metadataUrl),
-      const DeepCollectionEquality().hash(provenance),
+      id,
+      network,
+      nftAddress,
+      description,
+      reason,
+      metadataUrl,
+      provenance,
       const DeepCollectionEquality().hash(_properties));
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_PairCopyWith<_$_Pair> get copyWith =>
       __$$_PairCopyWithImpl<_$_Pair>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_PairToJson(this);
+    return _$$_PairToJson(
+      this,
+    );
   }
 }
 
@@ -304,21 +312,21 @@ abstract class _Pair extends Pair {
   factory _Pair.fromJson(Map<String, dynamic> json) = _$_Pair.fromJson;
 
   @override
-  String get id => throw _privateConstructorUsedError;
+  String get id;
   @override
-  String get network => throw _privateConstructorUsedError;
+  String get network;
   @override
-  String get nftAddress => throw _privateConstructorUsedError;
+  String get nftAddress;
   @override
-  String get description => throw _privateConstructorUsedError;
+  String get description;
   @override
-  String get reason => throw _privateConstructorUsedError;
+  String get reason;
   @override
-  String get metadataUrl => throw _privateConstructorUsedError;
+  String get metadataUrl;
   @override
-  Asset? get provenance => throw _privateConstructorUsedError;
+  Asset? get provenance;
   @override
-  List<Property> get properties => throw _privateConstructorUsedError;
+  List<Property> get properties;
   @override
   @JsonKey(ignore: true)
   _$$_PairCopyWith<_$_Pair> get copyWith => throw _privateConstructorUsedError;

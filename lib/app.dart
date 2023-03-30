@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/chat/providers/chat_notification_provider.dart';
 
 import 'core/app_router.gr.dart';
 import 'core/components/boot_container.dart';
@@ -18,6 +19,7 @@ import 'features/encrypt/providers/wallet_is_encrypted_provider.dart';
 import 'features/global_loader/global_loading_provider.dart';
 import 'features/root/components/system_manager.dart';
 import 'features/transactions/components/notification_overlay.dart';
+import 'package:context_menus/context_menus.dart';
 
 final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
@@ -84,7 +86,9 @@ class AppContainer extends ConsumerWidget {
 
         return Stack(
           children: [
-            widget!,
+            ContextMenuOverlay(
+              child: widget!,
+            ),
             const Align(
               alignment: Alignment.topRight,
               child: NotificationOverlay(),

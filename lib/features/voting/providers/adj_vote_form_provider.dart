@@ -7,7 +7,7 @@ import '../models/adj_vote.dart';
 import '../utils.dart';
 
 class AdjVoteFormProvider extends StateNotifier<AdjVote> {
-  final Reader read;
+  final Ref ref;
   final GlobalKey<FormState> formKey = GlobalKey();
 
   final TextEditingController rbxAddressController = TextEditingController();
@@ -26,7 +26,7 @@ class AdjVoteFormProvider extends StateNotifier<AdjVote> {
   final TextEditingController githubLinkController = TextEditingController();
   final TextEditingController supplementalURLsController = TextEditingController();
 
-  AdjVoteFormProvider(this.read, AdjVote model) : super(model) {
+  AdjVoteFormProvider(this.ref, AdjVote model) : super(model) {
     rbxAddressController.addListener(() {
       state = state.copyWith(rbxAddress: rbxAddressController.text);
     });
@@ -151,5 +151,5 @@ class AdjVoteFormProvider extends StateNotifier<AdjVote> {
 }
 
 final adjVoteFormProvider = StateNotifierProvider<AdjVoteFormProvider, AdjVote>((ref) {
-  return AdjVoteFormProvider(ref.read, AdjVote.empty());
+  return AdjVoteFormProvider(ref, AdjVote.empty());
 });

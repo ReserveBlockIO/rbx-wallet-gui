@@ -16,11 +16,11 @@ import '../storage.dart';
 import 'ready_provider.dart';
 
 class WebSessionProvider extends StateNotifier<WebSessionModel> {
-  final Reader read;
+  final Ref ref;
 
   late final Timer loopTimer;
 
-  WebSessionProvider(this.read, WebSessionModel model) : super(model) {
+  WebSessionProvider(this.ref, WebSessionModel model) : super(model) {
     loopTimer = Timer.periodic(const Duration(seconds: REFRESH_TIMEOUT_SECONDS), (_) => loop());
     init();
   }
@@ -43,7 +43,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
       });
       state = state.copyWith(isAuthenticated: false);
     }
-    read(readyProvider.notifier).setReady(true);
+    ref.read(readyProvider.notifier).setReady(true);
 
     final timezoneName = DateTime.now().timeZoneName.toString();
     state = state.copyWith(timezoneName: timezoneName);
@@ -62,7 +62,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     state = state.copyWith(keypair: keypair, isAuthenticated: true);
     loop();
 
-    read(webTransactionListProvider.notifier).load(keypair.public, true);
+    ref.read(webTransactionListProvider.notifier).load(keypair.public, true);
   }
 
   void loop() async {
@@ -95,7 +95,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     if (state.keypair == null) {
       return;
     }
-    read(nftListProvider.notifier).load(1, state.keypair!.email, state.keypair!.public);
+    ref.read(nftListProvider.notifier).load(1, state.keypair!.email, state.keypair!.public);
   }
 
   Future<void> logout() async {
@@ -107,5 +107,5 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
 }
 
 final webSessionProvider = StateNotifierProvider<WebSessionProvider, WebSessionModel>(
-  (ref) => WebSessionProvider(ref.read, WebSessionModel()),
+  (ref) => WebSessionProvider(ref, WebSessionModel()),
 );

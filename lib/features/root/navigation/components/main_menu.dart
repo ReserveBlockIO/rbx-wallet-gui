@@ -207,6 +207,15 @@ class MainMenu extends BaseComponent {
                     },
                     isActive: tabsRouter.activeIndex == 9,
                   ),
+                  if (kDebugMode)
+                    _NavButton(
+                      title: "WEB P2P Auctions",
+                      icon: Icons.leak_add,
+                      onPressed: () {
+                        tabsRouter.setActiveIndex(13);
+                      },
+                      isActive: tabsRouter.activeIndex == 13,
+                    ),
                 ],
               ),
             ],

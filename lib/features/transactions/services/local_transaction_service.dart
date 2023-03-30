@@ -52,4 +52,8 @@ class LocalTransactionService extends BaseService {
     mined.sort((a, b) => b.height.compareTo(a.height));
     return mined;
   }
+
+  Future<List<Transaction>> transactionsReserved() async {
+    return await _transactions('/GetReserveLocalTX');
+  }
 }

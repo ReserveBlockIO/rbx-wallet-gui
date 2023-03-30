@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'compiler_response.dart';
 
@@ -37,7 +37,8 @@ mixin _$CompilerResponse {
 abstract class $CompilerResponseCopyWith<$Res> {
   factory $CompilerResponseCopyWith(
           CompilerResponse value, $Res Function(CompilerResponse) then) =
-      _$CompilerResponseCopyWithImpl<$Res>;
+      _$CompilerResponseCopyWithImpl<$Res, CompilerResponse>;
+  @useResult
   $Res call(
       {@JsonKey(name: "Success") bool success,
       @JsonKey(name: "SmartContractCode") String code,
@@ -47,40 +48,43 @@ abstract class $CompilerResponseCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$CompilerResponseCopyWithImpl<$Res>
+class _$CompilerResponseCopyWithImpl<$Res, $Val extends CompilerResponse>
     implements $CompilerResponseCopyWith<$Res> {
   _$CompilerResponseCopyWithImpl(this._value, this._then);
 
-  final CompilerResponse _value;
   // ignore: unused_field
-  final $Res Function(CompilerResponse) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? success = freezed,
-    Object? code = freezed,
-    Object? smartContract = freezed,
+    Object? success = null,
+    Object? code = null,
+    Object? smartContract = null,
   }) {
     return _then(_value.copyWith(
-      success: success == freezed
+      success: null == success
           ? _value.success
           : success // ignore: cast_nullable_to_non_nullable
               as bool,
-      code: code == freezed
+      code: null == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String,
-      smartContract: smartContract == freezed
+      smartContract: null == smartContract
           ? _value.smartContract
           : smartContract // ignore: cast_nullable_to_non_nullable
               as CompiledSmartContract,
-    ));
+    ) as $Val);
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $CompiledSmartContractCopyWith<$Res> get smartContract {
     return $CompiledSmartContractCopyWith<$Res>(_value.smartContract, (value) {
-      return _then(_value.copyWith(smartContract: value));
+      return _then(_value.copyWith(smartContract: value) as $Val);
     });
   }
 }
@@ -92,6 +96,7 @@ abstract class _$$_CompilerResponseCopyWith<$Res>
           _$_CompilerResponse value, $Res Function(_$_CompilerResponse) then) =
       __$$_CompilerResponseCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {@JsonKey(name: "Success") bool success,
       @JsonKey(name: "SmartContractCode") String code,
@@ -103,31 +108,29 @@ abstract class _$$_CompilerResponseCopyWith<$Res>
 
 /// @nodoc
 class __$$_CompilerResponseCopyWithImpl<$Res>
-    extends _$CompilerResponseCopyWithImpl<$Res>
+    extends _$CompilerResponseCopyWithImpl<$Res, _$_CompilerResponse>
     implements _$$_CompilerResponseCopyWith<$Res> {
   __$$_CompilerResponseCopyWithImpl(
       _$_CompilerResponse _value, $Res Function(_$_CompilerResponse) _then)
-      : super(_value, (v) => _then(v as _$_CompilerResponse));
+      : super(_value, _then);
 
-  @override
-  _$_CompilerResponse get _value => super._value as _$_CompilerResponse;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? success = freezed,
-    Object? code = freezed,
-    Object? smartContract = freezed,
+    Object? success = null,
+    Object? code = null,
+    Object? smartContract = null,
   }) {
     return _then(_$_CompilerResponse(
-      success: success == freezed
+      success: null == success
           ? _value.success
           : success // ignore: cast_nullable_to_non_nullable
               as bool,
-      code: code == freezed
+      code: null == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String,
-      smartContract: smartContract == freezed
+      smartContract: null == smartContract
           ? _value.smartContract
           : smartContract // ignore: cast_nullable_to_non_nullable
               as CompiledSmartContract,
@@ -167,28 +170,27 @@ class _$_CompilerResponse extends _CompilerResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_CompilerResponse &&
-            const DeepCollectionEquality().equals(other.success, success) &&
-            const DeepCollectionEquality().equals(other.code, code) &&
-            const DeepCollectionEquality()
-                .equals(other.smartContract, smartContract));
+            (identical(other.success, success) || other.success == success) &&
+            (identical(other.code, code) || other.code == code) &&
+            (identical(other.smartContract, smartContract) ||
+                other.smartContract == smartContract));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(success),
-      const DeepCollectionEquality().hash(code),
-      const DeepCollectionEquality().hash(smartContract));
+  int get hashCode => Object.hash(runtimeType, success, code, smartContract);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_CompilerResponseCopyWith<_$_CompilerResponse> get copyWith =>
       __$$_CompilerResponseCopyWithImpl<_$_CompilerResponse>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_CompilerResponseToJson(this);
+    return _$$_CompilerResponseToJson(
+      this,
+    );
   }
 }
 
@@ -208,13 +210,13 @@ abstract class _CompilerResponse extends CompilerResponse {
 
   @override
   @JsonKey(name: "Success")
-  bool get success => throw _privateConstructorUsedError;
+  bool get success;
   @override
   @JsonKey(name: "SmartContractCode")
-  String get code => throw _privateConstructorUsedError;
+  String get code;
   @override
   @JsonKey(name: "SmartContract")
-  CompiledSmartContract get smartContract => throw _privateConstructorUsedError;
+  CompiledSmartContract get smartContract;
   @override
   @JsonKey(ignore: true)
   _$$_CompilerResponseCopyWith<_$_CompilerResponse> get copyWith =>

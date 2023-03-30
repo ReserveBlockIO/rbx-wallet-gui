@@ -1,8 +1,11 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/api_token_manager.dart';
+import 'package:rbx_wallet/core/singletons.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -91,6 +94,11 @@ class ConfigContainerScreen extends BaseScreen {
                 )),
           ],
         ),
+        if (kDebugMode)
+          Builder(builder: (context) {
+            final token = singleton<ApiTokenManager>().get();
+            return SelectableText(token);
+          }),
         Expanded(
           child: SingleChildScrollView(
             child: Column(

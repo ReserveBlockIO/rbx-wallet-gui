@@ -9,17 +9,18 @@ import '../services/nft_service.dart';
 import 'nft_list_provider.dart';
 
 class MintedNftListProvider extends StateNotifier<NftListModel> {
-  final Reader read;
+  final Ref ref;
 
   final TextEditingController searchController = TextEditingController();
 
-  MintedNftListProvider(this.read, NftListModel model) : super(model) {
+  MintedNftListProvider(this.ref, NftListModel model) : super(model) {
     load(1);
   }
 
   Future<void> load(int page) async {
     if (kIsWeb) {
-      final nfts = await TransactionService().listMintedNfts(read(webSessionProvider).keypair!.email, read(webSessionProvider).keypair!.public);
+      final nfts =
+          await TransactionService().listMintedNfts(ref.read(webSessionProvider).keypair!.email, ref.read(webSessionProvider).keypair!.public);
       final d = CliPaginatedResponse(count: nfts.length, results: nfts, page: 1);
       state = state.copyWith(data: d, page: 1, currentSearch: '');
       return;
@@ -46,7 +47,7 @@ class MintedNftListProvider extends StateNotifier<NftListModel> {
 
 final mintedNftListProvider = StateNotifierProvider<MintedNftListProvider, NftListModel>(
   (ref) => MintedNftListProvider(
-    ref.read,
+    ref,
     NftListModel(page: 0, data: CliPaginatedResponse.empty()),
   ),
 );

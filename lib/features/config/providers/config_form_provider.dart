@@ -14,7 +14,7 @@ import '../models/config.dart';
 import 'config_provider.dart';
 
 class ConfigFormProvider extends StateNotifier<Config> {
-  final Reader read;
+  final Ref ref;
 
   final GlobalKey<FormState> formKey = GlobalKey();
 
@@ -31,7 +31,7 @@ class ConfigFormProvider extends StateNotifier<Config> {
   late final TextEditingController motherPasswordController;
   bool obscuredPassword = true;
 
-  ConfigFormProvider(this.read, Config model) : super(model) {
+  ConfigFormProvider(this.ref, Config model) : super(model) {
     _init(model);
     addListeners();
   }
@@ -87,7 +87,7 @@ class ConfigFormProvider extends StateNotifier<Config> {
   }
 
   void clear() {
-    state = read(configProvider);
+    state = ref.read(configProvider);
   }
 
   void setApiPort(String val) {
@@ -154,16 +154,16 @@ class ConfigFormProvider extends StateNotifier<Config> {
       confirmText: "Restart Now",
     );
 
-    read(globalLoadingProvider.notifier).start();
+    ref.read(globalLoadingProvider.notifier).start();
     String fileContents = await generateFileString();
     final path = await configPath();
     await File(path).writeAsString(fileContents);
 
     if (shouldRestart) {
       Toast.message("Restarting CLI...");
-      await read(sessionProvider.notifier).restartCli();
+      await ref.read(sessionProvider.notifier).restartCli();
     }
-    read(globalLoadingProvider.notifier).complete();
+    ref.read(globalLoadingProvider.notifier).complete();
 
     return shouldRestart;
   }
@@ -214,5 +214,5 @@ class ConfigFormProvider extends StateNotifier<Config> {
 }
 
 final configFormProvider = StateNotifierProvider<ConfigFormProvider, Config>((ref) {
-  return ConfigFormProvider(ref.read, ref.read(configProvider));
+  return ConfigFormProvider(ref, ref.read(configProvider));
 });

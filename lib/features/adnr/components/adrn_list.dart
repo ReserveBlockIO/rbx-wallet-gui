@@ -79,7 +79,7 @@ class AdnrList extends BaseComponent {
                     onPressed: () async {
                       if (!await passwordRequiredGuard(context, ref)) return;
 
-                      if (!guardWalletIsSynced(ref.read)) {
+                      if (!widgetGuardWalletIsSynced(ref)) {
                         return;
                       }
                       if (wallet.balance < (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
@@ -107,7 +107,7 @@ class AdnrList extends BaseComponent {
                             ? null
                             : () async {
                                 if (!await passwordRequiredGuard(context, ref)) return;
-                                if (!guardWalletIsSynced(ref.read)) {
+                                if (!widgetGuardWalletIsSynced(ref)) {
                                   return;
                                 }
                                 if (wallet.balance < (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
@@ -153,7 +153,7 @@ class AdnrList extends BaseComponent {
                         variant: AppColorVariant.Danger,
                         onPressed: () async {
                           if (!await passwordRequiredGuard(context, ref)) return;
-                          if (!guardWalletIsSynced(ref.read)) {
+                          if (!widgetGuardWalletIsSynced(ref)) {
                             return;
                           }
 

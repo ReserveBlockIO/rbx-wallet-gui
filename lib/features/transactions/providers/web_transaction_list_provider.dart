@@ -26,10 +26,10 @@ class WebTransactionListModel {
 }
 
 class WebTransactionListProvider extends StateNotifier<WebTransactionListModel> {
-  final Reader read;
+  final Ref ref;
 
   WebTransactionListProvider(
-    this.read, [
+    this.ref, [
     WebTransactionListModel model = const WebTransactionListModel(),
   ]) : super(model) {
     // load(true);
@@ -61,7 +61,7 @@ class WebTransactionListProvider extends StateNotifier<WebTransactionListModel> 
   }
 
   Future<void> load(String address, [bool invokeLoop = false]) async {
-    // final address = read(webSessionProvider).keypair?.public;
+    // final address = ref.read(webSessionProvider).keypair?.public;
     // if (address == null) return;
 
     state = state.copyWith(isLoading: true);
@@ -98,5 +98,5 @@ class WebTransactionListProvider extends StateNotifier<WebTransactionListModel> 
 }
 
 final webTransactionListProvider = StateNotifierProvider<WebTransactionListProvider, WebTransactionListModel>((ref) {
-  return WebTransactionListProvider(ref.read);
+  return WebTransactionListProvider(ref);
 });

@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'multi_asset.dart';
 
@@ -33,33 +33,37 @@ mixin _$MultiAsset {
 abstract class $MultiAssetCopyWith<$Res> {
   factory $MultiAssetCopyWith(
           MultiAsset value, $Res Function(MultiAsset) then) =
-      _$MultiAssetCopyWithImpl<$Res>;
+      _$MultiAssetCopyWithImpl<$Res, MultiAsset>;
+  @useResult
   $Res call({String id, List<Asset> assets});
 }
 
 /// @nodoc
-class _$MultiAssetCopyWithImpl<$Res> implements $MultiAssetCopyWith<$Res> {
+class _$MultiAssetCopyWithImpl<$Res, $Val extends MultiAsset>
+    implements $MultiAssetCopyWith<$Res> {
   _$MultiAssetCopyWithImpl(this._value, this._then);
 
-  final MultiAsset _value;
   // ignore: unused_field
-  final $Res Function(MultiAsset) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? assets = freezed,
+    Object? id = null,
+    Object? assets = null,
   }) {
     return _then(_value.copyWith(
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      assets: assets == freezed
+      assets: null == assets
           ? _value.assets
           : assets // ignore: cast_nullable_to_non_nullable
               as List<Asset>,
-    ));
+    ) as $Val);
   }
 }
 
@@ -70,30 +74,30 @@ abstract class _$$_MultiAssetCopyWith<$Res>
           _$_MultiAsset value, $Res Function(_$_MultiAsset) then) =
       __$$_MultiAssetCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({String id, List<Asset> assets});
 }
 
 /// @nodoc
-class __$$_MultiAssetCopyWithImpl<$Res> extends _$MultiAssetCopyWithImpl<$Res>
+class __$$_MultiAssetCopyWithImpl<$Res>
+    extends _$MultiAssetCopyWithImpl<$Res, _$_MultiAsset>
     implements _$$_MultiAssetCopyWith<$Res> {
   __$$_MultiAssetCopyWithImpl(
       _$_MultiAsset _value, $Res Function(_$_MultiAsset) _then)
-      : super(_value, (v) => _then(v as _$_MultiAsset));
+      : super(_value, _then);
 
-  @override
-  _$_MultiAsset get _value => super._value as _$_MultiAsset;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? assets = freezed,
+    Object? id = null,
+    Object? assets = null,
   }) {
     return _then(_$_MultiAsset(
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      assets: assets == freezed
+      assets: null == assets
           ? _value._assets
           : assets // ignore: cast_nullable_to_non_nullable
               as List<Asset>,
@@ -119,6 +123,7 @@ class _$_MultiAsset extends _MultiAsset {
   @override
   @JsonKey()
   List<Asset> get assets {
+    if (_assets is EqualUnmodifiableListView) return _assets;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_assets);
   }
@@ -133,25 +138,26 @@ class _$_MultiAsset extends _MultiAsset {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_MultiAsset &&
-            const DeepCollectionEquality().equals(other.id, id) &&
+            (identical(other.id, id) || other.id == id) &&
             const DeepCollectionEquality().equals(other._assets, _assets));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(_assets));
+      runtimeType, id, const DeepCollectionEquality().hash(_assets));
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_MultiAssetCopyWith<_$_MultiAsset> get copyWith =>
       __$$_MultiAssetCopyWithImpl<_$_MultiAsset>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_MultiAssetToJson(this);
+    return _$$_MultiAssetToJson(
+      this,
+    );
   }
 }
 
@@ -164,9 +170,9 @@ abstract class _MultiAsset extends MultiAsset {
       _$_MultiAsset.fromJson;
 
   @override
-  String get id => throw _privateConstructorUsedError;
+  String get id;
   @override
-  List<Asset> get assets => throw _privateConstructorUsedError;
+  List<Asset> get assets;
   @override
   @JsonKey(ignore: true)
   _$$_MultiAssetCopyWith<_$_MultiAsset> get copyWith =>

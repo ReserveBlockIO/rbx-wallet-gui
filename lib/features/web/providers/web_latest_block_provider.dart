@@ -4,9 +4,9 @@ import '../../../core/services/explorer_service.dart';
 import '../models/web_block.dart';
 
 class WebLatestBlockProvider extends StateNotifier<WebBlock?> {
-  final Reader read;
+  final Ref ref;
 
-  WebLatestBlockProvider(this.read) : super(null) {
+  WebLatestBlockProvider(this.ref) : super(null) {
     _init();
   }
 
@@ -27,5 +27,5 @@ class WebLatestBlockProvider extends StateNotifier<WebBlock?> {
 }
 
 final webLatestBlockProvider = StateNotifierProvider<WebLatestBlockProvider, WebBlock?>(
-  (ref) => WebLatestBlockProvider(ref.read),
+  (ref) => WebLatestBlockProvider(ref),
 );

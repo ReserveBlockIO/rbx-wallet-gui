@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'property.dart';
 
@@ -32,33 +32,37 @@ mixin _$Property {
 /// @nodoc
 abstract class $PropertyCopyWith<$Res> {
   factory $PropertyCopyWith(Property value, $Res Function(Property) then) =
-      _$PropertyCopyWithImpl<$Res>;
+      _$PropertyCopyWithImpl<$Res, Property>;
+  @useResult
   $Res call({String label, String value});
 }
 
 /// @nodoc
-class _$PropertyCopyWithImpl<$Res> implements $PropertyCopyWith<$Res> {
+class _$PropertyCopyWithImpl<$Res, $Val extends Property>
+    implements $PropertyCopyWith<$Res> {
   _$PropertyCopyWithImpl(this._value, this._then);
 
-  final Property _value;
   // ignore: unused_field
-  final $Res Function(Property) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? label = freezed,
-    Object? value = freezed,
+    Object? label = null,
+    Object? value = null,
   }) {
     return _then(_value.copyWith(
-      label: label == freezed
+      label: null == label
           ? _value.label
           : label // ignore: cast_nullable_to_non_nullable
               as String,
-      value: value == freezed
+      value: null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 }
 
@@ -68,30 +72,30 @@ abstract class _$$_PropertyCopyWith<$Res> implements $PropertyCopyWith<$Res> {
           _$_Property value, $Res Function(_$_Property) then) =
       __$$_PropertyCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({String label, String value});
 }
 
 /// @nodoc
-class __$$_PropertyCopyWithImpl<$Res> extends _$PropertyCopyWithImpl<$Res>
+class __$$_PropertyCopyWithImpl<$Res>
+    extends _$PropertyCopyWithImpl<$Res, _$_Property>
     implements _$$_PropertyCopyWith<$Res> {
   __$$_PropertyCopyWithImpl(
       _$_Property _value, $Res Function(_$_Property) _then)
-      : super(_value, (v) => _then(v as _$_Property));
+      : super(_value, _then);
 
-  @override
-  _$_Property get _value => super._value as _$_Property;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? label = freezed,
-    Object? value = freezed,
+    Object? label = null,
+    Object? value = null,
   }) {
     return _then(_$_Property(
-      label: label == freezed
+      label: null == label
           ? _value.label
           : label // ignore: cast_nullable_to_non_nullable
               as String,
-      value: value == freezed
+      value: null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as String,
@@ -125,25 +129,25 @@ class _$_Property extends _Property {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Property &&
-            const DeepCollectionEquality().equals(other.label, label) &&
-            const DeepCollectionEquality().equals(other.value, value));
+            (identical(other.label, label) || other.label == label) &&
+            (identical(other.value, value) || other.value == value));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(label),
-      const DeepCollectionEquality().hash(value));
+  int get hashCode => Object.hash(runtimeType, label, value);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_PropertyCopyWith<_$_Property> get copyWith =>
       __$$_PropertyCopyWithImpl<_$_Property>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_PropertyToJson(this);
+    return _$$_PropertyToJson(
+      this,
+    );
   }
 }
 
@@ -155,9 +159,9 @@ abstract class _Property extends Property {
   factory _Property.fromJson(Map<String, dynamic> json) = _$_Property.fromJson;
 
   @override
-  String get label => throw _privateConstructorUsedError;
+  String get label;
   @override
-  String get value => throw _privateConstructorUsedError;
+  String get value;
   @override
   @JsonKey(ignore: true)
   _$$_PropertyCopyWith<_$_Property> get copyWith =>

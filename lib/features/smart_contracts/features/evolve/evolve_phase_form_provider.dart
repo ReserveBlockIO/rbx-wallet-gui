@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
 
 import '../../../../utils/toast.dart';
 import '../../../../utils/validation.dart';
@@ -10,7 +11,7 @@ import 'evolve_form_provider.dart';
 import 'evolve_phase.dart';
 
 class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
-  final Reader read;
+  final Ref ref;
   final int index;
   late final TextEditingController nameController;
   late final TextEditingController descriptionController;
@@ -19,7 +20,7 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
   late final TextEditingController timeController;
 
   EvolvePhaseFormProvider(
-    this.read,
+    this.ref,
     this.index, [
     EvolvePhase model = const EvolvePhase(),
   ]) : super(model) {
@@ -35,7 +36,7 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
   String? descriptionValidator(String? val) => formValidatorNotEmpty(val, "Description");
 
   String? dateTimeValidator(String? val) {
-    if (read(evolveFormProvider).type != EvolveType.time) {
+    if (ref.read(evolveFormProvider).type != EvolveType.time) {
       return null;
     }
 
@@ -47,7 +48,7 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
   }
 
   String? blockHeightValidator(String? val) {
-    if (read(evolveFormProvider).type != EvolveType.blockHeight) {
+    if (ref.read(evolveFormProvider).type != EvolveType.blockHeight) {
       return null;
     }
 
@@ -60,11 +61,11 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
       return "Invalid value";
     }
 
-    if (read(walletInfoProvider) == null) {
+    if (ref.read(walletInfoProvider) == null) {
       return "Error";
     }
 
-    final currentBh = read(walletInfoProvider)!.blockHeight;
+    final currentBh = ref.read(walletInfoProvider)!.blockHeight;
 
     if (parsed <= currentBh) {
       return "Block height must be greater than $currentBh.";
@@ -93,7 +94,7 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
       return false;
     }
 
-    read(evolveFormProvider.notifier).updatePhase(index, state);
+    ref.read(evolveFormProvider.notifier).updatePhase(index, state);
 
     return true;
   }
@@ -136,6 +137,21 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
     timeController.text = state.timeLabel;
   }
 
+  addProperty(ScProperty property) {
+    state = state.copyWith(properties: [...state.properties, property]);
+  }
+
+  void updateProperty(ScProperty property, int index) {
+    final updatedProperties = [...state.properties];
+    updatedProperties.removeAt(index);
+    updatedProperties.insert(index, property);
+    state = state.copyWith(properties: updatedProperties);
+  }
+
+  removeProperty(int index) {
+    state = state.copyWith(properties: [...state.properties]..removeAt(index));
+  }
+
   clear() {
     nameController.text = "";
     descriptionController.text = "";
@@ -148,5 +164,5 @@ class EvolvePhaseFormProvider extends StateNotifier<EvolvePhase> {
 }
 
 final evolvePhaseFormProvider = StateNotifierProvider.family<EvolvePhaseFormProvider, EvolvePhase, int>(
-  (ref, index) => EvolvePhaseFormProvider(ref.read, index),
+  (ref, index) => EvolvePhaseFormProvider(ref, index),
 );

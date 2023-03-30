@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'rarity.dart';
 
@@ -32,38 +32,42 @@ mixin _$Rarity {
 /// @nodoc
 abstract class $RarityCopyWith<$Res> {
   factory $RarityCopyWith(Rarity value, $Res Function(Rarity) then) =
-      _$RarityCopyWithImpl<$Res>;
+      _$RarityCopyWithImpl<$Res, Rarity>;
+  @useResult
   $Res call({String name, double weight, String description});
 }
 
 /// @nodoc
-class _$RarityCopyWithImpl<$Res> implements $RarityCopyWith<$Res> {
+class _$RarityCopyWithImpl<$Res, $Val extends Rarity>
+    implements $RarityCopyWith<$Res> {
   _$RarityCopyWithImpl(this._value, this._then);
 
-  final Rarity _value;
   // ignore: unused_field
-  final $Res Function(Rarity) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
-    Object? weight = freezed,
-    Object? description = freezed,
+    Object? name = null,
+    Object? weight = null,
+    Object? description = null,
   }) {
     return _then(_value.copyWith(
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      weight: weight == freezed
+      weight: null == weight
           ? _value.weight
           : weight // ignore: cast_nullable_to_non_nullable
               as double,
-      description: description == freezed
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 }
 
@@ -72,34 +76,34 @@ abstract class _$$_RarityCopyWith<$Res> implements $RarityCopyWith<$Res> {
   factory _$$_RarityCopyWith(_$_Rarity value, $Res Function(_$_Rarity) then) =
       __$$_RarityCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({String name, double weight, String description});
 }
 
 /// @nodoc
-class __$$_RarityCopyWithImpl<$Res> extends _$RarityCopyWithImpl<$Res>
+class __$$_RarityCopyWithImpl<$Res>
+    extends _$RarityCopyWithImpl<$Res, _$_Rarity>
     implements _$$_RarityCopyWith<$Res> {
   __$$_RarityCopyWithImpl(_$_Rarity _value, $Res Function(_$_Rarity) _then)
-      : super(_value, (v) => _then(v as _$_Rarity));
+      : super(_value, _then);
 
-  @override
-  _$_Rarity get _value => super._value as _$_Rarity;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
-    Object? weight = freezed,
-    Object? description = freezed,
+    Object? name = null,
+    Object? weight = null,
+    Object? description = null,
   }) {
     return _then(_$_Rarity(
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      weight: weight == freezed
+      weight: null == weight
           ? _value.weight
           : weight // ignore: cast_nullable_to_non_nullable
               as double,
-      description: description == freezed
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
@@ -136,28 +140,27 @@ class _$_Rarity extends _Rarity {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Rarity &&
-            const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality().equals(other.weight, weight) &&
-            const DeepCollectionEquality()
-                .equals(other.description, description));
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.weight, weight) || other.weight == weight) &&
+            (identical(other.description, description) ||
+                other.description == description));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(weight),
-      const DeepCollectionEquality().hash(description));
+  int get hashCode => Object.hash(runtimeType, name, weight, description);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_RarityCopyWith<_$_Rarity> get copyWith =>
       __$$_RarityCopyWithImpl<_$_Rarity>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_RarityToJson(this);
+    return _$$_RarityToJson(
+      this,
+    );
   }
 }
 
@@ -171,11 +174,11 @@ abstract class _Rarity extends Rarity {
   factory _Rarity.fromJson(Map<String, dynamic> json) = _$_Rarity.fromJson;
 
   @override
-  String get name => throw _privateConstructorUsedError;
+  String get name;
   @override
-  double get weight => throw _privateConstructorUsedError;
+  double get weight;
   @override
-  String get description => throw _privateConstructorUsedError;
+  String get description;
   @override
   @JsonKey(ignore: true)
   _$$_RarityCopyWith<_$_Rarity> get copyWith =>

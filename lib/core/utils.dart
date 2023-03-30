@@ -92,3 +92,15 @@ String generateRandomString(int len) {
   const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
   return List.generate(len, (index) => _chars[r.nextInt(_chars.length)]).join();
 }
+
+bool isNumeric(String str) {
+  return RegExp(r'^-?[0-9]+$').hasMatch(str);
+}
+
+String truncatedText(String str, [int maxLength = 16]) {
+  const maxLength = 16;
+  if (maxLength >= str.length) {
+    return str;
+  }
+  return str.replaceRange(maxLength, str.length, "...");
+}

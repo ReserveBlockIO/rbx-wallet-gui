@@ -96,7 +96,14 @@ class ReceiveScreen extends BaseScreen {
                   validator: (String? value) => formValidatorNotEmpty(value, "Private Key"),
                   labelText: "Private Key",
                   onValidSubmission: (value) async {
-                    await ref.read(walletListProvider.notifier).import(value);
+                    final resync = await ConfirmDialog.show(
+                      title: "Rescan Blocks?",
+                      body: "Would you like to rescan the chain to include any transactions relevant to this key?",
+                      confirmText: "Yes",
+                      cancelText: "No",
+                    );
+
+                    await ref.read(walletListProvider.notifier).import(value, false, resync == true);
                   },
                 );
               },

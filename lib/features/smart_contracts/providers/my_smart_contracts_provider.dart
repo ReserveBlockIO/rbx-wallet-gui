@@ -3,10 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/compiled_smart_contract.dart';
 
 class MySmartContractsProvider extends StateNotifier<List<CompiledSmartContract>> {
-  final Reader read;
+  final Ref ref;
 
   MySmartContractsProvider(
-    this.read, [
+    this.ref, [
     List<CompiledSmartContract> smartContracts = const [],
   ]) : super(smartContracts) {
     load();
@@ -19,5 +19,5 @@ class MySmartContractsProvider extends StateNotifier<List<CompiledSmartContract>
 }
 
 final mySmartContractsProvider = StateNotifierProvider<MySmartContractsProvider, List<CompiledSmartContract>>(
-  (ref) => MySmartContractsProvider(ref.read),
+  (ref) => MySmartContractsProvider(ref),
 );

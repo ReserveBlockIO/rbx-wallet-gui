@@ -37,14 +37,14 @@ class BidModel {
 }
 
 class BidProvider extends StateNotifier<BidModel> {
-  final Reader read;
+  final Ref ref;
   final String listingSlug;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final TextEditingController amountController = TextEditingController();
 
-  BidProvider(this.read, this.listingSlug, [BidModel model = const BidModel()]) : super(model) {
+  BidProvider(this.ref, this.listingSlug, [BidModel model = const BidModel()]) : super(model) {
     init();
   }
 
@@ -76,7 +76,7 @@ class BidProvider extends StateNotifier<BidModel> {
       return null;
     }
 
-    final keyPair = read(webSessionProvider).keypair;
+    final keyPair = ref.read(webSessionProvider).keypair;
     if (keyPair == null) {
       Toast.error("No wallet detected. Please login.");
       return null;
@@ -121,7 +121,7 @@ class BidProvider extends StateNotifier<BidModel> {
     } else {
       // final rbxAmount = amount / USD_TO_RBX;
 
-      final balance = read(webSessionProvider).balance;
+      final balance = ref.read(webSessionProvider).balance;
 
       if (balance == null || balance <= amount) {
         Toast.error("Not enough RBX balance.");
@@ -144,5 +144,5 @@ class BidProvider extends StateNotifier<BidModel> {
 }
 
 final bidProvider = StateNotifierProvider.family<BidProvider, BidModel, String>((ref, listingSlug) {
-  return BidProvider(ref.read, listingSlug);
+  return BidProvider(ref, listingSlug);
 });

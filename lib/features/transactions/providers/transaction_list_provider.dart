@@ -10,14 +10,15 @@ enum TransactionListType {
   Failed,
   Pending,
   Mined,
+  Reserved,
 }
 
 class TransactionListProvider extends StateNotifier<List<Transaction>> {
-  final Reader read;
+  final Ref ref;
   final TransactionListType type;
 
   TransactionListProvider(
-    this.read,
+    this.ref,
     this.type, [
     List<Transaction> transactions = const [],
   ]) : super(transactions) {
@@ -47,6 +48,9 @@ class TransactionListProvider extends StateNotifier<List<Transaction>> {
       case TransactionListType.Mined:
         transactions = await LocalTransactionService().transactionsMined();
         break;
+      case TransactionListType.Reserved:
+        transactions = await LocalTransactionService().transactionsReserved();
+        break;
     }
 
     state = transactions;
@@ -54,11 +58,11 @@ class TransactionListProvider extends StateNotifier<List<Transaction>> {
     if (type == TransactionListType.Success) {
       final recentTimestamp = (DateTime.now().millisecondsSinceEpoch / 1000).round() - (5 * 60); // 5 min
       final recentTransactions = transactions.where((t) => t.timestamp > recentTimestamp).toList();
-      read(transactionSignalProvider.notifier).insertAll(recentTransactions);
+      ref.read(transactionSignalProvider.notifier).insertAll(recentTransactions);
     }
   }
 }
 
 final transactionListProvider = StateNotifierProvider.family<TransactionListProvider, List<Transaction>, TransactionListType>((ref, type) {
-  return TransactionListProvider(ref.read, type);
+  return TransactionListProvider(ref, type);
 });

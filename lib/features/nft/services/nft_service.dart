@@ -142,4 +142,25 @@ class NftService extends BaseService {
 
     return nfts;
   }
+
+  Future<Nft?> getNftData(String scId) async {
+    try {
+      final response = await getText('/GetSmartContractData/$scId');
+
+      if (response.isNotEmpty) {
+        try {
+          final data = jsonDecode(response);
+          Nft nft = Nft.fromJson(data);
+          return nft;
+        } catch (e) {
+          print('problem loading nft from json');
+          print(e);
+        }
+      }
+    } catch (e) {
+      print("Could not fetch data for $scId");
+    }
+
+    return null;
+  }
 }

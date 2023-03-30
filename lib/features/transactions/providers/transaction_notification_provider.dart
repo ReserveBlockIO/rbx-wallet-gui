@@ -4,18 +4,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/transaction_notification.dart';
 
 class TransactionNotificationProvider extends StateNotifier<List<TransactionNotification>> {
-  final Reader read;
+  final Ref ref;
 
-  TransactionNotificationProvider(this.read) : super([]);
+  TransactionNotificationProvider(this.ref) : super([]);
 
-  Future<void> add(TransactionNotification notification, [bool persist = false]) async {
+  Future<void> add(TransactionNotification notification, [int seconds = 5]) async {
     if (state.firstWhereOrNull((n) => n.identifier == notification.identifier) == null) {
       state = [...state, notification];
 
-      if (!persist) {
-        await Future.delayed(const Duration(seconds: 5));
-        remove(notification.identifier);
-      }
+      await Future.delayed(Duration(seconds: seconds));
+      remove(notification.identifier);
     }
   }
 
@@ -26,5 +24,5 @@ class TransactionNotificationProvider extends StateNotifier<List<TransactionNoti
 }
 
 final transactionNotificationProvider = StateNotifierProvider<TransactionNotificationProvider, List<TransactionNotification>>((ref) {
-  return TransactionNotificationProvider(ref.read);
+  return TransactionNotificationProvider(ref);
 });
