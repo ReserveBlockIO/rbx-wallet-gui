@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'node_info.dart';
 
@@ -38,7 +38,8 @@ mixin _$NodeInfo {
 /// @nodoc
 abstract class $NodeInfoCopyWith<$Res> {
   factory $NodeInfoCopyWith(NodeInfo value, $Res Function(NodeInfo) then) =
-      _$NodeInfoCopyWithImpl<$Res>;
+      _$NodeInfoCopyWithImpl<$Res, NodeInfo>;
+  @useResult
   $Res call(
       {@JsonKey(name: 'NodeIP') String ip,
       @JsonKey(name: 'NodeHeight') int height,
@@ -47,38 +48,41 @@ abstract class $NodeInfoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$NodeInfoCopyWithImpl<$Res> implements $NodeInfoCopyWith<$Res> {
+class _$NodeInfoCopyWithImpl<$Res, $Val extends NodeInfo>
+    implements $NodeInfoCopyWith<$Res> {
   _$NodeInfoCopyWithImpl(this._value, this._then);
 
-  final NodeInfo _value;
   // ignore: unused_field
-  final $Res Function(NodeInfo) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? ip = freezed,
-    Object? height = freezed,
-    Object? latency = freezed,
+    Object? ip = null,
+    Object? height = null,
+    Object? latency = null,
     Object? lastCheked = freezed,
   }) {
     return _then(_value.copyWith(
-      ip: ip == freezed
+      ip: null == ip
           ? _value.ip
           : ip // ignore: cast_nullable_to_non_nullable
               as String,
-      height: height == freezed
+      height: null == height
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
               as int,
-      latency: latency == freezed
+      latency: null == latency
           ? _value.latency
           : latency // ignore: cast_nullable_to_non_nullable
               as int,
-      lastCheked: lastCheked == freezed
+      lastCheked: freezed == lastCheked
           ? _value.lastCheked
           : lastCheked // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-    ));
+    ) as $Val);
   }
 }
 
@@ -88,6 +92,7 @@ abstract class _$$_NodeInfoCopyWith<$Res> implements $NodeInfoCopyWith<$Res> {
           _$_NodeInfo value, $Res Function(_$_NodeInfo) then) =
       __$$_NodeInfoCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {@JsonKey(name: 'NodeIP') String ip,
       @JsonKey(name: 'NodeHeight') int height,
@@ -96,36 +101,35 @@ abstract class _$$_NodeInfoCopyWith<$Res> implements $NodeInfoCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_NodeInfoCopyWithImpl<$Res> extends _$NodeInfoCopyWithImpl<$Res>
+class __$$_NodeInfoCopyWithImpl<$Res>
+    extends _$NodeInfoCopyWithImpl<$Res, _$_NodeInfo>
     implements _$$_NodeInfoCopyWith<$Res> {
   __$$_NodeInfoCopyWithImpl(
       _$_NodeInfo _value, $Res Function(_$_NodeInfo) _then)
-      : super(_value, (v) => _then(v as _$_NodeInfo));
+      : super(_value, _then);
 
-  @override
-  _$_NodeInfo get _value => super._value as _$_NodeInfo;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? ip = freezed,
-    Object? height = freezed,
-    Object? latency = freezed,
+    Object? ip = null,
+    Object? height = null,
+    Object? latency = null,
     Object? lastCheked = freezed,
   }) {
     return _then(_$_NodeInfo(
-      ip: ip == freezed
+      ip: null == ip
           ? _value.ip
           : ip // ignore: cast_nullable_to_non_nullable
               as String,
-      height: height == freezed
+      height: null == height
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
               as int,
-      latency: latency == freezed
+      latency: null == latency
           ? _value.latency
           : latency // ignore: cast_nullable_to_non_nullable
               as int,
-      lastCheked: lastCheked == freezed
+      lastCheked: freezed == lastCheked
           ? _value.lastCheked
           : lastCheked // ignore: cast_nullable_to_non_nullable
               as DateTime?,
@@ -169,30 +173,28 @@ class _$_NodeInfo extends _NodeInfo {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_NodeInfo &&
-            const DeepCollectionEquality().equals(other.ip, ip) &&
-            const DeepCollectionEquality().equals(other.height, height) &&
-            const DeepCollectionEquality().equals(other.latency, latency) &&
-            const DeepCollectionEquality()
-                .equals(other.lastCheked, lastCheked));
+            (identical(other.ip, ip) || other.ip == ip) &&
+            (identical(other.height, height) || other.height == height) &&
+            (identical(other.latency, latency) || other.latency == latency) &&
+            (identical(other.lastCheked, lastCheked) ||
+                other.lastCheked == lastCheked));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(ip),
-      const DeepCollectionEquality().hash(height),
-      const DeepCollectionEquality().hash(latency),
-      const DeepCollectionEquality().hash(lastCheked));
+  int get hashCode => Object.hash(runtimeType, ip, height, latency, lastCheked);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_NodeInfoCopyWith<_$_NodeInfo> get copyWith =>
       __$$_NodeInfoCopyWithImpl<_$_NodeInfo>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_NodeInfoToJson(this);
+    return _$$_NodeInfoToJson(
+      this,
+    );
   }
 }
 
@@ -209,16 +211,16 @@ abstract class _NodeInfo extends NodeInfo {
 
   @override
   @JsonKey(name: 'NodeIP')
-  String get ip => throw _privateConstructorUsedError;
+  String get ip;
   @override
   @JsonKey(name: 'NodeHeight')
-  int get height => throw _privateConstructorUsedError;
+  int get height;
   @override
   @JsonKey(name: 'NodeLatency')
-  int get latency => throw _privateConstructorUsedError;
+  int get latency;
   @override
   @JsonKey(name: 'NodeLastChecked')
-  DateTime? get lastCheked => throw _privateConstructorUsedError;
+  DateTime? get lastCheked;
   @override
   @JsonKey(ignore: true)
   _$$_NodeInfoCopyWith<_$_NodeInfo> get copyWith =>

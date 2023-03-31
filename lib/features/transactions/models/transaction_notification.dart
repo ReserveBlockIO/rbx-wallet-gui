@@ -17,5 +17,6 @@ class TransactionNotification with _$TransactionNotification {
     String? body,
     IconData? icon,
     @Default(AppColorVariant.Success) AppColorVariant color,
+    Function()? onPressed,
   }) = _TransactionNotification;
 }

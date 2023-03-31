@@ -210,7 +210,7 @@ class _Actions extends BaseComponent {
                   label: "P2P Auctions",
                   icon: Icons.leak_add,
                   onPressed: () {
-                    tabsRouter.setActiveIndex(WebRouteIndex.dst);
+                    tabsRouter.setActiveIndex(WebRouteIndex.shop);
                   },
                 ),
                 AppButton(

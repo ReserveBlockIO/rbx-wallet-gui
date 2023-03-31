@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'detailed_smart_contract.dart';
 
@@ -36,7 +36,8 @@ mixin _$DetailedSmartContract {
 abstract class $DetailedSmartContractCopyWith<$Res> {
   factory $DetailedSmartContractCopyWith(DetailedSmartContract value,
           $Res Function(DetailedSmartContract) then) =
-      _$DetailedSmartContractCopyWithImpl<$Res>;
+      _$DetailedSmartContractCopyWithImpl<$Res, DetailedSmartContract>;
+  @useResult
   $Res call(
       {@JsonKey(name: "SmartContract") CompiledSmartContract smartContract,
       @JsonKey(name: "SmartContractCode", defaultValue: "") String code});
@@ -45,35 +46,39 @@ abstract class $DetailedSmartContractCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$DetailedSmartContractCopyWithImpl<$Res>
+class _$DetailedSmartContractCopyWithImpl<$Res,
+        $Val extends DetailedSmartContract>
     implements $DetailedSmartContractCopyWith<$Res> {
   _$DetailedSmartContractCopyWithImpl(this._value, this._then);
 
-  final DetailedSmartContract _value;
   // ignore: unused_field
-  final $Res Function(DetailedSmartContract) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? smartContract = freezed,
-    Object? code = freezed,
+    Object? smartContract = null,
+    Object? code = null,
   }) {
     return _then(_value.copyWith(
-      smartContract: smartContract == freezed
+      smartContract: null == smartContract
           ? _value.smartContract
           : smartContract // ignore: cast_nullable_to_non_nullable
               as CompiledSmartContract,
-      code: code == freezed
+      code: null == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $CompiledSmartContractCopyWith<$Res> get smartContract {
     return $CompiledSmartContractCopyWith<$Res>(_value.smartContract, (value) {
-      return _then(_value.copyWith(smartContract: value));
+      return _then(_value.copyWith(smartContract: value) as $Val);
     });
   }
 }
@@ -85,6 +90,7 @@ abstract class _$$_DetailedSmartContractCopyWith<$Res>
           $Res Function(_$_DetailedSmartContract) then) =
       __$$_DetailedSmartContractCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {@JsonKey(name: "SmartContract") CompiledSmartContract smartContract,
       @JsonKey(name: "SmartContractCode", defaultValue: "") String code});
@@ -95,27 +101,24 @@ abstract class _$$_DetailedSmartContractCopyWith<$Res>
 
 /// @nodoc
 class __$$_DetailedSmartContractCopyWithImpl<$Res>
-    extends _$DetailedSmartContractCopyWithImpl<$Res>
+    extends _$DetailedSmartContractCopyWithImpl<$Res, _$_DetailedSmartContract>
     implements _$$_DetailedSmartContractCopyWith<$Res> {
   __$$_DetailedSmartContractCopyWithImpl(_$_DetailedSmartContract _value,
       $Res Function(_$_DetailedSmartContract) _then)
-      : super(_value, (v) => _then(v as _$_DetailedSmartContract));
+      : super(_value, _then);
 
-  @override
-  _$_DetailedSmartContract get _value =>
-      super._value as _$_DetailedSmartContract;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? smartContract = freezed,
-    Object? code = freezed,
+    Object? smartContract = null,
+    Object? code = null,
   }) {
     return _then(_$_DetailedSmartContract(
-      smartContract: smartContract == freezed
+      smartContract: null == smartContract
           ? _value.smartContract
           : smartContract // ignore: cast_nullable_to_non_nullable
               as CompiledSmartContract,
-      code: code == freezed
+      code: null == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String,
@@ -151,27 +154,27 @@ class _$_DetailedSmartContract extends _DetailedSmartContract {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_DetailedSmartContract &&
-            const DeepCollectionEquality()
-                .equals(other.smartContract, smartContract) &&
-            const DeepCollectionEquality().equals(other.code, code));
+            (identical(other.smartContract, smartContract) ||
+                other.smartContract == smartContract) &&
+            (identical(other.code, code) || other.code == code));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(smartContract),
-      const DeepCollectionEquality().hash(code));
+  int get hashCode => Object.hash(runtimeType, smartContract, code);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_DetailedSmartContractCopyWith<_$_DetailedSmartContract> get copyWith =>
       __$$_DetailedSmartContractCopyWithImpl<_$_DetailedSmartContract>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_DetailedSmartContractToJson(this);
+    return _$$_DetailedSmartContractToJson(
+      this,
+    );
   }
 }
 
@@ -188,10 +191,10 @@ abstract class _DetailedSmartContract extends DetailedSmartContract {
 
   @override
   @JsonKey(name: "SmartContract")
-  CompiledSmartContract get smartContract => throw _privateConstructorUsedError;
+  CompiledSmartContract get smartContract;
   @override
   @JsonKey(name: "SmartContractCode", defaultValue: "")
-  String get code => throw _privateConstructorUsedError;
+  String get code;
   @override
   @JsonKey(ignore: true)
   _$$_DetailedSmartContractCopyWith<_$_DetailedSmartContract> get copyWith =>

@@ -8,10 +8,10 @@ import '../providers/password_required_provider.dart';
 import '../providers/startup_password_required_provider.dart';
 
 class UnlockWallet extends StatefulWidget {
-  final Reader read;
+  final WidgetRef ref;
   const UnlockWallet({
     Key? key,
-    required this.read,
+    required this.ref,
   }) : super(key: key);
 
   @override
@@ -23,12 +23,12 @@ class _UnlockWalletState extends State<UnlockWallet> {
   String password = "";
 
   Future<void> submit() async {
-    final success = await widget.read(passwordRequiredProvider.notifier).unlock(password);
+    final success = await widget.ref.read(passwordRequiredProvider.notifier).unlock(password);
     if (success == true) {
       Toast.message("Wallet unlocked!");
-      widget.read(startupPasswordRequiredProvider.notifier).set(false);
-      widget.read(sessionProvider.notifier).finishSetup(true);
-      await widget.read(sessionProvider.notifier).loadWallets();
+      widget.ref.read(startupPasswordRequiredProvider.notifier).set(false);
+      widget.ref.read(sessionProvider.notifier).finishSetup(true);
+      await widget.ref.read(sessionProvider.notifier).loadWallets();
     } else {
       Toast.error("Incorrect wallet decryption password");
     }

@@ -6,17 +6,17 @@ import '../../wallet/providers/wallet_list_provider.dart';
 import '../models/node.dart';
 
 class NodeListProvider extends StateNotifier<List<Node>> {
-  final Reader read;
+  final Ref ref;
 
   late final TextEditingController searchController;
 
-  NodeListProvider(this.read, [List<Node> nodes = const []]) : super(nodes) {
+  NodeListProvider(this.ref, [List<Node> nodes = const []]) : super(nodes) {
     searchController = TextEditingController();
   }
 
   Future<void> load() async {
     final items = await BridgeService().getMasterNodes();
-    final myAddresses = read(walletListProvider).map((w) => w.address).toList();
+    final myAddresses = ref.read(walletListProvider).map((w) => w.address).toList();
 
     final myItems = items.where((node) => myAddresses.contains(node.address)).toList();
 
@@ -25,5 +25,5 @@ class NodeListProvider extends StateNotifier<List<Node>> {
 }
 
 final nodeListProvider = StateNotifierProvider<NodeListProvider, List<Node>>(
-  (ref) => NodeListProvider(ref.read),
+  (ref) => NodeListProvider(ref),
 );

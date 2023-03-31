@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'adj_vote.dart';
 
@@ -71,7 +71,8 @@ mixin _$AdjVote {
 /// @nodoc
 abstract class $AdjVoteCopyWith<$Res> {
   factory $AdjVoteCopyWith(AdjVote value, $Res Function(AdjVote) then) =
-      _$AdjVoteCopyWithImpl<$Res>;
+      _$AdjVoteCopyWithImpl<$Res, AdjVote>;
+  @useResult
   $Res call(
       {@JsonKey(name: "RBXAddress")
           String rbxAddress,
@@ -112,108 +113,111 @@ abstract class $AdjVoteCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$AdjVoteCopyWithImpl<$Res> implements $AdjVoteCopyWith<$Res> {
+class _$AdjVoteCopyWithImpl<$Res, $Val extends AdjVote>
+    implements $AdjVoteCopyWith<$Res> {
   _$AdjVoteCopyWithImpl(this._value, this._then);
 
-  final AdjVote _value;
   // ignore: unused_field
-  final $Res Function(AdjVote) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? rbxAddress = freezed,
-    Object? ipAddress = freezed,
-    Object? provider = freezed,
-    Object? machineType = freezed,
-    Object? machineOs = freezed,
-    Object? machineRam = freezed,
-    Object? machineCPU = freezed,
-    Object? machineCPUCores = freezed,
-    Object? machineCPUThreads = freezed,
-    Object? machineHDDSize = freezed,
-    Object? machineHDDSpecifier = freezed,
-    Object? internetSpeedUp = freezed,
-    Object? internetSpeedDown = freezed,
-    Object? bandwith = freezed,
-    Object? technicalBackground = freezed,
-    Object? reasonForAdjJoin = freezed,
-    Object? githubLink = freezed,
-    Object? supplementalURLs = freezed,
+    Object? rbxAddress = null,
+    Object? ipAddress = null,
+    Object? provider = null,
+    Object? machineType = null,
+    Object? machineOs = null,
+    Object? machineRam = null,
+    Object? machineCPU = null,
+    Object? machineCPUCores = null,
+    Object? machineCPUThreads = null,
+    Object? machineHDDSize = null,
+    Object? machineHDDSpecifier = null,
+    Object? internetSpeedUp = null,
+    Object? internetSpeedDown = null,
+    Object? bandwith = null,
+    Object? technicalBackground = null,
+    Object? reasonForAdjJoin = null,
+    Object? githubLink = null,
+    Object? supplementalURLs = null,
   }) {
     return _then(_value.copyWith(
-      rbxAddress: rbxAddress == freezed
+      rbxAddress: null == rbxAddress
           ? _value.rbxAddress
           : rbxAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      ipAddress: ipAddress == freezed
+      ipAddress: null == ipAddress
           ? _value.ipAddress
           : ipAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      provider: provider == freezed
+      provider: null == provider
           ? _value.provider
           : provider // ignore: cast_nullable_to_non_nullable
               as Provider,
-      machineType: machineType == freezed
+      machineType: null == machineType
           ? _value.machineType
           : machineType // ignore: cast_nullable_to_non_nullable
               as String,
-      machineOs: machineOs == freezed
+      machineOs: null == machineOs
           ? _value.machineOs
           : machineOs // ignore: cast_nullable_to_non_nullable
               as OS,
-      machineRam: machineRam == freezed
+      machineRam: null == machineRam
           ? _value.machineRam
           : machineRam // ignore: cast_nullable_to_non_nullable
               as int,
-      machineCPU: machineCPU == freezed
+      machineCPU: null == machineCPU
           ? _value.machineCPU
           : machineCPU // ignore: cast_nullable_to_non_nullable
               as String,
-      machineCPUCores: machineCPUCores == freezed
+      machineCPUCores: null == machineCPUCores
           ? _value.machineCPUCores
           : machineCPUCores // ignore: cast_nullable_to_non_nullable
               as int,
-      machineCPUThreads: machineCPUThreads == freezed
+      machineCPUThreads: null == machineCPUThreads
           ? _value.machineCPUThreads
           : machineCPUThreads // ignore: cast_nullable_to_non_nullable
               as int,
-      machineHDDSize: machineHDDSize == freezed
+      machineHDDSize: null == machineHDDSize
           ? _value.machineHDDSize
           : machineHDDSize // ignore: cast_nullable_to_non_nullable
               as int,
-      machineHDDSpecifier: machineHDDSpecifier == freezed
+      machineHDDSpecifier: null == machineHDDSpecifier
           ? _value.machineHDDSpecifier
           : machineHDDSpecifier // ignore: cast_nullable_to_non_nullable
               as HDSizeSpecifier,
-      internetSpeedUp: internetSpeedUp == freezed
+      internetSpeedUp: null == internetSpeedUp
           ? _value.internetSpeedUp
           : internetSpeedUp // ignore: cast_nullable_to_non_nullable
               as int,
-      internetSpeedDown: internetSpeedDown == freezed
+      internetSpeedDown: null == internetSpeedDown
           ? _value.internetSpeedDown
           : internetSpeedDown // ignore: cast_nullable_to_non_nullable
               as int,
-      bandwith: bandwith == freezed
+      bandwith: null == bandwith
           ? _value.bandwith
           : bandwith // ignore: cast_nullable_to_non_nullable
               as int,
-      technicalBackground: technicalBackground == freezed
+      technicalBackground: null == technicalBackground
           ? _value.technicalBackground
           : technicalBackground // ignore: cast_nullable_to_non_nullable
               as String,
-      reasonForAdjJoin: reasonForAdjJoin == freezed
+      reasonForAdjJoin: null == reasonForAdjJoin
           ? _value.reasonForAdjJoin
           : reasonForAdjJoin // ignore: cast_nullable_to_non_nullable
               as String,
-      githubLink: githubLink == freezed
+      githubLink: null == githubLink
           ? _value.githubLink
           : githubLink // ignore: cast_nullable_to_non_nullable
               as String,
-      supplementalURLs: supplementalURLs == freezed
+      supplementalURLs: null == supplementalURLs
           ? _value.supplementalURLs
           : supplementalURLs // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 }
 
@@ -223,6 +227,7 @@ abstract class _$$_AdjVoteCopyWith<$Res> implements $AdjVoteCopyWith<$Res> {
           _$_AdjVote value, $Res Function(_$_AdjVote) then) =
       __$$_AdjVoteCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {@JsonKey(name: "RBXAddress")
           String rbxAddress,
@@ -263,105 +268,104 @@ abstract class _$$_AdjVoteCopyWith<$Res> implements $AdjVoteCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_AdjVoteCopyWithImpl<$Res> extends _$AdjVoteCopyWithImpl<$Res>
+class __$$_AdjVoteCopyWithImpl<$Res>
+    extends _$AdjVoteCopyWithImpl<$Res, _$_AdjVote>
     implements _$$_AdjVoteCopyWith<$Res> {
   __$$_AdjVoteCopyWithImpl(_$_AdjVote _value, $Res Function(_$_AdjVote) _then)
-      : super(_value, (v) => _then(v as _$_AdjVote));
+      : super(_value, _then);
 
-  @override
-  _$_AdjVote get _value => super._value as _$_AdjVote;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? rbxAddress = freezed,
-    Object? ipAddress = freezed,
-    Object? provider = freezed,
-    Object? machineType = freezed,
-    Object? machineOs = freezed,
-    Object? machineRam = freezed,
-    Object? machineCPU = freezed,
-    Object? machineCPUCores = freezed,
-    Object? machineCPUThreads = freezed,
-    Object? machineHDDSize = freezed,
-    Object? machineHDDSpecifier = freezed,
-    Object? internetSpeedUp = freezed,
-    Object? internetSpeedDown = freezed,
-    Object? bandwith = freezed,
-    Object? technicalBackground = freezed,
-    Object? reasonForAdjJoin = freezed,
-    Object? githubLink = freezed,
-    Object? supplementalURLs = freezed,
+    Object? rbxAddress = null,
+    Object? ipAddress = null,
+    Object? provider = null,
+    Object? machineType = null,
+    Object? machineOs = null,
+    Object? machineRam = null,
+    Object? machineCPU = null,
+    Object? machineCPUCores = null,
+    Object? machineCPUThreads = null,
+    Object? machineHDDSize = null,
+    Object? machineHDDSpecifier = null,
+    Object? internetSpeedUp = null,
+    Object? internetSpeedDown = null,
+    Object? bandwith = null,
+    Object? technicalBackground = null,
+    Object? reasonForAdjJoin = null,
+    Object? githubLink = null,
+    Object? supplementalURLs = null,
   }) {
     return _then(_$_AdjVote(
-      rbxAddress: rbxAddress == freezed
+      rbxAddress: null == rbxAddress
           ? _value.rbxAddress
           : rbxAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      ipAddress: ipAddress == freezed
+      ipAddress: null == ipAddress
           ? _value.ipAddress
           : ipAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      provider: provider == freezed
+      provider: null == provider
           ? _value.provider
           : provider // ignore: cast_nullable_to_non_nullable
               as Provider,
-      machineType: machineType == freezed
+      machineType: null == machineType
           ? _value.machineType
           : machineType // ignore: cast_nullable_to_non_nullable
               as String,
-      machineOs: machineOs == freezed
+      machineOs: null == machineOs
           ? _value.machineOs
           : machineOs // ignore: cast_nullable_to_non_nullable
               as OS,
-      machineRam: machineRam == freezed
+      machineRam: null == machineRam
           ? _value.machineRam
           : machineRam // ignore: cast_nullable_to_non_nullable
               as int,
-      machineCPU: machineCPU == freezed
+      machineCPU: null == machineCPU
           ? _value.machineCPU
           : machineCPU // ignore: cast_nullable_to_non_nullable
               as String,
-      machineCPUCores: machineCPUCores == freezed
+      machineCPUCores: null == machineCPUCores
           ? _value.machineCPUCores
           : machineCPUCores // ignore: cast_nullable_to_non_nullable
               as int,
-      machineCPUThreads: machineCPUThreads == freezed
+      machineCPUThreads: null == machineCPUThreads
           ? _value.machineCPUThreads
           : machineCPUThreads // ignore: cast_nullable_to_non_nullable
               as int,
-      machineHDDSize: machineHDDSize == freezed
+      machineHDDSize: null == machineHDDSize
           ? _value.machineHDDSize
           : machineHDDSize // ignore: cast_nullable_to_non_nullable
               as int,
-      machineHDDSpecifier: machineHDDSpecifier == freezed
+      machineHDDSpecifier: null == machineHDDSpecifier
           ? _value.machineHDDSpecifier
           : machineHDDSpecifier // ignore: cast_nullable_to_non_nullable
               as HDSizeSpecifier,
-      internetSpeedUp: internetSpeedUp == freezed
+      internetSpeedUp: null == internetSpeedUp
           ? _value.internetSpeedUp
           : internetSpeedUp // ignore: cast_nullable_to_non_nullable
               as int,
-      internetSpeedDown: internetSpeedDown == freezed
+      internetSpeedDown: null == internetSpeedDown
           ? _value.internetSpeedDown
           : internetSpeedDown // ignore: cast_nullable_to_non_nullable
               as int,
-      bandwith: bandwith == freezed
+      bandwith: null == bandwith
           ? _value.bandwith
           : bandwith // ignore: cast_nullable_to_non_nullable
               as int,
-      technicalBackground: technicalBackground == freezed
+      technicalBackground: null == technicalBackground
           ? _value.technicalBackground
           : technicalBackground // ignore: cast_nullable_to_non_nullable
               as String,
-      reasonForAdjJoin: reasonForAdjJoin == freezed
+      reasonForAdjJoin: null == reasonForAdjJoin
           ? _value.reasonForAdjJoin
           : reasonForAdjJoin // ignore: cast_nullable_to_non_nullable
               as String,
-      githubLink: githubLink == freezed
+      githubLink: null == githubLink
           ? _value.githubLink
           : githubLink // ignore: cast_nullable_to_non_nullable
               as String,
-      supplementalURLs: supplementalURLs == freezed
+      supplementalURLs: null == supplementalURLs
           ? _value.supplementalURLs
           : supplementalURLs // ignore: cast_nullable_to_non_nullable
               as String,
@@ -485,71 +489,78 @@ class _$_AdjVote extends _AdjVote {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_AdjVote &&
-            const DeepCollectionEquality()
-                .equals(other.rbxAddress, rbxAddress) &&
-            const DeepCollectionEquality().equals(other.ipAddress, ipAddress) &&
-            const DeepCollectionEquality().equals(other.provider, provider) &&
-            const DeepCollectionEquality()
-                .equals(other.machineType, machineType) &&
-            const DeepCollectionEquality().equals(other.machineOs, machineOs) &&
-            const DeepCollectionEquality()
-                .equals(other.machineRam, machineRam) &&
-            const DeepCollectionEquality()
-                .equals(other.machineCPU, machineCPU) &&
-            const DeepCollectionEquality()
-                .equals(other.machineCPUCores, machineCPUCores) &&
-            const DeepCollectionEquality()
-                .equals(other.machineCPUThreads, machineCPUThreads) &&
-            const DeepCollectionEquality()
-                .equals(other.machineHDDSize, machineHDDSize) &&
-            const DeepCollectionEquality()
-                .equals(other.machineHDDSpecifier, machineHDDSpecifier) &&
-            const DeepCollectionEquality()
-                .equals(other.internetSpeedUp, internetSpeedUp) &&
-            const DeepCollectionEquality()
-                .equals(other.internetSpeedDown, internetSpeedDown) &&
-            const DeepCollectionEquality().equals(other.bandwith, bandwith) &&
-            const DeepCollectionEquality()
-                .equals(other.technicalBackground, technicalBackground) &&
-            const DeepCollectionEquality()
-                .equals(other.reasonForAdjJoin, reasonForAdjJoin) &&
-            const DeepCollectionEquality()
-                .equals(other.githubLink, githubLink) &&
-            const DeepCollectionEquality()
-                .equals(other.supplementalURLs, supplementalURLs));
+            (identical(other.rbxAddress, rbxAddress) ||
+                other.rbxAddress == rbxAddress) &&
+            (identical(other.ipAddress, ipAddress) ||
+                other.ipAddress == ipAddress) &&
+            (identical(other.provider, provider) ||
+                other.provider == provider) &&
+            (identical(other.machineType, machineType) ||
+                other.machineType == machineType) &&
+            (identical(other.machineOs, machineOs) ||
+                other.machineOs == machineOs) &&
+            (identical(other.machineRam, machineRam) ||
+                other.machineRam == machineRam) &&
+            (identical(other.machineCPU, machineCPU) ||
+                other.machineCPU == machineCPU) &&
+            (identical(other.machineCPUCores, machineCPUCores) ||
+                other.machineCPUCores == machineCPUCores) &&
+            (identical(other.machineCPUThreads, machineCPUThreads) ||
+                other.machineCPUThreads == machineCPUThreads) &&
+            (identical(other.machineHDDSize, machineHDDSize) ||
+                other.machineHDDSize == machineHDDSize) &&
+            (identical(other.machineHDDSpecifier, machineHDDSpecifier) ||
+                other.machineHDDSpecifier == machineHDDSpecifier) &&
+            (identical(other.internetSpeedUp, internetSpeedUp) ||
+                other.internetSpeedUp == internetSpeedUp) &&
+            (identical(other.internetSpeedDown, internetSpeedDown) ||
+                other.internetSpeedDown == internetSpeedDown) &&
+            (identical(other.bandwith, bandwith) ||
+                other.bandwith == bandwith) &&
+            (identical(other.technicalBackground, technicalBackground) ||
+                other.technicalBackground == technicalBackground) &&
+            (identical(other.reasonForAdjJoin, reasonForAdjJoin) ||
+                other.reasonForAdjJoin == reasonForAdjJoin) &&
+            (identical(other.githubLink, githubLink) ||
+                other.githubLink == githubLink) &&
+            (identical(other.supplementalURLs, supplementalURLs) ||
+                other.supplementalURLs == supplementalURLs));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(rbxAddress),
-      const DeepCollectionEquality().hash(ipAddress),
-      const DeepCollectionEquality().hash(provider),
-      const DeepCollectionEquality().hash(machineType),
-      const DeepCollectionEquality().hash(machineOs),
-      const DeepCollectionEquality().hash(machineRam),
-      const DeepCollectionEquality().hash(machineCPU),
-      const DeepCollectionEquality().hash(machineCPUCores),
-      const DeepCollectionEquality().hash(machineCPUThreads),
-      const DeepCollectionEquality().hash(machineHDDSize),
-      const DeepCollectionEquality().hash(machineHDDSpecifier),
-      const DeepCollectionEquality().hash(internetSpeedUp),
-      const DeepCollectionEquality().hash(internetSpeedDown),
-      const DeepCollectionEquality().hash(bandwith),
-      const DeepCollectionEquality().hash(technicalBackground),
-      const DeepCollectionEquality().hash(reasonForAdjJoin),
-      const DeepCollectionEquality().hash(githubLink),
-      const DeepCollectionEquality().hash(supplementalURLs));
+      rbxAddress,
+      ipAddress,
+      provider,
+      machineType,
+      machineOs,
+      machineRam,
+      machineCPU,
+      machineCPUCores,
+      machineCPUThreads,
+      machineHDDSize,
+      machineHDDSpecifier,
+      internetSpeedUp,
+      internetSpeedDown,
+      bandwith,
+      technicalBackground,
+      reasonForAdjJoin,
+      githubLink,
+      supplementalURLs);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_AdjVoteCopyWith<_$_AdjVote> get copyWith =>
       __$$_AdjVoteCopyWithImpl<_$_AdjVote>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_AdjVoteToJson(this);
+    return _$$_AdjVoteToJson(
+      this,
+    );
   }
 }
 
@@ -597,64 +608,64 @@ abstract class _AdjVote extends AdjVote {
 
   @override
   @JsonKey(name: "RBXAddress")
-  String get rbxAddress => throw _privateConstructorUsedError;
+  String get rbxAddress;
   @override
   @JsonKey(name: "IPAddress")
-  String get ipAddress => throw _privateConstructorUsedError;
+  String get ipAddress;
   @override
   @JsonKey(
       name: "ProviderForMachine",
       toJson: providerToJson,
       fromJson: providerFromJson)
-  Provider get provider => throw _privateConstructorUsedError;
+  Provider get provider;
   @override
   @JsonKey(name: "MachineType")
-  String get machineType => throw _privateConstructorUsedError;
+  String get machineType;
   @override
   @JsonKey(name: "MachineOS", toJson: osToJson, fromJson: osFromJson)
-  OS get machineOs => throw _privateConstructorUsedError;
+  OS get machineOs;
   @override
   @JsonKey(name: "MachineRam")
-  int get machineRam => throw _privateConstructorUsedError;
+  int get machineRam;
   @override
   @JsonKey(name: "MachineCPU")
-  String get machineCPU => throw _privateConstructorUsedError;
+  String get machineCPU;
   @override
   @JsonKey(name: "MachineCPUCores")
-  int get machineCPUCores => throw _privateConstructorUsedError;
+  int get machineCPUCores;
   @override
   @JsonKey(name: "MachineCPUThreads")
-  int get machineCPUThreads => throw _privateConstructorUsedError;
+  int get machineCPUThreads;
   @override
   @JsonKey(name: "MachineHDDSize")
-  int get machineHDDSize => throw _privateConstructorUsedError;
+  int get machineHDDSize;
   @override
   @JsonKey(
       name: "MachineHDDSpecifier",
       toJson: hdSizeSpecifierToJson,
       fromJson: hdSizeSpecifierFromJson)
-  HDSizeSpecifier get machineHDDSpecifier => throw _privateConstructorUsedError;
+  HDSizeSpecifier get machineHDDSpecifier;
   @override
   @JsonKey(name: "InternetSpeedUp")
-  int get internetSpeedUp => throw _privateConstructorUsedError;
+  int get internetSpeedUp;
   @override
   @JsonKey(name: "InternetSpeedDown")
-  int get internetSpeedDown => throw _privateConstructorUsedError;
+  int get internetSpeedDown;
   @override
   @JsonKey(name: "Bandwith")
-  int get bandwith => throw _privateConstructorUsedError;
+  int get bandwith;
   @override
   @JsonKey(name: "TechnicalBackground")
-  String get technicalBackground => throw _privateConstructorUsedError;
+  String get technicalBackground;
   @override
   @JsonKey(name: "ReasonForAdjJoin")
-  String get reasonForAdjJoin => throw _privateConstructorUsedError;
+  String get reasonForAdjJoin;
   @override
   @JsonKey(name: "GithubLink")
-  String get githubLink => throw _privateConstructorUsedError;
+  String get githubLink;
   @override
   @JsonKey(name: "SupplementalURLs")
-  String get supplementalURLs => throw _privateConstructorUsedError;
+  String get supplementalURLs;
   @override
   @JsonKey(ignore: true)
   _$$_AdjVoteCopyWith<_$_AdjVote> get copyWith =>

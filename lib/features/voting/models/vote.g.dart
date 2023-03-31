@@ -19,7 +19,7 @@ Map<String, dynamic> _$$_VoteToJson(_$_Vote instance) => <String, dynamic>{
       'Id': instance.id,
       'TopicUID': instance.topicUid,
       'Address': instance.address,
-      'VoteType': _$VoteTypeEnumMap[instance.type],
+      'VoteType': _$VoteTypeEnumMap[instance.type]!,
       'TransactionHash': instance.transactionHash,
       'BlockHeight': instance.blockHeight,
     };

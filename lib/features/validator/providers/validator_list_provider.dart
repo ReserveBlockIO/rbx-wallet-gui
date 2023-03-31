@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../wallet/models/wallet.dart';
 
 class ValidatorListProvider extends StateNotifier<List<Wallet>> {
-  final Reader read;
+  final Ref ref;
 
-  ValidatorListProvider(this.read, [List<Wallet> wallet = const []]) : super(wallet);
+  ValidatorListProvider(this.ref, [List<Wallet> wallet = const []]) : super(wallet);
 
   void set(List<Wallet> wallets) {
     state = wallets;
@@ -13,5 +13,5 @@ class ValidatorListProvider extends StateNotifier<List<Wallet>> {
 }
 
 final validatorListProvider = StateNotifierProvider<ValidatorListProvider, List<Wallet>>((ref) {
-  return ValidatorListProvider(ref.read);
+  return ValidatorListProvider(ref);
 });

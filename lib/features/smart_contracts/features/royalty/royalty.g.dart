@@ -17,7 +17,7 @@ _$_Royalty _$$_RoyaltyFromJson(Map<String, dynamic> json) => _$_Royalty(
 Map<String, dynamic> _$$_RoyaltyToJson(_$_Royalty instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'type': _$RoyaltyTypeEnumMap[instance.type],
+      'type': _$RoyaltyTypeEnumMap[instance.type]!,
       'amount': instance.amount,
       'address': instance.address,
     };

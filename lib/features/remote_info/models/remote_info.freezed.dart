@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'remote_info.dart';
 
@@ -35,44 +35,47 @@ mixin _$RemoteInfoGui {
 abstract class $RemoteInfoGuiCopyWith<$Res> {
   factory $RemoteInfoGuiCopyWith(
           RemoteInfoGui value, $Res Function(RemoteInfoGui) then) =
-      _$RemoteInfoGuiCopyWithImpl<$Res>;
+      _$RemoteInfoGuiCopyWithImpl<$Res, RemoteInfoGui>;
+  @useResult
   $Res call({String version, String tag, String url, String date});
 }
 
 /// @nodoc
-class _$RemoteInfoGuiCopyWithImpl<$Res>
+class _$RemoteInfoGuiCopyWithImpl<$Res, $Val extends RemoteInfoGui>
     implements $RemoteInfoGuiCopyWith<$Res> {
   _$RemoteInfoGuiCopyWithImpl(this._value, this._then);
 
-  final RemoteInfoGui _value;
   // ignore: unused_field
-  final $Res Function(RemoteInfoGui) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? version = freezed,
-    Object? tag = freezed,
-    Object? url = freezed,
-    Object? date = freezed,
+    Object? version = null,
+    Object? tag = null,
+    Object? url = null,
+    Object? date = null,
   }) {
     return _then(_value.copyWith(
-      version: version == freezed
+      version: null == version
           ? _value.version
           : version // ignore: cast_nullable_to_non_nullable
               as String,
-      tag: tag == freezed
+      tag: null == tag
           ? _value.tag
           : tag // ignore: cast_nullable_to_non_nullable
               as String,
-      url: url == freezed
+      url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
-      date: date == freezed
+      date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 }
 
@@ -83,41 +86,40 @@ abstract class _$$_RemoteInfoGuiCopyWith<$Res>
           _$_RemoteInfoGui value, $Res Function(_$_RemoteInfoGui) then) =
       __$$_RemoteInfoGuiCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({String version, String tag, String url, String date});
 }
 
 /// @nodoc
 class __$$_RemoteInfoGuiCopyWithImpl<$Res>
-    extends _$RemoteInfoGuiCopyWithImpl<$Res>
+    extends _$RemoteInfoGuiCopyWithImpl<$Res, _$_RemoteInfoGui>
     implements _$$_RemoteInfoGuiCopyWith<$Res> {
   __$$_RemoteInfoGuiCopyWithImpl(
       _$_RemoteInfoGui _value, $Res Function(_$_RemoteInfoGui) _then)
-      : super(_value, (v) => _then(v as _$_RemoteInfoGui));
+      : super(_value, _then);
 
-  @override
-  _$_RemoteInfoGui get _value => super._value as _$_RemoteInfoGui;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? version = freezed,
-    Object? tag = freezed,
-    Object? url = freezed,
-    Object? date = freezed,
+    Object? version = null,
+    Object? tag = null,
+    Object? url = null,
+    Object? date = null,
   }) {
     return _then(_$_RemoteInfoGui(
-      version: version == freezed
+      version: null == version
           ? _value.version
           : version // ignore: cast_nullable_to_non_nullable
               as String,
-      tag: tag == freezed
+      tag: null == tag
           ? _value.tag
           : tag // ignore: cast_nullable_to_non_nullable
               as String,
-      url: url == freezed
+      url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
-      date: date == freezed
+      date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
               as String,
@@ -157,29 +159,27 @@ class _$_RemoteInfoGui extends _RemoteInfoGui {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_RemoteInfoGui &&
-            const DeepCollectionEquality().equals(other.version, version) &&
-            const DeepCollectionEquality().equals(other.tag, tag) &&
-            const DeepCollectionEquality().equals(other.url, url) &&
-            const DeepCollectionEquality().equals(other.date, date));
+            (identical(other.version, version) || other.version == version) &&
+            (identical(other.tag, tag) || other.tag == tag) &&
+            (identical(other.url, url) || other.url == url) &&
+            (identical(other.date, date) || other.date == date));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(version),
-      const DeepCollectionEquality().hash(tag),
-      const DeepCollectionEquality().hash(url),
-      const DeepCollectionEquality().hash(date));
+  int get hashCode => Object.hash(runtimeType, version, tag, url, date);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_RemoteInfoGuiCopyWith<_$_RemoteInfoGui> get copyWith =>
       __$$_RemoteInfoGuiCopyWithImpl<_$_RemoteInfoGui>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_RemoteInfoGuiToJson(this);
+    return _$$_RemoteInfoGuiToJson(
+      this,
+    );
   }
 }
 
@@ -195,13 +195,13 @@ abstract class _RemoteInfoGui extends RemoteInfoGui {
       _$_RemoteInfoGui.fromJson;
 
   @override
-  String get version => throw _privateConstructorUsedError;
+  String get version;
   @override
-  String get tag => throw _privateConstructorUsedError;
+  String get tag;
   @override
-  String get url => throw _privateConstructorUsedError;
+  String get url;
   @override
-  String get date => throw _privateConstructorUsedError;
+  String get date;
   @override
   @JsonKey(ignore: true)
   _$$_RemoteInfoGuiCopyWith<_$_RemoteInfoGui> get copyWith =>
@@ -229,44 +229,47 @@ mixin _$RemoteInfoCli {
 abstract class $RemoteInfoCliCopyWith<$Res> {
   factory $RemoteInfoCliCopyWith(
           RemoteInfoCli value, $Res Function(RemoteInfoCli) then) =
-      _$RemoteInfoCliCopyWithImpl<$Res>;
+      _$RemoteInfoCliCopyWithImpl<$Res, RemoteInfoCli>;
+  @useResult
   $Res call({String version, String tag, String url, String date});
 }
 
 /// @nodoc
-class _$RemoteInfoCliCopyWithImpl<$Res>
+class _$RemoteInfoCliCopyWithImpl<$Res, $Val extends RemoteInfoCli>
     implements $RemoteInfoCliCopyWith<$Res> {
   _$RemoteInfoCliCopyWithImpl(this._value, this._then);
 
-  final RemoteInfoCli _value;
   // ignore: unused_field
-  final $Res Function(RemoteInfoCli) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? version = freezed,
-    Object? tag = freezed,
-    Object? url = freezed,
-    Object? date = freezed,
+    Object? version = null,
+    Object? tag = null,
+    Object? url = null,
+    Object? date = null,
   }) {
     return _then(_value.copyWith(
-      version: version == freezed
+      version: null == version
           ? _value.version
           : version // ignore: cast_nullable_to_non_nullable
               as String,
-      tag: tag == freezed
+      tag: null == tag
           ? _value.tag
           : tag // ignore: cast_nullable_to_non_nullable
               as String,
-      url: url == freezed
+      url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
-      date: date == freezed
+      date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 }
 
@@ -277,41 +280,40 @@ abstract class _$$_RemoteInfoCliCopyWith<$Res>
           _$_RemoteInfoCli value, $Res Function(_$_RemoteInfoCli) then) =
       __$$_RemoteInfoCliCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({String version, String tag, String url, String date});
 }
 
 /// @nodoc
 class __$$_RemoteInfoCliCopyWithImpl<$Res>
-    extends _$RemoteInfoCliCopyWithImpl<$Res>
+    extends _$RemoteInfoCliCopyWithImpl<$Res, _$_RemoteInfoCli>
     implements _$$_RemoteInfoCliCopyWith<$Res> {
   __$$_RemoteInfoCliCopyWithImpl(
       _$_RemoteInfoCli _value, $Res Function(_$_RemoteInfoCli) _then)
-      : super(_value, (v) => _then(v as _$_RemoteInfoCli));
+      : super(_value, _then);
 
-  @override
-  _$_RemoteInfoCli get _value => super._value as _$_RemoteInfoCli;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? version = freezed,
-    Object? tag = freezed,
-    Object? url = freezed,
-    Object? date = freezed,
+    Object? version = null,
+    Object? tag = null,
+    Object? url = null,
+    Object? date = null,
   }) {
     return _then(_$_RemoteInfoCli(
-      version: version == freezed
+      version: null == version
           ? _value.version
           : version // ignore: cast_nullable_to_non_nullable
               as String,
-      tag: tag == freezed
+      tag: null == tag
           ? _value.tag
           : tag // ignore: cast_nullable_to_non_nullable
               as String,
-      url: url == freezed
+      url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
-      date: date == freezed
+      date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
               as String,
@@ -351,29 +353,27 @@ class _$_RemoteInfoCli extends _RemoteInfoCli {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_RemoteInfoCli &&
-            const DeepCollectionEquality().equals(other.version, version) &&
-            const DeepCollectionEquality().equals(other.tag, tag) &&
-            const DeepCollectionEquality().equals(other.url, url) &&
-            const DeepCollectionEquality().equals(other.date, date));
+            (identical(other.version, version) || other.version == version) &&
+            (identical(other.tag, tag) || other.tag == tag) &&
+            (identical(other.url, url) || other.url == url) &&
+            (identical(other.date, date) || other.date == date));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(version),
-      const DeepCollectionEquality().hash(tag),
-      const DeepCollectionEquality().hash(url),
-      const DeepCollectionEquality().hash(date));
+  int get hashCode => Object.hash(runtimeType, version, tag, url, date);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_RemoteInfoCliCopyWith<_$_RemoteInfoCli> get copyWith =>
       __$$_RemoteInfoCliCopyWithImpl<_$_RemoteInfoCli>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_RemoteInfoCliToJson(this);
+    return _$$_RemoteInfoCliToJson(
+      this,
+    );
   }
 }
 
@@ -389,13 +389,13 @@ abstract class _RemoteInfoCli extends RemoteInfoCli {
       _$_RemoteInfoCli.fromJson;
 
   @override
-  String get version => throw _privateConstructorUsedError;
+  String get version;
   @override
-  String get tag => throw _privateConstructorUsedError;
+  String get tag;
   @override
-  String get url => throw _privateConstructorUsedError;
+  String get url;
   @override
-  String get date => throw _privateConstructorUsedError;
+  String get date;
   @override
   @JsonKey(ignore: true)
   _$$_RemoteInfoCliCopyWith<_$_RemoteInfoCli> get copyWith =>
@@ -422,39 +422,42 @@ mixin _$RemoteInfoSnapshot {
 abstract class $RemoteInfoSnapshotCopyWith<$Res> {
   factory $RemoteInfoSnapshotCopyWith(
           RemoteInfoSnapshot value, $Res Function(RemoteInfoSnapshot) then) =
-      _$RemoteInfoSnapshotCopyWithImpl<$Res>;
+      _$RemoteInfoSnapshotCopyWithImpl<$Res, RemoteInfoSnapshot>;
+  @useResult
   $Res call({int height, String url, String date});
 }
 
 /// @nodoc
-class _$RemoteInfoSnapshotCopyWithImpl<$Res>
+class _$RemoteInfoSnapshotCopyWithImpl<$Res, $Val extends RemoteInfoSnapshot>
     implements $RemoteInfoSnapshotCopyWith<$Res> {
   _$RemoteInfoSnapshotCopyWithImpl(this._value, this._then);
 
-  final RemoteInfoSnapshot _value;
   // ignore: unused_field
-  final $Res Function(RemoteInfoSnapshot) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? height = freezed,
-    Object? url = freezed,
-    Object? date = freezed,
+    Object? height = null,
+    Object? url = null,
+    Object? date = null,
   }) {
     return _then(_value.copyWith(
-      height: height == freezed
+      height: null == height
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
               as int,
-      url: url == freezed
+      url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
-      date: date == freezed
+      date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 }
 
@@ -465,36 +468,35 @@ abstract class _$$_RemoteInfoSnapshotCopyWith<$Res>
           $Res Function(_$_RemoteInfoSnapshot) then) =
       __$$_RemoteInfoSnapshotCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({int height, String url, String date});
 }
 
 /// @nodoc
 class __$$_RemoteInfoSnapshotCopyWithImpl<$Res>
-    extends _$RemoteInfoSnapshotCopyWithImpl<$Res>
+    extends _$RemoteInfoSnapshotCopyWithImpl<$Res, _$_RemoteInfoSnapshot>
     implements _$$_RemoteInfoSnapshotCopyWith<$Res> {
   __$$_RemoteInfoSnapshotCopyWithImpl(
       _$_RemoteInfoSnapshot _value, $Res Function(_$_RemoteInfoSnapshot) _then)
-      : super(_value, (v) => _then(v as _$_RemoteInfoSnapshot));
+      : super(_value, _then);
 
-  @override
-  _$_RemoteInfoSnapshot get _value => super._value as _$_RemoteInfoSnapshot;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? height = freezed,
-    Object? url = freezed,
-    Object? date = freezed,
+    Object? height = null,
+    Object? url = null,
+    Object? date = null,
   }) {
     return _then(_$_RemoteInfoSnapshot(
-      height: height == freezed
+      height: null == height
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
               as int,
-      url: url == freezed
+      url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
-      date: date == freezed
+      date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
               as String,
@@ -529,28 +531,27 @@ class _$_RemoteInfoSnapshot extends _RemoteInfoSnapshot {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_RemoteInfoSnapshot &&
-            const DeepCollectionEquality().equals(other.height, height) &&
-            const DeepCollectionEquality().equals(other.url, url) &&
-            const DeepCollectionEquality().equals(other.date, date));
+            (identical(other.height, height) || other.height == height) &&
+            (identical(other.url, url) || other.url == url) &&
+            (identical(other.date, date) || other.date == date));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(height),
-      const DeepCollectionEquality().hash(url),
-      const DeepCollectionEquality().hash(date));
+  int get hashCode => Object.hash(runtimeType, height, url, date);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_RemoteInfoSnapshotCopyWith<_$_RemoteInfoSnapshot> get copyWith =>
       __$$_RemoteInfoSnapshotCopyWithImpl<_$_RemoteInfoSnapshot>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_RemoteInfoSnapshotToJson(this);
+    return _$$_RemoteInfoSnapshotToJson(
+      this,
+    );
   }
 }
 
@@ -565,11 +566,11 @@ abstract class _RemoteInfoSnapshot extends RemoteInfoSnapshot {
       _$_RemoteInfoSnapshot.fromJson;
 
   @override
-  int get height => throw _privateConstructorUsedError;
+  int get height;
   @override
-  String get url => throw _privateConstructorUsedError;
+  String get url;
   @override
-  String get date => throw _privateConstructorUsedError;
+  String get date;
   @override
   @JsonKey(ignore: true)
   _$$_RemoteInfoSnapshotCopyWith<_$_RemoteInfoSnapshot> get copyWith =>
@@ -596,7 +597,8 @@ mixin _$RemoteInfo {
 abstract class $RemoteInfoCopyWith<$Res> {
   factory $RemoteInfoCopyWith(
           RemoteInfo value, $Res Function(RemoteInfo) then) =
-      _$RemoteInfoCopyWithImpl<$Res>;
+      _$RemoteInfoCopyWithImpl<$Res, RemoteInfo>;
+  @useResult
   $Res call(
       {RemoteInfoGui gui, RemoteInfoCli cli, RemoteInfoSnapshot snapshot});
 
@@ -606,53 +608,59 @@ abstract class $RemoteInfoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$RemoteInfoCopyWithImpl<$Res> implements $RemoteInfoCopyWith<$Res> {
+class _$RemoteInfoCopyWithImpl<$Res, $Val extends RemoteInfo>
+    implements $RemoteInfoCopyWith<$Res> {
   _$RemoteInfoCopyWithImpl(this._value, this._then);
 
-  final RemoteInfo _value;
   // ignore: unused_field
-  final $Res Function(RemoteInfo) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? gui = freezed,
-    Object? cli = freezed,
-    Object? snapshot = freezed,
+    Object? gui = null,
+    Object? cli = null,
+    Object? snapshot = null,
   }) {
     return _then(_value.copyWith(
-      gui: gui == freezed
+      gui: null == gui
           ? _value.gui
           : gui // ignore: cast_nullable_to_non_nullable
               as RemoteInfoGui,
-      cli: cli == freezed
+      cli: null == cli
           ? _value.cli
           : cli // ignore: cast_nullable_to_non_nullable
               as RemoteInfoCli,
-      snapshot: snapshot == freezed
+      snapshot: null == snapshot
           ? _value.snapshot
           : snapshot // ignore: cast_nullable_to_non_nullable
               as RemoteInfoSnapshot,
-    ));
+    ) as $Val);
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $RemoteInfoGuiCopyWith<$Res> get gui {
     return $RemoteInfoGuiCopyWith<$Res>(_value.gui, (value) {
-      return _then(_value.copyWith(gui: value));
+      return _then(_value.copyWith(gui: value) as $Val);
     });
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $RemoteInfoCliCopyWith<$Res> get cli {
     return $RemoteInfoCliCopyWith<$Res>(_value.cli, (value) {
-      return _then(_value.copyWith(cli: value));
+      return _then(_value.copyWith(cli: value) as $Val);
     });
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $RemoteInfoSnapshotCopyWith<$Res> get snapshot {
     return $RemoteInfoSnapshotCopyWith<$Res>(_value.snapshot, (value) {
-      return _then(_value.copyWith(snapshot: value));
+      return _then(_value.copyWith(snapshot: value) as $Val);
     });
   }
 }
@@ -664,6 +672,7 @@ abstract class _$$_RemoteInfoCopyWith<$Res>
           _$_RemoteInfo value, $Res Function(_$_RemoteInfo) then) =
       __$$_RemoteInfoCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {RemoteInfoGui gui, RemoteInfoCli cli, RemoteInfoSnapshot snapshot});
 
@@ -676,31 +685,30 @@ abstract class _$$_RemoteInfoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_RemoteInfoCopyWithImpl<$Res> extends _$RemoteInfoCopyWithImpl<$Res>
+class __$$_RemoteInfoCopyWithImpl<$Res>
+    extends _$RemoteInfoCopyWithImpl<$Res, _$_RemoteInfo>
     implements _$$_RemoteInfoCopyWith<$Res> {
   __$$_RemoteInfoCopyWithImpl(
       _$_RemoteInfo _value, $Res Function(_$_RemoteInfo) _then)
-      : super(_value, (v) => _then(v as _$_RemoteInfo));
+      : super(_value, _then);
 
-  @override
-  _$_RemoteInfo get _value => super._value as _$_RemoteInfo;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? gui = freezed,
-    Object? cli = freezed,
-    Object? snapshot = freezed,
+    Object? gui = null,
+    Object? cli = null,
+    Object? snapshot = null,
   }) {
     return _then(_$_RemoteInfo(
-      gui: gui == freezed
+      gui: null == gui
           ? _value.gui
           : gui // ignore: cast_nullable_to_non_nullable
               as RemoteInfoGui,
-      cli: cli == freezed
+      cli: null == cli
           ? _value.cli
           : cli // ignore: cast_nullable_to_non_nullable
               as RemoteInfoCli,
-      snapshot: snapshot == freezed
+      snapshot: null == snapshot
           ? _value.snapshot
           : snapshot // ignore: cast_nullable_to_non_nullable
               as RemoteInfoSnapshot,
@@ -734,27 +742,27 @@ class _$_RemoteInfo extends _RemoteInfo {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_RemoteInfo &&
-            const DeepCollectionEquality().equals(other.gui, gui) &&
-            const DeepCollectionEquality().equals(other.cli, cli) &&
-            const DeepCollectionEquality().equals(other.snapshot, snapshot));
+            (identical(other.gui, gui) || other.gui == gui) &&
+            (identical(other.cli, cli) || other.cli == cli) &&
+            (identical(other.snapshot, snapshot) ||
+                other.snapshot == snapshot));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(gui),
-      const DeepCollectionEquality().hash(cli),
-      const DeepCollectionEquality().hash(snapshot));
+  int get hashCode => Object.hash(runtimeType, gui, cli, snapshot);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_RemoteInfoCopyWith<_$_RemoteInfo> get copyWith =>
       __$$_RemoteInfoCopyWithImpl<_$_RemoteInfo>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_RemoteInfoToJson(this);
+    return _$$_RemoteInfoToJson(
+      this,
+    );
   }
 }
 
@@ -769,11 +777,11 @@ abstract class _RemoteInfo extends RemoteInfo {
       _$_RemoteInfo.fromJson;
 
   @override
-  RemoteInfoGui get gui => throw _privateConstructorUsedError;
+  RemoteInfoGui get gui;
   @override
-  RemoteInfoCli get cli => throw _privateConstructorUsedError;
+  RemoteInfoCli get cli;
   @override
-  RemoteInfoSnapshot get snapshot => throw _privateConstructorUsedError;
+  RemoteInfoSnapshot get snapshot;
   @override
   @JsonKey(ignore: true)
   _$$_RemoteInfoCopyWith<_$_RemoteInfo> get copyWith =>

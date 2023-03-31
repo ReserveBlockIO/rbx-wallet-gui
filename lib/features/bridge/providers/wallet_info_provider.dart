@@ -41,9 +41,9 @@ class WalletInfoModel {
 }
 
 class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
-  final Reader read;
+  final Ref ref;
   Timer? timer;
-  WalletInfoProvider(this.read, [WalletInfoModel? model]) : super(model) {
+  WalletInfoProvider(this.ref, [WalletInfoModel? model]) : super(model) {
     // fetch();
     // timer = Timer.periodic(
     //   const Duration(seconds: REFRESH_TIMEOUT_SECONDS),
@@ -55,7 +55,7 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
 
   infoLoop([bool inLoop = true]) async {
     if (kIsWeb) return;
-    if (!read(sessionProvider).cliStarted) {
+    if (!ref.read(sessionProvider).cliStarted) {
       if (inLoop) {
         await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
         infoLoop(true);
@@ -110,28 +110,28 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
         networkMetrics: networkMetrics,
       );
 
-      read(sessionProvider.notifier).setBlocksAreSyncing(isSyncing);
-      read(sessionProvider.notifier).setBlocksAreResyncing(isResyncing);
+      ref.read(sessionProvider.notifier).setBlocksAreSyncing(isSyncing);
+      ref.read(sessionProvider.notifier).setBlocksAreResyncing(isResyncing);
 
       if (blockHeight != prevBlockHeight) {
-        read(logProvider.notifier).append(
-          LogEntry(message: "Current Block Height is $blockHeight."),
-        );
+        ref.read(logProvider.notifier).append(
+              LogEntry(message: "Current Block Height is $blockHeight."),
+            );
       }
 
       if (peerCount != prevPeerCount) {
-        read(logProvider.notifier).append(
-          LogEntry(message: "You are connected to $peerCount peers."),
-        );
+        ref.read(logProvider.notifier).append(
+              LogEntry(message: "You are connected to $peerCount peers."),
+            );
       }
 
       if (!prevIsChainSynced && isChainSynced) {
-        read(logProvider.notifier).append(
-          LogEntry(
-            message: "Your wallet is now synced. Thank you for waiting.",
-            variant: AppColorVariant.Secondary,
-          ),
-        );
+        ref.read(logProvider.notifier).append(
+              LogEntry(
+                message: "Your wallet is now synced. Thank you for waiting.",
+                variant: AppColorVariant.Secondary,
+              ),
+            );
       }
     }
 
@@ -143,5 +143,5 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
 }
 
 final walletInfoProvider = StateNotifierProvider<WalletInfoProvider, WalletInfoModel?>((ref) {
-  return WalletInfoProvider(ref.read);
+  return WalletInfoProvider(ref);
 });

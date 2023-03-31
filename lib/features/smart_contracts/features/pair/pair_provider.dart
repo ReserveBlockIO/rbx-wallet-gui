@@ -9,7 +9,7 @@ import '../../models/property.dart';
 import '../../providers/create_smart_contract_provider.dart';
 
 class PairFormProvider extends StateNotifier<Pair> {
-  final Reader read;
+  final Ref ref;
 
   late final TextEditingController nftAddressController;
   late final TextEditingController descriptionController;
@@ -17,7 +17,7 @@ class PairFormProvider extends StateNotifier<Pair> {
   late final TextEditingController metadataUrlController;
   final GlobalKey<FormState> formKey = GlobalKey();
 
-  PairFormProvider(this.read, [Pair model = const Pair()]) : super(model) {
+  PairFormProvider(this.ref, [Pair model = const Pair()]) : super(model) {
     nftAddressController = TextEditingController(text: model.nftAddress);
     descriptionController = TextEditingController(text: model.description);
     reasonController = TextEditingController(text: model.reason);
@@ -85,12 +85,12 @@ class PairFormProvider extends StateNotifier<Pair> {
       metadataUrl: metadataUrlController.text,
     );
 
-    read(createSmartContractProvider.notifier).savePair(state);
+    ref.read(createSmartContractProvider.notifier).savePair(state);
     clear();
     Navigator.of(context).pop();
   }
 }
 
 final pairFormProvider = StateNotifierProvider<PairFormProvider, Pair>(
-  (ref) => PairFormProvider(ref.read),
+  (ref) => PairFormProvider(ref),
 );

@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'block.dart';
 
@@ -65,7 +65,8 @@ mixin _$Block {
 /// @nodoc
 abstract class $BlockCopyWith<$Res> {
   factory $BlockCopyWith(Block value, $Res Function(Block) then) =
-      _$BlockCopyWithImpl<$Res>;
+      _$BlockCopyWithImpl<$Res, Block>;
+  @useResult
   $Res call(
       {@JsonKey(name: "Height") int height,
       @JsonKey(name: "ChainRefId") String chainRefId,
@@ -88,108 +89,111 @@ abstract class $BlockCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$BlockCopyWithImpl<$Res> implements $BlockCopyWith<$Res> {
+class _$BlockCopyWithImpl<$Res, $Val extends Block>
+    implements $BlockCopyWith<$Res> {
   _$BlockCopyWithImpl(this._value, this._then);
 
-  final Block _value;
   // ignore: unused_field
-  final $Res Function(Block) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? height = freezed,
-    Object? chainRefId = freezed,
-    Object? timestamp = freezed,
-    Object? hash = freezed,
-    Object? prevHash = freezed,
-    Object? merkleRoot = freezed,
-    Object? stateRoot = freezed,
-    Object? validator = freezed,
-    Object? validatorSignature = freezed,
-    Object? validatorAnswer = freezed,
-    Object? totalValidators = freezed,
-    Object? version = freezed,
-    Object? totalAmount = freezed,
-    Object? totalReward = freezed,
-    Object? numberOfTransactions = freezed,
-    Object? size = freezed,
-    Object? craftTime = freezed,
-    Object? transactions = freezed,
+    Object? height = null,
+    Object? chainRefId = null,
+    Object? timestamp = null,
+    Object? hash = null,
+    Object? prevHash = null,
+    Object? merkleRoot = null,
+    Object? stateRoot = null,
+    Object? validator = null,
+    Object? validatorSignature = null,
+    Object? validatorAnswer = null,
+    Object? totalValidators = null,
+    Object? version = null,
+    Object? totalAmount = null,
+    Object? totalReward = null,
+    Object? numberOfTransactions = null,
+    Object? size = null,
+    Object? craftTime = null,
+    Object? transactions = null,
   }) {
     return _then(_value.copyWith(
-      height: height == freezed
+      height: null == height
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
               as int,
-      chainRefId: chainRefId == freezed
+      chainRefId: null == chainRefId
           ? _value.chainRefId
           : chainRefId // ignore: cast_nullable_to_non_nullable
               as String,
-      timestamp: timestamp == freezed
+      timestamp: null == timestamp
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
               as int,
-      hash: hash == freezed
+      hash: null == hash
           ? _value.hash
           : hash // ignore: cast_nullable_to_non_nullable
               as String,
-      prevHash: prevHash == freezed
+      prevHash: null == prevHash
           ? _value.prevHash
           : prevHash // ignore: cast_nullable_to_non_nullable
               as String,
-      merkleRoot: merkleRoot == freezed
+      merkleRoot: null == merkleRoot
           ? _value.merkleRoot
           : merkleRoot // ignore: cast_nullable_to_non_nullable
               as String,
-      stateRoot: stateRoot == freezed
+      stateRoot: null == stateRoot
           ? _value.stateRoot
           : stateRoot // ignore: cast_nullable_to_non_nullable
               as String,
-      validator: validator == freezed
+      validator: null == validator
           ? _value.validator
           : validator // ignore: cast_nullable_to_non_nullable
               as String,
-      validatorSignature: validatorSignature == freezed
+      validatorSignature: null == validatorSignature
           ? _value.validatorSignature
           : validatorSignature // ignore: cast_nullable_to_non_nullable
               as String,
-      validatorAnswer: validatorAnswer == freezed
+      validatorAnswer: null == validatorAnswer
           ? _value.validatorAnswer
           : validatorAnswer // ignore: cast_nullable_to_non_nullable
               as String,
-      totalValidators: totalValidators == freezed
+      totalValidators: null == totalValidators
           ? _value.totalValidators
           : totalValidators // ignore: cast_nullable_to_non_nullable
               as int,
-      version: version == freezed
+      version: null == version
           ? _value.version
           : version // ignore: cast_nullable_to_non_nullable
               as int,
-      totalAmount: totalAmount == freezed
+      totalAmount: null == totalAmount
           ? _value.totalAmount
           : totalAmount // ignore: cast_nullable_to_non_nullable
               as double,
-      totalReward: totalReward == freezed
+      totalReward: null == totalReward
           ? _value.totalReward
           : totalReward // ignore: cast_nullable_to_non_nullable
               as double,
-      numberOfTransactions: numberOfTransactions == freezed
+      numberOfTransactions: null == numberOfTransactions
           ? _value.numberOfTransactions
           : numberOfTransactions // ignore: cast_nullable_to_non_nullable
               as int,
-      size: size == freezed
+      size: null == size
           ? _value.size
           : size // ignore: cast_nullable_to_non_nullable
               as int,
-      craftTime: craftTime == freezed
+      craftTime: null == craftTime
           ? _value.craftTime
           : craftTime // ignore: cast_nullable_to_non_nullable
               as int,
-      transactions: transactions == freezed
+      transactions: null == transactions
           ? _value.transactions
           : transactions // ignore: cast_nullable_to_non_nullable
               as List<Transaction>,
-    ));
+    ) as $Val);
   }
 }
 
@@ -198,6 +202,7 @@ abstract class _$$_BlockCopyWith<$Res> implements $BlockCopyWith<$Res> {
   factory _$$_BlockCopyWith(_$_Block value, $Res Function(_$_Block) then) =
       __$$_BlockCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {@JsonKey(name: "Height") int height,
       @JsonKey(name: "ChainRefId") String chainRefId,
@@ -220,105 +225,103 @@ abstract class _$$_BlockCopyWith<$Res> implements $BlockCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_BlockCopyWithImpl<$Res> extends _$BlockCopyWithImpl<$Res>
+class __$$_BlockCopyWithImpl<$Res> extends _$BlockCopyWithImpl<$Res, _$_Block>
     implements _$$_BlockCopyWith<$Res> {
   __$$_BlockCopyWithImpl(_$_Block _value, $Res Function(_$_Block) _then)
-      : super(_value, (v) => _then(v as _$_Block));
+      : super(_value, _then);
 
-  @override
-  _$_Block get _value => super._value as _$_Block;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? height = freezed,
-    Object? chainRefId = freezed,
-    Object? timestamp = freezed,
-    Object? hash = freezed,
-    Object? prevHash = freezed,
-    Object? merkleRoot = freezed,
-    Object? stateRoot = freezed,
-    Object? validator = freezed,
-    Object? validatorSignature = freezed,
-    Object? validatorAnswer = freezed,
-    Object? totalValidators = freezed,
-    Object? version = freezed,
-    Object? totalAmount = freezed,
-    Object? totalReward = freezed,
-    Object? numberOfTransactions = freezed,
-    Object? size = freezed,
-    Object? craftTime = freezed,
-    Object? transactions = freezed,
+    Object? height = null,
+    Object? chainRefId = null,
+    Object? timestamp = null,
+    Object? hash = null,
+    Object? prevHash = null,
+    Object? merkleRoot = null,
+    Object? stateRoot = null,
+    Object? validator = null,
+    Object? validatorSignature = null,
+    Object? validatorAnswer = null,
+    Object? totalValidators = null,
+    Object? version = null,
+    Object? totalAmount = null,
+    Object? totalReward = null,
+    Object? numberOfTransactions = null,
+    Object? size = null,
+    Object? craftTime = null,
+    Object? transactions = null,
   }) {
     return _then(_$_Block(
-      height: height == freezed
+      height: null == height
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
               as int,
-      chainRefId: chainRefId == freezed
+      chainRefId: null == chainRefId
           ? _value.chainRefId
           : chainRefId // ignore: cast_nullable_to_non_nullable
               as String,
-      timestamp: timestamp == freezed
+      timestamp: null == timestamp
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
               as int,
-      hash: hash == freezed
+      hash: null == hash
           ? _value.hash
           : hash // ignore: cast_nullable_to_non_nullable
               as String,
-      prevHash: prevHash == freezed
+      prevHash: null == prevHash
           ? _value.prevHash
           : prevHash // ignore: cast_nullable_to_non_nullable
               as String,
-      merkleRoot: merkleRoot == freezed
+      merkleRoot: null == merkleRoot
           ? _value.merkleRoot
           : merkleRoot // ignore: cast_nullable_to_non_nullable
               as String,
-      stateRoot: stateRoot == freezed
+      stateRoot: null == stateRoot
           ? _value.stateRoot
           : stateRoot // ignore: cast_nullable_to_non_nullable
               as String,
-      validator: validator == freezed
+      validator: null == validator
           ? _value.validator
           : validator // ignore: cast_nullable_to_non_nullable
               as String,
-      validatorSignature: validatorSignature == freezed
+      validatorSignature: null == validatorSignature
           ? _value.validatorSignature
           : validatorSignature // ignore: cast_nullable_to_non_nullable
               as String,
-      validatorAnswer: validatorAnswer == freezed
+      validatorAnswer: null == validatorAnswer
           ? _value.validatorAnswer
           : validatorAnswer // ignore: cast_nullable_to_non_nullable
               as String,
-      totalValidators: totalValidators == freezed
+      totalValidators: null == totalValidators
           ? _value.totalValidators
           : totalValidators // ignore: cast_nullable_to_non_nullable
               as int,
-      version: version == freezed
+      version: null == version
           ? _value.version
           : version // ignore: cast_nullable_to_non_nullable
               as int,
-      totalAmount: totalAmount == freezed
+      totalAmount: null == totalAmount
           ? _value.totalAmount
           : totalAmount // ignore: cast_nullable_to_non_nullable
               as double,
-      totalReward: totalReward == freezed
+      totalReward: null == totalReward
           ? _value.totalReward
           : totalReward // ignore: cast_nullable_to_non_nullable
               as double,
-      numberOfTransactions: numberOfTransactions == freezed
+      numberOfTransactions: null == numberOfTransactions
           ? _value.numberOfTransactions
           : numberOfTransactions // ignore: cast_nullable_to_non_nullable
               as int,
-      size: size == freezed
+      size: null == size
           ? _value.size
           : size // ignore: cast_nullable_to_non_nullable
               as int,
-      craftTime: craftTime == freezed
+      craftTime: null == craftTime
           ? _value.craftTime
           : craftTime // ignore: cast_nullable_to_non_nullable
               as int,
-      transactions: transactions == freezed
+      transactions: null == transactions
           ? _value._transactions
           : transactions // ignore: cast_nullable_to_non_nullable
               as List<Transaction>,
@@ -427,6 +430,7 @@ class _$_Block extends _Block {
   @override
   @JsonKey(name: "Transactions")
   List<Transaction> get transactions {
+    if (_transactions is EqualUnmodifiableListView) return _transactions;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_transactions);
   }
@@ -441,31 +445,36 @@ class _$_Block extends _Block {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Block &&
-            const DeepCollectionEquality().equals(other.height, height) &&
-            const DeepCollectionEquality()
-                .equals(other.chainRefId, chainRefId) &&
-            const DeepCollectionEquality().equals(other.timestamp, timestamp) &&
-            const DeepCollectionEquality().equals(other.hash, hash) &&
-            const DeepCollectionEquality().equals(other.prevHash, prevHash) &&
-            const DeepCollectionEquality()
-                .equals(other.merkleRoot, merkleRoot) &&
-            const DeepCollectionEquality().equals(other.stateRoot, stateRoot) &&
-            const DeepCollectionEquality().equals(other.validator, validator) &&
-            const DeepCollectionEquality()
-                .equals(other.validatorSignature, validatorSignature) &&
-            const DeepCollectionEquality()
-                .equals(other.validatorAnswer, validatorAnswer) &&
-            const DeepCollectionEquality()
-                .equals(other.totalValidators, totalValidators) &&
-            const DeepCollectionEquality().equals(other.version, version) &&
-            const DeepCollectionEquality()
-                .equals(other.totalAmount, totalAmount) &&
-            const DeepCollectionEquality()
-                .equals(other.totalReward, totalReward) &&
-            const DeepCollectionEquality()
-                .equals(other.numberOfTransactions, numberOfTransactions) &&
-            const DeepCollectionEquality().equals(other.size, size) &&
-            const DeepCollectionEquality().equals(other.craftTime, craftTime) &&
+            (identical(other.height, height) || other.height == height) &&
+            (identical(other.chainRefId, chainRefId) ||
+                other.chainRefId == chainRefId) &&
+            (identical(other.timestamp, timestamp) ||
+                other.timestamp == timestamp) &&
+            (identical(other.hash, hash) || other.hash == hash) &&
+            (identical(other.prevHash, prevHash) ||
+                other.prevHash == prevHash) &&
+            (identical(other.merkleRoot, merkleRoot) ||
+                other.merkleRoot == merkleRoot) &&
+            (identical(other.stateRoot, stateRoot) ||
+                other.stateRoot == stateRoot) &&
+            (identical(other.validator, validator) ||
+                other.validator == validator) &&
+            (identical(other.validatorSignature, validatorSignature) ||
+                other.validatorSignature == validatorSignature) &&
+            (identical(other.validatorAnswer, validatorAnswer) ||
+                other.validatorAnswer == validatorAnswer) &&
+            (identical(other.totalValidators, totalValidators) ||
+                other.totalValidators == totalValidators) &&
+            (identical(other.version, version) || other.version == version) &&
+            (identical(other.totalAmount, totalAmount) ||
+                other.totalAmount == totalAmount) &&
+            (identical(other.totalReward, totalReward) ||
+                other.totalReward == totalReward) &&
+            (identical(other.numberOfTransactions, numberOfTransactions) ||
+                other.numberOfTransactions == numberOfTransactions) &&
+            (identical(other.size, size) || other.size == size) &&
+            (identical(other.craftTime, craftTime) ||
+                other.craftTime == craftTime) &&
             const DeepCollectionEquality()
                 .equals(other._transactions, _transactions));
   }
@@ -474,33 +483,36 @@ class _$_Block extends _Block {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(height),
-      const DeepCollectionEquality().hash(chainRefId),
-      const DeepCollectionEquality().hash(timestamp),
-      const DeepCollectionEquality().hash(hash),
-      const DeepCollectionEquality().hash(prevHash),
-      const DeepCollectionEquality().hash(merkleRoot),
-      const DeepCollectionEquality().hash(stateRoot),
-      const DeepCollectionEquality().hash(validator),
-      const DeepCollectionEquality().hash(validatorSignature),
-      const DeepCollectionEquality().hash(validatorAnswer),
-      const DeepCollectionEquality().hash(totalValidators),
-      const DeepCollectionEquality().hash(version),
-      const DeepCollectionEquality().hash(totalAmount),
-      const DeepCollectionEquality().hash(totalReward),
-      const DeepCollectionEquality().hash(numberOfTransactions),
-      const DeepCollectionEquality().hash(size),
-      const DeepCollectionEquality().hash(craftTime),
+      height,
+      chainRefId,
+      timestamp,
+      hash,
+      prevHash,
+      merkleRoot,
+      stateRoot,
+      validator,
+      validatorSignature,
+      validatorAnswer,
+      totalValidators,
+      version,
+      totalAmount,
+      totalReward,
+      numberOfTransactions,
+      size,
+      craftTime,
       const DeepCollectionEquality().hash(_transactions));
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_BlockCopyWith<_$_Block> get copyWith =>
       __$$_BlockCopyWithImpl<_$_Block>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_BlockToJson(this);
+    return _$$_BlockToJson(
+      this,
+    );
   }
 }
 
@@ -548,58 +560,58 @@ abstract class _Block extends Block {
 
   @override
   @JsonKey(name: "Height")
-  int get height => throw _privateConstructorUsedError;
+  int get height;
   @override
   @JsonKey(name: "ChainRefId")
-  String get chainRefId => throw _privateConstructorUsedError;
+  String get chainRefId;
   @override
   @JsonKey(name: "Timestamp")
-  int get timestamp => throw _privateConstructorUsedError;
+  int get timestamp;
   @override
   @JsonKey(name: "Hash")
-  String get hash => throw _privateConstructorUsedError;
+  String get hash;
   @override
   @JsonKey(name: "PrevHash")
-  String get prevHash => throw _privateConstructorUsedError;
+  String get prevHash;
   @override
   @JsonKey(name: "MerkleRoot")
-  String get merkleRoot => throw _privateConstructorUsedError;
+  String get merkleRoot;
   @override
   @JsonKey(name: "StateRoot")
-  String get stateRoot => throw _privateConstructorUsedError;
+  String get stateRoot;
   @override
   @JsonKey(name: "Validator")
-  String get validator => throw _privateConstructorUsedError;
+  String get validator;
   @override
   @JsonKey(name: "ValidatorSignature")
-  String get validatorSignature => throw _privateConstructorUsedError;
+  String get validatorSignature;
   @override
   @JsonKey(name: "ValidatorAnswer")
-  String get validatorAnswer => throw _privateConstructorUsedError;
+  String get validatorAnswer;
   @override
   @JsonKey(name: "TotalValidators")
-  int get totalValidators => throw _privateConstructorUsedError;
+  int get totalValidators;
   @override
   @JsonKey(name: "Version")
-  int get version => throw _privateConstructorUsedError;
+  int get version;
   @override
   @JsonKey(name: "TotalAmount")
-  double get totalAmount => throw _privateConstructorUsedError;
+  double get totalAmount;
   @override
   @JsonKey(name: "TotalReward")
-  double get totalReward => throw _privateConstructorUsedError;
+  double get totalReward;
   @override
   @JsonKey(name: "NumOfTx")
-  int get numberOfTransactions => throw _privateConstructorUsedError;
+  int get numberOfTransactions;
   @override
   @JsonKey(name: "Size")
-  int get size => throw _privateConstructorUsedError;
+  int get size;
   @override
   @JsonKey(name: "BCraftTime")
-  int get craftTime => throw _privateConstructorUsedError;
+  int get craftTime;
   @override
   @JsonKey(name: "Transactions")
-  List<Transaction> get transactions => throw _privateConstructorUsedError;
+  List<Transaction> get transactions;
   @override
   @JsonKey(ignore: true)
   _$$_BlockCopyWith<_$_Block> get copyWith =>

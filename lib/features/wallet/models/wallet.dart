@@ -19,6 +19,15 @@ class Wallet with _$Wallet {
     @JsonKey(name: 'IsValidating') required bool isValidating,
     // @JsonKey(name: 'IsEncrypted') required bool isEncrypted,
     @JsonKey(name: "ADNR") String? adnr,
+    @JsonKey(name: "RecoveryAddress") String? recoveryAddress,
+    @JsonKey(name: "RecoveryPrivateKey") String? recoveryPrivateKey,
+    @JsonKey(name: "RecoveryEncryptedDecryptKey") String? recoveryEncryptedDecryptKey,
+    @JsonKey(name: "EncryptedDecryptKey") String? encryptedDecryptKey,
+    @JsonKey(name: "AvailableBalance") @Default(0.0) double availableBalance,
+    @JsonKey(name: "LockedBalance") @Default(0.0) double lockedBalance,
+    @JsonKey(name: "TotalBalance") @Default(0.0) double totalBalance,
+    @JsonKey(name: "IsNetworkProtected") @Default(false) bool isNetworkProtected,
+
     // @Default(false) bool adnrPending,
   }) = _Wallet;
 
@@ -37,6 +46,18 @@ class Wallet with _$Wallet {
       // isEncrypted: false,
       isValidating: false,
     );
+  }
+
+  bool get isReserved {
+    return recoveryAddress != null;
+  }
+
+  String get balanceLabel {
+    if (isReserved) {
+      return "Available: $availableBalance RBX";
+    }
+
+    return "$balance RBX";
   }
 
   String get label {

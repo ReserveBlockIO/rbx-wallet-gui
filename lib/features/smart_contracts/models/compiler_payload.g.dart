@@ -19,6 +19,9 @@ _$_CompilerPayload _$$_CompilerPayloadFromJson(Map<String, dynamic> json) =>
           .toList(),
       minterAddress: json['MinterAddress'] as String,
       isMinter: json['IsMinter'] as bool,
+      properties: (json['Properties'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ),
       hash: json['hash'] as String,
     );
 
@@ -33,5 +36,6 @@ Map<String, dynamic> _$$_CompilerPayloadToJson(_$_CompilerPayload instance) =>
       'Features': instance.features,
       'MinterAddress': instance.minterAddress,
       'IsMinter': instance.isMinter,
+      'Properties': instance.properties,
       'hash': instance.hash,
     };

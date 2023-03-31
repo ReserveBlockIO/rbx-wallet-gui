@@ -6,11 +6,11 @@ import '../../../utils/toast.dart';
 import '../models/masternode.dart';
 
 class MasternodeListProvider extends StateNotifier<List<Masternode>> {
-  final Reader read;
+  final Ref ref;
 
   late final TextEditingController searchController;
 
-  MasternodeListProvider(this.read, [List<Masternode> nodes = const []]) : super(nodes) {
+  MasternodeListProvider(this.ref, [List<Masternode> nodes = const []]) : super(nodes) {
     searchController = TextEditingController();
   }
 
@@ -31,5 +31,5 @@ class MasternodeListProvider extends StateNotifier<List<Masternode>> {
 }
 
 final masternodeListProvider = StateNotifierProvider<MasternodeListProvider, List<Masternode>>(
-  (ref) => MasternodeListProvider(ref.read),
+  (ref) => MasternodeListProvider(ref),
 );

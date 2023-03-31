@@ -4,9 +4,9 @@ import '../../bridge/services/bridge_service.dart';
 import '../models/genesis_block.dart';
 
 class GenesisBlockProvider extends StateNotifier<GenesisBlock?> {
-  final Reader read;
+  final Ref ref;
 
-  GenesisBlockProvider(this.read, [GenesisBlock? genesisBlock]) : super(genesisBlock);
+  GenesisBlockProvider(this.ref, [GenesisBlock? genesisBlock]) : super(genesisBlock);
 
   Future<void> load() async {
     final gb = await BridgeService().genesisBlock();
@@ -16,6 +16,6 @@ class GenesisBlockProvider extends StateNotifier<GenesisBlock?> {
 
 final genesisBlockProvider = StateNotifierProvider<GenesisBlockProvider, GenesisBlock?>(
   (ref) {
-    return GenesisBlockProvider(ref.read);
+    return GenesisBlockProvider(ref);
   },
 );

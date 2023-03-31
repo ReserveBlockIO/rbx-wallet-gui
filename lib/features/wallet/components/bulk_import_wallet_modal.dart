@@ -84,8 +84,15 @@ class BulkImportWalletModal extends BaseComponent {
                 return null;
               }
 
+              final resync = await ConfirmDialog.show(
+                title: "Rescan Blocks?",
+                body: "Would you like to rescan the chain to include any transactions relevant to these keys?",
+                confirmText: "Yes",
+                cancelText: "No",
+              );
+
               for (final privateKey in linesToImport) {
-                await ref.read(walletListProvider.notifier).import(privateKey);
+                await ref.read(walletListProvider.notifier).import(privateKey, false, resync == true);
               }
 
               Toast.message("$label imported!");

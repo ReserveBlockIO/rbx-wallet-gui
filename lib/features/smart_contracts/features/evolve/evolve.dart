@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/core/utils.dart';
+import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
 
 import '../../../asset/asset.dart';
 import 'evolve_phase.dart';
@@ -128,17 +132,53 @@ abstract class Evolve with _$Evolve {
         dateTime = DateTime.parse(dateTimeString);
       }
 
-      _phases.add(
-        EvolvePhase(
-          name: p.containsKey("Name") ? p['Name'] : p['name'],
-          description: p.containsKey("Description") ? p['Description'] ?? "" : p['description'] ?? "",
-          dateTime: dateTime,
-          blockHeight: p['EvolveBlockHeight'] ?? p['blockHeight'],
-          evolutionState: p.containsKey("EvolutionState") ? p['EvolutionState'] : p['evolutionState'],
-          isCurrentState: p.containsKey("IsCurrentState") ? p['IsCurrentState'] : p['isCurrentState'],
-          asset: asset,
-        ),
+      List<ScProperty> properties = [];
+      Map<String, dynamic>? props;
+
+      if (p.containsKey('Properties') && p['Properties'] != null) {
+        props = p['Properties'] as Map<String, dynamic>;
+      } else if (p.containsKey('properties') && p['properties'] != null) {
+        final List<Map<String, dynamic>> propsList = p['properties'];
+
+        if (propsList.isNotEmpty) {
+          props = {};
+          for (final prop in propsList) {
+            props[prop['name']] = prop['value'];
+          }
+        }
+      }
+
+      if (props != null) {
+        for (final kv in props.entries) {
+          final key = kv.key;
+          final String value = kv.value;
+
+          ScPropertyType type = ScPropertyType.text;
+
+          if (isNumeric(value)) {
+            type = ScPropertyType.number;
+          }
+
+          if (value.length == 7 && value.startsWith("#")) {
+            type = ScPropertyType.color;
+          }
+
+          properties.add(ScProperty(name: key, value: value, type: type));
+        }
+      }
+
+      final newPhase = EvolvePhase(
+        name: p.containsKey("Name") ? p['Name'] : p['name'],
+        description: p.containsKey("Description") ? p['Description'] ?? "" : p['description'] ?? "",
+        dateTime: dateTime,
+        blockHeight: p['EvolveBlockHeight'] ?? p['blockHeight'],
+        evolutionState: p.containsKey("EvolutionState") ? p['EvolutionState'] : p['evolutionState'],
+        isCurrentState: p.containsKey("IsCurrentState") ? p['IsCurrentState'] : p['isCurrentState'],
+        asset: asset,
+        properties: properties,
       );
+
+      _phases.add(newPhase);
     }
 
     return Evolve(
@@ -178,6 +218,16 @@ abstract class Evolve with _$Evolve {
         _isDynamic = true;
       }
 
+      Map<String, String>? propertiesOutput;
+      if (p.properties.isNotEmpty) {
+        propertiesOutput = {};
+        for (final property in p.properties) {
+          final name = property.name.replaceAll(":", "").replaceAll("<|>", "");
+          final value = property.value.replaceAll(":", "").replaceAll("<|>", "");
+          propertiesOutput[name] = value;
+        }
+      }
+
       final Map<String, dynamic> data = {
         'Name': p.name,
         'Description': p.description,
@@ -190,7 +240,10 @@ abstract class Evolve with _$Evolve {
         'SmartContractAsset': p.asset != null ? p.asset!.copyWith(authorName: minterName).toJson() : null,
         'EvolveDate': type == EvolveType.time ? p.dateTimeForCompiler(timezoneName) : null,
         'EvolveBlockHeight': type == EvolveType.blockHeight ? p.blockHeight : null,
+        ...propertiesOutput != null ? {'Properties': propertiesOutput} : {}
       };
+
+      print(jsonEncode(data));
 
       return data;
     }).toList();

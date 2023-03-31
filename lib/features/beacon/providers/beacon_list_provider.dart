@@ -4,9 +4,9 @@ import '../models/beacon.dart';
 import '../services/beacon_service.dart';
 
 class BeaconListProvider extends StateNotifier<List<Beacon>> {
-  final Reader read;
+  final Ref ref;
 
-  BeaconListProvider(this.read, [List<Beacon> topics = const []]) : super(topics) {
+  BeaconListProvider(this.ref, [List<Beacon> topics = const []]) : super(topics) {
     load();
   }
 
@@ -20,5 +20,5 @@ class BeaconListProvider extends StateNotifier<List<Beacon>> {
 }
 
 final beaconListProvider = StateNotifierProvider<BeaconListProvider, List<Beacon>>(
-  (ref) => BeaconListProvider(ref.read),
+  (ref) => BeaconListProvider(ref),
 );

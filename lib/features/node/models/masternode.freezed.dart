@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'masternode.dart';
 
@@ -40,7 +40,8 @@ mixin _$Masternode {
 abstract class $MasternodeCopyWith<$Res> {
   factory $MasternodeCopyWith(
           Masternode value, $Res Function(Masternode) then) =
-      _$MasternodeCopyWithImpl<$Res>;
+      _$MasternodeCopyWithImpl<$Res, Masternode>;
+  @useResult
   $Res call(
       {String address,
       @JsonKey(name: 'unique_name') String uniqueName,
@@ -50,43 +51,46 @@ abstract class $MasternodeCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$MasternodeCopyWithImpl<$Res> implements $MasternodeCopyWith<$Res> {
+class _$MasternodeCopyWithImpl<$Res, $Val extends Masternode>
+    implements $MasternodeCopyWith<$Res> {
   _$MasternodeCopyWithImpl(this._value, this._then);
 
-  final Masternode _value;
   // ignore: unused_field
-  final $Res Function(Masternode) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? address = freezed,
-    Object? uniqueName = freezed,
-    Object? connectDate = freezed,
-    Object? isActive = freezed,
-    Object? blockCount = freezed,
+    Object? address = null,
+    Object? uniqueName = null,
+    Object? connectDate = null,
+    Object? isActive = null,
+    Object? blockCount = null,
   }) {
     return _then(_value.copyWith(
-      address: address == freezed
+      address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as String,
-      uniqueName: uniqueName == freezed
+      uniqueName: null == uniqueName
           ? _value.uniqueName
           : uniqueName // ignore: cast_nullable_to_non_nullable
               as String,
-      connectDate: connectDate == freezed
+      connectDate: null == connectDate
           ? _value.connectDate
           : connectDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      isActive: isActive == freezed
+      isActive: null == isActive
           ? _value.isActive
           : isActive // ignore: cast_nullable_to_non_nullable
               as bool,
-      blockCount: blockCount == freezed
+      blockCount: null == blockCount
           ? _value.blockCount
           : blockCount // ignore: cast_nullable_to_non_nullable
               as int,
-    ));
+    ) as $Val);
   }
 }
 
@@ -97,6 +101,7 @@ abstract class _$$_MasternodeCopyWith<$Res>
           _$_Masternode value, $Res Function(_$_Masternode) then) =
       __$$_MasternodeCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String address,
       @JsonKey(name: 'unique_name') String uniqueName,
@@ -106,41 +111,40 @@ abstract class _$$_MasternodeCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_MasternodeCopyWithImpl<$Res> extends _$MasternodeCopyWithImpl<$Res>
+class __$$_MasternodeCopyWithImpl<$Res>
+    extends _$MasternodeCopyWithImpl<$Res, _$_Masternode>
     implements _$$_MasternodeCopyWith<$Res> {
   __$$_MasternodeCopyWithImpl(
       _$_Masternode _value, $Res Function(_$_Masternode) _then)
-      : super(_value, (v) => _then(v as _$_Masternode));
+      : super(_value, _then);
 
-  @override
-  _$_Masternode get _value => super._value as _$_Masternode;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? address = freezed,
-    Object? uniqueName = freezed,
-    Object? connectDate = freezed,
-    Object? isActive = freezed,
-    Object? blockCount = freezed,
+    Object? address = null,
+    Object? uniqueName = null,
+    Object? connectDate = null,
+    Object? isActive = null,
+    Object? blockCount = null,
   }) {
     return _then(_$_Masternode(
-      address: address == freezed
+      address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as String,
-      uniqueName: uniqueName == freezed
+      uniqueName: null == uniqueName
           ? _value.uniqueName
           : uniqueName // ignore: cast_nullable_to_non_nullable
               as String,
-      connectDate: connectDate == freezed
+      connectDate: null == connectDate
           ? _value.connectDate
           : connectDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      isActive: isActive == freezed
+      isActive: null == isActive
           ? _value.isActive
           : isActive // ignore: cast_nullable_to_non_nullable
               as bool,
-      blockCount: blockCount == freezed
+      blockCount: null == blockCount
           ? _value.blockCount
           : blockCount // ignore: cast_nullable_to_non_nullable
               as int,
@@ -187,34 +191,33 @@ class _$_Masternode extends _Masternode {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Masternode &&
-            const DeepCollectionEquality().equals(other.address, address) &&
-            const DeepCollectionEquality()
-                .equals(other.uniqueName, uniqueName) &&
-            const DeepCollectionEquality()
-                .equals(other.connectDate, connectDate) &&
-            const DeepCollectionEquality().equals(other.isActive, isActive) &&
-            const DeepCollectionEquality()
-                .equals(other.blockCount, blockCount));
+            (identical(other.address, address) || other.address == address) &&
+            (identical(other.uniqueName, uniqueName) ||
+                other.uniqueName == uniqueName) &&
+            (identical(other.connectDate, connectDate) ||
+                other.connectDate == connectDate) &&
+            (identical(other.isActive, isActive) ||
+                other.isActive == isActive) &&
+            (identical(other.blockCount, blockCount) ||
+                other.blockCount == blockCount));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(address),
-      const DeepCollectionEquality().hash(uniqueName),
-      const DeepCollectionEquality().hash(connectDate),
-      const DeepCollectionEquality().hash(isActive),
-      const DeepCollectionEquality().hash(blockCount));
+      runtimeType, address, uniqueName, connectDate, isActive, blockCount);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_MasternodeCopyWith<_$_Masternode> get copyWith =>
       __$$_MasternodeCopyWithImpl<_$_Masternode>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_MasternodeToJson(this);
+    return _$$_MasternodeToJson(
+      this,
+    );
   }
 }
 
@@ -232,19 +235,19 @@ abstract class _Masternode extends Masternode {
       _$_Masternode.fromJson;
 
   @override
-  String get address => throw _privateConstructorUsedError;
+  String get address;
   @override
   @JsonKey(name: 'unique_name')
-  String get uniqueName => throw _privateConstructorUsedError;
+  String get uniqueName;
   @override
   @JsonKey(name: 'connect_date')
-  DateTime get connectDate => throw _privateConstructorUsedError;
+  DateTime get connectDate;
   @override
   @JsonKey(name: 'is_active')
-  bool get isActive => throw _privateConstructorUsedError;
+  bool get isActive;
   @override
   @JsonKey(name: 'block_count')
-  int get blockCount => throw _privateConstructorUsedError;
+  int get blockCount;
   @override
   @JsonKey(ignore: true)
   _$$_MasternodeCopyWith<_$_Masternode> get copyWith =>

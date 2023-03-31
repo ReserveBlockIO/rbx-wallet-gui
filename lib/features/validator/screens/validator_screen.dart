@@ -99,8 +99,8 @@ class ValidatorScreen extends BaseScreen {
               icon: Icons.star,
               variant: AppColorVariant.Success,
               onPressed: () async {
-                if (!guardWalletIsSynced(ref.read)) return;
-                if (!guardWalletIsNotResyncing(ref.read)) return;
+                if (!widgetGuardWalletIsSynced(ref)) return;
+                if (!widgetGuardWalletIsNotResyncing(ref)) return;
                 if (!await passwordRequiredGuard(context, ref, true, true)) return;
 
                 if (currentWallet.balance < ASSURED_AMOUNT_TO_VALIDATE) {

@@ -139,27 +139,27 @@ class SmartContractService extends BaseService {
     }
   }
 
-  Future<String?> transfer(String id, String address, String? backupUrl) async {
+  Future<bool> transfer(String id, String address, String? backupUrl) async {
     try {
       final url = backupUrl != null && backupUrl.isNotEmpty ? "/TransferNFT/$id/$address/$backupUrl" : "/TransferNFT/$id/$address";
-      final text = await getText(url, timeout: 0);
+      final text = await getText(url, timeout: 0, inspect: true);
 
-      if (text.isEmpty) {
-        print("No response on transfer API call ($url)");
-        return "No response on transfer API call";
-      }
+      // if (text.isEmpty) {
+      //   print("No response on transfer API call ($url)");
+      //   return false;
+      // }
 
       final Map<String, dynamic> data = jsonDecode(text);
-      if (data.containsKey("Result") && data['Result'] == "Success") {
-        return null;
+      if (data['Result'] == "Success") {
+        Toast.message(data['Message'] ?? 'Success: NFT Transfer has been started.');
+        return true;
       }
-      if (data.containsKey("Message") && data['Message'].toString().isNotEmpty) {
-        return data['Message'];
-      }
-      return "A problem occurred";
+      Toast.error(data['Message']);
+      return false;
     } catch (e) {
       print(e);
-      return e.toString();
+      Toast.error(e.toString());
+      return false;
     }
   }
 

@@ -18,8 +18,8 @@ class IsActiveModel {
 }
 
 class IsActiveProvider extends StateNotifier<IsActiveModel> {
-  final Reader read;
-  IsActiveProvider(this.read, IsActiveModel model) : super(model);
+  final Ref ref;
+  IsActiveProvider(this.ref, IsActiveModel model) : super(model);
 
   init() {
     checkForRecentActivity();
@@ -53,7 +53,7 @@ class IsActiveProvider extends StateNotifier<IsActiveModel> {
     final loopCount = (REFRESH_TIMEOUT_SECONDS_INACTIVE / REFRESH_TIMEOUT_SECONDS).round();
 
     for (var i = 0; i < loopCount; i++) {
-      read(walletInfoProvider.notifier).infoLoop(false);
+      ref.read(walletInfoProvider.notifier).infoLoop(false);
       if (!state.isActive) {
         return;
       }
@@ -66,6 +66,6 @@ class IsActiveProvider extends StateNotifier<IsActiveModel> {
 final isActiveProvider = StateNotifierProvider<IsActiveProvider, IsActiveModel>(
   (ref) {
     final model = IsActiveModel(isActive: true, latestActivity: DateTime.now());
-    return IsActiveProvider(ref.read, model);
+    return IsActiveProvider(ref, model);
   },
 );

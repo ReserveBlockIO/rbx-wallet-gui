@@ -52,6 +52,10 @@ class Toast {
 }
 
 class OverlayToast {
+  static message({required String message, String title = "Success"}) {
+    InfoDialog.show(title: title, body: message);
+  }
+
   static error([String? message]) {
     InfoDialog.show(title: "Error", body: message ?? "An error occurred");
 

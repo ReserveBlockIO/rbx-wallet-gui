@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/utils.dart';
+import 'package:rbx_wallet/features/sc_property/components/property_modal.dart';
+import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
+import 'package:rbx_wallet/features/sc_property/providers/edit_sc_property_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
 
 import '../../../../core/base_component.dart';
 import '../../../../core/components/buttons.dart';
@@ -229,6 +234,20 @@ class _EvolvePhaseContainer extends BaseComponent {
     }
   }
 
+  Future<ScProperty?> _handlePropertyEdit(BuildContext context, WidgetRef ref, {ScProperty? property}) async {
+    if (property == null) {
+      ref.read(editScPropertyProvider.notifier).clear();
+    } else {
+      ref.read(editScPropertyProvider.notifier).set(property);
+    }
+
+    return await showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return PropertyModal();
+        });
+  }
+
   Future<void> deleteStage(BuildContext context, WidgetRef ref) async {
     final _evolveProvider = ref.read(evolveFormProvider.notifier);
 
@@ -258,6 +277,7 @@ class _EvolvePhaseContainer extends BaseComponent {
 
     final _evolveProvider = ref.read(evolveFormProvider.notifier);
     final _provider = ref.read(evolvePhaseFormProvider(index).notifier);
+    final _phaseModel = ref.watch(evolvePhaseFormProvider(index));
 
     final canAddPhase = index < 24;
 
@@ -303,6 +323,7 @@ class _EvolvePhaseContainer extends BaseComponent {
                       ],
                     ),
                     buildDescription(_provider),
+                    buildProperties(context, ref, _provider, _phaseModel),
                     if (isLast)
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
@@ -332,6 +353,7 @@ class _EvolvePhaseContainer extends BaseComponent {
 
     final _evolveProvider = ref.read(evolveFormProvider.notifier);
     final _provider = ref.read(evolvePhaseFormProvider(index).notifier);
+    final _phaseModel = ref.watch(evolvePhaseFormProvider(index));
 
     final canAddPhase = index < 24;
 
@@ -354,6 +376,7 @@ class _EvolvePhaseContainer extends BaseComponent {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     if (type == EvolveType.time)
                       Row(
@@ -390,6 +413,7 @@ class _EvolvePhaseContainer extends BaseComponent {
                       ],
                     ),
                     buildDescription(_provider),
+                    buildProperties(context, ref, _provider, _phaseModel),
                     if (isLast)
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
@@ -417,6 +441,97 @@ class _EvolvePhaseContainer extends BaseComponent {
           ],
         ),
       ),
+    );
+  }
+
+  Widget buildProperties(
+    BuildContext context,
+    WidgetRef ref,
+    EvolvePhaseFormProvider phaseProvider,
+    EvolvePhase phase,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: 12,
+        ),
+        Row(
+          children: [
+            Text(
+              "Properties (Optional)",
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+            ),
+            SizedBox(
+              width: 6,
+            ),
+            AppButton(
+              label: "Add Property",
+              onPressed: () async {
+                final property = await _handlePropertyEdit(context, ref);
+                if (property != null) {
+                  phaseProvider.addProperty(property);
+                }
+              },
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        Wrap(
+            spacing: 4.0,
+            runSpacing: 4.0,
+            children: phase.properties.asMap().entries.map(
+              (entry) {
+                final index = entry.key;
+                final p = entry.value;
+                return Card(
+                    color: Theme.of(context).colorScheme.secondary,
+                    margin: EdgeInsets.zero,
+                    key: Key("${p.name}|${p.value}"),
+                    child: InkWell(
+                      onTap: () async {
+                        final property = await _handlePropertyEdit(context, ref, property: p);
+                        if (property != null) {
+                          phaseProvider.updateProperty(property, index);
+                        }
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              "${truncatedText(p.name)}: ${truncatedText(p.value)}",
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 4,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                phaseProvider.removeProperty(index);
+                              },
+                              child: Icon(
+                                Icons.delete,
+                                size: 14,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ));
+              },
+            ).toList()),
+        SizedBox(
+          height: 8,
+        ),
+        Divider(),
+      ],
     );
   }
 

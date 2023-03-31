@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'genesis_block.dart';
 
@@ -47,7 +47,8 @@ mixin _$GenesisBlock {
 abstract class $GenesisBlockCopyWith<$Res> {
   factory $GenesisBlockCopyWith(
           GenesisBlock value, $Res Function(GenesisBlock) then) =
-      _$GenesisBlockCopyWithImpl<$Res>;
+      _$GenesisBlockCopyWithImpl<$Res, GenesisBlock>;
+  @useResult
   $Res call(
       {@JsonKey(name: 'Height') int height,
       @JsonKey(name: 'ChainRefId') String chainRefId,
@@ -60,58 +61,61 @@ abstract class $GenesisBlockCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$GenesisBlockCopyWithImpl<$Res> implements $GenesisBlockCopyWith<$Res> {
+class _$GenesisBlockCopyWithImpl<$Res, $Val extends GenesisBlock>
+    implements $GenesisBlockCopyWith<$Res> {
   _$GenesisBlockCopyWithImpl(this._value, this._then);
 
-  final GenesisBlock _value;
   // ignore: unused_field
-  final $Res Function(GenesisBlock) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? height = freezed,
-    Object? chainRefId = freezed,
-    Object? timestamp = freezed,
-    Object? hash = freezed,
-    Object? totalAmount = freezed,
-    Object? totalReward = freezed,
-    Object? size = freezed,
-    Object? bCraftTime = freezed,
+    Object? height = null,
+    Object? chainRefId = null,
+    Object? timestamp = null,
+    Object? hash = null,
+    Object? totalAmount = null,
+    Object? totalReward = null,
+    Object? size = null,
+    Object? bCraftTime = null,
   }) {
     return _then(_value.copyWith(
-      height: height == freezed
+      height: null == height
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
               as int,
-      chainRefId: chainRefId == freezed
+      chainRefId: null == chainRefId
           ? _value.chainRefId
           : chainRefId // ignore: cast_nullable_to_non_nullable
               as String,
-      timestamp: timestamp == freezed
+      timestamp: null == timestamp
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
               as int,
-      hash: hash == freezed
+      hash: null == hash
           ? _value.hash
           : hash // ignore: cast_nullable_to_non_nullable
               as String,
-      totalAmount: totalAmount == freezed
+      totalAmount: null == totalAmount
           ? _value.totalAmount
           : totalAmount // ignore: cast_nullable_to_non_nullable
               as double,
-      totalReward: totalReward == freezed
+      totalReward: null == totalReward
           ? _value.totalReward
           : totalReward // ignore: cast_nullable_to_non_nullable
               as double,
-      size: size == freezed
+      size: null == size
           ? _value.size
           : size // ignore: cast_nullable_to_non_nullable
               as double,
-      bCraftTime: bCraftTime == freezed
+      bCraftTime: null == bCraftTime
           ? _value.bCraftTime
           : bCraftTime // ignore: cast_nullable_to_non_nullable
               as int,
-    ));
+    ) as $Val);
   }
 }
 
@@ -122,6 +126,7 @@ abstract class _$$_GenesisBlockCopyWith<$Res>
           _$_GenesisBlock value, $Res Function(_$_GenesisBlock) then) =
       __$$_GenesisBlockCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {@JsonKey(name: 'Height') int height,
       @JsonKey(name: 'ChainRefId') String chainRefId,
@@ -135,56 +140,54 @@ abstract class _$$_GenesisBlockCopyWith<$Res>
 
 /// @nodoc
 class __$$_GenesisBlockCopyWithImpl<$Res>
-    extends _$GenesisBlockCopyWithImpl<$Res>
+    extends _$GenesisBlockCopyWithImpl<$Res, _$_GenesisBlock>
     implements _$$_GenesisBlockCopyWith<$Res> {
   __$$_GenesisBlockCopyWithImpl(
       _$_GenesisBlock _value, $Res Function(_$_GenesisBlock) _then)
-      : super(_value, (v) => _then(v as _$_GenesisBlock));
+      : super(_value, _then);
 
-  @override
-  _$_GenesisBlock get _value => super._value as _$_GenesisBlock;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? height = freezed,
-    Object? chainRefId = freezed,
-    Object? timestamp = freezed,
-    Object? hash = freezed,
-    Object? totalAmount = freezed,
-    Object? totalReward = freezed,
-    Object? size = freezed,
-    Object? bCraftTime = freezed,
+    Object? height = null,
+    Object? chainRefId = null,
+    Object? timestamp = null,
+    Object? hash = null,
+    Object? totalAmount = null,
+    Object? totalReward = null,
+    Object? size = null,
+    Object? bCraftTime = null,
   }) {
     return _then(_$_GenesisBlock(
-      height: height == freezed
+      height: null == height
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
               as int,
-      chainRefId: chainRefId == freezed
+      chainRefId: null == chainRefId
           ? _value.chainRefId
           : chainRefId // ignore: cast_nullable_to_non_nullable
               as String,
-      timestamp: timestamp == freezed
+      timestamp: null == timestamp
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
               as int,
-      hash: hash == freezed
+      hash: null == hash
           ? _value.hash
           : hash // ignore: cast_nullable_to_non_nullable
               as String,
-      totalAmount: totalAmount == freezed
+      totalAmount: null == totalAmount
           ? _value.totalAmount
           : totalAmount // ignore: cast_nullable_to_non_nullable
               as double,
-      totalReward: totalReward == freezed
+      totalReward: null == totalReward
           ? _value.totalReward
           : totalReward // ignore: cast_nullable_to_non_nullable
               as double,
-      size: size == freezed
+      size: null == size
           ? _value.size
           : size // ignore: cast_nullable_to_non_nullable
               as double,
-      bCraftTime: bCraftTime == freezed
+      bCraftTime: null == bCraftTime
           ? _value.bCraftTime
           : bCraftTime // ignore: cast_nullable_to_non_nullable
               as int,
@@ -244,41 +247,37 @@ class _$_GenesisBlock extends _GenesisBlock {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_GenesisBlock &&
-            const DeepCollectionEquality().equals(other.height, height) &&
-            const DeepCollectionEquality()
-                .equals(other.chainRefId, chainRefId) &&
-            const DeepCollectionEquality().equals(other.timestamp, timestamp) &&
-            const DeepCollectionEquality().equals(other.hash, hash) &&
-            const DeepCollectionEquality()
-                .equals(other.totalAmount, totalAmount) &&
-            const DeepCollectionEquality()
-                .equals(other.totalReward, totalReward) &&
-            const DeepCollectionEquality().equals(other.size, size) &&
-            const DeepCollectionEquality()
-                .equals(other.bCraftTime, bCraftTime));
+            (identical(other.height, height) || other.height == height) &&
+            (identical(other.chainRefId, chainRefId) ||
+                other.chainRefId == chainRefId) &&
+            (identical(other.timestamp, timestamp) ||
+                other.timestamp == timestamp) &&
+            (identical(other.hash, hash) || other.hash == hash) &&
+            (identical(other.totalAmount, totalAmount) ||
+                other.totalAmount == totalAmount) &&
+            (identical(other.totalReward, totalReward) ||
+                other.totalReward == totalReward) &&
+            (identical(other.size, size) || other.size == size) &&
+            (identical(other.bCraftTime, bCraftTime) ||
+                other.bCraftTime == bCraftTime));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(height),
-      const DeepCollectionEquality().hash(chainRefId),
-      const DeepCollectionEquality().hash(timestamp),
-      const DeepCollectionEquality().hash(hash),
-      const DeepCollectionEquality().hash(totalAmount),
-      const DeepCollectionEquality().hash(totalReward),
-      const DeepCollectionEquality().hash(size),
-      const DeepCollectionEquality().hash(bCraftTime));
+  int get hashCode => Object.hash(runtimeType, height, chainRefId, timestamp,
+      hash, totalAmount, totalReward, size, bCraftTime);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_GenesisBlockCopyWith<_$_GenesisBlock> get copyWith =>
       __$$_GenesisBlockCopyWithImpl<_$_GenesisBlock>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_GenesisBlockToJson(this);
+    return _$$_GenesisBlockToJson(
+      this,
+    );
   }
 }
 
@@ -300,28 +299,28 @@ abstract class _GenesisBlock extends GenesisBlock {
 
   @override
   @JsonKey(name: 'Height')
-  int get height => throw _privateConstructorUsedError;
+  int get height;
   @override
   @JsonKey(name: 'ChainRefId')
-  String get chainRefId => throw _privateConstructorUsedError;
+  String get chainRefId;
   @override
   @JsonKey(name: 'Timestamp')
-  int get timestamp => throw _privateConstructorUsedError;
+  int get timestamp;
   @override
   @JsonKey(name: 'Hash')
-  String get hash => throw _privateConstructorUsedError;
+  String get hash;
   @override
   @JsonKey(name: 'TotalAmount')
-  double get totalAmount => throw _privateConstructorUsedError;
+  double get totalAmount;
   @override
   @JsonKey(name: 'TotalReward')
-  double get totalReward => throw _privateConstructorUsedError;
+  double get totalReward;
   @override
   @JsonKey(name: 'Size')
-  double get size => throw _privateConstructorUsedError;
+  double get size;
   @override
   @JsonKey(name: 'BCraftTime')
-  int get bCraftTime => throw _privateConstructorUsedError;
+  int get bCraftTime;
   @override
   @JsonKey(ignore: true)
   _$$_GenesisBlockCopyWith<_$_GenesisBlock> get copyWith =>
