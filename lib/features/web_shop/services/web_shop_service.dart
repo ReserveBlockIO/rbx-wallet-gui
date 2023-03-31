@@ -14,9 +14,9 @@ class WebShopService extends BaseService {
 
   // Shops
 
-  Future<ServerPaginatedReponse<WebShop>> listShops() async {
+  Future<ServerPaginatedReponse<WebShop>> listShops([int page = 1]) async {
     try {
-      final data = await getJson("/shop/");
+      final data = await getJson("/shop/", params: {'page': page});
       final List<WebShop> results = data['results'].map<WebShop>((item) => WebShop.fromJson(item)).toList();
       return ServerPaginatedReponse<WebShop>(
         count: data['count'],
@@ -55,9 +55,9 @@ class WebShopService extends BaseService {
 
   // Collections
 
-  Future<ServerPaginatedReponse<WebCollection>> listCollections(int shopId) async {
+  Future<ServerPaginatedReponse<WebCollection>> listCollections(int shopId, [int page = 1]) async {
     try {
-      final data = await getJson("/shop/$shopId/collection/");
+      final data = await getJson("/shop/$shopId/collection/", params: {'page': page});
       final List<WebCollection> results = data['results'].map<WebCollection>((item) => WebCollection.fromJson(item)).toList();
       return ServerPaginatedReponse<WebCollection>(
         count: data['count'],

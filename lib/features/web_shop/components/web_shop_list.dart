@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/web_shop/components/web_shop_tile.dart';
+import 'package:rbx_wallet/features/web_shop/components/web_shop_list_tile.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_shop.dart';
 
 import '../../../core/base_component.dart';
@@ -19,7 +19,7 @@ class WebShopList extends BaseComponent {
       itemBuilder: (context, shop, index) => WebShopTile(
         shop,
       ),
-      emptyText: "No Comments",
+      emptyText: "No Shops",
       onRefresh: listProvider.refresh,
     );
   }
