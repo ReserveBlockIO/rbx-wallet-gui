@@ -59,9 +59,7 @@ class WebShopDetailScreen extends BaseScreen {
               ],
             )
           : const Text("Error"),
-      error: (_, __) => AppBar(
-        title: const Text("Error"),
-      ),
+      error: (_, __) => const Text("Error"),
       loading: () => AppBar(
         title: const Text(""),
       ),

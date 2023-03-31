@@ -5,7 +5,6 @@ import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_listing.dart';
 
 import '../../../core/base_component.dart';
-import '../models/web_collection.dart';
 
 class WebListingTile extends BaseComponent {
   WebListingTile(this.listing, {Key? key}) : super(key: key);
@@ -18,7 +17,11 @@ class WebListingTile extends BaseComponent {
         subtitle: Text(listing.nft.description),
         trailing: Icon(Icons.chevron_right_outlined),
         onTap: () {
-          print("this the listing");
+          AutoRouter.of(context).push(WebListingDetailScreenRoute(
+            shopId: listing.collection.shop.id,
+            collectionId: listing.collection.id,
+            listingId: listing.id,
+          ));
         },
       ),
     );
