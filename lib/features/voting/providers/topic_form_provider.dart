@@ -95,7 +95,7 @@ class TopicFormProvider extends StateNotifier<NewTopic> {
     }
 
 
-    final balance = read(sessionProvider).currentWallet?.balance;
+    final balance = ref.read(sessionProvider).currentWallet?.balance;
 
     if (balance == null || (balance - ASSURED_AMOUNT_TO_VALIDATE) < VOTE_TOPIC_COST) {
       Toast.error(
