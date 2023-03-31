@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
+import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/models/value_label.dart';
@@ -89,6 +91,16 @@ class TopicFormProvider extends StateNotifier<NewTopic> {
       if (!formKey.currentState!.validate()) {
         return null;
       }
+    }
+
+    read(globalLoadingProvider.notifier).start();
+
+    final balance = read(sessionProvider).currentWallet?.balance;
+
+    if (balance == null || (balance - ASSURED_AMOUNT_TO_VALIDATE) < VOTE_TOPIC_COST) {
+      Toast.error(
+          "Submitting a topic costs $VOTE_TOPIC_COST RBX. Since you are validating, you need at least ${ASSURED_AMOUNT_TO_VALIDATE + VOTE_TOPIC_COST} RBX.");
+      return null;
     }
 
     read(globalLoadingProvider.notifier).start();

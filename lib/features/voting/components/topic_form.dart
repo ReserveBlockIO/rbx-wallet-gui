@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/buttons.dart';
@@ -126,13 +127,16 @@ class TopicForm extends BaseComponent {
               TextFormField(
                   controller: provider.descriptionController,
                   validator: provider.descriptionValidator,
-                  decoration: const InputDecoration(label: Text("Topic Description")),
+                  decoration: const InputDecoration(
+                    label: Text("Topic Description"),
+                  ),
                   inputFormatters: [
                     FilteringTextInputFormatter.deny(
                         RegExp(r'(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])'))
                   ],
                   minLines: 3,
                   maxLines: 6,
+
                   // maxLength: 1600,
                   buildCounter: (context, {int? currentLength, int? maxLength, bool? isFocused}) {
                     return Row(
@@ -143,7 +147,7 @@ class TopicForm extends BaseComponent {
                           style: Theme.of(context).textTheme.caption,
                         ),
                         Text(
-                          "$currentLength/$maxLength",
+                          "$currentLength/1600",
                           style: Theme.of(context).textTheme.caption,
                         )
                       ],
@@ -174,10 +178,11 @@ class TopicForm extends BaseComponent {
                     if (!await passwordRequiredGuard(context, ref)) return;
                     final confirmed = await ConfirmDialog.show(
                       title: "Create Topic",
-                      body: "There is a 1 RBX cost to create a topic.",
+                      body: "There is a cost of $VOTE_TOPIC_COST RBX to create a topic.",
                       confirmText: "Create",
                       cancelText: "Cancel",
                     );
+                    
                     if (confirmed != true) {
                       return;
                     }

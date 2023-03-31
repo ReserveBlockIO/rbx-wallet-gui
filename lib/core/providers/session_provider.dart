@@ -240,6 +240,9 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   Future<void> checkGuiUpdateStatus([bool inLoop = false]) async {
+    if (Env.isTestNet) {
+      return;
+    }
     final remoteInfo = await RemoteInfoService.fetchInfo();
     state = state.copyWith(remoteInfo: remoteInfo);
 
@@ -250,6 +253,9 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   Future<void> checkRemoteInfo([int attempt = 1]) async {
+    if (Env.isTestNet) {
+      return;
+    }
     // final blockHeight = read(walletInfoProvider)?.blockHeight;
     final data = await BridgeService().walletInfo();
     final int? blockHeight = int.tryParse(data['BlockHeight']);
