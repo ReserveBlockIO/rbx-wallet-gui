@@ -11,6 +11,7 @@ import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_container_sc
 import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_detail_screen.dart';
 import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_list_screen.dart';
 import 'package:rbx_wallet/features/reserve/screens/reserve_account_overview_screen.dart';
+import 'package:rbx_wallet/features/web_shop/screens/web_collection_detail_screen.dart';
 import 'package:rbx_wallet/features/web_shop/screens/web_shop_container_screen.dart';
 
 import '../features/adjudicator/adjudicator_screen.dart';
@@ -191,6 +192,11 @@ const List<AutoRoute> appRoutes = [
           AutoRoute(
             path: "shop/:shopId",
             page: WebShopDetailScreen,
+            initial: true,
+          ),
+          AutoRoute(
+            path: "shop/:shopId/collection/:collectionId",
+            page: WebCollectionDetailScreen,
             initial: true,
           ),
         ],

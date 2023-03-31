@@ -86,9 +86,12 @@ class WebShopService extends BaseService {
 
   // Listings
 
-  Future<ServerPaginatedReponse<WebListing>> listListings(int shopId, int collectionId) async {
+  Future<ServerPaginatedReponse<WebListing>> listListings(int shopId, int collectionId, [int page = 1]) async {
     try {
-      final data = await getJson("/shop/$shopId/collection/$collectionId/listing");
+      final data = await getJson(
+        "/shop/$shopId/collection/$collectionId/listing",
+        params: {'page': page},
+      );
       final List<WebListing> results = data['results'].map<WebListing>((item) => WebListing.fromJson(item)).toList();
       print(results);
       return ServerPaginatedReponse<WebListing>(
