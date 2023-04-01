@@ -148,7 +148,8 @@ class BridgeService extends BaseService {
     required String to,
     required String from,
   }) async {
-    final response = await getText("/SendTransaction/$from/$to/$amount");
+    final response = await getText("/SendTransaction/$from/$to/$amount",
+        inspect: true, timeout: 0);
 
     if (response == "FAIL") {
       Toast.error();
