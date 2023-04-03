@@ -5,6 +5,7 @@ import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_listing.dart';
 
 import '../../../core/base_component.dart';
+import '../../../core/web_router.gr.dart';
 
 class WebListingTile extends BaseComponent {
   WebListingTile(this.listing, {Key? key}) : super(key: key);
@@ -12,6 +13,7 @@ class WebListingTile extends BaseComponent {
   @override
   Widget body(BuildContext context, WidgetRef ref) {
     return Card(
+      color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
       child: ListTile(
         title: Text(listing.nft.name),
         subtitle: Text(listing.nft.description),

@@ -8,7 +8,10 @@ import '../components/web_shop_list.dart';
 import '../providers/web_shop_detail_provider.dart';
 
 class WebShopDetailScreen extends BaseScreen {
-  WebShopDetailScreen({super.key, @PathParam("shopId") required this.shopId});
+  WebShopDetailScreen({super.key, @PathParam("shopId") required this.shopId})
+      : super(
+          backgroundColor: const Color(0xFF010715),
+        );
   int shopId;
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
@@ -18,14 +21,26 @@ class WebShopDetailScreen extends BaseScreen {
       data: (shop) => shop != null
           ? AppBar(
               title: Text(shop.name),
+              centerTitle: true,
+              backgroundColor: Colors.black12,
+              shadowColor: Colors.transparent,
             )
           : AppBar(
+              centerTitle: true,
+              backgroundColor: Colors.black12,
+              shadowColor: Colors.transparent,
               title: const Text("Error"),
             ),
       error: (_, __) => AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.black12,
+        shadowColor: Colors.transparent,
         title: const Text("Error"),
       ),
       loading: () => AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.black12,
+        shadowColor: Colors.transparent,
         title: const Text(""),
       ),
     );
@@ -38,31 +53,35 @@ class WebShopDetailScreen extends BaseScreen {
     return data.when(
       data: (shop) => shop != null
           ? Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    shop.name,
-                    style: TextStyle(
-                      fontSize: 32,
+                Center(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 600),
+                    child: Text(
+                      shop.description,
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: Colors.white,
+                          ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(shop.description),
+                  child: Text(
+                    "Collections",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                  ),
                 ),
-                Expanded(child: WebCollectionList(shop.id)),
+                Expanded(
+                  child: WebCollectionList(shop.id),
+                )
               ],
             )
           : const Text("Error"),
       error: (_, __) => const Text("Error"),
-      loading: () => AppBar(
-        title: const Text(""),
-      ),
+      loading: () => const Text(""),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/web_shop/components/web_listing_detail.dart';
 import 'package:rbx_wallet/features/web_shop/components/web_listing_list_tile.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_listing.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_listing_list_provider.dart';
@@ -18,9 +19,7 @@ class WebListingList extends BaseComponent {
 
     return InfiniteList<WebListing>(
       pagingController: listProvider.pagingController,
-      itemBuilder: (context, listing, index) => WebListingTile(
-        listing,
-      ),
+      itemBuilder: (context, listing, index) => WebListingDetails(listing: listing),
       emptyText: "No Collections",
       onRefresh: listProvider.refresh,
     );

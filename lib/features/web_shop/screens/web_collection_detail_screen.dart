@@ -10,7 +10,8 @@ class WebCollectionDetailScreen extends BaseScreen {
     super.key,
     @PathParam("shopId") required this.shopId,
     @PathParam("collectionId") required this.collectionId,
-  });
+  }) : super(backgroundColor: const Color(0xFF010715));
+
   int shopId;
   int collectionId;
   @override
@@ -20,15 +21,27 @@ class WebCollectionDetailScreen extends BaseScreen {
       data: (collection) => collection != null
           ? AppBar(
               title: Text(collection.name),
+              centerTitle: true,
+              backgroundColor: Colors.black12,
+              shadowColor: Colors.transparent,
             )
           : AppBar(
               title: const Text("Error"),
+              centerTitle: true,
+              backgroundColor: Colors.black12,
+              shadowColor: Colors.transparent,
             ),
       error: (_, __) => AppBar(
         title: const Text("Error"),
+        centerTitle: true,
+        backgroundColor: Colors.black12,
+        shadowColor: Colors.transparent,
       ),
       loading: () => AppBar(
         title: const Text("loading"),
+        centerTitle: true,
+        backgroundColor: Colors.black12,
+        shadowColor: Colors.transparent,
       ),
     );
   }
@@ -40,23 +53,23 @@ class WebCollectionDetailScreen extends BaseScreen {
     return data.when(
       data: (collection) => collection != null
           ? Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    collection.name,
-                    style: TextStyle(
-                      fontSize: 32,
+                  child: Center(
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(maxWidth: 600),
+                      child: Text(
+                        collection.description,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              color: Colors.white,
+                            ),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                    textAlign: TextAlign.center,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(collection.description),
-                ),
+                Divider(),
                 Expanded(child: WebListingList(collection.id, collection.shop.id)),
               ],
             )

@@ -29,4 +29,16 @@ class WebListing with _$WebListing {
   }) = _WebListing;
 
   factory WebListing.fromJson(Map<String, dynamic> json) => _$WebListingFromJson(json);
+  bool get isActive {
+    final now = DateTime.now();
+    return startDate.isBefore(now) && endDate.isAfter(now);
+  }
+
+  bool get canBuyNow {
+    return isActive && buyNowPrice != null;
+  }
+
+  bool get canBid {
+    return isActive && floorPrice != null;
+  }
 }

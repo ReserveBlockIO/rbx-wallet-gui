@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 
 import '../../../core/base_component.dart';
+import '../../../core/web_router.gr.dart';
 import '../models/web_shop.dart';
 
 class WebShopTile extends BaseComponent {
@@ -12,6 +13,7 @@ class WebShopTile extends BaseComponent {
   @override
   Widget body(BuildContext context, WidgetRef ref) {
     return Card(
+      color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
       child: ListTile(
         title: Text(shop.name),
         trailing: Icon(Icons.chevron_right_outlined),

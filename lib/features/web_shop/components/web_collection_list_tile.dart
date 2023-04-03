@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 
 import '../../../core/base_component.dart';
+import '../../../core/web_router.gr.dart';
 import '../models/web_collection.dart';
 
 class WebCollectionTile extends BaseComponent {
@@ -12,10 +13,15 @@ class WebCollectionTile extends BaseComponent {
   @override
   Widget body(BuildContext context, WidgetRef ref) {
     return Card(
+      color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
       child: ListTile(
         title: Text(collection.name),
-        subtitle: Text(collection.description),
-        trailing: Icon(Icons.chevron_right_outlined),
+        subtitle: Text(
+          collection.description,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        trailing: Icon(Icons.chevron_right),
         onTap: () {
           AutoRouter.of(context).push(WebCollectionDetailScreenRoute(shopId: collection.shop.id, collectionId: collection.id));
         },
