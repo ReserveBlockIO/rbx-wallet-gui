@@ -23,9 +23,7 @@ class WebListingDetails extends BaseComponent {
   @override
   Widget body(BuildContext context, WidgetRef ref) {
     final nft = listing.nft;
-    if (nft == null) {
-      return SizedBox.shrink();
-    }
+
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: Column(
@@ -46,9 +44,7 @@ class WebListingDetails extends BaseComponent {
   @override
   Widget desktopBody(BuildContext context, WidgetRef ref) {
     final nft = listing.nft;
-    if (nft == null) {
-      return SizedBox.shrink();
-    }
+
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Row(
@@ -110,7 +106,6 @@ class _PreviewState extends State<_Preview> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     controller = CarouselController();
   }
@@ -146,7 +141,6 @@ class _PreviewState extends State<_Preview> {
                   carouselController: controller,
                   options: CarouselOptions(
                     viewportFraction: 1,
-                    // autoPlay: BreakPoints.useMobileLayout(context) ? false : true,
                     autoPlay: false,
                     onPageChanged: (i, _) {
                       setState(() {
