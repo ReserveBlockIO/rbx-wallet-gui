@@ -140,12 +140,23 @@ class _ChatMessageCard extends StatelessWidget {
                       ContextMenuButtonConfig(
                         "Copy Message",
                         icon: Icon(
-                          Icons.copy,
+                          Icons.messenger_outline,
                           size: 16,
                         ),
                         onPressed: () async {
                           await Clipboard.setData(ClipboardData(text: message.message));
                           Toast.message("Message copied to clipboard.");
+                        },
+                      ),
+                      ContextMenuButtonConfig(
+                        "Copy Address",
+                        icon: Icon(
+                          Icons.wallet,
+                          size: 16,
+                        ),
+                        onPressed: () async {
+                          await Clipboard.setData(ClipboardData(text: message.fromAddress));
+                          Toast.message("Address copied to clipboard.");
                         },
                       ),
                       if (!message.received)
