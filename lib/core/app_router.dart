@@ -192,16 +192,19 @@ const List<AutoRoute> appRoutes = [
           ),
           AutoRoute(
             path: "shop/:shopId",
+            name: "DebugWebShopDetailScreenRoute",
             page: WebShopDetailScreen,
             initial: true,
           ),
           AutoRoute(
             path: "shop/:shopId/collection/:collectionId",
+            name: "DebugWebCollectionDetailScreenRoute",
             page: WebCollectionDetailScreen,
             initial: true,
           ),
           AutoRoute(
             path: "shop/:shopId/collection/:collectionId/listing/:listingId",
+            name: "DebugWebListingDetailScreenRoute",
             page: WebListingDetailScreen,
             initial: true,
           ),

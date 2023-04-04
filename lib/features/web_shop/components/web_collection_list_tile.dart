@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
+import 'package:rbx_wallet/core/env.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/web_router.gr.dart';
@@ -23,7 +24,11 @@ class WebCollectionTile extends BaseComponent {
         ),
         trailing: Icon(Icons.chevron_right),
         onTap: () {
-          AutoRouter.of(context).push(WebCollectionDetailScreenRoute(shopId: collection.shop.id, collectionId: collection.id));
+          if (Env.isWeb) {
+            AutoRouter.of(context).push(WebCollectionDetailScreenRoute(shopId: collection.shop.id, collectionId: collection.id));
+          } else {
+            AutoRouter.of(context).push(DebugWebCollectionDetailScreenRoute(shopId: collection.shop.id, collectionId: collection.id));
+          }
         },
       ),
     );

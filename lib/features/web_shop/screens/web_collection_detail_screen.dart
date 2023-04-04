@@ -70,7 +70,11 @@ class WebCollectionDetailScreen extends BaseScreen {
                   ),
                 ),
                 Divider(),
-                Expanded(child: WebListingList(collection.id, collection.shop.id)),
+                Expanded(
+                    child: WebListingList(
+                  collection.shop.id,
+                  collection.id,
+                )),
               ],
             )
           : const Text("Error"),

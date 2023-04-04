@@ -452,10 +452,10 @@ class AppRouter extends _i47.RootStackRouter {
         child: const _i38.WebShopListScreen(),
       );
     },
-    WebShopDetailScreenRoute.name: (routeData) {
+    DebugWebShopDetailScreenRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
-      final args = routeData.argsAs<WebShopDetailScreenRouteArgs>(
-          orElse: () => WebShopDetailScreenRouteArgs(
+      final args = routeData.argsAs<DebugWebShopDetailScreenRouteArgs>(
+          orElse: () => DebugWebShopDetailScreenRouteArgs(
               shopId: pathParams.getInt('shopId')));
       return _i47.AdaptivePage<dynamic>(
         routeData: routeData,
@@ -465,10 +465,10 @@ class AppRouter extends _i47.RootStackRouter {
         ),
       );
     },
-    WebCollectionDetailScreenRoute.name: (routeData) {
+    DebugWebCollectionDetailScreenRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
-      final args = routeData.argsAs<WebCollectionDetailScreenRouteArgs>(
-          orElse: () => WebCollectionDetailScreenRouteArgs(
+      final args = routeData.argsAs<DebugWebCollectionDetailScreenRouteArgs>(
+          orElse: () => DebugWebCollectionDetailScreenRouteArgs(
                 shopId: pathParams.getInt('shopId'),
                 collectionId: pathParams.getInt('collectionId'),
               ));
@@ -481,10 +481,10 @@ class AppRouter extends _i47.RootStackRouter {
         ),
       );
     },
-    WebListingDetailScreenRoute.name: (routeData) {
+    DebugWebListingDetailScreenRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
-      final args = routeData.argsAs<WebListingDetailScreenRouteArgs>(
-          orElse: () => WebListingDetailScreenRouteArgs(
+      final args = routeData.argsAs<DebugWebListingDetailScreenRouteArgs>(
+          orElse: () => DebugWebListingDetailScreenRouteArgs(
                 shopId: pathParams.getInt('shopId'),
                 collectionId: pathParams.getInt('collectionId'),
                 listingId: pathParams.getInt('listingId'),
@@ -790,17 +790,17 @@ class AppRouter extends _i47.RootStackRouter {
                   parent: DebugWebShopTabsRouter.name,
                 ),
                 _i47.RouteConfig(
-                  WebShopDetailScreenRoute.name,
+                  DebugWebShopDetailScreenRoute.name,
                   path: 'shop/:shopId',
                   parent: DebugWebShopTabsRouter.name,
                 ),
                 _i47.RouteConfig(
-                  WebCollectionDetailScreenRoute.name,
+                  DebugWebCollectionDetailScreenRoute.name,
                   path: 'shop/:shopId/collection/:collectionId',
                   parent: DebugWebShopTabsRouter.name,
                 ),
                 _i47.RouteConfig(
-                  WebListingDetailScreenRoute.name,
+                  DebugWebListingDetailScreenRoute.name,
                   path:
                       'shop/:shopId/collection/:collectionId/listing/:listingId',
                   parent: DebugWebShopTabsRouter.name,
@@ -1672,26 +1672,26 @@ class WebShopListScreenRoute extends _i47.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i39.WebShopDetailScreen]
-class WebShopDetailScreenRoute
-    extends _i47.PageRouteInfo<WebShopDetailScreenRouteArgs> {
-  WebShopDetailScreenRoute({
+class DebugWebShopDetailScreenRoute
+    extends _i47.PageRouteInfo<DebugWebShopDetailScreenRouteArgs> {
+  DebugWebShopDetailScreenRoute({
     _i48.Key? key,
     required int shopId,
   }) : super(
-          WebShopDetailScreenRoute.name,
+          DebugWebShopDetailScreenRoute.name,
           path: 'shop/:shopId',
-          args: WebShopDetailScreenRouteArgs(
+          args: DebugWebShopDetailScreenRouteArgs(
             key: key,
             shopId: shopId,
           ),
           rawPathParams: {'shopId': shopId},
         );
 
-  static const String name = 'WebShopDetailScreenRoute';
+  static const String name = 'DebugWebShopDetailScreenRoute';
 }
 
-class WebShopDetailScreenRouteArgs {
-  const WebShopDetailScreenRouteArgs({
+class DebugWebShopDetailScreenRouteArgs {
+  const DebugWebShopDetailScreenRouteArgs({
     this.key,
     required this.shopId,
   });
@@ -1702,22 +1702,22 @@ class WebShopDetailScreenRouteArgs {
 
   @override
   String toString() {
-    return 'WebShopDetailScreenRouteArgs{key: $key, shopId: $shopId}';
+    return 'DebugWebShopDetailScreenRouteArgs{key: $key, shopId: $shopId}';
   }
 }
 
 /// generated route for
 /// [_i40.WebCollectionDetailScreen]
-class WebCollectionDetailScreenRoute
-    extends _i47.PageRouteInfo<WebCollectionDetailScreenRouteArgs> {
-  WebCollectionDetailScreenRoute({
+class DebugWebCollectionDetailScreenRoute
+    extends _i47.PageRouteInfo<DebugWebCollectionDetailScreenRouteArgs> {
+  DebugWebCollectionDetailScreenRoute({
     _i48.Key? key,
     required int shopId,
     required int collectionId,
   }) : super(
-          WebCollectionDetailScreenRoute.name,
+          DebugWebCollectionDetailScreenRoute.name,
           path: 'shop/:shopId/collection/:collectionId',
-          args: WebCollectionDetailScreenRouteArgs(
+          args: DebugWebCollectionDetailScreenRouteArgs(
             key: key,
             shopId: shopId,
             collectionId: collectionId,
@@ -1728,11 +1728,11 @@ class WebCollectionDetailScreenRoute
           },
         );
 
-  static const String name = 'WebCollectionDetailScreenRoute';
+  static const String name = 'DebugWebCollectionDetailScreenRoute';
 }
 
-class WebCollectionDetailScreenRouteArgs {
-  const WebCollectionDetailScreenRouteArgs({
+class DebugWebCollectionDetailScreenRouteArgs {
+  const DebugWebCollectionDetailScreenRouteArgs({
     this.key,
     required this.shopId,
     required this.collectionId,
@@ -1746,23 +1746,23 @@ class WebCollectionDetailScreenRouteArgs {
 
   @override
   String toString() {
-    return 'WebCollectionDetailScreenRouteArgs{key: $key, shopId: $shopId, collectionId: $collectionId}';
+    return 'DebugWebCollectionDetailScreenRouteArgs{key: $key, shopId: $shopId, collectionId: $collectionId}';
   }
 }
 
 /// generated route for
 /// [_i41.WebListingDetailScreen]
-class WebListingDetailScreenRoute
-    extends _i47.PageRouteInfo<WebListingDetailScreenRouteArgs> {
-  WebListingDetailScreenRoute({
+class DebugWebListingDetailScreenRoute
+    extends _i47.PageRouteInfo<DebugWebListingDetailScreenRouteArgs> {
+  DebugWebListingDetailScreenRoute({
     _i48.Key? key,
     required int shopId,
     required int collectionId,
     required int listingId,
   }) : super(
-          WebListingDetailScreenRoute.name,
+          DebugWebListingDetailScreenRoute.name,
           path: 'shop/:shopId/collection/:collectionId/listing/:listingId',
-          args: WebListingDetailScreenRouteArgs(
+          args: DebugWebListingDetailScreenRouteArgs(
             key: key,
             shopId: shopId,
             collectionId: collectionId,
@@ -1775,11 +1775,11 @@ class WebListingDetailScreenRoute
           },
         );
 
-  static const String name = 'WebListingDetailScreenRoute';
+  static const String name = 'DebugWebListingDetailScreenRoute';
 }
 
-class WebListingDetailScreenRouteArgs {
-  const WebListingDetailScreenRouteArgs({
+class DebugWebListingDetailScreenRouteArgs {
+  const DebugWebListingDetailScreenRouteArgs({
     this.key,
     required this.shopId,
     required this.collectionId,
@@ -1796,7 +1796,7 @@ class WebListingDetailScreenRouteArgs {
 
   @override
   String toString() {
-    return 'WebListingDetailScreenRouteArgs{key: $key, shopId: $shopId, collectionId: $collectionId, listingId: $listingId}';
+    return 'DebugWebListingDetailScreenRouteArgs{key: $key, shopId: $shopId, collectionId: $collectionId, listingId: $listingId}';
   }
 }
 
