@@ -79,7 +79,7 @@ class ScWizardPropertyDialog extends BaseComponent {
                           final color = await showDialog(
                             context: context,
                             builder: (context) {
-                              Color color = colorFromHex(provider.valueController.value.text) ?? Colors.white;
+                              Color color = colorFromHex(provider.valueController.value.text) ?? Color.fromARGB(255, 255, 0, 0);
 
                               return StatefulBuilder(builder: (context, setState) {
                                 return AlertDialog(
