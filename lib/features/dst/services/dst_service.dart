@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:rbx_wallet/features/dst/models/bid.dart';
 import 'package:rbx_wallet/features/dst/models/listing.dart';
 import 'package:rbx_wallet/features/dst/models/collection.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
@@ -70,11 +71,39 @@ class DstService extends BaseService {
 
       final items = data['Collections'];
 
-      final List<Collection> stores = [];
+      final List<Collection> collections = [];
       for (final item in items) {
-        stores.add(Collection.fromJson(item));
+        collections.add(Collection.fromJson(item));
       }
-      return stores;
+      return collections;
+    } catch (e, st) {
+      print(e);
+      print(st);
+      return [];
+    }
+  }
+
+  Future<List<Bid>> listBids() async {
+    try {
+      final response = await getText("/GetBids", cleanPath: false);
+      if (response.isEmpty) {
+        return [];
+      }
+      final data = jsonDecode(response);
+
+      if (data["Success"] != true) {
+        // print(data['Message']);
+
+        return [];
+      }
+
+      final items = data['Bids'];
+
+      final List<Bid> bids = [];
+      for (final item in items) {
+        bids.add(Bid.fromJson(item));
+      }
+      return bids;
     } catch (e, st) {
       print(e);
       print(st);
@@ -86,6 +115,93 @@ class DstService extends BaseService {
     try {
       await postJson('/SaveCollection', params: store.toJson());
       return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> sendBid(Bid bid) async {
+    try {
+      if (bid.isBuyNow) {
+        await postJson('/SendBuyNowBid', params: bid.toJson());
+      } else {
+        await postJson('/SendBid', params: bid.toJson());
+      }
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<List<Bid>> listListingBidsById(int id) async {
+    try {
+      final response = await getText('/GetListingBids/$id');
+      final data = jsonDecode(response);
+
+      if (data["Success"] != true) {
+        return [];
+      }
+
+      final items = data['Bids'];
+
+      final List<Bid> bids = [];
+      for (final item in items) {
+        bids.add(Bid.fromJson(item));
+      }
+      return bids;
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  Future<List<Bid>> listListingBidsByStatus(BidStatus status) async {
+    try {
+      final response = await getText('/GetBidsByStatus//${status.name}');
+      final data = jsonDecode(response);
+
+      if (data["Success"] != true) {
+        return [];
+      }
+
+      final items = data['Bids'];
+
+      final List<Bid> bids = [];
+      for (final item in items) {
+        bids.add(Bid.fromJson(item));
+      }
+      return bids;
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  Future<Bid?> retreiveListingBid(String id) async {
+    try {
+      final response = await getText('/GetSingleBids/$id');
+      final data = jsonDecode(response);
+      if (data['Success'] == true) {
+        // print(response);
+        return Bid.fromJson(data['Bid']);
+      }
+      return null;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<bool> getShopAuctions(int page) async {
+    try {
+      final response = await getText('/GetShopAuctions/$page');
+      final data = jsonDecode(response);
+      if (data['Success'] == true) {
+        return true;
+      }
+      return false;
     } catch (e) {
       print(e);
       return false;
