@@ -21,7 +21,7 @@ Bid _$BidFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Bid {
   @JsonKey(name: "Id")
-  int get id => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
   @JsonKey(name: "BidAddress")
   String get bidAddress => throw _privateConstructorUsedError;
   @JsonKey(name: "BidSignature")
@@ -41,10 +41,14 @@ mixin _$Bid {
   @JsonKey(name: "ListingId")
   int get listingId => throw _privateConstructorUsedError;
   @JsonKey(name: "CollectionId")
-  String get collectionId => throw _privateConstructorUsedError;
-  @JsonKey(name: "BidStatus")
+  int get collectionId => throw _privateConstructorUsedError;
+  @JsonKey(
+      name: "BidStatus", fromJson: bidStatusFromJson, toJson: bidStatusToJson)
   BidStatus get bidStatus => throw _privateConstructorUsedError;
-  @JsonKey(name: "BidSendReceive")
+  @JsonKey(
+      name: "BidSendReceive",
+      fromJson: bidSendReceiveFromJson,
+      toJson: bidSendReveiveToJson)
   BidSendReceive get bidSendReceive => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -58,19 +62,32 @@ abstract class $BidCopyWith<$Res> {
       _$BidCopyWithImpl<$Res, Bid>;
   @useResult
   $Res call(
-      {@JsonKey(name: "Id") int id,
-      @JsonKey(name: "BidAddress") String bidAddress,
-      @JsonKey(name: "BidSignature") String bidSignature,
-      @JsonKey(name: "BidAmount") double bidAmount,
-      @JsonKey(name: "MaxBidAmount") double maxBidAmount,
-      @JsonKey(name: "BidSendTime") int bidSendTime,
-      @JsonKey(name: "IsBuyNow") bool isBuyNow,
-      @JsonKey(name: "IsAutoBid") bool isAutoBid,
-      @JsonKey(name: "IsProcessed") bool? isProcessed,
-      @JsonKey(name: "ListingId") int listingId,
-      @JsonKey(name: "CollectionId") String collectionId,
-      @JsonKey(name: "BidStatus") BidStatus bidStatus,
-      @JsonKey(name: "BidSendReceive") BidSendReceive bidSendReceive});
+      {@JsonKey(name: "Id")
+          String id,
+      @JsonKey(name: "BidAddress")
+          String bidAddress,
+      @JsonKey(name: "BidSignature")
+          String bidSignature,
+      @JsonKey(name: "BidAmount")
+          double bidAmount,
+      @JsonKey(name: "MaxBidAmount")
+          double maxBidAmount,
+      @JsonKey(name: "BidSendTime")
+          int bidSendTime,
+      @JsonKey(name: "IsBuyNow")
+          bool isBuyNow,
+      @JsonKey(name: "IsAutoBid")
+          bool isAutoBid,
+      @JsonKey(name: "IsProcessed")
+          bool? isProcessed,
+      @JsonKey(name: "ListingId")
+          int listingId,
+      @JsonKey(name: "CollectionId")
+          int collectionId,
+      @JsonKey(name: "BidStatus", fromJson: bidStatusFromJson, toJson: bidStatusToJson)
+          BidStatus bidStatus,
+      @JsonKey(name: "BidSendReceive", fromJson: bidSendReceiveFromJson, toJson: bidSendReveiveToJson)
+          BidSendReceive bidSendReceive});
 }
 
 /// @nodoc
@@ -103,7 +120,7 @@ class _$BidCopyWithImpl<$Res, $Val extends Bid> implements $BidCopyWith<$Res> {
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       bidAddress: null == bidAddress
           ? _value.bidAddress
           : bidAddress // ignore: cast_nullable_to_non_nullable
@@ -143,7 +160,7 @@ class _$BidCopyWithImpl<$Res, $Val extends Bid> implements $BidCopyWith<$Res> {
       collectionId: null == collectionId
           ? _value.collectionId
           : collectionId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       bidStatus: null == bidStatus
           ? _value.bidStatus
           : bidStatus // ignore: cast_nullable_to_non_nullable
@@ -163,19 +180,32 @@ abstract class _$$_BidCopyWith<$Res> implements $BidCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "Id") int id,
-      @JsonKey(name: "BidAddress") String bidAddress,
-      @JsonKey(name: "BidSignature") String bidSignature,
-      @JsonKey(name: "BidAmount") double bidAmount,
-      @JsonKey(name: "MaxBidAmount") double maxBidAmount,
-      @JsonKey(name: "BidSendTime") int bidSendTime,
-      @JsonKey(name: "IsBuyNow") bool isBuyNow,
-      @JsonKey(name: "IsAutoBid") bool isAutoBid,
-      @JsonKey(name: "IsProcessed") bool? isProcessed,
-      @JsonKey(name: "ListingId") int listingId,
-      @JsonKey(name: "CollectionId") String collectionId,
-      @JsonKey(name: "BidStatus") BidStatus bidStatus,
-      @JsonKey(name: "BidSendReceive") BidSendReceive bidSendReceive});
+      {@JsonKey(name: "Id")
+          String id,
+      @JsonKey(name: "BidAddress")
+          String bidAddress,
+      @JsonKey(name: "BidSignature")
+          String bidSignature,
+      @JsonKey(name: "BidAmount")
+          double bidAmount,
+      @JsonKey(name: "MaxBidAmount")
+          double maxBidAmount,
+      @JsonKey(name: "BidSendTime")
+          int bidSendTime,
+      @JsonKey(name: "IsBuyNow")
+          bool isBuyNow,
+      @JsonKey(name: "IsAutoBid")
+          bool isAutoBid,
+      @JsonKey(name: "IsProcessed")
+          bool? isProcessed,
+      @JsonKey(name: "ListingId")
+          int listingId,
+      @JsonKey(name: "CollectionId")
+          int collectionId,
+      @JsonKey(name: "BidStatus", fromJson: bidStatusFromJson, toJson: bidStatusToJson)
+          BidStatus bidStatus,
+      @JsonKey(name: "BidSendReceive", fromJson: bidSendReceiveFromJson, toJson: bidSendReveiveToJson)
+          BidSendReceive bidSendReceive});
 }
 
 /// @nodoc
@@ -205,7 +235,7 @@ class __$$_BidCopyWithImpl<$Res> extends _$BidCopyWithImpl<$Res, _$_Bid>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       bidAddress: null == bidAddress
           ? _value.bidAddress
           : bidAddress // ignore: cast_nullable_to_non_nullable
@@ -245,7 +275,7 @@ class __$$_BidCopyWithImpl<$Res> extends _$BidCopyWithImpl<$Res, _$_Bid>
       collectionId: null == collectionId
           ? _value.collectionId
           : collectionId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       bidStatus: null == bidStatus
           ? _value.bidStatus
           : bidStatus // ignore: cast_nullable_to_non_nullable
@@ -262,26 +292,39 @@ class __$$_BidCopyWithImpl<$Res> extends _$BidCopyWithImpl<$Res, _$_Bid>
 @JsonSerializable()
 class _$_Bid extends _Bid {
   _$_Bid(
-      {@JsonKey(name: "Id") required this.id,
-      @JsonKey(name: "BidAddress") required this.bidAddress,
-      @JsonKey(name: "BidSignature") required this.bidSignature,
-      @JsonKey(name: "BidAmount") required this.bidAmount,
-      @JsonKey(name: "MaxBidAmount") required this.maxBidAmount,
-      @JsonKey(name: "BidSendTime") required this.bidSendTime,
-      @JsonKey(name: "IsBuyNow") required this.isBuyNow,
-      @JsonKey(name: "IsAutoBid") required this.isAutoBid,
-      @JsonKey(name: "IsProcessed") this.isProcessed,
-      @JsonKey(name: "ListingId") required this.listingId,
-      @JsonKey(name: "CollectionId") required this.collectionId,
-      @JsonKey(name: "BidStatus") required this.bidStatus,
-      @JsonKey(name: "BidSendReceive") required this.bidSendReceive})
+      {@JsonKey(name: "Id")
+          required this.id,
+      @JsonKey(name: "BidAddress")
+          required this.bidAddress,
+      @JsonKey(name: "BidSignature")
+          required this.bidSignature,
+      @JsonKey(name: "BidAmount")
+          required this.bidAmount,
+      @JsonKey(name: "MaxBidAmount")
+          required this.maxBidAmount,
+      @JsonKey(name: "BidSendTime")
+          required this.bidSendTime,
+      @JsonKey(name: "IsBuyNow")
+          required this.isBuyNow,
+      @JsonKey(name: "IsAutoBid")
+          required this.isAutoBid,
+      @JsonKey(name: "IsProcessed")
+          this.isProcessed,
+      @JsonKey(name: "ListingId")
+          required this.listingId,
+      @JsonKey(name: "CollectionId")
+          required this.collectionId,
+      @JsonKey(name: "BidStatus", fromJson: bidStatusFromJson, toJson: bidStatusToJson)
+          required this.bidStatus,
+      @JsonKey(name: "BidSendReceive", fromJson: bidSendReceiveFromJson, toJson: bidSendReveiveToJson)
+          required this.bidSendReceive})
       : super._();
 
   factory _$_Bid.fromJson(Map<String, dynamic> json) => _$$_BidFromJson(json);
 
   @override
   @JsonKey(name: "Id")
-  final int id;
+  final String id;
   @override
   @JsonKey(name: "BidAddress")
   final String bidAddress;
@@ -311,12 +354,16 @@ class _$_Bid extends _Bid {
   final int listingId;
   @override
   @JsonKey(name: "CollectionId")
-  final String collectionId;
+  final int collectionId;
   @override
-  @JsonKey(name: "BidStatus")
+  @JsonKey(
+      name: "BidStatus", fromJson: bidStatusFromJson, toJson: bidStatusToJson)
   final BidStatus bidStatus;
   @override
-  @JsonKey(name: "BidSendReceive")
+  @JsonKey(
+      name: "BidSendReceive",
+      fromJson: bidSendReceiveFromJson,
+      toJson: bidSendReveiveToJson)
   final BidSendReceive bidSendReceive;
 
   @override
@@ -391,7 +438,7 @@ class _$_Bid extends _Bid {
 abstract class _Bid extends Bid {
   factory _Bid(
       {@JsonKey(name: "Id")
-          required final int id,
+          required final String id,
       @JsonKey(name: "BidAddress")
           required final String bidAddress,
       @JsonKey(name: "BidSignature")
@@ -411,10 +458,10 @@ abstract class _Bid extends Bid {
       @JsonKey(name: "ListingId")
           required final int listingId,
       @JsonKey(name: "CollectionId")
-          required final String collectionId,
-      @JsonKey(name: "BidStatus")
+          required final int collectionId,
+      @JsonKey(name: "BidStatus", fromJson: bidStatusFromJson, toJson: bidStatusToJson)
           required final BidStatus bidStatus,
-      @JsonKey(name: "BidSendReceive")
+      @JsonKey(name: "BidSendReceive", fromJson: bidSendReceiveFromJson, toJson: bidSendReveiveToJson)
           required final BidSendReceive bidSendReceive}) = _$_Bid;
   _Bid._() : super._();
 
@@ -422,7 +469,7 @@ abstract class _Bid extends Bid {
 
   @override
   @JsonKey(name: "Id")
-  int get id;
+  String get id;
   @override
   @JsonKey(name: "BidAddress")
   String get bidAddress;
@@ -452,12 +499,16 @@ abstract class _Bid extends Bid {
   int get listingId;
   @override
   @JsonKey(name: "CollectionId")
-  String get collectionId;
+  int get collectionId;
   @override
-  @JsonKey(name: "BidStatus")
+  @JsonKey(
+      name: "BidStatus", fromJson: bidStatusFromJson, toJson: bidStatusToJson)
   BidStatus get bidStatus;
   @override
-  @JsonKey(name: "BidSendReceive")
+  @JsonKey(
+      name: "BidSendReceive",
+      fromJson: bidSendReceiveFromJson,
+      toJson: bidSendReveiveToJson)
   BidSendReceive get bidSendReceive;
   @override
   @JsonKey(ignore: true)

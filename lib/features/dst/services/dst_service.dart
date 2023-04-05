@@ -4,6 +4,7 @@ import 'package:rbx_wallet/features/dst/models/listing.dart';
 import 'package:rbx_wallet/features/dst/models/collection.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/services/base_service.dart';
 import '../models/dec_shop.dart';
@@ -83,33 +84,33 @@ class DstService extends BaseService {
     }
   }
 
-  Future<List<Bid>> listBids() async {
-    try {
-      final response = await getText("/GetBids", cleanPath: false);
-      if (response.isEmpty) {
-        return [];
-      }
-      final data = jsonDecode(response);
+  // Future<List<Bid>> listBids() async {
+  //   try {
+  //     final response = await getText("/GetBids", cleanPath: false);
+  //     if (response.isEmpty) {
+  //       return [];
+  //     }
+  //     final data = jsonDecode(response);
 
-      if (data["Success"] != true) {
-        // print(data['Message']);
+  //     if (data["Success"] != true) {
+  //       // print(data['Message']);
 
-        return [];
-      }
+  //       return [];
+  //     }
 
-      final items = data['Bids'];
+  //     final items = data['Bids'];
 
-      final List<Bid> bids = [];
-      for (final item in items) {
-        bids.add(Bid.fromJson(item));
-      }
-      return bids;
-    } catch (e, st) {
-      print(e);
-      print(st);
-      return [];
-    }
-  }
+  //     final List<Bid> bids = [];
+  //     for (final item in items) {
+  //       bids.add(Bid.fromJson(item));
+  //     }
+  //     return bids;
+  //   } catch (e, st) {
+  //     print(e);
+  //     print(st);
+  //     return [];
+  //   }
+  // }
 
   Future<bool> saveCollection(Collection store) async {
     try {
@@ -121,26 +122,17 @@ class DstService extends BaseService {
     }
   }
 
-  Future<bool> sendBid(Bid bid) async {
-    try {
-      if (bid.isBuyNow) {
-        await postJson('/SendBuyNowBid', params: bid.toJson());
-      } else {
-        await postJson('/SendBid', params: bid.toJson());
-      }
-      return true;
-    } catch (e) {
-      print(e);
-      return false;
-    }
-  }
-
   Future<List<Bid>> listListingBidsById(int id) async {
     try {
-      final response = await getText('/GetListingBids/$id');
+      final response = await getText(
+        '/GetListingBids/$id',
+        cleanPath: false,
+      );
       final data = jsonDecode(response);
 
       if (data["Success"] != true) {
+        // Toast.error(data['Message']);
+        print(data);
         return [];
       }
 
@@ -194,19 +186,19 @@ class DstService extends BaseService {
     }
   }
 
-  Future<bool> getShopAuctions(int page) async {
-    try {
-      final response = await getText('/GetShopAuctions/$page');
-      final data = jsonDecode(response);
-      if (data['Success'] == true) {
-        return true;
-      }
-      return false;
-    } catch (e) {
-      print(e);
-      return false;
-    }
-  }
+  // Future<bool> getShopAuctions(int page) async {
+  //   try {
+  //     final response = await getText('/GetShopAuctions/$page');
+  //     final data = jsonDecode(response);
+  //     if (data['Success'] == true) {
+  //       return true;
+  //     }
+  //     return false;
+  //   } catch (e) {
+  //     print(e);
+  //     return false;
+  //   }
+  // }
 
   Future<DecShop?> retreiveShop() async {
     try {

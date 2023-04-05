@@ -1,11 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
+import 'package:rbx_wallet/features/remote_shop/components/remote_shop_list_tile.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/saved_shops_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
@@ -113,22 +115,7 @@ class RemoteShopListScreen extends BaseScreen {
       itemCount: savedShops.length,
       itemBuilder: (context, index) {
         final url = savedShops[index];
-        return Card(
-          child: ListTile(
-            leading: Icon(Icons.house),
-            title: Text(url),
-            onTap: () async {
-              final currentUrl = ref.read(connectedShopProvider).url;
-
-              if (currentUrl == url) {
-                ref.read(connectedShopProvider.notifier).refresh();
-                AutoRouter.of(context).push(RemoteShopDetailScreenRoute(shopUrl: url));
-              } else {
-                await ref.read(connectedShopProvider.notifier).loadShop(context, ref, url);
-              }
-            },
-          ),
-        );
+        return RemoteShopListTile(url: url);
       },
     );
   }

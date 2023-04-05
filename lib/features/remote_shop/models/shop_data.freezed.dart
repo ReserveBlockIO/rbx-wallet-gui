@@ -179,6 +179,7 @@ abstract class _OrganizedShop extends OrganizedShop {
 /// @nodoc
 mixin _$OrganizedCollection {
   int get id => throw _privateConstructorUsedError;
+  int get shopId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   bool get collectionLive => throw _privateConstructorUsedError;
@@ -198,6 +199,7 @@ abstract class $OrganizedCollectionCopyWith<$Res> {
   @useResult
   $Res call(
       {int id,
+      int shopId,
       String name,
       String description,
       bool collectionLive,
@@ -219,6 +221,7 @@ class _$OrganizedCollectionCopyWithImpl<$Res, $Val extends OrganizedCollection>
   @override
   $Res call({
     Object? id = null,
+    Object? shopId = null,
     Object? name = null,
     Object? description = null,
     Object? collectionLive = null,
@@ -229,6 +232,10 @@ class _$OrganizedCollectionCopyWithImpl<$Res, $Val extends OrganizedCollection>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      shopId: null == shopId
+          ? _value.shopId
+          : shopId // ignore: cast_nullable_to_non_nullable
               as int,
       name: null == name
           ? _value.name
@@ -264,6 +271,7 @@ abstract class _$$_OrganizedCollectionCopyWith<$Res>
   @useResult
   $Res call(
       {int id,
+      int shopId,
       String name,
       String description,
       bool collectionLive,
@@ -283,6 +291,7 @@ class __$$_OrganizedCollectionCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
+    Object? shopId = null,
     Object? name = null,
     Object? description = null,
     Object? collectionLive = null,
@@ -293,6 +302,10 @@ class __$$_OrganizedCollectionCopyWithImpl<$Res>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      shopId: null == shopId
+          ? _value.shopId
+          : shopId // ignore: cast_nullable_to_non_nullable
               as int,
       name: null == name
           ? _value.name
@@ -323,6 +336,7 @@ class __$$_OrganizedCollectionCopyWithImpl<$Res>
 class _$_OrganizedCollection extends _OrganizedCollection {
   _$_OrganizedCollection(
       {required this.id,
+      required this.shopId,
       required this.name,
       required this.description,
       required this.collectionLive,
@@ -333,6 +347,8 @@ class _$_OrganizedCollection extends _OrganizedCollection {
 
   @override
   final int id;
+  @override
+  final int shopId;
   @override
   final String name;
   @override
@@ -352,7 +368,7 @@ class _$_OrganizedCollection extends _OrganizedCollection {
 
   @override
   String toString() {
-    return 'OrganizedCollection(id: $id, name: $name, description: $description, collectionLive: $collectionLive, isDefault: $isDefault, listings: $listings)';
+    return 'OrganizedCollection(id: $id, shopId: $shopId, name: $name, description: $description, collectionLive: $collectionLive, isDefault: $isDefault, listings: $listings)';
   }
 
   @override
@@ -361,6 +377,7 @@ class _$_OrganizedCollection extends _OrganizedCollection {
         (other.runtimeType == runtimeType &&
             other is _$_OrganizedCollection &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.shopId, shopId) || other.shopId == shopId) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
                 other.description == description) &&
@@ -375,6 +392,7 @@ class _$_OrganizedCollection extends _OrganizedCollection {
   int get hashCode => Object.hash(
       runtimeType,
       id,
+      shopId,
       name,
       description,
       collectionLive,
@@ -392,6 +410,7 @@ class _$_OrganizedCollection extends _OrganizedCollection {
 abstract class _OrganizedCollection extends OrganizedCollection {
   factory _OrganizedCollection(
       {required final int id,
+      required final int shopId,
       required final String name,
       required final String description,
       required final bool collectionLive,
@@ -401,6 +420,8 @@ abstract class _OrganizedCollection extends OrganizedCollection {
 
   @override
   int get id;
+  @override
+  int get shopId;
   @override
   String get name;
   @override
@@ -420,6 +441,7 @@ abstract class _OrganizedCollection extends OrganizedCollection {
 /// @nodoc
 mixin _$OrganizedListing {
   int get id => throw _privateConstructorUsedError;
+  int get collectionId => throw _privateConstructorUsedError;
   String get smartContractUid => throw _privateConstructorUsedError;
   String get addressOwner => throw _privateConstructorUsedError;
   double? get buyNowPrice => throw _privateConstructorUsedError;
@@ -450,6 +472,7 @@ abstract class $OrganizedListingCopyWith<$Res> {
   @useResult
   $Res call(
       {int id,
+      int collectionId,
       String smartContractUid,
       String addressOwner,
       double? buyNowPrice,
@@ -484,6 +507,7 @@ class _$OrganizedListingCopyWithImpl<$Res, $Val extends OrganizedListing>
   @override
   $Res call({
     Object? id = null,
+    Object? collectionId = null,
     Object? smartContractUid = null,
     Object? addressOwner = null,
     Object? buyNowPrice = freezed,
@@ -505,6 +529,10 @@ class _$OrganizedListingCopyWithImpl<$Res, $Val extends OrganizedListing>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      collectionId: null == collectionId
+          ? _value.collectionId
+          : collectionId // ignore: cast_nullable_to_non_nullable
               as int,
       smartContractUid: null == smartContractUid
           ? _value.smartContractUid
@@ -596,6 +624,7 @@ abstract class _$$_OrganizedListingCopyWith<$Res>
   @useResult
   $Res call(
       {int id,
+      int collectionId,
       String smartContractUid,
       String addressOwner,
       double? buyNowPrice,
@@ -629,6 +658,7 @@ class __$$_OrganizedListingCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
+    Object? collectionId = null,
     Object? smartContractUid = null,
     Object? addressOwner = null,
     Object? buyNowPrice = freezed,
@@ -650,6 +680,10 @@ class __$$_OrganizedListingCopyWithImpl<$Res>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      collectionId: null == collectionId
+          ? _value.collectionId
+          : collectionId // ignore: cast_nullable_to_non_nullable
               as int,
       smartContractUid: null == smartContractUid
           ? _value.smartContractUid
@@ -724,6 +758,7 @@ class __$$_OrganizedListingCopyWithImpl<$Res>
 class _$_OrganizedListing extends _OrganizedListing {
   _$_OrganizedListing(
       {required this.id,
+      required this.collectionId,
       required this.smartContractUid,
       required this.addressOwner,
       this.buyNowPrice,
@@ -744,6 +779,8 @@ class _$_OrganizedListing extends _OrganizedListing {
 
   @override
   final int id;
+  @override
+  final int collectionId;
   @override
   final String smartContractUid;
   @override
@@ -779,7 +816,7 @@ class _$_OrganizedListing extends _OrganizedListing {
 
   @override
   String toString() {
-    return 'OrganizedListing(id: $id, smartContractUid: $smartContractUid, addressOwner: $addressOwner, buyNowPrice: $buyNowPrice, isBuyNowOnly: $isBuyNowOnly, isRoyaltyEnforced: $isRoyaltyEnforced, isCancelled: $isCancelled, requireBalanceCheck: $requireBalanceCheck, floorPrice: $floorPrice, reservePrice: $reservePrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, finalPrice: $finalPrice, winningAddress: $winningAddress, nft: $nft)';
+    return 'OrganizedListing(id: $id, collectionId: $collectionId, smartContractUid: $smartContractUid, addressOwner: $addressOwner, buyNowPrice: $buyNowPrice, isBuyNowOnly: $isBuyNowOnly, isRoyaltyEnforced: $isRoyaltyEnforced, isCancelled: $isCancelled, requireBalanceCheck: $requireBalanceCheck, floorPrice: $floorPrice, reservePrice: $reservePrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, finalPrice: $finalPrice, winningAddress: $winningAddress, nft: $nft)';
   }
 
   @override
@@ -788,6 +825,8 @@ class _$_OrganizedListing extends _OrganizedListing {
         (other.runtimeType == runtimeType &&
             other is _$_OrganizedListing &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.collectionId, collectionId) ||
+                other.collectionId == collectionId) &&
             (identical(other.smartContractUid, smartContractUid) ||
                 other.smartContractUid == smartContractUid) &&
             (identical(other.addressOwner, addressOwner) ||
@@ -825,6 +864,7 @@ class _$_OrganizedListing extends _OrganizedListing {
   int get hashCode => Object.hash(
       runtimeType,
       id,
+      collectionId,
       smartContractUid,
       addressOwner,
       buyNowPrice,
@@ -852,6 +892,7 @@ class _$_OrganizedListing extends _OrganizedListing {
 abstract class _OrganizedListing extends OrganizedListing {
   factory _OrganizedListing(
       {required final int id,
+      required final int collectionId,
       required final String smartContractUid,
       required final String addressOwner,
       final double? buyNowPrice,
@@ -872,6 +913,8 @@ abstract class _OrganizedListing extends OrganizedListing {
 
   @override
   int get id;
+  @override
+  int get collectionId;
   @override
   String get smartContractUid;
   @override

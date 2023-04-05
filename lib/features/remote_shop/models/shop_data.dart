@@ -21,6 +21,7 @@ class OrganizedCollection with _$OrganizedCollection {
 
   factory OrganizedCollection({
     required int id,
+    required int shopId,
     required String name,
     required String description,
     required bool collectionLive,
@@ -35,6 +36,7 @@ class OrganizedListing with _$OrganizedListing {
 
   factory OrganizedListing({
     required int id,
+    required int collectionId,
     required String smartContractUid,
     required String addressOwner,
     double? buyNowPrice,
@@ -52,6 +54,10 @@ class OrganizedListing with _$OrganizedListing {
     String? winningAddress,
     Nft? nft,
   }) = _OrganizedListing;
+
+  String get familyIdentifier {
+    return "${collectionId}_$id";
+  }
 
   bool get isActive {
     final now = DateTime.now();

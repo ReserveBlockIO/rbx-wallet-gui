@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:rbx_wallet/features/dst/models/bid.dart';
 import 'package:rbx_wallet/features/dst/models/dec_shop.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
@@ -73,6 +74,7 @@ class RemoteShopService extends BaseService {
           (c) {
             return OrganizedCollection(
               id: c.id,
+              shopId: shopData.decShop.id,
               name: c.name,
               description: c.description,
               collectionLive: c.collectionLive,
@@ -81,6 +83,7 @@ class RemoteShopService extends BaseService {
                 (l) {
                   return OrganizedListing(
                     id: l.id,
+                    collectionId: c.id,
                     smartContractUid: l.smartContractUid,
                     addressOwner: l.addressOwner,
                     isBuyNowOnly: l.isBuyNowOnly,
@@ -141,6 +144,8 @@ class RemoteShopService extends BaseService {
     await Future.delayed(Duration(milliseconds: 1000));
     await getText("/GetShopListings/0", cleanPath: false);
     await Future.delayed(Duration(milliseconds: 1000));
+    await getText("/GetShopAuctions/0", cleanPath: false);
+    await Future.delayed(Duration(milliseconds: 1000));
 
     shopData = await _getShopData();
 
@@ -171,5 +176,27 @@ class RemoteShopService extends BaseService {
     final response = await getText("/GetNFTAssets/$scId", cleanPath: false);
 
     final data = jsonDecode(response);
+  }
+
+  Future<bool> sendBid(Bid bid) async {
+    final params = bid.toJson();
+    try {
+      final response = await postJson(
+        bid.isBuyNow ? '/SendBuyNowBid' : '/SendBid',
+        params: params,
+        cleanPath: false,
+      );
+      final data = response['data'];
+
+      if (data["Success"] == true) {
+        return true;
+      }
+      Toast.error(data['Message'] ?? "A problem occurred");
+      return false;
+    } catch (e) {
+      print(e);
+      Toast.error();
+      return false;
+    }
   }
 }

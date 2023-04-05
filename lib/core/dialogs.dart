@@ -80,11 +80,10 @@ class ConfirmDialog {
     String? cancelText,
     String? confirmText,
     bool destructive = false,
+    BuildContext? context,
   }) async {
-    final context = rootNavigatorKey.currentContext!;
-
     return await showDialog(
-      context: context,
+      context: context ?? rootNavigatorKey.currentContext!,
       builder: (context) {
         return AlertDialog(
           title: Text(title),

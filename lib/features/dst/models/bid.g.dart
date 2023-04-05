@@ -7,7 +7,7 @@ part of 'bid.dart';
 // **************************************************************************
 
 _$_Bid _$$_BidFromJson(Map<String, dynamic> json) => _$_Bid(
-      id: json['Id'] as int,
+      id: json['Id'] as String,
       bidAddress: json['BidAddress'] as String,
       bidSignature: json['BidSignature'] as String,
       bidAmount: (json['BidAmount'] as num).toDouble(),
@@ -17,10 +17,9 @@ _$_Bid _$$_BidFromJson(Map<String, dynamic> json) => _$_Bid(
       isAutoBid: json['IsAutoBid'] as bool,
       isProcessed: json['IsProcessed'] as bool?,
       listingId: json['ListingId'] as int,
-      collectionId: json['CollectionId'] as String,
-      bidStatus: $enumDecode(_$BidStatusEnumMap, json['BidStatus']),
-      bidSendReceive:
-          $enumDecode(_$BidSendReceiveEnumMap, json['BidSendReceive']),
+      collectionId: json['CollectionId'] as int,
+      bidStatus: bidStatusFromJson(json['BidStatus'] as int),
+      bidSendReceive: bidSendReceiveFromJson(json['BidSendReceive'] as int),
     );
 
 Map<String, dynamic> _$$_BidToJson(_$_Bid instance) => <String, dynamic>{
@@ -35,18 +34,6 @@ Map<String, dynamic> _$$_BidToJson(_$_Bid instance) => <String, dynamic>{
       'IsProcessed': instance.isProcessed,
       'ListingId': instance.listingId,
       'CollectionId': instance.collectionId,
-      'BidStatus': _$BidStatusEnumMap[instance.bidStatus]!,
-      'BidSendReceive': _$BidSendReceiveEnumMap[instance.bidSendReceive]!,
+      'BidStatus': bidStatusToJson(instance.bidStatus),
+      'BidSendReceive': bidSendReveiveToJson(instance.bidSendReceive),
     };
-
-const _$BidStatusEnumMap = {
-  BidStatus.Accepted: 'Accepted',
-  BidStatus.Rejected: 'Rejected',
-  BidStatus.Sent: 'Sent',
-  BidStatus.Received: 'Received',
-};
-
-const _$BidSendReceiveEnumMap = {
-  BidSendReceive.Sent: 'Sent',
-  BidSendReceive.Received: 'Received',
-};

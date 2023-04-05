@@ -6,12 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/breakpoints.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
+import 'package:rbx_wallet/features/remote_shop/components/bid_history_modal.dart';
 import 'package:rbx_wallet/features/remote_shop/models/shop_data.dart';
+import 'package:rbx_wallet/features/remote_shop/providers/bid_list_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 class ListingDetails extends BaseComponent {
@@ -508,15 +513,17 @@ class _NftData extends StatelessWidget {
   }
 }
 
-class _BuyNow extends StatelessWidget {
+class _BuyNow extends BaseComponent {
   final OrganizedListing listing;
   const _BuyNow({super.key, required this.listing});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     if (listing.buyNowPrice == null) {
       return SizedBox.shrink();
     }
+
+    final provider = ref.read(bidListProvider(listing.familyIdentifier).notifier);
 
     final isMobile = BreakPoints.useMobileLayout(context);
     return SizedBox(
@@ -549,8 +556,12 @@ class _BuyNow extends StatelessWidget {
                 label: "Buy Now",
                 icon: Icons.money,
                 size: AppSizeVariant.Lg,
-                onPressed: () {
-                  // handlePurchase(context, ref);
+                onPressed: () async {
+                  final success = await provider.buyNow(context, listing);
+
+                  if (success == true) {
+                    Toast.message("Buy Now transaction sent successfully.");
+                  }
                 },
               ),
             ],
@@ -599,7 +610,7 @@ class _Price extends StatelessWidget {
   }
 }
 
-class _Auction extends StatelessWidget {
+class _Auction extends BaseComponent {
   final OrganizedListing listing;
   const _Auction({
     super.key,
@@ -607,7 +618,10 @@ class _Auction extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentBids = ref.watch(bidListProvider(listing.familyIdentifier));
+    final provider = ref.read(bidListProvider(listing.familyIdentifier).notifier);
+
     if (listing.floorPrice == null) {
       return SizedBox.shrink();
     }
@@ -651,18 +665,36 @@ class _Auction extends StatelessWidget {
                       label: "Bid Now",
                       icon: Icons.gavel,
                       size: AppSizeVariant.Lg,
-                      onPressed: () {
-                        //TODO
+                      onPressed: () async {
+                        final success = await provider.sendBid(context, listing);
+                        if (success == true) {
+                          Toast.message("Bid transaction sent successfully.");
+                        }
                       }),
                   const SizedBox(
                     width: 6,
                   ),
                   AppButton(
-                    label: "History",
+                    label: "My Bids",
                     icon: Icons.punch_clock,
                     size: AppSizeVariant.Lg,
-                    onPressed: () {
-                      //TODO
+                    onPressed: () async {
+                      final bids = await provider.fetchBids();
+
+                      if (bids.isEmpty) {
+                        Toast.message("You have not placed any bids yet.");
+                        return;
+                      }
+
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        builder: (context) {
+                          return BidHistoryModal(
+                            bids: bids,
+                          );
+                        },
+                      );
                     },
                   ),
                 ],
