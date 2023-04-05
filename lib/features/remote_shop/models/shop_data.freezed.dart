@@ -458,6 +458,7 @@ mixin _$OrganizedListing {
   double? get finalPrice => throw _privateConstructorUsedError;
   String? get winningAddress => throw _privateConstructorUsedError;
   Nft? get nft => throw _privateConstructorUsedError;
+  OrganizedAuction? get auction => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $OrganizedListingCopyWith<OrganizedListing> get copyWith =>
@@ -488,9 +489,11 @@ abstract class $OrganizedListingCopyWith<$Res> {
       bool isVisibleAfterEndDate,
       double? finalPrice,
       String? winningAddress,
-      Nft? nft});
+      Nft? nft,
+      OrganizedAuction? auction});
 
   $NftCopyWith<$Res>? get nft;
+  $OrganizedAuctionCopyWith<$Res>? get auction;
 }
 
 /// @nodoc
@@ -524,6 +527,7 @@ class _$OrganizedListingCopyWithImpl<$Res, $Val extends OrganizedListing>
     Object? finalPrice = freezed,
     Object? winningAddress = freezed,
     Object? nft = freezed,
+    Object? auction = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -598,6 +602,10 @@ class _$OrganizedListingCopyWithImpl<$Res, $Val extends OrganizedListing>
           ? _value.nft
           : nft // ignore: cast_nullable_to_non_nullable
               as Nft?,
+      auction: freezed == auction
+          ? _value.auction
+          : auction // ignore: cast_nullable_to_non_nullable
+              as OrganizedAuction?,
     ) as $Val);
   }
 
@@ -610,6 +618,18 @@ class _$OrganizedListingCopyWithImpl<$Res, $Val extends OrganizedListing>
 
     return $NftCopyWith<$Res>(_value.nft!, (value) {
       return _then(_value.copyWith(nft: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $OrganizedAuctionCopyWith<$Res>? get auction {
+    if (_value.auction == null) {
+      return null;
+    }
+
+    return $OrganizedAuctionCopyWith<$Res>(_value.auction!, (value) {
+      return _then(_value.copyWith(auction: value) as $Val);
     });
   }
 }
@@ -640,10 +660,13 @@ abstract class _$$_OrganizedListingCopyWith<$Res>
       bool isVisibleAfterEndDate,
       double? finalPrice,
       String? winningAddress,
-      Nft? nft});
+      Nft? nft,
+      OrganizedAuction? auction});
 
   @override
   $NftCopyWith<$Res>? get nft;
+  @override
+  $OrganizedAuctionCopyWith<$Res>? get auction;
 }
 
 /// @nodoc
@@ -675,6 +698,7 @@ class __$$_OrganizedListingCopyWithImpl<$Res>
     Object? finalPrice = freezed,
     Object? winningAddress = freezed,
     Object? nft = freezed,
+    Object? auction = freezed,
   }) {
     return _then(_$_OrganizedListing(
       id: null == id
@@ -749,6 +773,10 @@ class __$$_OrganizedListingCopyWithImpl<$Res>
           ? _value.nft
           : nft // ignore: cast_nullable_to_non_nullable
               as Nft?,
+      auction: freezed == auction
+          ? _value.auction
+          : auction // ignore: cast_nullable_to_non_nullable
+              as OrganizedAuction?,
     ));
   }
 }
@@ -774,7 +802,8 @@ class _$_OrganizedListing extends _OrganizedListing {
       required this.isVisibleAfterEndDate,
       this.finalPrice,
       this.winningAddress,
-      this.nft})
+      this.nft,
+      this.auction})
       : super._();
 
   @override
@@ -813,10 +842,12 @@ class _$_OrganizedListing extends _OrganizedListing {
   final String? winningAddress;
   @override
   final Nft? nft;
+  @override
+  final OrganizedAuction? auction;
 
   @override
   String toString() {
-    return 'OrganizedListing(id: $id, collectionId: $collectionId, smartContractUid: $smartContractUid, addressOwner: $addressOwner, buyNowPrice: $buyNowPrice, isBuyNowOnly: $isBuyNowOnly, isRoyaltyEnforced: $isRoyaltyEnforced, isCancelled: $isCancelled, requireBalanceCheck: $requireBalanceCheck, floorPrice: $floorPrice, reservePrice: $reservePrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, finalPrice: $finalPrice, winningAddress: $winningAddress, nft: $nft)';
+    return 'OrganizedListing(id: $id, collectionId: $collectionId, smartContractUid: $smartContractUid, addressOwner: $addressOwner, buyNowPrice: $buyNowPrice, isBuyNowOnly: $isBuyNowOnly, isRoyaltyEnforced: $isRoyaltyEnforced, isCancelled: $isCancelled, requireBalanceCheck: $requireBalanceCheck, floorPrice: $floorPrice, reservePrice: $reservePrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, finalPrice: $finalPrice, winningAddress: $winningAddress, nft: $nft, auction: $auction)';
   }
 
   @override
@@ -857,30 +888,33 @@ class _$_OrganizedListing extends _OrganizedListing {
                 other.finalPrice == finalPrice) &&
             (identical(other.winningAddress, winningAddress) ||
                 other.winningAddress == winningAddress) &&
-            (identical(other.nft, nft) || other.nft == nft));
+            (identical(other.nft, nft) || other.nft == nft) &&
+            (identical(other.auction, auction) || other.auction == auction));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      collectionId,
-      smartContractUid,
-      addressOwner,
-      buyNowPrice,
-      isBuyNowOnly,
-      isRoyaltyEnforced,
-      isCancelled,
-      requireBalanceCheck,
-      floorPrice,
-      reservePrice,
-      startDate,
-      endDate,
-      isVisibleBeforeStartDate,
-      isVisibleAfterEndDate,
-      finalPrice,
-      winningAddress,
-      nft);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        collectionId,
+        smartContractUid,
+        addressOwner,
+        buyNowPrice,
+        isBuyNowOnly,
+        isRoyaltyEnforced,
+        isCancelled,
+        requireBalanceCheck,
+        floorPrice,
+        reservePrice,
+        startDate,
+        endDate,
+        isVisibleBeforeStartDate,
+        isVisibleAfterEndDate,
+        finalPrice,
+        winningAddress,
+        nft,
+        auction
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -908,7 +942,8 @@ abstract class _OrganizedListing extends OrganizedListing {
       required final bool isVisibleAfterEndDate,
       final double? finalPrice,
       final String? winningAddress,
-      final Nft? nft}) = _$_OrganizedListing;
+      final Nft? nft,
+      final OrganizedAuction? auction}) = _$_OrganizedListing;
   _OrganizedListing._() : super._();
 
   @override
@@ -948,8 +983,311 @@ abstract class _OrganizedListing extends OrganizedListing {
   @override
   Nft? get nft;
   @override
+  OrganizedAuction? get auction;
+  @override
   @JsonKey(ignore: true)
   _$$_OrganizedListingCopyWith<_$_OrganizedListing> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$OrganizedAuction {
+  int get id => throw _privateConstructorUsedError;
+  double get currentBidPrice => throw _privateConstructorUsedError;
+  double get maxBidPrice => throw _privateConstructorUsedError;
+  double get incrementAmount => throw _privateConstructorUsedError;
+  bool get isReserveMet => throw _privateConstructorUsedError;
+  bool get isAuctionOver => throw _privateConstructorUsedError;
+  int get listingId => throw _privateConstructorUsedError;
+  int get collectionId => throw _privateConstructorUsedError;
+  String get currentWinningAddress => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $OrganizedAuctionCopyWith<OrganizedAuction> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $OrganizedAuctionCopyWith<$Res> {
+  factory $OrganizedAuctionCopyWith(
+          OrganizedAuction value, $Res Function(OrganizedAuction) then) =
+      _$OrganizedAuctionCopyWithImpl<$Res, OrganizedAuction>;
+  @useResult
+  $Res call(
+      {int id,
+      double currentBidPrice,
+      double maxBidPrice,
+      double incrementAmount,
+      bool isReserveMet,
+      bool isAuctionOver,
+      int listingId,
+      int collectionId,
+      String currentWinningAddress});
+}
+
+/// @nodoc
+class _$OrganizedAuctionCopyWithImpl<$Res, $Val extends OrganizedAuction>
+    implements $OrganizedAuctionCopyWith<$Res> {
+  _$OrganizedAuctionCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? currentBidPrice = null,
+    Object? maxBidPrice = null,
+    Object? incrementAmount = null,
+    Object? isReserveMet = null,
+    Object? isAuctionOver = null,
+    Object? listingId = null,
+    Object? collectionId = null,
+    Object? currentWinningAddress = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      currentBidPrice: null == currentBidPrice
+          ? _value.currentBidPrice
+          : currentBidPrice // ignore: cast_nullable_to_non_nullable
+              as double,
+      maxBidPrice: null == maxBidPrice
+          ? _value.maxBidPrice
+          : maxBidPrice // ignore: cast_nullable_to_non_nullable
+              as double,
+      incrementAmount: null == incrementAmount
+          ? _value.incrementAmount
+          : incrementAmount // ignore: cast_nullable_to_non_nullable
+              as double,
+      isReserveMet: null == isReserveMet
+          ? _value.isReserveMet
+          : isReserveMet // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isAuctionOver: null == isAuctionOver
+          ? _value.isAuctionOver
+          : isAuctionOver // ignore: cast_nullable_to_non_nullable
+              as bool,
+      listingId: null == listingId
+          ? _value.listingId
+          : listingId // ignore: cast_nullable_to_non_nullable
+              as int,
+      collectionId: null == collectionId
+          ? _value.collectionId
+          : collectionId // ignore: cast_nullable_to_non_nullable
+              as int,
+      currentWinningAddress: null == currentWinningAddress
+          ? _value.currentWinningAddress
+          : currentWinningAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_OrganizedAuctionCopyWith<$Res>
+    implements $OrganizedAuctionCopyWith<$Res> {
+  factory _$$_OrganizedAuctionCopyWith(
+          _$_OrganizedAuction value, $Res Function(_$_OrganizedAuction) then) =
+      __$$_OrganizedAuctionCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int id,
+      double currentBidPrice,
+      double maxBidPrice,
+      double incrementAmount,
+      bool isReserveMet,
+      bool isAuctionOver,
+      int listingId,
+      int collectionId,
+      String currentWinningAddress});
+}
+
+/// @nodoc
+class __$$_OrganizedAuctionCopyWithImpl<$Res>
+    extends _$OrganizedAuctionCopyWithImpl<$Res, _$_OrganizedAuction>
+    implements _$$_OrganizedAuctionCopyWith<$Res> {
+  __$$_OrganizedAuctionCopyWithImpl(
+      _$_OrganizedAuction _value, $Res Function(_$_OrganizedAuction) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? currentBidPrice = null,
+    Object? maxBidPrice = null,
+    Object? incrementAmount = null,
+    Object? isReserveMet = null,
+    Object? isAuctionOver = null,
+    Object? listingId = null,
+    Object? collectionId = null,
+    Object? currentWinningAddress = null,
+  }) {
+    return _then(_$_OrganizedAuction(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      currentBidPrice: null == currentBidPrice
+          ? _value.currentBidPrice
+          : currentBidPrice // ignore: cast_nullable_to_non_nullable
+              as double,
+      maxBidPrice: null == maxBidPrice
+          ? _value.maxBidPrice
+          : maxBidPrice // ignore: cast_nullable_to_non_nullable
+              as double,
+      incrementAmount: null == incrementAmount
+          ? _value.incrementAmount
+          : incrementAmount // ignore: cast_nullable_to_non_nullable
+              as double,
+      isReserveMet: null == isReserveMet
+          ? _value.isReserveMet
+          : isReserveMet // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isAuctionOver: null == isAuctionOver
+          ? _value.isAuctionOver
+          : isAuctionOver // ignore: cast_nullable_to_non_nullable
+              as bool,
+      listingId: null == listingId
+          ? _value.listingId
+          : listingId // ignore: cast_nullable_to_non_nullable
+              as int,
+      collectionId: null == collectionId
+          ? _value.collectionId
+          : collectionId // ignore: cast_nullable_to_non_nullable
+              as int,
+      currentWinningAddress: null == currentWinningAddress
+          ? _value.currentWinningAddress
+          : currentWinningAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_OrganizedAuction extends _OrganizedAuction {
+  _$_OrganizedAuction(
+      {required this.id,
+      required this.currentBidPrice,
+      required this.maxBidPrice,
+      required this.incrementAmount,
+      required this.isReserveMet,
+      required this.isAuctionOver,
+      required this.listingId,
+      required this.collectionId,
+      required this.currentWinningAddress})
+      : super._();
+
+  @override
+  final int id;
+  @override
+  final double currentBidPrice;
+  @override
+  final double maxBidPrice;
+  @override
+  final double incrementAmount;
+  @override
+  final bool isReserveMet;
+  @override
+  final bool isAuctionOver;
+  @override
+  final int listingId;
+  @override
+  final int collectionId;
+  @override
+  final String currentWinningAddress;
+
+  @override
+  String toString() {
+    return 'OrganizedAuction(id: $id, currentBidPrice: $currentBidPrice, maxBidPrice: $maxBidPrice, incrementAmount: $incrementAmount, isReserveMet: $isReserveMet, isAuctionOver: $isAuctionOver, listingId: $listingId, collectionId: $collectionId, currentWinningAddress: $currentWinningAddress)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_OrganizedAuction &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.currentBidPrice, currentBidPrice) ||
+                other.currentBidPrice == currentBidPrice) &&
+            (identical(other.maxBidPrice, maxBidPrice) ||
+                other.maxBidPrice == maxBidPrice) &&
+            (identical(other.incrementAmount, incrementAmount) ||
+                other.incrementAmount == incrementAmount) &&
+            (identical(other.isReserveMet, isReserveMet) ||
+                other.isReserveMet == isReserveMet) &&
+            (identical(other.isAuctionOver, isAuctionOver) ||
+                other.isAuctionOver == isAuctionOver) &&
+            (identical(other.listingId, listingId) ||
+                other.listingId == listingId) &&
+            (identical(other.collectionId, collectionId) ||
+                other.collectionId == collectionId) &&
+            (identical(other.currentWinningAddress, currentWinningAddress) ||
+                other.currentWinningAddress == currentWinningAddress));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      currentBidPrice,
+      maxBidPrice,
+      incrementAmount,
+      isReserveMet,
+      isAuctionOver,
+      listingId,
+      collectionId,
+      currentWinningAddress);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_OrganizedAuctionCopyWith<_$_OrganizedAuction> get copyWith =>
+      __$$_OrganizedAuctionCopyWithImpl<_$_OrganizedAuction>(this, _$identity);
+}
+
+abstract class _OrganizedAuction extends OrganizedAuction {
+  factory _OrganizedAuction(
+      {required final int id,
+      required final double currentBidPrice,
+      required final double maxBidPrice,
+      required final double incrementAmount,
+      required final bool isReserveMet,
+      required final bool isAuctionOver,
+      required final int listingId,
+      required final int collectionId,
+      required final String currentWinningAddress}) = _$_OrganizedAuction;
+  _OrganizedAuction._() : super._();
+
+  @override
+  int get id;
+  @override
+  double get currentBidPrice;
+  @override
+  double get maxBidPrice;
+  @override
+  double get incrementAmount;
+  @override
+  bool get isReserveMet;
+  @override
+  bool get isAuctionOver;
+  @override
+  int get listingId;
+  @override
+  int get collectionId;
+  @override
+  String get currentWinningAddress;
+  @override
+  @JsonKey(ignore: true)
+  _$$_OrganizedAuctionCopyWith<_$_OrganizedAuction> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -966,7 +1304,7 @@ mixin _$ShopData {
   @JsonKey(name: "Listings")
   List<ListingData> get listings => throw _privateConstructorUsedError;
   @JsonKey(name: "Auctions")
-  dynamic get auctions => throw _privateConstructorUsedError;
+  List<AuctionData> get auctions => throw _privateConstructorUsedError;
   @JsonKey(name: "Bids")
   dynamic get bids => throw _privateConstructorUsedError;
 
@@ -985,7 +1323,7 @@ abstract class $ShopDataCopyWith<$Res> {
       {@JsonKey(name: "DecShop") DecShop decShop,
       @JsonKey(name: "Collections") List<CollectionData> collections,
       @JsonKey(name: "Listings") List<ListingData> listings,
-      @JsonKey(name: "Auctions") dynamic auctions,
+      @JsonKey(name: "Auctions") List<AuctionData> auctions,
       @JsonKey(name: "Bids") dynamic bids});
 
   $DecShopCopyWith<$Res> get decShop;
@@ -1007,7 +1345,7 @@ class _$ShopDataCopyWithImpl<$Res, $Val extends ShopData>
     Object? decShop = null,
     Object? collections = null,
     Object? listings = null,
-    Object? auctions = freezed,
+    Object? auctions = null,
     Object? bids = freezed,
   }) {
     return _then(_value.copyWith(
@@ -1023,10 +1361,10 @@ class _$ShopDataCopyWithImpl<$Res, $Val extends ShopData>
           ? _value.listings
           : listings // ignore: cast_nullable_to_non_nullable
               as List<ListingData>,
-      auctions: freezed == auctions
+      auctions: null == auctions
           ? _value.auctions
           : auctions // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as List<AuctionData>,
       bids: freezed == bids
           ? _value.bids
           : bids // ignore: cast_nullable_to_non_nullable
@@ -1054,7 +1392,7 @@ abstract class _$$_ShopDataCopyWith<$Res> implements $ShopDataCopyWith<$Res> {
       {@JsonKey(name: "DecShop") DecShop decShop,
       @JsonKey(name: "Collections") List<CollectionData> collections,
       @JsonKey(name: "Listings") List<ListingData> listings,
-      @JsonKey(name: "Auctions") dynamic auctions,
+      @JsonKey(name: "Auctions") List<AuctionData> auctions,
       @JsonKey(name: "Bids") dynamic bids});
 
   @override
@@ -1075,7 +1413,7 @@ class __$$_ShopDataCopyWithImpl<$Res>
     Object? decShop = null,
     Object? collections = null,
     Object? listings = null,
-    Object? auctions = freezed,
+    Object? auctions = null,
     Object? bids = freezed,
   }) {
     return _then(_$_ShopData(
@@ -1091,10 +1429,10 @@ class __$$_ShopDataCopyWithImpl<$Res>
           ? _value._listings
           : listings // ignore: cast_nullable_to_non_nullable
               as List<ListingData>,
-      auctions: freezed == auctions
-          ? _value.auctions
+      auctions: null == auctions
+          ? _value._auctions
           : auctions // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as List<AuctionData>,
       bids: freezed == bids
           ? _value.bids
           : bids // ignore: cast_nullable_to_non_nullable
@@ -1114,11 +1452,12 @@ class _$_ShopData extends _ShopData {
       @JsonKey(name: "Listings")
           final List<ListingData> listings = const [],
       @JsonKey(name: "Auctions")
-          this.auctions,
+          final List<AuctionData> auctions = const [],
       @JsonKey(name: "Bids")
           this.bids})
       : _collections = collections,
         _listings = listings,
+        _auctions = auctions,
         super._();
 
   factory _$_ShopData.fromJson(Map<String, dynamic> json) =>
@@ -1145,9 +1484,15 @@ class _$_ShopData extends _ShopData {
     return EqualUnmodifiableListView(_listings);
   }
 
+  final List<AuctionData> _auctions;
   @override
   @JsonKey(name: "Auctions")
-  final dynamic auctions;
+  List<AuctionData> get auctions {
+    if (_auctions is EqualUnmodifiableListView) return _auctions;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_auctions);
+  }
+
   @override
   @JsonKey(name: "Bids")
   final dynamic bids;
@@ -1166,7 +1511,7 @@ class _$_ShopData extends _ShopData {
             const DeepCollectionEquality()
                 .equals(other._collections, _collections) &&
             const DeepCollectionEquality().equals(other._listings, _listings) &&
-            const DeepCollectionEquality().equals(other.auctions, auctions) &&
+            const DeepCollectionEquality().equals(other._auctions, _auctions) &&
             const DeepCollectionEquality().equals(other.bids, bids));
   }
 
@@ -1177,7 +1522,7 @@ class _$_ShopData extends _ShopData {
       decShop,
       const DeepCollectionEquality().hash(_collections),
       const DeepCollectionEquality().hash(_listings),
-      const DeepCollectionEquality().hash(auctions),
+      const DeepCollectionEquality().hash(_auctions),
       const DeepCollectionEquality().hash(bids));
 
   @JsonKey(ignore: true)
@@ -1199,7 +1544,7 @@ abstract class _ShopData extends ShopData {
       {@JsonKey(name: "DecShop") required final DecShop decShop,
       @JsonKey(name: "Collections") final List<CollectionData> collections,
       @JsonKey(name: "Listings") final List<ListingData> listings,
-      @JsonKey(name: "Auctions") final dynamic auctions,
+      @JsonKey(name: "Auctions") final List<AuctionData> auctions,
       @JsonKey(name: "Bids") final dynamic bids}) = _$_ShopData;
   _ShopData._() : super._();
 
@@ -1216,7 +1561,7 @@ abstract class _ShopData extends ShopData {
   List<ListingData> get listings;
   @override
   @JsonKey(name: "Auctions")
-  dynamic get auctions;
+  List<AuctionData> get auctions;
   @override
   @JsonKey(name: "Bids")
   dynamic get bids;
@@ -2046,5 +2391,370 @@ abstract class _ListingData extends ListingData {
   @override
   @JsonKey(ignore: true)
   _$$_ListingDataCopyWith<_$_ListingData> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+AuctionData _$AuctionDataFromJson(Map<String, dynamic> json) {
+  return _AuctionData.fromJson(json);
+}
+
+/// @nodoc
+mixin _$AuctionData {
+  @JsonKey(name: "Id")
+  int get id => throw _privateConstructorUsedError;
+  @JsonKey(name: "CurrentBidPrice")
+  double get currentBidPrice => throw _privateConstructorUsedError;
+  @JsonKey(name: "MaxBidPrice")
+  double get maxBidPrice => throw _privateConstructorUsedError;
+  @JsonKey(name: "IncrementAmount")
+  double get incrementAmount => throw _privateConstructorUsedError;
+  @JsonKey(name: "IsReserveMet")
+  bool get isReserveMet => throw _privateConstructorUsedError;
+  @JsonKey(name: "IsAuctionOver")
+  bool get isAuctionOver => throw _privateConstructorUsedError;
+  @JsonKey(name: "ListingId")
+  int get listingId => throw _privateConstructorUsedError;
+  @JsonKey(name: "CollectionId")
+  int get collectionId => throw _privateConstructorUsedError;
+  @JsonKey(name: "CurrentWinningAddress")
+  String get currentWinningAddress => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $AuctionDataCopyWith<AuctionData> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AuctionDataCopyWith<$Res> {
+  factory $AuctionDataCopyWith(
+          AuctionData value, $Res Function(AuctionData) then) =
+      _$AuctionDataCopyWithImpl<$Res, AuctionData>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: "Id") int id,
+      @JsonKey(name: "CurrentBidPrice") double currentBidPrice,
+      @JsonKey(name: "MaxBidPrice") double maxBidPrice,
+      @JsonKey(name: "IncrementAmount") double incrementAmount,
+      @JsonKey(name: "IsReserveMet") bool isReserveMet,
+      @JsonKey(name: "IsAuctionOver") bool isAuctionOver,
+      @JsonKey(name: "ListingId") int listingId,
+      @JsonKey(name: "CollectionId") int collectionId,
+      @JsonKey(name: "CurrentWinningAddress") String currentWinningAddress});
+}
+
+/// @nodoc
+class _$AuctionDataCopyWithImpl<$Res, $Val extends AuctionData>
+    implements $AuctionDataCopyWith<$Res> {
+  _$AuctionDataCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? currentBidPrice = null,
+    Object? maxBidPrice = null,
+    Object? incrementAmount = null,
+    Object? isReserveMet = null,
+    Object? isAuctionOver = null,
+    Object? listingId = null,
+    Object? collectionId = null,
+    Object? currentWinningAddress = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      currentBidPrice: null == currentBidPrice
+          ? _value.currentBidPrice
+          : currentBidPrice // ignore: cast_nullable_to_non_nullable
+              as double,
+      maxBidPrice: null == maxBidPrice
+          ? _value.maxBidPrice
+          : maxBidPrice // ignore: cast_nullable_to_non_nullable
+              as double,
+      incrementAmount: null == incrementAmount
+          ? _value.incrementAmount
+          : incrementAmount // ignore: cast_nullable_to_non_nullable
+              as double,
+      isReserveMet: null == isReserveMet
+          ? _value.isReserveMet
+          : isReserveMet // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isAuctionOver: null == isAuctionOver
+          ? _value.isAuctionOver
+          : isAuctionOver // ignore: cast_nullable_to_non_nullable
+              as bool,
+      listingId: null == listingId
+          ? _value.listingId
+          : listingId // ignore: cast_nullable_to_non_nullable
+              as int,
+      collectionId: null == collectionId
+          ? _value.collectionId
+          : collectionId // ignore: cast_nullable_to_non_nullable
+              as int,
+      currentWinningAddress: null == currentWinningAddress
+          ? _value.currentWinningAddress
+          : currentWinningAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_AuctionDataCopyWith<$Res>
+    implements $AuctionDataCopyWith<$Res> {
+  factory _$$_AuctionDataCopyWith(
+          _$_AuctionData value, $Res Function(_$_AuctionData) then) =
+      __$$_AuctionDataCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: "Id") int id,
+      @JsonKey(name: "CurrentBidPrice") double currentBidPrice,
+      @JsonKey(name: "MaxBidPrice") double maxBidPrice,
+      @JsonKey(name: "IncrementAmount") double incrementAmount,
+      @JsonKey(name: "IsReserveMet") bool isReserveMet,
+      @JsonKey(name: "IsAuctionOver") bool isAuctionOver,
+      @JsonKey(name: "ListingId") int listingId,
+      @JsonKey(name: "CollectionId") int collectionId,
+      @JsonKey(name: "CurrentWinningAddress") String currentWinningAddress});
+}
+
+/// @nodoc
+class __$$_AuctionDataCopyWithImpl<$Res>
+    extends _$AuctionDataCopyWithImpl<$Res, _$_AuctionData>
+    implements _$$_AuctionDataCopyWith<$Res> {
+  __$$_AuctionDataCopyWithImpl(
+      _$_AuctionData _value, $Res Function(_$_AuctionData) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? currentBidPrice = null,
+    Object? maxBidPrice = null,
+    Object? incrementAmount = null,
+    Object? isReserveMet = null,
+    Object? isAuctionOver = null,
+    Object? listingId = null,
+    Object? collectionId = null,
+    Object? currentWinningAddress = null,
+  }) {
+    return _then(_$_AuctionData(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      currentBidPrice: null == currentBidPrice
+          ? _value.currentBidPrice
+          : currentBidPrice // ignore: cast_nullable_to_non_nullable
+              as double,
+      maxBidPrice: null == maxBidPrice
+          ? _value.maxBidPrice
+          : maxBidPrice // ignore: cast_nullable_to_non_nullable
+              as double,
+      incrementAmount: null == incrementAmount
+          ? _value.incrementAmount
+          : incrementAmount // ignore: cast_nullable_to_non_nullable
+              as double,
+      isReserveMet: null == isReserveMet
+          ? _value.isReserveMet
+          : isReserveMet // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isAuctionOver: null == isAuctionOver
+          ? _value.isAuctionOver
+          : isAuctionOver // ignore: cast_nullable_to_non_nullable
+              as bool,
+      listingId: null == listingId
+          ? _value.listingId
+          : listingId // ignore: cast_nullable_to_non_nullable
+              as int,
+      collectionId: null == collectionId
+          ? _value.collectionId
+          : collectionId // ignore: cast_nullable_to_non_nullable
+              as int,
+      currentWinningAddress: null == currentWinningAddress
+          ? _value.currentWinningAddress
+          : currentWinningAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_AuctionData extends _AuctionData {
+  _$_AuctionData(
+      {@JsonKey(name: "Id")
+          required this.id,
+      @JsonKey(name: "CurrentBidPrice")
+          required this.currentBidPrice,
+      @JsonKey(name: "MaxBidPrice")
+          required this.maxBidPrice,
+      @JsonKey(name: "IncrementAmount")
+          required this.incrementAmount,
+      @JsonKey(name: "IsReserveMet")
+          required this.isReserveMet,
+      @JsonKey(name: "IsAuctionOver")
+          required this.isAuctionOver,
+      @JsonKey(name: "ListingId")
+          required this.listingId,
+      @JsonKey(name: "CollectionId")
+          required this.collectionId,
+      @JsonKey(name: "CurrentWinningAddress")
+          required this.currentWinningAddress})
+      : super._();
+
+  factory _$_AuctionData.fromJson(Map<String, dynamic> json) =>
+      _$$_AuctionDataFromJson(json);
+
+  @override
+  @JsonKey(name: "Id")
+  final int id;
+  @override
+  @JsonKey(name: "CurrentBidPrice")
+  final double currentBidPrice;
+  @override
+  @JsonKey(name: "MaxBidPrice")
+  final double maxBidPrice;
+  @override
+  @JsonKey(name: "IncrementAmount")
+  final double incrementAmount;
+  @override
+  @JsonKey(name: "IsReserveMet")
+  final bool isReserveMet;
+  @override
+  @JsonKey(name: "IsAuctionOver")
+  final bool isAuctionOver;
+  @override
+  @JsonKey(name: "ListingId")
+  final int listingId;
+  @override
+  @JsonKey(name: "CollectionId")
+  final int collectionId;
+  @override
+  @JsonKey(name: "CurrentWinningAddress")
+  final String currentWinningAddress;
+
+  @override
+  String toString() {
+    return 'AuctionData(id: $id, currentBidPrice: $currentBidPrice, maxBidPrice: $maxBidPrice, incrementAmount: $incrementAmount, isReserveMet: $isReserveMet, isAuctionOver: $isAuctionOver, listingId: $listingId, collectionId: $collectionId, currentWinningAddress: $currentWinningAddress)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_AuctionData &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.currentBidPrice, currentBidPrice) ||
+                other.currentBidPrice == currentBidPrice) &&
+            (identical(other.maxBidPrice, maxBidPrice) ||
+                other.maxBidPrice == maxBidPrice) &&
+            (identical(other.incrementAmount, incrementAmount) ||
+                other.incrementAmount == incrementAmount) &&
+            (identical(other.isReserveMet, isReserveMet) ||
+                other.isReserveMet == isReserveMet) &&
+            (identical(other.isAuctionOver, isAuctionOver) ||
+                other.isAuctionOver == isAuctionOver) &&
+            (identical(other.listingId, listingId) ||
+                other.listingId == listingId) &&
+            (identical(other.collectionId, collectionId) ||
+                other.collectionId == collectionId) &&
+            (identical(other.currentWinningAddress, currentWinningAddress) ||
+                other.currentWinningAddress == currentWinningAddress));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      currentBidPrice,
+      maxBidPrice,
+      incrementAmount,
+      isReserveMet,
+      isAuctionOver,
+      listingId,
+      collectionId,
+      currentWinningAddress);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_AuctionDataCopyWith<_$_AuctionData> get copyWith =>
+      __$$_AuctionDataCopyWithImpl<_$_AuctionData>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_AuctionDataToJson(
+      this,
+    );
+  }
+}
+
+abstract class _AuctionData extends AuctionData {
+  factory _AuctionData(
+      {@JsonKey(name: "Id")
+          required final int id,
+      @JsonKey(name: "CurrentBidPrice")
+          required final double currentBidPrice,
+      @JsonKey(name: "MaxBidPrice")
+          required final double maxBidPrice,
+      @JsonKey(name: "IncrementAmount")
+          required final double incrementAmount,
+      @JsonKey(name: "IsReserveMet")
+          required final bool isReserveMet,
+      @JsonKey(name: "IsAuctionOver")
+          required final bool isAuctionOver,
+      @JsonKey(name: "ListingId")
+          required final int listingId,
+      @JsonKey(name: "CollectionId")
+          required final int collectionId,
+      @JsonKey(name: "CurrentWinningAddress")
+          required final String currentWinningAddress}) = _$_AuctionData;
+  _AuctionData._() : super._();
+
+  factory _AuctionData.fromJson(Map<String, dynamic> json) =
+      _$_AuctionData.fromJson;
+
+  @override
+  @JsonKey(name: "Id")
+  int get id;
+  @override
+  @JsonKey(name: "CurrentBidPrice")
+  double get currentBidPrice;
+  @override
+  @JsonKey(name: "MaxBidPrice")
+  double get maxBidPrice;
+  @override
+  @JsonKey(name: "IncrementAmount")
+  double get incrementAmount;
+  @override
+  @JsonKey(name: "IsReserveMet")
+  bool get isReserveMet;
+  @override
+  @JsonKey(name: "IsAuctionOver")
+  bool get isAuctionOver;
+  @override
+  @JsonKey(name: "ListingId")
+  int get listingId;
+  @override
+  @JsonKey(name: "CollectionId")
+  int get collectionId;
+  @override
+  @JsonKey(name: "CurrentWinningAddress")
+  String get currentWinningAddress;
+  @override
+  @JsonKey(ignore: true)
+  _$$_AuctionDataCopyWith<_$_AuctionData> get copyWith =>
       throw _privateConstructorUsedError;
 }

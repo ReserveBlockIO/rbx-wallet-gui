@@ -16,7 +16,10 @@ _$_ShopData _$$_ShopDataFromJson(Map<String, dynamic> json) => _$_ShopData(
               ?.map((e) => ListingData.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      auctions: json['Auctions'],
+      auctions: (json['Auctions'] as List<dynamic>?)
+              ?.map((e) => AuctionData.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       bids: json['Bids'],
     );
 
@@ -87,4 +90,30 @@ Map<String, dynamic> _$$_ListingDataToJson(_$_ListingData instance) =>
       'IsVisibleAfterEndDate': instance.isVisibleAfterEndDate,
       'FinalPrice': instance.finalPrice,
       'WinningAddress': instance.winningAddress,
+    };
+
+_$_AuctionData _$$_AuctionDataFromJson(Map<String, dynamic> json) =>
+    _$_AuctionData(
+      id: json['Id'] as int,
+      currentBidPrice: (json['CurrentBidPrice'] as num).toDouble(),
+      maxBidPrice: (json['MaxBidPrice'] as num).toDouble(),
+      incrementAmount: (json['IncrementAmount'] as num).toDouble(),
+      isReserveMet: json['IsReserveMet'] as bool,
+      isAuctionOver: json['IsAuctionOver'] as bool,
+      listingId: json['ListingId'] as int,
+      collectionId: json['CollectionId'] as int,
+      currentWinningAddress: json['CurrentWinningAddress'] as String,
+    );
+
+Map<String, dynamic> _$$_AuctionDataToJson(_$_AuctionData instance) =>
+    <String, dynamic>{
+      'Id': instance.id,
+      'CurrentBidPrice': instance.currentBidPrice,
+      'MaxBidPrice': instance.maxBidPrice,
+      'IncrementAmount': instance.incrementAmount,
+      'IsReserveMet': instance.isReserveMet,
+      'IsAuctionOver': instance.isAuctionOver,
+      'ListingId': instance.listingId,
+      'CollectionId': instance.collectionId,
+      'CurrentWinningAddress': instance.currentWinningAddress,
     };

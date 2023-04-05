@@ -53,6 +53,7 @@ class OrganizedListing with _$OrganizedListing {
     double? finalPrice,
     String? winningAddress,
     Nft? nft,
+    OrganizedAuction? auction,
   }) = _OrganizedListing;
 
   String get familyIdentifier {
@@ -73,6 +74,23 @@ class OrganizedListing with _$OrganizedListing {
   }
 }
 
+@freezed
+class OrganizedAuction with _$OrganizedAuction {
+  const OrganizedAuction._();
+
+  factory OrganizedAuction({
+    required int id,
+    required double currentBidPrice,
+    required double maxBidPrice,
+    required double incrementAmount,
+    required bool isReserveMet,
+    required bool isAuctionOver,
+    required int listingId,
+    required int collectionId,
+    required String currentWinningAddress,
+  }) = _OrganizedAuction;
+}
+
 /// RAW DATA
 
 @freezed
@@ -83,7 +101,7 @@ class ShopData with _$ShopData {
     @JsonKey(name: "DecShop") required DecShop decShop,
     @JsonKey(name: "Collections") @Default([]) List<CollectionData> collections,
     @JsonKey(name: "Listings") @Default([]) List<ListingData> listings,
-    @JsonKey(name: "Auctions") dynamic auctions,
+    @JsonKey(name: "Auctions") @Default([]) List<AuctionData> auctions,
     @JsonKey(name: "Bids") dynamic bids,
   }) = _ShopData;
 
@@ -130,4 +148,23 @@ class ListingData with _$ListingData {
   }) = _ListingData;
 
   factory ListingData.fromJson(Map<String, dynamic> json) => _$ListingDataFromJson(json);
+}
+
+@freezed
+class AuctionData with _$AuctionData {
+  const AuctionData._();
+
+  factory AuctionData({
+    @JsonKey(name: "Id") required int id,
+    @JsonKey(name: "CurrentBidPrice") required double currentBidPrice,
+    @JsonKey(name: "MaxBidPrice") required double maxBidPrice,
+    @JsonKey(name: "IncrementAmount") required double incrementAmount,
+    @JsonKey(name: "IsReserveMet") required bool isReserveMet,
+    @JsonKey(name: "IsAuctionOver") required bool isAuctionOver,
+    @JsonKey(name: "ListingId") required int listingId,
+    @JsonKey(name: "CollectionId") required int collectionId,
+    @JsonKey(name: "CurrentWinningAddress") required String currentWinningAddress,
+  }) = _AuctionData;
+
+  factory AuctionData.fromJson(Map<String, dynamic> json) => _$AuctionDataFromJson(json);
 }

@@ -81,6 +81,8 @@ class RemoteShopService extends BaseService {
               isDefault: c.isDefault,
               listings: shopData.listings.where((l) => l.collectionId == c.id).map(
                 (l) {
+                  final a = shopData.auctions.firstWhereOrNull((a) => a.listingId == l.id && a.collectionId == c.id);
+
                   return OrganizedListing(
                     id: l.id,
                     collectionId: c.id,
@@ -97,6 +99,19 @@ class RemoteShopService extends BaseService {
                     isVisibleBeforeStartDate: l.isVisibleBeforeStartDate,
                     isVisibleAfterEndDate: l.isVisibleAfterEndDate,
                     nft: nfts[l.smartContractUid],
+                    auction: a != null
+                        ? OrganizedAuction(
+                            id: a.id,
+                            currentBidPrice: a.currentBidPrice,
+                            maxBidPrice: a.maxBidPrice,
+                            incrementAmount: a.incrementAmount,
+                            isReserveMet: a.isReserveMet,
+                            isAuctionOver: a.isAuctionOver,
+                            listingId: a.listingId,
+                            collectionId: a.collectionId,
+                            currentWinningAddress: a.currentWinningAddress,
+                          )
+                        : null,
                   );
                 },
               ).toList(),
