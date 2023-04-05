@@ -41,6 +41,10 @@ class ListingDetails extends BaseComponent {
           _Features(nft: nft),
           _NftDetails(nft: nft),
           _NftData(nft: nft),
+          const SizedBox(height: 8),
+          if (listing.canBid) _Auction(listing: listing),
+          if (listing.canBuyNow && listing.canBid) SizedBox(height: 16),
+          if (listing.canBuyNow) _BuyNow(listing: listing),
         ],
       ),
     );
@@ -72,28 +76,17 @@ class ListingDetails extends BaseComponent {
           ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 600),
             child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _Details(nft: nft),
-                  const SizedBox(height: 8),
-                  _NftDetails(nft: nft),
-                  const SizedBox(height: 16),
-                  _NftData(nft: nft),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      if (listing.canBuyNow) _BuyNow(listing: listing),
-                      if (listing.canBuyNow && listing.canBid)
-                        SizedBox(
-                          width: 8,
-                        ),
-                      if (listing.canBid) _Auction(listing: listing),
-                    ],
-                  ),
-                ],
-              ),
+              child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+                _Details(nft: nft),
+                const SizedBox(height: 8),
+                _NftDetails(nft: nft),
+                const SizedBox(height: 16),
+                _NftData(nft: nft),
+                const SizedBox(height: 8),
+                if (listing.canBid) IntrinsicWidth(child: _Auction(listing: listing)),
+                if (listing.canBuyNow && listing.canBid) SizedBox(height: 16),
+                if (listing.canBuyNow) IntrinsicWidth(child: _BuyNow(listing: listing)),
+              ]),
             ),
           ),
         ],
@@ -504,7 +497,6 @@ class _NftData extends StatelessWidget {
               buildDetailRow(context, "Minted By", nft.minterName),
               buildDetailRow(context, "Minter Address", nft.minterAddress, true),
               buildDetailRow(context, "Chain", "RBX"),
-              //TODO: Auction stuff
             ],
           ),
         ],
@@ -525,49 +517,39 @@ class _BuyNow extends BaseComponent {
 
     final provider = ref.read(bidListProvider(listing.familyIdentifier).notifier);
 
-    final isMobile = BreakPoints.useMobileLayout(context);
-    return SizedBox(
-      width: isMobile ? double.infinity : null,
-      child: Card(
-        color: Theme.of(context).colorScheme.primary.withOpacity(0.4),
-        margin: EdgeInsets.zero,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                "Buy Now",
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                  letterSpacing: 1,
-                ),
-              ),
-              const SizedBox(height: 8),
-              _Price(
-                label: "Price",
-                amount: listing.buyNowPrice!,
-              ),
-              const SizedBox(height: 16),
-              AppButton(
-                label: "Buy Now",
-                icon: Icons.money,
-                size: AppSizeVariant.Lg,
-                onPressed: () async {
-                  final success = await provider.buyNow(context, listing);
-
-                  if (success == true) {
-                    Toast.message("Buy Now transaction sent successfully.");
-                  }
-                },
-              ),
-            ],
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          "Buy Now",
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+            color: Colors.white,
+            letterSpacing: 1,
+            decoration: TextDecoration.underline,
           ),
         ),
-      ),
+        const SizedBox(height: 8),
+        _Price(
+          label: "Price",
+          amount: listing.buyNowPrice!,
+        ),
+        const SizedBox(height: 16),
+        AppButton(
+          label: "Buy Now",
+          icon: Icons.money,
+          size: AppSizeVariant.Lg,
+          onPressed: () async {
+            final success = await provider.buyNow(context, listing);
+
+            if (success == true) {
+              Toast.message("Buy Now transaction sent successfully.");
+            }
+          },
+        ),
+      ],
     );
   }
 }
@@ -629,79 +611,173 @@ class _Auction extends BaseComponent {
     final isMobile = BreakPoints.useMobileLayout(context);
     return SizedBox(
       width: isMobile ? double.infinity : null,
-      child: Card(
-        color: Theme.of(context).colorScheme.primary.withOpacity(0.4),
-        margin: EdgeInsets.zero,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "Auction",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+              color: Colors.white,
+              letterSpacing: 1,
+              decoration: TextDecoration.underline,
+            ),
+          ),
+          const SizedBox(height: 8),
+          if (listing.auction != null) ...[
+            listing.floorPrice == listing.auction!.currentBidPrice
+                ? _Price(label: "Floor Price", amount: listing.floorPrice!)
+                : _Price(
+                    label: "Highest Bid",
+                    amount: listing.auction!.currentBidPrice,
+                  )
+          ],
+          const SizedBox(height: 16),
+          Row(
             children: [
-              const Text(
-                "Auction",
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                  letterSpacing: 1,
-                ),
-              ),
-              const SizedBox(height: 8),
+              AppButton(
+                  label: "Bid Now",
+                  icon: Icons.gavel,
+                  size: AppSizeVariant.Lg,
+                  onPressed: () async {
+                    final success = await provider.sendBid(context, listing);
+                    if (success == true) {
+                      Toast.message("Bid transaction sent successfully.");
+                    }
+                  }),
+              const SizedBox(width: 8),
+              AppButton(
+                label: "My Bids",
+                icon: Icons.punch_clock,
+                size: AppSizeVariant.Lg,
+                onPressed: () async {
+                  final bids = await provider.fetchBids();
 
-              _Price(label: "Floor Price", amount: listing.floorPrice!),
-              // if (listing.highestBid != null)
-              //   buildPrice(
-              //     context,
-              //     "Highest Bid",
-              //     listing.allowRbx ? listing.highestBid!.amountLabel : listing.highestBid!.amountLabelWithoutRbx,
-              //     Theme.of(context).colorScheme.success,
-              //   ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AppButton(
-                      label: "Bid Now",
-                      icon: Icons.gavel,
-                      size: AppSizeVariant.Lg,
-                      onPressed: () async {
-                        final success = await provider.sendBid(context, listing);
-                        if (success == true) {
-                          Toast.message("Bid transaction sent successfully.");
-                        }
-                      }),
-                  const SizedBox(
-                    width: 6,
-                  ),
-                  AppButton(
-                    label: "My Bids",
-                    icon: Icons.punch_clock,
-                    size: AppSizeVariant.Lg,
-                    onPressed: () async {
-                      final bids = await provider.fetchBids();
+                  if (bids.isEmpty) {
+                    Toast.message("You have not placed any bids yet.");
+                    return;
+                  }
 
-                      if (bids.isEmpty) {
-                        Toast.message("You have not placed any bids yet.");
-                        return;
-                      }
-
-                      showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        builder: (context) {
-                          return BidHistoryModal(
-                            bids: bids,
-                          );
-                        },
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    builder: (context) {
+                      return BidHistoryModal(
+                        bids: bids,
                       );
                     },
-                  ),
-                ],
+                  );
+                },
               ),
+              const SizedBox(width: 8),
+              if (listing.auction != null)
+                AppButton(
+                  label: "Details",
+                  icon: Icons.info,
+                  size: AppSizeVariant.Lg,
+                  onPressed: () async {
+                    final auction = listing.auction!;
+
+                    InfoDialog.show(
+                      title: "Auction Details",
+                      content: _AuctionInfoDialogContent(
+                        auction: auction,
+                      ),
+                    );
+                  },
+                ),
             ],
           ),
-        ),
+        ],
+      ),
+    );
+  }
+}
+
+class _AuctionInfoDialogContent extends StatelessWidget {
+  const _AuctionInfoDialogContent({
+    super.key,
+    required this.auction,
+  });
+
+  final OrganizedAuction auction;
+
+  @override
+  Widget build(BuildContext context) {
+    final labelStyle = TextStyle(fontWeight: FontWeight.w600);
+    final valueStyle = TextStyle();
+
+    return SizedBox(
+      width: 300,
+      child: Table(
+        columnWidths: {
+          0: IntrinsicColumnWidth(),
+          1: IntrinsicColumnWidth(),
+        },
+        children: [
+          TableRow(
+            children: [
+              Text(
+                "Current Bid Price:",
+                style: labelStyle,
+              ),
+              Text(
+                "${auction.currentBidPrice} RBX",
+                style: valueStyle,
+              )
+            ],
+          ),
+          TableRow(
+            children: [
+              Text(
+                "Max Bid Price:",
+                style: labelStyle,
+              ),
+              Text(
+                "${auction.maxBidPrice} RBX",
+                style: valueStyle,
+              )
+            ],
+          ),
+          TableRow(
+            children: [
+              Text(
+                "Increment Amount:",
+                style: labelStyle,
+              ),
+              Text(
+                "${auction.incrementAmount} RBX",
+                style: valueStyle,
+              )
+            ],
+          ),
+          TableRow(
+            children: [
+              Text(
+                "Reserve Met:",
+                style: labelStyle,
+              ),
+              Text(
+                auction.isReserveMet ? "Yes" : "No",
+                style: valueStyle,
+              )
+            ],
+          ),
+          TableRow(
+            children: [
+              Text(
+                "Active:",
+                style: labelStyle,
+              ),
+              Text(
+                auction.isAuctionOver ? "Completed" : "Yes",
+                style: valueStyle,
+              )
+            ],
+          ),
+        ],
       ),
     );
   }

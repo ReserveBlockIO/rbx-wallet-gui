@@ -93,6 +93,16 @@ class BidListProvider extends StateNotifier<List<Bid>> {
   }
 
   Future<bool?> sendBid(BuildContext context, OrganizedListing listing) async {
+    if (listing.auction == null) {
+      Toast.error("Auction is not live");
+      return null;
+    }
+
+    if (listing.auction!.isAuctionOver) {
+      Toast.error("Auction is over");
+      return null;
+    }
+
     final wallet = ref.read(sessionProvider).currentWallet;
 
     if (wallet == null) {
@@ -118,6 +128,11 @@ class BidListProvider extends StateNotifier<List<Bid>> {
       return null;
     }
 
+    if (amount <= listing.auction!.currentBidPrice) {
+      Toast.error("Your bid must be greater than the current highest bid (${listing.auction!.currentBidPrice} RBX)");
+      return null;
+    }
+
     double maxAmount = amount;
 
     final maxAmountStr = await PromptModal.show(
@@ -132,6 +147,11 @@ class BidListProvider extends StateNotifier<List<Bid>> {
 
     if (maxAmountStr != null) {
       maxAmount = double.tryParse(maxAmountStr) ?? maxAmount;
+    }
+
+    if (maxAmount < amount) {
+      Toast.error("Max amount can not be less than the bid amount");
+      return null;
     }
 
     if (!validateBeforeBid(listing, listing.buyNowPrice!)) {

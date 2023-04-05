@@ -70,7 +70,11 @@ class OrganizedListing with _$OrganizedListing {
   }
 
   bool get canBid {
-    return isActive && floorPrice != null;
+    if (auction == null) {
+      return false;
+    }
+
+    return isActive && floorPrice != null && !auction!.isAuctionOver;
   }
 }
 
