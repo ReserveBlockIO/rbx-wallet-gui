@@ -144,24 +144,25 @@ class BidListProvider extends StateNotifier<List<Bid>> {
 
     double maxAmount = amount;
 
-    final maxAmountStr = await PromptModal.show(
-      title: "Max Bid",
-      body: "You can set the maximum amount you are willing to bid here.",
-      initialValue: "$amount",
-      validator: (val) => formValidatorNumber(val, "Bid Amount"),
-      labelText: "Bid Amount (RBX)",
-      confirmText: "Continue",
-      cancelText: "Cancel",
-    );
+    //TODO: put this back in when autobidding is supported :)
+    // final maxAmountStr = await PromptModal.show(
+    //   title: "Max Bid",
+    //   body: "You can set the maximum amount you are willing to bid here.",
+    //   initialValue: "$amount",
+    //   validator: (val) => formValidatorNumber(val, "Bid Amount"),
+    //   labelText: "Bid Amount (RBX)",
+    //   confirmText: "Continue",
+    //   cancelText: "Cancel",
+    // );
 
-    if (maxAmountStr != null) {
-      maxAmount = double.tryParse(maxAmountStr) ?? maxAmount;
-    }
+    // if (maxAmountStr != null) {
+    //   maxAmount = double.tryParse(maxAmountStr) ?? maxAmount;
+    // }
 
-    if (maxAmount < amount) {
-      Toast.error("Max amount can not be less than the bid amount");
-      return null;
-    }
+    // if (maxAmount < amount) {
+    //   Toast.error("Max amount can not be less than the bid amount");
+    //   return null;
+    // }
 
     if (!validateBeforeBid(listing, listing.buyNowPrice!)) {
       return null;
