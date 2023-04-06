@@ -276,11 +276,9 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   Future<void> checkRemoteInfo([int attempt = 1]) async {
-
     if (Env.isTestNet) {
       return;
     }
- 
 
     if (!Env.promptForUpdates) {
       return;
@@ -730,8 +728,9 @@ class SessionProvider extends StateNotifier<SessionModel> {
         ProcessManager pm = const LocalProcessManager();
 
         try {
-          final appPath = Directory.current.path;
-          cmd = Env.isTestNet ? "$appPath\\RbxCore\\RBXLauncherTestNet.exe" : "$appPath\\RbxCore\\RBXLauncher.exe";
+          // final appPath = Directory.current.path;
+          // cmd = Env.isTestNet ? "$appPath\\RbxCore\\RBXLauncherTestNet.exe" : "$appPath\\RbxCore\\RBXLauncher.exe";
+          cmd = "C:\\Program Files (x86)\\RBXWallet\\RBXCore\\${Env.isTestNet ? 'RBXLauncherTestNet.exe' : 'RBXLauncher.exe'}";
 
           ref.read(logProvider.notifier).append(LogEntry(message: "Launching CLI in the background."));
           final params = Env.isTestNet ? [cmd] : [cmd, 'apitoken=$apiToken'];
