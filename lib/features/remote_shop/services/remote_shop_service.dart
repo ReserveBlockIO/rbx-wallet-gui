@@ -160,6 +160,13 @@ class RemoteShopService extends BaseService {
     await getText("/GetShopListings/0", cleanPath: false);
     await Future.delayed(Duration(milliseconds: 1000));
     await getText("/GetShopAuctions/0", cleanPath: false);
+
+    if (shopData != null) {
+      /// TODO: better way of doing this + need for collections/listings
+      if (shopData.auctions.length >= 10) {
+        await getText("/GetShopAuctions/1", cleanPath: false);
+      }
+    }
     await Future.delayed(Duration(milliseconds: 1000));
 
     shopData = await _getShopData();

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/dst/models/bid.dart';
+import 'package:rbx_wallet/features/remote_shop/components/bid_status_indicator.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 
 class BidHistoryModal extends StatelessWidget {
@@ -33,41 +34,9 @@ class BidHistoryModal extends StatelessWidget {
           children: bids.map(
             (bid) {
               return ListTile(
-                leading: Builder(
-                  builder: (context) {
-                    if (bid.bidStatus == BidStatus.Sent) {
-                      return AppBadge(
-                        label: "Sent",
-                        variant: AppColorVariant.Primary,
-                      );
-                    }
-
-                    if (bid.bidStatus == BidStatus.Received) {
-                      return AppBadge(
-                        label: "Received",
-                        variant: AppColorVariant.Primary,
-                      );
-                    }
-
-                    if (bid.bidStatus == BidStatus.Accepted) {
-                      return AppBadge(
-                        label: "Accepted",
-                        variant: AppColorVariant.Success,
-                      );
-                    }
-
-                    if (bid.bidStatus == BidStatus.Rejected) {
-                      return AppBadge(
-                        label: "Rejected",
-                        variant: AppColorVariant.Danger,
-                      );
-                    }
-
-                    return SizedBox();
-                  },
-                ),
+                leading: BidStatusIndicator(bid),
                 title: Text("${bid.bidAmount} RBX"),
-                subtitle: Text(bid.bidAddress),
+                // subtitle: Text(bid.bidAddress),
                 trailing: Text(bid.bidSendTimeLabel),
               );
             },

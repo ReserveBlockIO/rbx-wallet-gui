@@ -127,6 +127,7 @@ class DstService extends BaseService {
       final response = await getText(
         '/GetListingBids/$listingId/${isBuyer ? 0 : 1}',
         cleanPath: false,
+        inspect: true,
       );
       final data = jsonDecode(response);
 

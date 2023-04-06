@@ -132,6 +132,12 @@ class BidListProvider extends StateNotifier<List<Bid>> {
       return null;
     }
 
+    if (amount < listing.auction!.currentBidPrice + listing.auction!.incrementAmount) {
+      Toast.error("The minimum increment amount is ${listing.auction!.incrementAmount} RBX.");
+      Toast.error("A bid of at least ${listing.auction!.currentBidPrice + listing.auction!.incrementAmount} RBX is required.");
+      return null;
+    }
+
     double maxAmount = amount;
 
     final maxAmountStr = await PromptModal.show(
