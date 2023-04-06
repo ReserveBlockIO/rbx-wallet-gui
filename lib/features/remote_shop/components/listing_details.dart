@@ -485,7 +485,13 @@ class _NftData extends StatelessWidget {
         children: [
           const Text(
             "Details",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+              color: Colors.white,
+              letterSpacing: 1,
+              decoration: TextDecoration.underline,
+            ),
           ),
           const SizedBox(height: 8),
           Table(
