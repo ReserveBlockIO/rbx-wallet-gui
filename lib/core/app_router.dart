@@ -25,6 +25,8 @@ import '../features/config/screens/config_container_screen.dart';
 import '../features/datanode/screens/datanode_screen.dart';
 import '../features/dst/screens/create_listing_container_screen.dart';
 import '../features/dst/screens/listing_detail_screen.dart';
+import '../features/dst/screens/listing_auction_detail_screen.dart';
+
 import '../features/home/screens/home_screen.dart';
 import '../features/mother/screens/mother_dashboard_screen.dart';
 import '../features/nft/screens/nft_list_screen.dart';
@@ -151,6 +153,7 @@ const List<AutoRoute> appRoutes = [
           AutoRoute(path: "createCollection", page: CreateCollectionContainerScreen),
           AutoRoute(path: "createDecShop", page: CreateDecShopContainerScreen),
           AutoRoute(path: ":listingId", page: ListingDetailScreen),
+          AutoRoute(path: ":listingId/auction", page: ListingAuctionDetailScreen),
           AutoRoute(path: "createListing/:collectionId", page: CreateListingContainerScreen),
         ],
       ),

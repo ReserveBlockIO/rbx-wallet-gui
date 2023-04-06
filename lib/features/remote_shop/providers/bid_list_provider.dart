@@ -7,7 +7,6 @@ import 'package:rbx_wallet/features/dst/models/bid.dart';
 import 'package:rbx_wallet/features/dst/services/dst_service.dart';
 import 'package:rbx_wallet/features/remote_shop/models/shop_data.dart';
 import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 
@@ -32,7 +31,7 @@ class BidListProvider extends StateNotifier<List<Bid>> {
   }
 
   Future<List<Bid>> fetchBids() async {
-    final bids = await DstService().listListingBidsById(listingId);
+    final bids = await DstService().listBuyerBids(listingId);
     bids.sort((a, b) => a.bidSendTime > b.bidSendTime ? -1 : 1);
 
     state = bids;

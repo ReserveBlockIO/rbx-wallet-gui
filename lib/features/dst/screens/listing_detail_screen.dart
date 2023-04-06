@@ -233,6 +233,17 @@ class ListingDetailScreen extends BaseScreen {
                 ],
               ),
             ),
+            if (listing.isAuction)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AppButton(
+                  label: "Auction Activity",
+                  variant: AppColorVariant.Success,
+                  onPressed: () {
+                    AutoRouter.of(context).push(ListingAuctionDetailScreenRoute(listingId: listing.id));
+                  },
+                ),
+              ),
             Expanded(child: SizedBox.shrink()),
             Container(
               width: double.infinity,

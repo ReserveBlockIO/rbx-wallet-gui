@@ -122,10 +122,10 @@ class DstService extends BaseService {
     }
   }
 
-  Future<List<Bid>> listListingBidsById(int id) async {
+  Future<List<Bid>> _listBids(int listingId, bool isBuyer) async {
     try {
       final response = await getText(
-        '/GetListingBids/$id',
+        '/GetListingBids/$listingId/${isBuyer ? 0 : 1}',
         cleanPath: false,
       );
       final data = jsonDecode(response);
@@ -147,6 +147,14 @@ class DstService extends BaseService {
       print(e);
       return [];
     }
+  }
+
+  Future<List<Bid>> listBuyerBids(int listingId) async {
+    return await _listBids(listingId, true);
+  }
+
+  Future<List<Bid>> listSellerBids(int listingId) async {
+    return await _listBids(listingId, false);
   }
 
   Future<List<Bid>> listListingBidsByStatus(BidStatus status) async {

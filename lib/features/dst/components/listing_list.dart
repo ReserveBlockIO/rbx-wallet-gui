@@ -57,6 +57,18 @@ class ListingList extends BaseComponent {
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      if (listing.isAuction) ...[
+                        AppButton(
+                          label: "Activity",
+                          variant: AppColorVariant.Success,
+                          onPressed: () {
+                            AutoRouter.of(context).push(ListingAuctionDetailScreenRoute(listingId: listing.id));
+                          },
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                      ],
                       AppButton(
                         label: "Edit",
                         variant: AppColorVariant.Light,
