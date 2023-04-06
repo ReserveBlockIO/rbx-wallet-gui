@@ -15,7 +15,7 @@ class BidHistoryModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ModalContainer(
-      withClose: false,
+      withClose: true,
       withDecor: false,
       children: [
         const Text(
