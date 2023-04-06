@@ -36,7 +36,7 @@ class BidHistoryModal extends StatelessWidget {
               return ListTile(
                 leading: BidStatusIndicator(bid),
                 title: Text("${bid.bidAmount} RBX"),
-                // subtitle: Text(bid.bidAddress),
+                subtitle: Text(bid.bidAddress),
                 trailing: Text(bid.bidSendTimeLabel),
               );
             },
