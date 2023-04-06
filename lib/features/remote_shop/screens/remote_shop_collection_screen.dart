@@ -10,6 +10,7 @@ import 'package:rbx_wallet/features/dst/models/dec_shop.dart';
 import 'package:rbx_wallet/features/remote_shop/components/remote_asset_preview.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
 import 'package:collection/collection.dart';
+import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 
 import "../components/listing_details.dart";
 
@@ -42,6 +43,7 @@ class RemoteShopCollectionScreen extends BaseScreen {
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
       actions: [
+        WalletSelector(),
         IconButton(
             onPressed: () {
               AutoRouter.of(context).push(ShopChatScreenRoute(shopUrl: url));
