@@ -18,6 +18,7 @@ import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/remote_shop/components/bid_history_modal.dart';
 import 'package:rbx_wallet/features/remote_shop/models/shop_data.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/bid_list_provider.dart';
+import 'package:rbx_wallet/utils/files.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 class ListingDetails extends BaseComponent {
@@ -177,6 +178,11 @@ class _PreviewState extends State<_Preview> {
                     },
                   ),
                   items: paths.map((path) {
+                    final fileType = fileTypeFromPath(path);
+
+                    final isImage = fileType == "Image";
+                    final icon = iconFromPath(path);
+
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 0),
                       child: GestureDetector(
@@ -202,29 +208,45 @@ class _PreviewState extends State<_Preview> {
                                 );
                               });
                         },
-                        child: Image.file(
-                          File(path),
-                          errorBuilder: (context, _, __) {
-                            // return Text(path);
-                            return Center(
-                              child: IconButton(
-                                icon: Icon(Icons.refresh),
-                                onPressed: () async {
-                                  setState(() {
-                                    rebuilding = true;
-                                  });
-                                  await FileImage(File(path)).evict();
+                        child: isImage
+                            ? Image.file(
+                                File(path),
+                                errorBuilder: (context, _, __) {
+                                  // return Text(path);
+                                  return Center(
+                                    child: IconButton(
+                                      icon: Icon(Icons.refresh),
+                                      onPressed: () async {
+                                        setState(() {
+                                          rebuilding = true;
+                                        });
+                                        await FileImage(File(path)).evict();
 
-                                  Future.delayed(Duration(milliseconds: 300)).then((value) {
-                                    setState(() {
-                                      rebuilding = false;
-                                    });
-                                  });
+                                        Future.delayed(Duration(milliseconds: 300)).then((value) {
+                                          setState(() {
+                                            rebuilding = false;
+                                          });
+                                        });
+                                      },
+                                    ),
+                                  );
                                 },
+                              )
+                            : Center(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      icon,
+                                      size: 32,
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Text(fileNameFromPath(path)),
+                                  ],
+                                ),
                               ),
-                            );
-                          },
-                        ),
                       ),
                     );
                   }).toList(),

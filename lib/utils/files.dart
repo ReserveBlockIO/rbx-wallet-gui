@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -139,4 +141,52 @@ Future<Asset?> selectAsset(WidgetRef ref) async {
     );
   }
   return asset;
+}
+
+String fileNameFromPath(String path) {
+  return path.split('/').last;
+}
+
+String fileTypeFromPath(String path) {
+  final ext = path.split('.').last.toLowerCase();
+
+  switch (ext) {
+    case "jpg":
+    case "jpeg":
+    case "png":
+    case "gif":
+    case "webp":
+      return "Image";
+    case "pdf":
+    case "doc":
+    case "docx":
+      return "Document";
+    case "mov":
+    case "mp4":
+    case "avi":
+      return "Video";
+    case "mp3":
+    case "m4a":
+    case "wav":
+    case "flac":
+      return "Audio";
+    default:
+      return "File";
+  }
+}
+
+IconData iconFromPath(String path) {
+  final fileType = fileTypeFromPath(path);
+  switch (fileType) {
+    case "Image":
+      return FontAwesomeIcons.fileImage;
+    case "Document":
+      return FontAwesomeIcons.filePdf;
+    case "Video":
+      return FontAwesomeIcons.fileVideo;
+    case "Audio":
+      return FontAwesomeIcons.fileAudio;
+    default:
+      return FontAwesomeIcons.file;
+  }
 }
