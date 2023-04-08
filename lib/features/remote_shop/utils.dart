@@ -132,6 +132,7 @@ Future<OrganizedShop> organizeShopData({required RemoteShopService service, requ
     if (!nfts.containsKey(scId)) {
       Nft? nft = await NftService().getNftData(scId);
       if (nft != null) {
+        print("Getting NFT: $scId");
         await getNftAssets(service: service, scId: scId);
 
         String thumbsPath = await assetsPath();
