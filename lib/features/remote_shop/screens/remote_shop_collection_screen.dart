@@ -45,6 +45,12 @@ class RemoteShopCollectionScreen extends BaseScreen {
       actions: [
         WalletSelector(),
         IconButton(
+          onPressed: () {
+            ref.read(connectedShopProvider.notifier).refresh(true);
+          },
+          icon: Icon(Icons.refresh),
+        ),
+        IconButton(
             onPressed: () {
               AutoRouter.of(context).push(ShopChatScreenRoute(shopUrl: url));
             },

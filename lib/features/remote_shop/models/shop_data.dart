@@ -65,6 +65,11 @@ class OrganizedListing with _$OrganizedListing {
     return startDate.isBefore(now) && endDate.isAfter(now);
   }
 
+  bool get hasStarted {
+    final now = DateTime.now();
+    return startDate.isBefore(now);
+  }
+
   bool get canBuyNow {
     return isActive && buyNowPrice != null;
   }

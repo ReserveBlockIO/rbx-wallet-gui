@@ -117,6 +117,14 @@ Future<ShopData?> getShopData({required RemoteShopService service, int attempt =
 }
 
 Future<dynamic> getNftAssets({required RemoteShopService service, required String scId}) async {
+  String thumbsPath = await assetsPath();
+
+  thumbsPath = Platform.isMacOS ? "$thumbsPath/${scId.replaceAll(':', '')}/thumbs" : "$thumbsPath\\${scId.replaceAll(':', '')}\\thumbs";
+  if (Directory(thumbsPath).existsSync()) {
+    // print("Thumbs directory exists.");
+    return;
+  }
+
   final response = await service.getText("/GetNFTAssets/$scId", cleanPath: false);
 
   final data = jsonDecode(response);

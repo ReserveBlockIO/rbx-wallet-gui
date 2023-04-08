@@ -10,6 +10,7 @@ import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/breakpoints.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/components/countdown.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
@@ -45,6 +46,7 @@ class ListingDetails extends BaseComponent {
           if (listing.canBid) _Auction(listing: listing),
           if (listing.canBuyNow && listing.canBid) SizedBox(height: 16),
           if (listing.canBuyNow) _BuyNow(listing: listing),
+          _Countdown(listing: listing),
         ],
       ),
     );
@@ -86,6 +88,8 @@ class ListingDetails extends BaseComponent {
                 if (listing.canBid) IntrinsicWidth(child: _Auction(listing: listing)),
                 if (listing.canBuyNow && listing.canBid) SizedBox(height: 16),
                 if (listing.canBuyNow) IntrinsicWidth(child: _BuyNow(listing: listing)),
+                const SizedBox(height: 16),
+                _Countdown(listing: listing),
               ]),
             ),
           ),
@@ -785,6 +789,37 @@ class _AuctionInfoDialogContent extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _Countdown extends StatelessWidget {
+  final OrganizedListing listing;
+  const _Countdown({super.key, required this.listing});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: BreakPoints.useMobileLayout(context) ? CrossAxisAlignment.stretch : CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (listing.isActive)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: AppCountdown(
+              dueDate: listing.endDate,
+              prefix: "Auction Ends",
+            ),
+          ),
+        if (!listing.hasStarted)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: AppCountdown(
+              dueDate: listing.startDate,
+              prefix: "Auction Starts",
+            ),
+          ),
+      ],
     );
   }
 }
