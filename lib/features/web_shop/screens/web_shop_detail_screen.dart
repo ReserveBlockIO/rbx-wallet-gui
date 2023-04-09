@@ -2,7 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
+import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/features/remote_shop/providers/web_collection_form_provider.dart';
 import 'package:rbx_wallet/features/web_shop/components/web_collection_list.dart';
+import 'package:rbx_wallet/features/web_shop/screens/my_create_collection_container_screen.dart';
 
 import '../components/web_shop_list.dart';
 import '../providers/web_shop_detail_provider.dart';
@@ -76,7 +79,26 @@ class WebShopDetailScreen extends BaseScreen {
                 ),
                 Expanded(
                   child: WebCollectionList(shop.id),
-                )
+                ),
+                if (shop.isOwner(ref))
+                  Container(
+                    color: Colors.black,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          AppButton(
+                            label: "Create Collection",
+                            onPressed: () {
+                              ref.read(webCollectionFormProvider.notifier).clear(shop);
+                              Navigator.of(context).push(MaterialPageRoute(builder: (_) => MyCreateCollectionContainerScreen()));
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
               ],
             )
           : const Text("Error"),

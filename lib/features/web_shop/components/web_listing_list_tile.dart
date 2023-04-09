@@ -20,15 +20,20 @@ class WebListingTile extends BaseComponent {
         subtitle: Text(listing.nft.description),
         trailing: Icon(Icons.chevron_right_outlined),
         onTap: () {
+          if (listing.collection.shop == null) {
+            print("Shop is null");
+            return;
+          }
+
           if (Env.isWeb) {
             AutoRouter.of(context).push(WebListingDetailScreenRoute(
-              shopId: listing.collection.shop.id,
+              shopId: listing.collection.shop!.id,
               collectionId: listing.collection.id,
               listingId: listing.id,
             ));
           } else {
             AutoRouter.of(context).push(DebugWebListingDetailScreenRoute(
-              shopId: listing.collection.shop.id,
+              shopId: listing.collection.shop!.id,
               collectionId: listing.collection.id,
               listingId: listing.id,
             ));

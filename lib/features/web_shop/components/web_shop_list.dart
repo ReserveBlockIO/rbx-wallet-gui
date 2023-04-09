@@ -8,11 +8,15 @@ import '../../../core/components/infinite_list.dart';
 import '../providers/web_shop_list_provider.dart';
 
 class WebShopList extends BaseComponent {
-  const WebShopList({Key? key}) : super(key: key);
+  final bool mine;
+  const WebShopList({
+    Key? key,
+    this.mine = false,
+  }) : super(key: key);
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final listProvider = ref.watch(webShopListProvider.notifier);
+    final listProvider = ref.watch(webShopListProvider(mine ? WebShopListType.mine : WebShopListType.public).notifier);
 
     return InfiniteList<WebShop>(
       pagingController: listProvider.pagingController,

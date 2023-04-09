@@ -162,7 +162,7 @@ class __$$_WebShopCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_WebShop extends _WebShop {
+class _$_WebShop extends _WebShop with DiagnosticableTreeMixin {
   _$_WebShop(
       {required this.id,
       required this.name,
@@ -192,8 +192,21 @@ class _$_WebShop extends _WebShop {
   final bool isOffline;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WebShop(id: $id, name: $name, description: $description, uid: $uid, ownerAddress: $ownerAddress, isOffline: $isOffline)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'WebShop'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('description', description))
+      ..add(DiagnosticsProperty('uid', uid))
+      ..add(DiagnosticsProperty('ownerAddress', ownerAddress))
+      ..add(DiagnosticsProperty('isOffline', isOffline));
   }
 
   @override
