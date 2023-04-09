@@ -29,22 +29,30 @@ class RemoteShopListScreen extends BaseScreen {
     BuildContext context,
     WidgetRef ref,
   ) async {
-    final url = await PromptModal.show(
+    String? url = await PromptModal.show(
       title: "Shop URL",
       validator: (value) {
         if (value == null || value.isEmpty) {
           return "Shop URL required";
         }
 
-        if (!value.startsWith("rbx://")) {
-          return "Invalid URL. Must start with 'rbx://'";
-        }
+        // if (!value.startsWith("rbx://")) {
+        //   return "Invalid URL. Must start with 'rbx://'";
+        // }
         return null;
       },
       labelText: "Shop URL",
     );
 
-    return url?.toLowerCase();
+    if (url == null) {
+      return null;
+    }
+
+    if (!url.startsWith("rbx://")) {
+      url = "rbx://$url";
+    }
+
+    return url.trim();
   }
 
   Future<void> loadShopWithPrompt(
