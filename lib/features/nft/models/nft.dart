@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:collection/collection.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rbx_wallet/core/utils.dart';
+import 'package:rbx_wallet/features/dst/providers/listed_nfts_provider.dart';
 import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
 
 import '../../../core/env.dart';
@@ -297,5 +299,12 @@ abstract class Nft with _$Nft {
       }
     }
     return true;
+  }
+
+  bool isListed(WidgetRef ref) {
+    if (ref.read(listedNftsProvider).contains(id)) {
+      return true;
+    }
+    return false;
   }
 }

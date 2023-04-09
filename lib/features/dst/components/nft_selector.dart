@@ -79,7 +79,7 @@ class NftSelectorModal extends BaseComponent {
           itemCount: nfts.length,
           itemBuilder: (context, index) {
             final nft = nfts[index];
-            return NftListTile(nft, onPressedOverride: () {
+            return NftListTile(nft, showListedStatus: true, onPressedOverride: () {
               Navigator.of(context).pop(nft);
             });
           },

@@ -100,13 +100,13 @@ class NftDetailScreen extends BaseScreen {
                     progressAnimation: !nft.isPublished,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: AppBadge(
-                    label: nft.isPublic ? "Public" : "Private",
-                    variant: nft.isPublic ? AppColorVariant.Success : AppColorVariant.Primary,
+                if (nft.isListed(ref))
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: AppBadge(
+                      label: "Listed",
+                    ),
                   ),
-                ),
               ],
             ),
           )
@@ -455,6 +455,12 @@ class NftDetailScreen extends BaseScreen {
                                 if (!await passwordRequiredGuard(context, ref)) {
                                   return;
                                 }
+
+                                if (nft.isListed(ref)) {
+                                  Toast.error("This NFT is listed in your auction house. Please remove the listing before transferring.");
+                                  return;
+                                }
+
                                 Wallet? wallet = ref.read(walletListProvider).firstWhereOrNull((w) => w.address == nft.currentOwner);
                                 if (wallet == null) {
                                   Toast.error("No wallet selected");
@@ -607,17 +613,17 @@ class NftDetailScreen extends BaseScreen {
                         },
                       ),
                     ),
-                  if (!kIsWeb)
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: AppButton(
-                        label: nft.isPublic ? "Make Private" : "Make Public",
-                        icon: nft.isPublic ? Icons.visibility_off : Icons.visibility,
-                        onPressed: () {
-                          _provider.togglePrivate();
-                        },
-                      ),
-                    ),
+                  // if (!kIsWeb)
+                  //   Padding(
+                  //     padding: const EdgeInsets.all(4.0),
+                  //     child: AppButton(
+                  //       label: nft.isPublic ? "Make Private" : "Make Public",
+                  //       icon: nft.isPublic ? Icons.visibility_off : Icons.visibility,
+                  //       onPressed: () {
+                  //         _provider.togglePrivate();
+                  //       },
+                  //     ),
+                  //   ),
                   if (nft.code != null)
                     Padding(
                       padding: const EdgeInsets.all(4.0),
@@ -644,6 +650,13 @@ class NftDetailScreen extends BaseScreen {
                       variant: AppColorVariant.Danger,
                       onPressed: nft.isPublished
                           ? () async {
+                              if (!kIsWeb) {
+                                if (nft.isListed(ref)) {
+                                  Toast.error("This NFT is listed in your auction house. Please remove the listing before burning.");
+                                  return;
+                                }
+                              }
+
                               if (!await passwordRequiredGuard(context, ref)) return;
                               final confirmed = await ConfirmDialog.show(
                                 title: "Burn NFT?",

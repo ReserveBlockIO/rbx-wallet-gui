@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/asset/polling_image_preview.dart';
 import 'package:rbx_wallet/features/dst/components/nft_selector.dart';
 import 'package:rbx_wallet/features/dst/providers/collection_form_provider.dart';
+import 'package:rbx_wallet/features/dst/providers/listed_nfts_provider.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/base_component.dart';
 import '../../../utils/validation.dart';
@@ -209,6 +211,13 @@ class _NFT extends BaseComponent {
           children: [
             Text("NFT:"),
             NftSelector(onSelect: (nft) {
+              if (nft.isListed(ref)) {
+                Toast.error("This NFT is already listed. Please choose another");
+                provider.clearNft();
+
+                return;
+              }
+
               provider.updateNFT(nft);
             }),
           ],
@@ -265,6 +274,11 @@ class _NFT extends BaseComponent {
           NftSelector(
             labelOverride: "Replace NFT",
             onSelect: (nft) {
+              if (nft.isListed(ref)) {
+                Toast.error("This NFT is already listed. Please choose another");
+                provider.clearNft();
+                return;
+              }
               provider.updateNFT(nft);
             },
           ),

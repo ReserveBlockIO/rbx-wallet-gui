@@ -381,4 +381,25 @@ class DstService extends BaseService {
       return false;
     }
   }
+
+  Future<List<String>> listedNftIds() async {
+    final shop = await retreiveShop();
+
+    if (shop == null) {
+      return [];
+    }
+
+    final List<String> ids = [];
+
+    final listings = await listListings(shop.id);
+
+    for (final l in listings) {
+      final listing = await retreiveListing(l.id);
+      if (listing != null) {
+        ids.add(listing.smartContractUid);
+      }
+    }
+
+    return ids;
+  }
 }

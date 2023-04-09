@@ -16,12 +16,14 @@ class NftListTile extends BaseComponent {
   final Nft nft;
   final bool manageOnPress;
   final Function()? onPressedOverride;
+  final bool showListedStatus;
 
   const NftListTile(
     this.nft, {
     Key? key,
     this.manageOnPress = false,
     this.onPressedOverride,
+    this.showListedStatus = false,
   }) : super(key: key);
 
   Future<void> _showDetails(BuildContext context, WidgetRef ref) async {
@@ -61,7 +63,7 @@ class NftListTile extends BaseComponent {
               : () {
                   _showDetails(context, ref);
                 }),
-      title: Text("${nft.currentEvolveName}${isBurned ? ' (Burned)' : ''}"),
+      title: Text("${nft.currentEvolveName}${isBurned ? ' (Burned)' : ''} ${showListedStatus == nft.isListed(ref) ? ' (Listed)' : ''}"),
       subtitle: Text(nft.id),
       leading: SizedBox(
         height: 32,

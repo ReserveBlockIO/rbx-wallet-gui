@@ -13,6 +13,7 @@ import 'package:rbx_wallet/core/api_token_manager.dart';
 import 'package:rbx_wallet/core/utils.dart';
 import 'package:rbx_wallet/features/chat/providers/chat_notification_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
+import 'package:rbx_wallet/features/dst/providers/listed_nfts_provider.dart';
 import 'package:rbx_wallet/features/dst/services/dst_service.dart';
 import 'package:rbx_wallet/features/remote_info/components/snapshot_downloader.dart';
 import 'package:rbx_wallet/features/remote_info/models/remote_info.dart';
@@ -454,6 +455,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
       ref.read(nftListProvider.notifier).reloadCurrentPage();
       ref.read(mintedNftListProvider.notifier).reloadCurrentPage();
       ref.read(draftsSmartContractProvider.notifier).load();
+      ref.read(listedNftsProvider.notifier).refresh();
     }
 
     if (inLoop) {

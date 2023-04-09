@@ -62,6 +62,14 @@ class ListingFormProvider extends StateNotifier<Listing> {
     );
   }
 
+  clearNft() {
+    state = state.copyWith(
+      nft: null,
+      smartContractUid: '',
+      ownerAddress: '',
+    );
+  }
+
   updateDate(DateTime date, bool isStartDate) {
     if (date.isBefore(DateTime.now()) && !isStartDate) {
       OverlayToast.error("End date must be in the future.");
