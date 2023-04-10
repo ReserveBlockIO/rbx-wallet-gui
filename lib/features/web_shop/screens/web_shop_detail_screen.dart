@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/features/remote_shop/providers/web_collection_form_provider.dart';
+import 'package:rbx_wallet/features/web_shop/providers/web_collection_form_provider.dart';
 import 'package:rbx_wallet/features/web_shop/components/web_collection_list.dart';
 import 'package:rbx_wallet/features/web_shop/screens/my_create_collection_container_screen.dart';
 

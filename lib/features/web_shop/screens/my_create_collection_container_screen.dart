@@ -2,8 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/dst/providers/collection_form_provider.dart';
-import 'package:rbx_wallet/features/remote_shop/providers/web_collection_form_provider.dart';
-import 'package:rbx_wallet/features/web_shop/components/web_create_store_form_group.dart';
+import 'package:rbx_wallet/features/web_shop/providers/web_collection_form_provider.dart';
+import 'package:rbx_wallet/features/web_shop/components/web_create_collection_form_group.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/components/buttons.dart';
