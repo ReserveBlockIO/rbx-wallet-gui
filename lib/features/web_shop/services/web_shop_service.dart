@@ -88,6 +88,18 @@ class WebShopService extends BaseService {
     }
   }
 
+  Future<bool> saveWebShop(WebShop shop) async {
+    try {
+      final data = await postJson("/shop", params: shop.toJson());
+      return true;
+    } catch (e, st) {
+      if (e is DioError) print(e.response);
+      print(e);
+      print(st);
+      return false;
+    }
+  }
+
   // Collections
 
   Future<ServerPaginatedReponse<WebCollection>> listCollections(int shopId, [int page = 1]) async {

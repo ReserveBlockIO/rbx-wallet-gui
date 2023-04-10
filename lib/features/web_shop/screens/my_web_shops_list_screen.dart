@@ -11,6 +11,8 @@ class MyWebShopListScreen extends BaseScreen {
       : super(
           backgroundColor: const Color(0xFF010715),
           includeWebDrawer: true,
+          verticalPadding: 0,
+          horizontalPadding: 0,
         );
 
   @override

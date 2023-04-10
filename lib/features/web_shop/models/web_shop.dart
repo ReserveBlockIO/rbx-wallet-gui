@@ -16,12 +16,23 @@ class WebShop with _$WebShop {
     required int id,
     required String name,
     required String description,
+    required String url,
     @JsonKey(name: 'unique_id') required String uid,
     @JsonKey(name: 'owner_address') required String ownerAddress,
     @JsonKey(name: 'is_offline') required bool isOffline,
   }) = _WebShop;
 
   factory WebShop.fromJson(Map<String, dynamic> json) => _$WebShopFromJson(json);
+
+  factory WebShop.empty() => WebShop(
+        id: 0,
+        uid: '',
+        name: '',
+        description: '',
+        ownerAddress: '',
+        url: '',
+        isOffline: true,
+      );
 
   bool isOwner(WidgetRef ref) {
     final address = kIsWeb ? ref.read(webSessionProvider).keypair?.public : ref.read(sessionProvider).currentWallet?.address;

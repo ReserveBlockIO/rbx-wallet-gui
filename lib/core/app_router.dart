@@ -47,6 +47,7 @@ import '../features/validator/screens/validator_screen.dart';
 import '../features/voting/screens/create_topic_screen.dart';
 import '../features/voting/screens/topic_detail_screen.dart';
 import '../features/voting/screens/topic_list_screen.dart';
+import '../features/web_shop/screens/create_web_shop_container_screen.dart';
 import '../features/web_shop/screens/web_shop_detail_screen.dart';
 import '../features/web_shop/screens/web_shop_list_screen.dart';
 import '../features/web_shop/screens/my_web_shops_list_screen.dart';
@@ -202,6 +203,11 @@ const List<AutoRoute> appRoutes = [
           AutoRoute(
             path: "mine",
             page: MyWebShopListScreen,
+          ),
+          AutoRoute(
+            path: "createWebShop",
+            name: "DebugWebShopCreateScreenRoute",
+            page: CreateWebShopContainerScreen,
           ),
           AutoRoute(
             path: "shop/:shopId",
