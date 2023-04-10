@@ -681,7 +681,7 @@ class _Auction extends BaseComponent {
                   }),
               const SizedBox(width: 8),
               AppButton(
-                label: "My Bids",
+                label: "Bid History",
                 icon: Icons.punch_clock,
                 size: AppSizeVariant.Lg,
                 onPressed: () async {
