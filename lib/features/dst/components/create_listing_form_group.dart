@@ -373,7 +373,7 @@ class _StartDate extends BaseComponent {
                 ),
               ),
               suffixIcon: IconButton(
-                icon: const Icon(Icons.calendar_month),
+                icon: const Icon(Icons.hourglass_bottom),
                 onPressed: () {
                   _showTimePicker(context, ref, true);
                 },
@@ -439,7 +439,7 @@ class _EndDate extends BaseComponent {
                 ),
               ),
               suffixIcon: IconButton(
-                icon: const Icon(Icons.calendar_month),
+                icon: const Icon(Icons.hourglass_bottom),
                 onPressed: () {
                   _showTimePicker(context, ref, false);
                 },
