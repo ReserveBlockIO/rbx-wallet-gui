@@ -55,10 +55,10 @@ class ListingFormProvider extends StateNotifier<Listing> {
 
   load(Listing listing) {
     state = listing;
-    startDateController.text = DateFormat.yMd().format(listing.startDate);
-    endDateController.text = DateFormat.yMd().format(listing.endDate);
-    startTimeController.text = DateFormat("kk:mm").format(listing.startDate);
-    endTimeController.text = DateFormat("kk:mm").format(listing.endDate);
+    startDateController.text = DateFormat.yMd().format(listing.startDate.toLocal());
+    endDateController.text = DateFormat.yMd().format(listing.endDate.toLocal());
+    startTimeController.text = DateFormat("kk:mm").format(listing.startDate.toLocal());
+    endTimeController.text = DateFormat("kk:mm").format(listing.endDate.toLocal());
     buyNowController.text = (listing.buyNowPrice ?? '').toString();
     floorPriceController.text = (listing.floorPrice ?? '').toString();
     reservePriceController.text = (listing.reservePrice ?? '').toString();
