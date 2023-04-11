@@ -9,7 +9,7 @@ stateDateToJson(DateTime date) {
   final offset = DateTime.now().timeZoneOffset;
 
   final d = offset.inHours < 0 ? date.subtract(offset) : date.add(offset);
-  final str = d.toIso8601String();
+  final str = date.toIso8601String();
   print("start");
   print(str);
   return str;
@@ -18,8 +18,8 @@ stateDateToJson(DateTime date) {
 endDateToJson(DateTime date) {
   final offset = DateTime.now().timeZoneOffset;
   final d = offset.inHours < 0 ? date.subtract(offset) : date.add(offset);
-  final str = d.toIso8601String();
-  print("start");
+  final str = date.toIso8601String();
+  print("end");
   print(str);
   return str;
 }
@@ -39,8 +39,8 @@ class Listing with _$Listing {
     @JsonKey(name: "RequireBalanceCheck") @Default(false) bool requireBalanceCheck,
     @JsonKey(name: "FloorPrice") double? floorPrice,
     @JsonKey(name: "ReservePrice") double? reservePrice,
-    @JsonKey(name: "StartDate") required DateTime startDate,
-    @JsonKey(name: "EndDate") required DateTime endDate,
+    @JsonKey(name: "StartDate", toJson: stateDateToJson) required DateTime startDate,
+    @JsonKey(name: "EndDate", toJson: endDateToJson) required DateTime endDate,
     @JsonKey(name: "IsVisibleBeforeStartDate") @Default(true) bool isVisibleBeforeStartDate,
     @JsonKey(name: "IsVisibleAfterEndDate") @Default(true) bool isVisibleAfterEndDate,
     @JsonKey(name: "FinalPrice") double? finalPrice,

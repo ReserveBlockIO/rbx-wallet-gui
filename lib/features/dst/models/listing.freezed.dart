@@ -40,9 +40,9 @@ mixin _$Listing {
   double? get floorPrice => throw _privateConstructorUsedError;
   @JsonKey(name: "ReservePrice")
   double? get reservePrice => throw _privateConstructorUsedError;
-  @JsonKey(name: "StartDate")
+  @JsonKey(name: "StartDate", toJson: stateDateToJson)
   DateTime get startDate => throw _privateConstructorUsedError;
-  @JsonKey(name: "EndDate")
+  @JsonKey(name: "EndDate", toJson: endDateToJson)
   DateTime get endDate => throw _privateConstructorUsedError;
   @JsonKey(name: "IsVisibleBeforeStartDate")
   bool get isVisibleBeforeStartDate => throw _privateConstructorUsedError;
@@ -82,8 +82,8 @@ abstract class $ListingCopyWith<$Res> {
       @JsonKey(name: "RequireBalanceCheck") bool requireBalanceCheck,
       @JsonKey(name: "FloorPrice") double? floorPrice,
       @JsonKey(name: "ReservePrice") double? reservePrice,
-      @JsonKey(name: "StartDate") DateTime startDate,
-      @JsonKey(name: "EndDate") DateTime endDate,
+      @JsonKey(name: "StartDate", toJson: stateDateToJson) DateTime startDate,
+      @JsonKey(name: "EndDate", toJson: endDateToJson) DateTime endDate,
       @JsonKey(name: "IsVisibleBeforeStartDate") bool isVisibleBeforeStartDate,
       @JsonKey(name: "IsVisibleAfterEndDate") bool isVisibleAfterEndDate,
       @JsonKey(name: "FinalPrice") double? finalPrice,
@@ -245,8 +245,8 @@ abstract class _$$_ListingCopyWith<$Res> implements $ListingCopyWith<$Res> {
       @JsonKey(name: "RequireBalanceCheck") bool requireBalanceCheck,
       @JsonKey(name: "FloorPrice") double? floorPrice,
       @JsonKey(name: "ReservePrice") double? reservePrice,
-      @JsonKey(name: "StartDate") DateTime startDate,
-      @JsonKey(name: "EndDate") DateTime endDate,
+      @JsonKey(name: "StartDate", toJson: stateDateToJson) DateTime startDate,
+      @JsonKey(name: "EndDate", toJson: endDateToJson) DateTime endDate,
       @JsonKey(name: "IsVisibleBeforeStartDate") bool isVisibleBeforeStartDate,
       @JsonKey(name: "IsVisibleAfterEndDate") bool isVisibleAfterEndDate,
       @JsonKey(name: "FinalPrice") double? finalPrice,
@@ -400,9 +400,9 @@ class _$_Listing extends _Listing {
           this.floorPrice,
       @JsonKey(name: "ReservePrice")
           this.reservePrice,
-      @JsonKey(name: "StartDate")
+      @JsonKey(name: "StartDate", toJson: stateDateToJson)
           required this.startDate,
-      @JsonKey(name: "EndDate")
+      @JsonKey(name: "EndDate", toJson: endDateToJson)
           required this.endDate,
       @JsonKey(name: "IsVisibleBeforeStartDate")
           this.isVisibleBeforeStartDate = true,
@@ -456,10 +456,10 @@ class _$_Listing extends _Listing {
   @JsonKey(name: "ReservePrice")
   final double? reservePrice;
   @override
-  @JsonKey(name: "StartDate")
+  @JsonKey(name: "StartDate", toJson: stateDateToJson)
   final DateTime startDate;
   @override
-  @JsonKey(name: "EndDate")
+  @JsonKey(name: "EndDate", toJson: endDateToJson)
   final DateTime endDate;
   @override
   @JsonKey(name: "IsVisibleBeforeStartDate")
@@ -598,9 +598,9 @@ abstract class _Listing extends Listing {
           final double? floorPrice,
       @JsonKey(name: "ReservePrice")
           final double? reservePrice,
-      @JsonKey(name: "StartDate")
+      @JsonKey(name: "StartDate", toJson: stateDateToJson)
           required final DateTime startDate,
-      @JsonKey(name: "EndDate")
+      @JsonKey(name: "EndDate", toJson: endDateToJson)
           required final DateTime endDate,
       @JsonKey(name: "IsVisibleBeforeStartDate")
           final bool isVisibleBeforeStartDate,
@@ -653,10 +653,10 @@ abstract class _Listing extends Listing {
   @JsonKey(name: "ReservePrice")
   double? get reservePrice;
   @override
-  @JsonKey(name: "StartDate")
+  @JsonKey(name: "StartDate", toJson: stateDateToJson)
   DateTime get startDate;
   @override
-  @JsonKey(name: "EndDate")
+  @JsonKey(name: "EndDate", toJson: endDateToJson)
   DateTime get endDate;
   @override
   @JsonKey(name: "IsVisibleBeforeStartDate")
