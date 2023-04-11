@@ -27,19 +27,19 @@ class ListingFormProvider extends StateNotifier<Listing> {
 
   ListingFormProvider(this.ref, Listing model) : super(model) {
     startDateController = TextEditingController(
-      text: model.startDate.isAtSameMomentAs(DateTime.now()) ? DateFormat.yMd().format(model.startDate.toLocal()) : '',
+      text: model.startDate.isAtSameMomentAs(DateTime.now()) ? DateFormat.yMd().format(model.startDate) : '',
     );
 
     endDateController = TextEditingController(
-      text: model.endDate.isAtSameMomentAs(DateTime.now()) ? DateFormat.yMd().format(model.endDate.toLocal()) : '',
+      text: model.endDate.isAtSameMomentAs(DateTime.now()) ? DateFormat.yMd().format(model.endDate) : '',
     );
 
     startTimeController = TextEditingController(
-      text: DateFormat("kk:mm").format(model.startDate.toLocal()),
+      text: DateFormat("kk:mm").format(model.startDate),
     );
 
     endTimeController = TextEditingController(
-      text: DateFormat("kk:mm").format(model.endDate.toLocal()),
+      text: DateFormat("kk:mm").format(model.endDate),
     );
 
     buyNowController = TextEditingController(
@@ -55,10 +55,10 @@ class ListingFormProvider extends StateNotifier<Listing> {
 
   load(Listing listing) {
     state = listing;
-    startDateController.text = DateFormat.yMd().format(listing.startDate.toLocal());
-    endDateController.text = DateFormat.yMd().format(listing.endDate.toLocal());
-    startTimeController.text = DateFormat("kk:mm").format(listing.startDate.toLocal());
-    endTimeController.text = DateFormat("kk:mm").format(listing.endDate.toLocal());
+    startDateController.text = DateFormat.yMd().format(listing.startDate);
+    endDateController.text = DateFormat.yMd().format(listing.endDate);
+    startTimeController.text = DateFormat("kk:mm").format(listing.startDate);
+    endTimeController.text = DateFormat("kk:mm").format(listing.endDate);
     buyNowController.text = (listing.buyNowPrice ?? '').toString();
     floorPriceController.text = (listing.floorPrice ?? '').toString();
     reservePriceController.text = (listing.reservePrice ?? '').toString();
