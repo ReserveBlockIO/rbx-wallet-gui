@@ -405,9 +405,9 @@ class _$_Listing extends _Listing {
       @JsonKey(name: "EndDate", toJson: endDateToJson)
           required this.endDate,
       @JsonKey(name: "IsVisibleBeforeStartDate")
-          this.isVisibleBeforeStartDate = false,
+          this.isVisibleBeforeStartDate = true,
       @JsonKey(name: "IsVisibleAfterEndDate")
-          this.isVisibleAfterEndDate = false,
+          this.isVisibleAfterEndDate = true,
       @JsonKey(name: "FinalPrice")
           this.finalPrice,
       @JsonKey(name: "WinningAddress")

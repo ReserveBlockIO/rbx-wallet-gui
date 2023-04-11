@@ -91,11 +91,11 @@ class ListingFormProvider extends StateNotifier<Listing> {
     //   return;
     // }
 
-    if (!isStartDate) {
-      if (date.isBefore(state.startDate)) {
-        OverlayToast.error("End Date must be after the start date");
-      }
-    }
+    // if (!isStartDate) {
+    //   if (date.isBefore(state.startDate)) {
+    //     OverlayToast.error("End Date must be after the start date");
+    //   }
+    // }
 
     state = isStartDate
         ? state.copyWith(startDate: DateTime(date.year, date.month, date.day, state.startDate.hour, state.startDate.minute))

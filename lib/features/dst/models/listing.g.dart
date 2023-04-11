@@ -20,8 +20,8 @@ _$_Listing _$$_ListingFromJson(Map<String, dynamic> json) => _$_Listing(
       startDate: DateTime.parse(json['StartDate'] as String),
       endDate: DateTime.parse(json['EndDate'] as String),
       isVisibleBeforeStartDate:
-          json['IsVisibleBeforeStartDate'] as bool? ?? false,
-      isVisibleAfterEndDate: json['IsVisibleAfterEndDate'] as bool? ?? false,
+          json['IsVisibleBeforeStartDate'] as bool? ?? true,
+      isVisibleAfterEndDate: json['IsVisibleAfterEndDate'] as bool? ?? true,
       finalPrice: (json['FinalPrice'] as num?)?.toDouble(),
       winningAddress: json['WinningAddress'] as String?,
       collectionId: json['CollectionId'] as int,
