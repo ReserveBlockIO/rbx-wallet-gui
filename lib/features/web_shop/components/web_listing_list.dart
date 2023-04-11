@@ -20,7 +20,7 @@ class WebListingList extends BaseComponent {
     return InfiniteList<WebListing>(
       pagingController: listProvider.pagingController,
       itemBuilder: (context, listing, index) => WebListingDetails(listing: listing),
-      emptyText: "No Collections",
+      emptyText: "No Listings",
       onRefresh: listProvider.refresh,
     );
   }

@@ -191,4 +191,16 @@ class WebShopService extends BaseService {
       return null;
     }
   }
+
+  Future<bool> saveWebListing(WebListing listing, int shopId, int collectionId) async {
+    try {
+      final data = await postJson('/shop/$shopId/collection/$collectionId/listing', params: listing.toJson());
+      return true;
+    } catch (e, st) {
+      if (e is DioError) print(e.response);
+      print(e);
+      print(st);
+      return false;
+    }
+  }
 }

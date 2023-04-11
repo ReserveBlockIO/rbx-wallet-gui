@@ -1,16 +1,21 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/features/web_shop/components/web_listing_list.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_collection_detail_provider.dart';
+
+import '../../../core/components/buttons.dart';
+import '../models/web_listing.dart';
+import '../providers/create_web_listing_provider.dart';
 
 class WebCollectionDetailScreen extends BaseScreen {
   WebCollectionDetailScreen({
     super.key,
     @PathParam("shopId") required this.shopId,
     @PathParam("collectionId") required this.collectionId,
-  }) : super(backgroundColor: const Color(0xFF010715));
+  }) : super(backgroundColor: const Color(0xFF010715), horizontalPadding: 0, verticalPadding: 0);
 
   int shopId;
   int collectionId;
@@ -76,6 +81,25 @@ class WebCollectionDetailScreen extends BaseScreen {
                     collectionId,
                   ),
                 ),
+                if (collection.shop!.isOwner(ref))
+                  Container(
+                    color: Colors.black,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          AppButton(
+                            label: "Create Listing",
+                            onPressed: () {
+                              ref.read(createWebListingProvider.notifier).load(WebListing.empty(), collectionId, shopId);
+                              AutoRouter.of(context).push(DebugWebListingCreateScreenRoute(shopId: shopId, collectionId: collectionId));
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
               ],
             )
           : const Text("Error"),

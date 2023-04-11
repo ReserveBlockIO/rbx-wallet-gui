@@ -25,4 +25,19 @@ class WebNft with _$WebNft {
   }) = _WebNft;
 
   factory WebNft.fromJson(Map<String, dynamic> json) => _$WebNftFromJson(json);
+
+  factory WebNft.empty() => WebNft(
+        identifier: '',
+        name: '',
+        description: '',
+        minterAddress: '',
+        ownerAddress: '',
+        minterName: '',
+        primaryAssetName: '',
+        primaryAssetSize: 0,
+        mintedAt: DateTime.now(),
+        mintTransaction: '',
+        data: '',
+        isBurned: false,
+      );
 }

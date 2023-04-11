@@ -16,8 +16,8 @@ class WebListingTile extends BaseComponent {
     return Card(
       color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
       child: ListTile(
-        title: Text(listing.nft.name),
-        subtitle: Text(listing.nft.description),
+        title: Text(listing.nft!.name),
+        subtitle: Text(listing.nft!.description),
         trailing: Icon(Icons.chevron_right_outlined),
         onTap: () {
           if (listing.collection.shop == null) {

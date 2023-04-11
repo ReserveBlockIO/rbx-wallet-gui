@@ -30,12 +30,15 @@ class WebListingDetails extends BaseComponent {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          _Details(nft: nft),
-          _Preview(listing: listing),
-          if (listing.canBuyNow) _BuyNow(listing: listing),
+          if (nft == null) Text(listing.smartContractUid),
+          if (nft != null) ...[
+            _Details(nft: nft),
+            _Preview(listing: listing),
+            if (listing.canBuyNow) _BuyNow(listing: listing),
+            _WebNftDetails(nft: nft),
+            _WebNftData(nft: nft),
+          ]
           // _Features(nft: nft),
-          _WebNftDetails(nft: nft),
-          _WebNftData(nft: nft),
         ],
       ),
     );
@@ -61,12 +64,15 @@ class WebListingDetails extends BaseComponent {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _Details(nft: nft),
-                const SizedBox(height: 8),
-                _WebNftDetails(nft: nft),
-                const SizedBox(height: 16),
-                _WebNftData(nft: nft),
-                const SizedBox(height: 8),
+                if (nft == null) Text(listing.smartContractUid),
+                if (nft != null) ...[
+                  _Details(nft: nft!),
+                  const SizedBox(height: 8),
+                  _WebNftDetails(nft: nft),
+                  const SizedBox(height: 16),
+                  _WebNftData(nft: nft),
+                  const SizedBox(height: 8),
+                ],
                 Row(
                   children: [
                     if (listing.canBuyNow) _BuyNow(listing: listing),

@@ -32,7 +32,7 @@ _$_WebListing _$$_WebListingFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_WebListingToJson(_$_WebListing instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'collection': instance.collection,
+      'collection': collectionToJson(instance.collection),
       'nft': instance.nft,
       'smart_contract_uid': instance.smartContractUid,
       'owner_address': instance.ownerAddress,
