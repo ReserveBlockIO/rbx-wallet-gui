@@ -62,39 +62,47 @@ class ListingDetails extends BaseComponent {
     }
     return Padding(
       padding: const EdgeInsets.all(32.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _Preview(nft: nft),
-                _Features(nft: nft),
-              ],
-            ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _Preview(nft: nft),
+                    _Features(nft: nft),
+                  ],
+                ),
+              ),
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 600),
+                child: Center(
+                  child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    _Details(nft: nft),
+                    const SizedBox(height: 8),
+                    _NftDetails(nft: nft),
+                    const SizedBox(height: 16),
+                    _NftData(nft: nft),
+                    const SizedBox(height: 8),
+                    if (listing.canBid) IntrinsicWidth(child: _Auction(listing: listing)),
+                    if (listing.canBuyNow && listing.canBid) SizedBox(height: 16),
+                    if (listing.canBuyNow) IntrinsicWidth(child: _BuyNow(listing: listing)),
+                    const SizedBox(height: 16),
+                    _Countdown(listing: listing),
+                  ]),
+                ),
+              ),
+            ],
           ),
-          ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 600),
-            child: Center(
-              child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
-                _Details(nft: nft),
-                const SizedBox(height: 8),
-                _NftDetails(nft: nft),
-                const SizedBox(height: 16),
-                _NftData(nft: nft),
-                const SizedBox(height: 8),
-                if (listing.canBid) IntrinsicWidth(child: _Auction(listing: listing)),
-                if (listing.canBuyNow && listing.canBid) SizedBox(height: 16),
-                if (listing.canBuyNow) IntrinsicWidth(child: _BuyNow(listing: listing)),
-                const SizedBox(height: 16),
-                _Countdown(listing: listing),
-              ]),
-            ),
-          ),
+          SelectableText(
+            listing.toString(),
+          )
         ],
       ),
     );
