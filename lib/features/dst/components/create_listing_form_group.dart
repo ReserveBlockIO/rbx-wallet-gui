@@ -404,9 +404,6 @@ class _EndDate extends BaseComponent {
           child: TextFormField(
             controller: provider.endDateController,
             validator: (String? val) {
-              if (model.endDate.isBefore(model.startDate) || model.endDate.isAtSameMomentAs(model.startDate)) {
-                return 'The end date must be set and it must be a later date than the start date';
-              }
               return null;
             },
             onTap: () {
