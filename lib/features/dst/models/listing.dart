@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
@@ -9,7 +11,7 @@ stateDateToJson(DateTime date) {
   final offset = DateTime.now().timeZoneOffset;
 
   final d = offset.inHours < 0 ? date.subtract(offset) : date.add(offset);
-  final str = date.toIso8601String();
+  final str = (Platform.isWindows ? d : date).toIso8601String();
   print("start");
   print(str);
   return str;
@@ -18,7 +20,8 @@ stateDateToJson(DateTime date) {
 endDateToJson(DateTime date) {
   final offset = DateTime.now().timeZoneOffset;
   final d = offset.inHours < 0 ? date.subtract(offset) : date.add(offset);
-  final str = date.toIso8601String();
+  final str = (Platform.isWindows ? d : date).toIso8601String();
+
   print("end");
   print(str);
   return str;
