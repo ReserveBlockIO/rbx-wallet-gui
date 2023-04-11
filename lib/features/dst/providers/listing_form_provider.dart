@@ -98,7 +98,14 @@ class ListingFormProvider extends StateNotifier<Listing> {
     // }
 
     state = isStartDate
-        ? state.copyWith(startDate: DateTime(date.year, date.month, date.day, state.startDate.hour, state.startDate.minute))
+        ? state.copyWith(
+            startDate: DateTime(
+            date.year,
+            date.month,
+            date.day,
+            state.startDate.hour,
+            state.startDate.minute,
+          ))
         : state.copyWith(endDate: DateTime(date.year, date.month, date.day, state.endDate.hour, state.endDate.minute));
 
     startDateController.text = DateFormat.yMd().format(state.startDate);
