@@ -16,6 +16,7 @@ import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/remote_shop/components/bid_history_modal.dart';
+import 'package:rbx_wallet/features/remote_shop/components/buy_now_progress_modal.dart';
 import 'package:rbx_wallet/features/remote_shop/models/shop_data.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/bid_list_provider.dart';
 import 'package:rbx_wallet/utils/files.dart';
@@ -574,6 +575,14 @@ class _BuyNow extends BaseComponent {
           icon: Icons.money,
           size: AppSizeVariant.Lg,
           onPressed: () async {
+            // showDialog(
+            //   context: context,
+            //   builder: (context) {
+            //     return BuyNowProgressModal(smartContractUid: listing.smartContractUid);
+            //   },
+            // );
+            // return;
+
             final success = await provider.buyNow(context, listing);
 
             if (success == true) {

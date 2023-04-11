@@ -66,4 +66,24 @@ class RemoteShopService extends BaseService {
       return false;
     }
   }
+
+  Future<bool> completeNftPurchase(String scId) async {
+    try {
+      final data = await getJson(
+        '/CompleteNFTPurchase/$scId',
+        cleanPath: false,
+      );
+
+      if (data["Success"] == true) {
+        return true;
+      }
+
+      Toast.error(data['Message'] ?? "A problem occurred");
+      return false;
+    } catch (e) {
+      print(e);
+      Toast.error();
+      return false;
+    }
+  }
 }
