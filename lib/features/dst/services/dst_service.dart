@@ -150,6 +150,34 @@ class DstService extends BaseService {
     }
   }
 
+  Future<List<Bid>> listGlobalListingBids(int listingId) async {
+    try {
+      final response = await getText(
+        '/GetShopListingBids/$listingId',
+        cleanPath: false,
+        inspect: true,
+      );
+      final data = jsonDecode(response);
+
+      if (data["Success"] != true) {
+        // Toast.error(data['Message']);
+        print(data);
+        return [];
+      }
+
+      final items = data['Bids'];
+
+      final List<Bid> bids = [];
+      for (final item in items) {
+        bids.add(Bid.fromJson(item));
+      }
+      return bids;
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
   Future<List<Bid>> listBuyerBids(int listingId) async {
     return await _listBids(listingId, true);
   }

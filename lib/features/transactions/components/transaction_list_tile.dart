@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../reserve/components/callback_button.dart';
@@ -51,6 +52,7 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
         widget.transaction.amount <= 0 &&
         (widget.transaction.unlockTime != null && widget.transaction.unlockTime! > (DateTime.now().millisecondsSinceEpoch / 1000));
 
+    final bool canSettle = widget.transaction.type == TxType.nftSale && !fromMe;
     // final bool canCallBack = widget.transaction.status == TransactionStatus.Reserved && fromMe && widget.transaction.amount < 0;
     // final bool canCallBack = widget.transaction.status == TransactionStatus.Reserved && fromMe;
 
@@ -243,6 +245,13 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                                 // ),
                                 CallbackButton(transaction: widget.transaction),
                               ],
+                            ),
+                          if (canSettle)
+                            AppButton(
+                              label: "Settle",
+                              onPressed: () {
+                                print("TODO");
+                              },
                             )
                         ],
                       ),
