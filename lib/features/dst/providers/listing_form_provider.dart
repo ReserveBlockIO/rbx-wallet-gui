@@ -85,11 +85,11 @@ class ListingFormProvider extends StateNotifier<Listing> {
   }
 
   updateDate(DateTime date, bool isStartDate) {
-    if (date.isBefore(DateTime.now()) && !isStartDate) {
-      OverlayToast.error("End date must be in the future.");
+    // if (date.isBefore(DateTime.now()) && !isStartDate) {
+    //   OverlayToast.error("End date must be in the future.");
 
-      return;
-    }
+    //   return;
+    // }
 
     if (!isStartDate) {
       if (date.isBefore(state.startDate)) {
@@ -107,10 +107,10 @@ class ListingFormProvider extends StateNotifier<Listing> {
 
     final d = DateTime(existing.year, existing.month, existing.day, time.hour, time.minute);
 
-    if (d.isBefore(DateTime.now())) {
-      OverlayToast.error("Time must be in the future.");
-      return;
-    }
+    // if (d.isBefore(DateTime.now())) {
+    //   OverlayToast.error("Time must be in the future.");
+    //   return;
+    // }
 
     state = isStartDate
         ? state.copyWith(startDate: state.startDate.copyWith(hour: d.hour, minute: d.minute))
