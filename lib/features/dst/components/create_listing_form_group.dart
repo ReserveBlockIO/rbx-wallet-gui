@@ -301,9 +301,6 @@ Future<void> _showDatePicker(BuildContext context, WidgetRef ref, bool isStartDa
 
   if (_d != null) {
     _provider.updateDate(_d, isStartDate);
-    if (isStartDate) {
-      _provider.updateDate(_d.add(Duration(days: 7)), false);
-    }
   }
 }
 
