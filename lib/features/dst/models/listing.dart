@@ -5,11 +5,11 @@ part 'listing.freezed.dart';
 part 'listing.g.dart';
 
 stateDateToJson(DateTime date) {
-  return date.toUtc();
+  return date.toUtc().toIso8601String();
 }
 
 endDateToJson(DateTime date) {
-  return date.toUtc();
+  return date.toUtc().toIso8601String();
 }
 
 @freezed
