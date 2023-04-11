@@ -79,7 +79,7 @@ class OrganizedListing with _$OrganizedListing {
       return false;
     }
 
-    return isActive && floorPrice != null && !auction!.isAuctionOver;
+    return isActive && floorPrice != null;
   }
 }
 

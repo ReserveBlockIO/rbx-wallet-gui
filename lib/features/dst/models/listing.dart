@@ -4,6 +4,14 @@ import 'package:rbx_wallet/features/nft/models/nft.dart';
 part 'listing.freezed.dart';
 part 'listing.g.dart';
 
+stateDateToJson(DateTime date) {
+  return date.toUtc();
+}
+
+endDateToJson(DateTime date) {
+  return date.toUtc();
+}
+
 @freezed
 class Listing with _$Listing {
   const Listing._();
@@ -19,8 +27,8 @@ class Listing with _$Listing {
     @JsonKey(name: "RequireBalanceCheck") @Default(false) bool requireBalanceCheck,
     @JsonKey(name: "FloorPrice") double? floorPrice,
     @JsonKey(name: "ReservePrice") double? reservePrice,
-    @JsonKey(name: "StartDate") required DateTime startDate,
-    @JsonKey(name: "EndDate") required DateTime endDate,
+    @JsonKey(name: "StartDate", toJson: stateDateToJson) required DateTime startDate,
+    @JsonKey(name: "EndDate", toJson: endDateToJson) required DateTime endDate,
     @JsonKey(name: "IsVisibleBeforeStartDate") @Default(false) bool isVisibleBeforeStartDate,
     @JsonKey(name: "IsVisibleAfterEndDate") @Default(false) bool isVisibleAfterEndDate,
     @JsonKey(name: "FinalPrice") double? finalPrice,

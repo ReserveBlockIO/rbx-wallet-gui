@@ -47,13 +47,13 @@ class BidListProvider extends StateNotifier<List<Bid>> {
       return false;
     }
 
-    if (wallet.balance < (listing.buyNowPrice! + MIN_RBX_FOR_SC_ACTION)) {
+    if (wallet.balance < (amount + MIN_RBX_FOR_SC_ACTION)) {
       Toast.error("Not enough balance.");
       return false;
     }
 
     if (wallet.isValidating) {
-      if (wallet.balance < (listing.buyNowPrice! + MIN_RBX_FOR_SC_ACTION + ASSURED_AMOUNT_TO_VALIDATE)) {
+      if (wallet.balance < (amount + MIN_RBX_FOR_SC_ACTION + ASSURED_AMOUNT_TO_VALIDATE)) {
         Toast.error("Not enough balance since you are validating.");
         return false;
       }
@@ -101,7 +101,7 @@ class BidListProvider extends StateNotifier<List<Bid>> {
       return null;
     }
 
-    if (listing.auction!.isAuctionOver) {
+    if (!listing.isActive) {
       Toast.error("Auction is over");
       return null;
     }
@@ -164,7 +164,7 @@ class BidListProvider extends StateNotifier<List<Bid>> {
     //   return null;
     // }
 
-    if (!validateBeforeBid(listing, listing.buyNowPrice!)) {
+    if (!validateBeforeBid(listing, listing.floorPrice!)) {
       return null;
     }
 
