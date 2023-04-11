@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
@@ -16,6 +18,14 @@ stateDateToJson(DateTime date) {
   return str;
 }
 
+startDateFromJson(String dateStr) {
+  final date = DateTime.parse(dateStr);
+
+  final offset = DateTime.now().timeZoneOffset;
+  final d = offset.inHours > 0 ? date.subtract(offset) : date.add(offset);
+  return d;
+}
+
 endDateToJson(DateTime date) {
   final offset = DateTime.now().timeZoneOffset;
   final d = offset.inHours < 0 ? date.subtract(offset) : date.add(offset);
@@ -23,6 +33,14 @@ endDateToJson(DateTime date) {
   print("end");
   print(str);
   return str;
+}
+
+endDateFromJson(String dateStr) {
+  final date = DateTime.parse(dateStr);
+
+  final offset = DateTime.now().timeZoneOffset;
+  final d = offset.inHours > 0 ? date.subtract(offset) : date.add(offset);
+  return d;
 }
 
 @freezed
@@ -40,8 +58,8 @@ class Listing with _$Listing {
     @JsonKey(name: "RequireBalanceCheck") @Default(false) bool requireBalanceCheck,
     @JsonKey(name: "FloorPrice") double? floorPrice,
     @JsonKey(name: "ReservePrice") double? reservePrice,
-    @JsonKey(name: "StartDate", toJson: stateDateToJson) required DateTime startDate,
-    @JsonKey(name: "EndDate", toJson: endDateToJson) required DateTime endDate,
+    @JsonKey(name: "StartDate", fromJson: startDateFromJson, toJson: stateDateToJson) required DateTime startDate,
+    @JsonKey(name: "EndDate", fromJson: endDateFromJson, toJson: endDateToJson) required DateTime endDate,
     @JsonKey(name: "IsVisibleBeforeStartDate") @Default(true) bool isVisibleBeforeStartDate,
     @JsonKey(name: "IsVisibleAfterEndDate") @Default(true) bool isVisibleAfterEndDate,
     @JsonKey(name: "FinalPrice") double? finalPrice,

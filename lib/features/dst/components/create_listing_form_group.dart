@@ -44,7 +44,9 @@ class CreateListingFormGroup extends BaseComponent {
                     ),
                   ),
                   Flexible(child: _StartDate()),
+                  Text(model.startDate.toString()),
                   Flexible(child: _EndDate()),
+                  Text(model.endDate.toString()),
                   SizedBox(height: 16),
                   Flexible(child: _EnableBuyNow()),
                   if (model.enableBuyNow) Flexible(child: _BuyNow()),
@@ -306,11 +308,14 @@ Future<void> _showDatePicker(BuildContext context, WidgetRef ref, bool isStartDa
 
 Future<void> _showTimePicker(BuildContext context, WidgetRef ref, bool isStartDate) async {
   final _provider = ref.read(listingFormProvider.notifier);
+  final _model = ref.read(listingFormProvider);
+
+  final initialDateTime = isStartDate ? _model.startDate : _model.endDate;
 
   final t = await showTimePicker(
     context: context,
     initialEntryMode: TimePickerEntryMode.input,
-    initialTime: const TimeOfDay(hour: 0, minute: 0),
+    initialTime: TimeOfDay(hour: initialDateTime.hour, minute: initialDateTime.minute),
     builder: (BuildContext context, Widget? child) {
       return MediaQuery(
         data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),

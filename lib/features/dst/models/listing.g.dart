@@ -17,8 +17,8 @@ _$_Listing _$$_ListingFromJson(Map<String, dynamic> json) => _$_Listing(
       requireBalanceCheck: json['RequireBalanceCheck'] as bool? ?? false,
       floorPrice: (json['FloorPrice'] as num?)?.toDouble(),
       reservePrice: (json['ReservePrice'] as num?)?.toDouble(),
-      startDate: DateTime.parse(json['StartDate'] as String),
-      endDate: DateTime.parse(json['EndDate'] as String),
+      startDate: startDateFromJson(json['StartDate'] as String),
+      endDate: endDateFromJson(json['EndDate'] as String),
       isVisibleBeforeStartDate:
           json['IsVisibleBeforeStartDate'] as bool? ?? true,
       isVisibleAfterEndDate: json['IsVisibleAfterEndDate'] as bool? ?? true,

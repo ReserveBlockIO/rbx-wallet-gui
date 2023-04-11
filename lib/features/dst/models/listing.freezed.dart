@@ -40,9 +40,10 @@ mixin _$Listing {
   double? get floorPrice => throw _privateConstructorUsedError;
   @JsonKey(name: "ReservePrice")
   double? get reservePrice => throw _privateConstructorUsedError;
-  @JsonKey(name: "StartDate", toJson: stateDateToJson)
+  @JsonKey(
+      name: "StartDate", fromJson: startDateFromJson, toJson: stateDateToJson)
   DateTime get startDate => throw _privateConstructorUsedError;
-  @JsonKey(name: "EndDate", toJson: endDateToJson)
+  @JsonKey(name: "EndDate", fromJson: endDateFromJson, toJson: endDateToJson)
   DateTime get endDate => throw _privateConstructorUsedError;
   @JsonKey(name: "IsVisibleBeforeStartDate")
   bool get isVisibleBeforeStartDate => throw _privateConstructorUsedError;
@@ -72,26 +73,46 @@ abstract class $ListingCopyWith<$Res> {
       _$ListingCopyWithImpl<$Res, Listing>;
   @useResult
   $Res call(
-      {@JsonKey(name: "Id") int id,
-      @JsonKey(name: "SmartContractUID") String smartContractUid,
-      @JsonKey(name: "AddressOwner") String ownerAddress,
-      @JsonKey(name: "BuyNowPrice") double? buyNowPrice,
-      @JsonKey(name: "IsBuyNowOnly") bool isBuyNowOnly,
-      @JsonKey(name: "IsRoyaltyEnforced") bool isRoyaltyEnforced,
-      @JsonKey(name: "IsCancelled") bool isCancelled,
-      @JsonKey(name: "RequireBalanceCheck") bool requireBalanceCheck,
-      @JsonKey(name: "FloorPrice") double? floorPrice,
-      @JsonKey(name: "ReservePrice") double? reservePrice,
-      @JsonKey(name: "StartDate", toJson: stateDateToJson) DateTime startDate,
-      @JsonKey(name: "EndDate", toJson: endDateToJson) DateTime endDate,
-      @JsonKey(name: "IsVisibleBeforeStartDate") bool isVisibleBeforeStartDate,
-      @JsonKey(name: "IsVisibleAfterEndDate") bool isVisibleAfterEndDate,
-      @JsonKey(name: "FinalPrice") double? finalPrice,
-      @JsonKey(name: "WinningAddress") String? winningAddress,
-      @JsonKey(name: "CollectionId") int collectionId,
-      @JsonKey(ignore: true) bool enableBuyNow,
-      @JsonKey(ignore: true) bool enableAuction,
-      @JsonKey(ignore: true) Nft? nft});
+      {@JsonKey(name: "Id")
+          int id,
+      @JsonKey(name: "SmartContractUID")
+          String smartContractUid,
+      @JsonKey(name: "AddressOwner")
+          String ownerAddress,
+      @JsonKey(name: "BuyNowPrice")
+          double? buyNowPrice,
+      @JsonKey(name: "IsBuyNowOnly")
+          bool isBuyNowOnly,
+      @JsonKey(name: "IsRoyaltyEnforced")
+          bool isRoyaltyEnforced,
+      @JsonKey(name: "IsCancelled")
+          bool isCancelled,
+      @JsonKey(name: "RequireBalanceCheck")
+          bool requireBalanceCheck,
+      @JsonKey(name: "FloorPrice")
+          double? floorPrice,
+      @JsonKey(name: "ReservePrice")
+          double? reservePrice,
+      @JsonKey(name: "StartDate", fromJson: startDateFromJson, toJson: stateDateToJson)
+          DateTime startDate,
+      @JsonKey(name: "EndDate", fromJson: endDateFromJson, toJson: endDateToJson)
+          DateTime endDate,
+      @JsonKey(name: "IsVisibleBeforeStartDate")
+          bool isVisibleBeforeStartDate,
+      @JsonKey(name: "IsVisibleAfterEndDate")
+          bool isVisibleAfterEndDate,
+      @JsonKey(name: "FinalPrice")
+          double? finalPrice,
+      @JsonKey(name: "WinningAddress")
+          String? winningAddress,
+      @JsonKey(name: "CollectionId")
+          int collectionId,
+      @JsonKey(ignore: true)
+          bool enableBuyNow,
+      @JsonKey(ignore: true)
+          bool enableAuction,
+      @JsonKey(ignore: true)
+          Nft? nft});
 
   $NftCopyWith<$Res>? get nft;
 }
@@ -235,26 +256,46 @@ abstract class _$$_ListingCopyWith<$Res> implements $ListingCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "Id") int id,
-      @JsonKey(name: "SmartContractUID") String smartContractUid,
-      @JsonKey(name: "AddressOwner") String ownerAddress,
-      @JsonKey(name: "BuyNowPrice") double? buyNowPrice,
-      @JsonKey(name: "IsBuyNowOnly") bool isBuyNowOnly,
-      @JsonKey(name: "IsRoyaltyEnforced") bool isRoyaltyEnforced,
-      @JsonKey(name: "IsCancelled") bool isCancelled,
-      @JsonKey(name: "RequireBalanceCheck") bool requireBalanceCheck,
-      @JsonKey(name: "FloorPrice") double? floorPrice,
-      @JsonKey(name: "ReservePrice") double? reservePrice,
-      @JsonKey(name: "StartDate", toJson: stateDateToJson) DateTime startDate,
-      @JsonKey(name: "EndDate", toJson: endDateToJson) DateTime endDate,
-      @JsonKey(name: "IsVisibleBeforeStartDate") bool isVisibleBeforeStartDate,
-      @JsonKey(name: "IsVisibleAfterEndDate") bool isVisibleAfterEndDate,
-      @JsonKey(name: "FinalPrice") double? finalPrice,
-      @JsonKey(name: "WinningAddress") String? winningAddress,
-      @JsonKey(name: "CollectionId") int collectionId,
-      @JsonKey(ignore: true) bool enableBuyNow,
-      @JsonKey(ignore: true) bool enableAuction,
-      @JsonKey(ignore: true) Nft? nft});
+      {@JsonKey(name: "Id")
+          int id,
+      @JsonKey(name: "SmartContractUID")
+          String smartContractUid,
+      @JsonKey(name: "AddressOwner")
+          String ownerAddress,
+      @JsonKey(name: "BuyNowPrice")
+          double? buyNowPrice,
+      @JsonKey(name: "IsBuyNowOnly")
+          bool isBuyNowOnly,
+      @JsonKey(name: "IsRoyaltyEnforced")
+          bool isRoyaltyEnforced,
+      @JsonKey(name: "IsCancelled")
+          bool isCancelled,
+      @JsonKey(name: "RequireBalanceCheck")
+          bool requireBalanceCheck,
+      @JsonKey(name: "FloorPrice")
+          double? floorPrice,
+      @JsonKey(name: "ReservePrice")
+          double? reservePrice,
+      @JsonKey(name: "StartDate", fromJson: startDateFromJson, toJson: stateDateToJson)
+          DateTime startDate,
+      @JsonKey(name: "EndDate", fromJson: endDateFromJson, toJson: endDateToJson)
+          DateTime endDate,
+      @JsonKey(name: "IsVisibleBeforeStartDate")
+          bool isVisibleBeforeStartDate,
+      @JsonKey(name: "IsVisibleAfterEndDate")
+          bool isVisibleAfterEndDate,
+      @JsonKey(name: "FinalPrice")
+          double? finalPrice,
+      @JsonKey(name: "WinningAddress")
+          String? winningAddress,
+      @JsonKey(name: "CollectionId")
+          int collectionId,
+      @JsonKey(ignore: true)
+          bool enableBuyNow,
+      @JsonKey(ignore: true)
+          bool enableAuction,
+      @JsonKey(ignore: true)
+          Nft? nft});
 
   @override
   $NftCopyWith<$Res>? get nft;
@@ -400,9 +441,9 @@ class _$_Listing extends _Listing {
           this.floorPrice,
       @JsonKey(name: "ReservePrice")
           this.reservePrice,
-      @JsonKey(name: "StartDate", toJson: stateDateToJson)
+      @JsonKey(name: "StartDate", fromJson: startDateFromJson, toJson: stateDateToJson)
           required this.startDate,
-      @JsonKey(name: "EndDate", toJson: endDateToJson)
+      @JsonKey(name: "EndDate", fromJson: endDateFromJson, toJson: endDateToJson)
           required this.endDate,
       @JsonKey(name: "IsVisibleBeforeStartDate")
           this.isVisibleBeforeStartDate = true,
@@ -456,10 +497,11 @@ class _$_Listing extends _Listing {
   @JsonKey(name: "ReservePrice")
   final double? reservePrice;
   @override
-  @JsonKey(name: "StartDate", toJson: stateDateToJson)
+  @JsonKey(
+      name: "StartDate", fromJson: startDateFromJson, toJson: stateDateToJson)
   final DateTime startDate;
   @override
-  @JsonKey(name: "EndDate", toJson: endDateToJson)
+  @JsonKey(name: "EndDate", fromJson: endDateFromJson, toJson: endDateToJson)
   final DateTime endDate;
   @override
   @JsonKey(name: "IsVisibleBeforeStartDate")
@@ -598,9 +640,9 @@ abstract class _Listing extends Listing {
           final double? floorPrice,
       @JsonKey(name: "ReservePrice")
           final double? reservePrice,
-      @JsonKey(name: "StartDate", toJson: stateDateToJson)
+      @JsonKey(name: "StartDate", fromJson: startDateFromJson, toJson: stateDateToJson)
           required final DateTime startDate,
-      @JsonKey(name: "EndDate", toJson: endDateToJson)
+      @JsonKey(name: "EndDate", fromJson: endDateFromJson, toJson: endDateToJson)
           required final DateTime endDate,
       @JsonKey(name: "IsVisibleBeforeStartDate")
           final bool isVisibleBeforeStartDate,
@@ -653,10 +695,11 @@ abstract class _Listing extends Listing {
   @JsonKey(name: "ReservePrice")
   double? get reservePrice;
   @override
-  @JsonKey(name: "StartDate", toJson: stateDateToJson)
+  @JsonKey(
+      name: "StartDate", fromJson: startDateFromJson, toJson: stateDateToJson)
   DateTime get startDate;
   @override
-  @JsonKey(name: "EndDate", toJson: endDateToJson)
+  @JsonKey(name: "EndDate", fromJson: endDateFromJson, toJson: endDateToJson)
   DateTime get endDate;
   @override
   @JsonKey(name: "IsVisibleBeforeStartDate")
