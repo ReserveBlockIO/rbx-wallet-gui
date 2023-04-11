@@ -7,6 +7,7 @@ import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/listing_list_provider.dart';
 import 'package:rbx_wallet/features/dst/services/dst_service.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_shop.dart';
+import 'package:rbx_wallet/features/web_shop/providers/web_shop_detail_provider.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_shop_list_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
@@ -71,6 +72,7 @@ class WebShopFormProvider extends StateNotifier<WebShop> {
 
     if (success) {
       ref.read(webShopListProvider(WebShopListType.mine).notifier).refresh();
+      ref.invalidate(webShopDetailProvider);
       AutoRouter.of(context).pop();
       clear();
       return true;
@@ -80,17 +82,15 @@ class WebShopFormProvider extends StateNotifier<WebShop> {
     }
   }
 
-  delete(BuildContext context, WebCollection store) async {
-    // final success = await WebShopService().deleteWebCollection(store);
-    // if (success) {
-    clear();
-    ref.invalidate(listingListProvider(store.id));
-    ref.read(storeListProvider.notifier).refresh();
-    AutoRouter.of(context).popUntilRoot();
-    ref.invalidate(decShopProvider);
-    // } else {
-    // Toast.error();
-    // }
+  delete(BuildContext context, WebShop store) async {
+    final success = await WebShopService().deleteWebShop(store);
+    if (success) {
+      clear();
+      ref.read(webShopListProvider(WebShopListType.mine).notifier).refresh();
+      AutoRouter.of(context).pop();
+    } else {
+      Toast.error();
+    }
   }
 
   clear() {

@@ -7,6 +7,7 @@ import 'package:rbx_wallet/features/web_shop/components/web_listing_list.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_collection_detail_provider.dart';
 
 import '../../../core/components/buttons.dart';
+import '../../../core/theme/app_theme.dart';
 import '../models/web_listing.dart';
 import '../providers/create_web_listing_provider.dart';
 
@@ -91,6 +92,8 @@ class WebCollectionDetailScreen extends BaseScreen {
                         children: [
                           AppButton(
                             label: "Create Listing",
+                            icon: Icons.add,
+                            variant: AppColorVariant.Success,
                             onPressed: () {
                               ref.read(createWebListingProvider.notifier).load(WebListing.empty(), collectionId, shopId);
                               AutoRouter.of(context).push(DebugWebListingCreateScreenRoute(shopId: shopId, collectionId: collectionId));

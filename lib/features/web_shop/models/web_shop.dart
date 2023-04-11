@@ -34,6 +34,10 @@ class WebShop with _$WebShop {
         isOffline: true,
       );
 
+  bool get isNew {
+    return id == 0;
+  }
+
   bool isOwner(WidgetRef ref) {
     final address = kIsWeb ? ref.read(webSessionProvider).keypair?.public : ref.read(sessionProvider).currentWallet?.address;
     if (address == null) {

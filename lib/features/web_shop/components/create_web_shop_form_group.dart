@@ -36,9 +36,10 @@ class CreateWebShopFormGroup extends BaseComponent {
                   Flexible(
                     child: _DecShopDescription(),
                   ),
-                  Flexible(
-                    child: _DecUrl(),
-                  ),
+                  if (model.isNew)
+                    Flexible(
+                      child: _DecUrl(),
+                    ),
                   SizedBox(
                     height: 6,
                   ),

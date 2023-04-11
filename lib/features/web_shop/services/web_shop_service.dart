@@ -90,7 +90,11 @@ class WebShopService extends BaseService {
 
   Future<bool> saveWebShop(WebShop shop) async {
     try {
-      final data = await postJson("/shop", params: shop.toJson());
+      if (shop.isNew) {
+        final data = await postJson("/shop", params: shop.toJson());
+      } else {
+        final data = await patchJson("/shop/${shop.id}", params: shop.toJson());
+      }
       return true;
     } catch (e, st) {
       if (e is DioError) print(e.response);
@@ -195,6 +199,18 @@ class WebShopService extends BaseService {
   Future<bool> saveWebListing(WebListing listing, int shopId, int collectionId) async {
     try {
       final data = await postJson('/shop/$shopId/collection/$collectionId/listing', params: listing.toJson());
+      return true;
+    } catch (e, st) {
+      if (e is DioError) print(e.response);
+      print(e);
+      print(st);
+      return false;
+    }
+  }
+
+  Future<bool> deleteWebShop(WebShop store) async {
+    try {
+      final data = await deleteJson('/shop/${store.id}', responseIsJson: true);
       return true;
     } catch (e, st) {
       if (e is DioError) print(e.response);
