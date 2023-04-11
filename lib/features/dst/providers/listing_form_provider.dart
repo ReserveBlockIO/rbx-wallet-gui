@@ -19,6 +19,8 @@ class ListingFormProvider extends StateNotifier<Listing> {
   late final TextEditingController reservePriceController;
   late final TextEditingController startDateController;
   late final TextEditingController endDateController;
+  late final TextEditingController startTimeController;
+  late final TextEditingController endTimeController;
   final GlobalKey<FormState> formKey = GlobalKey();
   // bool enableAuction = false;
   // bool enableBuyNow = false;
@@ -27,9 +29,19 @@ class ListingFormProvider extends StateNotifier<Listing> {
     startDateController = TextEditingController(
       text: model.startDate.isAtSameMomentAs(DateTime.now()) ? DateFormat.yMd().format(model.startDate) : '',
     );
+
     endDateController = TextEditingController(
       text: model.endDate.isAtSameMomentAs(DateTime.now()) ? DateFormat.yMd().format(model.endDate) : '',
     );
+
+    startTimeController = TextEditingController(
+      text: DateFormat("kk:mm").format(model.startDate),
+    );
+
+    endTimeController = TextEditingController(
+      text: DateFormat("kk:mm").format(model.endDate),
+    );
+
     buyNowController = TextEditingController(
       text: model.buyNowPrice != null ? model.buyNowPrice.toString() : '',
     );
@@ -45,6 +57,8 @@ class ListingFormProvider extends StateNotifier<Listing> {
     state = listing;
     startDateController.text = DateFormat.yMd().format(listing.startDate);
     endDateController.text = DateFormat.yMd().format(listing.endDate);
+    startTimeController.text = DateFormat("kk:mm").format(listing.startDate);
+    endTimeController.text = DateFormat("kk:mm").format(listing.endDate);
     buyNowController.text = (listing.buyNowPrice ?? '').toString();
     floorPriceController.text = (listing.floorPrice ?? '').toString();
     reservePriceController.text = (listing.reservePrice ?? '').toString();
@@ -86,6 +100,31 @@ class ListingFormProvider extends StateNotifier<Listing> {
 
     startDateController.text = DateFormat.yMd().format(state.startDate);
     endDateController.text = DateFormat.yMd().format(state.endDate);
+  }
+
+  updateTime(TimeOfDay time, bool isStartDate) {
+    final existing = isStartDate ? state.startDate : state.endDate;
+
+    final d = DateTime(existing.year, existing.month, existing.day, time.hour, time.minute);
+
+    if (d.isBefore(DateTime.now())) {
+      OverlayToast.error("Time must be in the future.");
+      return;
+    }
+
+    state = isStartDate
+        ? state.copyWith(startDate: state.startDate.copyWith(hour: d.hour, minute: d.minute))
+        : state.copyWith(
+            endDate: state.endDate.copyWith(
+            hour: d.hour,
+            minute: d.minute,
+          ));
+
+    if (isStartDate) {
+      startTimeController.text = DateFormat("kk:mm").format(d);
+    } else {
+      endTimeController.text = DateFormat("kk:mm").format(d);
+    }
   }
 
   updateBuyNow(String price) {

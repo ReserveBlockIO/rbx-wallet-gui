@@ -307,6 +307,26 @@ Future<void> _showDatePicker(BuildContext context, WidgetRef ref, bool isStartDa
   }
 }
 
+Future<void> _showTimePicker(BuildContext context, WidgetRef ref, bool isStartDate) async {
+  final _provider = ref.read(listingFormProvider.notifier);
+
+  final t = await showTimePicker(
+    context: context,
+    initialEntryMode: TimePickerEntryMode.input,
+    initialTime: const TimeOfDay(hour: 0, minute: 0),
+    builder: (BuildContext context, Widget? child) {
+      return MediaQuery(
+        data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+        child: child ?? const SizedBox(),
+      );
+    },
+  );
+
+  if (t != null) {
+    _provider.updateTime(t, isStartDate);
+  }
+}
+
 class _StartDate extends BaseComponent {
   const _StartDate({
     Key? key,
@@ -315,25 +335,56 @@ class _StartDate extends BaseComponent {
   @override
   Widget build(BuildContext context, ref) {
     final provider = ref.read(listingFormProvider.notifier);
-    return TextFormField(
-      controller: provider.startDateController,
-      onTap: () {
-        _showDatePicker(context, ref, true);
-      },
-      decoration: InputDecoration(
-        label: const Text(
-          "Start Date",
-          style: TextStyle(
-            color: Colors.white,
+    return Row(
+      children: [
+        Expanded(
+          child: TextFormField(
+            controller: provider.startDateController,
+            onTap: () {
+              _showDatePicker(context, ref, true);
+            },
+            decoration: InputDecoration(
+              label: const Text(
+                "Start Date",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              suffixIcon: IconButton(
+                icon: const Icon(Icons.calendar_month),
+                onPressed: () {
+                  _showDatePicker(context, ref, true);
+                },
+              ),
+            ),
           ),
         ),
-        suffixIcon: IconButton(
-          icon: const Icon(Icons.calendar_month),
-          onPressed: () {
-            _showDatePicker(context, ref, true);
-          },
+        SizedBox(
+          width: 8,
         ),
-      ),
+        Expanded(
+          child: TextFormField(
+            controller: provider.startTimeController,
+            onTap: () {
+              _showTimePicker(context, ref, true);
+            },
+            decoration: InputDecoration(
+              label: const Text(
+                "Start Time",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              suffixIcon: IconButton(
+                icon: const Icon(Icons.calendar_month),
+                onPressed: () {
+                  _showTimePicker(context, ref, true);
+                },
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -347,31 +398,62 @@ class _EndDate extends BaseComponent {
   Widget build(BuildContext context, ref) {
     final provider = ref.read(listingFormProvider.notifier);
     final model = ref.read(listingFormProvider);
-    return TextFormField(
-      controller: provider.endDateController,
-      validator: (String? val) {
-        if (model.endDate.isBefore(model.startDate) || model.endDate.isAtSameMomentAs(model.startDate)) {
-          return 'The end date must be set and it must be a later date than the start date';
-        }
-        return null;
-      },
-      onTap: () {
-        _showDatePicker(context, ref, false);
-      },
-      decoration: InputDecoration(
-        label: const Text(
-          "End Date",
-          style: TextStyle(
-            color: Colors.white,
+    return Row(
+      children: [
+        Expanded(
+          child: TextFormField(
+            controller: provider.endDateController,
+            validator: (String? val) {
+              if (model.endDate.isBefore(model.startDate) || model.endDate.isAtSameMomentAs(model.startDate)) {
+                return 'The end date must be set and it must be a later date than the start date';
+              }
+              return null;
+            },
+            onTap: () {
+              _showDatePicker(context, ref, false);
+            },
+            decoration: InputDecoration(
+              label: const Text(
+                "End Date",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              suffixIcon: IconButton(
+                icon: const Icon(Icons.calendar_month),
+                onPressed: () {
+                  _showDatePicker(context, ref, false);
+                },
+              ),
+            ),
           ),
         ),
-        suffixIcon: IconButton(
-          icon: const Icon(Icons.calendar_month),
-          onPressed: () {
-            _showDatePicker(context, ref, false);
-          },
+        SizedBox(
+          width: 8,
         ),
-      ),
+        Expanded(
+          child: TextFormField(
+            controller: provider.endTimeController,
+            onTap: () {
+              _showTimePicker(context, ref, false);
+            },
+            decoration: InputDecoration(
+              label: const Text(
+                "End Time",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              suffixIcon: IconButton(
+                icon: const Icon(Icons.calendar_month),
+                onPressed: () {
+                  _showTimePicker(context, ref, false);
+                },
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

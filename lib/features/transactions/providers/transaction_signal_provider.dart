@@ -9,6 +9,7 @@ import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/dst_tx_pending_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/providers/session_provider.dart';
@@ -307,6 +308,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
             RemoteShopService().completeNftPurchase(scId).then((value) {
               if (value == true) {
                 print("NFT Complete Sale TX Sent");
+                Toast.message("NFT Sale Finalization TX sent");
               } else {
                 print("NFT Sale Error");
               }
