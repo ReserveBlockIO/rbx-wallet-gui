@@ -1,15 +1,27 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:intl/intl.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 
 part 'listing.freezed.dart';
 part 'listing.g.dart';
 
 stateDateToJson(DateTime date) {
-  return date.toUtc().toIso8601String();
+  final offset = DateTime.now().timeZoneOffset;
+
+  final d = offset.inHours < 0 ? date.subtract(offset) : date.add(offset);
+  final str = d.toIso8601String();
+  print("start");
+  print(str);
+  return str;
 }
 
 endDateToJson(DateTime date) {
-  return date.toUtc().toIso8601String();
+  final offset = DateTime.now().timeZoneOffset;
+  final d = offset.inHours < 0 ? date.subtract(offset) : date.add(offset);
+  final str = d.toIso8601String();
+  print("start");
+  print(str);
+  return str;
 }
 
 @freezed

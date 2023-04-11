@@ -96,7 +96,10 @@ class ListingFormProvider extends StateNotifier<Listing> {
         OverlayToast.error("End Date must be after the start date");
       }
     }
-    state = isStartDate ? state.copyWith(startDate: date) : state.copyWith(endDate: date);
+
+    state = isStartDate
+        ? state.copyWith(startDate: DateTime(date.year, date.month, date.day, state.startDate.hour, state.startDate.minute))
+        : state.copyWith(endDate: DateTime(date.year, date.month, date.day, state.endDate.hour, state.endDate.minute));
 
     startDateController.text = DateFormat.yMd().format(state.startDate);
     endDateController.text = DateFormat.yMd().format(state.endDate);
@@ -116,9 +119,10 @@ class ListingFormProvider extends StateNotifier<Listing> {
         ? state.copyWith(startDate: state.startDate.copyWith(hour: d.hour, minute: d.minute))
         : state.copyWith(
             endDate: state.endDate.copyWith(
-            hour: d.hour,
-            minute: d.minute,
-          ));
+              hour: d.hour,
+              minute: d.minute,
+            ),
+          );
 
     if (isStartDate) {
       startTimeController.text = DateFormat("kk:mm").format(d);
@@ -185,6 +189,8 @@ class ListingFormProvider extends StateNotifier<Listing> {
     buyNowController.text = "";
     startDateController.text = "";
     endDateController.text = "";
+    startTimeController.text = "";
+    endTimeController.text = "";
     floorPriceController.text = "";
     reservePriceController.text = "";
     state = Listing.empty();
