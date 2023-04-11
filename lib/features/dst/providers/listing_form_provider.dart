@@ -86,7 +86,8 @@ class ListingFormProvider extends StateNotifier<Listing> {
 
   updateDate(DateTime date, bool isStartDate) {
     final existing = isStartDate ? state.startDate : state.endDate;
-    final d = existing.copyWith(year: date.year, month: date.month, second: date.second);
+
+    final d = existing.copyWith(year: date.year, month: date.month, day: date.day);
 
     // if (date.isBefore(DateTime.now()) && !isStartDate) {
     //   OverlayToast.error("End date must be in the future.");
