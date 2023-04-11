@@ -85,6 +85,9 @@ class ListingFormProvider extends StateNotifier<Listing> {
   }
 
   updateDate(DateTime date, bool isStartDate) {
+    final existing = isStartDate ? state.startDate : state.endDate;
+    final d = existing.copyWith(year: date.year, month: date.month, second: date.second);
+
     // if (date.isBefore(DateTime.now()) && !isStartDate) {
     //   OverlayToast.error("End date must be in the future.");
 
@@ -97,39 +100,42 @@ class ListingFormProvider extends StateNotifier<Listing> {
     //   }
     // }
 
-    state = isStartDate
-        ? state.copyWith(
-            startDate: DateTime(
-            date.year,
-            date.month,
-            date.day,
-            state.startDate.hour,
-            state.startDate.minute,
-          ))
-        : state.copyWith(endDate: DateTime(date.year, date.month, date.day, state.endDate.hour, state.endDate.minute));
+    state = isStartDate ? state.copyWith(startDate: d) : state.copyWith(endDate: d);
 
-    startDateController.text = DateFormat.yMd().format(state.startDate);
-    endDateController.text = DateFormat.yMd().format(state.endDate);
+    // state = isStartDate
+    //     ? state.copyWith(
+    //         startDate: DateTime(
+    //         date.year,
+    //         date.month,
+    //         date.day,
+    //         state.startDate.hour,
+    //         state.startDate.minute,
+    //       ))
+    //     : state.copyWith(endDate: DateTime(date.year, date.month, date.day, state.endDate.hour, state.endDate.minute));
+
+    if (isStartDate) {
+      startDateController.text = DateFormat.yMd().format(d);
+    } else {
+      endDateController.text = DateFormat.yMd().format(d);
+    }
+
+    // startDateController.text = DateFormat.yMd().format(state.startDate);
+    // endDateController.text = DateFormat.yMd().format(state.endDate);
   }
 
   updateTime(TimeOfDay time, bool isStartDate) {
     final existing = isStartDate ? state.startDate : state.endDate;
 
-    final d = DateTime(existing.year, existing.month, existing.day, time.hour, time.minute);
+    final d = existing.copyWith(hour: time.hour, minute: time.minute);
+
+    // final d = DateTime(existing.year, existing.month, existing.day, time.hour, time.minute);
 
     // if (d.isBefore(DateTime.now())) {
     //   OverlayToast.error("Time must be in the future.");
     //   return;
     // }
 
-    state = isStartDate
-        ? state.copyWith(startDate: state.startDate.copyWith(hour: d.hour, minute: d.minute))
-        : state.copyWith(
-            endDate: state.endDate.copyWith(
-              hour: d.hour,
-              minute: d.minute,
-            ),
-          );
+    state = isStartDate ? state.copyWith(startDate: d) : state.copyWith(endDate: d);
 
     if (isStartDate) {
       startTimeController.text = DateFormat("kk:mm").format(d);
