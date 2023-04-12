@@ -100,9 +100,9 @@ class ListingDetails extends BaseComponent {
               ),
             ],
           ),
-          SelectableText(
-            listing.toString(),
-          )
+          // SelectableText(
+          //   listing.toString(),
+          // )
         ],
       ),
     );
@@ -594,7 +594,7 @@ class _BuyNow extends BaseComponent {
             final success = await provider.buyNow(context, listing);
 
             if (success == true) {
-              Toast.message("Buy Now transaction sent successfully.");
+              Toast.message("Buy Now transaction sent successfully. Please wait for confirmation.");
             }
           },
         ),

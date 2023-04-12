@@ -32,7 +32,7 @@ class BidListProvider extends StateNotifier<List<Bid>> {
   }
 
   Future<List<Bid>> fetchBids() async {
-    final bids = await DstService().listGlobalListingBids(listingId);
+    final bids = await DstService().listBuyerBids(listingId);
     bids.sort((a, b) => a.bidSendTime > b.bidSendTime ? -1 : 1);
 
     state = bids;

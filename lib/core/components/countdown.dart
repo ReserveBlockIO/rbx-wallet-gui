@@ -49,7 +49,7 @@ class AppCountdown extends StatelessWidget {
             ),
             CountDownText(
               due: dueDate,
-              finishedText: "Reload Page!",
+              finishedText: "",
               style: _textStyle,
               longDateName: true,
               showLabel: true,

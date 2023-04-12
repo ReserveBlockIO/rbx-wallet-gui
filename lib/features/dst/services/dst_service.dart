@@ -158,7 +158,8 @@ class DstService extends BaseService {
         inspect: true,
       );
       final data = jsonDecode(response);
-
+      print(data);
+      print("*******");
       if (data["Success"] != true) {
         // Toast.error(data['Message']);
         print(data);
@@ -188,7 +189,7 @@ class DstService extends BaseService {
 
   Future<List<Bid>> listListingBidsByStatus(BidStatus status) async {
     try {
-      final response = await getText('/GetBidsByStatus//${status.name}');
+      final response = await getText('/GetBidsByStatus/${status.name}');
       final data = jsonDecode(response);
 
       if (data["Success"] != true) {
