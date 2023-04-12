@@ -58,7 +58,7 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
     bool canSettle = widget.transaction.type == TxType.nftSale && !fromMe;
     if (canSettle) {
       final data = parseNftData(widget.transaction);
-      final function = nftDataValue(data!, "Function()");
+      final function = nftDataValue(data!, "Function");
       if (function != "Sale_Start()") {
         canSettle = false;
       }
