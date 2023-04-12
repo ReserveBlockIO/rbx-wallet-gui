@@ -94,7 +94,19 @@ class ListingDetails extends BaseComponent {
                     if (listing.canBuyNow && listing.canBid) SizedBox(height: 16),
                     if (listing.canBuyNow) IntrinsicWidth(child: _BuyNow(listing: listing)),
                     const SizedBox(height: 16),
-                    _Countdown(listing: listing),
+                    if (listing.canBuyNow || listing.canBid) _Countdown(listing: listing),
+                    if (listing.auction?.isAuctionOver == true)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "Auction Over",
+                            style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
+                          ),
+                          if (listing.auction!.currentWinningAddress.isNotEmpty) Text("Purchased by: ${listing.auction!.currentWinningAddress}")
+                        ],
+                      )
                   ]),
                 ),
               ),

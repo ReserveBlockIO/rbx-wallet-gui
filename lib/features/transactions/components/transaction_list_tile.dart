@@ -55,7 +55,14 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
         widget.transaction.amount <= 0 &&
         (widget.transaction.unlockTime != null && widget.transaction.unlockTime! > (DateTime.now().millisecondsSinceEpoch / 1000));
 
-    final bool canSettle = widget.transaction.type == TxType.nftSale && !fromMe;
+    bool canSettle = widget.transaction.type == TxType.nftSale && !fromMe;
+    if (canSettle) {
+      final data = parseNftData(widget.transaction);
+      final function = nftDataValue(data!, "Function()");
+      if (function != "Sale_Start()") {
+        canSettle = false;
+      }
+    }
     // final bool canCallBack = widget.transaction.status == TransactionStatus.Reserved && fromMe && widget.transaction.amount < 0;
     // final bool canCallBack = widget.transaction.status == TransactionStatus.Reserved && fromMe;
 

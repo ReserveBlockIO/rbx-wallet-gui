@@ -71,11 +71,22 @@ class OrganizedListing with _$OrganizedListing {
   }
 
   bool get canBuyNow {
+    if (auction == null) {
+      return false;
+    }
+    if (auction!.isAuctionOver) {
+      return false;
+    }
+
     return isActive && buyNowPrice != null;
   }
 
   bool get canBid {
     if (auction == null) {
+      return false;
+    }
+
+    if (auction!.isAuctionOver) {
       return false;
     }
 
