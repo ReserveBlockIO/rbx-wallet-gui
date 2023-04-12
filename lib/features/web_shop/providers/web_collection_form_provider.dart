@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/dst/providers/collection_list_provider.dart';
@@ -79,15 +80,15 @@ class WebCollectionFormProvider extends StateNotifier<WebCollection> {
   }
 
   delete(BuildContext context, WebCollection collection) async {
-    // final success = await WebShopService().deleteCollection(collection);
-    // if (success) {
-    //   clear();
-    //   ref.invalidate(listingListProvider(store.id));
-    //   ref.read(storeListProvider.notifier).refresh();
-    //   AutoRouter.of(context).popUntilRoot();
-    // } else {
-    //   Toast.error();
-    // }
+    final success = await WebShopService().deleteCollection(collection);
+    if (success) {
+      clear();
+      ref.invalidate(webShopDetailProvider(collection.shop!.id));
+      // ref.read(storeListProvider.notifier).refresh();
+      AutoRouter.of(context).pop();
+    } else {
+      Toast.error();
+    }
   }
 
   clear([WebShop? shop]) {

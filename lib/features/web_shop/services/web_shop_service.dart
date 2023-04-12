@@ -138,10 +138,12 @@ class WebShopService extends BaseService {
         );
         return WebCollection.fromJson(response['data']);
       } else {
-        //TODO:
-        print("Patch not implemented");
-
-        return null;
+        final response = await patchJson(
+          "/shop/${collection.shop!.id}/collection/",
+          params: collection.toJson(),
+          inspect: true,
+        );
+        return WebCollection.fromJson(response['data']);
       }
     } catch (e) {
       print(e);
@@ -211,6 +213,33 @@ class WebShopService extends BaseService {
   Future<bool> deleteWebShop(WebShop store) async {
     try {
       final data = await deleteJson('/shop/${store.id}', responseIsJson: true);
+      return true;
+    } catch (e, st) {
+      if (e is DioError) print(e.response);
+      print(e);
+      print(st);
+      return false;
+    }
+  }
+
+  Future<bool> deleteCollection(WebCollection collection) async {
+    try {
+      final data = await deleteJson('/shop/${collection.shop!.id}/collection/${collection.id}', responseIsJson: true);
+      return true;
+    } catch (e, st) {
+      if (e is DioError) print(e.response);
+      print(e);
+      print(st);
+      return false;
+    }
+  }
+
+  Future<bool> deleteWebListing(WebListing listing) async {
+    try {
+      final data = await deleteJson(
+        '/shop/${listing.collection.shop!.id}/collection/${listing.collection.id}/listing/${listing.id}',
+        responseIsJson: true,
+      );
       return true;
     } catch (e, st) {
       if (e is DioError) print(e.response);

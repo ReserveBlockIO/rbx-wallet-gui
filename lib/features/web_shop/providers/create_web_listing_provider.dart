@@ -130,19 +130,11 @@ class WebListingFormProvider extends StateNotifier<WebListing> {
   }
 
   delete(BuildContext context, int storeId, WebListing listing) async {
-    final confirmed = await ConfirmDialog.show(
-      title: "Delete WebListing",
-      body: "Are you sure you want to delete this listing?",
-      destructive: true,
-      confirmText: "Delete",
-      cancelText: "Cancel",
-    );
-    if (confirmed == true) {
-      // if (await WebShopService().deleteWebListing(listing)) {
+    if (await WebShopService().deleteWebListing(listing)) {
       clear();
-      // ref.read(listingListProvider(storeId).notifier).refresh();
-      AutoRouter.of(context).pop();
-      // }
+      ref.read(webListingListProvider("${listing.collection.shop!.id},${listing.collection.id}").notifier).refresh();
+    } else {
+      Toast.error();
     }
   }
 }
