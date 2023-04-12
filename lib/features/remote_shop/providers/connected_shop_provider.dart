@@ -57,6 +57,18 @@ class ConnectedShopProvider extends StateNotifier<ConnectedShop> {
     }
   }
 
+  Future<void> removeBookmarkedShop(BuildContext context, WidgetRef ref, String url) async {
+    final confirmed = await ConfirmDialog.show(
+      title: "Remove shop bookmark?",
+      body: "Are you sure you want to remove this bookmark?",
+      confirmText: "Remove",
+      cancelText: "Cancel",
+    );
+    if (confirmed) {
+      ref.read(savedShopsProvider.notifier).remove(url);
+    }
+  }
+
   Future<void> loadShop(BuildContext context, WidgetRef ref, String url) async {
     final address = ref.read(sessionProvider).currentWallet?.address;
     if (address == null) {

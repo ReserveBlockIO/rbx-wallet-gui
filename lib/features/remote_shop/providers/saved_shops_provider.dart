@@ -21,13 +21,13 @@ class SavedShopsProvider extends StateNotifier<List<String>> {
     state = update;
   }
 
-  remove(DecShop shop) {
-    if (state.firstWhereOrNull((url) => url == shop.url) == null) {
+  remove(String shop) {
+    if (state.firstWhereOrNull((url) => url == shop) == null) {
       print("Doesn't exist.");
       return;
     }
 
-    final update = [...state]..removeWhere((url) => url == shop.url);
+    final update = [...state]..removeWhere((url) => url == shop);
     singleton<Storage>().setStringList(Storage.SAVED_SHOPS, update);
     state = update;
   }
