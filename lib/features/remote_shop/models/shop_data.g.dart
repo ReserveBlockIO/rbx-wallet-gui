@@ -20,7 +20,10 @@ _$_ShopData _$$_ShopDataFromJson(Map<String, dynamic> json) => _$_ShopData(
               ?.map((e) => AuctionData.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      bids: json['Bids'],
+      bids: (json['Bids'] as List<dynamic>?)
+              ?.map((e) => Bid.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$_ShopDataToJson(_$_ShopData instance) =>

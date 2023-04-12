@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/features/dst/models/bid.dart';
 import 'package:rbx_wallet/features/dst/models/dec_shop.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 
@@ -54,6 +55,7 @@ class OrganizedListing with _$OrganizedListing {
     String? winningAddress,
     Nft? nft,
     OrganizedAuction? auction,
+    @Default([]) List<Bid> bids,
   }) = _OrganizedListing;
 
   String get familyIdentifier {
@@ -122,7 +124,7 @@ class ShopData with _$ShopData {
     @JsonKey(name: "Collections") @Default([]) List<CollectionData> collections,
     @JsonKey(name: "Listings") @Default([]) List<ListingData> listings,
     @JsonKey(name: "Auctions") @Default([]) List<AuctionData> auctions,
-    @JsonKey(name: "Bids") dynamic bids,
+    @JsonKey(name: "Bids") @Default([]) List<Bid> bids,
   }) = _ShopData;
 
   factory ShopData.fromJson(Map<String, dynamic> json) => _$ShopDataFromJson(json);

@@ -714,10 +714,10 @@ class _Auction extends BaseComponent {
                 icon: Icons.punch_clock,
                 size: AppSizeVariant.Lg,
                 onPressed: () async {
-                  final bids = await provider.fetchBids();
+                  final bids = await provider.fetchBids(listing);
 
                   if (bids.isEmpty) {
-                    Toast.message("You have not placed any bids yet.");
+                    Toast.message("No bids yet.");
                     return;
                   }
 

@@ -10,6 +10,7 @@ import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provide
 import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
+import 'package:collection/collection.dart';
 
 class BidListProvider extends StateNotifier<List<Bid>> {
   final Ref ref;
@@ -31,8 +32,19 @@ class BidListProvider extends StateNotifier<List<Bid>> {
     fetchBids();
   }
 
-  Future<List<Bid>> fetchBids() async {
-    final bids = await DstService().listBuyerBids(listingId);
+  Future<List<Bid>> fetchBids([OrganizedListing? listing]) async {
+    final myBids = await DstService().listBuyerBids(listingId);
+
+    List<Bid> globalBids = listing != null ? listing.bids : [];
+    final bids = [...myBids];
+
+    for (final b in globalBids) {
+      final exists = bids.firstWhereOrNull((bid) => bid.bidSignature == b.bidSignature) != null;
+      if (!exists) {
+        bids.add(b);
+      }
+    }
+
     bids.sort((a, b) => a.bidSendTime > b.bidSendTime ? -1 : 1);
 
     state = bids;

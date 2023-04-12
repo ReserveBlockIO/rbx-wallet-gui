@@ -133,6 +133,12 @@ Future<dynamic> getNftAssets({required RemoteShopService service, required Strin
 
 Future<OrganizedShop> organizeShopData({required RemoteShopService service, required ShopData shopData}) async {
   final scIds = shopData.listings.map((l) => l.smartContractUid);
+  final listingIds = shopData.listings.map((l) => l.id);
+
+  for (final id in listingIds) {
+    service.getText("/GetShopListingBids/$id", cleanPath: false);
+    print("ID: $id");
+  }
 
   final Map<String, Nft> nfts = {};
 
@@ -164,6 +170,7 @@ Future<OrganizedShop> organizeShopData({required RemoteShopService service, requ
             listings: shopData.listings.where((l) => l.collectionId == c.id).map(
               (l) {
                 final a = shopData.auctions.firstWhereOrNull((a) => a.listingId == l.id && a.collectionId == c.id);
+                final bids = shopData.bids.where((b) => b.listingId == l.id).toList();
 
                 return OrganizedListing(
                   id: l.id,
@@ -194,6 +201,7 @@ Future<OrganizedShop> organizeShopData({required RemoteShopService service, requ
                           currentWinningAddress: a.currentWinningAddress,
                         )
                       : null,
+                  bids: bids,
                 );
               },
             ).toList(),

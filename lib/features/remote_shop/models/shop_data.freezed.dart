@@ -459,6 +459,7 @@ mixin _$OrganizedListing {
   String? get winningAddress => throw _privateConstructorUsedError;
   Nft? get nft => throw _privateConstructorUsedError;
   OrganizedAuction? get auction => throw _privateConstructorUsedError;
+  List<Bid> get bids => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $OrganizedListingCopyWith<OrganizedListing> get copyWith =>
@@ -490,7 +491,8 @@ abstract class $OrganizedListingCopyWith<$Res> {
       double? finalPrice,
       String? winningAddress,
       Nft? nft,
-      OrganizedAuction? auction});
+      OrganizedAuction? auction,
+      List<Bid> bids});
 
   $NftCopyWith<$Res>? get nft;
   $OrganizedAuctionCopyWith<$Res>? get auction;
@@ -528,6 +530,7 @@ class _$OrganizedListingCopyWithImpl<$Res, $Val extends OrganizedListing>
     Object? winningAddress = freezed,
     Object? nft = freezed,
     Object? auction = freezed,
+    Object? bids = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -606,6 +609,10 @@ class _$OrganizedListingCopyWithImpl<$Res, $Val extends OrganizedListing>
           ? _value.auction
           : auction // ignore: cast_nullable_to_non_nullable
               as OrganizedAuction?,
+      bids: null == bids
+          ? _value.bids
+          : bids // ignore: cast_nullable_to_non_nullable
+              as List<Bid>,
     ) as $Val);
   }
 
@@ -661,7 +668,8 @@ abstract class _$$_OrganizedListingCopyWith<$Res>
       double? finalPrice,
       String? winningAddress,
       Nft? nft,
-      OrganizedAuction? auction});
+      OrganizedAuction? auction,
+      List<Bid> bids});
 
   @override
   $NftCopyWith<$Res>? get nft;
@@ -699,6 +707,7 @@ class __$$_OrganizedListingCopyWithImpl<$Res>
     Object? winningAddress = freezed,
     Object? nft = freezed,
     Object? auction = freezed,
+    Object? bids = null,
   }) {
     return _then(_$_OrganizedListing(
       id: null == id
@@ -777,6 +786,10 @@ class __$$_OrganizedListingCopyWithImpl<$Res>
           ? _value.auction
           : auction // ignore: cast_nullable_to_non_nullable
               as OrganizedAuction?,
+      bids: null == bids
+          ? _value._bids
+          : bids // ignore: cast_nullable_to_non_nullable
+              as List<Bid>,
     ));
   }
 }
@@ -803,8 +816,10 @@ class _$_OrganizedListing extends _OrganizedListing {
       this.finalPrice,
       this.winningAddress,
       this.nft,
-      this.auction})
-      : super._();
+      this.auction,
+      final List<Bid> bids = const []})
+      : _bids = bids,
+        super._();
 
   @override
   final int id;
@@ -844,10 +859,18 @@ class _$_OrganizedListing extends _OrganizedListing {
   final Nft? nft;
   @override
   final OrganizedAuction? auction;
+  final List<Bid> _bids;
+  @override
+  @JsonKey()
+  List<Bid> get bids {
+    if (_bids is EqualUnmodifiableListView) return _bids;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_bids);
+  }
 
   @override
   String toString() {
-    return 'OrganizedListing(id: $id, collectionId: $collectionId, smartContractUid: $smartContractUid, addressOwner: $addressOwner, buyNowPrice: $buyNowPrice, isBuyNowOnly: $isBuyNowOnly, isRoyaltyEnforced: $isRoyaltyEnforced, isCancelled: $isCancelled, requireBalanceCheck: $requireBalanceCheck, floorPrice: $floorPrice, reservePrice: $reservePrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, finalPrice: $finalPrice, winningAddress: $winningAddress, nft: $nft, auction: $auction)';
+    return 'OrganizedListing(id: $id, collectionId: $collectionId, smartContractUid: $smartContractUid, addressOwner: $addressOwner, buyNowPrice: $buyNowPrice, isBuyNowOnly: $isBuyNowOnly, isRoyaltyEnforced: $isRoyaltyEnforced, isCancelled: $isCancelled, requireBalanceCheck: $requireBalanceCheck, floorPrice: $floorPrice, reservePrice: $reservePrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, finalPrice: $finalPrice, winningAddress: $winningAddress, nft: $nft, auction: $auction, bids: $bids)';
   }
 
   @override
@@ -889,7 +912,8 @@ class _$_OrganizedListing extends _OrganizedListing {
             (identical(other.winningAddress, winningAddress) ||
                 other.winningAddress == winningAddress) &&
             (identical(other.nft, nft) || other.nft == nft) &&
-            (identical(other.auction, auction) || other.auction == auction));
+            (identical(other.auction, auction) || other.auction == auction) &&
+            const DeepCollectionEquality().equals(other._bids, _bids));
   }
 
   @override
@@ -913,7 +937,8 @@ class _$_OrganizedListing extends _OrganizedListing {
         finalPrice,
         winningAddress,
         nft,
-        auction
+        auction,
+        const DeepCollectionEquality().hash(_bids)
       ]);
 
   @JsonKey(ignore: true)
@@ -943,7 +968,8 @@ abstract class _OrganizedListing extends OrganizedListing {
       final double? finalPrice,
       final String? winningAddress,
       final Nft? nft,
-      final OrganizedAuction? auction}) = _$_OrganizedListing;
+      final OrganizedAuction? auction,
+      final List<Bid> bids}) = _$_OrganizedListing;
   _OrganizedListing._() : super._();
 
   @override
@@ -984,6 +1010,8 @@ abstract class _OrganizedListing extends OrganizedListing {
   Nft? get nft;
   @override
   OrganizedAuction? get auction;
+  @override
+  List<Bid> get bids;
   @override
   @JsonKey(ignore: true)
   _$$_OrganizedListingCopyWith<_$_OrganizedListing> get copyWith =>
@@ -1306,7 +1334,7 @@ mixin _$ShopData {
   @JsonKey(name: "Auctions")
   List<AuctionData> get auctions => throw _privateConstructorUsedError;
   @JsonKey(name: "Bids")
-  dynamic get bids => throw _privateConstructorUsedError;
+  List<Bid> get bids => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1324,7 +1352,7 @@ abstract class $ShopDataCopyWith<$Res> {
       @JsonKey(name: "Collections") List<CollectionData> collections,
       @JsonKey(name: "Listings") List<ListingData> listings,
       @JsonKey(name: "Auctions") List<AuctionData> auctions,
-      @JsonKey(name: "Bids") dynamic bids});
+      @JsonKey(name: "Bids") List<Bid> bids});
 
   $DecShopCopyWith<$Res> get decShop;
 }
@@ -1346,7 +1374,7 @@ class _$ShopDataCopyWithImpl<$Res, $Val extends ShopData>
     Object? collections = null,
     Object? listings = null,
     Object? auctions = null,
-    Object? bids = freezed,
+    Object? bids = null,
   }) {
     return _then(_value.copyWith(
       decShop: null == decShop
@@ -1365,10 +1393,10 @@ class _$ShopDataCopyWithImpl<$Res, $Val extends ShopData>
           ? _value.auctions
           : auctions // ignore: cast_nullable_to_non_nullable
               as List<AuctionData>,
-      bids: freezed == bids
+      bids: null == bids
           ? _value.bids
           : bids // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as List<Bid>,
     ) as $Val);
   }
 
@@ -1393,7 +1421,7 @@ abstract class _$$_ShopDataCopyWith<$Res> implements $ShopDataCopyWith<$Res> {
       @JsonKey(name: "Collections") List<CollectionData> collections,
       @JsonKey(name: "Listings") List<ListingData> listings,
       @JsonKey(name: "Auctions") List<AuctionData> auctions,
-      @JsonKey(name: "Bids") dynamic bids});
+      @JsonKey(name: "Bids") List<Bid> bids});
 
   @override
   $DecShopCopyWith<$Res> get decShop;
@@ -1414,7 +1442,7 @@ class __$$_ShopDataCopyWithImpl<$Res>
     Object? collections = null,
     Object? listings = null,
     Object? auctions = null,
-    Object? bids = freezed,
+    Object? bids = null,
   }) {
     return _then(_$_ShopData(
       decShop: null == decShop
@@ -1433,10 +1461,10 @@ class __$$_ShopDataCopyWithImpl<$Res>
           ? _value._auctions
           : auctions // ignore: cast_nullable_to_non_nullable
               as List<AuctionData>,
-      bids: freezed == bids
-          ? _value.bids
+      bids: null == bids
+          ? _value._bids
           : bids // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as List<Bid>,
     ));
   }
 }
@@ -1454,10 +1482,11 @@ class _$_ShopData extends _ShopData {
       @JsonKey(name: "Auctions")
           final List<AuctionData> auctions = const [],
       @JsonKey(name: "Bids")
-          this.bids})
+          final List<Bid> bids = const []})
       : _collections = collections,
         _listings = listings,
         _auctions = auctions,
+        _bids = bids,
         super._();
 
   factory _$_ShopData.fromJson(Map<String, dynamic> json) =>
@@ -1493,9 +1522,14 @@ class _$_ShopData extends _ShopData {
     return EqualUnmodifiableListView(_auctions);
   }
 
+  final List<Bid> _bids;
   @override
   @JsonKey(name: "Bids")
-  final dynamic bids;
+  List<Bid> get bids {
+    if (_bids is EqualUnmodifiableListView) return _bids;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_bids);
+  }
 
   @override
   String toString() {
@@ -1512,7 +1546,7 @@ class _$_ShopData extends _ShopData {
                 .equals(other._collections, _collections) &&
             const DeepCollectionEquality().equals(other._listings, _listings) &&
             const DeepCollectionEquality().equals(other._auctions, _auctions) &&
-            const DeepCollectionEquality().equals(other.bids, bids));
+            const DeepCollectionEquality().equals(other._bids, _bids));
   }
 
   @JsonKey(ignore: true)
@@ -1523,7 +1557,7 @@ class _$_ShopData extends _ShopData {
       const DeepCollectionEquality().hash(_collections),
       const DeepCollectionEquality().hash(_listings),
       const DeepCollectionEquality().hash(_auctions),
-      const DeepCollectionEquality().hash(bids));
+      const DeepCollectionEquality().hash(_bids));
 
   @JsonKey(ignore: true)
   @override
@@ -1545,7 +1579,7 @@ abstract class _ShopData extends ShopData {
       @JsonKey(name: "Collections") final List<CollectionData> collections,
       @JsonKey(name: "Listings") final List<ListingData> listings,
       @JsonKey(name: "Auctions") final List<AuctionData> auctions,
-      @JsonKey(name: "Bids") final dynamic bids}) = _$_ShopData;
+      @JsonKey(name: "Bids") final List<Bid> bids}) = _$_ShopData;
   _ShopData._() : super._();
 
   factory _ShopData.fromJson(Map<String, dynamic> json) = _$_ShopData.fromJson;
@@ -1564,7 +1598,7 @@ abstract class _ShopData extends ShopData {
   List<AuctionData> get auctions;
   @override
   @JsonKey(name: "Bids")
-  dynamic get bids;
+  List<Bid> get bids;
   @override
   @JsonKey(ignore: true)
   _$$_ShopDataCopyWith<_$_ShopData> get copyWith =>
