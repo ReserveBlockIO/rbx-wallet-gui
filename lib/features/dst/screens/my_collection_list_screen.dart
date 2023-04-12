@@ -10,7 +10,7 @@ import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/dst/components/publish_shop_button.dart';
 import 'package:rbx_wallet/features/dst/components/shop_online_button.dart';
-import 'package:rbx_wallet/features/dst/components/store_list.dart';
+import 'package:rbx_wallet/features/dst/components/collection_list.dart';
 import 'package:rbx_wallet/features/dst/providers/collection_form_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/collection_list_provider.dart';
 import 'package:rbx_wallet/features/dst/services/dst_service.dart';

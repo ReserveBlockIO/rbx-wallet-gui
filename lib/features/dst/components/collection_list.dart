@@ -7,6 +7,8 @@ import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/dst/providers/collection_list_provider.dart';
 
+import '../providers/collection_form_provider.dart';
+
 class CollectionList extends BaseComponent {
   const CollectionList({Key? key}) : super(key: key);
 
@@ -25,10 +27,23 @@ class CollectionList extends BaseComponent {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(store.name),
+                Expanded(
+                  child: SizedBox.shrink(),
+                ),
                 AppBadge(
-                  label: store.isLive ? 'Live' : 'Not Live',
+                  label: store.isLive ? 'Live' : 'Hidden',
                   variant: store.isLive ? AppColorVariant.Success : AppColorVariant.Danger,
                 ),
+                SizedBox(
+                  width: 5,
+                ),
+                Switch(
+                    value: store.isLive,
+                    activeColor: Theme.of(context).colorScheme.success,
+                    inactiveThumbColor: Theme.of(context).colorScheme.danger,
+                    onChanged: (val) {
+                      ref.read(storeFormProvider.notifier).switchLiveState(store, val);
+                    }),
               ],
             ),
             trailing: Icon(Icons.chevron_right),

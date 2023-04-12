@@ -70,6 +70,16 @@ class ListingList extends BaseComponent {
                         ),
                       ],
                       AppButton(
+                        label: 'Delete Listing',
+                        variant: AppColorVariant.Danger,
+                        onPressed: () {
+                          ref.read(listingFormProvider.notifier).delete(context, listing.collectionId, listing);
+                        },
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      AppButton(
                         label: "Edit",
                         variant: AppColorVariant.Light,
                         onPressed: () {

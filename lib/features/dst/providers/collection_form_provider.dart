@@ -9,6 +9,7 @@ import 'package:rbx_wallet/features/dst/services/dst_service.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
+import '../../../core/dialogs.dart';
 import '../models/collection.dart';
 
 class CollectionFormProvider extends StateNotifier<Collection> {
@@ -66,6 +67,35 @@ class CollectionFormProvider extends StateNotifier<Collection> {
       clear();
     } else {
       Toast.error();
+    }
+  }
+
+  switchLiveState(Collection collection, bool isLive) async {
+    bool? confirmed;
+    if (isLive) {
+      confirmed = await ConfirmDialog.show(
+        title: "Make Collection Live?",
+        body: "Are you sure you want to make this collection live? This collection will be visible to other users when they connect to your shop.",
+        confirmText: "Make Live",
+        cancelText: "Cancel",
+      );
+    } else {
+      confirmed = await ConfirmDialog.show(
+        title: "Hide Collection?",
+        body: "Are you sure you want to hide this collection? It won't be visible to other users when they connect to your shop.",
+        destructive: true,
+        confirmText: "Hide",
+        cancelText: "Cancel",
+      );
+    }
+    if (confirmed == true) {
+      final success = await DstService().saveCollection(collection.copyWith(isLive: isLive));
+      if (success) {
+        ref.read(storeListProvider.notifier).refresh();
+        ref.invalidate(storeDetailProvider(collection.id));
+      } else {
+        Toast.error();
+      }
     }
   }
 
