@@ -11,7 +11,7 @@ stateDateToJson(DateTime date) {
   final offset = DateTime.now().timeZoneOffset;
 
   final d = offset.inHours < 0 ? date.subtract(offset) : date.add(offset);
-  final str = d.toIso8601String();
+  final str = d.isUtc ? d.toIso8601String() : date.toIso8601String();
   print("start");
   print(str);
 
@@ -29,7 +29,7 @@ startDateFromJson(String dateStr) {
 endDateToJson(DateTime date) {
   final offset = DateTime.now().timeZoneOffset;
   final d = offset.inHours < 0 ? date.subtract(offset) : date.add(offset);
-  final str = d.toIso8601String();
+  final str = d.isUtc ? d.toIso8601String() : date.toIso8601String();
   print("end");
   print(str);
   return str;
