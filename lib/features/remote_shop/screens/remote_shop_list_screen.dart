@@ -83,20 +83,23 @@ class RemoteShopListScreen extends BaseScreen {
         },
       ),
       actions: [
-        IconButton(
-          icon: Icon(Icons.chat_bubble_outline),
+        AppButton(
+          type: AppButtonType.Text,
+          variant: AppColorVariant.Light,
+          icon: Icons.chat_bubble_outline,
+          label: 'Chat',
           onPressed: () {
             AutoRouter.of(context).push(BuyerChatThreadListScreenRoute());
           },
         ),
-        TextButton(
+        AppButton(
           onPressed: () async {
             await loadShopWithPrompt(context, ref);
           },
-          child: Text(
-            "Add Shop",
-            style: TextStyle(color: Colors.white),
-          ),
+          label: "Add Shop",
+          type: AppButtonType.Text,
+          variant: AppColorVariant.Light,
+          icon: Icons.add,
         ),
         // WalletSelector(),
       ],

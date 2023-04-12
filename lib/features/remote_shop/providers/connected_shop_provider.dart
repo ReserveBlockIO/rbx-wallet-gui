@@ -59,8 +59,8 @@ class ConnectedShopProvider extends StateNotifier<ConnectedShop> {
 
   Future<void> removeBookmarkedShop(BuildContext context, WidgetRef ref, String url) async {
     final confirmed = await ConfirmDialog.show(
-      title: "Remove shop bookmark?",
-      body: "Are you sure you want to remove this bookmark?",
+      title: "Remove shop?",
+      body: "Are you sure you want to remove $url from your saved shops?",
       confirmText: "Remove",
       cancelText: "Cancel",
     );

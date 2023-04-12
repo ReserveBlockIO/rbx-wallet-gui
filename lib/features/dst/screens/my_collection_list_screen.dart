@@ -28,8 +28,11 @@ class MyCollectionsListScreen extends BaseScreen {
     return AppBar(
       title: Text("My Auction House"),
       actions: [
-        IconButton(
-          icon: Icon(Icons.chat_bubble_outline),
+        AppButton(
+          type: AppButtonType.Text,
+          variant: AppColorVariant.Light,
+          icon: Icons.chat_bubble_outline,
+          label: 'Chat',
           onPressed: () {
             AutoRouter.of(context).push(SellerChatThreadListScreenRoute());
           },
