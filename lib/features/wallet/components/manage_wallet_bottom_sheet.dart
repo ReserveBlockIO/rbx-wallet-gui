@@ -288,9 +288,7 @@ class _Header extends BaseComponent {
               showDialog(
                   context: context,
                   builder: ((context) {
-                    return WalletRestorer(
-                      ref: ref,
-                    );
+                    return WalletRestorer();
                   }));
             },
           ),
@@ -310,10 +308,9 @@ class _Header extends BaseComponent {
 
 class WalletRestorer extends StatefulWidget {
   WalletRestorer({
-    required this.ref,
     super.key,
   });
-  WidgetRef ref;
+
   @override
   State<WalletRestorer> createState() => _WalletRestorerState();
 }
@@ -333,83 +330,85 @@ class _WalletRestorerState extends State<WalletRestorer> {
   Widget build(BuildContext context) {
     return hiddenWallets.isEmpty
         ? InfoDialog.alert(context, title: 'No wallets to restore', body: "You don't have any hidden wallets.")
-        : AlertDialog(
-            actionsAlignment: MainAxisAlignment.spaceBetween,
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Select Wallet(s) to restore",
-                  style: const TextStyle(color: Colors.white),
+        : Consumer(builder: (context, ref, child) {
+            return AlertDialog(
+              actionsAlignment: MainAxisAlignment.spaceBetween,
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Select Wallet(s) to restore",
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  AppButton(
+                    label: 'Restore all',
+                    onPressed: () {
+                      restoreWallets([], context, ref);
+                    },
+                  )
+                ],
+              ),
+              content: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 600, maxHeight: 800),
+                child: SizedBox(
+                  height: 30.0 * values.length,
+                  width: 600,
+                  child: ListView.builder(
+                      itemCount: values.length,
+                      itemBuilder: ((context, index) {
+                        return Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Checkbox(
+                                value: values[index],
+                                onChanged: (val) {
+                                  setState(() {
+                                    values[index] = val ?? false;
+                                  });
+                                }),
+                            Text(hiddenWallets[index])
+                          ],
+                        );
+                      })),
                 ),
-                AppButton(
-                  label: 'Restore all',
+              ),
+              actions: [
+                TextButton(
                   onPressed: () {
-                    restoreWallets([], context);
+                    Navigator.of(context).pop();
                   },
+                  child: Text(
+                    "Cancel",
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.light,
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    final nonRestoredWallets = hiddenWallets
+                        .whereIndexed(
+                          (index, element) => !values[index],
+                        )
+                        .toList();
+
+                    restoreWallets(nonRestoredWallets, context, ref);
+                  },
+                  child: Text(
+                    "Restore Selected",
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                  ),
                 )
               ],
-            ),
-            content: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 600, maxHeight: 800),
-              child: SizedBox(
-                height: 30.0 * values.length,
-                width: 600,
-                child: ListView.builder(
-                    itemCount: values.length,
-                    itemBuilder: ((context, index) {
-                      return Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Checkbox(
-                              value: values[index],
-                              onChanged: (val) {
-                                setState(() {
-                                  values[index] = val ?? false;
-                                });
-                              }),
-                          Text(hiddenWallets[index])
-                        ],
-                      );
-                    })),
-              ),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  "Cancel",
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.light,
-                  ),
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  final nonRestoredWallets = hiddenWallets
-                      .whereIndexed(
-                        (index, element) => !values[index],
-                      )
-                      .toList();
-
-                  restoreWallets(nonRestoredWallets, context);
-                },
-                child: Text(
-                  "Restore Selected",
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
-                ),
-              )
-            ],
-          );
+            );
+          });
   }
 
-  void restoreWallets(List<dynamic> nonRestoredWallets, BuildContext context) {
+  void restoreWallets(List<dynamic> nonRestoredWallets, BuildContext context, WidgetRef ref) {
     singleton<Storage>().setList(Storage.DELETED_WALLETS_KEY, nonRestoredWallets);
-    widget.ref.read(sessionProvider.notifier).init(false);
+    ref.read(sessionProvider.notifier).init(false);
     Navigator.of(context).pop();
   }
 }
