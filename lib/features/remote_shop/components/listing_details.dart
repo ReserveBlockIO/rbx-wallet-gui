@@ -101,7 +101,7 @@ class ListingDetails extends BaseComponent {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            "Auction Over",
+                            "Auction Has Ended",
                             style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
                           ),
                           if (listing.auction!.currentWinningAddress.isNotEmpty) Text("Purchased by: ${listing.auction!.currentWinningAddress}")

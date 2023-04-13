@@ -178,6 +178,11 @@ class ListingFormProvider extends StateNotifier<Listing> {
       }
     }
 
+    if (state.startDate.isAfter(state.endDate)) {
+      Toast.error('The start date must be before the end date.');
+      return;
+    }
+
     if (state.smartContractUid.isEmpty) {
       Toast.error('The NFT must be set');
       return;

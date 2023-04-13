@@ -9,6 +9,8 @@ import 'package:rbx_wallet/features/dst/providers/dst_tx_pending_provider.dart';
 import 'package:rbx_wallet/features/dst/services/dst_service.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
+import '../../../core/providers/session_provider.dart';
+
 class DecPublishShopButton extends BaseComponent {
   const DecPublishShopButton({
     super.key,
@@ -88,6 +90,17 @@ class DecPublishShopButton extends BaseComponent {
               if (success) {
                 ref.invalidate(decShopProvider);
                 ref.read(dstTxPendingProvider.notifier).set(true);
+                final confirmed = await ConfirmDialog.show(
+                  title: "CLI Restart Required",
+                  body: "A CLI restart is required for this change to take affect. Would you like to restart now?",
+                  confirmText: "Restart",
+                  cancelText: "Cancel",
+                  destructive: true,
+                );
+
+                if (confirmed) {
+                  ref.read(sessionProvider.notifier).restartCli();
+                }
 
                 Toast.message("Publish Transaction Sent!");
               } else {
