@@ -43,7 +43,7 @@ class MyCollectionsListScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final collections = ref.watch(storeListProvider);
+    final collections = ref.watch(collectionListProvider);
 
     return Column(
       children: [

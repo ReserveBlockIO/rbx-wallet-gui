@@ -78,7 +78,7 @@ class DecPublishShopButton extends BaseComponent {
           onPressed: () async {
             final confirm = await ConfirmDialog.show(
               title: "Publish Shop?",
-              body: "There is a cost of 1 RBX to publish your shop to the network (plus the transaction fee).",
+              body: "There is a cost of 10 RBX to publish your shop to the network (plus the transaction fee).",
               confirmText: "Publish",
               cancelText: "Cancel",
             );

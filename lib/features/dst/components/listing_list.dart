@@ -70,7 +70,7 @@ class ListingList extends BaseComponent {
                         ),
                       ],
                       AppButton(
-                        label: 'Delete Listing',
+                        label: 'Delete',
                         variant: AppColorVariant.Danger,
                         onPressed: () {
                           ref.read(listingFormProvider.notifier).delete(context, listing.collectionId, listing);

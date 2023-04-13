@@ -19,6 +19,6 @@ class CollectionListProvider extends StateNotifier<List<Collection>> {
   }
 }
 
-final storeListProvider = StateNotifierProvider<CollectionListProvider, List<Collection>>(
+final collectionListProvider = StateNotifierProvider<CollectionListProvider, List<Collection>>(
   (ref) => CollectionListProvider(ref),
 );

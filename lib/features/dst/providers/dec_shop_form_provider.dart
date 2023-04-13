@@ -85,7 +85,7 @@ class DecShopFormProvider extends StateNotifier<DecShop> {
     if (success) {
       clear();
       ref.invalidate(listingListProvider(store.id));
-      ref.read(storeListProvider.notifier).refresh();
+      ref.read(collectionListProvider.notifier).refresh();
       AutoRouter.of(context).popUntilRoot();
       ref.invalidate(decShopProvider);
     } else {

@@ -53,7 +53,7 @@ class CollectionFormProvider extends StateNotifier<Collection> {
       // would be nice if the store data could just come back in the API response (so we know the ID)
       final thisCollection = stores.where((s) => s.name == state.name).toList();
 
-      ref.read(storeListProvider.notifier).refresh();
+      ref.read(collectionListProvider.notifier).refresh();
 
       if (state.id == 0 && thisCollection.length == 1) {
         AutoRouter.of(context).popAndPush(MyCollectionDetailScreenRoute(collectionId: thisCollection.first.id));
@@ -91,7 +91,7 @@ class CollectionFormProvider extends StateNotifier<Collection> {
     if (confirmed == true) {
       final success = await DstService().saveCollection(collection.copyWith(isLive: isLive));
       if (success) {
-        ref.read(storeListProvider.notifier).refresh();
+        ref.read(collectionListProvider.notifier).refresh();
         ref.invalidate(storeDetailProvider(collection.id));
       } else {
         Toast.error();
@@ -104,7 +104,7 @@ class CollectionFormProvider extends StateNotifier<Collection> {
     if (success) {
       clear();
       ref.invalidate(listingListProvider(store.id));
-      ref.read(storeListProvider.notifier).refresh();
+      ref.read(collectionListProvider.notifier).refresh();
       AutoRouter.of(context).popUntilRoot();
     } else {
       Toast.error();
