@@ -148,7 +148,7 @@ Future<OrganizedShop> organizeShopData({required RemoteShopService service, requ
       if (nft != null) {
         // print("Getting NFT: $scId");
 
-        // await getNftAssets(service: service, scId: scId); // TODO: put back in
+        await getNftAssets(service: service, scId: scId); // TODO: put back in
 
         String thumbsPath = await assetsPath();
         thumbsPath = Platform.isMacOS ? "$thumbsPath/${scId.replaceAll(':', '')}/thumbs" : "$thumbsPath\\${scId.replaceAll(':', '')}\\thumbs";

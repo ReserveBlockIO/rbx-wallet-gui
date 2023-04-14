@@ -185,7 +185,7 @@ class ListingFormProvider extends StateNotifier<Listing> {
     }
 
     if (!state.enableAuction) {
-      state = state.copyWith(floorPrice: 0, reservePrice: 0);
+      state = state.copyWith(floorPrice: null, reservePrice: null);
     }
 
     if (state.enableAuction && state.reservePrice != null && state.floorPrice != null) {
@@ -215,7 +215,7 @@ class ListingFormProvider extends StateNotifier<Listing> {
     }
 
     if (!state.enableBuyNow) {
-      state = state.copyWith(buyNowPrice: 0);
+      state = state.copyWith(buyNowPrice: null);
     }
 
     if (!state.enableReservePrice) {
