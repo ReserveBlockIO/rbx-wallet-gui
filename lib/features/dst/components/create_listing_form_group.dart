@@ -61,7 +61,8 @@ class CreateListingFormGroup extends BaseComponent {
                   Flexible(child: _EnableAuction()),
                   if (model.enableAuction) ...[
                     Flexible(child: _FloorPrice()),
-                    Flexible(child: _ReservePrice()),
+                    Flexible(child: _EnableReservePrice()),
+                    if (model.enableReservePrice) Flexible(child: _ReservePrice()),
                     if (model.isAuction && model.auctionStarted && model.exists)
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -136,6 +137,36 @@ class _EnableAuction extends BaseComponent {
             provider.updateEnableAuction(!model);
           },
           child: const Text("Enable Auction?"),
+        ),
+      ],
+    );
+  }
+}
+
+class _EnableReservePrice extends BaseComponent {
+  const _EnableReservePrice({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ref) {
+    final provider = ref.read(listingFormProvider.notifier);
+    final model = ref.watch(listingFormProvider).enableReservePrice;
+
+    return Row(
+      children: [
+        Checkbox(
+            value: model,
+            onChanged: (val) {
+              if (val != null) {
+                provider.updateEnableReservePrice(val);
+              }
+            }),
+        GestureDetector(
+          onTap: () {
+            provider.updateEnableReservePrice(!model);
+          },
+          child: const Text("Add Reserve Price"),
         ),
       ],
     );

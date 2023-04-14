@@ -171,6 +171,14 @@ class ListingFormProvider extends StateNotifier<Listing> {
     state = state.copyWith(enableAuction: enableAuction);
   }
 
+  updateEnableReservePrice(bool enableReservePrice) {
+    if (state.auctionStarted && state.exists) {
+      Toast.error('The auction has already started.');
+      return;
+    }
+    state = state.copyWith(enableReservePrice: enableReservePrice);
+  }
+
   complete(BuildContext context, int storeId) async {
     if (!formKey.currentState!.validate()) {
       return;
@@ -199,6 +207,9 @@ class ListingFormProvider extends StateNotifier<Listing> {
 
     if (!state.enableBuyNow) {
       state = state.copyWith(buyNowPrice: 0);
+    }
+    if (!state.enableReservePrice) {
+      state = state.copyWith(reservePrice: 0);
     }
     if (!state.enableAuction) {
       state = state.copyWith(floorPrice: 0, reservePrice: 0);
