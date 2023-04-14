@@ -90,31 +90,11 @@ class Listing with _$Listing {
 
   bool get auctionStarted {
     return isAuctionStarted;
-    return DateTime.now().isAfter(startDate);
   }
 
   bool get auctionEnded {
     return isAuctionEnded;
-    return DateTime.now().isAfter(endDate);
   }
-
-  // bool get auctionStarted {
-  //   print(isAuctionStarted);
-  //   return isAuctionStarted;
-  //   // final offset = DateTime.now().timeZoneOffset;
-  //   // final d = offset.inHours > 0 ? startDate.subtract(offset) : endDate.add(offset);
-  //   // final date = d.isUtc ? d : startDate;
-
-  //   // final now = DateTime.now();
-  //   // print("=========");
-  //   // print(now);
-  //   // print(startDate);
-  //   // print("=========");
-
-  //   // final started = DateTime.now().isAfter(date);
-  //   // print(started);
-  //   // return started;
-  // }
 
   bool get isBuyNow {
     return buyNowPrice != null && buyNowPrice != 0;

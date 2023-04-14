@@ -90,18 +90,18 @@ class ListingFormProvider extends StateNotifier<Listing> {
 
     final d = existing.copyWith(year: date.year, month: date.month, day: date.day);
 
-    if (date.isBefore(DateTime.now()) && !isStartDate) {
-      OverlayToast.error("End date must be in the future.");
+    // if (date.isBefore(DateTime.now()) && !isStartDate) {
+    //   OverlayToast.error("End date must be in the future.");
 
-      return;
-    }
+    //   return;
+    // }
 
-    if (!isStartDate) {
-      if (date.isBefore(state.startDate)) {
-        OverlayToast.error("End Date must be after the start date");
-        return;
-      }
-    }
+    // if (!isStartDate) {
+    //   if (date.isBefore(state.startDate)) {
+    //     OverlayToast.error("End Date must be after the start date");
+    //     return;
+    //   }
+    // }
 
     state = isStartDate ? state.copyWith(startDate: d) : state.copyWith(endDate: d);
 
@@ -206,6 +206,11 @@ class ListingFormProvider extends StateNotifier<Listing> {
     }
     if (!state.enableAuction && !state.enableBuyNow) {
       Toast.error('Enable at least one of the options (Buy now or Auction)');
+      return;
+    }
+
+    if (state.endDate.isBefore(state.startDate) || state.endDate.isAtSameMomentAs(state.startDate)) {
+      Toast.error("End date must be after start date");
       return;
     }
 
