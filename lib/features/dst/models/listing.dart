@@ -89,10 +89,12 @@ class Listing with _$Listing {
   }
 
   bool get auctionStarted {
+    return isAuctionStarted;
     return DateTime.now().isAfter(startDate);
   }
 
   bool get auctionEnded {
+    return isAuctionEnded;
     return DateTime.now().isAfter(endDate);
   }
 
