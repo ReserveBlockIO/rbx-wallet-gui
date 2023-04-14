@@ -111,7 +111,9 @@ class Listing with _$Listing {
     }
     if (isAuction) {
       components.add("Floor: $floorPrice RBX");
-      components.add("Reserve: $reservePrice RBX");
+      if (floorPrice != reservePrice) {
+        components.add("Reserve: $reservePrice RBX");
+      }
     }
 
     return components.join(' | ');
