@@ -34,15 +34,16 @@ class CreateListingFormGroup extends BaseComponent {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Flexible(
-                    child: Card(
-                      margin: EdgeInsets.zero,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                        child: _NFT(),
+                  if (!model.exists)
+                    Flexible(
+                      child: Card(
+                        margin: EdgeInsets.zero,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          child: _NFT(),
+                        ),
                       ),
                     ),
-                  ),
                   Flexible(child: _StartDate()),
                   Text(model.startDate.toString()),
                   Flexible(child: _EndDate()),
@@ -157,7 +158,9 @@ class _FloorPrice extends BaseComponent {
   @override
   Widget build(BuildContext context, ref) {
     final provider = ref.read(listingFormProvider.notifier);
+    final model = ref.read(listingFormProvider);
     return TextFormField(
+      readOnly: model.auctionStarted && model.exists,
       controller: provider.floorPriceController,
       onChanged: provider.updateFloorPrice,
       inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
@@ -180,7 +183,9 @@ class _ReservePrice extends BaseComponent {
   @override
   Widget build(BuildContext context, ref) {
     final provider = ref.read(listingFormProvider.notifier);
+    final model = ref.read(listingFormProvider);
     return TextFormField(
+      readOnly: model.auctionStarted && model.exists,
       controller: provider.reservePriceController,
       onChanged: provider.updateReservePrice,
       inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
@@ -292,6 +297,12 @@ class _NFT extends BaseComponent {
 
 Future<void> _showDatePicker(BuildContext context, WidgetRef ref, bool isStartDate) async {
   final _provider = ref.read(listingFormProvider.notifier);
+  final _model = ref.read(listingFormProvider);
+
+  if (_model.isAuction && _model.auctionStarted && _model.exists) {
+    Toast.error('The auction has already started.');
+    return;
+  }
   final _d = await showDatePicker(
     context: context,
     initialDate: DateTime.now(),
@@ -311,6 +322,10 @@ Future<void> _showTimePicker(BuildContext context, WidgetRef ref, bool isStartDa
   final _model = ref.read(listingFormProvider);
 
   final initialDateTime = isStartDate ? _model.startDate : _model.endDate;
+  if (_model.isAuction && _model.auctionStarted && _model.exists) {
+    Toast.error('The auction has already started.');
+    return;
+  }
 
   final t = await showTimePicker(
     context: context,

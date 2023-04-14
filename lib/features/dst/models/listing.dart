@@ -81,6 +81,14 @@ class Listing with _$Listing {
         collectionId: 0,
       );
 
+  bool get exists {
+    return id != 0;
+  }
+
+  bool get auctionStarted {
+    return DateTime.now().isAfter(startDate);
+  }
+
   bool get isBuyNow {
     return buyNowPrice != null && buyNowPrice != 0;
   }

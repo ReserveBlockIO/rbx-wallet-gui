@@ -60,6 +60,7 @@ class ListingDetails extends BaseComponent {
     if (nft == null) {
       return SizedBox.shrink();
     }
+    final myAddress = ref.read(sessionProvider).currentWallet!.address;
     return Padding(
       padding: const EdgeInsets.all(32.0),
       child: Column(
@@ -104,7 +105,8 @@ class ListingDetails extends BaseComponent {
                             "Auction Has Ended",
                             style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
                           ),
-                          if (listing.auction!.currentWinningAddress.isNotEmpty) Text("Purchased by: ${listing.auction!.currentWinningAddress}")
+                          if (listing.auction!.currentWinningAddress.isNotEmpty && listing.auction!.currentWinningAddress != myAddress)
+                            Text("Purchased by: ${listing.auction!.currentWinningAddress}")
                         ],
                       )
                   ]),
