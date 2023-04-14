@@ -184,6 +184,10 @@ class ListingFormProvider extends StateNotifier<Listing> {
       return;
     }
 
+    if (!state.enableAuction) {
+      state = state.copyWith(floorPrice: 0, reservePrice: 0);
+    }
+
     if (state.enableAuction && state.reservePrice != null && state.floorPrice != null) {
       if (state.reservePrice! < state.floorPrice!) {
         Toast.error("The reserve price must be greater or equal to the floor price.");
@@ -208,11 +212,9 @@ class ListingFormProvider extends StateNotifier<Listing> {
     if (!state.enableBuyNow) {
       state = state.copyWith(buyNowPrice: 0);
     }
+
     if (!state.enableReservePrice) {
-      state = state.copyWith(reservePrice: 0);
-    }
-    if (!state.enableAuction) {
-      state = state.copyWith(floorPrice: 0, reservePrice: 0);
+      state = state.copyWith(reservePrice: state.floorPrice);
     }
 
     state = state.copyWith(collectionId: storeId);
@@ -239,7 +241,7 @@ class ListingFormProvider extends StateNotifier<Listing> {
     state = Listing.empty();
   }
 
-  delete(BuildContext context, int storeId, Listing listing) async {
+  delete(BuildContext context, int storeId, Listing listing, [bool shouldPop = true]) async {
     final confirmed = await ConfirmDialog.show(
       title: "Delete Listing",
       body: "Are you sure you want to delete this listing?",
@@ -251,7 +253,9 @@ class ListingFormProvider extends StateNotifier<Listing> {
       if (await DstService().deleteListing(listing)) {
         clear();
         ref.read(listingListProvider(storeId).notifier).refresh();
-        AutoRouter.of(context).pop();
+        if (shouldPop) {
+          AutoRouter.of(context).pop();
+        }
       }
     }
   }

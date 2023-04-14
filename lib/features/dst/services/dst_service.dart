@@ -32,7 +32,10 @@ class DstService extends BaseService {
 
   Future<Listing?> retreiveListing(int id) async {
     try {
-      final response = await getText("/GetListing/$id");
+      final response = await getText(
+        "/GetListing/$id",
+        inspect: true,
+      );
       final data = jsonDecode(response);
 
       if (data['Success'] != true) {

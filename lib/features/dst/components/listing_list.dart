@@ -73,7 +73,7 @@ class ListingList extends BaseComponent {
                         label: 'Delete',
                         variant: AppColorVariant.Danger,
                         onPressed: () {
-                          ref.read(listingFormProvider.notifier).delete(context, listing.collectionId, listing);
+                          ref.read(listingFormProvider.notifier).delete(context, listing.collectionId, listing, false);
                         },
                       ),
                       SizedBox(
@@ -83,6 +83,7 @@ class ListingList extends BaseComponent {
                         label: "Edit",
                         variant: AppColorVariant.Light,
                         onPressed: () {
+                          print("HI");
                           ref.read(listingFormProvider.notifier).load(listing);
                           AutoRouter.of(context).push(CreateListingContainerScreenRoute(collectionId: listing.collectionId));
                         },
