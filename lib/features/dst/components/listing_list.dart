@@ -8,6 +8,7 @@ import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/asset/polling_image_preview.dart';
 import 'package:rbx_wallet/features/dst/providers/listing_form_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/listing_list_provider.dart';
+import 'package:rbx_wallet/features/dst/services/dst_service.dart';
 
 class ListingList extends BaseComponent {
   const ListingList(this.collectionId, {Key? key}) : super(key: key);
@@ -82,9 +83,9 @@ class ListingList extends BaseComponent {
                       AppButton(
                         label: "Edit",
                         variant: AppColorVariant.Light,
-                        onPressed: () {
-                          print("HI");
-                          ref.read(listingFormProvider.notifier).load(listing);
+                        onPressed: () async {
+                          final l = await DstService().retreiveListing(listing.id);
+                          ref.read(listingFormProvider.notifier).load(l ?? listing);
                           AutoRouter.of(context).push(CreateListingContainerScreenRoute(collectionId: listing.collectionId));
                         },
                       ),
