@@ -36,7 +36,7 @@ class RemoteShopService extends BaseService {
 
     if (shopData == null) {
       if (showErrors) {
-        Toast.error("An error occurred. Could not get shop data");
+        Toast.error("An error occurred. Could not get shop data.");
       }
 
       return null;

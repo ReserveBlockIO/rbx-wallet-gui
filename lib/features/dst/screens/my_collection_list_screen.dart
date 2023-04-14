@@ -157,14 +157,20 @@ class MyCollectionsListScreen extends BaseScreen {
         if (collections.isEmpty)
           Expanded(
             child: Center(
-              child: AppButton(
-                label: 'Create Collection',
-                icon: Icons.add,
-                variant: AppColorVariant.Success,
-                onPressed: () async {
-                  ref.read(storeFormProvider.notifier).clear();
-                  AutoRouter.of(context).push(const CreateCollectionContainerScreenRoute());
-                },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  DecShopButton(),
+                  AppButton(
+                    label: 'Create Collection',
+                    icon: Icons.add,
+                    variant: AppColorVariant.Success,
+                    onPressed: () async {
+                      ref.read(storeFormProvider.notifier).clear();
+                      AutoRouter.of(context).push(const CreateCollectionContainerScreenRoute());
+                    },
+                  ),
+                ],
               ),
             ),
           ),
@@ -175,30 +181,31 @@ class MyCollectionsListScreen extends BaseScreen {
               child: CollectionList(),
             ),
           ),
-        Container(
-          width: double.infinity,
-          decoration: const BoxDecoration(
-            color: Color(0xFF040f26),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                DecShopButton(),
-                AppButton(
-                  label: 'Create Collection',
-                  icon: Icons.add,
-                  variant: AppColorVariant.Success,
-                  onPressed: () async {
-                    ref.read(storeFormProvider.notifier).clear();
-                    AutoRouter.of(context).push(const CreateCollectionContainerScreenRoute());
-                  },
-                )
-              ],
+        if (collections.isNotEmpty)
+          Container(
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              color: Color(0xFF040f26),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  DecShopButton(),
+                  AppButton(
+                    label: 'Create Collection',
+                    icon: Icons.add,
+                    variant: AppColorVariant.Success,
+                    onPressed: () async {
+                      ref.read(storeFormProvider.notifier).clear();
+                      AutoRouter.of(context).push(const CreateCollectionContainerScreenRoute());
+                    },
+                  )
+                ],
+              ),
             ),
           ),
-        ),
       ],
     );
   }

@@ -16,6 +16,8 @@ import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/remote_shop/components/bid_history_modal.dart';
 import 'package:rbx_wallet/features/remote_shop/models/shop_data.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/bid_list_provider.dart';
+import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
+import 'package:rbx_wallet/features/remote_shop/utils.dart';
 import 'package:rbx_wallet/utils/files.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
@@ -240,6 +242,9 @@ class _PreviewState extends State<_Preview> {
                                         setState(() {
                                           rebuilding = true;
                                         });
+                                        await getNftAssets(service: RemoteShopService(), scId: widget.nft.id);
+                                        await Future.delayed(Duration(seconds: 2));
+
                                         await FileImage(File(path)).evict();
 
                                         Future.delayed(Duration(milliseconds: 300)).then((value) {

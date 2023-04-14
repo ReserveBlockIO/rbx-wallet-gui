@@ -137,7 +137,7 @@ Future<OrganizedShop> organizeShopData({required RemoteShopService service, requ
 
   for (final id in listingIds) {
     service.getText("/GetShopListingBids/$id", cleanPath: false);
-    print("ID: $id");
+    // print("ID: $id");
   }
 
   final Map<String, Nft> nfts = {};
@@ -146,8 +146,9 @@ Future<OrganizedShop> organizeShopData({required RemoteShopService service, requ
     if (!nfts.containsKey(scId)) {
       Nft? nft = await NftService().getNftData(scId);
       if (nft != null) {
-        print("Getting NFT: $scId");
-        await getNftAssets(service: service, scId: scId);
+        // print("Getting NFT: $scId");
+
+        // await getNftAssets(service: service, scId: scId); // TODO: put back in
 
         String thumbsPath = await assetsPath();
         thumbsPath = Platform.isMacOS ? "$thumbsPath/${scId.replaceAll(':', '')}/thumbs" : "$thumbsPath\\${scId.replaceAll(':', '')}\\thumbs";

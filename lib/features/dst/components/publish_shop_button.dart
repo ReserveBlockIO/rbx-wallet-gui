@@ -92,7 +92,7 @@ class DecPublishShopButton extends BaseComponent {
                 ref.read(dstTxPendingProvider.notifier).set(true);
                 final confirmed = await ConfirmDialog.show(
                   title: "CLI Restart Required",
-                  body: "A CLI restart is required for this change to take affect. Would you like to restart now?",
+                  body: "A CLI restart is required for this change to take effect. Would you like to restart now?",
                   confirmText: "Restart",
                   cancelText: "Cancel",
                   destructive: true,
