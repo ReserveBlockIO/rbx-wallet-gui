@@ -99,23 +99,36 @@ class MyCollectionsListScreen extends BaseScreen {
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
-                              SizedBox(
-                                width: 6,
-                              ),
-                              InkWell(
-                                onTap: () async {
-                                  await Clipboard.setData(ClipboardData(text: shop.url));
-                                  Toast.message("URL copied to clipboard");
-                                },
-                                child: Icon(
-                                  Icons.copy,
-                                  size: 16,
-                                ),
-                              ),
+                              // SizedBox(
+                              //   width: 6,
+                              // ),
+                              // AppButton(
+                              //   label: "Copy Shop URL",
+                              //   icon: Icons.copy,
+                              //   type: AppButtonType.Outlined,
+                              //   variant: AppColorVariant.Light,
+                              //   onPressed: () async {
+                              //     await Clipboard.setData(ClipboardData(text: shop.url));
+                              //     Toast.message("URL copied to clipboard");
+                              //   },
+                              // ),
                             ],
                           ),
                         ),
                       ),
+                      SizedBox(height: 8),
+                      AppButton(
+                        label: "Copy Shop URL",
+                        icon: Icons.copy,
+                        type: AppButtonType.Outlined,
+                        variant: AppColorVariant.Light,
+                        onPressed: () async {
+                          await Clipboard.setData(ClipboardData(text: shop.url));
+                          Toast.message("Shop URL copied to clipboard");
+                        },
+                      ),
+                      SizedBox(height: 16),
+
                       Divider(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -34,20 +34,26 @@ class CreateListingFormGroup extends BaseComponent {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  if (!model.exists)
-                    Flexible(
-                      child: Card(
-                        margin: EdgeInsets.zero,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                          child: _NFT(),
-                        ),
+                  Flexible(
+                    child: Card(
+                      margin: EdgeInsets.zero,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        child: _NFT(),
                       ),
                     ),
+                  ),
                   Flexible(child: _StartDate()),
-                  Text(model.startDate.toString()),
                   Flexible(child: _EndDate()),
-                  Text(model.endDate.toString()),
+                  if (model.isAuction && model.auctionStarted && model.exists)
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                          child: Text(
+                        "Auction has started so the dates & times can't be updated.",
+                        style: Theme.of(context).textTheme.bodySmall,
+                      )),
+                    ),
                   SizedBox(height: 16),
                   Flexible(child: _EnableBuyNow()),
                   if (model.enableBuyNow) Flexible(child: _BuyNow()),
@@ -56,6 +62,15 @@ class CreateListingFormGroup extends BaseComponent {
                   if (model.enableAuction) ...[
                     Flexible(child: _FloorPrice()),
                     Flexible(child: _ReservePrice()),
+                    if (model.isAuction && model.auctionStarted && model.exists)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                            child: Text(
+                          "Auction has started so the pricing can't be updated.",
+                          style: Theme.of(context).textTheme.bodySmall,
+                        )),
+                      ),
                   ],
                 ],
               ),
@@ -279,6 +294,7 @@ class _NFT extends BaseComponent {
             ),
           ),
           NftSelector(
+            disabled: model.exists,
             labelOverride: "Replace NFT",
             onSelect: (nft) {
               if (nft.isListed(ref)) {
@@ -352,56 +368,66 @@ class _StartDate extends BaseComponent {
   @override
   Widget build(BuildContext context, ref) {
     final provider = ref.read(listingFormProvider.notifier);
-    return Row(
-      children: [
-        Expanded(
-          child: TextFormField(
-            controller: provider.startDateController,
-            onTap: () {
-              _showDatePicker(context, ref, true);
-            },
-            decoration: InputDecoration(
-              label: const Text(
-                "Start Date",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              suffixIcon: IconButton(
-                icon: const Icon(Icons.calendar_month),
-                onPressed: () {
+    final _model = ref.read(listingFormProvider);
+
+    final disabled = _model.isAuction && _model.auctionStarted && _model.exists;
+
+    return IgnorePointer(
+      ignoring: disabled,
+      child: Opacity(
+        opacity: disabled ? 0.5 : 1,
+        child: Row(
+          children: [
+            Expanded(
+              child: TextFormField(
+                controller: provider.startDateController,
+                onTap: () {
                   _showDatePicker(context, ref, true);
                 },
-              ),
-            ),
-          ),
-        ),
-        SizedBox(
-          width: 8,
-        ),
-        Expanded(
-          child: TextFormField(
-            controller: provider.startTimeController,
-            onTap: () {
-              _showTimePicker(context, ref, true);
-            },
-            decoration: InputDecoration(
-              label: const Text(
-                "Start Time",
-                style: TextStyle(
-                  color: Colors.white,
+                decoration: InputDecoration(
+                  label: const Text(
+                    "Start Date",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.calendar_month),
+                    onPressed: () {
+                      _showDatePicker(context, ref, true);
+                    },
+                  ),
                 ),
               ),
-              suffixIcon: IconButton(
-                icon: const Icon(Icons.hourglass_bottom),
-                onPressed: () {
+            ),
+            SizedBox(
+              width: 8,
+            ),
+            Expanded(
+              child: TextFormField(
+                controller: provider.startTimeController,
+                onTap: () {
                   _showTimePicker(context, ref, true);
                 },
+                decoration: InputDecoration(
+                  label: const Text(
+                    "Start Time",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.hourglass_bottom),
+                    onPressed: () {
+                      _showTimePicker(context, ref, true);
+                    },
+                  ),
+                ),
               ),
             ),
-          ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
@@ -415,59 +441,67 @@ class _EndDate extends BaseComponent {
   Widget build(BuildContext context, ref) {
     final provider = ref.read(listingFormProvider.notifier);
     final model = ref.read(listingFormProvider);
-    return Row(
-      children: [
-        Expanded(
-          child: TextFormField(
-            controller: provider.endDateController,
-            validator: (String? val) {
-              return null;
-            },
-            onTap: () {
-              _showDatePicker(context, ref, false);
-            },
-            decoration: InputDecoration(
-              label: const Text(
-                "End Date",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              suffixIcon: IconButton(
-                icon: const Icon(Icons.calendar_month),
-                onPressed: () {
+    final disabled = model.isAuction && model.auctionStarted && model.exists;
+
+    return IgnorePointer(
+      ignoring: disabled,
+      child: Opacity(
+        opacity: disabled ? 0.5 : 1,
+        child: Row(
+          children: [
+            Expanded(
+              child: TextFormField(
+                controller: provider.endDateController,
+                validator: (String? val) {
+                  return null;
+                },
+                onTap: () {
                   _showDatePicker(context, ref, false);
                 },
-              ),
-            ),
-          ),
-        ),
-        SizedBox(
-          width: 8,
-        ),
-        Expanded(
-          child: TextFormField(
-            controller: provider.endTimeController,
-            onTap: () {
-              _showTimePicker(context, ref, false);
-            },
-            decoration: InputDecoration(
-              label: const Text(
-                "End Time",
-                style: TextStyle(
-                  color: Colors.white,
+                decoration: InputDecoration(
+                  label: const Text(
+                    "End Date",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.calendar_month),
+                    onPressed: () {
+                      _showDatePicker(context, ref, false);
+                    },
+                  ),
                 ),
               ),
-              suffixIcon: IconButton(
-                icon: const Icon(Icons.hourglass_bottom),
-                onPressed: () {
+            ),
+            SizedBox(
+              width: 8,
+            ),
+            Expanded(
+              child: TextFormField(
+                controller: provider.endTimeController,
+                onTap: () {
                   _showTimePicker(context, ref, false);
                 },
+                decoration: InputDecoration(
+                  label: const Text(
+                    "End Time",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.hourglass_bottom),
+                    onPressed: () {
+                      _showTimePicker(context, ref, false);
+                    },
+                  ),
+                ),
               ),
             ),
-          ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

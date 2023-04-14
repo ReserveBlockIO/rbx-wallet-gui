@@ -6,17 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/breakpoints.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/components/countdown.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/remote_shop/components/bid_history_modal.dart';
-import 'package:rbx_wallet/features/remote_shop/components/buy_now_progress_modal.dart';
 import 'package:rbx_wallet/features/remote_shop/models/shop_data.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/bid_list_provider.dart';
 import 'package:rbx_wallet/utils/files.dart';
@@ -60,7 +57,7 @@ class ListingDetails extends BaseComponent {
     if (nft == null) {
       return SizedBox.shrink();
     }
-    final myAddress = ref.read(sessionProvider).currentWallet!.address;
+
     return Padding(
       padding: const EdgeInsets.all(32.0),
       child: Column(
@@ -105,7 +102,7 @@ class ListingDetails extends BaseComponent {
                             "Auction Has Ended",
                             style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
                           ),
-                          if (listing.auction!.currentWinningAddress.isNotEmpty && listing.auction!.currentWinningAddress != myAddress)
+                          if (listing.auction!.currentWinningAddress.isNotEmpty && listing.auction!.currentWinningAddress != listing.addressOwner)
                             Text("Purchased by: ${listing.auction!.currentWinningAddress}")
                         ],
                       )
