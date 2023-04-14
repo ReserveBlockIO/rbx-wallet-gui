@@ -67,6 +67,7 @@ class Listing with _$Listing {
     @JsonKey(name: "CollectionId") required int collectionId,
     @Default(false) @JsonKey(ignore: true) bool enableBuyNow,
     @Default(false) @JsonKey(ignore: true) bool enableAuction,
+    @Default(false) @JsonKey(ignore: true) bool enableReservePrice,
     @JsonKey(ignore: true) Nft? nft,
   }) = _Listing;
 
