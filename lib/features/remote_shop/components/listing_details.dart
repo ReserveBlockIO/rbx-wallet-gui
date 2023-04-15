@@ -123,7 +123,9 @@ class ListingDetails extends BaseComponent {
                             "Auction Has Ended",
                             style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
                           ),
-                          if (listing.auction!.currentWinningAddress.isNotEmpty && listing.auction!.currentWinningAddress != listing.addressOwner)
+                          if (listing.auction!.currentWinningAddress.isNotEmpty &&
+                              listing.auction!.currentWinningAddress != listing.addressOwner &&
+                              listing.auction!.isReserveMet)
                             Text("Purchased by: ${listing.auction!.currentWinningAddress}")
                         ],
                       )
