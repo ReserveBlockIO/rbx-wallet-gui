@@ -667,7 +667,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
     } else {
       if (state.windowsLauncherPath == null) {
         final appPath = Directory.current.path;
-        final p = "$appPath\\RbxCore\\ReserveBlockCore";
+        final p = "$appPath\\RbxCore\\${Env.isTestNet ? 'RBXLauncherTestNet.exe' : 'RBXLauncher.exe'}";
         state = state.copyWith(windowsLauncherPath: p);
         return p;
       }
