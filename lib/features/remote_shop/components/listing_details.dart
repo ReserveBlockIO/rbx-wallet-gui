@@ -126,7 +126,11 @@ class ListingDetails extends BaseComponent {
                           if (listing.auction!.currentWinningAddress.isNotEmpty &&
                               listing.auction!.currentWinningAddress != listing.addressOwner &&
                               listing.auction!.isReserveMet)
-                            Text("Purchased by: ${listing.auction!.currentWinningAddress}")
+                            Text("Purchased by: ${listing.auction!.currentWinningAddress}"),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 16.0),
+                            child: BidHistoryButton(listing: listing),
+                          )
                         ],
                       )
                   ]),
@@ -719,29 +723,7 @@ class _Auction extends BaseComponent {
                     }
                   }),
               const SizedBox(width: 8),
-              AppButton(
-                label: "Bid History",
-                icon: Icons.punch_clock,
-                size: AppSizeVariant.Lg,
-                onPressed: () async {
-                  final bids = await provider.fetchBids(listing);
-
-                  if (bids.isEmpty) {
-                    Toast.message("No bids yet.");
-                    return;
-                  }
-
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    builder: (context) {
-                      return BidHistoryModal(
-                        bids: bids,
-                      );
-                    },
-                  );
-                },
-              ),
+              BidHistoryButton(listing: listing),
               const SizedBox(width: 8),
               if (listing.auction != null)
                 AppButton(
@@ -763,6 +745,44 @@ class _Auction extends BaseComponent {
           ),
         ],
       ),
+    );
+  }
+}
+
+class BidHistoryButton extends BaseComponent {
+  const BidHistoryButton({
+    super.key,
+    required this.listing,
+  });
+
+  final OrganizedListing listing;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final provider = ref.read(bidListProvider(listing.familyIdentifier).notifier);
+
+    return AppButton(
+      label: "Bid History",
+      icon: Icons.punch_clock,
+      size: AppSizeVariant.Lg,
+      onPressed: () async {
+        final bids = await provider.fetchBids(listing);
+
+        if (bids.isEmpty) {
+          Toast.message("No bids.");
+          return;
+        }
+
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          builder: (context) {
+            return BidHistoryModal(
+              bids: bids,
+            );
+          },
+        );
+      },
     );
   }
 }

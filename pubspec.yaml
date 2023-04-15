@@ -15,7 +15,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_dotenv: ^5.0.2
-  flutter_riverpod: ^2.2.0
+  flutter_riverpod: ^2.3.4
   get_it: ^7.2.0
   intl: ^0.17.0
   json_annotation: ^4.5.0
