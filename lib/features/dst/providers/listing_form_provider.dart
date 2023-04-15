@@ -22,8 +22,6 @@ class ListingFormProvider extends StateNotifier<Listing> {
   late final TextEditingController startTimeController;
   late final TextEditingController endTimeController;
   final GlobalKey<FormState> formKey = GlobalKey();
-  // bool enableAuction = false;
-  // bool enableBuyNow = false;
 
   ListingFormProvider(this.ref, Listing model) : super(model) {
     startDateController = TextEditingController(
@@ -90,53 +88,19 @@ class ListingFormProvider extends StateNotifier<Listing> {
 
     final d = existing.copyWith(year: date.year, month: date.month, day: date.day);
 
-    // if (date.isBefore(DateTime.now()) && !isStartDate) {
-    //   OverlayToast.error("End date must be in the future.");
-
-    //   return;
-    // }
-
-    // if (!isStartDate) {
-    //   if (date.isBefore(state.startDate)) {
-    //     OverlayToast.error("End Date must be after the start date");
-    //     return;
-    //   }
-    // }
-
     state = isStartDate ? state.copyWith(startDate: d) : state.copyWith(endDate: d);
-
-    // state = isStartDate
-    //     ? state.copyWith(
-    //         startDate: DateTime(
-    //         date.year,
-    //         date.month,
-    //         date.day,
-    //         state.startDate.hour,
-    //         state.startDate.minute,
-    //       ))
-    //     : state.copyWith(endDate: DateTime(date.year, date.month, date.day, state.endDate.hour, state.endDate.minute));
 
     if (isStartDate) {
       startDateController.text = DateFormat.yMd().format(d);
     } else {
       endDateController.text = DateFormat.yMd().format(d);
     }
-
-    // startDateController.text = DateFormat.yMd().format(state.startDate);
-    // endDateController.text = DateFormat.yMd().format(state.endDate);
   }
 
   updateTime(TimeOfDay time, bool isStartDate) {
     final existing = isStartDate ? state.startDate : state.endDate;
 
     final d = existing.copyWith(hour: time.hour, minute: time.minute);
-
-    // final d = DateTime(existing.year, existing.month, existing.day, time.hour, time.minute);
-
-    // if (d.isBefore(DateTime.now())) {
-    //   OverlayToast.error("Time must be in the future.");
-    //   return;
-    // }
 
     state = isStartDate ? state.copyWith(startDate: d) : state.copyWith(endDate: d);
 

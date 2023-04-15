@@ -5,6 +5,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/breakpoints.dart';
@@ -98,6 +99,21 @@ class ListingDetails extends BaseComponent {
                     if (listing.canBuyNow) IntrinsicWidth(child: _BuyNow(listing: listing)),
                     const SizedBox(height: 16),
                     if (listing.canBuyNow || listing.canBid) _Countdown(listing: listing),
+                    if (!listing.hasStarted)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "Auction Upcoming",
+                            style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
+                          ),
+                          Text(
+                            "Begins: ${DateFormat.yMd().format(listing.startDate)} ${DateFormat("HH:mm").format(listing.startDate)}  - ${DateFormat.yMd().format(listing.endDate)} ${DateFormat("HH:mm").format(listing.endDate)}",
+                            style: TextStyle(fontSize: 2),
+                          ),
+                        ],
+                      ),
                     if (listing.auction?.isAuctionOver == true)
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
