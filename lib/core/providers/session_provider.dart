@@ -471,7 +471,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
   Future<void> stopCli() async {
     // ref.read(logProvider.notifier).clear();
-    state = state = _initial;
+    state = _initial.copyWith(windowsLauncherPath: state.windowsLauncherPath);
     // ref.read(logProvider.notifier).append(LogEntry(message: "Shutting down CLI..."));
     await BridgeService().killCli();
     // ref.read(logProvider.notifier).append(LogEntry(message: "CLI terminated."));
