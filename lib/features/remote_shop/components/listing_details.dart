@@ -9,6 +9,7 @@ import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/breakpoints.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/components/centered_loader.dart';
 import 'package:rbx_wallet/core/components/countdown.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
@@ -16,10 +17,12 @@ import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/remote_shop/components/bid_history_modal.dart';
 import 'package:rbx_wallet/features/remote_shop/models/shop_data.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/bid_list_provider.dart';
+import 'package:rbx_wallet/features/remote_shop/providers/thumbnail_fetcher_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
 import 'package:rbx_wallet/features/remote_shop/utils.dart';
 import 'package:rbx_wallet/utils/files.dart';
 import 'package:rbx_wallet/utils/toast.dart';
+import 'package:collection/collection.dart';
 
 class ListingDetails extends BaseComponent {
   final OrganizedListing listing;
@@ -149,9 +152,9 @@ class _PreviewState extends State<_Preview> {
 
   @override
   Widget build(BuildContext context) {
-    if (rebuilding) {
-      return SizedBox();
-    }
+    // if (rebuilding) {
+    //   return SizedBox();
+    // }
 
     final isMobile = BreakPoints.useMobileLayout(context);
 
@@ -202,7 +205,7 @@ class _PreviewState extends State<_Preview> {
                   items: paths.map((path) {
                     final fileType = fileTypeFromPath(path);
 
-                    final isImage = fileType == "Image";
+                    final showThumbnail = fileType == "Image";
                     final icon = iconFromPath(path);
 
                     return Padding(
@@ -230,33 +233,10 @@ class _PreviewState extends State<_Preview> {
                                 );
                               });
                         },
-                        child: isImage
-                            ? Image.file(
-                                File(path),
-                                errorBuilder: (context, _, __) {
-                                  // return Text(path);
-                                  return Center(
-                                    child: IconButton(
-                                      icon: Icon(Icons.refresh),
-                                      onPressed: () async {
-                                        setState(() {
-                                          rebuilding = true;
-                                        });
-                                        await getNftAssets(service: RemoteShopService(), scId: widget.nft.id);
-                                        await Future.delayed(Duration(seconds: 2));
-
-                                        await FileImage(File(path)).evict();
-
-                                        Future.delayed(Duration(milliseconds: 300)).then((value) {
-                                          setState(() {
-                                            rebuilding = false;
-                                          });
-                                        });
-                                      },
-                                    ),
-                                  );
-                                },
-                              )
+                        child: showThumbnail
+                            ? Consumer(builder: (context, ref, _) {
+                                return _Thumbnail(path: path, scId: widget.nft.id, ref: ref);
+                              })
                             : Center(
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
@@ -876,5 +856,113 @@ class _Countdown extends StatelessWidget {
           ),
       ],
     );
+  }
+}
+
+class _Thumbnail extends StatefulWidget {
+  final String path;
+  final String scId;
+  final WidgetRef ref;
+  const _Thumbnail({
+    super.key,
+    required this.path,
+    required this.scId,
+    required this.ref,
+  });
+
+  @override
+  State<_Thumbnail> createState() => __ThumbnailState();
+}
+
+class __ThumbnailState extends State<_Thumbnail> {
+  bool rebuilding = false;
+  bool thumbnailReady = false;
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  Future<void> init() async {
+    final provider = widget.ref.read(thumbnailFetcherProvider.notifier);
+
+    final ready = provider.thumbnailReady(widget.scId);
+    if (ready) {
+      return;
+    }
+
+    provider.addToQueue(widget.scId);
+    // await Future.delayed(Duration(milliseconds: 500));
+    // queueForDownload();
+  }
+
+  // Future<void> checkIfExists() async {
+  //   print("Checking if exists...");
+  //   if (await File(widget.path).exists()) {
+  //     final bytes = await File(widget.path).length();
+  //     if (bytes > 100) {
+  //       print("Good");
+
+  //       return;
+  //     }
+  //   }
+
+  //   print("Does not exist (${widget.path})");
+
+  //   await getNftAssets(service: RemoteShopService(), scId: widget.scId);
+  //   await Future.delayed(Duration(seconds: 2));
+  //   setState(() {
+  //     rebuilding = true;
+  //   });
+  //   await FileImage(File(widget.path)).evict();
+
+  //   await Future.delayed(Duration(milliseconds: 300));
+  //   setState(() {
+  //     rebuilding = false;
+  //   });
+  //   await Future.delayed(Duration(seconds: 2));
+
+  //   checkIfExists();
+  // }
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer(builder: (context, ref, _) {
+      final thumb = ref.watch(thumbnailFetcherProvider).firstWhereOrNull((e) => e.scId == widget.scId);
+      if (thumb == null || !thumb.success) {
+        return CenteredLoader();
+      }
+
+      return Image.file(
+        File(widget.path),
+        errorBuilder: (context, _, __) {
+          return Text("Error...");
+
+          // return Text(path);
+          // return Center(
+          //   child: IconButton(
+          //     icon: Icon(Icons.refresh),
+          //     onPressed: () async {
+          //       setState(() {
+          //         rebuilding = true;
+          //       });
+
+          //       await getNftAssets(service: RemoteShopService(), scId: widget.scId);
+          //       await Future.delayed(Duration(seconds: 2));
+
+          //       await FileImage(File(widget.path)).evict();
+
+          //       Future.delayed(Duration(milliseconds: 300)).then((value) {
+          //         setState(() {
+          //           rebuilding = false;
+          //         });
+          //       });
+          //     },
+          //   ),
+          // );
+        },
+      );
+    });
   }
 }

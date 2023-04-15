@@ -116,19 +116,26 @@ Future<ShopData?> getShopData({required RemoteShopService service, int attempt =
   return null;
 }
 
-Future<dynamic> getNftAssets({required RemoteShopService service, required String scId}) async {
-  String thumbsPath = await assetsPath();
+// Future<void> bulkGetNftAssets({required RemoteShopService service, required List<String> scIds}) async {
+//   for (final scId in scIds) {
+//     final requiresDownload = await getNftAssets(service: service, scId: scId);
+//     if (requiresDownload) {
+//       await Future.delayed(Duration(milliseconds: 500));
+//     }
+//   }
+// }
 
-  thumbsPath = Platform.isMacOS ? "$thumbsPath/${scId.replaceAll(':', '')}/thumbs" : "$thumbsPath\\${scId.replaceAll(':', '')}\\thumbs";
-  if (Directory(thumbsPath).existsSync()) {
-    // print("Thumbs directory exists.");
-    return;
-  }
+Future<bool> getNftAssets({required RemoteShopService service, required String scId}) async {
+  // String thumbsPath = await assetsPath();
 
-  final response = await service.getText("/GetNFTAssets/$scId", cleanPath: false);
+  // thumbsPath = Platform.isMacOS ? "$thumbsPath/${scId.replaceAll(':', '')}/thumbs" : "$thumbsPath\\${scId.replaceAll(':', '')}\\thumbs";
+  // if (Directory(thumbsPath).existsSync()) {
+  //   // print("Thumbs directory exists.");
+  //   return false;
+  // }
 
-  final data = jsonDecode(response);
-  print(data);
+  await service.getText("/GetNFTAssets/$scId", cleanPath: false);
+  return true;
 }
 
 Future<OrganizedShop> organizeShopData({required RemoteShopService service, required ShopData shopData}) async {
@@ -148,8 +155,8 @@ Future<OrganizedShop> organizeShopData({required RemoteShopService service, requ
       if (nft != null) {
         // print("Getting NFT: $scId");
 
-        await getNftAssets(service: service, scId: scId);
-        await Future.delayed(Duration(milliseconds: 100));
+        // await getNftAssets(service: service, scId: scId);
+        // await Future.delayed(Duration(milliseconds: 100));
 
         String thumbsPath = await assetsPath();
         thumbsPath = Platform.isMacOS ? "$thumbsPath/${scId.replaceAll(':', '')}/thumbs" : "$thumbsPath\\${scId.replaceAll(':', '')}\\thumbs";

@@ -5,6 +5,8 @@ import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/features/dst/models/dec_shop.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
+import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
+import 'package:rbx_wallet/features/remote_shop/utils.dart';
 
 class RemoteShopDetails extends BaseComponent {
   const RemoteShopDetails({super.key});
@@ -65,6 +67,10 @@ class RemoteShopDetails extends BaseComponent {
                   ),
                   trailing: Icon(Icons.chevron_right),
                   onTap: () {
+                    // final List<String> scIds = [];
+
+                    // bulkGetNftAssets(service: RemoteShopService(), scIds: scIds);
+
                     AutoRouter.of(context).push(RemoteShopCollectionScreenRoute(
                       collectionId: collection.id,
                       url: shop.decShop.url,
