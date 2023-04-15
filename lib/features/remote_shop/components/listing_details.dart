@@ -109,8 +109,8 @@ class ListingDetails extends BaseComponent {
                             style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
                           ),
                           Text(
-                            "Begins: ${DateFormat.yMd().format(listing.startDate)} ${DateFormat("HH:mm").format(listing.startDate)}  - ${DateFormat.yMd().format(listing.endDate)} ${DateFormat("HH:mm").format(listing.endDate)}",
-                            style: TextStyle(fontSize: 20),
+                            "Begins: ${DateFormat.yMd().format(listing.startDate)} ${DateFormat("HH:mm").format(listing.startDate)}",
+                            style: TextStyle(fontSize: 16),
                           ),
                         ],
                       ),
