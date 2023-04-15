@@ -110,7 +110,7 @@ class ListingDetails extends BaseComponent {
                           ),
                           Text(
                             "Begins: ${DateFormat.yMd().format(listing.startDate)} ${DateFormat("HH:mm").format(listing.startDate)}  - ${DateFormat.yMd().format(listing.endDate)} ${DateFormat("HH:mm").format(listing.endDate)}",
-                            style: TextStyle(fontSize: 2),
+                            style: TextStyle(fontSize: 20),
                           ),
                         ],
                       ),
