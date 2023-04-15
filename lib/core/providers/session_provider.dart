@@ -134,7 +134,7 @@ class SessionModel {
     if (startTime == null) {
       return "-";
     }
-    return DateFormat('MM/dd – kk:mm').format(startTime!);
+    return DateFormat('MM/dd – HH:mm').format(startTime!);
   }
 
   bool get updateAvailable {

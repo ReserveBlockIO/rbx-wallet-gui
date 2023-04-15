@@ -68,12 +68,12 @@ class Topic with _$Topic {
   factory Topic.fromJson(Map<String, dynamic> json) => _$TopicFromJson(json);
 
   String get endsAtFormatted {
-    final dateTime = DateFormat('MM/dd/yy – kk:mm').format(endsAt.toLocal());
+    final dateTime = DateFormat('MM/dd/yy – HH:mm').format(endsAt.toLocal());
     return "$dateTime ${DateTime.now().timeZoneName.toString()}";
   }
 
   String get createdAtFormatted {
-    final dateTime = DateFormat('MM/dd/yy – kk:mm').format(createdAt.toLocal());
+    final dateTime = DateFormat('MM/dd/yy – HH:mm').format(createdAt.toLocal());
     return "$dateTime ${DateTime.now().timeZoneName.toString()}";
   }
 

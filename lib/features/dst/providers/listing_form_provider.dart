@@ -35,11 +35,11 @@ class ListingFormProvider extends StateNotifier<Listing> {
     );
 
     startTimeController = TextEditingController(
-      text: DateFormat("kk:mm").format(model.startDate),
+      text: DateFormat("HH:mm").format(model.startDate),
     );
 
     endTimeController = TextEditingController(
-      text: DateFormat("kk:mm").format(model.endDate),
+      text: DateFormat("HH:mm").format(model.endDate),
     );
 
     buyNowController = TextEditingController(
@@ -57,8 +57,8 @@ class ListingFormProvider extends StateNotifier<Listing> {
     state = listing;
     startDateController.text = DateFormat.yMd().format(listing.startDate);
     endDateController.text = DateFormat.yMd().format(listing.endDate);
-    startTimeController.text = DateFormat("kk:mm").format(listing.startDate);
-    endTimeController.text = DateFormat("kk:mm").format(listing.endDate);
+    startTimeController.text = DateFormat("HH:mm").format(listing.startDate);
+    endTimeController.text = DateFormat("HH:mm").format(listing.endDate);
     buyNowController.text = (listing.buyNowPrice ?? '').toString();
     floorPriceController.text = (listing.floorPrice ?? '').toString();
     reservePriceController.text = (listing.reservePrice ?? '').toString();
@@ -141,9 +141,9 @@ class ListingFormProvider extends StateNotifier<Listing> {
     state = isStartDate ? state.copyWith(startDate: d) : state.copyWith(endDate: d);
 
     if (isStartDate) {
-      startTimeController.text = DateFormat("kk:mm").format(d);
+      startTimeController.text = DateFormat("HH:mm").format(d);
     } else {
-      endTimeController.text = DateFormat("kk:mm").format(d);
+      endTimeController.text = DateFormat("HH:mm").format(d);
     }
   }
 

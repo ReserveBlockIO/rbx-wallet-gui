@@ -386,6 +386,8 @@ Future<void> _showTimePicker(BuildContext context, WidgetRef ref, bool isStartDa
     },
   );
 
+  print(t);
+
   if (t != null) {
     _provider.updateTime(t, isStartDate);
   }
