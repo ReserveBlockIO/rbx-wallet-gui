@@ -74,6 +74,7 @@ class SessionModel {
   final bool isMintingOrCompiling;
   final String timezoneName;
   final RemoteInfo? remoteInfo;
+  final String? windowsLauncherPath;
 
   const SessionModel({
     this.currentWallet,
@@ -90,23 +91,26 @@ class SessionModel {
     this.isMintingOrCompiling = false,
     this.timezoneName = "America/Los_Angeles",
     this.remoteInfo,
+    this.windowsLauncherPath,
   });
 
-  SessionModel copyWith(
-      {Wallet? currentWallet,
-      DateTime? startTime,
-      // bool? ready,
-      bool? filteringTransactions,
-      bool? cliStarted,
-      int? remoteBlockHeight,
-      bool? blocksAreSyncing,
-      bool? blocksAreResyncing,
-      double? totalBalance,
-      String? cliVersion,
-      bool? logWindowExpanded,
-      bool? isMintingOrCompiling,
-      String? timezoneName,
-      RemoteInfo? remoteInfo}) {
+  SessionModel copyWith({
+    Wallet? currentWallet,
+    DateTime? startTime,
+    // bool? ready,
+    bool? filteringTransactions,
+    bool? cliStarted,
+    int? remoteBlockHeight,
+    bool? blocksAreSyncing,
+    bool? blocksAreResyncing,
+    double? totalBalance,
+    String? cliVersion,
+    bool? logWindowExpanded,
+    bool? isMintingOrCompiling,
+    String? timezoneName,
+    RemoteInfo? remoteInfo,
+    String? windowsLauncherPath,
+  }) {
     return SessionModel(
       startTime: startTime ?? this.startTime,
       currentWallet: currentWallet ?? this.currentWallet,
@@ -122,6 +126,7 @@ class SessionModel {
       isMintingOrCompiling: isMintingOrCompiling ?? this.isMintingOrCompiling,
       timezoneName: timezoneName ?? this.timezoneName,
       remoteInfo: remoteInfo ?? this.remoteInfo,
+      windowsLauncherPath: windowsLauncherPath ?? this.windowsLauncherPath,
     );
   }
 
@@ -732,10 +737,15 @@ class SessionProvider extends StateNotifier<SessionModel> {
         try {
           // final appPath = Directory.current.path;
           // cmd = Env.isTestNet ? "$appPath\\RbxCore\\RBXLauncherTestNet.exe" : "$appPath\\RbxCore\\RBXLauncher.exe";
-          cmd = "C:\\Program Files (x86)\\RBXWallet\\RBXCore\\${Env.isTestNet ? 'RBXLauncherTestNet.exe' : 'RBXLauncher.exe'}";
+
+          if (state.windowsLauncherPath == null) {
+            final p = "C:\\Program Files (x86)\\RBXWallet\\RBXCore\\${Env.isTestNet ? 'RBXLauncherTestNet.exe' : 'RBXLauncher.exe'}";
+            state = state.copyWith(windowsLauncherPath: p);
+            await Future.delayed(Duration(milliseconds: 100));
+          }
 
           ref.read(logProvider.notifier).append(LogEntry(message: "Launching CLI in the background."));
-          final params = Env.isTestNet ? [cmd] : [cmd, 'apitoken=$apiToken'];
+          final List<String> params = Env.isTestNet ? [state.windowsLauncherPath!] : [state.windowsLauncherPath!, 'apitoken=$apiToken'];
           pm.run(params).then((result) {
             ref.read(logProvider.notifier).append(LogEntry(message: "Command ran successfully."));
           });
