@@ -80,7 +80,7 @@ class OrganizedListing with _$OrganizedListing {
       return false;
     }
 
-    return isActive && buyNowPrice != null && buyNowPrice != 0;
+    return isActive && buyNowPrice != null && buyNowPrice! > 0;
   }
 
   bool get canBid {
@@ -92,7 +92,7 @@ class OrganizedListing with _$OrganizedListing {
       return false;
     }
 
-    return isActive && floorPrice != null && floorPrice != 0;
+    return isActive && floorPrice != null;
   }
 }
 
