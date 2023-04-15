@@ -159,6 +159,10 @@ class _PreviewState extends State<_Preview> {
     final isMobile = BreakPoints.useMobileLayout(context);
 
     final assets = [widget.nft.primaryAsset, ...widget.nft.additionalAssets];
+    final fileNames = assets.map((a) {
+      String f = a.fileName.split(".").first;
+      return "$f.jpg";
+    }).toList();
 
     final paths = assets.map((a) {
       final filename = a.name;
@@ -235,7 +239,12 @@ class _PreviewState extends State<_Preview> {
                         },
                         child: showThumbnail
                             ? Consumer(builder: (context, ref, _) {
-                                return _Thumbnail(path: path, scId: widget.nft.id, ref: ref);
+                                return _Thumbnail(
+                                  path: path,
+                                  scId: widget.nft.id,
+                                  ref: ref,
+                                  fileNames: fileNames,
+                                );
                               })
                             : Center(
                                 child: Column(
@@ -861,11 +870,13 @@ class _Countdown extends StatelessWidget {
 
 class _Thumbnail extends StatefulWidget {
   final String path;
+  final List<String> fileNames;
   final String scId;
   final WidgetRef ref;
   const _Thumbnail({
     super.key,
     required this.path,
+    required this.fileNames,
     required this.scId,
     required this.ref,
   });
@@ -892,7 +903,7 @@ class __ThumbnailState extends State<_Thumbnail> {
       return;
     }
 
-    provider.addToQueue(widget.scId);
+    provider.addToQueue(widget.scId, widget.fileNames);
     // await Future.delayed(Duration(milliseconds: 500));
     // queueForDownload();
   }

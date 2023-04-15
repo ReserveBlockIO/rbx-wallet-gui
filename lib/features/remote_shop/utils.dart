@@ -133,7 +133,7 @@ Future<bool> getNftAssets({required RemoteShopService service, required String s
   //   // print("Thumbs directory exists.");
   //   return false;
   // }
-
+  print("Requesting NFTAssets ($scId)");
   await service.getText("/GetNFTAssets/$scId", cleanPath: false);
   return true;
 }

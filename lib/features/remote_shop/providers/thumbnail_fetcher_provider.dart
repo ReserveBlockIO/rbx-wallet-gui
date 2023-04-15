@@ -8,9 +8,14 @@ import 'package:collection/collection.dart';
 
 class QueueEntry {
   final String scId;
+  final List<String> filenames;
   final bool success;
 
-  const QueueEntry({required this.scId, required this.success});
+  const QueueEntry({
+    required this.scId,
+    required this.success,
+    required this.filenames,
+  });
 }
 
 class ThumbnailFetcherProvider extends StateNotifier<List<QueueEntry>> {
@@ -18,7 +23,7 @@ class ThumbnailFetcherProvider extends StateNotifier<List<QueueEntry>> {
     processQueue();
   }
 
-  addToQueue(String scId) async {
+  addToQueue(String scId, List<String> filenames) async {
     final inQueue = state.firstWhereOrNull((e) => e.scId == scId) != null;
     if (inQueue) {
       return;
@@ -26,9 +31,13 @@ class ThumbnailFetcherProvider extends StateNotifier<List<QueueEntry>> {
 
     print("Adding to queue ($scId)");
 
-    final exists = await _checkIfExists(scId);
+    final exists = await _checkIfExists(scId, filenames);
 
-    final entry = QueueEntry(scId: scId, success: exists);
+    final entry = QueueEntry(
+      scId: scId,
+      success: exists,
+      filenames: filenames,
+    );
     state = [...state, entry];
   }
 
@@ -43,14 +52,14 @@ class ThumbnailFetcherProvider extends StateNotifier<List<QueueEntry>> {
 
       await getNftAssets(service: RemoteShopService(), scId: entry.scId);
       await Future.delayed(Duration(milliseconds: 500));
-      final exists = await _checkIfExists(entry.scId);
+      final exists = await _checkIfExists(entry.scId, entry.filenames);
 
       if (exists) {
         state = [...state]
           ..removeAt(index)
           ..insert(
             index,
-            QueueEntry(scId: entry.scId, success: true),
+            QueueEntry(scId: entry.scId, filenames: entry.filenames, success: true),
           );
       }
       await Future.delayed(Duration(milliseconds: 500));
@@ -61,13 +70,27 @@ class ThumbnailFetcherProvider extends StateNotifier<List<QueueEntry>> {
     processQueue();
   }
 
-  Future<bool> _checkIfExists(String scId) async {
+  Future<bool> _checkIfExists(String scId, List<String> filenames) async {
     String thumbsPath = await assetsPath();
     thumbsPath = Platform.isMacOS ? "$thumbsPath/${scId.replaceAll(':', '')}/thumbs" : "$thumbsPath\\${scId.replaceAll(':', '')}\\thumbs";
 
-    return Directory(thumbsPath).existsSync();
+    if (!Directory(thumbsPath).existsSync()) {
+      return false;
+    }
 
-    // TODO check for file bytes etc.
+    bool ready = true;
+    for (final filename in filenames) {
+      final p = "$thumbsPath/$filename";
+      if (!File(p).existsSync()) {
+        ready = false;
+      } else {
+        if (File(p).lengthSync() < 1) {
+          ready = false;
+        }
+      }
+    }
+
+    return ready;
   }
 
   bool thumbnailReady(String scId) {
