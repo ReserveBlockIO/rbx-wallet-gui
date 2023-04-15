@@ -10,11 +10,13 @@ class QueueEntry {
   final String scId;
   final List<String> filenames;
   final bool success;
+  final bool attempted;
 
   const QueueEntry({
     required this.scId,
     required this.success,
     required this.filenames,
+    required this.attempted,
   });
 }
 
@@ -37,6 +39,7 @@ class ThumbnailFetcherProvider extends StateNotifier<List<QueueEntry>> {
       scId: scId,
       success: exists,
       filenames: filenames,
+      attempted: false,
     );
     state = [...state, entry];
   }
@@ -50,18 +53,26 @@ class ThumbnailFetcherProvider extends StateNotifier<List<QueueEntry>> {
       final index = item.key;
       final entry = item.value;
 
-      await getNftAssets(service: RemoteShopService(), scId: entry.scId);
-      await Future.delayed(Duration(milliseconds: 500));
+      if (!entry.attempted) {
+        await Future.delayed(Duration(milliseconds: 500));
+        await getNftAssets(service: RemoteShopService(), scId: entry.scId);
+        await Future.delayed(Duration(milliseconds: 500));
+      }
+
       final exists = await _checkIfExists(entry.scId, entry.filenames);
 
-      if (exists) {
-        state = [...state]
-          ..removeAt(index)
-          ..insert(
-            index,
-            QueueEntry(scId: entry.scId, filenames: entry.filenames, success: true),
-          );
-      }
+      state = [...state]
+        ..removeAt(index)
+        ..insert(
+          index,
+          QueueEntry(
+            scId: entry.scId,
+            filenames: entry.filenames,
+            success: exists,
+            attempted: true,
+          ),
+        );
+
       await Future.delayed(Duration(milliseconds: 500));
     }
 

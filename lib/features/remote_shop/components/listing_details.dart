@@ -160,8 +160,7 @@ class _PreviewState extends State<_Preview> {
 
     final assets = [widget.nft.primaryAsset, ...widget.nft.additionalAssets];
     final fileNames = assets.map((a) {
-      String f = a.fileName.split(".").first;
-      return "$f.jpg";
+      return a.fileName;
     }).toList();
 
     final paths = assets.map((a) {
