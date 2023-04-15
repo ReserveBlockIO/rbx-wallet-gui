@@ -667,7 +667,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
     } else {
       if (state.windowsLauncherPath == null) {
         final appPath = Directory.current.path;
-        final p = "$appPath\\RbxCore\\${Env.isTestNet ? 'RBXLauncherTestNet.exe' : 'RBXLauncher.exe'}";
+        final p = "$appPath\\RBXCore\\${Env.isTestNet ? 'RBXLauncherTestNet.exe' : 'RBXLauncher.exe'}";
         state = state.copyWith(windowsLauncherPath: p);
         return p;
       }
@@ -755,7 +755,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
           // }
 
           ref.read(logProvider.notifier).append(LogEntry(message: "Launching CLI in the background."));
-          final List<String> params = Env.isTestNet ? [state.windowsLauncherPath!] : [state.windowsLauncherPath!, 'apitoken=$apiToken'];
+          final List<String> params = Env.isTestNet ? [cliPath] : [cliPath, 'apitoken=$apiToken'];
           pm.run(params).then((result) {
             ref.read(logProvider.notifier).append(LogEntry(message: "Command ran successfully."));
           });
