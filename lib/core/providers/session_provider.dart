@@ -471,6 +471,10 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
   Future<void> stopCli() async {
     // ref.read(logProvider.notifier).clear();
+    print("_______________");
+
+    print(state.windowsLauncherPath);
+    print("_______________");
     state = _initial.copyWith(windowsLauncherPath: state.windowsLauncherPath);
     // ref.read(logProvider.notifier).append(LogEntry(message: "Shutting down CLI..."));
     await BridgeService().killCli();
@@ -661,8 +665,14 @@ class SessionProvider extends StateNotifier<SessionModel> {
     if (Platform.isMacOS) {
       return '/Applications/RBXWallet.app/Contents/Resources/RBXCore/ReserveBlockCore';
     } else {
-      final appPath = Directory.current.path;
-      return "$appPath\\RbxCore\\ReserveBlockCore";
+      if (state.windowsLauncherPath == null) {
+        final appPath = Directory.current.path;
+        final p = "$appPath\\RbxCore\\ReserveBlockCore";
+        state = state.copyWith(windowsLauncherPath: p);
+        return p;
+      }
+
+      return state.windowsLauncherPath!;
     }
   }
 
@@ -738,17 +748,19 @@ class SessionProvider extends StateNotifier<SessionModel> {
           // final appPath = Directory.current.path;
           // cmd = Env.isTestNet ? "$appPath\\RbxCore\\RBXLauncherTestNet.exe" : "$appPath\\RbxCore\\RBXLauncher.exe";
 
-          if (state.windowsLauncherPath == null) {
-            final p = "C:\\Program Files (x86)\\RBXWallet\\RBXCore\\${Env.isTestNet ? 'RBXLauncherTestNet.exe' : 'RBXLauncher.exe'}";
-            state = state.copyWith(windowsLauncherPath: p);
-            await Future.delayed(Duration(milliseconds: 100));
-          }
+          // if (state.windowsLauncherPath == null) {
+          //   final p = "C:\\Program Files (x86)\\RBXWallet\\RBXCore\\${Env.isTestNet ? 'RBXLauncherTestNet.exe' : 'RBXLauncher.exe'}";
+          //   state = state.copyWith(windowsLauncherPath: p);
+          //   await Future.delayed(Duration(milliseconds: 100));
+          // }
 
           ref.read(logProvider.notifier).append(LogEntry(message: "Launching CLI in the background."));
           final List<String> params = Env.isTestNet ? [state.windowsLauncherPath!] : [state.windowsLauncherPath!, 'apitoken=$apiToken'];
           pm.run(params).then((result) {
             ref.read(logProvider.notifier).append(LogEntry(message: "Command ran successfully."));
           });
+          print("PARAMS: $params");
+          print("***********");
           singleton<ApiTokenManager>().set(apiToken);
 
           await Future.delayed(const Duration(seconds: 3));
