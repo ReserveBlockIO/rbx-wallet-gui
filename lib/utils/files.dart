@@ -82,7 +82,9 @@ Future<String> startupProgressPath() async {
 }
 
 Future<Asset?> selectAsset(WidgetRef ref) async {
+  final Directory currentDir = Directory.current;
   FilePickerResult? result = await FilePicker.platform.pickFiles();
+  Directory.current = currentDir;
 
   if (result == null) {
     return null;

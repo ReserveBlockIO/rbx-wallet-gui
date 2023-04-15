@@ -122,7 +122,10 @@ class _DownloadOrAssociateState extends State<DownloadOrAssociate> {
                 AppButton(
                   label: "Associate File",
                   onPressed: () async {
+                    final Directory currentDir = Directory.current;
+
                     FilePickerResult? result = await FilePicker.platform.pickFiles();
+                    Directory.current = currentDir;
                     if (result == null) {
                       return;
                     }
