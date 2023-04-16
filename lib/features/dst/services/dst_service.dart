@@ -4,7 +4,6 @@ import 'package:rbx_wallet/features/dst/models/listing.dart';
 import 'package:rbx_wallet/features/dst/models/collection.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
-import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/services/base_service.dart';
 import '../models/dec_shop.dart';
@@ -159,10 +158,8 @@ class DstService extends BaseService {
         inspect: true,
       );
       final data = jsonDecode(response);
-      print(data);
-      print("*******");
+
       if (data["Success"] != true) {
-        // Toast.error(data['Message']);
         print(data);
         return [];
       }

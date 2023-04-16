@@ -45,13 +45,13 @@ class ThumbnailFetcherProvider extends StateNotifier<List<QueueEntry>> {
   }
 
   processQueue() async {
-    print("Processing queue....");
-
-    final processableEntries = state.where((e) => e.success == false).toList();
-
-    for (final item in processableEntries.asMap().entries) {
+    for (final item in state.asMap().entries) {
       final index = item.key;
       final entry = item.value;
+
+      // if (entry.success) {
+      //   return;
+      // }
 
       if (!entry.attempted) {
         await Future.delayed(Duration(milliseconds: 500));
@@ -113,16 +113,6 @@ class ThumbnailFetcherProvider extends StateNotifier<List<QueueEntry>> {
 
     return entry.success;
   }
-
-  // print("Checking if exists...");
-  // if (await File(widget.path).exists()) {
-  //   final bytes = await File(widget.path).length();
-  //   if (bytes > 100) {
-  //     print("Good");
-
-  //     return;
-  //   }
-  // }
 }
 
 final thumbnailFetcherProvider = StateNotifierProvider<ThumbnailFetcherProvider, List<QueueEntry>>(

@@ -27,11 +27,17 @@ class RemoteShopService extends BaseService {
   }
 
   Future<OrganizedShop?> getConnectedShopData([bool showErrors = false]) async {
-    ShopData? shopData = await shop_utils.getShopData(service: this);
+    await getText("/GetDecShopData", cleanPath: false);
+    // ShopData? shopData = await shop_utils.getShopData(service: this);
+
+    ShopData? shopData;
+
     await shop_utils.requestCollectionsAndListings(service: this);
     await Future.delayed(Duration(milliseconds: 500));
     await shop_utils.requestCollectionsAndListings(service: this);
 
+    shopData = await shop_utils.getShopData(service: this);
+    await Future.delayed(Duration(seconds: 1));
     shopData = await shop_utils.getShopData(service: this);
 
     if (shopData == null) {
