@@ -18,6 +18,7 @@ _$_Bid _$$_BidFromJson(Map<String, dynamic> json) => _$_Bid(
       isProcessed: json['IsProcessed'] as bool?,
       listingId: json['ListingId'] as int,
       collectionId: json['CollectionId'] as int,
+      purchaseKey: json['PurchaseKey'] as String,
       bidStatus: bidStatusFromJson(json['BidStatus'] as int),
       bidSendReceive: bidSendReceiveFromJson(json['BidSendReceive'] as int),
     );
@@ -34,6 +35,7 @@ Map<String, dynamic> _$$_BidToJson(_$_Bid instance) => <String, dynamic>{
       'IsProcessed': instance.isProcessed,
       'ListingId': instance.listingId,
       'CollectionId': instance.collectionId,
+      'PurchaseKey': instance.purchaseKey,
       'BidStatus': bidStatusToJson(instance.bidStatus),
       'BidSendReceive': bidSendReveiveToJson(instance.bidSendReceive),
     };

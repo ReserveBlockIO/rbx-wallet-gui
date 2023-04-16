@@ -106,8 +106,8 @@ Future<ShopData?> getShopData({required RemoteShopService service, int attempt =
   }
 
   if (attempt < MAX_ATTEMPTS) {
-    print("Couldn't get shop data. Waiting 500ms");
-    await Future.delayed(Duration(milliseconds: 500));
+    print("Couldn't get shop data. Waiting 1500ms");
+    await Future.delayed(Duration(milliseconds: 1500));
     return await getShopData(service: service, attempt: attempt + 1);
   }
 
@@ -198,6 +198,7 @@ Future<OrganizedShop> organizeShopData({required RemoteShopService service, requ
                   endDate: l.endDate,
                   isVisibleBeforeStartDate: l.isVisibleBeforeStartDate,
                   isVisibleAfterEndDate: l.isVisibleAfterEndDate,
+                  purchaseKey: l.purchaseKey,
                   nft: nfts[l.smartContractUid],
                   auction: a != null
                       ? OrganizedAuction(

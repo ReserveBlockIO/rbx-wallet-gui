@@ -42,6 +42,8 @@ mixin _$Bid {
   int get listingId => throw _privateConstructorUsedError;
   @JsonKey(name: "CollectionId")
   int get collectionId => throw _privateConstructorUsedError;
+  @JsonKey(name: "PurchaseKey")
+  String get purchaseKey => throw _privateConstructorUsedError;
   @JsonKey(
       name: "BidStatus", fromJson: bidStatusFromJson, toJson: bidStatusToJson)
   BidStatus get bidStatus => throw _privateConstructorUsedError;
@@ -84,6 +86,8 @@ abstract class $BidCopyWith<$Res> {
           int listingId,
       @JsonKey(name: "CollectionId")
           int collectionId,
+      @JsonKey(name: "PurchaseKey")
+          String purchaseKey,
       @JsonKey(name: "BidStatus", fromJson: bidStatusFromJson, toJson: bidStatusToJson)
           BidStatus bidStatus,
       @JsonKey(name: "BidSendReceive", fromJson: bidSendReceiveFromJson, toJson: bidSendReveiveToJson)
@@ -113,6 +117,7 @@ class _$BidCopyWithImpl<$Res, $Val extends Bid> implements $BidCopyWith<$Res> {
     Object? isProcessed = freezed,
     Object? listingId = null,
     Object? collectionId = null,
+    Object? purchaseKey = null,
     Object? bidStatus = null,
     Object? bidSendReceive = null,
   }) {
@@ -161,6 +166,10 @@ class _$BidCopyWithImpl<$Res, $Val extends Bid> implements $BidCopyWith<$Res> {
           ? _value.collectionId
           : collectionId // ignore: cast_nullable_to_non_nullable
               as int,
+      purchaseKey: null == purchaseKey
+          ? _value.purchaseKey
+          : purchaseKey // ignore: cast_nullable_to_non_nullable
+              as String,
       bidStatus: null == bidStatus
           ? _value.bidStatus
           : bidStatus // ignore: cast_nullable_to_non_nullable
@@ -202,6 +211,8 @@ abstract class _$$_BidCopyWith<$Res> implements $BidCopyWith<$Res> {
           int listingId,
       @JsonKey(name: "CollectionId")
           int collectionId,
+      @JsonKey(name: "PurchaseKey")
+          String purchaseKey,
       @JsonKey(name: "BidStatus", fromJson: bidStatusFromJson, toJson: bidStatusToJson)
           BidStatus bidStatus,
       @JsonKey(name: "BidSendReceive", fromJson: bidSendReceiveFromJson, toJson: bidSendReveiveToJson)
@@ -228,6 +239,7 @@ class __$$_BidCopyWithImpl<$Res> extends _$BidCopyWithImpl<$Res, _$_Bid>
     Object? isProcessed = freezed,
     Object? listingId = null,
     Object? collectionId = null,
+    Object? purchaseKey = null,
     Object? bidStatus = null,
     Object? bidSendReceive = null,
   }) {
@@ -276,6 +288,10 @@ class __$$_BidCopyWithImpl<$Res> extends _$BidCopyWithImpl<$Res, _$_Bid>
           ? _value.collectionId
           : collectionId // ignore: cast_nullable_to_non_nullable
               as int,
+      purchaseKey: null == purchaseKey
+          ? _value.purchaseKey
+          : purchaseKey // ignore: cast_nullable_to_non_nullable
+              as String,
       bidStatus: null == bidStatus
           ? _value.bidStatus
           : bidStatus // ignore: cast_nullable_to_non_nullable
@@ -314,6 +330,8 @@ class _$_Bid extends _Bid {
           required this.listingId,
       @JsonKey(name: "CollectionId")
           required this.collectionId,
+      @JsonKey(name: "PurchaseKey")
+          required this.purchaseKey,
       @JsonKey(name: "BidStatus", fromJson: bidStatusFromJson, toJson: bidStatusToJson)
           required this.bidStatus,
       @JsonKey(name: "BidSendReceive", fromJson: bidSendReceiveFromJson, toJson: bidSendReveiveToJson)
@@ -356,6 +374,9 @@ class _$_Bid extends _Bid {
   @JsonKey(name: "CollectionId")
   final int collectionId;
   @override
+  @JsonKey(name: "PurchaseKey")
+  final String purchaseKey;
+  @override
   @JsonKey(
       name: "BidStatus", fromJson: bidStatusFromJson, toJson: bidStatusToJson)
   final BidStatus bidStatus;
@@ -368,7 +389,7 @@ class _$_Bid extends _Bid {
 
   @override
   String toString() {
-    return 'Bid(id: $id, bidAddress: $bidAddress, bidSignature: $bidSignature, bidAmount: $bidAmount, maxBidAmount: $maxBidAmount, bidSendTime: $bidSendTime, isBuyNow: $isBuyNow, isAutoBid: $isAutoBid, isProcessed: $isProcessed, listingId: $listingId, collectionId: $collectionId, bidStatus: $bidStatus, bidSendReceive: $bidSendReceive)';
+    return 'Bid(id: $id, bidAddress: $bidAddress, bidSignature: $bidSignature, bidAmount: $bidAmount, maxBidAmount: $maxBidAmount, bidSendTime: $bidSendTime, isBuyNow: $isBuyNow, isAutoBid: $isAutoBid, isProcessed: $isProcessed, listingId: $listingId, collectionId: $collectionId, purchaseKey: $purchaseKey, bidStatus: $bidStatus, bidSendReceive: $bidSendReceive)';
   }
 
   @override
@@ -397,6 +418,8 @@ class _$_Bid extends _Bid {
                 other.listingId == listingId) &&
             (identical(other.collectionId, collectionId) ||
                 other.collectionId == collectionId) &&
+            (identical(other.purchaseKey, purchaseKey) ||
+                other.purchaseKey == purchaseKey) &&
             (identical(other.bidStatus, bidStatus) ||
                 other.bidStatus == bidStatus) &&
             (identical(other.bidSendReceive, bidSendReceive) ||
@@ -418,6 +441,7 @@ class _$_Bid extends _Bid {
       isProcessed,
       listingId,
       collectionId,
+      purchaseKey,
       bidStatus,
       bidSendReceive);
 
@@ -459,6 +483,8 @@ abstract class _Bid extends Bid {
           required final int listingId,
       @JsonKey(name: "CollectionId")
           required final int collectionId,
+      @JsonKey(name: "PurchaseKey")
+          required final String purchaseKey,
       @JsonKey(name: "BidStatus", fromJson: bidStatusFromJson, toJson: bidStatusToJson)
           required final BidStatus bidStatus,
       @JsonKey(name: "BidSendReceive", fromJson: bidSendReceiveFromJson, toJson: bidSendReveiveToJson)
@@ -500,6 +526,9 @@ abstract class _Bid extends Bid {
   @override
   @JsonKey(name: "CollectionId")
   int get collectionId;
+  @override
+  @JsonKey(name: "PurchaseKey")
+  String get purchaseKey;
   @override
   @JsonKey(
       name: "BidStatus", fromJson: bidStatusFromJson, toJson: bidStatusToJson)

@@ -30,6 +30,7 @@ class Bid with _$Bid {
     @JsonKey(name: "IsProcessed") bool? isProcessed,
     @JsonKey(name: "ListingId") required int listingId,
     @JsonKey(name: "CollectionId") required int collectionId,
+    @JsonKey(name: "PurchaseKey") required String purchaseKey,
     @JsonKey(name: "BidStatus", fromJson: bidStatusFromJson, toJson: bidStatusToJson) required BidStatus bidStatus,
     @JsonKey(name: "BidSendReceive", fromJson: bidSendReceiveFromJson, toJson: bidSendReveiveToJson) required BidSendReceive bidSendReceive,
   }) = _Bid;
@@ -43,6 +44,7 @@ class Bid with _$Bid {
     required double bidAmount,
     required double maxBidAmount,
     bool isBuyNow = false,
+    required String puchaseKey,
   }) {
     return Bid(
       id: "00000000-0000-0000-0000-000000000000",
@@ -57,6 +59,7 @@ class Bid with _$Bid {
       collectionId: collectionId,
       bidStatus: BidStatus.Sent,
       bidSendReceive: BidSendReceive.Sent,
+      purchaseKey: "",
     );
   }
 

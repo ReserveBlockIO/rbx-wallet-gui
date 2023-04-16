@@ -460,6 +460,7 @@ mixin _$OrganizedListing {
   Nft? get nft => throw _privateConstructorUsedError;
   OrganizedAuction? get auction => throw _privateConstructorUsedError;
   List<Bid> get bids => throw _privateConstructorUsedError;
+  String get purchaseKey => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $OrganizedListingCopyWith<OrganizedListing> get copyWith =>
@@ -492,7 +493,8 @@ abstract class $OrganizedListingCopyWith<$Res> {
       String? winningAddress,
       Nft? nft,
       OrganizedAuction? auction,
-      List<Bid> bids});
+      List<Bid> bids,
+      String purchaseKey});
 
   $NftCopyWith<$Res>? get nft;
   $OrganizedAuctionCopyWith<$Res>? get auction;
@@ -531,6 +533,7 @@ class _$OrganizedListingCopyWithImpl<$Res, $Val extends OrganizedListing>
     Object? nft = freezed,
     Object? auction = freezed,
     Object? bids = null,
+    Object? purchaseKey = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -613,6 +616,10 @@ class _$OrganizedListingCopyWithImpl<$Res, $Val extends OrganizedListing>
           ? _value.bids
           : bids // ignore: cast_nullable_to_non_nullable
               as List<Bid>,
+      purchaseKey: null == purchaseKey
+          ? _value.purchaseKey
+          : purchaseKey // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 
@@ -669,7 +676,8 @@ abstract class _$$_OrganizedListingCopyWith<$Res>
       String? winningAddress,
       Nft? nft,
       OrganizedAuction? auction,
-      List<Bid> bids});
+      List<Bid> bids,
+      String purchaseKey});
 
   @override
   $NftCopyWith<$Res>? get nft;
@@ -708,6 +716,7 @@ class __$$_OrganizedListingCopyWithImpl<$Res>
     Object? nft = freezed,
     Object? auction = freezed,
     Object? bids = null,
+    Object? purchaseKey = null,
   }) {
     return _then(_$_OrganizedListing(
       id: null == id
@@ -790,6 +799,10 @@ class __$$_OrganizedListingCopyWithImpl<$Res>
           ? _value._bids
           : bids // ignore: cast_nullable_to_non_nullable
               as List<Bid>,
+      purchaseKey: null == purchaseKey
+          ? _value.purchaseKey
+          : purchaseKey // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -817,7 +830,8 @@ class _$_OrganizedListing extends _OrganizedListing {
       this.winningAddress,
       this.nft,
       this.auction,
-      final List<Bid> bids = const []})
+      final List<Bid> bids = const [],
+      required this.purchaseKey})
       : _bids = bids,
         super._();
 
@@ -869,8 +883,11 @@ class _$_OrganizedListing extends _OrganizedListing {
   }
 
   @override
+  final String purchaseKey;
+
+  @override
   String toString() {
-    return 'OrganizedListing(id: $id, collectionId: $collectionId, smartContractUid: $smartContractUid, addressOwner: $addressOwner, buyNowPrice: $buyNowPrice, isBuyNowOnly: $isBuyNowOnly, isRoyaltyEnforced: $isRoyaltyEnforced, isCancelled: $isCancelled, requireBalanceCheck: $requireBalanceCheck, floorPrice: $floorPrice, reservePrice: $reservePrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, finalPrice: $finalPrice, winningAddress: $winningAddress, nft: $nft, auction: $auction, bids: $bids)';
+    return 'OrganizedListing(id: $id, collectionId: $collectionId, smartContractUid: $smartContractUid, addressOwner: $addressOwner, buyNowPrice: $buyNowPrice, isBuyNowOnly: $isBuyNowOnly, isRoyaltyEnforced: $isRoyaltyEnforced, isCancelled: $isCancelled, requireBalanceCheck: $requireBalanceCheck, floorPrice: $floorPrice, reservePrice: $reservePrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, finalPrice: $finalPrice, winningAddress: $winningAddress, nft: $nft, auction: $auction, bids: $bids, purchaseKey: $purchaseKey)';
   }
 
   @override
@@ -913,7 +930,9 @@ class _$_OrganizedListing extends _OrganizedListing {
                 other.winningAddress == winningAddress) &&
             (identical(other.nft, nft) || other.nft == nft) &&
             (identical(other.auction, auction) || other.auction == auction) &&
-            const DeepCollectionEquality().equals(other._bids, _bids));
+            const DeepCollectionEquality().equals(other._bids, _bids) &&
+            (identical(other.purchaseKey, purchaseKey) ||
+                other.purchaseKey == purchaseKey));
   }
 
   @override
@@ -938,7 +957,8 @@ class _$_OrganizedListing extends _OrganizedListing {
         winningAddress,
         nft,
         auction,
-        const DeepCollectionEquality().hash(_bids)
+        const DeepCollectionEquality().hash(_bids),
+        purchaseKey
       ]);
 
   @JsonKey(ignore: true)
@@ -969,7 +989,8 @@ abstract class _OrganizedListing extends OrganizedListing {
       final String? winningAddress,
       final Nft? nft,
       final OrganizedAuction? auction,
-      final List<Bid> bids}) = _$_OrganizedListing;
+      final List<Bid> bids,
+      required final String purchaseKey}) = _$_OrganizedListing;
   _OrganizedListing._() : super._();
 
   @override
@@ -1012,6 +1033,8 @@ abstract class _OrganizedListing extends OrganizedListing {
   OrganizedAuction? get auction;
   @override
   List<Bid> get bids;
+  @override
+  String get purchaseKey;
   @override
   @JsonKey(ignore: true)
   _$$_OrganizedListingCopyWith<_$_OrganizedListing> get copyWith =>
@@ -1887,6 +1910,8 @@ mixin _$ListingData {
   double? get finalPrice => throw _privateConstructorUsedError;
   @JsonKey(name: "WinningAddress")
   String? get winningAddress => throw _privateConstructorUsedError;
+  @JsonKey(name: "PurchaseKey")
+  String get purchaseKey => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1917,7 +1942,8 @@ abstract class $ListingDataCopyWith<$Res> {
       @JsonKey(name: "IsVisibleBeforeStartDate") bool isVisibleBeforeStartDate,
       @JsonKey(name: "IsVisibleAfterEndDate") bool isVisibleAfterEndDate,
       @JsonKey(name: "FinalPrice") double? finalPrice,
-      @JsonKey(name: "WinningAddress") String? winningAddress});
+      @JsonKey(name: "WinningAddress") String? winningAddress,
+      @JsonKey(name: "PurchaseKey") String purchaseKey});
 }
 
 /// @nodoc
@@ -1950,6 +1976,7 @@ class _$ListingDataCopyWithImpl<$Res, $Val extends ListingData>
     Object? isVisibleAfterEndDate = null,
     Object? finalPrice = freezed,
     Object? winningAddress = freezed,
+    Object? purchaseKey = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -2020,6 +2047,10 @@ class _$ListingDataCopyWithImpl<$Res, $Val extends ListingData>
           ? _value.winningAddress
           : winningAddress // ignore: cast_nullable_to_non_nullable
               as String?,
+      purchaseKey: null == purchaseKey
+          ? _value.purchaseKey
+          : purchaseKey // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -2049,7 +2080,8 @@ abstract class _$$_ListingDataCopyWith<$Res>
       @JsonKey(name: "IsVisibleBeforeStartDate") bool isVisibleBeforeStartDate,
       @JsonKey(name: "IsVisibleAfterEndDate") bool isVisibleAfterEndDate,
       @JsonKey(name: "FinalPrice") double? finalPrice,
-      @JsonKey(name: "WinningAddress") String? winningAddress});
+      @JsonKey(name: "WinningAddress") String? winningAddress,
+      @JsonKey(name: "PurchaseKey") String purchaseKey});
 }
 
 /// @nodoc
@@ -2080,6 +2112,7 @@ class __$$_ListingDataCopyWithImpl<$Res>
     Object? isVisibleAfterEndDate = null,
     Object? finalPrice = freezed,
     Object? winningAddress = freezed,
+    Object? purchaseKey = null,
   }) {
     return _then(_$_ListingData(
       id: null == id
@@ -2150,6 +2183,10 @@ class __$$_ListingDataCopyWithImpl<$Res>
           ? _value.winningAddress
           : winningAddress // ignore: cast_nullable_to_non_nullable
               as String?,
+      purchaseKey: null == purchaseKey
+          ? _value.purchaseKey
+          : purchaseKey // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -2191,7 +2228,9 @@ class _$_ListingData extends _ListingData {
       @JsonKey(name: "FinalPrice")
           this.finalPrice,
       @JsonKey(name: "WinningAddress")
-          this.winningAddress})
+          this.winningAddress,
+      @JsonKey(name: "PurchaseKey")
+          required this.purchaseKey})
       : super._();
 
   factory _$_ListingData.fromJson(Map<String, dynamic> json) =>
@@ -2248,10 +2287,13 @@ class _$_ListingData extends _ListingData {
   @override
   @JsonKey(name: "WinningAddress")
   final String? winningAddress;
+  @override
+  @JsonKey(name: "PurchaseKey")
+  final String purchaseKey;
 
   @override
   String toString() {
-    return 'ListingData(id: $id, collectionId: $collectionId, smartContractUid: $smartContractUid, addressOwner: $addressOwner, buyNowPrice: $buyNowPrice, isBuyNowOnly: $isBuyNowOnly, isRoyaltyEnforced: $isRoyaltyEnforced, isCancelled: $isCancelled, requireBalanceCheck: $requireBalanceCheck, floorPrice: $floorPrice, reservePrice: $reservePrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, finalPrice: $finalPrice, winningAddress: $winningAddress)';
+    return 'ListingData(id: $id, collectionId: $collectionId, smartContractUid: $smartContractUid, addressOwner: $addressOwner, buyNowPrice: $buyNowPrice, isBuyNowOnly: $isBuyNowOnly, isRoyaltyEnforced: $isRoyaltyEnforced, isCancelled: $isCancelled, requireBalanceCheck: $requireBalanceCheck, floorPrice: $floorPrice, reservePrice: $reservePrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, finalPrice: $finalPrice, winningAddress: $winningAddress, purchaseKey: $purchaseKey)';
   }
 
   @override
@@ -2291,7 +2333,9 @@ class _$_ListingData extends _ListingData {
             (identical(other.finalPrice, finalPrice) ||
                 other.finalPrice == finalPrice) &&
             (identical(other.winningAddress, winningAddress) ||
-                other.winningAddress == winningAddress));
+                other.winningAddress == winningAddress) &&
+            (identical(other.purchaseKey, purchaseKey) ||
+                other.purchaseKey == purchaseKey));
   }
 
   @JsonKey(ignore: true)
@@ -2314,7 +2358,8 @@ class _$_ListingData extends _ListingData {
       isVisibleBeforeStartDate,
       isVisibleAfterEndDate,
       finalPrice,
-      winningAddress);
+      winningAddress,
+      purchaseKey);
 
   @JsonKey(ignore: true)
   @override
@@ -2365,7 +2410,9 @@ abstract class _ListingData extends ListingData {
       @JsonKey(name: "FinalPrice")
           final double? finalPrice,
       @JsonKey(name: "WinningAddress")
-          final String? winningAddress}) = _$_ListingData;
+          final String? winningAddress,
+      @JsonKey(name: "PurchaseKey")
+          required final String purchaseKey}) = _$_ListingData;
   _ListingData._() : super._();
 
   factory _ListingData.fromJson(Map<String, dynamic> json) =
@@ -2422,6 +2469,9 @@ abstract class _ListingData extends ListingData {
   @override
   @JsonKey(name: "WinningAddress")
   String? get winningAddress;
+  @override
+  @JsonKey(name: "PurchaseKey")
+  String get purchaseKey;
   @override
   @JsonKey(ignore: true)
   _$$_ListingDataCopyWith<_$_ListingData> get copyWith =>

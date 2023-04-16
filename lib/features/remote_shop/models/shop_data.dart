@@ -56,6 +56,7 @@ class OrganizedListing with _$OrganizedListing {
     Nft? nft,
     OrganizedAuction? auction,
     @Default([]) List<Bid> bids,
+    required String purchaseKey,
   }) = _OrganizedListing;
 
   String get familyIdentifier {
@@ -167,6 +168,7 @@ class ListingData with _$ListingData {
     @JsonKey(name: "IsVisibleAfterEndDate") required bool isVisibleAfterEndDate,
     @JsonKey(name: "FinalPrice") double? finalPrice,
     @JsonKey(name: "WinningAddress") String? winningAddress,
+    @JsonKey(name: "PurchaseKey") required String purchaseKey,
   }) = _ListingData;
 
   factory ListingData.fromJson(Map<String, dynamic> json) => _$ListingDataFromJson(json);
