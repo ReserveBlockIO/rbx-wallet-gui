@@ -98,7 +98,7 @@ class BidListProvider extends StateNotifier<List<Bid>> {
       bidAmount: listing.buyNowPrice!,
       maxBidAmount: listing.buyNowPrice!,
       isBuyNow: true,
-      puchaseKey: listing.purchaseKey,
+      purchaseKey: listing.purchaseKey,
     );
 
     final success = await RemoteShopService().sendBid(bid);
@@ -199,7 +199,7 @@ class BidListProvider extends StateNotifier<List<Bid>> {
       collectionId: collectionId,
       bidAmount: amount,
       maxBidAmount: maxAmount,
-      puchaseKey: listing.purchaseKey,
+      purchaseKey: listing.purchaseKey,
     );
 
     final success = await RemoteShopService().sendBid(bid);

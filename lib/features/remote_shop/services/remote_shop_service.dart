@@ -52,6 +52,7 @@ class RemoteShopService extends BaseService {
         bid.isBuyNow ? '/SendBuyNowBid' : '/SendBid',
         params: params,
         cleanPath: false,
+        inspect: true,
       );
       final data = response['data'];
 
@@ -67,23 +68,23 @@ class RemoteShopService extends BaseService {
     }
   }
 
-  Future<bool> completeNftPurchase(String scId) async {
-    try {
-      final data = await getJson(
-        '/CompleteNFTPurchase/$scId',
-        cleanPath: false,
-      );
+  // Future<bool> completeNftPurchase(String scId) async {
+  //   try {
+  //     final data = await getJson(
+  //       '/CompleteNFTPurchase/$scId',
+  //       cleanPath: false,
+  //     );
 
-      if (data["Success"] == true) {
-        return true;
-      }
+  //     if (data["Success"] == true) {
+  //       return true;
+  //     }
 
-      Toast.error(data['Message'] ?? "A problem occurred");
-      return false;
-    } catch (e) {
-      print(e);
-      Toast.error();
-      return false;
-    }
-  }
+  //     Toast.error(data['Message'] ?? "A problem occurred");
+  //     return false;
+  //   } catch (e) {
+  //     print(e);
+  //     Toast.error();
+  //     return false;
+  //   }
+  // }
 }

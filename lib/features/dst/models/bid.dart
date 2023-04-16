@@ -44,7 +44,7 @@ class Bid with _$Bid {
     required double bidAmount,
     required double maxBidAmount,
     bool isBuyNow = false,
-    required String puchaseKey,
+    required String purchaseKey,
   }) {
     return Bid(
       id: "00000000-0000-0000-0000-000000000000",
@@ -59,7 +59,7 @@ class Bid with _$Bid {
       collectionId: collectionId,
       bidStatus: BidStatus.Sent,
       bidSendReceive: BidSendReceive.Sent,
-      purchaseKey: "",
+      purchaseKey: purchaseKey,
     );
   }
 

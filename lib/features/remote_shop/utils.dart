@@ -55,7 +55,6 @@ Future<bool> connectToShop({
   final data = await service.getText(
     "/ConnectToDecShop/$myAddress/$shopUrl",
     cleanPath: false,
-    inspect: true,
   );
 
   if (data == "true") {
