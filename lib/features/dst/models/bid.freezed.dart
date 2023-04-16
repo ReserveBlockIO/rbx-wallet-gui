@@ -331,7 +331,7 @@ class _$_Bid extends _Bid {
       @JsonKey(name: "CollectionId")
           required this.collectionId,
       @JsonKey(name: "PurchaseKey")
-          required this.purchaseKey,
+          this.purchaseKey = "",
       @JsonKey(name: "BidStatus", fromJson: bidStatusFromJson, toJson: bidStatusToJson)
           required this.bidStatus,
       @JsonKey(name: "BidSendReceive", fromJson: bidSendReceiveFromJson, toJson: bidSendReveiveToJson)
@@ -484,7 +484,7 @@ abstract class _Bid extends Bid {
       @JsonKey(name: "CollectionId")
           required final int collectionId,
       @JsonKey(name: "PurchaseKey")
-          required final String purchaseKey,
+          final String purchaseKey,
       @JsonKey(name: "BidStatus", fromJson: bidStatusFromJson, toJson: bidStatusToJson)
           required final BidStatus bidStatus,
       @JsonKey(name: "BidSendReceive", fromJson: bidSendReceiveFromJson, toJson: bidSendReveiveToJson)

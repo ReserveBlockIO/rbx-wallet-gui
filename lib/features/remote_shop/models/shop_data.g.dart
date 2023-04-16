@@ -72,7 +72,7 @@ _$_ListingData _$$_ListingDataFromJson(Map<String, dynamic> json) =>
       isVisibleAfterEndDate: json['IsVisibleAfterEndDate'] as bool,
       finalPrice: (json['FinalPrice'] as num?)?.toDouble(),
       winningAddress: json['WinningAddress'] as String?,
-      purchaseKey: json['PurchaseKey'] as String,
+      purchaseKey: json['PurchaseKey'] as String? ?? "",
     );
 
 Map<String, dynamic> _$$_ListingDataToJson(_$_ListingData instance) =>

@@ -30,7 +30,7 @@ class Bid with _$Bid {
     @JsonKey(name: "IsProcessed") bool? isProcessed,
     @JsonKey(name: "ListingId") required int listingId,
     @JsonKey(name: "CollectionId") required int collectionId,
-    @JsonKey(name: "PurchaseKey") required String purchaseKey,
+    @JsonKey(name: "PurchaseKey") @Default("") String purchaseKey,
     @JsonKey(name: "BidStatus", fromJson: bidStatusFromJson, toJson: bidStatusToJson) required BidStatus bidStatus,
     @JsonKey(name: "BidSendReceive", fromJson: bidSendReceiveFromJson, toJson: bidSendReveiveToJson) required BidSendReceive bidSendReceive,
   }) = _Bid;

@@ -2230,7 +2230,7 @@ class _$_ListingData extends _ListingData {
       @JsonKey(name: "WinningAddress")
           this.winningAddress,
       @JsonKey(name: "PurchaseKey")
-          required this.purchaseKey})
+          this.purchaseKey = ""})
       : super._();
 
   factory _$_ListingData.fromJson(Map<String, dynamic> json) =>
@@ -2412,7 +2412,7 @@ abstract class _ListingData extends ListingData {
       @JsonKey(name: "WinningAddress")
           final String? winningAddress,
       @JsonKey(name: "PurchaseKey")
-          required final String purchaseKey}) = _$_ListingData;
+          final String purchaseKey}) = _$_ListingData;
   _ListingData._() : super._();
 
   factory _ListingData.fromJson(Map<String, dynamic> json) =

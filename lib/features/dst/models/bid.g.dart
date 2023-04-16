@@ -18,7 +18,7 @@ _$_Bid _$$_BidFromJson(Map<String, dynamic> json) => _$_Bid(
       isProcessed: json['IsProcessed'] as bool?,
       listingId: json['ListingId'] as int,
       collectionId: json['CollectionId'] as int,
-      purchaseKey: json['PurchaseKey'] as String,
+      purchaseKey: json['PurchaseKey'] as String? ?? "",
       bidStatus: bidStatusFromJson(json['BidStatus'] as int),
       bidSendReceive: bidSendReceiveFromJson(json['BidSendReceive'] as int),
     );

@@ -168,7 +168,7 @@ class ListingData with _$ListingData {
     @JsonKey(name: "IsVisibleAfterEndDate") required bool isVisibleAfterEndDate,
     @JsonKey(name: "FinalPrice") double? finalPrice,
     @JsonKey(name: "WinningAddress") String? winningAddress,
-    @JsonKey(name: "PurchaseKey") required String purchaseKey,
+    @JsonKey(name: "PurchaseKey") @Default("") String purchaseKey,
   }) = _ListingData;
 
   factory ListingData.fromJson(Map<String, dynamic> json) => _$ListingDataFromJson(json);
