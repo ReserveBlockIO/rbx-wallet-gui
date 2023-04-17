@@ -24,10 +24,14 @@ class WebCollectionTile extends BaseComponent {
         ),
         trailing: Icon(Icons.chevron_right),
         onTap: () {
+          if (collection.shop == null) {
+            print("Shop is null");
+            return;
+          }
           if (Env.isWeb) {
-            AutoRouter.of(context).push(WebCollectionDetailScreenRoute(shopId: collection.shop.id, collectionId: collection.id));
+            AutoRouter.of(context).push(WebCollectionDetailScreenRoute(shopId: collection.shop!.id, collectionId: collection.id));
           } else {
-            AutoRouter.of(context).push(DebugWebCollectionDetailScreenRoute(shopId: collection.shop.id, collectionId: collection.id));
+            AutoRouter.of(context).push(DebugWebCollectionDetailScreenRoute(shopId: collection.shop!.id, collectionId: collection.id));
           }
         },
       ),

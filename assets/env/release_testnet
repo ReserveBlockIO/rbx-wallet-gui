@@ -2,6 +2,7 @@ ENVIRONMENT_NAME=release_testnet
 STORAGE_PREFIX=release_testnet
 API_BASE_URL=http://localhost:17292/api/V1
 TRANSACTION_API_BASE_URL=http://localhost:17292/txapi/txV1
+# EXPLORER_API_BASE_URL=http://localhost:8000/api
 EXPLORER_API_BASE_URL=https://rbx-explorer-service-testnet.herokuapp.com/api
 VALIDATOR_PORT=13338
 LAUNCH_CLI=true

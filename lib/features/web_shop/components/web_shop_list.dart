@@ -1,26 +1,66 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/app_router.gr.dart';
+import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/features/web_shop/components/web_shop_list_tile.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_shop.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/infinite_list.dart';
+import '../../../core/theme/app_theme.dart';
+import '../providers/web_shop_form_provider.dart';
 import '../providers/web_shop_list_provider.dart';
 
 class WebShopList extends BaseComponent {
-  const WebShopList({Key? key}) : super(key: key);
+  final bool mine;
+  const WebShopList({
+    Key? key,
+    this.mine = false,
+  }) : super(key: key);
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final listProvider = ref.watch(webShopListProvider.notifier);
+    final listProvider = ref.watch(webShopListProvider(mine ? WebShopListType.mine : WebShopListType.public).notifier);
+    final model = ref.watch(webShopListProvider(mine ? WebShopListType.mine : WebShopListType.public));
 
-    return InfiniteList<WebShop>(
-      pagingController: listProvider.pagingController,
-      itemBuilder: (context, shop, index) => WebShopTile(
-        shop,
-      ),
-      emptyText: "No Shops",
-      onRefresh: listProvider.refresh,
+    return Column(
+      children: [
+        Expanded(
+          child: InfiniteList<WebShop>(
+            pagingController: listProvider.pagingController,
+            itemBuilder: (context, shop, index) => WebShopTile(
+              shop,
+            ),
+            emptyText: "No Shops",
+            onRefresh: listProvider.refresh,
+          ),
+        ),
+        if (mine)
+          Container(
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              color: Color(0xFF040f26),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  AppButton(
+                    label: 'Create Shop',
+                    icon: Icons.add,
+                    variant: AppColorVariant.Success,
+                    onPressed: () async {
+                      ref.read(webShopFormProvider.notifier).clear();
+                      AutoRouter.of(context).push(const DebugWebShopCreateScreenRoute());
+                    },
+                  )
+                ],
+              ),
+            ),
+          ),
+      ],
     );
   }
 }

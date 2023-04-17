@@ -13,11 +13,7 @@ class ListingListProvider extends StateNotifier<List<Listing>> {
   }
 
   Future<void> load(int storeId) async {
-    final data = await DstService().listListings(storeId);
-
-    state = data;
-
-    state = data;
+    state = await DstService().listListings(storeId);
   }
 
   void refresh() {

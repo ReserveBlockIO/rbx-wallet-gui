@@ -21,9 +21,12 @@ WebCollection _$WebCollectionFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$WebCollection {
   int get id => throw _privateConstructorUsedError;
-  WebShop get shop => throw _privateConstructorUsedError;
+  @JsonKey(toJson: shopToJson)
+  WebShop? get shop => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
+  @JsonKey(name: "is_live")
+  bool get isLive => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,9 +40,14 @@ abstract class $WebCollectionCopyWith<$Res> {
           WebCollection value, $Res Function(WebCollection) then) =
       _$WebCollectionCopyWithImpl<$Res, WebCollection>;
   @useResult
-  $Res call({int id, WebShop shop, String name, String description});
+  $Res call(
+      {int id,
+      @JsonKey(toJson: shopToJson) WebShop? shop,
+      String name,
+      String description,
+      @JsonKey(name: "is_live") bool isLive});
 
-  $WebShopCopyWith<$Res> get shop;
+  $WebShopCopyWith<$Res>? get shop;
 }
 
 /// @nodoc
@@ -56,19 +64,20 @@ class _$WebCollectionCopyWithImpl<$Res, $Val extends WebCollection>
   @override
   $Res call({
     Object? id = null,
-    Object? shop = null,
+    Object? shop = freezed,
     Object? name = null,
     Object? description = null,
+    Object? isLive = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      shop: null == shop
+      shop: freezed == shop
           ? _value.shop
           : shop // ignore: cast_nullable_to_non_nullable
-              as WebShop,
+              as WebShop?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -77,13 +86,21 @@ class _$WebCollectionCopyWithImpl<$Res, $Val extends WebCollection>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      isLive: null == isLive
+          ? _value.isLive
+          : isLive // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $WebShopCopyWith<$Res> get shop {
-    return $WebShopCopyWith<$Res>(_value.shop, (value) {
+  $WebShopCopyWith<$Res>? get shop {
+    if (_value.shop == null) {
+      return null;
+    }
+
+    return $WebShopCopyWith<$Res>(_value.shop!, (value) {
       return _then(_value.copyWith(shop: value) as $Val);
     });
   }
@@ -97,10 +114,15 @@ abstract class _$$_WebCollectionCopyWith<$Res>
       __$$_WebCollectionCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, WebShop shop, String name, String description});
+  $Res call(
+      {int id,
+      @JsonKey(toJson: shopToJson) WebShop? shop,
+      String name,
+      String description,
+      @JsonKey(name: "is_live") bool isLive});
 
   @override
-  $WebShopCopyWith<$Res> get shop;
+  $WebShopCopyWith<$Res>? get shop;
 }
 
 /// @nodoc
@@ -115,19 +137,20 @@ class __$$_WebCollectionCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? shop = null,
+    Object? shop = freezed,
     Object? name = null,
     Object? description = null,
+    Object? isLive = null,
   }) {
     return _then(_$_WebCollection(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      shop: null == shop
+      shop: freezed == shop
           ? _value.shop
           : shop // ignore: cast_nullable_to_non_nullable
-              as WebShop,
+              as WebShop?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -136,6 +159,10 @@ class __$$_WebCollectionCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      isLive: null == isLive
+          ? _value.isLive
+          : isLive // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -145,9 +172,10 @@ class __$$_WebCollectionCopyWithImpl<$Res>
 class _$_WebCollection extends _WebCollection {
   _$_WebCollection(
       {required this.id,
-      required this.shop,
+      @JsonKey(toJson: shopToJson) this.shop,
       required this.name,
-      required this.description})
+      required this.description,
+      @JsonKey(name: "is_live") this.isLive = true})
       : super._();
 
   factory _$_WebCollection.fromJson(Map<String, dynamic> json) =>
@@ -156,15 +184,19 @@ class _$_WebCollection extends _WebCollection {
   @override
   final int id;
   @override
-  final WebShop shop;
+  @JsonKey(toJson: shopToJson)
+  final WebShop? shop;
   @override
   final String name;
   @override
   final String description;
+  @override
+  @JsonKey(name: "is_live")
+  final bool isLive;
 
   @override
   String toString() {
-    return 'WebCollection(id: $id, shop: $shop, name: $name, description: $description)';
+    return 'WebCollection(id: $id, shop: $shop, name: $name, description: $description, isLive: $isLive)';
   }
 
   @override
@@ -176,12 +208,14 @@ class _$_WebCollection extends _WebCollection {
             (identical(other.shop, shop) || other.shop == shop) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
-                other.description == description));
+                other.description == description) &&
+            (identical(other.isLive, isLive) || other.isLive == isLive));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, shop, name, description);
+  int get hashCode =>
+      Object.hash(runtimeType, id, shop, name, description, isLive);
 
   @JsonKey(ignore: true)
   @override
@@ -200,9 +234,10 @@ class _$_WebCollection extends _WebCollection {
 abstract class _WebCollection extends WebCollection {
   factory _WebCollection(
       {required final int id,
-      required final WebShop shop,
+      @JsonKey(toJson: shopToJson) final WebShop? shop,
       required final String name,
-      required final String description}) = _$_WebCollection;
+      required final String description,
+      @JsonKey(name: "is_live") final bool isLive}) = _$_WebCollection;
   _WebCollection._() : super._();
 
   factory _WebCollection.fromJson(Map<String, dynamic> json) =
@@ -211,11 +246,15 @@ abstract class _WebCollection extends WebCollection {
   @override
   int get id;
   @override
-  WebShop get shop;
+  @JsonKey(toJson: shopToJson)
+  WebShop? get shop;
   @override
   String get name;
   @override
   String get description;
+  @override
+  @JsonKey(name: "is_live")
+  bool get isLive;
   @override
   @JsonKey(ignore: true)
   _$$_WebCollectionCopyWith<_$_WebCollection> get copyWith =>

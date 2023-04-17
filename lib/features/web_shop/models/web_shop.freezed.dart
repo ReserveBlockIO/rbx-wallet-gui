@@ -23,6 +23,7 @@ mixin _$WebShop {
   int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
+  String get url => throw _privateConstructorUsedError;
   @JsonKey(name: 'unique_id')
   String get uid => throw _privateConstructorUsedError;
   @JsonKey(name: 'owner_address')
@@ -44,6 +45,7 @@ abstract class $WebShopCopyWith<$Res> {
       {int id,
       String name,
       String description,
+      String url,
       @JsonKey(name: 'unique_id') String uid,
       @JsonKey(name: 'owner_address') String ownerAddress,
       @JsonKey(name: 'is_offline') bool isOffline});
@@ -65,6 +67,7 @@ class _$WebShopCopyWithImpl<$Res, $Val extends WebShop>
     Object? id = null,
     Object? name = null,
     Object? description = null,
+    Object? url = null,
     Object? uid = null,
     Object? ownerAddress = null,
     Object? isOffline = null,
@@ -81,6 +84,10 @@ class _$WebShopCopyWithImpl<$Res, $Val extends WebShop>
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      url: null == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
               as String,
       uid: null == uid
           ? _value.uid
@@ -109,6 +116,7 @@ abstract class _$$_WebShopCopyWith<$Res> implements $WebShopCopyWith<$Res> {
       {int id,
       String name,
       String description,
+      String url,
       @JsonKey(name: 'unique_id') String uid,
       @JsonKey(name: 'owner_address') String ownerAddress,
       @JsonKey(name: 'is_offline') bool isOffline});
@@ -127,6 +135,7 @@ class __$$_WebShopCopyWithImpl<$Res>
     Object? id = null,
     Object? name = null,
     Object? description = null,
+    Object? url = null,
     Object? uid = null,
     Object? ownerAddress = null,
     Object? isOffline = null,
@@ -143,6 +152,10 @@ class __$$_WebShopCopyWithImpl<$Res>
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      url: null == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
               as String,
       uid: null == uid
           ? _value.uid
@@ -162,11 +175,12 @@ class __$$_WebShopCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_WebShop extends _WebShop {
+class _$_WebShop extends _WebShop with DiagnosticableTreeMixin {
   _$_WebShop(
       {required this.id,
       required this.name,
       required this.description,
+      required this.url,
       @JsonKey(name: 'unique_id') required this.uid,
       @JsonKey(name: 'owner_address') required this.ownerAddress,
       @JsonKey(name: 'is_offline') required this.isOffline})
@@ -182,6 +196,8 @@ class _$_WebShop extends _WebShop {
   @override
   final String description;
   @override
+  final String url;
+  @override
   @JsonKey(name: 'unique_id')
   final String uid;
   @override
@@ -192,8 +208,22 @@ class _$_WebShop extends _WebShop {
   final bool isOffline;
 
   @override
-  String toString() {
-    return 'WebShop(id: $id, name: $name, description: $description, uid: $uid, ownerAddress: $ownerAddress, isOffline: $isOffline)';
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'WebShop(id: $id, name: $name, description: $description, url: $url, uid: $uid, ownerAddress: $ownerAddress, isOffline: $isOffline)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'WebShop'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('description', description))
+      ..add(DiagnosticsProperty('url', url))
+      ..add(DiagnosticsProperty('uid', uid))
+      ..add(DiagnosticsProperty('ownerAddress', ownerAddress))
+      ..add(DiagnosticsProperty('isOffline', isOffline));
   }
 
   @override
@@ -205,6 +235,7 @@ class _$_WebShop extends _WebShop {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
                 other.description == description) &&
+            (identical(other.url, url) || other.url == url) &&
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.ownerAddress, ownerAddress) ||
                 other.ownerAddress == ownerAddress) &&
@@ -215,7 +246,7 @@ class _$_WebShop extends _WebShop {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, id, name, description, uid, ownerAddress, isOffline);
+      runtimeType, id, name, description, url, uid, ownerAddress, isOffline);
 
   @JsonKey(ignore: true)
   @override
@@ -236,6 +267,7 @@ abstract class _WebShop extends WebShop {
       {required final int id,
       required final String name,
       required final String description,
+      required final String url,
       @JsonKey(name: 'unique_id') required final String uid,
       @JsonKey(name: 'owner_address') required final String ownerAddress,
       @JsonKey(name: 'is_offline') required final bool isOffline}) = _$_WebShop;
@@ -249,6 +281,8 @@ abstract class _WebShop extends WebShop {
   String get name;
   @override
   String get description;
+  @override
+  String get url;
   @override
   @JsonKey(name: 'unique_id')
   String get uid;

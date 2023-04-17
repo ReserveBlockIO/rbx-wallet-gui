@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:context_menus/context_menus.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,9 +13,15 @@ import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/breakpoints.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/dst/providers/listing_detail_provider.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_listing.dart';
+import 'package:rbx_wallet/features/web_shop/providers/create_web_listing_provider.dart';
+import 'package:rbx_wallet/features/web_shop/providers/web_listing_detail_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
+import '../../../core/dialogs.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/providers/web_session_provider.dart';
 import '../models/web_nft.dart';
 
 class WebListingDetails extends BaseComponent {
@@ -24,19 +32,31 @@ class WebListingDetails extends BaseComponent {
   Widget body(BuildContext context, WidgetRef ref) {
     final nft = listing.nft;
 
-    return Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _Details(nft: nft),
-          _Preview(listing: listing),
-          if (listing.canBuyNow) _BuyNow(listing: listing),
-          // _Features(nft: nft),
-          _WebNftDetails(nft: nft),
-          _WebNftData(nft: nft),
+    return ContextMenuRegion(
+      contextMenu: GenericContextMenu(
+        buttonConfigs: [
+          ContextMenuButtonConfig('Edit Listing', onPressed: () {
+            print("edit listing ${listing.id}");
+          })
         ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (nft == null) Text(listing.smartContractUid),
+            if (nft != null) ...[
+              _Details(nft: nft),
+              _Preview(listing: listing),
+              if (listing.canBuyNow) _BuyNow(listing: listing),
+              _WebNftDetails(nft: nft),
+              _WebNftData(nft: nft),
+            ]
+            // _Features(nft: nft),
+          ],
+        ),
       ),
     );
   }
@@ -44,43 +64,70 @@ class WebListingDetails extends BaseComponent {
   @override
   Widget desktopBody(BuildContext context, WidgetRef ref) {
     final nft = listing.nft;
+    final myAddress = kIsWeb ? ref.read(webSessionProvider).keypair?.public : ref.read(sessionProvider).currentWallet?.address;
 
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 20),
-            child: _Preview(listing: listing),
-          ),
-          ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 600),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _Details(nft: nft),
-                const SizedBox(height: 8),
-                _WebNftDetails(nft: nft),
-                const SizedBox(height: 16),
-                _WebNftData(nft: nft),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    if (listing.canBuyNow) _BuyNow(listing: listing),
-                    if (listing.canBuyNow && listing.canBid)
-                      SizedBox(
-                        width: 8,
-                      ),
-                    if (listing.canBid) _Auction(listing: listing),
-                  ],
-                ),
-              ],
+    return ContextMenuRegion(
+      contextMenu: GenericContextMenu(
+        buttonConfigs: [
+          if (listing.ownerAddress == myAddress) ...[
+            ContextMenuButtonConfig(
+              'Delete Listing',
+              onPressed: () async {
+                final confirmed = await ConfirmDialog.show(
+                  title: "Delete Listing",
+                  body: "Are you sure you want to delete this listing?\nThis is irreversible and all bids will be lost",
+                  confirmText: "Delete",
+                  cancelText: "Cancel",
+                );
+                if (confirmed) {
+                  ref.read(createWebListingProvider.notifier).delete(context, listing.collection.shop!.id, listing);
+                }
+              },
+              icon: Icon(Icons.delete),
             ),
-          ),
+          ],
         ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: _Preview(listing: listing),
+            ),
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 600),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (nft == null) Text(listing.smartContractUid),
+                  if (nft != null) ...[
+                    _Details(nft: nft!),
+                    const SizedBox(height: 8),
+                    _WebNftDetails(nft: nft),
+                    const SizedBox(height: 16),
+                    _WebNftData(nft: nft),
+                    const SizedBox(height: 8),
+                  ],
+                  Row(
+                    children: [
+                      if (listing.canBuyNow) _BuyNow(listing: listing),
+                      if (listing.canBuyNow && listing.canBid)
+                        SizedBox(
+                          width: 8,
+                        ),
+                      if (listing.canBid) _Auction(listing: listing),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

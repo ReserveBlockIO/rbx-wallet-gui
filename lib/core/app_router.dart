@@ -11,9 +11,11 @@ import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_container_sc
 import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_detail_screen.dart';
 import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_list_screen.dart';
 import 'package:rbx_wallet/features/reserve/screens/reserve_account_overview_screen.dart';
+import 'package:rbx_wallet/features/web_shop/screens/create_web_listing_screen.dart';
 import 'package:rbx_wallet/features/web_shop/screens/web_collection_detail_screen.dart';
 import 'package:rbx_wallet/features/web_shop/screens/web_listing_detail_screen.dart';
 import 'package:rbx_wallet/features/web_shop/screens/web_shop_container_screen.dart';
+import 'package:rbx_wallet/features/web_shop/screens/web_shop_landing_screen.dart';
 
 import '../features/adjudicator/adjudicator_screen.dart';
 import '../features/adnr/screens/adnr_screen.dart';
@@ -46,8 +48,10 @@ import '../features/validator/screens/validator_screen.dart';
 import '../features/voting/screens/create_topic_screen.dart';
 import '../features/voting/screens/topic_detail_screen.dart';
 import '../features/voting/screens/topic_list_screen.dart';
+import '../features/web_shop/screens/create_web_shop_container_screen.dart';
 import '../features/web_shop/screens/web_shop_detail_screen.dart';
 import '../features/web_shop/screens/web_shop_list_screen.dart';
+import '../features/web_shop/screens/my_web_shops_list_screen.dart';
 
 const List<AutoRoute> appRoutes = [
   AutoRoute(
@@ -189,27 +193,42 @@ const List<AutoRoute> appRoutes = [
         page: WebShopContainerScreen,
         children: [
           AutoRoute(
-            path: "main",
-            page: WebShopListScreen,
             initial: true,
+            path: "",
+            page: WebShopLandingScreen,
+          ),
+          AutoRoute(
+            path: "shops",
+            page: WebShopListScreen,
+          ),
+          AutoRoute(
+            path: "mine",
+            page: MyWebShopListScreen,
+          ),
+          AutoRoute(
+            path: "createWebShop",
+            name: "DebugWebShopCreateScreenRoute",
+            page: CreateWebShopContainerScreen,
+          ),
+          AutoRoute(
+            path: "shop/:shopId/collection/:collectionId/createWebListing",
+            name: "DebugWebListingCreateScreenRoute",
+            page: CreateWebListingScreen,
           ),
           AutoRoute(
             path: "shop/:shopId",
             name: "DebugWebShopDetailScreenRoute",
             page: WebShopDetailScreen,
-            initial: true,
           ),
           AutoRoute(
             path: "shop/:shopId/collection/:collectionId",
             name: "DebugWebCollectionDetailScreenRoute",
             page: WebCollectionDetailScreen,
-            initial: true,
           ),
           AutoRoute(
             path: "shop/:shopId/collection/:collectionId/listing/:listingId",
             name: "DebugWebListingDetailScreenRoute",
             page: WebListingDetailScreen,
-            initial: true,
           ),
         ],
       ),

@@ -21,6 +21,7 @@ WebListing _$WebListingFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$WebListing {
   int get id => throw _privateConstructorUsedError;
+  @JsonKey(toJson: collectionToJson)
   WebCollection get collection => throw _privateConstructorUsedError;
   WebNft get nft => throw _privateConstructorUsedError;
   @JsonKey(name: "smart_contract_uid")
@@ -45,6 +46,10 @@ mixin _$WebListing {
   bool get isVisibleAfterEndDate => throw _privateConstructorUsedError;
   @JsonKey(name: "thumbnails_fetched")
   bool get thumbnailsFetched => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  bool get enableBuyNow => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  bool get enableAuction => throw _privateConstructorUsedError;
   @JsonKey(defaultValue: [])
   List<String> get thumbnails => throw _privateConstructorUsedError;
 
@@ -62,7 +67,8 @@ abstract class $WebListingCopyWith<$Res> {
   @useResult
   $Res call(
       {int id,
-      WebCollection collection,
+      @JsonKey(toJson: collectionToJson)
+          WebCollection collection,
       WebNft nft,
       @JsonKey(name: "smart_contract_uid")
           String smartContractUid,
@@ -86,6 +92,10 @@ abstract class $WebListingCopyWith<$Res> {
           bool isVisibleAfterEndDate,
       @JsonKey(name: "thumbnails_fetched")
           bool thumbnailsFetched,
+      @JsonKey(ignore: true)
+          bool enableBuyNow,
+      @JsonKey(ignore: true)
+          bool enableAuction,
       @JsonKey(defaultValue: [])
           List<String> thumbnails});
 
@@ -120,6 +130,8 @@ class _$WebListingCopyWithImpl<$Res, $Val extends WebListing>
     Object? isVisibleBeforeStartDate = null,
     Object? isVisibleAfterEndDate = null,
     Object? thumbnailsFetched = null,
+    Object? enableBuyNow = null,
+    Object? enableAuction = null,
     Object? thumbnails = null,
   }) {
     return _then(_value.copyWith(
@@ -179,6 +191,14 @@ class _$WebListingCopyWithImpl<$Res, $Val extends WebListing>
           ? _value.thumbnailsFetched
           : thumbnailsFetched // ignore: cast_nullable_to_non_nullable
               as bool,
+      enableBuyNow: null == enableBuyNow
+          ? _value.enableBuyNow
+          : enableBuyNow // ignore: cast_nullable_to_non_nullable
+              as bool,
+      enableAuction: null == enableAuction
+          ? _value.enableAuction
+          : enableAuction // ignore: cast_nullable_to_non_nullable
+              as bool,
       thumbnails: null == thumbnails
           ? _value.thumbnails
           : thumbnails // ignore: cast_nullable_to_non_nullable
@@ -213,7 +233,8 @@ abstract class _$$_WebListingCopyWith<$Res>
   @useResult
   $Res call(
       {int id,
-      WebCollection collection,
+      @JsonKey(toJson: collectionToJson)
+          WebCollection collection,
       WebNft nft,
       @JsonKey(name: "smart_contract_uid")
           String smartContractUid,
@@ -237,6 +258,10 @@ abstract class _$$_WebListingCopyWith<$Res>
           bool isVisibleAfterEndDate,
       @JsonKey(name: "thumbnails_fetched")
           bool thumbnailsFetched,
+      @JsonKey(ignore: true)
+          bool enableBuyNow,
+      @JsonKey(ignore: true)
+          bool enableAuction,
       @JsonKey(defaultValue: [])
           List<String> thumbnails});
 
@@ -271,6 +296,8 @@ class __$$_WebListingCopyWithImpl<$Res>
     Object? isVisibleBeforeStartDate = null,
     Object? isVisibleAfterEndDate = null,
     Object? thumbnailsFetched = null,
+    Object? enableBuyNow = null,
+    Object? enableAuction = null,
     Object? thumbnails = null,
   }) {
     return _then(_$_WebListing(
@@ -330,6 +357,14 @@ class __$$_WebListingCopyWithImpl<$Res>
           ? _value.thumbnailsFetched
           : thumbnailsFetched // ignore: cast_nullable_to_non_nullable
               as bool,
+      enableBuyNow: null == enableBuyNow
+          ? _value.enableBuyNow
+          : enableBuyNow // ignore: cast_nullable_to_non_nullable
+              as bool,
+      enableAuction: null == enableAuction
+          ? _value.enableAuction
+          : enableAuction // ignore: cast_nullable_to_non_nullable
+              as bool,
       thumbnails: null == thumbnails
           ? _value._thumbnails
           : thumbnails // ignore: cast_nullable_to_non_nullable
@@ -343,7 +378,8 @@ class __$$_WebListingCopyWithImpl<$Res>
 class _$_WebListing extends _WebListing {
   _$_WebListing(
       {required this.id,
-      required this.collection,
+      @JsonKey(toJson: collectionToJson)
+          required this.collection,
       required this.nft,
       @JsonKey(name: "smart_contract_uid")
           required this.smartContractUid,
@@ -367,6 +403,10 @@ class _$_WebListing extends _WebListing {
           required this.isVisibleAfterEndDate,
       @JsonKey(name: "thumbnails_fetched")
           required this.thumbnailsFetched,
+      @JsonKey(ignore: true)
+          this.enableBuyNow = false,
+      @JsonKey(ignore: true)
+          this.enableAuction = false,
       @JsonKey(defaultValue: [])
           required final List<String> thumbnails})
       : _thumbnails = thumbnails,
@@ -378,6 +418,7 @@ class _$_WebListing extends _WebListing {
   @override
   final int id;
   @override
+  @JsonKey(toJson: collectionToJson)
   final WebCollection collection;
   @override
   final WebNft nft;
@@ -414,6 +455,12 @@ class _$_WebListing extends _WebListing {
   @override
   @JsonKey(name: "thumbnails_fetched")
   final bool thumbnailsFetched;
+  @override
+  @JsonKey(ignore: true)
+  final bool enableBuyNow;
+  @override
+  @JsonKey(ignore: true)
+  final bool enableAuction;
   final List<String> _thumbnails;
   @override
   @JsonKey(defaultValue: [])
@@ -425,7 +472,7 @@ class _$_WebListing extends _WebListing {
 
   @override
   String toString() {
-    return 'WebListing(id: $id, collection: $collection, nft: $nft, smartContractUid: $smartContractUid, ownerAddress: $ownerAddress, winningAddress: $winningAddress, buyNowPrice: $buyNowPrice, floorPrice: $floorPrice, finalPrice: $finalPrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, thumbnailsFetched: $thumbnailsFetched, thumbnails: $thumbnails)';
+    return 'WebListing(id: $id, collection: $collection, nft: $nft, smartContractUid: $smartContractUid, ownerAddress: $ownerAddress, winningAddress: $winningAddress, buyNowPrice: $buyNowPrice, floorPrice: $floorPrice, finalPrice: $finalPrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, thumbnailsFetched: $thumbnailsFetched, enableBuyNow: $enableBuyNow, enableAuction: $enableAuction, thumbnails: $thumbnails)';
   }
 
   @override
@@ -459,6 +506,10 @@ class _$_WebListing extends _WebListing {
                 other.isVisibleAfterEndDate == isVisibleAfterEndDate) &&
             (identical(other.thumbnailsFetched, thumbnailsFetched) ||
                 other.thumbnailsFetched == thumbnailsFetched) &&
+            (identical(other.enableBuyNow, enableBuyNow) ||
+                other.enableBuyNow == enableBuyNow) &&
+            (identical(other.enableAuction, enableAuction) ||
+                other.enableAuction == enableAuction) &&
             const DeepCollectionEquality()
                 .equals(other._thumbnails, _thumbnails));
   }
@@ -481,6 +532,8 @@ class _$_WebListing extends _WebListing {
       isVisibleBeforeStartDate,
       isVisibleAfterEndDate,
       thumbnailsFetched,
+      enableBuyNow,
+      enableAuction,
       const DeepCollectionEquality().hash(_thumbnails));
 
   @JsonKey(ignore: true)
@@ -500,7 +553,8 @@ class _$_WebListing extends _WebListing {
 abstract class _WebListing extends WebListing {
   factory _WebListing(
       {required final int id,
-      required final WebCollection collection,
+      @JsonKey(toJson: collectionToJson)
+          required final WebCollection collection,
       required final WebNft nft,
       @JsonKey(name: "smart_contract_uid")
           required final String smartContractUid,
@@ -524,6 +578,10 @@ abstract class _WebListing extends WebListing {
           required final bool isVisibleAfterEndDate,
       @JsonKey(name: "thumbnails_fetched")
           required final bool thumbnailsFetched,
+      @JsonKey(ignore: true)
+          final bool enableBuyNow,
+      @JsonKey(ignore: true)
+          final bool enableAuction,
       @JsonKey(defaultValue: [])
           required final List<String> thumbnails}) = _$_WebListing;
   _WebListing._() : super._();
@@ -534,6 +592,7 @@ abstract class _WebListing extends WebListing {
   @override
   int get id;
   @override
+  @JsonKey(toJson: collectionToJson)
   WebCollection get collection;
   @override
   WebNft get nft;
@@ -570,6 +629,12 @@ abstract class _WebListing extends WebListing {
   @override
   @JsonKey(name: "thumbnails_fetched")
   bool get thumbnailsFetched;
+  @override
+  @JsonKey(ignore: true)
+  bool get enableBuyNow;
+  @override
+  @JsonKey(ignore: true)
+  bool get enableAuction;
   @override
   @JsonKey(defaultValue: [])
   List<String> get thumbnails;
