@@ -23,14 +23,19 @@ class WebListing with _$WebListing {
     @JsonKey(name: "winning_address") String? winningAddress,
     @JsonKey(name: "buy_now_price") double? buyNowPrice,
     @JsonKey(name: "floor_price") double? floorPrice,
-    @JsonKey(name: "final_price") double? finalPrice,
+    @JsonKey(name: "reserve_price") double? reservePrice,
+    @JsonKey(name: "final_price") @Default(0) double? finalPrice,
     @JsonKey(name: "start_date") required DateTime startDate,
     @JsonKey(name: "end_date") required DateTime endDate,
     @JsonKey(name: "is_visible_before_start_date") required bool isVisibleBeforeStartDate,
     @JsonKey(name: "is_visible_after_end_date") required bool isVisibleAfterEndDate,
     @JsonKey(name: "thumbnails_fetched") required bool thumbnailsFetched,
+    @JsonKey(name: "IsCancelled") @Default(false) bool isCancelled,
+    @JsonKey(name: "IsAuctionStarted") @Default(true) bool isAuctionStarted,
+    @JsonKey(name: "IsAuctionEnded") @Default(false) bool isAuctionEnded,
     @Default(false) @JsonKey(ignore: true) bool enableBuyNow,
     @Default(false) @JsonKey(ignore: true) bool enableAuction,
+    @Default(false) @JsonKey(ignore: true) bool enableReservePrice,
     @JsonKey(defaultValue: []) required List<String> thumbnails,
   }) = _WebListing;
 
@@ -46,6 +51,7 @@ class WebListing with _$WebListing {
         collection: WebCollection.empty(),
         isVisibleAfterEndDate: false,
         isVisibleBeforeStartDate: false,
+        isAuctionStarted: true,
         thumbnails: [],
         thumbnailsFetched: false,
       );
@@ -53,6 +59,10 @@ class WebListing with _$WebListing {
   bool get isActive {
     final now = DateTime.now();
     return startDate.isBefore(now) && endDate.isAfter(now);
+  }
+
+  bool get exists {
+    return id != 0;
   }
 
   bool get isBuyNow {

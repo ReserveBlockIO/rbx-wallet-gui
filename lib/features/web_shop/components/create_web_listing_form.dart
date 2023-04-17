@@ -46,6 +46,15 @@ class CreateListingFormGroup extends BaseComponent {
                   ),
                   Flexible(child: _StartDate()),
                   Flexible(child: _EndDate()),
+                  if (model.isAuction && model.isAuctionStarted && model.exists)
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                          child: Text(
+                        "Auction has started so the dates & times can't be updated.",
+                        style: Theme.of(context).textTheme.bodySmall,
+                      )),
+                    ),
                   SizedBox(height: 16),
                   Flexible(child: _EnableBuyNow()),
                   if (model.enableBuyNow) Flexible(child: _BuyNow()),
@@ -53,6 +62,20 @@ class CreateListingFormGroup extends BaseComponent {
                   Flexible(child: _EnableAuction()),
                   if (model.enableAuction) ...[
                     Flexible(child: _FloorPrice()),
+                    Flexible(child: _EnableReservePrice()),
+                    if (model.enableReservePrice)
+                      Flexible(
+                        child: _ReservePrice(),
+                      ),
+                    if (model.isAuction && model.isAuctionStarted && model.exists)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                            child: Text(
+                          "Auction has started so the pricing can't be updated.",
+                          style: Theme.of(context).textTheme.bodySmall,
+                        )),
+                      ),
                   ],
                 ],
               ),
@@ -159,6 +182,61 @@ class _BuyNow extends BaseComponent {
   }
 }
 
+class _EnableReservePrice extends BaseComponent {
+  const _EnableReservePrice({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ref) {
+    final provider = ref.read(createWebListingProvider.notifier);
+    final model = ref.watch(createWebListingProvider).enableReservePrice;
+
+    return Row(
+      children: [
+        Checkbox(
+            value: model,
+            onChanged: (val) {
+              if (val != null) {
+                provider.updateEnableReservePrice(val);
+              }
+            }),
+        GestureDetector(
+          onTap: () {
+            provider.updateEnableReservePrice(!model);
+          },
+          child: const Text("Add Reserve Price"),
+        ),
+      ],
+    );
+  }
+}
+
+class _ReservePrice extends BaseComponent {
+  const _ReservePrice({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ref) {
+    final provider = ref.read(createWebListingProvider.notifier);
+    final model = ref.read(createWebListingProvider);
+    return TextFormField(
+      readOnly: model.isAuctionStarted && model.exists,
+      controller: provider.reservePriceController,
+      onChanged: provider.updateReservePrice,
+      inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
+      validator: (value) => formValidatorNotEmpty(value, "Reserve Price"),
+      decoration: InputDecoration(
+        label: const Text(
+          "Reserve Price",
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+    );
+  }
+}
+
 class _FloorPrice extends BaseComponent {
   const _FloorPrice({
     Key? key,
@@ -167,7 +245,10 @@ class _FloorPrice extends BaseComponent {
   @override
   Widget build(BuildContext context, ref) {
     final provider = ref.read(createWebListingProvider.notifier);
+    final model = ref.read(createWebListingProvider);
+
     return TextFormField(
+      readOnly: model.isAuctionStarted && model.exists,
       controller: provider.floorPriceController,
       onChanged: provider.updateFloorPrice,
       inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
@@ -222,6 +303,7 @@ class _NFT extends BaseComponent {
           ),
           NftSelector(
             labelOverride: "Select NFT",
+            disabled: model.exists,
             onSelect: (nft) {
               if (nft.isListed(ref)) {
                 Toast.error("This NFT is already listed. Please choose another");
@@ -256,6 +338,35 @@ Future<void> _showDatePicker(BuildContext context, WidgetRef ref, bool isStartDa
   }
 }
 
+Future<void> _showTimePicker(BuildContext context, WidgetRef ref, bool isStartDate) async {
+  final _provider = ref.read(createWebListingProvider.notifier);
+  final _model = ref.read(createWebListingProvider);
+
+  final initialDateTime = isStartDate ? _model.startDate : _model.endDate;
+  if (_model.isAuction && _model.isAuctionStarted && _model.exists) {
+    Toast.error('The auction has already started.');
+    return;
+  }
+
+  final t = await showTimePicker(
+    context: context,
+    initialEntryMode: TimePickerEntryMode.input,
+    initialTime: TimeOfDay(hour: initialDateTime.hour, minute: initialDateTime.minute),
+    builder: (BuildContext context, Widget? child) {
+      return MediaQuery(
+        data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+        child: child ?? const SizedBox(),
+      );
+    },
+  );
+
+  print(t);
+
+  if (t != null) {
+    _provider.updateTime(t, isStartDate);
+  }
+}
+
 class _StartDate extends BaseComponent {
   const _StartDate({
     Key? key,
@@ -264,23 +375,64 @@ class _StartDate extends BaseComponent {
   @override
   Widget build(BuildContext context, ref) {
     final provider = ref.read(createWebListingProvider.notifier);
-    return TextFormField(
-      controller: provider.startDateController,
-      onTap: () {
-        _showDatePicker(context, ref, true);
-      },
-      decoration: InputDecoration(
-        label: const Text(
-          "Start Date",
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-        suffixIcon: IconButton(
-          icon: const Icon(Icons.calendar_month),
-          onPressed: () {
-            _showDatePicker(context, ref, true);
-          },
+    final _model = ref.read(createWebListingProvider);
+
+    final disabled = _model.isAuction && _model.isAuctionStarted && _model.exists;
+
+    return IgnorePointer(
+      ignoring: disabled,
+      child: Opacity(
+        opacity: disabled ? 0.5 : 1,
+        child: Row(
+          children: [
+            Expanded(
+              child: TextFormField(
+                controller: provider.startDateController,
+                onTap: () {
+                  _showDatePicker(context, ref, true);
+                },
+                decoration: InputDecoration(
+                  label: const Text(
+                    "Start Date",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.calendar_month),
+                    onPressed: () {
+                      _showDatePicker(context, ref, true);
+                    },
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 8,
+            ),
+            Expanded(
+              child: TextFormField(
+                controller: provider.startTimeController,
+                onTap: () {
+                  _showTimePicker(context, ref, true);
+                },
+                decoration: InputDecoration(
+                  label: const Text(
+                    "Start Time",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.hourglass_bottom),
+                    onPressed: () {
+                      _showTimePicker(context, ref, true);
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -296,29 +448,65 @@ class _EndDate extends BaseComponent {
   Widget build(BuildContext context, ref) {
     final provider = ref.read(createWebListingProvider.notifier);
     final model = ref.read(createWebListingProvider);
-    return TextFormField(
-      controller: provider.endDateController,
-      validator: (String? val) {
-        if (model.endDate.isBefore(model.startDate) || model.endDate.isAtSameMomentAs(model.startDate)) {
-          return 'The end date must be set and it must be a later date than the start date';
-        }
-        return null;
-      },
-      onTap: () {
-        _showDatePicker(context, ref, false);
-      },
-      decoration: InputDecoration(
-        label: const Text(
-          "End Date",
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-        suffixIcon: IconButton(
-          icon: const Icon(Icons.calendar_month),
-          onPressed: () {
-            _showDatePicker(context, ref, false);
-          },
+    final disabled = model.isAuction && model.isAuctionStarted && model.exists;
+
+    return IgnorePointer(
+      ignoring: disabled,
+      child: Opacity(
+        opacity: disabled ? 0.5 : 1,
+        child: Row(
+          children: [
+            Expanded(
+              child: TextFormField(
+                controller: provider.endDateController,
+                validator: (String? val) {
+                  return null;
+                },
+                onTap: () {
+                  _showDatePicker(context, ref, false);
+                },
+                decoration: InputDecoration(
+                  label: const Text(
+                    "End Date",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.calendar_month),
+                    onPressed: () {
+                      _showDatePicker(context, ref, false);
+                    },
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 8,
+            ),
+            Expanded(
+              child: TextFormField(
+                controller: provider.endTimeController,
+                onTap: () {
+                  _showTimePicker(context, ref, false);
+                },
+                decoration: InputDecoration(
+                  label: const Text(
+                    "End Time",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.hourglass_bottom),
+                    onPressed: () {
+                      _showTimePicker(context, ref, false);
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

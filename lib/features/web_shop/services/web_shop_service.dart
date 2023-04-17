@@ -200,7 +200,11 @@ class WebShopService extends BaseService {
 
   Future<bool> saveWebListing(WebListing listing, int shopId, int collectionId) async {
     try {
-      final data = await postJson('/shop/$shopId/collection/$collectionId/listing', params: listing.toJson());
+      if (listing.exists) {
+        final data = await patchJson('/shop/$shopId/collection/$collectionId/listing', params: listing.toJson());
+      } else {
+        final data = await postJson('/shop/$shopId/collection/$collectionId/listing', params: listing.toJson());
+      }
       return true;
     } catch (e, st) {
       if (e is DioError) print(e.response);
