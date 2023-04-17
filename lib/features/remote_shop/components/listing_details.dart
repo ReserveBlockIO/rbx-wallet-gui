@@ -844,18 +844,18 @@ class _AuctionInfoDialogContent extends StatelessWidget {
               )
             ],
           ),
-          TableRow(
-            children: [
-              Text(
-                "Reserve Met:",
-                style: labelStyle,
-              ),
-              Text(
-                auction.isReserveMet ? "Yes" : "No",
-                style: valueStyle,
-              )
-            ],
-          ),
+          // TableRow(
+          //   children: [
+          //     Text(
+          //       "Reserve Met:",
+          //       style: labelStyle,
+          //     ),
+          //     Text(
+          //       auction.isReserveMet ? "Yes" : "No",
+          //       style: valueStyle,
+          //     )
+          //   ],
+          // ),
           TableRow(
             children: [
               Text(
