@@ -150,6 +150,7 @@ class NftService extends BaseService {
       if (response.isNotEmpty) {
         try {
           final data = jsonDecode(response);
+
           Nft nft = Nft.fromJson(data);
           return nft;
         } catch (e) {

@@ -46,7 +46,7 @@ class ListingDetails extends BaseComponent {
           if (listing.canBuyNow) _BuyNow(listing: listing),
           _Features(nft: nft),
           _NftDetails(nft: nft),
-          _NftData(nft: nft),
+          _NftData(nft: nft, listing: listing),
           const SizedBox(height: 8),
           if (listing.canBid) _Auction(listing: listing),
           if (listing.canBuyNow && listing.canBid) SizedBox(height: 16),
@@ -92,7 +92,7 @@ class ListingDetails extends BaseComponent {
                     const SizedBox(height: 8),
                     _NftDetails(nft: nft),
                     const SizedBox(height: 16),
-                    _NftData(nft: nft),
+                    _NftData(nft: nft, listing: listing),
                     const SizedBox(height: 8),
                     if (listing.canBid) IntrinsicWidth(child: _Auction(listing: listing)),
                     if (listing.canBuyNow && listing.canBid) SizedBox(height: 16),
@@ -475,10 +475,12 @@ class _NftDetails extends StatelessWidget {
 
 class _NftData extends StatelessWidget {
   final Nft nft;
+  final OrganizedListing listing;
 
   const _NftData({
     super.key,
     required this.nft,
+    required this.listing,
   });
 
   TableRow buildDetailRow(BuildContext context, String label, String value, [bool copyValue = false]) {
@@ -560,7 +562,7 @@ class _NftData extends StatelessWidget {
             defaultColumnWidth: const IntrinsicColumnWidth(),
             children: [
               buildDetailRow(context, "Identifier", nft.id, true),
-              // buildDetailRow(context, "Owner Address", nft.currentOwner, true),
+              buildDetailRow(context, "Owner Address", nft.nextOwner ?? listing.addressOwner, true),
               // buildDetailRow(context, "Minted On", nft.mintedAt),
               buildDetailRow(context, "Minted By", nft.minterName),
               buildDetailRow(context, "Minter Address", nft.minterAddress, true),
