@@ -148,7 +148,9 @@ Future<OrganizedShop> organizeShopData({required RemoteShopService service, requ
 
   for (final id in listingIds) {
     await service.getText("/GetShopListingBids/$id", cleanPath: false);
-    await Future.delayed(Duration(milliseconds: 50));
+    await Future.delayed(Duration(milliseconds: 100));
+    await service.getText("/GetShopListingBids/$id", cleanPath: false);
+    await Future.delayed(Duration(milliseconds: 100));
 
     // print("ID: $id");
   }
