@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -102,6 +103,9 @@ class ListingDetails extends BaseComponent {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        if (kDebugMode)
+                          Text(
+                              "Listing: ${listing.id} | Collection: ${listing.collectionId}"),
                         _Details(nft: nft),
                         const SizedBox(height: 8),
                         _NftDetails(nft: nft),
@@ -158,12 +162,9 @@ class ListingDetails extends BaseComponent {
                           )
                       ]),
                 ),
-              ),
+              )
             ],
           ),
-          // SelectableText(
-          //   listing.toString(),
-          // )
         ],
       ),
     );
@@ -877,18 +878,18 @@ class _AuctionInfoDialogContent extends StatelessWidget {
               )
             ],
           ),
-          // TableRow(
-          //   children: [
-          //     Text(
-          //       "Reserve Met:",
-          //       style: labelStyle,
-          //     ),
-          //     Text(
-          //       auction.isReserveMet ? "Yes" : "No",
-          //       style: valueStyle,
-          //     )
-          //   ],
-          // ),
+          TableRow(
+            children: [
+              Text(
+                "Reserve Met:",
+                style: labelStyle,
+              ),
+              Text(
+                auction.isReserveMet ? "Yes" : "No",
+                style: valueStyle,
+              )
+            ],
+          ),
           TableRow(
             children: [
               Text(
