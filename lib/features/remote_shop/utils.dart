@@ -201,6 +201,11 @@ Future<OrganizedShop> organizeShopData({required RemoteShopService service, requ
                 final a = shopData.auctions.firstWhereOrNull((a) => a.listingId == l.id && a.collectionId == c.id);
                 final bids = shopData.bids.where((b) => b.listingId == l.id).toList();
 
+                bool reserveMet = false;
+                if (a != null && l.reservePrice != null) {
+                  reserveMet = a.currentBidPrice >= l.reservePrice!;
+                }
+
                 return OrganizedListing(
                   id: l.id,
                   collectionId: c.id,
@@ -224,7 +229,7 @@ Future<OrganizedShop> organizeShopData({required RemoteShopService service, requ
                           currentBidPrice: a.currentBidPrice,
                           maxBidPrice: a.maxBidPrice,
                           incrementAmount: a.incrementAmount,
-                          isReserveMet: a.isReserveMet,
+                          isReserveMet: reserveMet,
                           isAuctionOver: a.isAuctionOver,
                           listingId: a.listingId,
                           collectionId: a.collectionId,

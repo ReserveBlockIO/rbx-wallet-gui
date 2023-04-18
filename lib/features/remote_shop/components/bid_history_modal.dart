@@ -54,11 +54,8 @@ class BidHistoryModal extends BaseComponent {
                         final success = await RemoteShopService().resendBid(bid.id);
                         if (success) {
                           Toast.message("Bid Resent!");
-                        } else {
-                          Toast.error();
+                          Navigator.of(context).pop();
                         }
-
-                        Navigator.of(context).pop();
                       },
                     );
                   }

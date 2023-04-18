@@ -116,11 +116,15 @@ class RemoteShopService extends BaseService {
   Future<bool> resendBid(String bidId) async {
     try {
       final response = await getText(
-        '/ReSendBid/$bidId',
+        '/ResendBid/$bidId',
         cleanPath: false,
       );
 
-      print(response);
+      final data = jsonDecode(response);
+      if (data['Success'] != true) {
+        Toast.error(data['Message'] ?? "A problem occurred");
+        return false;
+      }
 
       return true;
     } catch (e) {

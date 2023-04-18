@@ -61,6 +61,10 @@ class ListingFormProvider extends StateNotifier<Listing> {
     floorPriceController.text = (listing.floorPrice ?? '').toString();
     reservePriceController.text = (listing.reservePrice ?? '').toString();
 
+    if (listing.reservePrice != null && listing.reservePrice != listing.floorPrice) {
+      state = state.copyWith(enableReservePrice: true);
+    } else {}
+
     state = state.copyWith(
       enableBuyNow: listing.isBuyNow,
       enableAuction: listing.isAuction,
