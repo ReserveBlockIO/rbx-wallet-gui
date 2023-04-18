@@ -183,9 +183,7 @@ class ListingDetails extends BaseComponent {
                                             ),
                                           ]),
                                         ),
-                                        SizedBox(
-                                          width: 8,
-                                        ),
+                                        SizedBox(width: 8),
                                         InkWell(
                                           onTap: () async {
                                             await Clipboard.setData(ClipboardData(text: listing.auction!.currentWinningAddress));

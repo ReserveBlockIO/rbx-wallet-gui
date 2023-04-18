@@ -85,6 +85,22 @@ class RemoteShopService extends BaseService {
     }
   }
 
+  Future<bool> resendBid(String bidId) async {
+    try {
+      final response = await getText(
+        '/ReSendBid/$bidId',
+        cleanPath: false,
+      );
+
+      print(response);
+
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
   // Future<bool> completeNftPurchase(String scId) async {
   //   try {
   //     final data = await getJson(
