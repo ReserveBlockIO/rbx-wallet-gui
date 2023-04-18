@@ -133,8 +133,13 @@ Future<bool> getNftAssets({required RemoteShopService service, required String s
   //   return false;
   // }
   print("Requesting NFTAssets ($scId)");
-  await service.getText("/GetNFTAssets/$scId", cleanPath: false);
-  return true;
+  try {
+    final response = await service.getText("/GetNFTAssets/$scId", cleanPath: false);
+    return response == "true";
+  } catch (e) {
+    print(e);
+    return false;
+  }
 }
 
 Future<OrganizedShop> organizeShopData({required RemoteShopService service, required ShopData shopData}) async {

@@ -25,8 +25,42 @@ class ThumbnailFetcherProvider extends StateNotifier<List<QueueEntry>> {
     processQueue();
   }
 
-  addToQueue(String scId, List<String> filenames) async {
+  addToQueue(
+    String scId,
+    List<String> filenames, [
+    bool forceRetry = false,
+  ]) async {
     final inQueue = state.firstWhereOrNull((e) => e.scId == scId) != null;
+
+    if (forceRetry) {
+      final exists = await _checkIfExists(scId, filenames);
+      if (inQueue) {
+        final index = state.indexWhere((e) => e.scId == scId);
+        final e = state[index];
+
+        state = [...state]
+          ..removeAt(index)
+          ..insert(
+            index,
+            QueueEntry(
+              scId: e.scId,
+              filenames: e.filenames,
+              success: exists,
+              attempted: false,
+            ),
+          );
+      } else {
+        final entry = QueueEntry(
+          scId: scId,
+          success: exists,
+          filenames: filenames,
+          attempted: false,
+        );
+        state = [...state, entry];
+      }
+      return;
+    }
+
     if (inQueue) {
       return;
     }
@@ -53,13 +87,22 @@ class ThumbnailFetcherProvider extends StateNotifier<List<QueueEntry>> {
       //   return;
       // }
 
-      if (!entry.attempted) {
-        await Future.delayed(Duration(milliseconds: 500));
-        await getNftAssets(service: RemoteShopService(), scId: entry.scId);
-        await Future.delayed(Duration(milliseconds: 500));
+      bool exists = await _checkIfExists(entry.scId, entry.filenames);
+
+      bool attempted = exists;
+
+      if (!exists) {
+        if (!entry.attempted) {
+          await Future.delayed(Duration(milliseconds: 500));
+          attempted = await getNftAssets(service: RemoteShopService(), scId: entry.scId);
+          if (!attempted) {
+            print("Error requesting files for (${entry.scId}). Will try again in next loop");
+          }
+          await Future.delayed(Duration(milliseconds: 500));
+        }
       }
 
-      final exists = await _checkIfExists(entry.scId, entry.filenames);
+      exists = await _checkIfExists(entry.scId, entry.filenames);
 
       state = [...state]
         ..removeAt(index)
@@ -69,7 +112,7 @@ class ThumbnailFetcherProvider extends StateNotifier<List<QueueEntry>> {
             scId: entry.scId,
             filenames: entry.filenames,
             success: exists,
-            attempted: true,
+            attempted: attempted,
           ),
         );
 
@@ -91,7 +134,8 @@ class ThumbnailFetcherProvider extends StateNotifier<List<QueueEntry>> {
 
     bool ready = true;
     for (final filename in filenames) {
-      final p = "$thumbsPath/$filename";
+      final updatedFileName = filename.replaceAll(".pdf", ".png");
+      final p = "$thumbsPath/$updatedFileName";
       if (!File(p).existsSync()) {
         ready = false;
       } else {

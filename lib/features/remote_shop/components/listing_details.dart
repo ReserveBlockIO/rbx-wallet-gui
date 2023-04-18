@@ -229,8 +229,9 @@ class _PreviewState extends State<_Preview> {
                   ),
                   items: paths.map((path) {
                     final fileType = fileTypeFromPath(path);
+                    final extension = path.split(".").last.toLowerCase();
 
-                    final showThumbnail = fileType == "Image";
+                    final showThumbnail = fileType == "Image" || extension == "pdf";
                     final icon = iconFromPath(path);
 
                     return Padding(
@@ -941,38 +942,7 @@ class __ThumbnailState extends State<_Thumbnail> {
     }
 
     provider.addToQueue(widget.scId, widget.fileNames);
-    // await Future.delayed(Duration(milliseconds: 500));
-    // queueForDownload();
   }
-
-  // Future<void> checkIfExists() async {
-  //   print("Checking if exists...");
-  //   if (await File(widget.path).exists()) {
-  //     final bytes = await File(widget.path).length();
-  //     if (bytes > 100) {
-  //       print("Good");
-
-  //       return;
-  //     }
-  //   }
-
-  //   print("Does not exist (${widget.path})");
-
-  //   await getNftAssets(service: RemoteShopService(), scId: widget.scId);
-  //   await Future.delayed(Duration(seconds: 2));
-  //   setState(() {
-  //     rebuilding = true;
-  //   });
-  //   await FileImage(File(widget.path)).evict();
-
-  //   await Future.delayed(Duration(milliseconds: 300));
-  //   setState(() {
-  //     rebuilding = false;
-  //   });
-  //   await Future.delayed(Duration(seconds: 2));
-
-  //   checkIfExists();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -982,10 +952,19 @@ class __ThumbnailState extends State<_Thumbnail> {
         return CenteredLoader();
       }
 
+      final updatedFileName = widget.path.replaceAll(".pdf", ".png");
+
       return Image.file(
-        File(widget.path),
+        File(updatedFileName),
         errorBuilder: (context, _, __) {
-          return Text("Error...");
+          return Center(
+            child: IconButton(
+              icon: Icon(Icons.refresh),
+              onPressed: () {
+                widget.ref.read(thumbnailFetcherProvider.notifier).addToQueue(widget.scId, widget.fileNames, true);
+              },
+            ),
+          );
 
           // return Text(path);
           // return Center(
