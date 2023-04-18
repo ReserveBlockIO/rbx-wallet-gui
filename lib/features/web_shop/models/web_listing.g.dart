@@ -25,7 +25,7 @@ _$_WebListing _$$_WebListingFromJson(Map<String, dynamic> json) =>
       isVisibleAfterEndDate: json['is_visible_after_end_date'] as bool,
       thumbnailsFetched: json['thumbnails_fetched'] as bool,
       isCancelled: json['IsCancelled'] as bool? ?? false,
-      isAuctionStarted: json['IsAuctionStarted'] as bool? ?? false,
+      isAuctionStarted: json['IsAuctionStarted'] as bool? ?? true,
       isAuctionEnded: json['IsAuctionEnded'] as bool? ?? false,
       thumbnails: (json['thumbnails'] as List<dynamic>?)
               ?.map((e) => e as String)

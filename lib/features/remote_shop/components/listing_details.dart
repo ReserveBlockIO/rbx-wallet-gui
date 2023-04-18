@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
@@ -16,6 +17,7 @@ import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/nft/components/nft_qr_code.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
+import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
 import 'package:rbx_wallet/features/remote_shop/components/bid_history_modal.dart';
 import 'package:rbx_wallet/features/remote_shop/models/shop_data.dart';
@@ -23,6 +25,7 @@ import 'package:rbx_wallet/features/remote_shop/providers/bid_list_provider.dart
 import 'package:rbx_wallet/features/remote_shop/providers/thumbnail_fetcher_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
 import 'package:rbx_wallet/features/remote_shop/utils.dart';
+import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
 import 'package:rbx_wallet/utils/files.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:collection/collection.dart';
@@ -47,6 +50,7 @@ class ListingDetails extends BaseComponent {
           _Preview(nft: nft),
           if (listing.canBuyNow) _BuyNow(listing: listing),
           _Features(nft: nft),
+          _Properties(nft: nft),
           _NftDetails(nft: nft),
           _NftData(nft: nft, listing: listing),
           const SizedBox(height: 8),
@@ -83,6 +87,7 @@ class ListingDetails extends BaseComponent {
                   children: [
                     _Preview(nft: nft),
                     _Features(nft: nft),
+                    _Properties(nft: nft),
                     _QRCode(
                       nft: nft,
                       size: 200,
@@ -93,53 +98,65 @@ class ListingDetails extends BaseComponent {
               ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 600),
                 child: Center(
-                  child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    _Details(nft: nft),
-                    const SizedBox(height: 8),
-                    _NftDetails(nft: nft),
-                    const SizedBox(height: 16),
-                    _NftData(nft: nft, listing: listing),
-                    const SizedBox(height: 8),
-                    if (listing.canBid) IntrinsicWidth(child: _Auction(listing: listing)),
-                    if (listing.canBuyNow && listing.canBid) SizedBox(height: 16),
-                    if (listing.canBuyNow) IntrinsicWidth(child: _BuyNow(listing: listing)),
-                    const SizedBox(height: 16),
-                    if (listing.canBuyNow || listing.canBid) _Countdown(listing: listing),
-                    if (!listing.hasStarted)
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            "Auction Upcoming",
-                            style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
+                  child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _Details(nft: nft),
+                        const SizedBox(height: 8),
+                        _NftDetails(nft: nft),
+                        const SizedBox(height: 16),
+                        _NftData(nft: nft, listing: listing),
+                        const SizedBox(height: 8),
+                        if (listing.canBid)
+                          IntrinsicWidth(child: _Auction(listing: listing)),
+                        if (listing.canBuyNow && listing.canBid)
+                          SizedBox(height: 16),
+                        if (listing.canBuyNow)
+                          IntrinsicWidth(child: _BuyNow(listing: listing)),
+                        const SizedBox(height: 16),
+                        if (listing.canBuyNow || listing.canBid)
+                          _Countdown(listing: listing),
+                        if (!listing.hasStarted)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                "Auction Upcoming",
+                                style: TextStyle(
+                                    fontSize: 28, fontWeight: FontWeight.w700),
+                              ),
+                              Text(
+                                "Begins: ${DateFormat.yMd().format(listing.startDate)} ${DateFormat("HH:mm").format(listing.startDate)}",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ],
                           ),
-                          Text(
-                            "Begins: ${DateFormat.yMd().format(listing.startDate)} ${DateFormat("HH:mm").format(listing.startDate)}",
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ],
-                      ),
-                    if (listing.auction?.isAuctionOver == true)
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            "Auction Has Ended",
-                            style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
-                          ),
-                          if (listing.auction!.currentWinningAddress.isNotEmpty &&
-                              listing.auction!.currentWinningAddress != listing.addressOwner &&
-                              listing.auction!.isReserveMet)
-                            Text("Purchased by: ${listing.auction!.currentWinningAddress}"),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 16.0),
-                            child: BidHistoryButton(listing: listing),
+                        if (listing.auction?.isAuctionOver == true)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                "Auction Has Ended",
+                                style: TextStyle(
+                                    fontSize: 28, fontWeight: FontWeight.w700),
+                              ),
+                              if (listing.auction!.currentWinningAddress
+                                      .isNotEmpty &&
+                                  listing.auction!.currentWinningAddress !=
+                                      listing.addressOwner &&
+                                  listing.auction!.isReserveMet)
+                                Text(
+                                    "Purchased by: ${listing.auction!.currentWinningAddress}"),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 16.0),
+                                child: BidHistoryButton(listing: listing),
+                              )
+                            ],
                           )
-                        ],
-                      )
-                  ]),
+                      ]),
                 ),
               ),
             ],
@@ -237,7 +254,8 @@ class _PreviewState extends State<_Preview> {
                     final fileType = fileTypeFromPath(path);
                     final extension = path.split(".").last.toLowerCase();
 
-                    final showThumbnail = fileType == "Image" || extension == "pdf";
+                    final showThumbnail =
+                        fileType == "Image" || extension == "pdf";
                     final icon = iconFromPath(path);
 
                     return Padding(
@@ -489,7 +507,8 @@ class _NftData extends StatelessWidget {
     required this.listing,
   });
 
-  TableRow buildDetailRow(BuildContext context, String label, String value, [bool copyValue = false]) {
+  TableRow buildDetailRow(BuildContext context, String label, String value,
+      [bool copyValue = false]) {
     final isMobile = BreakPoints.useMobileLayout(context);
 
     if (isMobile) {
@@ -568,10 +587,11 @@ class _NftData extends StatelessWidget {
             defaultColumnWidth: const IntrinsicColumnWidth(),
             children: [
               buildDetailRow(context, "Identifier", nft.id, true),
-              buildDetailRow(context, "Owner Address", nft.nextOwner ?? listing.addressOwner, true),
+              buildDetailRow(context, "Owner Address", nft.currentOwner, true),
               // buildDetailRow(context, "Minted On", nft.mintedAt),
               buildDetailRow(context, "Minted By", nft.minterName),
-              buildDetailRow(context, "Minter Address", nft.minterAddress, true),
+              buildDetailRow(
+                  context, "Minter Address", nft.minterAddress, true),
               buildDetailRow(context, "Chain", "RBX"),
             ],
           ),
@@ -591,7 +611,8 @@ class _BuyNow extends BaseComponent {
       return SizedBox.shrink();
     }
 
-    final provider = ref.read(bidListProvider(listing.familyIdentifier).notifier);
+    final provider =
+        ref.read(bidListProvider(listing.familyIdentifier).notifier);
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -629,7 +650,8 @@ class _BuyNow extends BaseComponent {
             final success = await provider.buyNow(context, listing);
 
             if (success == true) {
-              Toast.message("Buy Now transaction sent successfully. Please wait for confirmation.");
+              Toast.message(
+                  "Buy Now transaction sent successfully. Please wait for confirmation.");
             }
           },
         ),
@@ -686,7 +708,8 @@ class _Auction extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentBids = ref.watch(bidListProvider(listing.familyIdentifier));
-    final provider = ref.read(bidListProvider(listing.familyIdentifier).notifier);
+    final provider =
+        ref.read(bidListProvider(listing.familyIdentifier).notifier);
 
     if (listing.floorPrice == null) {
       return SizedBox.shrink();
@@ -768,7 +791,8 @@ class BidHistoryButton extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final provider = ref.read(bidListProvider(listing.familyIdentifier).notifier);
+    final provider =
+        ref.read(bidListProvider(listing.familyIdentifier).notifier);
 
     return AppButton(
       label: "Bid History",
@@ -890,7 +914,9 @@ class _Countdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: BreakPoints.useMobileLayout(context) ? CrossAxisAlignment.stretch : CrossAxisAlignment.center,
+      crossAxisAlignment: BreakPoints.useMobileLayout(context)
+          ? CrossAxisAlignment.stretch
+          : CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
         if (listing.isActive)
@@ -955,7 +981,9 @@ class __ThumbnailState extends State<_Thumbnail> {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, _) {
-      final thumb = ref.watch(thumbnailFetcherProvider).firstWhereOrNull((e) => e.scId == widget.scId);
+      final thumb = ref
+          .watch(thumbnailFetcherProvider)
+          .firstWhereOrNull((e) => e.scId == widget.scId);
       if (thumb == null || !thumb.success) {
         return CenteredLoader();
       }
@@ -969,7 +997,9 @@ class __ThumbnailState extends State<_Thumbnail> {
             child: IconButton(
               icon: Icon(Icons.refresh),
               onPressed: () {
-                widget.ref.read(thumbnailFetcherProvider.notifier).addToQueue(widget.scId, widget.fileNames, true);
+                widget.ref
+                    .read(thumbnailFetcherProvider.notifier)
+                    .addToQueue(widget.scId, widget.fileNames, true);
               },
             ),
           );
@@ -1030,6 +1060,73 @@ class _QRCode extends StatelessWidget {
             bgColor: Colors.transparent,
             cardPadding: 0,
             withOpen: true,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Properties extends StatelessWidget {
+  final double size;
+
+  final Nft nft;
+  const _Properties({
+    super.key,
+    required this.nft,
+    this.size = 260,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (nft.properties.isEmpty) {
+      return SizedBox.shrink();
+    }
+    return ConstrainedBox(
+      constraints: BoxConstraints(maxWidth: size),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Properties:",
+            style: Theme.of(context).textTheme.headline5,
+          ),
+          SizedBox(height: 6),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: nft.properties
+                .map((p) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 2),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 2),
+                            child: Builder(builder: (context) {
+                              switch (p.type) {
+                                case ScPropertyType.color:
+                                  return Icon(
+                                    Icons.color_lens,
+                                    color: colorFromHex(p.value),
+                                    size: 14,
+                                  );
+                                case ScPropertyType.number:
+                                  return Icon(Icons.numbers, size: 14);
+                                default:
+                                  return Icon(Icons.text_fields, size: 14);
+                              }
+                            }),
+                          ),
+                          Text(" ${p.name}: ${p.value}"),
+                        ],
+                      ),
+                    ))
+                .toList(),
+          ),
+          SizedBox(
+            height: 8,
           ),
         ],
       ),

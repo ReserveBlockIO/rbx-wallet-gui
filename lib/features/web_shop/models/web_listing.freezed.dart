@@ -488,7 +488,7 @@ class _$_WebListing extends _WebListing {
       @JsonKey(name: "IsCancelled")
           this.isCancelled = false,
       @JsonKey(name: "IsAuctionStarted")
-          this.isAuctionStarted = false,
+          this.isAuctionStarted = true,
       @JsonKey(name: "IsAuctionEnded")
           this.isAuctionEnded = false,
       @JsonKey(ignore: true)
