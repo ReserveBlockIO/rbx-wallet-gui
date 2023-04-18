@@ -14,7 +14,9 @@ import 'package:rbx_wallet/core/components/centered_loader.dart';
 import 'package:rbx_wallet/core/components/countdown.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/nft/components/nft_qr_code.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
+import 'package:rbx_wallet/features/nft/services/nft_service.dart';
 import 'package:rbx_wallet/features/remote_shop/components/bid_history_modal.dart';
 import 'package:rbx_wallet/features/remote_shop/models/shop_data.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/bid_list_provider.dart';
@@ -81,6 +83,10 @@ class ListingDetails extends BaseComponent {
                   children: [
                     _Preview(nft: nft),
                     _Features(nft: nft),
+                    _QRCode(
+                      nft: nft,
+                      size: 200,
+                    ),
                   ],
                 ),
               ),
@@ -427,7 +433,7 @@ class _Features extends StatelessWidget {
                     .toList(),
               );
             },
-          )
+          ),
         ],
       ),
     );
@@ -993,5 +999,40 @@ class __ThumbnailState extends State<_Thumbnail> {
         },
       );
     });
+  }
+}
+
+class _QRCode extends StatelessWidget {
+  final double size;
+  final Nft nft;
+  const _QRCode({
+    super.key,
+    required this.nft,
+    this.size = 260,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+      constraints: BoxConstraints(maxWidth: size),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "QR Code:",
+            style: Theme.of(context).textTheme.headline5,
+          ),
+          SizedBox(height: 6),
+          NftQrCode(
+            data: nft.explorerUrl,
+            size: size,
+            bgColor: Colors.transparent,
+            cardPadding: 0,
+            withOpen: true,
+          ),
+        ],
+      ),
+    );
   }
 }
