@@ -16,6 +16,7 @@ import 'package:rbx_wallet/core/components/centered_loader.dart';
 import 'package:rbx_wallet/core/components/countdown.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/nft/components/nft_qr_code.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
@@ -23,6 +24,7 @@ import 'package:rbx_wallet/features/nft/services/nft_service.dart';
 import 'package:rbx_wallet/features/remote_shop/components/bid_history_modal.dart';
 import 'package:rbx_wallet/features/remote_shop/models/shop_data.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/bid_list_provider.dart';
+import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/thumbnail_fetcher_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
 import 'package:rbx_wallet/features/remote_shop/utils.dart';
@@ -838,7 +840,10 @@ class BidHistoryButton extends BaseComponent {
       icon: Icons.punch_clock,
       size: AppSizeVariant.Lg,
       onPressed: () async {
+        ref.read(globalLoadingProvider.notifier).start();
         final bids = await provider.fetchBids(listing);
+
+        ref.read(globalLoadingProvider.notifier).complete();
 
         if (bids.isEmpty) {
           Toast.message("No bids.");

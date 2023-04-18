@@ -62,6 +62,34 @@ class RemoteShopService extends BaseService {
     return await shop_utils.organizeShopData(service: this, shopData: shopData);
   }
 
+  Future<List<Bid>> getBidsByListingId(int listingId) async {
+    try {
+      await getText("/GetShopListingBids/$listingId", cleanPath: false);
+      await Future.delayed(Duration(milliseconds: 250));
+      await getText("/GetShopListingBids/$listingId", cleanPath: false);
+      await Future.delayed(Duration(milliseconds: 250));
+      final text = await getText("/GetDecShopData", cleanPath: false);
+      final data = jsonDecode(text);
+
+      final bids = data['DecShopData']['Bids'];
+
+      final List<Bid> response = [];
+      for (final bidData in bids) {
+        print(bidData);
+        final b = Bid.fromJson(bidData);
+        if (b.listingId == listingId) {
+          response.add(b);
+        }
+      }
+
+      return response;
+    } catch (e) {
+      print("getBidsByListingId Error");
+      print(e);
+      return [];
+    }
+  }
+
   Future<bool> sendBid(Bid bid) async {
     final params = bid.toJson();
     try {

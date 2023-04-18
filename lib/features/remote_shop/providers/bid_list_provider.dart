@@ -33,9 +33,19 @@ class BidListProvider extends StateNotifier<List<Bid>> {
   }
 
   Future<List<Bid>> fetchBids([OrganizedListing? listing]) async {
+    List<Bid> globalBids = [];
+    if (listing != null) {
+      globalBids = await RemoteShopService().getBidsByListingId(listing.id);
+
+      // await RemoteShopService().getText("/GetShopListingBids/${listing.id}", cleanPath: false);
+      // await Future.delayed(Duration(milliseconds: 250));
+      // await ref.read(connectedShopProvider.notifier).refresh();
+      // final data = ref.read(connectedShopProvider).decShop.b
+    }
+
     final myBids = await DstService().listBuyerBids(listingId);
 
-    List<Bid> globalBids = listing != null ? listing.bids : [];
+    // List<Bid> globalBids = listing != null ? listing.bids : [];
     final bids = [...myBids];
 
     for (final b in globalBids) {

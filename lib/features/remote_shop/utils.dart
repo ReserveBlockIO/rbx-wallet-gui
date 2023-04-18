@@ -159,14 +159,13 @@ Future<OrganizedShop> organizeShopData({required RemoteShopService service, requ
   final scIds = shopData.listings.map((l) => l.smartContractUid);
   final listingIds = shopData.listings.map((l) => l.id);
 
-  for (final id in listingIds) {
-    await service.getText("/GetShopListingBids/$id", cleanPath: false);
-    await Future.delayed(Duration(milliseconds: 100));
-    await service.getText("/GetShopListingBids/$id", cleanPath: false);
-    await Future.delayed(Duration(milliseconds: 100));
-
-    // print("ID: $id");
-  }
+  // for (final id in listingIds) {
+  //   await service.getText("/GetShopListingBids/$id", cleanPath: false);
+  //   await Future.delayed(Duration(milliseconds: 250));
+  //   await service.getText("/GetShopListingBids/$id", cleanPath: false);
+  //   await Future.delayed(Duration(milliseconds: 250));
+  //   // print("ID: $id");
+  // }
 
   final Map<String, Nft> nfts = {};
 
