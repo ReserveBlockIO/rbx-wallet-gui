@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:context_menus/context_menus.dart';
@@ -19,6 +20,7 @@ import 'package:rbx_wallet/features/web_shop/providers/create_web_listing_provid
 import 'package:rbx_wallet/features/web_shop/providers/web_listing_detail_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
+import '../../../core/app_router.gr.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../../core/providers/web_session_provider.dart';
@@ -70,6 +72,15 @@ class WebListingDetails extends BaseComponent {
       contextMenu: GenericContextMenu(
         buttonConfigs: [
           if (listing.ownerAddress == myAddress) ...[
+            ContextMenuButtonConfig(
+              'Edit Listing',
+              onPressed: () async {
+                ref.read(createWebListingProvider.notifier).load(listing, listing.collection.id, listing.collection.shop!.id);
+                AutoRouter.of(context)
+                    .push(DebugWebListingCreateScreenRoute(shopId: listing.collection.shop!.id, collectionId: listing.collection.id));
+              },
+              icon: Icon(Icons.edit),
+            ),
             ContextMenuButtonConfig(
               'Delete Listing',
               onPressed: () async {
