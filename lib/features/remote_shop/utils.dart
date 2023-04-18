@@ -77,14 +77,27 @@ Future<bool> connectToShop({
   return false;
 }
 
-Future<void> requestCollectionsAndListings({required RemoteShopService service}) async {
+const PER_PAGE = 10;
+
+Future<void> requestCollectionsAndListings({
+  required RemoteShopService service,
+  int listingCount = 0,
+}) async {
   await service.getText("/GetShopInfo", cleanPath: false);
   await Future.delayed(Duration(milliseconds: 500));
   await service.getText("/GetShopCollections", cleanPath: false);
-  await Future.delayed(Duration(milliseconds: 500));
-  await service.getText("/GetShopListings/0", cleanPath: false);
-  await Future.delayed(Duration(milliseconds: 500));
-  await service.getText("/GetShopAuctions/0", cleanPath: false);
+
+  final listingPages = (listingCount / PER_PAGE).ceil();
+
+  for (int i = 0; i <= listingPages; i++) {
+    await service.getText("/GetShopListings/$i", cleanPath: false);
+    await Future.delayed(Duration(milliseconds: 250));
+    await service.getText("/GetShopAuctions/$i", cleanPath: false);
+    await Future.delayed(Duration(milliseconds: 250));
+  }
+
+  // await Future.delayed(Duration(milliseconds: 250));
+  // await service.getText("/GetShopAuctions/0", cleanPath: false);
 
   //TODO (pagination)
   // if (shopData != null) {

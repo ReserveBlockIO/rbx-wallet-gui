@@ -51,7 +51,18 @@ class ConnectedShopProvider extends StateNotifier<ConnectedShop> {
 
   refresh([bool showErrors = false]) async {
     print("refreshing...");
-    final data = await RemoteShopService().getConnectedShopData(showErrors);
+
+    int listingCount = 0;
+    if (state.data != null) {
+      for (final c in state.data!.collections) {
+        listingCount += c.listings.length;
+      }
+    }
+
+    final data = await RemoteShopService().getConnectedShopData(
+      showErrors: showErrors,
+      listingCount: listingCount,
+    );
     if (data != null) {
       state = state.copyWith(data: data);
     }
