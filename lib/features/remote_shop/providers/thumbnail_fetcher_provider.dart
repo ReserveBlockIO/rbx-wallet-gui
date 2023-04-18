@@ -119,7 +119,7 @@ class ThumbnailFetcherProvider extends StateNotifier<List<QueueEntry>> {
       await Future.delayed(Duration(milliseconds: 500));
     }
 
-    await Future.delayed(Duration(seconds: 5));
+    await Future.delayed(Duration(seconds: 3));
 
     processQueue();
   }
