@@ -8,6 +8,7 @@ import 'package:rbx_wallet/features/dst/services/dst_service.dart';
 import 'package:rbx_wallet/features/remote_shop/models/shop_data.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
+import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 import 'package:collection/collection.dart';
@@ -85,6 +86,10 @@ class BidListProvider extends StateNotifier<List<Bid>> {
   }
 
   Future<bool?> buyNow(BuildContext context, OrganizedListing listing) async {
+    if (!guardWalletIsSynced(ref)) {
+      return null;
+    }
+
     if (!validateBeforeBid(listing, listing.buyNowPrice!)) {
       return null;
     }
@@ -119,6 +124,10 @@ class BidListProvider extends StateNotifier<List<Bid>> {
   }
 
   Future<bool?> sendBid(BuildContext context, OrganizedListing listing) async {
+    if (!guardWalletIsSynced(ref)) {
+      return null;
+    }
+
     if (listing.auction == null) {
       Toast.error("Auction is not live");
       return null;
@@ -136,10 +145,13 @@ class BidListProvider extends StateNotifier<List<Bid>> {
       return null;
     }
 
+    final minimumBid = listing.auction!.currentBidPrice + listing.auction!.incrementAmount;
+
     final amountStr = await PromptModal.show(
       title: "Place Bid",
       validator: (val) => formValidatorNumber(val, "Bid Amount"),
       labelText: "Bid Amount (RBX)",
+      footer: "Must be greater than $minimumBid RBX",
       confirmText: "Continue",
       cancelText: "Cancel",
     );

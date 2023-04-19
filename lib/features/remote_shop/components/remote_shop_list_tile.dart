@@ -6,7 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
 
 class RemoteShopListTile extends BaseComponent {
@@ -31,6 +33,19 @@ class RemoteShopListTile extends BaseComponent {
           },
         ),
         onTap: () async {
+          if (ref.read(walletInfoProvider) == null || !ref.read(walletInfoProvider)!.isChainSynced) {
+            final cont = await ConfirmDialog.show(
+              title: "Wallet Not Synced",
+              body: "Since your wallet is not synced there may be some issues viewing the data in this shop. Continue anyway?",
+              confirmText: "Continue",
+              cancelText: "Cancel",
+            );
+
+            if (cont != true) {
+              return;
+            }
+          }
+
           final currentUrl = ref.read(connectedShopProvider).url;
 
           if (currentUrl == url) {

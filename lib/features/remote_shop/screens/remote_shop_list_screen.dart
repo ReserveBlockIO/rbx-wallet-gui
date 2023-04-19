@@ -6,6 +6,7 @@ import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/components/remote_shop_list_tile.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
@@ -60,6 +61,19 @@ class RemoteShopListScreen extends BaseScreen {
     WidgetRef ref,
   ) async {
     final url = await promptForShopUrl(context, ref);
+
+    if (ref.read(walletInfoProvider) == null || !ref.read(walletInfoProvider)!.isChainSynced) {
+      final cont = await ConfirmDialog.show(
+        title: "Wallet Not Synced",
+        body: "Since your wallet is not synced there may be some issues viewing the data in this shop. Continue anyway?",
+        confirmText: "Continue",
+        cancelText: "Cancel",
+      );
+
+      if (cont != true) {
+        return;
+      }
+    }
 
     if (url != null) {
       ref.read(connectedShopProvider.notifier).loadShop(context, ref, url);

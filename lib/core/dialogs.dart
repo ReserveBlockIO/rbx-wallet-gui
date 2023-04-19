@@ -173,6 +173,7 @@ class PromptModal {
     required String labelText,
     BuildContext? contextOverride,
     String? body,
+    String? footer,
     bool obscureText = false,
     bool revealObscure = false,
     String? cancelText,
@@ -225,6 +226,7 @@ class PromptModal {
             child: Form(
               key: _formKey,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   if (body != null) Text(body),
@@ -261,6 +263,14 @@ class PromptModal {
                       ],
                     );
                   }),
+                  if (footer != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4.0),
+                      child: Text(
+                        footer,
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ),
                 ],
               ),
             ),

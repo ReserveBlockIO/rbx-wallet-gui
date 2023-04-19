@@ -31,6 +31,7 @@ import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dar
 import 'package:rbx_wallet/features/remote_shop/utils.dart';
 import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
 import 'package:rbx_wallet/utils/files.dart';
+import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:collection/collection.dart';
 
@@ -813,7 +814,7 @@ class _Auction extends BaseComponent {
                   onPressed: () async {
                     final success = await provider.sendBid(context, listing);
                     if (success == true) {
-                      Toast.message("Bid transaction sent successfully.");
+                      Toast.message("Bid sent. Please check the Bid History to see if it's been accepted or rejected.");
                     }
                   }),
               const SizedBox(width: 8),
