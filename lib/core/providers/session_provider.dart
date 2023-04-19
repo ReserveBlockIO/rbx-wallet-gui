@@ -19,6 +19,7 @@ import 'package:rbx_wallet/features/remote_info/components/snapshot_downloader.d
 import 'package:rbx_wallet/features/remote_info/models/remote_info.dart';
 import 'package:rbx_wallet/features/remote_info/services/remote_info_service.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
+import 'package:rbx_wallet/features/remote_shop/providers/thumbnail_fetcher_provider.dart';
 import 'package:rbx_wallet/features/reserve/providers/reserve_account_provider.dart';
 import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
 import 'package:rbx_wallet/features/startup/startup_data.dart';
@@ -485,6 +486,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
     ref.read(beaconListProvider.notifier).refresh();
     ref.invalidate(connectedShopProvider);
+    ref.invalidate(thumbnailFetcherProvider);
   }
 
   // Future<void> _checkBlockSyncStatus() async {
