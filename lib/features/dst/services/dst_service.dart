@@ -4,6 +4,7 @@ import 'package:rbx_wallet/features/dst/models/listing.dart';
 import 'package:rbx_wallet/features/dst/models/collection.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/services/base_service.dart';
 import '../models/dec_shop.dart';
@@ -324,7 +325,8 @@ class DstService extends BaseService {
       if (response['data']['Success']) {
         return true;
       } else {
-        throw ('Error saving dec shop');
+        Toast.error(response['data']["Message"]);
+        return false;
       }
     } catch (e) {
       print(e);
@@ -409,11 +411,11 @@ class DstService extends BaseService {
     }
   }
 
-  Future<List<String>> listedNftIds() async {
+  Future<List<String>?> listedNftIds() async {
     final shop = await retreiveShop();
 
     if (shop == null) {
-      return [];
+      return null;
     }
 
     final List<String> ids = [];

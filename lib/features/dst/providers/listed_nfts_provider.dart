@@ -9,7 +9,10 @@ class ListedNftsProvider extends StateNotifier<List<String>> {
   }
 
   Future<void> load() async {
-    state = await DstService().listedNftIds();
+    final items = await DstService().listedNftIds();
+    if (items != null) {
+      state = items;
+    }
   }
 
   void refresh() {
