@@ -354,9 +354,9 @@ class DstService extends BaseService {
     }
   }
 
-  Future<List<Listing>> listListings(int storeId) async {
+  Future<List<Listing>> listListings(int collectionId) async {
     try {
-      final response = await getText("/GetCollectionListings/$storeId", cleanPath: false);
+      final response = await getText("/GetCollectionListings/$collectionId", cleanPath: false);
 
       if (response.isEmpty) {
         return [];
@@ -411,21 +411,25 @@ class DstService extends BaseService {
     }
   }
 
-  Future<List<String>?> listedNftIds() async {
-    final shop = await retreiveShop();
+  Future<List<String>> listedNftIds() async {
+    // final shop = await retreiveShop();
 
-    if (shop == null) {
-      return null;
-    }
+    // if (shop == null) {
+    //   return null;
+    // }
 
     final List<String> ids = [];
 
-    final listings = await listListings(shop.id);
+    final collections = await listCollections();
 
-    for (final l in listings) {
-      final listing = await retreiveListing(l.id);
-      if (listing != null) {
-        ids.add(listing.smartContractUid);
+    for (final c in collections) {
+      final listings = await listListings(c.id);
+
+      for (final l in listings) {
+        final listing = await retreiveListing(l.id);
+        if (listing != null) {
+          ids.add(listing.smartContractUid);
+        }
       }
     }
 
