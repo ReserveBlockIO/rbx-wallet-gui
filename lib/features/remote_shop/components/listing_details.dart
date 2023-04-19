@@ -1044,12 +1044,14 @@ class __ThumbnailState extends State<_Thumbnail> {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, _) {
-      final thumb = ref.watch(thumbnailFetcherProvider).firstWhereOrNull((e) => e.scId == widget.scId);
-      if (thumb == null || !thumb.success) {
-        return CenteredLoader();
-      }
-
       final updatedFileName = widget.path.replaceAll(".pdf", ".png");
+
+      if (!ref.watch(thumbnailFetcherProvider.notifier).checkSingleFile(updatedFileName)) {
+        final thumb = ref.watch(thumbnailFetcherProvider).firstWhereOrNull((e) => e.scId == widget.scId);
+        if (thumb == null || !thumb.success) {
+          return CenteredLoader();
+        }
+      }
 
       return Image.file(
         File(updatedFileName),

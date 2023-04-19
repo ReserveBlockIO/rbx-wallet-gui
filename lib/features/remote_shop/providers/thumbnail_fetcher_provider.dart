@@ -148,6 +148,19 @@ class ThumbnailFetcherProvider extends StateNotifier<List<QueueEntry>> {
     return ready;
   }
 
+  bool checkSingleFile(String p) {
+    bool ready = true;
+    if (!File(p).existsSync()) {
+      ready = false;
+    } else {
+      if (File(p).lengthSync() < 1) {
+        ready = false;
+      }
+    }
+
+    return ready;
+  }
+
   bool thumbnailReady(String scId) {
     final entry = state.firstWhereOrNull((e) => e.scId == scId);
 
