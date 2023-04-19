@@ -467,6 +467,9 @@ class _Features extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (nft.features.isEmpty) {
+      return SizedBox.shrink();
+    }
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Column(
@@ -474,51 +477,24 @@ class _Features extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text("NFT Features:", style: Theme.of(context).textTheme.headline5),
-          Builder(
-            builder: (context) {
-              if (nft.features.isEmpty) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: const [
-                      Icon(
-                        Icons.cancel,
-                        size: 16,
-                        color: Colors.white54,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 4.0),
-                        child: Text(
-                          "No Smart Contract Features",
-                          style: TextStyle(fontSize: 14, color: Colors.white54),
-                        ),
-                      ),
-                    ],
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: nft.featureList
+                .map(
+                  (f) => ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 300),
+                    child: ListTile(
+                      dense: true,
+                      visualDensity: VisualDensity.compact,
+                      contentPadding: EdgeInsets.zero,
+                      leading: Icon(f.icon),
+                      title: Text(f.nameLabel),
+                      subtitle: Text(f.description),
+                    ),
                   ),
-                );
-              }
-
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: nft.featureList
-                    .map(
-                      (f) => ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 300),
-                        child: ListTile(
-                          dense: true,
-                          visualDensity: VisualDensity.compact,
-                          contentPadding: EdgeInsets.zero,
-                          leading: Icon(f.icon),
-                          title: Text(f.nameLabel),
-                          subtitle: Text(f.description),
-                        ),
-                      ),
-                    )
-                    .toList(),
-              );
-            },
+                )
+                .toList(),
           ),
         ],
       ),
