@@ -157,6 +157,10 @@ class ListingFormProvider extends StateNotifier<Listing> {
     }
 
     if (state.enableAuction && state.reservePrice != null && state.floorPrice != null) {
+      if (state.floorPrice! <= 0) {
+        Toast.error("The floor price must be greater than zero.");
+        return;
+      }
       if (state.reservePrice! < state.floorPrice!) {
         Toast.error("The reserve price must be greater or equal to the floor price.");
         return;
@@ -184,6 +188,11 @@ class ListingFormProvider extends StateNotifier<Listing> {
 
     if (!state.enableBuyNow) {
       state = state.copyWith(buyNowPrice: null);
+    } else {
+      if (state.buyNowPrice == null || state.buyNowPrice! <= 0) {
+        Toast.error("Price must be greater than zero");
+        return;
+      }
     }
 
     if (!state.enableReservePrice) {

@@ -55,7 +55,7 @@ class ListingDetails extends BaseComponent {
           _Preview(
             nft: nft,
             onPageChange: (i) {
-              print(i);
+              ref.read(carouselMemoryProvider(nft.id).notifier).update(i);
             },
           ),
           if (listing.canBuyNow) _BuyNow(listing: listing),
@@ -280,7 +280,9 @@ class _PreviewState extends State<_Preview> {
       final ds = Platform.isMacOS ? "/" : "\\";
       final path = "${widget.nft.thumbsPath}$ds$filename";
 
-      return path;
+      final updatedFileName = path.replaceAll(".pdf", ".jpg").replaceAll(".png", ".jpg");
+
+      return updatedFileName;
 
       // final ext = path.split(".").last.toLowerCase();
       // final imageExtensions = ['jpg', 'jpeg', 'gif', 'png', 'webp'];
@@ -1055,13 +1057,26 @@ class __ThumbnailState extends State<_Thumbnail> {
 
       return Image.file(
         File(updatedFileName),
-        errorBuilder: (context, _, __) {
+        errorBuilder: (context, err, __) {
           return Center(
-            child: IconButton(
-              icon: Icon(Icons.refresh),
-              onPressed: () {
-                widget.ref.read(thumbnailFetcherProvider.notifier).addToQueue(widget.scId, widget.fileNames, true);
-              },
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.refresh),
+                  onPressed: () async {
+                    await File(updatedFileName).delete();
+                    await Future.delayed(Duration(milliseconds: 100));
+                    FileImage(File(updatedFileName)).evict();
+                    widget.ref.read(thumbnailFetcherProvider.notifier).addToQueue(widget.scId, widget.fileNames, true);
+                  },
+                ),
+                Text(
+                  err.toString(),
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ],
             ),
           );
 

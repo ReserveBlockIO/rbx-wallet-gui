@@ -83,9 +83,9 @@ class ThumbnailFetcherProvider extends StateNotifier<List<QueueEntry>> {
       final index = item.key;
       final entry = item.value;
 
-      // if (entry.success) {
-      //   return;
-      // }
+      if (entry.success) {
+        continue;
+      }
 
       bool exists = await _checkIfExists(entry.scId, entry.filenames);
 
