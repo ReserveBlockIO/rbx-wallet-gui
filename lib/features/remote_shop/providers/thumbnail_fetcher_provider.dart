@@ -134,7 +134,7 @@ class ThumbnailFetcherProvider extends StateNotifier<List<QueueEntry>> {
 
     bool ready = true;
     for (final filename in filenames) {
-      final updatedFileName = filename.replaceAll(".pdf", ".jpg");
+      final updatedFileName = filename.replaceAll(".pdf", ".jpg").replaceAll(".png", ".jpg");
       final p = "$thumbsPath/$updatedFileName";
       if (!File(p).existsSync()) {
         ready = false;
