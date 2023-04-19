@@ -24,6 +24,7 @@ import 'package:rbx_wallet/features/nft/services/nft_service.dart';
 import 'package:rbx_wallet/features/remote_shop/components/bid_history_modal.dart';
 import 'package:rbx_wallet/features/remote_shop/models/shop_data.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/bid_list_provider.dart';
+import 'package:rbx_wallet/features/remote_shop/providers/carousel_memory_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/thumbnail_fetcher_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
@@ -50,7 +51,12 @@ class ListingDetails extends BaseComponent {
         mainAxisSize: MainAxisSize.min,
         children: [
           _Details(nft: nft),
-          _Preview(nft: nft),
+          _Preview(
+            nft: nft,
+            onPageChange: (i) {
+              print(i);
+            },
+          ),
           if (listing.canBuyNow) _BuyNow(listing: listing),
           _Features(nft: nft),
           _Properties(nft: nft),
@@ -88,7 +94,13 @@ class ListingDetails extends BaseComponent {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    _Preview(nft: nft),
+                    _Preview(
+                      nft: nft,
+                      initialIndex: ref.watch(carouselMemoryProvider(nft.id)),
+                      onPageChange: (i) {
+                        ref.read(carouselMemoryProvider(nft.id).notifier).update(i);
+                      },
+                    ),
                     _Features(nft: nft),
                     _Properties(nft: nft),
                     _QRCode(
@@ -219,19 +231,23 @@ class ListingDetails extends BaseComponent {
 }
 
 class _Preview extends StatefulWidget {
+  final Nft nft;
+  final int initialIndex;
+  final Function(int index) onPageChange;
+
   const _Preview({
     super.key,
     required this.nft,
+    this.initialIndex = 0,
+    required this.onPageChange,
   });
-
-  final Nft nft;
 
   @override
   State<_Preview> createState() => _PreviewState();
 }
 
 class _PreviewState extends State<_Preview> {
-  int selectedIndex = 0;
+  late int selectedIndex;
   bool rebuilding = false;
 
   late CarouselController controller;
@@ -240,6 +256,8 @@ class _PreviewState extends State<_Preview> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    selectedIndex = widget.initialIndex;
+
     controller = CarouselController();
   }
 
@@ -290,12 +308,14 @@ class _PreviewState extends State<_Preview> {
                   carouselController: controller,
                   options: CarouselOptions(
                     viewportFraction: 1,
+                    initialPage: widget.initialIndex,
                     // autoPlay: BreakPoints.useMobileLayout(context) ? false : true,
                     autoPlay: false,
                     onPageChanged: (i, _) {
                       setState(() {
                         selectedIndex = i;
                       });
+                      widget.onPageChange(i);
                     },
                   ),
                   items: paths.map((path) {
