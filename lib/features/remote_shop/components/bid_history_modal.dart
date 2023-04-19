@@ -42,7 +42,7 @@ class BidHistoryModal extends BaseComponent {
               return ListTile(
                 leading: BidStatusIndicator(bid),
                 title: Text("${bid.bidAmount} RBX"),
-                subtitle: Text(bid.bidAddress),
+                subtitle: SelectableText(bid.bidAddress),
                 trailing: Builder(builder: (context) {
                   final currentAddress = ref.watch(sessionProvider).currentWallet?.address;
                   final isBidder = currentAddress == bid.bidAddress;
