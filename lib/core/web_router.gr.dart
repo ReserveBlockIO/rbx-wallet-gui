@@ -11,9 +11,9 @@
 // ignore_for_file: type=lint
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i23;
+import 'package:auto_route/auto_route.dart' as _i26;
 import 'package:auto_route/empty_router_widgets.dart' as _i1;
-import 'package:flutter/material.dart' as _i24;
+import 'package:flutter/material.dart' as _i27;
 import 'package:rbx_wallet/features/adnr/screens/web_adnr_screen.dart' as _i15;
 import 'package:rbx_wallet/features/auth/screens/web_auth_screen.dart' as _i5;
 import 'package:rbx_wallet/features/dsts_legacy/screens/create_store_screen.dart'
@@ -44,19 +44,25 @@ import 'package:rbx_wallet/features/transactions/screens/web_transaction_detail_
     as _i12;
 import 'package:rbx_wallet/features/transactions/screens/web_transactions_screen.dart'
     as _i11;
+import 'package:rbx_wallet/features/web_shop/screens/web_collection_detail_screen.dart'
+    as _i24;
+import 'package:rbx_wallet/features/web_shop/screens/web_listing_detail_screen.dart'
+    as _i25;
 import 'package:rbx_wallet/features/web_shop/screens/web_shop_container_screen.dart'
     as _i6;
+import 'package:rbx_wallet/features/web_shop/screens/web_shop_detail_screen.dart'
+    as _i23;
 import 'package:rbx_wallet/features/web_shop/screens/web_shop_list_screen.dart'
     as _i22;
 
-class WebRouter extends _i23.RootStackRouter {
-  WebRouter([_i24.GlobalKey<_i24.NavigatorState>? navigatorKey])
+class WebRouter extends _i26.RootStackRouter {
+  WebRouter([_i27.GlobalKey<_i27.NavigatorState>? navigatorKey])
       : super(navigatorKey);
 
   @override
-  final Map<String, _i23.PageFactory> pagesMap = {
+  final Map<String, _i26.PageFactory> pagesMap = {
     WebAuthRouter.name: (routeData) {
-      return _i23.AdaptivePage<dynamic>(
+      return _i26.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i1.EmptyRouterPage(),
       );
@@ -66,7 +72,7 @@ class WebRouter extends _i23.RootStackRouter {
       final args = routeData.argsAs<StoreCollectionScreenRouteArgs>(
           orElse: () => StoreCollectionScreenRouteArgs(
               slug: pathParams.getString('slug')));
-      return _i23.AdaptivePage<dynamic>(
+      return _i26.AdaptivePage<dynamic>(
         routeData: routeData,
         child: _i2.StoreCollectionScreen(
           key: args.key,
@@ -79,7 +85,7 @@ class WebRouter extends _i23.RootStackRouter {
       final args = routeData.argsAs<StoreListingScreenRouteArgs>(
           orElse: () =>
               StoreListingScreenRouteArgs(slug: pathParams.getString('slug')));
-      return _i23.AdaptivePage<dynamic>(
+      return _i26.AdaptivePage<dynamic>(
         routeData: routeData,
         child: _i3.StoreListingScreen(
           key: args.key,
@@ -90,79 +96,79 @@ class WebRouter extends _i23.RootStackRouter {
     WebDashboardContainerRoute.name: (routeData) {
       final args = routeData.argsAs<WebDashboardContainerRouteArgs>(
           orElse: () => const WebDashboardContainerRouteArgs());
-      return _i23.AdaptivePage<dynamic>(
+      return _i26.AdaptivePage<dynamic>(
         routeData: routeData,
         child: _i4.WebDashboardContainer(key: args.key),
       );
     },
     WebAuthScreenRoute.name: (routeData) {
-      return _i23.AdaptivePage<dynamic>(
+      return _i26.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i5.WebAuthScreen(),
       );
     },
     WebHomeTabRouter.name: (routeData) {
-      return _i23.AdaptivePage<dynamic>(
+      return _i26.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i1.EmptyRouterPage(),
       );
     },
     WebSendTabRouter.name: (routeData) {
-      return _i23.AdaptivePage<dynamic>(
+      return _i26.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i1.EmptyRouterPage(),
       );
     },
     WebReceiveTabRouter.name: (routeData) {
-      return _i23.AdaptivePage<dynamic>(
+      return _i26.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i1.EmptyRouterPage(),
       );
     },
     WebTransactionsTabRouter.name: (routeData) {
-      return _i23.AdaptivePage<dynamic>(
+      return _i26.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i1.EmptyRouterPage(),
       );
     },
     WebNftTabRouter.name: (routeData) {
-      return _i23.AdaptivePage<dynamic>(
+      return _i26.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i1.EmptyRouterPage(),
       );
     },
     WebAdnrTabRouter.name: (routeData) {
-      return _i23.AdaptivePage<dynamic>(
+      return _i26.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i1.EmptyRouterPage(),
       );
     },
     WebSmartContractTabRouter.name: (routeData) {
-      return _i23.AdaptivePage<dynamic>(
+      return _i26.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i1.EmptyRouterPage(),
       );
     },
     WebDstTabRouter.name: (routeData) {
-      return _i23.AdaptivePage<dynamic>(
+      return _i26.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i1.EmptyRouterPage(),
       );
     },
     WebShopTabRouter.name: (routeData) {
-      return _i23.AdaptivePage<dynamic>(
+      return _i26.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i6.WebShopContainerScreen(),
       );
     },
     WebHomeScreenRoute.name: (routeData) {
-      return _i23.AdaptivePage<dynamic>(
+      return _i26.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i7.WebHomeScreen(),
       );
     },
     WebSendScreenRoute.name: (routeData) {
-      return _i23.AdaptivePage<dynamic>(
+      return _i26.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i8.WebSendScreen(),
       );
@@ -174,7 +180,7 @@ class WebRouter extends _i23.RootStackRouter {
                 toAddress: pathParams.getString('toAddress'),
                 amount: pathParams.getDouble('amount'),
               ));
-      return _i23.AdaptivePage<dynamic>(
+      return _i26.AdaptivePage<dynamic>(
         routeData: routeData,
         child: _i9.WebPrefilledSendScreen(
           key: args.key,
@@ -184,13 +190,13 @@ class WebRouter extends _i23.RootStackRouter {
       );
     },
     WebReceiveScreenRoute.name: (routeData) {
-      return _i23.AdaptivePage<dynamic>(
+      return _i26.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i10.WebReceiveScreen(),
       );
     },
     WebTransactionScreenRoute.name: (routeData) {
-      return _i23.AdaptivePage<dynamic>(
+      return _i26.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i11.WebTransactionScreen(),
       );
@@ -200,7 +206,7 @@ class WebRouter extends _i23.RootStackRouter {
       final args = routeData.argsAs<WebTransactionDetailScreenRouteArgs>(
           orElse: () => WebTransactionDetailScreenRouteArgs(
               hash: pathParams.getString('hash')));
-      return _i23.AdaptivePage<dynamic>(
+      return _i26.AdaptivePage<dynamic>(
         routeData: routeData,
         child: _i12.WebTransactionDetailScreen(
           key: args.key,
@@ -209,7 +215,7 @@ class WebRouter extends _i23.RootStackRouter {
       );
     },
     NftListScreenRoute.name: (routeData) {
-      return _i23.AdaptivePage<dynamic>(
+      return _i26.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i13.NftListScreen(),
       );
@@ -219,7 +225,7 @@ class WebRouter extends _i23.RootStackRouter {
       final args = routeData.argsAs<NftDetailScreenRouteArgs>(
           orElse: () =>
               NftDetailScreenRouteArgs(id: pathParams.getString('id')));
-      return _i23.AdaptivePage<dynamic>(
+      return _i26.AdaptivePage<dynamic>(
         routeData: routeData,
         child: _i14.NftDetailScreen(
           id: args.id,
@@ -229,25 +235,25 @@ class WebRouter extends _i23.RootStackRouter {
       );
     },
     WebAdnrScreenRoute.name: (routeData) {
-      return _i23.AdaptivePage<dynamic>(
+      return _i26.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i15.WebAdnrScreen(),
       );
     },
     WebSmartContractLandingScreenRoute.name: (routeData) {
-      return _i23.AdaptivePage<dynamic>(
+      return _i26.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i16.WebSmartContractLandingScreen(),
       );
     },
     WebCreateSmartContractScreenRoute.name: (routeData) {
-      return _i23.AdaptivePage<dynamic>(
+      return _i26.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i17.WebCreateSmartContractScreen(),
       );
     },
     WebDstScreenRoute.name: (routeData) {
-      return _i23.AdaptivePage<dynamic>(
+      return _i26.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i18.WebDstScreen(),
       );
@@ -257,7 +263,7 @@ class WebRouter extends _i23.RootStackRouter {
       final args = routeData.argsAs<CreateStoreScreenRouteArgs>(
           orElse: () => CreateStoreScreenRouteArgs(
               accountId: pathParams.getString('accountId')));
-      return _i23.AdaptivePage<dynamic>(
+      return _i26.AdaptivePage<dynamic>(
         routeData: routeData,
         child: _i19.CreateStoreScreen(
           key: args.key,
@@ -270,7 +276,7 @@ class WebRouter extends _i23.RootStackRouter {
       final args = routeData.argsAs<StoreScreenRouteArgs>(
           orElse: () =>
               StoreScreenRouteArgs(slug: pathParams.getString('slug')));
-      return _i23.AdaptivePage<dynamic>(
+      return _i26.AdaptivePage<dynamic>(
         routeData: routeData,
         child: _i20.StoreScreen(
           key: args.key,
@@ -283,7 +289,7 @@ class WebRouter extends _i23.RootStackRouter {
       final args = routeData.argsAs<CreateListingScreenRouteArgs>(
           orElse: () => CreateListingScreenRouteArgs(
               storeId: pathParams.getInt('storeId')));
-      return _i23.AdaptivePage<dynamic>(
+      return _i26.AdaptivePage<dynamic>(
         routeData: routeData,
         child: _i21.CreateListingScreen(
           key: args.key,
@@ -292,190 +298,260 @@ class WebRouter extends _i23.RootStackRouter {
       );
     },
     WebShopListScreenRoute.name: (routeData) {
-      return _i23.AdaptivePage<dynamic>(
+      return _i26.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i22.WebShopListScreen(),
+      );
+    },
+    WebShopDetailScreenRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<WebShopDetailScreenRouteArgs>(
+          orElse: () => WebShopDetailScreenRouteArgs(
+              shopId: pathParams.getInt('shopId')));
+      return _i26.AdaptivePage<dynamic>(
+        routeData: routeData,
+        child: _i23.WebShopDetailScreen(
+          key: args.key,
+          shopId: args.shopId,
+        ),
+      );
+    },
+    WebCollectionDetailScreenRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<WebCollectionDetailScreenRouteArgs>(
+          orElse: () => WebCollectionDetailScreenRouteArgs(
+                shopId: pathParams.getInt('shopId'),
+                collectionId: pathParams.getInt('collectionId'),
+              ));
+      return _i26.AdaptivePage<dynamic>(
+        routeData: routeData,
+        child: _i24.WebCollectionDetailScreen(
+          key: args.key,
+          shopId: args.shopId,
+          collectionId: args.collectionId,
+        ),
+      );
+    },
+    WebListingDetailScreenRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<WebListingDetailScreenRouteArgs>(
+          orElse: () => WebListingDetailScreenRouteArgs(
+                shopId: pathParams.getInt('shopId'),
+                collectionId: pathParams.getInt('collectionId'),
+                listingId: pathParams.getInt('listingId'),
+              ));
+      return _i26.AdaptivePage<dynamic>(
+        routeData: routeData,
+        child: _i25.WebListingDetailScreen(
+          key: args.key,
+          shopId: args.shopId,
+          collectionId: args.collectionId,
+          listingId: args.listingId,
+        ),
       );
     },
   };
 
   @override
-  List<_i23.RouteConfig> get routes => [
-        _i23.RouteConfig(
+  List<_i26.RouteConfig> get routes => [
+        _i26.RouteConfig(
           '/#redirect',
           path: '/',
           redirectTo: '',
           fullMatch: true,
         ),
-        _i23.RouteConfig(
+        _i26.RouteConfig(
           WebAuthRouter.name,
           path: '',
           children: [
-            _i23.RouteConfig(
+            _i26.RouteConfig(
               WebAuthScreenRoute.name,
               path: '',
               parent: WebAuthRouter.name,
             )
           ],
         ),
-        _i23.RouteConfig(
+        _i26.RouteConfig(
           StoreCollectionScreenRoute.name,
           path: 'store/collection/:slug',
         ),
-        _i23.RouteConfig(
+        _i26.RouteConfig(
           StoreListingScreenRoute.name,
           path: 'store/auction/:slug',
         ),
-        _i23.RouteConfig(
+        _i26.RouteConfig(
           WebDashboardContainerRoute.name,
           path: 'dashboard',
           children: [
-            _i23.RouteConfig(
+            _i26.RouteConfig(
               WebHomeTabRouter.name,
               path: 'home',
               parent: WebDashboardContainerRoute.name,
               children: [
-                _i23.RouteConfig(
+                _i26.RouteConfig(
                   WebHomeScreenRoute.name,
                   path: '',
                   parent: WebHomeTabRouter.name,
                 )
               ],
             ),
-            _i23.RouteConfig(
+            _i26.RouteConfig(
               WebSendTabRouter.name,
               path: 'send',
               parent: WebDashboardContainerRoute.name,
               children: [
-                _i23.RouteConfig(
+                _i26.RouteConfig(
                   WebSendScreenRoute.name,
                   path: '',
                   parent: WebSendTabRouter.name,
                 ),
-                _i23.RouteConfig(
+                _i26.RouteConfig(
                   WebPrefilledSendScreenRoute.name,
                   path: ':toAddress/:amount',
                   parent: WebSendTabRouter.name,
                 ),
               ],
             ),
-            _i23.RouteConfig(
+            _i26.RouteConfig(
               WebReceiveTabRouter.name,
               path: 'receive',
               parent: WebDashboardContainerRoute.name,
               children: [
-                _i23.RouteConfig(
+                _i26.RouteConfig(
                   WebReceiveScreenRoute.name,
                   path: '',
                   parent: WebReceiveTabRouter.name,
                 )
               ],
             ),
-            _i23.RouteConfig(
+            _i26.RouteConfig(
               WebTransactionsTabRouter.name,
               path: 'transactions',
               parent: WebDashboardContainerRoute.name,
               children: [
-                _i23.RouteConfig(
+                _i26.RouteConfig(
                   WebTransactionScreenRoute.name,
                   path: '',
                   parent: WebTransactionsTabRouter.name,
                 ),
-                _i23.RouteConfig(
+                _i26.RouteConfig(
                   WebTransactionDetailScreenRoute.name,
                   path: 'detail/:hash',
                   parent: WebTransactionsTabRouter.name,
                 ),
               ],
             ),
-            _i23.RouteConfig(
+            _i26.RouteConfig(
               WebNftTabRouter.name,
               path: 'nfts',
               parent: WebDashboardContainerRoute.name,
               children: [
-                _i23.RouteConfig(
+                _i26.RouteConfig(
                   NftListScreenRoute.name,
                   path: '',
                   parent: WebNftTabRouter.name,
                 ),
-                _i23.RouteConfig(
+                _i26.RouteConfig(
                   NftDetailScreenRoute.name,
                   path: 'detail/:id',
                   parent: WebNftTabRouter.name,
                 ),
               ],
             ),
-            _i23.RouteConfig(
+            _i26.RouteConfig(
               WebAdnrTabRouter.name,
               path: 'adnrs',
               parent: WebDashboardContainerRoute.name,
               children: [
-                _i23.RouteConfig(
+                _i26.RouteConfig(
                   WebAdnrScreenRoute.name,
                   path: '',
                   parent: WebAdnrTabRouter.name,
                 )
               ],
             ),
-            _i23.RouteConfig(
+            _i26.RouteConfig(
               WebSmartContractTabRouter.name,
               path: 'smart-contract',
               parent: WebDashboardContainerRoute.name,
               children: [
-                _i23.RouteConfig(
+                _i26.RouteConfig(
                   WebSmartContractLandingScreenRoute.name,
                   path: '',
                   parent: WebSmartContractTabRouter.name,
                 ),
-                _i23.RouteConfig(
+                _i26.RouteConfig(
                   WebCreateSmartContractScreenRoute.name,
                   path: 'create',
                   parent: WebSmartContractTabRouter.name,
                 ),
               ],
             ),
-            _i23.RouteConfig(
+            _i26.RouteConfig(
               WebDstTabRouter.name,
               path: 'dst',
               parent: WebDashboardContainerRoute.name,
               children: [
-                _i23.RouteConfig(
+                _i26.RouteConfig(
                   WebDstScreenRoute.name,
                   path: '',
                   parent: WebDstTabRouter.name,
                 ),
-                _i23.RouteConfig(
+                _i26.RouteConfig(
                   CreateStoreScreenRoute.name,
                   path: 'create/:accountId',
                   parent: WebDstTabRouter.name,
                 ),
-                _i23.RouteConfig(
+                _i26.RouteConfig(
                   StoreScreenRoute.name,
                   path: 'store/:slug',
                   parent: WebDstTabRouter.name,
                 ),
-                _i23.RouteConfig(
+                _i26.RouteConfig(
                   CreateListingScreenRoute.name,
                   path: 'store/:storeId/create-listing',
                   parent: WebDstTabRouter.name,
                 ),
               ],
             ),
-            _i23.RouteConfig(
+            _i26.RouteConfig(
               WebShopTabRouter.name,
               path: 'shop',
               parent: WebDashboardContainerRoute.name,
               children: [
-                _i23.RouteConfig(
-                  WebShopListScreenRoute.name,
+                _i26.RouteConfig(
+                  '#redirect',
                   path: '',
                   parent: WebShopTabRouter.name,
-                )
+                  redirectTo: 'main',
+                  fullMatch: true,
+                ),
+                _i26.RouteConfig(
+                  WebShopListScreenRoute.name,
+                  path: 'main',
+                  parent: WebShopTabRouter.name,
+                ),
+                _i26.RouteConfig(
+                  WebShopDetailScreenRoute.name,
+                  path: 'shop/:shopId',
+                  parent: WebShopTabRouter.name,
+                ),
+                _i26.RouteConfig(
+                  WebCollectionDetailScreenRoute.name,
+                  path: 'shop/:shopId/collection/:collectionId',
+                  parent: WebShopTabRouter.name,
+                ),
+                _i26.RouteConfig(
+                  WebListingDetailScreenRoute.name,
+                  path:
+                      'shop/:shopId/collection/:collectionId/listing/:listingId',
+                  parent: WebShopTabRouter.name,
+                ),
               ],
             ),
           ],
         ),
-        _i23.RouteConfig(
+        _i26.RouteConfig(
           '*#redirect',
           path: '*',
           redirectTo: '/',
@@ -486,8 +562,8 @@ class WebRouter extends _i23.RootStackRouter {
 
 /// generated route for
 /// [_i1.EmptyRouterPage]
-class WebAuthRouter extends _i23.PageRouteInfo<void> {
-  const WebAuthRouter({List<_i23.PageRouteInfo>? children})
+class WebAuthRouter extends _i26.PageRouteInfo<void> {
+  const WebAuthRouter({List<_i26.PageRouteInfo>? children})
       : super(
           WebAuthRouter.name,
           path: '',
@@ -500,9 +576,9 @@ class WebAuthRouter extends _i23.PageRouteInfo<void> {
 /// generated route for
 /// [_i2.StoreCollectionScreen]
 class StoreCollectionScreenRoute
-    extends _i23.PageRouteInfo<StoreCollectionScreenRouteArgs> {
+    extends _i26.PageRouteInfo<StoreCollectionScreenRouteArgs> {
   StoreCollectionScreenRoute({
-    _i24.Key? key,
+    _i27.Key? key,
     required String slug,
   }) : super(
           StoreCollectionScreenRoute.name,
@@ -523,7 +599,7 @@ class StoreCollectionScreenRouteArgs {
     required this.slug,
   });
 
-  final _i24.Key? key;
+  final _i27.Key? key;
 
   final String slug;
 
@@ -536,9 +612,9 @@ class StoreCollectionScreenRouteArgs {
 /// generated route for
 /// [_i3.StoreListingScreen]
 class StoreListingScreenRoute
-    extends _i23.PageRouteInfo<StoreListingScreenRouteArgs> {
+    extends _i26.PageRouteInfo<StoreListingScreenRouteArgs> {
   StoreListingScreenRoute({
-    _i24.Key? key,
+    _i27.Key? key,
     required String slug,
   }) : super(
           StoreListingScreenRoute.name,
@@ -559,7 +635,7 @@ class StoreListingScreenRouteArgs {
     required this.slug,
   });
 
-  final _i24.Key? key;
+  final _i27.Key? key;
 
   final String slug;
 
@@ -572,10 +648,10 @@ class StoreListingScreenRouteArgs {
 /// generated route for
 /// [_i4.WebDashboardContainer]
 class WebDashboardContainerRoute
-    extends _i23.PageRouteInfo<WebDashboardContainerRouteArgs> {
+    extends _i26.PageRouteInfo<WebDashboardContainerRouteArgs> {
   WebDashboardContainerRoute({
-    _i24.Key? key,
-    List<_i23.PageRouteInfo>? children,
+    _i27.Key? key,
+    List<_i26.PageRouteInfo>? children,
   }) : super(
           WebDashboardContainerRoute.name,
           path: 'dashboard',
@@ -589,7 +665,7 @@ class WebDashboardContainerRoute
 class WebDashboardContainerRouteArgs {
   const WebDashboardContainerRouteArgs({this.key});
 
-  final _i24.Key? key;
+  final _i27.Key? key;
 
   @override
   String toString() {
@@ -599,7 +675,7 @@ class WebDashboardContainerRouteArgs {
 
 /// generated route for
 /// [_i5.WebAuthScreen]
-class WebAuthScreenRoute extends _i23.PageRouteInfo<void> {
+class WebAuthScreenRoute extends _i26.PageRouteInfo<void> {
   const WebAuthScreenRoute()
       : super(
           WebAuthScreenRoute.name,
@@ -611,8 +687,8 @@ class WebAuthScreenRoute extends _i23.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i1.EmptyRouterPage]
-class WebHomeTabRouter extends _i23.PageRouteInfo<void> {
-  const WebHomeTabRouter({List<_i23.PageRouteInfo>? children})
+class WebHomeTabRouter extends _i26.PageRouteInfo<void> {
+  const WebHomeTabRouter({List<_i26.PageRouteInfo>? children})
       : super(
           WebHomeTabRouter.name,
           path: 'home',
@@ -624,8 +700,8 @@ class WebHomeTabRouter extends _i23.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i1.EmptyRouterPage]
-class WebSendTabRouter extends _i23.PageRouteInfo<void> {
-  const WebSendTabRouter({List<_i23.PageRouteInfo>? children})
+class WebSendTabRouter extends _i26.PageRouteInfo<void> {
+  const WebSendTabRouter({List<_i26.PageRouteInfo>? children})
       : super(
           WebSendTabRouter.name,
           path: 'send',
@@ -637,8 +713,8 @@ class WebSendTabRouter extends _i23.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i1.EmptyRouterPage]
-class WebReceiveTabRouter extends _i23.PageRouteInfo<void> {
-  const WebReceiveTabRouter({List<_i23.PageRouteInfo>? children})
+class WebReceiveTabRouter extends _i26.PageRouteInfo<void> {
+  const WebReceiveTabRouter({List<_i26.PageRouteInfo>? children})
       : super(
           WebReceiveTabRouter.name,
           path: 'receive',
@@ -650,8 +726,8 @@ class WebReceiveTabRouter extends _i23.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i1.EmptyRouterPage]
-class WebTransactionsTabRouter extends _i23.PageRouteInfo<void> {
-  const WebTransactionsTabRouter({List<_i23.PageRouteInfo>? children})
+class WebTransactionsTabRouter extends _i26.PageRouteInfo<void> {
+  const WebTransactionsTabRouter({List<_i26.PageRouteInfo>? children})
       : super(
           WebTransactionsTabRouter.name,
           path: 'transactions',
@@ -663,8 +739,8 @@ class WebTransactionsTabRouter extends _i23.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i1.EmptyRouterPage]
-class WebNftTabRouter extends _i23.PageRouteInfo<void> {
-  const WebNftTabRouter({List<_i23.PageRouteInfo>? children})
+class WebNftTabRouter extends _i26.PageRouteInfo<void> {
+  const WebNftTabRouter({List<_i26.PageRouteInfo>? children})
       : super(
           WebNftTabRouter.name,
           path: 'nfts',
@@ -676,8 +752,8 @@ class WebNftTabRouter extends _i23.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i1.EmptyRouterPage]
-class WebAdnrTabRouter extends _i23.PageRouteInfo<void> {
-  const WebAdnrTabRouter({List<_i23.PageRouteInfo>? children})
+class WebAdnrTabRouter extends _i26.PageRouteInfo<void> {
+  const WebAdnrTabRouter({List<_i26.PageRouteInfo>? children})
       : super(
           WebAdnrTabRouter.name,
           path: 'adnrs',
@@ -689,8 +765,8 @@ class WebAdnrTabRouter extends _i23.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i1.EmptyRouterPage]
-class WebSmartContractTabRouter extends _i23.PageRouteInfo<void> {
-  const WebSmartContractTabRouter({List<_i23.PageRouteInfo>? children})
+class WebSmartContractTabRouter extends _i26.PageRouteInfo<void> {
+  const WebSmartContractTabRouter({List<_i26.PageRouteInfo>? children})
       : super(
           WebSmartContractTabRouter.name,
           path: 'smart-contract',
@@ -702,8 +778,8 @@ class WebSmartContractTabRouter extends _i23.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i1.EmptyRouterPage]
-class WebDstTabRouter extends _i23.PageRouteInfo<void> {
-  const WebDstTabRouter({List<_i23.PageRouteInfo>? children})
+class WebDstTabRouter extends _i26.PageRouteInfo<void> {
+  const WebDstTabRouter({List<_i26.PageRouteInfo>? children})
       : super(
           WebDstTabRouter.name,
           path: 'dst',
@@ -715,8 +791,8 @@ class WebDstTabRouter extends _i23.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i6.WebShopContainerScreen]
-class WebShopTabRouter extends _i23.PageRouteInfo<void> {
-  const WebShopTabRouter({List<_i23.PageRouteInfo>? children})
+class WebShopTabRouter extends _i26.PageRouteInfo<void> {
+  const WebShopTabRouter({List<_i26.PageRouteInfo>? children})
       : super(
           WebShopTabRouter.name,
           path: 'shop',
@@ -728,7 +804,7 @@ class WebShopTabRouter extends _i23.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i7.WebHomeScreen]
-class WebHomeScreenRoute extends _i23.PageRouteInfo<void> {
+class WebHomeScreenRoute extends _i26.PageRouteInfo<void> {
   const WebHomeScreenRoute()
       : super(
           WebHomeScreenRoute.name,
@@ -740,7 +816,7 @@ class WebHomeScreenRoute extends _i23.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i8.WebSendScreen]
-class WebSendScreenRoute extends _i23.PageRouteInfo<void> {
+class WebSendScreenRoute extends _i26.PageRouteInfo<void> {
   const WebSendScreenRoute()
       : super(
           WebSendScreenRoute.name,
@@ -753,9 +829,9 @@ class WebSendScreenRoute extends _i23.PageRouteInfo<void> {
 /// generated route for
 /// [_i9.WebPrefilledSendScreen]
 class WebPrefilledSendScreenRoute
-    extends _i23.PageRouteInfo<WebPrefilledSendScreenRouteArgs> {
+    extends _i26.PageRouteInfo<WebPrefilledSendScreenRouteArgs> {
   WebPrefilledSendScreenRoute({
-    _i24.Key? key,
+    _i27.Key? key,
     required String toAddress,
     required double amount,
   }) : super(
@@ -782,7 +858,7 @@ class WebPrefilledSendScreenRouteArgs {
     required this.amount,
   });
 
-  final _i24.Key? key;
+  final _i27.Key? key;
 
   final String toAddress;
 
@@ -796,7 +872,7 @@ class WebPrefilledSendScreenRouteArgs {
 
 /// generated route for
 /// [_i10.WebReceiveScreen]
-class WebReceiveScreenRoute extends _i23.PageRouteInfo<void> {
+class WebReceiveScreenRoute extends _i26.PageRouteInfo<void> {
   const WebReceiveScreenRoute()
       : super(
           WebReceiveScreenRoute.name,
@@ -808,7 +884,7 @@ class WebReceiveScreenRoute extends _i23.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i11.WebTransactionScreen]
-class WebTransactionScreenRoute extends _i23.PageRouteInfo<void> {
+class WebTransactionScreenRoute extends _i26.PageRouteInfo<void> {
   const WebTransactionScreenRoute()
       : super(
           WebTransactionScreenRoute.name,
@@ -821,9 +897,9 @@ class WebTransactionScreenRoute extends _i23.PageRouteInfo<void> {
 /// generated route for
 /// [_i12.WebTransactionDetailScreen]
 class WebTransactionDetailScreenRoute
-    extends _i23.PageRouteInfo<WebTransactionDetailScreenRouteArgs> {
+    extends _i26.PageRouteInfo<WebTransactionDetailScreenRouteArgs> {
   WebTransactionDetailScreenRoute({
-    _i24.Key? key,
+    _i27.Key? key,
     required String hash,
   }) : super(
           WebTransactionDetailScreenRoute.name,
@@ -844,7 +920,7 @@ class WebTransactionDetailScreenRouteArgs {
     required this.hash,
   });
 
-  final _i24.Key? key;
+  final _i27.Key? key;
 
   final String hash;
 
@@ -856,7 +932,7 @@ class WebTransactionDetailScreenRouteArgs {
 
 /// generated route for
 /// [_i13.NftListScreen]
-class NftListScreenRoute extends _i23.PageRouteInfo<void> {
+class NftListScreenRoute extends _i26.PageRouteInfo<void> {
   const NftListScreenRoute()
       : super(
           NftListScreenRoute.name,
@@ -869,10 +945,10 @@ class NftListScreenRoute extends _i23.PageRouteInfo<void> {
 /// generated route for
 /// [_i14.NftDetailScreen]
 class NftDetailScreenRoute
-    extends _i23.PageRouteInfo<NftDetailScreenRouteArgs> {
+    extends _i26.PageRouteInfo<NftDetailScreenRouteArgs> {
   NftDetailScreenRoute({
     required String id,
-    _i24.Key? key,
+    _i27.Key? key,
     bool fromCreator = false,
   }) : super(
           NftDetailScreenRoute.name,
@@ -897,7 +973,7 @@ class NftDetailScreenRouteArgs {
 
   final String id;
 
-  final _i24.Key? key;
+  final _i27.Key? key;
 
   final bool fromCreator;
 
@@ -909,7 +985,7 @@ class NftDetailScreenRouteArgs {
 
 /// generated route for
 /// [_i15.WebAdnrScreen]
-class WebAdnrScreenRoute extends _i23.PageRouteInfo<void> {
+class WebAdnrScreenRoute extends _i26.PageRouteInfo<void> {
   const WebAdnrScreenRoute()
       : super(
           WebAdnrScreenRoute.name,
@@ -921,7 +997,7 @@ class WebAdnrScreenRoute extends _i23.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i16.WebSmartContractLandingScreen]
-class WebSmartContractLandingScreenRoute extends _i23.PageRouteInfo<void> {
+class WebSmartContractLandingScreenRoute extends _i26.PageRouteInfo<void> {
   const WebSmartContractLandingScreenRoute()
       : super(
           WebSmartContractLandingScreenRoute.name,
@@ -933,7 +1009,7 @@ class WebSmartContractLandingScreenRoute extends _i23.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i17.WebCreateSmartContractScreen]
-class WebCreateSmartContractScreenRoute extends _i23.PageRouteInfo<void> {
+class WebCreateSmartContractScreenRoute extends _i26.PageRouteInfo<void> {
   const WebCreateSmartContractScreenRoute()
       : super(
           WebCreateSmartContractScreenRoute.name,
@@ -945,7 +1021,7 @@ class WebCreateSmartContractScreenRoute extends _i23.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i18.WebDstScreen]
-class WebDstScreenRoute extends _i23.PageRouteInfo<void> {
+class WebDstScreenRoute extends _i26.PageRouteInfo<void> {
   const WebDstScreenRoute()
       : super(
           WebDstScreenRoute.name,
@@ -958,9 +1034,9 @@ class WebDstScreenRoute extends _i23.PageRouteInfo<void> {
 /// generated route for
 /// [_i19.CreateStoreScreen]
 class CreateStoreScreenRoute
-    extends _i23.PageRouteInfo<CreateStoreScreenRouteArgs> {
+    extends _i26.PageRouteInfo<CreateStoreScreenRouteArgs> {
   CreateStoreScreenRoute({
-    _i24.Key? key,
+    _i27.Key? key,
     required String accountId,
   }) : super(
           CreateStoreScreenRoute.name,
@@ -981,7 +1057,7 @@ class CreateStoreScreenRouteArgs {
     required this.accountId,
   });
 
-  final _i24.Key? key;
+  final _i27.Key? key;
 
   final String accountId;
 
@@ -993,9 +1069,9 @@ class CreateStoreScreenRouteArgs {
 
 /// generated route for
 /// [_i20.StoreScreen]
-class StoreScreenRoute extends _i23.PageRouteInfo<StoreScreenRouteArgs> {
+class StoreScreenRoute extends _i26.PageRouteInfo<StoreScreenRouteArgs> {
   StoreScreenRoute({
-    _i24.Key? key,
+    _i27.Key? key,
     required String slug,
   }) : super(
           StoreScreenRoute.name,
@@ -1016,7 +1092,7 @@ class StoreScreenRouteArgs {
     required this.slug,
   });
 
-  final _i24.Key? key;
+  final _i27.Key? key;
 
   final String slug;
 
@@ -1029,9 +1105,9 @@ class StoreScreenRouteArgs {
 /// generated route for
 /// [_i21.CreateListingScreen]
 class CreateListingScreenRoute
-    extends _i23.PageRouteInfo<CreateListingScreenRouteArgs> {
+    extends _i26.PageRouteInfo<CreateListingScreenRouteArgs> {
   CreateListingScreenRoute({
-    _i24.Key? key,
+    _i27.Key? key,
     required int storeId,
   }) : super(
           CreateListingScreenRoute.name,
@@ -1052,7 +1128,7 @@ class CreateListingScreenRouteArgs {
     required this.storeId,
   });
 
-  final _i24.Key? key;
+  final _i27.Key? key;
 
   final int storeId;
 
@@ -1064,12 +1140,142 @@ class CreateListingScreenRouteArgs {
 
 /// generated route for
 /// [_i22.WebShopListScreen]
-class WebShopListScreenRoute extends _i23.PageRouteInfo<void> {
+class WebShopListScreenRoute extends _i26.PageRouteInfo<void> {
   const WebShopListScreenRoute()
       : super(
           WebShopListScreenRoute.name,
-          path: '',
+          path: 'main',
         );
 
   static const String name = 'WebShopListScreenRoute';
+}
+
+/// generated route for
+/// [_i23.WebShopDetailScreen]
+class WebShopDetailScreenRoute
+    extends _i26.PageRouteInfo<WebShopDetailScreenRouteArgs> {
+  WebShopDetailScreenRoute({
+    _i27.Key? key,
+    required int shopId,
+  }) : super(
+          WebShopDetailScreenRoute.name,
+          path: 'shop/:shopId',
+          args: WebShopDetailScreenRouteArgs(
+            key: key,
+            shopId: shopId,
+          ),
+          rawPathParams: {'shopId': shopId},
+        );
+
+  static const String name = 'WebShopDetailScreenRoute';
+}
+
+class WebShopDetailScreenRouteArgs {
+  const WebShopDetailScreenRouteArgs({
+    this.key,
+    required this.shopId,
+  });
+
+  final _i27.Key? key;
+
+  final int shopId;
+
+  @override
+  String toString() {
+    return 'WebShopDetailScreenRouteArgs{key: $key, shopId: $shopId}';
+  }
+}
+
+/// generated route for
+/// [_i24.WebCollectionDetailScreen]
+class WebCollectionDetailScreenRoute
+    extends _i26.PageRouteInfo<WebCollectionDetailScreenRouteArgs> {
+  WebCollectionDetailScreenRoute({
+    _i27.Key? key,
+    required int shopId,
+    required int collectionId,
+  }) : super(
+          WebCollectionDetailScreenRoute.name,
+          path: 'shop/:shopId/collection/:collectionId',
+          args: WebCollectionDetailScreenRouteArgs(
+            key: key,
+            shopId: shopId,
+            collectionId: collectionId,
+          ),
+          rawPathParams: {
+            'shopId': shopId,
+            'collectionId': collectionId,
+          },
+        );
+
+  static const String name = 'WebCollectionDetailScreenRoute';
+}
+
+class WebCollectionDetailScreenRouteArgs {
+  const WebCollectionDetailScreenRouteArgs({
+    this.key,
+    required this.shopId,
+    required this.collectionId,
+  });
+
+  final _i27.Key? key;
+
+  final int shopId;
+
+  final int collectionId;
+
+  @override
+  String toString() {
+    return 'WebCollectionDetailScreenRouteArgs{key: $key, shopId: $shopId, collectionId: $collectionId}';
+  }
+}
+
+/// generated route for
+/// [_i25.WebListingDetailScreen]
+class WebListingDetailScreenRoute
+    extends _i26.PageRouteInfo<WebListingDetailScreenRouteArgs> {
+  WebListingDetailScreenRoute({
+    _i27.Key? key,
+    required int shopId,
+    required int collectionId,
+    required int listingId,
+  }) : super(
+          WebListingDetailScreenRoute.name,
+          path: 'shop/:shopId/collection/:collectionId/listing/:listingId',
+          args: WebListingDetailScreenRouteArgs(
+            key: key,
+            shopId: shopId,
+            collectionId: collectionId,
+            listingId: listingId,
+          ),
+          rawPathParams: {
+            'shopId': shopId,
+            'collectionId': collectionId,
+            'listingId': listingId,
+          },
+        );
+
+  static const String name = 'WebListingDetailScreenRoute';
+}
+
+class WebListingDetailScreenRouteArgs {
+  const WebListingDetailScreenRouteArgs({
+    this.key,
+    required this.shopId,
+    required this.collectionId,
+    required this.listingId,
+  });
+
+  final _i27.Key? key;
+
+  final int shopId;
+
+  final int collectionId;
+
+  final int listingId;
+
+  @override
+  String toString() {
+    return 'WebListingDetailScreenRouteArgs{key: $key, shopId: $shopId, collectionId: $collectionId, listingId: $listingId}';
+  }
 }

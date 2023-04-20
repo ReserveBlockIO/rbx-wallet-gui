@@ -87,7 +87,7 @@ class HomeScreen extends BaseScreen {
                   const HdWalletButton(),
                   if (ref.watch(walletListProvider).isEmpty) const RestoreHdWalletButton(),
                   const EncryptWalletButton(),
-                  const ReserveAccountsButton(),
+                  if (kDebugMode) const ReserveAccountsButton(),
                   const PrintAdressesButton(),
                   const PrintValidatorsButton(),
                   const ValidatingCheckButton(),

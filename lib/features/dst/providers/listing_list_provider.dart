@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/dst/providers/listed_nfts_provider.dart';
 import 'package:rbx_wallet/features/dst/services/dst_service.dart';
 
 import '../models/listing.dart';
@@ -12,15 +13,12 @@ class ListingListProvider extends StateNotifier<List<Listing>> {
   }
 
   Future<void> load(int storeId) async {
-    final data = await DstService().listListings(storeId);
-
-    state = data;
-
-    state = data;
+    state = await DstService().listListings(storeId);
   }
 
   void refresh() {
     load(storeId);
+    ref.read(listedNftsProvider.notifier).refresh();
   }
 }
 

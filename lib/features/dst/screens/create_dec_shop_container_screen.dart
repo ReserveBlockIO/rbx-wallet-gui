@@ -1,11 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
+import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/features/beacon/providers/beacon_list_provider.dart';
+import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/dst/components/publish_shop_button.dart';
 import 'package:rbx_wallet/features/dst/components/shop_online_button.dart';
 import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/dst_tx_pending_provider.dart';
 import 'package:rbx_wallet/features/dst/services/dst_service.dart';
+import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/base_screen.dart';
@@ -107,6 +112,17 @@ class CreateDecShopContainerScreen extends BaseScreen {
                   variant: AppColorVariant.Success,
                   onPressed: () async {
                     final success = await provider.complete(context);
+
+                    final bh = ref.read(walletInfoProvider)?.blockHeight ?? 0;
+                    if (bh < P2P_BLOCK_LOCK_HEIGHT) {
+                      await InfoDialog.show(
+                          title: "Publishing Disabled",
+                          body: "Your shop has been saved locally but can not be published until block $P2P_BLOCK_LOCK_HEIGHT.");
+                      ref.invalidate(decShopProvider);
+                      AutoRouter.of(context).pop();
+                      return;
+                    }
+
                     if (success == true) {
                       final confirmed = await ConfirmDialog.show(
                         title: "Publish Updates?",
@@ -122,6 +138,21 @@ class CreateDecShopContainerScreen extends BaseScreen {
                           ref.read(dstTxPendingProvider.notifier).set(true);
                           ref.invalidate(decShopProvider);
                           Toast.message("Publish Transaction Sent!");
+
+                          final confirmed = await ConfirmDialog.show(
+                            title: "CLI Restart Required",
+                            body: "A CLI restart is required for this change to take effect. Would you like to restart now?",
+                            confirmText: "Restart",
+                            cancelText: "Later",
+                          );
+
+                          if (confirmed == true) {
+                            ref.read(globalLoadingProvider.notifier).start();
+                            await ref.read(sessionProvider.notifier).restartCli();
+                            ref.read(beaconListProvider.notifier).refresh();
+                            ref.read(globalLoadingProvider.notifier).complete();
+                          }
+
                           AutoRouter.of(context).pop();
                         } else {
                           Toast.error();

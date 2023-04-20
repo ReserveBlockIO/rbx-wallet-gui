@@ -16,7 +16,7 @@ class WebCollectionListProvider extends StateNotifier<List<WebCollection>> {
 
   Future<void> _fetchPage(int page) async {
     try {
-      final data = await WebShopService().listCollections(shopId);
+      final data = await WebShopService().listCollections(shopId, page);
 
       if (data.page >= data.num_pages) {
         pagingController.appendLastPage(data.results);

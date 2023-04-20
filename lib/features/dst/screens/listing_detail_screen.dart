@@ -133,7 +133,7 @@ class ListingDetailScreen extends BaseScreen {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        "${DateFormat.yMd().format(listing.startDate)} - ${DateFormat.yMd().format(listing.endDate)}",
+                        "${DateFormat.yMd().format(listing.startDate)} ${DateFormat("HH:mm").format(listing.startDate)}  - ${DateFormat.yMd().format(listing.endDate)} ${DateFormat("HH:mm").format(listing.endDate)}",
                       ),
                     ),
                   ]),
@@ -215,7 +215,7 @@ class ListingDetailScreen extends BaseScreen {
                           )
                         ])
                       : TableRow(children: [Container(), Container()]),
-                  listing.reservePrice != null && listing.reservePrice != 0
+                  listing.reservePrice != null && listing.reservePrice != 0 && listing.reservePrice != listing.floorPrice
                       ? TableRow(children: [
                           Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -233,6 +233,17 @@ class ListingDetailScreen extends BaseScreen {
                 ],
               ),
             ),
+            if (listing.isAuction)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AppButton(
+                  label: "Auction Activity",
+                  variant: AppColorVariant.Success,
+                  onPressed: () {
+                    AutoRouter.of(context).push(ListingAuctionDetailScreenRoute(listingId: listing.id));
+                  },
+                ),
+              ),
             Expanded(child: SizedBox.shrink()),
             Container(
               width: double.infinity,

@@ -44,7 +44,7 @@ class EditScPropertyProvider extends StateNotifier<ScProperty> {
       valueController.text = valueController.text.replaceAll(RegExp(r"\D"), "");
     }
     if (type == ScPropertyType.color) {
-      valueController.text = "#ffffff";
+      valueController.text = "#ff0000";
     }
   }
 

@@ -22,7 +22,7 @@ class Collection with _$Collection {
       id: 0,
       name: '',
       description: '',
-      isLive: false,
+      isLive: true,
       isDefault: false,
     );
   }

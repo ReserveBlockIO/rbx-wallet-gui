@@ -7,6 +7,63 @@ import '../utils/validation.dart';
 import 'theme/app_theme.dart';
 
 class InfoDialog {
+  static alert(
+    BuildContext context, {
+    required String title,
+    String? body,
+    Widget? content,
+    String? closeText,
+    IconData? icon,
+    Color? headerColor = Colors.white,
+  }) {
+    return AlertDialog(
+      title: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (icon != null)
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Icon(
+                icon,
+                color: headerColor,
+              ),
+            ),
+          Text(
+            title,
+            style: TextStyle(
+              color: headerColor,
+            ),
+          ),
+        ],
+      ),
+      content: body != null
+          ? ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 400),
+              child: Text(body),
+            )
+          : content,
+      actions: [
+        TextButton(
+          style: TextButton.styleFrom(
+            textStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.info,
+            ),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop(true);
+          },
+          child: Text(
+            closeText ?? "Close",
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.secondary,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
   static show({
     required String title,
     String? body,
@@ -21,51 +78,14 @@ class InfoDialog {
     return await showDialog(
       context: contextOverride ?? context,
       builder: (context) {
-        return AlertDialog(
-          title: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (icon != null)
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: Icon(
-                    icon,
-                    color: headerColor,
-                  ),
-                ),
-              Text(
-                title,
-                style: TextStyle(
-                  color: headerColor,
-                ),
-              ),
-            ],
-          ),
-          content: body != null
-              ? ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 400),
-                  child: Text(body),
-                )
-              : content,
-          actions: [
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.info,
-                ),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop(true);
-              },
-              child: Text(
-                closeText ?? "Close",
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.secondary,
-                ),
-              ),
-            )
-          ],
+        return alert(
+          context,
+          title: title,
+          body: body,
+          content: content,
+          closeText: closeText,
+          icon: icon,
+          headerColor: headerColor,
         );
       },
     );
@@ -73,6 +93,53 @@ class InfoDialog {
 }
 
 class ConfirmDialog {
+  static alert(
+    BuildContext context, {
+    required String title,
+    Widget? content,
+    String? body,
+    String? cancelText,
+    String? confirmText,
+    bool destructive = false,
+  }) {
+    return AlertDialog(
+      title: Text(title),
+      content: body != null ? ConstrainedBox(constraints: const BoxConstraints(maxWidth: 500), child: Text(body)) : content,
+      actions: [
+        TextButton(
+          style: TextButton.styleFrom(
+            textStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.info,
+            ),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop(false);
+          },
+          child: Text(
+            cancelText ?? "No",
+            style: TextStyle(color: Theme.of(context).colorScheme.info),
+          ),
+        ),
+        TextButton(
+          style: TextButton.styleFrom(
+            primary: destructive ? Colors.red.shade600 : Theme.of(context).colorScheme.info,
+            textStyle: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop(true);
+          },
+          child: Text(
+            confirmText ?? "Yes",
+            style: TextStyle(
+              color: destructive ? Colors.red.shade600 : Colors.white,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
   static show({
     required String title,
     Widget? content,
@@ -80,47 +147,19 @@ class ConfirmDialog {
     String? cancelText,
     String? confirmText,
     bool destructive = false,
+    BuildContext? context,
   }) async {
-    final context = rootNavigatorKey.currentContext!;
-
     return await showDialog(
-      context: context,
+      context: context ?? rootNavigatorKey.currentContext!,
       builder: (context) {
-        return AlertDialog(
-          title: Text(title),
-          content: body != null ? ConstrainedBox(constraints: const BoxConstraints(maxWidth: 500), child: Text(body)) : content,
-          actions: [
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.info,
-                ),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop(false);
-              },
-              child: Text(
-                cancelText ?? "No",
-                style: TextStyle(color: Theme.of(context).colorScheme.info),
-              ),
-            ),
-            TextButton(
-              style: TextButton.styleFrom(
-                primary: destructive ? Colors.red.shade600 : Theme.of(context).colorScheme.info,
-                textStyle: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop(true);
-              },
-              child: Text(
-                confirmText ?? "Yes",
-                style: TextStyle(
-                  color: destructive ? Colors.red.shade600 : Colors.white,
-                ),
-              ),
-            )
-          ],
+        return alert(
+          context,
+          title: title,
+          content: content,
+          body: body,
+          cancelText: cancelText,
+          confirmText: confirmText,
+          destructive: destructive,
         );
       },
     );
@@ -134,6 +173,7 @@ class PromptModal {
     required String labelText,
     BuildContext? contextOverride,
     String? body,
+    String? footer,
     bool obscureText = false,
     bool revealObscure = false,
     String? cancelText,
@@ -186,6 +226,7 @@ class PromptModal {
             child: Form(
               key: _formKey,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   if (body != null) Text(body),
@@ -222,6 +263,14 @@ class PromptModal {
                       ],
                     );
                   }),
+                  if (footer != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4.0),
+                      child: Text(
+                        footer,
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ),
                 ],
               ),
             ),

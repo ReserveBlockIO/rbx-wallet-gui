@@ -1,6 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
-const APP_V = "3.3.6";
+const APP_V = "3.5.0";
 const APP_VERSION = "beta$APP_V";
 
 const REFRESH_TIMEOUT_SECONDS = 10;
@@ -15,6 +15,7 @@ const VOTE_TOPIC_COST = 10.0;
 const MAX_COMPILE_QUANTITY = 10;
 const MAX_ASSET_BYTES = 157286400;
 const DEV_API_TOKEN = "devtoken";
+const P2P_BLOCK_LOCK_HEIGHT = 896247;
 
 class TxType {
   static const int rbxTransfer = 0;

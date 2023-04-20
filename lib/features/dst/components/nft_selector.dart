@@ -11,28 +11,32 @@ import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common
 class NftSelector extends BaseComponent {
   final Function(Nft nft) onSelect;
   final String? labelOverride;
+  final bool disabled;
 
   const NftSelector({
     Key? key,
     required this.onSelect,
     this.labelOverride,
+    this.disabled = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AppButton(
       label: labelOverride ?? "Choose NFT",
-      onPressed: () async {
-        final Nft? nft = await showModalBottomSheet(
-            context: context,
-            builder: (context) {
-              return NftSelectorModal();
-            });
+      onPressed: disabled
+          ? null
+          : () async {
+              final Nft? nft = await showModalBottomSheet(
+                  context: context,
+                  builder: (context) {
+                    return NftSelectorModal();
+                  });
 
-        if (nft != null) {
-          onSelect(nft);
-        }
-      },
+              if (nft != null) {
+                onSelect(nft);
+              }
+            },
     );
   }
 }
@@ -79,7 +83,7 @@ class NftSelectorModal extends BaseComponent {
           itemCount: nfts.length,
           itemBuilder: (context, index) {
             final nft = nfts[index];
-            return NftListTile(nft, onPressedOverride: () {
+            return NftListTile(nft, showListedStatus: true, onPressedOverride: () {
               Navigator.of(context).pop(nft);
             });
           },

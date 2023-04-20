@@ -164,13 +164,13 @@ class NftCard extends BaseComponent {
                     // const SizedBox(
                     //   width: 4,
                     // ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 4.0),
-                      child: AppBadge(
-                        label: nft.isPublic ? "Public" : "Private",
-                        variant: nft.isPublic ? AppColorVariant.Success : AppColorVariant.Primary,
+                    if (nft.isListed(ref))
+                      Padding(
+                        padding: const EdgeInsets.only(left: 4.0),
+                        child: AppBadge(
+                          label: "Listed",
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ),

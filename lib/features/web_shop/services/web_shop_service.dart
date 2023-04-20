@@ -2,21 +2,56 @@ import 'package:dio/dio.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/models/paginated_response.dart';
 import 'package:rbx_wallet/core/services/base_service.dart';
+import 'package:rbx_wallet/core/services/transaction_service.dart';
+import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_collection.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_listing.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_shop.dart';
+import 'package:rbx_wallet/features/web_shop/models/auth_token.dart';
 
 class WebShopService extends BaseService {
   WebShopService()
       : super(
           hostOverride: Env.explorerApiBaseUrl,
         );
+  // Auth
+
+  Future<AuthToken?> authorize({
+    required String message,
+    required String address,
+    required String privateKey,
+    required String publicKey,
+  }) async {
+    try {
+      final signature = await RawTransaction.getSignature(message: message, privateKey: privateKey, publicKey: publicKey);
+      print(signature);
+      final params = {
+        'address': address,
+        'message': message,
+        'signature': signature,
+      };
+
+      final response = await postJson('/auth/sign-token/', params: params);
+
+      return AuthToken.fromJson(response['data']);
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 
   // Shops
 
-  Future<ServerPaginatedReponse<WebShop>> listShops([int page = 1]) async {
+  Future<ServerPaginatedReponse<WebShop>> listShops({int page = 1, String? ownerAddress}) async {
     try {
-      final data = await getJson("/shop/", params: {'page': page});
+      Map<String, dynamic> params = {'page': page};
+
+      if (ownerAddress != null) {
+        params['owner_address'] = ownerAddress;
+      }
+
+      final data = await getJson("/shop/", params: params);
+
       final List<WebShop> results = data['results'].map<WebShop>((item) => WebShop.fromJson(item)).toList();
       return ServerPaginatedReponse<WebShop>(
         count: data['count'],
@@ -53,6 +88,22 @@ class WebShopService extends BaseService {
     }
   }
 
+  Future<bool> saveWebShop(WebShop shop) async {
+    try {
+      if (shop.isNew) {
+        final data = await postJson("/shop", params: shop.toJson());
+      } else {
+        final data = await patchJson("/shop/${shop.id}", params: shop.toJson());
+      }
+      return true;
+    } catch (e, st) {
+      if (e is DioError) print(e.response);
+      print(e);
+      print(st);
+      return false;
+    }
+  }
+
   // Collections
 
   Future<ServerPaginatedReponse<WebCollection>> listCollections(int shopId, [int page = 1]) async {
@@ -73,6 +124,33 @@ class WebShopService extends BaseService {
     return ServerPaginatedReponse<WebCollection>.empty();
   }
 
+  Future<WebCollection?> saveCollection(WebCollection collection) async {
+    if (collection.shop == null) {
+      print("Shop not set");
+      return null;
+    }
+    try {
+      if (!collection.exists) {
+        final response = await postJson(
+          "/shop/${collection.shop!.id}/collection/",
+          params: collection.toJson(),
+          inspect: true,
+        );
+        return WebCollection.fromJson(response['data']);
+      } else {
+        final response = await patchJson(
+          "/shop/${collection.shop!.id}/collection/",
+          params: collection.toJson(),
+          inspect: true,
+        );
+        return WebCollection.fromJson(response['data']);
+      }
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
   Future<WebCollection?> retrieveCollection(int shopId, int collectionId) async {
     try {
       final data = await getJson("/shop/$shopId/collection/$collectionId/");
@@ -86,9 +164,12 @@ class WebShopService extends BaseService {
 
   // Listings
 
-  Future<ServerPaginatedReponse<WebListing>> listListings(int shopId, int collectionId) async {
+  Future<ServerPaginatedReponse<WebListing>> listListings(int shopId, int collectionId, [int page = 1]) async {
     try {
-      final data = await getJson("/shop/$shopId/collection/$collectionId/listing");
+      final data = await getJson(
+        "/shop/$shopId/collection/$collectionId/listing",
+        params: {'page': page},
+      );
       final List<WebListing> results = data['results'].map<WebListing>((item) => WebListing.fromJson(item)).toList();
       print(results);
       return ServerPaginatedReponse<WebListing>(
@@ -114,6 +195,61 @@ class WebShopService extends BaseService {
       print(e);
       print(st);
       return null;
+    }
+  }
+
+  Future<bool> saveWebListing(WebListing listing, int shopId, int collectionId) async {
+    try {
+      if (listing.exists) {
+        final data = await patchJson('/shop/$shopId/collection/$collectionId/listing', params: listing.toJson());
+      } else {
+        final data = await postJson('/shop/$shopId/collection/$collectionId/listing', params: listing.toJson());
+      }
+      return true;
+    } catch (e, st) {
+      if (e is DioError) print(e.response);
+      print(e);
+      print(st);
+      return false;
+    }
+  }
+
+  Future<bool> deleteWebShop(WebShop store) async {
+    try {
+      final data = await deleteJson('/shop/${store.id}', responseIsJson: true);
+      return true;
+    } catch (e, st) {
+      if (e is DioError) print(e.response);
+      print(e);
+      print(st);
+      return false;
+    }
+  }
+
+  Future<bool> deleteCollection(WebCollection collection) async {
+    try {
+      final data = await deleteJson('/shop/${collection.shop!.id}/collection/${collection.id}', responseIsJson: true);
+      return true;
+    } catch (e, st) {
+      if (e is DioError) print(e.response);
+      print(e);
+      print(st);
+      return false;
+    }
+  }
+
+  Future<bool> deleteWebListing(WebListing listing) async {
+    try {
+      final data = await deleteJson(
+        '/shop/${listing.collection.shop!.id}/collection/${listing.collection.id}/listing/${listing.id}',
+        responseIsJson: true,
+      );
+      return true;
+    } catch (e, st) {
+      if (e is DioError) print(e.response);
+      print(e);
+      print(st);
+      return false;
     }
   }
 }

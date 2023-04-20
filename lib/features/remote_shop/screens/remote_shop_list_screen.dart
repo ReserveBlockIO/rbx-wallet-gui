@@ -1,11 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
+import 'package:rbx_wallet/features/remote_shop/components/remote_shop_list_tile.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/saved_shops_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
@@ -27,22 +30,30 @@ class RemoteShopListScreen extends BaseScreen {
     BuildContext context,
     WidgetRef ref,
   ) async {
-    final url = await PromptModal.show(
+    String? url = await PromptModal.show(
       title: "Shop URL",
       validator: (value) {
         if (value == null || value.isEmpty) {
           return "Shop URL required";
         }
 
-        if (!value.startsWith("rbx://")) {
-          return "Invalid URL. Must start with 'rbx://'";
-        }
+        // if (!value.startsWith("rbx://")) {
+        //   return "Invalid URL. Must start with 'rbx://'";
+        // }
         return null;
       },
       labelText: "Shop URL",
     );
 
-    return url?.toLowerCase();
+    if (url == null) {
+      return null;
+    }
+
+    if (!url.startsWith("rbx://")) {
+      url = "rbx://$url";
+    }
+
+    return url.trim();
   }
 
   Future<void> loadShopWithPrompt(
@@ -50,6 +61,19 @@ class RemoteShopListScreen extends BaseScreen {
     WidgetRef ref,
   ) async {
     final url = await promptForShopUrl(context, ref);
+
+    if (ref.read(walletInfoProvider) == null || !ref.read(walletInfoProvider)!.isChainSynced) {
+      final cont = await ConfirmDialog.show(
+        title: "Wallet Not Synced",
+        body: "Since your wallet is not synced there may be some issues viewing the data in this shop. Continue anyway?",
+        confirmText: "Continue",
+        cancelText: "Cancel",
+      );
+
+      if (cont != true) {
+        return;
+      }
+    }
 
     if (url != null) {
       ref.read(connectedShopProvider.notifier).loadShop(context, ref, url);
@@ -73,20 +97,23 @@ class RemoteShopListScreen extends BaseScreen {
         },
       ),
       actions: [
-        IconButton(
-          icon: Icon(Icons.chat_bubble_outline),
+        AppButton(
+          type: AppButtonType.Text,
+          variant: AppColorVariant.Light,
+          icon: Icons.chat_bubble_outline,
+          label: 'Chat',
           onPressed: () {
             AutoRouter.of(context).push(BuyerChatThreadListScreenRoute());
           },
         ),
-        TextButton(
+        AppButton(
           onPressed: () async {
             await loadShopWithPrompt(context, ref);
           },
-          child: Text(
-            "Add Shop",
-            style: TextStyle(color: Colors.white),
-          ),
+          label: "Add Shop",
+          type: AppButtonType.Text,
+          variant: AppColorVariant.Light,
+          icon: Icons.add,
         ),
         // WalletSelector(),
       ],
@@ -113,22 +140,7 @@ class RemoteShopListScreen extends BaseScreen {
       itemCount: savedShops.length,
       itemBuilder: (context, index) {
         final url = savedShops[index];
-        return Card(
-          child: ListTile(
-            leading: Icon(Icons.house),
-            title: Text(url),
-            onTap: () async {
-              final currentUrl = ref.read(connectedShopProvider).url;
-
-              if (currentUrl == url) {
-                ref.read(connectedShopProvider.notifier).refresh();
-                AutoRouter.of(context).push(RemoteShopDetailScreenRoute(shopUrl: url));
-              } else {
-                await ref.read(connectedShopProvider.notifier).loadShop(context, ref, url);
-              }
-            },
-          ),
-        );
+        return RemoteShopListTile(url: url);
       },
     );
   }

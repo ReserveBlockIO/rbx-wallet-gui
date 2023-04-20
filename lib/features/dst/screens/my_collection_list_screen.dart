@@ -2,15 +2,17 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/dst/components/publish_shop_button.dart';
 import 'package:rbx_wallet/features/dst/components/shop_online_button.dart';
-import 'package:rbx_wallet/features/dst/components/store_list.dart';
+import 'package:rbx_wallet/features/dst/components/collection_list.dart';
 import 'package:rbx_wallet/features/dst/providers/collection_form_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/collection_list_provider.dart';
 import 'package:rbx_wallet/features/dst/services/dst_service.dart';
@@ -28,8 +30,11 @@ class MyCollectionsListScreen extends BaseScreen {
     return AppBar(
       title: Text("My Auction House"),
       actions: [
-        IconButton(
-          icon: Icon(Icons.chat_bubble_outline),
+        AppButton(
+          type: AppButtonType.Text,
+          variant: AppColorVariant.Light,
+          icon: Icons.chat_bubble_outline,
+          label: 'Chat',
           onPressed: () {
             AutoRouter.of(context).push(SellerChatThreadListScreenRoute());
           },
@@ -40,7 +45,7 @@ class MyCollectionsListScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final collections = ref.watch(storeListProvider);
+    final collections = ref.watch(collectionListProvider);
 
     return Column(
       children: [
@@ -96,23 +101,36 @@ class MyCollectionsListScreen extends BaseScreen {
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
-                              SizedBox(
-                                width: 6,
-                              ),
-                              InkWell(
-                                onTap: () async {
-                                  await Clipboard.setData(ClipboardData(text: shop.url));
-                                  Toast.message("URL copied to clipboard");
-                                },
-                                child: Icon(
-                                  Icons.copy,
-                                  size: 16,
-                                ),
-                              ),
+                              // SizedBox(
+                              //   width: 6,
+                              // ),
+                              // AppButton(
+                              //   label: "Copy Shop URL",
+                              //   icon: Icons.copy,
+                              //   type: AppButtonType.Outlined,
+                              //   variant: AppColorVariant.Light,
+                              //   onPressed: () async {
+                              //     await Clipboard.setData(ClipboardData(text: shop.url));
+                              //     Toast.message("URL copied to clipboard");
+                              //   },
+                              // ),
                             ],
                           ),
                         ),
                       ),
+                      SizedBox(height: 8),
+                      AppButton(
+                        label: "Copy Shop URL",
+                        icon: Icons.copy,
+                        type: AppButtonType.Outlined,
+                        variant: AppColorVariant.Light,
+                        onPressed: () async {
+                          await Clipboard.setData(ClipboardData(text: shop.url));
+                          Toast.message("Shop URL copied to clipboard");
+                        },
+                      ),
+                      SizedBox(height: 16),
+
                       Divider(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -141,14 +159,20 @@ class MyCollectionsListScreen extends BaseScreen {
         if (collections.isEmpty)
           Expanded(
             child: Center(
-              child: AppButton(
-                label: 'Create Collection',
-                icon: Icons.add,
-                variant: AppColorVariant.Success,
-                onPressed: () async {
-                  ref.read(storeFormProvider.notifier).clear();
-                  AutoRouter.of(context).push(const CreateCollectionContainerScreenRoute());
-                },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  DecShopButton(),
+                  AppButton(
+                    label: 'Create Collection',
+                    icon: Icons.add,
+                    variant: AppColorVariant.Success,
+                    onPressed: () async {
+                      ref.read(storeFormProvider.notifier).clear();
+                      AutoRouter.of(context).push(const CreateCollectionContainerScreenRoute());
+                    },
+                  ),
+                ],
               ),
             ),
           ),
@@ -159,30 +183,31 @@ class MyCollectionsListScreen extends BaseScreen {
               child: CollectionList(),
             ),
           ),
-        Container(
-          width: double.infinity,
-          decoration: const BoxDecoration(
-            color: Color(0xFF040f26),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                DecShopButton(),
-                AppButton(
-                  label: 'Create Collection',
-                  icon: Icons.add,
-                  variant: AppColorVariant.Success,
-                  onPressed: () async {
-                    ref.read(storeFormProvider.notifier).clear();
-                    AutoRouter.of(context).push(const CreateCollectionContainerScreenRoute());
-                  },
-                )
-              ],
+        if (collections.isNotEmpty)
+          Container(
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              color: Color(0xFF040f26),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  DecShopButton(),
+                  AppButton(
+                    label: 'Create Collection',
+                    icon: Icons.add,
+                    variant: AppColorVariant.Success,
+                    onPressed: () async {
+                      ref.read(storeFormProvider.notifier).clear();
+                      AutoRouter.of(context).push(const CreateCollectionContainerScreenRoute());
+                    },
+                  )
+                ],
+              ),
             ),
           ),
-        ),
       ],
     );
   }
@@ -207,6 +232,12 @@ class DecShopButton extends BaseComponent {
             icon: Icons.store,
             variant: AppColorVariant.Light,
             onPressed: () async {
+              final bh = ref.read(walletInfoProvider)?.blockHeight ?? 0;
+              if (bh < P2P_BLOCK_LOCK_HEIGHT) {
+                Toast.error("This feature is not enabled until block $P2P_BLOCK_LOCK_HEIGHT");
+                return;
+              }
+
               ref.read(decShopFormProvider.notifier).clear();
               AutoRouter.of(context).push(const CreateDecShopContainerScreenRoute());
             },
@@ -218,6 +249,11 @@ class DecShopButton extends BaseComponent {
           icon: Icons.store,
           variant: AppColorVariant.Light,
           onPressed: () async {
+            final bh = ref.read(walletInfoProvider)?.blockHeight ?? 0;
+            if (bh < P2P_BLOCK_LOCK_HEIGHT) {
+              Toast.error("This feature is not enabled until block $P2P_BLOCK_LOCK_HEIGHT");
+              return;
+            }
             ref.read(decShopFormProvider.notifier).load(shop);
             AutoRouter.of(context).push(const CreateDecShopContainerScreenRoute());
           },

@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/features/dst/models/bid.dart';
 import 'package:rbx_wallet/features/dst/models/dec_shop.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 
@@ -21,6 +22,7 @@ class OrganizedCollection with _$OrganizedCollection {
 
   factory OrganizedCollection({
     required int id,
+    required int shopId,
     required String name,
     required String description,
     required bool collectionLive,
@@ -35,6 +37,7 @@ class OrganizedListing with _$OrganizedListing {
 
   factory OrganizedListing({
     required int id,
+    required int collectionId,
     required String smartContractUid,
     required String addressOwner,
     double? buyNowPrice,
@@ -51,20 +54,64 @@ class OrganizedListing with _$OrganizedListing {
     double? finalPrice,
     String? winningAddress,
     Nft? nft,
+    OrganizedAuction? auction,
+    @Default([]) List<Bid> bids,
+    required String purchaseKey,
   }) = _OrganizedListing;
+
+  String get familyIdentifier {
+    return "${collectionId}_$id";
+  }
 
   bool get isActive {
     final now = DateTime.now();
     return startDate.isBefore(now) && endDate.isAfter(now);
   }
 
+  bool get hasStarted {
+    final now = DateTime.now();
+    return startDate.isBefore(now);
+  }
+
   bool get canBuyNow {
-    return isActive && buyNowPrice != null;
+    if (auction == null) {
+      return false;
+    }
+    if (auction!.isAuctionOver) {
+      return false;
+    }
+
+    return isActive && buyNowPrice != null && buyNowPrice! > 0;
   }
 
   bool get canBid {
+    if (auction == null) {
+      return false;
+    }
+
+    if (auction!.isAuctionOver) {
+      return false;
+    }
+
     return isActive && floorPrice != null;
   }
+}
+
+@freezed
+class OrganizedAuction with _$OrganizedAuction {
+  const OrganizedAuction._();
+
+  factory OrganizedAuction({
+    required int id,
+    required double currentBidPrice,
+    required double maxBidPrice,
+    required double incrementAmount,
+    required bool isReserveMet,
+    required bool isAuctionOver,
+    required int listingId,
+    required int collectionId,
+    required String currentWinningAddress,
+  }) = _OrganizedAuction;
 }
 
 /// RAW DATA
@@ -77,8 +124,8 @@ class ShopData with _$ShopData {
     @JsonKey(name: "DecShop") required DecShop decShop,
     @JsonKey(name: "Collections") @Default([]) List<CollectionData> collections,
     @JsonKey(name: "Listings") @Default([]) List<ListingData> listings,
-    @JsonKey(name: "Auctions") dynamic auctions,
-    @JsonKey(name: "Bids") dynamic bids,
+    @JsonKey(name: "Auctions") @Default([]) List<AuctionData> auctions,
+    @JsonKey(name: "Bids") @Default([]) List<Bid> bids,
   }) = _ShopData;
 
   factory ShopData.fromJson(Map<String, dynamic> json) => _$ShopDataFromJson(json);
@@ -121,7 +168,27 @@ class ListingData with _$ListingData {
     @JsonKey(name: "IsVisibleAfterEndDate") required bool isVisibleAfterEndDate,
     @JsonKey(name: "FinalPrice") double? finalPrice,
     @JsonKey(name: "WinningAddress") String? winningAddress,
+    @JsonKey(name: "PurchaseKey") @Default("") String purchaseKey,
   }) = _ListingData;
 
   factory ListingData.fromJson(Map<String, dynamic> json) => _$ListingDataFromJson(json);
+}
+
+@freezed
+class AuctionData with _$AuctionData {
+  const AuctionData._();
+
+  factory AuctionData({
+    @JsonKey(name: "Id") required int id,
+    @JsonKey(name: "CurrentBidPrice") required double currentBidPrice,
+    @JsonKey(name: "MaxBidPrice") required double maxBidPrice,
+    @JsonKey(name: "IncrementAmount") required double incrementAmount,
+    @JsonKey(name: "IsReserveMet") required bool isReserveMet,
+    @JsonKey(name: "IsAuctionOver") required bool isAuctionOver,
+    @JsonKey(name: "ListingId") required int listingId,
+    @JsonKey(name: "CollectionId") required int collectionId,
+    @JsonKey(name: "CurrentWinningAddress") required String currentWinningAddress,
+  }) = _AuctionData;
+
+  factory AuctionData.fromJson(Map<String, dynamic> json) => _$AuctionDataFromJson(json);
 }

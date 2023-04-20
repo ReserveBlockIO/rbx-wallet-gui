@@ -8,6 +8,7 @@ import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/asset/polling_image_preview.dart';
 import 'package:rbx_wallet/features/dst/providers/listing_form_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/listing_list_provider.dart';
+import 'package:rbx_wallet/features/dst/services/dst_service.dart';
 
 class ListingList extends BaseComponent {
   const ListingList(this.collectionId, {Key? key}) : super(key: key);
@@ -57,11 +58,34 @@ class ListingList extends BaseComponent {
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      if (listing.isAuction) ...[
+                        AppButton(
+                          label: "Activity",
+                          variant: AppColorVariant.Success,
+                          onPressed: () {
+                            AutoRouter.of(context).push(ListingAuctionDetailScreenRoute(listingId: listing.id));
+                          },
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                      ],
+                      AppButton(
+                        label: 'Delete',
+                        variant: AppColorVariant.Danger,
+                        onPressed: () {
+                          ref.read(listingFormProvider.notifier).delete(context, listing.collectionId, listing, false);
+                        },
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
                       AppButton(
                         label: "Edit",
                         variant: AppColorVariant.Light,
-                        onPressed: () {
-                          ref.read(listingFormProvider.notifier).load(listing);
+                        onPressed: () async {
+                          final l = await DstService().retreiveListing(listing.id);
+                          ref.read(listingFormProvider.notifier).load(l ?? listing);
                           AutoRouter.of(context).push(CreateListingContainerScreenRoute(collectionId: listing.collectionId));
                         },
                       ),

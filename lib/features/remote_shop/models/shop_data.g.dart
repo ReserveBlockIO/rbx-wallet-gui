@@ -16,8 +16,14 @@ _$_ShopData _$$_ShopDataFromJson(Map<String, dynamic> json) => _$_ShopData(
               ?.map((e) => ListingData.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      auctions: json['Auctions'],
-      bids: json['Bids'],
+      auctions: (json['Auctions'] as List<dynamic>?)
+              ?.map((e) => AuctionData.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      bids: (json['Bids'] as List<dynamic>?)
+              ?.map((e) => Bid.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$_ShopDataToJson(_$_ShopData instance) =>
@@ -66,6 +72,7 @@ _$_ListingData _$$_ListingDataFromJson(Map<String, dynamic> json) =>
       isVisibleAfterEndDate: json['IsVisibleAfterEndDate'] as bool,
       finalPrice: (json['FinalPrice'] as num?)?.toDouble(),
       winningAddress: json['WinningAddress'] as String?,
+      purchaseKey: json['PurchaseKey'] as String? ?? "",
     );
 
 Map<String, dynamic> _$$_ListingDataToJson(_$_ListingData instance) =>
@@ -87,4 +94,31 @@ Map<String, dynamic> _$$_ListingDataToJson(_$_ListingData instance) =>
       'IsVisibleAfterEndDate': instance.isVisibleAfterEndDate,
       'FinalPrice': instance.finalPrice,
       'WinningAddress': instance.winningAddress,
+      'PurchaseKey': instance.purchaseKey,
+    };
+
+_$_AuctionData _$$_AuctionDataFromJson(Map<String, dynamic> json) =>
+    _$_AuctionData(
+      id: json['Id'] as int,
+      currentBidPrice: (json['CurrentBidPrice'] as num).toDouble(),
+      maxBidPrice: (json['MaxBidPrice'] as num).toDouble(),
+      incrementAmount: (json['IncrementAmount'] as num).toDouble(),
+      isReserveMet: json['IsReserveMet'] as bool,
+      isAuctionOver: json['IsAuctionOver'] as bool,
+      listingId: json['ListingId'] as int,
+      collectionId: json['CollectionId'] as int,
+      currentWinningAddress: json['CurrentWinningAddress'] as String,
+    );
+
+Map<String, dynamic> _$$_AuctionDataToJson(_$_AuctionData instance) =>
+    <String, dynamic>{
+      'Id': instance.id,
+      'CurrentBidPrice': instance.currentBidPrice,
+      'MaxBidPrice': instance.maxBidPrice,
+      'IncrementAmount': instance.incrementAmount,
+      'IsReserveMet': instance.isReserveMet,
+      'IsAuctionOver': instance.isAuctionOver,
+      'ListingId': instance.listingId,
+      'CollectionId': instance.collectionId,
+      'CurrentWinningAddress': instance.currentWinningAddress,
     };

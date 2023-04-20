@@ -40,7 +40,7 @@ class ConnectedShopProvider extends StateNotifier<ConnectedShop> {
     await refresh(true);
 
     refreshTimer = Timer.periodic(Duration(seconds: 30), (timer) {
-      // refresh();
+      refresh();
     });
   }
 
@@ -51,9 +51,32 @@ class ConnectedShopProvider extends StateNotifier<ConnectedShop> {
 
   refresh([bool showErrors = false]) async {
     print("refreshing...");
-    final data = await RemoteShopService().getConnectedShopData(showErrors);
+
+    int listingCount = 0;
+    if (state.data != null) {
+      for (final c in state.data!.collections) {
+        listingCount += c.listings.length;
+      }
+    }
+
+    final data = await RemoteShopService().getConnectedShopData(
+      showErrors: showErrors,
+      listingCount: listingCount,
+    );
     if (data != null) {
       state = state.copyWith(data: data);
+    }
+  }
+
+  Future<void> removeBookmarkedShop(BuildContext context, WidgetRef ref, String url) async {
+    final confirmed = await ConfirmDialog.show(
+      title: "Remove shop?",
+      body: "Are you sure you want to remove $url from your saved shops?",
+      confirmText: "Remove",
+      cancelText: "Cancel",
+    );
+    if (confirmed) {
+      ref.read(savedShopsProvider.notifier).remove(url);
     }
   }
 

@@ -3,9 +3,13 @@ import 'dart:convert';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/app.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/dst_tx_pending_provider.dart';
+import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/providers/session_provider.dart';
@@ -70,6 +74,9 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
         break;
       case TxType.dstShop:
         _handleDstShop(transaction);
+        break;
+      case TxType.nftSale:
+        _handleNftSale(transaction);
         break;
     }
   }
@@ -276,6 +283,40 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       ),
     );
     ref.read(sessionProvider.notifier).smartContractLoop(false);
+  }
+
+  void _handleNftSale(Transaction transaction) async {
+    // final nftData = _parseNftData(transaction)!;
+
+    // final function = _nftDataValue(nftData, 'Function');
+    // final nextOwner = _nftDataValue(nftData, 'NextOwner');
+    // final scId = _nftDataValue(nftData, 'ContractUID');
+    // final amount = _nftDataValue(nftData, 'SoldFor');
+
+    // if (function == "Sale_Start()") {
+    //   final addresses = ref.read(walletListProvider).map((w) => w.address).toList();
+    //   if (addresses.contains(nextOwner)) {
+    //     if (scId != null) {
+    //       final confirmed = await ConfirmDialog.show(
+    //         title: "NFT Sale Validated",
+    //         body: "The sale for the NFT ($scId) has been validated. Would you like to finalize the transaction for $amount RBX?",
+    //         confirmText: "Complete",
+    //         cancelText: "Cancel",
+    //       );
+
+    //       if (confirmed == true) {
+    //         RemoteShopService().completeNftPurchase(scId).then((value) {
+    //           if (value == true) {
+    //             print("NFT Complete Sale TX Sent");
+    //             Toast.message("NFT Sale Finalization TX sent");
+    //           } else {
+    //             print("NFT Sale Error");
+    //           }
+    //         });
+    //       }
+    //     }
+    //   }
+    // }
   }
 
   Map<String, dynamic>? _parseNftData(Transaction transaction) {

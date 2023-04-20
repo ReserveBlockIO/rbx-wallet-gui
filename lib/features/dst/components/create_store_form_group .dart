@@ -56,21 +56,29 @@ class _IsLiveCheckbox extends BaseComponent {
   Widget build(BuildContext context, ref) {
     final provider = ref.read(storeFormProvider.notifier);
     final model = ref.watch(storeFormProvider);
-    return Row(
+    return Column(
       children: [
-        Checkbox(
-            value: model.isLive,
-            onChanged: (val) {
-              if (val != null) {
-                provider.updateIsLive(val);
-              }
-            }),
-        GestureDetector(
-          onTap: () {
-            provider.updateIsLive(!model.isLive);
-          },
-          child: const Text("Publish Live"),
+        Row(
+          children: [
+            Checkbox(
+                value: model.isLive,
+                onChanged: (val) {
+                  if (val != null) {
+                    provider.updateIsLive(val);
+                  }
+                }),
+            GestureDetector(
+              onTap: () {
+                provider.updateIsLive(!model.isLive);
+              },
+              child: const Text("Publish Live"),
+            ),
+          ],
         ),
+        Text(
+          'When this is enabled, this collection will be visible to other users when they connect to your shop',
+          style: TextStyle(fontSize: 12, color: Colors.white.withOpacity(0.6)),
+        )
       ],
     );
   }

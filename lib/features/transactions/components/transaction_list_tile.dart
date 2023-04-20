@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/core/utils.dart';
+import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../reserve/components/callback_button.dart';
@@ -51,6 +55,14 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
         widget.transaction.amount <= 0 &&
         (widget.transaction.unlockTime != null && widget.transaction.unlockTime! > (DateTime.now().millisecondsSinceEpoch / 1000));
 
+    // bool canSettle = widget.transaction.type == TxType.nftSale && !fromMe;
+    // if (canSettle) {
+    //   final data = parseNftData(widget.transaction);
+    //   final function = nftDataValue(data!, "Function");
+    //   if (function != "Sale_Start()") {
+    //     canSettle = false;
+    //   }
+    // }
     // final bool canCallBack = widget.transaction.status == TransactionStatus.Reserved && fromMe && widget.transaction.amount < 0;
     // final bool canCallBack = widget.transaction.status == TransactionStatus.Reserved && fromMe;
 
@@ -243,7 +255,53 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                                 // ),
                                 CallbackButton(transaction: widget.transaction),
                               ],
-                            )
+                            ),
+                          // if (canSettle)
+                          //   Padding(
+                          //     padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          //     child: AppButton(
+                          //       label: "Settle",
+                          //       variant: AppColorVariant.Success,
+                          //       onPressed: () async {
+                          //         final nftData = parseNftData(widget.transaction);
+                          //         if (nftData == null) {
+                          //           Toast.error("Data could not be parsed");
+                          //           return;
+                          //         }
+                          //         final scId = nftDataValue(nftData, 'ContractUID');
+                          //         final amount = nftDataValue(nftData, 'SoldFor');
+
+                          //         if (scId == null) {
+                          //           Toast.error("Could not get smart contract id");
+                          //           return;
+                          //         }
+
+                          //         if (amount == null) {
+                          //           Toast.error("Could not parse amount");
+                          //           return;
+                          //         }
+
+                          //         final confirmed = await ConfirmDialog.show(
+                          //           title: "NFT Sale Validated",
+                          //           body:
+                          //               "The sale for the NFT ($scId) has been validated. Would you like to finalize the transaction for $amount RBX?",
+                          //           confirmText: "Complete",
+                          //           cancelText: "Cancel",
+                          //         );
+
+                          //         if (confirmed == true) {
+                          //           RemoteShopService().completeNftPurchase(scId).then((value) {
+                          //             if (value == true) {
+                          //               print("NFT Complete Sale TX Sent");
+                          //               Toast.message("NFT Sale Finalization TX sent");
+                          //             } else {
+                          //               print("NFT Sale Error");
+                          //             }
+                          //           });
+                          //         }
+                          //       },
+                          //     ),
+                          //   )
                         ],
                       ),
                       if (_expanded)

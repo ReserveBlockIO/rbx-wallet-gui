@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/asset/polling_image_preview.dart';
 import 'package:rbx_wallet/features/dst/components/nft_selector.dart';
 import 'package:rbx_wallet/features/dst/providers/collection_form_provider.dart';
+import 'package:rbx_wallet/features/dst/providers/listed_nfts_provider.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/base_component.dart';
 import '../../../utils/validation.dart';
@@ -43,6 +45,15 @@ class CreateListingFormGroup extends BaseComponent {
                   ),
                   Flexible(child: _StartDate()),
                   Flexible(child: _EndDate()),
+                  if (model.isAuction && model.auctionStarted && model.exists)
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                          child: Text(
+                        "Auction has started so the dates & times can't be updated.",
+                        style: Theme.of(context).textTheme.bodySmall,
+                      )),
+                    ),
                   SizedBox(height: 16),
                   Flexible(child: _EnableBuyNow()),
                   if (model.enableBuyNow) Flexible(child: _BuyNow()),
@@ -50,7 +61,17 @@ class CreateListingFormGroup extends BaseComponent {
                   Flexible(child: _EnableAuction()),
                   if (model.enableAuction) ...[
                     Flexible(child: _FloorPrice()),
-                    Flexible(child: _ReservePrice()),
+                    Flexible(child: _EnableReservePrice()),
+                    if (model.enableReservePrice) Flexible(child: _ReservePrice()),
+                    if (model.isAuction && model.auctionStarted && model.exists)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                            child: Text(
+                          "Auction has started so the pricing can't be updated.",
+                          style: Theme.of(context).textTheme.bodySmall,
+                        )),
+                      ),
                   ],
                 ],
               ),
@@ -122,6 +143,36 @@ class _EnableAuction extends BaseComponent {
   }
 }
 
+class _EnableReservePrice extends BaseComponent {
+  const _EnableReservePrice({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ref) {
+    final provider = ref.read(listingFormProvider.notifier);
+    final model = ref.watch(listingFormProvider).enableReservePrice;
+
+    return Row(
+      children: [
+        Checkbox(
+            value: model,
+            onChanged: (val) {
+              if (val != null) {
+                provider.updateEnableReservePrice(val);
+              }
+            }),
+        GestureDetector(
+          onTap: () {
+            provider.updateEnableReservePrice(!model);
+          },
+          child: const Text("Add Reserve Price"),
+        ),
+      ],
+    );
+  }
+}
+
 class _BuyNow extends BaseComponent {
   const _BuyNow({
     Key? key,
@@ -153,7 +204,9 @@ class _FloorPrice extends BaseComponent {
   @override
   Widget build(BuildContext context, ref) {
     final provider = ref.read(listingFormProvider.notifier);
+    final model = ref.read(listingFormProvider);
     return TextFormField(
+      readOnly: model.auctionStarted && model.exists,
       controller: provider.floorPriceController,
       onChanged: provider.updateFloorPrice,
       inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
@@ -176,7 +229,9 @@ class _ReservePrice extends BaseComponent {
   @override
   Widget build(BuildContext context, ref) {
     final provider = ref.read(listingFormProvider.notifier);
+    final model = ref.read(listingFormProvider);
     return TextFormField(
+      readOnly: model.auctionStarted && model.exists,
       controller: provider.reservePriceController,
       onChanged: provider.updateReservePrice,
       inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
@@ -209,6 +264,13 @@ class _NFT extends BaseComponent {
           children: [
             Text("NFT:"),
             NftSelector(onSelect: (nft) {
+              if (nft.isListed(ref)) {
+                Toast.error("This NFT is already listed. Please choose another");
+                provider.clearNft();
+
+                return;
+              }
+
               provider.updateNFT(nft);
             }),
           ],
@@ -263,8 +325,14 @@ class _NFT extends BaseComponent {
             ),
           ),
           NftSelector(
+            disabled: model.exists,
             labelOverride: "Replace NFT",
             onSelect: (nft) {
+              if (nft.isListed(ref)) {
+                Toast.error("This NFT is already listed. Please choose another");
+                provider.clearNft();
+                return;
+              }
               provider.updateNFT(nft);
             },
           ),
@@ -276,6 +344,12 @@ class _NFT extends BaseComponent {
 
 Future<void> _showDatePicker(BuildContext context, WidgetRef ref, bool isStartDate) async {
   final _provider = ref.read(listingFormProvider.notifier);
+  final _model = ref.read(listingFormProvider);
+
+  if (_model.isAuction && _model.auctionStarted && _model.exists) {
+    Toast.error('The auction has already started.');
+    return;
+  }
   final _d = await showDatePicker(
     context: context,
     initialDate: DateTime.now(),
@@ -287,9 +361,35 @@ Future<void> _showDatePicker(BuildContext context, WidgetRef ref, bool isStartDa
 
   if (_d != null) {
     _provider.updateDate(_d, isStartDate);
-    if (isStartDate) {
-      _provider.updateDate(_d.add(Duration(days: 7)), false);
-    }
+  }
+}
+
+Future<void> _showTimePicker(BuildContext context, WidgetRef ref, bool isStartDate) async {
+  final _provider = ref.read(listingFormProvider.notifier);
+  final _model = ref.read(listingFormProvider);
+
+  final initialDateTime = isStartDate ? _model.startDate : _model.endDate;
+  if (_model.isAuction && _model.auctionStarted && _model.exists) {
+    Toast.error('The auction has already started.');
+    return;
+  }
+
+  final t = await showTimePicker(
+    context: context,
+    initialEntryMode: TimePickerEntryMode.input,
+    initialTime: TimeOfDay(hour: initialDateTime.hour, minute: initialDateTime.minute),
+    builder: (BuildContext context, Widget? child) {
+      return MediaQuery(
+        data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+        child: child ?? const SizedBox(),
+      );
+    },
+  );
+
+  print(t);
+
+  if (t != null) {
+    _provider.updateTime(t, isStartDate);
   }
 }
 
@@ -301,23 +401,64 @@ class _StartDate extends BaseComponent {
   @override
   Widget build(BuildContext context, ref) {
     final provider = ref.read(listingFormProvider.notifier);
-    return TextFormField(
-      controller: provider.startDateController,
-      onTap: () {
-        _showDatePicker(context, ref, true);
-      },
-      decoration: InputDecoration(
-        label: const Text(
-          "Start Date",
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-        suffixIcon: IconButton(
-          icon: const Icon(Icons.calendar_month),
-          onPressed: () {
-            _showDatePicker(context, ref, true);
-          },
+    final _model = ref.read(listingFormProvider);
+
+    final disabled = _model.isAuction && _model.auctionStarted && _model.exists;
+
+    return IgnorePointer(
+      ignoring: disabled,
+      child: Opacity(
+        opacity: disabled ? 0.5 : 1,
+        child: Row(
+          children: [
+            Expanded(
+              child: TextFormField(
+                controller: provider.startDateController,
+                onTap: () {
+                  _showDatePicker(context, ref, true);
+                },
+                decoration: InputDecoration(
+                  label: const Text(
+                    "Start Date",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.calendar_month),
+                    onPressed: () {
+                      _showDatePicker(context, ref, true);
+                    },
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 8,
+            ),
+            Expanded(
+              child: TextFormField(
+                controller: provider.startTimeController,
+                onTap: () {
+                  _showTimePicker(context, ref, true);
+                },
+                decoration: InputDecoration(
+                  label: const Text(
+                    "Start Time",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.hourglass_bottom),
+                    onPressed: () {
+                      _showTimePicker(context, ref, true);
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -333,29 +474,65 @@ class _EndDate extends BaseComponent {
   Widget build(BuildContext context, ref) {
     final provider = ref.read(listingFormProvider.notifier);
     final model = ref.read(listingFormProvider);
-    return TextFormField(
-      controller: provider.endDateController,
-      validator: (String? val) {
-        if (model.endDate.isBefore(model.startDate) || model.endDate.isAtSameMomentAs(model.startDate)) {
-          return 'The end date must be set and it must be a later date than the start date';
-        }
-        return null;
-      },
-      onTap: () {
-        _showDatePicker(context, ref, false);
-      },
-      decoration: InputDecoration(
-        label: const Text(
-          "End Date",
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-        suffixIcon: IconButton(
-          icon: const Icon(Icons.calendar_month),
-          onPressed: () {
-            _showDatePicker(context, ref, false);
-          },
+    final disabled = model.isAuction && model.auctionStarted && model.exists;
+
+    return IgnorePointer(
+      ignoring: disabled,
+      child: Opacity(
+        opacity: disabled ? 0.5 : 1,
+        child: Row(
+          children: [
+            Expanded(
+              child: TextFormField(
+                controller: provider.endDateController,
+                validator: (String? val) {
+                  return null;
+                },
+                onTap: () {
+                  _showDatePicker(context, ref, false);
+                },
+                decoration: InputDecoration(
+                  label: const Text(
+                    "End Date",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.calendar_month),
+                    onPressed: () {
+                      _showDatePicker(context, ref, false);
+                    },
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 8,
+            ),
+            Expanded(
+              child: TextFormField(
+                controller: provider.endTimeController,
+                onTap: () {
+                  _showTimePicker(context, ref, false);
+                },
+                decoration: InputDecoration(
+                  label: const Text(
+                    "End Time",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.hourglass_bottom),
+                    onPressed: () {
+                      _showTimePicker(context, ref, false);
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

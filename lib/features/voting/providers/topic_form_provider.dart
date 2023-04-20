@@ -106,6 +106,16 @@ class TopicFormProvider extends StateNotifier<NewTopic> {
 
     ref.read(globalLoadingProvider.notifier).start();
 
+    final balance = read(sessionProvider).currentWallet?.balance;
+
+    if (balance == null || (balance - ASSURED_AMOUNT_TO_VALIDATE) < VOTE_TOPIC_COST) {
+      Toast.error(
+          "Submitting a topic costs $VOTE_TOPIC_COST RBX. Since you are validating, you need at least ${ASSURED_AMOUNT_TO_VALIDATE + VOTE_TOPIC_COST} RBX.");
+      return null;
+    }
+
+    read(globalLoadingProvider.notifier).start();
+
     final success = await TopicService().create(state, adjVoteData);
     ref.read(globalLoadingProvider.notifier).complete();
 

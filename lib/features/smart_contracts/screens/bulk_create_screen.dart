@@ -51,18 +51,18 @@ class BulkCreateScreen extends BaseScreen {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 500),
-                child: const Text(
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nihil enim hoc differt. Duo Reges: constructio interrete. Primum in nostrane potestate est, quid meminerimus? Quaerimus enim finem bonorum. Iam enim adesse poterit. Age sane, inquam.",
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(16),
+          //   child: Center(
+          //     child: ConstrainedBox(
+          //       constraints: const BoxConstraints(maxWidth: 500),
+          //       child: const Text(
+          //         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nihil enim hoc differt. Duo Reges: constructio interrete. Primum in nostrane potestate est, quid meminerimus? Quaerimus enim finem bonorum. Iam enim adesse poterit. Age sane, inquam.",
+          //         textAlign: TextAlign.center,
+          //       ),
+          //     ),
+          //   ),
+          // ),
           ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 600),
             child: Padding(
@@ -94,18 +94,18 @@ class BulkCreateScreen extends BaseScreen {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Center(
-                          child: ConstrainedBox(
-                            constraints: const BoxConstraints(maxWidth: 500),
-                            child: const Text(
-                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nihil enim hoc differt. Duo Reges: constructio interrete. Primum in nostrane potestate est, quid meminerimus?",
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(16),
+                      //   child: Center(
+                      //     child: ConstrainedBox(
+                      //       constraints: const BoxConstraints(maxWidth: 500),
+                      //       child: const Text(
+                      //         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nihil enim hoc differt. Duo Reges: constructio interrete. Primum in nostrane potestate est, quid meminerimus?",
+                      //         textAlign: TextAlign.center,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: AppButton(
@@ -161,7 +161,7 @@ class BulkCreateScreen extends BaseScreen {
                           child: ConstrainedBox(
                             constraints: const BoxConstraints(maxWidth: 500),
                             child: const Text(
-                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nihil enim hoc differt. Duo Reges: constructio interrete. Primum in nostrane potestate est, quid meminerimus?",
+                              "Create a collection with a JSON or CSV file. See the example files below and use them as a template. Upon uploading the file you will be able to configure and tweak the settings through the wizard's UI.\n\nThis is an advanced feature for users who want to compile and mint collections outside of the graphical user interface.",
                               textAlign: TextAlign.center,
                             ),
                           ),

@@ -8,6 +8,7 @@ import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rbx_wallet/features/transactions/models/transaction.dart';
 
 import '../features/wallet/providers/wallet_list_provider.dart';
 import '../utils/toast.dart';
@@ -103,4 +104,37 @@ String truncatedText(String str, [int maxLength = 16]) {
     return str;
   }
   return str.replaceRange(maxLength, str.length, "...");
+}
+
+Map<String, dynamic>? parseNftData(Transaction transaction) {
+  try {
+    if (transaction.nftData == null) {
+      return null;
+    }
+
+    final data = jsonDecode(transaction.nftData);
+    if (data is Map) {
+      return data as Map<String, dynamic>;
+    }
+
+    if (data == null || data.isEmpty) {
+      return null;
+    }
+
+    if (data[0] == null) {
+      return null;
+    }
+
+    final Map<String, dynamic> d = data[0];
+
+    return d;
+  } catch (e) {
+    print("Problem parsing NFT data on TX ${transaction.hash}");
+    print(e);
+    return null;
+  }
+}
+
+String? nftDataValue(Map<String, dynamic> nftData, String key) {
+  return nftData.containsKey(key) ? nftData[key].toString() : null;
 }

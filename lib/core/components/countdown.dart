@@ -15,7 +15,12 @@ class AppCountdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _textStyle = textStyle ?? TextStyle(fontSize: 22, color: Theme.of(context).colorScheme.secondary, fontWeight: FontWeight.bold);
+    final _textStyle = textStyle ??
+        TextStyle(
+          fontSize: 22,
+          color: Theme.of(context).colorScheme.secondary,
+          fontWeight: FontWeight.w500,
+        );
 
     return Container(
       decoration: BoxDecoration(
@@ -44,7 +49,7 @@ class AppCountdown extends StatelessWidget {
             ),
             CountDownText(
               due: dueDate,
-              finishedText: "Reload Page!",
+              finishedText: "",
               style: _textStyle,
               longDateName: true,
               showLabel: true,

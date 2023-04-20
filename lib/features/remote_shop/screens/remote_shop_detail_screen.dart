@@ -7,7 +7,9 @@ import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provide
 import 'package:rbx_wallet/features/remote_shop/providers/remote_shop_detail_provider.dart';
 
 import '../../../core/base_screen.dart';
+import '../../../core/components/buttons.dart';
 import '../../../core/components/centered_loader.dart';
+import '../../../core/theme/app_theme.dart';
 import '../../wallet/components/wallet_selector.dart';
 
 class RemoteShopDetailScreen extends BaseScreen {
@@ -42,11 +44,14 @@ class RemoteShopDetailScreen extends BaseScreen {
                   },
                   icon: Icon(Icons.refresh),
                 ),
-                IconButton(
+                AppButton(
+                  type: AppButtonType.Text,
+                  variant: AppColorVariant.Light,
+                  icon: Icons.chat_bubble_outline,
+                  label: 'Chat',
                   onPressed: () {
                     AutoRouter.of(context).push(ShopChatScreenRoute(shopUrl: shopUrl));
                   },
-                  icon: Icon(Icons.chat_bubble_outline),
                 )
               ],
             )

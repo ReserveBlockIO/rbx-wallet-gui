@@ -13,11 +13,13 @@ import 'package:rbx_wallet/core/api_token_manager.dart';
 import 'package:rbx_wallet/core/utils.dart';
 import 'package:rbx_wallet/features/chat/providers/chat_notification_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
+import 'package:rbx_wallet/features/dst/providers/listed_nfts_provider.dart';
 import 'package:rbx_wallet/features/dst/services/dst_service.dart';
 import 'package:rbx_wallet/features/remote_info/components/snapshot_downloader.dart';
 import 'package:rbx_wallet/features/remote_info/models/remote_info.dart';
 import 'package:rbx_wallet/features/remote_info/services/remote_info_service.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
+import 'package:rbx_wallet/features/remote_shop/providers/thumbnail_fetcher_provider.dart';
 import 'package:rbx_wallet/features/reserve/providers/reserve_account_provider.dart';
 import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
 import 'package:rbx_wallet/features/startup/startup_data.dart';
@@ -73,6 +75,7 @@ class SessionModel {
   final bool isMintingOrCompiling;
   final String timezoneName;
   final RemoteInfo? remoteInfo;
+  final String? windowsLauncherPath;
 
   const SessionModel({
     this.currentWallet,
@@ -89,23 +92,26 @@ class SessionModel {
     this.isMintingOrCompiling = false,
     this.timezoneName = "America/Los_Angeles",
     this.remoteInfo,
+    this.windowsLauncherPath,
   });
 
-  SessionModel copyWith(
-      {Wallet? currentWallet,
-      DateTime? startTime,
-      // bool? ready,
-      bool? filteringTransactions,
-      bool? cliStarted,
-      int? remoteBlockHeight,
-      bool? blocksAreSyncing,
-      bool? blocksAreResyncing,
-      double? totalBalance,
-      String? cliVersion,
-      bool? logWindowExpanded,
-      bool? isMintingOrCompiling,
-      String? timezoneName,
-      RemoteInfo? remoteInfo}) {
+  SessionModel copyWith({
+    Wallet? currentWallet,
+    DateTime? startTime,
+    // bool? ready,
+    bool? filteringTransactions,
+    bool? cliStarted,
+    int? remoteBlockHeight,
+    bool? blocksAreSyncing,
+    bool? blocksAreResyncing,
+    double? totalBalance,
+    String? cliVersion,
+    bool? logWindowExpanded,
+    bool? isMintingOrCompiling,
+    String? timezoneName,
+    RemoteInfo? remoteInfo,
+    String? windowsLauncherPath,
+  }) {
     return SessionModel(
       startTime: startTime ?? this.startTime,
       currentWallet: currentWallet ?? this.currentWallet,
@@ -121,6 +127,7 @@ class SessionModel {
       isMintingOrCompiling: isMintingOrCompiling ?? this.isMintingOrCompiling,
       timezoneName: timezoneName ?? this.timezoneName,
       remoteInfo: remoteInfo ?? this.remoteInfo,
+      windowsLauncherPath: windowsLauncherPath ?? this.windowsLauncherPath,
     );
   }
 
@@ -128,7 +135,7 @@ class SessionModel {
     if (startTime == null) {
       return "-";
     }
-    return DateFormat('MM/dd – kk:mm').format(startTime!);
+    return DateFormat('MM/dd – HH:mm').format(startTime!);
   }
 
   bool get updateAvailable {
@@ -276,11 +283,9 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   Future<void> checkRemoteInfo([int attempt = 1]) async {
-
     if (Env.isTestNet) {
       return;
     }
- 
 
     if (!Env.promptForUpdates) {
       return;
@@ -456,6 +461,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
       ref.read(nftListProvider.notifier).reloadCurrentPage();
       ref.read(mintedNftListProvider.notifier).reloadCurrentPage();
       ref.read(draftsSmartContractProvider.notifier).load();
+      ref.read(listedNftsProvider.notifier).refresh();
     }
 
     if (inLoop) {
@@ -466,7 +472,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
   Future<void> stopCli() async {
     // ref.read(logProvider.notifier).clear();
-    state = state = _initial;
+    state = _initial.copyWith(windowsLauncherPath: state.windowsLauncherPath);
     // ref.read(logProvider.notifier).append(LogEntry(message: "Shutting down CLI..."));
     await BridgeService().killCli();
     // ref.read(logProvider.notifier).append(LogEntry(message: "CLI terminated."));
@@ -480,6 +486,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
     ref.read(beaconListProvider.notifier).refresh();
     ref.invalidate(connectedShopProvider);
+    ref.invalidate(thumbnailFetcherProvider);
   }
 
   // Future<void> _checkBlockSyncStatus() async {
@@ -656,8 +663,14 @@ class SessionProvider extends StateNotifier<SessionModel> {
     if (Platform.isMacOS) {
       return '/Applications/RBXWallet.app/Contents/Resources/RBXCore/ReserveBlockCore';
     } else {
-      final appPath = Directory.current.path;
-      return "$appPath\\RbxCore\\ReserveBlockCore";
+      if (state.windowsLauncherPath == null) {
+        final appPath = Directory.current.path;
+        final p = "$appPath\\RBXCore\\${Env.isTestNet ? 'RBXLauncherTestNet.exe' : 'RBXLauncher.exe'}";
+        state = state.copyWith(windowsLauncherPath: p);
+        return p;
+      }
+
+      return state.windowsLauncherPath!;
     }
   }
 
@@ -730,14 +743,22 @@ class SessionProvider extends StateNotifier<SessionModel> {
         ProcessManager pm = const LocalProcessManager();
 
         try {
-          final appPath = Directory.current.path;
-          cmd = Env.isTestNet ? "$appPath\\RbxCore\\RBXLauncherTestNet.exe" : "$appPath\\RbxCore\\RBXLauncher.exe";
+          // final appPath = Directory.current.path;
+          // cmd = Env.isTestNet ? "$appPath\\RbxCore\\RBXLauncherTestNet.exe" : "$appPath\\RbxCore\\RBXLauncher.exe";
+
+          // if (state.windowsLauncherPath == null) {
+          //   final p = "C:\\Program Files (x86)\\RBXWallet\\RBXCore\\${Env.isTestNet ? 'RBXLauncherTestNet.exe' : 'RBXLauncher.exe'}";
+          //   state = state.copyWith(windowsLauncherPath: p);
+          //   await Future.delayed(Duration(milliseconds: 100));
+          // }
 
           ref.read(logProvider.notifier).append(LogEntry(message: "Launching CLI in the background."));
-          final params = Env.isTestNet ? [cmd] : [cmd, 'apitoken=$apiToken'];
+          final List<String> params = Env.isTestNet ? [cliPath] : [cliPath, 'apitoken=$apiToken'];
           pm.run(params).then((result) {
             ref.read(logProvider.notifier).append(LogEntry(message: "Command ran successfully."));
           });
+          print("PARAMS: $params");
+          print("***********");
           singleton<ApiTokenManager>().set(apiToken);
 
           await Future.delayed(const Duration(seconds: 3));

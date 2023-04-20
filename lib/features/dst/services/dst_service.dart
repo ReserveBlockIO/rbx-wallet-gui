@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'package:rbx_wallet/features/dst/models/bid.dart';
 import 'package:rbx_wallet/features/dst/models/listing.dart';
 import 'package:rbx_wallet/features/dst/models/collection.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/services/base_service.dart';
 import '../models/dec_shop.dart';
@@ -30,7 +32,9 @@ class DstService extends BaseService {
 
   Future<Listing?> retreiveListing(int id) async {
     try {
-      final response = await getText("/GetListing/$id");
+      final response = await getText(
+        "/GetListing/$id",
+      );
       final data = jsonDecode(response);
 
       if (data['Success'] != true) {
@@ -70,17 +74,45 @@ class DstService extends BaseService {
 
       final items = data['Collections'];
 
-      final List<Collection> stores = [];
+      final List<Collection> collections = [];
       for (final item in items) {
-        stores.add(Collection.fromJson(item));
+        collections.add(Collection.fromJson(item));
       }
-      return stores;
+      return collections;
     } catch (e, st) {
       print(e);
       print(st);
       return [];
     }
   }
+
+  // Future<List<Bid>> listBids() async {
+  //   try {
+  //     final response = await getText("/GetBids", cleanPath: false);
+  //     if (response.isEmpty) {
+  //       return [];
+  //     }
+  //     final data = jsonDecode(response);
+
+  //     if (data["Success"] != true) {
+  //       // print(data['Message']);
+
+  //       return [];
+  //     }
+
+  //     final items = data['Bids'];
+
+  //     final List<Bid> bids = [];
+  //     for (final item in items) {
+  //       bids.add(Bid.fromJson(item));
+  //     }
+  //     return bids;
+  //   } catch (e, st) {
+  //     print(e);
+  //     print(st);
+  //     return [];
+  //   }
+  // }
 
   Future<bool> saveCollection(Collection store) async {
     try {
@@ -91,6 +123,119 @@ class DstService extends BaseService {
       return false;
     }
   }
+
+  Future<List<Bid>> _listBids(int listingId, bool isBuyer) async {
+    try {
+      final response = await getText(
+        '/GetListingBids/$listingId/${isBuyer ? 0 : 1}',
+        cleanPath: false,
+      );
+      final data = jsonDecode(response);
+
+      if (data["Success"] != true) {
+        // Toast.error(data['Message']);
+        print(data);
+        return [];
+      }
+
+      final items = data['Bids'];
+
+      final List<Bid> bids = [];
+      for (final item in items) {
+        bids.add(Bid.fromJson(item));
+      }
+      return bids;
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  Future<List<Bid>> listGlobalListingBids(int listingId) async {
+    try {
+      final response = await getText(
+        '/GetShopListingBids/$listingId',
+        cleanPath: false,
+        inspect: true,
+      );
+      final data = jsonDecode(response);
+
+      if (data["Success"] != true) {
+        print(data);
+        return [];
+      }
+
+      final items = data['Bids'];
+
+      final List<Bid> bids = [];
+      for (final item in items) {
+        bids.add(Bid.fromJson(item));
+      }
+      return bids;
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  Future<List<Bid>> listBuyerBids(int listingId) async {
+    return await _listBids(listingId, true);
+  }
+
+  Future<List<Bid>> listSellerBids(int listingId) async {
+    return await _listBids(listingId, false);
+  }
+
+  Future<List<Bid>> listListingBidsByStatus(BidStatus status) async {
+    try {
+      final response = await getText('/GetBidsByStatus/${status.name}');
+      final data = jsonDecode(response);
+
+      if (data["Success"] != true) {
+        return [];
+      }
+
+      final items = data['Bids'];
+
+      final List<Bid> bids = [];
+      for (final item in items) {
+        bids.add(Bid.fromJson(item));
+      }
+      return bids;
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  Future<Bid?> retreiveListingBid(String id) async {
+    try {
+      final response = await getText('/GetSingleBids/$id');
+      final data = jsonDecode(response);
+      if (data['Success'] == true) {
+        // print(response);
+        return Bid.fromJson(data['Bid']);
+      }
+      return null;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  // Future<bool> getShopAuctions(int page) async {
+  //   try {
+  //     final response = await getText('/GetShopAuctions/$page');
+  //     final data = jsonDecode(response);
+  //     if (data['Success'] == true) {
+  //       return true;
+  //     }
+  //     return false;
+  //   } catch (e) {
+  //     print(e);
+  //     return false;
+  //   }
+  // }
 
   Future<DecShop?> retreiveShop() async {
     try {
@@ -180,7 +325,8 @@ class DstService extends BaseService {
       if (response['data']['Success']) {
         return true;
       } else {
-        throw ('Error saving dec shop');
+        Toast.error(response['data']["Message"]);
+        return false;
       }
     } catch (e) {
       print(e);
@@ -208,9 +354,9 @@ class DstService extends BaseService {
     }
   }
 
-  Future<List<Listing>> listListings(int storeId) async {
+  Future<List<Listing>> listListings(int collectionId) async {
     try {
-      final response = await getText("/GetCollectionListings/$storeId", cleanPath: false);
+      final response = await getText("/GetCollectionListings/$collectionId", cleanPath: false);
 
       if (response.isEmpty) {
         return [];
@@ -263,5 +409,30 @@ class DstService extends BaseService {
       print(e);
       return false;
     }
+  }
+
+  Future<List<String>> listedNftIds() async {
+    // final shop = await retreiveShop();
+
+    // if (shop == null) {
+    //   return null;
+    // }
+
+    final List<String> ids = [];
+
+    final collections = await listCollections();
+
+    for (final c in collections) {
+      final listings = await listListings(c.id);
+
+      for (final l in listings) {
+        final listing = await retreiveListing(l.id);
+        if (listing != null) {
+          ids.add(listing.smartContractUid);
+        }
+      }
+    }
+
+    return ids;
   }
 }
