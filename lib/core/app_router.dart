@@ -200,9 +200,11 @@ const List<AutoRoute> appRoutes = [
           AutoRoute(
             path: "shops",
             page: WebShopListScreen,
+            name: "DebugWebShopListScreenRoute",
           ),
           AutoRoute(
             path: "mine",
+            name: "DebugMyWebShopListScreenRoute",
             page: MyWebShopListScreen,
           ),
           AutoRoute(

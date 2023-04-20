@@ -72,6 +72,8 @@ class WebShopFormProvider extends StateNotifier<WebShop> {
 
     if (success) {
       ref.read(webShopListProvider(WebShopListType.mine).notifier).refresh();
+      ref.read(webShopListProvider(WebShopListType.mine).notifier).refresh();
+      ref.read(webShopListProvider(WebShopListType.public).notifier).refresh();
       ref.invalidate(webShopDetailProvider);
       AutoRouter.of(context).pop();
       clear();

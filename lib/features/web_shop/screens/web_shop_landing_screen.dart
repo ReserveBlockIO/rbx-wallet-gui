@@ -5,6 +5,8 @@ import 'package:rbx_wallet/core/components/big_button.dart';
 
 import '../../../core/app_router.gr.dart';
 import '../../../core/base_screen.dart';
+import '../../../core/env.dart';
+import '../../../core/web_router.gr.dart';
 import '../../../generated/assets.gen.dart';
 
 class WebShopLandingScreen extends BaseScreen {
@@ -55,7 +57,11 @@ class WebShopLandingScreen extends BaseScreen {
                   iconData: Icons.connect_without_contact,
                   body: "Connect to a remote auction house to trade NFTs.",
                   onPressed: () async {
-                    AutoRouter.of(context).push(WebShopListScreenRoute());
+                    if (Env.isWeb) {
+                      AutoRouter.of(context).push(WebShopListScreenRoute());
+                    } else {
+                      AutoRouter.of(context).push(DebugWebShopListScreenRoute());
+                    }
                   },
                 ),
                 BigButton(
@@ -63,7 +69,11 @@ class WebShopLandingScreen extends BaseScreen {
                   iconData: Icons.house,
                   body: "Manage your wallet's auction house and trade NFTs.",
                   onPressed: () async {
-                    AutoRouter.of(context).push(MyWebShopListScreenRoute());
+                    if (Env.isWeb) {
+                      AutoRouter.of(context).push(MyWebShopListScreenRoute());
+                    } else {
+                      AutoRouter.of(context).push(DebugMyWebShopListScreenRoute());
+                    }
                   },
                 ),
               ],

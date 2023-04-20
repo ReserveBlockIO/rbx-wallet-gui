@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/env.dart';
+import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/web_shop/components/web_collection_list.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_collection_form_provider.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_shop_form_provider.dart';
@@ -115,7 +117,11 @@ class WebShopDetailScreen extends BaseScreen {
                             variant: AppColorVariant.Primary,
                             onPressed: () {
                               ref.read(webShopFormProvider.notifier).load(shop);
-                              AutoRouter.of(context).push(DebugWebShopCreateScreenRoute());
+                              if (Env.isWeb) {
+                                AutoRouter.of(context).push(CreateWebShopContainerScreenRoute());
+                              } else {
+                                AutoRouter.of(context).push(DebugWebShopCreateScreenRoute());
+                              }
                             },
                           ),
                           AppButton(
