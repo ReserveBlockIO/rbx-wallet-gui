@@ -44,12 +44,6 @@ class DecPublishShopButton extends BaseComponent {
               label: "Publish Changes",
               icon: Icons.publish,
               onPressed: () async {
-                final bh = ref.read(walletInfoProvider)?.blockHeight ?? 0;
-                if (bh < P2P_BLOCK_LOCK_HEIGHT) {
-                  Toast.error("This feature is not enabled until block $P2P_BLOCK_LOCK_HEIGHT");
-                  return;
-                }
-
                 if (shop.updateWillCost) {
                   final confirm = await ConfirmDialog.show(
                     title: "Publish Shop?",
@@ -86,12 +80,6 @@ class DecPublishShopButton extends BaseComponent {
           label: "Publish Shop",
           variant: AppColorVariant.Light,
           onPressed: () async {
-            final bh = ref.read(walletInfoProvider)?.blockHeight ?? 0;
-            if (bh < P2P_BLOCK_LOCK_HEIGHT) {
-              Toast.error("This feature is not enabled until block $P2P_BLOCK_LOCK_HEIGHT");
-              return;
-            }
-
             final confirm = await ConfirmDialog.show(
               title: "Publish Shop?",
               body: "There is a cost of 10 RBX to publish your shop to the network (plus the transaction fee).",
