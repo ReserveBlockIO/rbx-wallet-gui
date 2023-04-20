@@ -94,8 +94,6 @@ class TopicFormProvider extends StateNotifier<NewTopic> {
       }
     }
 
-    ref.read(globalLoadingProvider.notifier).start();
-
     final balance = ref.read(sessionProvider).currentWallet?.balance;
 
     if (balance == null || (balance - ASSURED_AMOUNT_TO_VALIDATE) < VOTE_TOPIC_COST) {

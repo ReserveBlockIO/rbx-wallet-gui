@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
+import 'package:rbx_wallet/core/env.dart';
+import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/web_shop/components/web_listing_list.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_collection_detail_provider.dart';
 
@@ -125,7 +127,11 @@ class WebCollectionDetailScreen extends BaseScreen {
                             variant: AppColorVariant.Success,
                             onPressed: () {
                               ref.read(createWebListingProvider.notifier).load(WebListing.empty(), collectionId, shopId);
-                              AutoRouter.of(context).push(DebugWebListingCreateScreenRoute(shopId: shopId, collectionId: collectionId));
+                              if (Env.isWeb) {
+                                AutoRouter.of(context).push(CreateWebListingScreenRoute(shopId: shopId, collectionId: collectionId));
+                              } else {
+                                AutoRouter.of(context).push(DebugWebListingCreateScreenRoute(shopId: shopId, collectionId: collectionId));
+                              }
                             },
                           ),
                         ],

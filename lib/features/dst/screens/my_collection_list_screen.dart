@@ -232,12 +232,6 @@ class DecShopButton extends BaseComponent {
             icon: Icons.store,
             variant: AppColorVariant.Light,
             onPressed: () async {
-              final bh = ref.read(walletInfoProvider)?.blockHeight ?? 0;
-              if (bh < P2P_BLOCK_LOCK_HEIGHT) {
-                Toast.error("This feature is not enabled until block $P2P_BLOCK_LOCK_HEIGHT");
-                return;
-              }
-
               ref.read(decShopFormProvider.notifier).clear();
               AutoRouter.of(context).push(const CreateDecShopContainerScreenRoute());
             },
@@ -249,11 +243,6 @@ class DecShopButton extends BaseComponent {
           icon: Icons.store,
           variant: AppColorVariant.Light,
           onPressed: () async {
-            final bh = ref.read(walletInfoProvider)?.blockHeight ?? 0;
-            if (bh < P2P_BLOCK_LOCK_HEIGHT) {
-              Toast.error("This feature is not enabled until block $P2P_BLOCK_LOCK_HEIGHT");
-              return;
-            }
             ref.read(decShopFormProvider.notifier).load(shop);
             AutoRouter.of(context).push(const CreateDecShopContainerScreenRoute());
           },

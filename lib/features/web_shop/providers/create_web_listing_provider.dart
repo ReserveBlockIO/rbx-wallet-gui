@@ -61,8 +61,6 @@ class WebListingFormProvider extends StateNotifier<WebListing> {
           id: shopId,
         ),
       ),
-      //TODO: REMOVE THIS WHEN THE API RETURNS IF AUCTION STARTED!
-      isAuctionStarted: true,
       enableBuyNow: listing.isBuyNow,
       enableAuction: listing.isAuction,
     );

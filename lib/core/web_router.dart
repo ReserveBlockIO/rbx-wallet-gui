@@ -24,9 +24,13 @@ import '../features/store/screens/store_listing_screen.dart';
 import '../features/store/screens/store_screen.dart';
 import '../features/transactions/screens/web_transaction_detail_screen.dart';
 import '../features/transactions/screens/web_transactions_screen.dart';
+import '../features/web_shop/screens/create_web_listing_screen.dart';
+import '../features/web_shop/screens/create_web_shop_container_screen.dart';
+import '../features/web_shop/screens/my_web_shops_list_screen.dart';
 import '../features/web_shop/screens/web_collection_detail_screen.dart';
 import '../features/web_shop/screens/web_listing_detail_screen.dart';
 import '../features/web_shop/screens/web_shop_detail_screen.dart';
+import '../features/web_shop/screens/web_shop_landing_screen.dart';
 import '../features/web_shop/screens/web_shop_list_screen.dart';
 
 const List<AutoRoute> webRoutes = [
@@ -133,24 +137,37 @@ const webDashboardTabRouter = AutoRoute(
       page: WebShopContainerScreen,
       children: [
         AutoRoute(
-          path: "main",
-          page: WebShopListScreen,
           initial: true,
+          path: "",
+          page: WebShopLandingScreen,
+        ),
+        AutoRoute(
+          path: "shops",
+          page: WebShopListScreen,
+        ),
+        AutoRoute(
+          path: "mine",
+          page: MyWebShopListScreen,
+        ),
+        AutoRoute(
+          path: "createWebShop",
+          page: CreateWebShopContainerScreen,
+        ),
+        AutoRoute(
+          path: "shop/:shopId/collection/:collectionId/createWebListing",
+          page: CreateWebListingScreen,
         ),
         AutoRoute(
           path: "shop/:shopId",
           page: WebShopDetailScreen,
-          initial: true,
         ),
         AutoRoute(
           path: "shop/:shopId/collection/:collectionId",
           page: WebCollectionDetailScreen,
-          initial: true,
         ),
         AutoRoute(
           path: "shop/:shopId/collection/:collectionId/listing/:listingId",
           page: WebListingDetailScreen,
-          initial: true,
         ),
       ],
     ),
