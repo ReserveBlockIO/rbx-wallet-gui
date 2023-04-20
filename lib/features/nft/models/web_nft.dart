@@ -50,9 +50,6 @@ abstract class WebNft with _$WebNft {
       for (var feature in smartContractData["Features"]) {
         if (feature['FeatureName'] == 2) {
           for (var asset in feature['FeatureFeatures']) {
-            print("*******");
-            print(asset);
-            print("*******");
             final fileName = asset['FileName'];
 
             if (primaryAssetRemoteKey != null) {
