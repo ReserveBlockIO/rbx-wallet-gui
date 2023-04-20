@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'node.dart';
 
@@ -41,7 +41,8 @@ mixin _$Node {
 /// @nodoc
 abstract class $NodeCopyWith<$Res> {
   factory $NodeCopyWith(Node value, $Res Function(Node) then) =
-      _$NodeCopyWithImpl<$Res>;
+      _$NodeCopyWithImpl<$Res, Node>;
+  @useResult
   $Res call(
       {@JsonKey(name: 'Address') String address,
       @JsonKey(name: 'UniqueName') String uniqueName,
@@ -52,48 +53,51 @@ abstract class $NodeCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$NodeCopyWithImpl<$Res> implements $NodeCopyWith<$Res> {
+class _$NodeCopyWithImpl<$Res, $Val extends Node>
+    implements $NodeCopyWith<$Res> {
   _$NodeCopyWithImpl(this._value, this._then);
 
-  final Node _value;
   // ignore: unused_field
-  final $Res Function(Node) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? address = freezed,
-    Object? uniqueName = freezed,
-    Object? connectionId = freezed,
-    Object? ipAddress = freezed,
+    Object? address = null,
+    Object? uniqueName = null,
+    Object? connectionId = null,
+    Object? ipAddress = null,
     Object? walletVersion = freezed,
-    Object? connectDate = freezed,
+    Object? connectDate = null,
   }) {
     return _then(_value.copyWith(
-      address: address == freezed
+      address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as String,
-      uniqueName: uniqueName == freezed
+      uniqueName: null == uniqueName
           ? _value.uniqueName
           : uniqueName // ignore: cast_nullable_to_non_nullable
               as String,
-      connectionId: connectionId == freezed
+      connectionId: null == connectionId
           ? _value.connectionId
           : connectionId // ignore: cast_nullable_to_non_nullable
               as String,
-      ipAddress: ipAddress == freezed
+      ipAddress: null == ipAddress
           ? _value.ipAddress
           : ipAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      walletVersion: walletVersion == freezed
+      walletVersion: freezed == walletVersion
           ? _value.walletVersion
           : walletVersion // ignore: cast_nullable_to_non_nullable
               as String?,
-      connectDate: connectDate == freezed
+      connectDate: null == connectDate
           ? _value.connectDate
           : connectDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
-    ));
+    ) as $Val);
   }
 }
 
@@ -102,6 +106,7 @@ abstract class _$$_NodeCopyWith<$Res> implements $NodeCopyWith<$Res> {
   factory _$$_NodeCopyWith(_$_Node value, $Res Function(_$_Node) then) =
       __$$_NodeCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {@JsonKey(name: 'Address') String address,
       @JsonKey(name: 'UniqueName') String uniqueName,
@@ -112,45 +117,43 @@ abstract class _$$_NodeCopyWith<$Res> implements $NodeCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_NodeCopyWithImpl<$Res> extends _$NodeCopyWithImpl<$Res>
+class __$$_NodeCopyWithImpl<$Res> extends _$NodeCopyWithImpl<$Res, _$_Node>
     implements _$$_NodeCopyWith<$Res> {
   __$$_NodeCopyWithImpl(_$_Node _value, $Res Function(_$_Node) _then)
-      : super(_value, (v) => _then(v as _$_Node));
+      : super(_value, _then);
 
-  @override
-  _$_Node get _value => super._value as _$_Node;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? address = freezed,
-    Object? uniqueName = freezed,
-    Object? connectionId = freezed,
-    Object? ipAddress = freezed,
+    Object? address = null,
+    Object? uniqueName = null,
+    Object? connectionId = null,
+    Object? ipAddress = null,
     Object? walletVersion = freezed,
-    Object? connectDate = freezed,
+    Object? connectDate = null,
   }) {
     return _then(_$_Node(
-      address: address == freezed
+      address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as String,
-      uniqueName: uniqueName == freezed
+      uniqueName: null == uniqueName
           ? _value.uniqueName
           : uniqueName // ignore: cast_nullable_to_non_nullable
               as String,
-      connectionId: connectionId == freezed
+      connectionId: null == connectionId
           ? _value.connectionId
           : connectionId // ignore: cast_nullable_to_non_nullable
               as String,
-      ipAddress: ipAddress == freezed
+      ipAddress: null == ipAddress
           ? _value.ipAddress
           : ipAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      walletVersion: walletVersion == freezed
+      walletVersion: freezed == walletVersion
           ? _value.walletVersion
           : walletVersion // ignore: cast_nullable_to_non_nullable
               as String?,
-      connectDate: connectDate == freezed
+      connectDate: null == connectDate
           ? _value.connectDate
           : connectDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
@@ -201,37 +204,35 @@ class _$_Node extends _Node {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Node &&
-            const DeepCollectionEquality().equals(other.address, address) &&
-            const DeepCollectionEquality()
-                .equals(other.uniqueName, uniqueName) &&
-            const DeepCollectionEquality()
-                .equals(other.connectionId, connectionId) &&
-            const DeepCollectionEquality().equals(other.ipAddress, ipAddress) &&
-            const DeepCollectionEquality()
-                .equals(other.walletVersion, walletVersion) &&
-            const DeepCollectionEquality()
-                .equals(other.connectDate, connectDate));
+            (identical(other.address, address) || other.address == address) &&
+            (identical(other.uniqueName, uniqueName) ||
+                other.uniqueName == uniqueName) &&
+            (identical(other.connectionId, connectionId) ||
+                other.connectionId == connectionId) &&
+            (identical(other.ipAddress, ipAddress) ||
+                other.ipAddress == ipAddress) &&
+            (identical(other.walletVersion, walletVersion) ||
+                other.walletVersion == walletVersion) &&
+            (identical(other.connectDate, connectDate) ||
+                other.connectDate == connectDate));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(address),
-      const DeepCollectionEquality().hash(uniqueName),
-      const DeepCollectionEquality().hash(connectionId),
-      const DeepCollectionEquality().hash(ipAddress),
-      const DeepCollectionEquality().hash(walletVersion),
-      const DeepCollectionEquality().hash(connectDate));
+  int get hashCode => Object.hash(runtimeType, address, uniqueName,
+      connectionId, ipAddress, walletVersion, connectDate);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_NodeCopyWith<_$_Node> get copyWith =>
       __$$_NodeCopyWithImpl<_$_Node>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_NodeToJson(this);
+    return _$$_NodeToJson(
+      this,
+    );
   }
 }
 
@@ -250,22 +251,22 @@ abstract class _Node extends Node {
 
   @override
   @JsonKey(name: 'Address')
-  String get address => throw _privateConstructorUsedError;
+  String get address;
   @override
   @JsonKey(name: 'UniqueName')
-  String get uniqueName => throw _privateConstructorUsedError;
+  String get uniqueName;
   @override
   @JsonKey(name: 'ConnectionId')
-  String get connectionId => throw _privateConstructorUsedError;
+  String get connectionId;
   @override
   @JsonKey(name: 'IpAddress')
-  String get ipAddress => throw _privateConstructorUsedError;
+  String get ipAddress;
   @override
   @JsonKey(name: 'WalletVersion')
-  String? get walletVersion => throw _privateConstructorUsedError;
+  String? get walletVersion;
   @override
   @JsonKey(name: 'ConnectDate')
-  DateTime get connectDate => throw _privateConstructorUsedError;
+  DateTime get connectDate;
   @override
   @JsonKey(ignore: true)
   _$$_NodeCopyWith<_$_Node> get copyWith => throw _privateConstructorUsedError;

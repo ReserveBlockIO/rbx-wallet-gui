@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'detailed_nft.dart';
 
@@ -35,7 +35,8 @@ mixin _$DetailedNft {
 abstract class $DetailedNftCopyWith<$Res> {
   factory $DetailedNftCopyWith(
           DetailedNft value, $Res Function(DetailedNft) then) =
-      _$DetailedNftCopyWithImpl<$Res>;
+      _$DetailedNftCopyWithImpl<$Res, DetailedNft>;
+  @useResult
   $Res call(
       {@JsonKey(name: "SmartContract") Nft nft,
       @JsonKey(name: "SmartContractCode", defaultValue: "") String code});
@@ -44,34 +45,38 @@ abstract class $DetailedNftCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$DetailedNftCopyWithImpl<$Res> implements $DetailedNftCopyWith<$Res> {
+class _$DetailedNftCopyWithImpl<$Res, $Val extends DetailedNft>
+    implements $DetailedNftCopyWith<$Res> {
   _$DetailedNftCopyWithImpl(this._value, this._then);
 
-  final DetailedNft _value;
   // ignore: unused_field
-  final $Res Function(DetailedNft) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? nft = freezed,
-    Object? code = freezed,
+    Object? nft = null,
+    Object? code = null,
   }) {
     return _then(_value.copyWith(
-      nft: nft == freezed
+      nft: null == nft
           ? _value.nft
           : nft // ignore: cast_nullable_to_non_nullable
               as Nft,
-      code: code == freezed
+      code: null == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $NftCopyWith<$Res> get nft {
     return $NftCopyWith<$Res>(_value.nft, (value) {
-      return _then(_value.copyWith(nft: value));
+      return _then(_value.copyWith(nft: value) as $Val);
     });
   }
 }
@@ -83,6 +88,7 @@ abstract class _$$_DetailedNftCopyWith<$Res>
           _$_DetailedNft value, $Res Function(_$_DetailedNft) then) =
       __$$_DetailedNftCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {@JsonKey(name: "SmartContract") Nft nft,
       @JsonKey(name: "SmartContractCode", defaultValue: "") String code});
@@ -92,26 +98,25 @@ abstract class _$$_DetailedNftCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_DetailedNftCopyWithImpl<$Res> extends _$DetailedNftCopyWithImpl<$Res>
+class __$$_DetailedNftCopyWithImpl<$Res>
+    extends _$DetailedNftCopyWithImpl<$Res, _$_DetailedNft>
     implements _$$_DetailedNftCopyWith<$Res> {
   __$$_DetailedNftCopyWithImpl(
       _$_DetailedNft _value, $Res Function(_$_DetailedNft) _then)
-      : super(_value, (v) => _then(v as _$_DetailedNft));
+      : super(_value, _then);
 
-  @override
-  _$_DetailedNft get _value => super._value as _$_DetailedNft;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? nft = freezed,
-    Object? code = freezed,
+    Object? nft = null,
+    Object? code = null,
   }) {
     return _then(_$_DetailedNft(
-      nft: nft == freezed
+      nft: null == nft
           ? _value.nft
           : nft // ignore: cast_nullable_to_non_nullable
               as Nft,
-      code: code == freezed
+      code: null == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String,
@@ -147,25 +152,25 @@ class _$_DetailedNft extends _DetailedNft {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_DetailedNft &&
-            const DeepCollectionEquality().equals(other.nft, nft) &&
-            const DeepCollectionEquality().equals(other.code, code));
+            (identical(other.nft, nft) || other.nft == nft) &&
+            (identical(other.code, code) || other.code == code));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(nft),
-      const DeepCollectionEquality().hash(code));
+  int get hashCode => Object.hash(runtimeType, nft, code);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_DetailedNftCopyWith<_$_DetailedNft> get copyWith =>
       __$$_DetailedNftCopyWithImpl<_$_DetailedNft>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_DetailedNftToJson(this);
+    return _$$_DetailedNftToJson(
+      this,
+    );
   }
 }
 
@@ -182,10 +187,10 @@ abstract class _DetailedNft extends DetailedNft {
 
   @override
   @JsonKey(name: "SmartContract")
-  Nft get nft => throw _privateConstructorUsedError;
+  Nft get nft;
   @override
   @JsonKey(name: "SmartContractCode", defaultValue: "")
-  String get code => throw _privateConstructorUsedError;
+  String get code;
   @override
   @JsonKey(ignore: true)
   _$$_DetailedNftCopyWith<_$_DetailedNft> get copyWith =>

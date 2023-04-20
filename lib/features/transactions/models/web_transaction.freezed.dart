@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'web_transaction.dart';
 
@@ -48,7 +48,8 @@ mixin _$WebTransaction {
 abstract class $WebTransactionCopyWith<$Res> {
   factory $WebTransactionCopyWith(
           WebTransaction value, $Res Function(WebTransaction) then) =
-      _$WebTransactionCopyWithImpl<$Res>;
+      _$WebTransactionCopyWithImpl<$Res, WebTransaction>;
+  @useResult
   $Res call(
       {String hash,
       @JsonKey(name: 'to_address') String toAddress,
@@ -61,59 +62,61 @@ abstract class $WebTransactionCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$WebTransactionCopyWithImpl<$Res>
+class _$WebTransactionCopyWithImpl<$Res, $Val extends WebTransaction>
     implements $WebTransactionCopyWith<$Res> {
   _$WebTransactionCopyWithImpl(this._value, this._then);
 
-  final WebTransaction _value;
   // ignore: unused_field
-  final $Res Function(WebTransaction) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? hash = freezed,
-    Object? toAddress = freezed,
-    Object? fromAddress = freezed,
-    Object? type = freezed,
+    Object? hash = null,
+    Object? toAddress = null,
+    Object? fromAddress = null,
+    Object? type = null,
     Object? amount = freezed,
     Object? fee = freezed,
-    Object? date = freezed,
-    Object? height = freezed,
+    Object? date = null,
+    Object? height = null,
   }) {
     return _then(_value.copyWith(
-      hash: hash == freezed
+      hash: null == hash
           ? _value.hash
           : hash // ignore: cast_nullable_to_non_nullable
               as String,
-      toAddress: toAddress == freezed
+      toAddress: null == toAddress
           ? _value.toAddress
           : toAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      fromAddress: fromAddress == freezed
+      fromAddress: null == fromAddress
           ? _value.fromAddress
           : fromAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as int,
-      amount: amount == freezed
+      amount: freezed == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as double?,
-      fee: fee == freezed
+      fee: freezed == fee
           ? _value.fee
           : fee // ignore: cast_nullable_to_non_nullable
               as double?,
-      date: date == freezed
+      date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      height: height == freezed
+      height: null == height
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
               as int,
-    ));
+    ) as $Val);
   }
 }
 
@@ -124,6 +127,7 @@ abstract class _$$_WebTransactionCopyWith<$Res>
           _$_WebTransaction value, $Res Function(_$_WebTransaction) then) =
       __$$_WebTransactionCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String hash,
       @JsonKey(name: 'to_address') String toAddress,
@@ -137,56 +141,54 @@ abstract class _$$_WebTransactionCopyWith<$Res>
 
 /// @nodoc
 class __$$_WebTransactionCopyWithImpl<$Res>
-    extends _$WebTransactionCopyWithImpl<$Res>
+    extends _$WebTransactionCopyWithImpl<$Res, _$_WebTransaction>
     implements _$$_WebTransactionCopyWith<$Res> {
   __$$_WebTransactionCopyWithImpl(
       _$_WebTransaction _value, $Res Function(_$_WebTransaction) _then)
-      : super(_value, (v) => _then(v as _$_WebTransaction));
+      : super(_value, _then);
 
-  @override
-  _$_WebTransaction get _value => super._value as _$_WebTransaction;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? hash = freezed,
-    Object? toAddress = freezed,
-    Object? fromAddress = freezed,
-    Object? type = freezed,
+    Object? hash = null,
+    Object? toAddress = null,
+    Object? fromAddress = null,
+    Object? type = null,
     Object? amount = freezed,
     Object? fee = freezed,
-    Object? date = freezed,
-    Object? height = freezed,
+    Object? date = null,
+    Object? height = null,
   }) {
     return _then(_$_WebTransaction(
-      hash: hash == freezed
+      hash: null == hash
           ? _value.hash
           : hash // ignore: cast_nullable_to_non_nullable
               as String,
-      toAddress: toAddress == freezed
+      toAddress: null == toAddress
           ? _value.toAddress
           : toAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      fromAddress: fromAddress == freezed
+      fromAddress: null == fromAddress
           ? _value.fromAddress
           : fromAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as int,
-      amount: amount == freezed
+      amount: freezed == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as double?,
-      fee: fee == freezed
+      fee: freezed == fee
           ? _value.fee
           : fee // ignore: cast_nullable_to_non_nullable
               as double?,
-      date: date == freezed
+      date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      height: height == freezed
+      height: null == height
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
               as int,
@@ -247,38 +249,34 @@ class _$_WebTransaction extends _WebTransaction {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_WebTransaction &&
-            const DeepCollectionEquality().equals(other.hash, hash) &&
-            const DeepCollectionEquality().equals(other.toAddress, toAddress) &&
-            const DeepCollectionEquality()
-                .equals(other.fromAddress, fromAddress) &&
-            const DeepCollectionEquality().equals(other.type, type) &&
-            const DeepCollectionEquality().equals(other.amount, amount) &&
-            const DeepCollectionEquality().equals(other.fee, fee) &&
-            const DeepCollectionEquality().equals(other.date, date) &&
-            const DeepCollectionEquality().equals(other.height, height));
+            (identical(other.hash, hash) || other.hash == hash) &&
+            (identical(other.toAddress, toAddress) ||
+                other.toAddress == toAddress) &&
+            (identical(other.fromAddress, fromAddress) ||
+                other.fromAddress == fromAddress) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.fee, fee) || other.fee == fee) &&
+            (identical(other.date, date) || other.date == date) &&
+            (identical(other.height, height) || other.height == height));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(hash),
-      const DeepCollectionEquality().hash(toAddress),
-      const DeepCollectionEquality().hash(fromAddress),
-      const DeepCollectionEquality().hash(type),
-      const DeepCollectionEquality().hash(amount),
-      const DeepCollectionEquality().hash(fee),
-      const DeepCollectionEquality().hash(date),
-      const DeepCollectionEquality().hash(height));
+  int get hashCode => Object.hash(runtimeType, hash, toAddress, fromAddress,
+      type, amount, fee, date, height);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_WebTransactionCopyWith<_$_WebTransaction> get copyWith =>
       __$$_WebTransactionCopyWithImpl<_$_WebTransaction>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_WebTransactionToJson(this);
+    return _$$_WebTransactionToJson(
+      this,
+    );
   }
 }
 
@@ -298,29 +296,29 @@ abstract class _WebTransaction extends WebTransaction {
       _$_WebTransaction.fromJson;
 
   @override
-  String get hash => throw _privateConstructorUsedError;
+  String get hash;
   @override
   @JsonKey(name: 'to_address')
-  String get toAddress => throw _privateConstructorUsedError;
+  String get toAddress;
   @override
   @JsonKey(name: 'from_address')
-  String get fromAddress => throw _privateConstructorUsedError;
+  String get fromAddress;
   @override
-  int get type => throw _privateConstructorUsedError;
+  int get type;
   @override
   @JsonKey(name: "total_amount")
-  double? get amount => throw _privateConstructorUsedError;
+  double? get amount;
   @override
   @JsonKey(name: "total_fee")
-  double? get fee => throw _privateConstructorUsedError;
+  double? get fee;
   @override
   @JsonKey(name: 'date_crafted')
-  DateTime get date => throw _privateConstructorUsedError;
+  DateTime get date;
   @override // required int nonce,
 // required int timestamp,
 // @JsonKey(name: 'nft_data') dynamic nftData,
 // required String signature,
-  int get height => throw _privateConstructorUsedError;
+  int get height;
   @override
   @JsonKey(ignore: true)
   _$$_WebTransactionCopyWith<_$_WebTransaction> get copyWith =>

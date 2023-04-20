@@ -21,7 +21,7 @@ class AdnrScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final wallets = ref.watch(walletListProvider);
+    final wallets = ref.watch(walletListProvider).where((w) => !w.isReserved).toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,

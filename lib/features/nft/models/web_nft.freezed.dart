@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'web_nft.dart';
 
@@ -51,7 +51,8 @@ mixin _$WebNft {
 /// @nodoc
 abstract class $WebNftCopyWith<$Res> {
   factory $WebNftCopyWith(WebNft value, $Res Function(WebNft) then) =
-      _$WebNftCopyWithImpl<$Res>;
+      _$WebNftCopyWithImpl<$Res, WebNft>;
+  @useResult
   $Res call(
       {String identifier,
       String name,
@@ -68,78 +69,81 @@ abstract class $WebNftCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$WebNftCopyWithImpl<$Res> implements $WebNftCopyWith<$Res> {
+class _$WebNftCopyWithImpl<$Res, $Val extends WebNft>
+    implements $WebNftCopyWith<$Res> {
   _$WebNftCopyWithImpl(this._value, this._then);
 
-  final WebNft _value;
   // ignore: unused_field
-  final $Res Function(WebNft) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? identifier = freezed,
-    Object? name = freezed,
-    Object? description = freezed,
-    Object? ownerAddress = freezed,
-    Object? minterName = freezed,
-    Object? primaryAssetName = freezed,
-    Object? primaryAssetSize = freezed,
+    Object? identifier = null,
+    Object? name = null,
+    Object? description = null,
+    Object? ownerAddress = null,
+    Object? minterName = null,
+    Object? primaryAssetName = null,
+    Object? primaryAssetSize = null,
     Object? primaryAssetRemoteKey = freezed,
-    Object? smartContractDataString = freezed,
-    Object? mintedAt = freezed,
-    Object? assetsAvailable = freezed,
+    Object? smartContractDataString = null,
+    Object? mintedAt = null,
+    Object? assetsAvailable = null,
     Object? data = freezed,
   }) {
     return _then(_value.copyWith(
-      identifier: identifier == freezed
+      identifier: null == identifier
           ? _value.identifier
           : identifier // ignore: cast_nullable_to_non_nullable
               as String,
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      description: description == freezed
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      ownerAddress: ownerAddress == freezed
+      ownerAddress: null == ownerAddress
           ? _value.ownerAddress
           : ownerAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      minterName: minterName == freezed
+      minterName: null == minterName
           ? _value.minterName
           : minterName // ignore: cast_nullable_to_non_nullable
               as String,
-      primaryAssetName: primaryAssetName == freezed
+      primaryAssetName: null == primaryAssetName
           ? _value.primaryAssetName
           : primaryAssetName // ignore: cast_nullable_to_non_nullable
               as String,
-      primaryAssetSize: primaryAssetSize == freezed
+      primaryAssetSize: null == primaryAssetSize
           ? _value.primaryAssetSize
           : primaryAssetSize // ignore: cast_nullable_to_non_nullable
               as int,
-      primaryAssetRemoteKey: primaryAssetRemoteKey == freezed
+      primaryAssetRemoteKey: freezed == primaryAssetRemoteKey
           ? _value.primaryAssetRemoteKey
           : primaryAssetRemoteKey // ignore: cast_nullable_to_non_nullable
               as String?,
-      smartContractDataString: smartContractDataString == freezed
+      smartContractDataString: null == smartContractDataString
           ? _value.smartContractDataString
           : smartContractDataString // ignore: cast_nullable_to_non_nullable
               as String,
-      mintedAt: mintedAt == freezed
+      mintedAt: null == mintedAt
           ? _value.mintedAt
           : mintedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      assetsAvailable: assetsAvailable == freezed
+      assetsAvailable: null == assetsAvailable
           ? _value.assetsAvailable
           : assetsAvailable // ignore: cast_nullable_to_non_nullable
               as bool,
-      data: data == freezed
+      data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as String?,
-    ));
+    ) as $Val);
   }
 }
 
@@ -148,6 +152,7 @@ abstract class _$$_WebNftCopyWith<$Res> implements $WebNftCopyWith<$Res> {
   factory _$$_WebNftCopyWith(_$_WebNft value, $Res Function(_$_WebNft) then) =
       __$$_WebNftCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String identifier,
       String name,
@@ -164,75 +169,74 @@ abstract class _$$_WebNftCopyWith<$Res> implements $WebNftCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_WebNftCopyWithImpl<$Res> extends _$WebNftCopyWithImpl<$Res>
+class __$$_WebNftCopyWithImpl<$Res>
+    extends _$WebNftCopyWithImpl<$Res, _$_WebNft>
     implements _$$_WebNftCopyWith<$Res> {
   __$$_WebNftCopyWithImpl(_$_WebNft _value, $Res Function(_$_WebNft) _then)
-      : super(_value, (v) => _then(v as _$_WebNft));
+      : super(_value, _then);
 
-  @override
-  _$_WebNft get _value => super._value as _$_WebNft;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? identifier = freezed,
-    Object? name = freezed,
-    Object? description = freezed,
-    Object? ownerAddress = freezed,
-    Object? minterName = freezed,
-    Object? primaryAssetName = freezed,
-    Object? primaryAssetSize = freezed,
+    Object? identifier = null,
+    Object? name = null,
+    Object? description = null,
+    Object? ownerAddress = null,
+    Object? minterName = null,
+    Object? primaryAssetName = null,
+    Object? primaryAssetSize = null,
     Object? primaryAssetRemoteKey = freezed,
-    Object? smartContractDataString = freezed,
-    Object? mintedAt = freezed,
-    Object? assetsAvailable = freezed,
+    Object? smartContractDataString = null,
+    Object? mintedAt = null,
+    Object? assetsAvailable = null,
     Object? data = freezed,
   }) {
     return _then(_$_WebNft(
-      identifier: identifier == freezed
+      identifier: null == identifier
           ? _value.identifier
           : identifier // ignore: cast_nullable_to_non_nullable
               as String,
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      description: description == freezed
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      ownerAddress: ownerAddress == freezed
+      ownerAddress: null == ownerAddress
           ? _value.ownerAddress
           : ownerAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      minterName: minterName == freezed
+      minterName: null == minterName
           ? _value.minterName
           : minterName // ignore: cast_nullable_to_non_nullable
               as String,
-      primaryAssetName: primaryAssetName == freezed
+      primaryAssetName: null == primaryAssetName
           ? _value.primaryAssetName
           : primaryAssetName // ignore: cast_nullable_to_non_nullable
               as String,
-      primaryAssetSize: primaryAssetSize == freezed
+      primaryAssetSize: null == primaryAssetSize
           ? _value.primaryAssetSize
           : primaryAssetSize // ignore: cast_nullable_to_non_nullable
               as int,
-      primaryAssetRemoteKey: primaryAssetRemoteKey == freezed
+      primaryAssetRemoteKey: freezed == primaryAssetRemoteKey
           ? _value.primaryAssetRemoteKey
           : primaryAssetRemoteKey // ignore: cast_nullable_to_non_nullable
               as String?,
-      smartContractDataString: smartContractDataString == freezed
+      smartContractDataString: null == smartContractDataString
           ? _value.smartContractDataString
           : smartContractDataString // ignore: cast_nullable_to_non_nullable
               as String,
-      mintedAt: mintedAt == freezed
+      mintedAt: null == mintedAt
           ? _value.mintedAt
           : mintedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      assetsAvailable: assetsAvailable == freezed
+      assetsAvailable: null == assetsAvailable
           ? _value.assetsAvailable
           : assetsAvailable // ignore: cast_nullable_to_non_nullable
               as bool,
-      data: data == freezed
+      data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as String?,
@@ -315,54 +319,59 @@ class _$_WebNft extends _WebNft {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_WebNft &&
-            const DeepCollectionEquality()
-                .equals(other.identifier, identifier) &&
-            const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality()
-                .equals(other.description, description) &&
-            const DeepCollectionEquality()
-                .equals(other.ownerAddress, ownerAddress) &&
-            const DeepCollectionEquality()
-                .equals(other.minterName, minterName) &&
-            const DeepCollectionEquality()
-                .equals(other.primaryAssetName, primaryAssetName) &&
-            const DeepCollectionEquality()
-                .equals(other.primaryAssetSize, primaryAssetSize) &&
-            const DeepCollectionEquality()
-                .equals(other.primaryAssetRemoteKey, primaryAssetRemoteKey) &&
-            const DeepCollectionEquality().equals(
-                other.smartContractDataString, smartContractDataString) &&
-            const DeepCollectionEquality().equals(other.mintedAt, mintedAt) &&
-            const DeepCollectionEquality()
-                .equals(other.assetsAvailable, assetsAvailable) &&
-            const DeepCollectionEquality().equals(other.data, data));
+            (identical(other.identifier, identifier) ||
+                other.identifier == identifier) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.ownerAddress, ownerAddress) ||
+                other.ownerAddress == ownerAddress) &&
+            (identical(other.minterName, minterName) ||
+                other.minterName == minterName) &&
+            (identical(other.primaryAssetName, primaryAssetName) ||
+                other.primaryAssetName == primaryAssetName) &&
+            (identical(other.primaryAssetSize, primaryAssetSize) ||
+                other.primaryAssetSize == primaryAssetSize) &&
+            (identical(other.primaryAssetRemoteKey, primaryAssetRemoteKey) ||
+                other.primaryAssetRemoteKey == primaryAssetRemoteKey) &&
+            (identical(
+                    other.smartContractDataString, smartContractDataString) ||
+                other.smartContractDataString == smartContractDataString) &&
+            (identical(other.mintedAt, mintedAt) ||
+                other.mintedAt == mintedAt) &&
+            (identical(other.assetsAvailable, assetsAvailable) ||
+                other.assetsAvailable == assetsAvailable) &&
+            (identical(other.data, data) || other.data == data));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(identifier),
-      const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(description),
-      const DeepCollectionEquality().hash(ownerAddress),
-      const DeepCollectionEquality().hash(minterName),
-      const DeepCollectionEquality().hash(primaryAssetName),
-      const DeepCollectionEquality().hash(primaryAssetSize),
-      const DeepCollectionEquality().hash(primaryAssetRemoteKey),
-      const DeepCollectionEquality().hash(smartContractDataString),
-      const DeepCollectionEquality().hash(mintedAt),
-      const DeepCollectionEquality().hash(assetsAvailable),
-      const DeepCollectionEquality().hash(data));
+      identifier,
+      name,
+      description,
+      ownerAddress,
+      minterName,
+      primaryAssetName,
+      primaryAssetSize,
+      primaryAssetRemoteKey,
+      smartContractDataString,
+      mintedAt,
+      assetsAvailable,
+      data);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_WebNftCopyWith<_$_WebNft> get copyWith =>
       __$$_WebNftCopyWithImpl<_$_WebNft>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_WebNftToJson(this);
+    return _$$_WebNftToJson(
+      this,
+    );
   }
 }
 
@@ -394,38 +403,38 @@ abstract class _WebNft extends WebNft {
   factory _WebNft.fromJson(Map<String, dynamic> json) = _$_WebNft.fromJson;
 
   @override
-  String get identifier => throw _privateConstructorUsedError;
+  String get identifier;
   @override
-  String get name => throw _privateConstructorUsedError;
+  String get name;
   @override
-  String get description => throw _privateConstructorUsedError;
+  String get description;
   @override
   @JsonKey(name: "owner_address")
-  String get ownerAddress => throw _privateConstructorUsedError;
+  String get ownerAddress;
   @override
   @JsonKey(name: "minter_name")
-  String get minterName => throw _privateConstructorUsedError;
+  String get minterName;
   @override
   @JsonKey(name: "primary_asset_name")
-  String get primaryAssetName => throw _privateConstructorUsedError;
+  String get primaryAssetName;
   @override
   @JsonKey(name: "primary_asset_size")
-  int get primaryAssetSize => throw _privateConstructorUsedError;
+  int get primaryAssetSize;
   @override
   @JsonKey(name: "primary_asset_remote_key")
-  String? get primaryAssetRemoteKey => throw _privateConstructorUsedError;
+  String? get primaryAssetRemoteKey;
   @override // @JsonKey(name: "additional_assets_remote_keys") List<String>? additionalAssetsRemoteKeys,
   @JsonKey(name: "smart_contract_data")
-  String get smartContractDataString => throw _privateConstructorUsedError;
+  String get smartContractDataString;
   @override
   @JsonKey(name: "minted_at")
-  DateTime get mintedAt => throw _privateConstructorUsedError;
+  DateTime get mintedAt;
   @override
   @JsonKey(name: "assets_available")
-  bool get assetsAvailable => throw _privateConstructorUsedError;
+  bool get assetsAvailable;
   @override
   @JsonKey(name: "data")
-  String? get data => throw _privateConstructorUsedError;
+  String? get data;
   @override
   @JsonKey(ignore: true)
   _$$_WebNftCopyWith<_$_WebNft> get copyWith =>

@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'keypair.dart';
 
@@ -35,7 +35,8 @@ mixin _$Keypair {
 /// @nodoc
 abstract class $KeypairCopyWith<$Res> {
   factory $KeypairCopyWith(Keypair value, $Res Function(Keypair) then) =
-      _$KeypairCopyWithImpl<$Res>;
+      _$KeypairCopyWithImpl<$Res, Keypair>;
+  @useResult
   $Res call(
       {String private,
       String public,
@@ -45,43 +46,46 @@ abstract class $KeypairCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$KeypairCopyWithImpl<$Res> implements $KeypairCopyWith<$Res> {
+class _$KeypairCopyWithImpl<$Res, $Val extends Keypair>
+    implements $KeypairCopyWith<$Res> {
   _$KeypairCopyWithImpl(this._value, this._then);
 
-  final Keypair _value;
   // ignore: unused_field
-  final $Res Function(Keypair) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? private = freezed,
-    Object? public = freezed,
-    Object? publicInflated = freezed,
-    Object? email = freezed,
+    Object? private = null,
+    Object? public = null,
+    Object? publicInflated = null,
+    Object? email = null,
     Object? mneumonic = freezed,
   }) {
     return _then(_value.copyWith(
-      private: private == freezed
+      private: null == private
           ? _value.private
           : private // ignore: cast_nullable_to_non_nullable
               as String,
-      public: public == freezed
+      public: null == public
           ? _value.public
           : public // ignore: cast_nullable_to_non_nullable
               as String,
-      publicInflated: publicInflated == freezed
+      publicInflated: null == publicInflated
           ? _value.publicInflated
           : publicInflated // ignore: cast_nullable_to_non_nullable
               as String,
-      email: email == freezed
+      email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      mneumonic: mneumonic == freezed
+      mneumonic: freezed == mneumonic
           ? _value.mneumonic
           : mneumonic // ignore: cast_nullable_to_non_nullable
               as String?,
-    ));
+    ) as $Val);
   }
 }
 
@@ -91,6 +95,7 @@ abstract class _$$_KeypairCopyWith<$Res> implements $KeypairCopyWith<$Res> {
           _$_Keypair value, $Res Function(_$_Keypair) then) =
       __$$_KeypairCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String private,
       String public,
@@ -100,40 +105,39 @@ abstract class _$$_KeypairCopyWith<$Res> implements $KeypairCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_KeypairCopyWithImpl<$Res> extends _$KeypairCopyWithImpl<$Res>
+class __$$_KeypairCopyWithImpl<$Res>
+    extends _$KeypairCopyWithImpl<$Res, _$_Keypair>
     implements _$$_KeypairCopyWith<$Res> {
   __$$_KeypairCopyWithImpl(_$_Keypair _value, $Res Function(_$_Keypair) _then)
-      : super(_value, (v) => _then(v as _$_Keypair));
+      : super(_value, _then);
 
-  @override
-  _$_Keypair get _value => super._value as _$_Keypair;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? private = freezed,
-    Object? public = freezed,
-    Object? publicInflated = freezed,
-    Object? email = freezed,
+    Object? private = null,
+    Object? public = null,
+    Object? publicInflated = null,
+    Object? email = null,
     Object? mneumonic = freezed,
   }) {
     return _then(_$_Keypair(
-      private: private == freezed
+      private: null == private
           ? _value.private
           : private // ignore: cast_nullable_to_non_nullable
               as String,
-      public: public == freezed
+      public: null == public
           ? _value.public
           : public // ignore: cast_nullable_to_non_nullable
               as String,
-      publicInflated: publicInflated == freezed
+      publicInflated: null == publicInflated
           ? _value.publicInflated
           : publicInflated // ignore: cast_nullable_to_non_nullable
               as String,
-      email: email == freezed
+      email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      mneumonic: mneumonic == freezed
+      mneumonic: freezed == mneumonic
           ? _value.mneumonic
           : mneumonic // ignore: cast_nullable_to_non_nullable
               as String?,
@@ -177,32 +181,31 @@ class _$_Keypair extends _Keypair {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Keypair &&
-            const DeepCollectionEquality().equals(other.private, private) &&
-            const DeepCollectionEquality().equals(other.public, public) &&
-            const DeepCollectionEquality()
-                .equals(other.publicInflated, publicInflated) &&
-            const DeepCollectionEquality().equals(other.email, email) &&
-            const DeepCollectionEquality().equals(other.mneumonic, mneumonic));
+            (identical(other.private, private) || other.private == private) &&
+            (identical(other.public, public) || other.public == public) &&
+            (identical(other.publicInflated, publicInflated) ||
+                other.publicInflated == publicInflated) &&
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.mneumonic, mneumonic) ||
+                other.mneumonic == mneumonic));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(private),
-      const DeepCollectionEquality().hash(public),
-      const DeepCollectionEquality().hash(publicInflated),
-      const DeepCollectionEquality().hash(email),
-      const DeepCollectionEquality().hash(mneumonic));
+      runtimeType, private, public, publicInflated, email, mneumonic);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_KeypairCopyWith<_$_Keypair> get copyWith =>
       __$$_KeypairCopyWithImpl<_$_Keypair>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_KeypairToJson(this);
+    return _$$_KeypairToJson(
+      this,
+    );
   }
 }
 
@@ -218,15 +221,15 @@ abstract class _Keypair extends Keypair {
   factory _Keypair.fromJson(Map<String, dynamic> json) = _$_Keypair.fromJson;
 
   @override
-  String get private => throw _privateConstructorUsedError;
+  String get private;
   @override
-  String get public => throw _privateConstructorUsedError;
+  String get public;
   @override
-  String get publicInflated => throw _privateConstructorUsedError;
+  String get publicInflated;
   @override
-  String get email => throw _privateConstructorUsedError;
+  String get email;
   @override // @JsonKey(toJson: null) ECPrivateKey? ecPrivateKey,
-  String? get mneumonic => throw _privateConstructorUsedError;
+  String? get mneumonic;
   @override
   @JsonKey(ignore: true)
   _$$_KeypairCopyWith<_$_Keypair> get copyWith =>

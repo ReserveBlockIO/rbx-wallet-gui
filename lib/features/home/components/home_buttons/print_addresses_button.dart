@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/reserve/providers/reserve_account_provider.dart';
 
 import '../../../../core/base_component.dart';
 import '../../../../core/components/buttons.dart';
@@ -14,7 +16,7 @@ class PrintAdressesButton extends BaseComponent {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final cliStarted = ref.watch(sessionProvider).cliStarted;
 
     return AppButton(
@@ -33,10 +35,24 @@ class PrintAdressesButton extends BaseComponent {
               final wallets = ref.read(walletListProvider);
               for (final wallet in wallets) {
                 _log.append(LogEntry(
-                  message: "${wallet.address} (${wallet.balance} RBX)",
-                  variant: AppColorVariant.Success,
-                  textToCopy: wallet.address,
-                ));
+                    message: wallet.isReserved
+                        ? "${wallet.address} (Available: ${wallet.availableBalance} RBX)"
+                        : "${wallet.address} (${wallet.balance} RBX)",
+                    variant: AppColorVariant.Success,
+                    colorOverride: wallet.isReserved ? Colors.deepPurple.shade200 : null,
+                    textToCopy: wallet.address,
+                    trailing: wallet.isReserved
+                        ? InkWell(
+                            child: Icon(
+                              Icons.help,
+                              size: 14,
+                              color: Colors.deepPurple.shade200,
+                            ),
+                            onTap: () {
+                              ref.read(reserveAccountProvider.notifier).showBalanceInfo(wallet);
+                            },
+                          )
+                        : null));
               }
             },
     );

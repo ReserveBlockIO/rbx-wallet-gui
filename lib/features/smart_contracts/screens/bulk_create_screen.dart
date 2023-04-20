@@ -1,13 +1,19 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
+import 'package:rbx_wallet/generated/assets.gen.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../wallet/components/wallet_selector.dart';
 import '../providers/sc_wizard_provider.dart';
 import 'smart_contract_wizard_screen.dart';
+import '../../../../utils/files.dart';
 
 class BulkCreateScreen extends BaseScreen {
   const BulkCreateScreen({Key? key})
@@ -45,18 +51,18 @@ class BulkCreateScreen extends BaseScreen {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 500),
-                child: const Text(
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nihil enim hoc differt. Duo Reges: constructio interrete. Primum in nostrane potestate est, quid meminerimus? Quaerimus enim finem bonorum. Iam enim adesse poterit. Age sane, inquam.",
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(16),
+          //   child: Center(
+          //     child: ConstrainedBox(
+          //       constraints: const BoxConstraints(maxWidth: 500),
+          //       child: const Text(
+          //         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nihil enim hoc differt. Duo Reges: constructio interrete. Primum in nostrane potestate est, quid meminerimus? Quaerimus enim finem bonorum. Iam enim adesse poterit. Age sane, inquam.",
+          //         textAlign: TextAlign.center,
+          //       ),
+          //     ),
+          //   ),
+          // ),
           ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 600),
             child: Padding(
@@ -88,18 +94,18 @@ class BulkCreateScreen extends BaseScreen {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Center(
-                          child: ConstrainedBox(
-                            constraints: const BoxConstraints(maxWidth: 500),
-                            child: const Text(
-                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nihil enim hoc differt. Duo Reges: constructio interrete. Primum in nostrane potestate est, quid meminerimus?",
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(16),
+                      //   child: Center(
+                      //     child: ConstrainedBox(
+                      //       constraints: const BoxConstraints(maxWidth: 500),
+                      //       child: const Text(
+                      //         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nihil enim hoc differt. Duo Reges: constructio interrete. Primum in nostrane potestate est, quid meminerimus?",
+                      //         textAlign: TextAlign.center,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: AppButton(
@@ -155,7 +161,7 @@ class BulkCreateScreen extends BaseScreen {
                           child: ConstrainedBox(
                             constraints: const BoxConstraints(maxWidth: 500),
                             child: const Text(
-                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nihil enim hoc differt. Duo Reges: constructio interrete. Primum in nostrane potestate est, quid meminerimus?",
+                              "Create a collection with a JSON or CSV file. See the example files below and use them as a template. Upon uploading the file you will be able to configure and tweak the settings through the wizard's UI.\n\nThis is an advanced feature for users who want to compile and mint collections outside of the graphical user interface.",
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -178,14 +184,10 @@ class BulkCreateScreen extends BaseScreen {
                                 const SizedBox(height: 8),
                                 AppButton(
                                   label: "Download Example JSON",
-                                  onPressed: () {},
-                                  variant: AppColorVariant.Light,
-                                  icon: Icons.download,
-                                ),
-                                const SizedBox(height: 16),
-                                AppButton(
-                                  label: "Download Template JSON",
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    launchUrlString(
+                                        "https://firebasestorage.googleapis.com/v0/b/rbx-storage.appspot.com/o/nft-metadata-example.json?alt=media&token=6ce020f6-81e4-49ce-aa52-983f51a077f7");
+                                  },
                                   variant: AppColorVariant.Light,
                                   icon: Icons.download,
                                 ),
@@ -222,14 +224,11 @@ class BulkCreateScreen extends BaseScreen {
                                 const SizedBox(height: 8),
                                 AppButton(
                                   label: "Download Example CSV",
-                                  onPressed: () {},
-                                  variant: AppColorVariant.Light,
-                                  icon: Icons.download,
-                                ),
-                                const SizedBox(height: 16),
-                                AppButton(
-                                  label: "Download Template CSV",
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    // openFile(File(Assets.docs.nftMetadataExampleCsv));
+                                    launchUrlString(
+                                        "https://firebasestorage.googleapis.com/v0/b/rbx-storage.appspot.com/o/nft-metadata-example.csv?alt=media&token=3c6613c3-362b-4cda-982e-edf2757e1bdd");
+                                  },
                                   variant: AppColorVariant.Light,
                                   icon: Icons.download,
                                 ),

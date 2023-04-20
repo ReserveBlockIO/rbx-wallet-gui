@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'compiler_payload.dart';
 
@@ -39,6 +39,8 @@ mixin _$CompilerPayload {
   String get minterAddress => throw _privateConstructorUsedError;
   @JsonKey(name: "IsMinter")
   bool get isMinter => throw _privateConstructorUsedError;
+  @JsonKey(name: "Properties")
+  Map<String, String>? get properties => throw _privateConstructorUsedError;
   String get hash => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -51,7 +53,8 @@ mixin _$CompilerPayload {
 abstract class $CompilerPayloadCopyWith<$Res> {
   factory $CompilerPayloadCopyWith(
           CompilerPayload value, $Res Function(CompilerPayload) then) =
-      _$CompilerPayloadCopyWithImpl<$Res>;
+      _$CompilerPayloadCopyWithImpl<$Res, CompilerPayload>;
+  @useResult
   $Res call(
       {@JsonKey(name: "Name") String name,
       @JsonKey(name: "MinterName") String minterName,
@@ -62,81 +65,90 @@ abstract class $CompilerPayloadCopyWith<$Res> {
       @JsonKey(name: "Features") List<Map<String, dynamic>>? features,
       @JsonKey(name: "MinterAddress") String minterAddress,
       @JsonKey(name: "IsMinter") bool isMinter,
+      @JsonKey(name: "Properties") Map<String, String>? properties,
       String hash});
 
   $AssetCopyWith<$Res> get asset;
 }
 
 /// @nodoc
-class _$CompilerPayloadCopyWithImpl<$Res>
+class _$CompilerPayloadCopyWithImpl<$Res, $Val extends CompilerPayload>
     implements $CompilerPayloadCopyWith<$Res> {
   _$CompilerPayloadCopyWithImpl(this._value, this._then);
 
-  final CompilerPayload _value;
   // ignore: unused_field
-  final $Res Function(CompilerPayload) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
-    Object? minterName = freezed,
-    Object? description = freezed,
-    Object? asset = freezed,
-    Object? isPublic = freezed,
+    Object? name = null,
+    Object? minterName = null,
+    Object? description = null,
+    Object? asset = null,
+    Object? isPublic = null,
     Object? uuid = freezed,
     Object? features = freezed,
-    Object? minterAddress = freezed,
-    Object? isMinter = freezed,
-    Object? hash = freezed,
+    Object? minterAddress = null,
+    Object? isMinter = null,
+    Object? properties = freezed,
+    Object? hash = null,
   }) {
     return _then(_value.copyWith(
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      minterName: minterName == freezed
+      minterName: null == minterName
           ? _value.minterName
           : minterName // ignore: cast_nullable_to_non_nullable
               as String,
-      description: description == freezed
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      asset: asset == freezed
+      asset: null == asset
           ? _value.asset
           : asset // ignore: cast_nullable_to_non_nullable
               as Asset,
-      isPublic: isPublic == freezed
+      isPublic: null == isPublic
           ? _value.isPublic
           : isPublic // ignore: cast_nullable_to_non_nullable
               as bool,
-      uuid: uuid == freezed
+      uuid: freezed == uuid
           ? _value.uuid
           : uuid // ignore: cast_nullable_to_non_nullable
               as String?,
-      features: features == freezed
+      features: freezed == features
           ? _value.features
           : features // ignore: cast_nullable_to_non_nullable
               as List<Map<String, dynamic>>?,
-      minterAddress: minterAddress == freezed
+      minterAddress: null == minterAddress
           ? _value.minterAddress
           : minterAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      isMinter: isMinter == freezed
+      isMinter: null == isMinter
           ? _value.isMinter
           : isMinter // ignore: cast_nullable_to_non_nullable
               as bool,
-      hash: hash == freezed
+      properties: freezed == properties
+          ? _value.properties
+          : properties // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>?,
+      hash: null == hash
           ? _value.hash
           : hash // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $AssetCopyWith<$Res> get asset {
     return $AssetCopyWith<$Res>(_value.asset, (value) {
-      return _then(_value.copyWith(asset: value));
+      return _then(_value.copyWith(asset: value) as $Val);
     });
   }
 }
@@ -148,6 +160,7 @@ abstract class _$$_CompilerPayloadCopyWith<$Res>
           _$_CompilerPayload value, $Res Function(_$_CompilerPayload) then) =
       __$$_CompilerPayloadCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {@JsonKey(name: "Name") String name,
       @JsonKey(name: "MinterName") String minterName,
@@ -158,6 +171,7 @@ abstract class _$$_CompilerPayloadCopyWith<$Res>
       @JsonKey(name: "Features") List<Map<String, dynamic>>? features,
       @JsonKey(name: "MinterAddress") String minterAddress,
       @JsonKey(name: "IsMinter") bool isMinter,
+      @JsonKey(name: "Properties") Map<String, String>? properties,
       String hash});
 
   @override
@@ -166,66 +180,69 @@ abstract class _$$_CompilerPayloadCopyWith<$Res>
 
 /// @nodoc
 class __$$_CompilerPayloadCopyWithImpl<$Res>
-    extends _$CompilerPayloadCopyWithImpl<$Res>
+    extends _$CompilerPayloadCopyWithImpl<$Res, _$_CompilerPayload>
     implements _$$_CompilerPayloadCopyWith<$Res> {
   __$$_CompilerPayloadCopyWithImpl(
       _$_CompilerPayload _value, $Res Function(_$_CompilerPayload) _then)
-      : super(_value, (v) => _then(v as _$_CompilerPayload));
+      : super(_value, _then);
 
-  @override
-  _$_CompilerPayload get _value => super._value as _$_CompilerPayload;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
-    Object? minterName = freezed,
-    Object? description = freezed,
-    Object? asset = freezed,
-    Object? isPublic = freezed,
+    Object? name = null,
+    Object? minterName = null,
+    Object? description = null,
+    Object? asset = null,
+    Object? isPublic = null,
     Object? uuid = freezed,
     Object? features = freezed,
-    Object? minterAddress = freezed,
-    Object? isMinter = freezed,
-    Object? hash = freezed,
+    Object? minterAddress = null,
+    Object? isMinter = null,
+    Object? properties = freezed,
+    Object? hash = null,
   }) {
     return _then(_$_CompilerPayload(
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      minterName: minterName == freezed
+      minterName: null == minterName
           ? _value.minterName
           : minterName // ignore: cast_nullable_to_non_nullable
               as String,
-      description: description == freezed
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      asset: asset == freezed
+      asset: null == asset
           ? _value.asset
           : asset // ignore: cast_nullable_to_non_nullable
               as Asset,
-      isPublic: isPublic == freezed
+      isPublic: null == isPublic
           ? _value.isPublic
           : isPublic // ignore: cast_nullable_to_non_nullable
               as bool,
-      uuid: uuid == freezed
+      uuid: freezed == uuid
           ? _value.uuid
           : uuid // ignore: cast_nullable_to_non_nullable
               as String?,
-      features: features == freezed
+      features: freezed == features
           ? _value._features
           : features // ignore: cast_nullable_to_non_nullable
               as List<Map<String, dynamic>>?,
-      minterAddress: minterAddress == freezed
+      minterAddress: null == minterAddress
           ? _value.minterAddress
           : minterAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      isMinter: isMinter == freezed
+      isMinter: null == isMinter
           ? _value.isMinter
           : isMinter // ignore: cast_nullable_to_non_nullable
               as bool,
-      hash: hash == freezed
+      properties: freezed == properties
+          ? _value._properties
+          : properties // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>?,
+      hash: null == hash
           ? _value.hash
           : hash // ignore: cast_nullable_to_non_nullable
               as String,
@@ -247,8 +264,10 @@ class _$_CompilerPayload extends _CompilerPayload {
       @JsonKey(name: "Features") final List<Map<String, dynamic>>? features,
       @JsonKey(name: "MinterAddress") required this.minterAddress,
       @JsonKey(name: "IsMinter") required this.isMinter,
+      @JsonKey(name: "Properties") final Map<String, String>? properties,
       required this.hash})
       : _features = features,
+        _properties = properties,
         super._();
 
   factory _$_CompilerPayload.fromJson(Map<String, dynamic> json) =>
@@ -278,6 +297,7 @@ class _$_CompilerPayload extends _CompilerPayload {
   List<Map<String, dynamic>>? get features {
     final value = _features;
     if (value == null) return null;
+    if (_features is EqualUnmodifiableListView) return _features;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(value);
   }
@@ -288,12 +308,23 @@ class _$_CompilerPayload extends _CompilerPayload {
   @override
   @JsonKey(name: "IsMinter")
   final bool isMinter;
+  final Map<String, String>? _properties;
+  @override
+  @JsonKey(name: "Properties")
+  Map<String, String>? get properties {
+    final value = _properties;
+    if (value == null) return null;
+    if (_properties is EqualUnmodifiableMapView) return _properties;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
+
   @override
   final String hash;
 
   @override
   String toString() {
-    return 'CompilerPayload(name: $name, minterName: $minterName, description: $description, asset: $asset, isPublic: $isPublic, uuid: $uuid, features: $features, minterAddress: $minterAddress, isMinter: $isMinter, hash: $hash)';
+    return 'CompilerPayload(name: $name, minterName: $minterName, description: $description, asset: $asset, isPublic: $isPublic, uuid: $uuid, features: $features, minterAddress: $minterAddress, isMinter: $isMinter, properties: $properties, hash: $hash)';
   }
 
   @override
@@ -301,44 +332,52 @@ class _$_CompilerPayload extends _CompilerPayload {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_CompilerPayload &&
-            const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality()
-                .equals(other.minterName, minterName) &&
-            const DeepCollectionEquality()
-                .equals(other.description, description) &&
-            const DeepCollectionEquality().equals(other.asset, asset) &&
-            const DeepCollectionEquality().equals(other.isPublic, isPublic) &&
-            const DeepCollectionEquality().equals(other.uuid, uuid) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.minterName, minterName) ||
+                other.minterName == minterName) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.asset, asset) || other.asset == asset) &&
+            (identical(other.isPublic, isPublic) ||
+                other.isPublic == isPublic) &&
+            (identical(other.uuid, uuid) || other.uuid == uuid) &&
             const DeepCollectionEquality().equals(other._features, _features) &&
+            (identical(other.minterAddress, minterAddress) ||
+                other.minterAddress == minterAddress) &&
+            (identical(other.isMinter, isMinter) ||
+                other.isMinter == isMinter) &&
             const DeepCollectionEquality()
-                .equals(other.minterAddress, minterAddress) &&
-            const DeepCollectionEquality().equals(other.isMinter, isMinter) &&
-            const DeepCollectionEquality().equals(other.hash, hash));
+                .equals(other._properties, _properties) &&
+            (identical(other.hash, hash) || other.hash == hash));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(minterName),
-      const DeepCollectionEquality().hash(description),
-      const DeepCollectionEquality().hash(asset),
-      const DeepCollectionEquality().hash(isPublic),
-      const DeepCollectionEquality().hash(uuid),
+      name,
+      minterName,
+      description,
+      asset,
+      isPublic,
+      uuid,
       const DeepCollectionEquality().hash(_features),
-      const DeepCollectionEquality().hash(minterAddress),
-      const DeepCollectionEquality().hash(isMinter),
-      const DeepCollectionEquality().hash(hash));
+      minterAddress,
+      isMinter,
+      const DeepCollectionEquality().hash(_properties),
+      hash);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_CompilerPayloadCopyWith<_$_CompilerPayload> get copyWith =>
       __$$_CompilerPayloadCopyWithImpl<_$_CompilerPayload>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_CompilerPayloadToJson(this);
+    return _$$_CompilerPayloadToJson(
+      this,
+    );
   }
 }
 
@@ -362,6 +401,8 @@ abstract class _CompilerPayload extends CompilerPayload {
           required final String minterAddress,
       @JsonKey(name: "IsMinter")
           required final bool isMinter,
+      @JsonKey(name: "Properties")
+          final Map<String, String>? properties,
       required final String hash}) = _$_CompilerPayload;
   _CompilerPayload._() : super._();
 
@@ -370,34 +411,36 @@ abstract class _CompilerPayload extends CompilerPayload {
 
   @override
   @JsonKey(name: "Name")
-  String get name => throw _privateConstructorUsedError;
+  String get name;
   @override
   @JsonKey(name: "MinterName")
-  String get minterName => throw _privateConstructorUsedError;
+  String get minterName;
   @override
   @JsonKey(name: "Description")
-  String get description => throw _privateConstructorUsedError;
+  String get description;
   @override
   @JsonKey(name: "SmartContractAsset")
-  Asset get asset => throw _privateConstructorUsedError;
+  Asset get asset;
   @override
   @JsonKey(name: "IsPublic", defaultValue: true)
-  bool get isPublic => throw _privateConstructorUsedError;
+  bool get isPublic;
   @override
   @JsonKey(name: "SmartContractUID")
-  String? get uuid => throw _privateConstructorUsedError;
+  String? get uuid;
   @override
   @JsonKey(name: "Features")
-  List<Map<String, dynamic>>? get features =>
-      throw _privateConstructorUsedError;
+  List<Map<String, dynamic>>? get features;
   @override
   @JsonKey(name: "MinterAddress")
-  String get minterAddress => throw _privateConstructorUsedError;
+  String get minterAddress;
   @override
   @JsonKey(name: "IsMinter")
-  bool get isMinter => throw _privateConstructorUsedError;
+  bool get isMinter;
   @override
-  String get hash => throw _privateConstructorUsedError;
+  @JsonKey(name: "Properties")
+  Map<String, String>? get properties;
+  @override
+  String get hash;
   @override
   @JsonKey(ignore: true)
   _$$_CompilerPayloadCopyWith<_$_CompilerPayload> get copyWith =>

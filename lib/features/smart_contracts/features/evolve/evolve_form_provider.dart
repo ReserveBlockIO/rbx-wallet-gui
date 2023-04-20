@@ -8,15 +8,15 @@ import 'evolve_phase.dart';
 import 'evolve_phase_form_provider.dart';
 
 class EvolveFormProvider extends StateNotifier<Evolve> {
-  final Reader read;
+  final Ref ref;
 
-  EvolveFormProvider(this.read, [Evolve model = const Evolve()]) : super(model);
+  EvolveFormProvider(this.ref, [Evolve model = const Evolve()]) : super(model);
 
   setEvolve(Evolve evolve) {
     state = evolve;
 
     for (var i = 0; i < evolve.phases.length; i++) {
-      read(evolvePhaseFormProvider(i).notifier).setPhase(evolve.phases[i]);
+      ref.read(evolvePhaseFormProvider(i).notifier).setPhase(evolve.phases[i]);
     }
   }
 
@@ -42,7 +42,7 @@ class EvolveFormProvider extends StateNotifier<Evolve> {
   }
 
   removePhase(int index) {
-    read(evolvePhaseFormProvider(index).notifier).clear();
+    ref.read(evolvePhaseFormProvider(index).notifier).clear();
     state = state.copyWith(phases: [...state.phases]..removeAt(index));
   }
 
@@ -58,19 +58,21 @@ class EvolveFormProvider extends StateNotifier<Evolve> {
   }
 
   complete() {
-    read(createSmartContractProvider.notifier).saveEvolve(state);
+    ref.read(createSmartContractProvider.notifier).saveEvolve(state);
   }
 
   clear() {
     for (int i = 0; i < state.phases.length; i++) {
-      read(evolvePhaseFormProvider(i).notifier).clear();
+      ref.read(evolvePhaseFormProvider(i).notifier).clear();
     }
 
     final id = uniqueId();
-    state = Evolve(id: id, phases: [const EvolvePhase()]);
+    Future.delayed(Duration(milliseconds: 300), () {
+      state = Evolve(id: id, phases: [const EvolvePhase()]);
+    });
   }
 }
 
 final evolveFormProvider = StateNotifierProvider<EvolveFormProvider, Evolve>(
-  (ref) => EvolveFormProvider(ref.read),
+  (ref) => EvolveFormProvider(ref),
 );

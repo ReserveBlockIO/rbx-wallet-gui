@@ -17,7 +17,9 @@ class NftService extends BaseService {
       page = 1;
     }
 
-    final url = search.isNotEmpty ? "/GetAllSmartContracts/$page/$search" : "/GetAllSmartContracts/$page";
+    final url = search.isNotEmpty
+        ? "/GetAllSmartContracts/$page/$search"
+        : "/GetAllSmartContracts/$page";
 
     final response = await getText(url, cleanPath: false);
     if (response == 'null') {
@@ -38,7 +40,8 @@ class NftService extends BaseService {
         smartContracts.add(nft);
       }
 
-      return CliPaginatedResponse(page: page, count: count, results: smartContracts);
+      return CliPaginatedResponse(
+          page: page, count: count, results: smartContracts);
       // return smartContracts;
     } catch (e) {
       print(e);
@@ -46,12 +49,15 @@ class NftService extends BaseService {
     }
   }
 
-  Future<CliPaginatedResponse<Nft>> minted(int page, {String search = ""}) async {
+  Future<CliPaginatedResponse<Nft>> minted(int page,
+      {String search = ""}) async {
     if (page < 1) {
       page = 1;
     }
 
-    final url = search.isNotEmpty ? "/GetMintedSmartContracts/$page/$search" : "/GetMintedSmartContracts/$page";
+    final url = search.isNotEmpty
+        ? "/GetMintedSmartContracts/$page/$search"
+        : "/GetMintedSmartContracts/$page";
     final response = await getText(url, cleanPath: false);
 
     if (response == 'null') {
@@ -70,7 +76,8 @@ class NftService extends BaseService {
         nft = await setAssetPath(nft);
         smartContracts.add(nft);
       }
-      return CliPaginatedResponse(page: page, count: count, results: smartContracts);
+      return CliPaginatedResponse(
+          page: page, count: count, results: smartContracts);
     } catch (e) {
       return CliPaginatedResponse.empty();
     }
@@ -82,7 +89,9 @@ class NftService extends BaseService {
       final data = jsonDecode(response);
 
       Nft nft = Nft.fromJson(data[0]['SmartContract']);
-      nft = nft.copyWith(code: data[0]['SmartContractCode'], currentOwner: data[0]['CurrentOwner']);
+      nft = nft.copyWith(
+          code: data[0]['SmartContractCode'],
+          currentOwner: data[0]['CurrentOwner']);
       nft = await setAssetPath(nft);
       return nft;
     } catch (e) {
@@ -105,7 +114,8 @@ class NftService extends BaseService {
   }
 
   void saveId(String id) {
-    final saved = singleton<Storage>().getStringList(Storage.MANAGABLE_NFT_IDS) ?? [];
+    final saved =
+        singleton<Storage>().getStringList(Storage.MANAGABLE_NFT_IDS) ?? [];
 
     final exists = saved.firstWhereOrNull((i) => i == id) != null;
 
@@ -128,7 +138,9 @@ class NftService extends BaseService {
         if (response.isNotEmpty) {
           try {
             final data = jsonDecode(response);
-            Nft nft = Nft.fromJson(data);
+            final d = data['SmartContractMain'];
+            Nft nft =
+                Nft.fromJson(d).copyWith(currentOwner: data['CurrentOwner']);
             nfts.add(nft);
           } catch (e) {
             print('problem loading nft from json');
@@ -141,5 +153,28 @@ class NftService extends BaseService {
     }
 
     return nfts;
+  }
+
+  Future<Nft?> getNftData(String scId) async {
+    try {
+      final response = await getText('/GetSmartContractData/$scId');
+
+      if (response.isNotEmpty) {
+        try {
+          final data = jsonDecode(response);
+          final d = data['SmartContractMain'];
+          Nft nft =
+              Nft.fromJson(d).copyWith(currentOwner: data['CurrentOwner']);
+          return nft;
+        } catch (e) {
+          print('problem loading nft from json');
+          print(e);
+        }
+      }
+    } catch (e) {
+      print("Could not fetch data for $scId");
+    }
+
+    return null;
   }
 }

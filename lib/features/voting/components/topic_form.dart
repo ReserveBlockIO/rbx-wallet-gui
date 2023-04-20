@@ -182,7 +182,7 @@ class TopicForm extends BaseComponent {
                       confirmText: "Create",
                       cancelText: "Cancel",
                     );
-                    
+
                     if (confirmed != true) {
                       return;
                     }

@@ -20,6 +20,6 @@ class Node with _$Node {
   factory Node.fromJson(Map<String, dynamic> json) => _$NodeFromJson(json);
 
   String get connectDateFormatted {
-    return DateFormat('MM/dd – kk:mm').format(connectDate);
+    return DateFormat('MM/dd – HH:mm').format(connectDate);
   }
 }

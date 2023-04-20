@@ -4,9 +4,9 @@ import '../../bridge/services/bridge_service.dart';
 import '../models/node_info.dart';
 
 class NodeInfoProvider extends StateNotifier<List<NodeInfo>> {
-  final Reader read;
+  final Ref ref;
 
-  NodeInfoProvider(this.read, [List<NodeInfo> nodes = const []]) : super(nodes);
+  NodeInfoProvider(this.ref, [List<NodeInfo> nodes = const []]) : super(nodes);
 
   Future<void> load() async {
     state = await BridgeService().getPeerInfo();
@@ -14,5 +14,5 @@ class NodeInfoProvider extends StateNotifier<List<NodeInfo>> {
 }
 
 final nodeInfoProvider = StateNotifierProvider<NodeInfoProvider, List<NodeInfo>>(
-  (ref) => NodeInfoProvider(ref.read),
+  (ref) => NodeInfoProvider(ref),
 );

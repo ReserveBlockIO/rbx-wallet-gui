@@ -50,7 +50,7 @@ class CreateListingModel {
 }
 
 class CreateListingProvider extends StateNotifier<CreateListingModel> {
-  final Reader read;
+  final Ref ref;
   final int storeId;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -61,7 +61,7 @@ class CreateListingProvider extends StateNotifier<CreateListingModel> {
   late final TextEditingController floorPriceController = TextEditingController();
   late final TextEditingController buyNowPriceController = TextEditingController();
 
-  CreateListingProvider(this.read, this.storeId, [CreateListingModel model = const CreateListingModel()]) : super(model) {
+  CreateListingProvider(this.ref, this.storeId, [CreateListingModel model = const CreateListingModel()]) : super(model) {
     init();
   }
 
@@ -70,10 +70,10 @@ class CreateListingProvider extends StateNotifier<CreateListingModel> {
   }
 
   fetchNfts() async {
-    await read(mintedNftListProvider.notifier).load(1);
+    await ref.read(mintedNftListProvider.notifier).load(1);
 
     state = state.copyWith(
-      nfts: read(mintedNftListProvider).data.results,
+      nfts: ref.read(mintedNftListProvider).data.results,
       // nft: state.nft ?? (options.isNotEmpty ? options.first : null),
     );
   }
@@ -129,7 +129,7 @@ class CreateListingProvider extends StateNotifier<CreateListingModel> {
   }
 
   Future<String?> submit() async {
-    final keypair = read(webSessionProvider).keypair;
+    final keypair = ref.read(webSessionProvider).keypair;
     if (keypair == null) {
       Toast.error("No keypair");
       return null;
@@ -190,5 +190,5 @@ class CreateListingProvider extends StateNotifier<CreateListingModel> {
 }
 
 final createListingProvider = StateNotifierProvider.family<CreateListingProvider, CreateListingModel, int>((ref, storeId) {
-  return CreateListingProvider(ref.read, storeId);
+  return CreateListingProvider(ref, storeId);
 });

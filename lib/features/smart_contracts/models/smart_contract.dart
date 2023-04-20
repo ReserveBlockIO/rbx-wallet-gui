@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
 
 import '../../../core/app_constants.dart';
 import '../../asset/asset.dart';
@@ -47,6 +50,7 @@ abstract class SmartContract with _$SmartContract {
     @Default("") String code,
     @Default(false) bool isCompiled,
     @Default(false) bool isPublished,
+    @Default([]) List<ScProperty> properties,
   }) = _SmartContract;
 
   factory SmartContract.fromJson(Map<String, dynamic> json) => _$SmartContractFromJson(json);
@@ -140,6 +144,10 @@ abstract class SmartContract with _$SmartContract {
 
   Map<String, dynamic> serializeForCompiler(String timezoneName) {
     final List<Map<String, dynamic>> features = [];
+    print("------------");
+
+    print(evolves);
+    print("------------");
 
     for (final r in royalties) {
       final f = {'FeatureName': Royalty.compilerEnum, 'FeatureFeatures': r.serializeForCompiler()};
@@ -147,9 +155,10 @@ abstract class SmartContract with _$SmartContract {
     }
 
     for (final e in evolves) {
-      final f = {'FeatureName': Evolve.compilerEnum, 'FeatureFeatures': e.serializeForCompiler(minterName, timezoneName)};
-
-      features.add(f);
+      if (e.phases.isNotEmpty) {
+        final f = {'FeatureName': Evolve.compilerEnum, 'FeatureFeatures': e.serializeForCompiler(minterName, timezoneName)};
+        features.add(f);
+      }
     }
 
     for (final t in tickets) {
@@ -164,6 +173,15 @@ abstract class SmartContract with _$SmartContract {
       final f = {'FeatureName': MultiAsset.compilerEnum, 'FeatureFeatures': m.serializeForCompiler(minterName)};
       features.add(f);
     }
+    Map<String, String>? propertiesOutput;
+    if (properties.isNotEmpty) {
+      propertiesOutput = {};
+      for (final property in properties) {
+        final name = property.name.replaceAll(":", "").replaceAll("<|>", "");
+        final value = property.value.replaceAll(":", "").replaceAll("<|>", "");
+        propertiesOutput[name] = value;
+      }
+    }
 
     final payload = CompilerPayload(
       name: name,
@@ -176,9 +194,16 @@ abstract class SmartContract with _$SmartContract {
       minterAddress: owner.address,
       isMinter: true,
       hash: "",
+      properties: propertiesOutput,
     );
 
-    final data = payload.toJson();
+    Map<String, dynamic> data = payload.toJson();
+
+    if (properties.isEmpty) {
+      data.remove('Properties');
+    }
+
+    print(jsonEncode(data));
 
     return data;
   }

@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
+import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
 
 import '../../../asset/asset.dart';
 
@@ -20,6 +21,7 @@ class EvolvePhase with _$EvolvePhase {
     @Default(0) int evolutionState,
     @Default(false) bool isCurrentState,
     Asset? asset,
+    @Default([]) List<ScProperty> properties,
   }) = _EvolvePhase;
 
   factory EvolvePhase.fromJson(Map<String, dynamic> json) => _$EvolvePhaseFromJson(json);

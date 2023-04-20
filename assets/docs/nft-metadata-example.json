@@ -1,0 +1,59 @@
+[
+    {
+        "name": "Test NFT",
+        "description": "This is a test.",
+        "image": "https://storage.googleapis.com/opensea-prod.appspot.com/puffs/7.png",
+        "creator_name": "Tyler",
+        "attributes": [
+            {
+                "trait_type": "Base",
+                "value": "Starfish"
+            },
+            {
+                "trait_type": "Eyes",
+                "value": "Big"
+            },
+            {
+                "trait_type": "Color",
+                "value": "#ff00ff"
+            }
+        ]
+    },
+    {
+        "name": "Test NFT",
+        "description": "This is a test.",
+        "image": "https://storage.googleapis.com/opensea-prod.appspot.com/puffs/3.png",
+        "creator_name": "Tyler",
+        "royalty": {
+            "amount": "10%",
+            "address": "RKY4KEZrYc1Uj7vcKnmuSkqCkCPwFxPono"
+        },
+        "evolve": {
+            "type": "date",
+            "phases": [
+                {
+                    "name": "Cool Phase",
+                    "description": "This is the description",
+                    "image": "https://storage.googleapis.com/opensea-prod.appspot.com/puffs/5.png",
+                    "date": "2022-02-01T01:30:00.000-05:00"
+                }
+            ]
+        },
+        "additional_images": [
+            "https://media.npr.org/assets/img/2013/07/15/t-rex-jurassic-park_wide-a2deb59155d62f291d237da020badc44ffeea557.jpg",
+            "https://i0.wp.com/sitn.hms.harvard.edu/wp-content/uploads/2020/05/blue.jpg?fit=1024%2C683&ssl=1",
+            "https://cdn.shopify.com/s/files/1/0266/5817/7121/files/2_754e18d9-fba2-4167-8cca-fde3bfda2acf_1024x1024.png?v=1642671262"
+        ],
+        "quantity": 2,
+        "attributes": [
+            {
+                "trait_type": "Base",
+                "value": "Starfish"
+            },
+            {
+                "trait_type": "Eyes",
+                "value": "Big"
+            }
+        ]
+    }
+]

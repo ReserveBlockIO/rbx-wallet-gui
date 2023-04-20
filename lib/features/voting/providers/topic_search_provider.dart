@@ -5,11 +5,11 @@ import '../models/topic.dart';
 import '../services/topic_service.dart';
 
 class TopicSearchProvider extends StateNotifier<List<Topic>> {
-  final Reader read;
+  final Ref ref;
 
   final TextEditingController controller = TextEditingController();
 
-  TopicSearchProvider(this.read, [List<Topic> topics = const []]) : super(topics);
+  TopicSearchProvider(this.ref, [List<Topic> topics = const []]) : super(topics);
 
   Future<void> query(String query) async {
     final data = await TopicService().search(query);
@@ -23,5 +23,5 @@ class TopicSearchProvider extends StateNotifier<List<Topic>> {
 }
 
 final topicSearchProvider = StateNotifierProvider<TopicSearchProvider, List<Topic>>(
-  (ref) => TopicSearchProvider(ref.read),
+  (ref) => TopicSearchProvider(ref),
 );

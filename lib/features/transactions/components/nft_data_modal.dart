@@ -29,9 +29,9 @@ class NftDataModal extends StatelessWidget {
         ),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Text(
+          child: SelectableText(
             text,
-            softWrap: false,
+            // softWrap: false,
           ),
         )
       ],

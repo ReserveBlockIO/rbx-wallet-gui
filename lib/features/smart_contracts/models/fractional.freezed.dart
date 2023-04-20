@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'fractional.dart';
 
@@ -36,7 +36,8 @@ mixin _$Fractional {
 abstract class $FractionalCopyWith<$Res> {
   factory $FractionalCopyWith(
           Fractional value, $Res Function(Fractional) then) =
-      _$FractionalCopyWithImpl<$Res>;
+      _$FractionalCopyWithImpl<$Res, Fractional>;
+  @useResult
   $Res call(
       {String id,
       double creatorRetains,
@@ -46,43 +47,46 @@ abstract class $FractionalCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$FractionalCopyWithImpl<$Res> implements $FractionalCopyWith<$Res> {
+class _$FractionalCopyWithImpl<$Res, $Val extends Fractional>
+    implements $FractionalCopyWith<$Res> {
   _$FractionalCopyWithImpl(this._value, this._then);
 
-  final Fractional _value;
   // ignore: unused_field
-  final $Res Function(Fractional) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? creatorRetains = freezed,
-    Object? fractionalInterest = freezed,
-    Object? allowVoting = freezed,
-    Object? votingDescription = freezed,
+    Object? id = null,
+    Object? creatorRetains = null,
+    Object? fractionalInterest = null,
+    Object? allowVoting = null,
+    Object? votingDescription = null,
   }) {
     return _then(_value.copyWith(
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      creatorRetains: creatorRetains == freezed
+      creatorRetains: null == creatorRetains
           ? _value.creatorRetains
           : creatorRetains // ignore: cast_nullable_to_non_nullable
               as double,
-      fractionalInterest: fractionalInterest == freezed
+      fractionalInterest: null == fractionalInterest
           ? _value.fractionalInterest
           : fractionalInterest // ignore: cast_nullable_to_non_nullable
               as double,
-      allowVoting: allowVoting == freezed
+      allowVoting: null == allowVoting
           ? _value.allowVoting
           : allowVoting // ignore: cast_nullable_to_non_nullable
               as bool,
-      votingDescription: votingDescription == freezed
+      votingDescription: null == votingDescription
           ? _value.votingDescription
           : votingDescription // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 }
 
@@ -93,6 +97,7 @@ abstract class _$$_FractionalCopyWith<$Res>
           _$_Fractional value, $Res Function(_$_Fractional) then) =
       __$$_FractionalCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String id,
       double creatorRetains,
@@ -102,41 +107,40 @@ abstract class _$$_FractionalCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_FractionalCopyWithImpl<$Res> extends _$FractionalCopyWithImpl<$Res>
+class __$$_FractionalCopyWithImpl<$Res>
+    extends _$FractionalCopyWithImpl<$Res, _$_Fractional>
     implements _$$_FractionalCopyWith<$Res> {
   __$$_FractionalCopyWithImpl(
       _$_Fractional _value, $Res Function(_$_Fractional) _then)
-      : super(_value, (v) => _then(v as _$_Fractional));
+      : super(_value, _then);
 
-  @override
-  _$_Fractional get _value => super._value as _$_Fractional;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? creatorRetains = freezed,
-    Object? fractionalInterest = freezed,
-    Object? allowVoting = freezed,
-    Object? votingDescription = freezed,
+    Object? id = null,
+    Object? creatorRetains = null,
+    Object? fractionalInterest = null,
+    Object? allowVoting = null,
+    Object? votingDescription = null,
   }) {
     return _then(_$_Fractional(
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      creatorRetains: creatorRetains == freezed
+      creatorRetains: null == creatorRetains
           ? _value.creatorRetains
           : creatorRetains // ignore: cast_nullable_to_non_nullable
               as double,
-      fractionalInterest: fractionalInterest == freezed
+      fractionalInterest: null == fractionalInterest
           ? _value.fractionalInterest
           : fractionalInterest // ignore: cast_nullable_to_non_nullable
               as double,
-      allowVoting: allowVoting == freezed
+      allowVoting: null == allowVoting
           ? _value.allowVoting
           : allowVoting // ignore: cast_nullable_to_non_nullable
               as bool,
-      votingDescription: votingDescription == freezed
+      votingDescription: null == votingDescription
           ? _value.votingDescription
           : votingDescription // ignore: cast_nullable_to_non_nullable
               as String,
@@ -185,35 +189,33 @@ class _$_Fractional extends _Fractional {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Fractional &&
-            const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality()
-                .equals(other.creatorRetains, creatorRetains) &&
-            const DeepCollectionEquality()
-                .equals(other.fractionalInterest, fractionalInterest) &&
-            const DeepCollectionEquality()
-                .equals(other.allowVoting, allowVoting) &&
-            const DeepCollectionEquality()
-                .equals(other.votingDescription, votingDescription));
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.creatorRetains, creatorRetains) ||
+                other.creatorRetains == creatorRetains) &&
+            (identical(other.fractionalInterest, fractionalInterest) ||
+                other.fractionalInterest == fractionalInterest) &&
+            (identical(other.allowVoting, allowVoting) ||
+                other.allowVoting == allowVoting) &&
+            (identical(other.votingDescription, votingDescription) ||
+                other.votingDescription == votingDescription));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(creatorRetains),
-      const DeepCollectionEquality().hash(fractionalInterest),
-      const DeepCollectionEquality().hash(allowVoting),
-      const DeepCollectionEquality().hash(votingDescription));
+  int get hashCode => Object.hash(runtimeType, id, creatorRetains,
+      fractionalInterest, allowVoting, votingDescription);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_FractionalCopyWith<_$_Fractional> get copyWith =>
       __$$_FractionalCopyWithImpl<_$_Fractional>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_FractionalToJson(this);
+    return _$$_FractionalToJson(
+      this,
+    );
   }
 }
 
@@ -230,15 +232,15 @@ abstract class _Fractional extends Fractional {
       _$_Fractional.fromJson;
 
   @override
-  String get id => throw _privateConstructorUsedError;
+  String get id;
   @override
-  double get creatorRetains => throw _privateConstructorUsedError;
+  double get creatorRetains;
   @override
-  double get fractionalInterest => throw _privateConstructorUsedError;
+  double get fractionalInterest;
   @override
-  bool get allowVoting => throw _privateConstructorUsedError;
+  bool get allowVoting;
   @override
-  String get votingDescription => throw _privateConstructorUsedError;
+  String get votingDescription;
   @override
   @JsonKey(ignore: true)
   _$$_FractionalCopyWith<_$_Fractional> get copyWith =>

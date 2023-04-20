@@ -1,7 +1,11 @@
 import 'dart:io';
 
 import 'package:collection/collection.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/core/utils.dart';
+import 'package:rbx_wallet/features/dst/providers/listed_nfts_provider.dart';
+import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
 
 import '../../../core/env.dart';
 import '../../asset/asset.dart';
@@ -15,6 +19,32 @@ part 'nft.freezed.dart';
 part 'nft.g.dart';
 
 nullToNull(dynamic blah) => null;
+
+propertiesFromJson(Map<String, dynamic>? properties) {
+  if (properties == null) {
+    return [];
+  }
+
+  final List<ScProperty> output = [];
+  for (final kv in properties.entries) {
+    final key = kv.key;
+    final String value = kv.value;
+
+    ScPropertyType type = ScPropertyType.text;
+
+    if (isNumeric(value)) {
+      type = ScPropertyType.number;
+    }
+
+    if (value.length == 7 && value.startsWith("#")) {
+      type = ScPropertyType.color;
+    }
+
+    output.add(ScProperty(name: key, value: value, type: type));
+  }
+
+  return output;
+}
 
 @freezed
 abstract class Nft with _$Nft {
@@ -32,14 +62,27 @@ abstract class Nft with _$Nft {
     @JsonKey(name: "IsPublic") required bool isPublic,
     @JsonKey(name: "IsPublished") required bool isPublished,
     @JsonKey(name: "IsMinter") required bool isMinter,
-    @JsonKey(name: "Features", defaultValue: []) required List<Map<String, dynamic>> features,
+    @JsonKey(name: "Features", defaultValue: [])
+        required List<Map<String, dynamic>> features,
+    @JsonKey(name: "Properties", fromJson: propertiesFromJson)
+    @Default([])
+        List<ScProperty> properties,
+    @JsonKey(name: "NextOwner") String? nextOwner,
+    @JsonKey(name: "IsLocked") @Default(false) bool isLocked,
     @JsonKey(defaultValue: false) required bool isProcessing,
     String? code,
-    @JsonKey(toJson: nullToNull, fromJson: nullToNull) ProxiedAsset? proxiedAsset,
-    @JsonKey(toJson: nullToNull, fromJson: nullToNull) List<ProxiedAsset>? additionalProxiedAssets,
-    @JsonKey(toJson: nullToNull, fromJson: nullToNull) @Default([]) List<Asset> additionalLocalAssets,
-    @JsonKey(toJson: nullToNull, fromJson: nullToNull) @Default([]) List<EvolvePhase> updatedEvolutionPhases,
+    @JsonKey(toJson: nullToNull, fromJson: nullToNull)
+        ProxiedAsset? proxiedAsset,
+    @JsonKey(toJson: nullToNull, fromJson: nullToNull)
+        List<ProxiedAsset>? additionalProxiedAssets,
+    @JsonKey(toJson: nullToNull, fromJson: nullToNull)
+    @Default([])
+        List<Asset> additionalLocalAssets,
+    @JsonKey(toJson: nullToNull, fromJson: nullToNull)
+    @Default([])
+        List<EvolvePhase> updatedEvolutionPhases,
     @JsonKey(defaultValue: false) required bool assetsAvailable,
+    @JsonKey(ignore: true) String? thumbsPath,
   }) = _Nft;
 
   factory Nft.fromJson(Map<String, dynamic> json) => _$NftFromJson(json);
@@ -64,7 +107,8 @@ abstract class Nft with _$Nft {
       if (feature.type == FeatureType.evolution) {
         final evolve = Evolve.fromCompiler({'phases': feature.data['phases']});
         if (evolve.phases.isNotEmpty) {
-          if (evolve.phases.first.dateTime != null || evolve.phases.first.blockHeight != null) {
+          if (evolve.phases.first.dateTime != null ||
+              evolve.phases.first.blockHeight != null) {
             return false;
           }
         }
@@ -119,7 +163,12 @@ abstract class Nft with _$Nft {
       description: description,
       asset: primaryAsset,
       evolutionState: 0,
-      isCurrentState: evolutionPhases.firstWhereOrNull((p) => p.isCurrentState == true) == null ? true : false,
+      isCurrentState:
+          evolutionPhases.firstWhereOrNull((p) => p.isCurrentState == true) ==
+                  null
+              ? true
+              : false,
+      properties: properties,
     );
   }
 
@@ -128,10 +177,12 @@ abstract class Nft with _$Nft {
       return [];
     }
 
-    final evolveFeature = featureList.firstWhereOrNull((f) => f.type == FeatureType.evolution);
+    final evolveFeature =
+        featureList.firstWhereOrNull((f) => f.type == FeatureType.evolution);
 
     if (evolveFeature != null) {
-      final evolve = Evolve.fromCompiler({'phases': evolveFeature.data['phases']});
+      final evolve =
+          Evolve.fromCompiler({'phases': evolveFeature.data['phases']});
 
       return evolve.phases;
     }
@@ -140,7 +191,9 @@ abstract class Nft with _$Nft {
   }
 
   EvolvePhase get currentEvolvePhase {
-    final current = updatedEvolutionPhases.firstWhereOrNull((p) => p.isCurrentState == true);
+    final current = updatedEvolutionPhases
+        .firstWhereOrNull((p) => p.isCurrentState == true);
+
     if (current == null) {
       return baseEvolutionPhase;
     }
@@ -149,7 +202,8 @@ abstract class Nft with _$Nft {
   }
 
   int get currentEvolvePhaseIndex {
-    final current = updatedEvolutionPhases.indexWhere((p) => p.isCurrentState == true);
+    final current =
+        updatedEvolutionPhases.indexWhere((p) => p.isCurrentState == true);
 
     return current;
   }
@@ -164,6 +218,14 @@ abstract class Nft with _$Nft {
     }
 
     return primaryAsset;
+  }
+
+  List<ScProperty> get currentEvolveProperties {
+    if (!canEvolve) {
+      return properties;
+    }
+
+    return currentEvolvePhase.properties;
   }
 
   ProxiedAsset? get currentEvolveAssetWeb {
@@ -255,5 +317,12 @@ abstract class Nft with _$Nft {
       }
     }
     return true;
+  }
+
+  bool isListed(WidgetRef ref) {
+    if (ref.read(listedNftsProvider).contains(id)) {
+      return true;
+    }
+    return false;
   }
 }

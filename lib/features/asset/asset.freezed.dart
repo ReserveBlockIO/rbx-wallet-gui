@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'asset.dart';
 
@@ -44,7 +44,8 @@ mixin _$Asset {
 /// @nodoc
 abstract class $AssetCopyWith<$Res> {
   factory $AssetCopyWith(Asset value, $Res Function(Asset) then) =
-      _$AssetCopyWithImpl<$Res>;
+      _$AssetCopyWithImpl<$Res, Asset>;
+  @useResult
   $Res call(
       {@JsonKey(name: "AssetId") String id,
       @JsonKey(name: "Name") String? name,
@@ -57,58 +58,61 @@ abstract class $AssetCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$AssetCopyWithImpl<$Res> implements $AssetCopyWith<$Res> {
+class _$AssetCopyWithImpl<$Res, $Val extends Asset>
+    implements $AssetCopyWith<$Res> {
   _$AssetCopyWithImpl(this._value, this._then);
 
-  final Asset _value;
   // ignore: unused_field
-  final $Res Function(Asset) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
+    Object? id = null,
     Object? name = freezed,
     Object? authorName = freezed,
     Object? location = freezed,
     Object? extension = freezed,
-    Object? fileSize = freezed,
+    Object? fileSize = null,
     Object? bytes = freezed,
     Object? localPath = freezed,
   }) {
     return _then(_value.copyWith(
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      name: name == freezed
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
-      authorName: authorName == freezed
+      authorName: freezed == authorName
           ? _value.authorName
           : authorName // ignore: cast_nullable_to_non_nullable
               as String?,
-      location: location == freezed
+      location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as String?,
-      extension: extension == freezed
+      extension: freezed == extension
           ? _value.extension
           : extension // ignore: cast_nullable_to_non_nullable
               as String?,
-      fileSize: fileSize == freezed
+      fileSize: null == fileSize
           ? _value.fileSize
           : fileSize // ignore: cast_nullable_to_non_nullable
               as int,
-      bytes: bytes == freezed
+      bytes: freezed == bytes
           ? _value.bytes
           : bytes // ignore: cast_nullable_to_non_nullable
               as Uint8List?,
-      localPath: localPath == freezed
+      localPath: freezed == localPath
           ? _value.localPath
           : localPath // ignore: cast_nullable_to_non_nullable
               as String?,
-    ));
+    ) as $Val);
   }
 }
 
@@ -117,6 +121,7 @@ abstract class _$$_AssetCopyWith<$Res> implements $AssetCopyWith<$Res> {
   factory _$$_AssetCopyWith(_$_Asset value, $Res Function(_$_Asset) then) =
       __$$_AssetCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {@JsonKey(name: "AssetId") String id,
       @JsonKey(name: "Name") String? name,
@@ -129,55 +134,53 @@ abstract class _$$_AssetCopyWith<$Res> implements $AssetCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_AssetCopyWithImpl<$Res> extends _$AssetCopyWithImpl<$Res>
+class __$$_AssetCopyWithImpl<$Res> extends _$AssetCopyWithImpl<$Res, _$_Asset>
     implements _$$_AssetCopyWith<$Res> {
   __$$_AssetCopyWithImpl(_$_Asset _value, $Res Function(_$_Asset) _then)
-      : super(_value, (v) => _then(v as _$_Asset));
+      : super(_value, _then);
 
-  @override
-  _$_Asset get _value => super._value as _$_Asset;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
+    Object? id = null,
     Object? name = freezed,
     Object? authorName = freezed,
     Object? location = freezed,
     Object? extension = freezed,
-    Object? fileSize = freezed,
+    Object? fileSize = null,
     Object? bytes = freezed,
     Object? localPath = freezed,
   }) {
     return _then(_$_Asset(
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      name: name == freezed
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
-      authorName: authorName == freezed
+      authorName: freezed == authorName
           ? _value.authorName
           : authorName // ignore: cast_nullable_to_non_nullable
               as String?,
-      location: location == freezed
+      location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as String?,
-      extension: extension == freezed
+      extension: freezed == extension
           ? _value.extension
           : extension // ignore: cast_nullable_to_non_nullable
               as String?,
-      fileSize: fileSize == freezed
+      fileSize: null == fileSize
           ? _value.fileSize
           : fileSize // ignore: cast_nullable_to_non_nullable
               as int,
-      bytes: bytes == freezed
+      bytes: freezed == bytes
           ? _value.bytes
           : bytes // ignore: cast_nullable_to_non_nullable
               as Uint8List?,
-      localPath: localPath == freezed
+      localPath: freezed == localPath
           ? _value.localPath
           : localPath // ignore: cast_nullable_to_non_nullable
               as String?,
@@ -252,38 +255,45 @@ class _$_Asset extends _Asset with DiagnosticableTreeMixin {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Asset &&
-            const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality()
-                .equals(other.authorName, authorName) &&
-            const DeepCollectionEquality().equals(other.location, location) &&
-            const DeepCollectionEquality().equals(other.extension, extension) &&
-            const DeepCollectionEquality().equals(other.fileSize, fileSize) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.authorName, authorName) ||
+                other.authorName == authorName) &&
+            (identical(other.location, location) ||
+                other.location == location) &&
+            (identical(other.extension, extension) ||
+                other.extension == extension) &&
+            (identical(other.fileSize, fileSize) ||
+                other.fileSize == fileSize) &&
             const DeepCollectionEquality().equals(other.bytes, bytes) &&
-            const DeepCollectionEquality().equals(other.localPath, localPath));
+            (identical(other.localPath, localPath) ||
+                other.localPath == localPath));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(authorName),
-      const DeepCollectionEquality().hash(location),
-      const DeepCollectionEquality().hash(extension),
-      const DeepCollectionEquality().hash(fileSize),
+      id,
+      name,
+      authorName,
+      location,
+      extension,
+      fileSize,
       const DeepCollectionEquality().hash(bytes),
-      const DeepCollectionEquality().hash(localPath));
+      localPath);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_AssetCopyWith<_$_Asset> get copyWith =>
       __$$_AssetCopyWithImpl<_$_Asset>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_AssetToJson(this);
+    return _$$_AssetToJson(
+      this,
+    );
   }
 }
 
@@ -310,27 +320,27 @@ abstract class _Asset extends Asset {
 
   @override
   @JsonKey(name: "AssetId")
-  String get id => throw _privateConstructorUsedError;
+  String get id;
   @override
   @JsonKey(name: "Name")
-  String? get name => throw _privateConstructorUsedError;
+  String? get name;
   @override
   @JsonKey(name: "AssetAuthorName")
-  String? get authorName => throw _privateConstructorUsedError;
+  String? get authorName;
   @override
   @JsonKey(name: "Location")
-  String? get location => throw _privateConstructorUsedError;
+  String? get location;
   @override
   @JsonKey(name: "Extension")
-  String? get extension => throw _privateConstructorUsedError;
+  String? get extension;
   @override
   @JsonKey(name: "FileSize")
-  int get fileSize => throw _privateConstructorUsedError;
+  int get fileSize;
   @override
   @JsonKey(toJson: bytesToNull, fromJson: nullToNull)
-  Uint8List? get bytes => throw _privateConstructorUsedError;
+  Uint8List? get bytes;
   @override
-  String? get localPath => throw _privateConstructorUsedError;
+  String? get localPath;
   @override
   @JsonKey(ignore: true)
   _$$_AssetCopyWith<_$_Asset> get copyWith =>

@@ -38,12 +38,12 @@ class PurchaseModel {
 }
 
 class PurchaseProvider extends StateNotifier<PurchaseModel> {
-  final Reader read;
+  final Ref ref;
   final String listingSlug;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  PurchaseProvider(this.read, this.listingSlug, [PurchaseModel model = const PurchaseModel()]) : super(model) {
+  PurchaseProvider(this.ref, this.listingSlug, [PurchaseModel model = const PurchaseModel()]) : super(model) {
     init();
   }
 
@@ -67,7 +67,7 @@ class PurchaseProvider extends StateNotifier<PurchaseModel> {
       return null;
     }
 
-    final keyPair = read(webSessionProvider).keypair;
+    final keyPair = ref.read(webSessionProvider).keypair;
     if (keyPair == null) {
       Toast.error("No wallet detected. Please login.");
       return null;
@@ -90,7 +90,7 @@ class PurchaseProvider extends StateNotifier<PurchaseModel> {
 
       return true;
     } else {
-      final balance = read(webSessionProvider).balance;
+      final balance = ref.read(webSessionProvider).balance;
 
       if (balance == null || (state.listing!.buyNowPriceRbx != null && balance < state.listing!.buyNowPriceRbx!)) {
         Toast.error("Not enough RBX balance.");
@@ -112,5 +112,5 @@ class PurchaseProvider extends StateNotifier<PurchaseModel> {
 }
 
 final purchaseProvider = StateNotifierProvider.family<PurchaseProvider, PurchaseModel, String>((ref, listingSlug) {
-  return PurchaseProvider(ref.read, listingSlug);
+  return PurchaseProvider(ref, listingSlug);
 });

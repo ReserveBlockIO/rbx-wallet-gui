@@ -4,7 +4,7 @@ class ReadyProvider extends StateNotifier<bool> {
   ReadyProvider([value = false]) : super(value);
 
   setReady([val = true]) {
-    state = val;
+    Future.delayed(Duration(milliseconds: 100)).then((value) => state = val);
   }
 }
 

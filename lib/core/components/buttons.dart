@@ -247,43 +247,46 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final key = "$variant:$type:$size:$processing:$icon:$iconTrails:$disabled";
 
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Builder(
-          builder: (context) {
-            switch (type) {
-              case AppButtonType.Elevated:
-                return ElevatedButton(
-                  key: Key('elevated:$key'),
-                  onPressed: processing || disabled ? () {} : onPressed,
-                  style: _styleElevated(context),
-                  child: _child(context),
-                );
-              case AppButtonType.Outlined:
-                return OutlinedButton(
-                  key: Key('outlined:$key'),
-                  onPressed: processing || disabled ? () {} : onPressed,
-                  style: _styleOutlined(context),
-                  child: _child(context),
-                );
-              case AppButtonType.Text:
-                return TextButton(
-                  key: Key('text:$key'),
-                  onPressed: processing || disabled ? () {} : onPressed,
-                  style: _styleText(context),
-                  child: _child(context),
-                );
-            }
-          },
-        ),
-        if (helpType != null)
-          HelpButton(
-            helpType!,
-            subtle: true,
-            color: Theme.of(context).colorScheme.secondary,
+    return IgnorePointer(
+      ignoring: disabled,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Builder(
+            builder: (context) {
+              switch (type) {
+                case AppButtonType.Elevated:
+                  return ElevatedButton(
+                    key: Key('elevated:$key'),
+                    onPressed: processing || disabled ? () {} : onPressed,
+                    style: _styleElevated(context),
+                    child: _child(context),
+                  );
+                case AppButtonType.Outlined:
+                  return OutlinedButton(
+                    key: Key('outlined:$key'),
+                    onPressed: processing || disabled ? () {} : onPressed,
+                    style: _styleOutlined(context),
+                    child: _child(context),
+                  );
+                case AppButtonType.Text:
+                  return TextButton(
+                    key: Key('text:$key'),
+                    onPressed: processing || disabled ? () {} : onPressed,
+                    style: _styleText(context),
+                    child: _child(context),
+                  );
+              }
+            },
           ),
-      ],
+          if (helpType != null)
+            HelpButton(
+              helpType!,
+              subtle: true,
+              color: Theme.of(context).colorScheme.secondary,
+            ),
+        ],
+      ),
     );
   }
 }

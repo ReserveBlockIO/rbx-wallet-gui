@@ -11,7 +11,6 @@ enum _Environment {
   WinDev,
   MacTestNet,
   WinTestNet,
-  BlockExplorer,
   Web,
   WebTestNet,
   BlockExplorerTestNet,
@@ -37,9 +36,6 @@ class Env {
         break;
       case _Environment.WinTestNet:
         envPath = Assets.env.winTestnetEnv;
-        break;
-      case _Environment.BlockExplorer:
-        envPath = Assets.env.blockExplorerEnv;
         break;
       case _Environment.BlockExplorerTestNet:
         envPath = Assets.env.blockExplorerTestNetEnv;
@@ -112,6 +108,10 @@ class Env {
 
   static bool get isTestNet {
     return DotEnv.dotenv.env['IS_TEST_NET'] == "true";
+  }
+
+  static bool get promptForUpdates {
+    return _env == _Environment.Release;
   }
 
   static String get validatorPort {
