@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/web_shop/components/web_shop_list_tile.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_shop.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/infinite_list.dart';
+import '../../../core/env.dart';
 import '../../../core/theme/app_theme.dart';
 import '../providers/web_shop_form_provider.dart';
 import '../providers/web_shop_list_provider.dart';
@@ -53,7 +55,11 @@ class WebShopList extends BaseComponent {
                     variant: AppColorVariant.Success,
                     onPressed: () async {
                       ref.read(webShopFormProvider.notifier).clear();
-                      AutoRouter.of(context).push(const DebugWebShopCreateScreenRoute());
+                      if (Env.isWeb) {
+                        AutoRouter.of(context).push(const CreateWebShopContainerScreenRoute());
+                      } else {
+                        AutoRouter.of(context).push(const DebugWebShopCreateScreenRoute());
+                      }
                     },
                   )
                 ],

@@ -13,7 +13,9 @@ import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/breakpoints.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/dst/providers/listing_detail_provider.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_listing.dart';
 import 'package:rbx_wallet/features/web_shop/providers/create_web_listing_provider.dart';
@@ -68,6 +70,7 @@ class WebListingDetails extends BaseComponent {
     final nft = listing.nft;
     final myAddress = kIsWeb ? ref.read(webSessionProvider).keypair?.public : ref.read(sessionProvider).currentWallet?.address;
 
+    print("listing address: ${listing.ownerAddress} myAddress: $myAddress");
     return ContextMenuRegion(
       contextMenu: GenericContextMenu(
         buttonConfigs: [
@@ -76,8 +79,12 @@ class WebListingDetails extends BaseComponent {
               'Edit Listing',
               onPressed: () async {
                 ref.read(createWebListingProvider.notifier).load(listing, listing.collection.id, listing.collection.shop!.id);
-                AutoRouter.of(context)
-                    .push(DebugWebListingCreateScreenRoute(shopId: listing.collection.shop!.id, collectionId: listing.collection.id));
+                if (Env.isWeb) {
+                  AutoRouter.of(context).push(CreateWebListingScreenRoute(shopId: listing.collection.shop!.id, collectionId: listing.collection.id));
+                } else {
+                  AutoRouter.of(context)
+                      .push(DebugWebListingCreateScreenRoute(shopId: listing.collection.shop!.id, collectionId: listing.collection.id));
+                }
               },
               icon: Icon(Icons.edit),
             ),

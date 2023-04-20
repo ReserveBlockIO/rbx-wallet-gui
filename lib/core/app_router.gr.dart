@@ -475,13 +475,13 @@ class AppRouter extends _i52.RootStackRouter {
         child: const _i39.WebShopLandingScreen(),
       );
     },
-    WebShopListScreenRoute.name: (routeData) {
+    DebugWebShopListScreenRoute.name: (routeData) {
       return _i52.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i40.WebShopListScreen(),
       );
     },
-    MyWebShopListScreenRoute.name: (routeData) {
+    DebugMyWebShopListScreenRoute.name: (routeData) {
       return _i52.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i41.MyWebShopListScreen(),
@@ -845,12 +845,12 @@ class AppRouter extends _i52.RootStackRouter {
                   parent: DebugWebShopTabsRouter.name,
                 ),
                 _i52.RouteConfig(
-                  WebShopListScreenRoute.name,
+                  DebugWebShopListScreenRoute.name,
                   path: 'shops',
                   parent: DebugWebShopTabsRouter.name,
                 ),
                 _i52.RouteConfig(
-                  MyWebShopListScreenRoute.name,
+                  DebugMyWebShopListScreenRoute.name,
                   path: 'mine',
                   parent: DebugWebShopTabsRouter.name,
                 ),
@@ -1784,26 +1784,26 @@ class WebShopLandingScreenRoute extends _i52.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i40.WebShopListScreen]
-class WebShopListScreenRoute extends _i52.PageRouteInfo<void> {
-  const WebShopListScreenRoute()
+class DebugWebShopListScreenRoute extends _i52.PageRouteInfo<void> {
+  const DebugWebShopListScreenRoute()
       : super(
-          WebShopListScreenRoute.name,
+          DebugWebShopListScreenRoute.name,
           path: 'shops',
         );
 
-  static const String name = 'WebShopListScreenRoute';
+  static const String name = 'DebugWebShopListScreenRoute';
 }
 
 /// generated route for
 /// [_i41.MyWebShopListScreen]
-class MyWebShopListScreenRoute extends _i52.PageRouteInfo<void> {
-  const MyWebShopListScreenRoute()
+class DebugMyWebShopListScreenRoute extends _i52.PageRouteInfo<void> {
+  const DebugMyWebShopListScreenRoute()
       : super(
-          MyWebShopListScreenRoute.name,
+          DebugMyWebShopListScreenRoute.name,
           path: 'mine',
         );
 
-  static const String name = 'MyWebShopListScreenRoute';
+  static const String name = 'DebugMyWebShopListScreenRoute';
 }
 
 /// generated route for
