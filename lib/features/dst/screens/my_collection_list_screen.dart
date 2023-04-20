@@ -2,12 +2,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/dst/components/publish_shop_button.dart';
 import 'package:rbx_wallet/features/dst/components/shop_online_button.dart';
 import 'package:rbx_wallet/features/dst/components/collection_list.dart';
@@ -230,6 +232,12 @@ class DecShopButton extends BaseComponent {
             icon: Icons.store,
             variant: AppColorVariant.Light,
             onPressed: () async {
+              final bh = ref.read(walletInfoProvider)?.blockHeight ?? 0;
+              if (bh < P2P_BLOCK_LOCK_HEIGHT) {
+                Toast.error("This feature is not enabled until block $P2P_BLOCK_LOCK_HEIGHT");
+                return;
+              }
+
               ref.read(decShopFormProvider.notifier).clear();
               AutoRouter.of(context).push(const CreateDecShopContainerScreenRoute());
             },
@@ -241,6 +249,11 @@ class DecShopButton extends BaseComponent {
           icon: Icons.store,
           variant: AppColorVariant.Light,
           onPressed: () async {
+            final bh = ref.read(walletInfoProvider)?.blockHeight ?? 0;
+            if (bh < P2P_BLOCK_LOCK_HEIGHT) {
+              Toast.error("This feature is not enabled until block $P2P_BLOCK_LOCK_HEIGHT");
+              return;
+            }
             ref.read(decShopFormProvider.notifier).load(shop);
             AutoRouter.of(context).push(const CreateDecShopContainerScreenRoute());
           },

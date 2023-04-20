@@ -115,10 +115,11 @@ class CreateDecShopContainerScreen extends BaseScreen {
 
                     final bh = ref.read(walletInfoProvider)?.blockHeight ?? 0;
                     if (bh < P2P_BLOCK_LOCK_HEIGHT) {
-                      InfoDialog.show(
+                      await InfoDialog.show(
                           title: "Publishing Disabled",
                           body: "Your shop has been saved locally but can not be published until block $P2P_BLOCK_LOCK_HEIGHT.");
-
+                      ref.invalidate(decShopProvider);
+                      AutoRouter.of(context).pop();
                       return;
                     }
 
