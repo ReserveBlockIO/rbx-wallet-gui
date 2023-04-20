@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
@@ -122,10 +123,14 @@ class _DownloadOrAssociateState extends State<DownloadOrAssociate> {
                 AppButton(
                   label: "Associate File",
                   onPressed: () async {
-                    final Directory currentDir = Directory.current;
-
-                    FilePickerResult? result = await FilePicker.platform.pickFiles();
-                    Directory.current = currentDir;
+                    FilePickerResult? result;
+                    if (!kIsWeb) {
+                      final Directory currentDir = Directory.current;
+                      result = await FilePicker.platform.pickFiles();
+                      Directory.current = currentDir;
+                    } else {
+                      result = await FilePicker.platform.pickFiles();
+                    }
                     if (result == null) {
                       return;
                     }

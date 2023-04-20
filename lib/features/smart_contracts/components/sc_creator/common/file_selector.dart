@@ -36,9 +36,14 @@ class FileSelector extends BaseComponent {
   }) : super(key: key);
 
   Future<void> _handleUpload(WidgetRef ref) async {
-    final Directory currentDir = Directory.current;
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
-    Directory.current = currentDir;
+    FilePickerResult? result;
+    if (!kIsWeb) {
+      final Directory currentDir = Directory.current;
+      result = await FilePicker.platform.pickFiles();
+      Directory.current = currentDir;
+    } else {
+      result = await FilePicker.platform.pickFiles();
+    }
 
     if (result == null) {
       return;
