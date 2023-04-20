@@ -226,9 +226,11 @@ class TransactionService extends BaseService {
       };
 
       final response = await getJson('/nft', params: params, responseIsJson: true);
+      print(jsonEncode(response));
       final List<Nft> results = response['data'].map<Nft>((json) => WebNft.fromJson(json).smartContract).toList();
       return results;
     } catch (e) {
+      print("List NFT Error");
       print(e);
 
       return [];

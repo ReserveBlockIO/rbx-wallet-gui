@@ -4,16 +4,16 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        // {
-        //     "name": "rbx (web)",
-        //     "request": "launch",
-        //     "type": "dart",
-        //     "args": [
-        //         "-d",
-        //         "chrome",
-        //         "--web-port",
-        //         "42069"
-        //     ],
-        // },
+        {
+            "name": "rbx (web)",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "-d",
+                "chrome",
+                "--web-port",
+                "42069"
+            ],
+        },
     ]
 }

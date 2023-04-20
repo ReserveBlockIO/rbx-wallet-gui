@@ -35,7 +35,12 @@ abstract class WebNft with _$WebNft {
 
   Map<String, dynamic> get smartContractData {
     final sanatizedString = smartContractDataString.replaceAll("'", '"');
-    return jsonDecode(sanatizedString);
+    final Map<String, dynamic> data = jsonDecode(sanatizedString);
+    if (data.containsKey('SmartContractMain')) {
+      return data['SmartContractMain'];
+    }
+
+    return data;
   }
 
   Nft get smartContract {
@@ -46,14 +51,17 @@ abstract class WebNft with _$WebNft {
         if (feature['FeatureName'] == 2) {
           for (var asset in feature['FeatureFeatures']) {
             final fileName = asset['FileName'];
-            final key = primaryAssetRemoteKey!.replaceAll(primaryAssetName, fileName);
-            final a = ProxiedAsset(
-              key: key,
-              fileName: fileName,
-              fileSize: asset['FileSize'],
-              authorName: asset['AssetAuthorName'],
-            );
-            additionalProxiedAssets.add(a);
+
+            if (primaryAssetRemoteKey != null) {
+              final key = primaryAssetRemoteKey!.replaceAll(primaryAssetName, fileName);
+              final a = ProxiedAsset(
+                key: key,
+                fileName: fileName,
+                fileSize: asset['FileSize'],
+                authorName: asset['AssetAuthorName'],
+              );
+              additionalProxiedAssets.add(a);
+            }
           }
         }
       }
