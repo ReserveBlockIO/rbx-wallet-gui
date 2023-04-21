@@ -46,6 +46,7 @@ class FileSelector extends BaseComponent {
     }
 
     if (result == null) {
+      print('Result is null');
       return;
     }
 
