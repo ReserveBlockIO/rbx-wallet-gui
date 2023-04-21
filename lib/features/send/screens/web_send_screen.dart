@@ -28,10 +28,21 @@ class WebSendScreen extends BaseScreen {
   @override
   Widget body(BuildContext context, WidgetRef ref) {
     final keypair = ref.watch(webSessionProvider).keypair;
+    final wallet = ref.watch(webSessionProvider).currentWallet;
+
     if (keypair == null) {
       return const Center(child: WebNotWallet());
     }
 
-    return Center(child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: 720), child: SendForm(keypair: keypair)));
+    return Center(
+
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 720),
+        child: SendForm(
+          keypair: keypair,
+          wallet: wallet,
+        ),
+      ),
+    );
   }
 }
