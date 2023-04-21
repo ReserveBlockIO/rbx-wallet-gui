@@ -13,6 +13,7 @@ import 'package:rbx_wallet/features/web_shop/screens/my_create_collection_contai
 
 import '../../../core/dialogs.dart';
 import '../../../core/theme/app_theme.dart';
+import '../providers/web_collection_list_provider.dart';
 import '../providers/web_shop_detail_provider.dart';
 
 class WebShopDetailScreen extends BaseScreen {
@@ -34,6 +35,13 @@ class WebShopDetailScreen extends BaseScreen {
               centerTitle: true,
               backgroundColor: Colors.black12,
               shadowColor: Colors.transparent,
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      ref.watch(webCollectionListProvider(shopId).notifier).refresh();
+                    },
+                    icon: Icon(Icons.refresh))
+              ],
             )
           : AppBar(
               centerTitle: true,

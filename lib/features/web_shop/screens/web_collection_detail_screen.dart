@@ -14,6 +14,7 @@ import '../../../core/theme/app_theme.dart';
 import '../models/web_listing.dart';
 import '../providers/create_web_listing_provider.dart';
 import '../providers/web_collection_form_provider.dart';
+import '../providers/web_listing_list_provider.dart';
 import '../providers/web_shop_form_provider.dart';
 import 'my_create_collection_container_screen.dart';
 
@@ -29,6 +30,7 @@ class WebCollectionDetailScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     final data = ref.watch(webCollectionDetailProvider("$shopId,$collectionId"));
+
     return data.when(
       data: (collection) => collection != null
           ? AppBar(
@@ -36,6 +38,13 @@ class WebCollectionDetailScreen extends BaseScreen {
               centerTitle: true,
               backgroundColor: Colors.black12,
               shadowColor: Colors.transparent,
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      ref.watch(webListingListProvider("$shopId,$collectionId").notifier).refresh();
+                    },
+                    icon: Icon(Icons.refresh))
+              ],
             )
           : AppBar(
               title: const Text("Error"),
