@@ -19,16 +19,18 @@ abstract class WebNft with _$WebNft {
     required String identifier,
     required String name,
     required String description,
+    @JsonKey(name: "minter_address") required String minterAddress,
     @JsonKey(name: "owner_address") required String ownerAddress,
     @JsonKey(name: "minter_name") required String minterName,
     @JsonKey(name: "primary_asset_name") required String primaryAssetName,
     @JsonKey(name: "primary_asset_size") required int primaryAssetSize,
-    @JsonKey(name: "primary_asset_remote_key") String? primaryAssetRemoteKey,
     // @JsonKey(name: "additional_assets_remote_keys") List<String>? additionalAssetsRemoteKeys,
     @JsonKey(name: "smart_contract_data") required String smartContractDataString,
     @JsonKey(name: "minted_at") required DateTime mintedAt,
-    @JsonKey(name: "assets_available") required bool assetsAvailable,
+    @JsonKey(name: "primary_asset_remote_key") String? primaryAssetRemoteKey, //TODO handle
+    @JsonKey(name: "assets_available") @Default(false) bool assetsAvailable, //TODO handle
     @JsonKey(name: "data") String? data,
+    @JsonKey(name: "is_burned") required bool isBurned,
   }) = _WebNft;
 
   factory WebNft.fromJson(Map<String, dynamic> json) => _$WebNftFromJson(json);

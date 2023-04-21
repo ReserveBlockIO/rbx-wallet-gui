@@ -14,9 +14,10 @@ enum _Environment {
   Web,
   WebTestNet,
   BlockExplorerTestNet,
+  WebLocalEnv,
 }
 
-const _env = _Environment.MacTestNet;
+const _env = _Environment.WebLocalEnv;
 
 class Env {
   static init() async {
@@ -52,6 +53,9 @@ class Env {
       case _Environment.WebTestNet:
         envPath = Assets.env.webDevEnv;
         break;
+      case _Environment.WebLocalEnv:
+        envPath = Assets.env.webLocalEnv;
+        break;
     }
 
     await DotEnv.dotenv.load(fileName: envPath);
@@ -65,6 +69,8 @@ class Env {
       case _Environment.BlockExplorerTestNet:
       case _Environment.WebTestNet:
         return 'https://testnet.rbx.network/';
+      case _Environment.WebLocalEnv:
+        return "https://localhost:3000";
       default:
         return 'https://rbx.network/';
     }

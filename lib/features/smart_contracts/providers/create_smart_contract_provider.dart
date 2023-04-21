@@ -4,6 +4,8 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/services/explorer_service.dart';
+import 'package:rbx_wallet/features/raw/raw_service.dart';
 import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
 
 import '../../../core/app_constants.dart';
@@ -405,7 +407,7 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
     final timezoneName = ref.read(webSessionProvider).timezoneName;
     final payload = state.serializeForCompiler(timezoneName);
 
-    final success = await TransactionService().compileAndMintSmartContract(payload, ref.read(webSessionProvider).keypair!);
+    final success = await RawService().compileAndMintSmartContract(payload, ref.read(webSessionProvider).keypair!);
     if (success == true) {
       ref.read(nftListProvider.notifier).reloadCurrentPage(ref.read(webSessionProvider).keypair?.email, ref.read(webSessionProvider).keypair?.public);
       return true;
@@ -424,12 +426,12 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
 
     final payload = state.serializeForCompiler(timezoneName);
 
-    if (kIsWeb) {
-      final success = await TransactionService().compileAndMintSmartContract(payload, ref.read(webSessionProvider).keypair!);
-      if (success == true) {
-        ref.read(nftListProvider.notifier).reloadCurrentPage();
-      }
-    }
+    // if (kIsWeb) {
+    //   final success = await ExplorerService().compileAndMintSmartContract(payload, ref.read(webSessionProvider).keypair!);
+    //   if (success == true) {
+    //     ref.read(nftListProvider.notifier).reloadCurrentPage();
+    //   }
+    // }
 
     final csc = await SmartContractService().compileSmartContract(payload);
 

@@ -66,6 +66,9 @@ class $AssetsEnvGen {
   /// File path: assets/env/web_env
   String get webEnv => 'assets/env/web_env';
 
+  /// File path: assets/env/web_local_env
+  String get webLocalEnv => 'assets/env/web_local_env';
+
   /// File path: assets/env/win_testnet_env
   String get winTestnetEnv => 'assets/env/win_testnet_env';
 
@@ -81,6 +84,7 @@ class $AssetsEnvGen {
         releaseTestnet,
         webDevEnv,
         webEnv,
+        webLocalEnv,
         winTestnetEnv
       ];
 }
