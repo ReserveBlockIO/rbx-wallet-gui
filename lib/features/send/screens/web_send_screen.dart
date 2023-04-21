@@ -35,11 +35,14 @@ class WebSendScreen extends BaseScreen {
     }
 
     return Center(
-        child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 720),
-            child: SendForm(
-              keypair: keypair,
-              wallet: wallet,
-            )));
+
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 720),
+        child: SendForm(
+          keypair: keypair,
+          wallet: wallet,
+        ),
+      ),
+    );
   }
 }

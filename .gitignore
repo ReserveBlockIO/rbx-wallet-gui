@@ -50,7 +50,6 @@ assets/env/block_explorer_env
 /build/
 
 # Web related
-lib/generated_plugin_registrant.dart
 
 # Symbolication related
 app.*.symbols
