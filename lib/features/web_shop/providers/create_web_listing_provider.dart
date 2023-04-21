@@ -188,8 +188,8 @@ class WebListingFormProvider extends StateNotifier<WebListing> {
       state = state.copyWith(reservePrice: state.floorPrice);
     }
     print("Collection: ${state.collection}");
-
-    if (await WebShopService().saveWebListing(state, state.collection.shop!.id, state.collection.id)) {
+    final success = await WebShopService().saveWebListing(state, state.collection.shop!.id, state.collection.id);
+    if (success) {
       ref.read(webListingListProvider("${state.collection.shop!.id},${state.collection.id}").notifier).refresh();
       clear();
       AutoRouter.of(context).pop();

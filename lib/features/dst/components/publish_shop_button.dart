@@ -100,7 +100,7 @@ class DecPublishShopButton extends BaseComponent {
                   destructive: true,
                 );
 
-                if (confirmed) {
+                if (confirmed == true) {
                   ref.read(sessionProvider.notifier).restartCli();
                 }
 

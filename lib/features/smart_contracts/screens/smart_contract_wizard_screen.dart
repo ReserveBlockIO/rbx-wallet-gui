@@ -41,7 +41,7 @@ class SmartContractWizardScreen extends BaseScreen {
               cancelText: "Cancel",
               confirmText: "Continue",
             );
-            if (confirmed) {
+            if (confirmed == true) {
               ref.read(scWizardProvider.notifier).clear();
               Navigator.of(context).pop();
             }

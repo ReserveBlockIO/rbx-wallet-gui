@@ -5,6 +5,7 @@ import 'package:rbx_wallet/features/dst/providers/collection_list_provider.dart'
 
 import 'package:rbx_wallet/features/web_shop/models/web_collection.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_shop.dart';
+import 'package:rbx_wallet/features/web_shop/providers/web_collection_detail_provider.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_collection_list_provider.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_shop_detail_provider.dart';
 import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
@@ -46,13 +47,16 @@ class WebCollectionFormProvider extends StateNotifier<WebCollection> {
 
     final exists = state.exists;
 
-    final shop = await WebShopService().saveCollection(state);
+    final collection = await WebShopService().saveCollection(state);
 
-    if (shop != null) {
+    if (collection != null) {
       Toast.message(exists ? "Collection Updated!" : "Collection Created");
 
       if (state.shop != null) {
         ref.read(webCollectionListProvider(state.shop!.id).notifier).refresh();
+        if (collection.shop != null) {
+          ref.invalidate(webCollectionDetailProvider("${collection.shop!.id},${collection.id}"));
+        }
       }
 
       //TODO: pop and push to the upcoming listing create screen

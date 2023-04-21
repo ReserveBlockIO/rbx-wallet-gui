@@ -140,7 +140,7 @@ class ConfirmDialog {
     );
   }
 
-  static show({
+  static Future<bool?> show({
     required String title,
     Widget? content,
     String? body,

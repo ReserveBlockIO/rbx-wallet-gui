@@ -34,7 +34,7 @@ class WebShopList extends BaseComponent {
             itemBuilder: (context, shop, index) => WebShopTile(
               shop,
             ),
-            emptyText: "No Shops",
+            emptyText: "No Auction Houses",
             onRefresh: listProvider.refresh,
           ),
         ),
@@ -50,7 +50,7 @@ class WebShopList extends BaseComponent {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   AppButton(
-                    label: 'Create Shop',
+                    label: 'Create Auction House',
                     icon: Icons.add,
                     variant: AppColorVariant.Success,
                     onPressed: () async {

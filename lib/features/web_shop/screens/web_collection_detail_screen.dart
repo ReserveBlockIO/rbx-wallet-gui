@@ -107,7 +107,7 @@ class WebCollectionDetailScreen extends BaseScreen {
                                 cancelText: "Cancel",
                                 confirmText: "Delete",
                               );
-                              if (confirmed) {
+                              if (confirmed == true) {
                                 ref.read(webCollectionFormProvider.notifier).delete(context, collection);
                               }
                             },

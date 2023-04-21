@@ -52,7 +52,7 @@ class WebListingDetails extends BaseComponent {
           children: [
             if (nft == null) Text(listing.smartContractUid),
             if (nft != null) ...[
-              _Details(nft: nft),
+              _Details(listing: listing),
               _Preview(listing: listing),
               if (listing.canBuyNow) _BuyNow(listing: listing),
               _WebNftDetails(nft: nft),
@@ -93,11 +93,11 @@ class WebListingDetails extends BaseComponent {
               onPressed: () async {
                 final confirmed = await ConfirmDialog.show(
                   title: "Delete Listing",
-                  body: "Are you sure you want to delete this listing?\nThis is irreversible and all bids will be lost",
+                  body: "Are you sure you want to delete this listing?",
                   confirmText: "Delete",
                   cancelText: "Cancel",
                 );
-                if (confirmed) {
+                if (confirmed == true) {
                   ref.read(createWebListingProvider.notifier).delete(context, listing.collection.shop!.id, listing);
                 }
               },
@@ -124,7 +124,7 @@ class WebListingDetails extends BaseComponent {
                 children: [
                   if (nft == null) Text(listing.smartContractUid),
                   if (nft != null) ...[
-                    _Details(nft: nft!),
+                    _Details(listing: listing),
                     const SizedBox(height: 8),
                     _WebNftDetails(nft: nft),
                     const SizedBox(height: 16),
@@ -310,16 +310,17 @@ class _PreviewState extends State<_Preview> {
   }
 }
 
-class _Details extends StatelessWidget {
+class _Details extends BaseComponent {
+  final WebListing listing;
   const _Details({
     super.key,
-    required this.nft,
+    required this.listing,
   });
 
-  final WebNft nft;
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final myAddress = kIsWeb ? ref.read(webSessionProvider).keypair?.public : ref.read(sessionProvider).currentWallet?.address;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -328,7 +329,7 @@ class _Details extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                nft.name,
+                listing.nft.name,
                 style: Theme.of(context).textTheme.headlineMedium!.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -336,12 +337,55 @@ class _Details extends StatelessWidget {
               ),
             ),
             // if (withShareButtons) buildShareButtons(context),
+
+            if (listing.ownerAddress == myAddress)
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  AppButton(
+                    label: "Edit",
+                    icon: Icons.edit,
+                    variant: AppColorVariant.Light,
+                    type: AppButtonType.Text,
+                    onPressed: () {
+                      ref.read(createWebListingProvider.notifier).load(listing, listing.collection.id, listing.collection.shop!.id);
+                      if (Env.isWeb) {
+                        AutoRouter.of(context)
+                            .push(CreateWebListingScreenRoute(shopId: listing.collection.shop!.id, collectionId: listing.collection.id));
+                      } else {
+                        AutoRouter.of(context)
+                            .push(DebugWebListingCreateScreenRoute(shopId: listing.collection.shop!.id, collectionId: listing.collection.id));
+                      }
+                    },
+                  ),
+                  SizedBox(
+                    width: 6,
+                  ),
+                  AppButton(
+                    label: "Delete",
+                    icon: Icons.delete,
+                    variant: AppColorVariant.Danger,
+                    type: AppButtonType.Text,
+                    onPressed: () async {
+                      final confirmed = await ConfirmDialog.show(
+                        title: "Delete Listing",
+                        body: "Are you sure you want to delete this listing?",
+                        confirmText: "Delete",
+                        cancelText: "Cancel",
+                      );
+                      if (confirmed == true) {
+                        ref.read(createWebListingProvider.notifier).delete(context, listing.collection.shop!.id, listing);
+                      }
+                    },
+                  )
+                ],
+              )
           ],
         ),
         const SizedBox(height: 8),
         ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 600),
-          child: Text(nft.description),
+          child: Text(listing.nft.description),
         ),
       ],
     );

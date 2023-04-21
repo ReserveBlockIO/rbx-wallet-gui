@@ -106,7 +106,7 @@ class WebShopDetailScreen extends BaseScreen {
                                 cancelText: "Cancel",
                                 confirmText: "Delete",
                               );
-                              if (confirmed) {
+                              if (confirmed == true) {
                                 ref.read(webShopFormProvider.notifier).delete(context, shop);
                               }
                             },

@@ -203,7 +203,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
       cancelText: "Cancel",
     );
 
-    if (!confirmed) {
+    if (confirmed != true) {
       return;
     }
 

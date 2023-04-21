@@ -139,7 +139,7 @@ class WebShopService extends BaseService {
         return WebCollection.fromJson(response['data']);
       } else {
         final response = await patchJson(
-          "/shop/${collection.shop!.id}/collection/",
+          "/shop/${collection.shop!.id}/collection/${collection.id}/",
           params: collection.toJson(),
           inspect: true,
         );
@@ -170,6 +170,11 @@ class WebShopService extends BaseService {
         "/shop/$shopId/collection/$collectionId/listing",
         params: {'page': page},
       );
+      print("------");
+
+      print(data);
+      print("------");
+
       final List<WebListing> results = data['results'].map<WebListing>((item) => WebListing.fromJson(item)).toList();
       print(results);
       return ServerPaginatedReponse<WebListing>(
@@ -201,9 +206,9 @@ class WebShopService extends BaseService {
   Future<bool> saveWebListing(WebListing listing, int shopId, int collectionId) async {
     try {
       if (listing.exists) {
-        final data = await patchJson('/shop/$shopId/collection/$collectionId/listing', params: listing.toJson());
+        final data = await patchJson('/shop/$shopId/collection/$collectionId/listing/${listing.id}/', params: listing.toJson());
       } else {
-        final data = await postJson('/shop/$shopId/collection/$collectionId/listing', params: listing.toJson());
+        final data = await postJson('/shop/$shopId/collection/$collectionId/listing/', params: listing.toJson());
       }
       return true;
     } catch (e, st) {

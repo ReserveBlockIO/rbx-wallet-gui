@@ -16,7 +16,7 @@ enum _Environment {
   BlockExplorerTestNet,
 }
 
-const _env = _Environment.Web;
+const _env = _Environment.MacTestNet;
 
 class Env {
   static init() async {
@@ -128,5 +128,9 @@ class Env {
 
   static bool get isWeb {
     return DotEnv.dotenv.env['IS_WEB'] == "true";
+  }
+
+  static bool get useWebMedia {
+    return DotEnv.dotenv.env['USE_WEB_MEDIA'] == "true";
   }
 }

@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/env.dart';
 
 import '../../../../../core/app_constants.dart';
 import '../../../../../core/base_component.dart';
@@ -53,7 +54,7 @@ class FileSelector extends BaseComponent {
     File? file;
     Asset? asset;
 
-    if (kIsWeb) {
+    if (kIsWeb || Env.useWebMedia) {
       final bytes = result.files.single.bytes;
       if (bytes == null) {
         return;
