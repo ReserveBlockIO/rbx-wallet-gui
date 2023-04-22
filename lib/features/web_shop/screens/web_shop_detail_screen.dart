@@ -109,8 +109,8 @@ class WebShopDetailScreen extends BaseScreen {
                             variant: AppColorVariant.Danger,
                             onPressed: () async {
                               final confirmed = await ConfirmDialog.show(
-                                title: "Are you sure you want to delete this shop?",
-                                body: "This is permanent",
+                                title: "Delete shop?",
+                                body: "Are you sure you want to delete this shop? This is a permanent operation.",
                                 cancelText: "Cancel",
                                 confirmText: "Delete",
                               );

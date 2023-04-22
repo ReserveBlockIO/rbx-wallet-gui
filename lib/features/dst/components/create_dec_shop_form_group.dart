@@ -177,11 +177,13 @@ class _DecUrl extends BaseComponent {
       ],
       validator: (value) => formValidatorNotEmpty(value, "Shop Identifier"),
       decoration: InputDecoration(
-          label: const Text(
-            "Shop Identifier",
-            style: TextStyle(color: Colors.white),
-          ),
-          hintText: "ie. MyShop"),
+        label: const Text(
+          "Shop Identifier",
+          style: TextStyle(color: Colors.white),
+        ),
+        hintText: "MyNewShop",
+        prefixText: "rbx://",
+      ),
     );
   }
 }

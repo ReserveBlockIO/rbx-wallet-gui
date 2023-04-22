@@ -2,6 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:rbx_wallet/core/services/explorer_service.dart';
+import 'package:rbx_wallet/features/nft/models/nft.dart';
+import 'package:rbx_wallet/features/nft/models/web_nft.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_collection.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_shop.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_listing_list_provider.dart';
@@ -9,7 +12,6 @@ import 'package:rbx_wallet/features/web_shop/providers/web_listing_list_provider
 import '../../../core/dialogs.dart';
 import '../../../utils/toast.dart';
 import '../models/web_listing.dart';
-import '../models/web_nft.dart';
 import '../services/web_shop_service.dart';
 
 class WebListingFormProvider extends StateNotifier<WebListing> {
@@ -67,15 +69,17 @@ class WebListingFormProvider extends StateNotifier<WebListing> {
     print('State: $state');
   }
 
-  updateNFT(String nft) {
-    state = state.copyWith(
-      smartContractUid: nft,
-    );
+  Future<void> updateNFT(Nft nft) async {
+    // final webNft = WebNft.fromNft(nft);
+
+    final webNft = await ExplorerService().retrieveWebNft(nft.id);
+
+    state = state.copyWith(nft: webNft, smartContractUid: nft.id);
   }
 
   clearNft() {
     state = state.copyWith(
-      nft: WebNft.empty(),
+      nft: null,
       smartContractUid: '',
       ownerAddress: '',
     );

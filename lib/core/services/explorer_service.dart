@@ -132,6 +132,17 @@ class ExplorerService extends BaseService {
     }
   }
 
+  Future<WebNft?> retrieveWebNft(String id) async {
+    try {
+      final response = await getJson('/nft/$id');
+
+      return WebNft.fromJson(response);
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
   Future<bool> adnrAvailable(String adnr) async {
     try {
       await getJson('/addresses/adnr/$adnr');

@@ -459,7 +459,7 @@ class __$$_NftCopyWithImpl<$Res> extends _$NftCopyWithImpl<$Res, _$_Nft>
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _$_Nft extends _Nft {
+class _$_Nft extends _Nft with DiagnosticableTreeMixin {
   _$_Nft(
       {@JsonKey(name: "Name")
           required this.name,
@@ -619,8 +619,38 @@ class _$_Nft extends _Nft {
   final String? thumbsPath;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'Nft(name: $name, description: $description, currentOwner: $currentOwner, minterAddress: $minterAddress, minterName: $minterName, id: $id, primaryAsset: $primaryAsset, primaryAssetWeb: $primaryAssetWeb, additionalAssetsWeb: $additionalAssetsWeb, isPublic: $isPublic, isPublished: $isPublished, isMinter: $isMinter, features: $features, properties: $properties, nextOwner: $nextOwner, isLocked: $isLocked, isProcessing: $isProcessing, code: $code, proxiedAsset: $proxiedAsset, additionalLocalAssets: $additionalLocalAssets, updatedEvolutionPhases: $updatedEvolutionPhases, thumbsPath: $thumbsPath)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'Nft'))
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('description', description))
+      ..add(DiagnosticsProperty('currentOwner', currentOwner))
+      ..add(DiagnosticsProperty('minterAddress', minterAddress))
+      ..add(DiagnosticsProperty('minterName', minterName))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('primaryAsset', primaryAsset))
+      ..add(DiagnosticsProperty('primaryAssetWeb', primaryAssetWeb))
+      ..add(DiagnosticsProperty('additionalAssetsWeb', additionalAssetsWeb))
+      ..add(DiagnosticsProperty('isPublic', isPublic))
+      ..add(DiagnosticsProperty('isPublished', isPublished))
+      ..add(DiagnosticsProperty('isMinter', isMinter))
+      ..add(DiagnosticsProperty('features', features))
+      ..add(DiagnosticsProperty('properties', properties))
+      ..add(DiagnosticsProperty('nextOwner', nextOwner))
+      ..add(DiagnosticsProperty('isLocked', isLocked))
+      ..add(DiagnosticsProperty('isProcessing', isProcessing))
+      ..add(DiagnosticsProperty('code', code))
+      ..add(DiagnosticsProperty('proxiedAsset', proxiedAsset))
+      ..add(DiagnosticsProperty('additionalLocalAssets', additionalLocalAssets))
+      ..add(
+          DiagnosticsProperty('updatedEvolutionPhases', updatedEvolutionPhases))
+      ..add(DiagnosticsProperty('thumbsPath', thumbsPath));
   }
 
   @override

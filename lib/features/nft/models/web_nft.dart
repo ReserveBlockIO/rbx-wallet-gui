@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:rbx_wallet/features/asset/web_asset.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-import '../../asset/proxied_asset.dart';
 import 'nft.dart';
 
 part 'web_nft.freezed.dart';
@@ -25,17 +24,30 @@ abstract class WebNft with _$WebNft {
     @JsonKey(name: "minter_name") required String minterName,
     @JsonKey(name: "primary_asset_name") required String primaryAssetName,
     @JsonKey(name: "primary_asset_size") required int primaryAssetSize,
-    // @JsonKey(name: "additional_assets_remote_keys") List<String>? additionalAssetsRemoteKeys,
     @JsonKey(name: "smart_contract_data") required String smartContractDataString,
     @JsonKey(name: "minted_at") required DateTime mintedAt,
-    // @JsonKey(name: "primary_asset_remote_key") String? primaryAssetRemoteKey, //TODO handle
-    // @JsonKey(name: "assets_available") @Default(false) bool assetsAvailable, //TODO handle
     @JsonKey(name: "data") String? data,
     @JsonKey(name: "is_burned") required bool isBurned,
     @JsonKey(name: "asset_urls") Map<String, dynamic>? assetUrls,
   }) = _WebNft;
 
   factory WebNft.fromJson(Map<String, dynamic> json) => _$WebNftFromJson(json);
+
+  factory WebNft.empty() {
+    return WebNft(
+      identifier: '',
+      name: '',
+      description: '',
+      minterAddress: '',
+      ownerAddress: '',
+      minterName: '',
+      primaryAssetName: '',
+      primaryAssetSize: 0,
+      smartContractDataString: '',
+      mintedAt: DateTime.now(),
+      isBurned: false,
+    );
+  }
 
   Map<String, dynamic> get smartContractData {
     final sanatizedString = smartContractDataString.replaceAll("'", '"');

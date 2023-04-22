@@ -17,6 +17,8 @@ import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/dst/providers/listing_detail_provider.dart';
+import 'package:rbx_wallet/features/nft/models/nft.dart';
+import 'package:rbx_wallet/features/nft/models/web_nft.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_listing.dart';
 import 'package:rbx_wallet/features/web_shop/providers/create_web_listing_provider.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_listing_detail_provider.dart';
@@ -26,7 +28,6 @@ import '../../../core/app_router.gr.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../../core/providers/web_session_provider.dart';
-import '../models/web_nft.dart';
 
 class WebListingDetails extends BaseComponent {
   final WebListing listing;
@@ -55,8 +56,8 @@ class WebListingDetails extends BaseComponent {
               _Details(listing: listing),
               _Preview(listing: listing),
               if (listing.canBuyNow) _BuyNow(listing: listing),
-              _WebNftDetails(nft: nft),
-              _WebNftData(nft: nft),
+              _WebNftDetails(nft: nft.smartContract),
+              _WebNftData(nft: nft.smartContract),
             ]
             // _Features(nft: nft),
           ],
@@ -126,9 +127,9 @@ class WebListingDetails extends BaseComponent {
                   if (nft != null) ...[
                     _Details(listing: listing),
                     const SizedBox(height: 8),
-                    _WebNftDetails(nft: nft),
+                    _WebNftDetails(nft: nft.smartContract),
                     const SizedBox(height: 16),
-                    _WebNftData(nft: nft),
+                    _WebNftData(nft: nft.smartContract),
                     const SizedBox(height: 8),
                   ],
                   Row(
@@ -320,7 +321,9 @@ class _Details extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final myAddress = kIsWeb ? ref.read(webSessionProvider).keypair?.public : ref.read(sessionProvider).currentWallet?.address;
-
+    if (listing.nft == null) {
+      return SizedBox();
+    }
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -329,7 +332,7 @@ class _Details extends BaseComponent {
           children: [
             Expanded(
               child: Text(
-                listing.nft.name,
+                listing.nft!.name,
                 style: Theme.of(context).textTheme.headlineMedium!.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -385,7 +388,7 @@ class _Details extends BaseComponent {
         const SizedBox(height: 8),
         ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 600),
-          child: Text(listing.nft.description),
+          child: Text(listing.nft!.description),
         ),
       ],
     );
@@ -458,7 +461,7 @@ class _Details extends BaseComponent {
 // }
 
 class _WebNftDetails extends StatelessWidget {
-  final WebNft nft;
+  final Nft nft;
   const _WebNftDetails({super.key, required this.nft});
 
   @override
@@ -497,7 +500,7 @@ class _WebNftDetails extends StatelessWidget {
 }
 
 class _WebNftData extends StatelessWidget {
-  final WebNft nft;
+  final Nft nft;
 
   const _WebNftData({
     super.key,
@@ -576,9 +579,9 @@ class _WebNftData extends StatelessWidget {
           Table(
             defaultColumnWidth: const IntrinsicColumnWidth(),
             children: [
-              buildDetailRow(context, "Identifier", nft.identifier, true),
+              buildDetailRow(context, "Identifier", nft.id, true),
               buildDetailRow(context, "Minted By", nft.minterName),
-              buildDetailRow(context, "Owned by", nft.ownerAddress),
+              buildDetailRow(context, "Owned by", nft.currentOwner),
               buildDetailRow(context, "Chain", "RBX"),
               //TODO: Auction stuff
             ],

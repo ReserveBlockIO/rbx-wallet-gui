@@ -2,6 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/app_router.gr.dart';
+import 'package:rbx_wallet/core/env.dart';
+import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/dst/providers/collection_list_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/listing_list_provider.dart';
@@ -68,14 +71,18 @@ class WebShopFormProvider extends StateNotifier<WebShop> {
       return null;
     }
 
-    final success = await WebShopService().saveWebShop(state);
+    final updatedShop = await WebShopService().saveWebShop(state);
 
-    if (success) {
-      ref.read(webShopListProvider(WebShopListType.mine).notifier).refresh();
-      ref.read(webShopListProvider(WebShopListType.mine).notifier).refresh();
-      ref.read(webShopListProvider(WebShopListType.public).notifier).refresh();
-      ref.invalidate(webShopDetailProvider);
-      AutoRouter.of(context).pop();
+    if (updatedShop != null) {
+      ref.invalidate(webShopListProvider(WebShopListType.mine));
+      ref.invalidate(webShopListProvider(WebShopListType.public));
+      ref.invalidate(webShopDetailProvider(updatedShop.id));
+
+      if (Env.isWeb) {
+        AutoRouter.of(context).push(WebShopDetailScreenRoute(shopId: updatedShop.id));
+      } else {
+        AutoRouter.of(context).push(DebugWebShopDetailScreenRoute(shopId: updatedShop.id));
+      }
       clear();
       return true;
     } else {

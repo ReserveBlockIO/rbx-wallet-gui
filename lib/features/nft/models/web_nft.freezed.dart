@@ -32,14 +32,11 @@ mixin _$WebNft {
   @JsonKey(name: "primary_asset_name")
   String get primaryAssetName => throw _privateConstructorUsedError;
   @JsonKey(name: "primary_asset_size")
-  int get primaryAssetSize =>
-      throw _privateConstructorUsedError; // @JsonKey(name: "additional_assets_remote_keys") List<String>? additionalAssetsRemoteKeys,
+  int get primaryAssetSize => throw _privateConstructorUsedError;
   @JsonKey(name: "smart_contract_data")
   String get smartContractDataString => throw _privateConstructorUsedError;
   @JsonKey(name: "minted_at")
-  DateTime get mintedAt =>
-      throw _privateConstructorUsedError; // @JsonKey(name: "primary_asset_remote_key") String? primaryAssetRemoteKey, //TODO handle
-// @JsonKey(name: "assets_available") @Default(false) bool assetsAvailable, //TODO handle
+  DateTime get mintedAt => throw _privateConstructorUsedError;
   @JsonKey(name: "data")
   String? get data => throw _privateConstructorUsedError;
   @JsonKey(name: "is_burned")
@@ -314,15 +311,12 @@ class _$_WebNft extends _WebNft {
   @override
   @JsonKey(name: "primary_asset_size")
   final int primaryAssetSize;
-// @JsonKey(name: "additional_assets_remote_keys") List<String>? additionalAssetsRemoteKeys,
   @override
   @JsonKey(name: "smart_contract_data")
   final String smartContractDataString;
   @override
   @JsonKey(name: "minted_at")
   final DateTime mintedAt;
-// @JsonKey(name: "primary_asset_remote_key") String? primaryAssetRemoteKey, //TODO handle
-// @JsonKey(name: "assets_available") @Default(false) bool assetsAvailable, //TODO handle
   @override
   @JsonKey(name: "data")
   final String? data;
@@ -459,14 +453,13 @@ abstract class _WebNft extends WebNft {
   @override
   @JsonKey(name: "primary_asset_size")
   int get primaryAssetSize;
-  @override // @JsonKey(name: "additional_assets_remote_keys") List<String>? additionalAssetsRemoteKeys,
+  @override
   @JsonKey(name: "smart_contract_data")
   String get smartContractDataString;
   @override
   @JsonKey(name: "minted_at")
   DateTime get mintedAt;
-  @override // @JsonKey(name: "primary_asset_remote_key") String? primaryAssetRemoteKey, //TODO handle
-// @JsonKey(name: "assets_available") @Default(false) bool assetsAvailable, //TODO handle
+  @override
   @JsonKey(name: "data")
   String? get data;
   @override

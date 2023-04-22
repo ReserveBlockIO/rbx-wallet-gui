@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rbx_wallet/core/utils.dart';
@@ -306,6 +307,11 @@ abstract class Nft with _$Nft {
   }
 
   bool isListed(WidgetRef ref) {
+    if (kIsWeb) {
+      //TODO: handle web
+      return false;
+    }
+
     if (ref.read(listedNftsProvider).contains(id)) {
       return true;
     }
