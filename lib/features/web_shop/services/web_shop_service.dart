@@ -90,6 +90,17 @@ class WebShopService extends BaseService {
     }
   }
 
+  Future<bool> checkAvailabilty(String url) async {
+    try {
+      final data = await getJson("/shop/url/available/", params: {'url': url});
+      return data['available'] == true;
+    } catch (e, st) {
+      print(e);
+      print(st);
+      return false;
+    }
+  }
+
   Future<WebShop?> saveWebShop(WebShop shop) async {
     try {
       late final Map<String, dynamic> response;

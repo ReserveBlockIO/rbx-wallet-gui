@@ -64,6 +64,14 @@ class WebShopFormProvider extends StateNotifier<WebShop> {
       return null;
     }
 
+    if (state.isNew) {
+      final urlAvailable = await WebShopService().checkAvailabilty(state.url);
+
+      if (!urlAvailable) {
+        Toast.error("Shop URL is not available.");
+        return null;
+      }
+    }
     final address = kIsWeb ? ref.read(webSessionProvider).keypair?.public : ref.read(sessionProvider).currentWallet?.address;
     state = state.copyWith(ownerAddress: address ?? '');
     if (state.ownerAddress.isEmpty) {

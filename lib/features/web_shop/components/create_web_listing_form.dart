@@ -89,7 +89,7 @@ class CreateListingFormGroup extends BaseComponent {
             padding: const EdgeInsets.only(top: 16.0),
             child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
               AppButton(
-                label: 'Complete',
+                label: 'Save',
                 variant: AppColorVariant.Success,
                 onPressed: () {
                   provider.complete(context);
