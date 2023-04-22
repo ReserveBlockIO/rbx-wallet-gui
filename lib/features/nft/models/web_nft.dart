@@ -50,28 +50,21 @@ abstract class WebNft with _$WebNft {
   Nft get smartContract {
     //TODO: handle multiasset and evolves
 
-    // final List<ProxiedAsset> additionalProxiedAssets = [];
+    final List<WebAsset> additionalAssetsWeb = [];
 
-    // if (smartContractData["Features"] != null) {
-    //   for (var feature in smartContractData["Features"]) {
-    //     if (feature['FeatureName'] == 2) {
-    //       for (var asset in feature['FeatureFeatures']) {
-    //         final fileName = asset['FileName'];
+    if (smartContractData["Features"] != null) {
+      for (var feature in smartContractData["Features"]) {
+        if (feature['FeatureName'] == 2) {
+          for (var asset in feature['FeatureFeatures']) {
+            final fileName = asset['FileName'];
 
-    //         if (primaryAssetRemoteKey != null) {
-    //           final key = primaryAssetRemoteKey!.replaceAll(primaryAssetName, fileName);
-    //           final a = ProxiedAsset(
-    //             key: key,
-    //             fileName: fileName,
-    //             fileSize: asset['FileSize'],
-    //             authorName: asset['AssetAuthorName'],
-    //           );
-    //           additionalProxiedAssets.add(a);
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
+            if (assetUrls != null && assetUrls!.containsKey(fileName)) {
+              additionalAssetsWeb.add(WebAsset(location: assetUrls![fileName]));
+            }
+          }
+        }
+      }
+    }
 
     final primaryAssetFilename = smartContractData['SmartContractAsset']['Name'];
     final primaryAssetWeb =
@@ -80,6 +73,7 @@ abstract class WebNft with _$WebNft {
     return Nft.fromJson(smartContractData).copyWith(
       currentOwner: ownerAddress,
       primaryAssetWeb: primaryAssetWeb,
+      additionalAssetsWeb: additionalAssetsWeb.isNotEmpty ? additionalAssetsWeb : null,
       // additionalProxiedAssets: additionalProxiedAssets,
       code: getCode(),
     );

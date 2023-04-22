@@ -279,33 +279,33 @@ class NftDetailScreen extends BaseScreen {
                                           const SizedBox(
                                             height: 6,
                                           ),
-                                          // kIsWeb && !nft.assetsAvailable
-                                          //     ? buildAssetsNotAvailable(_provider, false)
-                                          //     : kIsWeb
-                                          //         ? Wrap(
-                                          //             children: (nft.additionalProxiedAssets ?? [])
-                                          //                 .map(
-                                          //                   (a) => Padding(
-                                          //                     padding: const EdgeInsets.only(right: 6.0),
-                                          //                     child: ProxyAssetThumbnail(a),
-                                          //                   ),
-                                          //                 )
-                                          //                 .toList(),
-                                          //           )
-                                          //         : Wrap(
-                                          //             children: nft.additionalLocalAssets
-                                          //                 .map(
-                                          //                   (a) => Padding(
-                                          //                     padding: const EdgeInsets.only(right: 6.0),
-                                          //                     child: AssetThumbnail(
-                                          //                       a,
-                                          //                       nftId: nft.id,
-                                          //                       ownerAddress: nft.nextOwner ?? nft.currentOwner,
-                                          //                     ),
-                                          //                   ),
-                                          //                 )
-                                          //                 .toList(),
-                                          //           ),
+                                          kIsWeb && nft.additionalAssetsWeb == null
+                                              ? buildAssetsNotAvailable(_provider, false)
+                                              : kIsWeb
+                                                  ? Wrap(
+                                                      children: (nft.additionalAssetsWeb ?? [])
+                                                          .map(
+                                                            (a) => Padding(
+                                                              padding: const EdgeInsets.only(right: 6.0),
+                                                              child: WebAssetThumbnail(a),
+                                                            ),
+                                                          )
+                                                          .toList(),
+                                                    )
+                                                  : Wrap(
+                                                      children: nft.additionalLocalAssets
+                                                          .map(
+                                                            (a) => Padding(
+                                                              padding: const EdgeInsets.only(right: 6.0),
+                                                              child: AssetThumbnail(
+                                                                a,
+                                                                nftId: nft.id,
+                                                                ownerAddress: nft.nextOwner ?? nft.currentOwner,
+                                                              ),
+                                                            ),
+                                                          )
+                                                          .toList(),
+                                                    ),
                                         ],
                                       ),
                                     )
@@ -317,7 +317,7 @@ class NftDetailScreen extends BaseScreen {
                       ],
                     ),
                     ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: 400),
+                      constraints: const BoxConstraints(maxWidth: 216),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -329,6 +329,7 @@ class NftDetailScreen extends BaseScreen {
                           NftQrCode(
                             data: nft.explorerUrl,
                             size: 200,
+                            withOpen: true,
                           ),
                           MediaBackup(nft),
                         ],

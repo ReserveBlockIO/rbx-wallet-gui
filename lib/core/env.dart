@@ -68,9 +68,8 @@ class Env {
       case _Environment.ReleaseTestNet:
       case _Environment.BlockExplorerTestNet:
       case _Environment.WebTestNet:
-        return 'https://testnet.rbx.network/';
       case _Environment.WebLocalEnv:
-        return "https://localhost:3000";
+        return 'https://testnet.rbx.network/';
       default:
         return 'https://rbx.network/';
     }

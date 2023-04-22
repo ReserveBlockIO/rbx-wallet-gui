@@ -112,7 +112,9 @@ class RawService extends BaseService {
         execute: true,
       );
 
-      if (tx != null && tx['data']['Result'] == "Success") {
+      print(tx);
+
+      if (tx != null && tx['Result'] == "Success") {
         return true;
       }
 

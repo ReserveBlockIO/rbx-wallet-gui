@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/services/explorer_service.dart';
+import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 
 import '../../../../../core/app_constants.dart';
 import '../../../../../core/base_component.dart';
@@ -64,7 +65,10 @@ class FileSelector extends BaseComponent {
       final ext = result.files.single.extension;
       final filename = result.files.single.name;
 
+      ref.read(globalLoadingProvider.notifier).start();
+
       final url = await ExplorerService().uploadAsset(bytes, filename, ext);
+      ref.read(globalLoadingProvider.notifier).complete();
 
       if (url == null) return;
       asset = Asset(

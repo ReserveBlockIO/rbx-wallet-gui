@@ -61,6 +61,7 @@ abstract class Nft with _$Nft {
     @JsonKey(name: "SmartContractUID") required String id,
     @JsonKey(name: "SmartContractAsset") required Asset primaryAsset,
     @JsonKey(ignore: true) WebAsset? primaryAssetWeb,
+    @JsonKey(ignore: true) List<WebAsset>? additionalAssetsWeb,
     @JsonKey(name: "IsPublic") required bool isPublic,
     @JsonKey(name: "IsPublished") required bool isPublished,
     @JsonKey(name: "IsMinter") required bool isMinter,
@@ -214,7 +215,6 @@ abstract class Nft with _$Nft {
   }
 
   WebAsset? get currentEvolveAssetWeb {
-    print("primaryAssetWeb: ${primaryAssetWeb?.location}");
     return primaryAssetWeb;
 
     //TODO handle evolve asset stuff
