@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:archive/archive_io.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
+import 'package:rbx_wallet/features/asset/web_asset.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../asset/proxied_asset.dart';
@@ -27,10 +28,11 @@ abstract class WebNft with _$WebNft {
     // @JsonKey(name: "additional_assets_remote_keys") List<String>? additionalAssetsRemoteKeys,
     @JsonKey(name: "smart_contract_data") required String smartContractDataString,
     @JsonKey(name: "minted_at") required DateTime mintedAt,
-    @JsonKey(name: "primary_asset_remote_key") String? primaryAssetRemoteKey, //TODO handle
-    @JsonKey(name: "assets_available") @Default(false) bool assetsAvailable, //TODO handle
+    // @JsonKey(name: "primary_asset_remote_key") String? primaryAssetRemoteKey, //TODO handle
+    // @JsonKey(name: "assets_available") @Default(false) bool assetsAvailable, //TODO handle
     @JsonKey(name: "data") String? data,
     @JsonKey(name: "is_burned") required bool isBurned,
+    @JsonKey(name: "asset_urls") Map<String, dynamic>? assetUrls,
   }) = _WebNft;
 
   factory WebNft.fromJson(Map<String, dynamic> json) => _$WebNftFromJson(json);
@@ -46,41 +48,41 @@ abstract class WebNft with _$WebNft {
   }
 
   Nft get smartContract {
-    final List<ProxiedAsset> additionalProxiedAssets = [];
+    //TODO: handle multiasset and evolves
 
-    if (smartContractData["Features"] != null) {
-      for (var feature in smartContractData["Features"]) {
-        if (feature['FeatureName'] == 2) {
-          for (var asset in feature['FeatureFeatures']) {
-            final fileName = asset['FileName'];
+    // final List<ProxiedAsset> additionalProxiedAssets = [];
 
-            if (primaryAssetRemoteKey != null) {
-              final key = primaryAssetRemoteKey!.replaceAll(primaryAssetName, fileName);
-              final a = ProxiedAsset(
-                key: key,
-                fileName: fileName,
-                fileSize: asset['FileSize'],
-                authorName: asset['AssetAuthorName'],
-              );
-              additionalProxiedAssets.add(a);
-            }
-          }
-        }
-      }
-    }
+    // if (smartContractData["Features"] != null) {
+    //   for (var feature in smartContractData["Features"]) {
+    //     if (feature['FeatureName'] == 2) {
+    //       for (var asset in feature['FeatureFeatures']) {
+    //         final fileName = asset['FileName'];
+
+    //         if (primaryAssetRemoteKey != null) {
+    //           final key = primaryAssetRemoteKey!.replaceAll(primaryAssetName, fileName);
+    //           final a = ProxiedAsset(
+    //             key: key,
+    //             fileName: fileName,
+    //             fileSize: asset['FileSize'],
+    //             authorName: asset['AssetAuthorName'],
+    //           );
+    //           additionalProxiedAssets.add(a);
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
+
+    final primaryAssetFilename = smartContractData['SmartContractAsset']['Name'];
+    final primaryAssetWeb =
+        (assetUrls != null && assetUrls!.containsKey(primaryAssetFilename)) ? WebAsset(location: assetUrls![primaryAssetFilename]) : null;
+
     return Nft.fromJson(smartContractData).copyWith(
-        currentOwner: ownerAddress,
-        assetsAvailable: assetsAvailable,
-        proxiedAsset: primaryAssetRemoteKey != null
-            ? ProxiedAsset(
-                key: primaryAssetRemoteKey!,
-                fileName: primaryAssetName,
-                fileSize: primaryAssetSize,
-                authorName: minterName,
-              )
-            : null,
-        additionalProxiedAssets: additionalProxiedAssets,
-        code: getCode());
+      currentOwner: ownerAddress,
+      primaryAssetWeb: primaryAssetWeb,
+      // additionalProxiedAssets: additionalProxiedAssets,
+      code: getCode(),
+    );
   }
 
   String get mintedAtLabel {

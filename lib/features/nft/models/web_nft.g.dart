@@ -17,10 +17,9 @@ _$_WebNft _$$_WebNftFromJson(Map<String, dynamic> json) => _$_WebNft(
       primaryAssetSize: json['primary_asset_size'] as int,
       smartContractDataString: json['smart_contract_data'] as String,
       mintedAt: DateTime.parse(json['minted_at'] as String),
-      primaryAssetRemoteKey: json['primary_asset_remote_key'] as String?,
-      assetsAvailable: json['assets_available'] as bool? ?? false,
       data: json['data'] as String?,
       isBurned: json['is_burned'] as bool,
+      assetUrls: json['asset_urls'] as Map<String, dynamic>?,
     );
 
 Map<String, dynamic> _$$_WebNftToJson(_$_WebNft instance) => <String, dynamic>{
@@ -34,8 +33,7 @@ Map<String, dynamic> _$$_WebNftToJson(_$_WebNft instance) => <String, dynamic>{
       'primary_asset_size': instance.primaryAssetSize,
       'smart_contract_data': instance.smartContractDataString,
       'minted_at': instance.mintedAt.toIso8601String(),
-      'primary_asset_remote_key': instance.primaryAssetRemoteKey,
-      'assets_available': instance.assetsAvailable,
       'data': instance.data,
       'is_burned': instance.isBurned,
+      'asset_urls': instance.assetUrls,
     };
