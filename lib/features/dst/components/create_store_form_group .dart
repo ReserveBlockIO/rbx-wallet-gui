@@ -26,7 +26,14 @@ class CreateCollectionFormGroup extends BaseComponent {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
-                children: const [
+                children: [
+                  if (model.id == 0)
+                    Center(
+                      child: Text(
+                        "You are creating a new collection in your auction house.\nAfter creating the new collection you will be able to create listings.",
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                   Flexible(
                     child: _CollectionName(),
                   ),

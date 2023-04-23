@@ -63,6 +63,8 @@ mixin _$DecShop {
       throw _privateConstructorUsedError; // * updating when published
   @JsonKey(name: "IsPublished")
   bool get isPublished => throw _privateConstructorUsedError;
+  @JsonKey(name: "IsIPDifferent")
+  bool get ipIsDifferent => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -92,7 +94,8 @@ abstract class $DecShopCopyWith<$Res> {
       @JsonKey(name: "AutoUpdateNetworkDNS") bool autoUpdateNetworkDns,
       @JsonKey(name: "NeedsPublishToNetwork") bool needsPublishToNetwork,
       @JsonKey(name: "IsOffline") bool isOffline,
-      @JsonKey(name: "IsPublished") bool isPublished});
+      @JsonKey(name: "IsPublished") bool isPublished,
+      @JsonKey(name: "IsIPDifferent") bool ipIsDifferent});
 }
 
 /// @nodoc
@@ -126,6 +129,7 @@ class _$DecShopCopyWithImpl<$Res, $Val extends DecShop>
     Object? needsPublishToNetwork = null,
     Object? isOffline = null,
     Object? isPublished = null,
+    Object? ipIsDifferent = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -200,6 +204,10 @@ class _$DecShopCopyWithImpl<$Res, $Val extends DecShop>
           ? _value.isPublished
           : isPublished // ignore: cast_nullable_to_non_nullable
               as bool,
+      ipIsDifferent: null == ipIsDifferent
+          ? _value.ipIsDifferent
+          : ipIsDifferent // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -229,7 +237,8 @@ abstract class _$$_DecShopCopyWith<$Res> implements $DecShopCopyWith<$Res> {
       @JsonKey(name: "AutoUpdateNetworkDNS") bool autoUpdateNetworkDns,
       @JsonKey(name: "NeedsPublishToNetwork") bool needsPublishToNetwork,
       @JsonKey(name: "IsOffline") bool isOffline,
-      @JsonKey(name: "IsPublished") bool isPublished});
+      @JsonKey(name: "IsPublished") bool isPublished,
+      @JsonKey(name: "IsIPDifferent") bool ipIsDifferent});
 }
 
 /// @nodoc
@@ -260,6 +269,7 @@ class __$$_DecShopCopyWithImpl<$Res>
     Object? needsPublishToNetwork = null,
     Object? isOffline = null,
     Object? isPublished = null,
+    Object? ipIsDifferent = null,
   }) {
     return _then(_$_DecShop(
       id: null == id
@@ -334,6 +344,10 @@ class __$$_DecShopCopyWithImpl<$Res>
           ? _value.isPublished
           : isPublished // ignore: cast_nullable_to_non_nullable
               as bool,
+      ipIsDifferent: null == ipIsDifferent
+          ? _value.ipIsDifferent
+          : ipIsDifferent // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -377,7 +391,9 @@ class _$_DecShop extends _DecShop {
       @JsonKey(name: "IsOffline")
           required this.isOffline,
       @JsonKey(name: "IsPublished")
-          required this.isPublished})
+          required this.isPublished,
+      @JsonKey(name: "IsIPDifferent")
+          required this.ipIsDifferent})
       : super._();
 
   factory _$_DecShop.fromJson(Map<String, dynamic> json) =>
@@ -446,10 +462,13 @@ class _$_DecShop extends _DecShop {
   @override
   @JsonKey(name: "IsPublished")
   final bool isPublished;
+  @override
+  @JsonKey(name: "IsIPDifferent")
+  final bool ipIsDifferent;
 
   @override
   String toString() {
-    return 'DecShop(id: $id, uuid: $uuid, name: $name, url: $url, description: $description, ownerAddress: $ownerAddress, type: $type, ip: $ip, port: $port, originalBlockHeight: $originalBlockHeight, originaTxHash: $originaTxHash, latestBlockHeight: $latestBlockHeight, lastestTxHash: $lastestTxHash, updateTimestamp: $updateTimestamp, autoUpdateNetworkDns: $autoUpdateNetworkDns, needsPublishToNetwork: $needsPublishToNetwork, isOffline: $isOffline, isPublished: $isPublished)';
+    return 'DecShop(id: $id, uuid: $uuid, name: $name, url: $url, description: $description, ownerAddress: $ownerAddress, type: $type, ip: $ip, port: $port, originalBlockHeight: $originalBlockHeight, originaTxHash: $originaTxHash, latestBlockHeight: $latestBlockHeight, lastestTxHash: $lastestTxHash, updateTimestamp: $updateTimestamp, autoUpdateNetworkDns: $autoUpdateNetworkDns, needsPublishToNetwork: $needsPublishToNetwork, isOffline: $isOffline, isPublished: $isPublished, ipIsDifferent: $ipIsDifferent)';
   }
 
   @override
@@ -485,31 +504,35 @@ class _$_DecShop extends _DecShop {
             (identical(other.isOffline, isOffline) ||
                 other.isOffline == isOffline) &&
             (identical(other.isPublished, isPublished) ||
-                other.isPublished == isPublished));
+                other.isPublished == isPublished) &&
+            (identical(other.ipIsDifferent, ipIsDifferent) ||
+                other.ipIsDifferent == ipIsDifferent));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      uuid,
-      name,
-      url,
-      description,
-      ownerAddress,
-      type,
-      ip,
-      port,
-      originalBlockHeight,
-      originaTxHash,
-      latestBlockHeight,
-      lastestTxHash,
-      updateTimestamp,
-      autoUpdateNetworkDns,
-      needsPublishToNetwork,
-      isOffline,
-      isPublished);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        uuid,
+        name,
+        url,
+        description,
+        ownerAddress,
+        type,
+        ip,
+        port,
+        originalBlockHeight,
+        originaTxHash,
+        latestBlockHeight,
+        lastestTxHash,
+        updateTimestamp,
+        autoUpdateNetworkDns,
+        needsPublishToNetwork,
+        isOffline,
+        isPublished,
+        ipIsDifferent
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -562,7 +585,9 @@ abstract class _DecShop extends DecShop {
       @JsonKey(name: "IsOffline")
           required final bool isOffline,
       @JsonKey(name: "IsPublished")
-          required final bool isPublished}) = _$_DecShop;
+          required final bool isPublished,
+      @JsonKey(name: "IsIPDifferent")
+          required final bool ipIsDifferent}) = _$_DecShop;
   _DecShop._() : super._();
 
   factory _DecShop.fromJson(Map<String, dynamic> json) = _$_DecShop.fromJson;
@@ -621,6 +646,9 @@ abstract class _DecShop extends DecShop {
   @override // * updating when published
   @JsonKey(name: "IsPublished")
   bool get isPublished;
+  @override
+  @JsonKey(name: "IsIPDifferent")
+  bool get ipIsDifferent;
   @override
   @JsonKey(ignore: true)
   _$$_DecShopCopyWith<_$_DecShop> get copyWith =>

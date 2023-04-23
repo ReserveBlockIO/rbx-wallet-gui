@@ -32,6 +32,7 @@ class RemoteShopListScreen extends BaseScreen {
   ) async {
     String? url = await PromptModal.show(
       title: "Shop URL",
+      initialValue: "rbx://",
       validator: (value) {
         if (value == null || value.isEmpty) {
           return "Shop URL required";
@@ -42,7 +43,7 @@ class RemoteShopListScreen extends BaseScreen {
         // }
         return null;
       },
-      labelText: "Shop URL",
+      labelText: "Input Shop Name Only",
     );
 
     if (url == null) {
@@ -110,7 +111,7 @@ class RemoteShopListScreen extends BaseScreen {
           onPressed: () async {
             await loadShopWithPrompt(context, ref);
           },
-          label: "Add Shop",
+          label: "Connect to a Shop",
           type: AppButtonType.Text,
           variant: AppColorVariant.Light,
           icon: Icons.add,
@@ -127,7 +128,7 @@ class RemoteShopListScreen extends BaseScreen {
     if (savedShops.isEmpty) {
       return Center(
         child: AppButton(
-          label: "Connect to Auction House",
+          label: "Connect to a Shop",
           variant: AppColorVariant.Success,
           onPressed: () async {
             await loadShopWithPrompt(context, ref);

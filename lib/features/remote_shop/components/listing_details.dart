@@ -1032,79 +1032,77 @@ class __ThumbnailState extends State<_Thumbnail> {
     init();
   }
 
-  Future<void> init() async {
-    final provider = widget.ref.read(thumbnailFetcherProvider.notifier);
-
-    final ready = provider.thumbnailReady(widget.scId);
-    if (ready) {
-      return;
+  bool checkSingleFile(String p) {
+    bool ready = true;
+    if (!File(p).existsSync()) {
+      ready = false;
+    } else {
+      if (File(p).lengthSync() < 1) {
+        ready = false;
+      }
     }
 
-    provider.addToQueue(widget.scId, widget.fileNames);
+    return ready;
+  }
+
+  Future<void> init() async {
+    final updatedFileName = widget.path.replaceAll(".pdf", ".jpg").replaceAll(".png", ".jpg");
+
+    final ready = checkSingleFile(updatedFileName);
+
+    if (!ready) {
+      await Future.delayed(Duration(seconds: 1));
+      init();
+    } else {
+      setState(() {
+        thumbnailReady = true;
+      });
+    }
+
+    // final provider = widget.ref.read(thumbnailFetcherProvider.notifier);
+
+    // final ready = provider.thumbnailReady(widget.scId);
+    // if (ready) {
+    //   return;
+    // }
+
+    // provider.addToQueue(widget.scId, widget.fileNames);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer(builder: (context, ref, _) {
-      final updatedFileName = widget.path.replaceAll(".pdf", ".jpg").replaceAll(".png", ".jpg");
+    final updatedFileName = widget.path.replaceAll(".pdf", ".jpg").replaceAll(".png", ".jpg");
 
-      // if (!ref.watch(thumbnailFetcherProvider.notifier).checkSingleFile(updatedFileName)) {
-      final thumb = ref.watch(thumbnailFetcherProvider).firstWhereOrNull((e) => e.scId == widget.scId);
-      if (thumb == null || !thumb.success) {
-        return CenteredLoader();
-      }
-      // }
+    if (!thumbnailReady) {
+      return CenteredLoader();
+    }
 
-      return Image.file(
-        File(updatedFileName),
-        errorBuilder: (context, err, __) {
-          return Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.refresh),
-                  onPressed: () async {
-                    await File(updatedFileName).delete();
-                    await Future.delayed(Duration(milliseconds: 100));
-                    FileImage(File(updatedFileName)).evict();
-                    widget.ref.read(thumbnailFetcherProvider.notifier).addToQueue(widget.scId, widget.fileNames, true);
-                  },
-                ),
-                Text(
-                  err.toString(),
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-              ],
-            ),
-          );
-
-          // return Text(path);
-          // return Center(
-          //   child: IconButton(
-          //     icon: Icon(Icons.refresh),
-          //     onPressed: () async {
-          //       setState(() {
-          //         rebuilding = true;
-          //       });
-
-          //       await getNftAssets(service: RemoteShopService(), scId: widget.scId);
-          //       await Future.delayed(Duration(seconds: 2));
-
-          //       await FileImage(File(widget.path)).evict();
-
-          //       Future.delayed(Duration(milliseconds: 300)).then((value) {
-          //         setState(() {
-          //           rebuilding = false;
-          //         });
-          //       });
-          //     },
-          //   ),
-          // );
-        },
-      );
-    });
+    return Image.file(
+      File(updatedFileName),
+      errorBuilder: (context, err, __) {
+        return Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                icon: Icon(Icons.refresh),
+                onPressed: () async {
+                  await File(updatedFileName).delete();
+                  await Future.delayed(Duration(milliseconds: 100));
+                  FileImage(File(updatedFileName)).evict();
+                  widget.ref.read(thumbnailFetcherProvider.notifier).addToQueue(widget.scId, widget.fileNames, true);
+                },
+              ),
+              Text(
+                err.toString(),
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
 

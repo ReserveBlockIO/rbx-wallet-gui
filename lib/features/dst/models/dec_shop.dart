@@ -26,6 +26,7 @@ class DecShop with _$DecShop {
     @JsonKey(name: "NeedsPublishToNetwork") required bool needsPublishToNetwork,
     @JsonKey(name: "IsOffline") required bool isOffline, // * updating when published
     @JsonKey(name: "IsPublished") required bool isPublished,
+    @JsonKey(name: "IsIPDifferent") required bool ipIsDifferent,
   }) = _DecShop;
 
   factory DecShop.fromJson(Map<String, dynamic> json) => _$DecShopFromJson(json);
@@ -45,6 +46,7 @@ class DecShop with _$DecShop {
         isOffline: false,
         updateTimestamp: 0,
         isPublished: false,
+        ipIsDifferent: false,
       );
 
   bool get updateWillCost {

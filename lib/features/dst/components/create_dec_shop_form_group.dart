@@ -30,6 +30,13 @@ class CreateDecShopFormGroup extends BaseComponent {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  if (model.id == 0)
+                    Center(
+                      child: Text(
+                        "First, create your shop and publish it to the network.\nThen you'll be able to create collections and add listings to them.",
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                   Flexible(
                     child: _DecShopName(),
                   ),
@@ -177,11 +184,13 @@ class _DecUrl extends BaseComponent {
       ],
       validator: (value) => formValidatorNotEmpty(value, "Shop Identifier"),
       decoration: InputDecoration(
-          label: const Text(
-            "Shop Identifier",
-            style: TextStyle(color: Colors.white),
-          ),
-          hintText: "ie. MyShop"),
+        label: const Text(
+          "Shop Identifier",
+          style: TextStyle(color: Colors.white),
+        ),
+        prefixText: "rbx://",
+        hintText: "MyShop",
+      ),
     );
   }
 }

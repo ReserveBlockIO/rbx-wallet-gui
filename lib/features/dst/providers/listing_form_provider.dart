@@ -224,6 +224,11 @@ class ListingFormProvider extends StateNotifier<Listing> {
   }
 
   delete(BuildContext context, int storeId, Listing listing, [bool shouldPop = true]) async {
+    if (state.auctionStarted && state.exists) {
+      Toast.error("You can't delete this listing because the auction has already started.");
+      return;
+    }
+
     final confirmed = await ConfirmDialog.show(
       title: "Delete Listing",
       body: "Are you sure you want to delete this listing?",
