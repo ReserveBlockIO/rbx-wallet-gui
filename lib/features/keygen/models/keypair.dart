@@ -11,7 +11,7 @@ abstract class Keypair with _$Keypair {
     required String private,
     required String public,
     required String publicInflated,
-    required String email,
+    String? email,
     // @JsonKey(toJson: null) ECPrivateKey? ecPrivateKey,
     String? mneumonic,
   }) = _Keypair;

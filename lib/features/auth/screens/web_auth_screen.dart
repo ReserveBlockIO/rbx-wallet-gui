@@ -140,20 +140,13 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                         builder: (context) {
                           return AuthTypeModal(
                             handleMneumonic: () async {
-                              final email = await PromptModal.show(
-                                contextOverride: context,
-                                title: "Email Address",
-                                labelText: "Email",
-                                validator: formValidatorEmail,
-                              );
-
-                              if (email == null || email.isEmpty) {
-                                return;
-                              }
-
-                              await handleCreateWithMnemonic(context, ref, email);
-                              if (ref.read(webSessionProvider).isAuthenticated) {
-                                redirectToDashboard();
+                              final success =
+                                  await ConfirmDialog.show(title: 'Mneumonic', body: 'Are you sure you want to create a Mneumonic wallet?');
+                              if (success == true) {
+                                await handleCreateWithMnemonic(context, ref);
+                                if (ref.read(webSessionProvider).isAuthenticated) {
+                                  redirectToDashboard();
+                                }
                               }
                             },
                             handleUsername: () {
@@ -200,18 +193,7 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                         builder: (context) {
                           return AuthTypeModal(
                             handleMneumonic: () async {
-                              final email = await PromptModal.show(
-                                contextOverride: context,
-                                title: "Email Address",
-                                labelText: "Email",
-                                validator: formValidatorEmail,
-                              );
-
-                              if (email == null || email.isEmpty) {
-                                return;
-                              }
-
-                              await handleRecoverFromMnemonic(context, ref, email);
+                              await handleRecoverFromMnemonic(context, ref);
 
                               //do stuff
                             },
@@ -229,18 +211,8 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                               );
                             },
                             handlePrivateKey: (context) async {
-                              final email = await PromptModal.show(
-                                contextOverride: context,
-                                title: "Email Address",
-                                labelText: "Email",
-                                validator: formValidatorEmail,
-                              );
-
-                              if (email == null || email.isEmpty) {
-                                return;
-                              }
-
-                              await handleImportWithPrivateKey(context, ref, email).then((value) {
+                              print("PRIVATE");
+                              await handleImportWithPrivateKey(context, ref).then((value) {
                                 if (ref.read(webSessionProvider).isAuthenticated) {
                                   redirectToDashboard();
                                 }

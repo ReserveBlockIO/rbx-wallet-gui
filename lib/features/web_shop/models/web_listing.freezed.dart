@@ -50,11 +50,12 @@ mixin _$WebListing {
   @JsonKey(name: "thumbnails_fetched")
   bool get thumbnailsFetched => throw _privateConstructorUsedError;
   @JsonKey(name: "IsCancelled")
-  bool get isCancelled => throw _privateConstructorUsedError;
+  bool get isCancelled => throw _privateConstructorUsedError; //TODO: update
   @JsonKey(name: "IsAuctionStarted")
-  bool get isAuctionStarted => throw _privateConstructorUsedError;
+  bool get isAuctionStarted =>
+      throw _privateConstructorUsedError; //TODO: update
   @JsonKey(name: "IsAuctionEnded")
-  bool get isAuctionEnded => throw _privateConstructorUsedError;
+  bool get isAuctionEnded => throw _privateConstructorUsedError; //TODO: update
   @JsonKey(ignore: true)
   bool get enableBuyNow => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -560,12 +561,15 @@ class _$_WebListing extends _WebListing {
   @override
   @JsonKey(name: "IsCancelled")
   final bool isCancelled;
+//TODO: update
   @override
   @JsonKey(name: "IsAuctionStarted")
   final bool isAuctionStarted;
+//TODO: update
   @override
   @JsonKey(name: "IsAuctionEnded")
   final bool isAuctionEnded;
+//TODO: update
   @override
   @JsonKey(ignore: true)
   final bool enableBuyNow;
@@ -777,13 +781,13 @@ abstract class _WebListing extends WebListing {
   @override
   @JsonKey(name: "IsCancelled")
   bool get isCancelled;
-  @override
+  @override //TODO: update
   @JsonKey(name: "IsAuctionStarted")
   bool get isAuctionStarted;
-  @override
+  @override //TODO: update
   @JsonKey(name: "IsAuctionEnded")
   bool get isAuctionEnded;
-  @override
+  @override //TODO: update
   @JsonKey(ignore: true)
   bool get enableBuyNow;
   @override
