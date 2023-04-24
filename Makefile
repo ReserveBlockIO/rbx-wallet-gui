@@ -19,12 +19,14 @@ wingen_watch:
 
 
 build_core:
+	rm -rf ../Core-CLI/bin/Release
 	cd ../Core-CLI && git pull && cd /Users/tylersavery/Projects/rbx/rbx_wallet/
 	dotnet publish -c Release -r osx-x64 ../Core-Cli/ --self-contained true -f net6.0 -p:PublishSingleFile=true
 
 package_mac:
-	make build_core
-	# ./build_mac.sh
+	rm -rf ../Core-CLI/bin/Release
+	cd ../Core-CLI && git pull && cd /Users/tylersavery/Projects/rbx/rbx_wallet/
+	dotnet publish -c Release -r osx-x64 ../Core-Cli/ --self-contained true -f net6.0 -p:PublishSingleFile=true
 	rm -f ./installers/exports/RBX-OSX-Intel-Installer.dmg
 	rm -rf ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
 	mkdir ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
@@ -38,6 +40,7 @@ package_mac:
 
 
 package_m1:
+	rm -rf ../Core-CLI/bin/Release
 	cd ../Core-CLI && git pull && cd /Users/tyler/prj/rbx/rbx-wallet-gui/
 	dotnet publish -c Release -r osx-arm64 ../Core-Cli/ --self-contained true -f net6.0 -p:PublishSingleFile=true
 	rm -f ./installers/exports/RBX-OSX-ARM-Installer.dmg
