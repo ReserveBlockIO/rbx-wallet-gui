@@ -340,7 +340,18 @@ class _Details extends BaseComponent {
               ),
             ),
             // if (withShareButtons) buildShareButtons(context),
-
+            AppButton(
+              label: "Share Listing",
+              icon: Icons.ios_share_rounded,
+              variant: AppColorVariant.Light,
+              type: AppButtonType.Text,
+              onPressed: () async {
+                await Clipboard.setData(ClipboardData(
+                    text:
+                        "${Env.appBaseUrl}/#dashboard/p2p/shop/${listing.collection.shop!.id}/collection/${listing.collection.id}/listing/${listing.id}"));
+                Toast.message("Share url copied to clipboard");
+              },
+            ),
             if (listing.ownerAddress == myAddress)
               Row(
                 mainAxisSize: MainAxisSize.min,
