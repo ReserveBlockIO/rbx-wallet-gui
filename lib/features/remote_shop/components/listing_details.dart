@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
@@ -51,6 +52,7 @@ class ListingDetails extends BaseComponent {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
+          _AuctionDataWatcher(listing.id),
           _Details(nft: nft),
           _Preview(
             nft: nft,
@@ -85,6 +87,7 @@ class ListingDetails extends BaseComponent {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          _AuctionDataWatcher(listing.id),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -1205,5 +1208,42 @@ class _Properties extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class _AuctionDataWatcher extends StatefulWidget {
+  final int listingId;
+  const _AuctionDataWatcher(this.listingId, {super.key});
+
+  @override
+  State<_AuctionDataWatcher> createState() => __AuctionDataWatcherState();
+}
+
+class __AuctionDataWatcherState extends State<_AuctionDataWatcher> {
+  late final Timer loopTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    loopTimer = Timer.periodic(const Duration(seconds: 10), (_) => fetch());
+    fetch();
+  }
+
+  fetch() async {
+    final id = widget.listingId;
+    print("WE fetch... $id");
+    RemoteShopService().requestAuctionData(id);
+  }
+
+  @override
+  void dispose() {
+    print('disposed');
+    loopTimer.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox.shrink();
   }
 }

@@ -59,6 +59,8 @@ class ConnectedShopProvider extends StateNotifier<ConnectedShop> {
       }
     }
 
+    await Future.delayed(Duration(seconds: 2));
+
     final data = await RemoteShopService().getConnectedShopData(
       showErrors: showErrors,
       listingCount: listingCount,

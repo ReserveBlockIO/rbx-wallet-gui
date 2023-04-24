@@ -153,7 +153,11 @@ class ListingFormProvider extends StateNotifier<Listing> {
     }
 
     if (!state.enableAuction) {
-      state = state.copyWith(floorPrice: null, reservePrice: null);
+      state = state.copyWith(
+        floorPrice: null,
+        reservePrice: null,
+        isBuyNowOnly: true,
+      );
     }
 
     if (state.enableAuction && state.reservePrice != null && state.floorPrice != null) {

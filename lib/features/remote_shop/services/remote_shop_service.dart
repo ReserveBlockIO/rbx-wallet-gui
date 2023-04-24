@@ -29,8 +29,14 @@ class RemoteShopService extends BaseService {
   Future<OrganizedShop?> getConnectedShopData({
     bool showErrors = false,
     listingCount = 0,
+    int attempt = 1,
   }) async {
+    if (attempt > 10) {
+      Toast.error("An error occurred. Could not get shop data.");
+      return null;
+    }
     final shopData = await shop_utils.getShopData(service: this);
+
     // ShopData? shopData = await shop_utils.getShopData(service: this);
 
     // ShopData? shopData;
@@ -52,22 +58,35 @@ class RemoteShopService extends BaseService {
     // shopData = await shop_utils.getShopData(service: this);
 
     if (shopData == null) {
-      if (showErrors) {
-        Toast.error("An error occurred. Could not get shop data.");
-      }
+      await Future.delayed(Duration(seconds: 2));
+      return await getConnectedShopData(attempt: attempt + 1);
+    }
 
-      return null;
+    if (shopData.listings.isEmpty) {
+      await Future.delayed(Duration(seconds: 2));
+
+      return await getConnectedShopData(attempt: attempt + 1);
     }
 
     return await shop_utils.organizeShopData(service: this, shopData: shopData);
   }
 
+  Future<void> requestAuctionData(int listingId) async {
+    await getText("/GetShopSpecificAuction/$listingId", cleanPath: false);
+    await Future.delayed(Duration(milliseconds: 250));
+    await getText("/GetShopListingBids/$listingId", cleanPath: false);
+    await Future.delayed(Duration(milliseconds: 250));
+  }
+
   Future<List<Bid>> getBidsByListingId(int listingId) async {
     try {
-      await getText("/GetShopListingBids/$listingId", cleanPath: false);
-      await Future.delayed(Duration(milliseconds: 250));
-      await getText("/GetShopListingBids/$listingId", cleanPath: false);
-      await Future.delayed(Duration(milliseconds: 250));
+      await requestAuctionData(listingId);
+      // await getText("/GetShopSpecificAuction/$listingId", cleanPath: false);
+      // await Future.delayed(Duration(milliseconds: 250));
+      // await getText("/GetShopListingBids/$listingId", cleanPath: false);
+      // await Future.delayed(Duration(milliseconds: 250));
+      // await getText("/GetShopListingBids/$listingId", cleanPath: false);
+      // await Future.delayed(Duration(milliseconds: 250));
       final text = await getText("/GetDecShopData", cleanPath: false);
       final data = jsonDecode(text);
 
