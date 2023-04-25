@@ -104,11 +104,6 @@ class AppTheme {
 
   factory AppTheme.dark() {
     final _themeData = ThemeData(
-      colorScheme: ColorScheme.fromSwatch(
-        brightness: Brightness.dark,
-        primarySwatch: createMaterialColor(_primaryColor),
-        accentColor: _secondaryColor,
-      ),
       textSelectionTheme: const TextSelectionThemeData(cursorColor: _secondaryColor),
       inputDecorationTheme: const InputDecorationTheme(
         labelStyle: TextStyle(color: _secondaryColor),
@@ -122,6 +117,7 @@ class AppTheme {
           borderSide: BorderSide(color: _infoColor),
         ),
       ),
+      scaffoldBackgroundColor: Colors.black,
       dialogTheme: DialogTheme(
           backgroundColor: Color(0xff050505),
           shadowColor: Colors.white.withOpacity(0.05),
@@ -133,6 +129,11 @@ class AppTheme {
           )),
       textTheme: _textTheme(true),
       fontFamily: kIsWeb && HtmlHelpers().getUserAgent().contains('OS 15_') ? '-apple-system' : null,
+      colorScheme: ColorScheme.fromSwatch(
+        brightness: Brightness.dark,
+        primarySwatch: createMaterialColor(_primaryColor),
+        accentColor: _secondaryColor,
+      ).copyWith(background: Colors.black87),
     );
 
     return AppTheme(themeData: _themeData);

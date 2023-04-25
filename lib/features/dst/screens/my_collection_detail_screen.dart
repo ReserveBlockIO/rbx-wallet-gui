@@ -33,6 +33,7 @@ class MyCollectionDetailScreen extends BaseScreen {
         }
         return AppBar(
           title: Text(store.name),
+          backgroundColor: Colors.black,
           actions: [
             TextButton(
               onPressed: () {

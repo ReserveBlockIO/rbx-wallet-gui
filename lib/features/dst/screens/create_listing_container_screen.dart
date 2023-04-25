@@ -22,6 +22,7 @@ class CreateListingContainerScreen extends BaseScreen {
 
     return AppBar(
       title: Text(model.id == 0 ? "Create Listing" : "Edit Listing"),
+      backgroundColor: Colors.black,
       leading: IconButton(
         onPressed: () async {
           final confirmed = await ConfirmDialog.show(

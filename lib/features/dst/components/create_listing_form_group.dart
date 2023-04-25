@@ -17,7 +17,7 @@ class CreateListingFormGroup extends BaseComponent {
   const CreateListingFormGroup({Key? key}) : super(key: key);
 
   @override
-  Widget desktopBody(BuildContext context, WidgetRef ref) {
+  Widget body(BuildContext context, WidgetRef ref) {
     final provider = ref.watch(listingFormProvider.notifier);
     final model = ref.watch(listingFormProvider);
     return FormGroupContainer(
@@ -36,6 +36,7 @@ class CreateListingFormGroup extends BaseComponent {
                 children: [
                   Flexible(
                     child: Card(
+                      color: Colors.white.withOpacity(0.05),
                       margin: EdgeInsets.zero,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),

@@ -31,7 +31,10 @@ class ListingDetailScreen extends BaseScreen {
           return null;
         }
         return AppBar(
-          title: Text("Listing for ${listing.nft != null ? listing.nft!.name : listing.smartContractUid}"),
+          title: Text(
+            "Listing for ${listing.nft != null ? listing.nft!.name : listing.smartContractUid}",
+          ),
+          backgroundColor: Colors.black,
         );
       },
     );

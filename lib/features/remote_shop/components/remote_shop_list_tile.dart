@@ -22,6 +22,7 @@ class RemoteShopListTile extends BaseComponent {
     final currentUrl = ref.watch(connectedShopProvider).url;
 
     return Card(
+      color: Colors.white.withOpacity(0.03),
       child: ListTile(
         title: RichText(
             text: TextSpan(style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500), children: [
@@ -44,7 +45,7 @@ class RemoteShopListTile extends BaseComponent {
             TextSpan(
               text: shop.url,
               style: TextStyle(
-                color: Theme.of(context).colorScheme.secondary,
+                color: Theme.of(context).colorScheme.secondary.withOpacity(0.7),
               ),
             ),
             TextSpan(text: " "),

@@ -66,6 +66,7 @@ class AppContainer extends ConsumerWidget {
 
     return MaterialApp.router(
       restorationScopeId: "app",
+
       debugShowCheckedModeBanner: false,
       scaffoldMessengerKey: rootScaffoldMessengerKey,
       theme: AppTheme.dark().themeData,
@@ -82,6 +83,7 @@ class AppContainer extends ConsumerWidget {
           }
 
           return const Material(
+            color: Colors.black87,
             child: Center(child: BootContainer()),
           );
         }

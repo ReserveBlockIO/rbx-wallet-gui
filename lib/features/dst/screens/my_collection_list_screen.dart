@@ -32,6 +32,7 @@ class MyCollectionsListScreen extends BaseScreen {
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
       title: Text("My Auction House"),
+      backgroundColor: Colors.black,
       actions: [
         AppButton(
           type: AppButtonType.Text,
@@ -73,14 +74,6 @@ class MyCollectionsListScreen extends BaseScreen {
                         shop.name,
                         style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.white),
                       ),
-                      // SizedBox(
-                      //   height: 4,
-                      // ),
-                      // Text(
-                      //   shop.description,
-                      //   maxLines: 3,
-                      //   overflow: TextOverflow.ellipsis,
-                      // ),
                       SizedBox(
                         height: 12,
                       ),
@@ -133,7 +126,6 @@ class MyCollectionsListScreen extends BaseScreen {
                         },
                       ),
                       SizedBox(height: 16),
-
                       Divider(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

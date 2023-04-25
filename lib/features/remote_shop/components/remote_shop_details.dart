@@ -57,7 +57,7 @@ class RemoteShopDetails extends BaseComponent {
             itemBuilder: (context, index) {
               final collection = shop.collections[index];
               return Card(
-                color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
+                color: Colors.white.withOpacity(0.03),
                 child: ListTile(
                   title: Text(collection.name),
                   subtitle: Text(

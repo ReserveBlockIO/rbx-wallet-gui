@@ -25,6 +25,7 @@ class ListingList extends BaseComponent {
               final listing = listings[index];
               final nft = listing.nft;
               return Card(
+                color: Colors.white.withOpacity(0.03),
                 child: ListTile(
                   leading: Builder(
                     builder: (context) {

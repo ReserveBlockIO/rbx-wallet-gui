@@ -81,7 +81,7 @@ class BaseScreenState<T extends BaseStatefulScreen> extends ConsumerState<T> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(context),
-      backgroundColor: widget.backgroundColor,
+      backgroundColor: widget.backgroundColor ?? Color(0xff050505),
 
       // drawer: widget.includeMainDrawer ? const MainDrawer() : null,
       floatingActionButton: floatingActionButton(context),
