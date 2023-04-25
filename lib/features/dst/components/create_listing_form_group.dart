@@ -355,13 +355,20 @@ Future<void> _showDatePicker(BuildContext context, WidgetRef ref, bool isStartDa
     return;
   }
   final _d = await showDatePicker(
-    context: context,
-    initialDate: DateTime.now(),
-    firstDate: DateTime.now(),
-    lastDate: DateTime.now().add(
-      const Duration(days: 365 * 100),
-    ),
-  );
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(
+        const Duration(days: 365 * 100),
+      ),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.dark().copyWith(
+            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+          ),
+          child: child!,
+        );
+      });
 
   if (_d != null) {
     _provider.updateDate(_d, isStartDate);
@@ -383,9 +390,14 @@ Future<void> _showTimePicker(BuildContext context, WidgetRef ref, bool isStartDa
     initialEntryMode: TimePickerEntryMode.input,
     initialTime: TimeOfDay(hour: initialDateTime.hour, minute: initialDateTime.minute),
     builder: (BuildContext context, Widget? child) {
-      return MediaQuery(
-        data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
-        child: child ?? const SizedBox(),
+      return Theme(
+        data: ThemeData.dark().copyWith(
+          buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+        ),
+        child: MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+          child: child ?? const SizedBox(),
+        ),
       );
     },
   );
