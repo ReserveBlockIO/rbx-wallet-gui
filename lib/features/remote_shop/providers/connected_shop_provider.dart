@@ -11,6 +11,7 @@ import 'package:rbx_wallet/features/dst/models/dec_shop.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/models/shop_data.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/saved_shops_provider.dart';
+import 'package:rbx_wallet/features/remote_shop/providers/shop_loading_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
@@ -106,14 +107,17 @@ class ConnectedShopProvider extends StateNotifier<ConnectedShop> {
     );
 
     if (confirmed == true) {
-      ref.read(globalLoadingProvider.notifier).start();
+      ref.read(shopLoadingProvider.notifier).start("Connecting to shop...");
       await RemoteShopService().connectToShop(myAddress: address, shopUrl: shop.url);
+      ref.read(shopLoadingProvider.notifier).start("Connected to ${shop.url}. Fetching data...");
+
       await Future.delayed(Duration(milliseconds: 2500));
+      ref.read(shopLoadingProvider.notifier).start("Getting collections and listings...");
       // await RemoteShopService().getConnectedShopData();
       await ref.read(connectedShopProvider.notifier).connect(shop);
       AutoRouter.of(context).push(RemoteShopDetailScreenRoute(shopUrl: shop.url));
       // AutoRouter.of(context).push(RemoteShopContainerScreenRoute());
-      ref.read(globalLoadingProvider.notifier).complete();
+      ref.read(shopLoadingProvider.notifier).complete();
     }
   }
 }

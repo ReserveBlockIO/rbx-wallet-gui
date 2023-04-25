@@ -144,27 +144,38 @@ class RemoteShopListScreen extends BaseScreen {
 
     return Column(
       children: [
-        TextFormField(
-          controller: ref.read(remoteShopSearchProvider.notifier).controller,
-          decoration: InputDecoration(
-            prefixIcon: Icon(
-              Icons.search,
-              color: Colors.white70,
-            ),
-            hintText: "Search for auction house...",
-            suffixIcon: IconButton(
-              icon: Icon(
-                Icons.clear,
-                color: searchQuery.isEmpty ? Colors.white10 : Colors.white,
+        Row(
+          children: [
+            Expanded(
+              child: TextFormField(
+                controller: ref.read(remoteShopSearchProvider.notifier).controller,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: Colors.white70,
+                  ),
+                  hintText: "Search for auction house...",
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      Icons.clear,
+                      color: searchQuery.isEmpty ? Colors.white10 : Colors.white,
+                    ),
+                    onPressed: () {
+                      ref.read(remoteShopSearchProvider.notifier).clear();
+                    },
+                  ),
+                ),
+                onChanged: (val) {
+                  ref.read(remoteShopSearchProvider.notifier).update(val);
+                },
               ),
-              onPressed: () {
-                ref.read(remoteShopSearchProvider.notifier).clear();
-              },
             ),
-          ),
-          onChanged: (val) {
-            ref.read(remoteShopSearchProvider.notifier).update(val);
-          },
+            IconButton(
+                onPressed: () {
+                  ref.read(globalRemoteShopListProvider.notifier).load();
+                },
+                icon: Icon(Icons.refresh))
+          ],
         ),
         Expanded(
           child: ListView.builder(

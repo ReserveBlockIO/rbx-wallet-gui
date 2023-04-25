@@ -10,6 +10,7 @@ class GlobalRemoteShopListProvider extends StateNotifier<List<DecShop>> {
   }
 
   Future<void> load() async {
+    state = [];
     final data = await RemoteShopService().listRemoteShops();
     state = data;
   }
