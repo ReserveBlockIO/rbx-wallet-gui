@@ -1,37 +1,46 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:context_menus/context_menus.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
+import 'package:rbx_wallet/features/dst/models/dec_shop.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
 
 class RemoteShopListTile extends BaseComponent {
   const RemoteShopListTile({
     super.key,
-    required this.url,
+    required this.shop,
   });
 
-  final String url;
+  final DecShop shop;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Card(
       child: ListTile(
-        leading: Icon(Icons.house),
-        title: Text(url),
-        trailing: AppButton(
-          label: 'Remove',
-          variant: AppColorVariant.Danger,
-          onPressed: () {
-            ref.read(connectedShopProvider.notifier).removeBookmarkedShop(context, ref, url);
-          },
+        title: Text(shop.name),
+        subtitle: RichText(
+          text: TextSpan(style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500), children: [
+            TextSpan(
+              text: shop.url,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+            ),
+            TextSpan(text: " "),
+            TextSpan(
+              text: "${shop.ownerAddress}",
+              style: TextStyle(
+                color: Colors.white70,
+                fontWeight: FontWeight.w300,
+              ),
+            ),
+          ]),
         ),
+        leading: Icon(Icons.house),
+        trailing: Icon(Icons.chevron_right),
         onTap: () async {
           if (ref.read(walletInfoProvider) == null || !ref.read(walletInfoProvider)!.isChainSynced) {
             final cont = await ConfirmDialog.show(
@@ -48,11 +57,11 @@ class RemoteShopListTile extends BaseComponent {
 
           final currentUrl = ref.read(connectedShopProvider).url;
 
-          if (currentUrl == url) {
+          if (currentUrl == shop.url) {
             ref.read(connectedShopProvider.notifier).refresh();
-            AutoRouter.of(context).push(RemoteShopDetailScreenRoute(shopUrl: url));
+            AutoRouter.of(context).push(RemoteShopDetailScreenRoute(shopUrl: shop.url));
           } else {
-            await ref.read(connectedShopProvider.notifier).loadShop(context, ref, url);
+            await ref.read(connectedShopProvider.notifier).loadShop(context, ref, shop.url);
           }
         },
       ),

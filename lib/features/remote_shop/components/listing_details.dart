@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:rbx_wallet/core/base_component.dart';
@@ -283,9 +284,9 @@ class _PreviewState extends State<_Preview> {
       final ds = Platform.isMacOS ? "/" : "\\";
       final path = "${widget.nft.thumbsPath}$ds$filename";
 
-      final updatedFileName = path.replaceAll(".pdf", ".jpg").replaceAll(".png", ".jpg");
+      // final updatedFileName = path.replaceAll(".pdf", ".jpg").replaceAll(".png", ".jpg");
 
-      return updatedFileName;
+      return path;
 
       // final ext = path.split(".").last.toLowerCase();
       // final imageExtensions = ['jpg', 'jpeg', 'gif', 'png', 'webp'];
@@ -346,7 +347,7 @@ class _PreviewState extends State<_Preview> {
                                     padding: const EdgeInsets.all(16.0),
                                     child: PinchZoom(
                                       child: Image.file(
-                                        File(path),
+                                        File(path.replaceAll(".pdf", ".jpg").replaceAll(".png", ".jpg")),
                                         width: double.infinity,
                                         height: double.infinity,
                                         fit: BoxFit.contain,
@@ -363,6 +364,8 @@ class _PreviewState extends State<_Preview> {
                                   scId: widget.nft.id,
                                   ref: ref,
                                   fileNames: fileNames,
+                                  fallbackIcon: icon,
+                                  // originalExtension: extension.toLowerCase(),
                                 );
                               })
                             : Center(
@@ -992,7 +995,7 @@ class _Countdown extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: AppCountdown(
               dueDate: listing.endDate,
-              prefix: "Auction Ends",
+              prefix: listing.floorPrice != null ? "Auction Ends" : "Ends in",
             ),
           ),
         if (!listing.hasStarted)
@@ -1013,12 +1016,14 @@ class _Thumbnail extends StatefulWidget {
   final List<String> fileNames;
   final String scId;
   final WidgetRef ref;
+  final IconData fallbackIcon;
   const _Thumbnail({
     super.key,
     required this.path,
     required this.fileNames,
     required this.scId,
     required this.ref,
+    required this.fallbackIcon,
   });
 
   @override
@@ -1028,6 +1033,7 @@ class _Thumbnail extends StatefulWidget {
 class __ThumbnailState extends State<_Thumbnail> {
   bool rebuilding = false;
   bool thumbnailReady = false;
+  int attempts = 0;
 
   @override
   void initState() {
@@ -1055,6 +1061,9 @@ class __ThumbnailState extends State<_Thumbnail> {
 
     if (!ready) {
       await Future.delayed(Duration(seconds: 1));
+      setState(() {
+        attempts += 1;
+      });
       init();
     } else {
       setState(() {
@@ -1077,6 +1086,10 @@ class __ThumbnailState extends State<_Thumbnail> {
     final updatedFileName = widget.path.replaceAll(".pdf", ".jpg").replaceAll(".png", ".jpg");
 
     if (!thumbnailReady) {
+      if (attempts > 10) {
+        return Center(child: Icon(widget.fallbackIcon));
+      }
+
       return CenteredLoader();
     }
 

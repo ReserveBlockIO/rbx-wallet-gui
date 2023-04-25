@@ -61,4 +61,8 @@ class DecShop with _$DecShop {
 
     return false;
   }
+
+  String get urlWithoutPrefix {
+    return url.replaceAll("rbx://", "");
+  }
 }

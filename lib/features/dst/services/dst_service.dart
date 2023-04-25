@@ -297,22 +297,11 @@ class DstService extends BaseService {
 
   Future<bool> deleteShop() async {
     try {
-      final response = await getText('/GetDeleteDecShop');
-      final data = jsonDecode(response);
-
-      print("********");
-      print(response);
-      print("********");
-
-      if (data['Success'] == true) {
-        return true;
-      }
-
-      Toast.error(data['Message'] ?? "A problem occurred");
-
-      return false;
+      await getText('/GetDeleteDecShop');
+      return true;
     } catch (e) {
       print(e);
+      Toast.error();
       return false;
     }
   }

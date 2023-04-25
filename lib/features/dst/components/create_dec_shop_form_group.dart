@@ -50,49 +50,47 @@ class CreateDecShopFormGroup extends BaseComponent {
                     height: 6,
                   ),
                   Flexible(
-                    child: Row(
-                      children: [
-                        Text('Address: '),
-                        Expanded(
-                          child: Text(model.ownerAddress ?? "-"),
-                        ),
-                        if (model.id == 0)
-                          IconButton(
-                            icon: const Icon(
-                              FontAwesomeIcons.folderOpen,
-                              size: 18,
-                            ),
-                            onPressed: () async {
-                              final address = await chooseAddress(context, ref, provider);
-                              if (address != null) {
-                                provider.updateAddress(address);
+                    child: Card(
+                      margin: EdgeInsets.zero,
+                      child: ListTile(
+                        onTap: model.id == 0
+                            ? () async {
+                                final address = await chooseAddress(context, ref, provider);
+                                if (address != null) {
+                                  provider.updateAddress(address);
+                                }
                               }
-                            },
-                          ),
-                      ],
+                            : null,
+                        title: Text("Address Owner"),
+                        subtitle: Text(model.ownerAddress == null || model.ownerAddress!.isEmpty
+                            ? "Select an address from the list to be the shop owner."
+                            : model.ownerAddress!),
+                        trailing: model.id == 0 ? Icon(Icons.folder_copy_outlined) : null,
+                      ),
                     ),
                   ),
                   SizedBox(
                     height: 6,
                   ),
-                  Flexible(
-                      child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Checkbox(
-                        value: model.autoUpdateNetworkDns,
-                        onChanged: (val) {
-                          if (val != null) {
-                            provider.updateAutoUpdateNetworkDns(val);
-                          }
-                        },
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text("Auto Update on DNS Change")
-                    ],
-                  ))
+                  // Flexible(
+                  //   child: Row(
+                  //     mainAxisSize: MainAxisSize.min,
+                  //     children: [
+                  //       Checkbox(
+                  //         value: model.autoUpdateNetworkDns,
+                  //         onChanged: (val) {
+                  //           if (val != null) {
+                  //             provider.updateAutoUpdateNetworkDns(val);
+                  //           }
+                  //         },
+                  //       ),
+                  //       SizedBox(
+                  //         width: 8,
+                  //       ),
+                  //       Text("Auto Update on DNS Change")
+                  //     ],
+                  //   ),
+                  // )
                 ],
               ),
             ),

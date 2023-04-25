@@ -145,6 +145,14 @@ class MainMenu extends BaseComponent {
                       },
                       isActive: tabsRouter.activeIndex == 11,
                     ),
+                  _NavButton(
+                    title: "Beacons",
+                    icon: Icons.satellite_alt,
+                    onPressed: () {
+                      tabsRouter.setActiveIndex(12);
+                    },
+                    isActive: tabsRouter.activeIndex == 12,
+                  ),
 
                   _NavButton(
                     title: "RBX Domains",
@@ -189,14 +197,6 @@ class MainMenu extends BaseComponent {
                       tabsRouter.popTop();
                     },
                     isActive: tabsRouter.activeIndex == 7,
-                  ),
-                  _NavButton(
-                    title: "Beacons",
-                    icon: Icons.satellite_alt,
-                    onPressed: () {
-                      tabsRouter.setActiveIndex(12);
-                    },
-                    isActive: tabsRouter.activeIndex == 12,
                   ),
 
                   _NavButton(

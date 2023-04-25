@@ -286,37 +286,34 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
   }
 
   void _handleNftSale(Transaction transaction) async {
-    // final nftData = _parseNftData(transaction)!;
+    final nftData = _parseNftData(transaction)!;
 
-    // final function = _nftDataValue(nftData, 'Function');
+    final function = _nftDataValue(nftData, 'Function');
     // final nextOwner = _nftDataValue(nftData, 'NextOwner');
-    // final scId = _nftDataValue(nftData, 'ContractUID');
-    // final amount = _nftDataValue(nftData, 'SoldFor');
+    final scId = _nftDataValue(nftData, 'ContractUID');
+    final amount = _nftDataValue(nftData, 'SoldFor');
 
-    // if (function == "Sale_Start()") {
-    //   final addresses = ref.read(walletListProvider).map((w) => w.address).toList();
-    //   if (addresses.contains(nextOwner)) {
-    //     if (scId != null) {
-    //       final confirmed = await ConfirmDialog.show(
-    //         title: "NFT Sale Validated",
-    //         body: "The sale for the NFT ($scId) has been validated. Would you like to finalize the transaction for $amount RBX?",
-    //         confirmText: "Complete",
-    //         cancelText: "Cancel",
-    //       );
-
-    //       if (confirmed == true) {
-    //         RemoteShopService().completeNftPurchase(scId).then((value) {
-    //           if (value == true) {
-    //             print("NFT Complete Sale TX Sent");
-    //             Toast.message("NFT Sale Finalization TX sent");
-    //           } else {
-    //             print("NFT Sale Error");
-    //           }
-    //         });
-    //       }
-    //     }
-    //   }
-    // }
+    if (function == "Sale_Start()") {
+      _broadcastNotification(
+        TransactionNotification(
+          identifier: transaction.hash,
+          transaction: transaction,
+          title: "Sale Started ($amount RBX)",
+          body: scId,
+          color: AppColorVariant.Warning,
+        ),
+      );
+    } else if (function == "Sale_Complete()") {
+      _broadcastNotification(
+        TransactionNotification(
+          identifier: transaction.hash,
+          transaction: transaction,
+          title: "Sale Completed ($amount RBX)",
+          body: scId,
+          color: AppColorVariant.Success,
+        ),
+      );
+    }
   }
 
   Map<String, dynamic>? _parseNftData(Transaction transaction) {

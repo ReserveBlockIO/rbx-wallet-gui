@@ -195,6 +195,7 @@ class MyCollectionsListScreen extends BaseScreen {
                                     final success = await DstService().deleteShopLocally();
                                     if (success) {
                                       ref.invalidate(decShopProvider);
+                                      ref.invalidate(collectionListProvider);
                                       Toast.message("Shop Deleted");
                                       // Navigator.of(context).pop();
                                       // ref.read(globalLoadingProvider.notifier).start();
