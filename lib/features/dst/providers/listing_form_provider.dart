@@ -101,6 +101,7 @@ class ListingFormProvider extends StateNotifier<Listing> {
 
     if (isStartDate) {
       startDateController.text = DateFormat.yMd().format(d);
+      endDateController.text = DateFormat.yMd().format(d.copyWith(day: d.day + 14));
     } else {
       endDateController.text = DateFormat.yMd().format(d);
     }
