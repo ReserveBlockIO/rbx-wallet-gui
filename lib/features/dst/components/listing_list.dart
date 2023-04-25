@@ -114,11 +114,11 @@ class ListingList extends BaseComponent {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    "No Listings yet",
-                    style: Theme.of(context).textTheme.bodySmall,
+                    "Now you can create listings for the NFTs you want to sell.",
+                    style: TextStyle(fontSize: 16),
                   ),
                   SizedBox(
-                    height: 12,
+                    height: 16,
                   ),
                   AppButton(
                     label: "Create First Listing",

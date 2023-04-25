@@ -226,20 +226,51 @@ class MyCollectionsListScreen extends BaseScreen {
               data: (shop) {
                 return Expanded(
                   child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        DecShopButton(),
-                        if (shop != null && shop.isPublished)
-                          AppButton(
-                            label: 'Create New Collection',
-                            icon: Icons.add,
-                            variant: AppColorVariant.Success,
-                            onPressed: () async {
-                              ref.read(storeFormProvider.notifier).clear();
-                              AutoRouter.of(context).push(const CreateCollectionContainerScreenRoute());
-                            },
+                        if (shop == null) ...[
+                          Text(
+                            "First, setup your shop.\nThen you'll be able to create collections and add listings to them.",
+                            style: TextStyle(
+                              fontSize: 18,
+                              height: 1.5,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(
+                            height: 32,
                           )
+                        ],
+                        if (shop != null && shop.isPublished && collections.isEmpty) ...[
+                          Text(
+                            "Now you can create a collections and then add listings to them.",
+                            style: TextStyle(
+                              fontSize: 18,
+                              height: 1.5,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(
+                            height: 32,
+                          )
+                        ],
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            DecShopButton(),
+                            if (shop != null && shop.isPublished)
+                              AppButton(
+                                label: 'Create New Collection',
+                                icon: Icons.add,
+                                variant: AppColorVariant.Success,
+                                onPressed: () async {
+                                  ref.read(storeFormProvider.notifier).clear();
+                                  AutoRouter.of(context).push(const CreateCollectionContainerScreenRoute());
+                                },
+                              )
+                          ],
+                        ),
                       ],
                     ),
                   ),
