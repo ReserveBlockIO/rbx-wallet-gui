@@ -42,159 +42,164 @@ class AdnrList extends BaseComponent {
 
         final isPendingTransfer = ref.watch(adnrPendingProvider).contains("${wallet.address}.transfer.${wallet.adnr ?? 'null'}");
 
-        return Card(
-          color: Colors.black54,
-          child: ListTile(
-            leading: const Icon(Icons.wallet),
-            title: SelectableText(wallet.address),
-            subtitle: Text("$adnrLabel\n${wallet.balance} RBX"),
-            isThreeLine: true,
-            trailing: Builder(
-              builder: (context) {
-                if (isPendingBurn) {
-                  return const AppBadge(
-                    label: "Delete Pending",
-                    variant: AppColorVariant.Danger,
-                  );
-                }
+        return Container(
+          decoration: BoxDecoration(
+            boxShadow: glowingBox,
+          ),
+          child: Card(
+            color: Colors.black,
+            child: ListTile(
+              leading: const Icon(Icons.wallet),
+              title: SelectableText(wallet.address),
+              subtitle: Text("$adnrLabel\n${wallet.balance} RBX"),
+              isThreeLine: true,
+              trailing: Builder(
+                builder: (context) {
+                  if (isPendingBurn) {
+                    return const AppBadge(
+                      label: "Delete Pending",
+                      variant: AppColorVariant.Danger,
+                    );
+                  }
 
-                if (isPendingTransfer) {
-                  return const AppBadge(
-                    label: "Transfer Pending",
-                    variant: AppColorVariant.Dark,
-                  );
-                }
+                  if (isPendingTransfer) {
+                    return const AppBadge(
+                      label: "Transfer Pending",
+                      variant: AppColorVariant.Dark,
+                    );
+                  }
 
-                if (isPendingCreate) {
-                  return const AppBadge(
-                    label: "Pending",
-                    variant: AppColorVariant.Warning,
-                  );
-                }
+                  if (isPendingCreate) {
+                    return const AppBadge(
+                      label: "Pending",
+                      variant: AppColorVariant.Warning,
+                    );
+                  }
 
-                if (wallet.adnr == null) {
-                  return AppButton(
-                    label: "Create Domain",
-                    // type: AppButtonType.Text,
-                    variant: AppColorVariant.Success,
-                    onPressed: () async {
-                      if (!await passwordRequiredGuard(context, ref)) return;
+                  if (wallet.adnr == null) {
+                    return AppButton(
+                      label: "Create Domain",
+                      // type: AppButtonType.Text,
+                      variant: AppColorVariant.Success,
+                      onPressed: () async {
+                        if (!await passwordRequiredGuard(context, ref)) return;
 
-                      if (!widgetGuardWalletIsSynced(ref)) {
-                        return;
-                      }
-                      if (wallet.balance < (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
-                        Toast.error("Not enough RBX in this wallet to create an RBX domain. $ADNR_COST RBX required (plus TX fee).");
-                        return;
-                      }
+                        if (!widgetGuardWalletIsSynced(ref)) {
+                          return;
+                        }
+                        if (wallet.balance < (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
+                          Toast.error("Not enough RBX in this wallet to create an RBX domain. $ADNR_COST RBX required (plus TX fee).");
+                          return;
+                        }
 
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return CreateAdnrDialog(
-                              address: wallet.address,
-                              adnr: wallet.adnr,
-                            );
-                          });
-                    },
-                  );
-                } else {
-                  return Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      AppButton(
-                        label: "Transfer",
-                        onPressed: !adnrVerified
-                            ? null
-                            : () async {
-                                if (!await passwordRequiredGuard(context, ref)) return;
-                                if (!widgetGuardWalletIsSynced(ref)) {
-                                  return;
-                                }
-                                if (wallet.balance < (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
-                                  Toast.error("Not enough RBX in this wallet to transfer an RBX domain. $ADNR_COST RBX required (plus TX fee).");
-                                  return;
-                                }
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return CreateAdnrDialog(
+                                address: wallet.address,
+                                adnr: wallet.adnr,
+                              );
+                            });
+                      },
+                    );
+                  } else {
+                    return Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        AppButton(
+                          label: "Transfer",
+                          onPressed: !adnrVerified
+                              ? null
+                              : () async {
+                                  if (!await passwordRequiredGuard(context, ref)) return;
+                                  if (!widgetGuardWalletIsSynced(ref)) {
+                                    return;
+                                  }
+                                  if (wallet.balance < (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
+                                    Toast.error("Not enough RBX in this wallet to transfer an RBX domain. $ADNR_COST RBX required (plus TX fee).");
+                                    return;
+                                  }
 
-                                PromptModal.show(
-                                    contextOverride: context,
-                                    title: "Transfer RBX Domain",
-                                    body: "There is a cost of $ADNR_COST RBX to transfer an RBX Domain.",
-                                    validator: (value) => formValidatorRbxAddress(value, false),
-                                    labelText: "Address",
-                                    onValidSubmission: (toAddress) async {
-                                      final result = await TransactionService().transferAdnr(wallet.address, toAddress);
-                                      if (result.success) {
-                                        Toast.message("RBX domain transfer transaction has been broadcasted. Check logs for tx hash");
+                                  PromptModal.show(
+                                      contextOverride: context,
+                                      title: "Transfer RBX Domain",
+                                      body: "There is a cost of $ADNR_COST RBX to transfer an RBX Domain.",
+                                      validator: (value) => formValidatorRbxAddress(value, false),
+                                      labelText: "Address",
+                                      onValidSubmission: (toAddress) async {
+                                        final result = await TransactionService().transferAdnr(wallet.address, toAddress);
+                                        if (result.success) {
+                                          Toast.message("RBX domain transfer transaction has been broadcasted. Check logs for tx hash");
 
-                                        if (result.hash != null) {
-                                          ref.read(logProvider.notifier).append(
-                                                LogEntry(
-                                                    message: "RBX domain transfer transaction broadcasted. Tx Hash: ${result.hash}",
-                                                    textToCopy: result.hash,
-                                                    variant: AppColorVariant.Success),
-                                              );
+                                          if (result.hash != null) {
+                                            ref.read(logProvider.notifier).append(
+                                                  LogEntry(
+                                                      message: "RBX domain transfer transaction broadcasted. Tx Hash: ${result.hash}",
+                                                      textToCopy: result.hash,
+                                                      variant: AppColorVariant.Success),
+                                                );
 
-                                          ref.read(adnrPendingProvider.notifier).addId(wallet.address, "transfer", wallet.adnr ?? "null");
+                                            ref.read(adnrPendingProvider.notifier).addId(wallet.address, "transfer", wallet.adnr ?? "null");
+                                          }
+
+                                          return;
                                         }
 
-                                        return;
-                                      }
+                                        Toast.error(result.message);
+                                      });
+                                },
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        AppButton(
+                          label: "Delete",
+                          // type: AppButtonType.Text,
+                          variant: AppColorVariant.Danger,
+                          onPressed: () async {
+                            if (!await passwordRequiredGuard(context, ref)) return;
+                            if (!widgetGuardWalletIsSynced(ref)) {
+                              return;
+                            }
 
-                                      Toast.error(result.message);
-                                    });
-                              },
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      AppButton(
-                        label: "Delete",
-                        // type: AppButtonType.Text,
-                        variant: AppColorVariant.Danger,
-                        onPressed: () async {
-                          if (!await passwordRequiredGuard(context, ref)) return;
-                          if (!widgetGuardWalletIsSynced(ref)) {
-                            return;
-                          }
+                            if (wallet.balance < (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
+                              Toast.error("Not enough RBX in this wallet to delete an RBX domain. $ADNR_COST RBX required (plus TX fee).");
 
-                          if (wallet.balance < (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
-                            Toast.error("Not enough RBX in this wallet to delete an RBX domain. $ADNR_COST RBX required (plus TX fee).");
+                              return;
+                            }
 
-                            return;
-                          }
+                            final confirmed = await ConfirmDialog.show(
+                              title: "Delete RBX Domain?",
+                              body:
+                                  "Are you sure you want to delete this RBX Domain?\nThere is a cost of $ADNR_COST RBX to delete an RBX Domain.\n\nOnce deleted, this ADNR will no longer be able to receive any transactions.",
+                              destructive: true,
+                              cancelText: "Cancel",
+                              confirmText: "Delete",
+                            );
 
-                          final confirmed = await ConfirmDialog.show(
-                            title: "Delete RBX Domain?",
-                            body:
-                                "Are you sure you want to delete this RBX Domain?\nThere is a cost of $ADNR_COST RBX to delete an RBX Domain.\n\nOnce deleted, this ADNR will no longer be able to receive any transactions.",
-                            destructive: true,
-                            cancelText: "Cancel",
-                            confirmText: "Delete",
-                          );
+                            if (confirmed == true) {
+                              final result = await TransactionService().deleteAdnr(wallet.address);
+                              if (result.success) {
+                                Toast.message("RBX domain delete transaction has been broadcasted. Check logs for tx hash");
 
-                          if (confirmed == true) {
-                            final result = await TransactionService().deleteAdnr(wallet.address);
-                            if (result.success) {
-                              Toast.message("RBX domain delete transaction has been broadcasted. Check logs for tx hash");
-
-                              if (result.hash != null) {
-                                ref.read(logProvider.notifier).append(
-                                      LogEntry(
-                                          message: "RBX domain delete transaction broadcasted. Tx Hash: ${result.hash}",
-                                          textToCopy: result.hash,
-                                          variant: AppColorVariant.Success),
-                                    );
-                                ref.read(adnrPendingProvider.notifier).addId(wallet.address, "burn", wallet.adnr ?? "null");
+                                if (result.hash != null) {
+                                  ref.read(logProvider.notifier).append(
+                                        LogEntry(
+                                            message: "RBX domain delete transaction broadcasted. Tx Hash: ${result.hash}",
+                                            textToCopy: result.hash,
+                                            variant: AppColorVariant.Success),
+                                      );
+                                  ref.read(adnrPendingProvider.notifier).addId(wallet.address, "burn", wallet.adnr ?? "null");
+                                }
                               }
                             }
-                          }
-                        },
-                      ),
-                    ],
-                  );
-                }
-              },
+                          },
+                        ),
+                      ],
+                    );
+                  }
+                },
+              ),
             ),
           ),
         );
