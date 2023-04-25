@@ -138,4 +138,8 @@ class Env {
   static bool get useWebMedia {
     return DotEnv.dotenv.env['USE_WEB_MEDIA'] == "true";
   }
+
+  static String get appBaseUrl {
+    return DotEnv.dotenv.env['APP_BASE_URL'] ?? 'localhost:42069';
+  }
 }
