@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/buttons.dart';
@@ -25,7 +26,11 @@ class TransactionWindow extends BaseComponent {
           style: Theme.of(context).textTheme.subtitle2,
         ),
         const SizedBox(height: 8),
-        SizedBox(
+        Container(
+          decoration: BoxDecoration(
+            boxShadow: glowingBox,
+            color: Colors.black,
+          ),
           height: MediaQuery.of(context).size.height * 0.3,
           width: double.infinity,
           child: recentTransactions.isEmpty

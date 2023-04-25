@@ -103,102 +103,129 @@ class SendForm extends BaseComponent {
 
     return Form(
       key: formProvider.formKey,
-      child: Card(
-        color: kIsWeb ? Theme.of(context).colorScheme.primary.withOpacity(0.5) : Colors.black87,
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 72,
-                      child: Text("From:"),
-                    ),
-                    Expanded(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          if (isWeb)
-                            Text(
-                              "${isMobile ? "From: " : ""}${keypair!.public}",
-                              style: TextStyle(color: color, fontSize: 16),
-                            ),
-                          if (!isWeb)
-                            PopupMenuButton(
-                              constraints: BoxConstraints(maxWidth: 500),
-                              itemBuilder: (context) {
-                                final currentWallet = ref.watch(sessionProvider).currentWallet;
-                                final allWallets = ref.watch(walletListProvider);
-                                final list = <PopupMenuEntry<int>>[];
-
-                                for (final wallet in allWallets) {
-                                  final isSelected = currentWallet != null && wallet.address == currentWallet.address;
-
-                                  final color = wallet.isReserved ? Colors.deepPurple.shade200 : Theme.of(context).textTheme.bodyText1!.color!;
-
-                                  list.add(
-                                    PopupMenuItem(
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          if (isSelected)
-                                            Padding(
-                                              padding: const EdgeInsets.only(right: 4.0),
-                                              child: Icon(Icons.check),
-                                            ),
-                                          Text(
-                                            wallet.labelWithoutTruncation,
-                                            style: TextStyle(color: color),
-                                          ),
-                                        ],
-                                      ),
-                                      onTap: () {
-                                        ref.read(sessionProvider.notifier).setCurrentWallet(wallet);
-                                      },
-                                    ),
-                                  );
-                                }
-                                return list;
-                              },
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    wallet!.address,
-                                    style: TextStyle(color: color, fontSize: 16),
-                                  ),
-                                  Icon(
-                                    Icons.arrow_drop_down,
-                                    size: 24,
-                                    color: wallet!.isReserved ? Colors.deepPurple.shade200 : Theme.of(context).textTheme.bodyText1!.color!,
-                                  ),
-                                ],
-                              ),
-                            )
-                        ],
+      child: Container(
+        decoration: BoxDecoration(boxShadow: glowingBox),
+        child: Card(
+          color: kIsWeb ? Theme.of(context).colorScheme.primary.withOpacity(0.5) : Colors.black87,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 72,
+                        child: Text("From:"),
                       ),
-                    ),
-                    !wallet!.isReserved
-                        ? Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              if (wallet!.lockedBalance == 0.0)
-                                AppBadge(
-                                  label: "$balance RBX",
-                                  variant: AppColorVariant.Light,
+                      Expanded(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if (isWeb)
+                              Text(
+                                "${isMobile ? "From: " : ""}${keypair!.public}",
+                                style: TextStyle(color: color, fontSize: 16),
+                              ),
+                            if (!isWeb)
+                              PopupMenuButton(
+                                constraints: BoxConstraints(maxWidth: 500),
+                                itemBuilder: (context) {
+                                  final currentWallet = ref.watch(sessionProvider).currentWallet;
+                                  final allWallets = ref.watch(walletListProvider);
+                                  final list = <PopupMenuEntry<int>>[];
+
+                                  for (final wallet in allWallets) {
+                                    final isSelected = currentWallet != null && wallet.address == currentWallet.address;
+
+                                    final color = wallet.isReserved ? Colors.deepPurple.shade200 : Theme.of(context).textTheme.bodyText1!.color!;
+
+                                    list.add(
+                                      PopupMenuItem(
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            if (isSelected)
+                                              Padding(
+                                                padding: const EdgeInsets.only(right: 4.0),
+                                                child: Icon(Icons.check),
+                                              ),
+                                            Text(
+                                              wallet.labelWithoutTruncation,
+                                              style: TextStyle(color: color),
+                                            ),
+                                          ],
+                                        ),
+                                        onTap: () {
+                                          ref.read(sessionProvider.notifier).setCurrentWallet(wallet);
+                                        },
+                                      ),
+                                    );
+                                  }
+                                  return list;
+                                },
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      wallet!.address,
+                                      style: TextStyle(color: color, fontSize: 16),
+                                    ),
+                                    Icon(
+                                      Icons.arrow_drop_down,
+                                      size: 24,
+                                      color: wallet!.isReserved ? Colors.deepPurple.shade200 : Theme.of(context).textTheme.bodyText1!.color!,
+                                    ),
+                                  ],
                                 ),
-                              if (wallet!.lockedBalance > 0) ...[
+                              )
+                          ],
+                        ),
+                      ),
+                      !wallet!.isReserved
+                          ? Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                if (wallet!.lockedBalance == 0.0)
+                                  AppBadge(
+                                    label: "$balance RBX",
+                                    variant: AppColorVariant.Light,
+                                  ),
+                                if (wallet!.lockedBalance > 0) ...[
+                                  BalanceIndicator(
+                                    label: "Available",
+                                    value: wallet!.balance,
+                                    bgColor: Colors.white,
+                                    fgColor: Colors.black,
+                                  ),
+                                  BalanceIndicator(
+                                    label: "Locked",
+                                    value: wallet!.lockedBalance,
+                                    bgColor: Colors.red.shade700,
+                                    fgColor: Colors.white,
+                                  ),
+                                  BalanceIndicator(
+                                    label: "Total",
+                                    value: wallet!.balance + wallet!.lockedBalance,
+                                    bgColor: Colors.green.shade700,
+                                    fgColor: Colors.white,
+                                  ),
+                                ]
+                              ],
+                            )
+                          : Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
                                 BalanceIndicator(
                                   label: "Available",
-                                  value: wallet!.balance,
-                                  bgColor: Colors.white,
-                                  fgColor: Colors.black,
+                                  value: wallet!.availableBalance,
+                                  bgColor: Colors.deepPurple.shade400,
+                                  fgColor: Colors.white,
                                 ),
                                 BalanceIndicator(
                                   label: "Locked",
@@ -208,147 +235,123 @@ class SendForm extends BaseComponent {
                                 ),
                                 BalanceIndicator(
                                   label: "Total",
-                                  value: wallet!.balance + wallet!.lockedBalance,
+                                  value: wallet!.totalBalance,
                                   bgColor: Colors.green.shade700,
                                   fgColor: Colors.white,
                                 ),
-                              ]
-                            ],
-                          )
-                        : Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              BalanceIndicator(
-                                label: "Available",
-                                value: wallet!.availableBalance,
-                                bgColor: Colors.deepPurple.shade400,
-                                fgColor: Colors.white,
-                              ),
-                              BalanceIndicator(
-                                label: "Locked",
-                                value: wallet!.lockedBalance,
-                                bgColor: Colors.red.shade700,
-                                fgColor: Colors.white,
-                              ),
-                              BalanceIndicator(
-                                label: "Total",
-                                value: wallet!.totalBalance,
-                                bgColor: Colors.green.shade700,
-                                fgColor: Colors.white,
-                              ),
-                            ],
-                          ),
-                  ],
-                ),
-              ),
-              ListTile(
-                leading: isMobile ? null : const SizedBox(width: leadingWidth, child: Text("To:")),
-                title: TextFormField(
-                  controller: formProvider.addressController,
-                  validator: formProvider.addressValidator,
-                  decoration: const InputDecoration(hintText: "Recipient's Wallet Address"),
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9.]')),
-                  ],
-                ),
-                subtitle: Padding(
-                  padding: const EdgeInsets.only(top: 3),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(pasteMessage),
-                      InkWell(
-                        onTap: () {
-                          _pasteAddress(formProvider);
-                        },
-                        child: Text(
-                          "here",
-                          style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
-                        ),
-                      ),
-                      const Text("."),
+                              ],
+                            ),
                     ],
                   ),
                 ),
-                trailing: isMobile
-                    ? null
-                    : Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.paste),
-                            onPressed: () {
-                              _pasteAddress(formProvider);
-                            },
+                ListTile(
+                  leading: isMobile ? null : const SizedBox(width: leadingWidth, child: Text("To:")),
+                  title: TextFormField(
+                    controller: formProvider.addressController,
+                    validator: formProvider.addressValidator,
+                    decoration: const InputDecoration(hintText: "Recipient's Wallet Address"),
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9.]')),
+                    ],
+                  ),
+                  subtitle: Padding(
+                    padding: const EdgeInsets.only(top: 3),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(pasteMessage),
+                        InkWell(
+                          onTap: () {
+                            _pasteAddress(formProvider);
+                          },
+                          child: Text(
+                            "here",
+                            style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: Theme.of(context).colorScheme.secondary,
+                            ),
                           ),
-                          if (!kIsWeb)
+                        ),
+                        const Text("."),
+                      ],
+                    ),
+                  ),
+                  trailing: isMobile
+                      ? null
+                      : Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
                             IconButton(
-                              icon: const Icon(
-                                FontAwesomeIcons.folderOpen,
-                                size: 18,
-                              ),
+                              icon: const Icon(Icons.paste),
                               onPressed: () {
-                                // _pasteAddress(formProvider);
-                                chooseAddress(context, ref, formProvider);
+                                _pasteAddress(formProvider);
                               },
                             ),
-                        ],
-                      ),
-              ),
-              ListTile(
-                leading: isMobile ? null : const SizedBox(width: leadingWidth, child: Text("Amount:")),
-                title: TextFormField(
-                  controller: formProvider.amountController,
-                  validator: formProvider.amountValidator,
-                  inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
-                  decoration: const InputDecoration(hintText: "Amount of RBX to send"),
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                            if (!kIsWeb)
+                              IconButton(
+                                icon: const Icon(
+                                  FontAwesomeIcons.folderOpen,
+                                  size: 18,
+                                ),
+                                onPressed: () {
+                                  // _pasteAddress(formProvider);
+                                  chooseAddress(context, ref, formProvider);
+                                },
+                              ),
+                          ],
+                        ),
                 ),
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                child: Divider(),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0).copyWith(right: 16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    AppButton(
-                      label: "Clear",
-                      type: AppButtonType.Text,
-                      variant: AppColorVariant.Info,
-                      onPressed: () {
-                        formProvider.formKey.currentState!.reset();
-                        formProvider.clear();
-                      },
-                    ),
-                    Consumer(builder: (context, ref, _) {
-                      final formModel = ref.watch(sendFormProvider);
-
-                      return AppButton(
-                        label: "Send",
-                        type: AppButtonType.Elevated,
-                        processing: formModel.isProcessing,
-                        onPressed: () async {
-                          if (!await passwordRequiredGuard(context, ref)) return;
-
-                          if (!formProvider.formKey.currentState!.validate()) {
-                            return;
-                          }
-
-                          formProvider.submit();
+                ListTile(
+                  leading: isMobile ? null : const SizedBox(width: leadingWidth, child: Text("Amount:")),
+                  title: TextFormField(
+                    controller: formProvider.amountController,
+                    validator: formProvider.amountValidator,
+                    inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
+                    decoration: const InputDecoration(hintText: "Amount of RBX to send"),
+                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  child: Divider(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0).copyWith(right: 16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      AppButton(
+                        label: "Clear",
+                        type: AppButtonType.Text,
+                        variant: AppColorVariant.Info,
+                        onPressed: () {
+                          formProvider.formKey.currentState!.reset();
+                          formProvider.clear();
                         },
-                      );
-                    }),
-                  ],
-                ),
-              )
-            ],
+                      ),
+                      Consumer(builder: (context, ref, _) {
+                        final formModel = ref.watch(sendFormProvider);
+
+                        return AppButton(
+                          label: "Send",
+                          type: AppButtonType.Elevated,
+                          processing: formModel.isProcessing,
+                          onPressed: () async {
+                            if (!await passwordRequiredGuard(context, ref)) return;
+
+                            if (!formProvider.formKey.currentState!.validate()) {
+                              return;
+                            }
+
+                            formProvider.submit();
+                          },
+                        );
+                      }),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

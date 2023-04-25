@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../core/base_component.dart';
@@ -27,13 +28,7 @@ class LatestBlock extends BaseComponent {
     return Container(
       decoration: BoxDecoration(
         color: backgroundColor ?? const Color(0xFF050505),
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
-            spreadRadius: 3,
-            blurRadius: 3,
-          ),
-        ],
+        boxShadow: glowingBox,
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),

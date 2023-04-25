@@ -158,8 +158,16 @@ class MyCollectionsListScreen extends BaseScreen {
                                 if (confirmed == true) {
                                   final success = await DstService().deleteShopLocally();
                                   if (success) {
+                                    for (final c in collections) {
+                                      await DstService().deleteCollection(c);
+                                    }
+
+                                    await Future.delayed(Duration(seconds: 1));
                                     ref.invalidate(decShopProvider);
+                                    ref.read(collectionListProvider.notifier).refresh();
+
                                     Toast.message("Shop Deleted");
+                                    // Navigator.of(context).pop();
                                   }
                                 }
                               },
@@ -173,7 +181,7 @@ class MyCollectionsListScreen extends BaseScreen {
                                 final confirmed = await ConfirmDialog.show(
                                   title: "Delete Shop",
                                   body:
-                                      "Are you sure you want to delete this shop from the network? There is a cost of 1 RBX plus TX fee to perform this operation.",
+                                      "Are you sure you want to delete this shop from the network? There is a cost of 10 RBX plus TX fee to perform this operation.",
                                   destructive: true,
                                   confirmText: "Delete",
                                   cancelText: "Cancel",
@@ -182,13 +190,19 @@ class MyCollectionsListScreen extends BaseScreen {
                                 if (confirmed == true) {
                                   final successRemote = await DstService().deleteShop();
                                   if (successRemote) {
-                                    Toast.message("Delete TX broadcasted. Deleting locally now.");
+                                    Toast.message("Delete TX broadcasted.");
 
                                     final success = await DstService().deleteShopLocally();
                                     if (success) {
+                                      for (final c in collections) {
+                                        await DstService().deleteCollection(c);
+                                      }
+
+                                      await Future.delayed(Duration(seconds: 1));
+
                                       ref.invalidate(decShopProvider);
-                                      ref.invalidate(collectionListProvider);
-                                      Toast.message("Shop Deleted");
+                                      ref.read(collectionListProvider.notifier).refresh();
+                                      Toast.message("Shop Deleted.");
                                       // Navigator.of(context).pop();
                                       // ref.read(globalLoadingProvider.notifier).start();
                                       // ref.read(sessionProvider.notifier).restartCli();

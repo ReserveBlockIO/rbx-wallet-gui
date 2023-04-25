@@ -51,6 +51,7 @@ class CreateDecShopFormGroup extends BaseComponent {
                   ),
                   Flexible(
                     child: Card(
+                      color: Colors.white.withOpacity(0.03),
                       margin: EdgeInsets.zero,
                       child: ListTile(
                         onTap: model.id == 0
@@ -61,7 +62,7 @@ class CreateDecShopFormGroup extends BaseComponent {
                                 }
                               }
                             : null,
-                        title: Text("Address Owner"),
+                        title: Text("Owner's Address"),
                         subtitle: Text(model.ownerAddress == null || model.ownerAddress!.isEmpty
                             ? "Select an address from the list to be the shop owner."
                             : model.ownerAddress!),

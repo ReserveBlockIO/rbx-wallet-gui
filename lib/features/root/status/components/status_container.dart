@@ -222,13 +222,7 @@ class _BlockStatus extends BaseComponent {
     return Container(
       decoration: BoxDecoration(
         color: Color(0xFF050505),
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
-            spreadRadius: 3,
-            blurRadius: 3,
-          ),
-        ],
+        boxShadow: glowingBox,
       ),
       width: double.infinity,
       child: Padding(

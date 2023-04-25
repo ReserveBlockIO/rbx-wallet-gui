@@ -24,65 +24,71 @@ class LogWindow extends BaseComponent {
           style: Theme.of(context).textTheme.subtitle2,
         ),
         const SizedBox(height: 8),
-        Card(
-          color: Colors.white.withOpacity(0.03),
-          margin: EdgeInsets.zero,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
-            child: SizedBox(
-              height: ref.watch(sessionProvider).logWindowExpanded ? 600 : 130,
-              width: double.infinity,
-              child: Stack(
-                children: [
-                  ListView.builder(
-                    controller: ref.read(logProvider.notifier).scrollController,
-                    itemCount: logEntries.length,
-                    itemBuilder: (context, index) {
-                      final entry = logEntries[index];
-                      return Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          LogItem(entry),
-                          if (index + 1 == logEntries.length)
-                            const SizedBox(
-                              height: 28,
+        Container(
+          decoration: BoxDecoration(
+            boxShadow: glowingBox,
+            color: Colors.black,
+          ),
+          child: Card(
+            color: Colors.white.withOpacity(0.03),
+            margin: EdgeInsets.zero,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+              child: SizedBox(
+                height: ref.watch(sessionProvider).logWindowExpanded ? 600 : 130,
+                width: double.infinity,
+                child: Stack(
+                  children: [
+                    ListView.builder(
+                      controller: ref.read(logProvider.notifier).scrollController,
+                      itemCount: logEntries.length,
+                      itemBuilder: (context, index) {
+                        final entry = logEntries[index];
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            LogItem(entry),
+                            if (index + 1 == logEntries.length)
+                              const SizedBox(
+                                height: 28,
+                              )
+                          ],
+                        );
+                      },
+                    ),
+                    // SingleChildScrollView(
+                    //   controller: scrollController,
+                    //   child: Column(
+                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                    //     children: logEntries.map((entry) => LogItem(entry)).toList(),
+                    //   ),
+                    // ),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: ref.watch(sessionProvider).logWindowExpanded
+                          ? AppButton(
+                              label: "Collapse",
+                              onPressed: () {
+                                ref.read(sessionProvider.notifier).setLogWindowExpanded(false);
+                              },
+                              variant: AppColorVariant.Info,
+                              size: AppSizeVariant.Sm,
+                              type: AppButtonType.Text,
+                              icon: Icons.arrow_upward_rounded,
                             )
-                        ],
-                      );
-                    },
-                  ),
-                  // SingleChildScrollView(
-                  //   controller: scrollController,
-                  //   child: Column(
-                  //     crossAxisAlignment: CrossAxisAlignment.start,
-                  //     children: logEntries.map((entry) => LogItem(entry)).toList(),
-                  //   ),
-                  // ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: ref.watch(sessionProvider).logWindowExpanded
-                        ? AppButton(
-                            label: "Collapse",
-                            onPressed: () {
-                              ref.read(sessionProvider.notifier).setLogWindowExpanded(false);
-                            },
-                            variant: AppColorVariant.Info,
-                            size: AppSizeVariant.Sm,
-                            type: AppButtonType.Text,
-                            icon: Icons.arrow_upward_rounded,
-                          )
-                        : AppButton(
-                            label: "Clear",
-                            onPressed: () {
-                              ref.read(logProvider.notifier).clear();
-                            },
-                            variant: AppColorVariant.Info,
-                            size: AppSizeVariant.Sm,
-                            type: AppButtonType.Text,
-                            icon: Icons.clear,
-                          ),
-                  ),
-                ],
+                          : AppButton(
+                              label: "Clear",
+                              onPressed: () {
+                                ref.read(logProvider.notifier).clear();
+                              },
+                              variant: AppColorVariant.Info,
+                              size: AppSizeVariant.Sm,
+                              type: AppButtonType.Text,
+                              icon: Icons.clear,
+                            ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

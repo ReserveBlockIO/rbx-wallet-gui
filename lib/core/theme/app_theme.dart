@@ -119,9 +119,9 @@ class AppTheme {
       ),
       scaffoldBackgroundColor: Colors.black,
       dialogTheme: DialogTheme(
-          backgroundColor: Color(0xff050505),
-          shadowColor: Colors.white.withOpacity(0.05),
-          elevation: 8,
+          backgroundColor: Color(0xff070707),
+          shadowColor: _secondaryColor.withOpacity(0.3),
+          elevation: 4,
           titleTextStyle: TextStyle(
             color: Colors.white,
             fontSize: 18,
@@ -195,4 +195,14 @@ class AppTheme {
         return _colors.dark;
     }
   }
+}
+
+List<BoxShadow> get glowingBox {
+  return [
+    BoxShadow(
+      color: Color(0xFF82e4fb).withOpacity(0.15),
+      spreadRadius: 3,
+      blurRadius: 3,
+    ),
+  ];
 }
