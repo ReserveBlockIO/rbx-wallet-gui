@@ -36,6 +36,7 @@ import 'package:rbx_wallet/utils/files.dart';
 import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:collection/collection.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class ListingDetails extends BaseComponent {
   final OrganizedListing listing;
@@ -347,7 +348,12 @@ class _PreviewState extends State<_Preview> {
                                     padding: const EdgeInsets.all(16.0),
                                     child: PinchZoom(
                                       child: Image.file(
-                                        File(path.replaceAll(".pdf", ".jpg").replaceAll(".png", ".jpg")),
+                                        File(path
+                                            .replaceAll(".pdf", ".jpg")
+                                            .replaceAll(".png", ".jpg")
+                                            .replaceAll(".jpeg", ".jpg")
+                                            .replaceAll(".gif", ".jpg")
+                                            .replaceAll(".webp", ".jpg")),
                                         width: double.infinity,
                                         height: double.infinity,
                                         fit: BoxFit.contain,
@@ -1055,7 +1061,13 @@ class __ThumbnailState extends State<_Thumbnail> {
   }
 
   Future<void> init() async {
-    final updatedFileName = widget.path.replaceAll(".pdf", ".jpg").replaceAll(".png", ".jpg");
+    final updatedFileName = widget.path
+        .replaceAll(".pdf", ".jpg")
+        .replaceAll(".png", ".jpg")
+        .replaceAll(".jpeg", ".jpg")
+        .replaceAll(".gif", ".jpg")
+        .replaceAll(".webp", ".jpg");
+    ;
 
     final ready = checkSingleFile(updatedFileName);
 
@@ -1083,7 +1095,12 @@ class __ThumbnailState extends State<_Thumbnail> {
 
   @override
   Widget build(BuildContext context) {
-    final updatedFileName = widget.path.replaceAll(".pdf", ".jpg").replaceAll(".png", ".jpg");
+    final updatedFileName = widget.path
+        .replaceAll(".pdf", ".jpg")
+        .replaceAll(".png", ".jpg")
+        .replaceAll(".jpeg", ".jpg")
+        .replaceAll(".gif", ".jpg")
+        .replaceAll(".webp", ".jpg");
 
     if (!thumbnailReady) {
       if (attempts > 60) {
