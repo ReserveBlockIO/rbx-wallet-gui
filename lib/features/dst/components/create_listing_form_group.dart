@@ -364,8 +364,11 @@ Future<void> _showDatePicker(BuildContext context, WidgetRef ref, bool isStartDa
       builder: (context, child) {
         return Theme(
           data: ThemeData.dark().copyWith(
-            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
-          ),
+              buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.accent),
+              colorScheme: Theme.of(context).colorScheme.copyWith(
+                    primary: Color(0xFF82e4fb),
+                    onPrimary: Color(0xFF031745),
+                  )),
           child: child!,
         );
       });
@@ -392,8 +395,11 @@ Future<void> _showTimePicker(BuildContext context, WidgetRef ref, bool isStartDa
     builder: (BuildContext context, Widget? child) {
       return Theme(
         data: ThemeData.dark().copyWith(
-          buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
-        ),
+            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+            colorScheme: Theme.of(context).colorScheme.copyWith(
+                  primary: Color(0xFF82e4fb),
+                  onPrimary: Color(0xFF031745),
+                )),
         child: MediaQuery(
           data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
           child: child ?? const SizedBox(),

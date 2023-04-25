@@ -34,115 +34,119 @@ class PropertiesManager extends BaseComponent {
     final properties = ref.watch(createSmartContractProvider).properties;
 
     return FormGroupContainer(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const FormGroupHeader(
-            "Properties",
-            helpType: HelpType.properties,
-          ),
-          properties.isEmpty
-              ? Padding(
-                  padding: const EdgeInsets.only(top: 5.0),
-                  child: Card(
-                    color: Colors.black54,
-                    child: SizedBox(
-                      width: double.infinity,
-                      height: 64,
-                      child: Padding(
-                        padding: EdgeInsets.all(14.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("No Properties"),
-                            AppButton(
-                              icon: Icons.add,
-                              label: "Add Property",
-                              onPressed: () async {
-                                final property = await handleEdit(context, ref);
-                                if (property != null) {
-                                  provider.addProperty(property);
-                                }
-                              },
-                            )
-                          ],
+      child: Container(
+        decoration: BoxDecoration(boxShadow: glowingBox, color: Colors.black),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const FormGroupHeader(
+              "Properties",
+              helpType: HelpType.properties,
+            ),
+            properties.isEmpty
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 5.0),
+                    child: Card(
+                      color: Colors.black54,
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 64,
+                        child: Padding(
+                          padding: EdgeInsets.all(14.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("No Properties"),
+                              AppButton(
+                                icon: Icons.add,
+                                label: "Add Property",
+                                onPressed: () async {
+                                  final property = await handleEdit(context, ref);
+                                  if (property != null) {
+                                    provider.addProperty(property);
+                                  }
+                                },
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                )
-              : Padding(
-                  padding: const EdgeInsets.only(top: 5.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: properties.length,
-                        itemBuilder: (context, index) {
-                          final property = properties[index];
+                  )
+                : Padding(
+                    padding: const EdgeInsets.only(top: 5.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: properties.length,
+                          itemBuilder: (context, index) {
+                            final property = properties[index];
 
-                          return Card(
-                            key: Key("${property.name}|${property.value}"),
-                            child: ListTile(
-                              title: Text(property.value),
-                              subtitle: Text(property.name),
-                              leading: Builder(builder: (context) {
-                                switch (property.type) {
-                                  case ScPropertyType.text:
-                                    return Icon(Icons.text_fields);
-                                  case ScPropertyType.number:
-                                    return Icon(Icons.numbers);
-                                  case ScPropertyType.color:
-                                    return Icon(Icons.color_lens);
-                                }
-                              }),
-                              trailing: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  AppButton(
-                                    label: "Remove",
-                                    type: AppButtonType.Text,
-                                    variant: AppColorVariant.Danger,
-                                    onPressed: () {
-                                      provider.removeProperty(index);
-                                    },
-                                  ),
-                                  AppButton(
-                                    label: "Edit",
-                                    type: AppButtonType.Text,
-                                    variant: AppColorVariant.Light,
-                                    onPressed: () async {
-                                      final p = await handleEdit(context, ref, property: property);
-                                      if (p != null) {
-                                        provider.updateProperty(p, index);
-                                      }
-                                    },
-                                  )
-                                ],
+                            return Card(
+                              color: Colors.black,
+                              key: Key("${property.name}|${property.value}"),
+                              child: ListTile(
+                                title: Text(property.value),
+                                subtitle: Text(property.name),
+                                leading: Builder(builder: (context) {
+                                  switch (property.type) {
+                                    case ScPropertyType.text:
+                                      return Icon(Icons.text_fields);
+                                    case ScPropertyType.number:
+                                      return Icon(Icons.numbers);
+                                    case ScPropertyType.color:
+                                      return Icon(Icons.color_lens);
+                                  }
+                                }),
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    AppButton(
+                                      label: "Remove",
+                                      type: AppButtonType.Text,
+                                      variant: AppColorVariant.Danger,
+                                      onPressed: () {
+                                        provider.removeProperty(index);
+                                      },
+                                    ),
+                                    AppButton(
+                                      label: "Edit",
+                                      type: AppButtonType.Text,
+                                      variant: AppColorVariant.Light,
+                                      onPressed: () async {
+                                        final p = await handleEdit(context, ref, property: property);
+                                        if (p != null) {
+                                          provider.updateProperty(p, index);
+                                        }
+                                      },
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                      ),
-                      SizedBox(
-                        height: 4,
-                      ),
-                      AppButton(
-                        icon: Icons.add,
-                        label: "Add Property",
-                        onPressed: () async {
-                          final property = await handleEdit(context, ref);
-                          if (property != null) {
-                            provider.addProperty(property);
-                          }
-                        },
-                      )
-                    ],
-                  ),
-                )
-        ],
+                            );
+                          },
+                        ),
+                        SizedBox(
+                          height: 4,
+                        ),
+                        AppButton(
+                          icon: Icons.add,
+                          label: "Add Property",
+                          onPressed: () async {
+                            final property = await handleEdit(context, ref);
+                            if (property != null) {
+                              provider.addProperty(property);
+                            }
+                          },
+                        )
+                      ],
+                    ),
+                  )
+          ],
+        ),
       ),
     );
   }
