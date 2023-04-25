@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
 
 import 'help_button.dart';
 
@@ -17,7 +18,8 @@ class FormGroupHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: withBg ? Colors.black54 : Colors.transparent,
+        boxShadow: glowingBox,
+        color: withBg ? Colors.black : Colors.transparent,
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: withBg ? 8 : 0),
