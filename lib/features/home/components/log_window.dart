@@ -25,7 +25,7 @@ class LogWindow extends BaseComponent {
         ),
         const SizedBox(height: 8),
         Card(
-          color: Colors.black54,
+          color: Colors.white.withOpacity(0.03),
           margin: EdgeInsets.zero,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
