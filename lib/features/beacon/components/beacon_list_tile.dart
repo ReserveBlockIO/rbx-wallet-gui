@@ -21,7 +21,7 @@ class BeaconListTile extends BaseComponent {
     }
 
     return Card(
-      color: Theme.of(context).colorScheme.primary,
+      color: Colors.white.withOpacity(0.03),
       child: ListTile(
         leading: Icon(beacon.selfBeacon ? Icons.wifi : Icons.satellite_alt),
         title: Text("${beacon.name} ${beacon.isBeaconPrivate ? '[Private]' : ''}"),
