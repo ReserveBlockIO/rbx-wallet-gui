@@ -122,6 +122,15 @@ class AppTheme {
           borderSide: BorderSide(color: _infoColor),
         ),
       ),
+      dialogTheme: DialogTheme(
+          backgroundColor: Color(0xff050505),
+          shadowColor: Colors.white.withOpacity(0.05),
+          elevation: 8,
+          titleTextStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+          )),
       textTheme: _textTheme(true),
       fontFamily: kIsWeb && HtmlHelpers().getUserAgent().contains('OS 15_') ? '-apple-system' : null,
     );

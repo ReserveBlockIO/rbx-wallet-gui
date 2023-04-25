@@ -244,7 +244,7 @@ class MyCollectionsListScreen extends BaseScreen {
                         ],
                         if (shop != null && shop.isPublished && collections.isEmpty) ...[
                           Text(
-                            "Now you can create a collections and then add listings to them.",
+                            "Now you can create collections and then add listings to them.",
                             style: TextStyle(
                               fontSize: 18,
                               height: 1.5,

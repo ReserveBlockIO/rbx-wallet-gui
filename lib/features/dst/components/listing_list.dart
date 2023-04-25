@@ -114,7 +114,7 @@ class ListingList extends BaseComponent {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    "Now you can create listings for the NFTs you want to sell.",
+                    "Now you can create listings for the NFTs you own.",
                     style: TextStyle(fontSize: 16),
                   ),
                   SizedBox(

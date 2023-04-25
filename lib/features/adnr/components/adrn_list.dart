@@ -43,6 +43,7 @@ class AdnrList extends BaseComponent {
         final isPendingTransfer = ref.watch(adnrPendingProvider).contains("${wallet.address}.transfer.${wallet.adnr ?? 'null'}");
 
         return Card(
+          color: Colors.black54,
           child: ListTile(
             leading: const Icon(Icons.wallet),
             title: SelectableText(wallet.address),

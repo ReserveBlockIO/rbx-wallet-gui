@@ -16,7 +16,7 @@ class Footer extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      color: Colors.black38,
+      color: Colors.black.withOpacity(.9),
       height: 70,
       child: Stack(
         children: [

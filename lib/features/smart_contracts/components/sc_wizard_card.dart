@@ -41,6 +41,7 @@ class ScWizedCard extends BaseComponent {
 
     final entry = item.entry;
     return Card(
+      color: Colors.black54,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ConstrainedBox(

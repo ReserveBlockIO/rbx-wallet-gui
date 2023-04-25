@@ -46,6 +46,7 @@ class PropertiesManager extends BaseComponent {
               ? Padding(
                   padding: const EdgeInsets.only(top: 5.0),
                   child: Card(
+                    color: Colors.black54,
                     child: SizedBox(
                       width: double.infinity,
                       height: 64,

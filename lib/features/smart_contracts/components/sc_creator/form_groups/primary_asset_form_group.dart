@@ -30,6 +30,7 @@ class PrimaryAssetFormGroup extends BaseComponent {
             asset: _model.primaryAsset,
             onChange: _provider.setPrimaryAsset,
             title: "Asset",
+
             // withAuthorName: true,
           ),
           // if (_model.primaryAsset == null)

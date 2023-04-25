@@ -104,7 +104,7 @@ class SendForm extends BaseComponent {
     return Form(
       key: formProvider.formKey,
       child: Card(
-        color: kIsWeb ? Theme.of(context).colorScheme.primary.withOpacity(0.5) : null,
+        color: kIsWeb ? Theme.of(context).colorScheme.primary.withOpacity(0.5) : Colors.black87,
         child: Padding(
           padding: const EdgeInsets.only(bottom: 8.0),
           child: Column(

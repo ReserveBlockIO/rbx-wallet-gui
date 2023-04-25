@@ -64,6 +64,7 @@ class NftCard extends BaseComponent {
               _showDetails(context, ref);
             },
       child: Card(
+        color: Colors.black54,
         child: Stack(
           alignment: Alignment.center,
           children: [

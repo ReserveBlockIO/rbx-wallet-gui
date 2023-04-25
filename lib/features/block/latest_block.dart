@@ -27,9 +27,9 @@ class LatestBlock extends BaseComponent {
     return Container(
       decoration: BoxDecoration(
         color: backgroundColor ?? const Color(0xFF050505),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            color: Colors.white10,
+            color: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
             spreadRadius: 3,
             blurRadius: 3,
           ),

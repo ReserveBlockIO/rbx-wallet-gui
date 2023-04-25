@@ -23,7 +23,7 @@ class TopicCard extends BaseComponent {
         // Navigator.of(context).push(MaterialPageRoute(builder: (context) => TopicDetailScreen(topic: topic)));
       },
       child: Card(
-        // color: Colors.white10,
+        color: Colors.white10,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Stack(
