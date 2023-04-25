@@ -33,7 +33,7 @@ class CreateDecShopFormGroup extends BaseComponent {
                   if (model.id == 0)
                     Center(
                       child: Text(
-                        "Now, create your shop and publish it to the network.\nThen you'll be able to create collections and add listings to them.",
+                        "Create your shop and publish it to the network.\nThen you'll be able to create collections and add listings to them.",
                         textAlign: TextAlign.center,
                       ),
                     ),

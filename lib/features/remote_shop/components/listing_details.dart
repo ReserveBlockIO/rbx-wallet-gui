@@ -1086,7 +1086,7 @@ class __ThumbnailState extends State<_Thumbnail> {
     final updatedFileName = widget.path.replaceAll(".pdf", ".jpg").replaceAll(".png", ".jpg");
 
     if (!thumbnailReady) {
-      if (attempts > 10) {
+      if (attempts > 60) {
         return Center(child: Icon(widget.fallbackIcon));
       }
 

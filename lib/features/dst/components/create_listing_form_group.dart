@@ -188,6 +188,7 @@ class _BuyNow extends BaseComponent {
       inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
       validator: (value) => formValidatorNotEmpty(value, "Buy Now"),
       decoration: InputDecoration(
+        suffixText: "RBX",
         label: const Text(
           "Buy Now Price",
           style: TextStyle(color: Colors.white),
@@ -213,6 +214,7 @@ class _FloorPrice extends BaseComponent {
       inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
       validator: (value) => formValidatorNotEmpty(value, "Floor Price"),
       decoration: InputDecoration(
+        suffixText: "RBX",
         label: const Text(
           "Floor Price",
           style: TextStyle(color: Colors.white),
@@ -238,6 +240,7 @@ class _ReservePrice extends BaseComponent {
       inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
       validator: (value) => formValidatorNotEmpty(value, "Reserve Price"),
       decoration: InputDecoration(
+        suffixText: "RBX",
         label: const Text(
           "Reserve Price",
           style: TextStyle(color: Colors.white),
