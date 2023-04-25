@@ -81,38 +81,6 @@ class ListingFormProvider extends StateNotifier<Listing> {
       smartContractUid: nft.id,
       nft: nft,
     );
-
-    captureThumbnails(nft);
-  }
-
-  captureThumbnails(Nft nft) async {
-    final assets = [nft.primaryAsset, ...nft.additionalAssets];
-
-    final List<String> paths = [];
-    for (final a in assets) {
-      switch (a.ext.toLowerCase()) {
-        case "mp4":
-        case "mov":
-        case "avi":
-          final p = await _generateVideoThumbnail(a);
-          if (p != null) {
-            paths.add(p);
-          }
-      }
-    }
-
-    print(paths);
-  }
-
-  Future<String?> _generateVideoThumbnail(Asset asset) async {
-    // final player = Player(id: 69420);
-    // player.open(Media.file(asset.file), autoStart: false);
-
-    // final filePath = "/tmp/snapshot.jpg";
-
-    // player.takeSnapshot(File(filePath), 400, 300);
-
-    // return filePath;
   }
 
   clearNft() {
