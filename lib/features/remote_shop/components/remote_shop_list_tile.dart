@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/dst/models/dec_shop.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
@@ -18,9 +19,26 @@ class RemoteShopListTile extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final currentUrl = ref.watch(connectedShopProvider).url;
+
     return Card(
       child: ListTile(
-        title: Text(shop.name),
+        title: RichText(
+            text: TextSpan(style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500), children: [
+          TextSpan(
+            text: shop.name,
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+          if (currentUrl == shop.url)
+            TextSpan(
+              text: " [Connected]",
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.success,
+              ),
+            ),
+        ])),
         subtitle: RichText(
           text: TextSpan(style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500), children: [
             TextSpan(
@@ -39,7 +57,9 @@ class RemoteShopListTile extends BaseComponent {
             ),
           ]),
         ),
-        leading: Icon(Icons.house),
+        leading: Icon(
+          Icons.house,
+        ),
         trailing: Icon(Icons.chevron_right),
         onTap: () async {
           if (ref.read(walletInfoProvider) == null || !ref.read(walletInfoProvider)!.isChainSynced) {
@@ -54,8 +74,6 @@ class RemoteShopListTile extends BaseComponent {
               return;
             }
           }
-
-          final currentUrl = ref.read(connectedShopProvider).url;
 
           if (currentUrl == shop.url) {
             ref.read(connectedShopProvider.notifier).refresh();
