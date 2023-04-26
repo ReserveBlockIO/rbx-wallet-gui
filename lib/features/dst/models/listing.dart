@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
+import 'package:rbx_wallet/utils/files.dart';
 
 part 'listing.freezed.dart';
 part 'listing.g.dart';
@@ -131,5 +133,45 @@ class Listing with _$Listing {
 
   bool get isGallery {
     return !isBuyNow && !isAuction;
+  }
+
+  Future<Widget> thumbnail([double size = 32]) async {
+    if (nft == null) {
+      return SizedBox(
+        width: size,
+        height: size,
+      );
+    }
+    final a = nft!.primaryAsset;
+
+    String? filePath;
+
+    String thumbsPath = await assetsPath();
+    thumbsPath = Platform.isMacOS ? "$thumbsPath/${nft!.id.replaceAll(':', '')}/thumbs/" : "$thumbsPath\\${nft!.id.replaceAll(':', '')}\\thumbs\\";
+
+    if (a.isImage) {
+      filePath =
+          "$thumbsPath${a.fileName}".replaceAll(".png", ".jpg").replaceAll(".jpeg", ".jpg").replaceAll(".gif", ".jpg").replaceAll(".webp", ".jpg");
+    } else if (a.isPdf) {
+      filePath = "$thumbsPath${a.fileName.replaceAll('.pdf', '.jpg')}";
+    }
+
+    if (filePath != null && File(filePath).existsSync()) {
+      return Image.file(
+        File(filePath),
+        width: size,
+        height: size,
+      );
+    }
+
+    if (a.isImage && File(a.fixedLocation).existsSync()) {
+      return Image.file(
+        File(a.fixedLocation),
+        width: size,
+        height: size,
+      );
+    }
+
+    return Icon(a.icon);
   }
 }

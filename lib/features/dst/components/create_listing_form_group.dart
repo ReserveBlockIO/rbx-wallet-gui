@@ -321,28 +321,19 @@ class _NFT extends BaseComponent {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Builder(
-            builder: (context) {
-              if (nft.currentEvolveAsset.isImage) {
-                if (nft.currentEvolveAsset.localPath == null) {
-                  return const SizedBox(
-                    width: 32,
-                    height: 32,
-                  );
+          SizedBox(
+            width: 32,
+            height: 32,
+            child: FutureBuilder(
+              future: model.thumbnail(),
+              builder: (context, AsyncSnapshot<Widget> snapshot) {
+                if (snapshot.hasData) {
+                  return snapshot.data!;
                 }
 
-                return SizedBox(
-                  width: 32,
-                  height: 32,
-                  child: PollingImagePreview(
-                    localPath: nft.currentEvolveAsset.localPath!,
-                    expectedSize: nft.currentEvolveAsset.fileSize,
-                    withProgress: false,
-                  ),
-                );
-              }
-              return const Icon(Icons.file_present_outlined);
-            },
+                return SizedBox();
+              },
+            ),
           ),
           SizedBox(
             width: 6,

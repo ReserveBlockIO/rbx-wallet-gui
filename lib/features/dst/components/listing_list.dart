@@ -38,31 +38,41 @@ class ListingList extends BaseComponent {
                     return Card(
                       color: Colors.white.withOpacity(0.03),
                       child: ListTile(
-                        leading: Builder(
-                          builder: (context) {
-                            if (nft == null) {
-                              return SizedBox.shrink();
+                        // leading: Builder(
+                        //   builder: (context) {
+                        //     if (nft == null) {
+                        //       return SizedBox.shrink();
+                        //     }
+
+                        //     if (nft.currentEvolveAsset.isImage) {
+                        //       if (nft.currentEvolveAsset.localPath == null) {
+                        //         return const SizedBox(
+                        //           width: 32,
+                        //           height: 32,
+                        //         );
+                        //       }
+
+                        //       return SizedBox(
+                        //         width: 32,
+                        //         height: 32,
+                        //         child: PollingImagePreview(
+                        //           localPath: nft.currentEvolveAsset.localPath!,
+                        //           expectedSize: nft.currentEvolveAsset.fileSize,
+                        //           withProgress: false,
+                        //         ),
+                        //       );
+                        //     }
+                        //     return const Icon(Icons.file_present_outlined);
+                        //   },
+                        // ),
+                        leading: FutureBuilder(
+                          future: listing.thumbnail(),
+                          builder: (context, AsyncSnapshot<Widget> snapshot) {
+                            if (snapshot.hasData) {
+                              return snapshot.data!;
                             }
 
-                            if (nft.currentEvolveAsset.isImage) {
-                              if (nft.currentEvolveAsset.localPath == null) {
-                                return const SizedBox(
-                                  width: 32,
-                                  height: 32,
-                                );
-                              }
-
-                              return SizedBox(
-                                width: 32,
-                                height: 32,
-                                child: PollingImagePreview(
-                                  localPath: nft.currentEvolveAsset.localPath!,
-                                  expectedSize: nft.currentEvolveAsset.fileSize,
-                                  withProgress: false,
-                                ),
-                              );
-                            }
-                            return const Icon(Icons.file_present_outlined);
+                            return SizedBox();
                           },
                         ),
                         title: Text(listing.nft != null ? listing.nft!.name : listing.smartContractUid),

@@ -91,27 +91,14 @@ class ListingDetailScreen extends BaseScreen {
                             contentPadding: EdgeInsets.zero,
                             title: Text(nft.name),
                             subtitle: Text(nft.id),
-                            leading: Builder(
-                              builder: (context) {
-                                if (nft.currentEvolveAsset.isImage) {
-                                  if (nft.currentEvolveAsset.localPath == null) {
-                                    return const SizedBox(
-                                      width: 64,
-                                      height: 64,
-                                    );
-                                  }
-
-                                  return SizedBox(
-                                    width: 64,
-                                    height: 64,
-                                    child: PollingImagePreview(
-                                      localPath: nft.currentEvolveAsset.localPath!,
-                                      expectedSize: nft.currentEvolveAsset.fileSize,
-                                      withProgress: false,
-                                    ),
-                                  );
+                            leading: FutureBuilder(
+                              future: listing.thumbnail(),
+                              builder: (context, AsyncSnapshot<Widget> snapshot) {
+                                if (snapshot.hasData) {
+                                  return snapshot.data!;
                                 }
-                                return const Icon(Icons.file_present_outlined);
+
+                                return SizedBox();
                               },
                             ),
                           );
