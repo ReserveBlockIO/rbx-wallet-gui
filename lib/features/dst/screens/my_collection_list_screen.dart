@@ -237,7 +237,7 @@ class MyCollectionsListScreen extends BaseScreen {
                       children: [
                         if (shop == null) ...[
                           Text(
-                            "First, setup your shop.\nThen you'll be able to create collections and add listings to them.",
+                            "First, setup your auction house / gallery.\nThen you'll be able to create collections and add listings to them.",
                             style: TextStyle(
                               fontSize: 18,
                               height: 1.5,
