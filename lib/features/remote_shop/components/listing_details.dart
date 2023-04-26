@@ -120,7 +120,6 @@ class ListingDetails extends BaseComponent {
                 constraints: const BoxConstraints(maxWidth: 600),
                 child: Center(
                   child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    if (kDebugMode) Text("Listing: ${listing.id} | Collection: ${listing.collectionId}"),
                     _Details(nft: nft),
                     const SizedBox(height: 8),
                     _NftDetails(nft: nft),
@@ -355,8 +354,8 @@ class _PreviewState extends State<_Preview> {
                                             .replaceAll(".gif", ".jpg")
                                             .replaceAll(".webp", ".jpg")),
                                         fit: BoxFit.contain,
-                                        width: 420,
-                                        height: 420,
+                                        width: 512,
+                                        height: 512,
                                       ),
                                     ),
                                   ),
