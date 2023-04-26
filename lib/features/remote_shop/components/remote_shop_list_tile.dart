@@ -20,6 +20,7 @@ class RemoteShopListTile extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentUrl = ref.watch(connectedShopProvider).url;
+    final isConnected = ref.watch(connectedShopProvider).isConnected;
 
     return Card(
       color: Colors.white.withOpacity(0.03),
@@ -32,7 +33,7 @@ class RemoteShopListTile extends BaseComponent {
               color: Colors.white,
             ),
           ),
-          if (currentUrl == shop.url)
+          if (currentUrl == shop.url && isConnected)
             TextSpan(
               text: " [Connected]",
               style: TextStyle(
@@ -78,6 +79,7 @@ class RemoteShopListTile extends BaseComponent {
 
           if (currentUrl == shop.url) {
             ref.read(connectedShopProvider.notifier).refresh();
+            ref.read(connectedShopProvider.notifier).activateRefreshTimer();
             AutoRouter.of(context).push(RemoteShopDetailScreenRoute(shopUrl: shop.url));
           } else {
             await ref.read(connectedShopProvider.notifier).loadShop(context, ref, shop.url);

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/features/remote_shop/components/remote_shop_details.dart';
+import 'package:rbx_wallet/features/remote_shop/components/shop_connected_indicator.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/remote_shop_detail_provider.dart';
 
@@ -38,6 +39,12 @@ class RemoteShopDetailScreen extends BaseScreen {
                 },
               ),
               actions: [
+                Align(
+                  alignment: Alignment.center,
+                  child: ShopConnectedIndicator(
+                    shopUrl: shopUrl,
+                  ),
+                ),
                 IconButton(
                   onPressed: () {
                     ref.read(connectedShopProvider.notifier).refresh(true);

@@ -114,8 +114,6 @@ class _ThumbnailState extends State<_Thumbnail> {
         icon = iconFromPath(path);
       });
     }
-
-    // init();
   }
 
   Future<void> init(String path) async {

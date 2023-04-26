@@ -28,6 +28,26 @@ class RemoteShopService extends BaseService {
     );
   }
 
+  Future<bool> checkConnection(String shopUrl) async {
+    try {
+      final response = await getText("/GetConnections");
+      final data = jsonDecode(response);
+      final connected = data['Connected'] == true;
+
+      if (connected) {
+        final url = data['DecShop']['ShopURL'].toString().toLowerCase();
+        if (url == shopUrl.toLowerCase()) {
+          return true;
+        }
+      }
+
+      return false;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
   Future<OrganizedShop?> getConnectedShopData({
     bool showErrors = false,
     listingCount = 0,

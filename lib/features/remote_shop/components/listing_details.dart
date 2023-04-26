@@ -717,6 +717,10 @@ class _BuyNow extends BaseComponent {
           icon: Icons.money,
           size: AppSizeVariant.Lg,
           onPressed: () async {
+            if (!ref.read(connectedShopProvider).isConnected) {
+              Toast.error("This shop is currently offline.");
+              return;
+            }
             // showDialog(
             //   context: context,
             //   builder: (context) {
@@ -825,6 +829,11 @@ class _Auction extends BaseComponent {
                   icon: Icons.gavel,
                   size: AppSizeVariant.Lg,
                   onPressed: () async {
+                    if (!ref.read(connectedShopProvider).isConnected) {
+                      Toast.error("This shop is currently offline.");
+                      return;
+                    }
+
                     final success = await provider.sendBid(context, listing);
                     if (success == true) {
                       Toast.message("Bid sent. Please check the Bid History to see if it's been accepted or rejected.");
@@ -839,6 +848,9 @@ class _Auction extends BaseComponent {
                   icon: Icons.info,
                   size: AppSizeVariant.Lg,
                   onPressed: () async {
+                    if (!ref.read(connectedShopProvider).isConnected) {
+                      Toast.error("Warning: This shop is currently offline so the information may not be up to date.");
+                    }
                     final auction = listing.auction!;
 
                     InfoDialog.show(
@@ -874,6 +886,11 @@ class BidHistoryButton extends BaseComponent {
       icon: Icons.punch_clock,
       size: AppSizeVariant.Lg,
       onPressed: () async {
+        if (!ref.read(connectedShopProvider).isConnected) {
+          Toast.error("Warning: This shop is currently offline so the information may not be up to date.");
+          await Future.delayed(Duration(seconds: 3));
+        }
+
         ref.read(globalLoadingProvider.notifier).start();
         final bids = await provider.fetchBids(listing);
 
@@ -1066,7 +1083,6 @@ class __ThumbnailState extends State<_Thumbnail> {
         .replaceAll(".jpeg", ".jpg")
         .replaceAll(".gif", ".jpg")
         .replaceAll(".webp", ".jpg");
-    ;
 
     final ready = checkSingleFile(updatedFileName);
 

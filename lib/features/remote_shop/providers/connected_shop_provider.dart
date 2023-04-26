@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/app.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
@@ -25,6 +26,9 @@ class ConnectedShop with _$ConnectedShop {
     String? url,
     DecShop? decShop,
     OrganizedShop? data,
+    @Default(false) bool isConnected,
+    @Default(false) bool hasShownDisconnectAlert,
+    @Default(false) bool shouldWarnDisconnection,
   }) = _ConnectedShop;
 }
 
@@ -32,26 +36,73 @@ class ConnectedShopProvider extends StateNotifier<ConnectedShop> {
   final Ref ref;
 
   Timer? refreshTimer;
+  Timer? connectionTimer;
 
   ConnectedShopProvider(this.ref, ConnectedShop initialState) : super(initialState);
 
   Future<void> connect(DecShop shop) async {
-    state = ConnectedShop(url: shop.url, decShop: shop);
-
+    state = ConnectedShop(
+      url: shop.url,
+      decShop: shop,
+      isConnected: true,
+      shouldWarnDisconnection: true,
+    );
+    await checkConnectionStatus();
     await refresh(true);
 
-    refreshTimer = Timer.periodic(Duration(seconds: 15), (timer) {
-      refresh();
+    activateRefreshTimer();
+
+    connectionTimer = Timer.periodic(Duration(seconds: 30), (timer) {
+      checkConnectionStatus();
     });
   }
 
   disconnect() {
     refreshTimer?.cancel();
-    // state = ConnectedShop();
+    state = state.copyWith(shouldWarnDisconnection: false);
+  }
+
+  activateRefreshTimer() {
+    if (!state.shouldWarnDisconnection) {
+      state = state.copyWith(shouldWarnDisconnection: true);
+    }
+    if (refreshTimer != null) {
+      refreshTimer!.cancel();
+    }
+
+    refreshTimer = Timer.periodic(Duration(seconds: 10), (timer) {
+      refresh();
+    });
+  }
+
+  checkConnectionStatus() async {
+    if (state.url == null) {
+      return;
+    }
+    print("checking connection");
+
+    final isConnected = await RemoteShopService().checkConnection(state.url!);
+
+    state = state.copyWith(isConnected: isConnected);
+
+    if (!isConnected) {
+      if (state.shouldWarnDisconnection && !state.hasShownDisconnectAlert) {
+        state = state.copyWith(hasShownDisconnectAlert: true);
+        await InfoDialog.show(
+          title: "Shop Disconnected",
+          body: "The shop you are connected to ${state.decShop != null ? '(${state.decShop!.name})' : ''} has gone offline.",
+        );
+      }
+
+      return;
+    }
   }
 
   refresh([bool showErrors = false]) async {
-    print("refreshing...");
+    print("Refresh");
+    if (!state.isConnected) {
+      return;
+    }
 
     int listingCount = 0;
     if (state.data != null) {
