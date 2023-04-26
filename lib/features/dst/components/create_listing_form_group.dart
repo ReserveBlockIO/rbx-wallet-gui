@@ -55,6 +55,10 @@ class CreateListingFormGroup extends BaseComponent {
                         style: Theme.of(context).textTheme.bodySmall,
                       )),
                     ),
+                  if (!model.exists || (!model.isAuction && !model.auctionStarted)) ...[
+                    SizedBox(height: 16),
+                    Flexible(child: _EnableGallery()),
+                  ],
                   SizedBox(height: 16),
                   Flexible(child: _EnableBuyNow()),
                   if (model.enableBuyNow) Flexible(child: _BuyNow()),
@@ -80,6 +84,36 @@ class CreateListingFormGroup extends BaseComponent {
           )),
         ],
       ),
+    );
+  }
+}
+
+class _EnableGallery extends BaseComponent {
+  const _EnableGallery({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ref) {
+    final provider = ref.read(listingFormProvider.notifier);
+    final model = ref.watch(listingFormProvider).galleryOnly;
+
+    return Row(
+      children: [
+        Checkbox(
+            value: model,
+            onChanged: (val) {
+              if (val != null) {
+                provider.updateGalleryOnly(val);
+              }
+            }),
+        GestureDetector(
+          onTap: () {
+            provider.updateGalleryOnly(!model);
+          },
+          child: const Text("Gallery Only?"),
+        ),
+      ],
     );
   }
 }

@@ -71,6 +71,7 @@ class Listing with _$Listing {
     @Default(false) @JsonKey(ignore: true) bool enableBuyNow,
     @Default(false) @JsonKey(ignore: true) bool enableAuction,
     @Default(false) @JsonKey(ignore: true) bool enableReservePrice,
+    @Default(false) @JsonKey(ignore: true) bool galleryOnly,
     @JsonKey(ignore: true) Nft? nft,
   }) = _Listing;
 
@@ -106,6 +107,10 @@ class Listing with _$Listing {
   }
 
   String get label {
+    if (isGallery) {
+      return "Gallery Listing";
+    }
+
     final List<String> components = [];
     if (isBuyNow) {
       components.add("Buy Now: $buyNowPrice RBX");
@@ -122,5 +127,9 @@ class Listing with _$Listing {
 
   bool get deactivateForSeller {
     return isAuctionEnded || isSaleComplete || isCancelled;
+  }
+
+  bool get isGallery {
+    return !isBuyNow && !isAuction;
   }
 }

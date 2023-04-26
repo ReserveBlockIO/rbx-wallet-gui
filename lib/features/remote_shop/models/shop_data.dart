@@ -74,7 +74,15 @@ class OrganizedListing with _$OrganizedListing {
     return startDate.isBefore(now);
   }
 
+  bool get isGallery {
+    return floorPrice == null && buyNowPrice == null;
+  }
+
   bool get canBuyNow {
+    if (isGallery) {
+      return false;
+    }
+
     if (auction == null) {
       return false;
     }
@@ -86,6 +94,9 @@ class OrganizedListing with _$OrganizedListing {
   }
 
   bool get canBid {
+    if (isGallery) {
+      return false;
+    }
     if (auction == null) {
       return false;
     }

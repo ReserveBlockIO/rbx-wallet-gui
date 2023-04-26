@@ -72,6 +72,7 @@ class ListingFormProvider extends StateNotifier<Listing> {
     state = state.copyWith(
       enableBuyNow: listing.isBuyNow,
       enableAuction: listing.isAuction,
+      galleryOnly: listing.isGallery,
     );
   }
 
@@ -135,6 +136,10 @@ class ListingFormProvider extends StateNotifier<Listing> {
 
   updateEnableBuyOnly(bool enableBuyOnly) {
     state = state.copyWith(enableBuyNow: enableBuyOnly);
+
+    if (enableBuyOnly) {
+      state = state.copyWith(galleryOnly: false);
+    }
   }
 
   updateEnableAuction(bool enableAuction) {
@@ -143,6 +148,9 @@ class ListingFormProvider extends StateNotifier<Listing> {
       return;
     }
     state = state.copyWith(enableAuction: enableAuction);
+    if (enableAuction) {
+      state = state.copyWith(galleryOnly: false);
+    }
   }
 
   updateEnableReservePrice(bool enableReservePrice) {
@@ -151,6 +159,27 @@ class ListingFormProvider extends StateNotifier<Listing> {
       return;
     }
     state = state.copyWith(enableReservePrice: enableReservePrice);
+  }
+
+  updateGalleryOnly(bool value) {
+    if (value) {
+      state = state.copyWith(
+        galleryOnly: true,
+        enableBuyNow: false,
+        enableAuction: false,
+        enableReservePrice: false,
+        floorPrice: null,
+        buyNowPrice: null,
+        reservePrice: null,
+      );
+      buyNowController.clear();
+      floorPriceController.clear();
+      reservePriceController.clear();
+    } else {
+      state = state.copyWith(
+        galleryOnly: false,
+      );
+    }
   }
 
   complete(BuildContext context, int storeId) async {
@@ -186,8 +215,9 @@ class ListingFormProvider extends StateNotifier<Listing> {
       Toast.error('The NFT must be set');
       return;
     }
-    if (!state.enableAuction && !state.enableBuyNow) {
-      Toast.error('Enable at least one of the options (Buy now or Auction)');
+
+    if (!state.enableAuction && !state.enableBuyNow && !state.galleryOnly) {
+      Toast.error('Enable at least one of the options (Gallery, Buy Now, or Auction)');
       return;
     }
 

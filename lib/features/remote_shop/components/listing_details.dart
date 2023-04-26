@@ -42,43 +42,43 @@ class ListingDetails extends BaseComponent {
   final OrganizedListing listing;
   const ListingDetails({super.key, required this.listing});
 
-  @override
-  Widget body(BuildContext context, WidgetRef ref) {
-    final nft = listing.nft;
-    if (nft == null) {
-      return SizedBox.shrink();
-    }
-    return Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _AuctionDataWatcher(listing.id),
-          _Details(nft: nft),
-          _Preview(
-            nft: nft,
-            onPageChange: (i) {
-              ref.read(carouselMemoryProvider(nft.id).notifier).update(i);
-            },
-          ),
-          if (listing.canBuyNow) _BuyNow(listing: listing),
-          _Features(nft: nft),
-          _Properties(nft: nft),
-          _NftDetails(nft: nft),
-          _NftData(nft: nft, listing: listing),
-          const SizedBox(height: 8),
-          if (listing.canBid) _Auction(listing: listing),
-          if (listing.canBuyNow && listing.canBid) SizedBox(height: 16),
-          if (listing.canBuyNow) _BuyNow(listing: listing),
-          _Countdown(listing: listing),
-        ],
-      ),
-    );
-  }
+  // @override
+  // Widget body(BuildContext context, WidgetRef ref) {
+  //   final nft = listing.nft;
+  //   if (nft == null) {
+  //     return SizedBox.shrink();
+  //   }
+  //   return Padding(
+  //     padding: const EdgeInsets.all(12.0),
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       mainAxisSize: MainAxisSize.min,
+  //       children: [
+  //         _AuctionDataWatcher(listing.id),
+  //         _Details(nft: nft),
+  //         _Preview(
+  //           nft: nft,
+  //           onPageChange: (i) {
+  //             ref.read(carouselMemoryProvider(nft.id).notifier).update(i);
+  //           },
+  //         ),
+  //         if (listing.canBuyNow) _BuyNow(listing: listing),
+  //         _Features(nft: nft),
+  //         _Properties(nft: nft),
+  //         _NftDetails(nft: nft),
+  //         _NftData(nft: nft, listing: listing),
+  //         const SizedBox(height: 8),
+  //         if (listing.canBid) _Auction(listing: listing),
+  //         if (listing.canBuyNow && listing.canBid) SizedBox(height: 16),
+  //         if (listing.canBuyNow) _BuyNow(listing: listing),
+  //         _Countdown(listing: listing),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   @override
-  Widget desktopBody(BuildContext context, WidgetRef ref) {
+  Widget body(BuildContext context, WidgetRef ref) {
     final nft = listing.nft;
     if (nft == null) {
       return SizedBox.shrink();
@@ -111,7 +111,7 @@ class ListingDetails extends BaseComponent {
                     _Properties(nft: nft),
                     _QRCode(
                       nft: nft,
-                      size: 200,
+                      size: 150,
                     ),
                   ],
                 ),
@@ -132,7 +132,7 @@ class ListingDetails extends BaseComponent {
                     if (listing.canBuyNow) IntrinsicWidth(child: _BuyNow(listing: listing)),
                     const SizedBox(height: 16),
                     if (listing.canBuyNow || listing.canBid) _Countdown(listing: listing),
-                    if (!listing.hasStarted)
+                    if (!listing.hasStarted && !listing.isGallery)
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
@@ -1156,17 +1156,13 @@ class _QRCode extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "QR Code:",
-            style: Theme.of(context).textTheme.headline5,
-          ),
-          SizedBox(height: 6),
           NftQrCode(
             data: nft.explorerUrl,
             size: size,
             bgColor: Colors.transparent,
             cardPadding: 0,
             withOpen: true,
+            iconButtons: true,
           ),
         ],
       ),
