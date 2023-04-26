@@ -121,6 +121,6 @@ class Listing with _$Listing {
   }
 
   bool get deactivateForSeller {
-    return isAuctionEnded || isSaleComplete;
+    return isAuctionEnded || isSaleComplete || isCancelled;
   }
 }
