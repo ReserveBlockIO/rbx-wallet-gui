@@ -62,6 +62,7 @@ class NftCard extends BaseComponent {
       child: Container(
         decoration: BoxDecoration(
           boxShadow: glowingBox,
+          color: Colors.black,
         ),
         child: InkWell(
           onTap: isBurned || (isTransferred && !manageOnPress)
@@ -70,6 +71,7 @@ class NftCard extends BaseComponent {
                   _showDetails(context, ref);
                 },
           child: Card(
+            margin: EdgeInsets.zero,
             color: Colors.white.withOpacity(0.03),
             child: Stack(
               alignment: Alignment.center,

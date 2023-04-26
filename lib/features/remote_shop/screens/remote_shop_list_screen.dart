@@ -149,6 +149,7 @@ class RemoteShopListScreen extends BaseScreen {
             Expanded(
               child: TextFormField(
                 controller: ref.read(remoteShopSearchProvider.notifier).controller,
+                autofocus: true,
                 decoration: InputDecoration(
                   prefixIcon: Icon(
                     Icons.search,
