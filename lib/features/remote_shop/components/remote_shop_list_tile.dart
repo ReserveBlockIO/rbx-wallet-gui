@@ -77,7 +77,7 @@ class RemoteShopListTile extends BaseComponent {
             }
           }
 
-          if (currentUrl == shop.url) {
+          if (currentUrl == shop.url && isConnected) {
             ref.read(connectedShopProvider.notifier).refresh();
             ref.read(connectedShopProvider.notifier).activateRefreshTimer();
             AutoRouter.of(context).push(RemoteShopDetailScreenRoute(shopUrl: shop.url));

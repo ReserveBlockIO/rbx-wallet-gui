@@ -79,7 +79,6 @@ class ConnectedShopProvider extends StateNotifier<ConnectedShop> {
     if (state.url == null) {
       return;
     }
-    print("checking connection");
 
     final isConnected = await RemoteShopService().checkConnection(state.url!);
 
@@ -99,7 +98,6 @@ class ConnectedShopProvider extends StateNotifier<ConnectedShop> {
   }
 
   refresh([bool showErrors = false]) async {
-    print("Refresh");
     if (!state.isConnected) {
       return;
     }
