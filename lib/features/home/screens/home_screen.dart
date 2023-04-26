@@ -57,53 +57,56 @@ class HomeScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            if (kIsWeb)
-              Text(
-                "Keys",
-                style: Theme.of(context).textTheme.subtitle2,
-              ),
-            if (kIsWeb) const Divider(),
-            if (kIsWeb) const KeygenCta(),
-            if (!kIsWeb)
-              Text(
-                "General Tools",
-                style: Theme.of(context).textTheme.subtitle2,
-              ),
-            if (!kIsWeb) const Divider(),
-            if (!kIsWeb)
-              Wrap(
-                alignment: WrapAlignment.spaceEvenly,
-                spacing: 12.0,
-                runSpacing: 12.0,
-                children: [
-                  const RestartCliButton(),
-                  const HdWalletButton(),
-                  if (ref.watch(walletListProvider).isEmpty) const RestoreHdWalletButton(),
-                  const EncryptWalletButton(),
-                  if (kDebugMode) const ReserveAccountsButton(),
-                  const PrintAdressesButton(),
-                  const PrintValidatorsButton(),
-                  const ValidatingCheckButton(),
-                  const MotherButton(),
-                  const ShowDebugDataButton(),
-                  const OpenDbFolderButton(),
-                  const OpenLogButton(),
-                  const BackupButton(),
-                  if (Env.promptForUpdates) const ImportSnapshotButton(),
-                ],
-              ),
-            const Divider(),
-            const LogWindow(),
-            const Divider(),
-            const TransactionWindow(),
-          ],
+    return Container(
+      color: Colors.black87,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (kIsWeb)
+                Text(
+                  "Keys",
+                  style: Theme.of(context).textTheme.subtitle2,
+                ),
+              if (kIsWeb) const Divider(),
+              if (kIsWeb) const KeygenCta(),
+              if (!kIsWeb)
+                Text(
+                  "General Tools",
+                  style: Theme.of(context).textTheme.subtitle2,
+                ),
+              if (!kIsWeb) const Divider(),
+              if (!kIsWeb)
+                Wrap(
+                  alignment: WrapAlignment.spaceEvenly,
+                  spacing: 12.0,
+                  runSpacing: 12.0,
+                  children: [
+                    const RestartCliButton(),
+                    const HdWalletButton(),
+                    if (ref.watch(walletListProvider).isEmpty) const RestoreHdWalletButton(),
+                    const EncryptWalletButton(),
+                    if (kDebugMode) const ReserveAccountsButton(),
+                    const PrintAdressesButton(),
+                    const PrintValidatorsButton(),
+                    const ValidatingCheckButton(),
+                    const MotherButton(),
+                    const ShowDebugDataButton(),
+                    const OpenDbFolderButton(),
+                    const OpenLogButton(),
+                    const BackupButton(),
+                    if (Env.promptForUpdates) const ImportSnapshotButton(),
+                  ],
+                ),
+              const Divider(),
+              const LogWindow(),
+              const Divider(),
+              const TransactionWindow(),
+            ],
+          ),
         ),
       ),
     );

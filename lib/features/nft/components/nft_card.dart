@@ -57,173 +57,184 @@ class NftCard extends BaseComponent {
     final isBurned = ref.watch(burnedProvider).contains(nft.id);
     final isTransferred = ref.watch(transferredProvider).contains(nft.id);
 
-    return InkWell(
-      onTap: isBurned || (isTransferred && !manageOnPress)
-          ? null
-          : () {
-              _showDetails(context, ref);
-            },
-      child: Card(
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            if (kIsWeb)
-              nft.currentEvolveAssetWeb != null && nft.currentEvolveAssetWeb!.isImage && nft.assetsAvailable
-                  ? AspectRatio(
-                      aspectRatio: 1,
-                      child: Image.network(
-                        nft.currentEvolveAssetWeb!.url,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                      ),
-                    )
-                  : nft.assetsAvailable
-                      ? const Icon(Icons.file_present_outlined)
-                      : const Text("NFT assets have not been transfered to the RBX Web Wallet."),
-            if (!kIsWeb)
-              nft.currentEvolveAsset.isImage
-                  ? AspectRatio(
-                      aspectRatio: 1,
-                      child: nft.currentEvolveAsset.localPath != null
-                          ? PollingImagePreview(
-                              localPath: nft.currentEvolveAsset.localPath!,
-                              expectedSize: nft.currentEvolveAsset.fileSize,
-                              withProgress: false,
-                            )
-                          : const Text(""),
-                    )
-                  : const Icon(Icons.file_present_outlined),
-            Container(
-              color: Colors.black38,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    nft.currentEvolveName,
-                    style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                      shadows: [
-                        const Shadow(
-                          color: Colors.black87,
-                          offset: Offset.zero,
-                          blurRadius: 4.0,
-                        )
-                      ],
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4.0),
-                    child: Text(
-                      nft.id,
-                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                        shadows: [
-                          const Shadow(
-                            color: Colors.black87,
-                            offset: Offset.zero,
-                            blurRadius: 4.0,
-                          )
-                        ],
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Align(
-              alignment: Alignment.topRight,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (manageOnPress)
-                      Builder(builder: (context) {
-                        final nftIds = ref.watch(nftListProvider).data.results.map((n) => n.id).toList();
-
-                        if (nftIds.contains(nft.id)) {
-                          return const SizedBox.shrink();
-                        }
-
-                        return const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: AppBadge(
-                            label: "Transferred",
-                            variant: AppColorVariant.Danger,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          boxShadow: glowingBox,
+          color: Colors.black,
+        ),
+        child: InkWell(
+          onTap: isBurned || (isTransferred && !manageOnPress)
+              ? null
+              : () {
+                  _showDetails(context, ref);
+                },
+          child: Card(
+            margin: EdgeInsets.zero,
+            color: Colors.white.withOpacity(0.03),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                if (kIsWeb)
+                  nft.currentEvolveAssetWeb != null && nft.currentEvolveAssetWeb!.isImage && nft.assetsAvailable
+                      ? AspectRatio(
+                          aspectRatio: 1,
+                          child: Image.network(
+                            nft.currentEvolveAssetWeb!.url,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
                           ),
-                        );
-                      }),
-                    // AppBadge(
-                    //   label: nft.isPublished ? "Minted" : "Minting...",
-                    //   variant: nft.isPublished ? AppColorVariant.Success : AppColorVariant.Warning,
-                    // ),
-                    // const SizedBox(
-                    //   width: 4,
-                    // ),
-                    if (nft.isListed(ref))
-                      Padding(
-                        padding: const EdgeInsets.only(left: 4.0),
-                        child: AppBadge(
-                          label: "Listed",
-                        ),
-                      ),
-                  ],
+                        )
+                      : nft.assetsAvailable
+                          ? const Icon(Icons.file_present_outlined)
+                          : const Text("NFT assets have not been transfered to the RBX Web Wallet."),
+                if (!kIsWeb)
+                  nft.currentEvolveAsset.isImage
+                      ? AspectRatio(
+                          aspectRatio: 1,
+                          child: nft.currentEvolveAsset.localPath != null
+                              ? PollingImagePreview(
+                                  localPath: nft.currentEvolveAsset.localPath!,
+                                  expectedSize: nft.currentEvolveAsset.fileSize,
+                                  withProgress: false,
+                                )
+                              : const Text(""),
+                        )
+                      : const Icon(Icons.file_present_outlined),
+                Container(
+                  color: Colors.black38,
                 ),
-              ),
-            ),
-            if (isBurned)
-              Container(
-                color: Colors.black54,
-                child: const Center(
-                    child: Text(
-                  "Burned",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                )),
-              ),
-            if (isTransferred && !manageOnPress)
-              TransferingOverlay(
-                nft,
-                withLog: true,
-              ),
-            if (nft.isLocked)
-              Align(
-                  alignment: Alignment.bottomRight,
-                  child: Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.red.withOpacity(0.7),
-                        borderRadius: BorderRadius.circular(4.0),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.lock,
-                              size: 16,
-                            ),
-                            SizedBox(
-                              width: 4,
-                            ),
-                            Text(
-                              "NFT Locked",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        nft.currentEvolveName,
+                        style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                          shadows: [
+                            const Shadow(
+                              color: Colors.black87,
+                              offset: Offset.zero,
+                              blurRadius: 4.0,
                             )
                           ],
                         ),
+                        textAlign: TextAlign.center,
                       ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4.0),
+                        child: Text(
+                          nft.id,
+                          style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                            shadows: [
+                              const Shadow(
+                                color: Colors.black87,
+                                offset: Offset.zero,
+                                blurRadius: 4.0,
+                              )
+                            ],
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (manageOnPress)
+                          Builder(builder: (context) {
+                            final nftIds = ref.watch(nftListProvider).data.results.map((n) => n.id).toList();
+
+                            if (nftIds.contains(nft.id)) {
+                              return const SizedBox.shrink();
+                            }
+
+                            return const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: AppBadge(
+                                label: "Transferred",
+                                variant: AppColorVariant.Danger,
+                              ),
+                            );
+                          }),
+                        // AppBadge(
+                        //   label: nft.isPublished ? "Minted" : "Minting...",
+                        //   variant: nft.isPublished ? AppColorVariant.Success : AppColorVariant.Warning,
+                        // ),
+                        // const SizedBox(
+                        //   width: 4,
+                        // ),
+                        if (nft.isListed(ref))
+                          Padding(
+                            padding: const EdgeInsets.only(left: 4.0),
+                            child: AppBadge(
+                              label: "Listed",
+                            ),
+                          ),
+                      ],
                     ),
-                  ))
-          ],
+                  ),
+                ),
+                if (isBurned)
+                  Container(
+                    color: Colors.black54,
+                    child: const Center(
+                        child: Text(
+                      "Burned",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )),
+                  ),
+                if (isTransferred && !manageOnPress)
+                  TransferingOverlay(
+                    nft,
+                    withLog: true,
+                  ),
+                if (nft.isLocked)
+                  Align(
+                      alignment: Alignment.bottomRight,
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.red.withOpacity(0.7),
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.lock,
+                                  size: 16,
+                                ),
+                                SizedBox(
+                                  width: 4,
+                                ),
+                                Text(
+                                  "NFT Locked",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ))
+              ],
+            ),
+          ),
         ),
       ),
     );

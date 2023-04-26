@@ -14,8 +14,7 @@ class LogItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2),
-      child: Container(
-        color: Colors.black12,
+      child: SizedBox(
         width: double.infinity,
         child: Padding(
           padding: const EdgeInsets.all(4.0),

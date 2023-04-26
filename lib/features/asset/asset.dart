@@ -59,6 +59,10 @@ abstract class Asset with _$Asset {
     return extensions.contains(ext.toLowerCase());
   }
 
+  bool get isPdf {
+    return ext.toLowerCase() == "pdf";
+  }
+
   String get fileType {
     switch (ext) {
       case "jpg":

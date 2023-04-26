@@ -11,6 +11,7 @@ class MasternodeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.black54,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -31,11 +32,11 @@ class MasternodeCard extends StatelessWidget {
                     children: [
                       Text(
                         masternode.uniqueName,
-                        style: Theme.of(context).textTheme.headline5,
+                        style: Theme.of(context).textTheme.headline5!.copyWith(color: Colors.white),
                       ),
                       SelectableText(
                         masternode.address,
-                        style: Theme.of(context).textTheme.headline6,
+                        style: Theme.of(context).textTheme.headline6!.copyWith(color: Colors.white),
                       ),
                     ],
                   ),

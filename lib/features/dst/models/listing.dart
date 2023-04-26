@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
+import 'package:rbx_wallet/utils/files.dart';
 
 part 'listing.freezed.dart';
 part 'listing.g.dart';
@@ -58,6 +60,7 @@ class Listing with _$Listing {
     @JsonKey(name: "RequireBalanceCheck") @Default(false) bool requireBalanceCheck,
     @JsonKey(name: "IsAuctionStarted") @Default(false) bool isAuctionStarted,
     @JsonKey(name: "IsAuctionEnded") @Default(false) bool isAuctionEnded,
+    @JsonKey(name: "IsSaleComplete") @Default(false) bool isSaleComplete,
     @JsonKey(name: "FloorPrice") double? floorPrice,
     @JsonKey(name: "ReservePrice") double? reservePrice,
     @JsonKey(name: "StartDate", fromJson: startDateFromJson, toJson: stateDateToJson) required DateTime startDate,
@@ -70,6 +73,7 @@ class Listing with _$Listing {
     @Default(false) @JsonKey(ignore: true) bool enableBuyNow,
     @Default(false) @JsonKey(ignore: true) bool enableAuction,
     @Default(false) @JsonKey(ignore: true) bool enableReservePrice,
+    @Default(false) @JsonKey(ignore: true) bool galleryOnly,
     @JsonKey(ignore: true) Nft? nft,
   }) = _Listing;
 
@@ -105,6 +109,10 @@ class Listing with _$Listing {
   }
 
   String get label {
+    if (isGallery) {
+      return "Gallery Listing";
+    }
+
     final List<String> components = [];
     if (isBuyNow) {
       components.add("Buy Now: $buyNowPrice RBX");
@@ -117,5 +125,53 @@ class Listing with _$Listing {
     }
 
     return components.join(' | ');
+  }
+
+  bool get deactivateForSeller {
+    return isAuctionEnded || isSaleComplete || isCancelled;
+  }
+
+  bool get isGallery {
+    return !isBuyNow && !isAuction;
+  }
+
+  Future<Widget> thumbnail([double size = 32]) async {
+    if (nft == null) {
+      return SizedBox(
+        width: size,
+        height: size,
+      );
+    }
+    final a = nft!.primaryAsset;
+
+    String? filePath;
+
+    String thumbsPath = await assetsPath();
+    thumbsPath = Platform.isMacOS ? "$thumbsPath/${nft!.id.replaceAll(':', '')}/thumbs/" : "$thumbsPath\\${nft!.id.replaceAll(':', '')}\\thumbs\\";
+
+    if (a.isImage) {
+      filePath =
+          "$thumbsPath${a.fileName}".replaceAll(".png", ".jpg").replaceAll(".jpeg", ".jpg").replaceAll(".gif", ".jpg").replaceAll(".webp", ".jpg");
+    } else if (a.isPdf) {
+      filePath = "$thumbsPath${a.fileName.replaceAll('.pdf', '.jpg')}";
+    }
+
+    if (filePath != null && File(filePath).existsSync()) {
+      return Image.file(
+        File(filePath),
+        width: size,
+        height: size,
+      );
+    }
+
+    if (a.isImage && File(a.fixedLocation).existsSync()) {
+      return Image.file(
+        File(a.fixedLocation),
+        width: size,
+        height: size,
+      );
+    }
+
+    return Icon(a.icon);
   }
 }

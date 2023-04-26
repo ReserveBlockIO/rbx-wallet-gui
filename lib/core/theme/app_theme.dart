@@ -104,11 +104,6 @@ class AppTheme {
 
   factory AppTheme.dark() {
     final _themeData = ThemeData(
-      colorScheme: ColorScheme.fromSwatch(
-        brightness: Brightness.dark,
-        primarySwatch: createMaterialColor(_primaryColor),
-        accentColor: _secondaryColor,
-      ),
       textSelectionTheme: const TextSelectionThemeData(cursorColor: _secondaryColor),
       inputDecorationTheme: const InputDecorationTheme(
         labelStyle: TextStyle(color: _secondaryColor),
@@ -122,8 +117,23 @@ class AppTheme {
           borderSide: BorderSide(color: _infoColor),
         ),
       ),
+      scaffoldBackgroundColor: Colors.black,
+      dialogTheme: DialogTheme(
+          backgroundColor: Color(0xff070707),
+          shadowColor: _secondaryColor.withOpacity(0.3),
+          elevation: 4,
+          titleTextStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+          )),
       textTheme: _textTheme(true),
       fontFamily: kIsWeb && HtmlHelpers().getUserAgent().contains('OS 15_') ? '-apple-system' : null,
+      colorScheme: ColorScheme.fromSwatch(
+        brightness: Brightness.dark,
+        primarySwatch: createMaterialColor(_primaryColor),
+        accentColor: _secondaryColor,
+      ).copyWith(background: Colors.black87),
     );
 
     return AppTheme(themeData: _themeData);
@@ -185,4 +195,14 @@ class AppTheme {
         return _colors.dark;
     }
   }
+}
+
+List<BoxShadow> get glowingBox {
+  return [
+    BoxShadow(
+      color: Color(0xFF82e4fb).withOpacity(0.15),
+      spreadRadius: 3,
+      blurRadius: 3,
+    ),
+  ];
 }

@@ -57,6 +57,7 @@ class OrganizedListing with _$OrganizedListing {
     OrganizedAuction? auction,
     @Default([]) List<Bid> bids,
     required String purchaseKey,
+    @Default(false) bool hide,
   }) = _OrganizedListing;
 
   String get familyIdentifier {
@@ -73,7 +74,15 @@ class OrganizedListing with _$OrganizedListing {
     return startDate.isBefore(now);
   }
 
+  bool get isGallery {
+    return floorPrice == null && buyNowPrice == null;
+  }
+
   bool get canBuyNow {
+    if (isGallery) {
+      return false;
+    }
+
     if (auction == null) {
       return false;
     }
@@ -85,6 +94,9 @@ class OrganizedListing with _$OrganizedListing {
   }
 
   bool get canBid {
+    if (isGallery) {
+      return false;
+    }
     if (auction == null) {
       return false;
     }
@@ -158,7 +170,6 @@ class ListingData with _$ListingData {
     @JsonKey(name: "BuyNowPrice") double? buyNowPrice,
     @JsonKey(name: "IsBuyNowOnly") required bool isBuyNowOnly,
     @JsonKey(name: "IsRoyaltyEnforced") required bool isRoyaltyEnforced,
-    @JsonKey(name: "IsCancelled") required bool isCancelled,
     @JsonKey(name: "RequireBalanceCheck") required bool requireBalanceCheck,
     @JsonKey(name: "FloorPrice") double? floorPrice,
     @JsonKey(name: "ReservePrice") double? reservePrice,
@@ -166,6 +177,9 @@ class ListingData with _$ListingData {
     @JsonKey(name: "EndDate") required DateTime endDate,
     @JsonKey(name: "IsVisibleBeforeStartDate") required bool isVisibleBeforeStartDate,
     @JsonKey(name: "IsVisibleAfterEndDate") required bool isVisibleAfterEndDate,
+    @JsonKey(name: "IsAuctionEnded") @Default(false) bool isAuctionEnded,
+    @JsonKey(name: "IsSaleComplete") @Default(false) bool isSaleComplete,
+    @JsonKey(name: "IsCancelled") required bool isCancelled,
     @JsonKey(name: "FinalPrice") double? finalPrice,
     @JsonKey(name: "WinningAddress") String? winningAddress,
     @JsonKey(name: "PurchaseKey") @Default("") String purchaseKey,

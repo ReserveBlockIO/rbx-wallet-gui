@@ -1,8 +1,12 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/features/dst/providers/listing_detail_provider.dart';
 import 'package:rbx_wallet/features/dst/services/dst_service.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
@@ -68,6 +72,7 @@ class ListingFormProvider extends StateNotifier<Listing> {
     state = state.copyWith(
       enableBuyNow: listing.isBuyNow,
       enableAuction: listing.isAuction,
+      galleryOnly: listing.isGallery,
     );
   }
 
@@ -84,6 +89,7 @@ class ListingFormProvider extends StateNotifier<Listing> {
       nft: null,
       smartContractUid: '',
       ownerAddress: '',
+      //TODO: thumbnail
     );
   }
 
@@ -96,6 +102,8 @@ class ListingFormProvider extends StateNotifier<Listing> {
 
     if (isStartDate) {
       startDateController.text = DateFormat.yMd().format(d);
+      endDateController.text = DateFormat.yMd().format(d.copyWith(day: d.day + 14));
+      state = state.copyWith(endDate: d.copyWith(day: d.day + 14));
     } else {
       endDateController.text = DateFormat.yMd().format(d);
     }
@@ -129,6 +137,10 @@ class ListingFormProvider extends StateNotifier<Listing> {
 
   updateEnableBuyOnly(bool enableBuyOnly) {
     state = state.copyWith(enableBuyNow: enableBuyOnly);
+
+    if (enableBuyOnly) {
+      state = state.copyWith(galleryOnly: false);
+    }
   }
 
   updateEnableAuction(bool enableAuction) {
@@ -137,6 +149,9 @@ class ListingFormProvider extends StateNotifier<Listing> {
       return;
     }
     state = state.copyWith(enableAuction: enableAuction);
+    if (enableAuction) {
+      state = state.copyWith(galleryOnly: false);
+    }
   }
 
   updateEnableReservePrice(bool enableReservePrice) {
@@ -147,13 +162,44 @@ class ListingFormProvider extends StateNotifier<Listing> {
     state = state.copyWith(enableReservePrice: enableReservePrice);
   }
 
+  updateGalleryOnly(bool value) {
+    if (state.auctionStarted && state.exists) {
+      Toast.error('The auction has already started.');
+      return;
+    }
+
+    if (value) {
+      state = state.copyWith(
+        galleryOnly: true,
+        enableBuyNow: false,
+        enableAuction: false,
+        enableReservePrice: false,
+        floorPrice: null,
+        buyNowPrice: null,
+        reservePrice: null,
+      );
+
+      buyNowController.clear();
+      floorPriceController.clear();
+      reservePriceController.clear();
+    } else {
+      state = state.copyWith(
+        galleryOnly: false,
+      );
+    }
+  }
+
   complete(BuildContext context, int storeId) async {
     if (!formKey.currentState!.validate()) {
       return;
     }
 
     if (!state.enableAuction) {
-      state = state.copyWith(floorPrice: null, reservePrice: null);
+      state = state.copyWith(
+        floorPrice: null,
+        reservePrice: null,
+        isBuyNowOnly: true,
+      );
     }
 
     if (state.enableAuction && state.reservePrice != null && state.floorPrice != null) {
@@ -176,8 +222,9 @@ class ListingFormProvider extends StateNotifier<Listing> {
       Toast.error('The NFT must be set');
       return;
     }
-    if (!state.enableAuction && !state.enableBuyNow) {
-      Toast.error('Enable at least one of the options (Buy now or Auction)');
+
+    if (!state.enableAuction && !state.enableBuyNow && !state.galleryOnly) {
+      Toast.error('Enable at least one of the options (Gallery, Buy Now, or Auction)');
       return;
     }
 
@@ -224,6 +271,11 @@ class ListingFormProvider extends StateNotifier<Listing> {
   }
 
   delete(BuildContext context, int storeId, Listing listing, [bool shouldPop = true]) async {
+    if (state.auctionStarted && state.exists) {
+      Toast.error("You can't delete this listing because the auction has already started.");
+      return;
+    }
+
     final confirmed = await ConfirmDialog.show(
       title: "Delete Listing",
       body: "Are you sure you want to delete this listing?",

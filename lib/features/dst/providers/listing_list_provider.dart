@@ -12,8 +12,8 @@ class ListingListProvider extends StateNotifier<List<Listing>> {
     load(storeId);
   }
 
-  Future<void> load(int storeId) async {
-    state = await DstService().listListings(storeId);
+  Future<void> load(int collectionId) async {
+    state = await DstService().listListings(collectionId);
   }
 
   void refresh() {

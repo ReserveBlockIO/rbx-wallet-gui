@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
+import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/components/centered_loader.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
@@ -31,7 +32,10 @@ class ListingDetailScreen extends BaseScreen {
           return null;
         }
         return AppBar(
-          title: Text("Listing for ${listing.nft != null ? listing.nft!.name : listing.smartContractUid}"),
+          title: Text(
+            "Listing for ${listing.nft != null ? listing.nft!.name : listing.smartContractUid}",
+          ),
+          backgroundColor: Colors.black,
         );
       },
     );
@@ -53,6 +57,14 @@ class ListingDetailScreen extends BaseScreen {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            if (listing.deactivateForSeller)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AppBadge(
+                  label: "Completed",
+                  variant: AppColorVariant.Warning,
+                ),
+              ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Table(
@@ -79,27 +91,14 @@ class ListingDetailScreen extends BaseScreen {
                             contentPadding: EdgeInsets.zero,
                             title: Text(nft.name),
                             subtitle: Text(nft.id),
-                            leading: Builder(
-                              builder: (context) {
-                                if (nft.currentEvolveAsset.isImage) {
-                                  if (nft.currentEvolveAsset.localPath == null) {
-                                    return const SizedBox(
-                                      width: 64,
-                                      height: 64,
-                                    );
-                                  }
-
-                                  return SizedBox(
-                                    width: 64,
-                                    height: 64,
-                                    child: PollingImagePreview(
-                                      localPath: nft.currentEvolveAsset.localPath!,
-                                      expectedSize: nft.currentEvolveAsset.fileSize,
-                                      withProgress: false,
-                                    ),
-                                  );
+                            leading: FutureBuilder(
+                              future: listing.thumbnail(),
+                              builder: (context, AsyncSnapshot<Widget> snapshot) {
+                                if (snapshot.hasData) {
+                                  return snapshot.data!;
                                 }
-                                return const Icon(Icons.file_present_outlined);
+
+                                return SizedBox();
                               },
                             ),
                           );
@@ -255,15 +254,16 @@ class ListingDetailScreen extends BaseScreen {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    AppButton(
-                      label: 'Edit Listing',
-                      icon: Icons.edit,
-                      variant: AppColorVariant.Light,
-                      onPressed: () {
-                        ref.read(listingFormProvider.notifier).load(listing);
-                        AutoRouter.of(context).push(CreateListingContainerScreenRoute(collectionId: listing.collectionId));
-                      },
-                    ),
+                    if (!listing.deactivateForSeller)
+                      AppButton(
+                        label: 'Edit Listing',
+                        icon: Icons.edit,
+                        variant: AppColorVariant.Light,
+                        onPressed: () {
+                          ref.read(listingFormProvider.notifier).load(listing);
+                          AutoRouter.of(context).push(CreateListingContainerScreenRoute(collectionId: listing.collectionId));
+                        },
+                      ),
                     AppButton(
                       label: 'Delete Listing',
                       variant: AppColorVariant.Danger,

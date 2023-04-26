@@ -70,6 +70,7 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
 
     return Card(
       margin: widget.compact ? EdgeInsets.zero : const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
+      color: Colors.white.withOpacity(0.03),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
