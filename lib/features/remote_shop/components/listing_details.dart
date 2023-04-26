@@ -344,9 +344,9 @@ class _PreviewState extends State<_Preview> {
                                   onTap: () {
                                     Navigator.of(context).pop();
                                   },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: PinchZoom(
+                                  child: Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(16.0),
                                       child: Image.file(
                                         File(path
                                             .replaceAll(".pdf", ".jpg")
@@ -354,9 +354,9 @@ class _PreviewState extends State<_Preview> {
                                             .replaceAll(".jpeg", ".jpg")
                                             .replaceAll(".gif", ".jpg")
                                             .replaceAll(".webp", ".jpg")),
-                                        width: double.infinity,
-                                        height: double.infinity,
                                         fit: BoxFit.contain,
+                                        width: 420,
+                                        height: 420,
                                       ),
                                     ),
                                   ),
