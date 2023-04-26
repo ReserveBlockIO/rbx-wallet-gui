@@ -1272,13 +1272,11 @@ class __AuctionDataWatcherState extends State<_AuctionDataWatcher> {
 
   fetch() async {
     final id = widget.listingId;
-    print("WE fetch... $id");
     RemoteShopService().requestAuctionData(id);
   }
 
   @override
   void dispose() {
-    print('disposed');
     loopTimer.cancel();
     super.dispose();
   }

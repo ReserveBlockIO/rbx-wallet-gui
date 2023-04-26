@@ -9,7 +9,7 @@ import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dar
 import 'package:rbx_wallet/utils/files.dart';
 import 'package:collection/collection.dart';
 
-const MAX_ATTEMPTS = 10;
+const MAX_ATTEMPTS = 3;
 
 Future<DecShop?> getNetworkShop({
   required RemoteShopService service,
@@ -95,18 +95,6 @@ Future<void> requestCollectionsAndListings({
     await service.getText("/GetShopAuctions/$i", cleanPath: false);
     await Future.delayed(Duration(milliseconds: 250));
   }
-
-  // await Future.delayed(Duration(milliseconds: 250));
-  // await service.getText("/GetShopAuctions/0", cleanPath: false);
-
-  //TODO (pagination)
-  // if (shopData != null) {
-  //   /// TODO: better way of doing this + need for collections/listings
-  //   if (shopData.auctions.length >= 10) {
-  //     await getText("/GetShopAuctions/1", cleanPath: false);
-  //   }
-  // }
-  // await Future.delayed(Duration(milliseconds: 1000));
 }
 
 Future<ShopData?> getShopData({required RemoteShopService service, int attempt = 1}) async {
@@ -128,23 +116,7 @@ Future<ShopData?> getShopData({required RemoteShopService service, int attempt =
   return null;
 }
 
-// Future<void> bulkGetNftAssets({required RemoteShopService service, required List<String> scIds}) async {
-//   for (final scId in scIds) {
-//     final requiresDownload = await getNftAssets(service: service, scId: scId);
-//     if (requiresDownload) {
-//       await Future.delayed(Duration(milliseconds: 500));
-//     }
-//   }
-// }
-
 Future<bool> getNftAssets({required RemoteShopService service, required String scId}) async {
-  // String thumbsPath = await assetsPath();
-
-  // thumbsPath = Platform.isMacOS ? "$thumbsPath/${scId.replaceAll(':', '')}/thumbs" : "$thumbsPath\\${scId.replaceAll(':', '')}\\thumbs";
-  // if (Directory(thumbsPath).existsSync()) {
-  //   // print("Thumbs directory exists.");
-  //   return false;
-  // }
   print("Requesting NFTAssets ($scId)");
   try {
     final response = await service.getText("/GetNFTAssets/$scId", cleanPath: false);
@@ -159,25 +131,12 @@ Future<OrganizedShop> organizeShopData({required RemoteShopService service, requ
   final scIds = shopData.listings.map((l) => l.smartContractUid);
   final listingIds = shopData.listings.map((l) => l.id);
 
-  // for (final id in listingIds) {
-  //   await service.getText("/GetShopListingBids/$id", cleanPath: false);
-  //   await Future.delayed(Duration(milliseconds: 250));
-  //   await service.getText("/GetShopListingBids/$id", cleanPath: false);
-  //   await Future.delayed(Duration(milliseconds: 250));
-  //   // print("ID: $id");
-  // }
-
   final Map<String, Nft> nfts = {};
 
   for (final scId in scIds) {
     if (!nfts.containsKey(scId)) {
       Nft? nft = await NftService().getNftData(scId);
       if (nft != null) {
-        // print("Getting NFT: $scId");
-
-        // await getNftAssets(service: service, scId: scId);
-        // await Future.delayed(Duration(milliseconds: 100));
-
         String thumbsPath = await assetsPath();
         thumbsPath = Platform.isMacOS ? "$thumbsPath/${scId.replaceAll(':', '')}/thumbs" : "$thumbsPath\\${scId.replaceAll(':', '')}\\thumbs";
         nfts[scId] = nft.copyWith(thumbsPath: thumbsPath);

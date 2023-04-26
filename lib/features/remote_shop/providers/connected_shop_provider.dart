@@ -157,7 +157,15 @@ class ConnectedShopProvider extends StateNotifier<ConnectedShop> {
 
     if (confirmed == true) {
       ref.read(shopLoadingProvider.notifier).start("Connecting to shop...");
-      await RemoteShopService().connectToShop(myAddress: address, shopUrl: shop.url);
+      final success = await RemoteShopService().connectToShop(myAddress: address, shopUrl: shop.url);
+      if (!success) {
+        ref.read(shopLoadingProvider.notifier).start("Shop is offline.");
+        await Future.delayed(Duration(seconds: 2));
+        ref.read(shopLoadingProvider.notifier).complete();
+        Toast.error("Could not connect to shop because it's offline.");
+        return;
+      }
+
       ref.read(shopLoadingProvider.notifier).start("Connected to ${shop.url}. Fetching data...");
 
       await Future.delayed(Duration(milliseconds: 2500));
