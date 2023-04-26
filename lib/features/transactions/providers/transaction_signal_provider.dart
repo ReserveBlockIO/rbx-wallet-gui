@@ -298,7 +298,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
         TransactionNotification(
           identifier: transaction.hash,
           transaction: transaction,
-          title: "Sale Started ($amount RBX)",
+          title: "Sale Started",
           body: scId,
           color: AppColorVariant.Warning,
         ),
@@ -308,7 +308,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
         TransactionNotification(
           identifier: transaction.hash,
           transaction: transaction,
-          title: "Sale Completed ($amount RBX)",
+          title: "Sale Completed",
           body: scId,
           color: AppColorVariant.Success,
         ),
