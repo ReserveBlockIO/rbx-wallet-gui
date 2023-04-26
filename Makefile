@@ -3,6 +3,9 @@ phony: build_mac, package_mac, build_core
 gen:
 	fvm flutter packages pub run build_runner build --delete-conflicting-outputs
 
+gen_folder:
+	fvm flutter packages pub run build_runner build --build-filter "$(path)/*.dart" 
+
 gen_watch:
 	fvm flutter packages pub run build_runner watch --delete-conflicting-outputs
 
