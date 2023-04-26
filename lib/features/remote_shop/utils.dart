@@ -222,6 +222,7 @@ Future<OrganizedShop> organizeShopData({required RemoteShopService service, requ
                   isVisibleBeforeStartDate: l.isVisibleBeforeStartDate,
                   isVisibleAfterEndDate: l.isVisibleAfterEndDate,
                   purchaseKey: l.purchaseKey,
+                  hide: l.isAuctionEnded || l.isSaleComplete || l.isCancelled,
                   nft: nfts[l.smartContractUid],
                   auction: a != null
                       ? OrganizedAuction(

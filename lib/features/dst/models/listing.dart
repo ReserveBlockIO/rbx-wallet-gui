@@ -58,6 +58,7 @@ class Listing with _$Listing {
     @JsonKey(name: "RequireBalanceCheck") @Default(false) bool requireBalanceCheck,
     @JsonKey(name: "IsAuctionStarted") @Default(false) bool isAuctionStarted,
     @JsonKey(name: "IsAuctionEnded") @Default(false) bool isAuctionEnded,
+    @JsonKey(name: "IsSaleComplete") @Default(false) bool isSaleComplete,
     @JsonKey(name: "FloorPrice") double? floorPrice,
     @JsonKey(name: "ReservePrice") double? reservePrice,
     @JsonKey(name: "StartDate", fromJson: startDateFromJson, toJson: stateDateToJson) required DateTime startDate,
@@ -117,5 +118,9 @@ class Listing with _$Listing {
     }
 
     return components.join(' | ');
+  }
+
+  bool get deactivateForSeller {
+    return isAuctionEnded || isSaleComplete;
   }
 }

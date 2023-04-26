@@ -18,7 +18,7 @@ class FormGroupHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        boxShadow: glowingBox,
+        // boxShadow: glowingBox,
         color: withBg ? Colors.black : Colors.transparent,
       ),
       child: Padding(

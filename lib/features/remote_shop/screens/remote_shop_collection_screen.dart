@@ -85,7 +85,7 @@ class RemoteShopCollectionScreen extends BaseScreen {
       return Center(child: Text("Collection Error"));
     }
 
-    final validListings = collection.listings.where((l) => l.nft != null).toList();
+    final validListings = collection.listings.where((l) => l.nft != null && !l.hide).toList();
 
     return Column(
       children: [

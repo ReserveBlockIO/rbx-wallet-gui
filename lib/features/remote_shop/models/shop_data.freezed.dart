@@ -461,6 +461,7 @@ mixin _$OrganizedListing {
   OrganizedAuction? get auction => throw _privateConstructorUsedError;
   List<Bid> get bids => throw _privateConstructorUsedError;
   String get purchaseKey => throw _privateConstructorUsedError;
+  bool get hide => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $OrganizedListingCopyWith<OrganizedListing> get copyWith =>
@@ -494,7 +495,8 @@ abstract class $OrganizedListingCopyWith<$Res> {
       Nft? nft,
       OrganizedAuction? auction,
       List<Bid> bids,
-      String purchaseKey});
+      String purchaseKey,
+      bool hide});
 
   $NftCopyWith<$Res>? get nft;
   $OrganizedAuctionCopyWith<$Res>? get auction;
@@ -534,6 +536,7 @@ class _$OrganizedListingCopyWithImpl<$Res, $Val extends OrganizedListing>
     Object? auction = freezed,
     Object? bids = null,
     Object? purchaseKey = null,
+    Object? hide = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -620,6 +623,10 @@ class _$OrganizedListingCopyWithImpl<$Res, $Val extends OrganizedListing>
           ? _value.purchaseKey
           : purchaseKey // ignore: cast_nullable_to_non_nullable
               as String,
+      hide: null == hide
+          ? _value.hide
+          : hide // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -677,7 +684,8 @@ abstract class _$$_OrganizedListingCopyWith<$Res>
       Nft? nft,
       OrganizedAuction? auction,
       List<Bid> bids,
-      String purchaseKey});
+      String purchaseKey,
+      bool hide});
 
   @override
   $NftCopyWith<$Res>? get nft;
@@ -717,6 +725,7 @@ class __$$_OrganizedListingCopyWithImpl<$Res>
     Object? auction = freezed,
     Object? bids = null,
     Object? purchaseKey = null,
+    Object? hide = null,
   }) {
     return _then(_$_OrganizedListing(
       id: null == id
@@ -803,6 +812,10 @@ class __$$_OrganizedListingCopyWithImpl<$Res>
           ? _value.purchaseKey
           : purchaseKey // ignore: cast_nullable_to_non_nullable
               as String,
+      hide: null == hide
+          ? _value.hide
+          : hide // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -831,7 +844,8 @@ class _$_OrganizedListing extends _OrganizedListing {
       this.nft,
       this.auction,
       final List<Bid> bids = const [],
-      required this.purchaseKey})
+      required this.purchaseKey,
+      this.hide = false})
       : _bids = bids,
         super._();
 
@@ -884,10 +898,13 @@ class _$_OrganizedListing extends _OrganizedListing {
 
   @override
   final String purchaseKey;
+  @override
+  @JsonKey()
+  final bool hide;
 
   @override
   String toString() {
-    return 'OrganizedListing(id: $id, collectionId: $collectionId, smartContractUid: $smartContractUid, addressOwner: $addressOwner, buyNowPrice: $buyNowPrice, isBuyNowOnly: $isBuyNowOnly, isRoyaltyEnforced: $isRoyaltyEnforced, isCancelled: $isCancelled, requireBalanceCheck: $requireBalanceCheck, floorPrice: $floorPrice, reservePrice: $reservePrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, finalPrice: $finalPrice, winningAddress: $winningAddress, nft: $nft, auction: $auction, bids: $bids, purchaseKey: $purchaseKey)';
+    return 'OrganizedListing(id: $id, collectionId: $collectionId, smartContractUid: $smartContractUid, addressOwner: $addressOwner, buyNowPrice: $buyNowPrice, isBuyNowOnly: $isBuyNowOnly, isRoyaltyEnforced: $isRoyaltyEnforced, isCancelled: $isCancelled, requireBalanceCheck: $requireBalanceCheck, floorPrice: $floorPrice, reservePrice: $reservePrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, finalPrice: $finalPrice, winningAddress: $winningAddress, nft: $nft, auction: $auction, bids: $bids, purchaseKey: $purchaseKey, hide: $hide)';
   }
 
   @override
@@ -932,7 +949,8 @@ class _$_OrganizedListing extends _OrganizedListing {
             (identical(other.auction, auction) || other.auction == auction) &&
             const DeepCollectionEquality().equals(other._bids, _bids) &&
             (identical(other.purchaseKey, purchaseKey) ||
-                other.purchaseKey == purchaseKey));
+                other.purchaseKey == purchaseKey) &&
+            (identical(other.hide, hide) || other.hide == hide));
   }
 
   @override
@@ -958,7 +976,8 @@ class _$_OrganizedListing extends _OrganizedListing {
         nft,
         auction,
         const DeepCollectionEquality().hash(_bids),
-        purchaseKey
+        purchaseKey,
+        hide
       ]);
 
   @JsonKey(ignore: true)
@@ -990,7 +1009,8 @@ abstract class _OrganizedListing extends OrganizedListing {
       final Nft? nft,
       final OrganizedAuction? auction,
       final List<Bid> bids,
-      required final String purchaseKey}) = _$_OrganizedListing;
+      required final String purchaseKey,
+      final bool hide}) = _$_OrganizedListing;
   _OrganizedListing._() : super._();
 
   @override
@@ -1035,6 +1055,8 @@ abstract class _OrganizedListing extends OrganizedListing {
   List<Bid> get bids;
   @override
   String get purchaseKey;
+  @override
+  bool get hide;
   @override
   @JsonKey(ignore: true)
   _$$_OrganizedListingCopyWith<_$_OrganizedListing> get copyWith =>
@@ -1890,8 +1912,6 @@ mixin _$ListingData {
   bool get isBuyNowOnly => throw _privateConstructorUsedError;
   @JsonKey(name: "IsRoyaltyEnforced")
   bool get isRoyaltyEnforced => throw _privateConstructorUsedError;
-  @JsonKey(name: "IsCancelled")
-  bool get isCancelled => throw _privateConstructorUsedError;
   @JsonKey(name: "RequireBalanceCheck")
   bool get requireBalanceCheck => throw _privateConstructorUsedError;
   @JsonKey(name: "FloorPrice")
@@ -1906,6 +1926,12 @@ mixin _$ListingData {
   bool get isVisibleBeforeStartDate => throw _privateConstructorUsedError;
   @JsonKey(name: "IsVisibleAfterEndDate")
   bool get isVisibleAfterEndDate => throw _privateConstructorUsedError;
+  @JsonKey(name: "IsAuctionEnded")
+  bool get isAuctionEnded => throw _privateConstructorUsedError;
+  @JsonKey(name: "IsSaleComplete")
+  bool get isSaleComplete => throw _privateConstructorUsedError;
+  @JsonKey(name: "IsCancelled")
+  bool get isCancelled => throw _privateConstructorUsedError;
   @JsonKey(name: "FinalPrice")
   double? get finalPrice => throw _privateConstructorUsedError;
   @JsonKey(name: "WinningAddress")
@@ -1933,7 +1959,6 @@ abstract class $ListingDataCopyWith<$Res> {
       @JsonKey(name: "BuyNowPrice") double? buyNowPrice,
       @JsonKey(name: "IsBuyNowOnly") bool isBuyNowOnly,
       @JsonKey(name: "IsRoyaltyEnforced") bool isRoyaltyEnforced,
-      @JsonKey(name: "IsCancelled") bool isCancelled,
       @JsonKey(name: "RequireBalanceCheck") bool requireBalanceCheck,
       @JsonKey(name: "FloorPrice") double? floorPrice,
       @JsonKey(name: "ReservePrice") double? reservePrice,
@@ -1941,6 +1966,9 @@ abstract class $ListingDataCopyWith<$Res> {
       @JsonKey(name: "EndDate") DateTime endDate,
       @JsonKey(name: "IsVisibleBeforeStartDate") bool isVisibleBeforeStartDate,
       @JsonKey(name: "IsVisibleAfterEndDate") bool isVisibleAfterEndDate,
+      @JsonKey(name: "IsAuctionEnded") bool isAuctionEnded,
+      @JsonKey(name: "IsSaleComplete") bool isSaleComplete,
+      @JsonKey(name: "IsCancelled") bool isCancelled,
       @JsonKey(name: "FinalPrice") double? finalPrice,
       @JsonKey(name: "WinningAddress") String? winningAddress,
       @JsonKey(name: "PurchaseKey") String purchaseKey});
@@ -1966,7 +1994,6 @@ class _$ListingDataCopyWithImpl<$Res, $Val extends ListingData>
     Object? buyNowPrice = freezed,
     Object? isBuyNowOnly = null,
     Object? isRoyaltyEnforced = null,
-    Object? isCancelled = null,
     Object? requireBalanceCheck = null,
     Object? floorPrice = freezed,
     Object? reservePrice = freezed,
@@ -1974,6 +2001,9 @@ class _$ListingDataCopyWithImpl<$Res, $Val extends ListingData>
     Object? endDate = null,
     Object? isVisibleBeforeStartDate = null,
     Object? isVisibleAfterEndDate = null,
+    Object? isAuctionEnded = null,
+    Object? isSaleComplete = null,
+    Object? isCancelled = null,
     Object? finalPrice = freezed,
     Object? winningAddress = freezed,
     Object? purchaseKey = null,
@@ -2007,10 +2037,6 @@ class _$ListingDataCopyWithImpl<$Res, $Val extends ListingData>
           ? _value.isRoyaltyEnforced
           : isRoyaltyEnforced // ignore: cast_nullable_to_non_nullable
               as bool,
-      isCancelled: null == isCancelled
-          ? _value.isCancelled
-          : isCancelled // ignore: cast_nullable_to_non_nullable
-              as bool,
       requireBalanceCheck: null == requireBalanceCheck
           ? _value.requireBalanceCheck
           : requireBalanceCheck // ignore: cast_nullable_to_non_nullable
@@ -2038,6 +2064,18 @@ class _$ListingDataCopyWithImpl<$Res, $Val extends ListingData>
       isVisibleAfterEndDate: null == isVisibleAfterEndDate
           ? _value.isVisibleAfterEndDate
           : isVisibleAfterEndDate // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isAuctionEnded: null == isAuctionEnded
+          ? _value.isAuctionEnded
+          : isAuctionEnded // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isSaleComplete: null == isSaleComplete
+          ? _value.isSaleComplete
+          : isSaleComplete // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isCancelled: null == isCancelled
+          ? _value.isCancelled
+          : isCancelled // ignore: cast_nullable_to_non_nullable
               as bool,
       finalPrice: freezed == finalPrice
           ? _value.finalPrice
@@ -2071,7 +2109,6 @@ abstract class _$$_ListingDataCopyWith<$Res>
       @JsonKey(name: "BuyNowPrice") double? buyNowPrice,
       @JsonKey(name: "IsBuyNowOnly") bool isBuyNowOnly,
       @JsonKey(name: "IsRoyaltyEnforced") bool isRoyaltyEnforced,
-      @JsonKey(name: "IsCancelled") bool isCancelled,
       @JsonKey(name: "RequireBalanceCheck") bool requireBalanceCheck,
       @JsonKey(name: "FloorPrice") double? floorPrice,
       @JsonKey(name: "ReservePrice") double? reservePrice,
@@ -2079,6 +2116,9 @@ abstract class _$$_ListingDataCopyWith<$Res>
       @JsonKey(name: "EndDate") DateTime endDate,
       @JsonKey(name: "IsVisibleBeforeStartDate") bool isVisibleBeforeStartDate,
       @JsonKey(name: "IsVisibleAfterEndDate") bool isVisibleAfterEndDate,
+      @JsonKey(name: "IsAuctionEnded") bool isAuctionEnded,
+      @JsonKey(name: "IsSaleComplete") bool isSaleComplete,
+      @JsonKey(name: "IsCancelled") bool isCancelled,
       @JsonKey(name: "FinalPrice") double? finalPrice,
       @JsonKey(name: "WinningAddress") String? winningAddress,
       @JsonKey(name: "PurchaseKey") String purchaseKey});
@@ -2102,7 +2142,6 @@ class __$$_ListingDataCopyWithImpl<$Res>
     Object? buyNowPrice = freezed,
     Object? isBuyNowOnly = null,
     Object? isRoyaltyEnforced = null,
-    Object? isCancelled = null,
     Object? requireBalanceCheck = null,
     Object? floorPrice = freezed,
     Object? reservePrice = freezed,
@@ -2110,6 +2149,9 @@ class __$$_ListingDataCopyWithImpl<$Res>
     Object? endDate = null,
     Object? isVisibleBeforeStartDate = null,
     Object? isVisibleAfterEndDate = null,
+    Object? isAuctionEnded = null,
+    Object? isSaleComplete = null,
+    Object? isCancelled = null,
     Object? finalPrice = freezed,
     Object? winningAddress = freezed,
     Object? purchaseKey = null,
@@ -2143,10 +2185,6 @@ class __$$_ListingDataCopyWithImpl<$Res>
           ? _value.isRoyaltyEnforced
           : isRoyaltyEnforced // ignore: cast_nullable_to_non_nullable
               as bool,
-      isCancelled: null == isCancelled
-          ? _value.isCancelled
-          : isCancelled // ignore: cast_nullable_to_non_nullable
-              as bool,
       requireBalanceCheck: null == requireBalanceCheck
           ? _value.requireBalanceCheck
           : requireBalanceCheck // ignore: cast_nullable_to_non_nullable
@@ -2174,6 +2212,18 @@ class __$$_ListingDataCopyWithImpl<$Res>
       isVisibleAfterEndDate: null == isVisibleAfterEndDate
           ? _value.isVisibleAfterEndDate
           : isVisibleAfterEndDate // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isAuctionEnded: null == isAuctionEnded
+          ? _value.isAuctionEnded
+          : isAuctionEnded // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isSaleComplete: null == isSaleComplete
+          ? _value.isSaleComplete
+          : isSaleComplete // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isCancelled: null == isCancelled
+          ? _value.isCancelled
+          : isCancelled // ignore: cast_nullable_to_non_nullable
               as bool,
       finalPrice: freezed == finalPrice
           ? _value.finalPrice
@@ -2209,8 +2259,6 @@ class _$_ListingData extends _ListingData {
           required this.isBuyNowOnly,
       @JsonKey(name: "IsRoyaltyEnforced")
           required this.isRoyaltyEnforced,
-      @JsonKey(name: "IsCancelled")
-          required this.isCancelled,
       @JsonKey(name: "RequireBalanceCheck")
           required this.requireBalanceCheck,
       @JsonKey(name: "FloorPrice")
@@ -2225,6 +2273,12 @@ class _$_ListingData extends _ListingData {
           required this.isVisibleBeforeStartDate,
       @JsonKey(name: "IsVisibleAfterEndDate")
           required this.isVisibleAfterEndDate,
+      @JsonKey(name: "IsAuctionEnded")
+          this.isAuctionEnded = false,
+      @JsonKey(name: "IsSaleComplete")
+          this.isSaleComplete = false,
+      @JsonKey(name: "IsCancelled")
+          required this.isCancelled,
       @JsonKey(name: "FinalPrice")
           this.finalPrice,
       @JsonKey(name: "WinningAddress")
@@ -2258,9 +2312,6 @@ class _$_ListingData extends _ListingData {
   @JsonKey(name: "IsRoyaltyEnforced")
   final bool isRoyaltyEnforced;
   @override
-  @JsonKey(name: "IsCancelled")
-  final bool isCancelled;
-  @override
   @JsonKey(name: "RequireBalanceCheck")
   final bool requireBalanceCheck;
   @override
@@ -2282,6 +2333,15 @@ class _$_ListingData extends _ListingData {
   @JsonKey(name: "IsVisibleAfterEndDate")
   final bool isVisibleAfterEndDate;
   @override
+  @JsonKey(name: "IsAuctionEnded")
+  final bool isAuctionEnded;
+  @override
+  @JsonKey(name: "IsSaleComplete")
+  final bool isSaleComplete;
+  @override
+  @JsonKey(name: "IsCancelled")
+  final bool isCancelled;
+  @override
   @JsonKey(name: "FinalPrice")
   final double? finalPrice;
   @override
@@ -2293,7 +2353,7 @@ class _$_ListingData extends _ListingData {
 
   @override
   String toString() {
-    return 'ListingData(id: $id, collectionId: $collectionId, smartContractUid: $smartContractUid, addressOwner: $addressOwner, buyNowPrice: $buyNowPrice, isBuyNowOnly: $isBuyNowOnly, isRoyaltyEnforced: $isRoyaltyEnforced, isCancelled: $isCancelled, requireBalanceCheck: $requireBalanceCheck, floorPrice: $floorPrice, reservePrice: $reservePrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, finalPrice: $finalPrice, winningAddress: $winningAddress, purchaseKey: $purchaseKey)';
+    return 'ListingData(id: $id, collectionId: $collectionId, smartContractUid: $smartContractUid, addressOwner: $addressOwner, buyNowPrice: $buyNowPrice, isBuyNowOnly: $isBuyNowOnly, isRoyaltyEnforced: $isRoyaltyEnforced, requireBalanceCheck: $requireBalanceCheck, floorPrice: $floorPrice, reservePrice: $reservePrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, isAuctionEnded: $isAuctionEnded, isSaleComplete: $isSaleComplete, isCancelled: $isCancelled, finalPrice: $finalPrice, winningAddress: $winningAddress, purchaseKey: $purchaseKey)';
   }
 
   @override
@@ -2314,8 +2374,6 @@ class _$_ListingData extends _ListingData {
                 other.isBuyNowOnly == isBuyNowOnly) &&
             (identical(other.isRoyaltyEnforced, isRoyaltyEnforced) ||
                 other.isRoyaltyEnforced == isRoyaltyEnforced) &&
-            (identical(other.isCancelled, isCancelled) ||
-                other.isCancelled == isCancelled) &&
             (identical(other.requireBalanceCheck, requireBalanceCheck) ||
                 other.requireBalanceCheck == requireBalanceCheck) &&
             (identical(other.floorPrice, floorPrice) ||
@@ -2330,6 +2388,12 @@ class _$_ListingData extends _ListingData {
                 other.isVisibleBeforeStartDate == isVisibleBeforeStartDate) &&
             (identical(other.isVisibleAfterEndDate, isVisibleAfterEndDate) ||
                 other.isVisibleAfterEndDate == isVisibleAfterEndDate) &&
+            (identical(other.isAuctionEnded, isAuctionEnded) ||
+                other.isAuctionEnded == isAuctionEnded) &&
+            (identical(other.isSaleComplete, isSaleComplete) ||
+                other.isSaleComplete == isSaleComplete) &&
+            (identical(other.isCancelled, isCancelled) ||
+                other.isCancelled == isCancelled) &&
             (identical(other.finalPrice, finalPrice) ||
                 other.finalPrice == finalPrice) &&
             (identical(other.winningAddress, winningAddress) ||
@@ -2340,26 +2404,29 @@ class _$_ListingData extends _ListingData {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      collectionId,
-      smartContractUid,
-      addressOwner,
-      buyNowPrice,
-      isBuyNowOnly,
-      isRoyaltyEnforced,
-      isCancelled,
-      requireBalanceCheck,
-      floorPrice,
-      reservePrice,
-      startDate,
-      endDate,
-      isVisibleBeforeStartDate,
-      isVisibleAfterEndDate,
-      finalPrice,
-      winningAddress,
-      purchaseKey);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        collectionId,
+        smartContractUid,
+        addressOwner,
+        buyNowPrice,
+        isBuyNowOnly,
+        isRoyaltyEnforced,
+        requireBalanceCheck,
+        floorPrice,
+        reservePrice,
+        startDate,
+        endDate,
+        isVisibleBeforeStartDate,
+        isVisibleAfterEndDate,
+        isAuctionEnded,
+        isSaleComplete,
+        isCancelled,
+        finalPrice,
+        winningAddress,
+        purchaseKey
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -2391,8 +2458,6 @@ abstract class _ListingData extends ListingData {
           required final bool isBuyNowOnly,
       @JsonKey(name: "IsRoyaltyEnforced")
           required final bool isRoyaltyEnforced,
-      @JsonKey(name: "IsCancelled")
-          required final bool isCancelled,
       @JsonKey(name: "RequireBalanceCheck")
           required final bool requireBalanceCheck,
       @JsonKey(name: "FloorPrice")
@@ -2407,6 +2472,12 @@ abstract class _ListingData extends ListingData {
           required final bool isVisibleBeforeStartDate,
       @JsonKey(name: "IsVisibleAfterEndDate")
           required final bool isVisibleAfterEndDate,
+      @JsonKey(name: "IsAuctionEnded")
+          final bool isAuctionEnded,
+      @JsonKey(name: "IsSaleComplete")
+          final bool isSaleComplete,
+      @JsonKey(name: "IsCancelled")
+          required final bool isCancelled,
       @JsonKey(name: "FinalPrice")
           final double? finalPrice,
       @JsonKey(name: "WinningAddress")
@@ -2440,9 +2511,6 @@ abstract class _ListingData extends ListingData {
   @JsonKey(name: "IsRoyaltyEnforced")
   bool get isRoyaltyEnforced;
   @override
-  @JsonKey(name: "IsCancelled")
-  bool get isCancelled;
-  @override
   @JsonKey(name: "RequireBalanceCheck")
   bool get requireBalanceCheck;
   @override
@@ -2463,6 +2531,15 @@ abstract class _ListingData extends ListingData {
   @override
   @JsonKey(name: "IsVisibleAfterEndDate")
   bool get isVisibleAfterEndDate;
+  @override
+  @JsonKey(name: "IsAuctionEnded")
+  bool get isAuctionEnded;
+  @override
+  @JsonKey(name: "IsSaleComplete")
+  bool get isSaleComplete;
+  @override
+  @JsonKey(name: "IsCancelled")
+  bool get isCancelled;
   @override
   @JsonKey(name: "FinalPrice")
   double? get finalPrice;

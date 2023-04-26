@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_component.dart';
+import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/asset/polling_image_preview.dart';
@@ -55,7 +56,15 @@ class ListingList extends BaseComponent {
                     },
                   ),
                   title: Text(listing.nft != null ? listing.nft!.name : listing.smartContractUid),
-                  subtitle: Text(listing.label),
+                  subtitle: listing.deactivateForSeller
+                      ? Text(
+                          "Completed",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.warning,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        )
+                      : Text(listing.label),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -81,15 +90,16 @@ class ListingList extends BaseComponent {
                       SizedBox(
                         width: 8,
                       ),
-                      AppButton(
-                        label: "Edit",
-                        variant: AppColorVariant.Light,
-                        onPressed: () async {
-                          final l = await DstService().retreiveListing(listing.id);
-                          ref.read(listingFormProvider.notifier).load(l ?? listing);
-                          AutoRouter.of(context).push(CreateListingContainerScreenRoute(collectionId: listing.collectionId));
-                        },
-                      ),
+                      if (!listing.deactivateForSeller)
+                        AppButton(
+                          label: "Edit",
+                          variant: AppColorVariant.Light,
+                          onPressed: () async {
+                            final l = await DstService().retreiveListing(listing.id);
+                            ref.read(listingFormProvider.notifier).load(l ?? listing);
+                            AutoRouter.of(context).push(CreateListingContainerScreenRoute(collectionId: listing.collectionId));
+                          },
+                        ),
                       SizedBox(
                         width: 8,
                       ),
