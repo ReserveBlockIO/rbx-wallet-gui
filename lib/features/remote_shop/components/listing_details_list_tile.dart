@@ -1,10 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/remote_shop/components/listing_details.dart';
 import 'package:rbx_wallet/features/remote_shop/models/shop_data.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/remote_shop_expanded_listings_provider.dart';
+import 'package:rbx_wallet/utils/files.dart';
 
 class ListingDetailsListTile extends BaseComponent {
   final OrganizedListing listing;
@@ -48,12 +53,120 @@ class ListingDetailsListTile extends BaseComponent {
                     ref.read(remoteShopExpandedListingsProvider.notifier).add(nft.id);
                   }
                 },
+                leading: _Thumbnail(
+                  nft: nft,
+                ),
               ),
             ),
           ),
         ),
         if (isExpanded) ListingDetails(listing: listing),
       ],
+    );
+  }
+}
+
+class _Thumbnail extends StatefulWidget {
+  final Nft nft;
+  const _Thumbnail({
+    super.key,
+    required this.nft,
+  });
+
+  @override
+  State<_Thumbnail> createState() => _ThumbnailState();
+}
+
+class _ThumbnailState extends State<_Thumbnail> {
+  IconData? icon;
+  String? thumbnailPath;
+  bool thumbnailReady = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final filename = widget.nft.primaryAsset.name;
+    final ds = Platform.isMacOS ? "/" : "\\";
+    final path = "${widget.nft.thumbsPath}$ds$filename";
+    final fileType = fileTypeFromPath(path);
+    final extension = path.split(".").last.toLowerCase();
+
+    setState(() {
+      icon = iconFromPath(path);
+    });
+
+    if (fileType == "Image" || extension == "pdf") {
+      final updatedFileName = path
+          .replaceAll(".pdf", ".jpg")
+          .replaceAll(".png", ".jpg")
+          .replaceAll(".jpeg", ".jpg")
+          .replaceAll(".gif", ".jpg")
+          .replaceAll(".webp", ".jpg");
+
+      setState(() {
+        thumbnailPath = updatedFileName;
+      });
+
+      init(path);
+    } else {
+      setState(() {
+        icon = iconFromPath(path);
+      });
+    }
+
+    // init();
+  }
+
+  Future<void> init(String path) async {
+    final updatedFileName =
+        path.replaceAll(".pdf", ".jpg").replaceAll(".png", ".jpg").replaceAll(".jpeg", ".jpg").replaceAll(".gif", ".jpg").replaceAll(".webp", ".jpg");
+
+    final ready = checkSingleFile(updatedFileName);
+
+    if (!ready) {
+      await Future.delayed(Duration(seconds: 1));
+      init(path);
+    } else {
+      setState(() {
+        thumbnailReady = true;
+      });
+    }
+  }
+
+  bool checkSingleFile(String p) {
+    bool ready = true;
+    if (!File(p).existsSync()) {
+      ready = false;
+    } else {
+      if (File(p).lengthSync() < 1) {
+        ready = false;
+      }
+    }
+
+    return ready;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 48,
+      height: 48,
+      child: Builder(builder: (context) {
+        if (thumbnailReady && thumbnailPath != null) {
+          return Image.file(
+            File(thumbnailPath!),
+            width: 48,
+            height: 48,
+          );
+        }
+
+        if (icon != null) {
+          return Icon(icon);
+        }
+
+        return Icon(FontAwesomeIcons.file);
+      }),
     );
   }
 }

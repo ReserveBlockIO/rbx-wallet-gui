@@ -162,6 +162,11 @@ class ListingFormProvider extends StateNotifier<Listing> {
   }
 
   updateGalleryOnly(bool value) {
+    if (state.auctionStarted && state.exists) {
+      Toast.error('The auction has already started.');
+      return;
+    }
+
     if (value) {
       state = state.copyWith(
         galleryOnly: true,
@@ -172,6 +177,7 @@ class ListingFormProvider extends StateNotifier<Listing> {
         buyNowPrice: null,
         reservePrice: null,
       );
+
       buyNowController.clear();
       floorPriceController.clear();
       reservePriceController.clear();
