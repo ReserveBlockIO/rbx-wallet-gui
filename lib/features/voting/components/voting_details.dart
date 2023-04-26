@@ -4,6 +4,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
+import 'package:rbx_wallet/features/voting/providers/vote_list_provider.dart';
+import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/buttons.dart';
@@ -62,6 +64,8 @@ class _VotingDetailsState extends BaseComponentState<VotingDetails> {
         ),
       );
     }
+
+    final includeShowHistoryButton = ref.read(walletListProvider).where((w) => w.address == topic.ownerAddress).toList().isNotEmpty;
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -161,21 +165,23 @@ class _VotingDetailsState extends BaseComponentState<VotingDetails> {
           },
         ),
         const SizedBox(width: 16),
-        AppButton(
-          label: "Show History",
-          onPressed: () async {
-            showModalBottomSheet(
-              isScrollControlled: true,
-              backgroundColor: Colors.black87,
-              context: context,
-              builder: (context) {
-                return VoteListModal(topicUid: topic.uid);
-              },
-            );
-          },
-          type: AppButtonType.Elevated,
-          variant: AppColorVariant.Light,
-        )
+        if (includeShowHistoryButton)
+          AppButton(
+            label: "Show History",
+            onPressed: () async {
+              await ref.read(voteListProvider(topic.uid).notifier).load();
+              showModalBottomSheet(
+                isScrollControlled: true,
+                backgroundColor: Colors.black87,
+                context: context,
+                builder: (context) {
+                  return VoteListModal(topicUid: topic.uid);
+                },
+              );
+            },
+            type: AppButtonType.Elevated,
+            variant: AppColorVariant.Light,
+          )
       ],
     );
   }
