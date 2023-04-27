@@ -9,16 +9,16 @@ environment:
   sdk: ">=2.17.3 <3.0.0"
 
 dependencies:
-  auto_route: ^4.2.0
+  auto_route: ^5.0.4
   cupertino_icons: ^1.0.5
-  dio: 4.0.4
+  dio: ^4.0.6
   flutter:
     sdk: flutter
   flutter_dotenv: ^5.0.2
-  flutter_riverpod: ^1.0.4
+  flutter_riverpod: ^2.3.4
   get_it: ^7.2.0
   intl: ^0.17.0
-  json_annotation: ^4.5.0
+  json_annotation: ^4.8.0
   logger: ^1.1.0
   responsive_framework: ^0.2.0
   shared_preferences: ^2.0.15
@@ -29,7 +29,7 @@ dependencies:
   flutter_window_close: ^0.2.2
   desktop_window: ^0.4.0
   dart_ipify: ^1.1.1
-  flutter_launcher_icons: ^0.9.3
+  flutter_launcher_icons: ^0.11.0
   process: ^4.2.4
   flutter_awesome_select: ^6.4.0
   path_provider: ^2.0.11
@@ -38,9 +38,7 @@ dependencies:
   file_saver: ^0.1.0
   qr_flutter: ^4.0.0
   animate_icons: ^2.0.0
-  gif_view: ^0.1.0
-  open_file: ^3.2.1
-  timezone: ^0.8.0
+  timezone: ^0.9.1
   bip39: ^1.0.6
   bip32: ^2.0.0
   hex: ^0.2.0
@@ -49,7 +47,7 @@ dependencies:
   convert: ^3.0.2
   url_strategy: ^0.2.0
   dart_bip66: ^2.0.1
-  window_manager: ^0.2.5
+  window_manager: ^0.2.7
   secp256k1: ^0.3.0
   stripe_checkout: ^1.0.0
   dots_indicator: ^2.1.0
@@ -63,17 +61,25 @@ dependencies:
   csv: ^5.0.1
   hive: ^2.2.3
   hive_flutter: ^1.1.0
+  flutter_colorpicker: ^1.0.3
+  pausable_timer: ^1.0.0+7
+  context_menus: ^1.0.2
+  infinite_scroll_pagination: ^3.2.0
+  cached_network_image: ^3.2.3
+
+
 
 dev_dependencies:
-  auto_route_generator: ^4.2.0
-  build_runner: 2.1.11
-  flutter_gen_runner: 4.3.0
+  auto_route_generator: ^5.0.3
+  build_runner: ^2.3.2
+  flutter_gen_runner: ^5.2.0
   flutter_lints: ^2.0.1
   flutter_test:
     sdk: flutter
-  freezed: 2.0.3+1
-  json_serializable: ^6.2.0
+  freezed: ^2.3.2
+  json_serializable: ^6.3.1
   msix: ^3.6.2
+  
 
 flutter:
   uses-material-design: true
@@ -86,6 +92,8 @@ flutter:
     - assets/env/
     - assets/fonts/
     - assets/js/
+    - assets/docs/
+    - assets/data/
 
   fonts:
     - family: RobotoMono

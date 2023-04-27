@@ -7,12 +7,12 @@ import '../../providers/create_smart_contract_provider.dart';
 import 'soul_bound.dart';
 
 class SoulBoundFormProvider extends StateNotifier<SoulBound> {
-  final Reader read;
+  final Ref ref;
   late final TextEditingController ownerAddressController;
   late final TextEditingController beneficiaryAddressController;
 
   SoulBoundFormProvider(
-    this.read, [
+    this.ref, [
     SoulBound model = const SoulBound(),
   ]) : super(model) {
     ownerAddressController = TextEditingController(text: model.ownerAddress);
@@ -36,7 +36,7 @@ class SoulBoundFormProvider extends StateNotifier<SoulBound> {
     final beneficaryAddress = beneficiaryAddressController.text.trim();
 
     state = state.copyWith(ownerAddress: ownerAddress, beneficiaryAddress: beneficaryAddress == "" ? null : beneficaryAddress);
-    read(createSmartContractProvider.notifier).saveSoulBound(state);
+    ref.read(createSmartContractProvider.notifier).saveSoulBound(state);
 
     clear();
   }
@@ -50,5 +50,5 @@ class SoulBoundFormProvider extends StateNotifier<SoulBound> {
 }
 
 final soulBoundFormProvider = StateNotifierProvider<SoulBoundFormProvider, SoulBound>(
-  (ref) => SoulBoundFormProvider(ref.read),
+  (ref) => SoulBoundFormProvider(ref),
 );

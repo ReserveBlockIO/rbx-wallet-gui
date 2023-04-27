@@ -1,9 +1,14 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_route/empty_router_widgets.dart';
 import 'package:rbx_wallet/features/adnr/screens/web_adnr_screen.dart';
+import 'package:rbx_wallet/features/dsts_legacy/screens/create_store_screen.dart';
+import 'package:rbx_wallet/features/dsts_legacy/screens/web_dst_screen.dart';
+import 'package:rbx_wallet/features/web_shop/screens/web_shop_container_screen.dart';
+import 'package:rbx_wallet/features/web_shop/components/web_shop_list.dart';
 
 import '../features/auth/screens/web_auth_screen.dart';
-import '../features/dsts/screens/create_store_screen.dart';
-import '../features/dsts/screens/web_dst_screen.dart';
+// import '../features/dsts/screens/create_store_screen.dart';
+// import '../features/dsts/screens/web_dst_screen.dart';
 import '../features/home/screens/web_home_screen.dart';
 import '../features/nft/screens/nft_detail_screen.dart';
 import '../features/nft/screens/nft_list_screen.dart';
@@ -19,6 +24,14 @@ import '../features/store/screens/store_listing_screen.dart';
 import '../features/store/screens/store_screen.dart';
 import '../features/transactions/screens/web_transaction_detail_screen.dart';
 import '../features/transactions/screens/web_transactions_screen.dart';
+import '../features/web_shop/screens/create_web_listing_screen.dart';
+import '../features/web_shop/screens/create_web_shop_container_screen.dart';
+import '../features/web_shop/screens/my_web_shops_list_screen.dart';
+import '../features/web_shop/screens/web_collection_detail_screen.dart';
+import '../features/web_shop/screens/web_listing_detail_screen.dart';
+import '../features/web_shop/screens/web_shop_detail_screen.dart';
+import '../features/web_shop/screens/web_shop_landing_screen.dart';
+import '../features/web_shop/screens/web_shop_list_screen.dart';
 
 const List<AutoRoute> webRoutes = [
   // AutoRoute(initial: true, path: "", name: "WebAuthRoute", page: WebAuthScreen),
@@ -116,6 +129,46 @@ const webDashboardTabRouter = AutoRoute(
         AutoRoute(path: "create/:accountId", page: CreateStoreScreen),
         AutoRoute(path: "store/:slug", page: StoreScreen),
         AutoRoute(path: "store/:storeId/create-listing", page: CreateListingScreen),
+      ],
+    ),
+    AutoRoute(
+      path: 'p2p',
+      name: "WebShopTabRouter",
+      page: WebShopContainerScreen,
+      children: [
+        AutoRoute(
+          initial: true,
+          path: "",
+          page: WebShopLandingScreen,
+        ),
+        AutoRoute(
+          path: "shops",
+          page: WebShopListScreen,
+        ),
+        AutoRoute(
+          path: "mine",
+          page: MyWebShopListScreen,
+        ),
+        AutoRoute(
+          path: "createWebShop",
+          page: CreateWebShopContainerScreen,
+        ),
+        AutoRoute(
+          path: "shop/:shopId/collection/:collectionId/createWebListing",
+          page: CreateWebListingScreen,
+        ),
+        AutoRoute(
+          path: "shop/:shopId",
+          page: WebShopDetailScreen,
+        ),
+        AutoRoute(
+          path: "shop/:shopId/collection/:collectionId",
+          page: WebCollectionDetailScreen,
+        ),
+        AutoRoute(
+          path: "shop/:shopId/collection/:collectionId/listing/:listingId",
+          page: WebListingDetailScreen,
+        ),
       ],
     ),
   ],

@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'soul_bound.dart';
 
@@ -34,7 +34,8 @@ mixin _$SoulBound {
 /// @nodoc
 abstract class $SoulBoundCopyWith<$Res> {
   factory $SoulBoundCopyWith(SoulBound value, $Res Function(SoulBound) then) =
-      _$SoulBoundCopyWithImpl<$Res>;
+      _$SoulBoundCopyWithImpl<$Res, SoulBound>;
+  @useResult
   $Res call(
       {String id,
       double amount,
@@ -43,38 +44,41 @@ abstract class $SoulBoundCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$SoulBoundCopyWithImpl<$Res> implements $SoulBoundCopyWith<$Res> {
+class _$SoulBoundCopyWithImpl<$Res, $Val extends SoulBound>
+    implements $SoulBoundCopyWith<$Res> {
   _$SoulBoundCopyWithImpl(this._value, this._then);
 
-  final SoulBound _value;
   // ignore: unused_field
-  final $Res Function(SoulBound) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? amount = freezed,
-    Object? ownerAddress = freezed,
+    Object? id = null,
+    Object? amount = null,
+    Object? ownerAddress = null,
     Object? beneficiaryAddress = freezed,
   }) {
     return _then(_value.copyWith(
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      amount: amount == freezed
+      amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as double,
-      ownerAddress: ownerAddress == freezed
+      ownerAddress: null == ownerAddress
           ? _value.ownerAddress
           : ownerAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      beneficiaryAddress: beneficiaryAddress == freezed
+      beneficiaryAddress: freezed == beneficiaryAddress
           ? _value.beneficiaryAddress
           : beneficiaryAddress // ignore: cast_nullable_to_non_nullable
               as String?,
-    ));
+    ) as $Val);
   }
 }
 
@@ -84,6 +88,7 @@ abstract class _$$_SoulBoundCopyWith<$Res> implements $SoulBoundCopyWith<$Res> {
           _$_SoulBound value, $Res Function(_$_SoulBound) then) =
       __$$_SoulBoundCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String id,
       double amount,
@@ -92,36 +97,35 @@ abstract class _$$_SoulBoundCopyWith<$Res> implements $SoulBoundCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_SoulBoundCopyWithImpl<$Res> extends _$SoulBoundCopyWithImpl<$Res>
+class __$$_SoulBoundCopyWithImpl<$Res>
+    extends _$SoulBoundCopyWithImpl<$Res, _$_SoulBound>
     implements _$$_SoulBoundCopyWith<$Res> {
   __$$_SoulBoundCopyWithImpl(
       _$_SoulBound _value, $Res Function(_$_SoulBound) _then)
-      : super(_value, (v) => _then(v as _$_SoulBound));
+      : super(_value, _then);
 
-  @override
-  _$_SoulBound get _value => super._value as _$_SoulBound;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? amount = freezed,
-    Object? ownerAddress = freezed,
+    Object? id = null,
+    Object? amount = null,
+    Object? ownerAddress = null,
     Object? beneficiaryAddress = freezed,
   }) {
     return _then(_$_SoulBound(
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      amount: amount == freezed
+      amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as double,
-      ownerAddress: ownerAddress == freezed
+      ownerAddress: null == ownerAddress
           ? _value.ownerAddress
           : ownerAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      beneficiaryAddress: beneficiaryAddress == freezed
+      beneficiaryAddress: freezed == beneficiaryAddress
           ? _value.beneficiaryAddress
           : beneficiaryAddress // ignore: cast_nullable_to_non_nullable
               as String?,
@@ -164,31 +168,30 @@ class _$_SoulBound extends _SoulBound {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_SoulBound &&
-            const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.amount, amount) &&
-            const DeepCollectionEquality()
-                .equals(other.ownerAddress, ownerAddress) &&
-            const DeepCollectionEquality()
-                .equals(other.beneficiaryAddress, beneficiaryAddress));
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.ownerAddress, ownerAddress) ||
+                other.ownerAddress == ownerAddress) &&
+            (identical(other.beneficiaryAddress, beneficiaryAddress) ||
+                other.beneficiaryAddress == beneficiaryAddress));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(amount),
-      const DeepCollectionEquality().hash(ownerAddress),
-      const DeepCollectionEquality().hash(beneficiaryAddress));
+  int get hashCode =>
+      Object.hash(runtimeType, id, amount, ownerAddress, beneficiaryAddress);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_SoulBoundCopyWith<_$_SoulBound> get copyWith =>
       __$$_SoulBoundCopyWithImpl<_$_SoulBound>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_SoulBoundToJson(this);
+    return _$$_SoulBoundToJson(
+      this,
+    );
   }
 }
 
@@ -204,13 +207,13 @@ abstract class _SoulBound extends SoulBound {
       _$_SoulBound.fromJson;
 
   @override
-  String get id => throw _privateConstructorUsedError;
+  String get id;
   @override
-  double get amount => throw _privateConstructorUsedError;
+  double get amount;
   @override
-  String get ownerAddress => throw _privateConstructorUsedError;
+  String get ownerAddress;
   @override
-  String? get beneficiaryAddress => throw _privateConstructorUsedError;
+  String? get beneficiaryAddress;
   @override
   @JsonKey(ignore: true)
   _$$_SoulBoundCopyWith<_$_SoulBound> get copyWith =>

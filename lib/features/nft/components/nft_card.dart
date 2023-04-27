@@ -68,16 +68,16 @@ class NftCard extends BaseComponent {
           alignment: Alignment.center,
           children: [
             if (kIsWeb)
-              nft.currentEvolveAssetWeb != null && nft.currentEvolveAssetWeb!.isImage && nft.assetsAvailable
+              nft.currentEvolveAssetWeb != null && nft.currentEvolveAssetWeb!.isImage
                   ? AspectRatio(
                       aspectRatio: 1,
                       child: Image.network(
-                        nft.currentEvolveAssetWeb!.url,
+                        nft.currentEvolveAssetWeb!.location,
                         width: double.infinity,
                         fit: BoxFit.cover,
                       ),
                     )
-                  : nft.assetsAvailable
+                  : nft.primaryAssetWeb != null
                       ? const Icon(Icons.file_present_outlined)
                       : const Text("NFT assets have not been transfered to the RBX Web Wallet."),
             if (!kIsWeb)
@@ -164,13 +164,13 @@ class NftCard extends BaseComponent {
                     // const SizedBox(
                     //   width: 4,
                     // ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 4.0),
-                      child: AppBadge(
-                        label: nft.isPublic ? "Public" : "Private",
-                        variant: nft.isPublic ? AppColorVariant.Success : AppColorVariant.Primary,
+                    if (nft.isListed(ref))
+                      Padding(
+                        padding: const EdgeInsets.only(left: 4.0),
+                        child: AppBadge(
+                          label: "Listed",
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ),
@@ -191,7 +191,38 @@ class NftCard extends BaseComponent {
               TransferingOverlay(
                 nft,
                 withLog: true,
-              )
+              ),
+            if (nft.isLocked)
+              Align(
+                  alignment: Alignment.bottomRight,
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.red.withOpacity(0.7),
+                        borderRadius: BorderRadius.circular(4.0),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.lock,
+                              size: 16,
+                            ),
+                            SizedBox(
+                              width: 4,
+                            ),
+                            Text(
+                              "NFT Locked",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ))
           ],
         ),
       ),

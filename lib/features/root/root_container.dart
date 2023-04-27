@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/validator/components/validating_status.dart';
@@ -36,9 +37,11 @@ class RootContainer extends BaseComponent {
       const AdnrTabRouter(),
       const VotingTabRouter(),
       const BeaconTabRouter(),
+      if (kDebugMode) const DebugWebShopTabsRouter(),
     ];
 
     return AutoTabsScaffold(
+      backgroundColor: Colors.black87,
       scaffoldKey: rootScaffoldKey,
       routes: routes,
       builder: (context, child, animated) {
@@ -50,12 +53,12 @@ class RootContainer extends BaseComponent {
                 if (Env.isTestNet)
                   Container(
                     width: double.infinity,
-                    color: Colors.green.shade800,
+                    color: Colors.green.shade900,
                     child: const Padding(
                       padding: EdgeInsets.all(4.0),
                       child: Center(
                         child: Text(
-                          "RBX TEST NET",
+                          "RBX TESTNET",
                           style: TextStyle(
                             fontSize: 12,
                             letterSpacing: 1,
@@ -126,11 +129,23 @@ class RootContainer extends BaseComponent {
                 Expanded(
                   child: Row(
                     children: [
-                      Container(color: Colors.black, height: double.infinity, child: MainMenu()),
+                      Container(
+                        color: Colors.black,
+                        height: double.infinity,
+                        child: MainMenu(),
+                      ),
                       Expanded(
                           child: Column(
                         children: [
-                          Expanded(child: Container(clipBehavior: Clip.antiAlias, decoration: const BoxDecoration(), child: child)),
+                          Expanded(
+                            child: Container(
+                              clipBehavior: Clip.antiAlias,
+                              decoration: const BoxDecoration(
+                                color: Colors.black87,
+                              ),
+                              child: child,
+                            ),
+                          ),
                           const Footer(),
                         ],
                       )),
@@ -143,7 +158,7 @@ class RootContainer extends BaseComponent {
             Consumer(builder: (context, ref, _) {
               return ref.watch(startupPasswordRequiredProvider)
                   ? UnlockWallet(
-                      read: ref.read,
+                      ref: ref,
                     )
                   : const SizedBox.shrink();
             })

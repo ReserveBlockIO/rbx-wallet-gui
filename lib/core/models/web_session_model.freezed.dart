@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'web_session_model.dart';
 
@@ -37,7 +37,8 @@ mixin _$WebSessionModel {
 abstract class $WebSessionModelCopyWith<$Res> {
   factory $WebSessionModelCopyWith(
           WebSessionModel value, $Res Function(WebSessionModel) then) =
-      _$WebSessionModelCopyWithImpl<$Res>;
+      _$WebSessionModelCopyWithImpl<$Res, WebSessionModel>;
+  @useResult
   $Res call(
       {Keypair? keypair,
       double? balance,
@@ -50,59 +51,62 @@ abstract class $WebSessionModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$WebSessionModelCopyWithImpl<$Res>
+class _$WebSessionModelCopyWithImpl<$Res, $Val extends WebSessionModel>
     implements $WebSessionModelCopyWith<$Res> {
   _$WebSessionModelCopyWithImpl(this._value, this._then);
 
-  final WebSessionModel _value;
   // ignore: unused_field
-  final $Res Function(WebSessionModel) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? keypair = freezed,
     Object? balance = freezed,
     Object? adnr = freezed,
-    Object? isAuthenticated = freezed,
-    Object? timezoneName = freezed,
-    Object? rememberMe = freezed,
+    Object? isAuthenticated = null,
+    Object? timezoneName = null,
+    Object? rememberMe = null,
   }) {
     return _then(_value.copyWith(
-      keypair: keypair == freezed
+      keypair: freezed == keypair
           ? _value.keypair
           : keypair // ignore: cast_nullable_to_non_nullable
               as Keypair?,
-      balance: balance == freezed
+      balance: freezed == balance
           ? _value.balance
           : balance // ignore: cast_nullable_to_non_nullable
               as double?,
-      adnr: adnr == freezed
+      adnr: freezed == adnr
           ? _value.adnr
           : adnr // ignore: cast_nullable_to_non_nullable
               as String?,
-      isAuthenticated: isAuthenticated == freezed
+      isAuthenticated: null == isAuthenticated
           ? _value.isAuthenticated
           : isAuthenticated // ignore: cast_nullable_to_non_nullable
               as bool,
-      timezoneName: timezoneName == freezed
+      timezoneName: null == timezoneName
           ? _value.timezoneName
           : timezoneName // ignore: cast_nullable_to_non_nullable
               as String,
-      rememberMe: rememberMe == freezed
+      rememberMe: null == rememberMe
           ? _value.rememberMe
           : rememberMe // ignore: cast_nullable_to_non_nullable
               as bool,
-    ));
+    ) as $Val);
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $KeypairCopyWith<$Res>? get keypair {
     if (_value.keypair == null) {
       return null;
     }
 
     return $KeypairCopyWith<$Res>(_value.keypair!, (value) {
-      return _then(_value.copyWith(keypair: value));
+      return _then(_value.copyWith(keypair: value) as $Val);
     });
   }
 }
@@ -114,6 +118,7 @@ abstract class _$$_WebSessionModelCopyWith<$Res>
           _$_WebSessionModel value, $Res Function(_$_WebSessionModel) then) =
       __$$_WebSessionModelCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {Keypair? keypair,
       double? balance,
@@ -128,46 +133,44 @@ abstract class _$$_WebSessionModelCopyWith<$Res>
 
 /// @nodoc
 class __$$_WebSessionModelCopyWithImpl<$Res>
-    extends _$WebSessionModelCopyWithImpl<$Res>
+    extends _$WebSessionModelCopyWithImpl<$Res, _$_WebSessionModel>
     implements _$$_WebSessionModelCopyWith<$Res> {
   __$$_WebSessionModelCopyWithImpl(
       _$_WebSessionModel _value, $Res Function(_$_WebSessionModel) _then)
-      : super(_value, (v) => _then(v as _$_WebSessionModel));
+      : super(_value, _then);
 
-  @override
-  _$_WebSessionModel get _value => super._value as _$_WebSessionModel;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? keypair = freezed,
     Object? balance = freezed,
     Object? adnr = freezed,
-    Object? isAuthenticated = freezed,
-    Object? timezoneName = freezed,
-    Object? rememberMe = freezed,
+    Object? isAuthenticated = null,
+    Object? timezoneName = null,
+    Object? rememberMe = null,
   }) {
     return _then(_$_WebSessionModel(
-      keypair: keypair == freezed
+      keypair: freezed == keypair
           ? _value.keypair
           : keypair // ignore: cast_nullable_to_non_nullable
               as Keypair?,
-      balance: balance == freezed
+      balance: freezed == balance
           ? _value.balance
           : balance // ignore: cast_nullable_to_non_nullable
               as double?,
-      adnr: adnr == freezed
+      adnr: freezed == adnr
           ? _value.adnr
           : adnr // ignore: cast_nullable_to_non_nullable
               as String?,
-      isAuthenticated: isAuthenticated == freezed
+      isAuthenticated: null == isAuthenticated
           ? _value.isAuthenticated
           : isAuthenticated // ignore: cast_nullable_to_non_nullable
               as bool,
-      timezoneName: timezoneName == freezed
+      timezoneName: null == timezoneName
           ? _value.timezoneName
           : timezoneName // ignore: cast_nullable_to_non_nullable
               as String,
-      rememberMe: rememberMe == freezed
+      rememberMe: null == rememberMe
           ? _value.rememberMe
           : rememberMe // ignore: cast_nullable_to_non_nullable
               as bool,
@@ -216,36 +219,33 @@ class _$_WebSessionModel extends _WebSessionModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_WebSessionModel &&
-            const DeepCollectionEquality().equals(other.keypair, keypair) &&
-            const DeepCollectionEquality().equals(other.balance, balance) &&
-            const DeepCollectionEquality().equals(other.adnr, adnr) &&
-            const DeepCollectionEquality()
-                .equals(other.isAuthenticated, isAuthenticated) &&
-            const DeepCollectionEquality()
-                .equals(other.timezoneName, timezoneName) &&
-            const DeepCollectionEquality()
-                .equals(other.rememberMe, rememberMe));
+            (identical(other.keypair, keypair) || other.keypair == keypair) &&
+            (identical(other.balance, balance) || other.balance == balance) &&
+            (identical(other.adnr, adnr) || other.adnr == adnr) &&
+            (identical(other.isAuthenticated, isAuthenticated) ||
+                other.isAuthenticated == isAuthenticated) &&
+            (identical(other.timezoneName, timezoneName) ||
+                other.timezoneName == timezoneName) &&
+            (identical(other.rememberMe, rememberMe) ||
+                other.rememberMe == rememberMe));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(keypair),
-      const DeepCollectionEquality().hash(balance),
-      const DeepCollectionEquality().hash(adnr),
-      const DeepCollectionEquality().hash(isAuthenticated),
-      const DeepCollectionEquality().hash(timezoneName),
-      const DeepCollectionEquality().hash(rememberMe));
+  int get hashCode => Object.hash(runtimeType, keypair, balance, adnr,
+      isAuthenticated, timezoneName, rememberMe);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_WebSessionModelCopyWith<_$_WebSessionModel> get copyWith =>
       __$$_WebSessionModelCopyWithImpl<_$_WebSessionModel>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_WebSessionModelToJson(this);
+    return _$$_WebSessionModelToJson(
+      this,
+    );
   }
 }
 
@@ -263,17 +263,17 @@ abstract class _WebSessionModel extends WebSessionModel {
       _$_WebSessionModel.fromJson;
 
   @override
-  Keypair? get keypair => throw _privateConstructorUsedError;
+  Keypair? get keypair;
   @override
-  double? get balance => throw _privateConstructorUsedError;
+  double? get balance;
   @override
-  String? get adnr => throw _privateConstructorUsedError;
+  String? get adnr;
   @override
-  bool get isAuthenticated => throw _privateConstructorUsedError;
+  bool get isAuthenticated;
   @override
-  String get timezoneName => throw _privateConstructorUsedError;
+  String get timezoneName;
   @override
-  bool get rememberMe => throw _privateConstructorUsedError;
+  bool get rememberMe;
   @override
   @JsonKey(ignore: true)
   _$$_WebSessionModelCopyWith<_$_WebSessionModel> get copyWith =>

@@ -46,10 +46,11 @@ abstract class Feature with _$Feature {
     switch (f['FeatureName']) {
       case Evolve.compilerEnum:
         final payload = {'phases': f['FeatureFeatures']};
-        return Feature(
+        final data = Feature(
           type: FeatureType.evolution,
           data: Evolve.fromCompiler(payload).toJson(),
         );
+        return data;
       case Royalty.compilerEnum:
         return Feature(
           type: FeatureType.royalty,
@@ -193,7 +194,7 @@ abstract class Feature with _$Feature {
       case FeatureType.fractionalization:
         return "Fractionalization";
       case FeatureType.pair:
-        return "Pair or Wrap with Existing NFT";
+        return "Mint a physical or Real World Asset";
       case FeatureType.soulBound:
         return "Soul Bound";
       case FeatureType.notImplemented:

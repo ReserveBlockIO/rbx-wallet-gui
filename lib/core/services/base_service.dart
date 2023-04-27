@@ -26,10 +26,10 @@ class BaseService {
         ? {
             HttpHeaders.contentTypeHeader: "application/json",
             HttpHeaders.acceptHeader: "application/json",
-            ...!kIsWeb ? {'apitoken': token} : {},
+            ...!kIsWeb && !Env.isTestNet ? {'apitoken': token} : {},
           }
         : {
-            ...!kIsWeb ? {'apitoken': token} : {},
+            ...!kIsWeb && !Env.isTestNet ? {'apitoken': token} : {},
           };
   }
 
@@ -43,11 +43,13 @@ class BaseService {
       host = hostOverride!;
     }
 
-    final baseUrl = apiBasePathOverride == null ? host : host.replaceAll("/api/V1", apiBasePathOverride!);
+    final baseUrl = apiBasePathOverride == null
+        ? host
+        : host.replaceAll("/api/V1", apiBasePathOverride!);
     return BaseOptions(
       baseUrl: baseUrl,
       headers: _headers(auth, json),
-      connectTimeout: 10000,
+      connectTimeout: timeout,
       receiveTimeout: timeout,
     );
   }
@@ -67,12 +69,15 @@ class BaseService {
     bool cleanPath = true,
     int timeout = 30000,
     bool inspect = false,
+    bool preventError = false,
   }) async {
     try {
       final dio = Dio(_options(auth: auth, timeout: timeout));
       if (!kIsWeb) {
-        (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
-          client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+        (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+            (HttpClient client) {
+          client.badCertificateCallback =
+              (X509Certificate cert, String host, int port) => true;
           return client;
         };
       }
@@ -86,9 +91,18 @@ class BaseService {
         queryParameters: params,
       );
 
-      return response.data;
-    } catch (e) {
-      rethrow;
+      if (response.data != null) {
+        return response.data.toString();
+      }
+
+      return response.toString();
+    } catch (e, st) {
+      print(e);
+      print(st);
+      if (!preventError) {
+        rethrow;
+      }
+      return "";
     }
   }
 
@@ -104,8 +118,10 @@ class BaseService {
     try {
       final dio = Dio(_options(auth: auth, timeout: timeout));
       if (!kIsWeb) {
-        (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
-          client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+        (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+            (HttpClient client) {
+          client.badCertificateCallback =
+              (X509Certificate cert, String host, int port) => true;
           return client;
         };
       }
@@ -145,12 +161,15 @@ class BaseService {
     bool responseIsJson = false,
     int timeout = 30000,
     bool inspect = false,
+    bool cleanPath = true,
   }) async {
     try {
       final dio = Dio(_options(auth: auth, json: true, timeout: timeout));
       if (!kIsWeb) {
-        (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
-          client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+        (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+            (HttpClient client) {
+          client.badCertificateCallback =
+              (X509Certificate cert, String host, int port) => true;
           return client;
         };
       }
@@ -158,11 +177,12 @@ class BaseService {
         NetworkInspector.attach(dio);
       }
       var response = await dio.post(
-        _cleanPath(path),
+        cleanPath ? _cleanPath(path) : path,
         data: params,
       );
 
-      final data = responseIsJson ? response.data : jsonDecode(response.toString());
+      final data =
+          responseIsJson ? response.data : jsonDecode(response.toString());
 
       return {'data': data};
 
@@ -183,31 +203,69 @@ class BaseService {
     }
   }
 
-  // Future<Map<String, dynamic>> patchHttp(
-  //   String path, {
-  //   Map<String, dynamic> params = const {},
-  //   bool auth = true,
-  // }) async {
-  //   try {
-  //     var response = await Dio(_options(auth: auth)).patch(
-  //       _cleanPath(path),
-  //       data: params,
-  //     );
-  //     if (response.statusCode == 204) {
-  //       return {};
-  //     }
-  //     if (response.data == null) {
-  //       return {};
-  //     }
-  //     if (response.data.runtimeType == String) {
-  //       return {};
-  //     }
+  Future<Map<String, dynamic>> patchJson(
+    String path, {
+    Map<String, dynamic> params = const {},
+    bool auth = true,
+    bool responseIsJson = false,
+    int timeout = 30000,
+    bool inspect = false,
+    bool cleanPath = true,
+  }) async {
+    try {
+      final dio = Dio(_options(auth: auth, json: true, timeout: timeout));
+      if (!kIsWeb) {
+        (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
+          client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+          return client;
+        };
+      }
+      if (inspect) {
+        NetworkInspector.attach(dio);
+      }
+      var response = await dio.patch(
+        cleanPath ? _cleanPath(path) : path,
+        data: params,
+      );
 
-  //     return response.data;
-  //   } catch (e) {
-  //     rethrow;
-  //   }
-  // }
+      final data = responseIsJson ? response.data : jsonDecode(response.toString());
+
+      return {'data': data};
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> deleteJson(
+    String path, {
+    bool auth = true,
+    bool responseIsJson = false,
+    int timeout = 30000,
+    bool inspect = false,
+    bool cleanPath = true,
+  }) async {
+    try {
+      final dio = Dio(_options(auth: auth, json: true, timeout: timeout));
+      if (!kIsWeb) {
+        (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
+          client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+          return client;
+        };
+      }
+      if (inspect) {
+        NetworkInspector.attach(dio);
+      }
+      var response = await dio.delete(
+        cleanPath ? _cleanPath(path) : path,
+      );
+
+      final data = responseIsJson ? response.data : jsonDecode(response.toString());
+
+      return {'data': data};
+    } catch (e) {
+      rethrow;
+    }
+  }
 
   // Future<Map<String, dynamic>> putHttp(
   //   String path, {
@@ -266,8 +324,10 @@ class BaseService {
   }) async {
     final dio = Dio(_options(json: false, auth: false, timeout: timeout));
     if (!kIsWeb) {
-      (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
-        client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+      (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+          (HttpClient client) {
+        client.badCertificateCallback =
+            (X509Certificate cert, String host, int port) => true;
         return client;
       };
     }

@@ -8,12 +8,12 @@ import '../../providers/create_smart_contract_provider.dart';
 import 'royalty.dart';
 
 class RoyaltyFormProvider extends StateNotifier<Royalty> {
-  final Reader read;
+  final Ref ref;
   late final TextEditingController amountController;
   late final TextEditingController addressController;
 
   RoyaltyFormProvider(
-    this.read, [
+    this.ref, [
     Royalty model = const Royalty(),
   ]) : super(model) {
     amountController = TextEditingController(text: model.amount > 0 ? "${model.amount}" : "");
@@ -65,19 +65,21 @@ class RoyaltyFormProvider extends StateNotifier<Royalty> {
 
     state = state.copyWith(amount: amount, address: address);
 
-    read(createSmartContractProvider.notifier).saveRoyalty(state);
+    ref.read(createSmartContractProvider.notifier).saveRoyalty(state);
 
     clear();
   }
 
   clear() {
     final id = uniqueId();
-    state = Royalty(id: id);
+    Future.delayed(Duration(milliseconds: 300), () {
+      state = Royalty(id: id);
+    });
     amountController.text = "";
     addressController.text = "";
   }
 }
 
 final royaltyFormProvider = StateNotifierProvider<RoyaltyFormProvider, Royalty>(
-  (ref) => RoyaltyFormProvider(ref.read),
+  (ref) => RoyaltyFormProvider(ref),
 );

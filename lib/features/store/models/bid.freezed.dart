@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'bid.dart';
 
@@ -36,7 +36,8 @@ mixin _$Bid {
 /// @nodoc
 abstract class $BidCopyWith<$Res> {
   factory $BidCopyWith(Bid value, $Res Function(Bid) then) =
-      _$BidCopyWithImpl<$Res>;
+      _$BidCopyWithImpl<$Res, Bid>;
+  @useResult
   $Res call(
       {@JsonKey(name: "wallet_address") String walletAddress,
       double amount,
@@ -45,38 +46,40 @@ abstract class $BidCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$BidCopyWithImpl<$Res> implements $BidCopyWith<$Res> {
+class _$BidCopyWithImpl<$Res, $Val extends Bid> implements $BidCopyWith<$Res> {
   _$BidCopyWithImpl(this._value, this._then);
 
-  final Bid _value;
   // ignore: unused_field
-  final $Res Function(Bid) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? walletAddress = freezed,
-    Object? amount = freezed,
-    Object? amountRbx = freezed,
-    Object? createdAt = freezed,
+    Object? walletAddress = null,
+    Object? amount = null,
+    Object? amountRbx = null,
+    Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
-      walletAddress: walletAddress == freezed
+      walletAddress: null == walletAddress
           ? _value.walletAddress
           : walletAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      amount: amount == freezed
+      amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as double,
-      amountRbx: amountRbx == freezed
+      amountRbx: null == amountRbx
           ? _value.amountRbx
           : amountRbx // ignore: cast_nullable_to_non_nullable
               as double,
-      createdAt: createdAt == freezed
+      createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-    ));
+    ) as $Val);
   }
 }
 
@@ -85,6 +88,7 @@ abstract class _$$_BidCopyWith<$Res> implements $BidCopyWith<$Res> {
   factory _$$_BidCopyWith(_$_Bid value, $Res Function(_$_Bid) then) =
       __$$_BidCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {@JsonKey(name: "wallet_address") String walletAddress,
       double amount,
@@ -93,35 +97,33 @@ abstract class _$$_BidCopyWith<$Res> implements $BidCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_BidCopyWithImpl<$Res> extends _$BidCopyWithImpl<$Res>
+class __$$_BidCopyWithImpl<$Res> extends _$BidCopyWithImpl<$Res, _$_Bid>
     implements _$$_BidCopyWith<$Res> {
   __$$_BidCopyWithImpl(_$_Bid _value, $Res Function(_$_Bid) _then)
-      : super(_value, (v) => _then(v as _$_Bid));
+      : super(_value, _then);
 
-  @override
-  _$_Bid get _value => super._value as _$_Bid;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? walletAddress = freezed,
-    Object? amount = freezed,
-    Object? amountRbx = freezed,
-    Object? createdAt = freezed,
+    Object? walletAddress = null,
+    Object? amount = null,
+    Object? amountRbx = null,
+    Object? createdAt = null,
   }) {
     return _then(_$_Bid(
-      walletAddress: walletAddress == freezed
+      walletAddress: null == walletAddress
           ? _value.walletAddress
           : walletAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      amount: amount == freezed
+      amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as double,
-      amountRbx: amountRbx == freezed
+      amountRbx: null == amountRbx
           ? _value.amountRbx
           : amountRbx // ignore: cast_nullable_to_non_nullable
               as double,
-      createdAt: createdAt == freezed
+      createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
@@ -163,30 +165,31 @@ class _$_Bid extends _Bid {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Bid &&
-            const DeepCollectionEquality()
-                .equals(other.walletAddress, walletAddress) &&
-            const DeepCollectionEquality().equals(other.amount, amount) &&
-            const DeepCollectionEquality().equals(other.amountRbx, amountRbx) &&
-            const DeepCollectionEquality().equals(other.createdAt, createdAt));
+            (identical(other.walletAddress, walletAddress) ||
+                other.walletAddress == walletAddress) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.amountRbx, amountRbx) ||
+                other.amountRbx == amountRbx) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(walletAddress),
-      const DeepCollectionEquality().hash(amount),
-      const DeepCollectionEquality().hash(amountRbx),
-      const DeepCollectionEquality().hash(createdAt));
+  int get hashCode =>
+      Object.hash(runtimeType, walletAddress, amount, amountRbx, createdAt);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_BidCopyWith<_$_Bid> get copyWith =>
       __$$_BidCopyWithImpl<_$_Bid>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_BidToJson(this);
+    return _$$_BidToJson(
+      this,
+    );
   }
 }
 
@@ -202,15 +205,15 @@ abstract class _Bid extends Bid {
 
   @override
   @JsonKey(name: "wallet_address")
-  String get walletAddress => throw _privateConstructorUsedError;
+  String get walletAddress;
   @override
-  double get amount => throw _privateConstructorUsedError;
+  double get amount;
   @override
   @JsonKey(name: "amount_rbx")
-  double get amountRbx => throw _privateConstructorUsedError;
+  double get amountRbx;
   @override
   @JsonKey(name: "created_at")
-  DateTime get createdAt => throw _privateConstructorUsedError;
+  DateTime get createdAt;
   @override
   @JsonKey(ignore: true)
   _$$_BidCopyWith<_$_Bid> get copyWith => throw _privateConstructorUsedError;

@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'vote.dart';
 
@@ -41,7 +41,8 @@ mixin _$Vote {
 /// @nodoc
 abstract class $VoteCopyWith<$Res> {
   factory $VoteCopyWith(Vote value, $Res Function(Vote) then) =
-      _$VoteCopyWithImpl<$Res>;
+      _$VoteCopyWithImpl<$Res, Vote>;
+  @useResult
   $Res call(
       {@JsonKey(name: "Id") int id,
       @JsonKey(name: "TopicUID") String topicUid,
@@ -52,48 +53,51 @@ abstract class $VoteCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$VoteCopyWithImpl<$Res> implements $VoteCopyWith<$Res> {
+class _$VoteCopyWithImpl<$Res, $Val extends Vote>
+    implements $VoteCopyWith<$Res> {
   _$VoteCopyWithImpl(this._value, this._then);
 
-  final Vote _value;
   // ignore: unused_field
-  final $Res Function(Vote) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? topicUid = freezed,
-    Object? address = freezed,
-    Object? type = freezed,
-    Object? transactionHash = freezed,
-    Object? blockHeight = freezed,
+    Object? id = null,
+    Object? topicUid = null,
+    Object? address = null,
+    Object? type = null,
+    Object? transactionHash = null,
+    Object? blockHeight = null,
   }) {
     return _then(_value.copyWith(
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      topicUid: topicUid == freezed
+      topicUid: null == topicUid
           ? _value.topicUid
           : topicUid // ignore: cast_nullable_to_non_nullable
               as String,
-      address: address == freezed
+      address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as String,
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as VoteType,
-      transactionHash: transactionHash == freezed
+      transactionHash: null == transactionHash
           ? _value.transactionHash
           : transactionHash // ignore: cast_nullable_to_non_nullable
               as String,
-      blockHeight: blockHeight == freezed
+      blockHeight: null == blockHeight
           ? _value.blockHeight
           : blockHeight // ignore: cast_nullable_to_non_nullable
               as int,
-    ));
+    ) as $Val);
   }
 }
 
@@ -102,6 +106,7 @@ abstract class _$$_VoteCopyWith<$Res> implements $VoteCopyWith<$Res> {
   factory _$$_VoteCopyWith(_$_Vote value, $Res Function(_$_Vote) then) =
       __$$_VoteCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {@JsonKey(name: "Id") int id,
       @JsonKey(name: "TopicUID") String topicUid,
@@ -112,45 +117,43 @@ abstract class _$$_VoteCopyWith<$Res> implements $VoteCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_VoteCopyWithImpl<$Res> extends _$VoteCopyWithImpl<$Res>
+class __$$_VoteCopyWithImpl<$Res> extends _$VoteCopyWithImpl<$Res, _$_Vote>
     implements _$$_VoteCopyWith<$Res> {
   __$$_VoteCopyWithImpl(_$_Vote _value, $Res Function(_$_Vote) _then)
-      : super(_value, (v) => _then(v as _$_Vote));
+      : super(_value, _then);
 
-  @override
-  _$_Vote get _value => super._value as _$_Vote;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? topicUid = freezed,
-    Object? address = freezed,
-    Object? type = freezed,
-    Object? transactionHash = freezed,
-    Object? blockHeight = freezed,
+    Object? id = null,
+    Object? topicUid = null,
+    Object? address = null,
+    Object? type = null,
+    Object? transactionHash = null,
+    Object? blockHeight = null,
   }) {
     return _then(_$_Vote(
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      topicUid: topicUid == freezed
+      topicUid: null == topicUid
           ? _value.topicUid
           : topicUid // ignore: cast_nullable_to_non_nullable
               as String,
-      address: address == freezed
+      address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as String,
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as VoteType,
-      transactionHash: transactionHash == freezed
+      transactionHash: null == transactionHash
           ? _value.transactionHash
           : transactionHash // ignore: cast_nullable_to_non_nullable
               as String,
-      blockHeight: blockHeight == freezed
+      blockHeight: null == blockHeight
           ? _value.blockHeight
           : blockHeight // ignore: cast_nullable_to_non_nullable
               as int,
@@ -201,35 +204,33 @@ class _$_Vote extends _Vote {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Vote &&
-            const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.topicUid, topicUid) &&
-            const DeepCollectionEquality().equals(other.address, address) &&
-            const DeepCollectionEquality().equals(other.type, type) &&
-            const DeepCollectionEquality()
-                .equals(other.transactionHash, transactionHash) &&
-            const DeepCollectionEquality()
-                .equals(other.blockHeight, blockHeight));
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.topicUid, topicUid) ||
+                other.topicUid == topicUid) &&
+            (identical(other.address, address) || other.address == address) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.transactionHash, transactionHash) ||
+                other.transactionHash == transactionHash) &&
+            (identical(other.blockHeight, blockHeight) ||
+                other.blockHeight == blockHeight));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(topicUid),
-      const DeepCollectionEquality().hash(address),
-      const DeepCollectionEquality().hash(type),
-      const DeepCollectionEquality().hash(transactionHash),
-      const DeepCollectionEquality().hash(blockHeight));
+      runtimeType, id, topicUid, address, type, transactionHash, blockHeight);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_VoteCopyWith<_$_Vote> get copyWith =>
       __$$_VoteCopyWithImpl<_$_Vote>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_VoteToJson(this);
+    return _$$_VoteToJson(
+      this,
+    );
   }
 }
 
@@ -253,22 +254,22 @@ abstract class _Vote extends Vote {
 
   @override
   @JsonKey(name: "Id")
-  int get id => throw _privateConstructorUsedError;
+  int get id;
   @override
   @JsonKey(name: "TopicUID")
-  String get topicUid => throw _privateConstructorUsedError;
+  String get topicUid;
   @override
   @JsonKey(name: "Address")
-  String get address => throw _privateConstructorUsedError;
+  String get address;
   @override
   @JsonKey(name: "VoteType", fromJson: voteTypeFromJson)
-  VoteType get type => throw _privateConstructorUsedError;
+  VoteType get type;
   @override
   @JsonKey(name: "TransactionHash")
-  String get transactionHash => throw _privateConstructorUsedError;
+  String get transactionHash;
   @override
   @JsonKey(name: "BlockHeight")
-  int get blockHeight => throw _privateConstructorUsedError;
+  int get blockHeight;
   @override
   @JsonKey(ignore: true)
   _$$_VoteCopyWith<_$_Vote> get copyWith => throw _privateConstructorUsedError;

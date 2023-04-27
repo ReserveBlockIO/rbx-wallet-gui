@@ -15,6 +15,7 @@ class SmartContractCreatorContainerScreen extends BaseScreen {
     final _model = ref.watch(createSmartContractProvider);
     return AppBar(
         title: Text(_model.isCompiled ? "View Compiled Smart Contract" : "Create Smart Contract"),
+        backgroundColor: Colors.black,
         leading: IconButton(
           onPressed: () async {
             final confirmed = await ConfirmDialog.show(
@@ -33,17 +34,17 @@ class SmartContractCreatorContainerScreen extends BaseScreen {
         ),
         // actions: [HelpButton(HelpType.smartContract)],
         actions: [
-          TextButton(
-            onPressed: () {
-              AutoRouter.of(context).push(const SmartContractDraftsScreenRoute());
-            },
-            child: const Text(
-              "My Drafts",
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          )
+          // TextButton(
+          //   onPressed: () {
+          //     AutoRouter.of(context).push(const SmartContractDraftsScreenRoute());
+          //   },
+          //   child: const Text(
+          //     "My Drafts",
+          //     style: TextStyle(
+          //       color: Colors.white,
+          //     ),
+          //   ),
+          // )
         ]);
   }
 

@@ -33,6 +33,20 @@ class SmartContractWizardScreen extends BaseScreen {
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
       actions: const [WalletSelector()],
+      leading: IconButton(
+          onPressed: () async {
+            final confirmed = await ConfirmDialog.show(
+              title: "Are you sure you want to close the NFT collection Wizard?",
+              body: "All unsaved changes will be lost.",
+              cancelText: "Cancel",
+              confirmText: "Continue",
+            );
+            if (confirmed == true) {
+              ref.read(scWizardProvider.notifier).clear();
+              Navigator.of(context).pop();
+            }
+          },
+          icon: Icon(Icons.chevron_left)),
     );
   }
 
@@ -42,10 +56,6 @@ class SmartContractWizardScreen extends BaseScreen {
     final items = ref.watch(scWizardProvider);
     return Column(
       children: [
-        const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: CollectionForm(),
-        ),
         const Expanded(child: ScWizardList()),
         if (items.isNotEmpty)
           Container(

@@ -19,6 +19,10 @@ _$_EvolvePhase _$$_EvolvePhaseFromJson(Map<String, dynamic> json) =>
       asset: json['asset'] == null
           ? null
           : Asset.fromJson(json['asset'] as Map<String, dynamic>),
+      properties: (json['properties'] as List<dynamic>?)
+              ?.map((e) => ScProperty.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$_EvolvePhaseToJson(_$_EvolvePhase instance) =>
@@ -30,4 +34,5 @@ Map<String, dynamic> _$$_EvolvePhaseToJson(_$_EvolvePhase instance) =>
       'evolutionState': instance.evolutionState,
       'isCurrentState': instance.isCurrentState,
       'asset': instance.asset?.toJson(),
+      'properties': instance.properties.map((e) => e.toJson()).toList(),
     };

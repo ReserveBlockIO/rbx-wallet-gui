@@ -3,10 +3,10 @@ import '../models/smart_contract.dart';
 import '../services/smart_contract_service.dart';
 
 class DraftsSmartContractProvider extends StateNotifier<List<SmartContract>> {
-  final Reader read;
+  final Ref ref;
 
   DraftsSmartContractProvider(
-    this.read, [
+    this.ref, [
     List<SmartContract> smartContracts = const [],
   ]) : super(smartContracts) {
     load();
@@ -19,5 +19,5 @@ class DraftsSmartContractProvider extends StateNotifier<List<SmartContract>> {
 }
 
 final draftsSmartContractProvider = StateNotifierProvider<DraftsSmartContractProvider, List<SmartContract>>(
-  (ref) => DraftsSmartContractProvider(ref.read),
+  (ref) => DraftsSmartContractProvider(ref),
 );

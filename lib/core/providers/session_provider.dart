@@ -11,9 +11,17 @@ import 'package:process/process.dart';
 import 'package:process_run/shell.dart';
 import 'package:rbx_wallet/core/api_token_manager.dart';
 import 'package:rbx_wallet/core/utils.dart';
+import 'package:rbx_wallet/features/chat/providers/chat_notification_provider.dart';
+import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
+import 'package:rbx_wallet/features/dst/providers/listed_nfts_provider.dart';
+import 'package:rbx_wallet/features/dst/services/dst_service.dart';
 import 'package:rbx_wallet/features/remote_info/components/snapshot_downloader.dart';
 import 'package:rbx_wallet/features/remote_info/models/remote_info.dart';
 import 'package:rbx_wallet/features/remote_info/services/remote_info_service.dart';
+import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
+import 'package:rbx_wallet/features/remote_shop/providers/thumbnail_fetcher_provider.dart';
+import 'package:rbx_wallet/features/reserve/providers/reserve_account_provider.dart';
+import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
 import 'package:rbx_wallet/features/startup/startup_data.dart';
 import 'package:rbx_wallet/features/startup/startup_data_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
@@ -67,6 +75,7 @@ class SessionModel {
   final bool isMintingOrCompiling;
   final String timezoneName;
   final RemoteInfo? remoteInfo;
+  final String? windowsLauncherPath;
 
   const SessionModel({
     this.currentWallet,
@@ -83,23 +92,26 @@ class SessionModel {
     this.isMintingOrCompiling = false,
     this.timezoneName = "America/Los_Angeles",
     this.remoteInfo,
+    this.windowsLauncherPath,
   });
 
-  SessionModel copyWith(
-      {Wallet? currentWallet,
-      DateTime? startTime,
-      // bool? ready,
-      bool? filteringTransactions,
-      bool? cliStarted,
-      int? remoteBlockHeight,
-      bool? blocksAreSyncing,
-      bool? blocksAreResyncing,
-      double? totalBalance,
-      String? cliVersion,
-      bool? logWindowExpanded,
-      bool? isMintingOrCompiling,
-      String? timezoneName,
-      RemoteInfo? remoteInfo}) {
+  SessionModel copyWith({
+    Wallet? currentWallet,
+    DateTime? startTime,
+    // bool? ready,
+    bool? filteringTransactions,
+    bool? cliStarted,
+    int? remoteBlockHeight,
+    bool? blocksAreSyncing,
+    bool? blocksAreResyncing,
+    double? totalBalance,
+    String? cliVersion,
+    bool? logWindowExpanded,
+    bool? isMintingOrCompiling,
+    String? timezoneName,
+    RemoteInfo? remoteInfo,
+    String? windowsLauncherPath,
+  }) {
     return SessionModel(
       startTime: startTime ?? this.startTime,
       currentWallet: currentWallet ?? this.currentWallet,
@@ -115,6 +127,7 @@ class SessionModel {
       isMintingOrCompiling: isMintingOrCompiling ?? this.isMintingOrCompiling,
       timezoneName: timezoneName ?? this.timezoneName,
       remoteInfo: remoteInfo ?? this.remoteInfo,
+      windowsLauncherPath: windowsLauncherPath ?? this.windowsLauncherPath,
     );
   }
 
@@ -122,7 +135,7 @@ class SessionModel {
     if (startTime == null) {
       return "-";
     }
-    return DateFormat('MM/dd – kk:mm').format(startTime!);
+    return DateFormat('MM/dd – HH:mm').format(startTime!);
   }
 
   bool get updateAvailable {
@@ -135,32 +148,35 @@ class SessionModel {
 }
 
 class SessionProvider extends StateNotifier<SessionModel> {
-  final Reader read;
+  final Ref ref;
 
   static const _initial = SessionModel();
 
-  SessionProvider(this.read, [SessionModel sessionModel = _initial]) : super(sessionModel) {
+  SessionProvider(this.ref, [SessionModel sessionModel = _initial]) : super(sessionModel) {
+    if (kIsWeb) {
+      return;
+    }
     init(true);
   }
 
   Future<void> init(bool inLoop) async {
     final token = kDebugMode ? DEV_API_TOKEN : generateRandomString(32).toLowerCase();
 
-    read(logProvider.notifier).append(LogEntry(message: "Welcome to RBXWallet version $APP_VERSION"));
+    ref.read(logProvider.notifier).append(LogEntry(message: "Welcome to RBXWallet version $APP_VERSION"));
 
     bool cliStarted = state.cliStarted;
     if (!cliStarted) {
-      read(logProvider.notifier).append(LogEntry(message: "Starting RBXCore..."));
+      ref.read(logProvider.notifier).append(LogEntry(message: "Starting RBXCore..."));
       cliStarted = await _startCli(token);
     } else {
-      read(logProvider.notifier).append(LogEntry(message: "RBXCore already running."));
+      ref.read(logProvider.notifier).append(LogEntry(message: "RBXCore already running."));
     }
 
     if (!cliStarted) {
       print("CLI Could not start");
       return;
     }
-    read(readyProvider.notifier).setReady(true);
+    ref.read(readyProvider.notifier).setReady(true);
 
     final authenticated = await authenticate();
 
@@ -185,10 +201,15 @@ class SessionProvider extends StateNotifier<SessionModel> {
     mainLoop(inLoop);
     smartContractLoop(inLoop);
     checkGuiUpdateStatus(inLoop);
-    read(beaconListProvider.notifier).refresh();
+    ref.read(beaconListProvider.notifier).refresh();
 
-    Future.delayed(const Duration(milliseconds: 300)).then((_) {
-      read(walletInfoProvider.notifier).infoLoop(inLoop);
+    Future.delayed(const Duration(milliseconds: 300)).then((_) async {
+      ref.read(walletInfoProvider.notifier).infoLoop(inLoop);
+
+      await Future.delayed(Duration(seconds: 5));
+
+      setupChatListeners();
+
       if (!kIsWeb) {
         // if (!read(passwordRequiredProvider)) {
         //   _onboardWallet();
@@ -197,6 +218,18 @@ class SessionProvider extends StateNotifier<SessionModel> {
         checkRemoteInfo();
       }
     });
+  }
+
+  Future<void> setupChatListeners() async {
+    final decShop = await DstService().retreiveShop();
+    if (decShop != null && !decShop.isOffline) {
+      ref.read(chatNotificationProvider("${decShop.ownerAddress}|seller").notifier);
+    } else {
+      final address = state.currentWallet?.address;
+      if (address != null) {
+        ref.read(chatNotificationProvider("$address|buyer").notifier);
+      }
+    }
   }
 
   Future<void> updateGui() async {
@@ -256,7 +289,11 @@ class SessionProvider extends StateNotifier<SessionModel> {
     if (Env.isTestNet) {
       return;
     }
-    // final blockHeight = read(walletInfoProvider)?.blockHeight;
+
+    if (!Env.promptForUpdates) {
+      return;
+    }
+
     final data = await BridgeService().walletInfo();
     final int? blockHeight = int.tryParse(data['BlockHeight']);
 
@@ -317,7 +354,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
   Future<void> promptForSnapshotImport() async {
     // final context = rootNavigatorKey.currentContext!;
 
-    final blockHeight = read(walletInfoProvider)!.blockHeight;
+    final blockHeight = ref.read(walletInfoProvider)!.blockHeight;
     final snapshotHeight = state.remoteInfo!.snapshot.height;
 
     final confirmed = await ConfirmDialog.show(
@@ -331,7 +368,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
     if (confirmed == true) {
       // importSnapshot();
       bool? shouldContinue = true;
-      if (read(walletListProvider).isNotEmpty) {
+      if (ref.read(walletListProvider).isNotEmpty) {
         shouldContinue = await ConfirmDialog.show(
           title: "Warning",
           body:
@@ -360,7 +397,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
         builder: (context) {
           return SnapshotDownloader(
             downloadUrl: url,
-            read: read,
+            ref: ref,
           );
         });
   }
@@ -383,7 +420,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
     if (passwordNeeded) {
       await Future.delayed(const Duration(milliseconds: 100));
-      read(startupPasswordRequiredProvider.notifier).set(true);
+      ref.read(startupPasswordRequiredProvider.notifier).set(true);
       return false;
     }
 
@@ -415,18 +452,19 @@ class SessionProvider extends StateNotifier<SessionModel> {
       TopicListType.All,
       TopicListType.Mine,
     ]) {
-      read(topicListProvider(topicType).notifier).refresh();
+      ref.read(topicListProvider(topicType).notifier).refresh();
     }
 
-    read(myVoteListProvider.notifier).refresh();
+    ref.read(myVoteListProvider.notifier).refresh();
   }
 
   Future<void> smartContractLoop([inLoop = true]) async {
     if (state.currentWallet != null) {
-      read(mySmartContractsProvider.notifier).load();
-      read(nftListProvider.notifier).reloadCurrentPage();
-      read(mintedNftListProvider.notifier).reloadCurrentPage();
-      read(draftsSmartContractProvider.notifier).load();
+      ref.read(mySmartContractsProvider.notifier).load();
+      ref.read(nftListProvider.notifier).reloadCurrentPage();
+      ref.read(mintedNftListProvider.notifier).reloadCurrentPage();
+      ref.read(draftsSmartContractProvider.notifier).load();
+      ref.read(listedNftsProvider.notifier).refresh();
     }
 
     if (inLoop) {
@@ -436,11 +474,11 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   Future<void> stopCli() async {
-    // read(logProvider.notifier).clear();
-    state = state = _initial;
-    // read(logProvider.notifier).append(LogEntry(message: "Shutting down CLI..."));
+    // ref.read(logProvider.notifier).clear();
+    state = _initial.copyWith(windowsLauncherPath: state.windowsLauncherPath);
+    // ref.read(logProvider.notifier).append(LogEntry(message: "Shutting down CLI..."));
     await BridgeService().killCli();
-    // read(logProvider.notifier).append(LogEntry(message: "CLI terminated."));
+    // ref.read(logProvider.notifier).append(LogEntry(message: "CLI terminated."));
     await Future.delayed(const Duration(milliseconds: 5000));
   }
 
@@ -449,18 +487,20 @@ class SessionProvider extends StateNotifier<SessionModel> {
     await init(false);
     await fetchConfig();
 
-    read(beaconListProvider.notifier).refresh();
+    ref.read(beaconListProvider.notifier).refresh();
+    ref.invalidate(connectedShopProvider);
+    ref.invalidate(thumbnailFetcherProvider);
   }
 
   // Future<void> _checkBlockSyncStatus() async {
-  //   await read(genesisBlockProvider.notifier).load();
-  //   if (read(genesisBlockProvider) == null) {
+  //   await ref.read(genesisBlockProvider.notifier).load();
+  //   if (ref.read(genesisBlockProvider) == null) {
   //     await Future.delayed(Duration(milliseconds: 300));
   //     _checkBlockSyncStatus();
   //     return;
   //   }
 
-  //   final _remoteBlockHeight = read(genesisBlockProvider)!.height;
+  //   final _remoteBlockHeight = ref.read(genesisBlockProvider)!.height;
 
   //   final _blocksAreSyncing = await BridgeService().blocksAreSyncing();
 
@@ -474,6 +514,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
     final List<Wallet> wallets = [];
 
     final response = await BridgeService().wallets();
+    final reserveResponse = await ReserveAccountService().wallets();
 
     Map<String, dynamic>? names = singleton<Storage>().getMap(Storage.RENAMED_WALLETS_KEY);
 
@@ -485,6 +526,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
     if (response.isNotEmpty && response != "Command not recognized." && response != "No Accounts") {
       final items = jsonDecode(response);
+
       for (final item in items) {
         if (deleted.contains(item['Address'])) {
           continue;
@@ -496,9 +538,25 @@ class SessionProvider extends StateNotifier<SessionModel> {
         };
         wallets.add(Wallet.fromJson(_item));
       }
+
+      if (reserveResponse.isNotEmpty) {
+        final data = jsonDecode(reserveResponse);
+        if (data['Success'] == true && data['ReserveAccounts'] != null) {
+          final reserveItems = data['ReserveAccounts'];
+          for (Map<String, dynamic> item in reserveItems) {
+            item['Balance'] = item['TotalBalance'];
+            item['IsValidating'] = false;
+            final Map<String, dynamic> _item = {
+              ...item,
+              'friendlyName': names.containsKey(item['Address']) ? names[item['Address']] : null,
+            };
+            wallets.add(Wallet.fromJson(_item));
+          }
+        }
+      }
     }
 
-    read(walletListProvider.notifier).set(wallets);
+    ref.read(walletListProvider.notifier).set(wallets);
 
     if (wallets.isNotEmpty) {
       final totalBalance = wallets.map((e) => e.balance).toList().sum;
@@ -510,14 +568,16 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
         if (currentWallet != null) {
           state = state.copyWith(currentWallet: currentWallet, totalBalance: totalBalance);
-          read(currentValidatorProvider.notifier).set(currentWallet);
+          ref.read(currentValidatorProvider.notifier).set(currentWallet);
         } else {
           state = state.copyWith(totalBalance: totalBalance);
         }
       } else {
         state = state.copyWith(currentWallet: wallets.first, totalBalance: totalBalance);
-        read(currentValidatorProvider.notifier).set(wallets.first);
+        ref.read(currentValidatorProvider.notifier).set(wallets.first);
       }
+      final reserveWallets = wallets.where((w) => w.isReserved).toList();
+      ref.read(reserveAccountProvider.notifier).set(reserveWallets);
     }
   }
 
@@ -543,15 +603,15 @@ class SessionProvider extends StateNotifier<SessionModel> {
       wallets.add(Wallet.fromJson(item));
     }
 
-    read(validatorListProvider.notifier).set(wallets);
+    ref.read(validatorListProvider.notifier).set(wallets);
   }
 
   Future<void> loadMasterNodes() async {
-    await read(nodeListProvider.notifier).load();
+    await ref.read(nodeListProvider.notifier).load();
   }
 
   Future<void> loadPeerInfo() async {
-    await read(nodeInfoProvider.notifier).load();
+    await ref.read(nodeInfoProvider.notifier).load();
   }
 
   Future<void> loadTransactions() async {
@@ -566,7 +626,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
       TransactionListType.Pending,
       TransactionListType.Mined,
     ]) {
-      await read(transactionListProvider(type).notifier).load();
+      await ref.read(transactionListProvider(type).notifier).load();
     }
   }
 
@@ -574,11 +634,13 @@ class SessionProvider extends StateNotifier<SessionModel> {
     state = state.copyWith(currentWallet: wallet);
     singleton<Storage>().setString(Storage.CURRENT_WALLET_ADDRESS_KEY, wallet.address);
 
-    final validators = read(validatorListProvider);
+    final validators = ref.read(validatorListProvider);
 
     final currentValidator = validators.firstWhereOrNull((element) => element.address == wallet.address);
 
-    read(currentValidatorProvider.notifier).set(currentValidator);
+    ref.read(currentValidatorProvider.notifier).set(currentValidator);
+
+    setupChatListeners();
   }
 
   void setFilteringTransactions(bool val) {
@@ -604,8 +666,14 @@ class SessionProvider extends StateNotifier<SessionModel> {
     if (Platform.isMacOS) {
       return '/Applications/RBXWallet.app/Contents/Resources/RBXCore/ReserveBlockCore';
     } else {
-      final appPath = Directory.current.path;
-      return "$appPath\\RbxCore\\ReserveBlockCore";
+      if (state.windowsLauncherPath == null) {
+        final appPath = Directory.current.path;
+        final p = "$appPath\\RBXCore\\${Env.isTestNet ? 'RBXLauncherTestNet.exe' : 'RBXLauncher.exe'}";
+        state = state.copyWith(windowsLauncherPath: p);
+        return p;
+      }
+
+      return state.windowsLauncherPath!;
     }
   }
 
@@ -620,24 +688,24 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
   Future<bool> _cliCheck([int attempt = 1, int maxAttempts = 500]) async {
     if (attempt > maxAttempts) {
-      read(logProvider.notifier).append(LogEntry(message: "Attempted $maxAttempts. Something went wrong."));
+      ref.read(logProvider.notifier).append(LogEntry(message: "Attempted $maxAttempts. Something went wrong."));
 
       return false;
     }
 
     final isRunning = await _cliIsActive();
     if (isRunning) {
-      read(logProvider.notifier).append(LogEntry(message: "ReserveBlockCore Started Successfully", variant: AppColorVariant.Success));
+      ref.read(logProvider.notifier).append(LogEntry(message: "ReserveBlockCore Started Successfully", variant: AppColorVariant.Success));
       await fetchConfig();
       final cliVersion = await BridgeService().getCliVersion();
-      read(logProvider.notifier).append(LogEntry(message: "CLI Version: $cliVersion", variant: AppColorVariant.Info));
+      ref.read(logProvider.notifier).append(LogEntry(message: "CLI Version: $cliVersion", variant: AppColorVariant.Info));
       state = state.copyWith(cliVersion: cliVersion);
-      read(passwordRequiredProvider.notifier).check();
-      read(walletIsEncryptedProvider.notifier).check();
+      ref.read(passwordRequiredProvider.notifier).check();
+      ref.read(walletIsEncryptedProvider.notifier).check();
       return true;
     }
 
-    read(logProvider.notifier).append(LogEntry(message: "CLI loading..."));
+    ref.read(logProvider.notifier).append(LogEntry(message: "CLI loading..."));
 
     await Future.delayed(const Duration(seconds: 5));
     return _cliCheck(attempt + 1, maxAttempts);
@@ -646,7 +714,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
   Future<void> startupDataLoop() async {
     final data = await fetchStartupData();
 
-    read(startupDataProvider.notifier).set(data);
+    ref.read(startupDataProvider.notifier).set(data);
 
     await Future.delayed(const Duration(seconds: 1));
     if (!state.cliStarted) {
@@ -658,7 +726,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
     if (Env.launchCli) {
       if (await _cliIsActive()) {
         await fetchConfig();
-        read(logProvider.notifier).append(LogEntry(message: "CLI is already running!"));
+        ref.read(logProvider.notifier).append(LogEntry(message: "CLI is already running!"));
 
         return true;
       }
@@ -666,7 +734,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
       startupDataLoop();
 
       final cliPath = Env.cliPathOverride ?? getCliPath();
-      List<String> options = ['enableapi', 'gui', 'apitoken=$apiToken'];
+      List<String> options = Env.isTestNet ? ['enableapi', 'gui'] : ['enableapi', 'gui', 'apitoken=$apiToken'];
 
       if (Env.isTestNet) {
         options.add("testnet");
@@ -678,29 +746,37 @@ class SessionProvider extends StateNotifier<SessionModel> {
         ProcessManager pm = const LocalProcessManager();
 
         try {
-          final appPath = Directory.current.path;
-          cmd = Env.isTestNet ? "$appPath\\RbxCore\\RBXLauncherTestNet.exe" : "$appPath\\RbxCore\\RBXLauncher.exe";
+          // final appPath = Directory.current.path;
+          // cmd = Env.isTestNet ? "$appPath\\RbxCore\\RBXLauncherTestNet.exe" : "$appPath\\RbxCore\\RBXLauncher.exe";
 
-          read(logProvider.notifier).append(LogEntry(message: "Launching CLI in the background."));
+          // if (state.windowsLauncherPath == null) {
+          //   final p = "C:\\Program Files (x86)\\RBXWallet\\RBXCore\\${Env.isTestNet ? 'RBXLauncherTestNet.exe' : 'RBXLauncher.exe'}";
+          //   state = state.copyWith(windowsLauncherPath: p);
+          //   await Future.delayed(Duration(milliseconds: 100));
+          // }
 
-          pm.run([cmd, 'apitoken=$apiToken']).then((result) {
-            read(logProvider.notifier).append(LogEntry(message: "Command ran successfully."));
+          ref.read(logProvider.notifier).append(LogEntry(message: "Launching CLI in the background."));
+          final List<String> params = Env.isTestNet ? [cliPath] : [cliPath, 'apitoken=$apiToken'];
+          pm.run(params).then((result) {
+            ref.read(logProvider.notifier).append(LogEntry(message: "Command ran successfully."));
           });
+          print("PARAMS: $params");
+          print("***********");
           singleton<ApiTokenManager>().set(apiToken);
 
           await Future.delayed(const Duration(seconds: 3));
           return await _cliCheck();
         } catch (e) {
           print(e);
-          read(logProvider.notifier).append(LogEntry(
-            message: "Process Error",
-            variant: AppColorVariant.Danger,
-          ));
+          ref.read(logProvider.notifier).append(LogEntry(
+                message: "Process Error",
+                variant: AppColorVariant.Danger,
+              ));
 
-          read(logProvider.notifier).append(LogEntry(
-            message: "$e",
-            variant: AppColorVariant.Danger,
-          ));
+          ref.read(logProvider.notifier).append(LogEntry(
+                message: "$e",
+                variant: AppColorVariant.Danger,
+              ));
           return false;
         }
       } else {
@@ -712,7 +788,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
         );
         cmd = '"$cliPath" ${options.join(' ')}';
 
-        read(logProvider.notifier).append(LogEntry(message: "Launching CLI in the background."));
+        ref.read(logProvider.notifier).append(LogEntry(message: "Launching CLI in the background."));
 
         try {
           shell.run(cmd);
@@ -722,8 +798,8 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
           return await _cliCheck();
         } catch (e) {
-          read(logProvider.notifier).append(LogEntry(message: "Process Error.", variant: AppColorVariant.Danger));
-          read(logProvider.notifier).append(LogEntry(message: "$e", variant: AppColorVariant.Danger));
+          ref.read(logProvider.notifier).append(LogEntry(message: "Process Error.", variant: AppColorVariant.Danger));
+          ref.read(logProvider.notifier).append(LogEntry(message: "$e", variant: AppColorVariant.Danger));
 
           return false;
         }
@@ -754,9 +830,9 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   Future<void> fetchConfig() async {
-    read(logProvider.notifier).append(LogEntry(
-      message: "Fetching Config...",
-    ));
+    ref.read(logProvider.notifier).append(LogEntry(
+          message: "Fetching Config...",
+        ));
     final path = await configPath();
 
     try {
@@ -770,10 +846,10 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
       final config = Config.fromJson(kwargs);
 
-      read(configProvider.notifier).setConfig(config);
-      read(logProvider.notifier).append(LogEntry(
-        message: "Config Loaded...",
-      ));
+      ref.read(configProvider.notifier).setConfig(config);
+      ref.read(logProvider.notifier).append(LogEntry(
+            message: "Config Loaded...",
+          ));
     } catch (e) {
       print(e);
     }
@@ -781,5 +857,5 @@ class SessionProvider extends StateNotifier<SessionModel> {
 }
 
 final sessionProvider = StateNotifierProvider<SessionProvider, SessionModel>(
-  (ref) => SessionProvider(ref.read),
+  (ref) => SessionProvider(ref),
 );

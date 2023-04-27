@@ -8,14 +8,14 @@ import '../models/beacon.dart';
 import '../services/beacon_service.dart';
 
 class BeaconFormProvider extends StateNotifier<Beacon> {
-  final Reader read;
+  final Ref ref;
   final GlobalKey<FormState> formKey = GlobalKey();
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController portController = TextEditingController();
   final TextEditingController periodController = TextEditingController();
 
-  BeaconFormProvider(this.read, Beacon model) : super(model) {
+  BeaconFormProvider(this.ref, Beacon model) : super(model) {
     nameController.addListener(() {
       state = state.copyWith(name: nameController.text);
     });
@@ -58,7 +58,7 @@ class BeaconFormProvider extends StateNotifier<Beacon> {
       return null;
     }
 
-    read(globalLoadingProvider.notifier).start();
+    ref.read(globalLoadingProvider.notifier).start();
     final error = await BeaconService().create(
       name: state.name,
       port: state.port,
@@ -67,7 +67,7 @@ class BeaconFormProvider extends StateNotifier<Beacon> {
       fileCacheDays: state.fileCachePeriodDays,
     );
 
-    read(globalLoadingProvider.notifier).complete();
+    ref.read(globalLoadingProvider.notifier).complete();
 
     if (error != null) {
       OverlayToast.error(error);
@@ -81,5 +81,5 @@ class BeaconFormProvider extends StateNotifier<Beacon> {
 }
 
 final beaconFormProvider = StateNotifierProvider<BeaconFormProvider, Beacon>((ref) {
-  return BeaconFormProvider(ref.read, Beacon.empty());
+  return BeaconFormProvider(ref, Beacon.empty());
 });

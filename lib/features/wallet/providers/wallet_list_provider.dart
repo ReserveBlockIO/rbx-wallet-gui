@@ -17,18 +17,18 @@ import '../../bridge/services/bridge_service.dart';
 import '../models/wallet.dart';
 
 class WalletListProvider extends StateNotifier<List<Wallet>> {
-  final Reader read;
+  final Ref ref;
 
-  WalletListProvider(this.read, [List<Wallet> wallets = const []]) : super(wallets);
+  WalletListProvider(this.ref, [List<Wallet> wallets = const []]) : super(wallets);
 
   void set(List<Wallet> wallets) {
     state = wallets;
   }
 
-  Future<Wallet?> import(String privateKey, [bool showDetails = false]) async {
+  Future<Wallet?> import(String privateKey, [bool showDetails = false, bool rescan = false]) async {
     // if (!guardWalletIsNotResyncing(read)) return;
 
-    final data = await BridgeService().importPrivateKey(privateKey);
+    final data = await BridgeService().importPrivateKey(privateKey, rescan);
 
     if (data == null) {
       Toast.error("No account found");
@@ -36,10 +36,12 @@ class WalletListProvider extends StateNotifier<List<Wallet>> {
     }
 
     final wallet = Wallet.fromJson(data);
+    List<dynamic>? updatedList = (singleton<Storage>().getList(Storage.DELETED_WALLETS_KEY) ?? [])..removeWhere((a) => a == wallet.address);
+    singleton<Storage>().setList(Storage.DELETED_WALLETS_KEY, updatedList);
     state = [...state, wallet];
-    read(sessionProvider.notifier).setCurrentWallet(wallet);
-    // read(sessionProvider.notifier).load();
-    read(walletInfoProvider.notifier).infoLoop(false);
+    ref.read(sessionProvider.notifier).setCurrentWallet(wallet);
+    // ref.read(sessionProvider.notifier).load();
+    ref.read(walletInfoProvider.notifier).infoLoop(false);
 
     if (showDetails) {
       final context = rootScaffoldKey.currentContext!;
@@ -101,7 +103,7 @@ class WalletListProvider extends StateNotifier<List<Wallet>> {
   }
 
   Future<void> create() async {
-    if (!guardWalletIsNotResyncing(read)) return;
+    if (!guardWalletIsNotResyncing(ref)) return;
 
     final data = await BridgeService().newAddress();
 
@@ -167,5 +169,5 @@ class WalletListProvider extends StateNotifier<List<Wallet>> {
 }
 
 final walletListProvider = StateNotifierProvider<WalletListProvider, List<Wallet>>((ref) {
-  return WalletListProvider(ref.read);
+  return WalletListProvider(ref);
 });

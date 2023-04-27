@@ -4,9 +4,9 @@ import '../models/vote.dart';
 import '../services/vote_service.dart';
 
 class MyVoteListProvider extends StateNotifier<List<Vote>> {
-  final Reader read;
+  final Ref ref;
 
-  MyVoteListProvider(this.read, [List<Vote> votes = const []]) : super(votes) {
+  MyVoteListProvider(this.ref, [List<Vote> votes = const []]) : super(votes) {
     load();
   }
 
@@ -24,5 +24,5 @@ class MyVoteListProvider extends StateNotifier<List<Vote>> {
 }
 
 final myVoteListProvider = StateNotifierProvider<MyVoteListProvider, List<Vote>>(
-  (ref) => MyVoteListProvider(ref.read),
+  (ref) => MyVoteListProvider(ref),
 );

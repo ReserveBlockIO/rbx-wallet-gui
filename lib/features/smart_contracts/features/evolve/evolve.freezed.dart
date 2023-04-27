@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'evolve.dart';
 
@@ -34,7 +34,8 @@ mixin _$Evolve {
 /// @nodoc
 abstract class $EvolveCopyWith<$Res> {
   factory $EvolveCopyWith(Evolve value, $Res Function(Evolve) then) =
-      _$EvolveCopyWithImpl<$Res>;
+      _$EvolveCopyWithImpl<$Res, Evolve>;
+  @useResult
   $Res call(
       {String id,
       EvolveType type,
@@ -46,53 +47,57 @@ abstract class $EvolveCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$EvolveCopyWithImpl<$Res> implements $EvolveCopyWith<$Res> {
+class _$EvolveCopyWithImpl<$Res, $Val extends Evolve>
+    implements $EvolveCopyWith<$Res> {
   _$EvolveCopyWithImpl(this._value, this._then);
 
-  final Evolve _value;
   // ignore: unused_field
-  final $Res Function(Evolve) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? type = freezed,
-    Object? phases = freezed,
-    Object? isDynamic = freezed,
+    Object? id = null,
+    Object? type = null,
+    Object? phases = null,
+    Object? isDynamic = null,
     Object? asset = freezed,
   }) {
     return _then(_value.copyWith(
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as EvolveType,
-      phases: phases == freezed
+      phases: null == phases
           ? _value.phases
           : phases // ignore: cast_nullable_to_non_nullable
               as List<EvolvePhase>,
-      isDynamic: isDynamic == freezed
+      isDynamic: null == isDynamic
           ? _value.isDynamic
           : isDynamic // ignore: cast_nullable_to_non_nullable
               as bool,
-      asset: asset == freezed
+      asset: freezed == asset
           ? _value.asset
           : asset // ignore: cast_nullable_to_non_nullable
               as Asset?,
-    ));
+    ) as $Val);
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $AssetCopyWith<$Res>? get asset {
     if (_value.asset == null) {
       return null;
     }
 
     return $AssetCopyWith<$Res>(_value.asset!, (value) {
-      return _then(_value.copyWith(asset: value));
+      return _then(_value.copyWith(asset: value) as $Val);
     });
   }
 }
@@ -102,6 +107,7 @@ abstract class _$$_EvolveCopyWith<$Res> implements $EvolveCopyWith<$Res> {
   factory _$$_EvolveCopyWith(_$_Evolve value, $Res Function(_$_Evolve) then) =
       __$$_EvolveCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String id,
       EvolveType type,
@@ -114,40 +120,39 @@ abstract class _$$_EvolveCopyWith<$Res> implements $EvolveCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_EvolveCopyWithImpl<$Res> extends _$EvolveCopyWithImpl<$Res>
+class __$$_EvolveCopyWithImpl<$Res>
+    extends _$EvolveCopyWithImpl<$Res, _$_Evolve>
     implements _$$_EvolveCopyWith<$Res> {
   __$$_EvolveCopyWithImpl(_$_Evolve _value, $Res Function(_$_Evolve) _then)
-      : super(_value, (v) => _then(v as _$_Evolve));
+      : super(_value, _then);
 
-  @override
-  _$_Evolve get _value => super._value as _$_Evolve;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? type = freezed,
-    Object? phases = freezed,
-    Object? isDynamic = freezed,
+    Object? id = null,
+    Object? type = null,
+    Object? phases = null,
+    Object? isDynamic = null,
     Object? asset = freezed,
   }) {
     return _then(_$_Evolve(
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as EvolveType,
-      phases: phases == freezed
+      phases: null == phases
           ? _value._phases
           : phases // ignore: cast_nullable_to_non_nullable
               as List<EvolvePhase>,
-      isDynamic: isDynamic == freezed
+      isDynamic: null == isDynamic
           ? _value.isDynamic
           : isDynamic // ignore: cast_nullable_to_non_nullable
               as bool,
-      asset: asset == freezed
+      asset: freezed == asset
           ? _value.asset
           : asset // ignore: cast_nullable_to_non_nullable
               as Asset?,
@@ -181,6 +186,7 @@ class _$_Evolve extends _Evolve {
   @override
   @JsonKey()
   List<EvolvePhase> get phases {
+    if (_phases is EqualUnmodifiableListView) return _phases;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_phases);
   }
@@ -201,31 +207,30 @@ class _$_Evolve extends _Evolve {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Evolve &&
-            const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.type, type) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.type, type) || other.type == type) &&
             const DeepCollectionEquality().equals(other._phases, _phases) &&
-            const DeepCollectionEquality().equals(other.isDynamic, isDynamic) &&
-            const DeepCollectionEquality().equals(other.asset, asset));
+            (identical(other.isDynamic, isDynamic) ||
+                other.isDynamic == isDynamic) &&
+            (identical(other.asset, asset) || other.asset == asset));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(type),
-      const DeepCollectionEquality().hash(_phases),
-      const DeepCollectionEquality().hash(isDynamic),
-      const DeepCollectionEquality().hash(asset));
+  int get hashCode => Object.hash(runtimeType, id, type,
+      const DeepCollectionEquality().hash(_phases), isDynamic, asset);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_EvolveCopyWith<_$_Evolve> get copyWith =>
       __$$_EvolveCopyWithImpl<_$_Evolve>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_EvolveToJson(this);
+    return _$$_EvolveToJson(
+      this,
+    );
   }
 }
 
@@ -241,15 +246,15 @@ abstract class _Evolve extends Evolve {
   factory _Evolve.fromJson(Map<String, dynamic> json) = _$_Evolve.fromJson;
 
   @override
-  String get id => throw _privateConstructorUsedError;
+  String get id;
   @override
-  EvolveType get type => throw _privateConstructorUsedError;
+  EvolveType get type;
   @override
-  List<EvolvePhase> get phases => throw _privateConstructorUsedError;
+  List<EvolvePhase> get phases;
   @override
-  bool get isDynamic => throw _privateConstructorUsedError;
+  bool get isDynamic;
   @override
-  Asset? get asset => throw _privateConstructorUsedError;
+  Asset? get asset;
   @override
   @JsonKey(ignore: true)
   _$$_EvolveCopyWith<_$_Evolve> get copyWith =>

@@ -14,8 +14,7 @@ class LogItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2),
-      child: Container(
-        color: Colors.black12,
+      child: SizedBox(
         width: double.infinity,
         child: Padding(
           padding: const EdgeInsets.all(4.0),
@@ -25,10 +24,11 @@ class LogItem extends StatelessWidget {
                 child: SelectableText(
                   entry.message,
                   style: TextStyle(
-                    color: AppTheme.appVariantToColor(context, entry.variant),
+                    color: entry.colorOverride ?? AppTheme.appVariantToColor(context, entry.variant),
                   ),
                 ),
               ),
+              if (entry.trailing != null) entry.trailing!,
               if (entry.textToCopy != null)
                 Padding(
                   padding: const EdgeInsets.only(left: 4, right: 12),

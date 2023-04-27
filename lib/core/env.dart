@@ -11,13 +11,15 @@ enum _Environment {
   WinDev,
   MacTestNet,
   WinTestNet,
-  BlockExplorer,
   Web,
   WebTestNet,
   BlockExplorerTestNet,
+  WebLocalEnv,
 }
 
-const _env = _Environment.ReleaseTestNet;
+
+const _env = _Environment.WebLocalEnv;
+
 
 class Env {
   static init() async {
@@ -38,9 +40,6 @@ class Env {
       case _Environment.WinTestNet:
         envPath = Assets.env.winTestnetEnv;
         break;
-      case _Environment.BlockExplorer:
-        envPath = Assets.env.blockExplorerEnv;
-        break;
       case _Environment.BlockExplorerTestNet:
         envPath = Assets.env.blockExplorerTestNetEnv;
         break;
@@ -56,6 +55,9 @@ class Env {
       case _Environment.WebTestNet:
         envPath = Assets.env.webDevEnv;
         break;
+      case _Environment.WebLocalEnv:
+        envPath = Assets.env.webLocalEnv;
+        break;
     }
 
     await DotEnv.dotenv.load(fileName: envPath);
@@ -68,6 +70,7 @@ class Env {
       case _Environment.ReleaseTestNet:
       case _Environment.BlockExplorerTestNet:
       case _Environment.WebTestNet:
+      case _Environment.WebLocalEnv:
         return 'https://testnet.rbx.network/';
       default:
         return 'https://rbx.network/';
@@ -114,6 +117,10 @@ class Env {
     return DotEnv.dotenv.env['IS_TEST_NET'] == "true";
   }
 
+  static bool get promptForUpdates {
+    return _env == _Environment.Release;
+  }
+
   static String get validatorPort {
     return DotEnv.dotenv.env['VALIDATOR_PORT'] ?? '3338';
   }
@@ -128,5 +135,13 @@ class Env {
 
   static bool get isWeb {
     return DotEnv.dotenv.env['IS_WEB'] == "true";
+  }
+
+  static bool get useWebMedia {
+    return DotEnv.dotenv.env['USE_WEB_MEDIA'] == "true";
+  }
+
+  static String get appBaseUrl {
+    return DotEnv.dotenv.env['APP_BASE_URL'] ?? 'localhost:42069';
   }
 }

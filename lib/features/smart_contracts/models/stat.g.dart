@@ -18,7 +18,7 @@ Map<String, dynamic> _$$_StatToJson(_$_Stat instance) => <String, dynamic>{
       'label': instance.label,
       'value': instance.value,
       'description': instance.description,
-      'type': _$StatTypeEnumMap[instance.type],
+      'type': _$StatTypeEnumMap[instance.type]!,
     };
 
 const _$StatTypeEnumMap = {

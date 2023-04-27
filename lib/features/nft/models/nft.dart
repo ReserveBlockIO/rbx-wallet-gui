@@ -1,7 +1,13 @@
 import 'dart:io';
 
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/core/utils.dart';
+import 'package:rbx_wallet/features/asset/web_asset.dart';
+import 'package:rbx_wallet/features/dst/providers/listed_nfts_provider.dart';
+import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
 
 import '../../../core/env.dart';
 import '../../asset/asset.dart';
@@ -16,6 +22,32 @@ part 'nft.g.dart';
 
 nullToNull(dynamic blah) => null;
 
+propertiesFromJson(Map<String, dynamic>? properties) {
+  if (properties == null) {
+    return [];
+  }
+
+  final List<ScProperty> output = [];
+  for (final kv in properties.entries) {
+    final key = kv.key;
+    final String value = kv.value;
+
+    ScPropertyType type = ScPropertyType.text;
+
+    if (isNumeric(value)) {
+      type = ScPropertyType.number;
+    }
+
+    if (value.length == 7 && value.startsWith("#")) {
+      type = ScPropertyType.color;
+    }
+
+    output.add(ScProperty(name: key, value: value, type: type));
+  }
+
+  return output;
+}
+
 @freezed
 abstract class Nft with _$Nft {
   const Nft._();
@@ -29,17 +61,24 @@ abstract class Nft with _$Nft {
     @JsonKey(name: "MinterName") @Default("") String minterName,
     @JsonKey(name: "SmartContractUID") required String id,
     @JsonKey(name: "SmartContractAsset") required Asset primaryAsset,
+    @JsonKey(ignore: true) WebAsset? primaryAssetWeb,
+    @JsonKey(ignore: true) List<WebAsset>? additionalAssetsWeb,
     @JsonKey(name: "IsPublic") required bool isPublic,
     @JsonKey(name: "IsPublished") required bool isPublished,
     @JsonKey(name: "IsMinter") required bool isMinter,
     @JsonKey(name: "Features", defaultValue: []) required List<Map<String, dynamic>> features,
+    @JsonKey(name: "Properties", fromJson: propertiesFromJson) @Default([]) List<ScProperty> properties,
+    @JsonKey(name: "NextOwner") String? nextOwner,
+    @JsonKey(name: "IsLocked") @Default(false) bool isLocked,
     @JsonKey(defaultValue: false) required bool isProcessing,
     String? code,
-    @JsonKey(toJson: nullToNull, fromJson: nullToNull) ProxiedAsset? proxiedAsset,
-    @JsonKey(toJson: nullToNull, fromJson: nullToNull) List<ProxiedAsset>? additionalProxiedAssets,
-    @JsonKey(toJson: nullToNull, fromJson: nullToNull) @Default([]) List<Asset> additionalLocalAssets,
-    @JsonKey(toJson: nullToNull, fromJson: nullToNull) @Default([]) List<EvolvePhase> updatedEvolutionPhases,
-    @JsonKey(defaultValue: false) required bool assetsAvailable,
+    @JsonKey(ignore: true) ProxiedAsset? proxiedAsset,
+    // @JsonKey(ignore: true) List<ProxiedAsset>? additionalProxiedAssets,
+    @JsonKey(ignore: true) @Default([]) List<Asset> additionalLocalAssets,
+    @JsonKey(ignore: true) @Default([]) List<EvolvePhase> updatedEvolutionPhases,
+    // @JsonKey(defaultValue: false) required bool assetsAvailable,
+    // Map<String, dynamic>? assetUrls,
+    @JsonKey(ignore: true) String? thumbsPath,
   }) = _Nft;
 
   factory Nft.fromJson(Map<String, dynamic> json) => _$NftFromJson(json);
@@ -120,6 +159,7 @@ abstract class Nft with _$Nft {
       asset: primaryAsset,
       evolutionState: 0,
       isCurrentState: evolutionPhases.firstWhereOrNull((p) => p.isCurrentState == true) == null ? true : false,
+      properties: properties,
     );
   }
 
@@ -141,6 +181,7 @@ abstract class Nft with _$Nft {
 
   EvolvePhase get currentEvolvePhase {
     final current = updatedEvolutionPhases.firstWhereOrNull((p) => p.isCurrentState == true);
+
     if (current == null) {
       return baseEvolutionPhase;
     }
@@ -166,8 +207,16 @@ abstract class Nft with _$Nft {
     return primaryAsset;
   }
 
-  ProxiedAsset? get currentEvolveAssetWeb {
-    return proxiedAsset;
+  List<ScProperty> get currentEvolveProperties {
+    if (!canEvolve) {
+      return properties;
+    }
+
+    return currentEvolvePhase.properties;
+  }
+
+  WebAsset? get currentEvolveAssetWeb {
+    return primaryAssetWeb;
 
     //TODO handle evolve asset stuff
     // if (!canEvolve) {
@@ -255,5 +304,17 @@ abstract class Nft with _$Nft {
       }
     }
     return true;
+  }
+
+  bool isListed(WidgetRef ref) {
+    if (kIsWeb) {
+      //TODO: handle web
+      return false;
+    }
+
+    if (ref.read(listedNftsProvider).contains(id)) {
+      return true;
+    }
+    return false;
   }
 }

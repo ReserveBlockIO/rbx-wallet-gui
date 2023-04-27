@@ -31,6 +31,8 @@ abstract class CompilerPayload with _$CompilerPayload {
         required String minterAddress,
     @JsonKey(name: "IsMinter")
         required bool isMinter,
+    @JsonKey(name: "Properties")
+        Map<String, String>? properties,
     required String hash,
   }) = _CompilerPayload;
 

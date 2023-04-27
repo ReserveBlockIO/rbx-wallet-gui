@@ -21,7 +21,7 @@ class BidHistory extends BaseComponent {
         style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
       ),
       content: listing.bids.isEmpty
-          ? const Text("No bids yet.")
+          ? const Text("No bids.")
           : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,

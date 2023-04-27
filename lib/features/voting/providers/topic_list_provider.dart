@@ -14,10 +14,10 @@ enum TopicListType {
 }
 
 class TopicListProvider extends StateNotifier<List<Topic>> {
-  final Reader read;
+  final Ref ref;
   final TopicListType listType;
 
-  TopicListProvider(this.read, this.listType, [List<Topic> topics = const []]) : super(topics) {
+  TopicListProvider(this.ref, this.listType, [List<Topic> topics = const []]) : super(topics) {
     load();
   }
 
@@ -71,5 +71,5 @@ class TopicListProvider extends StateNotifier<List<Topic>> {
 }
 
 final topicListProvider = StateNotifierProvider.family<TopicListProvider, List<Topic>, TopicListType>(
-  (ref, listType) => TopicListProvider(ref.read, listType),
+  (ref, listType) => TopicListProvider(ref, listType),
 );

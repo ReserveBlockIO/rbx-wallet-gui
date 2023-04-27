@@ -56,7 +56,11 @@ abstract class Asset with _$Asset {
 
   bool get isImage {
     final extensions = ['jpg', 'jpeg', 'gif', 'png', 'webp'];
-    return extensions.contains(ext);
+    return extensions.contains(ext.toLowerCase());
+  }
+
+  bool get isPdf {
+    return ext.toLowerCase() == "pdf";
   }
 
   String get fileType {

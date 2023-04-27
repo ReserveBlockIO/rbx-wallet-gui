@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'proxied_asset.dart';
 
@@ -30,43 +30,47 @@ mixin _$ProxiedAsset {
 abstract class $ProxiedAssetCopyWith<$Res> {
   factory $ProxiedAssetCopyWith(
           ProxiedAsset value, $Res Function(ProxiedAsset) then) =
-      _$ProxiedAssetCopyWithImpl<$Res>;
+      _$ProxiedAssetCopyWithImpl<$Res, ProxiedAsset>;
+  @useResult
   $Res call({String key, int fileSize, String fileName, String authorName});
 }
 
 /// @nodoc
-class _$ProxiedAssetCopyWithImpl<$Res> implements $ProxiedAssetCopyWith<$Res> {
+class _$ProxiedAssetCopyWithImpl<$Res, $Val extends ProxiedAsset>
+    implements $ProxiedAssetCopyWith<$Res> {
   _$ProxiedAssetCopyWithImpl(this._value, this._then);
 
-  final ProxiedAsset _value;
   // ignore: unused_field
-  final $Res Function(ProxiedAsset) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? key = freezed,
-    Object? fileSize = freezed,
-    Object? fileName = freezed,
-    Object? authorName = freezed,
+    Object? key = null,
+    Object? fileSize = null,
+    Object? fileName = null,
+    Object? authorName = null,
   }) {
     return _then(_value.copyWith(
-      key: key == freezed
+      key: null == key
           ? _value.key
           : key // ignore: cast_nullable_to_non_nullable
               as String,
-      fileSize: fileSize == freezed
+      fileSize: null == fileSize
           ? _value.fileSize
           : fileSize // ignore: cast_nullable_to_non_nullable
               as int,
-      fileName: fileName == freezed
+      fileName: null == fileName
           ? _value.fileName
           : fileName // ignore: cast_nullable_to_non_nullable
               as String,
-      authorName: authorName == freezed
+      authorName: null == authorName
           ? _value.authorName
           : authorName // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 }
 
@@ -77,41 +81,40 @@ abstract class _$$_ProxiedAssetCopyWith<$Res>
           _$_ProxiedAsset value, $Res Function(_$_ProxiedAsset) then) =
       __$$_ProxiedAssetCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({String key, int fileSize, String fileName, String authorName});
 }
 
 /// @nodoc
 class __$$_ProxiedAssetCopyWithImpl<$Res>
-    extends _$ProxiedAssetCopyWithImpl<$Res>
+    extends _$ProxiedAssetCopyWithImpl<$Res, _$_ProxiedAsset>
     implements _$$_ProxiedAssetCopyWith<$Res> {
   __$$_ProxiedAssetCopyWithImpl(
       _$_ProxiedAsset _value, $Res Function(_$_ProxiedAsset) _then)
-      : super(_value, (v) => _then(v as _$_ProxiedAsset));
+      : super(_value, _then);
 
-  @override
-  _$_ProxiedAsset get _value => super._value as _$_ProxiedAsset;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? key = freezed,
-    Object? fileSize = freezed,
-    Object? fileName = freezed,
-    Object? authorName = freezed,
+    Object? key = null,
+    Object? fileSize = null,
+    Object? fileName = null,
+    Object? authorName = null,
   }) {
     return _then(_$_ProxiedAsset(
-      key: key == freezed
+      key: null == key
           ? _value.key
           : key // ignore: cast_nullable_to_non_nullable
               as String,
-      fileSize: fileSize == freezed
+      fileSize: null == fileSize
           ? _value.fileSize
           : fileSize // ignore: cast_nullable_to_non_nullable
               as int,
-      fileName: fileName == freezed
+      fileName: null == fileName
           ? _value.fileName
           : fileName // ignore: cast_nullable_to_non_nullable
               as String,
-      authorName: authorName == freezed
+      authorName: null == authorName
           ? _value.authorName
           : authorName // ignore: cast_nullable_to_non_nullable
               as String,
@@ -148,23 +151,22 @@ class _$_ProxiedAsset extends _ProxiedAsset {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_ProxiedAsset &&
-            const DeepCollectionEquality().equals(other.key, key) &&
-            const DeepCollectionEquality().equals(other.fileSize, fileSize) &&
-            const DeepCollectionEquality().equals(other.fileName, fileName) &&
-            const DeepCollectionEquality()
-                .equals(other.authorName, authorName));
+            (identical(other.key, key) || other.key == key) &&
+            (identical(other.fileSize, fileSize) ||
+                other.fileSize == fileSize) &&
+            (identical(other.fileName, fileName) ||
+                other.fileName == fileName) &&
+            (identical(other.authorName, authorName) ||
+                other.authorName == authorName));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(key),
-      const DeepCollectionEquality().hash(fileSize),
-      const DeepCollectionEquality().hash(fileName),
-      const DeepCollectionEquality().hash(authorName));
+  int get hashCode =>
+      Object.hash(runtimeType, key, fileSize, fileName, authorName);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_ProxiedAssetCopyWith<_$_ProxiedAsset> get copyWith =>
       __$$_ProxiedAssetCopyWithImpl<_$_ProxiedAsset>(this, _$identity);
 }
@@ -178,13 +180,13 @@ abstract class _ProxiedAsset extends ProxiedAsset {
   _ProxiedAsset._() : super._();
 
   @override
-  String get key => throw _privateConstructorUsedError;
+  String get key;
   @override
-  int get fileSize => throw _privateConstructorUsedError;
+  int get fileSize;
   @override
-  String get fileName => throw _privateConstructorUsedError;
+  String get fileName;
   @override
-  String get authorName => throw _privateConstructorUsedError;
+  String get authorName;
   @override
   @JsonKey(ignore: true)
   _$$_ProxiedAssetCopyWith<_$_ProxiedAsset> get copyWith =>

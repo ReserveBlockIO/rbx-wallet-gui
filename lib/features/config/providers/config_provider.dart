@@ -5,13 +5,13 @@ import '../models/config.dart';
 import 'config_form_provider.dart';
 
 class ConfigProvider extends StateNotifier<Config> {
-  final Reader read;
+  final Ref ref;
 
-  ConfigProvider(this.read, Config model) : super(model);
+  ConfigProvider(this.ref, Config model) : super(model);
 
   setConfig(Config config) {
     state = config;
-    read(configFormProvider.notifier).set(config);
+    ref.read(configFormProvider.notifier).set(config);
   }
 }
 
@@ -22,5 +22,5 @@ final configProvider = StateNotifierProvider<ConfigProvider, Config>((ref) {
     testnet: Env.isTestNet,
   );
 
-  return ConfigProvider(ref.read, model);
+  return ConfigProvider(ref, model);
 });

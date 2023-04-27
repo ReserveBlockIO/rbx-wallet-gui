@@ -8,7 +8,14 @@ import '../../../core/theme/app_theme.dart';
 part 'transaction.freezed.dart';
 part 'transaction.g.dart';
 
-enum TransactionStatus { Pending, Success, Fail }
+enum TransactionStatus {
+  Pending,
+  Success,
+  Fail,
+  Reserved,
+  CalledBack,
+  Recovered,
+}
 
 statusFromJson(int? status) {
   if (status == null) return null;
@@ -32,6 +39,7 @@ class Transaction with _$Transaction {
     @JsonKey(name: 'Data') required dynamic nftData,
     @JsonKey(name: 'Signature') String? signature,
     @JsonKey(name: 'Height') required int height,
+    @JsonKey(name: 'UnlockTime') int? unlockTime,
   }) = _Transaction;
 
   factory Transaction.fromJson(Map<String, dynamic> json) => _$TransactionFromJson(json);
@@ -64,6 +72,8 @@ class Transaction with _$Transaction {
         return "Topic Create";
       case 9:
         return "Topic Vote";
+      case 10:
+        return "Reserve";
       default:
         return type.toString();
     }
@@ -77,6 +87,12 @@ class Transaction with _$Transaction {
         return "Pending";
       case TransactionStatus.Fail:
         return "Fail";
+      case TransactionStatus.Reserved:
+        return "Reserved";
+      case TransactionStatus.CalledBack:
+        return "Called Back";
+      case TransactionStatus.Recovered:
+        return "Recovered";
       default:
         return "-";
     }
@@ -91,7 +107,10 @@ class Transaction with _$Transaction {
 
       case TransactionStatus.Fail:
         return Theme.of(context).colorScheme.danger;
-
+      case TransactionStatus.Reserved:
+      case TransactionStatus.CalledBack:
+      case TransactionStatus.Recovered:
+        return Colors.deepPurple.shade200;
       default:
         return Colors.white;
     }
@@ -99,5 +118,53 @@ class Transaction with _$Transaction {
 
   Uri get explorerUrl {
     return Uri.parse("${Env.explorerWebsiteBaseUrl}/transaction/$hash");
+  }
+
+  DateTime? get unlockTimeAsDate {
+    if (unlockTime == null) {
+      return null;
+    }
+    if (status != TransactionStatus.Reserved) {
+      return null;
+    }
+    return DateTime.fromMillisecondsSinceEpoch(unlockTime! * 1000);
+  }
+
+  DateTime? get callbackUntil {
+    if (unlockTime == null) {
+      return null;
+    }
+    if (status != TransactionStatus.Reserved) {
+      return null;
+    }
+
+    final now = DateTime.now();
+
+    if (unlockTimeAsDate!.isBefore(now)) {
+      return null;
+    }
+
+    return unlockTimeAsDate;
+  }
+
+  String get parseUnlockTimeAsDate {
+    if (unlockTime == null) {
+      return "-";
+    }
+    if (status != TransactionStatus.Reserved) {
+      return "-";
+    }
+
+    var date = DateTime.fromMillisecondsSinceEpoch(unlockTime! * 1000);
+    var d12 = DateFormat('MM-dd-yyyy hh:mm a').format(date);
+    return d12;
+  }
+
+  bool get isFromReserveAccount {
+    return fromAddress.startsWith("xRBX");
+  }
+
+  bool get isToReserveAccount {
+    return toAddress.startsWith("xRBX");
   }
 }

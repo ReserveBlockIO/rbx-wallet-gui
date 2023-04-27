@@ -22,17 +22,13 @@ _$_Nft _$$_NftFromJson(Map<String, dynamic> json) => _$_Nft(
               ?.map((e) => e as Map<String, dynamic>)
               .toList() ??
           [],
+      properties: json['Properties'] == null
+          ? const []
+          : propertiesFromJson(json['Properties'] as Map<String, dynamic>?),
+      nextOwner: json['NextOwner'] as String?,
+      isLocked: json['IsLocked'] as bool? ?? false,
       isProcessing: json['isProcessing'] as bool? ?? false,
       code: json['code'] as String?,
-      proxiedAsset: nullToNull(json['proxiedAsset']),
-      additionalProxiedAssets: nullToNull(json['additionalProxiedAssets']),
-      additionalLocalAssets: json['additionalLocalAssets'] == null
-          ? const []
-          : nullToNull(json['additionalLocalAssets']),
-      updatedEvolutionPhases: json['updatedEvolutionPhases'] == null
-          ? const []
-          : nullToNull(json['updatedEvolutionPhases']),
-      assetsAvailable: json['assetsAvailable'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$_NftToJson(_$_Nft instance) => <String, dynamic>{
@@ -47,11 +43,9 @@ Map<String, dynamic> _$$_NftToJson(_$_Nft instance) => <String, dynamic>{
       'IsPublished': instance.isPublished,
       'IsMinter': instance.isMinter,
       'Features': instance.features,
+      'Properties': instance.properties.map((e) => e.toJson()).toList(),
+      'NextOwner': instance.nextOwner,
+      'IsLocked': instance.isLocked,
       'isProcessing': instance.isProcessing,
       'code': instance.code,
-      'proxiedAsset': nullToNull(instance.proxiedAsset),
-      'additionalProxiedAssets': nullToNull(instance.additionalProxiedAssets),
-      'additionalLocalAssets': nullToNull(instance.additionalLocalAssets),
-      'updatedEvolutionPhases': nullToNull(instance.updatedEvolutionPhases),
-      'assetsAvailable': instance.assetsAvailable,
     };

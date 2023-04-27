@@ -1,11 +1,34 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_route/empty_router_widgets.dart';
+import 'package:rbx_wallet/features/chat/screens/buyer_chat_thread_list_screen.dart';
+import 'package:rbx_wallet/features/dst/screens/create_collection_container_screen.dart';
+import 'package:rbx_wallet/features/dst/screens/create_dec_shop_container_screen.dart';
+import 'package:rbx_wallet/features/dst/screens/dst_landing_screen.dart';
+import 'package:rbx_wallet/features/dst/screens/my_collection_detail_screen.dart';
+import 'package:rbx_wallet/features/dst/screens/my_collection_list_screen.dart';
+import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_collection_screen.dart';
+import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_container_screen.dart';
+import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_detail_screen.dart';
+import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_list_screen.dart';
+import 'package:rbx_wallet/features/reserve/screens/reserve_account_overview_screen.dart';
+import 'package:rbx_wallet/features/web_shop/screens/create_web_listing_screen.dart';
+import 'package:rbx_wallet/features/web_shop/screens/web_collection_detail_screen.dart';
+import 'package:rbx_wallet/features/web_shop/screens/web_listing_detail_screen.dart';
+import 'package:rbx_wallet/features/web_shop/screens/web_shop_container_screen.dart';
+import 'package:rbx_wallet/features/web_shop/screens/web_shop_landing_screen.dart';
 
 import '../features/adjudicator/adjudicator_screen.dart';
 import '../features/adnr/screens/adnr_screen.dart';
 import '../features/beacon/screens/beacon_list_screen.dart';
+import '../features/chat/screens/seller_chat_screen.dart';
+import '../features/chat/screens/seller_chat_thread_list_screen.dart';
+import '../features/chat/screens/shop_chat_screen.dart';
 import '../features/config/screens/config_container_screen.dart';
 import '../features/datanode/screens/datanode_screen.dart';
-import '../features/dsts/screens/dst_screen.dart';
+import '../features/dst/screens/create_listing_container_screen.dart';
+import '../features/dst/screens/listing_detail_screen.dart';
+import '../features/dst/screens/listing_auction_detail_screen.dart';
+
 import '../features/home/screens/home_screen.dart';
 import '../features/mother/screens/mother_dashboard_screen.dart';
 import '../features/nft/screens/nft_list_screen.dart';
@@ -25,6 +48,10 @@ import '../features/validator/screens/validator_screen.dart';
 import '../features/voting/screens/create_topic_screen.dart';
 import '../features/voting/screens/topic_detail_screen.dart';
 import '../features/voting/screens/topic_list_screen.dart';
+import '../features/web_shop/screens/create_web_shop_container_screen.dart';
+import '../features/web_shop/screens/web_shop_detail_screen.dart';
+import '../features/web_shop/screens/web_shop_list_screen.dart';
+import '../features/web_shop/screens/my_web_shops_list_screen.dart';
 
 const List<AutoRoute> appRoutes = [
   AutoRoute(
@@ -38,6 +65,7 @@ const List<AutoRoute> appRoutes = [
         page: EmptyRouterPage,
         children: [
           AutoRoute(path: "", page: HomeScreen),
+          AutoRoute(path: "reserve-accounts", page: ReserveAccountOverviewScreen),
         ],
       ),
       AutoRoute(
@@ -117,7 +145,20 @@ const List<AutoRoute> appRoutes = [
         name: "DstsTabRouter",
         page: EmptyRouterPage,
         children: [
-          AutoRoute(path: "", page: DstsScreen),
+          AutoRoute(path: "", page: DstLandingScreen),
+          AutoRoute(path: "chat", page: SellerChatThreadListScreen),
+          // AutoRoute(path: "chat/:address", page: SellerChatScreen),
+          // AutoRoute(path: "shops", page: RemoteShopListScreen),
+          // AutoRoute(path: "shops/:url", page: RemoteShopDetailScreen),
+          // AutoRoute(path: "shops/:url/chat", page: ShopChatScreen),
+          // AutoRoute(path: "shops/:url/collection/:collectionId", page: RemoteShopCollectionScreen),
+          AutoRoute(path: "me", page: MyCollectionsListScreen),
+          AutoRoute(path: ":collectionId", page: MyCollectionDetailScreen),
+          AutoRoute(path: "createCollection", page: CreateCollectionContainerScreen),
+          AutoRoute(path: "createDecShop", page: CreateDecShopContainerScreen),
+          AutoRoute(path: ":listingId", page: ListingDetailScreen),
+          AutoRoute(path: ":listingId/auction", page: ListingAuctionDetailScreen),
+          AutoRoute(path: "createListing/:collectionId", page: CreateListingContainerScreen),
         ],
       ),
       AutoRoute(
@@ -146,14 +187,53 @@ const List<AutoRoute> appRoutes = [
           AutoRoute(path: "", page: BeaconListScreen),
         ],
       ),
-      // AutoRoute(
-      //   path: "explorer",
-      //   name: "ExplorerTabRouter",
-      //   page: EmptyRouterPage,
-      //   children: [
-      //     AutoRoute(path: "", page: ExplorerScreen),
-      //   ],
-      // ),
+      AutoRoute(
+        path: "web-shop",
+        name: "DebugWebShopTabsRouter",
+        page: WebShopContainerScreen,
+        children: [
+          AutoRoute(
+            initial: true,
+            path: "",
+            page: WebShopLandingScreen,
+          ),
+          AutoRoute(
+            path: "shops",
+            page: WebShopListScreen,
+            name: "DebugWebShopListScreenRoute",
+          ),
+          AutoRoute(
+            path: "mine",
+            name: "DebugMyWebShopListScreenRoute",
+            page: MyWebShopListScreen,
+          ),
+          AutoRoute(
+            path: "createWebShop",
+            name: "DebugWebShopCreateScreenRoute",
+            page: CreateWebShopContainerScreen,
+          ),
+          AutoRoute(
+            path: "shop/:shopId/collection/:collectionId/createWebListing",
+            name: "DebugWebListingCreateScreenRoute",
+            page: CreateWebListingScreen,
+          ),
+          AutoRoute(
+            path: "shop/:shopId",
+            name: "DebugWebShopDetailScreenRoute",
+            page: WebShopDetailScreen,
+          ),
+          AutoRoute(
+            path: "shop/:shopId/collection/:collectionId",
+            name: "DebugWebCollectionDetailScreenRoute",
+            page: WebCollectionDetailScreen,
+          ),
+          AutoRoute(
+            path: "shop/:shopId/collection/:collectionId/listing/:listingId",
+            name: "DebugWebListingDetailScreenRoute",
+            page: WebListingDetailScreen,
+          ),
+        ],
+      ),
     ],
   ),
   AutoRoute(
@@ -187,7 +267,24 @@ const List<AutoRoute> appRoutes = [
       ),
     ],
   ),
-  AutoRoute(path: "mother-dashboard", page: MotherDashboardScreen)
+
+  AutoRoute(path: "mother-dashboard", page: MotherDashboardScreen),
+
+  AutoRoute(
+    path: "remote-shop-container",
+    page: RemoteShopContainerScreen,
+    children: [
+      AutoRoute(path: "shops", page: RemoteShopListScreen, initial: true),
+      AutoRoute(path: "shops/chat", page: BuyerChatThreadListScreen),
+      AutoRoute(path: "shops/:url", page: RemoteShopDetailScreen),
+      // AutoRoute(path: "shops/:url/chat", page: ShopChatScreen),
+      AutoRoute(path: "shops/:url/collection/:collectionId", page: RemoteShopCollectionScreen),
+    ],
+  ),
+  AutoRoute(path: "chat/:address", page: SellerChatScreen),
+  AutoRoute(path: "shops/:url/chat", page: ShopChatScreen),
+
+  // AutoRoute(path: "shops/:url", page: RemoteShopDetailScreen),
 ];
 
 @AdaptiveAutoRouter(replaceInRouteName: 'Page,Route,Screen', routes: appRoutes)

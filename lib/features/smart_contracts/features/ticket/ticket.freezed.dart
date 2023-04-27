@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'ticket.dart';
 
@@ -42,7 +42,8 @@ mixin _$Ticket {
 /// @nodoc
 abstract class $TicketCopyWith<$Res> {
   factory $TicketCopyWith(Ticket value, $Res Function(Ticket) then) =
-      _$TicketCopyWithImpl<$Res>;
+      _$TicketCopyWithImpl<$Res, Ticket>;
+  @useResult
   $Res call(
       {String id,
       TicketType type,
@@ -58,73 +59,76 @@ abstract class $TicketCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$TicketCopyWithImpl<$Res> implements $TicketCopyWith<$Res> {
+class _$TicketCopyWithImpl<$Res, $Val extends Ticket>
+    implements $TicketCopyWith<$Res> {
   _$TicketCopyWithImpl(this._value, this._then);
 
-  final Ticket _value;
   // ignore: unused_field
-  final $Res Function(Ticket) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? type = freezed,
-    Object? eventName = freezed,
+    Object? id = null,
+    Object? type = null,
+    Object? eventName = null,
     Object? eventDate = freezed,
-    Object? eventAddress = freezed,
-    Object? description = freezed,
-    Object? eventCode = freezed,
-    Object? quantity = freezed,
-    Object? evolveOnRedeem = freezed,
-    Object? seatInfo = freezed,
+    Object? eventAddress = null,
+    Object? description = null,
+    Object? eventCode = null,
+    Object? quantity = null,
+    Object? evolveOnRedeem = null,
+    Object? seatInfo = null,
     Object? expireDate = freezed,
   }) {
     return _then(_value.copyWith(
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as TicketType,
-      eventName: eventName == freezed
+      eventName: null == eventName
           ? _value.eventName
           : eventName // ignore: cast_nullable_to_non_nullable
               as String,
-      eventDate: eventDate == freezed
+      eventDate: freezed == eventDate
           ? _value.eventDate
           : eventDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      eventAddress: eventAddress == freezed
+      eventAddress: null == eventAddress
           ? _value.eventAddress
           : eventAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      description: description == freezed
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      eventCode: eventCode == freezed
+      eventCode: null == eventCode
           ? _value.eventCode
           : eventCode // ignore: cast_nullable_to_non_nullable
               as String,
-      quantity: quantity == freezed
+      quantity: null == quantity
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
               as int,
-      evolveOnRedeem: evolveOnRedeem == freezed
+      evolveOnRedeem: null == evolveOnRedeem
           ? _value.evolveOnRedeem
           : evolveOnRedeem // ignore: cast_nullable_to_non_nullable
               as bool,
-      seatInfo: seatInfo == freezed
+      seatInfo: null == seatInfo
           ? _value.seatInfo
           : seatInfo // ignore: cast_nullable_to_non_nullable
               as String,
-      expireDate: expireDate == freezed
+      expireDate: freezed == expireDate
           ? _value.expireDate
           : expireDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-    ));
+    ) as $Val);
   }
 }
 
@@ -133,6 +137,7 @@ abstract class _$$_TicketCopyWith<$Res> implements $TicketCopyWith<$Res> {
   factory _$$_TicketCopyWith(_$_Ticket value, $Res Function(_$_Ticket) then) =
       __$$_TicketCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String id,
       TicketType type,
@@ -148,70 +153,69 @@ abstract class _$$_TicketCopyWith<$Res> implements $TicketCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_TicketCopyWithImpl<$Res> extends _$TicketCopyWithImpl<$Res>
+class __$$_TicketCopyWithImpl<$Res>
+    extends _$TicketCopyWithImpl<$Res, _$_Ticket>
     implements _$$_TicketCopyWith<$Res> {
   __$$_TicketCopyWithImpl(_$_Ticket _value, $Res Function(_$_Ticket) _then)
-      : super(_value, (v) => _then(v as _$_Ticket));
+      : super(_value, _then);
 
-  @override
-  _$_Ticket get _value => super._value as _$_Ticket;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? type = freezed,
-    Object? eventName = freezed,
+    Object? id = null,
+    Object? type = null,
+    Object? eventName = null,
     Object? eventDate = freezed,
-    Object? eventAddress = freezed,
-    Object? description = freezed,
-    Object? eventCode = freezed,
-    Object? quantity = freezed,
-    Object? evolveOnRedeem = freezed,
-    Object? seatInfo = freezed,
+    Object? eventAddress = null,
+    Object? description = null,
+    Object? eventCode = null,
+    Object? quantity = null,
+    Object? evolveOnRedeem = null,
+    Object? seatInfo = null,
     Object? expireDate = freezed,
   }) {
     return _then(_$_Ticket(
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as TicketType,
-      eventName: eventName == freezed
+      eventName: null == eventName
           ? _value.eventName
           : eventName // ignore: cast_nullable_to_non_nullable
               as String,
-      eventDate: eventDate == freezed
+      eventDate: freezed == eventDate
           ? _value.eventDate
           : eventDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      eventAddress: eventAddress == freezed
+      eventAddress: null == eventAddress
           ? _value.eventAddress
           : eventAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      description: description == freezed
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      eventCode: eventCode == freezed
+      eventCode: null == eventCode
           ? _value.eventCode
           : eventCode // ignore: cast_nullable_to_non_nullable
               as String,
-      quantity: quantity == freezed
+      quantity: null == quantity
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
               as int,
-      evolveOnRedeem: evolveOnRedeem == freezed
+      evolveOnRedeem: null == evolveOnRedeem
           ? _value.evolveOnRedeem
           : evolveOnRedeem // ignore: cast_nullable_to_non_nullable
               as bool,
-      seatInfo: seatInfo == freezed
+      seatInfo: null == seatInfo
           ? _value.seatInfo
           : seatInfo // ignore: cast_nullable_to_non_nullable
               as String,
-      expireDate: expireDate == freezed
+      expireDate: freezed == expireDate
           ? _value.expireDate
           : expireDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
@@ -283,47 +287,55 @@ class _$_Ticket extends _Ticket {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Ticket &&
-            const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.type, type) &&
-            const DeepCollectionEquality().equals(other.eventName, eventName) &&
-            const DeepCollectionEquality().equals(other.eventDate, eventDate) &&
-            const DeepCollectionEquality()
-                .equals(other.eventAddress, eventAddress) &&
-            const DeepCollectionEquality()
-                .equals(other.description, description) &&
-            const DeepCollectionEquality().equals(other.eventCode, eventCode) &&
-            const DeepCollectionEquality().equals(other.quantity, quantity) &&
-            const DeepCollectionEquality()
-                .equals(other.evolveOnRedeem, evolveOnRedeem) &&
-            const DeepCollectionEquality().equals(other.seatInfo, seatInfo) &&
-            const DeepCollectionEquality()
-                .equals(other.expireDate, expireDate));
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.eventName, eventName) ||
+                other.eventName == eventName) &&
+            (identical(other.eventDate, eventDate) ||
+                other.eventDate == eventDate) &&
+            (identical(other.eventAddress, eventAddress) ||
+                other.eventAddress == eventAddress) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.eventCode, eventCode) ||
+                other.eventCode == eventCode) &&
+            (identical(other.quantity, quantity) ||
+                other.quantity == quantity) &&
+            (identical(other.evolveOnRedeem, evolveOnRedeem) ||
+                other.evolveOnRedeem == evolveOnRedeem) &&
+            (identical(other.seatInfo, seatInfo) ||
+                other.seatInfo == seatInfo) &&
+            (identical(other.expireDate, expireDate) ||
+                other.expireDate == expireDate));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(type),
-      const DeepCollectionEquality().hash(eventName),
-      const DeepCollectionEquality().hash(eventDate),
-      const DeepCollectionEquality().hash(eventAddress),
-      const DeepCollectionEquality().hash(description),
-      const DeepCollectionEquality().hash(eventCode),
-      const DeepCollectionEquality().hash(quantity),
-      const DeepCollectionEquality().hash(evolveOnRedeem),
-      const DeepCollectionEquality().hash(seatInfo),
-      const DeepCollectionEquality().hash(expireDate));
+      id,
+      type,
+      eventName,
+      eventDate,
+      eventAddress,
+      description,
+      eventCode,
+      quantity,
+      evolveOnRedeem,
+      seatInfo,
+      expireDate);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_TicketCopyWith<_$_Ticket> get copyWith =>
       __$$_TicketCopyWithImpl<_$_Ticket>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_TicketToJson(this);
+    return _$$_TicketToJson(
+      this,
+    );
   }
 }
 
@@ -345,29 +357,29 @@ abstract class _Ticket extends Ticket {
   factory _Ticket.fromJson(Map<String, dynamic> json) = _$_Ticket.fromJson;
 
   @override
-  String get id => throw _privateConstructorUsedError;
+  String get id;
   @override
-  TicketType get type => throw _privateConstructorUsedError;
+  TicketType get type;
   @override
-  String get eventName => throw _privateConstructorUsedError;
+  String get eventName;
   @override
-  DateTime? get eventDate => throw _privateConstructorUsedError;
+  DateTime? get eventDate;
   @override
-  String get eventAddress => throw _privateConstructorUsedError;
+  String get eventAddress;
   @override
-  String get description => throw _privateConstructorUsedError;
+  String get description;
   @override
 
   /// NEW STUFF vvvv
-  String get eventCode => throw _privateConstructorUsedError;
+  String get eventCode;
   @override
-  int get quantity => throw _privateConstructorUsedError;
+  int get quantity;
   @override
-  bool get evolveOnRedeem => throw _privateConstructorUsedError;
+  bool get evolveOnRedeem;
   @override
-  String get seatInfo => throw _privateConstructorUsedError;
+  String get seatInfo;
   @override
-  DateTime? get expireDate => throw _privateConstructorUsedError;
+  DateTime? get expireDate;
   @override
   @JsonKey(ignore: true)
   _$$_TicketCopyWith<_$_Ticket> get copyWith =>

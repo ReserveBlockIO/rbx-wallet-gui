@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/services/explorer_service.dart';
+import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/providers/web_session_provider.dart';
@@ -19,15 +21,15 @@ import 'burned_provider.dart';
 import 'transferred_provider.dart';
 
 class NftDetailProvider extends StateNotifier<Nft?> {
-  final Reader read;
+  final Ref ref;
   final String id;
 
-  NftDetailProvider(this.read, this.id) : super(null) {
+  NftDetailProvider(this.ref, this.id) : super(null) {
     init();
   }
 
   Future<Nft?> _retrieve() async {
-    final nft = kIsWeb ? await TransactionService().retrieveNft(id) : await NftService().retrieve(id);
+    final nft = kIsWeb ? await ExplorerService().retrieveNft(id) : await NftService().retrieve(id);
 
     return nft;
   }
@@ -96,7 +98,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     }
 
     if (mustBeOwner) {
-      Wallet? wallet = read(walletListProvider).firstWhereOrNull((w) => w.address == state!.currentOwner);
+      Wallet? wallet = ref.read(walletListProvider).firstWhereOrNull((w) => w.address == state!.currentOwner);
 
       if (wallet == null && mustBeOwner) {
         Toast.error("You are not the owner of this NFT.");
@@ -104,7 +106,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
         return false;
       }
 
-      wallet ??= read(walletListProvider).firstWhereOrNull((w) => w.address == state!.minterAddress);
+      wallet ??= ref.read(walletListProvider).firstWhereOrNull((w) => w.address == state!.minterAddress);
 
       if (wallet == null) {
         Toast.error("You are not the owner or minter of this NFT.");
@@ -120,15 +122,42 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     return true;
   }
 
-  Future<String?> transfer(String address, String? url) async {
+  Future<bool> transfer(String address, String? url) async {
     // if (!canTransact()) return false;
-    read(globalLoadingProvider.notifier).start();
-    final error = await SmartContractService().transfer(id, address, url);
-    read(globalLoadingProvider.notifier).complete();
-    if (error == null) {
-      read(transferredProvider.notifier).addId(id);
+    ref.read(globalLoadingProvider.notifier).start();
+    final success = await SmartContractService().transfer(id, address, url);
+    ref.read(globalLoadingProvider.notifier).complete();
+    if (success) {
+      ref.read(transferredProvider.notifier).addId(id);
+      return true;
     }
-    return error;
+    return false;
+  }
+
+  Future<bool> transferFromReserveAccount({
+    required String toAddress,
+    required String fromAddress,
+    required String password,
+    required int delayHours,
+    String? backupUrl,
+  }) async {
+    // if (!canTransact()) return false;
+    ref.read(globalLoadingProvider.notifier).start();
+    final success = await ReserveAccountService().transferFromReserveAccount(
+      id: id,
+      fromAddress: fromAddress,
+      toAddress: toAddress,
+      password: password,
+      delayHours: delayHours,
+      backupUrl: backupUrl,
+    );
+    ref.read(globalLoadingProvider.notifier).complete();
+
+    if (success) {
+      ref.read(transferredProvider.notifier).addId(id);
+      return true;
+    }
+    return false;
   }
 
   static bool _txResponseIsValid(Map<String, dynamic>? data) {
@@ -140,7 +169,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
   }
 
   Future<bool?> transferWebOut(String toAddress) async {
-    final keypair = read(webSessionProvider).keypair;
+    final keypair = ref.read(webSessionProvider).keypair;
     if (keypair == null) {
       return false;
     }
@@ -285,7 +314,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
   }
 
   Future<bool> transferWebIn() async {
-    final keypair = read(webSessionProvider).keypair;
+    final keypair = ref.read(webSessionProvider).keypair;
     if (keypair == null) {
       return false;
     }
@@ -333,7 +362,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
   }
 
   Future<bool> burnWeb() async {
-    final keypair = read(webSessionProvider).keypair;
+    final keypair = ref.read(webSessionProvider).keypair;
     if (keypair == null) {
       return false;
     }
@@ -463,7 +492,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
 
     if (tx != null) {
       if (tx['data']['Result'] == "Success") {
-        read(burnedProvider.notifier).addId(id);
+        ref.read(burnedProvider.notifier).addId(id);
 
         return true;
       }
@@ -479,11 +508,11 @@ class NftDetailProvider extends StateNotifier<Nft?> {
 
     final success = await SmartContractService().burn(id);
 
-    read(burnedProvider.notifier).addId(id);
+    ref.read(burnedProvider.notifier).addId(id);
     return success;
   }
 }
 
 final nftDetailProvider = StateNotifierProvider.family<NftDetailProvider, Nft?, String>(
-  (ref, id) => NftDetailProvider(ref.read, id),
+  (ref, id) => NftDetailProvider(ref, id),
 );

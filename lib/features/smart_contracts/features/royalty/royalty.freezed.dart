@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'royalty.dart';
 
@@ -33,43 +33,47 @@ mixin _$Royalty {
 /// @nodoc
 abstract class $RoyaltyCopyWith<$Res> {
   factory $RoyaltyCopyWith(Royalty value, $Res Function(Royalty) then) =
-      _$RoyaltyCopyWithImpl<$Res>;
+      _$RoyaltyCopyWithImpl<$Res, Royalty>;
+  @useResult
   $Res call({String id, RoyaltyType type, double amount, String address});
 }
 
 /// @nodoc
-class _$RoyaltyCopyWithImpl<$Res> implements $RoyaltyCopyWith<$Res> {
+class _$RoyaltyCopyWithImpl<$Res, $Val extends Royalty>
+    implements $RoyaltyCopyWith<$Res> {
   _$RoyaltyCopyWithImpl(this._value, this._then);
 
-  final Royalty _value;
   // ignore: unused_field
-  final $Res Function(Royalty) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? type = freezed,
-    Object? amount = freezed,
-    Object? address = freezed,
+    Object? id = null,
+    Object? type = null,
+    Object? amount = null,
+    Object? address = null,
   }) {
     return _then(_value.copyWith(
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as RoyaltyType,
-      amount: amount == freezed
+      amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as double,
-      address: address == freezed
+      address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 }
 
@@ -79,39 +83,39 @@ abstract class _$$_RoyaltyCopyWith<$Res> implements $RoyaltyCopyWith<$Res> {
           _$_Royalty value, $Res Function(_$_Royalty) then) =
       __$$_RoyaltyCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({String id, RoyaltyType type, double amount, String address});
 }
 
 /// @nodoc
-class __$$_RoyaltyCopyWithImpl<$Res> extends _$RoyaltyCopyWithImpl<$Res>
+class __$$_RoyaltyCopyWithImpl<$Res>
+    extends _$RoyaltyCopyWithImpl<$Res, _$_Royalty>
     implements _$$_RoyaltyCopyWith<$Res> {
   __$$_RoyaltyCopyWithImpl(_$_Royalty _value, $Res Function(_$_Royalty) _then)
-      : super(_value, (v) => _then(v as _$_Royalty));
+      : super(_value, _then);
 
-  @override
-  _$_Royalty get _value => super._value as _$_Royalty;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? type = freezed,
-    Object? amount = freezed,
-    Object? address = freezed,
+    Object? id = null,
+    Object? type = null,
+    Object? amount = null,
+    Object? address = null,
   }) {
     return _then(_$_Royalty(
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as RoyaltyType,
-      amount: amount == freezed
+      amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as double,
-      address: address == freezed
+      address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as String,
@@ -155,29 +159,27 @@ class _$_Royalty extends _Royalty {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Royalty &&
-            const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.type, type) &&
-            const DeepCollectionEquality().equals(other.amount, amount) &&
-            const DeepCollectionEquality().equals(other.address, address));
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.address, address) || other.address == address));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(type),
-      const DeepCollectionEquality().hash(amount),
-      const DeepCollectionEquality().hash(address));
+  int get hashCode => Object.hash(runtimeType, id, type, amount, address);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_RoyaltyCopyWith<_$_Royalty> get copyWith =>
       __$$_RoyaltyCopyWithImpl<_$_Royalty>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_RoyaltyToJson(this);
+    return _$$_RoyaltyToJson(
+      this,
+    );
   }
 }
 
@@ -192,13 +194,13 @@ abstract class _Royalty extends Royalty {
   factory _Royalty.fromJson(Map<String, dynamic> json) = _$_Royalty.fromJson;
 
   @override
-  String get id => throw _privateConstructorUsedError;
+  String get id;
   @override
-  RoyaltyType get type => throw _privateConstructorUsedError;
+  RoyaltyType get type;
   @override
-  double get amount => throw _privateConstructorUsedError;
+  double get amount;
   @override
-  String get address => throw _privateConstructorUsedError;
+  String get address;
   @override
   @JsonKey(ignore: true)
   _$$_RoyaltyCopyWith<_$_Royalty> get copyWith =>

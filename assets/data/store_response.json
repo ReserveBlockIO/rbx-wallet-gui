@@ -1,0 +1,59 @@
+{
+    "Success": true,
+    "Message": "Data Found.",
+    "DecShopData": {
+        "DecShop": {
+            "Id": 1,
+            "UniqueId": "FTVRdngeal1679531269",
+            "Name": "Aaron's Shop",
+            "DecShopURL": "rbx://aaron",
+            "Description": "This is my brand new NFT shop. Welcome welcome welcome! I hope you find something to buy and make us both happy!",
+            "OwnerAddress": "xJLEDCh2c22ptXRvyz5iiQCG4VBPmJJZoX",
+            "HostingType": 0,
+            "IP": "185.199.226.121",
+            "Port": 13341,
+            "OriginalBlockHeight": 512,
+            "OriginalTXHash": "d5fbde1d38fedc144f32a7a27b7a3d798975d5bfa2873324df13d738467edff1",
+            "LatestBlockHeight": 512,
+            "LatestTXHash": "d5fbde1d38fedc144f32a7a27b7a3d798975d5bfa2873324df13d738467edff1",
+            "UpdateTimestamp": 0,
+            "AutoUpdateNetworkDNS": true,
+            "NeedsPublishToNetwork": false,
+            "IsOffline": false,
+            "IsPublished": true,
+            "IsIPDifferent": true
+        },
+        "Collections": [
+            {
+                "Id": 1,
+                "Name": "Aaron's Super Cool Collection of Rocks",
+                "Description": "This is the greatest rock collection to have ever rocked. Rock and roll!",
+                "CollectionLive": true,
+                "IsDefault": true
+            }
+        ],
+        "Auctions": null,
+        "Listings": [
+            {
+                "Id": 1,
+                "SmartContractUID": "50fc83d931b3412887467925a46227d4:1679557421",
+                "AddressOwner": "xJLEDCh2c22ptXRvyz5iiQCG4VBPmJJZoX",
+                "BuyNowPrice": 100.0,
+                "IsBuyNowOnly": false,
+                "IsRoyaltyEnforced": false,
+                "IsCancelled": false,
+                "RequireBalanceCheck": true,
+                "FloorPrice": 1.0,
+                "ReservePrice": 22.0,
+                "StartDate": "2023-03-25T03:50:05.828-04:00",
+                "EndDate": "2023-04-02T03:50:32.57-04:00",
+                "IsVisibleBeforeStartDate": true,
+                "IsVisibleAfterEndDate": true,
+                "FinalPrice": null,
+                "WinningAddress": null,
+                "CollectionId": 1
+            }
+        ],
+        "Bids": null
+    }
+}

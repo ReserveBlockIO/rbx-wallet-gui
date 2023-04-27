@@ -31,7 +31,7 @@ class TransactionsScreen extends BaseScreen {
   @override
   Widget body(BuildContext context, WidgetRef ref) {
     return DefaultTabController(
-      length: 5,
+      length: 6,
       child: Column(
         children: [
           const TabBar(
@@ -49,6 +49,9 @@ class TransactionsScreen extends BaseScreen {
                 child: Text("Failed"),
               ),
               const Tab(
+                child: const Text("Reserve"),
+              ),
+              const Tab(
                 child: const Text("Mined"),
               ),
             ],
@@ -60,6 +63,7 @@ class TransactionsScreen extends BaseScreen {
                 TransactionListType.Pending,
                 TransactionListType.Success,
                 TransactionListType.Failed,
+                TransactionListType.Reserved,
                 TransactionListType.Mined,
               ].map((type) => TransactionList(type: type)).toList(),
             ),

@@ -6,11 +6,10 @@ import '../../../../utils/validation.dart';
 import '../../../asset/asset.dart';
 import '../../../bridge/providers/wallet_info_provider.dart';
 import 'evolve.dart';
-import 'evolve_form_provider.dart';
 import 'evolve_phase.dart';
 
 class EvolvePhaseWizardFormProvider extends StateNotifier<EvolvePhase> {
-  final Reader read;
+  final Ref ref;
   final int index;
   late final TextEditingController nameController;
   late final TextEditingController descriptionController;
@@ -19,7 +18,7 @@ class EvolvePhaseWizardFormProvider extends StateNotifier<EvolvePhase> {
   late final TextEditingController timeController;
 
   EvolvePhaseWizardFormProvider(
-    this.read,
+    this.ref,
     this.index, [
     EvolvePhase model = const EvolvePhase(),
   ]) : super(model) {
@@ -60,11 +59,11 @@ class EvolvePhaseWizardFormProvider extends StateNotifier<EvolvePhase> {
       return "Invalid value";
     }
 
-    if (read(walletInfoProvider) == null) {
+    if (ref.read(walletInfoProvider) == null) {
       return "Error";
     }
 
-    final currentBh = read(walletInfoProvider)!.blockHeight;
+    final currentBh = ref.read(walletInfoProvider)!.blockHeight;
 
     if (parsed <= currentBh) {
       return "Block height must be greater than $currentBh.";
@@ -143,5 +142,5 @@ class EvolvePhaseWizardFormProvider extends StateNotifier<EvolvePhase> {
 }
 
 final evolvePhaseWizardFormProvider = StateNotifierProvider.family<EvolvePhaseWizardFormProvider, EvolvePhase, int>(
-  (ref, index) => EvolvePhaseWizardFormProvider(ref.read, index),
+  (ref, index) => EvolvePhaseWizardFormProvider(ref, index),
 );

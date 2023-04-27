@@ -2,6 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/components/big_button.dart';
+import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/app_router.gr.dart';
@@ -36,21 +39,21 @@ class SmartContractsScreen extends BaseScreen {
   Widget body(BuildContext context, WidgetRef ref) {
     return Stack(
       children: [
-        Image.asset(
-          Assets.images.gridBg.path,
-          width: double.infinity,
-          height: double.infinity,
-          fit: BoxFit.cover,
-        ),
+        // Image.asset(
+        //   Assets.images.gridBg.path,
+        //   width: double.infinity,
+        //   height: double.infinity,
+        //   fit: BoxFit.cover,
+        // ),
         Container(
           width: double.infinity,
           height: double.infinity,
           decoration: const BoxDecoration(
             color: Colors.black38,
             border: Border(
-              top: BorderSide(color: Colors.white30, width: 2),
-              bottom: BorderSide(color: Colors.white30, width: 2),
-            ),
+                // top: BorderSide(color: Colors.white30, width: 2),
+                // bottom: BorderSide(color: Colors.white30, width: 2),
+                ),
           ),
         ),
         Center(
@@ -71,14 +74,18 @@ class SmartContractsScreen extends BaseScreen {
                   iconData: Icons.create,
                   body: "Start with a baseline smart contract and add customized features",
                   onPressed: () async {
-                    // if (!Env.isTestNet) {
-                    if (!guardWalletIsSynced(ref.read)) {
+                    if (!kDebugMode) {
+                      if (!widgetGuardWalletIsSynced(ref)) {
+                        return;
+                      }
+                    }
+
+                    if (ref.read(sessionProvider).currentWallet?.isReserved == true) {
+                      Toast.error("Reserve Accounts cannot mint Smart Contracts");
                       return;
                     }
-                    // }
 
                     ref.read(createSmartContractProvider.notifier).clearSmartContract();
-
                     final id = await AutoRouter.of(context).push(const SmartContractCreatorContainerScreenRoute());
 
                     if (id != null) {
@@ -89,15 +96,15 @@ class SmartContractsScreen extends BaseScreen {
                     }
                   },
                 ),
-                if (kDebugMode)
-                  BigButton(
-                    title: "Mint NFT Collection",
-                    iconData: Icons.auto_awesome,
-                    body: "Mint multiple Smart Contracts into a collection",
-                    onPressed: () {
-                      AutoRouter.of(context).push(const BulkCreateScreenRoute());
-                    },
-                  ),
+                // if (kDebugMode)
+                BigButton(
+                  title: "Mint NFT Collection",
+                  iconData: Icons.auto_awesome,
+                  body: "Mint multiple Smart Contracts into a collection",
+                  onPressed: () {
+                    AutoRouter.of(context).push(const BulkCreateScreenRoute());
+                  },
+                ),
                 BigButton(
                   title: "Launch IDE",
                   iconData: Icons.code,
@@ -120,83 +127,6 @@ class SmartContractsScreen extends BaseScreen {
           ),
         ),
       ],
-    );
-  }
-}
-
-class BigButton extends StatelessWidget {
-  final String title;
-  final String body;
-  final IconData iconData;
-  final Function() onPressed;
-  const BigButton({
-    Key? key,
-    required this.title,
-    required this.body,
-    required this.iconData,
-    required this.onPressed,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final isMobile = BreakPoints.useMobileLayout(context);
-
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        width: 600,
-        decoration: BoxDecoration(
-          // color: Theme.of(context).colorScheme.primary,
-          color: Colors.black.withOpacity(0.6),
-          borderRadius: BorderRadius.circular(10.0),
-          border: Border.all(color: Theme.of(context).colorScheme.secondary.withOpacity(0.2), width: 3),
-          boxShadow: const [
-            BoxShadow(blurRadius: 12.0, color: Colors.white12),
-          ],
-        ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: onPressed,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 20,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    iconData,
-                    size: isMobile ? 28 : 48,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      title,
-                      style: isMobile
-                          ? Theme.of(context).textTheme.headline5!.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              )
-                          : Theme.of(context).textTheme.headline3,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 32),
-                    child: Text(
-                      body,
-                      style: Theme.of(context).textTheme.bodyText2,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

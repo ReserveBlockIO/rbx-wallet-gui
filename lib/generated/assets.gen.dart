@@ -5,9 +5,32 @@
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
-// ignore_for_file: directives_ordering,unnecessary_import
+// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal,deprecated_member_use
 
 import 'package:flutter/widgets.dart';
+
+class $AssetsDataGen {
+  const $AssetsDataGen();
+
+  /// File path: assets/data/store_response.json
+  String get storeResponse => 'assets/data/store_response.json';
+
+  /// List of all assets
+  List<String> get values => [storeResponse];
+}
+
+class $AssetsDocsGen {
+  const $AssetsDocsGen();
+
+  /// File path: assets/docs/nft-metadata-example.csv
+  String get nftMetadataExampleCsv => 'assets/docs/nft-metadata-example.csv';
+
+  /// File path: assets/docs/nft-metadata-example.json
+  String get nftMetadataExampleJson => 'assets/docs/nft-metadata-example.json';
+
+  /// List of all assets
+  List<String> get values => [nftMetadataExampleCsv, nftMetadataExampleJson];
+}
 
 class $AssetsEnvGen {
   const $AssetsEnvGen();
@@ -43,8 +66,27 @@ class $AssetsEnvGen {
   /// File path: assets/env/web_env
   String get webEnv => 'assets/env/web_env';
 
+  /// File path: assets/env/web_local_env
+  String get webLocalEnv => 'assets/env/web_local_env';
+
   /// File path: assets/env/win_testnet_env
   String get winTestnetEnv => 'assets/env/win_testnet_env';
+
+  /// List of all assets
+  List<String> get values => [
+        blockExplorerEnv,
+        blockExplorerTestNetEnv,
+        devEnv,
+        devWinEnv,
+        macDevEnv,
+        macTestnetEnv,
+        releaseEnv,
+        releaseTestnet,
+        webDevEnv,
+        webEnv,
+        webLocalEnv,
+        winTestnetEnv
+      ];
 }
 
 class $AssetsFontsGen {
@@ -52,6 +94,9 @@ class $AssetsFontsGen {
 
   /// File path: assets/fonts/RobotoMono-Regular.ttf
   String get robotoMonoRegular => 'assets/fonts/RobotoMono-Regular.ttf';
+
+  /// List of all assets
+  List<String> get values => [robotoMonoRegular];
 }
 
 class $AssetsImagesGen {
@@ -183,6 +228,43 @@ class $AssetsImagesGen {
   /// File path: assets/images/wordmark.png
   AssetGenImage get wordmark =>
       const AssetGenImage('assets/images/wordmark.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [
+        animatedCube,
+        animatedCubeFast,
+        decorBottom,
+        decorBottomLeft,
+        decorBottomRight,
+        decorTopLeft,
+        globe,
+        grid,
+        gridBg,
+        gridCropped,
+        icon,
+        nester,
+        nodelines,
+        rbxWallet,
+        templateBasic1a,
+        templateBasic2a,
+        templateBasic3a,
+        templateEvolving1a,
+        templateEvolving2a,
+        templateEvolving3a,
+        templateRoyalty1a,
+        templateRoyalty2a,
+        templateRoyalty3a,
+        tutBasic1,
+        tutBasic2,
+        tutBasic3,
+        tutEvolve1,
+        tutEvolve2,
+        tutEvolve3,
+        tutRoyalty1,
+        tutRoyalty2,
+        tutRoyalty3,
+        wordmark
+      ];
 }
 
 class $AssetsJsGen {
@@ -190,11 +272,16 @@ class $AssetsJsGen {
 
   /// File path: assets/js/keygen.js
   String get keygen => 'assets/js/keygen.js';
+
+  /// List of all assets
+  List<String> get values => [keygen];
 }
 
 class Assets {
   Assets._();
 
+  static const $AssetsDataGen data = $AssetsDataGen();
+  static const $AssetsDocsGen docs = $AssetsDocsGen();
   static const $AssetsEnvGen env = $AssetsEnvGen();
   static const $AssetsFontsGen fonts = $AssetsFontsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
@@ -258,6 +345,8 @@ class AssetGenImage {
       cacheHeight: cacheHeight,
     );
   }
+
+  ImageProvider provider() => AssetImage(_assetName);
 
   String get path => _assetName;
 

@@ -8,10 +8,12 @@ class AssetThumbnail extends StatelessWidget {
   final double size;
   final Asset asset;
   final String nftId;
+  final String ownerAddress;
   const AssetThumbnail(
     this.asset, {
     Key? key,
     required this.nftId,
+    required this.ownerAddress,
     this.size = 150.0,
   }) : super(key: key);
 
@@ -22,7 +24,11 @@ class AssetThumbnail extends StatelessWidget {
         showDialog(
           context: context,
           builder: (context) {
-            return AssetThumbnailDialog(asset: asset, nftId: nftId);
+            return AssetThumbnailDialog(
+              asset: asset,
+              nftId: nftId,
+              ownerAddress: ownerAddress,
+            );
           },
         );
       },
@@ -49,11 +55,13 @@ class AssetThumbnailDialog extends StatelessWidget {
     Key? key,
     required this.asset,
     required this.nftId,
+    required this.ownerAddress,
     this.onAssociate,
   }) : super(key: key);
 
   final Asset asset;
   final String nftId;
+  final String ownerAddress;
   final Function()? onAssociate;
 
   @override
@@ -80,6 +88,7 @@ class AssetThumbnailDialog extends StatelessWidget {
                   asset,
                   interactive: true,
                   nftId: nftId,
+                  ownerAddress: ownerAddress,
                   onAssociate: () {
                     Navigator.of(context).pop();
                     if (onAssociate != null) {
