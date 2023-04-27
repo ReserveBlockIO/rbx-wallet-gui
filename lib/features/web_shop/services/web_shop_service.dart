@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/models/paginated_response.dart';
 import 'package:rbx_wallet/core/services/base_service.dart';
-import 'package:rbx_wallet/core/services/transaction_service.dart';
 import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_collection.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_listing.dart';

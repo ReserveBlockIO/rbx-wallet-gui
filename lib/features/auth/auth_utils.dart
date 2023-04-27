@@ -16,7 +16,6 @@ import '../../core/breakpoints.dart';
 import '../../core/components/buttons.dart';
 import '../../core/dialogs.dart';
 import '../../core/providers/web_session_provider.dart';
-import '../../core/services/transaction_service.dart';
 import '../../core/web_router.gr.dart';
 import '../global_loader/global_loading_provider.dart';
 import '../keygen/models/keypair.dart';
@@ -41,9 +40,9 @@ Future<void> handleImportWithPrivateKey(
     labelText: "Private Key",
     onValidSubmission: (submission) async {
       await handleRememberMe(context, ref);
-      final keypair = await KeygenService.importPrivateKey(submission);
-      await TransactionService().createWallet(null, keypair.public);
-      login(context, ref, keypair);
+      // final keypair = await KeygenService.importPrivateKey(submission);
+      // await TransactionService().createWallet(null, keypair.public);
+      // login(context, ref, keypair);
       if (ref.read(webSessionProvider).isAuthenticated) {
         AutoRouter.of(context).push(WebDashboardContainerRoute());
       }
@@ -89,7 +88,7 @@ Future<void> handleCreateWithEmail(
     await showKeys(context, keypair);
   }
 
-  await TransactionService().createWallet(email, keypair.public);
+  // await TransactionService().createWallet(email, keypair.public);
   await handleRememberMe(context, ref);
   login(context, ref, keypair.copyWith(email: email));
 }
@@ -110,7 +109,7 @@ Future<void> handleCreateWithMnemonic(
   }
   ref.read(globalLoadingProvider.notifier).complete();
 
-  await TransactionService().createWallet(null, keypair.public);
+  // await TransactionService().createWallet(null, keypair.public);
 
   login(context, ref, keypair);
   await showKeys(context, keypair);
@@ -186,7 +185,7 @@ Future<dynamic> handleRecoverFromMnemonic(BuildContext context, WidgetRef ref) a
       ref.read(globalLoadingProvider.notifier).complete();
 
       // showKeys(context, keypair);
-      await TransactionService().createWallet(null, keypair.public);
+      // await TransactionService().createWallet(null, keypair.public);
       login(context, ref, keypair);
       if (ref.read(webSessionProvider).isAuthenticated) {
         AutoRouter.of(context).push(WebDashboardContainerRoute());

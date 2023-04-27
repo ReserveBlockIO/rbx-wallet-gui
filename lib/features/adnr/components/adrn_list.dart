@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/raw/raw_service.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/base_component.dart';
 import '../../../core/components/badges.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';
-import '../../../core/services/transaction_service.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../utils/guards.dart';
 import '../../../utils/toast.dart';
@@ -127,7 +127,7 @@ class AdnrList extends BaseComponent {
                                       validator: (value) => formValidatorRbxAddress(value, false),
                                       labelText: "Address",
                                       onValidSubmission: (toAddress) async {
-                                        final result = await TransactionService().transferAdnr(wallet.address, toAddress);
+                                        final result = await RawService().transferAdnr(wallet.address, toAddress);
                                         if (result.success) {
                                           Toast.message("RBX domain transfer transaction has been broadcasted. Check logs for tx hash");
 
@@ -178,7 +178,7 @@ class AdnrList extends BaseComponent {
                             );
 
                             if (confirmed == true) {
-                              final result = await TransactionService().deleteAdnr(wallet.address);
+                              final result = await RawService().deleteAdnr(wallet.address);
                               if (result.success) {
                                 Toast.message("RBX domain delete transaction has been broadcasted. Check logs for tx hash");
 

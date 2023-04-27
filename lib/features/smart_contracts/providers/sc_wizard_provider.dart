@@ -21,7 +21,6 @@ import 'package:rbx_wallet/utils/validation.dart';
 
 import '../../../core/providers/session_provider.dart';
 import '../../../core/providers/web_session_provider.dart';
-import '../../../core/services/transaction_service.dart';
 import '../../../utils/toast.dart';
 import '../../asset/asset.dart';
 import '../../nft/providers/minted_nft_list_provider.dart';
@@ -708,9 +707,7 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
           print("CSC not successful");
           return;
         }
-        print('-----');
-        print(csc.smartContract);
-        print(csc.smartContract.id);
+
         final details = await SmartContractService().retrieve(csc.smartContract.id);
         if (details == null) {
           Toast.error();
@@ -719,7 +716,7 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
         }
         final id = details.smartContract.id;
 
-        final success = kIsWeb ? await TransactionService().mintSmartContract(id) : await SmartContractService().mint(id);
+        final success = await SmartContractService().mint(id);
         if (!success) {
           Toast.error();
           print("Mint error");
@@ -734,9 +731,6 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
         final percent = totalProgress / totalItems;
 
         ref.read(scWizardMintingProgress.notifier).setPercent(percent);
-
-        // final updatedDetails = kIsWeb ? await TransactionService().retrieveSmartContract(id) : await SmartContractService().retrieve(id);
-
       }
 
       // clear();

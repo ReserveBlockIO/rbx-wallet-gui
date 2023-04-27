@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:rbx_wallet/core/app_constants.dart';
+import 'package:rbx_wallet/features/adnr/models/adnr_response.dart';
 import 'package:rbx_wallet/features/nft/models/web_nft.dart';
 import 'package:rbx_wallet/features/web/models/web_address.dart';
 import 'package:rbx_wallet/utils/toast.dart';
