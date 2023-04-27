@@ -10,7 +10,6 @@ import '../providers/web_shop_list_provider.dart';
 class MyWebShopListScreen extends BaseScreen {
   const MyWebShopListScreen({super.key})
       : super(
-          backgroundColor: const Color(0xFF010715),
           includeWebDrawer: true,
           verticalPadding: 0,
           horizontalPadding: 0,

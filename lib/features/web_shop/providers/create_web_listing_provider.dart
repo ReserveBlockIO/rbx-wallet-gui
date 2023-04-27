@@ -150,6 +150,33 @@ class WebListingFormProvider extends StateNotifier<WebListing> {
     state = state.copyWith(enableAuction: enableAuction);
   }
 
+  updateGalleryOnly(bool value) {
+    if (state.isAuctionStarted && state.exists) {
+      Toast.error('The auction has already started.');
+      return;
+    }
+
+    if (value) {
+      state = state.copyWith(
+        galleryOnly: true,
+        enableBuyNow: false,
+        enableAuction: false,
+        enableReservePrice: false,
+        floorPrice: null,
+        buyNowPrice: null,
+        reservePrice: null,
+      );
+
+      buyNowController.clear();
+      floorPriceController.clear();
+      reservePriceController.clear();
+    } else {
+      state = state.copyWith(
+        galleryOnly: false,
+      );
+    }
+  }
+
   complete(BuildContext context) async {
     if (!formKey.currentState!.validate()) {
       return;
@@ -174,8 +201,8 @@ class WebListingFormProvider extends StateNotifier<WebListing> {
       Toast.error('The NFT must be set');
       return;
     }
-    if (!state.enableAuction && !state.enableBuyNow) {
-      Toast.error('Enable at least one of the options (Buy now or Auction)');
+    if (!state.enableAuction && !state.enableBuyNow && !state.galleryOnly) {
+      Toast.error('Enable at least one of the options (Gallery, Buy Now, or Auction)');
       return;
     }
 

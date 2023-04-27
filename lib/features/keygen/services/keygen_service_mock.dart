@@ -4,8 +4,7 @@ import '../models/keypair.dart';
 
 class KeygenService {
   static Future<Keypair> importPrivateKey(
-    String privateKey,
-    String email, [
+    String privateKey, [
     String? mneumonic,
   ]) async {
     return Keypair(
@@ -29,11 +28,11 @@ class KeygenService {
     );
   }
 
-  static Future<Keypair?> generate(String email, [int index = 0]) async {
+  static Future<Keypair?> generate([int index = 0]) async {
     return null;
   }
 
-  static Future<Keypair?> recover(String mnemonic, String email, [int index = 0]) async {
+  static Future<Keypair?> recover(String mnemonic, [int index = 0]) async {
     return null;
   }
 }

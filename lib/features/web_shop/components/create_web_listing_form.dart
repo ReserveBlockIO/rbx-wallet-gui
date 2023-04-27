@@ -9,7 +9,6 @@ import '../../../core/base_component.dart';
 import '../../../core/components/buttons.dart';
 import '../../../utils/validation.dart';
 import '../../smart_contracts/components/sc_creator/common/form_group_container.dart';
-import '../models/web_collection.dart';
 import '../providers/create_web_listing_provider.dart';
 
 class CreateListingFormGroup extends BaseComponent {
@@ -59,6 +58,8 @@ class CreateListingFormGroup extends BaseComponent {
                         style: Theme.of(context).textTheme.bodySmall,
                       )),
                     ),
+                  SizedBox(height: 16),
+                  Flexible(child: _EnableGallery()),
                   SizedBox(height: 16),
                   Flexible(child: _EnableBuyNow()),
                   if (model.enableBuyNow) Flexible(child: _BuyNow()),
@@ -182,6 +183,36 @@ class _BuyNow extends BaseComponent {
           style: TextStyle(color: Colors.white),
         ),
       ),
+    );
+  }
+}
+
+class _EnableGallery extends BaseComponent {
+  const _EnableGallery({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ref) {
+    final provider = ref.read(createWebListingProvider.notifier);
+    final model = ref.watch(createWebListingProvider).galleryOnly;
+
+    return Row(
+      children: [
+        Checkbox(
+            value: model,
+            onChanged: (val) {
+              if (val != null) {
+                provider.updateGalleryOnly(val);
+              }
+            }),
+        GestureDetector(
+          onTap: () {
+            provider.updateGalleryOnly(!model);
+          },
+          child: const Text("Gallery Only?"),
+        ),
+      ],
     );
   }
 }

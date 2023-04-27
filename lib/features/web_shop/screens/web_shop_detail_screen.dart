@@ -23,7 +23,6 @@ class WebShopDetailScreen extends BaseScreen {
       : super(
           verticalPadding: 0,
           horizontalPadding: 0,
-          backgroundColor: const Color(0xFF010715),
         );
   int shopId;
   @override

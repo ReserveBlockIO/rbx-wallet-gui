@@ -36,6 +36,7 @@ class WebListing with _$WebListing {
     @Default(false) @JsonKey(ignore: true) bool enableBuyNow,
     @Default(false) @JsonKey(ignore: true) bool enableAuction,
     @Default(false) @JsonKey(ignore: true) bool enableReservePrice,
+    @Default(false) @JsonKey(ignore: true) bool galleryOnly,
     @JsonKey(defaultValue: []) required List<String> thumbnails,
   }) = _WebListing;
 
