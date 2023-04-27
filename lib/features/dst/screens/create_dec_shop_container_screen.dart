@@ -31,6 +31,7 @@ class CreateDecShopContainerScreen extends BaseScreen {
 
     return AppBar(
       title: Text(model.id != 0 ? "Edit Auction House" : "Create Auction House"),
+      backgroundColor: Colors.black,
       leading: IconButton(
         onPressed: () async {
           final confirmed = await ConfirmDialog.show(

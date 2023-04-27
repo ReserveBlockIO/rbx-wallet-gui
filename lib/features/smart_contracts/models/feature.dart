@@ -194,7 +194,7 @@ abstract class Feature with _$Feature {
       case FeatureType.fractionalization:
         return "Fractionalization";
       case FeatureType.pair:
-        return "Pair or Wrap with Existing NFT";
+        return "Mint a physical or Real World Asset";
       case FeatureType.soulBound:
         return "Soul Bound";
       case FeatureType.notImplemented:

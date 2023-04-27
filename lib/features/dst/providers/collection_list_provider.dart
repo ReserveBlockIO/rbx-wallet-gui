@@ -6,7 +6,7 @@ import '../models/collection.dart';
 class CollectionListProvider extends StateNotifier<List<Collection>> {
   final Ref ref;
 
-  CollectionListProvider(this.ref, [List<Collection> stores = const []]) : super(stores) {
+  CollectionListProvider(this.ref, [List<Collection> collections = const []]) : super(collections) {
     load();
   }
 

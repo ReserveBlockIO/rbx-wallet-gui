@@ -29,6 +29,21 @@ class BidStatusIndicator extends StatelessWidget {
         }
 
         if (bid.bidStatus == BidStatus.Accepted) {
+          if (bid.isBuyNow) {
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AppBadge(
+                  label: "Purchased",
+                  variant: AppColorVariant.Success,
+                ),
+                SizedBox(height: 4),
+                Text("[Buy Now]")
+              ],
+            );
+          }
+
           return AppBadge(
             label: "Accepted",
             variant: AppColorVariant.Success,

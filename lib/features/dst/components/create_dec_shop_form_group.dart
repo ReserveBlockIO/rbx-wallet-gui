@@ -30,6 +30,13 @@ class CreateDecShopFormGroup extends BaseComponent {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  if (model.id == 0)
+                    Center(
+                      child: Text(
+                        "Create your auction house / gallery and publish it to the network.\nThen you'll be able to create collections and add listings to them.",
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                   Flexible(
                     child: _DecShopName(),
                   ),
@@ -43,49 +50,48 @@ class CreateDecShopFormGroup extends BaseComponent {
                     height: 6,
                   ),
                   Flexible(
-                    child: Row(
-                      children: [
-                        Text('Address: '),
-                        Expanded(
-                          child: Text(model.ownerAddress ?? "-"),
-                        ),
-                        if (model.id == 0)
-                          IconButton(
-                            icon: const Icon(
-                              FontAwesomeIcons.folderOpen,
-                              size: 18,
-                            ),
-                            onPressed: () async {
-                              final address = await chooseAddress(context, ref, provider);
-                              if (address != null) {
-                                provider.updateAddress(address);
+                    child: Card(
+                      color: Colors.white.withOpacity(0.03),
+                      margin: EdgeInsets.zero,
+                      child: ListTile(
+                        onTap: model.id == 0
+                            ? () async {
+                                final address = await chooseAddress(context, ref, provider);
+                                if (address != null) {
+                                  provider.updateAddress(address);
+                                }
                               }
-                            },
-                          ),
-                      ],
+                            : null,
+                        title: Text("Owner's Address"),
+                        subtitle: Text(model.ownerAddress == null || model.ownerAddress!.isEmpty
+                            ? "Select an address from the list to be the shop owner."
+                            : model.ownerAddress!),
+                        trailing: model.id == 0 ? Icon(Icons.folder_copy_outlined) : null,
+                      ),
                     ),
                   ),
                   SizedBox(
                     height: 6,
                   ),
-                  Flexible(
-                      child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Checkbox(
-                        value: model.autoUpdateNetworkDns,
-                        onChanged: (val) {
-                          if (val != null) {
-                            provider.updateAutoUpdateNetworkDns(val);
-                          }
-                        },
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text("Auto Update on DNS Change")
-                    ],
-                  ))
+                  // Flexible(
+                  //   child: Row(
+                  //     mainAxisSize: MainAxisSize.min,
+                  //     children: [
+                  //       Checkbox(
+                  //         value: model.autoUpdateNetworkDns,
+                  //         onChanged: (val) {
+                  //           if (val != null) {
+                  //             provider.updateAutoUpdateNetworkDns(val);
+                  //           }
+                  //         },
+                  //       ),
+                  //       SizedBox(
+                  //         width: 8,
+                  //       ),
+                  //       Text("Auto Update on DNS Change")
+                  //     ],
+                  //   ),
+                  // )
                 ],
               ),
             ),
@@ -181,8 +187,8 @@ class _DecUrl extends BaseComponent {
           "Shop Identifier",
           style: TextStyle(color: Colors.white),
         ),
-        hintText: "MyNewShop",
         prefixText: "rbx://",
+        hintText: "MyShop",
       ),
     );
   }

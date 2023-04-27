@@ -165,9 +165,10 @@ String fileTypeFromPath(String path) {
     case "webp":
       return "Image";
     case "pdf":
+      return "Document";
     case "doc":
     case "docx":
-      return "Document";
+      return "Word";
     case "mov":
     case "mp4":
     case "avi":
@@ -189,6 +190,8 @@ IconData iconFromPath(String path) {
       return FontAwesomeIcons.fileImage;
     case "Document":
       return FontAwesomeIcons.filePdf;
+    case "Word":
+      return FontAwesomeIcons.fileWord;
     case "Video":
       return FontAwesomeIcons.fileVideo;
     case "Audio":

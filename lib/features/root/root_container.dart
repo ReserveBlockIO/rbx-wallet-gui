@@ -41,6 +41,7 @@ class RootContainer extends BaseComponent {
     ];
 
     return AutoTabsScaffold(
+      backgroundColor: Colors.black87,
       scaffoldKey: rootScaffoldKey,
       routes: routes,
       builder: (context, child, animated) {
@@ -139,7 +140,9 @@ class RootContainer extends BaseComponent {
                           Expanded(
                             child: Container(
                               clipBehavior: Clip.antiAlias,
-                              decoration: const BoxDecoration(),
+                              decoration: const BoxDecoration(
+                                color: Colors.black87,
+                              ),
                               child: child,
                             ),
                           ),

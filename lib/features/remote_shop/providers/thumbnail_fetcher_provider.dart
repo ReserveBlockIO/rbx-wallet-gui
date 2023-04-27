@@ -30,6 +30,7 @@ class ThumbnailFetcherProvider extends StateNotifier<List<QueueEntry>> {
     List<String> filenames, [
     bool forceRetry = false,
   ]) async {
+    return;
     final inQueue = state.firstWhereOrNull((e) => e.scId == scId) != null;
 
     if (forceRetry) {
@@ -75,10 +76,12 @@ class ThumbnailFetcherProvider extends StateNotifier<List<QueueEntry>> {
       filenames: filenames,
       attempted: false,
     );
+
     state = [...state, entry];
   }
 
   processQueue() async {
+    return;
     for (final item in state.asMap().entries) {
       final index = item.key;
       final entry = item.value;

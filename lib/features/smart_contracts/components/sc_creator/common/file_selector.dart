@@ -182,7 +182,7 @@ class FileSelector extends BaseComponent {
       children: [
         Card(
           margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
-          color: transparentBackground ? Colors.transparent : null,
+          color: transparentBackground ? Colors.transparent : Colors.black54,
           shadowColor: transparentBackground ? Colors.transparent : null,
           child: ListTile(
             tileColor: transparentBackground ? Colors.transparent : null,

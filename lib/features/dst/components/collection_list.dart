@@ -23,6 +23,7 @@ class CollectionList extends BaseComponent {
       itemBuilder: (context, index) {
         final collection = collections[index];
         return Card(
+          color: Colors.white.withOpacity(0.03),
           child: ListTile(
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -8,10 +8,13 @@ import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/features/dst/models/dec_shop.dart';
+import 'package:rbx_wallet/features/remote_shop/components/listing_details_list_tile.dart';
 import 'package:rbx_wallet/features/remote_shop/components/remote_asset_preview.dart';
+import 'package:rbx_wallet/features/remote_shop/components/shop_connected_indicator.dart';
 import 'package:rbx_wallet/features/remote_shop/models/shop_data.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
 import 'package:collection/collection.dart';
+import 'package:rbx_wallet/features/remote_shop/providers/shop_list_view_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
 import 'package:rbx_wallet/features/remote_shop/utils.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
@@ -28,7 +31,7 @@ class RemoteShopCollectionScreen extends BaseScreen {
     super.key,
     @PathParam("collectionId") required this.collectionId,
     @PathParam("url") required this.url,
-  }) : super(backgroundColor: const Color(0xFF010715));
+  }) : super();
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
@@ -49,6 +52,15 @@ class RemoteShopCollectionScreen extends BaseScreen {
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
       actions: [
+        Align(
+          alignment: Alignment.center,
+          child: ShopConnectedIndicator(
+            shopUrl: url,
+          ),
+        ),
+        SizedBox(
+          width: 8,
+        ),
         WalletSelector(),
         IconButton(
           onPressed: () {
@@ -74,6 +86,8 @@ class RemoteShopCollectionScreen extends BaseScreen {
     final provider = ref.read(connectedShopProvider.notifier);
     final model = ref.watch(connectedShopProvider);
 
+    final isExpanded = ref.watch(shopListViewProvider);
+
     final shop = model.data;
     if (shop == null) {
       return Center(child: Text("Shop Error"));
@@ -85,47 +99,41 @@ class RemoteShopCollectionScreen extends BaseScreen {
       return Center(child: Text("Collection Error"));
     }
 
-    final validListings = collection.listings.where((l) => l.nft != null).toList();
+    final validListings = collection.listings.where((l) => l.nft != null && !l.hide).toList();
 
-    return Column(
-      children: [
-        // Padding(
-        //   padding: const EdgeInsets.all(8.0),
-        //   child: Center(
-        //     child: Text(
-        //       collection.name,
-        //       style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-        //             color: Colors.white,
-        //           ),
-        //     ),
-        //   ),
-        // ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Center(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 600),
-              child: Text(
-                collection.description,
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      color: Colors.white,
-                    ),
-                textAlign: TextAlign.center,
-              ),
+    if (validListings.isEmpty) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _Header(collection: collection),
+          Expanded(
+            child: Center(
+              child: Text("No Active Listings"),
             ),
           ),
-        ),
+        ],
+      );
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
         Divider(),
-        // _ThumbnailGetter(
-        //   listings: validListings,
-        // ),
         Expanded(
           child: ListView.builder(
             itemCount: validListings.length,
             itemBuilder: (context, index) {
               final listing = validListings[index];
 
-              return ListingDetails(listing: listing);
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (index == 0) _Header(collection: collection),
+                  isExpanded ? ListingDetails(listing: listing) : ListingDetailsListTile(listing: listing),
+                ],
+              );
             },
           ),
         )
@@ -134,44 +142,57 @@ class RemoteShopCollectionScreen extends BaseScreen {
   }
 }
 
-// class _ThumbnailGetter extends StatefulWidget {
-//   final List<OrganizedListing> listings;
+class _Header extends BaseComponent {
+  const _Header({
+    super.key,
+    required this.collection,
+  });
 
-//   const _ThumbnailGetter({super.key, required this.listings});
+  final OrganizedCollection collection;
 
-//   @override
-//   State<_ThumbnailGetter> createState() => __ThumbnailGetterState();
-// }
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final listModeProvider = ref.read(shopListViewProvider.notifier);
+    final isExpanded = ref.watch(shopListViewProvider);
 
-// class __ThumbnailGetterState extends State<_ThumbnailGetter> {
-//   late final Timer timer;
-
-//   @override
-//   void initState() {
-//     super.initState();
-
-//     timer = Timer.periodic(Duration(seconds: 5), (timer) {
-//       fetch();
-//       // widget.markAsReadFunction();
-//     });
-
-//     fetch();
-//   }
-
-//   @override
-//   void deactivate() {
-//     timer.cancel();
-//     super.deactivate();
-//   }
-
-//   void fetch() {
-//     print("Fetching...");
-//     final scIds = widget.listings.map((l) => l.smartContractUid).toList();
-//     bulkGetNftAssets(service: RemoteShopService(), scIds: scIds);
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return const SizedBox.shrink();
-//   }
-// }
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Text(
+              collection.description,
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.white),
+              textAlign: TextAlign.start,
+            ),
+          ),
+          SizedBox(width: 8),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                onPressed: () {
+                  listModeProvider.setExpanded();
+                },
+                icon: Icon(
+                  Icons.grid_on,
+                  color: isExpanded ? Colors.white : Colors.white38,
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  listModeProvider.setCondensed();
+                },
+                icon: Icon(
+                  Icons.list_outlined,
+                  color: !isExpanded ? Colors.white : Colors.white38,
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}

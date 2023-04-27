@@ -21,7 +21,7 @@ abstract class BaseScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: backgroundColor ?? Color(0xff050505),
       appBar: appBar(context, ref),
       drawer: includeWebDrawer && BreakPoints.useMobileLayout(context) ? const WebDrawer() : null,
       floatingActionButton: floatingActionButton(context, ref),
@@ -81,7 +81,7 @@ class BaseScreenState<T extends BaseStatefulScreen> extends ConsumerState<T> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(context),
-      backgroundColor: widget.backgroundColor,
+      backgroundColor: widget.backgroundColor ?? Color(0xff050505),
 
       // drawer: widget.includeMainDrawer ? const MainDrawer() : null,
       floatingActionButton: floatingActionButton(context),

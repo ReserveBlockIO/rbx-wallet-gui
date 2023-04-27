@@ -258,7 +258,7 @@ class HelpButton extends StatelessWidget {
       case HelpType.mintQuantity:
         return "The number of Smart Contracts / NFTs you want to mint from this template.";
       case HelpType.properties:
-        return "Define multiple properties for your Smart Contract";
+        return "Define and assign values to assets in your smart contract. This can be a rare trait as an example.";
       case HelpType.propertyTyes:
         return "Define the kind of value that your property will have \nThis types are: \n- Text: alphanumeric value \n- Number: numerical value \n- Color: Hexadecimal value of a color of your choice";
     }

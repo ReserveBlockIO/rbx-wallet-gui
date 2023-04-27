@@ -26,8 +26,8 @@ class StatusContainer extends BaseComponent {
     final blockchainVersion = walletInfo?.blockchainVersion;
 
     return Container(
-      decoration: const BoxDecoration(
-        color: Colors.black38,
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(0.9),
         border: Border(
           left: BorderSide(
             width: 1,
@@ -38,12 +38,12 @@ class StatusContainer extends BaseComponent {
       width: 250,
       child: Stack(
         children: [
-          Image.asset(
-            Assets.images.grid.path,
-            width: double.infinity,
-            height: double.infinity,
-            fit: BoxFit.cover,
-          ),
+          // Image.asset(
+          //   Assets.images.grid.path,
+          //   width: double.infinity,
+          //   height: double.infinity,
+          //   fit: BoxFit.cover,
+          // ),
           Align(
             alignment: Alignment.bottomRight,
             child: Opacity(
@@ -220,15 +220,9 @@ class _BlockStatus extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: Color(0xFF050505),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.white10,
-            spreadRadius: 3,
-            blurRadius: 3,
-          ),
-        ],
+        boxShadow: glowingBox,
       ),
       width: double.infinity,
       child: Padding(

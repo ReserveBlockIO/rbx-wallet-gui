@@ -21,6 +21,7 @@ class TopicDetailScreen extends BaseScreen {
           ? AppBar(
               title: Text(topic.name),
               actions: const [WalletSelector()],
+              backgroundColor: Colors.black,
             )
           : AppBar(
               title: const Text("Error"),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/components/buttons.dart';
@@ -42,22 +43,28 @@ class ReceiveScreen extends BaseScreen {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        ListTile(
-          leading: const Icon(Icons.account_balance_wallet),
-          subtitle: Text(currentWallet.friendlyName ?? ""),
-          title: TextFormField(
-            initialValue: currentWallet.address,
-            decoration: const InputDecoration(
-              label: Text("Wallet Address"),
-            ),
-            style: const TextStyle(fontSize: 13),
-            readOnly: true,
+        Container(
+          decoration: BoxDecoration(
+            boxShadow: glowingBox,
+            color: Colors.black,
           ),
-          trailing: IconButton(
-            icon: const Icon(Icons.copy),
-            onPressed: () async {
-              _handleCopyAddress(currentWallet);
-            },
+          child: ListTile(
+            leading: const Icon(Icons.account_balance_wallet),
+            subtitle: Text(currentWallet.friendlyName ?? ""),
+            title: TextFormField(
+              initialValue: currentWallet.address,
+              decoration: const InputDecoration(
+                label: Text("Wallet Address"),
+              ),
+              style: const TextStyle(fontSize: 13),
+              readOnly: true,
+            ),
+            trailing: IconButton(
+              icon: const Icon(Icons.copy),
+              onPressed: () async {
+                _handleCopyAddress(currentWallet);
+              },
+            ),
           ),
         ),
         const SizedBox(
