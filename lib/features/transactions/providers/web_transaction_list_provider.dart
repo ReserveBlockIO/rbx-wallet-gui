@@ -27,12 +27,14 @@ class WebTransactionListModel {
 
 class WebTransactionListProvider extends StateNotifier<WebTransactionListModel> {
   final Ref ref;
+  final String address;
 
   WebTransactionListProvider(
-    this.ref, [
+    this.ref,
+    this.address, [
     WebTransactionListModel model = const WebTransactionListModel(),
   ]) : super(model) {
-    // load(true);
+    load();
   }
 
   void set(List<WebTransaction> transactions, bool isLoading) {
@@ -60,7 +62,7 @@ class WebTransactionListProvider extends StateNotifier<WebTransactionListModel> 
     return results;
   }
 
-  Future<void> load(String address, [bool invokeLoop = false]) async {
+  Future<void> load([bool invokeLoop = false]) async {
     // final address = ref.read(webSessionProvider).keypair?.public;
     // if (address == null) return;
 
@@ -97,6 +99,6 @@ class WebTransactionListProvider extends StateNotifier<WebTransactionListModel> 
   }
 }
 
-final webTransactionListProvider = StateNotifierProvider<WebTransactionListProvider, WebTransactionListModel>((ref) {
-  return WebTransactionListProvider(ref);
+final webTransactionListProvider = StateNotifierProvider.family<WebTransactionListProvider, WebTransactionListModel, String>((ref, address) {
+  return WebTransactionListProvider(ref, address);
 });

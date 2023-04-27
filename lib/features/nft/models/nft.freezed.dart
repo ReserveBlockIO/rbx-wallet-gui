@@ -54,9 +54,7 @@ mixin _$Nft {
   bool get isLocked => throw _privateConstructorUsedError;
   @JsonKey(defaultValue: false)
   bool get isProcessing => throw _privateConstructorUsedError;
-  String? get code => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  ProxiedAsset? get proxiedAsset =>
+  String? get code =>
       throw _privateConstructorUsedError; // @JsonKey(ignore: true) List<ProxiedAsset>? additionalProxiedAssets,
   @JsonKey(ignore: true)
   List<Asset> get additionalLocalAssets => throw _privateConstructorUsedError;
@@ -114,8 +112,6 @@ abstract class $NftCopyWith<$Res> {
           bool isProcessing,
       String? code,
       @JsonKey(ignore: true)
-          ProxiedAsset? proxiedAsset,
-      @JsonKey(ignore: true)
           List<Asset> additionalLocalAssets,
       @JsonKey(ignore: true)
           List<EvolvePhase> updatedEvolutionPhases,
@@ -123,7 +119,6 @@ abstract class $NftCopyWith<$Res> {
           String? thumbsPath});
 
   $AssetCopyWith<$Res> get primaryAsset;
-  $ProxiedAssetCopyWith<$Res>? get proxiedAsset;
 }
 
 /// @nodoc
@@ -156,7 +151,6 @@ class _$NftCopyWithImpl<$Res, $Val extends Nft> implements $NftCopyWith<$Res> {
     Object? isLocked = null,
     Object? isProcessing = null,
     Object? code = freezed,
-    Object? proxiedAsset = freezed,
     Object? additionalLocalAssets = null,
     Object? updatedEvolutionPhases = null,
     Object? thumbsPath = freezed,
@@ -234,10 +228,6 @@ class _$NftCopyWithImpl<$Res, $Val extends Nft> implements $NftCopyWith<$Res> {
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String?,
-      proxiedAsset: freezed == proxiedAsset
-          ? _value.proxiedAsset
-          : proxiedAsset // ignore: cast_nullable_to_non_nullable
-              as ProxiedAsset?,
       additionalLocalAssets: null == additionalLocalAssets
           ? _value.additionalLocalAssets
           : additionalLocalAssets // ignore: cast_nullable_to_non_nullable
@@ -258,18 +248,6 @@ class _$NftCopyWithImpl<$Res, $Val extends Nft> implements $NftCopyWith<$Res> {
   $AssetCopyWith<$Res> get primaryAsset {
     return $AssetCopyWith<$Res>(_value.primaryAsset, (value) {
       return _then(_value.copyWith(primaryAsset: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $ProxiedAssetCopyWith<$Res>? get proxiedAsset {
-    if (_value.proxiedAsset == null) {
-      return null;
-    }
-
-    return $ProxiedAssetCopyWith<$Res>(_value.proxiedAsset!, (value) {
-      return _then(_value.copyWith(proxiedAsset: value) as $Val);
     });
   }
 }
@@ -317,8 +295,6 @@ abstract class _$$_NftCopyWith<$Res> implements $NftCopyWith<$Res> {
           bool isProcessing,
       String? code,
       @JsonKey(ignore: true)
-          ProxiedAsset? proxiedAsset,
-      @JsonKey(ignore: true)
           List<Asset> additionalLocalAssets,
       @JsonKey(ignore: true)
           List<EvolvePhase> updatedEvolutionPhases,
@@ -327,8 +303,6 @@ abstract class _$$_NftCopyWith<$Res> implements $NftCopyWith<$Res> {
 
   @override
   $AssetCopyWith<$Res> get primaryAsset;
-  @override
-  $ProxiedAssetCopyWith<$Res>? get proxiedAsset;
 }
 
 /// @nodoc
@@ -358,7 +332,6 @@ class __$$_NftCopyWithImpl<$Res> extends _$NftCopyWithImpl<$Res, _$_Nft>
     Object? isLocked = null,
     Object? isProcessing = null,
     Object? code = freezed,
-    Object? proxiedAsset = freezed,
     Object? additionalLocalAssets = null,
     Object? updatedEvolutionPhases = null,
     Object? thumbsPath = freezed,
@@ -436,10 +409,6 @@ class __$$_NftCopyWithImpl<$Res> extends _$NftCopyWithImpl<$Res, _$_Nft>
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String?,
-      proxiedAsset: freezed == proxiedAsset
-          ? _value.proxiedAsset
-          : proxiedAsset // ignore: cast_nullable_to_non_nullable
-              as ProxiedAsset?,
       additionalLocalAssets: null == additionalLocalAssets
           ? _value._additionalLocalAssets
           : additionalLocalAssets // ignore: cast_nullable_to_non_nullable
@@ -496,8 +465,6 @@ class _$_Nft extends _Nft with DiagnosticableTreeMixin {
       @JsonKey(defaultValue: false)
           required this.isProcessing,
       this.code,
-      @JsonKey(ignore: true)
-          this.proxiedAsset,
       @JsonKey(ignore: true)
           final List<Asset> additionalLocalAssets = const [],
       @JsonKey(ignore: true)
@@ -587,9 +554,6 @@ class _$_Nft extends _Nft with DiagnosticableTreeMixin {
   final bool isProcessing;
   @override
   final String? code;
-  @override
-  @JsonKey(ignore: true)
-  final ProxiedAsset? proxiedAsset;
 // @JsonKey(ignore: true) List<ProxiedAsset>? additionalProxiedAssets,
   final List<Asset> _additionalLocalAssets;
 // @JsonKey(ignore: true) List<ProxiedAsset>? additionalProxiedAssets,
@@ -620,7 +584,7 @@ class _$_Nft extends _Nft with DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Nft(name: $name, description: $description, currentOwner: $currentOwner, minterAddress: $minterAddress, minterName: $minterName, id: $id, primaryAsset: $primaryAsset, primaryAssetWeb: $primaryAssetWeb, additionalAssetsWeb: $additionalAssetsWeb, isPublic: $isPublic, isPublished: $isPublished, isMinter: $isMinter, features: $features, properties: $properties, nextOwner: $nextOwner, isLocked: $isLocked, isProcessing: $isProcessing, code: $code, proxiedAsset: $proxiedAsset, additionalLocalAssets: $additionalLocalAssets, updatedEvolutionPhases: $updatedEvolutionPhases, thumbsPath: $thumbsPath)';
+    return 'Nft(name: $name, description: $description, currentOwner: $currentOwner, minterAddress: $minterAddress, minterName: $minterName, id: $id, primaryAsset: $primaryAsset, primaryAssetWeb: $primaryAssetWeb, additionalAssetsWeb: $additionalAssetsWeb, isPublic: $isPublic, isPublished: $isPublished, isMinter: $isMinter, features: $features, properties: $properties, nextOwner: $nextOwner, isLocked: $isLocked, isProcessing: $isProcessing, code: $code, additionalLocalAssets: $additionalLocalAssets, updatedEvolutionPhases: $updatedEvolutionPhases, thumbsPath: $thumbsPath)';
   }
 
   @override
@@ -646,7 +610,6 @@ class _$_Nft extends _Nft with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('isLocked', isLocked))
       ..add(DiagnosticsProperty('isProcessing', isProcessing))
       ..add(DiagnosticsProperty('code', code))
-      ..add(DiagnosticsProperty('proxiedAsset', proxiedAsset))
       ..add(DiagnosticsProperty('additionalLocalAssets', additionalLocalAssets))
       ..add(
           DiagnosticsProperty('updatedEvolutionPhases', updatedEvolutionPhases))
@@ -690,8 +653,6 @@ class _$_Nft extends _Nft with DiagnosticableTreeMixin {
             (identical(other.isProcessing, isProcessing) ||
                 other.isProcessing == isProcessing) &&
             (identical(other.code, code) || other.code == code) &&
-            (identical(other.proxiedAsset, proxiedAsset) ||
-                other.proxiedAsset == proxiedAsset) &&
             const DeepCollectionEquality()
                 .equals(other._additionalLocalAssets, _additionalLocalAssets) &&
             const DeepCollectionEquality().equals(
@@ -722,7 +683,6 @@ class _$_Nft extends _Nft with DiagnosticableTreeMixin {
         isLocked,
         isProcessing,
         code,
-        proxiedAsset,
         const DeepCollectionEquality().hash(_additionalLocalAssets),
         const DeepCollectionEquality().hash(_updatedEvolutionPhases),
         thumbsPath
@@ -779,8 +739,6 @@ abstract class _Nft extends Nft {
       @JsonKey(defaultValue: false)
           required final bool isProcessing,
       final String? code,
-      @JsonKey(ignore: true)
-          final ProxiedAsset? proxiedAsset,
       @JsonKey(ignore: true)
           final List<Asset> additionalLocalAssets,
       @JsonKey(ignore: true)
@@ -844,9 +802,6 @@ abstract class _Nft extends Nft {
   bool get isProcessing;
   @override
   String? get code;
-  @override
-  @JsonKey(ignore: true)
-  ProxiedAsset? get proxiedAsset;
   @override // @JsonKey(ignore: true) List<ProxiedAsset>? additionalProxiedAssets,
   @JsonKey(ignore: true)
   List<Asset> get additionalLocalAssets;

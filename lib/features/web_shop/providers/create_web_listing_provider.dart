@@ -218,7 +218,20 @@ class WebListingFormProvider extends StateNotifier<WebListing> {
     if (!state.enableReservePrice) {
       state = state.copyWith(reservePrice: state.floorPrice);
     }
-    print("Collection: ${state.collection}");
+
+    if (!state.exists) {
+      //Images
+      final assets = [state.nft?.smartContract.primaryAssetWeb].where((element) => element != null).toList(); //TOOD: multiasset
+      final List<String> thumbnailUrls = [];
+      for (final a in assets) {
+        if (a?.location != null) {
+          thumbnailUrls.add(a!.location);
+        }
+      }
+
+      state = state.copyWith(thumbnails: thumbnailUrls);
+    }
+
     final success = await WebShopService().saveWebListing(state, state.collection.shop!.id, state.collection.id);
     if (success) {
       ref.read(webListingListProvider("${state.collection.shop!.id},${state.collection.id}").notifier).refresh();

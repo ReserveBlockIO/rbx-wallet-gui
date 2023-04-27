@@ -62,7 +62,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     state = state.copyWith(keypair: keypair, isAuthenticated: true);
     loop();
 
-    ref.read(webTransactionListProvider.notifier).load(keypair.public, true);
+    ref.read(webTransactionListProvider(keypair.public).notifier).load(true);
   }
 
   void loop() async {

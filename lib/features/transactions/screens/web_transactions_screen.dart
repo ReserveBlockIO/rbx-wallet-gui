@@ -29,7 +29,7 @@ class WebTransactionScreen extends BaseScreen {
             onPressed: () {
               final address = ref.read(webSessionProvider).keypair?.public;
               if (address != null) {
-                ref.read(webTransactionListProvider.notifier).load(address);
+                ref.read(webTransactionListProvider(address).notifier).load();
               }
             },
             icon: const Icon(Icons.refresh))
@@ -39,11 +39,14 @@ class WebTransactionScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final model = ref.watch(webTransactionListProvider);
-    final transactions = model.transactions;
     final address = ref.read(webSessionProvider).keypair?.public;
 
-    if (address == null) return const WebNotWallet();
+    if (address == null) {
+      return const WebNotWallet();
+    }
+
+    final model = ref.watch(webTransactionListProvider(address));
+    final transactions = model.transactions;
 
     if (model.isLoading) {
       return const CenteredLoader();
