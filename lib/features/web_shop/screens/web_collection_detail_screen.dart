@@ -25,7 +25,7 @@ class WebCollectionDetailScreen extends BaseScreen {
     super.key,
     @PathParam("shopId") required this.shopId,
     @PathParam("collectionId") required this.collectionId,
-  }) : super(backgroundColor: const Color(0xFF010715), horizontalPadding: 0, verticalPadding: 0);
+  }) : super(horizontalPadding: 0, verticalPadding: 0);
 
   int shopId;
   int collectionId;

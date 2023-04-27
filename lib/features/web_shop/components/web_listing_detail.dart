@@ -617,7 +617,7 @@ class _BuyNow extends StatelessWidget {
     return SizedBox(
       width: isMobile ? double.infinity : null,
       child: Card(
-        color: Theme.of(context).colorScheme.primary.withOpacity(0.4),
+        color: Colors.transparent,
         margin: EdgeInsets.zero,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -711,7 +711,7 @@ class _Auction extends StatelessWidget {
     return SizedBox(
       width: isMobile ? double.infinity : null,
       child: Card(
-        color: Theme.of(context).colorScheme.primary.withOpacity(0.4),
+        color: Colors.transparent,
         margin: EdgeInsets.zero,
         child: Padding(
           padding: const EdgeInsets.all(16.0),

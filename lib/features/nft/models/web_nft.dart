@@ -50,8 +50,7 @@ abstract class WebNft with _$WebNft {
   }
 
   Map<String, dynamic> get smartContractData {
-    final sanatizedString = smartContractDataString.replaceAll("'", '"');
-    final Map<String, dynamic> data = jsonDecode(sanatizedString);
+    final Map<String, dynamic> data = jsonDecode(smartContractDataString);
     if (data.containsKey('SmartContractMain')) {
       return data['SmartContractMain'];
     }
