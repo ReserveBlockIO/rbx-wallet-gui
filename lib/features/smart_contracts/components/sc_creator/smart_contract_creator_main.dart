@@ -239,7 +239,7 @@ class SmartContractCreatorMain extends BaseComponent {
       cancelText: "Cancel",
     );
 
-    if (!confirmed) {
+    if (confirmed != true) {
       return;
     }
 

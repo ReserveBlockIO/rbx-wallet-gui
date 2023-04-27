@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rbx_wallet/core/utils.dart';
+import 'package:rbx_wallet/features/asset/web_asset.dart';
 import 'package:rbx_wallet/features/dst/providers/listed_nfts_provider.dart';
 import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
 
@@ -59,6 +61,8 @@ abstract class Nft with _$Nft {
     @JsonKey(name: "MinterName") @Default("") String minterName,
     @JsonKey(name: "SmartContractUID") required String id,
     @JsonKey(name: "SmartContractAsset") required Asset primaryAsset,
+    @JsonKey(ignore: true) WebAsset? primaryAssetWeb,
+    @JsonKey(ignore: true) List<WebAsset>? additionalAssetsWeb,
     @JsonKey(name: "IsPublic") required bool isPublic,
     @JsonKey(name: "IsPublished") required bool isPublished,
     @JsonKey(name: "IsMinter") required bool isMinter,
@@ -68,11 +72,12 @@ abstract class Nft with _$Nft {
     @JsonKey(name: "IsLocked") @Default(false) bool isLocked,
     @JsonKey(defaultValue: false) required bool isProcessing,
     String? code,
-    @JsonKey(toJson: nullToNull, fromJson: nullToNull) ProxiedAsset? proxiedAsset,
-    @JsonKey(toJson: nullToNull, fromJson: nullToNull) List<ProxiedAsset>? additionalProxiedAssets,
-    @JsonKey(toJson: nullToNull, fromJson: nullToNull) @Default([]) List<Asset> additionalLocalAssets,
-    @JsonKey(toJson: nullToNull, fromJson: nullToNull) @Default([]) List<EvolvePhase> updatedEvolutionPhases,
-    @JsonKey(defaultValue: false) required bool assetsAvailable,
+    @JsonKey(ignore: true) ProxiedAsset? proxiedAsset,
+    // @JsonKey(ignore: true) List<ProxiedAsset>? additionalProxiedAssets,
+    @JsonKey(ignore: true) @Default([]) List<Asset> additionalLocalAssets,
+    @JsonKey(ignore: true) @Default([]) List<EvolvePhase> updatedEvolutionPhases,
+    // @JsonKey(defaultValue: false) required bool assetsAvailable,
+    // Map<String, dynamic>? assetUrls,
     @JsonKey(ignore: true) String? thumbsPath,
   }) = _Nft;
 
@@ -210,8 +215,8 @@ abstract class Nft with _$Nft {
     return currentEvolvePhase.properties;
   }
 
-  ProxiedAsset? get currentEvolveAssetWeb {
-    return proxiedAsset;
+  WebAsset? get currentEvolveAssetWeb {
+    return primaryAssetWeb;
 
     //TODO handle evolve asset stuff
     // if (!canEvolve) {
@@ -302,6 +307,11 @@ abstract class Nft with _$Nft {
   }
 
   bool isListed(WidgetRef ref) {
+    if (kIsWeb) {
+      //TODO: handle web
+      return false;
+    }
+
     if (ref.read(listedNftsProvider).contains(id)) {
       return true;
     }

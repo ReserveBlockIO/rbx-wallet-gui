@@ -5,6 +5,7 @@ import 'package:rbx_wallet/features/web_shop/providers/web_auth_token_provider.d
 import 'package:rbx_wallet/utils/toast.dart';
 
 import '../components/web_shop_list.dart';
+import '../providers/web_shop_list_provider.dart';
 
 class MyWebShopListScreen extends BaseScreen {
   const MyWebShopListScreen({super.key})
@@ -23,6 +24,11 @@ class MyWebShopListScreen extends BaseScreen {
       shadowColor: Colors.transparent,
       title: Text("My Auction Houses"),
       actions: [
+        IconButton(
+            onPressed: () {
+              ref.watch(webShopListProvider(WebShopListType.mine).notifier).refresh();
+            },
+            icon: Icon(Icons.refresh)),
         IconButton(
             onPressed: () async {
               final success = await ref.read(webAuthTokenProvider.notifier).authorize();

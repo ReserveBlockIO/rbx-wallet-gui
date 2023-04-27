@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/components/empty_placeholder.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/web_shop/components/web_shop_list_tile.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_shop.dart';
@@ -34,7 +35,18 @@ class WebShopList extends BaseComponent {
             itemBuilder: (context, shop, index) => WebShopTile(
               shop,
             ),
-            emptyText: "No Shops",
+            emptyText: "No Auction Houses",
+            emptyWidget: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  EmptyPlaceholder(title: "No Auction Houses"),
+                  _CreateShopButton(
+                    buttonType: AppButtonType.Outlined,
+                  ),
+                ],
+              ),
+            ),
             onRefresh: listProvider.refresh,
           ),
         ),
@@ -48,25 +60,37 @@ class WebShopList extends BaseComponent {
               padding: const EdgeInsets.all(16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  AppButton(
-                    label: 'Create Shop',
-                    icon: Icons.add,
-                    variant: AppColorVariant.Success,
-                    onPressed: () async {
-                      ref.read(webShopFormProvider.notifier).clear();
-                      if (Env.isWeb) {
-                        AutoRouter.of(context).push(const CreateWebShopContainerScreenRoute());
-                      } else {
-                        AutoRouter.of(context).push(const DebugWebShopCreateScreenRoute());
-                      }
-                    },
-                  )
-                ],
+                children: [_CreateShopButton()],
               ),
             ),
           ),
       ],
+    );
+  }
+}
+
+class _CreateShopButton extends BaseComponent {
+  final AppButtonType buttonType;
+  const _CreateShopButton({
+    super.key,
+    this.buttonType = AppButtonType.Elevated,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return AppButton(
+      label: 'Create Auction House',
+      icon: Icons.add,
+      type: buttonType,
+      variant: AppColorVariant.Success,
+      onPressed: () async {
+        ref.read(webShopFormProvider.notifier).clear();
+        if (Env.isWeb) {
+          AutoRouter.of(context).push(const CreateWebShopContainerScreenRoute());
+        } else {
+          AutoRouter.of(context).push(const DebugWebShopCreateScreenRoute());
+        }
+      },
     );
   }
 }

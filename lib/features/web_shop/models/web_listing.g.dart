@@ -11,7 +11,9 @@ _$_WebListing _$$_WebListingFromJson(Map<String, dynamic> json) =>
       id: json['id'] as int,
       collection:
           WebCollection.fromJson(json['collection'] as Map<String, dynamic>),
-      nft: WebNft.fromJson(json['nft'] as Map<String, dynamic>),
+      nft: json['nft'] == null
+          ? null
+          : WebNft.fromJson(json['nft'] as Map<String, dynamic>),
       smartContractUid: json['smart_contract_uid'] as String,
       ownerAddress: json['owner_address'] as String,
       winningAddress: json['winning_address'] as String?,
@@ -37,7 +39,6 @@ Map<String, dynamic> _$$_WebListingToJson(_$_WebListing instance) =>
     <String, dynamic>{
       'id': instance.id,
       'collection': collectionToJson(instance.collection),
-      'nft': instance.nft,
       'smart_contract_uid': instance.smartContractUid,
       'owner_address': instance.ownerAddress,
       'winning_address': instance.winningAddress,

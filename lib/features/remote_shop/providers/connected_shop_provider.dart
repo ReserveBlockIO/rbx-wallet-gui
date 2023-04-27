@@ -127,7 +127,7 @@ class ConnectedShopProvider extends StateNotifier<ConnectedShop> {
       confirmText: "Remove",
       cancelText: "Cancel",
     );
-    if (confirmed) {
+    if (confirmed == true) {
       ref.read(savedShopsProvider.notifier).remove(url);
     }
   }

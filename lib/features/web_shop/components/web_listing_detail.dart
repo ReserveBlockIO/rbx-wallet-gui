@@ -17,6 +17,8 @@ import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/dst/providers/listing_detail_provider.dart';
+import 'package:rbx_wallet/features/nft/models/nft.dart';
+import 'package:rbx_wallet/features/nft/models/web_nft.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_listing.dart';
 import 'package:rbx_wallet/features/web_shop/providers/create_web_listing_provider.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_listing_detail_provider.dart';
@@ -26,7 +28,6 @@ import '../../../core/app_router.gr.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../../core/providers/web_session_provider.dart';
-import '../models/web_nft.dart';
 
 class WebListingDetails extends BaseComponent {
   final WebListing listing;
@@ -52,11 +53,11 @@ class WebListingDetails extends BaseComponent {
           children: [
             if (nft == null) Text(listing.smartContractUid),
             if (nft != null) ...[
-              _Details(nft: nft),
+              _Details(listing: listing),
               _Preview(listing: listing),
               if (listing.canBuyNow) _BuyNow(listing: listing),
-              _WebNftDetails(nft: nft),
-              _WebNftData(nft: nft),
+              _WebNftDetails(nft: nft.smartContract),
+              _WebNftData(nft: nft.smartContract),
             ]
             // _Features(nft: nft),
           ],
@@ -93,11 +94,11 @@ class WebListingDetails extends BaseComponent {
               onPressed: () async {
                 final confirmed = await ConfirmDialog.show(
                   title: "Delete Listing",
-                  body: "Are you sure you want to delete this listing?\nThis is irreversible and all bids will be lost",
+                  body: "Are you sure you want to delete this listing?",
                   confirmText: "Delete",
                   cancelText: "Cancel",
                 );
-                if (confirmed) {
+                if (confirmed == true) {
                   ref.read(createWebListingProvider.notifier).delete(context, listing.collection.shop!.id, listing);
                 }
               },
@@ -124,11 +125,11 @@ class WebListingDetails extends BaseComponent {
                 children: [
                   if (nft == null) Text(listing.smartContractUid),
                   if (nft != null) ...[
-                    _Details(nft: nft!),
+                    _Details(listing: listing),
                     const SizedBox(height: 8),
-                    _WebNftDetails(nft: nft),
+                    _WebNftDetails(nft: nft.smartContract),
                     const SizedBox(height: 16),
-                    _WebNftData(nft: nft),
+                    _WebNftData(nft: nft.smartContract),
                     const SizedBox(height: 8),
                   ],
                   Row(
@@ -310,16 +311,19 @@ class _PreviewState extends State<_Preview> {
   }
 }
 
-class _Details extends StatelessWidget {
+class _Details extends BaseComponent {
+  final WebListing listing;
   const _Details({
     super.key,
-    required this.nft,
+    required this.listing,
   });
 
-  final WebNft nft;
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final myAddress = kIsWeb ? ref.read(webSessionProvider).keypair?.public : ref.read(sessionProvider).currentWallet?.address;
+    if (listing.nft == null) {
+      return SizedBox();
+    }
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -328,7 +332,7 @@ class _Details extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                nft.name,
+                listing.nft!.name,
                 style: Theme.of(context).textTheme.headlineMedium!.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -336,12 +340,66 @@ class _Details extends StatelessWidget {
               ),
             ),
             // if (withShareButtons) buildShareButtons(context),
+            AppButton(
+              label: "Share Listing",
+              icon: Icons.ios_share_rounded,
+              variant: AppColorVariant.Light,
+              type: AppButtonType.Text,
+              onPressed: () async {
+                await Clipboard.setData(ClipboardData(
+                    text:
+                        "${Env.appBaseUrl}/#dashboard/p2p/shop/${listing.collection.shop!.id}/collection/${listing.collection.id}/listing/${listing.id}"));
+                Toast.message("Share url copied to clipboard");
+              },
+            ),
+            if (listing.ownerAddress == myAddress)
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  AppButton(
+                    label: "Edit",
+                    icon: Icons.edit,
+                    variant: AppColorVariant.Light,
+                    type: AppButtonType.Text,
+                    onPressed: () {
+                      ref.read(createWebListingProvider.notifier).load(listing, listing.collection.id, listing.collection.shop!.id);
+                      if (Env.isWeb) {
+                        AutoRouter.of(context)
+                            .push(CreateWebListingScreenRoute(shopId: listing.collection.shop!.id, collectionId: listing.collection.id));
+                      } else {
+                        AutoRouter.of(context)
+                            .push(DebugWebListingCreateScreenRoute(shopId: listing.collection.shop!.id, collectionId: listing.collection.id));
+                      }
+                    },
+                  ),
+                  SizedBox(
+                    width: 6,
+                  ),
+                  AppButton(
+                    label: "Delete",
+                    icon: Icons.delete,
+                    variant: AppColorVariant.Danger,
+                    type: AppButtonType.Text,
+                    onPressed: () async {
+                      final confirmed = await ConfirmDialog.show(
+                        title: "Delete Listing",
+                        body: "Are you sure you want to delete this listing?",
+                        confirmText: "Delete",
+                        cancelText: "Cancel",
+                      );
+                      if (confirmed == true) {
+                        ref.read(createWebListingProvider.notifier).delete(context, listing.collection.shop!.id, listing);
+                      }
+                    },
+                  )
+                ],
+              )
           ],
         ),
         const SizedBox(height: 8),
         ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 600),
-          child: Text(nft.description),
+          child: Text(listing.nft!.description),
         ),
       ],
     );
@@ -414,7 +472,7 @@ class _Details extends StatelessWidget {
 // }
 
 class _WebNftDetails extends StatelessWidget {
-  final WebNft nft;
+  final Nft nft;
   const _WebNftDetails({super.key, required this.nft});
 
   @override
@@ -453,7 +511,7 @@ class _WebNftDetails extends StatelessWidget {
 }
 
 class _WebNftData extends StatelessWidget {
-  final WebNft nft;
+  final Nft nft;
 
   const _WebNftData({
     super.key,
@@ -532,8 +590,9 @@ class _WebNftData extends StatelessWidget {
           Table(
             defaultColumnWidth: const IntrinsicColumnWidth(),
             children: [
-              buildDetailRow(context, "Identifier", nft.identifier, true),
+              buildDetailRow(context, "Identifier", nft.id, true),
               buildDetailRow(context, "Minted By", nft.minterName),
+              buildDetailRow(context, "Owned by", nft.currentOwner),
               buildDetailRow(context, "Chain", "RBX"),
               //TODO: Auction stuff
             ],

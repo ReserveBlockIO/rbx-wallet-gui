@@ -237,7 +237,7 @@ class ValidatorScreen extends BaseScreen {
                     cancelText: "Cancel",
                   );
 
-                  if (confirmed) {
+                  if (confirmed == true) {
                     ref.read(sessionProvider.notifier).restartCli();
                     Toast.message("Restarting CLI...");
                   }

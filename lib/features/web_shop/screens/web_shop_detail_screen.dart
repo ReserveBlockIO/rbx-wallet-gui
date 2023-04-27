@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
@@ -13,6 +14,8 @@ import 'package:rbx_wallet/features/web_shop/screens/my_create_collection_contai
 
 import '../../../core/dialogs.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../utils/toast.dart';
+import '../providers/web_collection_list_provider.dart';
 import '../providers/web_shop_detail_provider.dart';
 
 class WebShopDetailScreen extends BaseScreen {
@@ -34,6 +37,23 @@ class WebShopDetailScreen extends BaseScreen {
               centerTitle: true,
               backgroundColor: Colors.black12,
               shadowColor: Colors.transparent,
+              actions: [
+                AppButton(
+                  label: "Share Shop",
+                  icon: Icons.ios_share_rounded,
+                  variant: AppColorVariant.Light,
+                  type: AppButtonType.Text,
+                  onPressed: () async {
+                    await Clipboard.setData(ClipboardData(text: "${Env.appBaseUrl}/#dashboard/p2p/shop/${shop.id}"));
+                    Toast.message("Share url copied to clipboard");
+                  },
+                ),
+                IconButton(
+                    onPressed: () {
+                      ref.watch(webCollectionListProvider(shopId).notifier).refresh();
+                    },
+                    icon: Icon(Icons.refresh))
+              ],
             )
           : AppBar(
               centerTitle: true,
@@ -101,12 +121,12 @@ class WebShopDetailScreen extends BaseScreen {
                             variant: AppColorVariant.Danger,
                             onPressed: () async {
                               final confirmed = await ConfirmDialog.show(
-                                title: "Are you sure you want to delete this shop?",
-                                body: "This is permanent",
+                                title: "Delete shop?",
+                                body: "Are you sure you want to delete this shop? This is a permanent operation.",
                                 cancelText: "Cancel",
                                 confirmText: "Delete",
                               );
-                              if (confirmed) {
+                              if (confirmed == true) {
                                 ref.read(webShopFormProvider.notifier).delete(context, shop);
                               }
                             },

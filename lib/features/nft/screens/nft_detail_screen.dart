@@ -249,7 +249,6 @@ class NftDetailScreen extends BaseScreen {
                         ConstrainedBox(
                           constraints: const BoxConstraints(maxWidth: 512),
                           child: Card(
-                            color: Colors.black54,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
@@ -257,8 +256,8 @@ class NftDetailScreen extends BaseScreen {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   kIsWeb
-                                      ? nft.assetsAvailable
-                                          ? ProxiedAssetCard(nft.proxiedAsset)
+                                      ? nft.primaryAssetWeb != null
+                                          ? WebAssetCard(nft.primaryAssetWeb)
                                           : buildAssetsNotAvailable(_provider)
                                       : AssetCard(
                                           nft.currentEvolveAsset,
@@ -280,15 +279,15 @@ class NftDetailScreen extends BaseScreen {
                                           const SizedBox(
                                             height: 6,
                                           ),
-                                          kIsWeb && !nft.assetsAvailable
+                                          kIsWeb && nft.additionalAssetsWeb == null
                                               ? buildAssetsNotAvailable(_provider, false)
                                               : kIsWeb
                                                   ? Wrap(
-                                                      children: (nft.additionalProxiedAssets ?? [])
+                                                      children: (nft.additionalAssetsWeb ?? [])
                                                           .map(
                                                             (a) => Padding(
                                                               padding: const EdgeInsets.only(right: 6.0),
-                                                              child: ProxyAssetThumbnail(a),
+                                                              child: WebAssetThumbnail(a),
                                                             ),
                                                           )
                                                           .toList(),
@@ -318,7 +317,7 @@ class NftDetailScreen extends BaseScreen {
                       ],
                     ),
                     ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: 400),
+                      constraints: const BoxConstraints(maxWidth: 216),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -330,6 +329,7 @@ class NftDetailScreen extends BaseScreen {
                           NftQrCode(
                             data: nft.explorerUrl,
                             size: 200,
+                            withOpen: true,
                           ),
                           MediaBackup(nft),
                         ],

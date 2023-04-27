@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/services/explorer_service.dart';
 import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
 
 import '../../../core/app_constants.dart';
@@ -28,7 +29,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
   }
 
   Future<Nft?> _retrieve() async {
-    final nft = kIsWeb ? await TransactionService().retrieveNft(id) : await NftService().retrieve(id);
+    final nft = kIsWeb ? await ExplorerService().retrieveNft(id) : await NftService().retrieve(id);
 
     return nft;
   }

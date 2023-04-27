@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
@@ -11,9 +12,11 @@ import 'package:rbx_wallet/features/web_shop/providers/web_collection_detail_pro
 import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../utils/toast.dart';
 import '../models/web_listing.dart';
 import '../providers/create_web_listing_provider.dart';
 import '../providers/web_collection_form_provider.dart';
+import '../providers/web_listing_list_provider.dart';
 import '../providers/web_shop_form_provider.dart';
 import 'my_create_collection_container_screen.dart';
 
@@ -29,6 +32,7 @@ class WebCollectionDetailScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     final data = ref.watch(webCollectionDetailProvider("$shopId,$collectionId"));
+
     return data.when(
       data: (collection) => collection != null
           ? AppBar(
@@ -36,6 +40,24 @@ class WebCollectionDetailScreen extends BaseScreen {
               centerTitle: true,
               backgroundColor: Colors.black12,
               shadowColor: Colors.transparent,
+              actions: [
+                AppButton(
+                  label: "Share Collection",
+                  icon: Icons.ios_share_rounded,
+                  variant: AppColorVariant.Light,
+                  type: AppButtonType.Text,
+                  onPressed: () async {
+                    await Clipboard.setData(
+                        ClipboardData(text: "${Env.appBaseUrl}/#dashboard/p2p/shop/${collection.shop!.id}/collection/${collection.id}"));
+                    Toast.message("Share url copied to clipboard");
+                  },
+                ),
+                IconButton(
+                    onPressed: () {
+                      ref.watch(webListingListProvider("$shopId,$collectionId").notifier).refresh();
+                    },
+                    icon: Icon(Icons.refresh)),
+              ],
             )
           : AppBar(
               title: const Text("Error"),
@@ -107,7 +129,7 @@ class WebCollectionDetailScreen extends BaseScreen {
                                 cancelText: "Cancel",
                                 confirmText: "Delete",
                               );
-                              if (confirmed) {
+                              if (confirmed == true) {
                                 ref.read(webCollectionFormProvider.notifier).delete(context, collection);
                               }
                             },

@@ -237,7 +237,7 @@ class TransactionService extends BaseService {
     }
   }
 
-  Future<List<Nft>> listMintedNfts(String email, String address) async {
+  Future<List<Nft>> listMintedNfts(String? email, String address) async {
     try {
       final params = {
         'email': email,
@@ -267,7 +267,7 @@ class TransactionService extends BaseService {
 
   // Wallets
 
-  Future<bool> createWallet(String email, String address) async {
+  Future<bool> createWallet(String? email, String address) async {
     try {
       final params = {'email': email, 'address': address};
       await postJson('/wallet', params: params);
@@ -324,7 +324,7 @@ class TransactionService extends BaseService {
   Future<bool> createRbxBid({
     required Listing listing,
     required double amount,
-    required String email,
+    required String? email,
     required String address,
     String? collectionSlug,
   }) async {
@@ -348,7 +348,7 @@ class TransactionService extends BaseService {
   Future<String?> createCcBid({
     required Listing listing,
     required double amount,
-    required String email,
+    required String? email,
     required String address,
     String? collectionSlug,
   }) async {
@@ -373,7 +373,7 @@ class TransactionService extends BaseService {
 
   Future<bool> createRbxPurchase({
     required Listing listing,
-    required String email,
+    required String? email,
     required String address,
     String? collectionSlug,
   }) async {
@@ -395,7 +395,7 @@ class TransactionService extends BaseService {
 
   Future<String?> createCcPurchase({
     required Listing listing,
-    required String email,
+    required String? email,
     required String address,
     String? collectionSlug,
   }) async {
@@ -430,7 +430,7 @@ class TransactionService extends BaseService {
   // Stores
 
   Future<List<Store>> listStores({
-    required String email,
+    required String? email,
     required String address,
   }) async {
     try {
@@ -460,7 +460,7 @@ class TransactionService extends BaseService {
   }
 
   Future<Store?> createStore({
-    required String email,
+    String? email,
     required String address,
     required String name,
     required String account,

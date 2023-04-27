@@ -247,7 +247,7 @@ class ManageWalletBottomSheet extends BaseComponent {
                                         cancelText: "Cancel",
                                       );
 
-                                      if (confirmed) {
+                                      if (confirmed == true) {
                                         ref.read(walletDetailProvider(wallet).notifier).delete();
                                       }
                                     },

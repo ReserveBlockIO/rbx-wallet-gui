@@ -44,7 +44,7 @@ class KeygenCta extends BaseComponent {
 
     await Future.delayed(const Duration(milliseconds: 300));
 
-    final keypair = await KeygenService.generate(email);
+    final keypair = await KeygenService.generate();
     if (keypair == null) {
       ref.read(globalLoadingProvider.notifier).complete();
       Toast.error();
@@ -81,7 +81,7 @@ class KeygenCta extends BaseComponent {
 
         await Future.delayed(const Duration(milliseconds: 300));
 
-        final keypair = await KeygenService.recover(value.trim(), email);
+        final keypair = await KeygenService.recover(value.trim());
 
         if (keypair == null) {
           Toast.error();

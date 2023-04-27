@@ -9,8 +9,8 @@ import '../../../core/web_router.gr.dart';
 import '../models/web_collection.dart';
 
 class WebCollectionTile extends BaseComponent {
-  WebCollectionTile(this.collection, {Key? key}) : super(key: key);
-  WebCollection collection;
+  final WebCollection collection;
+  const WebCollectionTile(this.collection, {Key? key}) : super(key: key);
   @override
   Widget body(BuildContext context, WidgetRef ref) {
     return Card(

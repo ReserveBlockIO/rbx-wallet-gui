@@ -153,6 +153,9 @@ class SessionProvider extends StateNotifier<SessionModel> {
   static const _initial = SessionModel();
 
   SessionProvider(this.ref, [SessionModel sessionModel = _initial]) : super(sessionModel) {
+    if (kIsWeb) {
+      return;
+    }
     init(true);
   }
 

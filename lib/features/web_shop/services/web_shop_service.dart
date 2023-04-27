@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/models/paginated_response.dart';
@@ -88,19 +90,32 @@ class WebShopService extends BaseService {
     }
   }
 
-  Future<bool> saveWebShop(WebShop shop) async {
+  Future<bool> checkAvailabilty(String url) async {
     try {
+      final data = await getJson("/shop/url/available/", params: {'url': url});
+      return data['available'] == true;
+    } catch (e, st) {
+      print(e);
+      print(st);
+      return false;
+    }
+  }
+
+  Future<WebShop?> saveWebShop(WebShop shop) async {
+    try {
+      late final Map<String, dynamic> response;
       if (shop.isNew) {
-        final data = await postJson("/shop", params: shop.toJson());
+        response = await postJson("/shop", params: shop.toJson());
       } else {
-        final data = await patchJson("/shop/${shop.id}", params: shop.toJson());
+        response = await patchJson("/shop/${shop.id}", params: shop.toJson());
       }
-      return true;
+
+      return WebShop.fromJson(response['data']);
     } catch (e, st) {
       if (e is DioError) print(e.response);
       print(e);
       print(st);
-      return false;
+      return null;
     }
   }
 
@@ -139,7 +154,7 @@ class WebShopService extends BaseService {
         return WebCollection.fromJson(response['data']);
       } else {
         final response = await patchJson(
-          "/shop/${collection.shop!.id}/collection/",
+          "/shop/${collection.shop!.id}/collection/${collection.id}/",
           params: collection.toJson(),
           inspect: true,
         );
@@ -170,8 +185,13 @@ class WebShopService extends BaseService {
         "/shop/$shopId/collection/$collectionId/listing",
         params: {'page': page},
       );
+      print("------");
+
+      print(data);
+      print("------");
+
       final List<WebListing> results = data['results'].map<WebListing>((item) => WebListing.fromJson(item)).toList();
-      print(results);
+
       return ServerPaginatedReponse<WebListing>(
         count: data['count'],
         page: data['page'],
@@ -189,7 +209,6 @@ class WebShopService extends BaseService {
   Future<WebListing?> retrieveListing(int shopId, int collectionId, int listingId) async {
     try {
       final data = await getJson("/shop/$shopId/collection/$collectionId/listing/$listingId/");
-      print(WebListing.fromJson(data));
       return WebListing.fromJson(data);
     } catch (e, st) {
       print(e);
@@ -201,9 +220,9 @@ class WebShopService extends BaseService {
   Future<bool> saveWebListing(WebListing listing, int shopId, int collectionId) async {
     try {
       if (listing.exists) {
-        final data = await patchJson('/shop/$shopId/collection/$collectionId/listing', params: listing.toJson());
+        final data = await patchJson('/shop/$shopId/collection/$collectionId/listing/${listing.id}/', params: listing.toJson());
       } else {
-        final data = await postJson('/shop/$shopId/collection/$collectionId/listing', params: listing.toJson());
+        final data = await postJson('/shop/$shopId/collection/$collectionId/listing/', params: listing.toJson());
       }
       return true;
     } catch (e, st) {

@@ -5,6 +5,11 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Flutter",
+            "type": "dart",
+            "request": "launch",
+        },
+        {
             "name": "rbx (web)",
             "request": "launch",
             "type": "dart",
