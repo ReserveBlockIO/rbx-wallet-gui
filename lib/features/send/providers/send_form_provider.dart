@@ -20,6 +20,7 @@ import '../../bridge/models/log_entry.dart';
 import '../../bridge/providers/log_provider.dart';
 import '../../bridge/services/bridge_service.dart';
 import '../../web/utils/raw_transaction.dart';
+import '../../raw/raw_service.dart';
 // import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 
 class SendFormModel {
@@ -286,14 +287,14 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
 
         if (confirmed == true) {
           ref.read(globalLoadingProvider.notifier).start();
-          final tx = await TransactionService().sendTransaction(
+          final tx = await RawService().sendTransaction(
             transactionData: txData,
             execute: true,
           );
           ref.read(globalLoadingProvider.notifier).complete();
 
           if (tx != null) {
-            if (tx['data']['Result'] == "Success") {
+            if (tx['Result'] == "Success") {
               Toast.message("$amount RBX sent to $address");
               clear();
               return;
