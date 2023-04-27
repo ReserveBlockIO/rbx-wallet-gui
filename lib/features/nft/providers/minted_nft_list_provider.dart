@@ -5,7 +5,6 @@ import 'package:rbx_wallet/features/raw/raw_service.dart';
 
 import '../../../core/models/paginated_response.dart';
 import '../../../core/providers/web_session_provider.dart';
-import '../../../core/services/transaction_service.dart';
 import '../services/nft_service.dart';
 import 'nft_list_provider.dart';
 

@@ -9,7 +9,6 @@ import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dar
 
 import '../../../core/app_constants.dart';
 import '../../../core/providers/web_session_provider.dart';
-import '../../../core/services/transaction_service.dart';
 import '../../../utils/toast.dart';
 import '../../global_loader/global_loading_provider.dart';
 import '../../smart_contracts/services/smart_contract_service.dart';

@@ -13,7 +13,6 @@ import '../../../../../core/base_component.dart';
 import '../../../../../core/breakpoints.dart';
 import '../../../../../core/components/buttons.dart';
 import '../../../../../core/dialogs.dart';
-import '../../../../../core/services/transaction_service.dart';
 import '../../../../../utils/files.dart';
 import '../../../../../utils/validation.dart';
 import '../../../../asset/asset.dart';

@@ -12,7 +12,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../core/app_constants.dart';
 import '../core/dialogs.dart';
 import '../core/env.dart';
-import '../core/services/transaction_service.dart';
 import '../features/asset/asset.dart';
 import '../features/config/providers/config_provider.dart';
 

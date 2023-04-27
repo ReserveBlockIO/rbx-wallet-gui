@@ -5,6 +5,8 @@ import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/services/base_service.dart';
 import 'package:rbx_wallet/features/adnr/models/adnr_response.dart';
 import 'package:rbx_wallet/features/keygen/models/keypair.dart';
+import 'package:rbx_wallet/features/nft/models/nft.dart';
+import 'package:rbx_wallet/features/nft/models/web_nft.dart';
 import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
@@ -125,6 +127,22 @@ class RawService extends BaseService {
     } catch (e) {
       print(e);
       return false;
+    }
+  }
+
+  Future<List<Nft>> listMintedNfts(String address) async {
+    try {
+      final params = {
+        'address': address,
+      };
+
+      final response = await getJson('/nft/minted', params: params, responseIsJson: true);
+      final List<Nft> results = response['data'].map<Nft>((json) => WebNft.fromJson(json).smartContract).toList();
+      return results;
+    } catch (e) {
+      print(e);
+
+      return [];
     }
   }
 

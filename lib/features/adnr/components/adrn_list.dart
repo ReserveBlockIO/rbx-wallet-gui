@@ -7,7 +7,6 @@ import '../../../core/base_component.dart';
 import '../../../core/components/badges.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';
-import '../../../core/services/transaction_service.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../utils/guards.dart';
 import '../../../utils/toast.dart';

@@ -11,7 +11,6 @@ import '../../../core/dialogs.dart';
 import '../../../core/env.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../../core/providers/web_session_provider.dart';
-import '../../../core/services/transaction_service.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../utils/guards.dart';
 import '../../../utils/toast.dart';
@@ -291,6 +290,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
             transactionData: txData,
             execute: true,
           );
+
           ref.read(globalLoadingProvider.notifier).complete();
 
           if (tx != null) {

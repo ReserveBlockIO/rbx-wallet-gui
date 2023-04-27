@@ -10,7 +10,6 @@ import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/base_component.dart';
-import '../../../core/services/transaction_service.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../utils/toast.dart';
 import '../../../utils/validation.dart';

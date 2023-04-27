@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/services/explorer_service.dart';
 
 import '../../../core/models/paginated_response.dart';
-import '../../../core/services/transaction_service.dart';
 import '../models/nft.dart';
 import '../services/nft_service.dart';
 

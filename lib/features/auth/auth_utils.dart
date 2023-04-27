@@ -16,7 +16,6 @@ import '../../core/breakpoints.dart';
 import '../../core/components/buttons.dart';
 import '../../core/dialogs.dart';
 import '../../core/providers/web_session_provider.dart';
-import '../../core/services/transaction_service.dart';
 import '../../core/web_router.gr.dart';
 import '../global_loader/global_loading_provider.dart';
 import '../keygen/models/keypair.dart';

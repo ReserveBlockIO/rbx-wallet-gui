@@ -21,7 +21,6 @@ import 'package:rbx_wallet/utils/validation.dart';
 
 import '../../../core/providers/session_provider.dart';
 import '../../../core/providers/web_session_provider.dart';
-import '../../../core/services/transaction_service.dart';
 import '../../../utils/toast.dart';
 import '../../asset/asset.dart';
 import '../../nft/providers/minted_nft_list_provider.dart';

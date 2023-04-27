@@ -11,7 +11,6 @@ import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
 import '../../../core/app_constants.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../../core/providers/web_session_provider.dart';
-import '../../../core/services/transaction_service.dart';
 import '../../../utils/generators.dart';
 import '../../../utils/guards.dart';
 import '../../asset/asset.dart';
