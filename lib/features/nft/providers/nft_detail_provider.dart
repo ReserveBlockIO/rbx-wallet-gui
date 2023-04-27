@@ -160,14 +160,6 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     return false;
   }
 
-  static bool _txResponseIsValid(Map<String, dynamic>? data) {
-    if (data == null || data['Result'] != "Success") {
-      return false;
-    }
-
-    return true;
-  }
-
   Future<bool?> transferWebOut(String toAddress) async {
     final keypair = ref.read(webSessionProvider).keypair;
     if (keypair == null) {
@@ -189,6 +181,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     }
 
     final nftTransferData = await txService.nftTransferData(id, toAddress, "NA");
+    print("NFT Transfer data: $nftTransferData");
 
     var txData = RawTransaction.buildTransaction(
       amount: 0.0,
@@ -255,12 +248,12 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       signature: signature,
     );
 
-    final verifyTransactionData = (await txService.sendTransaction(
+    final verifyTransactionData = await txService.sendTransaction(
       transactionData: txData,
       execute: false,
-    ));
+    );
 
-    if (!_txResponseIsValid(verifyTransactionData)) {
+    if (verifyTransactionData == null) {
       Toast.error("Transaction not valid");
       return false;
     }

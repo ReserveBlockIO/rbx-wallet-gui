@@ -256,7 +256,7 @@ class TransferingOverlay extends StatelessWidget {
                 fontWeight: small ? FontWeight.w500 : FontWeight.bold,
               ),
             ),
-            if (withLog)
+            if (withLog && !kIsWeb)
               AppButton(
                 label: "View Upload Progress",
                 onPressed: () {
