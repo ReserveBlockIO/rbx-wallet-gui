@@ -13,9 +13,13 @@ import '../models/web_collection.dart';
 import '../providers/create_web_listing_provider.dart';
 
 class CreateListingFormGroup extends BaseComponent {
-  int collection;
-  int store;
-  CreateListingFormGroup({Key? key, required this.collection, required this.store}) : super(key: key);
+  final int collection;
+  final int store;
+  const CreateListingFormGroup({
+    Key? key,
+    required this.collection,
+    required this.store,
+  }) : super(key: key);
 
   @override
   Widget desktopBody(BuildContext context, WidgetRef ref) {
@@ -85,7 +89,7 @@ class CreateListingFormGroup extends BaseComponent {
             padding: const EdgeInsets.only(top: 16.0),
             child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
               AppButton(
-                label: 'Complete',
+                label: 'Save',
                 variant: AppColorVariant.Success,
                 onPressed: () {
                   provider.complete(context);
@@ -270,10 +274,26 @@ class _NFT extends BaseComponent {
 
   @override
   Widget build(BuildContext context, ref) {
+    // return SizedBox();
     final provider = ref.read(createWebListingProvider.notifier);
     final model = ref.watch(createWebListingProvider);
 
-    final nft = model.nft;
+    final webNft = model.nft;
+
+    if (webNft == null) {
+      return NftSelector(
+        labelOverride: "Select NFT",
+        disabled: model.exists,
+        onSelect: (nft) {
+          if (nft.isListed(ref)) {
+            Toast.error("This NFT is already listed. Please choose another");
+            provider.clearNft();
+            return;
+          }
+          provider.updateNFT(nft);
+        },
+      );
+    }
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -282,7 +302,29 @@ class _NFT extends BaseComponent {
         children: [
           Builder(
             builder: (context) {
-              return const Icon(Icons.file_present_outlined);
+              if (webNft.smartContract.currentEvolveAssetWeb != null && webNft.smartContract.currentEvolveAssetWeb!.isImage) {
+                return SizedBox(
+                  width: 32,
+                  height: 32,
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: Image.network(
+                      webNft.smartContract.currentEvolveAssetWeb!.location,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                );
+              }
+
+              if (webNft.smartContract.primaryAssetWeb != null) {
+                return Icon(Icons.file_present_outlined);
+              }
+
+              return SizedBox(
+                width: 32,
+                height: 32,
+              );
             },
           ),
           SizedBox(
@@ -293,9 +335,9 @@ class _NFT extends BaseComponent {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("NFT: ${model.smartContractUid}"),
+                Text("NFT: ${webNft.name}"),
                 Text(
-                  nft.identifier,
+                  webNft.smartContract.id,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ],
@@ -304,13 +346,13 @@ class _NFT extends BaseComponent {
           NftSelector(
             labelOverride: "Select NFT",
             disabled: model.exists,
-            onSelect: (nft) {
+            onSelect: (nft) async {
               if (nft.isListed(ref)) {
                 Toast.error("This NFT is already listed. Please choose another");
                 provider.clearNft();
                 return;
               }
-              provider.updateNFT(nft.id);
+              await provider.updateNFT(nft);
             },
           ),
         ],

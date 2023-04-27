@@ -58,6 +58,8 @@ class BidListProvider extends StateNotifier<List<Bid>> {
 
     bids.sort((a, b) => a.bidSendTime > b.bidSendTime ? -1 : 1);
 
+    ref.read(connectedShopProvider.notifier).refresh(true);
+
     state = bids;
     return bids;
   }
@@ -226,6 +228,8 @@ class BidListProvider extends StateNotifier<List<Bid>> {
 
     final success = await RemoteShopService().sendBid(bid);
     if (success) {
+      await RemoteShopService().getBidsByListingId(listingId);
+      await Future.delayed(Duration(milliseconds: 500));
       ref.read(connectedShopProvider.notifier).refresh(true);
     }
     return success;

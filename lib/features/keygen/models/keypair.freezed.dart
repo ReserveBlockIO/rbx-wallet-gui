@@ -23,7 +23,7 @@ mixin _$Keypair {
   String get private => throw _privateConstructorUsedError;
   String get public => throw _privateConstructorUsedError;
   String get publicInflated => throw _privateConstructorUsedError;
-  String get email =>
+  String? get email =>
       throw _privateConstructorUsedError; // @JsonKey(toJson: null) ECPrivateKey? ecPrivateKey,
   String? get mneumonic => throw _privateConstructorUsedError;
 
@@ -41,7 +41,7 @@ abstract class $KeypairCopyWith<$Res> {
       {String private,
       String public,
       String publicInflated,
-      String email,
+      String? email,
       String? mneumonic});
 }
 
@@ -61,7 +61,7 @@ class _$KeypairCopyWithImpl<$Res, $Val extends Keypair>
     Object? private = null,
     Object? public = null,
     Object? publicInflated = null,
-    Object? email = null,
+    Object? email = freezed,
     Object? mneumonic = freezed,
   }) {
     return _then(_value.copyWith(
@@ -77,10 +77,10 @@ class _$KeypairCopyWithImpl<$Res, $Val extends Keypair>
           ? _value.publicInflated
           : publicInflated // ignore: cast_nullable_to_non_nullable
               as String,
-      email: null == email
+      email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       mneumonic: freezed == mneumonic
           ? _value.mneumonic
           : mneumonic // ignore: cast_nullable_to_non_nullable
@@ -100,7 +100,7 @@ abstract class _$$_KeypairCopyWith<$Res> implements $KeypairCopyWith<$Res> {
       {String private,
       String public,
       String publicInflated,
-      String email,
+      String? email,
       String? mneumonic});
 }
 
@@ -117,7 +117,7 @@ class __$$_KeypairCopyWithImpl<$Res>
     Object? private = null,
     Object? public = null,
     Object? publicInflated = null,
-    Object? email = null,
+    Object? email = freezed,
     Object? mneumonic = freezed,
   }) {
     return _then(_$_Keypair(
@@ -133,10 +133,10 @@ class __$$_KeypairCopyWithImpl<$Res>
           ? _value.publicInflated
           : publicInflated // ignore: cast_nullable_to_non_nullable
               as String,
-      email: null == email
+      email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       mneumonic: freezed == mneumonic
           ? _value.mneumonic
           : mneumonic // ignore: cast_nullable_to_non_nullable
@@ -152,7 +152,7 @@ class _$_Keypair extends _Keypair {
       {required this.private,
       required this.public,
       required this.publicInflated,
-      required this.email,
+      this.email,
       this.mneumonic})
       : super._();
 
@@ -166,7 +166,7 @@ class _$_Keypair extends _Keypair {
   @override
   final String publicInflated;
   @override
-  final String email;
+  final String? email;
 // @JsonKey(toJson: null) ECPrivateKey? ecPrivateKey,
   @override
   final String? mneumonic;
@@ -214,7 +214,7 @@ abstract class _Keypair extends Keypair {
       {required final String private,
       required final String public,
       required final String publicInflated,
-      required final String email,
+      final String? email,
       final String? mneumonic}) = _$_Keypair;
   _Keypair._() : super._();
 
@@ -227,7 +227,7 @@ abstract class _Keypair extends Keypair {
   @override
   String get publicInflated;
   @override
-  String get email;
+  String? get email;
   @override // @JsonKey(toJson: null) ECPrivateKey? ecPrivateKey,
   String? get mneumonic;
   @override

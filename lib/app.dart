@@ -1,7 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/chat/providers/chat_notification_provider.dart';
+import 'package:rbx_wallet/features/remote_shop/providers/shop_loading_provider.dart';
+import 'package:rbx_wallet/generated/assets.gen.dart';
 
 import 'core/app_router.gr.dart';
 import 'core/components/boot_container.dart';
@@ -64,6 +67,7 @@ class AppContainer extends ConsumerWidget {
 
     return MaterialApp.router(
       restorationScopeId: "app",
+
       debugShowCheckedModeBanner: false,
       scaffoldMessengerKey: rootScaffoldMessengerKey,
       theme: AppTheme.dark().themeData,
@@ -80,6 +84,7 @@ class AppContainer extends ConsumerWidget {
           }
 
           return const Material(
+            color: Colors.black87,
             child: Center(child: BootContainer()),
           );
         }
@@ -115,6 +120,68 @@ class AppContainer extends ConsumerWidget {
                             color: Colors.transparent,
                             child: InkWell(
                               onTap: () => ref.read(globalLoadingProvider.notifier).complete(),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "[CLOSE]",
+                                  style: Theme.of(context).textTheme.caption,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ))
+                  ],
+                ),
+              ),
+            if (ref.watch(shopLoadingProvider) != null)
+              Container(
+                color: Colors.black54,
+                child: Stack(
+                  children: [
+                    Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            width: 120,
+                            height: 120,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
+                              color: Colors.black,
+                            ),
+                            child: Center(
+                              child: SizedBox(
+                                width: 100,
+                                height: 100,
+                                child: Image.asset(
+                                  Assets.images.animatedCube.path,
+                                  scale: 1,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 16,
+                          ),
+                          Text(
+                            ref.watch(shopLoadingProvider)!,
+                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 72.0),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () => ref.read(shopLoadingProvider.notifier).complete(),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(

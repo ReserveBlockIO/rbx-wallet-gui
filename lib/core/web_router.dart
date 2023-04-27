@@ -132,7 +132,7 @@ const webDashboardTabRouter = AutoRoute(
       ],
     ),
     AutoRoute(
-      path: 'shop',
+      path: 'p2p',
       name: "WebShopTabRouter",
       page: WebShopContainerScreen,
       children: [

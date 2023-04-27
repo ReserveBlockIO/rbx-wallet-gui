@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:rbx_wallet/features/asset/web_asset.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../core/components/buttons.dart';
@@ -7,10 +8,10 @@ import '../../../core/components/centered_loader.dart';
 import '../../../utils/html_helpers.dart';
 import '../../asset/proxied_asset.dart';
 
-class ProxiedAssetCard extends StatelessWidget {
-  final ProxiedAsset? asset;
+class WebAssetCard extends StatelessWidget {
+  final WebAsset? asset;
 
-  const ProxiedAssetCard(this.asset, {Key? key}) : super(key: key);
+  const WebAssetCard(this.asset, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class ProxiedAssetCard extends StatelessWidget {
     // );
 
     Future<String> _textDownload() async {
-      final url = asset!.url;
+      final url = asset!.location;
 
       final response = await Dio().get(url);
 
@@ -29,19 +30,20 @@ class ProxiedAssetCard extends StatelessWidget {
     }
 
     if (asset == null) return const SizedBox();
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         asset!.isImage
             ? Image.network(
-                asset!.url,
+                asset!.location,
                 width: double.infinity,
                 fit: BoxFit.contain,
               )
             : asset!.isVideo
                 ? VideoPreview(
-                    videoUrl: asset!.url,
+                    videoUrl: asset!.location,
                   )
                 : asset!.isText
                     ? FutureBuilder(
@@ -57,14 +59,14 @@ class ProxiedAssetCard extends StatelessWidget {
                           }
                         })
                     : Icon(asset!.icon),
-        if (asset!.authorName.isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            child: Text(
-              "Creator: ${asset!.authorName}",
-              style: Theme.of(context).textTheme.caption!.copyWith(fontSize: 14),
-            ),
-          ),
+        // if (asset!.authorName.isNotEmpty)
+        //   Padding(
+        //     padding: const EdgeInsets.symmetric(vertical: 4),
+        //     child: Text(
+        //       "Creator: ${asset!.authorName}",
+        //       style: Theme.of(context).textTheme.caption!.copyWith(fontSize: 14),
+        //     ),
+        //   ),
         Wrap(
           children: [
             SizedBox(
@@ -76,15 +78,15 @@ class ProxiedAssetCard extends StatelessWidget {
                 subtitle: const Text("File Type"),
               ),
             ),
-            SizedBox(
-              width: 200,
-              child: ListTile(
-                leading: const Icon(Icons.line_weight),
-                contentPadding: EdgeInsets.zero,
-                title: Text(asset!.filesizeLabel),
-                subtitle: const Text("File Size"),
-              ),
-            ),
+            // SizedBox(
+            //   width: 200,
+            //   child: ListTile(
+            //     leading: const Icon(Icons.line_weight),
+            //     contentPadding: EdgeInsets.zero,
+            //     title: Text(asset!.filesizeLabel),
+            //     subtitle: const Text("File Size"),
+            //   ),
+            // ),
           ],
         ),
         const Divider(),
@@ -93,7 +95,7 @@ class ProxiedAssetCard extends StatelessWidget {
             label: "Download Asset",
             icon: Icons.file_open,
             onPressed: () {
-              HtmlHelpers().triggerDownload(asset!.url);
+              HtmlHelpers().triggerDownload(asset!.location);
             },
           ),
         ),

@@ -159,13 +159,13 @@ class ConfigFormProvider extends StateNotifier<Config> {
     final path = await configPath();
     await File(path).writeAsString(fileContents);
 
-    if (shouldRestart) {
+    if (shouldRestart == true) {
       Toast.message("Restarting CLI...");
       await ref.read(sessionProvider.notifier).restartCli();
     }
     ref.read(globalLoadingProvider.notifier).complete();
 
-    return shouldRestart;
+    return shouldRestart == true;
   }
 
   switchObscurity() {

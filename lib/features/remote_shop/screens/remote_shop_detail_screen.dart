@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/features/remote_shop/components/remote_shop_details.dart';
+import 'package:rbx_wallet/features/remote_shop/components/shop_connected_indicator.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/remote_shop_detail_provider.dart';
 
@@ -14,7 +15,7 @@ import '../../wallet/components/wallet_selector.dart';
 
 class RemoteShopDetailScreen extends BaseScreen {
   final String shopUrl;
-  const RemoteShopDetailScreen({Key? key, @PathParam("url") required this.shopUrl}) : super(key: key, backgroundColor: const Color(0xFF010715));
+  const RemoteShopDetailScreen({Key? key, @PathParam("url") required this.shopUrl}) : super(key: key);
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
@@ -38,6 +39,12 @@ class RemoteShopDetailScreen extends BaseScreen {
                 },
               ),
               actions: [
+                Align(
+                  alignment: Alignment.center,
+                  child: ShopConnectedIndicator(
+                    shopUrl: shopUrl,
+                  ),
+                ),
                 IconButton(
                   onPressed: () {
                     ref.read(connectedShopProvider.notifier).refresh(true);

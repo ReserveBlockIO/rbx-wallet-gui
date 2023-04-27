@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:rbx_wallet/core/base_component.dart';
@@ -34,47 +36,49 @@ import 'package:rbx_wallet/utils/files.dart';
 import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:collection/collection.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class ListingDetails extends BaseComponent {
   final OrganizedListing listing;
   const ListingDetails({super.key, required this.listing});
 
-  @override
-  Widget body(BuildContext context, WidgetRef ref) {
-    final nft = listing.nft;
-    if (nft == null) {
-      return SizedBox.shrink();
-    }
-    return Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _Details(nft: nft),
-          _Preview(
-            nft: nft,
-            onPageChange: (i) {
-              ref.read(carouselMemoryProvider(nft.id).notifier).update(i);
-            },
-          ),
-          if (listing.canBuyNow) _BuyNow(listing: listing),
-          _Features(nft: nft),
-          _Properties(nft: nft),
-          _NftDetails(nft: nft),
-          _NftData(nft: nft, listing: listing),
-          const SizedBox(height: 8),
-          if (listing.canBid) _Auction(listing: listing),
-          if (listing.canBuyNow && listing.canBid) SizedBox(height: 16),
-          if (listing.canBuyNow) _BuyNow(listing: listing),
-          _Countdown(listing: listing),
-        ],
-      ),
-    );
-  }
+  // @override
+  // Widget body(BuildContext context, WidgetRef ref) {
+  //   final nft = listing.nft;
+  //   if (nft == null) {
+  //     return SizedBox.shrink();
+  //   }
+  //   return Padding(
+  //     padding: const EdgeInsets.all(12.0),
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       mainAxisSize: MainAxisSize.min,
+  //       children: [
+  //         _AuctionDataWatcher(listing.id),
+  //         _Details(nft: nft),
+  //         _Preview(
+  //           nft: nft,
+  //           onPageChange: (i) {
+  //             ref.read(carouselMemoryProvider(nft.id).notifier).update(i);
+  //           },
+  //         ),
+  //         if (listing.canBuyNow) _BuyNow(listing: listing),
+  //         _Features(nft: nft),
+  //         _Properties(nft: nft),
+  //         _NftDetails(nft: nft),
+  //         _NftData(nft: nft, listing: listing),
+  //         const SizedBox(height: 8),
+  //         if (listing.canBid) _Auction(listing: listing),
+  //         if (listing.canBuyNow && listing.canBid) SizedBox(height: 16),
+  //         if (listing.canBuyNow) _BuyNow(listing: listing),
+  //         _Countdown(listing: listing),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   @override
-  Widget desktopBody(BuildContext context, WidgetRef ref) {
+  Widget body(BuildContext context, WidgetRef ref) {
     final nft = listing.nft;
     if (nft == null) {
       return SizedBox.shrink();
@@ -85,6 +89,7 @@ class ListingDetails extends BaseComponent {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          _AuctionDataWatcher(listing.id),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -106,7 +111,7 @@ class ListingDetails extends BaseComponent {
                     _Properties(nft: nft),
                     _QRCode(
                       nft: nft,
-                      size: 200,
+                      size: 150,
                     ),
                   ],
                 ),
@@ -115,7 +120,6 @@ class ListingDetails extends BaseComponent {
                 constraints: const BoxConstraints(maxWidth: 600),
                 child: Center(
                   child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    if (kDebugMode) Text("Listing: ${listing.id} | Collection: ${listing.collectionId}"),
                     _Details(nft: nft),
                     const SizedBox(height: 8),
                     _NftDetails(nft: nft),
@@ -127,7 +131,7 @@ class ListingDetails extends BaseComponent {
                     if (listing.canBuyNow) IntrinsicWidth(child: _BuyNow(listing: listing)),
                     const SizedBox(height: 16),
                     if (listing.canBuyNow || listing.canBid) _Countdown(listing: listing),
-                    if (!listing.hasStarted)
+                    if (!listing.hasStarted && !listing.isGallery)
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
@@ -280,9 +284,9 @@ class _PreviewState extends State<_Preview> {
       final ds = Platform.isMacOS ? "/" : "\\";
       final path = "${widget.nft.thumbsPath}$ds$filename";
 
-      final updatedFileName = path.replaceAll(".pdf", ".jpg").replaceAll(".png", ".jpg");
+      // final updatedFileName = path.replaceAll(".pdf", ".jpg").replaceAll(".png", ".jpg");
 
-      return updatedFileName;
+      return path;
 
       // final ext = path.split(".").last.toLowerCase();
       // final imageExtensions = ['jpg', 'jpeg', 'gif', 'png', 'webp'];
@@ -339,14 +343,19 @@ class _PreviewState extends State<_Preview> {
                                   onTap: () {
                                     Navigator.of(context).pop();
                                   },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: PinchZoom(
+                                  child: Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(16.0),
                                       child: Image.file(
-                                        File(path),
-                                        width: double.infinity,
-                                        height: double.infinity,
+                                        File(path
+                                            .replaceAll(".pdf", ".jpg")
+                                            .replaceAll(".png", ".jpg")
+                                            .replaceAll(".jpeg", ".jpg")
+                                            .replaceAll(".gif", ".jpg")
+                                            .replaceAll(".webp", ".jpg")),
                                         fit: BoxFit.contain,
+                                        width: 512,
+                                        height: 512,
                                       ),
                                     ),
                                   ),
@@ -360,6 +369,8 @@ class _PreviewState extends State<_Preview> {
                                   scId: widget.nft.id,
                                   ref: ref,
                                   fileNames: fileNames,
+                                  fallbackIcon: icon,
+                                  // originalExtension: extension.toLowerCase(),
                                 );
                               })
                             : Center(
@@ -706,6 +717,10 @@ class _BuyNow extends BaseComponent {
           icon: Icons.money,
           size: AppSizeVariant.Lg,
           onPressed: () async {
+            if (!ref.read(connectedShopProvider).isConnected) {
+              Toast.error("This shop is currently offline.");
+              return;
+            }
             // showDialog(
             //   context: context,
             //   builder: (context) {
@@ -814,6 +829,11 @@ class _Auction extends BaseComponent {
                   icon: Icons.gavel,
                   size: AppSizeVariant.Lg,
                   onPressed: () async {
+                    if (!ref.read(connectedShopProvider).isConnected) {
+                      Toast.error("This shop is currently offline.");
+                      return;
+                    }
+
                     final success = await provider.sendBid(context, listing);
                     if (success == true) {
                       Toast.message("Bid sent. Please check the Bid History to see if it's been accepted or rejected.");
@@ -828,6 +848,9 @@ class _Auction extends BaseComponent {
                   icon: Icons.info,
                   size: AppSizeVariant.Lg,
                   onPressed: () async {
+                    if (!ref.read(connectedShopProvider).isConnected) {
+                      Toast.error("Warning: This shop is currently offline so the information may not be up to date.");
+                    }
                     final auction = listing.auction!;
 
                     InfoDialog.show(
@@ -863,6 +886,11 @@ class BidHistoryButton extends BaseComponent {
       icon: Icons.punch_clock,
       size: AppSizeVariant.Lg,
       onPressed: () async {
+        if (!ref.read(connectedShopProvider).isConnected) {
+          Toast.error("Warning: This shop is currently offline so the information may not be up to date.");
+          await Future.delayed(Duration(seconds: 3));
+        }
+
         ref.read(globalLoadingProvider.notifier).start();
         final bids = await provider.fetchBids(listing);
 
@@ -989,7 +1017,7 @@ class _Countdown extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: AppCountdown(
               dueDate: listing.endDate,
-              prefix: "Auction Ends",
+              prefix: listing.floorPrice != null ? "Auction Ends" : "Ends in",
             ),
           ),
         if (!listing.hasStarted)
@@ -1010,12 +1038,14 @@ class _Thumbnail extends StatefulWidget {
   final List<String> fileNames;
   final String scId;
   final WidgetRef ref;
+  final IconData fallbackIcon;
   const _Thumbnail({
     super.key,
     required this.path,
     required this.fileNames,
     required this.scId,
     required this.ref,
+    required this.fallbackIcon,
   });
 
   @override
@@ -1025,6 +1055,7 @@ class _Thumbnail extends StatefulWidget {
 class __ThumbnailState extends State<_Thumbnail> {
   bool rebuilding = false;
   bool thumbnailReady = false;
+  int attempts = 0;
 
   @override
   void initState() {
@@ -1032,79 +1063,94 @@ class __ThumbnailState extends State<_Thumbnail> {
     init();
   }
 
-  Future<void> init() async {
-    final provider = widget.ref.read(thumbnailFetcherProvider.notifier);
-
-    final ready = provider.thumbnailReady(widget.scId);
-    if (ready) {
-      return;
+  bool checkSingleFile(String p) {
+    bool ready = true;
+    if (!File(p).existsSync()) {
+      ready = false;
+    } else {
+      if (File(p).lengthSync() < 1) {
+        ready = false;
+      }
     }
 
-    provider.addToQueue(widget.scId, widget.fileNames);
+    return ready;
+  }
+
+  Future<void> init() async {
+    final updatedFileName = widget.path
+        .replaceAll(".pdf", ".jpg")
+        .replaceAll(".png", ".jpg")
+        .replaceAll(".jpeg", ".jpg")
+        .replaceAll(".gif", ".jpg")
+        .replaceAll(".webp", ".jpg");
+
+    final ready = checkSingleFile(updatedFileName);
+
+    if (!ready) {
+      await Future.delayed(Duration(seconds: 1));
+      setState(() {
+        attempts += 1;
+      });
+      init();
+    } else {
+      setState(() {
+        thumbnailReady = true;
+      });
+    }
+
+    // final provider = widget.ref.read(thumbnailFetcherProvider.notifier);
+
+    // final ready = provider.thumbnailReady(widget.scId);
+    // if (ready) {
+    //   return;
+    // }
+
+    // provider.addToQueue(widget.scId, widget.fileNames);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer(builder: (context, ref, _) {
-      final updatedFileName = widget.path.replaceAll(".pdf", ".jpg").replaceAll(".png", ".jpg");
+    final updatedFileName = widget.path
+        .replaceAll(".pdf", ".jpg")
+        .replaceAll(".png", ".jpg")
+        .replaceAll(".jpeg", ".jpg")
+        .replaceAll(".gif", ".jpg")
+        .replaceAll(".webp", ".jpg");
 
-      // if (!ref.watch(thumbnailFetcherProvider.notifier).checkSingleFile(updatedFileName)) {
-      final thumb = ref.watch(thumbnailFetcherProvider).firstWhereOrNull((e) => e.scId == widget.scId);
-      if (thumb == null || !thumb.success) {
-        return CenteredLoader();
+    if (!thumbnailReady) {
+      if (attempts > 60) {
+        return Center(child: Icon(widget.fallbackIcon));
       }
-      // }
 
-      return Image.file(
-        File(updatedFileName),
-        errorBuilder: (context, err, __) {
-          return Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.refresh),
-                  onPressed: () async {
-                    await File(updatedFileName).delete();
-                    await Future.delayed(Duration(milliseconds: 100));
-                    FileImage(File(updatedFileName)).evict();
-                    widget.ref.read(thumbnailFetcherProvider.notifier).addToQueue(widget.scId, widget.fileNames, true);
-                  },
-                ),
-                Text(
-                  err.toString(),
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-              ],
-            ),
-          );
+      return CenteredLoader();
+    }
 
-          // return Text(path);
-          // return Center(
-          //   child: IconButton(
-          //     icon: Icon(Icons.refresh),
-          //     onPressed: () async {
-          //       setState(() {
-          //         rebuilding = true;
-          //       });
-
-          //       await getNftAssets(service: RemoteShopService(), scId: widget.scId);
-          //       await Future.delayed(Duration(seconds: 2));
-
-          //       await FileImage(File(widget.path)).evict();
-
-          //       Future.delayed(Duration(milliseconds: 300)).then((value) {
-          //         setState(() {
-          //           rebuilding = false;
-          //         });
-          //       });
-          //     },
-          //   ),
-          // );
-        },
-      );
-    });
+    return Image.file(
+      File(updatedFileName),
+      errorBuilder: (context, err, __) {
+        return Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                icon: Icon(Icons.refresh),
+                onPressed: () async {
+                  await File(updatedFileName).delete();
+                  await Future.delayed(Duration(milliseconds: 100));
+                  FileImage(File(updatedFileName)).evict();
+                  widget.ref.read(thumbnailFetcherProvider.notifier).addToQueue(widget.scId, widget.fileNames, true);
+                },
+              ),
+              Text(
+                err.toString(),
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
 
@@ -1125,17 +1171,13 @@ class _QRCode extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "QR Code:",
-            style: Theme.of(context).textTheme.headline5,
-          ),
-          SizedBox(height: 6),
           NftQrCode(
             data: nft.explorerUrl,
             size: size,
             bgColor: Colors.transparent,
             cardPadding: 0,
             withOpen: true,
+            iconButtons: true,
           ),
         ],
       ),
@@ -1207,5 +1249,40 @@ class _Properties extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class _AuctionDataWatcher extends StatefulWidget {
+  final int listingId;
+  const _AuctionDataWatcher(this.listingId, {super.key});
+
+  @override
+  State<_AuctionDataWatcher> createState() => __AuctionDataWatcherState();
+}
+
+class __AuctionDataWatcherState extends State<_AuctionDataWatcher> {
+  late final Timer loopTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    loopTimer = Timer.periodic(const Duration(seconds: 10), (_) => fetch());
+    fetch();
+  }
+
+  fetch() async {
+    final id = widget.listingId;
+    RemoteShopService().requestAuctionData(id);
+  }
+
+  @override
+  void dispose() {
+    loopTimer.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox.shrink();
   }
 }

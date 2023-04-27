@@ -273,14 +273,51 @@ class DstService extends BaseService {
     }
   }
 
+  Future<bool> deleteShopLocally() async {
+    try {
+      final response = await getText('/GetDeleteLocalDecShop');
+      final data = jsonDecode(response);
+
+      print("********");
+      print(response);
+      print("********");
+
+      if (data['Success'] == true) {
+        return true;
+      }
+
+      Toast.error(data['Message'] ?? "A problem occurred");
+
+      return false;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> deleteShop() async {
+    try {
+      await getText('/GetDeleteDecShop');
+      return true;
+    } catch (e) {
+      print(e);
+      Toast.error();
+      return false;
+    }
+  }
+
   // use if published
   Future<bool> updateShop() async {
     try {
       final response = await getText('/GetUpdateDecShop');
       final data = jsonDecode(response);
+
+      print(data);
       if (data['Success'] == true) {
         return true;
       }
+
+      Toast.error(data['Message']);
       return false;
     } catch (e) {
       print(e);

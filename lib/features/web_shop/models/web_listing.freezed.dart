@@ -23,7 +23,8 @@ mixin _$WebListing {
   int get id => throw _privateConstructorUsedError;
   @JsonKey(toJson: collectionToJson)
   WebCollection get collection => throw _privateConstructorUsedError;
-  WebNft get nft => throw _privateConstructorUsedError;
+  @JsonKey(includeToJson: false)
+  WebNft? get nft => throw _privateConstructorUsedError;
   @JsonKey(name: "smart_contract_uid")
   String get smartContractUid => throw _privateConstructorUsedError;
   @JsonKey(name: "owner_address")
@@ -49,11 +50,12 @@ mixin _$WebListing {
   @JsonKey(name: "thumbnails_fetched")
   bool get thumbnailsFetched => throw _privateConstructorUsedError;
   @JsonKey(name: "IsCancelled")
-  bool get isCancelled => throw _privateConstructorUsedError;
+  bool get isCancelled => throw _privateConstructorUsedError; //TODO: update
   @JsonKey(name: "IsAuctionStarted")
-  bool get isAuctionStarted => throw _privateConstructorUsedError;
+  bool get isAuctionStarted =>
+      throw _privateConstructorUsedError; //TODO: update
   @JsonKey(name: "IsAuctionEnded")
-  bool get isAuctionEnded => throw _privateConstructorUsedError;
+  bool get isAuctionEnded => throw _privateConstructorUsedError; //TODO: update
   @JsonKey(ignore: true)
   bool get enableBuyNow => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -79,7 +81,8 @@ abstract class $WebListingCopyWith<$Res> {
       {int id,
       @JsonKey(toJson: collectionToJson)
           WebCollection collection,
-      WebNft nft,
+      @JsonKey(includeToJson: false)
+          WebNft? nft,
       @JsonKey(name: "smart_contract_uid")
           String smartContractUid,
       @JsonKey(name: "owner_address")
@@ -120,7 +123,7 @@ abstract class $WebListingCopyWith<$Res> {
           List<String> thumbnails});
 
   $WebCollectionCopyWith<$Res> get collection;
-  $WebNftCopyWith<$Res> get nft;
+  $WebNftCopyWith<$Res>? get nft;
 }
 
 /// @nodoc
@@ -138,7 +141,7 @@ class _$WebListingCopyWithImpl<$Res, $Val extends WebListing>
   $Res call({
     Object? id = null,
     Object? collection = null,
-    Object? nft = null,
+    Object? nft = freezed,
     Object? smartContractUid = null,
     Object? ownerAddress = null,
     Object? winningAddress = freezed,
@@ -168,10 +171,10 @@ class _$WebListingCopyWithImpl<$Res, $Val extends WebListing>
           ? _value.collection
           : collection // ignore: cast_nullable_to_non_nullable
               as WebCollection,
-      nft: null == nft
+      nft: freezed == nft
           ? _value.nft
           : nft // ignore: cast_nullable_to_non_nullable
-              as WebNft,
+              as WebNft?,
       smartContractUid: null == smartContractUid
           ? _value.smartContractUid
           : smartContractUid // ignore: cast_nullable_to_non_nullable
@@ -261,8 +264,12 @@ class _$WebListingCopyWithImpl<$Res, $Val extends WebListing>
 
   @override
   @pragma('vm:prefer-inline')
-  $WebNftCopyWith<$Res> get nft {
-    return $WebNftCopyWith<$Res>(_value.nft, (value) {
+  $WebNftCopyWith<$Res>? get nft {
+    if (_value.nft == null) {
+      return null;
+    }
+
+    return $WebNftCopyWith<$Res>(_value.nft!, (value) {
       return _then(_value.copyWith(nft: value) as $Val);
     });
   }
@@ -280,7 +287,8 @@ abstract class _$$_WebListingCopyWith<$Res>
       {int id,
       @JsonKey(toJson: collectionToJson)
           WebCollection collection,
-      WebNft nft,
+      @JsonKey(includeToJson: false)
+          WebNft? nft,
       @JsonKey(name: "smart_contract_uid")
           String smartContractUid,
       @JsonKey(name: "owner_address")
@@ -323,7 +331,7 @@ abstract class _$$_WebListingCopyWith<$Res>
   @override
   $WebCollectionCopyWith<$Res> get collection;
   @override
-  $WebNftCopyWith<$Res> get nft;
+  $WebNftCopyWith<$Res>? get nft;
 }
 
 /// @nodoc
@@ -339,7 +347,7 @@ class __$$_WebListingCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? collection = null,
-    Object? nft = null,
+    Object? nft = freezed,
     Object? smartContractUid = null,
     Object? ownerAddress = null,
     Object? winningAddress = freezed,
@@ -369,10 +377,10 @@ class __$$_WebListingCopyWithImpl<$Res>
           ? _value.collection
           : collection // ignore: cast_nullable_to_non_nullable
               as WebCollection,
-      nft: null == nft
+      nft: freezed == nft
           ? _value.nft
           : nft // ignore: cast_nullable_to_non_nullable
-              as WebNft,
+              as WebNft?,
       smartContractUid: null == smartContractUid
           ? _value.smartContractUid
           : smartContractUid // ignore: cast_nullable_to_non_nullable
@@ -460,7 +468,8 @@ class _$_WebListing extends _WebListing {
       {required this.id,
       @JsonKey(toJson: collectionToJson)
           required this.collection,
-      required this.nft,
+      @JsonKey(includeToJson: false)
+          this.nft,
       @JsonKey(name: "smart_contract_uid")
           required this.smartContractUid,
       @JsonKey(name: "owner_address")
@@ -511,7 +520,8 @@ class _$_WebListing extends _WebListing {
   @JsonKey(toJson: collectionToJson)
   final WebCollection collection;
   @override
-  final WebNft nft;
+  @JsonKey(includeToJson: false)
+  final WebNft? nft;
   @override
   @JsonKey(name: "smart_contract_uid")
   final String smartContractUid;
@@ -551,12 +561,15 @@ class _$_WebListing extends _WebListing {
   @override
   @JsonKey(name: "IsCancelled")
   final bool isCancelled;
+//TODO: update
   @override
   @JsonKey(name: "IsAuctionStarted")
   final bool isAuctionStarted;
+//TODO: update
   @override
   @JsonKey(name: "IsAuctionEnded")
   final bool isAuctionEnded;
+//TODO: update
   @override
   @JsonKey(ignore: true)
   final bool enableBuyNow;
@@ -676,7 +689,8 @@ abstract class _WebListing extends WebListing {
       {required final int id,
       @JsonKey(toJson: collectionToJson)
           required final WebCollection collection,
-      required final WebNft nft,
+      @JsonKey(includeToJson: false)
+          final WebNft? nft,
       @JsonKey(name: "smart_contract_uid")
           required final String smartContractUid,
       @JsonKey(name: "owner_address")
@@ -726,7 +740,8 @@ abstract class _WebListing extends WebListing {
   @JsonKey(toJson: collectionToJson)
   WebCollection get collection;
   @override
-  WebNft get nft;
+  @JsonKey(includeToJson: false)
+  WebNft? get nft;
   @override
   @JsonKey(name: "smart_contract_uid")
   String get smartContractUid;
@@ -766,13 +781,13 @@ abstract class _WebListing extends WebListing {
   @override
   @JsonKey(name: "IsCancelled")
   bool get isCancelled;
-  @override
+  @override //TODO: update
   @JsonKey(name: "IsAuctionStarted")
   bool get isAuctionStarted;
-  @override
+  @override //TODO: update
   @JsonKey(name: "IsAuctionEnded")
   bool get isAuctionEnded;
-  @override
+  @override //TODO: update
   @JsonKey(ignore: true)
   bool get enableBuyNow;
   @override

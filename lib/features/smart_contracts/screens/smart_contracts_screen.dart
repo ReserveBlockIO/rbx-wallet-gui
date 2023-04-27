@@ -39,21 +39,21 @@ class SmartContractsScreen extends BaseScreen {
   Widget body(BuildContext context, WidgetRef ref) {
     return Stack(
       children: [
-        Image.asset(
-          Assets.images.gridBg.path,
-          width: double.infinity,
-          height: double.infinity,
-          fit: BoxFit.cover,
-        ),
+        // Image.asset(
+        //   Assets.images.gridBg.path,
+        //   width: double.infinity,
+        //   height: double.infinity,
+        //   fit: BoxFit.cover,
+        // ),
         Container(
           width: double.infinity,
           height: double.infinity,
           decoration: const BoxDecoration(
             color: Colors.black38,
             border: Border(
-              top: BorderSide(color: Colors.white30, width: 2),
-              bottom: BorderSide(color: Colors.white30, width: 2),
-            ),
+                // top: BorderSide(color: Colors.white30, width: 2),
+                // bottom: BorderSide(color: Colors.white30, width: 2),
+                ),
           ),
         ),
         Center(

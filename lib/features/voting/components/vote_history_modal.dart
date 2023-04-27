@@ -18,6 +18,7 @@ class VoteListModal extends BaseComponent {
   @override
   Widget body(BuildContext context, WidgetRef ref) {
     final votes = ref.watch(voteListProvider(topicUid));
+
     return ModalContainer(
       padding: 8,
       withDecor: false,

@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:archive/archive_io.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
+import 'package:rbx_wallet/features/asset/web_asset.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-import '../../asset/proxied_asset.dart';
 import 'nft.dart';
 
 part 'web_nft.freezed.dart';
@@ -19,19 +19,35 @@ abstract class WebNft with _$WebNft {
     required String identifier,
     required String name,
     required String description,
+    @JsonKey(name: "minter_address") required String minterAddress,
     @JsonKey(name: "owner_address") required String ownerAddress,
     @JsonKey(name: "minter_name") required String minterName,
     @JsonKey(name: "primary_asset_name") required String primaryAssetName,
     @JsonKey(name: "primary_asset_size") required int primaryAssetSize,
-    @JsonKey(name: "primary_asset_remote_key") String? primaryAssetRemoteKey,
-    // @JsonKey(name: "additional_assets_remote_keys") List<String>? additionalAssetsRemoteKeys,
     @JsonKey(name: "smart_contract_data") required String smartContractDataString,
     @JsonKey(name: "minted_at") required DateTime mintedAt,
-    @JsonKey(name: "assets_available") required bool assetsAvailable,
     @JsonKey(name: "data") String? data,
+    @JsonKey(name: "is_burned") required bool isBurned,
+    @JsonKey(name: "asset_urls") Map<String, dynamic>? assetUrls,
   }) = _WebNft;
 
   factory WebNft.fromJson(Map<String, dynamic> json) => _$WebNftFromJson(json);
+
+  factory WebNft.empty() {
+    return WebNft(
+      identifier: '',
+      name: '',
+      description: '',
+      minterAddress: '',
+      ownerAddress: '',
+      minterName: '',
+      primaryAssetName: '',
+      primaryAssetSize: 0,
+      smartContractDataString: '',
+      mintedAt: DateTime.now(),
+      isBurned: false,
+    );
+  }
 
   Map<String, dynamic> get smartContractData {
     final sanatizedString = smartContractDataString.replaceAll("'", '"');
@@ -44,7 +60,9 @@ abstract class WebNft with _$WebNft {
   }
 
   Nft get smartContract {
-    final List<ProxiedAsset> additionalProxiedAssets = [];
+    //TODO: handle multiasset and evolves
+
+    final List<WebAsset> additionalAssetsWeb = [];
 
     if (smartContractData["Features"] != null) {
       for (var feature in smartContractData["Features"]) {
@@ -52,33 +70,25 @@ abstract class WebNft with _$WebNft {
           for (var asset in feature['FeatureFeatures']) {
             final fileName = asset['FileName'];
 
-            if (primaryAssetRemoteKey != null) {
-              final key = primaryAssetRemoteKey!.replaceAll(primaryAssetName, fileName);
-              final a = ProxiedAsset(
-                key: key,
-                fileName: fileName,
-                fileSize: asset['FileSize'],
-                authorName: asset['AssetAuthorName'],
-              );
-              additionalProxiedAssets.add(a);
+            if (assetUrls != null && assetUrls!.containsKey(fileName)) {
+              additionalAssetsWeb.add(WebAsset(location: assetUrls![fileName]));
             }
           }
         }
       }
     }
+
+    final primaryAssetFilename = smartContractData['SmartContractAsset']['Name'];
+    final primaryAssetWeb =
+        (assetUrls != null && assetUrls!.containsKey(primaryAssetFilename)) ? WebAsset(location: assetUrls![primaryAssetFilename]) : null;
+
     return Nft.fromJson(smartContractData).copyWith(
-        currentOwner: ownerAddress,
-        assetsAvailable: assetsAvailable,
-        proxiedAsset: primaryAssetRemoteKey != null
-            ? ProxiedAsset(
-                key: primaryAssetRemoteKey!,
-                fileName: primaryAssetName,
-                fileSize: primaryAssetSize,
-                authorName: minterName,
-              )
-            : null,
-        additionalProxiedAssets: additionalProxiedAssets,
-        code: getCode());
+      currentOwner: ownerAddress,
+      primaryAssetWeb: primaryAssetWeb,
+      additionalAssetsWeb: additionalAssetsWeb.isNotEmpty ? additionalAssetsWeb : null,
+      // additionalProxiedAssets: additionalProxiedAssets,
+      code: getCode(),
+    );
   }
 
   String get mintedAtLabel {

@@ -18,6 +18,7 @@ class CreateCollectionContainerScreen extends BaseScreen {
     final model = ref.read(storeFormProvider);
     return AppBar(
       title: Text(model.id != 0 ? "Edit Collection" : "Create New Collection"),
+      backgroundColor: Colors.black,
       leading: IconButton(
         onPressed: () async {
           final confirmed = await ConfirmDialog.show(

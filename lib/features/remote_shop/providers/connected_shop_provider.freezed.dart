@@ -19,6 +19,9 @@ mixin _$ConnectedShop {
   String? get url => throw _privateConstructorUsedError;
   DecShop? get decShop => throw _privateConstructorUsedError;
   OrganizedShop? get data => throw _privateConstructorUsedError;
+  bool get isConnected => throw _privateConstructorUsedError;
+  bool get hasShownDisconnectAlert => throw _privateConstructorUsedError;
+  bool get shouldWarnDisconnection => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ConnectedShopCopyWith<ConnectedShop> get copyWith =>
@@ -31,7 +34,13 @@ abstract class $ConnectedShopCopyWith<$Res> {
           ConnectedShop value, $Res Function(ConnectedShop) then) =
       _$ConnectedShopCopyWithImpl<$Res, ConnectedShop>;
   @useResult
-  $Res call({String? url, DecShop? decShop, OrganizedShop? data});
+  $Res call(
+      {String? url,
+      DecShop? decShop,
+      OrganizedShop? data,
+      bool isConnected,
+      bool hasShownDisconnectAlert,
+      bool shouldWarnDisconnection});
 
   $DecShopCopyWith<$Res>? get decShop;
   $OrganizedShopCopyWith<$Res>? get data;
@@ -53,6 +62,9 @@ class _$ConnectedShopCopyWithImpl<$Res, $Val extends ConnectedShop>
     Object? url = freezed,
     Object? decShop = freezed,
     Object? data = freezed,
+    Object? isConnected = null,
+    Object? hasShownDisconnectAlert = null,
+    Object? shouldWarnDisconnection = null,
   }) {
     return _then(_value.copyWith(
       url: freezed == url
@@ -67,6 +79,18 @@ class _$ConnectedShopCopyWithImpl<$Res, $Val extends ConnectedShop>
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as OrganizedShop?,
+      isConnected: null == isConnected
+          ? _value.isConnected
+          : isConnected // ignore: cast_nullable_to_non_nullable
+              as bool,
+      hasShownDisconnectAlert: null == hasShownDisconnectAlert
+          ? _value.hasShownDisconnectAlert
+          : hasShownDisconnectAlert // ignore: cast_nullable_to_non_nullable
+              as bool,
+      shouldWarnDisconnection: null == shouldWarnDisconnection
+          ? _value.shouldWarnDisconnection
+          : shouldWarnDisconnection // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -103,7 +127,13 @@ abstract class _$$_ConnectedShopCopyWith<$Res>
       __$$_ConnectedShopCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? url, DecShop? decShop, OrganizedShop? data});
+  $Res call(
+      {String? url,
+      DecShop? decShop,
+      OrganizedShop? data,
+      bool isConnected,
+      bool hasShownDisconnectAlert,
+      bool shouldWarnDisconnection});
 
   @override
   $DecShopCopyWith<$Res>? get decShop;
@@ -125,6 +155,9 @@ class __$$_ConnectedShopCopyWithImpl<$Res>
     Object? url = freezed,
     Object? decShop = freezed,
     Object? data = freezed,
+    Object? isConnected = null,
+    Object? hasShownDisconnectAlert = null,
+    Object? shouldWarnDisconnection = null,
   }) {
     return _then(_$_ConnectedShop(
       url: freezed == url
@@ -139,6 +172,18 @@ class __$$_ConnectedShopCopyWithImpl<$Res>
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as OrganizedShop?,
+      isConnected: null == isConnected
+          ? _value.isConnected
+          : isConnected // ignore: cast_nullable_to_non_nullable
+              as bool,
+      hasShownDisconnectAlert: null == hasShownDisconnectAlert
+          ? _value.hasShownDisconnectAlert
+          : hasShownDisconnectAlert // ignore: cast_nullable_to_non_nullable
+              as bool,
+      shouldWarnDisconnection: null == shouldWarnDisconnection
+          ? _value.shouldWarnDisconnection
+          : shouldWarnDisconnection // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -146,7 +191,14 @@ class __$$_ConnectedShopCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_ConnectedShop extends _ConnectedShop {
-  _$_ConnectedShop({this.url, this.decShop, this.data}) : super._();
+  _$_ConnectedShop(
+      {this.url,
+      this.decShop,
+      this.data,
+      this.isConnected = false,
+      this.hasShownDisconnectAlert = false,
+      this.shouldWarnDisconnection = false})
+      : super._();
 
   @override
   final String? url;
@@ -154,10 +206,19 @@ class _$_ConnectedShop extends _ConnectedShop {
   final DecShop? decShop;
   @override
   final OrganizedShop? data;
+  @override
+  @JsonKey()
+  final bool isConnected;
+  @override
+  @JsonKey()
+  final bool hasShownDisconnectAlert;
+  @override
+  @JsonKey()
+  final bool shouldWarnDisconnection;
 
   @override
   String toString() {
-    return 'ConnectedShop(url: $url, decShop: $decShop, data: $data)';
+    return 'ConnectedShop(url: $url, decShop: $decShop, data: $data, isConnected: $isConnected, hasShownDisconnectAlert: $hasShownDisconnectAlert, shouldWarnDisconnection: $shouldWarnDisconnection)';
   }
 
   @override
@@ -167,11 +228,20 @@ class _$_ConnectedShop extends _ConnectedShop {
             other is _$_ConnectedShop &&
             (identical(other.url, url) || other.url == url) &&
             (identical(other.decShop, decShop) || other.decShop == decShop) &&
-            (identical(other.data, data) || other.data == data));
+            (identical(other.data, data) || other.data == data) &&
+            (identical(other.isConnected, isConnected) ||
+                other.isConnected == isConnected) &&
+            (identical(
+                    other.hasShownDisconnectAlert, hasShownDisconnectAlert) ||
+                other.hasShownDisconnectAlert == hasShownDisconnectAlert) &&
+            (identical(
+                    other.shouldWarnDisconnection, shouldWarnDisconnection) ||
+                other.shouldWarnDisconnection == shouldWarnDisconnection));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, url, decShop, data);
+  int get hashCode => Object.hash(runtimeType, url, decShop, data, isConnected,
+      hasShownDisconnectAlert, shouldWarnDisconnection);
 
   @JsonKey(ignore: true)
   @override
@@ -184,7 +254,10 @@ abstract class _ConnectedShop extends ConnectedShop {
   factory _ConnectedShop(
       {final String? url,
       final DecShop? decShop,
-      final OrganizedShop? data}) = _$_ConnectedShop;
+      final OrganizedShop? data,
+      final bool isConnected,
+      final bool hasShownDisconnectAlert,
+      final bool shouldWarnDisconnection}) = _$_ConnectedShop;
   _ConnectedShop._() : super._();
 
   @override
@@ -193,6 +266,12 @@ abstract class _ConnectedShop extends ConnectedShop {
   DecShop? get decShop;
   @override
   OrganizedShop? get data;
+  @override
+  bool get isConnected;
+  @override
+  bool get hasShownDisconnectAlert;
+  @override
+  bool get shouldWarnDisconnection;
   @override
   @JsonKey(ignore: true)
   _$$_ConnectedShopCopyWith<_$_ConnectedShop> get copyWith =>

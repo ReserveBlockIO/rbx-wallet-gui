@@ -4,19 +4,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
+import 'package:rbx_wallet/features/dst/models/dec_shop.dart';
 import 'package:rbx_wallet/features/remote_shop/components/remote_shop_list_tile.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
+import 'package:rbx_wallet/features/remote_shop/providers/global_remote_shop_list_provider.dart';
+import 'package:rbx_wallet/features/remote_shop/providers/remote_shop_search_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/saved_shops_provider.dart';
-import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-
 import '../../../core/app_router.gr.dart';
 import '../../../core/base_screen.dart';
-import '../../wallet/components/wallet_selector.dart';
 
 class RemoteShopListScreen extends BaseScreen {
   const RemoteShopListScreen({Key? key})
@@ -32,6 +29,7 @@ class RemoteShopListScreen extends BaseScreen {
   ) async {
     String? url = await PromptModal.show(
       title: "Shop URL",
+      initialValue: "rbx://",
       validator: (value) {
         if (value == null || value.isEmpty) {
           return "Shop URL required";
@@ -42,7 +40,7 @@ class RemoteShopListScreen extends BaseScreen {
         // }
         return null;
       },
-      labelText: "Shop URL",
+      labelText: "Input Shop Name Only",
     );
 
     if (url == null) {
@@ -110,7 +108,7 @@ class RemoteShopListScreen extends BaseScreen {
           onPressed: () async {
             await loadShopWithPrompt(context, ref);
           },
-          label: "Add Shop",
+          label: "Connect to a Shop",
           type: AppButtonType.Text,
           variant: AppColorVariant.Light,
           icon: Icons.add,
@@ -122,12 +120,12 @@ class RemoteShopListScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final savedShops = ref.watch(savedShopsProvider);
+    final globalShops = ref.watch(globalRemoteShopListProvider);
 
-    if (savedShops.isEmpty) {
+    if (globalShops.isEmpty) {
       return Center(
         child: AppButton(
-          label: "Connect to Auction House",
+          label: "Connect to a Shop",
           variant: AppColorVariant.Success,
           onPressed: () async {
             await loadShopWithPrompt(context, ref);
@@ -136,12 +134,61 @@ class RemoteShopListScreen extends BaseScreen {
       );
     }
 
-    return ListView.builder(
-      itemCount: savedShops.length,
-      itemBuilder: (context, index) {
-        final url = savedShops[index];
-        return RemoteShopListTile(url: url);
-      },
+    final searchQuery = ref.watch(remoteShopSearchProvider).toLowerCase();
+
+    final List<DecShop> filteredGlobalShops = searchQuery.isEmpty
+        ? [...globalShops]
+        : [...globalShops]
+            .where((s) => s.name.toLowerCase().contains(searchQuery) || s.urlWithoutPrefix.toLowerCase().contains(searchQuery))
+            .toList();
+
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: TextFormField(
+                controller: ref.read(remoteShopSearchProvider.notifier).controller,
+                autofocus: true,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: Colors.white70,
+                  ),
+                  hintText: "Search for auction house...",
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      Icons.clear,
+                      color: searchQuery.isEmpty ? Colors.white10 : Colors.white,
+                    ),
+                    onPressed: () {
+                      ref.read(remoteShopSearchProvider.notifier).clear();
+                    },
+                  ),
+                ),
+                onChanged: (val) {
+                  ref.read(remoteShopSearchProvider.notifier).update(val);
+                },
+              ),
+            ),
+            IconButton(
+                onPressed: () {
+                  ref.read(globalRemoteShopListProvider.notifier).load();
+                },
+                icon: Icon(Icons.refresh))
+          ],
+        ),
+        Expanded(
+          child: ListView.builder(
+            itemCount: filteredGlobalShops.length,
+            itemBuilder: (context, index) {
+              final shop = filteredGlobalShops[index];
+
+              return RemoteShopListTile(key: Key(shop.url), shop: shop);
+            },
+          ),
+        ),
+      ],
     );
   }
 }

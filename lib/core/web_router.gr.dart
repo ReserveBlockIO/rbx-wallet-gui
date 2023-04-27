@@ -558,7 +558,7 @@ class WebRouter extends _i30.RootStackRouter {
             ),
             _i30.RouteConfig(
               WebShopTabRouter.name,
-              path: 'shop',
+              path: 'p2p',
               parent: WebDashboardContainerRoute.name,
               children: [
                 _i30.RouteConfig(
@@ -851,7 +851,7 @@ class WebShopTabRouter extends _i30.PageRouteInfo<void> {
   const WebShopTabRouter({List<_i30.PageRouteInfo>? children})
       : super(
           WebShopTabRouter.name,
-          path: 'shop',
+          path: 'p2p',
           initialChildren: children,
         );
 

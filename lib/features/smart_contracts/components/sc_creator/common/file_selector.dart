@@ -4,6 +4,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/env.dart';
+import 'package:rbx_wallet/core/services/explorer_service.dart';
+import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 
 import '../../../../../core/app_constants.dart';
 import '../../../../../core/base_component.dart';
@@ -53,7 +56,7 @@ class FileSelector extends BaseComponent {
     File? file;
     Asset? asset;
 
-    if (kIsWeb) {
+    if (kIsWeb || Env.useWebMedia) {
       final bytes = result.files.single.bytes;
       if (bytes == null) {
         return;
@@ -62,16 +65,19 @@ class FileSelector extends BaseComponent {
       final ext = result.files.single.extension;
       final filename = result.files.single.name;
 
-      final webAsset = await TransactionService().uploadAsset(bytes, filename, ext);
+      ref.read(globalLoadingProvider.notifier).start();
 
-      if (webAsset == null) return;
+      final url = await ExplorerService().uploadAsset(bytes, filename, ext);
+      ref.read(globalLoadingProvider.notifier).complete();
+
+      if (url == null) return;
       asset = Asset(
         id: '00000000-0000-0000-0000-000000000000',
-        location: webAsset.location,
-        extension: webAsset.extension,
+        location: url,
+        extension: ext,
         fileSize: result.files.single.bytes!.length,
         bytes: bytes,
-        name: webAsset.filename,
+        name: filename,
       );
     } else {
       file = File(result.files.single.path!);
@@ -176,7 +182,7 @@ class FileSelector extends BaseComponent {
       children: [
         Card(
           margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
-          color: transparentBackground ? Colors.transparent : null,
+          color: transparentBackground ? Colors.transparent : Colors.black54,
           shadowColor: transparentBackground ? Colors.transparent : null,
           child: ListTile(
             tileColor: transparentBackground ? Colors.transparent : null,

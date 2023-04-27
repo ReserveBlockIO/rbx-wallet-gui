@@ -32,30 +32,35 @@ class DecPublishShopButton extends BaseComponent {
 
         if (ref.watch(dstTxPendingProvider)) {
           return AppButton(
-            label: " Pending",
+            label: "Pending",
             processing: true,
           );
         }
 
         if (shop.isPublished) {
-          if (shop.needsPublishToNetwork) {
+          if (shop.needsPublishToNetwork || shop.ipIsDifferent) {
             return AppButton(
-              variant: AppColorVariant.Warning,
-              label: "Publish Changes",
-              icon: Icons.publish,
+              variant: shop.ipIsDifferent ? AppColorVariant.Danger : AppColorVariant.Warning,
+              label: shop.ipIsDifferent ? "Publish IP Change" : "Publish Changes",
+              icon: shop.ipIsDifferent ? Icons.error : Icons.publish,
               onPressed: () async {
                 if (shop.updateWillCost) {
                   final confirm = await ConfirmDialog.show(
                     title: "Publish Shop?",
-                    body:
-                        "Updating your shop is free once per 24 hours.\n\nThere is a cost of 1 RBX to publish your shop to the network (plus the transaction fee).",
-                    confirmText: "Publish",
+                    body: "There is a cost of 1 RBX to publish your shop changes to the network (plus the transaction fee).",
+                    confirmText: "Publish Changes",
                     cancelText: "Cancel",
                   );
 
                   if (confirm != true) {
                     return;
                   }
+                }
+                ref.read(dstTxPendingProvider.notifier).set(true);
+
+                if (shop.ipIsDifferent) {
+                  await DstService().saveDecShop(shop);
+                  await Future.delayed(Duration(milliseconds: 500));
                 }
 
                 final success = await DstService().updateShop();
@@ -64,7 +69,10 @@ class DecPublishShopButton extends BaseComponent {
                   ref.read(dstTxPendingProvider.notifier).set(true);
 
                   Toast.message("Publish Transaction Sent!");
+                  ref.invalidate(decShopProvider);
                 } else {
+                  ref.read(dstTxPendingProvider.notifier).set(false);
+
                   Toast.error();
                 }
               },
@@ -100,7 +108,7 @@ class DecPublishShopButton extends BaseComponent {
                   destructive: true,
                 );
 
-                if (confirmed) {
+                if (confirmed == true) {
                   ref.read(sessionProvider.notifier).restartCli();
                 }
 

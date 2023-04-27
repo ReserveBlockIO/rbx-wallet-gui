@@ -25,6 +25,7 @@ _$_DecShop _$$_DecShopFromJson(Map<String, dynamic> json) => _$_DecShop(
       needsPublishToNetwork: json['NeedsPublishToNetwork'] as bool,
       isOffline: json['IsOffline'] as bool,
       isPublished: json['IsPublished'] as bool,
+      ipIsDifferent: json['IsIPDifferent'] as bool,
     );
 
 Map<String, dynamic> _$$_DecShopToJson(_$_DecShop instance) =>
@@ -47,4 +48,5 @@ Map<String, dynamic> _$$_DecShopToJson(_$_DecShop instance) =>
       'NeedsPublishToNetwork': instance.needsPublishToNetwork,
       'IsOffline': instance.isOffline,
       'IsPublished': instance.isPublished,
+      'IsIPDifferent': instance.ipIsDifferent,
     };

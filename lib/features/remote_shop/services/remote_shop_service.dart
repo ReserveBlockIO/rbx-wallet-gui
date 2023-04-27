@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:rbx_wallet/core/singletons.dart';
+import 'package:rbx_wallet/core/storage.dart';
 import 'package:rbx_wallet/features/dst/models/bid.dart';
 import 'package:rbx_wallet/features/dst/models/dec_shop.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
@@ -26,48 +28,87 @@ class RemoteShopService extends BaseService {
     );
   }
 
+  Future<bool> checkConnection(String shopUrl) async {
+    try {
+      final response = await getText("/GetConnections");
+      final data = jsonDecode(response);
+      final connected = data['Connected'] == true;
+
+      if (connected) {
+        final url = data['DecShop']['ShopURL'].toString().toLowerCase();
+        if (url == shopUrl.toLowerCase()) {
+          return true;
+        }
+      }
+
+      return false;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
   Future<OrganizedShop?> getConnectedShopData({
     bool showErrors = false,
     listingCount = 0,
+    int attempt = 1,
   }) async {
-    await getText("/GetDecShopData", cleanPath: false);
+    if (attempt > 10) {
+      Toast.error("An error occurred. Could not get shop data.");
+      return null;
+    }
+    final shopData = await shop_utils.getShopData(service: this);
+
     // ShopData? shopData = await shop_utils.getShopData(service: this);
 
-    ShopData? shopData;
+    // ShopData? shopData;
 
-    await shop_utils.requestCollectionsAndListings(
-      service: this,
-      listingCount: listingCount,
-    );
+    // await shop_utils.requestCollectionsAndListings(
+    //   service: this,
+    //   listingCount: listingCount,
+    // );
 
-    await Future.delayed(Duration(milliseconds: 500));
+    // await Future.delayed(Duration(milliseconds: 500));
 
-    await shop_utils.requestCollectionsAndListings(
-      service: this,
-      listingCount: listingCount,
-    );
+    // await shop_utils.requestCollectionsAndListings(
+    //   service: this,
+    //   listingCount: listingCount,
+    // );
 
-    shopData = await shop_utils.getShopData(service: this);
-    await Future.delayed(Duration(seconds: 1));
-    shopData = await shop_utils.getShopData(service: this);
+    // shopData = await shop_utils.getShopData(service: this);
+    // await Future.delayed(Duration(seconds: 1));
+    // shopData = await shop_utils.getShopData(service: this);
 
     if (shopData == null) {
-      if (showErrors) {
-        Toast.error("An error occurred. Could not get shop data.");
-      }
+      await Future.delayed(Duration(seconds: 2));
+      return await getConnectedShopData(attempt: attempt + 1);
+    }
 
-      return null;
+    if (shopData.listings.isEmpty) {
+      await Future.delayed(Duration(seconds: 2));
+
+      return await getConnectedShopData(attempt: attempt + 1);
     }
 
     return await shop_utils.organizeShopData(service: this, shopData: shopData);
   }
 
+  Future<void> requestAuctionData(int listingId) async {
+    await getText("/GetShopSpecificAuction/$listingId", cleanPath: false);
+    await Future.delayed(Duration(milliseconds: 250));
+    await getText("/GetShopListingBids/$listingId", cleanPath: false);
+    await Future.delayed(Duration(milliseconds: 250));
+  }
+
   Future<List<Bid>> getBidsByListingId(int listingId) async {
     try {
-      await getText("/GetShopListingBids/$listingId", cleanPath: false);
-      await Future.delayed(Duration(milliseconds: 250));
-      await getText("/GetShopListingBids/$listingId", cleanPath: false);
-      await Future.delayed(Duration(milliseconds: 250));
+      await requestAuctionData(listingId);
+      // await getText("/GetShopSpecificAuction/$listingId", cleanPath: false);
+      // await Future.delayed(Duration(milliseconds: 250));
+      // await getText("/GetShopListingBids/$listingId", cleanPath: false);
+      // await Future.delayed(Duration(milliseconds: 250));
+      // await getText("/GetShopListingBids/$listingId", cleanPath: false);
+      // await Future.delayed(Duration(milliseconds: 250));
       final text = await getText("/GetDecShopData", cleanPath: false);
       final data = jsonDecode(text);
 
@@ -152,4 +193,16 @@ class RemoteShopService extends BaseService {
   //     return false;
   //   }
   // }
+
+  Future<List<DecShop>> listRemoteShops() async {
+    final response = await getJson("/GetDecShopStateTreiList", cleanPath: false);
+
+    if (response['Success'] == true) {
+      final List<dynamic> items = response['DecShops'];
+      return items.map((item) => DecShop.fromJson(item)).toList();
+    }
+
+    Toast.error(response['Message'] ?? "A problem occurred");
+    return [];
+  }
 }

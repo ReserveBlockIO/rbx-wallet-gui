@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:rbx_wallet/features/asset/web_asset.dart';
 
 import '../../asset/proxied_asset.dart';
 import 'proxy_asset_card.dart';
 
-class ProxyAssetThumbnail extends StatelessWidget {
+class WebAssetThumbnail extends StatelessWidget {
   final double size;
-  final ProxiedAsset? asset;
-  const ProxyAssetThumbnail(
+  final WebAsset? asset;
+  const WebAssetThumbnail(
     this.asset, {
     Key? key,
     this.size = 150.0,
@@ -38,7 +39,7 @@ class ProxyAssetThumbnail extends StatelessWidget {
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
-                        ProxiedAssetCard(asset),
+                        WebAssetCard(asset),
                       ],
                     ),
                   ),
@@ -59,14 +60,14 @@ class ProxyAssetThumbnail extends StatelessWidget {
               height: size,
               child: asset!.isImage
                   ? Image.network(
-                      asset!.url,
+                      asset!.location,
                       width: double.infinity,
                       fit: BoxFit.cover,
                     )
                   : Icon(asset!.icon),
             ),
             Text(
-              asset!.fileName,
+              asset!.filename,
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 10),
               overflow: TextOverflow.ellipsis,

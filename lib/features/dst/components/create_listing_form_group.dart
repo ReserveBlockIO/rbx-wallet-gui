@@ -17,7 +17,7 @@ class CreateListingFormGroup extends BaseComponent {
   const CreateListingFormGroup({Key? key}) : super(key: key);
 
   @override
-  Widget desktopBody(BuildContext context, WidgetRef ref) {
+  Widget body(BuildContext context, WidgetRef ref) {
     final provider = ref.watch(listingFormProvider.notifier);
     final model = ref.watch(listingFormProvider);
     return FormGroupContainer(
@@ -36,6 +36,7 @@ class CreateListingFormGroup extends BaseComponent {
                 children: [
                   Flexible(
                     child: Card(
+                      color: Colors.white.withOpacity(0.05),
                       margin: EdgeInsets.zero,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -54,6 +55,8 @@ class CreateListingFormGroup extends BaseComponent {
                         style: Theme.of(context).textTheme.bodySmall,
                       )),
                     ),
+                  SizedBox(height: 16),
+                  Flexible(child: _EnableGallery()),
                   SizedBox(height: 16),
                   Flexible(child: _EnableBuyNow()),
                   if (model.enableBuyNow) Flexible(child: _BuyNow()),
@@ -79,6 +82,36 @@ class CreateListingFormGroup extends BaseComponent {
           )),
         ],
       ),
+    );
+  }
+}
+
+class _EnableGallery extends BaseComponent {
+  const _EnableGallery({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ref) {
+    final provider = ref.read(listingFormProvider.notifier);
+    final model = ref.watch(listingFormProvider).galleryOnly;
+
+    return Row(
+      children: [
+        Checkbox(
+            value: model,
+            onChanged: (val) {
+              if (val != null) {
+                provider.updateGalleryOnly(val);
+              }
+            }),
+        GestureDetector(
+          onTap: () {
+            provider.updateGalleryOnly(!model);
+          },
+          child: const Text("Gallery Only?"),
+        ),
+      ],
     );
   }
 }
@@ -187,6 +220,7 @@ class _BuyNow extends BaseComponent {
       inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
       validator: (value) => formValidatorNotEmpty(value, "Buy Now"),
       decoration: InputDecoration(
+        suffixText: "RBX",
         label: const Text(
           "Buy Now Price",
           style: TextStyle(color: Colors.white),
@@ -212,6 +246,7 @@ class _FloorPrice extends BaseComponent {
       inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
       validator: (value) => formValidatorNotEmpty(value, "Floor Price"),
       decoration: InputDecoration(
+        suffixText: "RBX",
         label: const Text(
           "Floor Price",
           style: TextStyle(color: Colors.white),
@@ -237,6 +272,7 @@ class _ReservePrice extends BaseComponent {
       inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
       validator: (value) => formValidatorNotEmpty(value, "Reserve Price"),
       decoration: InputDecoration(
+        suffixText: "RBX",
         label: const Text(
           "Reserve Price",
           style: TextStyle(color: Colors.white),
@@ -285,28 +321,19 @@ class _NFT extends BaseComponent {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Builder(
-            builder: (context) {
-              if (nft.currentEvolveAsset.isImage) {
-                if (nft.currentEvolveAsset.localPath == null) {
-                  return const SizedBox(
-                    width: 32,
-                    height: 32,
-                  );
+          SizedBox(
+            width: 32,
+            height: 32,
+            child: FutureBuilder(
+              future: model.thumbnail(),
+              builder: (context, AsyncSnapshot<Widget> snapshot) {
+                if (snapshot.hasData) {
+                  return snapshot.data!;
                 }
 
-                return SizedBox(
-                  width: 32,
-                  height: 32,
-                  child: PollingImagePreview(
-                    localPath: nft.currentEvolveAsset.localPath!,
-                    expectedSize: nft.currentEvolveAsset.fileSize,
-                    withProgress: false,
-                  ),
-                );
-              }
-              return const Icon(Icons.file_present_outlined);
-            },
+                return SizedBox();
+              },
+            ),
           ),
           SizedBox(
             width: 6,
@@ -351,13 +378,23 @@ Future<void> _showDatePicker(BuildContext context, WidgetRef ref, bool isStartDa
     return;
   }
   final _d = await showDatePicker(
-    context: context,
-    initialDate: DateTime.now(),
-    firstDate: DateTime.now(),
-    lastDate: DateTime.now().add(
-      const Duration(days: 365 * 100),
-    ),
-  );
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(
+        const Duration(days: 365 * 100),
+      ),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.dark().copyWith(
+              buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.accent),
+              colorScheme: Theme.of(context).colorScheme.copyWith(
+                    primary: Color(0xFF82e4fb),
+                    onPrimary: Color(0xFF031745),
+                  )),
+          child: child!,
+        );
+      });
 
   if (_d != null) {
     _provider.updateDate(_d, isStartDate);
@@ -379,9 +416,17 @@ Future<void> _showTimePicker(BuildContext context, WidgetRef ref, bool isStartDa
     initialEntryMode: TimePickerEntryMode.input,
     initialTime: TimeOfDay(hour: initialDateTime.hour, minute: initialDateTime.minute),
     builder: (BuildContext context, Widget? child) {
-      return MediaQuery(
-        data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
-        child: child ?? const SizedBox(),
+      return Theme(
+        data: ThemeData.dark().copyWith(
+            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+            colorScheme: Theme.of(context).colorScheme.copyWith(
+                  primary: Color(0xFF82e4fb),
+                  onPrimary: Color(0xFF031745),
+                )),
+        child: MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+          child: child ?? const SizedBox(),
+        ),
       );
     },
   );

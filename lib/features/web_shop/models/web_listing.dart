@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/features/nft/models/nft.dart';
+import 'package:rbx_wallet/features/nft/models/web_nft.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_collection.dart';
-
-import 'web_nft.dart';
 
 part 'web_listing.freezed.dart';
 part 'web_listing.g.dart';
@@ -17,7 +17,7 @@ class WebListing with _$WebListing {
   factory WebListing({
     required int id,
     @JsonKey(toJson: collectionToJson) required WebCollection collection,
-    required WebNft nft,
+    @JsonKey(includeToJson: false) WebNft? nft,
     @JsonKey(name: "smart_contract_uid") required String smartContractUid,
     @JsonKey(name: "owner_address") required String ownerAddress,
     @JsonKey(name: "winning_address") String? winningAddress,
@@ -30,9 +30,9 @@ class WebListing with _$WebListing {
     @JsonKey(name: "is_visible_before_start_date") required bool isVisibleBeforeStartDate,
     @JsonKey(name: "is_visible_after_end_date") required bool isVisibleAfterEndDate,
     @JsonKey(name: "thumbnails_fetched") required bool thumbnailsFetched,
-    @JsonKey(name: "IsCancelled") @Default(false) bool isCancelled,
-    @JsonKey(name: "IsAuctionStarted") @Default(true) bool isAuctionStarted,
-    @JsonKey(name: "IsAuctionEnded") @Default(false) bool isAuctionEnded,
+    @JsonKey(name: "IsCancelled") @Default(false) bool isCancelled, //TODO: update
+    @JsonKey(name: "IsAuctionStarted") @Default(true) bool isAuctionStarted, //TODO: update
+    @JsonKey(name: "IsAuctionEnded") @Default(false) bool isAuctionEnded, //TODO: update
     @Default(false) @JsonKey(ignore: true) bool enableBuyNow,
     @Default(false) @JsonKey(ignore: true) bool enableAuction,
     @Default(false) @JsonKey(ignore: true) bool enableReservePrice,
@@ -45,7 +45,6 @@ class WebListing with _$WebListing {
         id: 0,
         smartContractUid: '',
         ownerAddress: '',
-        nft: WebNft.empty(),
         startDate: DateTime.now(),
         endDate: DateTime.now(),
         collection: WebCollection.empty(),
@@ -60,6 +59,10 @@ class WebListing with _$WebListing {
     final now = DateTime.now();
     return startDate.isBefore(now) && endDate.isAfter(now);
   }
+
+  // Nft? get nft {
+  //   return nft?.smartContract;
+  // }
 
   bool get exists {
     return id != 0;
