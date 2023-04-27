@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rbx_wallet/features/asset/web_asset.dart';
 
-import '../../asset/proxied_asset.dart';
-import 'proxy_asset_card.dart';
+import 'web_asset_card.dart';
 
 class WebAssetThumbnail extends StatelessWidget {
   final double size;

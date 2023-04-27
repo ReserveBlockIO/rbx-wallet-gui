@@ -17,9 +17,7 @@ enum _Environment {
   WebLocalEnv,
 }
 
-
 const _env = _Environment.WebLocalEnv;
-
 
 class Env {
   static init() async {
@@ -95,10 +93,6 @@ class Env {
 
   static String get explorerWebsiteBaseUrl {
     return DotEnv.dotenv.env['EXPLORER_WEBSITE_BASE_URL'] ?? 'https://rbx.network';
-  }
-
-  static String get transactionApiBaseUrl {
-    return DotEnv.dotenv.env['TRANSACTION_API_BASE_URL'] ?? 'http://localhost:7292/txapi/txV1';
   }
 
   static bool get launchCli {

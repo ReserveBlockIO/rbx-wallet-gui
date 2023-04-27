@@ -6,7 +6,6 @@ import 'package:video_player/video_player.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/components/centered_loader.dart';
 import '../../../utils/html_helpers.dart';
-import '../../asset/proxied_asset.dart';
 
 class WebAssetCard extends StatelessWidget {
   final WebAsset? asset;

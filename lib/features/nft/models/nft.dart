@@ -11,7 +11,6 @@ import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
 
 import '../../../core/env.dart';
 import '../../asset/asset.dart';
-import '../../asset/proxied_asset.dart';
 import '../../smart_contracts/features/evolve/evolve.dart';
 import '../../smart_contracts/features/evolve/evolve_phase.dart';
 import '../../smart_contracts/models/feature.dart';
@@ -72,7 +71,6 @@ abstract class Nft with _$Nft {
     @JsonKey(name: "IsLocked") @Default(false) bool isLocked,
     @JsonKey(defaultValue: false) required bool isProcessing,
     String? code,
-    @JsonKey(ignore: true) ProxiedAsset? proxiedAsset,
     // @JsonKey(ignore: true) List<ProxiedAsset>? additionalProxiedAssets,
     @JsonKey(ignore: true) @Default([]) List<Asset> additionalLocalAssets,
     @JsonKey(ignore: true) @Default([]) List<EvolvePhase> updatedEvolutionPhases,
