@@ -18,7 +18,6 @@ import 'package:rbx_wallet/features/dst/components/collection_list.dart';
 import 'package:rbx_wallet/features/dst/providers/collection_form_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/collection_list_provider.dart';
 import 'package:rbx_wallet/features/dst/services/dst_service.dart';
-import 'package:rbx_wallet/features/dsts_legacy/providers/my_store_listings_provider.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 

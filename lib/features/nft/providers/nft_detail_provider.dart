@@ -4,6 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/services/explorer_service.dart';
+import 'package:rbx_wallet/features/raw/raw_service.dart';
 import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
 
 import '../../../core/app_constants.dart';
@@ -173,40 +174,20 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     if (keypair == null) {
       return false;
     }
-    final txService = TransactionService();
+    final txService = RawService();
 
-    final timestampData = await txService.getTimestamp();
+    final timestamp = await txService.getTimestamp();
 
-    if (!_txResponseIsValid(timestampData)) {
+    if (timestamp == null) {
       Toast.error("Failed to retrieve timestamp");
       return false;
     }
 
-    final int? timestamp = timestampData!['Timestamp'];
-    if (timestamp == null) {
-      Toast.error("Failed to parse timestamp");
-      return false;
-    }
-
-    final nonceData = await txService.getNonce(keypair.public);
-    if (!_txResponseIsValid(nonceData)) {
+    final nonce = await txService.getNonce(keypair.public);
+    if (nonce == null) {
       Toast.error("Failed to retrieve nonce");
       return false;
     }
-
-    final int? nonce = nonceData!['Nonce'];
-    if (nonce == null) {
-      Toast.error("Failed to parse nonce");
-      return false;
-    }
-
-    // TODO: check if receiving wallet is a web wallet and if so skip the beacon request and just put "NA" in the nft transfer data
-
-    // final locators = await TransactionService().getLocators(id);
-    // if (locators == null) {
-    //   Toast.error("Locators request failed.");
-    //   return false;
-    // }
 
     final nftTransferData = await txService.nftTransferData(id, toAddress, "NA");
 
@@ -220,16 +201,10 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       data: nftTransferData,
     );
 
-    final feeData = (await txService.getFee(txData))!['data'];
+    final fee = await txService.getFee(txData);
 
-    if (!_txResponseIsValid(feeData)) {
-      Toast.error("Failed to retreive fee");
-      return false;
-    }
-
-    final double? fee = feeData!['Fee'];
     if (fee == null) {
-      Toast.error("Failed to parse fee");
+      Toast.error("Failed to retreive fee");
       return false;
     }
 
@@ -244,14 +219,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       fee: fee,
     );
 
-    final hashData = (await txService.getHash(txData))!['data'];
-
-    if (!_txResponseIsValid(hashData)) {
-      Toast.error("Failed to retreive hash");
-      return null;
-    }
-
-    final String? hash = hashData!['Hash'];
+    final hash = await txService.getHash(txData);
 
     if (hash == null) {
       Toast.error("Failed to parse hash");
@@ -264,13 +232,13 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       return false;
     }
 
-    final validateData = await txService.validateSignature(
+    final isValid = await txService.validateSignature(
       hash,
       keypair.public,
       signature,
     );
 
-    if (!_txResponseIsValid(validateData)) {
+    if (!isValid) {
       Toast.error("Signature not valid");
       return false;
     }
@@ -291,20 +259,20 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     final verifyTransactionData = (await txService.sendTransaction(
       transactionData: txData,
       execute: false,
-    ))!['data'];
+    ));
 
     if (!_txResponseIsValid(verifyTransactionData)) {
       Toast.error("Transaction not valid");
       return false;
     }
 
-    final tx = await TransactionService().sendTransaction(
+    final tx = await RawService().sendTransaction(
       transactionData: txData,
       execute: true,
     );
 
     if (tx != null) {
-      if (tx['data']['Result'] == "Success") {
+      if (tx['Result'] == "Success") {
         return true;
       }
     }
@@ -319,7 +287,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       return false;
     }
 
-    final locators = await TransactionService().getLocators(id);
+    final locators = await RawService().getLocators(id);
     if (locators == null) {
       Toast.error("Locators request failed.");
       return false;
@@ -331,7 +299,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       return false;
     }
 
-    final beaconAssets = await TransactionService().beaconAssets(id, locators, signature);
+    final beaconAssets = await RawService().beaconAssets(id, locators, signature);
 
     if (beaconAssets != true) {
       Toast.error("Assets Request failed.");
@@ -366,34 +334,22 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     if (keypair == null) {
       return false;
     }
-    final txService = TransactionService();
+    final txService = RawService();
 
-    final timestampData = await txService.getTimestamp();
+    final timestamp = await txService.getTimestamp();
 
-    if (!_txResponseIsValid(timestampData)) {
+    if (timestamp == null) {
       Toast.error("Failed to retrieve timestamp");
       return false;
     }
 
-    final int? timestamp = timestampData!['Timestamp'];
-    if (timestamp == null) {
-      Toast.error("Failed to parse timestamp");
-      return false;
-    }
-
-    final nonceData = await txService.getNonce(keypair.public);
-    if (!_txResponseIsValid(nonceData)) {
+    final nonce = await txService.getNonce(keypair.public);
+    if (nonce == null) {
       Toast.error("Failed to retrieve nonce");
       return false;
     }
 
-    final int? nonce = nonceData!['Nonce'];
-    if (nonce == null) {
-      Toast.error("Failed to parse nonce");
-      return false;
-    }
-
-    final nftBurnDataRaw = await TransactionService().nftBurnData(id, keypair.public);
+    final nftBurnDataRaw = await RawService().nftBurnData(id, keypair.public);
 
     final nftBurnData = jsonDecode(nftBurnDataRaw);
 
@@ -407,14 +363,8 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       data: nftBurnData,
     );
 
-    final feeData = (await txService.getFee(txData))!['data'];
+    final fee = await txService.getFee(txData);
 
-    if (!_txResponseIsValid(feeData)) {
-      Toast.error("Failed to retreive fee");
-      return false;
-    }
-
-    final double? fee = feeData!['Fee'];
     if (fee == null) {
       Toast.error("Failed to parse fee");
       return false;
@@ -431,14 +381,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       fee: fee,
     );
 
-    final hashData = (await txService.getHash(txData))!['data'];
-
-    if (!_txResponseIsValid(hashData)) {
-      Toast.error("Failed to retreive hash");
-      return false;
-    }
-
-    final String? hash = hashData!['Hash'];
+    final hash = (await txService.getHash(txData));
 
     if (hash == null) {
       Toast.error("Failed to parse hash");
@@ -451,13 +394,13 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       return false;
     }
 
-    final validateData = await txService.validateSignature(
+    final isValid = await txService.validateSignature(
       hash,
       keypair.public,
       signature,
     );
 
-    if (!_txResponseIsValid(validateData)) {
+    if (!isValid) {
       Toast.error("Signature not valid");
       return false;
     }
@@ -478,20 +421,20 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     final verifyTransactionData = (await txService.sendTransaction(
       transactionData: txData,
       execute: false,
-    ))!['data'];
+    ));
 
-    if (!_txResponseIsValid(verifyTransactionData)) {
+    if (verifyTransactionData == null) {
       Toast.error("Transaction not valid");
       return false;
     }
 
-    final tx = await TransactionService().sendTransaction(
+    final tx = await RawService().sendTransaction(
       transactionData: txData,
       execute: true,
     );
 
     if (tx != null) {
-      if (tx['data']['Result'] == "Success") {
+      if (tx['Result'] == "Success") {
         ref.read(burnedProvider.notifier).addId(id);
 
         return true;

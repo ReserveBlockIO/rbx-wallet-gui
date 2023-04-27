@@ -1,8 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/empty_router_widgets.dart';
 import 'package:rbx_wallet/features/adnr/screens/web_adnr_screen.dart';
-import 'package:rbx_wallet/features/dsts_legacy/screens/create_store_screen.dart';
-import 'package:rbx_wallet/features/dsts_legacy/screens/web_dst_screen.dart';
 import 'package:rbx_wallet/features/web_shop/screens/web_shop_container_screen.dart';
 import 'package:rbx_wallet/features/web_shop/components/web_shop_list.dart';
 
@@ -18,10 +16,6 @@ import '../features/send/screens/web_prefilled_send_screen.dart';
 import '../features/send/screens/web_send_screen.dart';
 import '../features/smart_contracts/screens/web_create_smart_contract_screen.dart';
 import '../features/smart_contracts/screens/web_smart_contract_landing_screen.dart';
-import '../features/store/screens/create_listing_screen.dart';
-import '../features/store/screens/store_collection_screen.dart';
-import '../features/store/screens/store_listing_screen.dart';
-import '../features/store/screens/store_screen.dart';
 import '../features/transactions/screens/web_transaction_detail_screen.dart';
 import '../features/transactions/screens/web_transactions_screen.dart';
 import '../features/web_shop/screens/create_web_listing_screen.dart';
@@ -45,8 +39,8 @@ const List<AutoRoute> webRoutes = [
       AutoRoute(path: "", page: WebAuthScreen),
     ],
   ),
-  AutoRoute(path: "store/collection/:slug", page: StoreCollectionScreen),
-  AutoRoute(path: "store/auction/:slug", page: StoreListingScreen),
+  // AutoRoute(path: "store/collection/:slug", page: StoreCollectionScreen),
+  // AutoRoute(path: "store/auction/:slug", page: StoreListingScreen),
   webDashboardTabRouter,
   RedirectRoute(path: '*', redirectTo: '/'),
 ];
@@ -120,17 +114,17 @@ const webDashboardTabRouter = AutoRoute(
         AutoRoute(path: "create", page: WebCreateSmartContractScreen),
       ],
     ),
-    AutoRoute(
-      path: 'dst',
-      name: "WebDstTabRouter",
-      page: EmptyRouterPage,
-      children: [
-        AutoRoute(path: "", page: WebDstScreen),
-        AutoRoute(path: "create/:accountId", page: CreateStoreScreen),
-        AutoRoute(path: "store/:slug", page: StoreScreen),
-        AutoRoute(path: "store/:storeId/create-listing", page: CreateListingScreen),
-      ],
-    ),
+    // AutoRoute(
+    //   path: 'dst',
+    //   name: "WebDstTabRouter",
+    //   page: EmptyRouterPage,
+    //   children: [
+    //     AutoRoute(path: "", page: WebDstScreen),
+    //     AutoRoute(path: "create/:accountId", page: CreateStoreScreen),
+    //     AutoRoute(path: "store/:slug", page: StoreScreen),
+    //     AutoRoute(path: "store/:storeId/create-listing", page: CreateListingScreen),
+    //   ],
+    // ),
     AutoRoute(
       path: 'p2p',
       name: "WebShopTabRouter",

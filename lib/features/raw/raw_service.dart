@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/services/base_service.dart';
+import 'package:rbx_wallet/features/adnr/models/adnr_response.dart';
 import 'package:rbx_wallet/features/keygen/models/keypair.dart';
 import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
 import 'package:rbx_wallet/utils/toast.dart';
@@ -122,6 +125,117 @@ class RawService extends BaseService {
     } catch (e) {
       print(e);
       return false;
+    }
+  }
+
+  //TODO: Implement these server side vvvvv
+
+  Future<String?> getLocators(
+    String scId,
+  ) async {
+    try {
+      final response = await getJson("/locators/$scId");
+      return response["Locators"];
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<dynamic> nftTransferData(String scId, String toAddress, String locators) async {
+    try {
+      final response = await postJson("/nft-transfer-data/$scId/$toAddress/$locators/", responseIsJson: true);
+      return response['data'];
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<dynamic> beaconUpload(String scId, String toAddress, String signature) async {
+    try {
+      final response = await getText("/beacon/upload/$scId/$toAddress/$signature/");
+      final data = jsonDecode(response);
+      return data;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<dynamic> beaconDownload(String scId, String toAddress, String signature) async {
+    try {
+      final response = await getText("/beacon/upload/$scId/$toAddress/$signature/");
+      final data = jsonDecode(response);
+      return data;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<bool> beaconAssets(String scId, String locators, String signature) async {
+    try {
+      final path = "/beacon-assets/$scId/$locators/$signature/";
+      await getText(path);
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  // Burn
+
+  Future<dynamic> nftBurnData(String scId, String toAddress) async {
+    try {
+      final response = await postJson("/nft-burn-data/$scId/$toAddress/", responseIsJson: true);
+      return response['data']['Message'];
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<AdnrResponse> createAdnr(String address, String name) async {
+    try {
+      final response = await getText("/CreateAdnr/$address/$name");
+      final data = jsonDecode(response);
+      return AdnrResponse(
+        success: data['Result'] == "Success",
+        message: data['Message'],
+        hash: data['Hash'],
+      );
+    } catch (e) {
+      return AdnrResponse(success: false, message: "An error occurred: ${e.toString()}");
+    }
+  }
+
+  Future<AdnrResponse> transferAdnr(String fromAddress, String toAddress) async {
+    try {
+      final response = await getText("/TransferAdnr/$fromAddress/$toAddress");
+      final data = jsonDecode(response);
+      return AdnrResponse(
+        success: data['Result'] == "Success",
+        message: data['Message'],
+        hash: data['Hash'],
+      );
+    } catch (e) {
+      return AdnrResponse(success: false, message: "An error occurred: ${e.toString()}");
+    }
+  }
+
+  Future<AdnrResponse> deleteAdnr(String address) async {
+    try {
+      final response = await getText("/DeleteAdnr/$address");
+      final data = jsonDecode(response);
+      return AdnrResponse(
+        success: data['Result'] == "Success",
+        message: data['Message'],
+        hash: data['Hash'],
+      );
+    } catch (e) {
+      return AdnrResponse(success: false, message: "An error occurred: ${e.toString()}");
     }
   }
 }

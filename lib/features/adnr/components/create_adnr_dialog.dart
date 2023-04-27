@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/services/explorer_service.dart';
+import 'package:rbx_wallet/features/raw/raw_service.dart';
 import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
 
 import '../../../core/app_constants.dart';
@@ -126,13 +127,13 @@ class CreateAdnrDialog extends BaseComponent {
               }
               ref.read(globalLoadingProvider.notifier).start();
 
-              final tx = await TransactionService().sendTransaction(
+              final tx = await RawService().sendTransaction(
                 transactionData: txData,
                 execute: true,
               );
               ref.read(globalLoadingProvider.notifier).complete();
 
-              if (tx != null && tx['data']['Result'] == "Success") {
+              if (tx != null && tx['Result'] == "Success") {
                 ref.read(adnrPendingProvider.notifier).addId(address, "create", "null");
                 Toast.message("RBX Domain Transaction has been broadcasted. See log for hash.");
                 Navigator.of(context).pop();
@@ -143,7 +144,7 @@ class CreateAdnrDialog extends BaseComponent {
               Toast.error();
             } else {
               ref.read(globalLoadingProvider.notifier).start();
-              final result = await TransactionService().createAdnr(address, controller.text);
+              final result = await RawService().createAdnr(address, controller.text);
               ref.read(globalLoadingProvider.notifier).complete();
 
               if (result.success) {

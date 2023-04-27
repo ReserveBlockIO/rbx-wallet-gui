@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/raw/raw_service.dart';
 
 import '../../../core/models/paginated_response.dart';
 import '../../../core/providers/web_session_provider.dart';
@@ -19,8 +20,7 @@ class MintedNftListProvider extends StateNotifier<NftListModel> {
 
   Future<void> load(int page) async {
     if (kIsWeb) {
-      final nfts =
-          await TransactionService().listMintedNfts(ref.read(webSessionProvider).keypair!.email, ref.read(webSessionProvider).keypair!.public);
+      final nfts = await RawService().listMintedNfts(ref.read(webSessionProvider).keypair!.public);
       final d = CliPaginatedResponse(count: nfts.length, results: nfts, page: 1);
       state = state.copyWith(data: d, page: 1, currentSearch: '');
       return;

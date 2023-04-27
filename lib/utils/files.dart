@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rbx_wallet/core/services/explorer_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../core/app_constants.dart';
@@ -107,16 +108,16 @@ Future<Asset?> selectAsset(WidgetRef ref) async {
     final ext = result.files.single.extension;
     final filename = result.files.single.name;
 
-    final webAsset = await TransactionService().uploadAsset(bytes, filename, ext);
+    final url = await ExplorerService().uploadAsset(bytes, filename, ext);
 
-    if (webAsset == null) return null;
+    if (url == null) return null;
     asset = Asset(
       id: '00000000-0000-0000-0000-000000000000',
-      location: webAsset.location,
-      extension: webAsset.extension,
+      location: url,
+      extension: ext,
       fileSize: result.files.single.bytes!.length,
       bytes: bytes,
-      name: webAsset.filename,
+      name: filename,
     );
   } else {
     file = File(result.files.single.path!);

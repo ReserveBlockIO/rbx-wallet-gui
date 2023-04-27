@@ -474,13 +474,13 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
   }
 
   Future<bool> mint([String? idOverride]) async {
-    final success = kIsWeb ? await TransactionService().mintSmartContract(state.id) : await SmartContractService().mint(idOverride ?? state.id);
+    final success = await SmartContractService().mint(idOverride ?? state.id);
 
     if (success) {
       saveMintedNft(state.id);
     }
 
-    final details = kIsWeb ? await TransactionService().retrieveSmartContract(state.id) : await SmartContractService().retrieve(state.id);
+    final details = await SmartContractService().retrieve(state.id);
 
     ref.read(mySmartContractsProvider.notifier).load();
     kIsWeb
