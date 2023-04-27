@@ -22,7 +22,6 @@ class CreateWebListingScreen extends BaseScreen {
   }) : super(
           key: key,
           includeWebDrawer: true,
-          backgroundColor: Colors.black87,
           horizontalPadding: 0,
           verticalPadding: 0,
         );
@@ -33,6 +32,7 @@ class CreateWebListingScreen extends BaseScreen {
     final model = ref.watch(createWebListingProvider);
 
     return AppBar(
+      backgroundColor: Colors.black,
       title: Text(model.id == 0 ? "Create Listing" : "Edit Listing"),
       leading: IconButton(
         onPressed: () async {

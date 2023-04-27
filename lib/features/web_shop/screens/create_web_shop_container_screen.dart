@@ -24,6 +24,7 @@ class CreateWebShopContainerScreen extends BaseScreen {
     final model = ref.read(webShopFormProvider);
 
     return AppBar(
+      backgroundColor: Colors.black,
       title: Text(model.id != 0 ? "Edit Auction House" : "Create Auction House"),
       leading: IconButton(
         onPressed: () async {

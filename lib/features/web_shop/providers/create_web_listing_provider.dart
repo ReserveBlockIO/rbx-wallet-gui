@@ -140,6 +140,9 @@ class WebListingFormProvider extends StateNotifier<WebListing> {
 
   updateEnableBuyOnly(bool enableBuyOnly) {
     state = state.copyWith(enableBuyNow: enableBuyOnly);
+    if (enableBuyOnly) {
+      state = state.copyWith(galleryOnly: false);
+    }
   }
 
   updateEnableAuction(bool enableAuction) {
@@ -148,6 +151,9 @@ class WebListingFormProvider extends StateNotifier<WebListing> {
       return;
     }
     state = state.copyWith(enableAuction: enableAuction);
+    if (enableAuction) {
+      state = state.copyWith(galleryOnly: false);
+    }
   }
 
   updateGalleryOnly(bool value) {

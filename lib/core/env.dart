@@ -136,6 +136,6 @@ class Env {
   }
 
   static String get appBaseUrl {
-    return DotEnv.dotenv.env['APP_BASE_URL'] ?? 'localhost:42069';
+    return DotEnv.dotenv.env['APP_BASE_URL'] ?? 'http://localhost:42069';
   }
 }

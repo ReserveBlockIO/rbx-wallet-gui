@@ -18,6 +18,7 @@ class MyCreateCollectionContainerScreen extends BaseScreen {
     final provider = ref.read(webCollectionFormProvider.notifier);
     final model = ref.read(webCollectionFormProvider);
     return AppBar(
+      backgroundColor: Colors.black,
       title: Text(model.id != 0 ? "Edit Collection" : "Create New Collection"),
       leading: IconButton(
         onPressed: () async {

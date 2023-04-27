@@ -394,14 +394,30 @@ class _NFT extends BaseComponent {
 
 Future<void> _showDatePicker(BuildContext context, WidgetRef ref, bool isStartDate) async {
   final _provider = ref.read(createWebListingProvider.notifier);
+  final _model = ref.read(createWebListingProvider);
+
+  if (_model.isAuction && _model.isAuctionStarted && _model.exists) {
+    Toast.error('The auction has already started.');
+    return;
+  }
   final _d = await showDatePicker(
-    context: context,
-    initialDate: DateTime.now(),
-    firstDate: DateTime.now(),
-    lastDate: DateTime.now().add(
-      const Duration(days: 365 * 100),
-    ),
-  );
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(
+        const Duration(days: 365 * 100),
+      ),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.dark().copyWith(
+              buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.accent),
+              colorScheme: Theme.of(context).colorScheme.copyWith(
+                    primary: Color(0xFF82e4fb),
+                    onPrimary: Color(0xFF031745),
+                  )),
+          child: child!,
+        );
+      });
 
   if (_d != null) {
     _provider.updateDate(_d, isStartDate);
@@ -426,9 +442,17 @@ Future<void> _showTimePicker(BuildContext context, WidgetRef ref, bool isStartDa
     initialEntryMode: TimePickerEntryMode.input,
     initialTime: TimeOfDay(hour: initialDateTime.hour, minute: initialDateTime.minute),
     builder: (BuildContext context, Widget? child) {
-      return MediaQuery(
-        data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
-        child: child ?? const SizedBox(),
+      return Theme(
+        data: ThemeData.dark().copyWith(
+            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+            colorScheme: Theme.of(context).colorScheme.copyWith(
+                  primary: Color(0xFF82e4fb),
+                  onPrimary: Color(0xFF031745),
+                )),
+        child: MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+          child: child ?? const SizedBox(),
+        ),
       );
     },
   );
