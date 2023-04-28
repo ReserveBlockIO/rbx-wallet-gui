@@ -20,7 +20,6 @@ abstract class Keypair with _$Keypair {
 
   String get privateCorrected {
     return private;
-    return "00$private";
 
     // return private;
 

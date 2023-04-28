@@ -270,11 +270,14 @@ class $AssetsImagesGen {
 class $AssetsJsGen {
   const $AssetsJsGen();
 
+  /// File path: assets/js/keygen-v2.js
+  String get keygenV2 => 'assets/js/keygen-v2.js';
+
   /// File path: assets/js/keygen.js
   String get keygen => 'assets/js/keygen.js';
 
   /// List of all assets
-  List<String> get values => [keygen];
+  List<String> get values => [keygenV2, keygen];
 }
 
 class Assets {

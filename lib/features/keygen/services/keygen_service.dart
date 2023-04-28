@@ -47,27 +47,25 @@ class KeygenService {
     final chain = bip32.Chain.seed(HEX.encode(masterPrivateSeed));
     final key = chain.forPath("m/0'/0'/$index'") as bip32.ExtendedPrivateKey;
 
+    String privateKey = key.privateKeyHex();
+    if (privateKey.length > 64 && privateKey.startsWith("00")) {
+      privateKey = privateKey.substring(2);
+    }
+
     final keypair = await KeygenService.importPrivateKey(
-      key.privateKeyHex(),
+      privateKey,
       mnemonic,
     );
     return keypair;
   }
 
-  static Future<Keypair?> seedToKeypair(
-    String seed,
-    int index,
-    String email,
-  ) async {
+  static Future<Keypair?> seedToKeypair(String seed) async {
     final String privateKeyHex = await js.context.callMethod('seedToPrivate', [seed]);
 
     // final chain = bip32.Chain.seed(seed);
     // final key = chain.forPath("m/0'/0'/$index'") as bip32.ExtendedPrivateKey;
 
-    final keypair = await KeygenService.importPrivateKey(
-      privateKeyHex,
-      email,
-    );
+    final keypair = await KeygenService.importPrivateKey(privateKeyHex);
     return keypair;
   }
 

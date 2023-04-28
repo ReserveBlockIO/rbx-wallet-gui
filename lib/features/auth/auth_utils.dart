@@ -38,9 +38,9 @@ Future<void> handleImportWithPrivateKey(
     title: "Import Wallet",
     validator: (String? value) => formValidatorNotEmpty(value, "Private Key"),
     labelText: "Private Key",
-    onValidSubmission: (submission) async {
+    onValidSubmission: (privateKey) async {
       await handleRememberMe(context, ref);
-      final keypair = await KeygenService.importPrivateKey(submission);
+      final keypair = await KeygenService.importPrivateKey(privateKey);
       // await TransactionService().createWallet(null, keypair.public);
       login(context, ref, keypair);
       if (ref.read(webSessionProvider).isAuthenticated) {
@@ -78,7 +78,7 @@ Future<void> handleCreateWithEmail(
     seed = sha256.convert(utf8.encode(seed)).toString();
   }
 
-  final keypair = await KeygenService.seedToKeypair(seed, 0, email);
+  final keypair = await KeygenService.seedToKeypair(seed);
   if (keypair == null) {
     ref.read(globalLoadingProvider.notifier).complete();
     Toast.error();
