@@ -38,29 +38,38 @@ class WebTransactionCard extends BaseComponent {
 
     final text = tx.type == TxType.rbxTransfer ? "${tx.amount} RBX" : tx.typeLabel;
 
-    return Card(
-      // color: Theme.of(context).colorScheme.primary.withOpacity(0.4),
-      color: Colors.white10,
-      child: ListTile(
-        leading: isMobile
-            ? null
-            : toMe
-                ? const Icon(Icons.move_to_inbox)
-                : const Icon(Icons.outbox),
-        title: Text(
-          text,
-          style: TextStyle(color: color),
+    return Padding(
+      padding: const EdgeInsets.all(6.0),
+      child: Container(
+        decoration: BoxDecoration(
+          boxShadow: glowingBox,
         ),
-        subtitle: toMe
-            ? Text(
-                "From: ${tx.fromAddress}\n$date",
-                style: const TextStyle(fontSize: 12),
-              )
-            : Text("To: ${tx.toAddress}\n$date", style: const TextStyle(fontSize: 12)),
-        trailing: const Icon(Icons.chevron_right),
-        onTap: () {
-          AutoRouter.of(context).push(WebTransactionDetailScreenRoute(hash: tx.hash));
-        },
+        child: Card(
+          // color: Theme.of(context).colorScheme.primary.withOpacity(0.4),
+          color: Colors.black87,
+
+          child: ListTile(
+            leading: isMobile
+                ? null
+                : toMe
+                    ? const Icon(Icons.move_to_inbox)
+                    : const Icon(Icons.outbox),
+            title: Text(
+              text,
+              style: TextStyle(color: color),
+            ),
+            subtitle: toMe
+                ? Text(
+                    "From: ${tx.fromAddress}\n$date",
+                    style: const TextStyle(fontSize: 12),
+                  )
+                : Text("To: ${tx.toAddress}\n$date", style: const TextStyle(fontSize: 12)),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () {
+              AutoRouter.of(context).push(WebTransactionDetailScreenRoute(hash: tx.hash));
+            },
+          ),
+        ),
       ),
     );
   }

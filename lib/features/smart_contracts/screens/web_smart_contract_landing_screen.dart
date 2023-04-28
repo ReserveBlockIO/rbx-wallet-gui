@@ -44,17 +44,17 @@ class WebSmartContractLandingScreen extends BaseScreen {
 
     return Stack(
       children: [
-        Image.asset(
-          Assets.images.gridBg.path,
-          width: double.infinity,
-          height: double.infinity,
-          fit: BoxFit.cover,
-        ),
+        // Image.asset(
+        //   Assets.images.gridBg.path,
+        //   width: double.infinity,
+        //   height: double.infinity,
+        //   fit: BoxFit.cover,
+        // ),
         Container(
           width: double.infinity,
           height: double.infinity,
           decoration: const BoxDecoration(
-            color: Colors.black38,
+            color: Colors.black,
             border: Border(
                 // top: BorderSide(color: Colors.white30, width: 2),
                 // bottom: BorderSide(color: Colors.white30, width: 2),
