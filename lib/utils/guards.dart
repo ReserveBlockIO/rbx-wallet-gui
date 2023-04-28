@@ -1,4 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/core/providers/web_session_provider.dart';
+import 'package:rbx_wallet/features/web_shop/providers/web_auth_token_provider.dart';
 
 import '../features/bridge/providers/wallet_info_provider.dart';
 import 'toast.dart';
@@ -43,4 +47,55 @@ bool guardWalletIsNotResyncing(Ref ref, [bool showMessage = true]) {
   // }
 
   // return true;
+}
+
+Future<bool> guardWebAuthorized(WidgetRef ref, String expectedAddress) async {
+  final address = kIsWeb ? ref.read(webSessionProvider).keypair?.public : ref.read(sessionProvider).currentWallet?.address;
+
+  if (address != expectedAddress) {
+    return false;
+  }
+
+  final token = ref.read(webAuthTokenProvider);
+
+  if (token != null && !token.isExpired && token.address == address) {
+    return true;
+  }
+
+  final newToken = await ref.read(webAuthTokenProvider.notifier).authorize();
+
+  if (newToken != null) {
+    return true;
+  }
+
+  return false;
+}
+
+Future<bool> guardWebAuthorizedFromProvider(Ref ref, String expectedAddress, [bool withError = true]) async {
+  final address = kIsWeb ? ref.read(webSessionProvider).keypair?.public : ref.read(sessionProvider).currentWallet?.address;
+
+  if (address != expectedAddress) {
+    if (withError) {
+      Toast.error("Not authorized.");
+    }
+    return false;
+  }
+
+  final token = ref.read(webAuthTokenProvider);
+
+  if (token != null && !token.isExpired && token.address == address) {
+    return true;
+  }
+
+  final newToken = await ref.read(webAuthTokenProvider.notifier).authorize();
+
+  if (newToken != null) {
+    return true;
+  }
+
+  if (withError) {
+    Toast.error("Not authorized.");
+  }
+
+  return false;
 }

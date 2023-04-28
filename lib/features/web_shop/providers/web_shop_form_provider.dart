@@ -10,8 +10,10 @@ import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/listing_list_provider.dart';
 import 'package:rbx_wallet/features/dst/services/dst_service.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_shop.dart';
+import 'package:rbx_wallet/features/web_shop/providers/web_auth_token_provider.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_shop_detail_provider.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_shop_list_provider.dart';
+import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/providers/session_provider.dart';
@@ -79,6 +81,10 @@ class WebShopFormProvider extends StateNotifier<WebShop> {
       return null;
     }
 
+    if (!await guardWebAuthorizedFromProvider(ref, state.ownerAddress)) {
+      return null;
+    }
+
     final updatedShop = await WebShopService().saveWebShop(state);
 
     if (updatedShop != null) {
@@ -86,11 +92,8 @@ class WebShopFormProvider extends StateNotifier<WebShop> {
       ref.invalidate(webShopListProvider(WebShopListType.public));
       ref.invalidate(webShopDetailProvider(updatedShop.id));
 
-      if (Env.isWeb) {
-        AutoRouter.of(context).push(WebShopDetailScreenRoute(shopId: updatedShop.id));
-      } else {
-        AutoRouter.of(context).push(DebugWebShopDetailScreenRoute(shopId: updatedShop.id));
-      }
+      AutoRouter.of(context).pop();
+
       clear();
       return true;
     } else {

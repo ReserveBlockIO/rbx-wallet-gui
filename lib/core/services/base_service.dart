@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:rbx_wallet/core/api_token_manager.dart';
 import 'package:rbx_wallet/core/singletons.dart';
+import 'package:rbx_wallet/core/storage.dart';
 
 import '../../features/inspector/network_inspector.dart';
 import '../env.dart';
@@ -13,10 +14,12 @@ import '../env.dart';
 class BaseService {
   final String? hostOverride;
   final String? apiBasePathOverride;
+  final bool withWebAuth;
 
   BaseService({
     this.apiBasePathOverride,
     this.hostOverride,
+    this.withWebAuth = false,
   });
 
   Map<String, dynamic> _headers([bool auth = true, bool json = false]) {
@@ -27,9 +30,11 @@ class BaseService {
             HttpHeaders.contentTypeHeader: "application/json",
             HttpHeaders.acceptHeader: "application/json",
             ...!kIsWeb && !Env.isTestNet ? {'apitoken': token} : {},
+            ...withWebAuth && auth ? {'Token': singleton<Storage>().getString(Storage.WEB_AUTH_TOKEN)} : {},
           }
         : {
             ...!kIsWeb && !Env.isTestNet ? {'apitoken': token} : {},
+            ...withWebAuth && auth ? {'Token': singleton<Storage>().getString(Storage.WEB_AUTH_TOKEN)} : {},
           };
   }
 
@@ -43,9 +48,7 @@ class BaseService {
       host = hostOverride!;
     }
 
-    final baseUrl = apiBasePathOverride == null
-        ? host
-        : host.replaceAll("/api/V1", apiBasePathOverride!);
+    final baseUrl = apiBasePathOverride == null ? host : host.replaceAll("/api/V1", apiBasePathOverride!);
     return BaseOptions(
       baseUrl: baseUrl,
       headers: _headers(auth, json),
@@ -74,10 +77,8 @@ class BaseService {
     try {
       final dio = Dio(_options(auth: auth, timeout: timeout));
       if (!kIsWeb) {
-        (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-            (HttpClient client) {
-          client.badCertificateCallback =
-              (X509Certificate cert, String host, int port) => true;
+        (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
+          client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
           return client;
         };
       }
@@ -118,10 +119,8 @@ class BaseService {
     try {
       final dio = Dio(_options(auth: auth, timeout: timeout));
       if (!kIsWeb) {
-        (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-            (HttpClient client) {
-          client.badCertificateCallback =
-              (X509Certificate cert, String host, int port) => true;
+        (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
+          client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
           return client;
         };
       }
@@ -166,10 +165,8 @@ class BaseService {
     try {
       final dio = Dio(_options(auth: auth, json: true, timeout: timeout));
       if (!kIsWeb) {
-        (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-            (HttpClient client) {
-          client.badCertificateCallback =
-              (X509Certificate cert, String host, int port) => true;
+        (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
+          client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
           return client;
         };
       }
@@ -181,8 +178,7 @@ class BaseService {
         data: params,
       );
 
-      final data =
-          responseIsJson ? response.data : jsonDecode(response.toString());
+      final data = responseIsJson ? response.data : jsonDecode(response.toString());
 
       return {'data': data};
 
@@ -324,10 +320,8 @@ class BaseService {
   }) async {
     final dio = Dio(_options(json: false, auth: false, timeout: timeout));
     if (!kIsWeb) {
-      (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-          (HttpClient client) {
-        client.badCertificateCallback =
-            (X509Certificate cert, String host, int port) => true;
+      (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
+        client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
         return client;
       };
     }

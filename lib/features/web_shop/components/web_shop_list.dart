@@ -60,7 +60,9 @@ class WebShopList extends BaseComponent {
               padding: const EdgeInsets.all(16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [_CreateShopButton()],
+                children: [
+                  _CreateShopButton(),
+                ],
               ),
             ),
           ),

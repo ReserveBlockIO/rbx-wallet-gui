@@ -24,6 +24,7 @@ abstract class Storage {
   static const CHAT_PREPEND = "CHAT_";
   static const BUYER_CHAT_THREADS = "BUYER_CHAT_THREADS";
   static const SELLER_CHAT_THREADS = "SELLER_CHAT_THREADS";
+  static const WEB_AUTH_TOKEN = "WEB_AUTH_TOKEN";
 
   bool isInitialized = false;
 

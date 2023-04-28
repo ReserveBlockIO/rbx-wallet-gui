@@ -2,6 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/env.dart';
+import 'package:rbx_wallet/features/web_shop/providers/web_auth_token_provider.dart';
+import 'package:rbx_wallet/utils/guards.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/app_router.gr.dart';
 import '../../../core/base_component.dart';
@@ -57,6 +60,11 @@ class WebShopTile extends BaseComponent {
             ),
             trailing: Icon(Icons.chevron_right),
             onTap: () async {
+              if (!await guardWebAuthorized(ref, shop.ownerAddress)) {
+                Toast.error("Not Authorized");
+                return;
+              }
+
               if (Env.isWeb) {
                 AutoRouter.of(context).push(WebShopDetailScreenRoute(shopId: shop.id));
               } else {

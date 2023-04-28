@@ -62,11 +62,13 @@ class WebCollectionFormProvider extends StateNotifier<WebCollection> {
         }
       }
 
-      if (Env.isWeb) {
-        AutoRouter.of(context).popAndPush(WebCollectionDetailScreenRoute(shopId: collection.shop!.id, collectionId: collection.id));
-      } else {
-        AutoRouter.of(context).popAndPush(DebugWebCollectionDetailScreenRoute(shopId: collection.shop!.id, collectionId: collection.id));
-      }
+      AutoRouter.of(context).pop();
+
+      // if (Env.isWeb) {
+      //   AutoRouter.of(context).popAndPush(WebCollectionDetailScreenRoute(shopId: collection.shop!.id, collectionId: collection.id));
+      // } else {
+      //   AutoRouter.of(context).popAndPush(DebugWebCollectionDetailScreenRoute(shopId: collection.shop!.id, collectionId: collection.id));
+      // }
 
       clear();
     } else {
@@ -79,7 +81,7 @@ class WebCollectionFormProvider extends StateNotifier<WebCollection> {
     if (success) {
       clear();
       ref.invalidate(webShopDetailProvider(collection.shop!.id));
-      // ref.read(storeListProvider.notifier).refresh();
+      ref.read(webCollectionListProvider(collection.shop!.id).notifier).refresh();
       AutoRouter.of(context).pop();
     } else {
       Toast.error();

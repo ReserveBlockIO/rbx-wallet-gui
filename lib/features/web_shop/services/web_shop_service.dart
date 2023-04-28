@@ -14,6 +14,7 @@ class WebShopService extends BaseService {
   WebShopService()
       : super(
           hostOverride: Env.explorerApiBaseUrl,
+          withWebAuth: true,
         );
   // Auth
 
@@ -25,7 +26,6 @@ class WebShopService extends BaseService {
   }) async {
     try {
       final signature = await RawTransaction.getSignature(message: message, privateKey: privateKey, publicKey: publicKey);
-      print(signature);
       final params = {
         'address': address,
         'message': message,
@@ -104,9 +104,16 @@ class WebShopService extends BaseService {
     try {
       late final Map<String, dynamic> response;
       if (shop.isNew) {
-        response = await postJson("/shop", params: shop.toJson());
+        response = await postJson(
+          "/shop",
+          params: shop.toJson(),
+        );
       } else {
-        response = await patchJson("/shop/${shop.id}", params: shop.toJson());
+        response = await patchJson(
+          "/shop/${shop.id}",
+          params: shop.toJson(),
+          auth: true,
+        );
       }
 
       return WebShop.fromJson(response['data']);

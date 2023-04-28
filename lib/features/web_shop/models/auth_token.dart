@@ -16,4 +16,8 @@ class AuthToken with _$AuthToken {
   }) = _AuthToken;
 
   factory AuthToken.fromJson(Map<String, dynamic> json) => _$AuthTokenFromJson(json);
+
+  bool get isExpired {
+    return expiresAt.isBefore(DateTime.now());
+  }
 }

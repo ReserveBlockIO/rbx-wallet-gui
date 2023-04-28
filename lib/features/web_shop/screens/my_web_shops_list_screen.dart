@@ -30,9 +30,10 @@ class MyWebShopListScreen extends BaseScreen {
             icon: Icon(Icons.refresh)),
         IconButton(
             onPressed: () async {
-              final success = await ref.read(webAuthTokenProvider.notifier).authorize();
+              final token = await ref.read(webAuthTokenProvider.notifier).authorize();
 
-              if (success) {
+              if (token != null) {
+                print(token);
                 Toast.message("Authorized");
               }
             },
