@@ -1,13 +1,7 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:auto_route/auto_route.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/features/keygen/services/keygen_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/base_component.dart';
@@ -88,52 +82,6 @@ class WebHomeScreen extends BaseScreen {
         const _Brand(),
         const _Actions(),
         const WebLatestBlock(),
-        if (kDebugMode)
-          AppButton(
-            label: "KEYGEN",
-            onPressed: () async {
-              final dio = Dio(
-                BaseOptions(
-                  baseUrl: "http://localhost:17292",
-                  headers: {
-                    HttpHeaders.contentTypeHeader: "application/json",
-                  },
-                ),
-              );
-
-              int successes = 0;
-              int fails = 0;
-              int attempts = 10;
-
-              for (int i = 0; i < attempts; i++) {
-                final response = await dio.get('/api/V1/GetNewAddress');
-
-                final data = jsonDecode(response.data != null ? response.data.toString() : response.toString());
-
-                final privateKey = data[0]['PrivateKey'];
-                final cliAddress = data[0]['Address'];
-
-                final jsAddress = await KeygenService.addressFromPrivateKey(privateKey);
-
-                if (jsAddress == cliAddress) {
-                  successes += 1;
-                } else {
-                  fails += 1;
-                  print("-----FAIL------");
-                  print(privateKey);
-                  print(cliAddress);
-                  print(jsAddress);
-                  print("---------------");
-                }
-              }
-
-              print("------------");
-              print("Attempts: $attempts");
-              print("Successes: $successes");
-              print("Fails: $fails");
-              print("------------");
-            },
-          )
       ],
     );
   }
