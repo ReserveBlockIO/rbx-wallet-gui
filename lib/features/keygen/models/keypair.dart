@@ -19,6 +19,7 @@ abstract class Keypair with _$Keypair {
   factory Keypair.fromJson(Map<String, dynamic> json) => _$KeypairFromJson(json);
 
   String get privateCorrected {
+    return private;
     return "00$private";
 
     // return private;

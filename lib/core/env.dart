@@ -17,7 +17,7 @@ enum _Environment {
   WebLocalEnv,
 }
 
-const _env = _Environment.WebLocalEnv;
+const _env = _Environment.WebTestNet;
 
 class Env {
   static init() async {

@@ -12,7 +12,7 @@ class KeygenService {
     String privateKey, [
     String? mneumonic,
   ]) async {
-    final String response = await js.context.callMethod('generate', [privateKey, Env.isTestNet]);
+    final String response = await js.context.callMethod('importPrivateKey', [privateKey, Env.isTestNet]);
 
     final a = response.split(":");
     final public = a[0];
@@ -25,6 +25,11 @@ class KeygenService {
       private: private,
       mneumonic: mneumonic,
     );
+  }
+
+  static Future<String> addressFromPrivateKey(String privateKey) async {
+    final String response = await js.context.callMethod('addressFromPrivateKey', [privateKey, Env.isTestNet]);
+    return response;
   }
 
   static Future<Keypair?> _mneumonicToKeypair(

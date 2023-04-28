@@ -113,3 +113,7 @@ delete_gen:
 
 run_web:
 	fvm flutter run -d chrome --web-port 42069
+
+
+run_web_cors:
+	fvm flutter run -d chrome --web-browser-flag "--disable-web-security" --web-port 42069

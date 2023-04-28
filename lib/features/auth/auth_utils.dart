@@ -40,9 +40,9 @@ Future<void> handleImportWithPrivateKey(
     labelText: "Private Key",
     onValidSubmission: (submission) async {
       await handleRememberMe(context, ref);
-      // final keypair = await KeygenService.importPrivateKey(submission);
+      final keypair = await KeygenService.importPrivateKey(submission);
       // await TransactionService().createWallet(null, keypair.public);
-      // login(context, ref, keypair);
+      login(context, ref, keypair);
       if (ref.read(webSessionProvider).isAuthenticated) {
         AutoRouter.of(context).push(WebDashboardContainerRoute());
       }
