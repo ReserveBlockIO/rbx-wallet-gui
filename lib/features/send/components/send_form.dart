@@ -106,7 +106,7 @@ class SendForm extends BaseComponent {
       child: Container(
         decoration: BoxDecoration(boxShadow: glowingBox),
         child: Card(
-          color: kIsWeb ? Theme.of(context).colorScheme.primary.withOpacity(0.5) : Colors.black87,
+          color: Colors.black87,
           child: Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: Column(

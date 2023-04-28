@@ -121,8 +121,8 @@ class ListingDetails extends BaseComponent {
                 child: Center(
                   child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
                     _Details(nft: nft),
-                    const SizedBox(height: 8),
-                    _NftDetails(nft: nft),
+                    // const SizedBox(height: 8),
+                    // _NftDetails(nft: nft),
                     const SizedBox(height: 16),
                     _NftData(nft: nft, listing: listing),
                     const SizedBox(height: 8),
@@ -466,9 +466,10 @@ class _Details extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 600),
-          child: Text(nft.description),
-        ),
+            constraints: const BoxConstraints(maxWidth: 600),
+            child: RichText(
+              text: TextSpan(text: nft.description.replaceAll("\\n", "\n")),
+            )),
       ],
     );
   }
