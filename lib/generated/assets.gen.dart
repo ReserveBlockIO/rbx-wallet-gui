@@ -48,6 +48,9 @@ class $AssetsEnvGen {
   /// File path: assets/env/dev_win_env
   String get devWinEnv => 'assets/env/dev_win_env';
 
+  /// File path: assets/env/local_testnet_env
+  String get localTestnetEnv => 'assets/env/local_testnet_env';
+
   /// File path: assets/env/mac_dev_env
   String get macDevEnv => 'assets/env/mac_dev_env';
 
@@ -78,6 +81,7 @@ class $AssetsEnvGen {
         blockExplorerTestNetEnv,
         devEnv,
         devWinEnv,
+        localTestnetEnv,
         macDevEnv,
         macTestnetEnv,
         releaseEnv,

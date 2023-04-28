@@ -62,18 +62,12 @@ class KeygenService {
   static Future<Keypair?> seedToKeypair(String seed) async {
     final String privateKeyHex = await js.context.callMethod('seedToPrivate', [seed]);
 
-    // final chain = bip32.Chain.seed(seed);
-    // final key = chain.forPath("m/0'/0'/$index'") as bip32.ExtendedPrivateKey;
-
     final keypair = await KeygenService.importPrivateKey(privateKeyHex);
     return keypair;
   }
 
   static Future<Keypair?> generate([int index = 0]) async {
     final mnemonic = bip39.generateMnemonic();
-
-    // const mnemonic =
-    //     "memory kidney tuition describe rhythm expose display dress unique course midnight notice";
 
     return _mneumonicToKeypair(mnemonic, index);
   }
