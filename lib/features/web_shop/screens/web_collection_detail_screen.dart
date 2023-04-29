@@ -36,7 +36,7 @@ class WebCollectionDetailScreen extends BaseScreen {
     return data.when(
       data: (collection) => collection != null
           ? AppBar(
-              title: Text(collection.name),
+              title: Text("${collection.shop?.name} > ${collection.name}"),
               centerTitle: true,
               backgroundColor: Colors.black12,
               shadowColor: Colors.transparent,

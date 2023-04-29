@@ -5,13 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/asset/polling_image_preview.dart';
 import 'package:rbx_wallet/features/dst/providers/listing_form_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/listing_list_provider.dart';
 import 'package:rbx_wallet/features/dst/services/dst_service.dart';
+import 'package:rbx_wallet/core/components/poller.dart';
 
 class ListingList extends BaseComponent {
   const ListingList(this.collectionId, {Key? key}) : super(key: key);
@@ -24,7 +23,7 @@ class ListingList extends BaseComponent {
     return listings.isNotEmpty
         ? Column(
             children: [
-              _Poller(
+              Poller(
                 pollFunction: () {
                   ref.read(listingListProvider(collectionId).notifier).refresh();
                 },
@@ -165,40 +164,5 @@ class ListingList extends BaseComponent {
               ),
             ),
           );
-  }
-}
-
-class _Poller extends StatefulWidget {
-  final Function pollFunction;
-  const _Poller({
-    super.key,
-    required this.pollFunction,
-  });
-
-  @override
-  State<_Poller> createState() => __PollerState();
-}
-
-class __PollerState extends State<_Poller> {
-  late final Timer timer;
-
-  @override
-  void initState() {
-    timer = Timer.periodic(Duration(seconds: 15), (timer) {
-      widget.pollFunction();
-    });
-    super.initState();
-    widget.pollFunction();
-  }
-
-  @override
-  void dispose() {
-    timer.cancel();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return const SizedBox();
   }
 }

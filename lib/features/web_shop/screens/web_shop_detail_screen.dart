@@ -17,6 +17,7 @@ import 'package:rbx_wallet/features/web_shop/providers/web_shop_form_provider.da
 import 'package:rbx_wallet/features/web_shop/screens/my_create_collection_container_screen.dart';
 import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
 import 'package:rbx_wallet/features/web_shop/utils/shop_publishing.dart';
+import 'package:rbx_wallet/core/components/poller.dart';
 
 import '../../../core/dialogs.dart';
 import '../../../core/theme/app_theme.dart';
@@ -57,7 +58,7 @@ class WebShopDetailScreen extends BaseScreen {
                 IconButton(
                     onPressed: () {
                       ref.invalidate(webShopDetailProvider(shopId));
-                      ref.watch(webCollectionListProvider(shopId).notifier).refresh();
+                      ref.read(webCollectionListProvider(shopId).notifier).refresh();
                     },
                     icon: Icon(Icons.refresh))
               ],
@@ -92,6 +93,12 @@ class WebShopDetailScreen extends BaseScreen {
           ? Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Poller(
+                //   callOnInit: false,
+                //   pollFunction: () {
+                //     ref.read(webCollectionListProvider(shopId).notifier).refresh();
+                //   },
+                // ),
                 Center(
                   child: ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: 600),

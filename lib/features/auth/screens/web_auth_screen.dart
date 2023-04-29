@@ -40,10 +40,30 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
   void _handleSession(WebSessionModel session) {
     final currentPath = singleton<AppRouter>().current.path;
     final bool rememberMe = singleton<Storage>().getBool(Storage.REMEMBER_ME) ?? false;
+
     if (session.isAuthenticated && rememberMe) {
-      if (currentPath == '') {
+      if (currentPath == '/') {
         AutoRouter.of(context).push(WebDashboardContainerRoute());
       }
+    } else {
+      // final path = Uri.base.toString().split("#").last;
+      // final pathComponents = path.split("/");
+      // print(pathComponents);
+      // if (pathComponents[1] == "p2p" && pathComponents[2] == "shop") {
+      //   final shopId = int.tryParse(pathComponents[3]);
+      //   final collectionId = int.tryParse(pathComponents[5]);
+
+      //   if (shopId == null || collectionId == null) {
+      //     return;
+      //   }
+
+      //   if (pathComponents.length == 6) {
+      //     if (pathComponents[4] == "collection") {
+      //       AutoRouter.of(context)
+      //           .pushAll([WebDashboardContainerRoute(), WebCollectionDetailScreenRoute(shopId: shopId, collectionId: collectionId)]);
+      //     }
+      //   }
+      // }
     }
   }
 

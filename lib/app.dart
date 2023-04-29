@@ -71,12 +71,12 @@ class AppContainer extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       scaffoldMessengerKey: rootScaffoldMessengerKey,
       theme: AppTheme.dark().themeData,
-      routeInformationParser: router.defaultRouteParser(),
-      // routerDelegate: AutoRouterDelegate(
-      //   router,
-      //   navigatorObservers: () => [AutoRouteObserver()],
-      // ),
-      routerDelegate: router.delegate(),
+      routeInformationParser: router.defaultRouteParser(includePrefixMatches: true),
+      routerDelegate: AutoRouterDelegate(
+        router,
+        navigatorObservers: () => [AutoRouteObserver()],
+      ),
+      // routerDelegate: router.delegate(),
       builder: (context, widget) {
         if (!ref.watch(readyProvider)) {
           if (kIsWeb) {

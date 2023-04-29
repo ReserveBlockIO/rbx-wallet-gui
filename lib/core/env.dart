@@ -6,7 +6,6 @@ import 'package:rbx_wallet/generated/assets.gen.dart';
 enum _Environment {
   Release,
   ReleaseTestNet,
-  LocalTestNet,
   Dev,
   MacDev,
   WinDev,
@@ -15,10 +14,11 @@ enum _Environment {
   Web,
   WebTestNet,
   BlockExplorerTestNet,
+  LocalTestNet,
   WebLocalEnv,
 }
 
-const _env = _Environment.LocalTestNet;
+const _env = _Environment.WebLocalEnv;
 
 class Env {
   static init() async {
