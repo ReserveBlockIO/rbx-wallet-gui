@@ -15,6 +15,9 @@ const VOTE_TOPIC_COST = 10.0;
 const MAX_COMPILE_QUANTITY = 10;
 const MAX_ASSET_BYTES = 157286400;
 const DEV_API_TOKEN = "devtoken";
+const SHOP_PUBLISH_COST = 10.0;
+const SHOP_DELETE_COST = 10.0;
+const SHOP_UPDATE_COST = 1.0;
 
 class TxType {
   static const int rbxTransfer = 0;

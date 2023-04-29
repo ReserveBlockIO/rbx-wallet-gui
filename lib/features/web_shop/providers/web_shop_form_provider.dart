@@ -2,7 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/dst/providers/collection_list_provider.dart';
@@ -13,6 +15,7 @@ import 'package:rbx_wallet/features/web_shop/models/web_shop.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_auth_token_provider.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_shop_detail_provider.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_shop_list_provider.dart';
+import 'package:rbx_wallet/features/web_shop/utils/shop_publishing.dart';
 import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
@@ -83,6 +86,18 @@ class WebShopFormProvider extends StateNotifier<WebShop> {
 
     if (!state.isNew) {
       if (!await guardWebAuthorizedFromProvider(ref, state.ownerAddress)) {
+        return null;
+      }
+
+      final confirmed = await ConfirmDialog.show(
+        title: "Update Shop?",
+        body: "There is a cost of $SHOP_UPDATE_COST RBX to update your shop on the network (plus the transaction fee).",
+        confirmText: "Update",
+        cancelText: "Cancel",
+      );
+      if (confirmed == true) {
+        await broadcastShopTx(ref.read(webSessionProvider).keypair!, state, ShopPublishTxType.update);
+      } else {
         return null;
       }
     }

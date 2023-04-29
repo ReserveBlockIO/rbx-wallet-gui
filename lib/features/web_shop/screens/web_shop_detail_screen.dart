@@ -2,21 +2,28 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/env.dart';
+import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
+import 'package:rbx_wallet/features/raw/raw_service.dart';
+import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
 import 'package:rbx_wallet/features/web_shop/components/web_collection_list.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_collection_form_provider.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_shop_form_provider.dart';
 import 'package:rbx_wallet/features/web_shop/screens/my_create_collection_container_screen.dart';
+import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
+import 'package:rbx_wallet/features/web_shop/utils/shop_publishing.dart';
 
 import '../../../core/dialogs.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../utils/toast.dart';
 import '../providers/web_collection_list_provider.dart';
 import '../providers/web_shop_detail_provider.dart';
+import '../../../core/components/badges.dart';
 
 class WebShopDetailScreen extends BaseScreen {
   WebShopDetailScreen({super.key, @PathParam("shopId") required this.shopId})
@@ -49,6 +56,7 @@ class WebShopDetailScreen extends BaseScreen {
                 ),
                 IconButton(
                     onPressed: () {
+                      ref.invalidate(webShopDetailProvider(shopId));
                       ref.watch(webCollectionListProvider(shopId).notifier).refresh();
                     },
                     icon: Icon(Icons.refresh))
@@ -98,15 +106,53 @@ class WebShopDetailScreen extends BaseScreen {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Collections",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Collections",
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                      ),
+                      if (shop.isOwner(ref) && ref.read(webSessionProvider).keypair != null)
+                        Builder(
+                          builder: (context) {
+                            if (shop.isPublished) {
+                              return AppBadge(
+                                label: "Published",
+                                variant: AppColorVariant.Success,
+                              );
+                            }
+
+                            return AppButton(
+                              label: "Publish Shop",
+                              onPressed: () async {
+                                final confirmed = await ConfirmDialog.show(
+                                  title: "Publish Shop?",
+                                  body: "There is a cost of $SHOP_PUBLISH_COST RBX to publish your shop to the network (plus the transaction fee).",
+                                  confirmText: "Publish",
+                                  cancelText: "Cancel",
+                                );
+
+                                if (confirmed == true) {
+                                  final success = await broadcastShopTx(ref.read(webSessionProvider).keypair!, shop, ShopPublishTxType.create);
+                                  if (success) {
+                                    final updatedShop = await WebShopService().saveWebShop(shop.copyWith(isPublished: true));
+                                    if (updatedShop != null) {
+                                      ref.invalidate(webShopDetailProvider(shop.id));
+                                    }
+                                  }
+                                }
+                              },
+                            );
+                          },
+                        )
+                    ],
                   ),
                 ),
                 Expanded(
                   child: WebCollectionList(shop.id),
                 ),
-                if (shop.isOwner(ref))
+                if (shop.isOwner(ref) && ref.read(webSessionProvider).keypair != null)
                   Container(
                     color: Colors.black,
                     child: Padding(
@@ -119,14 +165,23 @@ class WebShopDetailScreen extends BaseScreen {
                             icon: Icons.delete,
                             variant: AppColorVariant.Danger,
                             onPressed: () async {
+                              final message = shop.isPublished
+                                  ? "Are you sure you want to delete this shop? There is a cost of $SHOP_DELETE_COST RBX to delete this from the network."
+                                  : "Are you sure you want to delete this shop?";
+
                               final confirmed = await ConfirmDialog.show(
                                 title: "Delete shop?",
-                                body: "Are you sure you want to delete this shop? This is a permanent operation.",
+                                body: message,
                                 cancelText: "Cancel",
                                 confirmText: "Delete",
                               );
+
                               if (confirmed == true) {
-                                ref.read(webShopFormProvider.notifier).delete(context, shop);
+                                final success = await broadcastShopTx(ref.read(webSessionProvider).keypair!, shop, ShopPublishTxType.delete);
+
+                                if (success) {
+                                  ref.read(webShopFormProvider.notifier).delete(context, shop);
+                                }
                               }
                             },
                           ),

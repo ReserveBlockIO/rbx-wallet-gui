@@ -30,6 +30,8 @@ mixin _$WebShop {
   String get ownerAddress => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_offline')
   bool get isOffline => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_published')
+  bool get isPublished => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -48,7 +50,8 @@ abstract class $WebShopCopyWith<$Res> {
       String url,
       @JsonKey(name: 'unique_id') String uid,
       @JsonKey(name: 'owner_address') String ownerAddress,
-      @JsonKey(name: 'is_offline') bool isOffline});
+      @JsonKey(name: 'is_offline') bool isOffline,
+      @JsonKey(name: 'is_published') bool isPublished});
 }
 
 /// @nodoc
@@ -71,6 +74,7 @@ class _$WebShopCopyWithImpl<$Res, $Val extends WebShop>
     Object? uid = null,
     Object? ownerAddress = null,
     Object? isOffline = null,
+    Object? isPublished = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -101,6 +105,10 @@ class _$WebShopCopyWithImpl<$Res, $Val extends WebShop>
           ? _value.isOffline
           : isOffline // ignore: cast_nullable_to_non_nullable
               as bool,
+      isPublished: null == isPublished
+          ? _value.isPublished
+          : isPublished // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -119,7 +127,8 @@ abstract class _$$_WebShopCopyWith<$Res> implements $WebShopCopyWith<$Res> {
       String url,
       @JsonKey(name: 'unique_id') String uid,
       @JsonKey(name: 'owner_address') String ownerAddress,
-      @JsonKey(name: 'is_offline') bool isOffline});
+      @JsonKey(name: 'is_offline') bool isOffline,
+      @JsonKey(name: 'is_published') bool isPublished});
 }
 
 /// @nodoc
@@ -139,6 +148,7 @@ class __$$_WebShopCopyWithImpl<$Res>
     Object? uid = null,
     Object? ownerAddress = null,
     Object? isOffline = null,
+    Object? isPublished = null,
   }) {
     return _then(_$_WebShop(
       id: null == id
@@ -169,6 +179,10 @@ class __$$_WebShopCopyWithImpl<$Res>
           ? _value.isOffline
           : isOffline // ignore: cast_nullable_to_non_nullable
               as bool,
+      isPublished: null == isPublished
+          ? _value.isPublished
+          : isPublished // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -183,7 +197,8 @@ class _$_WebShop extends _WebShop with DiagnosticableTreeMixin {
       required this.url,
       @JsonKey(name: 'unique_id') required this.uid,
       @JsonKey(name: 'owner_address') required this.ownerAddress,
-      @JsonKey(name: 'is_offline') required this.isOffline})
+      @JsonKey(name: 'is_offline') required this.isOffline,
+      @JsonKey(name: 'is_published') required this.isPublished})
       : super._();
 
   factory _$_WebShop.fromJson(Map<String, dynamic> json) =>
@@ -206,10 +221,13 @@ class _$_WebShop extends _WebShop with DiagnosticableTreeMixin {
   @override
   @JsonKey(name: 'is_offline')
   final bool isOffline;
+  @override
+  @JsonKey(name: 'is_published')
+  final bool isPublished;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'WebShop(id: $id, name: $name, description: $description, url: $url, uid: $uid, ownerAddress: $ownerAddress, isOffline: $isOffline)';
+    return 'WebShop(id: $id, name: $name, description: $description, url: $url, uid: $uid, ownerAddress: $ownerAddress, isOffline: $isOffline, isPublished: $isPublished)';
   }
 
   @override
@@ -223,7 +241,8 @@ class _$_WebShop extends _WebShop with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('url', url))
       ..add(DiagnosticsProperty('uid', uid))
       ..add(DiagnosticsProperty('ownerAddress', ownerAddress))
-      ..add(DiagnosticsProperty('isOffline', isOffline));
+      ..add(DiagnosticsProperty('isOffline', isOffline))
+      ..add(DiagnosticsProperty('isPublished', isPublished));
   }
 
   @override
@@ -240,13 +259,15 @@ class _$_WebShop extends _WebShop with DiagnosticableTreeMixin {
             (identical(other.ownerAddress, ownerAddress) ||
                 other.ownerAddress == ownerAddress) &&
             (identical(other.isOffline, isOffline) ||
-                other.isOffline == isOffline));
+                other.isOffline == isOffline) &&
+            (identical(other.isPublished, isPublished) ||
+                other.isPublished == isPublished));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, name, description, url, uid, ownerAddress, isOffline);
+  int get hashCode => Object.hash(runtimeType, id, name, description, url, uid,
+      ownerAddress, isOffline, isPublished);
 
   @JsonKey(ignore: true)
   @override
@@ -264,13 +285,15 @@ class _$_WebShop extends _WebShop with DiagnosticableTreeMixin {
 
 abstract class _WebShop extends WebShop {
   factory _WebShop(
-      {required final int id,
-      required final String name,
-      required final String description,
-      required final String url,
-      @JsonKey(name: 'unique_id') required final String uid,
-      @JsonKey(name: 'owner_address') required final String ownerAddress,
-      @JsonKey(name: 'is_offline') required final bool isOffline}) = _$_WebShop;
+          {required final int id,
+          required final String name,
+          required final String description,
+          required final String url,
+          @JsonKey(name: 'unique_id') required final String uid,
+          @JsonKey(name: 'owner_address') required final String ownerAddress,
+          @JsonKey(name: 'is_offline') required final bool isOffline,
+          @JsonKey(name: 'is_published') required final bool isPublished}) =
+      _$_WebShop;
   _WebShop._() : super._();
 
   factory _WebShop.fromJson(Map<String, dynamic> json) = _$_WebShop.fromJson;
@@ -292,6 +315,9 @@ abstract class _WebShop extends WebShop {
   @override
   @JsonKey(name: 'is_offline')
   bool get isOffline;
+  @override
+  @JsonKey(name: 'is_published')
+  bool get isPublished;
   @override
   @JsonKey(ignore: true)
   _$$_WebShopCopyWith<_$_WebShop> get copyWith =>
