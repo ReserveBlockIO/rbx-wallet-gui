@@ -76,7 +76,6 @@ class WebListingDetails extends BaseComponent {
     final nft = listing.nft;
     final myAddress = kIsWeb ? ref.read(webSessionProvider).keypair?.address : ref.read(sessionProvider).currentWallet?.address;
 
-    print("listing address: ${listing.ownerAddress} myAddress: $myAddress");
     return ContextMenuRegion(
       contextMenu: GenericContextMenu(
         buttonConfigs: [
@@ -87,9 +86,6 @@ class WebListingDetails extends BaseComponent {
                 ref.read(createWebListingProvider.notifier).load(listing, listing.collection.id, listing.collection.shop!.id);
                 if (Env.isWeb) {
                   AutoRouter.of(context).push(CreateWebListingScreenRoute(shopId: listing.collection.shop!.id, collectionId: listing.collection.id));
-                } else {
-                  AutoRouter.of(context)
-                      .push(DebugWebListingCreateScreenRoute(shopId: listing.collection.shop!.id, collectionId: listing.collection.id));
                 }
               },
               icon: Icon(Icons.edit),
@@ -371,9 +367,6 @@ class _Details extends BaseComponent {
                       if (Env.isWeb) {
                         AutoRouter.of(context)
                             .push(CreateWebListingScreenRoute(shopId: listing.collection.shop!.id, collectionId: listing.collection.id));
-                      } else {
-                        AutoRouter.of(context)
-                            .push(DebugWebListingCreateScreenRoute(shopId: listing.collection.shop!.id, collectionId: listing.collection.id));
                       }
                     },
                   ),

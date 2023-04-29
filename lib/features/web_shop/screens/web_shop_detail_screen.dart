@@ -193,8 +193,6 @@ class WebShopDetailScreen extends BaseScreen {
                               ref.read(webShopFormProvider.notifier).load(shop);
                               if (Env.isWeb) {
                                 AutoRouter.of(context).push(CreateWebShopContainerScreenRoute());
-                              } else {
-                                AutoRouter.of(context).push(DebugWebShopCreateScreenRoute());
                               }
                             },
                           ),

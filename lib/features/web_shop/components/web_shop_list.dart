@@ -90,8 +90,6 @@ class _CreateShopButton extends BaseComponent {
         ref.read(webShopFormProvider.notifier).clear();
         if (Env.isWeb) {
           AutoRouter.of(context).push(const CreateWebShopContainerScreenRoute());
-        } else {
-          AutoRouter.of(context).push(const DebugWebShopCreateScreenRoute());
         }
       },
     );

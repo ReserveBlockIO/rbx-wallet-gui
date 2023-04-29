@@ -59,8 +59,6 @@ class WebShopLandingScreen extends BaseScreen {
                   onPressed: () async {
                     if (Env.isWeb) {
                       AutoRouter.of(context).push(WebShopListScreenRoute());
-                    } else {
-                      AutoRouter.of(context).push(DebugWebShopListScreenRoute());
                     }
                   },
                 ),
@@ -71,8 +69,6 @@ class WebShopLandingScreen extends BaseScreen {
                   onPressed: () async {
                     if (Env.isWeb) {
                       AutoRouter.of(context).push(MyWebShopListScreenRoute());
-                    } else {
-                      AutoRouter.of(context).push(DebugMyWebShopListScreenRoute());
                     }
                   },
                 ),

@@ -71,8 +71,6 @@ class _CreateListingButton extends BaseComponent {
         ref.read(createWebListingProvider.notifier).load(WebListing.empty(), collectionId, shopId);
         if (Env.isWeb) {
           AutoRouter.of(context).push(CreateWebListingScreenRoute(shopId: shopId, collectionId: collectionId));
-        } else {
-          AutoRouter.of(context).push(DebugWebListingCreateScreenRoute(shopId: shopId, collectionId: collectionId));
         }
       },
     );

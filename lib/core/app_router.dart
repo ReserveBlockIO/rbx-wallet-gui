@@ -187,53 +187,53 @@ const List<AutoRoute> appRoutes = [
           AutoRoute(path: "", page: BeaconListScreen),
         ],
       ),
-      AutoRoute(
-        path: "web-shop",
-        name: "DebugWebShopTabsRouter",
-        page: WebShopContainerScreen,
-        children: [
-          AutoRoute(
-            initial: true,
-            path: "",
-            page: WebShopLandingScreen,
-          ),
-          AutoRoute(
-            path: "shops",
-            page: WebShopListScreen,
-            name: "DebugWebShopListScreenRoute",
-          ),
-          AutoRoute(
-            path: "mine",
-            name: "DebugMyWebShopListScreenRoute",
-            page: MyWebShopListScreen,
-          ),
-          AutoRoute(
-            path: "createWebShop",
-            name: "DebugWebShopCreateScreenRoute",
-            page: CreateWebShopContainerScreen,
-          ),
-          AutoRoute(
-            path: "shop/:shopId/collection/:collectionId/createWebListing",
-            name: "DebugWebListingCreateScreenRoute",
-            page: CreateWebListingScreen,
-          ),
-          AutoRoute(
-            path: "shop/:shopId",
-            name: "DebugWebShopDetailScreenRoute",
-            page: WebShopDetailScreen,
-          ),
-          AutoRoute(
-            path: "shop/:shopId/collection/:collectionId",
-            name: "DebugWebCollectionDetailScreenRoute",
-            page: WebCollectionDetailScreen,
-          ),
-          AutoRoute(
-            path: "shop/:shopId/collection/:collectionId/listing/:listingId",
-            name: "DebugWebListingDetailScreenRoute",
-            page: WebListingDetailScreen,
-          ),
-        ],
-      ),
+      // AutoRoute(
+      //   path: "web-shop",
+      //   name: "DebugWebShopTabsRouter",
+      //   page: WebShopContainerScreen,
+      //   children: [
+      //     AutoRoute(
+      //       initial: true,
+      //       path: "",
+      //       page: WebShopLandingScreen,
+      //     ),
+      //     AutoRoute(
+      //       path: "shops",
+      //       page: WebShopListScreen,
+      //       name: "DebugWebShopListScreenRoute",
+      //     ),
+      //     AutoRoute(
+      //       path: "mine",
+      //       name: "DebugMyWebShopListScreenRoute",
+      //       page: MyWebShopListScreen,
+      //     ),
+      //     AutoRoute(
+      //       path: "createWebShop",
+      //       name: "DebugWebShopCreateScreenRoute",
+      //       page: CreateWebShopContainerScreen,
+      //     ),
+      //     AutoRoute(
+      //       path: "shop/:shopId/collection/:collectionId/createWebListing",
+      //       name: "DebugWebListingCreateScreenRoute",
+      //       page: CreateWebListingScreen,
+      //     ),
+      //     AutoRoute(
+      //       path: "shop/:shopId",
+      //       name: "DebugWebShopDetailScreenRoute",
+      //       page: WebShopDetailScreen,
+      //     ),
+      //     AutoRoute(
+      //       path: "shop/:shopId/collection/:collectionId",
+      //       name: "DebugWebCollectionDetailScreenRoute",
+      //       page: WebCollectionDetailScreen,
+      //     ),
+      //     AutoRoute(
+      //       path: "shop/:shopId/collection/:collectionId/listing/:listingId",
+      //       name: "DebugWebListingDetailScreenRoute",
+      //       page: WebListingDetailScreen,
+      //     ),
+      //   ],
+      // ),
     ],
   ),
   AutoRoute(

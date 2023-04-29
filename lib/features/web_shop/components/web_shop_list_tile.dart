@@ -70,8 +70,6 @@ class WebShopTile extends BaseComponent {
               }
               if (Env.isWeb) {
                 AutoRouter.of(context).push(WebShopDetailScreenRoute(shopId: shop.id));
-              } else {
-                AutoRouter.of(context).push(DebugWebShopDetailScreenRoute(shopId: shop.id));
               }
             },
           ),
