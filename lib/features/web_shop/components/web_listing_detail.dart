@@ -12,13 +12,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/breakpoints.dart';
+import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
+import 'package:rbx_wallet/features/dst/models/bid.dart';
 import 'package:rbx_wallet/features/dst/providers/listing_detail_provider.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/models/web_nft.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
+import 'package:rbx_wallet/features/web_shop/models/web_auction.dart';
+import 'package:rbx_wallet/features/web_shop/models/web_bid.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_listing.dart';
 import 'package:rbx_wallet/features/web_shop/providers/create_web_listing_provider.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_listing_detail_provider.dart';
@@ -729,15 +734,14 @@ class _Auction extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-
-              _Price(label: "Floor Price", amount: listing.floorPrice!),
-              // if (listing.highestBid != null)
-              //   buildPrice(
-              //     context,
-              //     "Highest Bid",
-              //     listing.allowRbx ? listing.highestBid!.amountLabel : listing.highestBid!.amountLabelWithoutRbx,
-              //     Theme.of(context).colorScheme.success,
-              //   ),
+              if (listing.auction != null && listing.floorPrice != null) ...[
+                listing.floorPrice == listing.auction!.currentBidPrice
+                    ? _Price(label: "Floor Price", amount: listing.floorPrice!)
+                    : _Price(
+                        label: "Highest Bid",
+                        amount: listing.auction!.currentBidPrice!,
+                      )
+              ],
               const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -752,20 +756,259 @@ class _Auction extends StatelessWidget {
                   const SizedBox(
                     width: 6,
                   ),
-                  AppButton(
-                    label: "History",
-                    icon: Icons.punch_clock,
-                    size: AppSizeVariant.Lg,
-                    onPressed: () {
-                      //TODO
-                    },
-                  ),
+                  _BidHistoryButton(listing: listing),
+                  const SizedBox(width: 8),
+                  if (listing.auction != null)
+                    AppButton(
+                      label: "Details",
+                      icon: Icons.info,
+                      size: AppSizeVariant.Lg,
+                      onPressed: () async {
+                        final auction = listing.auction!;
+
+                        InfoDialog.show(
+                          title: "Auction Details",
+                          content: _AuctionInfoDialogContent(
+                            auction: auction,
+                          ),
+                        );
+                      },
+                    ),
                 ],
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class _AuctionInfoDialogContent extends StatelessWidget {
+  const _AuctionInfoDialogContent({
+    super.key,
+    required this.auction,
+  });
+
+  final WebAuction auction;
+
+  @override
+  Widget build(BuildContext context) {
+    final labelStyle = TextStyle(fontWeight: FontWeight.w600);
+    final valueStyle = TextStyle();
+
+    return SizedBox(
+      width: 300,
+      child: Table(
+        columnWidths: {
+          0: IntrinsicColumnWidth(),
+          1: IntrinsicColumnWidth(),
+        },
+        children: [
+          TableRow(
+            children: [
+              Text(
+                "Current Bid Price:",
+                style: labelStyle,
+              ),
+              Text(
+                "${auction.currentBidPrice} RBX",
+                style: valueStyle,
+              )
+            ],
+          ),
+          TableRow(
+            children: [
+              Text(
+                "Increment Amount:",
+                style: labelStyle,
+              ),
+              Text(
+                "${auction.incrementAmount} RBX",
+                style: valueStyle,
+              )
+            ],
+          ),
+          TableRow(
+            children: [
+              Text(
+                "Reserve Met:",
+                style: labelStyle,
+              ),
+              Text(
+                auction.isReserveMet ? "Yes" : "No",
+                style: valueStyle,
+              )
+            ],
+          ),
+          TableRow(
+            children: [
+              Text(
+                "Active:",
+                style: labelStyle,
+              ),
+              Text(
+                auction.isAuctionOver ? "Completed" : "Yes",
+                style: valueStyle,
+              )
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _BidHistoryButton extends BaseComponent {
+  const _BidHistoryButton({
+    super.key,
+    required this.listing,
+  });
+
+  final WebListing listing;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    // final provider = ref.read(bidListProvider(listing.familyIdentifier).notifier);
+
+    return AppButton(
+      label: "Bid History",
+      icon: Icons.punch_clock,
+      size: AppSizeVariant.Lg,
+      onPressed: () async {
+        final bids = listing.bids;
+
+        if (bids.isEmpty) {
+          Toast.message("No bids.");
+          return;
+        }
+
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          builder: (context) {
+            return _BidHistoryModal(
+              bids: bids,
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class _BidHistoryModal extends BaseComponent {
+  final List<WebBid> bids;
+  const _BidHistoryModal({
+    super.key,
+    required this.bids,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return ModalContainer(
+      withClose: true,
+      withDecor: false,
+      children: [
+        const Text(
+          "Current Bids",
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        SizedBox(
+          height: 12,
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: bids.map(
+            (bid) {
+              return ListTile(
+                leading: _BidStatusIndicator(bid),
+                title: Text("${bid.amount} RBX"),
+                subtitle: SelectableText(bid.address),
+                trailing: Builder(builder: (context) {
+                  final currentAddress = kIsWeb ? ref.watch(webSessionProvider).keypair?.public : ref.watch(sessionProvider).currentWallet?.address;
+                  final isBidder = currentAddress == bid.address;
+
+                  if (isBidder && bid.bidStatus == BidStatus.Sent) {
+                    return AppButton(
+                      label: "Resend Bid",
+                      onPressed: () async {
+                        //TODO: resend bid
+                      },
+                    );
+                  }
+
+                  return Text(bid.sendTimeLabel);
+                }),
+              );
+            },
+          ).toList(),
+        )
+      ],
+    );
+  }
+}
+
+class _BidStatusIndicator extends StatelessWidget {
+  final WebBid bid;
+  const _BidStatusIndicator(
+    this.bid, {
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Builder(
+      builder: (context) {
+        if (bid.bidStatus == WebBidStatus.Sent) {
+          return AppBadge(
+            label: "Sent",
+            variant: AppColorVariant.Primary,
+          );
+        }
+
+        if (bid.bidStatus == WebBidStatus.Received) {
+          return AppBadge(
+            label: "Received",
+            variant: AppColorVariant.Primary,
+          );
+        }
+
+        if (bid.bidStatus == WebBidStatus.Accepted) {
+          if (bid.isBuyNow) {
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AppBadge(
+                  label: "Purchased",
+                  variant: AppColorVariant.Success,
+                ),
+                SizedBox(height: 4),
+                Text("[Buy Now]")
+              ],
+            );
+          }
+
+          return AppBadge(
+            label: "Accepted",
+            variant: AppColorVariant.Success,
+          );
+        }
+
+        if (bid.bidStatus == WebBidStatus.Rejected) {
+          return AppBadge(
+            label: "Rejected",
+            variant: AppColorVariant.Danger,
+          );
+        }
+
+        return SizedBox();
+      },
     );
   }
 }

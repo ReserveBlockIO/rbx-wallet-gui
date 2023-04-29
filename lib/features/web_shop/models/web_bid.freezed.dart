@@ -35,12 +35,12 @@ mixin _$WebBid {
   @JsonKey(name: "purchase_key")
   String? get purchaseKey => throw _privateConstructorUsedError;
   @JsonKey(name: "status", fromJson: bidStatusFromJson, toJson: bidStatusToJson)
-  BidStatus get bidStatus => throw _privateConstructorUsedError;
+  WebBidStatus get bidStatus => throw _privateConstructorUsedError;
   @JsonKey(
       name: "send_receive",
       fromJson: bidSendReceiveFromJson,
       toJson: bidSendReveiveToJson)
-  BidSendReceive get bidSendReceive => throw _privateConstructorUsedError;
+  WebBidSendReceive get bidSendReceive => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -68,9 +68,9 @@ abstract class $WebBidCopyWith<$Res> {
       @JsonKey(name: "purchase_key")
           String? purchaseKey,
       @JsonKey(name: "status", fromJson: bidStatusFromJson, toJson: bidStatusToJson)
-          BidStatus bidStatus,
+          WebBidStatus bidStatus,
       @JsonKey(name: "send_receive", fromJson: bidSendReceiveFromJson, toJson: bidSendReveiveToJson)
-          BidSendReceive bidSendReceive});
+          WebBidSendReceive bidSendReceive});
 }
 
 /// @nodoc
@@ -138,11 +138,11 @@ class _$WebBidCopyWithImpl<$Res, $Val extends WebBid>
       bidStatus: null == bidStatus
           ? _value.bidStatus
           : bidStatus // ignore: cast_nullable_to_non_nullable
-              as BidStatus,
+              as WebBidStatus,
       bidSendReceive: null == bidSendReceive
           ? _value.bidSendReceive
           : bidSendReceive // ignore: cast_nullable_to_non_nullable
-              as BidSendReceive,
+              as WebBidSendReceive,
     ) as $Val);
   }
 }
@@ -169,9 +169,9 @@ abstract class _$$_WebBidCopyWith<$Res> implements $WebBidCopyWith<$Res> {
       @JsonKey(name: "purchase_key")
           String? purchaseKey,
       @JsonKey(name: "status", fromJson: bidStatusFromJson, toJson: bidStatusToJson)
-          BidStatus bidStatus,
+          WebBidStatus bidStatus,
       @JsonKey(name: "send_receive", fromJson: bidSendReceiveFromJson, toJson: bidSendReveiveToJson)
-          BidSendReceive bidSendReceive});
+          WebBidSendReceive bidSendReceive});
 }
 
 /// @nodoc
@@ -236,11 +236,11 @@ class __$$_WebBidCopyWithImpl<$Res>
       bidStatus: null == bidStatus
           ? _value.bidStatus
           : bidStatus // ignore: cast_nullable_to_non_nullable
-              as BidStatus,
+              as WebBidStatus,
       bidSendReceive: null == bidSendReceive
           ? _value.bidSendReceive
           : bidSendReceive // ignore: cast_nullable_to_non_nullable
-              as BidSendReceive,
+              as WebBidSendReceive,
     ));
   }
 }
@@ -297,13 +297,13 @@ class _$_WebBid extends _WebBid {
   final String? purchaseKey;
   @override
   @JsonKey(name: "status", fromJson: bidStatusFromJson, toJson: bidStatusToJson)
-  final BidStatus bidStatus;
+  final WebBidStatus bidStatus;
   @override
   @JsonKey(
       name: "send_receive",
       fromJson: bidSendReceiveFromJson,
       toJson: bidSendReveiveToJson)
-  final BidSendReceive bidSendReceive;
+  final WebBidSendReceive bidSendReceive;
 
   @override
   String toString() {
@@ -382,9 +382,9 @@ abstract class _WebBid extends WebBid {
       @JsonKey(name: "purchase_key")
           final String? purchaseKey,
       @JsonKey(name: "status", fromJson: bidStatusFromJson, toJson: bidStatusToJson)
-          required final BidStatus bidStatus,
+          required final WebBidStatus bidStatus,
       @JsonKey(name: "send_receive", fromJson: bidSendReceiveFromJson, toJson: bidSendReveiveToJson)
-          required final BidSendReceive bidSendReceive}) = _$_WebBid;
+          required final WebBidSendReceive bidSendReceive}) = _$_WebBid;
   _WebBid._() : super._();
 
   factory _WebBid.fromJson(Map<String, dynamic> json) = _$_WebBid.fromJson;
@@ -414,13 +414,13 @@ abstract class _WebBid extends WebBid {
   String? get purchaseKey;
   @override
   @JsonKey(name: "status", fromJson: bidStatusFromJson, toJson: bidStatusToJson)
-  BidStatus get bidStatus;
+  WebBidStatus get bidStatus;
   @override
   @JsonKey(
       name: "send_receive",
       fromJson: bidSendReceiveFromJson,
       toJson: bidSendReveiveToJson)
-  BidSendReceive get bidSendReceive;
+  WebBidSendReceive get bidSendReceive;
   @override
   @JsonKey(ignore: true)
   _$$_WebBidCopyWith<_$_WebBid> get copyWith =>

@@ -949,18 +949,18 @@ class _AuctionInfoDialogContent extends StatelessWidget {
               )
             ],
           ),
-          TableRow(
-            children: [
-              Text(
-                "Max Bid Price:",
-                style: labelStyle,
-              ),
-              Text(
-                "${auction.maxBidPrice} RBX",
-                style: valueStyle,
-              )
-            ],
-          ),
+          // TableRow(
+          //   children: [
+          //     Text(
+          //       "Max Bid Price:",
+          //       style: labelStyle,
+          //     ),
+          //     Text(
+          //       "${auction.maxBidPrice} RBX",
+          //       style: valueStyle,
+          //     )
+          //   ],
+          // ),
           TableRow(
             children: [
               Text(
