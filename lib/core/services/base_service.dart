@@ -25,16 +25,17 @@ class BaseService {
   Map<String, dynamic> _headers([bool auth = true, bool json = false]) {
     final token = singleton<ApiTokenManager>().get();
 
+    print("TOKEN: ${singleton<Storage>().getString(Storage.WEB_AUTH_TOKEN)}");
     return json
         ? {
             HttpHeaders.contentTypeHeader: "application/json",
             HttpHeaders.acceptHeader: "application/json",
             ...!kIsWeb && !Env.isTestNet ? {'apitoken': token} : {},
-            ...withWebAuth && auth ? {'Token': singleton<Storage>().getString(Storage.WEB_AUTH_TOKEN)} : {},
+            ...withWebAuth && auth ? {'Authorization': "basic ${singleton<Storage>().getString(Storage.WEB_AUTH_TOKEN)}"} : {},
           }
         : {
             ...!kIsWeb && !Env.isTestNet ? {'apitoken': token} : {},
-            ...withWebAuth && auth ? {'Token': singleton<Storage>().getString(Storage.WEB_AUTH_TOKEN)} : {},
+            ...withWebAuth && auth ? {'Authorization': "basic ${singleton<Storage>().getString(Storage.WEB_AUTH_TOKEN)}"} : {},
           };
   }
 

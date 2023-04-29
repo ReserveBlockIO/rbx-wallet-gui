@@ -18,7 +18,7 @@ enum _Environment {
   WebLocalEnv,
 }
 
-const _env = _Environment.LocalTestNet;
+const _env = _Environment.WebLocalEnv;
 
 class Env {
   static init() async {
@@ -141,5 +141,13 @@ class Env {
 
   static String get appBaseUrl {
     return DotEnv.dotenv.env['APP_BASE_URL'] ?? 'http://localhost:42069';
+  }
+
+  static String get shopBaseUrl {
+    return DotEnv.dotenv.env['SHOP_BASE_URL'] ?? "https://wallet.rbx.network";
+  }
+
+  static String get shopApiUrl {
+    return DotEnv.dotenv.env['SHOP_API_URL'] ?? "https://data.rbx.network/api";
   }
 }

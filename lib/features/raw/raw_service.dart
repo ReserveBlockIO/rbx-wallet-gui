@@ -146,7 +146,27 @@ class RawService extends BaseService {
     }
   }
 
-  //TODO: Implement these server side vvvvv
+  Future<dynamic> nftTransferData(String scId, String toAddress, String locators) async {
+    try {
+      final response = await postJson("/nft-transfer-data/$scId/$toAddress/$locators/", responseIsJson: true);
+      return response['data'];
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<dynamic> nftBurnData(String scId, String toAddress) async {
+    try {
+      final response = await postJson("/nft-burn-data/$scId/$toAddress/", responseIsJson: true);
+      return response['data']['Message'];
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  // Assets
 
   Future<String?> getLocators(
     String scId,
@@ -154,16 +174,6 @@ class RawService extends BaseService {
     try {
       final response = await getJson("/locators/$scId");
       return response["Locators"];
-    } catch (e) {
-      print(e);
-      return null;
-    }
-  }
-
-  Future<dynamic> nftTransferData(String scId, String toAddress, String locators) async {
-    try {
-      final response = await postJson("/nft-transfer-data/$scId/$toAddress/$locators/", responseIsJson: true);
-      return response['data'];
     } catch (e) {
       print(e);
       return null;
@@ -203,17 +213,7 @@ class RawService extends BaseService {
     }
   }
 
-  // Burn
-
-  Future<dynamic> nftBurnData(String scId, String toAddress) async {
-    try {
-      final response = await postJson("/nft-burn-data/$scId/$toAddress/", responseIsJson: true);
-      return response['data']['Message'];
-    } catch (e) {
-      print(e);
-      return null;
-    }
-  }
+  // ADNRs
 
   Future<AdnrResponse> createAdnr(String address, String name) async {
     try {
@@ -256,4 +256,13 @@ class RawService extends BaseService {
       return AdnrResponse(success: false, message: "An error occurred: ${e.toString()}");
     }
   }
+
+  // Shop
+
+  // Not sure if these are needed yet
+  Future<dynamic> publishShopData() async {}
+
+  Future<dynamic> buyNowData() async {}
+
+  Future<dynamic> bidData() async {}
 }

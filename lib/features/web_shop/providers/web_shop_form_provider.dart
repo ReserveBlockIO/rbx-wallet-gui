@@ -81,15 +81,17 @@ class WebShopFormProvider extends StateNotifier<WebShop> {
       return null;
     }
 
-    if (!await guardWebAuthorizedFromProvider(ref, state.ownerAddress)) {
-      return null;
+    if (!state.isNew) {
+      if (!await guardWebAuthorizedFromProvider(ref, state.ownerAddress)) {
+        return null;
+      }
     }
 
     final updatedShop = await WebShopService().saveWebShop(state);
 
     if (updatedShop != null) {
-      ref.invalidate(webShopListProvider(WebShopListType.mine));
-      ref.invalidate(webShopListProvider(WebShopListType.public));
+      ref.read(webShopListProvider(WebShopListType.mine).notifier).refresh();
+      ref.read(webShopListProvider(WebShopListType.public).notifier).refresh();
       ref.invalidate(webShopDetailProvider(updatedShop.id));
 
       AutoRouter.of(context).pop();
@@ -103,6 +105,10 @@ class WebShopFormProvider extends StateNotifier<WebShop> {
   }
 
   delete(BuildContext context, WebShop store) async {
+    if (!await guardWebAuthorizedFromProvider(ref, store.ownerAddress)) {
+      return null;
+    }
+
     final success = await WebShopService().deleteWebShop(store);
     if (success) {
       clear();

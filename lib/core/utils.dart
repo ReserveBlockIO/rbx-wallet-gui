@@ -88,10 +88,9 @@ Future<bool> backupMedia(BuildContext context, WidgetRef ref) async {
   }
 }
 
-String generateRandomString(int len) {
+String generateRandomString(int len, [String chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890' ]) {
   var r = Random();
-  const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-  return List.generate(len, (index) => _chars[r.nextInt(_chars.length)]).join();
+  return List.generate(len, (index) => chars[r.nextInt(chars.length)]).join();
 }
 
 bool isNumeric(String str) {

@@ -263,7 +263,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
 
     state = state.copyWith(isProcessing: true);
 
-    if (Env.isWeb) {
+    if (kIsWeb) {
       final amountDouble = double.parse(amount);
       final txData = await RawTransaction.generate(
         keypair: ref.read(webSessionProvider).keypair!,

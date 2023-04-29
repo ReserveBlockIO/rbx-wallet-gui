@@ -32,7 +32,7 @@ class WebShopService extends BaseService {
         'signature': signature,
       };
 
-      final response = await postJson('/auth/sign-token/', params: params);
+      final response = await postJson('/auth/sign-token/', params: params, auth: false);
 
       return AuthToken.fromJson(response['data']);
     } catch (e) {
@@ -51,7 +51,7 @@ class WebShopService extends BaseService {
         params['owner_address'] = ownerAddress;
       }
 
-      final data = await getJson("/shop/", params: params);
+      final data = await getJson("/shop/", params: params, auth: false);
 
       final List<WebShop> results = data['results'].map<WebShop>((item) => WebShop.fromJson(item)).toList();
       return ServerPaginatedReponse<WebShop>(
@@ -69,7 +69,7 @@ class WebShopService extends BaseService {
 
   Future<WebShop?> retrieveShop(int shopId) async {
     try {
-      final data = await getJson("/shop/$shopId/");
+      final data = await getJson("/shop/$shopId/", auth: false);
       return WebShop.fromJson(data);
     } catch (e, st) {
       print(e);
@@ -80,7 +80,7 @@ class WebShopService extends BaseService {
 
   Future<WebShop?> lookupShop(String url) async {
     try {
-      final data = await getJson("/shop/url", params: {'url': url});
+      final data = await getJson("/shop/url", params: {'url': url}, auth: false);
       return WebShop.fromJson(data);
     } catch (e, st) {
       print(e);
@@ -91,7 +91,7 @@ class WebShopService extends BaseService {
 
   Future<bool> checkAvailabilty(String url) async {
     try {
-      final data = await getJson("/shop/url/available/", params: {'url': url});
+      final data = await getJson("/shop/url/available", params: {'url': url}, auth: false);
       return data['available'] == true;
     } catch (e, st) {
       print(e);
@@ -107,6 +107,7 @@ class WebShopService extends BaseService {
         response = await postJson(
           "/shop",
           params: shop.toJson(),
+          auth: false,
         );
       } else {
         response = await patchJson(
@@ -129,7 +130,7 @@ class WebShopService extends BaseService {
 
   Future<ServerPaginatedReponse<WebCollection>> listCollections(int shopId, [int page = 1]) async {
     try {
-      final data = await getJson("/shop/$shopId/collection/", params: {'page': page});
+      final data = await getJson("/shop/$shopId/collection/", params: {'page': page}, auth: false);
       final List<WebCollection> results = data['results'].map<WebCollection>((item) => WebCollection.fromJson(item)).toList();
       return ServerPaginatedReponse<WebCollection>(
         count: data['count'],
@@ -152,17 +153,14 @@ class WebShopService extends BaseService {
     }
     try {
       if (!collection.exists) {
-        final response = await postJson(
-          "/shop/${collection.shop!.id}/collection/",
-          params: collection.toJson(),
-          inspect: true,
-        );
+        final response = await postJson("/shop/${collection.shop!.id}/collection/", params: collection.toJson(), inspect: true, auth: false);
         return WebCollection.fromJson(response['data']);
       } else {
         final response = await patchJson(
           "/shop/${collection.shop!.id}/collection/${collection.id}/",
           params: collection.toJson(),
           inspect: true,
+          auth: true,
         );
         return WebCollection.fromJson(response['data']);
       }
@@ -174,7 +172,7 @@ class WebShopService extends BaseService {
 
   Future<WebCollection?> retrieveCollection(int shopId, int collectionId) async {
     try {
-      final data = await getJson("/shop/$shopId/collection/$collectionId/");
+      final data = await getJson("/shop/$shopId/collection/$collectionId/", auth: false);
       return WebCollection.fromJson(data);
     } catch (e, st) {
       print(e);
@@ -190,11 +188,8 @@ class WebShopService extends BaseService {
       final data = await getJson(
         "/shop/$shopId/collection/$collectionId/listing",
         params: {'page': page},
+        auth: false,
       );
-      print("------");
-
-      print(data);
-      print("------");
 
       final List<WebListing> results = data['results'].map<WebListing>((item) => WebListing.fromJson(item)).toList();
 
@@ -214,7 +209,10 @@ class WebShopService extends BaseService {
 
   Future<WebListing?> retrieveListing(int shopId, int collectionId, int listingId) async {
     try {
-      final data = await getJson("/shop/$shopId/collection/$collectionId/listing/$listingId/");
+      final data = await getJson(
+        "/shop/$shopId/collection/$collectionId/listing/$listingId/",
+        auth: false,
+      );
       return WebListing.fromJson(data);
     } catch (e, st) {
       print(e);
@@ -226,7 +224,11 @@ class WebShopService extends BaseService {
   Future<bool> saveWebListing(WebListing listing, int shopId, int collectionId) async {
     try {
       if (listing.exists) {
-        final data = await patchJson('/shop/$shopId/collection/$collectionId/listing/${listing.id}/', params: listing.toJson());
+        final data = await patchJson(
+          '/shop/$shopId/collection/$collectionId/listing/${listing.id}/',
+          params: listing.toJson(),
+          auth: true,
+        );
       } else {
         final data = await postJson('/shop/$shopId/collection/$collectionId/listing/', params: listing.toJson());
       }
@@ -241,7 +243,11 @@ class WebShopService extends BaseService {
 
   Future<bool> deleteWebShop(WebShop store) async {
     try {
-      final data = await deleteJson('/shop/${store.id}', responseIsJson: true);
+      await deleteJson(
+        '/shop/${store.id}',
+        auth: true,
+        responseIsJson: true,
+      );
       return true;
     } catch (e, st) {
       if (e is DioError) print(e.response);
@@ -253,7 +259,11 @@ class WebShopService extends BaseService {
 
   Future<bool> deleteCollection(WebCollection collection) async {
     try {
-      final data = await deleteJson('/shop/${collection.shop!.id}/collection/${collection.id}', responseIsJson: true);
+      final data = await deleteJson(
+        '/shop/${collection.shop!.id}/collection/${collection.id}',
+        responseIsJson: true,
+        auth: true,
+      );
       return true;
     } catch (e, st) {
       if (e is DioError) print(e.response);
@@ -268,6 +278,7 @@ class WebShopService extends BaseService {
       final data = await deleteJson(
         '/shop/${listing.collection.shop!.id}/collection/${listing.collection.id}/listing/${listing.id}',
         responseIsJson: true,
+        auth: true,
       );
       return true;
     } catch (e, st) {

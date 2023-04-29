@@ -76,7 +76,7 @@ Future<bool> guardWebAuthorizedFromProvider(Ref ref, String expectedAddress, [bo
 
   if (address != expectedAddress) {
     if (withError) {
-      Toast.error("Not authorized.");
+      Toast.error("Not authorized (incorrect address).");
     }
     return false;
   }
@@ -94,7 +94,7 @@ Future<bool> guardWebAuthorizedFromProvider(Ref ref, String expectedAddress, [bo
   }
 
   if (withError) {
-    Toast.error("Not authorized.");
+    Toast.error("Not authorized (token invalid).");
   }
 
   return false;
