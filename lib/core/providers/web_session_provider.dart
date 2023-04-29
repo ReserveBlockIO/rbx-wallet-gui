@@ -62,7 +62,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     state = state.copyWith(keypair: keypair, isAuthenticated: true);
     loop();
 
-    ref.read(webTransactionListProvider(keypair.public).notifier).load(true);
+    ref.read(webTransactionListProvider(keypair.address).notifier).load(true);
   }
 
   void loop() async {
@@ -74,7 +74,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     if (state.keypair == null) {
       return;
     }
-    final webAddress = await ExplorerService().getWebAddress(state.keypair!.public);
+    final webAddress = await ExplorerService().getWebAddress(state.keypair!.address);
 
     state = state.copyWith(
       balance: webAddress.balance,
@@ -86,7 +86,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
   //   if (state.keypair == null) {
   //     return;
   //   }
-  //   final balance = await ExplorerService().getBalance(state.keypair!.public);
+  //   final balance = await ExplorerService().getBalance(state.keypair!.address);
 
   //   state = state.copyWith(balance: balance);
   // }
@@ -95,7 +95,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     if (state.keypair == null) {
       return;
     }
-    ref.read(nftListProvider.notifier).load(1, state.keypair!.email, state.keypair!.public);
+    ref.read(nftListProvider.notifier).load(1, state.keypair!.email, state.keypair!.address);
   }
 
   Future<void> logout() async {

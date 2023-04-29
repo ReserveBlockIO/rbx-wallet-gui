@@ -744,7 +744,7 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
     kIsWeb
         ? ref
             .read(nftListProvider.notifier)
-            .reloadCurrentPage(ref.read(webSessionProvider).keypair?.email, ref.read(webSessionProvider).keypair?.public)
+            .reloadCurrentPage(ref.read(webSessionProvider).keypair?.email, ref.read(webSessionProvider).keypair?.address)
         : ref.read(nftListProvider.notifier).reloadCurrentPage();
   }
 }

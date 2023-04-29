@@ -136,7 +136,7 @@ class KeygenCta extends BaseComponent {
               ListTile(
                 leading: const Icon(Icons.account_balance_wallet),
                 title: TextFormField(
-                  initialValue: keypair.public,
+                  initialValue: keypair.address,
                   decoration: const InputDecoration(label: Text("Address")),
                   readOnly: true,
                   style: const TextStyle(fontSize: 13),
@@ -144,7 +144,7 @@ class KeygenCta extends BaseComponent {
                 trailing: IconButton(
                   icon: const Icon(Icons.copy),
                   onPressed: () async {
-                    await Clipboard.setData(ClipboardData(text: keypair.public));
+                    await Clipboard.setData(ClipboardData(text: keypair.address));
                     Toast.message("Public key copied to clipboard");
                   },
                 ),

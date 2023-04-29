@@ -31,7 +31,7 @@ class WebShopListProvider extends StateNotifier<List<WebShop>> {
       if (type == WebShopListType.public) {
         data = await WebShopService().listShops(page: page);
       } else {
-        final address = kIsWeb ? ref.read(webSessionProvider).keypair?.public : ref.read(sessionProvider).currentWallet?.address;
+        final address = kIsWeb ? ref.read(webSessionProvider).keypair?.address : ref.read(sessionProvider).currentWallet?.address;
         if (address == null) {
           print("No Address");
           return;

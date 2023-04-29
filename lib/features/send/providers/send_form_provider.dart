@@ -193,7 +193,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
         return;
       }
 
-      senderAddress = ref.read(webSessionProvider).keypair!.public;
+      senderAddress = ref.read(webSessionProvider).keypair!.address;
     }
 
     final confirmed = await ConfirmDialog.show(

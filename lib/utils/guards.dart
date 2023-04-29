@@ -50,7 +50,7 @@ bool guardWalletIsNotResyncing(Ref ref, [bool showMessage = true]) {
 }
 
 Future<bool> guardWebAuthorized(WidgetRef ref, String expectedAddress) async {
-  final address = kIsWeb ? ref.read(webSessionProvider).keypair?.public : ref.read(sessionProvider).currentWallet?.address;
+  final address = kIsWeb ? ref.read(webSessionProvider).keypair?.address : ref.read(sessionProvider).currentWallet?.address;
 
   if (address != expectedAddress) {
     return false;
@@ -72,7 +72,7 @@ Future<bool> guardWebAuthorized(WidgetRef ref, String expectedAddress) async {
 }
 
 Future<bool> guardWebAuthorizedFromProvider(Ref ref, String expectedAddress, [bool withError = true]) async {
-  final address = kIsWeb ? ref.read(webSessionProvider).keypair?.public : ref.read(sessionProvider).currentWallet?.address;
+  final address = kIsWeb ? ref.read(webSessionProvider).keypair?.address : ref.read(sessionProvider).currentWallet?.address;
 
   if (address != expectedAddress) {
     if (withError) {

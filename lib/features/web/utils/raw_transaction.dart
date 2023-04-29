@@ -36,7 +36,7 @@ class RawTransaction {
     int txType = TxType.rbxTransfer,
     dynamic data,
   }) async {
-    final rawTx = await _getTransactionForSignature(fromAddress: keypair.public, toAddress: toAddress, amount: amount, data: data, txType: txType);
+    final rawTx = await _getTransactionForSignature(fromAddress: keypair.address, toAddress: toAddress, amount: amount, data: data, txType: txType);
 
     if (rawTx == null) {
       return null;
@@ -47,7 +47,7 @@ class RawTransaction {
     final signature = await getSignature(
       message: hash,
       privateKey: keypair.private,
-      publicKey: keypair.publicInflated,
+      publicKey: keypair.public,
     );
 
     if (signature == null) {
@@ -58,7 +58,7 @@ class RawTransaction {
 
     final signatureIsValid = await rawTxService.validateSignature(
       hash,
-      keypair.public,
+      keypair.address,
       signature,
     );
 
@@ -71,7 +71,7 @@ class RawTransaction {
       type: txType,
       hash: rawTx.hash,
       toAddress: toAddress,
-      fromAddress: keypair.public,
+      fromAddress: keypair.address,
       amount: amount,
       nonce: rawTx.nonce,
       timestamp: rawTx.timestamp,

@@ -27,7 +27,7 @@ class WebTransactionScreen extends BaseScreen {
       actions: [
         IconButton(
             onPressed: () {
-              final address = ref.read(webSessionProvider).keypair?.public;
+              final address = ref.read(webSessionProvider).keypair?.address;
               if (address != null) {
                 ref.read(webTransactionListProvider(address).notifier).load();
               }
@@ -39,7 +39,7 @@ class WebTransactionScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final address = ref.read(webSessionProvider).keypair?.public;
+    final address = ref.read(webSessionProvider).keypair?.address;
 
     if (address == null) {
       return const WebNotWallet();

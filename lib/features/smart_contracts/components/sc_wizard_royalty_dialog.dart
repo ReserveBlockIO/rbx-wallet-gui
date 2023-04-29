@@ -125,7 +125,7 @@ class ScWizardRoyaltyDialog extends BaseComponent {
                     suffixIcon: kIsWeb
                         ? IconButton(
                             onPressed: () {
-                              final address = ref.read(webSessionProvider).keypair?.public;
+                              final address = ref.read(webSessionProvider).keypair?.address;
 
                               if (address != null) {
                                 addressController.text = address;

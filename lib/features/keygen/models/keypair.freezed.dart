@@ -21,8 +21,8 @@ Keypair _$KeypairFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Keypair {
   String get private => throw _privateConstructorUsedError;
+  String get address => throw _privateConstructorUsedError;
   String get public => throw _privateConstructorUsedError;
-  String get publicInflated => throw _privateConstructorUsedError;
   String? get email =>
       throw _privateConstructorUsedError; // @JsonKey(toJson: null) ECPrivateKey? ecPrivateKey,
   String? get mneumonic => throw _privateConstructorUsedError;
@@ -39,8 +39,8 @@ abstract class $KeypairCopyWith<$Res> {
   @useResult
   $Res call(
       {String private,
+      String address,
       String public,
-      String publicInflated,
       String? email,
       String? mneumonic});
 }
@@ -59,8 +59,8 @@ class _$KeypairCopyWithImpl<$Res, $Val extends Keypair>
   @override
   $Res call({
     Object? private = null,
+    Object? address = null,
     Object? public = null,
-    Object? publicInflated = null,
     Object? email = freezed,
     Object? mneumonic = freezed,
   }) {
@@ -69,13 +69,13 @@ class _$KeypairCopyWithImpl<$Res, $Val extends Keypair>
           ? _value.private
           : private // ignore: cast_nullable_to_non_nullable
               as String,
+      address: null == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String,
       public: null == public
           ? _value.public
           : public // ignore: cast_nullable_to_non_nullable
-              as String,
-      publicInflated: null == publicInflated
-          ? _value.publicInflated
-          : publicInflated // ignore: cast_nullable_to_non_nullable
               as String,
       email: freezed == email
           ? _value.email
@@ -98,8 +98,8 @@ abstract class _$$_KeypairCopyWith<$Res> implements $KeypairCopyWith<$Res> {
   @useResult
   $Res call(
       {String private,
+      String address,
       String public,
-      String publicInflated,
       String? email,
       String? mneumonic});
 }
@@ -115,8 +115,8 @@ class __$$_KeypairCopyWithImpl<$Res>
   @override
   $Res call({
     Object? private = null,
+    Object? address = null,
     Object? public = null,
-    Object? publicInflated = null,
     Object? email = freezed,
     Object? mneumonic = freezed,
   }) {
@@ -125,13 +125,13 @@ class __$$_KeypairCopyWithImpl<$Res>
           ? _value.private
           : private // ignore: cast_nullable_to_non_nullable
               as String,
+      address: null == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String,
       public: null == public
           ? _value.public
           : public // ignore: cast_nullable_to_non_nullable
-              as String,
-      publicInflated: null == publicInflated
-          ? _value.publicInflated
-          : publicInflated // ignore: cast_nullable_to_non_nullable
               as String,
       email: freezed == email
           ? _value.email
@@ -150,8 +150,8 @@ class __$$_KeypairCopyWithImpl<$Res>
 class _$_Keypair extends _Keypair {
   _$_Keypair(
       {required this.private,
+      required this.address,
       required this.public,
-      required this.publicInflated,
       this.email,
       this.mneumonic})
       : super._();
@@ -162,9 +162,9 @@ class _$_Keypair extends _Keypair {
   @override
   final String private;
   @override
-  final String public;
+  final String address;
   @override
-  final String publicInflated;
+  final String public;
   @override
   final String? email;
 // @JsonKey(toJson: null) ECPrivateKey? ecPrivateKey,
@@ -173,7 +173,7 @@ class _$_Keypair extends _Keypair {
 
   @override
   String toString() {
-    return 'Keypair(private: $private, public: $public, publicInflated: $publicInflated, email: $email, mneumonic: $mneumonic)';
+    return 'Keypair(private: $private, address: $address, public: $public, email: $email, mneumonic: $mneumonic)';
   }
 
   @override
@@ -182,9 +182,8 @@ class _$_Keypair extends _Keypair {
         (other.runtimeType == runtimeType &&
             other is _$_Keypair &&
             (identical(other.private, private) || other.private == private) &&
+            (identical(other.address, address) || other.address == address) &&
             (identical(other.public, public) || other.public == public) &&
-            (identical(other.publicInflated, publicInflated) ||
-                other.publicInflated == publicInflated) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.mneumonic, mneumonic) ||
                 other.mneumonic == mneumonic));
@@ -192,8 +191,8 @@ class _$_Keypair extends _Keypair {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, private, public, publicInflated, email, mneumonic);
+  int get hashCode =>
+      Object.hash(runtimeType, private, address, public, email, mneumonic);
 
   @JsonKey(ignore: true)
   @override
@@ -212,8 +211,8 @@ class _$_Keypair extends _Keypair {
 abstract class _Keypair extends Keypair {
   factory _Keypair(
       {required final String private,
+      required final String address,
       required final String public,
-      required final String publicInflated,
       final String? email,
       final String? mneumonic}) = _$_Keypair;
   _Keypair._() : super._();
@@ -223,9 +222,9 @@ abstract class _Keypair extends Keypair {
   @override
   String get private;
   @override
-  String get public;
+  String get address;
   @override
-  String get publicInflated;
+  String get public;
   @override
   String? get email;
   @override // @JsonKey(toJson: null) ECPrivateKey? ecPrivateKey,

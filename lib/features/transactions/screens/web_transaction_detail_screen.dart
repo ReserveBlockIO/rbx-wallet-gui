@@ -69,7 +69,7 @@ class _TransactionDetails extends BaseComponent {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final address = ref.read(webSessionProvider).keypair?.public;
+    final address = ref.read(webSessionProvider).keypair?.address;
 
     return SingleChildScrollView(
       child: buildContent(context, address),
@@ -78,7 +78,7 @@ class _TransactionDetails extends BaseComponent {
 
   // @override
   // Widget desktopBody(BuildContext context, WidgetRef ref) {
-  //   final address = ref.read(webSessionProvider).keypair?.public;
+  //   final address = ref.read(webSessionProvider).keypair?.address;
 
   //   return SingleChildScrollView(
   //     child: buildContent(context, address),

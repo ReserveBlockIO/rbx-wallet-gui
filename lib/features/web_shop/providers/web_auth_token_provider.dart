@@ -17,19 +17,19 @@ class WebAuthTokenProvider extends StateNotifier<AuthToken?> {
   Future<AuthToken?> authorize() async {
     final message = generateRandomString(32);
 
-    final address = kIsWeb ? ref.read(webSessionProvider).keypair?.public : ref.read(sessionProvider).currentWallet?.address;
+    final address = kIsWeb ? ref.read(webSessionProvider).keypair?.address : ref.read(sessionProvider).currentWallet?.address;
     if (address == null) {
       Toast.error("No address.");
       return null;
     }
 
-    final privateKey = kIsWeb ? ref.read(webSessionProvider).keypair?.privateCorrected : ref.read(sessionProvider).currentWallet?.privateKey;
+    final privateKey = kIsWeb ? ref.read(webSessionProvider).keypair?.private : ref.read(sessionProvider).currentWallet?.privateKey;
     if (privateKey == null) {
       Toast.error("No private key.");
       return null;
     }
 
-    final publicKey = kIsWeb ? ref.read(webSessionProvider).keypair?.publicInflated : ref.read(sessionProvider).currentWallet?.publicKey;
+    final publicKey = kIsWeb ? ref.read(webSessionProvider).keypair?.public : ref.read(sessionProvider).currentWallet?.publicKey;
     if (publicKey == null) {
       Toast.error("No public key.");
       return null;

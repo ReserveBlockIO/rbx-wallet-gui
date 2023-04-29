@@ -15,13 +15,13 @@ class KeygenService {
     final String response = await js.context.callMethod('importPrivateKey', [privateKey, Env.isTestNet]);
 
     final a = response.split(":");
-    final public = a[0];
-    final publicInflated = a[1];
+    final address = a[0];
+    final public = a[1];
     final private = a[2];
 
     return Keypair(
+      address: address,
       public: public,
-      publicInflated: publicInflated,
       private: private,
       mneumonic: mneumonic,
     );

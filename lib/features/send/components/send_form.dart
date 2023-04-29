@@ -127,7 +127,7 @@ class SendForm extends BaseComponent {
                           children: [
                             if (isWeb)
                               Text(
-                                "${isMobile ? "From: " : ""}${keypair!.public}",
+                                "${isMobile ? "From: " : ""}${keypair!.address}",
                                 style: TextStyle(color: color, fontSize: 16),
                               ),
                             if (!isWeb)

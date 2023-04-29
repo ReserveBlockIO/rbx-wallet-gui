@@ -62,7 +62,7 @@ class WebReceiveScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final address = ref.watch(webSessionProvider).keypair?.public;
+    final address = ref.watch(webSessionProvider).keypair?.address;
     final adnr = ref.watch(webSessionProvider).adnr;
 
     if (address == null) {

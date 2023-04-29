@@ -24,9 +24,9 @@ abstract class WebSessionModel with _$WebSessionModel {
     if (keypair == null) return null;
     return Wallet(
       id: 0,
-      publicKey: keypair!.publicInflated,
+      publicKey: keypair!.public,
       privateKey: keypair!.private,
-      address: keypair!.public,
+      address: keypair!.address,
       balance: balance ?? 0,
       isValidating: false,
       // isEncrypted: false,

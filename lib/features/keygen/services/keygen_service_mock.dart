@@ -9,8 +9,8 @@ class KeygenService {
   ]) async {
     return Keypair(
       private: "mock",
+      address: "mock",
       public: "mock",
-      publicInflated: "mock",
       email: "mock@mock.com",
     );
   }
@@ -20,8 +20,8 @@ class KeygenService {
   ) async {
     return Keypair(
       private: "mock",
+      address: "mock",
       public: "mock",
-      publicInflated: "mock",
       email: "mock@mock.com",
     );
   }

@@ -38,7 +38,7 @@ class WebAdnrScreen extends BaseScreen {
   Widget body(BuildContext context, WidgetRef ref) {
     final session = ref.watch(webSessionProvider);
     final keypair = session.keypair;
-    final address = keypair?.public;
+    final address = keypair?.address;
     final adnr = session.adnr;
 
     if (keypair == null || address == null) {

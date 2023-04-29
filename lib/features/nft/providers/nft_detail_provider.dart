@@ -174,7 +174,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       return false;
     }
 
-    final nonce = await txService.getNonce(keypair.public);
+    final nonce = await txService.getNonce(keypair.address);
     if (nonce == null) {
       Toast.error("Failed to retrieve nonce");
       return false;
@@ -187,7 +187,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       amount: 0.0,
       type: TxType.nftTx,
       toAddress: toAddress,
-      fromAddress: keypair.public,
+      fromAddress: keypair.address,
       timestamp: timestamp,
       nonce: nonce,
       data: nftTransferData,
@@ -204,7 +204,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       amount: 0.0,
       type: TxType.nftTx,
       toAddress: toAddress,
-      fromAddress: keypair.public,
+      fromAddress: keypair.address,
       timestamp: timestamp,
       nonce: nonce,
       data: nftTransferData,
@@ -218,7 +218,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       return null;
     }
 
-    final signature = await RawTransaction.getSignature(message: hash, privateKey: keypair.private, publicKey: keypair.publicInflated);
+    final signature = await RawTransaction.getSignature(message: hash, privateKey: keypair.private, publicKey: keypair.public);
     if (signature == null) {
       Toast.error("Signature generation failed.");
       return false;
@@ -226,7 +226,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
 
     final isValid = await txService.validateSignature(
       hash,
-      keypair.public,
+      keypair.address,
       signature,
     );
 
@@ -239,7 +239,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       amount: 0.0,
       type: TxType.nftTx,
       toAddress: toAddress,
-      fromAddress: keypair.public,
+      fromAddress: keypair.address,
       timestamp: timestamp,
       nonce: nonce,
       data: nftTransferData,
@@ -285,7 +285,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       return false;
     }
 
-    final signature = await RawTransaction.getSignature(message: id, privateKey: keypair.private, publicKey: keypair.publicInflated);
+    final signature = await RawTransaction.getSignature(message: id, privateKey: keypair.private, publicKey: keypair.public);
     if (signature == null) {
       Toast.error("Signature generation failed.");
       return false;
@@ -335,21 +335,21 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       return false;
     }
 
-    final nonce = await txService.getNonce(keypair.public);
+    final nonce = await txService.getNonce(keypair.address);
     if (nonce == null) {
       Toast.error("Failed to retrieve nonce");
       return false;
     }
 
-    final nftBurnDataRaw = await RawService().nftBurnData(id, keypair.public);
+    final nftBurnDataRaw = await RawService().nftBurnData(id, keypair.address);
 
     final nftBurnData = jsonDecode(nftBurnDataRaw);
 
     var txData = RawTransaction.buildTransaction(
       amount: 0.0,
       type: TxType.nftBurn,
-      toAddress: keypair.public,
-      fromAddress: keypair.public,
+      toAddress: keypair.address,
+      fromAddress: keypair.address,
       timestamp: timestamp,
       nonce: nonce,
       data: nftBurnData,
@@ -365,8 +365,8 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     txData = RawTransaction.buildTransaction(
       amount: 0.0,
       type: TxType.nftBurn,
-      toAddress: keypair.public,
-      fromAddress: keypair.public,
+      toAddress: keypair.address,
+      fromAddress: keypair.address,
       timestamp: timestamp,
       nonce: nonce,
       data: nftBurnData,
@@ -380,7 +380,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       return false;
     }
 
-    final signature = await RawTransaction.getSignature(message: hash, privateKey: keypair.private, publicKey: keypair.publicInflated);
+    final signature = await RawTransaction.getSignature(message: hash, privateKey: keypair.private, publicKey: keypair.public);
     if (signature == null) {
       Toast.error("Signature generation failed.");
       return false;
@@ -388,7 +388,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
 
     final isValid = await txService.validateSignature(
       hash,
-      keypair.public,
+      keypair.address,
       signature,
     );
 
@@ -400,8 +400,8 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     txData = RawTransaction.buildTransaction(
       amount: 0.0,
       type: TxType.nftBurn,
-      toAddress: keypair.public,
-      fromAddress: keypair.public,
+      toAddress: keypair.address,
+      fromAddress: keypair.address,
       timestamp: timestamp,
       nonce: nonce,
       data: nftBurnData,

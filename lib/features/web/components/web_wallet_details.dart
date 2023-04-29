@@ -27,7 +27,7 @@ class WebWalletDetails extends BaseComponent {
       ),
       child: ListTile(
         title: SelectableText(
-          sessionModel.adnr != null && sessionModel.adnr!.isNotEmpty ? "${sessionModel.adnr} [${keypair.public}]" : keypair.public,
+          sessionModel.adnr != null && sessionModel.adnr!.isNotEmpty ? "${sessionModel.adnr} [${keypair.address}]" : keypair.address,
           style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 13),
         ),
         subtitle: sessionModel.balance != null
@@ -41,8 +41,8 @@ class WebWalletDetails extends BaseComponent {
           children: [
             InkWell(
                 onTap: () async {
-                  await Clipboard.setData(ClipboardData(text: keypair.public));
-                  Toast.message("Address ${keypair.public} copied to clipboard");
+                  await Clipboard.setData(ClipboardData(text: keypair.address));
+                  Toast.message("Address ${keypair.address} copied to clipboard");
                 },
                 child: const Padding(
                   padding: EdgeInsets.all(4.0),

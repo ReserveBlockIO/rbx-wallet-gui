@@ -74,7 +74,7 @@ class WebShopFormProvider extends StateNotifier<WebShop> {
         return null;
       }
     }
-    final address = kIsWeb ? ref.read(webSessionProvider).keypair?.public : ref.read(sessionProvider).currentWallet?.address;
+    final address = kIsWeb ? ref.read(webSessionProvider).keypair?.address : ref.read(sessionProvider).currentWallet?.address;
     state = state.copyWith(ownerAddress: address ?? '');
     if (state.ownerAddress.isEmpty) {
       Toast.error("Address Required.");

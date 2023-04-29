@@ -74,7 +74,7 @@ class WebListingDetails extends BaseComponent {
   @override
   Widget desktopBody(BuildContext context, WidgetRef ref) {
     final nft = listing.nft;
-    final myAddress = kIsWeb ? ref.read(webSessionProvider).keypair?.public : ref.read(sessionProvider).currentWallet?.address;
+    final myAddress = kIsWeb ? ref.read(webSessionProvider).keypair?.address : ref.read(sessionProvider).currentWallet?.address;
 
     print("listing address: ${listing.ownerAddress} myAddress: $myAddress");
     return ContextMenuRegion(
@@ -325,7 +325,7 @@ class _Details extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final myAddress = kIsWeb ? ref.read(webSessionProvider).keypair?.public : ref.read(sessionProvider).currentWallet?.address;
+    final myAddress = kIsWeb ? ref.read(webSessionProvider).keypair?.address : ref.read(sessionProvider).currentWallet?.address;
     if (listing.nft == null) {
       return SizedBox();
     }
@@ -930,7 +930,7 @@ class _BidHistoryModal extends BaseComponent {
                 title: Text("${bid.amount} RBX"),
                 subtitle: SelectableText(bid.address),
                 trailing: Builder(builder: (context) {
-                  final currentAddress = kIsWeb ? ref.watch(webSessionProvider).keypair?.public : ref.watch(sessionProvider).currentWallet?.address;
+                  final currentAddress = kIsWeb ? ref.watch(webSessionProvider).keypair?.address : ref.watch(sessionProvider).currentWallet?.address;
                   final isBidder = currentAddress == bid.address;
 
                   if (isBidder && bid.bidStatus == BidStatus.Sent) {

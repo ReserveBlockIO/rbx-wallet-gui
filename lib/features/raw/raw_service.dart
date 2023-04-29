@@ -102,7 +102,7 @@ class RawService extends BaseService {
       final txData = await RawTransaction.generate(
         keypair: keypair,
         amount: 0.0,
-        toAddress: keypair.public,
+        toAddress: keypair.address,
         data: response['data'],
         txType: TxType.nftMint,
       );

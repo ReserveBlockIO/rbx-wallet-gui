@@ -26,7 +26,7 @@ class WebTransactionCard extends BaseComponent {
     var date1 = DateTime.fromMillisecondsSinceEpoch((tx.date.millisecondsSinceEpoch).round());
     var date = DateFormat('MM-dd-yyyy hh:mm a').format(date1);
 
-    final address = ref.read(webSessionProvider).keypair?.public;
+    final address = ref.read(webSessionProvider).keypair?.address;
     final isMobile = BreakPoints.useMobileLayout(context);
     final toMe = tx.toAddress == address;
 

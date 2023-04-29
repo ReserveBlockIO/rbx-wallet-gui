@@ -63,7 +63,7 @@ class WebTransactionListProvider extends StateNotifier<WebTransactionListModel> 
   }
 
   Future<void> load([bool invokeLoop = false]) async {
-    // final address = ref.read(webSessionProvider).keypair?.public;
+    // final address = ref.read(webSessionProvider).keypair?.address;
     // if (address == null) return;
 
     state = state.copyWith(isLoading: true);

@@ -41,7 +41,7 @@ Future<void> handleImportWithPrivateKey(
     onValidSubmission: (privateKey) async {
       await handleRememberMe(context, ref);
       final keypair = await KeygenService.importPrivateKey(privateKey);
-      // await TransactionService().createWallet(null, keypair.public);
+      // await TransactionService().createWallet(null, keypair.address);
       login(context, ref, keypair);
       if (ref.read(webSessionProvider).isAuthenticated) {
         AutoRouter.of(context).push(WebDashboardContainerRoute());
@@ -88,7 +88,7 @@ Future<void> handleCreateWithEmail(
     await showKeys(context, keypair);
   }
 
-  // await TransactionService().createWallet(email, keypair.public);
+  // await TransactionService().createWallet(email, keypair.address);
   await handleRememberMe(context, ref);
   login(context, ref, keypair.copyWith(email: email));
 }
@@ -109,7 +109,7 @@ Future<void> handleCreateWithMnemonic(
   }
   ref.read(globalLoadingProvider.notifier).complete();
 
-  // await TransactionService().createWallet(null, keypair.public);
+  // await TransactionService().createWallet(null, keypair.address);
 
   login(context, ref, keypair);
   await showKeys(context, keypair);
@@ -185,7 +185,7 @@ Future<dynamic> handleRecoverFromMnemonic(BuildContext context, WidgetRef ref) a
       ref.read(globalLoadingProvider.notifier).complete();
 
       // showKeys(context, keypair);
-      // await TransactionService().createWallet(null, keypair.public);
+      // await TransactionService().createWallet(null, keypair.address);
       login(context, ref, keypair);
       if (ref.read(webSessionProvider).isAuthenticated) {
         AutoRouter.of(context).push(WebDashboardContainerRoute());
@@ -238,7 +238,7 @@ Future<void> showKeys(
             ListTile(
               leading: isMobile ? null : const Icon(Icons.account_balance_wallet),
               title: TextFormField(
-                initialValue: keypair.public,
+                initialValue: keypair.address,
                 decoration: const InputDecoration(label: Text("Address")),
                 readOnly: true,
                 style: const TextStyle(fontSize: 13),
@@ -246,7 +246,7 @@ Future<void> showKeys(
               trailing: IconButton(
                 icon: const Icon(Icons.copy),
                 onPressed: () async {
-                  await Clipboard.setData(ClipboardData(text: keypair.public));
+                  await Clipboard.setData(ClipboardData(text: keypair.address));
                   Toast.message("Public key copied to clipboard");
                 },
               ),
@@ -254,7 +254,7 @@ Future<void> showKeys(
             ListTile(
               leading: isMobile ? null : const Icon(Icons.security),
               title: TextFormField(
-                initialValue: keypair.privateCorrected,
+                initialValue: keypair.private,
                 decoration: const InputDecoration(
                   label: Text("Private Key"),
                 ),
@@ -264,7 +264,7 @@ Future<void> showKeys(
               trailing: IconButton(
                 icon: const Icon(Icons.copy),
                 onPressed: () async {
-                  await Clipboard.setData(ClipboardData(text: keypair.privateCorrected));
+                  await Clipboard.setData(ClipboardData(text: keypair.private));
                   Toast.message("Private key copied to clipboard");
                 },
               ),
