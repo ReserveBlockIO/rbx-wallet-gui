@@ -34,6 +34,7 @@ class WebShopList extends BaseComponent {
             pagingController: listProvider.pagingController,
             itemBuilder: (context, shop, index) => WebShopTile(
               shop,
+              requiresAuth: mine,
             ),
             emptyText: "No Auction Houses",
             emptyWidget: Center(

@@ -32,6 +32,13 @@ _$_WebListing _$$_WebListingFromJson(Map<String, dynamic> json) =>
               ?.map((e) => e as String)
               .toList() ??
           [],
+      auction: json['auction'] == null
+          ? null
+          : WebAuction.fromJson(json['auction'] as Map<String, dynamic>),
+      bids: (json['bids'] as List<dynamic>?)
+              ?.map((e) => WebBid.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$_WebListingToJson(_$_WebListing instance) =>
@@ -53,4 +60,6 @@ Map<String, dynamic> _$$_WebListingToJson(_$_WebListing instance) =>
       'has_started': instance.isAuctionStarted,
       'has_ended': instance.isAuctionEnded,
       'thumbnails': instance.thumbnails,
+      'auction': instance.auction,
+      'bids': instance.bids,
     };

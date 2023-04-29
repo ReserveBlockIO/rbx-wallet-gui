@@ -13,8 +13,10 @@ import '../../../core/web_router.gr.dart';
 import '../models/web_shop.dart';
 
 class WebShopTile extends BaseComponent {
-  WebShopTile(this.shop, {Key? key}) : super(key: key);
-  WebShop shop;
+  final WebShop shop;
+
+  final bool requiresAuth;
+  const WebShopTile(this.shop, {Key? key, this.requiresAuth = false}) : super(key: key);
   @override
   Widget body(BuildContext context, WidgetRef ref) {
     return Padding(
@@ -60,11 +62,12 @@ class WebShopTile extends BaseComponent {
             ),
             trailing: Icon(Icons.chevron_right),
             onTap: () async {
-              if (!await guardWebAuthorized(ref, shop.ownerAddress)) {
-                Toast.error("Not Authorized");
-                return;
+              if (requiresAuth) {
+                if (!await guardWebAuthorized(ref, shop.ownerAddress)) {
+                  Toast.error("Not Authorized");
+                  return;
+                }
               }
-
               if (Env.isWeb) {
                 AutoRouter.of(context).push(WebShopDetailScreenRoute(shopId: shop.id));
               } else {

@@ -56,7 +56,7 @@ class WebListingDetails extends BaseComponent {
               _Details(listing: listing),
               _Preview(listing: listing),
               if (listing.canBuyNow) _BuyNow(listing: listing),
-              _WebNftDetails(nft: nft.smartContract),
+              // _WebNftDetails(nft: nft.smartContract),
               _WebNftData(nft: nft.smartContract),
             ]
             // _Features(nft: nft),
@@ -127,8 +127,8 @@ class WebListingDetails extends BaseComponent {
                   if (nft != null) ...[
                     _Details(listing: listing),
                     const SizedBox(height: 8),
-                    _WebNftDetails(nft: nft.smartContract),
-                    const SizedBox(height: 16),
+                    // _WebNftDetails(nft: nft.smartContract),
+                    // const SizedBox(height: 16),
                     _WebNftData(nft: nft.smartContract),
                     const SizedBox(height: 8),
                   ],
@@ -399,7 +399,7 @@ class _Details extends BaseComponent {
         const SizedBox(height: 8),
         ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 600),
-          child: Text(listing.nft!.description),
+          child: Text(listing.nft!.description.replaceAll("\\n", "\n")),
         ),
       ],
     );

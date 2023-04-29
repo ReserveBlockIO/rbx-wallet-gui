@@ -1,6 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/models/web_nft.dart';
+import 'package:rbx_wallet/features/web_shop/models/web_auction.dart';
+import 'package:rbx_wallet/features/web_shop/models/web_bid.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_collection.dart';
 
 part 'web_listing.freezed.dart';
@@ -37,6 +39,8 @@ class WebListing with _$WebListing {
     @Default(false) @JsonKey(ignore: true) bool enableReservePrice,
     @Default(false) @JsonKey(ignore: true) bool galleryOnly,
     @JsonKey(defaultValue: []) required List<String> thumbnails,
+    @Default(null) WebAuction? auction,
+    @Default([]) List<WebBid> bids,
   }) = _WebListing;
 
   factory WebListing.fromJson(Map<String, dynamic> json) => _$WebListingFromJson(json);
