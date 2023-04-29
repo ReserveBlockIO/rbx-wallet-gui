@@ -32,7 +32,7 @@ class WebListingTile extends BaseComponent {
               listingId: listing.id,
             ));
           } else {
-            AutoRouter.of(context).push(DebugWebListingDetailScreenRoute(
+            AutoRouter.of(context).push(ThirdPartyWebListingDetailScreenRoute(
               shopId: listing.collection.shop!.id,
               collectionId: listing.collection.id,
               listingId: listing.id,

@@ -603,6 +603,54 @@ class AppRouter extends _i52.RootStackRouter {
         ),
       );
     },
+    ThirdPartyWebShopDetailScreenRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<ThirdPartyWebShopDetailScreenRouteArgs>(
+          orElse: () => ThirdPartyWebShopDetailScreenRouteArgs(
+              shopId: pathParams.getInt('shopId')));
+      return _i52.AdaptivePage<dynamic>(
+        routeData: routeData,
+        child: _i44.WebShopDetailScreen(
+          key: args.key,
+          shopId: args.shopId,
+        ),
+      );
+    },
+    ThirdPartyWebCollectionDetailScreenRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args =
+          routeData.argsAs<ThirdPartyWebCollectionDetailScreenRouteArgs>(
+              orElse: () => ThirdPartyWebCollectionDetailScreenRouteArgs(
+                    shopId: pathParams.getInt('shopId'),
+                    collectionId: pathParams.getInt('collectionId'),
+                  ));
+      return _i52.AdaptivePage<dynamic>(
+        routeData: routeData,
+        child: _i45.WebCollectionDetailScreen(
+          key: args.key,
+          shopId: args.shopId,
+          collectionId: args.collectionId,
+        ),
+      );
+    },
+    ThirdPartyWebListingDetailScreenRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<ThirdPartyWebListingDetailScreenRouteArgs>(
+          orElse: () => ThirdPartyWebListingDetailScreenRouteArgs(
+                shopId: pathParams.getInt('shopId'),
+                collectionId: pathParams.getInt('collectionId'),
+                listingId: pathParams.getInt('listingId'),
+              ));
+      return _i52.AdaptivePage<dynamic>(
+        routeData: routeData,
+        child: _i46.WebListingDetailScreen(
+          key: args.key,
+          shopId: args.shopId,
+          collectionId: args.collectionId,
+          listingId: args.listingId,
+        ),
+      );
+    },
   };
 
   @override
@@ -956,6 +1004,22 @@ class AppRouter extends _i52.RootStackRouter {
             _i52.RouteConfig(
               RemoteShopCollectionScreenRoute.name,
               path: 'shops/:url/collection/:collectionId',
+              parent: RemoteShopContainerScreenRoute.name,
+            ),
+            _i52.RouteConfig(
+              ThirdPartyWebShopDetailScreenRoute.name,
+              path: 'third-party/shop/:shopId',
+              parent: RemoteShopContainerScreenRoute.name,
+            ),
+            _i52.RouteConfig(
+              ThirdPartyWebCollectionDetailScreenRoute.name,
+              path: 'third-party/shop/:shopId/collection/:collectionId',
+              parent: RemoteShopContainerScreenRoute.name,
+            ),
+            _i52.RouteConfig(
+              ThirdPartyWebListingDetailScreenRoute.name,
+              path:
+                  'third-party/shop/:shopId/collection/:collectionId/listing/:listingId',
               parent: RemoteShopContainerScreenRoute.name,
             ),
           ],
@@ -2105,5 +2169,136 @@ class RemoteShopCollectionScreenRouteArgs {
   @override
   String toString() {
     return 'RemoteShopCollectionScreenRouteArgs{key: $key, collectionId: $collectionId, url: $url}';
+  }
+}
+
+/// generated route for
+/// [_i44.WebShopDetailScreen]
+class ThirdPartyWebShopDetailScreenRoute
+    extends _i52.PageRouteInfo<ThirdPartyWebShopDetailScreenRouteArgs> {
+  ThirdPartyWebShopDetailScreenRoute({
+    _i53.Key? key,
+    required int shopId,
+  }) : super(
+          ThirdPartyWebShopDetailScreenRoute.name,
+          path: 'third-party/shop/:shopId',
+          args: ThirdPartyWebShopDetailScreenRouteArgs(
+            key: key,
+            shopId: shopId,
+          ),
+          rawPathParams: {'shopId': shopId},
+        );
+
+  static const String name = 'ThirdPartyWebShopDetailScreenRoute';
+}
+
+class ThirdPartyWebShopDetailScreenRouteArgs {
+  const ThirdPartyWebShopDetailScreenRouteArgs({
+    this.key,
+    required this.shopId,
+  });
+
+  final _i53.Key? key;
+
+  final int shopId;
+
+  @override
+  String toString() {
+    return 'ThirdPartyWebShopDetailScreenRouteArgs{key: $key, shopId: $shopId}';
+  }
+}
+
+/// generated route for
+/// [_i45.WebCollectionDetailScreen]
+class ThirdPartyWebCollectionDetailScreenRoute
+    extends _i52.PageRouteInfo<ThirdPartyWebCollectionDetailScreenRouteArgs> {
+  ThirdPartyWebCollectionDetailScreenRoute({
+    _i53.Key? key,
+    required int shopId,
+    required int collectionId,
+  }) : super(
+          ThirdPartyWebCollectionDetailScreenRoute.name,
+          path: 'third-party/shop/:shopId/collection/:collectionId',
+          args: ThirdPartyWebCollectionDetailScreenRouteArgs(
+            key: key,
+            shopId: shopId,
+            collectionId: collectionId,
+          ),
+          rawPathParams: {
+            'shopId': shopId,
+            'collectionId': collectionId,
+          },
+        );
+
+  static const String name = 'ThirdPartyWebCollectionDetailScreenRoute';
+}
+
+class ThirdPartyWebCollectionDetailScreenRouteArgs {
+  const ThirdPartyWebCollectionDetailScreenRouteArgs({
+    this.key,
+    required this.shopId,
+    required this.collectionId,
+  });
+
+  final _i53.Key? key;
+
+  final int shopId;
+
+  final int collectionId;
+
+  @override
+  String toString() {
+    return 'ThirdPartyWebCollectionDetailScreenRouteArgs{key: $key, shopId: $shopId, collectionId: $collectionId}';
+  }
+}
+
+/// generated route for
+/// [_i46.WebListingDetailScreen]
+class ThirdPartyWebListingDetailScreenRoute
+    extends _i52.PageRouteInfo<ThirdPartyWebListingDetailScreenRouteArgs> {
+  ThirdPartyWebListingDetailScreenRoute({
+    _i53.Key? key,
+    required int shopId,
+    required int collectionId,
+    required int listingId,
+  }) : super(
+          ThirdPartyWebListingDetailScreenRoute.name,
+          path:
+              'third-party/shop/:shopId/collection/:collectionId/listing/:listingId',
+          args: ThirdPartyWebListingDetailScreenRouteArgs(
+            key: key,
+            shopId: shopId,
+            collectionId: collectionId,
+            listingId: listingId,
+          ),
+          rawPathParams: {
+            'shopId': shopId,
+            'collectionId': collectionId,
+            'listingId': listingId,
+          },
+        );
+
+  static const String name = 'ThirdPartyWebListingDetailScreenRoute';
+}
+
+class ThirdPartyWebListingDetailScreenRouteArgs {
+  const ThirdPartyWebListingDetailScreenRouteArgs({
+    this.key,
+    required this.shopId,
+    required this.collectionId,
+    required this.listingId,
+  });
+
+  final _i53.Key? key;
+
+  final int shopId;
+
+  final int collectionId;
+
+  final int listingId;
+
+  @override
+  String toString() {
+    return 'ThirdPartyWebListingDetailScreenRouteArgs{key: $key, shopId: $shopId, collectionId: $collectionId, listingId: $listingId}';
   }
 }

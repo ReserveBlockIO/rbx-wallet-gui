@@ -279,6 +279,21 @@ const List<AutoRoute> appRoutes = [
       AutoRoute(path: "shops/:url", page: RemoteShopDetailScreen),
       // AutoRoute(path: "shops/:url/chat", page: ShopChatScreen),
       AutoRoute(path: "shops/:url/collection/:collectionId", page: RemoteShopCollectionScreen),
+      AutoRoute(
+        path: "third-party/shop/:shopId",
+        name: "ThirdPartyWebShopDetailScreenRoute",
+        page: WebShopDetailScreen,
+      ),
+      AutoRoute(
+        path: "third-party/shop/:shopId/collection/:collectionId",
+        name: "ThirdPartyWebCollectionDetailScreenRoute",
+        page: WebCollectionDetailScreen,
+      ),
+      AutoRoute(
+        path: "third-party/shop/:shopId/collection/:collectionId/listing/:listingId",
+        name: "ThirdPartyWebListingDetailScreenRoute",
+        page: WebListingDetailScreen,
+      ),
     ],
   ),
   AutoRoute(path: "chat/:address", page: SellerChatScreen),

@@ -39,7 +39,7 @@ class WebCollectionTile extends BaseComponent {
               if (Env.isWeb) {
                 AutoRouter.of(context).push(WebCollectionDetailScreenRoute(shopId: collection.shop!.id, collectionId: collection.id));
               } else {
-                AutoRouter.of(context).push(DebugWebCollectionDetailScreenRoute(shopId: collection.shop!.id, collectionId: collection.id));
+                AutoRouter.of(context).push(ThirdPartyWebCollectionDetailScreenRoute(shopId: collection.shop!.id, collectionId: collection.id));
               }
             },
           ),

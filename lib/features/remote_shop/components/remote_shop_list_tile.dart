@@ -4,10 +4,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/core/services/explorer_service.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/dst/models/dec_shop.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
+import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 class RemoteShopListTile extends BaseComponent {
   const RemoteShopListTile({
@@ -72,6 +75,18 @@ class RemoteShopListTile extends BaseComponent {
             ),
             trailing: Icon(Icons.chevron_right),
             onTap: () async {
+              if (shop.isThirdParty) {
+                final webShop = await WebShopService().lookupShop(shop.url);
+
+                if (webShop == null) {
+                  Toast.error();
+                  return;
+                }
+
+                AutoRouter.of(context).push(ThirdPartyWebShopDetailScreenRoute(shopId: webShop.id));
+                return;
+              }
+
               if (ref.read(walletInfoProvider) == null || !ref.read(walletInfoProvider)!.isChainSynced) {
                 final cont = await ConfirmDialog.show(
                   title: "Wallet Not Synced",
