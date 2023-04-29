@@ -64,12 +64,6 @@ class WebCollectionFormProvider extends StateNotifier<WebCollection> {
 
       AutoRouter.of(context).pop();
 
-      // if (Env.isWeb) {
-      //   AutoRouter.of(context).popAndPush(WebCollectionDetailScreenRoute(shopId: collection.shop!.id, collectionId: collection.id));
-      // } else {
-      //   AutoRouter.of(context).popAndPush(DebugWebCollectionDetailScreenRoute(shopId: collection.shop!.id, collectionId: collection.id));
-      // }
-
       clear();
     } else {
       Toast.error();

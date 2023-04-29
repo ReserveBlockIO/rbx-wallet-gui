@@ -47,15 +47,12 @@ mixin _$WebListing {
   bool get isVisibleBeforeStartDate => throw _privateConstructorUsedError;
   @JsonKey(name: "is_visible_after_end_date")
   bool get isVisibleAfterEndDate => throw _privateConstructorUsedError;
-  @JsonKey(name: "thumbnails_fetched")
-  bool get thumbnailsFetched => throw _privateConstructorUsedError;
-  @JsonKey(name: "IsCancelled")
-  bool get isCancelled => throw _privateConstructorUsedError; //TODO: update
-  @JsonKey(name: "IsAuctionStarted")
-  bool get isAuctionStarted =>
-      throw _privateConstructorUsedError; //TODO: update
-  @JsonKey(name: "IsAuctionEnded")
-  bool get isAuctionEnded => throw _privateConstructorUsedError; //TODO: update
+  @JsonKey(name: "is_cancelled")
+  bool get isCancelled => throw _privateConstructorUsedError;
+  @JsonKey(name: "has_started")
+  bool get isAuctionStarted => throw _privateConstructorUsedError;
+  @JsonKey(name: "has_ended")
+  bool get isAuctionEnded => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   bool get enableBuyNow => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -107,13 +104,11 @@ abstract class $WebListingCopyWith<$Res> {
           bool isVisibleBeforeStartDate,
       @JsonKey(name: "is_visible_after_end_date")
           bool isVisibleAfterEndDate,
-      @JsonKey(name: "thumbnails_fetched")
-          bool thumbnailsFetched,
-      @JsonKey(name: "IsCancelled")
+      @JsonKey(name: "is_cancelled")
           bool isCancelled,
-      @JsonKey(name: "IsAuctionStarted")
+      @JsonKey(name: "has_started")
           bool isAuctionStarted,
-      @JsonKey(name: "IsAuctionEnded")
+      @JsonKey(name: "has_ended")
           bool isAuctionEnded,
       @JsonKey(ignore: true)
           bool enableBuyNow,
@@ -157,7 +152,6 @@ class _$WebListingCopyWithImpl<$Res, $Val extends WebListing>
     Object? endDate = null,
     Object? isVisibleBeforeStartDate = null,
     Object? isVisibleAfterEndDate = null,
-    Object? thumbnailsFetched = null,
     Object? isCancelled = null,
     Object? isAuctionStarted = null,
     Object? isAuctionEnded = null,
@@ -223,10 +217,6 @@ class _$WebListingCopyWithImpl<$Res, $Val extends WebListing>
       isVisibleAfterEndDate: null == isVisibleAfterEndDate
           ? _value.isVisibleAfterEndDate
           : isVisibleAfterEndDate // ignore: cast_nullable_to_non_nullable
-              as bool,
-      thumbnailsFetched: null == thumbnailsFetched
-          ? _value.thumbnailsFetched
-          : thumbnailsFetched // ignore: cast_nullable_to_non_nullable
               as bool,
       isCancelled: null == isCancelled
           ? _value.isCancelled
@@ -320,13 +310,11 @@ abstract class _$$_WebListingCopyWith<$Res>
           bool isVisibleBeforeStartDate,
       @JsonKey(name: "is_visible_after_end_date")
           bool isVisibleAfterEndDate,
-      @JsonKey(name: "thumbnails_fetched")
-          bool thumbnailsFetched,
-      @JsonKey(name: "IsCancelled")
+      @JsonKey(name: "is_cancelled")
           bool isCancelled,
-      @JsonKey(name: "IsAuctionStarted")
+      @JsonKey(name: "has_started")
           bool isAuctionStarted,
-      @JsonKey(name: "IsAuctionEnded")
+      @JsonKey(name: "has_ended")
           bool isAuctionEnded,
       @JsonKey(ignore: true)
           bool enableBuyNow,
@@ -370,7 +358,6 @@ class __$$_WebListingCopyWithImpl<$Res>
     Object? endDate = null,
     Object? isVisibleBeforeStartDate = null,
     Object? isVisibleAfterEndDate = null,
-    Object? thumbnailsFetched = null,
     Object? isCancelled = null,
     Object? isAuctionStarted = null,
     Object? isAuctionEnded = null,
@@ -436,10 +423,6 @@ class __$$_WebListingCopyWithImpl<$Res>
       isVisibleAfterEndDate: null == isVisibleAfterEndDate
           ? _value.isVisibleAfterEndDate
           : isVisibleAfterEndDate // ignore: cast_nullable_to_non_nullable
-              as bool,
-      thumbnailsFetched: null == thumbnailsFetched
-          ? _value.thumbnailsFetched
-          : thumbnailsFetched // ignore: cast_nullable_to_non_nullable
               as bool,
       isCancelled: null == isCancelled
           ? _value.isCancelled
@@ -508,13 +491,11 @@ class _$_WebListing extends _WebListing {
           required this.isVisibleBeforeStartDate,
       @JsonKey(name: "is_visible_after_end_date")
           required this.isVisibleAfterEndDate,
-      @JsonKey(name: "thumbnails_fetched")
-          required this.thumbnailsFetched,
-      @JsonKey(name: "IsCancelled")
+      @JsonKey(name: "is_cancelled")
           this.isCancelled = false,
-      @JsonKey(name: "IsAuctionStarted")
+      @JsonKey(name: "has_started")
           this.isAuctionStarted = true,
-      @JsonKey(name: "IsAuctionEnded")
+      @JsonKey(name: "has_ended")
           this.isAuctionEnded = false,
       @JsonKey(ignore: true)
           this.enableBuyNow = false,
@@ -574,20 +555,14 @@ class _$_WebListing extends _WebListing {
   @JsonKey(name: "is_visible_after_end_date")
   final bool isVisibleAfterEndDate;
   @override
-  @JsonKey(name: "thumbnails_fetched")
-  final bool thumbnailsFetched;
-  @override
-  @JsonKey(name: "IsCancelled")
+  @JsonKey(name: "is_cancelled")
   final bool isCancelled;
-//TODO: update
   @override
-  @JsonKey(name: "IsAuctionStarted")
+  @JsonKey(name: "has_started")
   final bool isAuctionStarted;
-//TODO: update
   @override
-  @JsonKey(name: "IsAuctionEnded")
+  @JsonKey(name: "has_ended")
   final bool isAuctionEnded;
-//TODO: update
   @override
   @JsonKey(ignore: true)
   final bool enableBuyNow;
@@ -611,7 +586,7 @@ class _$_WebListing extends _WebListing {
 
   @override
   String toString() {
-    return 'WebListing(id: $id, collection: $collection, nft: $nft, smartContractUid: $smartContractUid, ownerAddress: $ownerAddress, winningAddress: $winningAddress, buyNowPrice: $buyNowPrice, floorPrice: $floorPrice, reservePrice: $reservePrice, finalPrice: $finalPrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, thumbnailsFetched: $thumbnailsFetched, isCancelled: $isCancelled, isAuctionStarted: $isAuctionStarted, isAuctionEnded: $isAuctionEnded, enableBuyNow: $enableBuyNow, enableAuction: $enableAuction, enableReservePrice: $enableReservePrice, galleryOnly: $galleryOnly, thumbnails: $thumbnails)';
+    return 'WebListing(id: $id, collection: $collection, nft: $nft, smartContractUid: $smartContractUid, ownerAddress: $ownerAddress, winningAddress: $winningAddress, buyNowPrice: $buyNowPrice, floorPrice: $floorPrice, reservePrice: $reservePrice, finalPrice: $finalPrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, isCancelled: $isCancelled, isAuctionStarted: $isAuctionStarted, isAuctionEnded: $isAuctionEnded, enableBuyNow: $enableBuyNow, enableAuction: $enableAuction, enableReservePrice: $enableReservePrice, galleryOnly: $galleryOnly, thumbnails: $thumbnails)';
   }
 
   @override
@@ -645,8 +620,6 @@ class _$_WebListing extends _WebListing {
                 other.isVisibleBeforeStartDate == isVisibleBeforeStartDate) &&
             (identical(other.isVisibleAfterEndDate, isVisibleAfterEndDate) ||
                 other.isVisibleAfterEndDate == isVisibleAfterEndDate) &&
-            (identical(other.thumbnailsFetched, thumbnailsFetched) ||
-                other.thumbnailsFetched == thumbnailsFetched) &&
             (identical(other.isCancelled, isCancelled) ||
                 other.isCancelled == isCancelled) &&
             (identical(other.isAuctionStarted, isAuctionStarted) ||
@@ -683,7 +656,6 @@ class _$_WebListing extends _WebListing {
         endDate,
         isVisibleBeforeStartDate,
         isVisibleAfterEndDate,
-        thumbnailsFetched,
         isCancelled,
         isAuctionStarted,
         isAuctionEnded,
@@ -737,13 +709,11 @@ abstract class _WebListing extends WebListing {
           required final bool isVisibleBeforeStartDate,
       @JsonKey(name: "is_visible_after_end_date")
           required final bool isVisibleAfterEndDate,
-      @JsonKey(name: "thumbnails_fetched")
-          required final bool thumbnailsFetched,
-      @JsonKey(name: "IsCancelled")
+      @JsonKey(name: "is_cancelled")
           final bool isCancelled,
-      @JsonKey(name: "IsAuctionStarted")
+      @JsonKey(name: "has_started")
           final bool isAuctionStarted,
-      @JsonKey(name: "IsAuctionEnded")
+      @JsonKey(name: "has_ended")
           final bool isAuctionEnded,
       @JsonKey(ignore: true)
           final bool enableBuyNow,
@@ -802,18 +772,15 @@ abstract class _WebListing extends WebListing {
   @JsonKey(name: "is_visible_after_end_date")
   bool get isVisibleAfterEndDate;
   @override
-  @JsonKey(name: "thumbnails_fetched")
-  bool get thumbnailsFetched;
-  @override
-  @JsonKey(name: "IsCancelled")
+  @JsonKey(name: "is_cancelled")
   bool get isCancelled;
-  @override //TODO: update
-  @JsonKey(name: "IsAuctionStarted")
+  @override
+  @JsonKey(name: "has_started")
   bool get isAuctionStarted;
-  @override //TODO: update
-  @JsonKey(name: "IsAuctionEnded")
+  @override
+  @JsonKey(name: "has_ended")
   bool get isAuctionEnded;
-  @override //TODO: update
+  @override
   @JsonKey(ignore: true)
   bool get enableBuyNow;
   @override

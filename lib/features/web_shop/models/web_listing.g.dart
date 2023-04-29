@@ -25,10 +25,9 @@ _$_WebListing _$$_WebListingFromJson(Map<String, dynamic> json) =>
       endDate: DateTime.parse(json['end_date'] as String),
       isVisibleBeforeStartDate: json['is_visible_before_start_date'] as bool,
       isVisibleAfterEndDate: json['is_visible_after_end_date'] as bool,
-      thumbnailsFetched: json['thumbnails_fetched'] as bool,
-      isCancelled: json['IsCancelled'] as bool? ?? false,
-      isAuctionStarted: json['IsAuctionStarted'] as bool? ?? true,
-      isAuctionEnded: json['IsAuctionEnded'] as bool? ?? false,
+      isCancelled: json['is_cancelled'] as bool? ?? false,
+      isAuctionStarted: json['has_started'] as bool? ?? true,
+      isAuctionEnded: json['has_ended'] as bool? ?? false,
       thumbnails: (json['thumbnails'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
@@ -50,9 +49,8 @@ Map<String, dynamic> _$$_WebListingToJson(_$_WebListing instance) =>
       'end_date': instance.endDate.toIso8601String(),
       'is_visible_before_start_date': instance.isVisibleBeforeStartDate,
       'is_visible_after_end_date': instance.isVisibleAfterEndDate,
-      'thumbnails_fetched': instance.thumbnailsFetched,
-      'IsCancelled': instance.isCancelled,
-      'IsAuctionStarted': instance.isAuctionStarted,
-      'IsAuctionEnded': instance.isAuctionEnded,
+      'is_cancelled': instance.isCancelled,
+      'has_started': instance.isAuctionStarted,
+      'has_ended': instance.isAuctionEnded,
       'thumbnails': instance.thumbnails,
     };

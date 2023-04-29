@@ -29,10 +29,9 @@ class WebListing with _$WebListing {
     @JsonKey(name: "end_date") required DateTime endDate,
     @JsonKey(name: "is_visible_before_start_date") required bool isVisibleBeforeStartDate,
     @JsonKey(name: "is_visible_after_end_date") required bool isVisibleAfterEndDate,
-    @JsonKey(name: "thumbnails_fetched") required bool thumbnailsFetched,
-    @JsonKey(name: "IsCancelled") @Default(false) bool isCancelled, //TODO: update
-    @JsonKey(name: "IsAuctionStarted") @Default(true) bool isAuctionStarted, //TODO: update
-    @JsonKey(name: "IsAuctionEnded") @Default(false) bool isAuctionEnded, //TODO: update
+    @JsonKey(name: "is_cancelled") @Default(false) bool isCancelled,
+    @JsonKey(name: "has_started") @Default(true) bool isAuctionStarted,
+    @JsonKey(name: "has_ended") @Default(false) bool isAuctionEnded,
     @Default(false) @JsonKey(ignore: true) bool enableBuyNow,
     @Default(false) @JsonKey(ignore: true) bool enableAuction,
     @Default(false) @JsonKey(ignore: true) bool enableReservePrice,
@@ -53,7 +52,6 @@ class WebListing with _$WebListing {
         isVisibleBeforeStartDate: false,
         isAuctionStarted: true,
         thumbnails: [],
-        thumbnailsFetched: false,
       );
 
   bool get isActive {
