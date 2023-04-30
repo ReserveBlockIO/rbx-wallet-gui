@@ -43,6 +43,8 @@ mixin _$WebNft {
   bool get isBurned => throw _privateConstructorUsedError;
   @JsonKey(name: "asset_urls")
   Map<String, dynamic>? get assetUrls => throw _privateConstructorUsedError;
+  @JsonKey(name: "is_listed")
+  bool get isListed => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -67,7 +69,8 @@ abstract class $WebNftCopyWith<$Res> {
       @JsonKey(name: "minted_at") DateTime mintedAt,
       @JsonKey(name: "data") String? data,
       @JsonKey(name: "is_burned") bool isBurned,
-      @JsonKey(name: "asset_urls") Map<String, dynamic>? assetUrls});
+      @JsonKey(name: "asset_urls") Map<String, dynamic>? assetUrls,
+      @JsonKey(name: "is_listed") bool isListed});
 }
 
 /// @nodoc
@@ -96,6 +99,7 @@ class _$WebNftCopyWithImpl<$Res, $Val extends WebNft>
     Object? data = freezed,
     Object? isBurned = null,
     Object? assetUrls = freezed,
+    Object? isListed = null,
   }) {
     return _then(_value.copyWith(
       identifier: null == identifier
@@ -150,6 +154,10 @@ class _$WebNftCopyWithImpl<$Res, $Val extends WebNft>
           ? _value.assetUrls
           : assetUrls // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
+      isListed: null == isListed
+          ? _value.isListed
+          : isListed // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -173,7 +181,8 @@ abstract class _$$_WebNftCopyWith<$Res> implements $WebNftCopyWith<$Res> {
       @JsonKey(name: "minted_at") DateTime mintedAt,
       @JsonKey(name: "data") String? data,
       @JsonKey(name: "is_burned") bool isBurned,
-      @JsonKey(name: "asset_urls") Map<String, dynamic>? assetUrls});
+      @JsonKey(name: "asset_urls") Map<String, dynamic>? assetUrls,
+      @JsonKey(name: "is_listed") bool isListed});
 }
 
 /// @nodoc
@@ -199,6 +208,7 @@ class __$$_WebNftCopyWithImpl<$Res>
     Object? data = freezed,
     Object? isBurned = null,
     Object? assetUrls = freezed,
+    Object? isListed = null,
   }) {
     return _then(_$_WebNft(
       identifier: null == identifier
@@ -253,6 +263,10 @@ class __$$_WebNftCopyWithImpl<$Res>
           ? _value._assetUrls
           : assetUrls // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
+      isListed: null == isListed
+          ? _value.isListed
+          : isListed // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -283,7 +297,9 @@ class _$_WebNft extends _WebNft {
       @JsonKey(name: "is_burned")
           required this.isBurned,
       @JsonKey(name: "asset_urls")
-          final Map<String, dynamic>? assetUrls})
+          final Map<String, dynamic>? assetUrls,
+      @JsonKey(name: "is_listed")
+          this.isListed = false})
       : _assetUrls = assetUrls,
         super._();
 
@@ -335,8 +351,12 @@ class _$_WebNft extends _WebNft {
   }
 
   @override
+  @JsonKey(name: "is_listed")
+  final bool isListed;
+
+  @override
   String toString() {
-    return 'WebNft(identifier: $identifier, name: $name, description: $description, minterAddress: $minterAddress, ownerAddress: $ownerAddress, minterName: $minterName, primaryAssetName: $primaryAssetName, primaryAssetSize: $primaryAssetSize, smartContractDataString: $smartContractDataString, mintedAt: $mintedAt, data: $data, isBurned: $isBurned, assetUrls: $assetUrls)';
+    return 'WebNft(identifier: $identifier, name: $name, description: $description, minterAddress: $minterAddress, ownerAddress: $ownerAddress, minterName: $minterName, primaryAssetName: $primaryAssetName, primaryAssetSize: $primaryAssetSize, smartContractDataString: $smartContractDataString, mintedAt: $mintedAt, data: $data, isBurned: $isBurned, assetUrls: $assetUrls, isListed: $isListed)';
   }
 
   @override
@@ -368,7 +388,9 @@ class _$_WebNft extends _WebNft {
             (identical(other.isBurned, isBurned) ||
                 other.isBurned == isBurned) &&
             const DeepCollectionEquality()
-                .equals(other._assetUrls, _assetUrls));
+                .equals(other._assetUrls, _assetUrls) &&
+            (identical(other.isListed, isListed) ||
+                other.isListed == isListed));
   }
 
   @JsonKey(ignore: true)
@@ -387,7 +409,8 @@ class _$_WebNft extends _WebNft {
       mintedAt,
       data,
       isBurned,
-      const DeepCollectionEquality().hash(_assetUrls));
+      const DeepCollectionEquality().hash(_assetUrls),
+      isListed);
 
   @JsonKey(ignore: true)
   @override
@@ -427,7 +450,9 @@ abstract class _WebNft extends WebNft {
       @JsonKey(name: "is_burned")
           required final bool isBurned,
       @JsonKey(name: "asset_urls")
-          final Map<String, dynamic>? assetUrls}) = _$_WebNft;
+          final Map<String, dynamic>? assetUrls,
+      @JsonKey(name: "is_listed")
+          final bool isListed}) = _$_WebNft;
   _WebNft._() : super._();
 
   factory _WebNft.fromJson(Map<String, dynamic> json) = _$_WebNft.fromJson;
@@ -468,6 +493,9 @@ abstract class _WebNft extends WebNft {
   @override
   @JsonKey(name: "asset_urls")
   Map<String, dynamic>? get assetUrls;
+  @override
+  @JsonKey(name: "is_listed")
+  bool get isListed;
   @override
   @JsonKey(ignore: true)
   _$$_WebNftCopyWith<_$_WebNft> get copyWith =>

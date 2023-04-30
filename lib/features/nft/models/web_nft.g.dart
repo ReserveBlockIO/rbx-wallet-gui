@@ -20,6 +20,7 @@ _$_WebNft _$$_WebNftFromJson(Map<String, dynamic> json) => _$_WebNft(
       data: json['data'] as String?,
       isBurned: json['is_burned'] as bool,
       assetUrls: json['asset_urls'] as Map<String, dynamic>?,
+      isListed: json['is_listed'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$_WebNftToJson(_$_WebNft instance) => <String, dynamic>{
@@ -36,4 +37,5 @@ Map<String, dynamic> _$$_WebNftToJson(_$_WebNft instance) => <String, dynamic>{
       'data': instance.data,
       'is_burned': instance.isBurned,
       'asset_urls': instance.assetUrls,
+      'is_listed': instance.isListed,
     };

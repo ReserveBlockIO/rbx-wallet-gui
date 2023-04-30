@@ -49,7 +49,7 @@ class NftListProvider extends StateNotifier<NftListModel> {
     // address ??= ref.read(webSessionProvider).keypair?.address;
 
     if (kIsWeb) {
-      if (email == null || address == null) {
+      if (address == null) {
         return;
       }
 

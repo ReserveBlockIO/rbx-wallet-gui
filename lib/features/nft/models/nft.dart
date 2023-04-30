@@ -16,6 +16,8 @@ import '../../smart_contracts/features/evolve/evolve_phase.dart';
 import '../../smart_contracts/models/feature.dart';
 import '../../smart_contracts/models/multi_asset.dart';
 
+import 'package:rbx_wallet/features/web_shop/providers/web_listed_nfts_provider.dart';
+
 part 'nft.freezed.dart';
 part 'nft.g.dart';
 
@@ -306,12 +308,13 @@ abstract class Nft with _$Nft {
 
   bool isListed(WidgetRef ref) {
     if (kIsWeb) {
-      //TODO: handle web
-      return false;
-    }
-
-    if (ref.read(listedNftsProvider).contains(id)) {
-      return true;
+      if (ref.read(webListedNftsProvider).contains(id)) {
+        return true;
+      }
+    } else {
+      if (ref.read(listedNftsProvider).contains(id)) {
+        return true;
+      }
     }
     return false;
   }

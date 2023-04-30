@@ -29,6 +29,7 @@ abstract class WebNft with _$WebNft {
     @JsonKey(name: "data") String? data,
     @JsonKey(name: "is_burned") required bool isBurned,
     @JsonKey(name: "asset_urls") Map<String, dynamic>? assetUrls,
+    @JsonKey(name: "is_listed") @Default(false) bool isListed,
   }) = _WebNft;
 
   factory WebNft.fromJson(Map<String, dynamic> json) => _$WebNftFromJson(json);

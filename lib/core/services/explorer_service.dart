@@ -123,6 +123,16 @@ class ExplorerService extends BaseService {
     }
   }
 
+  Future<List<String>> listedNftIds(String ownerAddress) async {
+    try {
+      final response = await getJson('/nft/listed/$ownerAddress/');
+      return response['results'].map<String>((id) => id.toString()).toList() as List<String>;
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
   Future<Nft?> retrieveNft(String id) async {
     try {
       final response = await getJson('/nft/$id');

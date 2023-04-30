@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
@@ -7,6 +8,7 @@ import 'package:rbx_wallet/features/nft/components/nft_navigator.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
+import '../../web_shop/providers/web_listed_nfts_provider.dart';
 
 class NftSelector extends BaseComponent {
   final Function(Nft nft) onSelect;
@@ -27,6 +29,10 @@ class NftSelector extends BaseComponent {
       onPressed: disabled
           ? null
           : () async {
+              if (kIsWeb) {
+                await ref.read(webListedNftsProvider.notifier).refresh();
+              }
+
               final Nft? nft = await showModalBottomSheet(
                   context: context,
                   builder: (context) {
