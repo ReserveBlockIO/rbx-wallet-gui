@@ -22,6 +22,7 @@ class WebShop with _$WebShop {
     @JsonKey(name: 'owner_address') required String ownerAddress,
     @JsonKey(name: 'is_offline') required bool isOffline,
     @JsonKey(name: 'is_published') required bool isPublished,
+    @JsonKey(name: 'is_third_party') @Default(false) bool isThirdParty,
   }) = _WebShop;
 
   factory WebShop.fromJson(Map<String, dynamic> json) => _$WebShopFromJson(json);

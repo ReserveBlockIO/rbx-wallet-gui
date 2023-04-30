@@ -27,6 +27,8 @@ import 'package:rbx_wallet/features/web_shop/models/web_bid.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_listing.dart';
 import 'package:rbx_wallet/features/web_shop/providers/create_web_listing_provider.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_listing_detail_provider.dart';
+import 'package:rbx_wallet/features/web_shop/providers/web_shop_bid_provider.dart';
+import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/app_router.gr.dart';
@@ -601,12 +603,12 @@ class _WebNftData extends StatelessWidget {
   }
 }
 
-class _BuyNow extends StatelessWidget {
+class _BuyNow extends BaseComponent {
   final WebListing listing;
   const _BuyNow({super.key, required this.listing});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     if (listing.buyNowPrice == null) {
       return SizedBox.shrink();
     }
@@ -642,8 +644,8 @@ class _BuyNow extends StatelessWidget {
                 label: "Buy Now",
                 icon: Icons.money,
                 size: AppSizeVariant.Lg,
-                onPressed: () {
-                  // handlePurchase(context, ref);
+                onPressed: () async {
+                  ref.read(webBidListProvider(listing.id).notifier).buyNow(context, listing);
                 },
               ),
             ],
@@ -692,7 +694,7 @@ class _Price extends StatelessWidget {
   }
 }
 
-class _Auction extends StatelessWidget {
+class _Auction extends BaseComponent {
   final WebListing listing;
   const _Auction({
     super.key,
@@ -700,7 +702,7 @@ class _Auction extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     if (listing.floorPrice == null) {
       return SizedBox.shrink();
     }
@@ -745,6 +747,7 @@ class _Auction extends StatelessWidget {
                       size: AppSizeVariant.Lg,
                       onPressed: () {
                         //TODO
+                        ref.read(webBidListProvider(listing.id).notifier).sendBid(context, listing);
                       }),
                   const SizedBox(
                     width: 6,
@@ -869,7 +872,8 @@ class _BidHistoryButton extends BaseComponent {
       icon: Icons.punch_clock,
       size: AppSizeVariant.Lg,
       onPressed: () async {
-        final bids = listing.bids;
+        List<WebBid> bids = [...listing.bids];
+        bids.sort((a, b) => a.amount > b.amount ? -1 : 1);
 
         if (bids.isEmpty) {
           Toast.message("No bids.");

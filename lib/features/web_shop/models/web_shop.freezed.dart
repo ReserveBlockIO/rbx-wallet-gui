@@ -32,6 +32,8 @@ mixin _$WebShop {
   bool get isOffline => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_published')
   bool get isPublished => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_third_party')
+  bool get isThirdParty => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -51,7 +53,8 @@ abstract class $WebShopCopyWith<$Res> {
       @JsonKey(name: 'unique_id') String uid,
       @JsonKey(name: 'owner_address') String ownerAddress,
       @JsonKey(name: 'is_offline') bool isOffline,
-      @JsonKey(name: 'is_published') bool isPublished});
+      @JsonKey(name: 'is_published') bool isPublished,
+      @JsonKey(name: 'is_third_party') bool isThirdParty});
 }
 
 /// @nodoc
@@ -75,6 +78,7 @@ class _$WebShopCopyWithImpl<$Res, $Val extends WebShop>
     Object? ownerAddress = null,
     Object? isOffline = null,
     Object? isPublished = null,
+    Object? isThirdParty = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -109,6 +113,10 @@ class _$WebShopCopyWithImpl<$Res, $Val extends WebShop>
           ? _value.isPublished
           : isPublished // ignore: cast_nullable_to_non_nullable
               as bool,
+      isThirdParty: null == isThirdParty
+          ? _value.isThirdParty
+          : isThirdParty // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -128,7 +136,8 @@ abstract class _$$_WebShopCopyWith<$Res> implements $WebShopCopyWith<$Res> {
       @JsonKey(name: 'unique_id') String uid,
       @JsonKey(name: 'owner_address') String ownerAddress,
       @JsonKey(name: 'is_offline') bool isOffline,
-      @JsonKey(name: 'is_published') bool isPublished});
+      @JsonKey(name: 'is_published') bool isPublished,
+      @JsonKey(name: 'is_third_party') bool isThirdParty});
 }
 
 /// @nodoc
@@ -149,6 +158,7 @@ class __$$_WebShopCopyWithImpl<$Res>
     Object? ownerAddress = null,
     Object? isOffline = null,
     Object? isPublished = null,
+    Object? isThirdParty = null,
   }) {
     return _then(_$_WebShop(
       id: null == id
@@ -183,6 +193,10 @@ class __$$_WebShopCopyWithImpl<$Res>
           ? _value.isPublished
           : isPublished // ignore: cast_nullable_to_non_nullable
               as bool,
+      isThirdParty: null == isThirdParty
+          ? _value.isThirdParty
+          : isThirdParty // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -198,7 +212,8 @@ class _$_WebShop extends _WebShop with DiagnosticableTreeMixin {
       @JsonKey(name: 'unique_id') required this.uid,
       @JsonKey(name: 'owner_address') required this.ownerAddress,
       @JsonKey(name: 'is_offline') required this.isOffline,
-      @JsonKey(name: 'is_published') required this.isPublished})
+      @JsonKey(name: 'is_published') required this.isPublished,
+      @JsonKey(name: 'is_third_party') this.isThirdParty = false})
       : super._();
 
   factory _$_WebShop.fromJson(Map<String, dynamic> json) =>
@@ -224,10 +239,13 @@ class _$_WebShop extends _WebShop with DiagnosticableTreeMixin {
   @override
   @JsonKey(name: 'is_published')
   final bool isPublished;
+  @override
+  @JsonKey(name: 'is_third_party')
+  final bool isThirdParty;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'WebShop(id: $id, name: $name, description: $description, url: $url, uid: $uid, ownerAddress: $ownerAddress, isOffline: $isOffline, isPublished: $isPublished)';
+    return 'WebShop(id: $id, name: $name, description: $description, url: $url, uid: $uid, ownerAddress: $ownerAddress, isOffline: $isOffline, isPublished: $isPublished, isThirdParty: $isThirdParty)';
   }
 
   @override
@@ -242,7 +260,8 @@ class _$_WebShop extends _WebShop with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('uid', uid))
       ..add(DiagnosticsProperty('ownerAddress', ownerAddress))
       ..add(DiagnosticsProperty('isOffline', isOffline))
-      ..add(DiagnosticsProperty('isPublished', isPublished));
+      ..add(DiagnosticsProperty('isPublished', isPublished))
+      ..add(DiagnosticsProperty('isThirdParty', isThirdParty));
   }
 
   @override
@@ -261,13 +280,15 @@ class _$_WebShop extends _WebShop with DiagnosticableTreeMixin {
             (identical(other.isOffline, isOffline) ||
                 other.isOffline == isOffline) &&
             (identical(other.isPublished, isPublished) ||
-                other.isPublished == isPublished));
+                other.isPublished == isPublished) &&
+            (identical(other.isThirdParty, isThirdParty) ||
+                other.isThirdParty == isThirdParty));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, name, description, url, uid,
-      ownerAddress, isOffline, isPublished);
+      ownerAddress, isOffline, isPublished, isThirdParty);
 
   @JsonKey(ignore: true)
   @override
@@ -285,15 +306,15 @@ class _$_WebShop extends _WebShop with DiagnosticableTreeMixin {
 
 abstract class _WebShop extends WebShop {
   factory _WebShop(
-          {required final int id,
-          required final String name,
-          required final String description,
-          required final String url,
-          @JsonKey(name: 'unique_id') required final String uid,
-          @JsonKey(name: 'owner_address') required final String ownerAddress,
-          @JsonKey(name: 'is_offline') required final bool isOffline,
-          @JsonKey(name: 'is_published') required final bool isPublished}) =
-      _$_WebShop;
+      {required final int id,
+      required final String name,
+      required final String description,
+      required final String url,
+      @JsonKey(name: 'unique_id') required final String uid,
+      @JsonKey(name: 'owner_address') required final String ownerAddress,
+      @JsonKey(name: 'is_offline') required final bool isOffline,
+      @JsonKey(name: 'is_published') required final bool isPublished,
+      @JsonKey(name: 'is_third_party') final bool isThirdParty}) = _$_WebShop;
   _WebShop._() : super._();
 
   factory _WebShop.fromJson(Map<String, dynamic> json) = _$_WebShop.fromJson;
@@ -318,6 +339,9 @@ abstract class _WebShop extends WebShop {
   @override
   @JsonKey(name: 'is_published')
   bool get isPublished;
+  @override
+  @JsonKey(name: 'is_third_party')
+  bool get isThirdParty;
   @override
   @JsonKey(ignore: true)
   _$$_WebShopCopyWith<_$_WebShop> get copyWith =>

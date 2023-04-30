@@ -5,6 +5,7 @@ import 'package:rbx_wallet/core/singletons.dart';
 import 'package:rbx_wallet/core/storage.dart';
 import 'package:rbx_wallet/features/dst/models/bid.dart';
 import 'package:rbx_wallet/features/dst/models/dec_shop.dart';
+import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
@@ -131,7 +132,10 @@ class RemoteShopService extends BaseService {
     }
   }
 
-  Future<bool> sendBid(Bid bid) async {
+  Future<bool> sendBid(
+    Bid bid, [
+    int? thirdPartyListingId,
+  ]) async {
     final params = bid.toJson();
     try {
       final response = await postJson(
@@ -143,6 +147,19 @@ class RemoteShopService extends BaseService {
       final data = response['data'];
 
       if (data["Success"] == true) {
+        if (thirdPartyListingId != null) {
+          final bidId = data['BidId'];
+          final syncSuccess = await WebShopService().submitAcceptedCoreBid(
+            amount: bid.bidAmount,
+            listingId: thirdPartyListingId,
+            bidId: bidId,
+            isBuyNow: bid.isBuyNow,
+            address: bid.bidAddress,
+          );
+
+          print("Synced: $syncSuccess");
+        }
+
         return true;
       }
       Toast.error(data['Message'] ?? "A problem occurred");

@@ -34,6 +34,7 @@ class WebListing with _$WebListing {
     @JsonKey(name: "is_cancelled") @Default(false) bool isCancelled,
     @JsonKey(name: "has_started") @Default(true) bool isAuctionStarted,
     @JsonKey(name: "has_ended") @Default(false) bool isAuctionEnded,
+    @JsonKey(name: "purchase_key") @Default("") String purchaseKey,
     @Default(false) @JsonKey(ignore: true) bool enableBuyNow,
     @Default(false) @JsonKey(ignore: true) bool enableAuction,
     @Default(false) @JsonKey(ignore: true) bool enableReservePrice,

@@ -53,6 +53,8 @@ mixin _$WebListing {
   bool get isAuctionStarted => throw _privateConstructorUsedError;
   @JsonKey(name: "has_ended")
   bool get isAuctionEnded => throw _privateConstructorUsedError;
+  @JsonKey(name: "purchase_key")
+  String get purchaseKey => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   bool get enableBuyNow => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -112,6 +114,8 @@ abstract class $WebListingCopyWith<$Res> {
           bool isAuctionStarted,
       @JsonKey(name: "has_ended")
           bool isAuctionEnded,
+      @JsonKey(name: "purchase_key")
+          String purchaseKey,
       @JsonKey(ignore: true)
           bool enableBuyNow,
       @JsonKey(ignore: true)
@@ -160,6 +164,7 @@ class _$WebListingCopyWithImpl<$Res, $Val extends WebListing>
     Object? isCancelled = null,
     Object? isAuctionStarted = null,
     Object? isAuctionEnded = null,
+    Object? purchaseKey = null,
     Object? enableBuyNow = null,
     Object? enableAuction = null,
     Object? enableReservePrice = null,
@@ -237,6 +242,10 @@ class _$WebListingCopyWithImpl<$Res, $Val extends WebListing>
           ? _value.isAuctionEnded
           : isAuctionEnded // ignore: cast_nullable_to_non_nullable
               as bool,
+      purchaseKey: null == purchaseKey
+          ? _value.purchaseKey
+          : purchaseKey // ignore: cast_nullable_to_non_nullable
+              as String,
       enableBuyNow: null == enableBuyNow
           ? _value.enableBuyNow
           : enableBuyNow // ignore: cast_nullable_to_non_nullable
@@ -343,6 +352,8 @@ abstract class _$$_WebListingCopyWith<$Res>
           bool isAuctionStarted,
       @JsonKey(name: "has_ended")
           bool isAuctionEnded,
+      @JsonKey(name: "purchase_key")
+          String purchaseKey,
       @JsonKey(ignore: true)
           bool enableBuyNow,
       @JsonKey(ignore: true)
@@ -392,6 +403,7 @@ class __$$_WebListingCopyWithImpl<$Res>
     Object? isCancelled = null,
     Object? isAuctionStarted = null,
     Object? isAuctionEnded = null,
+    Object? purchaseKey = null,
     Object? enableBuyNow = null,
     Object? enableAuction = null,
     Object? enableReservePrice = null,
@@ -469,6 +481,10 @@ class __$$_WebListingCopyWithImpl<$Res>
           ? _value.isAuctionEnded
           : isAuctionEnded // ignore: cast_nullable_to_non_nullable
               as bool,
+      purchaseKey: null == purchaseKey
+          ? _value.purchaseKey
+          : purchaseKey // ignore: cast_nullable_to_non_nullable
+              as String,
       enableBuyNow: null == enableBuyNow
           ? _value.enableBuyNow
           : enableBuyNow // ignore: cast_nullable_to_non_nullable
@@ -538,6 +554,8 @@ class _$_WebListing extends _WebListing {
           this.isAuctionStarted = true,
       @JsonKey(name: "has_ended")
           this.isAuctionEnded = false,
+      @JsonKey(name: "purchase_key")
+          this.purchaseKey = "",
       @JsonKey(ignore: true)
           this.enableBuyNow = false,
       @JsonKey(ignore: true)
@@ -608,6 +626,9 @@ class _$_WebListing extends _WebListing {
   @JsonKey(name: "has_ended")
   final bool isAuctionEnded;
   @override
+  @JsonKey(name: "purchase_key")
+  final String purchaseKey;
+  @override
   @JsonKey(ignore: true)
   final bool enableBuyNow;
   @override
@@ -642,7 +663,7 @@ class _$_WebListing extends _WebListing {
 
   @override
   String toString() {
-    return 'WebListing(id: $id, collection: $collection, nft: $nft, smartContractUid: $smartContractUid, ownerAddress: $ownerAddress, winningAddress: $winningAddress, buyNowPrice: $buyNowPrice, floorPrice: $floorPrice, reservePrice: $reservePrice, finalPrice: $finalPrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, isCancelled: $isCancelled, isAuctionStarted: $isAuctionStarted, isAuctionEnded: $isAuctionEnded, enableBuyNow: $enableBuyNow, enableAuction: $enableAuction, enableReservePrice: $enableReservePrice, galleryOnly: $galleryOnly, thumbnails: $thumbnails, auction: $auction, bids: $bids)';
+    return 'WebListing(id: $id, collection: $collection, nft: $nft, smartContractUid: $smartContractUid, ownerAddress: $ownerAddress, winningAddress: $winningAddress, buyNowPrice: $buyNowPrice, floorPrice: $floorPrice, reservePrice: $reservePrice, finalPrice: $finalPrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, isCancelled: $isCancelled, isAuctionStarted: $isAuctionStarted, isAuctionEnded: $isAuctionEnded, purchaseKey: $purchaseKey, enableBuyNow: $enableBuyNow, enableAuction: $enableAuction, enableReservePrice: $enableReservePrice, galleryOnly: $galleryOnly, thumbnails: $thumbnails, auction: $auction, bids: $bids)';
   }
 
   @override
@@ -682,6 +703,8 @@ class _$_WebListing extends _WebListing {
                 other.isAuctionStarted == isAuctionStarted) &&
             (identical(other.isAuctionEnded, isAuctionEnded) ||
                 other.isAuctionEnded == isAuctionEnded) &&
+            (identical(other.purchaseKey, purchaseKey) ||
+                other.purchaseKey == purchaseKey) &&
             (identical(other.enableBuyNow, enableBuyNow) ||
                 other.enableBuyNow == enableBuyNow) &&
             (identical(other.enableAuction, enableAuction) ||
@@ -717,6 +740,7 @@ class _$_WebListing extends _WebListing {
         isCancelled,
         isAuctionStarted,
         isAuctionEnded,
+        purchaseKey,
         enableBuyNow,
         enableAuction,
         enableReservePrice,
@@ -775,6 +799,8 @@ abstract class _WebListing extends WebListing {
           final bool isAuctionStarted,
       @JsonKey(name: "has_ended")
           final bool isAuctionEnded,
+      @JsonKey(name: "purchase_key")
+          final String purchaseKey,
       @JsonKey(ignore: true)
           final bool enableBuyNow,
       @JsonKey(ignore: true)
@@ -842,6 +868,9 @@ abstract class _WebListing extends WebListing {
   @override
   @JsonKey(name: "has_ended")
   bool get isAuctionEnded;
+  @override
+  @JsonKey(name: "purchase_key")
+  String get purchaseKey;
   @override
   @JsonKey(ignore: true)
   bool get enableBuyNow;

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/models/paginated_response.dart';
 import 'package:rbx_wallet/core/services/base_service.dart';
@@ -9,6 +10,7 @@ import 'package:rbx_wallet/features/web_shop/models/web_collection.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_listing.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_shop.dart';
 import 'package:rbx_wallet/features/web_shop/models/auth_token.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 class WebShopService extends BaseService {
   WebShopService()
@@ -285,6 +287,67 @@ class WebShopService extends BaseService {
       if (e is DioError) print(e.response);
       print(e);
       print(st);
+      return false;
+    }
+  }
+
+  Future<bool> sendBid({
+    required double amount,
+    required String address,
+    required int listingId,
+    required bool isBuyNow,
+    String? signature,
+  }) async {
+    final payload = {
+      "amount": amount,
+      "address": address,
+      "listing": listingId,
+      "from_third_party": kIsWeb,
+      "is_buy_now": isBuyNow,
+      "signature": signature ?? "test"
+    };
+
+    final response = await postJson(
+      "/shop/bid/",
+      params: payload,
+      auth: false,
+    );
+    final Map<String, dynamic> data = response['data'];
+
+    print(data);
+
+    if (data.containsKey('success') && data['success'] == true) {
+      return true;
+    }
+
+    Toast.error(data['message'] ?? "A problem occurred");
+    return false;
+  }
+
+  Future<bool> submitAcceptedCoreBid({
+    required String bidId,
+    required int listingId,
+    required double amount,
+    required bool isBuyNow,
+    required String address,
+  }) async {
+    try {
+      final params = {
+        "bid_id": bidId,
+        "listing": listingId,
+        "amount": amount,
+        "is_buy_now": isBuyNow,
+        "address": address,
+      };
+
+      await postJson(
+        "/shop/bid/submit/",
+        params: params,
+        inspect: true,
+      );
+      return true;
+    } catch (e) {
+      print(e);
       return false;
     }
   }
