@@ -746,7 +746,6 @@ class _Auction extends BaseComponent {
                       icon: Icons.gavel,
                       size: AppSizeVariant.Lg,
                       onPressed: () {
-                        //TODO
                         ref.read(webBidListProvider(listing.id).notifier).sendBid(context, listing);
                       }),
                   const SizedBox(
@@ -930,14 +929,14 @@ class _BidHistoryModal extends BaseComponent {
                   final currentAddress = kIsWeb ? ref.watch(webSessionProvider).keypair?.address : ref.watch(sessionProvider).currentWallet?.address;
                   final isBidder = currentAddress == bid.address;
 
-                  if (isBidder && bid.bidStatus == BidStatus.Sent) {
-                    return AppButton(
-                      label: "Resend Bid",
-                      onPressed: () async {
-                        //TODO: resend bid
-                      },
-                    );
-                  }
+                  // if (isBidder && bid.bidStatus == BidStatus.Sent) {
+                  //   return AppButton(
+                  //     label: "Resend Bid",
+                  //     onPressed: () async {
+                  //       //TODO: resend bid
+                  //     },
+                  //   );
+                  // }
 
                   return Text(bid.sendTimeLabel);
                 }),

@@ -8,6 +8,7 @@ import 'package:rbx_wallet/core/utils.dart';
 import 'package:rbx_wallet/features/asset/web_asset.dart';
 import 'package:rbx_wallet/features/dst/providers/listed_nfts_provider.dart';
 import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
 
 import '../../../core/env.dart';
 import '../../asset/asset.dart';
@@ -143,6 +144,15 @@ abstract class Nft with _$Nft {
       }
     }
     return false;
+  }
+
+  Royalty? get royalty {
+    for (final feature in featureList) {
+      if (feature.type == FeatureType.royalty) {
+        return Royalty.fromCompiler(feature.data);
+      }
+    }
+    return null;
   }
 
   bool get evolveIsDynamic {

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,9 +9,13 @@ import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/features/dst/models/bid.dart';
 import 'package:rbx_wallet/features/dst/services/dst_service.dart';
+import 'package:rbx_wallet/features/keygen/models/keypair.dart';
+import 'package:rbx_wallet/features/nft/models/nft.dart';
+import 'package:rbx_wallet/features/raw/raw_service.dart';
 import 'package:rbx_wallet/features/remote_shop/models/shop_data.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
+import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_listing.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_collection_detail_provider.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_listing_list_provider.dart';
@@ -88,6 +94,291 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
     return true;
   }
 
+  Future<String?> getBidSignature(String purchaseKey, double amount, Keypair keypair) async {
+    String amountString = amount.toStringAsFixed(16);
+    if (amount == amount.toInt().toDouble()) {
+      amountString = amount.toStringAsFixed(1);
+    }
+
+    final message = "${purchaseKey}_${amountString}_${keypair.address}";
+
+    print("message: $message");
+
+    return await RawTransaction.getSignature(message: message, privateKey: keypair.private, publicKey: keypair.public);
+  }
+
+  Future<dynamic> buildSaleCompleteTx(Nft nft, double amount, String buyerAddress, String keySign) async {
+    final txService = RawService();
+    final keypair = ref.read(webSessionProvider).keypair;
+
+    if (keypair == null) {
+      Toast.error("no wallet");
+      return;
+    }
+
+    final scId = nft.id;
+    final currentOwnerAddress = nft.currentOwner;
+
+    final royaltyAmount = nft.royalty?.amount;
+    final royaltyAddress = nft.royalty?.address;
+
+    double amountLessRoyalty = amount;
+
+    final timestamp = await txService.getTimestamp();
+    if (timestamp == null) {
+      Toast.error("Could not get timestamp");
+      return false;
+    }
+
+    final nonce = await txService.getNonce(buyerAddress);
+    if (nonce == null) {
+      Toast.error("Could not get nonce");
+      return false;
+    }
+
+    final List<Map<String, dynamic>> subTxs = [];
+    bool hasRoyalty = false;
+    if (royaltyAmount != null && royaltyAddress != null) {
+      hasRoyalty = true;
+
+      amountLessRoyalty = amount - royaltyAmount;
+
+      final Map<String, dynamic> royaltyPayload = {
+        "Function": "Sale_Complete()",
+        "ContractUID": scId,
+        "Royalty": true,
+        "RoyaltyAmount": royaltyAmount,
+        "RoyaltyPaidTo": royaltyAddress,
+        "TXNum": "2/2"
+      };
+
+      var royaltyData = RawTransaction.buildTransaction(
+        toAddress: royaltyAddress,
+        fromAddress: buyerAddress,
+        type: TxType.nftSale,
+        amount: royaltyAmount,
+        nonce: nonce,
+        timestamp: timestamp,
+        data: royaltyPayload,
+      );
+
+      final fee = await txService.getFee(royaltyData);
+      if (fee == null) {
+        Toast.error("Could not get fee");
+        return false;
+      }
+
+      final hash = await txService.getHash(royaltyData);
+      if (hash == null) {
+        Toast.error("Could not generate hash");
+        return false;
+      }
+
+      final signature = await RawTransaction.getSignature(
+        message: hash,
+        privateKey: keypair.private,
+        publicKey: keypair.public,
+      );
+      if (signature == null) {
+        Toast.error("Signature generation failed.");
+        return false;
+      }
+
+      final isValid = await txService.validateSignature(
+        hash,
+        keypair.address,
+        signature,
+      );
+
+      if (!isValid) {
+        Toast.error("Signature not valid");
+        return false;
+      }
+
+      royaltyData = RawTransaction.buildTransaction(
+        toAddress: royaltyAddress,
+        fromAddress: buyerAddress,
+        type: TxType.nftSale,
+        amount: royaltyAmount,
+        nonce: nonce,
+        timestamp: timestamp,
+        data: royaltyPayload,
+        fee: fee,
+        hash: hash,
+        signature: signature,
+      );
+
+      subTxs.add(royaltyData);
+    }
+
+    final Map<String, dynamic> payload = hasRoyalty
+        ? {
+            "Function": "Sale_Complete()",
+            "ContractUID": scId,
+            "TXNum": "1/2",
+            "Royalty": true,
+          }
+        : {
+            "Function": "Sale_Complete()",
+            "ContractUID": scId,
+          };
+
+    var txData = RawTransaction.buildTransaction(
+      toAddress: currentOwnerAddress,
+      fromAddress: buyerAddress,
+      type: TxType.nftSale,
+      amount: amountLessRoyalty,
+      nonce: nonce,
+      timestamp: timestamp,
+      data: payload,
+    );
+
+    final fee = await txService.getFee(txData);
+    if (fee == null) {
+      Toast.error("Could not get fee");
+      return false;
+    }
+
+    final hash = await txService.getHash(txData);
+    if (hash == null) {
+      Toast.error("Could not generate hash");
+      return false;
+    }
+
+    final signature = await RawTransaction.getSignature(
+      message: hash,
+      privateKey: keypair.private,
+      publicKey: keypair.public,
+    );
+
+    if (signature == null) {
+      Toast.error("Signature generation failed.");
+      return false;
+    }
+
+    final isValid = await txService.validateSignature(
+      hash,
+      keypair.address,
+      signature,
+    );
+
+    if (!isValid) {
+      Toast.error("Signature not valid");
+      return false;
+    }
+
+    txData = RawTransaction.buildTransaction(
+      toAddress: currentOwnerAddress,
+      fromAddress: buyerAddress,
+      type: TxType.nftSale,
+      amount: amountLessRoyalty,
+      nonce: nonce,
+      timestamp: timestamp,
+      data: payload,
+      fee: fee,
+      hash: hash,
+      signature: signature,
+    );
+
+    subTxs.add(txData);
+
+    var primaryTxPayload = {
+      "Function": "Sale_Complete()",
+      "ContractUID": scId,
+      "Royalty": hasRoyalty,
+      "RoyaltyAmount": royaltyAmount,
+      "RoyaltyPayTo": royaltyAddress,
+      "Transactions": subTxs,
+      "KeySign": keySign
+    };
+
+    var primaryTxData = RawTransaction.buildTransaction(
+      toAddress: currentOwnerAddress,
+      fromAddress: buyerAddress,
+      type: TxType.nftSale,
+      amount: 0,
+      nonce: nonce,
+      timestamp: timestamp,
+      data: primaryTxPayload,
+    );
+
+    final feePrimary = await txService.getFee(primaryTxData);
+    if (feePrimary == null) {
+      Toast.error("Could not get fee");
+      return false;
+    }
+
+    final hashPrimary = await txService.getHash(primaryTxData);
+    if (hashPrimary == null) {
+      Toast.error("Could not generate hash");
+      return false;
+    }
+
+    final signaturePrimary = await RawTransaction.getSignature(
+      message: hash,
+      privateKey: keypair.private,
+      publicKey: keypair.public,
+    );
+
+    if (signaturePrimary == null) {
+      Toast.error("Signature generation failed.");
+      return false;
+    }
+
+    final isValidPrimary = await txService.validateSignature(
+      hash,
+      keypair.address,
+      signature,
+    );
+
+    if (!isValidPrimary) {
+      Toast.error("Signature not valid");
+      return false;
+    }
+
+    primaryTxData = RawTransaction.buildTransaction(
+      toAddress: currentOwnerAddress,
+      fromAddress: buyerAddress,
+      type: TxType.nftSale,
+      amount: 0,
+      nonce: nonce,
+      timestamp: timestamp,
+      data: primaryTxPayload,
+      fee: fee,
+      hash: hash,
+      signature: signature,
+    );
+
+    final verifyTransactionData = (await txService.sendTransaction(
+      transactionData: primaryTxData,
+      execute: false,
+    ));
+
+    if (verifyTransactionData == null) {
+      Toast.error("Could not verifity transaction");
+      return false;
+    }
+
+    if (verifyTransactionData['Result'] != "Success") {
+      Toast.error(verifyTransactionData['Message']);
+      return false;
+    }
+
+    final tx = await txService.sendTransaction(
+      transactionData: primaryTxData,
+      execute: true,
+    );
+
+    if (tx != null) {
+      if (tx['Result'] == "Success") {
+        return true;
+      }
+    }
+
+    Toast.error();
+    return false;
+  }
+
   Future<bool?> buyNow(BuildContext context, WebListing listing) async {
     if (!kIsWeb) {
       if (!guardWalletIsSynced(ref)) {
@@ -117,17 +408,37 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
       return null;
     }
 
-    // TODO: Signature for web
+    String? signature;
+
+    if (kIsWeb) {
+      final keypair = ref.read(webSessionProvider).keypair;
+      if (keypair == null) {
+        Toast.error("No Wallet");
+        return null;
+      }
+
+      signature = await getBidSignature(listing.purchaseKey, listing.buyNowPrice!, keypair);
+
+      if (signature == null) {
+        Toast.error("Could not produce signature");
+        return null;
+      }
+    }
 
     final success = await WebShopService().sendBid(
       amount: listing.buyNowPrice!,
       address: address,
       listingId: listing.id,
       isBuyNow: true,
+      signature: signature,
     );
 
     if (kIsWeb) {
       //TODO: Web
+
+      if (success) {
+        Toast.message("Buy Now TX broadcasted. Please wait for it to be accepted by the shop owner");
+      }
     } else {
       final coreBid = Bid.create(
         address: address,
@@ -137,7 +448,6 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
         maxBidAmount: listing.buyNowPrice!,
         purchaseKey: listing.purchaseKey,
         isBuyNow: true,
-        isRaw: true,
         bidStatus: success ? BidStatus.Rejected : BidStatus.Accepted,
       );
 
@@ -150,6 +460,7 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
   }
 
   Future<bool?> sendBid(BuildContext context, WebListing listing) async {
+    print("sendBid");
     if (!kIsWeb) {
       if (!guardWalletIsSynced(ref)) {
         return null;
@@ -173,9 +484,10 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
       return null;
     }
 
-    final minimumBid = listing.auction!.currentBidPrice! + listing.auction!.incrementAmount;
-
+    final minimumBid = listing.auction?.currentBidPrice ?? listing.floorPrice! + (listing.auction?.incrementAmount ?? 0.01);
+    print(minimumBid);
     final amountStr = await PromptModal.show(
+      contextOverride: context,
       title: "Place Bid",
       validator: (val) => formValidatorNumber(val, "Bid Amount"),
       labelText: "Bid Amount (RBX)",
@@ -228,13 +540,29 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
       return null;
     }
 
-    // TODO: Signature for web
+    String? signature;
+
+    if (kIsWeb) {
+      final keypair = ref.read(webSessionProvider).keypair;
+      if (keypair == null) {
+        Toast.error("No Wallet");
+        return null;
+      }
+
+      signature = await getBidSignature(listing.purchaseKey, amount, keypair);
+
+      if (signature == null) {
+        Toast.error("Could not produce signature");
+        return null;
+      }
+    }
 
     bool success = await WebShopService().sendBid(
       amount: amount,
       address: address,
       listingId: listing.id,
       isBuyNow: false,
+      signature: signature,
     );
 
     if (kIsWeb) {
@@ -248,7 +576,6 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
         maxBidAmount: amount,
         purchaseKey: listing.purchaseKey,
         isBuyNow: false,
-        isRaw: true,
         bidStatus: success ? BidStatus.Rejected : BidStatus.Accepted,
       );
 
