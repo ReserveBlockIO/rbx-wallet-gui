@@ -149,7 +149,13 @@ abstract class Nft with _$Nft {
   Royalty? get royalty {
     for (final feature in featureList) {
       if (feature.type == FeatureType.royalty) {
-        return Royalty.fromCompiler(feature.data);
+        print(feature.data);
+        return Royalty(
+          id: '',
+          type: feature.data['type'] == 0 ? RoyaltyType.fixed : RoyaltyType.percent,
+          amount: feature.data['amount'],
+          address: feature.data['address'],
+        );
       }
     }
     return null;

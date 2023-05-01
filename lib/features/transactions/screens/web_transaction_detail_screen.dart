@@ -102,10 +102,10 @@ class _TransactionDetails extends BaseComponent {
             onPressed: () async {
               // print(tx.parseNftData());
 
-              final nft = await ExplorerService().retrieveNft("e12a0abca42f4e87bf0d6fc64c361956:1682895435");
-              if (nft != null) {
-                ref.read(webBidListProvider(0).notifier).buildSaleCompleteTx(nft, 3.0, "xMjrfrzkrNC2g3KJidbwF21gB7R3m46B9w", "ODrqsHLJsG1682902263");
-              }
+              // ref.read(webBidListProvider(0).notifier).buildSaleCompleteTx(nft, 150, "xMjrfrzkrNC2g3KJidbwF21gB7R3m46B9w", "trJvrrSFJi1682906273");
+              ref
+                  .read(webBidListProvider(0).notifier)
+                  .waitForSaleStart("b98f27f73b0345a3bbbb1de31cd5ae89:1682906227", "xMjrfrzkrNC2g3KJidbwF21gB7R3m46B9w", 10);
             },
           ),
           Padding(
