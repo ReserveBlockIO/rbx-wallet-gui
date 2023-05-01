@@ -157,7 +157,10 @@ class WebShopDetailScreen extends BaseScreen {
                   ),
                 ),
                 Expanded(
-                  child: WebCollectionList(shop.id),
+                  child: WebCollectionList(
+                    shop.id,
+                    isMine: shop.isOwner(ref),
+                  ),
                 ),
                 if (shop.isOwner(ref) && ref.read(webSessionProvider).keypair != null)
                   Container(

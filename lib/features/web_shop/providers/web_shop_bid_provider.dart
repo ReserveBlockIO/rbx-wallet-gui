@@ -481,12 +481,12 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
       }
     }
 
-    if (attempt > 10) {
-      print("No TX after 10 tries. stopping watch");
+    if (attempt > 20) {
+      print("No TX after 20 tries. stopping watch");
       return;
     }
 
-    await Future.delayed(Duration(seconds: 11));
+    await Future.delayed(Duration(seconds: 10));
 
     return await waitForSaleStart(nftId, buyerAddress, amount, attempt + 1);
   }

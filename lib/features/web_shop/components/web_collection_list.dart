@@ -15,7 +15,12 @@ import '../providers/web_collection_list_provider.dart';
 
 class WebCollectionList extends BaseComponent {
   final int shopId;
-  const WebCollectionList(this.shopId, {Key? key}) : super(key: key);
+  final bool isMine;
+  const WebCollectionList(
+    this.shopId, {
+    Key? key,
+    this.isMine = false,
+  }) : super(key: key);
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
@@ -32,10 +37,11 @@ class WebCollectionList extends BaseComponent {
           mainAxisSize: MainAxisSize.min,
           children: [
             EmptyPlaceholder(title: "No Collections"),
-            _CreateCollectionButton(
-              buttonType: AppButtonType.Outlined,
-              shopId: shopId,
-            ),
+            if (isMine)
+              _CreateCollectionButton(
+                buttonType: AppButtonType.Outlined,
+                shopId: shopId,
+              ),
           ],
         ),
       ),

@@ -21,7 +21,13 @@ import '../../../core/components/infinite_list.dart';
 class WebListingList extends BaseComponent {
   final int shopId;
   final int collectionId;
-  const WebListingList(this.shopId, this.collectionId, {Key? key}) : super(key: key);
+  final bool isMine;
+  const WebListingList(
+    this.shopId,
+    this.collectionId, {
+    Key? key,
+    this.isMine = false,
+  }) : super(key: key);
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
@@ -36,11 +42,12 @@ class WebListingList extends BaseComponent {
           mainAxisSize: MainAxisSize.min,
           children: [
             EmptyPlaceholder(title: "No Listings"),
-            _CreateListingButton(
-              buttonType: AppButtonType.Outlined,
-              shopId: shopId,
-              collectionId: collectionId,
-            ),
+            if (isMine)
+              _CreateListingButton(
+                buttonType: AppButtonType.Outlined,
+                shopId: shopId,
+                collectionId: collectionId,
+              ),
           ],
         ),
       ),

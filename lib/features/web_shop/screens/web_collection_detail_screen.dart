@@ -108,6 +108,7 @@ class WebCollectionDetailScreen extends BaseScreen {
                   child: WebListingList(
                     shopId,
                     collectionId,
+                    isMine: collection.shop!.isOwner(ref),
                   ),
                 ),
                 if (collection.shop!.isOwner(ref))
