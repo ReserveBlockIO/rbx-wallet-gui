@@ -146,7 +146,7 @@ class RawService extends BaseService {
     }
   }
 
-  Future<dynamic> nftTransferData(String scId, String toAddress, String locators) async {
+  Future<dynamic> nftTransferData(String scId, String toAddress, String locators, String md5List) async {
     try {
       final response = await postJson("/nft-transfer-data/$scId/$toAddress/$locators/", responseIsJson: true);
       return response['data'];
@@ -180,32 +180,34 @@ class RawService extends BaseService {
     }
   }
 
-  Future<dynamic> beaconUpload(String scId, String toAddress, String signature) async {
+  Future<bool> beaconUpload(String scId, String toAddress, String signature) async {
     try {
-      final response = await getText("/beacon/upload/$scId/$toAddress/$signature/");
+      final response = await getText("/beacon/upload/$scId/$toAddress/$signature/", cleanPath: false);
       final data = jsonDecode(response);
-      return data;
+      return data['success'] == true;
     } catch (e) {
       print(e);
-      return null;
+      return false;
     }
   }
 
-  Future<dynamic> beaconDownload(String scId, String toAddress, String signature) async {
-    try {
-      final response = await getText("/beacon/upload/$scId/$toAddress/$signature/");
-      final data = jsonDecode(response);
-      return data;
-    } catch (e) {
-      print(e);
-      return null;
-    }
-  }
+  // Future<dynamic> beaconDownload(String scId, String toAddress, String signature) async {
+  //   try {
+  //     final response = await getText("/beacon/upload/$scId/$toAddress/$signature/");
+  //     final data = jsonDecode(response);
+  //     return data;
+  //   } catch (e) {
+  //     print(e);
+  //     return null;
+  //   }
+  // }
 
-  Future<bool> beaconAssets(String scId, String locators, String signature) async {
+  Future<bool> beaconAssets(String scId, String locators, String address, String signature) async {
     try {
-      final path = "/beacon-assets/$scId/$locators/$signature/";
-      await getText(path);
+      final path = "/beacon-assets/$scId/$locators/$address/$signature";
+
+      final assets = await getText(path, cleanPath: false);
+      print("Assets: $assets");
       return true;
     } catch (e) {
       print(e);

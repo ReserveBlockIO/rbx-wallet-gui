@@ -165,6 +165,27 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     if (keypair == null) {
       return false;
     }
+
+    final message = id;
+
+    final beaconSignature = await RawTransaction.getSignature(
+      message: message,
+      privateKey: keypair.private,
+      publicKey: keypair.public,
+    );
+
+    if (beaconSignature == null) {
+      Toast.error("Couldn't produce beacon upload signature");
+      return false;
+    }
+
+    final uploadSuccess = await RawService().beaconUpload(id, toAddress, beaconSignature);
+
+    if (!uploadSuccess) {
+      Toast.error("Could not create beacon upload request.");
+      return false;
+    }
+
     final txService = RawService();
 
     final timestamp = await txService.getTimestamp();
@@ -180,7 +201,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       return false;
     }
 
-    final nftTransferData = await txService.nftTransferData(id, toAddress, "NA");
+    final nftTransferData = await txService.nftTransferData(id, toAddress, "NA", "NA");
     print("NFT Transfer data: $nftTransferData");
 
     var txData = RawTransaction.buildTransaction(
@@ -280,18 +301,28 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     }
 
     final locators = await RawService().getLocators(id);
+    print("locators: $locators");
     if (locators == null) {
       Toast.error("Locators request failed.");
       return false;
     }
 
-    final signature = await RawTransaction.getSignature(message: id, privateKey: keypair.private, publicKey: keypair.public);
+    final message = id;
+
+    final signature = await RawTransaction.getSignature(message: message, privateKey: keypair.private, publicKey: keypair.public);
     if (signature == null) {
       Toast.error("Signature generation failed.");
       return false;
     }
 
-    final beaconAssets = await RawService().beaconAssets(id, locators, signature);
+    final isValid = await RawService().validateSignature(message, keypair.address, signature);
+
+    if (!isValid) {
+      Toast.error("Signature not valid");
+      return false;
+    }
+
+    final beaconAssets = await RawService().beaconAssets(id, locators, keypair.address, signature);
 
     if (beaconAssets != true) {
       Toast.error("Assets Request failed.");
