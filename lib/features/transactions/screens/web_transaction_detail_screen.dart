@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/services/explorer_service.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/web_shop/providers/web_shop_bid_provider.dart';
+import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/base_component.dart';
@@ -72,7 +76,7 @@ class _TransactionDetails extends BaseComponent {
     final address = ref.read(webSessionProvider).keypair?.address;
 
     return SingleChildScrollView(
-      child: buildContent(context, address),
+      child: buildContent(context, address, ref),
     );
   }
 
@@ -85,7 +89,7 @@ class _TransactionDetails extends BaseComponent {
   //   );
   // }
 
-  Padding buildContent(BuildContext context, String? address) {
+  Padding buildContent(BuildContext context, String? address, WidgetRef ref) {
     final DateFormat formatter = DateFormat('MM-dd-yyyy hh:mm a');
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -93,6 +97,17 @@ class _TransactionDetails extends BaseComponent {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          AppButton(
+            label: "TEMP",
+            onPressed: () async {
+              // print(tx.parseNftData());
+
+              final nft = await ExplorerService().retrieveNft("e12a0abca42f4e87bf0d6fc64c361956:1682895435");
+              if (nft != null) {
+                ref.read(webBidListProvider(0).notifier).buildSaleCompleteTx(nft, 3.0, "xMjrfrzkrNC2g3KJidbwF21gB7R3m46B9w", "ODrqsHLJsG1682902263");
+              }
+            },
+          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(

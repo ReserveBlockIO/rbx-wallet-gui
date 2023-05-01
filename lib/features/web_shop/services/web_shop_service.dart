@@ -351,4 +351,8 @@ class WebShopService extends BaseService {
       return false;
     }
   }
+
+  Future<void> requestShopSync(String shopUrl) async {
+    await getJson("/shop/resync", params: {'url': shopUrl});
+  }
 }

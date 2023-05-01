@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'web_transaction.freezed.dart';
@@ -19,7 +21,7 @@ class WebTransaction with _$WebTransaction {
     @JsonKey(name: 'date_crafted') required DateTime date,
     // required int nonce,
     // required int timestamp,
-    // @JsonKey(name: 'nft_data') dynamic nftData,
+    String? data,
     // required String signature,
     required int height,
   }) = _WebTransaction;
@@ -55,5 +57,45 @@ class WebTransaction with _$WebTransaction {
       default:
         return "-";
     }
+  }
+
+  Map<String, dynamic>? parseNftData() {
+    print(data);
+    try {
+      if (data == null) {
+        return null;
+      }
+
+      final d = jsonDecode(data!);
+      if (d is Map) {
+        return d as Map<String, dynamic>;
+      }
+
+      if (d == null || d.isEmpty) {
+        return null;
+      }
+
+      if (d[0] == null) {
+        return null;
+      }
+
+      final Map<String, dynamic> response = d[0];
+
+      return response;
+    } catch (e, st) {
+      print("Problem parsing NFT data on TX $hash");
+      print(e);
+      print(st);
+      return null;
+    }
+  }
+
+  String? nftDataValue(String key) {
+    final d = parseNftData();
+    if (d == null) {
+      return null;
+    }
+
+    return d.containsKey(key) ? d[key].toString() : null;
   }
 }

@@ -11,6 +11,7 @@ import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/dst_tx_pending_provider.dart';
 import 'package:rbx_wallet/features/dst/services/dst_service.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
+import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/base_screen.dart';
@@ -126,6 +127,8 @@ class CreateDecShopContainerScreen extends BaseScreen {
                       if (confirmed == true) {
                         final success = model.id == 0 ? await DstService().publishShop() : await DstService().updateShop();
                         if (success) {
+                          final shopUrl = model.url;
+
                           ref.read(dstTxPendingProvider.notifier).set(true);
                           ref.invalidate(decShopProvider);
                           Toast.message("Publish Transaction Sent!");

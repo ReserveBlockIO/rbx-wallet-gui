@@ -5,10 +5,13 @@ import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/beacon/providers/beacon_list_provider.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/dst_tx_pending_provider.dart';
 import 'package:rbx_wallet/features/dst/services/dst_service.dart';
+import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
+import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/providers/session_provider.dart';
@@ -97,7 +100,10 @@ class DecPublishShopButton extends BaseComponent {
 
             if (confirm == true) {
               final success = await DstService().publishShop();
+
               if (success) {
+                Toast.message("Publish Transaction Sent!");
+
                 ref.invalidate(decShopProvider);
                 ref.read(dstTxPendingProvider.notifier).set(true);
                 final confirmed = await ConfirmDialog.show(
@@ -111,8 +117,6 @@ class DecPublishShopButton extends BaseComponent {
                 if (confirmed == true) {
                   ref.read(sessionProvider.notifier).restartCli();
                 }
-
-                Toast.message("Publish Transaction Sent!");
               } else {
                 Toast.error();
               }

@@ -15,6 +15,7 @@ _$_WebTransaction _$$_WebTransactionFromJson(Map<String, dynamic> json) =>
       amount: (json['total_amount'] as num?)?.toDouble(),
       fee: (json['total_fee'] as num?)?.toDouble(),
       date: DateTime.parse(json['date_crafted'] as String),
+      data: json['data'] as String?,
       height: json['height'] as int,
     );
 
@@ -27,5 +28,6 @@ Map<String, dynamic> _$$_WebTransactionToJson(_$_WebTransaction instance) =>
       'total_amount': instance.amount,
       'total_fee': instance.fee,
       'date_crafted': instance.date.toIso8601String(),
+      'data': instance.data,
       'height': instance.height,
     };
