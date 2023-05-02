@@ -7,10 +7,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
+import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/listing_detail_provider.dart';
 import 'package:rbx_wallet/features/dst/services/dst_service.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
+import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
 
 import '../../../utils/toast.dart';
 import '../models/listing.dart';
@@ -254,6 +256,7 @@ class ListingFormProvider extends StateNotifier<Listing> {
         print('invalidating');
         ref.invalidate(listingDetailProvider(state.id));
       }
+      ref.read(decShopProvider).value?.requestShopSync();
       clear();
       AutoRouter.of(context).pop();
     }
@@ -287,6 +290,7 @@ class ListingFormProvider extends StateNotifier<Listing> {
       if (await DstService().deleteListing(listing)) {
         clear();
         ref.read(listingListProvider(storeId).notifier).refresh();
+        ref.read(decShopProvider).value?.requestShopSync();
         if (shouldPop) {
           AutoRouter.of(context).pop();
         }

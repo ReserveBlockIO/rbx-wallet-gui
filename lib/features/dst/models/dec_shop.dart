@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rbx_wallet/core/utils.dart';
+import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
 
 part 'dec_shop.freezed.dart';
 part 'dec_shop.g.dart';
@@ -75,5 +76,15 @@ class DecShop with _$DecShop {
 
   bool get isThirdParty {
     return type == 2;
+  }
+
+  bool get isOnline {
+    return !isOffline;
+  }
+
+  Future<void> requestShopSync() async {
+    if (isOnline && isPublished) {
+      await WebShopService().requestShopSync(url);
+    }
   }
 }

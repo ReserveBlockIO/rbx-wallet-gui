@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
+import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/listing_list_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/collection_detail_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/collection_list_provider.dart';
@@ -64,6 +65,7 @@ class CollectionFormProvider extends StateNotifier<Collection> {
         }
         AutoRouter.of(context).pop();
       }
+      ref.read(decShopProvider).value?.requestShopSync();
       clear();
     } else {
       Toast.error();
@@ -93,6 +95,7 @@ class CollectionFormProvider extends StateNotifier<Collection> {
       if (success) {
         ref.read(collectionListProvider.notifier).refresh();
         ref.invalidate(storeDetailProvider(collection.id));
+        ref.read(decShopProvider).value?.requestShopSync();
       } else {
         Toast.error();
       }
@@ -105,7 +108,8 @@ class CollectionFormProvider extends StateNotifier<Collection> {
       clear();
       ref.invalidate(listingListProvider(store.id));
       ref.read(collectionListProvider.notifier).refresh();
-      AutoRouter.of(context).popUntilRoot();
+      ref.read(decShopProvider).value?.requestShopSync();
+      AutoRouter.of(context).pop();
     } else {
       Toast.error();
     }
