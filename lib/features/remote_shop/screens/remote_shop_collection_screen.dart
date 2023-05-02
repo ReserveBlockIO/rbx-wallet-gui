@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
+import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/features/dst/models/dec_shop.dart';
 import 'package:rbx_wallet/features/remote_shop/components/listing_details_list_tile.dart';
 import 'package:rbx_wallet/features/remote_shop/components/remote_asset_preview.dart';
@@ -36,6 +37,7 @@ class RemoteShopCollectionScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     final model = ref.watch(connectedShopProvider);
+    final balance = ref.watch(sessionProvider).currentWallet!.balance;
     final shop = model.data;
 
     if (shop == null) {
@@ -62,6 +64,11 @@ class RemoteShopCollectionScreen extends BaseScreen {
           width: 8,
         ),
         WalletSelector(),
+        Center(
+            child: Tooltip(
+          message: "My Balance",
+          child: Text("${balance.toStringAsFixed(5)} RBX"),
+        )),
         IconButton(
           onPressed: () {
             ref.read(connectedShopProvider.notifier).refresh(true);
