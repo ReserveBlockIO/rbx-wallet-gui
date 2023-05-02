@@ -18,6 +18,7 @@ class WebListing with _$WebListing {
 
   factory WebListing({
     required int id,
+    @JsonKey(name: "listing_id") required int listingId,
     @JsonKey(toJson: collectionToJson) required WebCollection collection,
     @JsonKey(includeToJson: false) WebNft? nft,
     @JsonKey(name: "smart_contract_uid") required String smartContractUid,

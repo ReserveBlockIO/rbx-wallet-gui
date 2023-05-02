@@ -21,6 +21,8 @@ WebListing _$WebListingFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$WebListing {
   int get id => throw _privateConstructorUsedError;
+  @JsonKey(name: "listing_id")
+  int get listingId => throw _privateConstructorUsedError;
   @JsonKey(toJson: collectionToJson)
   WebCollection get collection => throw _privateConstructorUsedError;
   @JsonKey(includeToJson: false)
@@ -82,6 +84,8 @@ abstract class $WebListingCopyWith<$Res> {
   @useResult
   $Res call(
       {int id,
+      @JsonKey(name: "listing_id")
+          int listingId,
       @JsonKey(toJson: collectionToJson)
           WebCollection collection,
       @JsonKey(includeToJson: false)
@@ -148,6 +152,7 @@ class _$WebListingCopyWithImpl<$Res, $Val extends WebListing>
   @override
   $Res call({
     Object? id = null,
+    Object? listingId = null,
     Object? collection = null,
     Object? nft = freezed,
     Object? smartContractUid = null,
@@ -177,6 +182,10 @@ class _$WebListingCopyWithImpl<$Res, $Val extends WebListing>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      listingId: null == listingId
+          ? _value.listingId
+          : listingId // ignore: cast_nullable_to_non_nullable
               as int,
       collection: null == collection
           ? _value.collection
@@ -320,6 +329,8 @@ abstract class _$$_WebListingCopyWith<$Res>
   @useResult
   $Res call(
       {int id,
+      @JsonKey(name: "listing_id")
+          int listingId,
       @JsonKey(toJson: collectionToJson)
           WebCollection collection,
       @JsonKey(includeToJson: false)
@@ -387,6 +398,7 @@ class __$$_WebListingCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
+    Object? listingId = null,
     Object? collection = null,
     Object? nft = freezed,
     Object? smartContractUid = null,
@@ -416,6 +428,10 @@ class __$$_WebListingCopyWithImpl<$Res>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      listingId: null == listingId
+          ? _value.listingId
+          : listingId // ignore: cast_nullable_to_non_nullable
               as int,
       collection: null == collection
           ? _value.collection
@@ -522,6 +538,8 @@ class __$$_WebListingCopyWithImpl<$Res>
 class _$_WebListing extends _WebListing {
   _$_WebListing(
       {required this.id,
+      @JsonKey(name: "listing_id")
+          required this.listingId,
       @JsonKey(toJson: collectionToJson)
           required this.collection,
       @JsonKey(includeToJson: false)
@@ -577,6 +595,9 @@ class _$_WebListing extends _WebListing {
 
   @override
   final int id;
+  @override
+  @JsonKey(name: "listing_id")
+  final int listingId;
   @override
   @JsonKey(toJson: collectionToJson)
   final WebCollection collection;
@@ -663,7 +684,7 @@ class _$_WebListing extends _WebListing {
 
   @override
   String toString() {
-    return 'WebListing(id: $id, collection: $collection, nft: $nft, smartContractUid: $smartContractUid, ownerAddress: $ownerAddress, winningAddress: $winningAddress, buyNowPrice: $buyNowPrice, floorPrice: $floorPrice, reservePrice: $reservePrice, finalPrice: $finalPrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, isCancelled: $isCancelled, isAuctionStarted: $isAuctionStarted, isAuctionEnded: $isAuctionEnded, purchaseKey: $purchaseKey, enableBuyNow: $enableBuyNow, enableAuction: $enableAuction, enableReservePrice: $enableReservePrice, galleryOnly: $galleryOnly, thumbnails: $thumbnails, auction: $auction, bids: $bids)';
+    return 'WebListing(id: $id, listingId: $listingId, collection: $collection, nft: $nft, smartContractUid: $smartContractUid, ownerAddress: $ownerAddress, winningAddress: $winningAddress, buyNowPrice: $buyNowPrice, floorPrice: $floorPrice, reservePrice: $reservePrice, finalPrice: $finalPrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, isCancelled: $isCancelled, isAuctionStarted: $isAuctionStarted, isAuctionEnded: $isAuctionEnded, purchaseKey: $purchaseKey, enableBuyNow: $enableBuyNow, enableAuction: $enableAuction, enableReservePrice: $enableReservePrice, galleryOnly: $galleryOnly, thumbnails: $thumbnails, auction: $auction, bids: $bids)';
   }
 
   @override
@@ -672,6 +693,8 @@ class _$_WebListing extends _WebListing {
         (other.runtimeType == runtimeType &&
             other is _$_WebListing &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.listingId, listingId) ||
+                other.listingId == listingId) &&
             (identical(other.collection, collection) ||
                 other.collection == collection) &&
             (identical(other.nft, nft) || other.nft == nft) &&
@@ -724,6 +747,7 @@ class _$_WebListing extends _WebListing {
   int get hashCode => Object.hashAll([
         runtimeType,
         id,
+        listingId,
         collection,
         nft,
         smartContractUid,
@@ -767,6 +791,8 @@ class _$_WebListing extends _WebListing {
 abstract class _WebListing extends WebListing {
   factory _WebListing(
       {required final int id,
+      @JsonKey(name: "listing_id")
+          required final int listingId,
       @JsonKey(toJson: collectionToJson)
           required final WebCollection collection,
       @JsonKey(includeToJson: false)
@@ -820,6 +846,9 @@ abstract class _WebListing extends WebListing {
 
   @override
   int get id;
+  @override
+  @JsonKey(name: "listing_id")
+  int get listingId;
   @override
   @JsonKey(toJson: collectionToJson)
   WebCollection get collection;

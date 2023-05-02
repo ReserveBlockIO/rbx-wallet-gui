@@ -546,11 +546,10 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
     );
 
     if (kIsWeb) {
-      Future.delayed(Duration(seconds: 10)).then((_) {
-        waitForSaleStart(listing.nft!.smartContract.id, address, listing.buyNowPrice!);
-      });
-
       if (success) {
+        Future.delayed(Duration(seconds: 10)).then((_) {
+          waitForSaleStart(listing.nft!.smartContract.id, address, listing.buyNowPrice!);
+        });
         Toast.message("Buy Now TX broadcasted. Please wait for it to be accepted by the shop owner");
       }
     } else {

@@ -9,6 +9,7 @@ part of 'web_listing.dart';
 _$_WebListing _$$_WebListingFromJson(Map<String, dynamic> json) =>
     _$_WebListing(
       id: json['id'] as int,
+      listingId: json['listing_id'] as int,
       collection:
           WebCollection.fromJson(json['collection'] as Map<String, dynamic>),
       nft: json['nft'] == null
@@ -45,6 +46,7 @@ _$_WebListing _$$_WebListingFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_WebListingToJson(_$_WebListing instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'listing_id': instance.listingId,
       'collection': collectionToJson(instance.collection),
       'smart_contract_uid': instance.smartContractUid,
       'owner_address': instance.ownerAddress,

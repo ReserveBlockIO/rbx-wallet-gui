@@ -101,7 +101,12 @@ build_web:
 
 deploy_web:
 	fvm flutter build web
-	firebase deploy --only hosting
+	firebase use rbx-web-wallet && firebase deploy --only hosting
+
+
+deploy_web_testnet:
+	fvm flutter build web
+	firebase use rbx-web-wallet-testnet && firebase deploy --only hosting
 
 
 deploy_web_no_build:
