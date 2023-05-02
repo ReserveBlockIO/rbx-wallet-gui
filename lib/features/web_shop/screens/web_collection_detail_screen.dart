@@ -13,6 +13,7 @@ import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../utils/toast.dart';
+import '../../web/components/web_wallet_details.dart';
 import '../models/web_listing.dart';
 import '../providers/create_web_listing_provider.dart';
 import '../providers/web_collection_form_provider.dart';
@@ -88,8 +89,9 @@ class WebCollectionDetailScreen extends BaseScreen {
       data: (collection) => collection != null
           ? Column(
               children: [
+                WebWalletDetails(),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(top: 15, bottom: 8),
                   child: Center(
                     child: ConstrainedBox(
                       constraints: BoxConstraints(maxWidth: 600),
