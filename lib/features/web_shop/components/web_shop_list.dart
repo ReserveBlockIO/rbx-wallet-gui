@@ -57,6 +57,9 @@ class WebShopList extends BaseComponent {
                 onChanged: (val) {
                   ref.read(webShopSearchProvider.notifier).update(val);
                 },
+                onFieldSubmitted: (val) {
+                  listProvider.refresh();
+                },
               ),
             ),
             IconButton(
