@@ -20,7 +20,7 @@ class WebShop with _$WebShop {
     required String url,
     @JsonKey(name: 'unique_id') required String uid,
     @JsonKey(name: 'owner_address') required String ownerAddress,
-    @JsonKey(name: 'is_offline') required bool isOffline,
+    @JsonKey(name: 'is_online') required bool isOnline,
     @JsonKey(name: 'is_published') required bool isPublished,
     @JsonKey(name: 'is_third_party') @Default(false) bool isThirdParty,
   }) = _WebShop;
@@ -34,7 +34,7 @@ class WebShop with _$WebShop {
         description: '',
         ownerAddress: '',
         url: '',
-        isOffline: true,
+        isOnline: false,
         isPublished: false,
       );
 

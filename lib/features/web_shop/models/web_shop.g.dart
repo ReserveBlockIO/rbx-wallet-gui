@@ -13,7 +13,7 @@ _$_WebShop _$$_WebShopFromJson(Map<String, dynamic> json) => _$_WebShop(
       url: json['url'] as String,
       uid: json['unique_id'] as String,
       ownerAddress: json['owner_address'] as String,
-      isOffline: json['is_offline'] as bool,
+      isOnline: json['is_online'] as bool,
       isPublished: json['is_published'] as bool,
       isThirdParty: json['is_third_party'] as bool? ?? false,
     );
@@ -26,7 +26,7 @@ Map<String, dynamic> _$$_WebShopToJson(_$_WebShop instance) =>
       'url': instance.url,
       'unique_id': instance.uid,
       'owner_address': instance.ownerAddress,
-      'is_offline': instance.isOffline,
+      'is_online': instance.isOnline,
       'is_published': instance.isPublished,
       'is_third_party': instance.isThirdParty,
     };
