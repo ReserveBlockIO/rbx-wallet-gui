@@ -201,7 +201,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       return false;
     }
 
-    final nftTransferData = await txService.nftTransferData(id, toAddress, "NA", "NA");
+    final nftTransferData = await txService.nftTransferData(id, toAddress);
     print("NFT Transfer data: $nftTransferData");
 
     var txData = RawTransaction.buildTransaction(
