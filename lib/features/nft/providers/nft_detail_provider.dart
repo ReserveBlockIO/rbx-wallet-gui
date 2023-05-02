@@ -179,9 +179,9 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       return false;
     }
 
-    final uploadSuccess = await RawService().beaconUpload(id, toAddress, beaconSignature);
+    final locator = await RawService().beaconUpload(id, toAddress, beaconSignature);
 
-    if (!uploadSuccess) {
+    if (locator == null) {
       Toast.error("Could not create beacon upload request.");
       return false;
     }
@@ -201,7 +201,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       return false;
     }
 
-    final nftTransferData = await txService.nftTransferData(id, toAddress);
+    final nftTransferData = await txService.nftTransferData(id, toAddress, locator);
     print("NFT Transfer data: $nftTransferData");
 
     var txData = RawTransaction.buildTransaction(

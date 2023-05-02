@@ -149,12 +149,17 @@ class RemoteShopService extends BaseService {
       if (data["Success"] == true) {
         if (thirdPartyListingId != null) {
           final bidId = data['BidId'];
+          print("-----------");
+
+          print(data);
+          print("-----------");
           final syncSuccess = await WebShopService().submitAcceptedCoreBid(
             amount: bid.bidAmount,
             listingId: thirdPartyListingId,
             bidId: bidId,
             isBuyNow: bid.isBuyNow,
             address: bid.bidAddress,
+            signature: data['Bid']['BidSignature'],
           );
 
           print("Synced: $syncSuccess");

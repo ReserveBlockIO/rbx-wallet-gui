@@ -6,6 +6,7 @@ import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/models/paginated_response.dart';
 import 'package:rbx_wallet/core/services/base_service.dart';
 import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
+import 'package:rbx_wallet/features/web_shop/models/web_bid.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_collection.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_listing.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_shop.dart';
@@ -291,6 +292,16 @@ class WebShopService extends BaseService {
     }
   }
 
+  Future<WebBid?> getBid(int bidId) async {
+    try {
+      final data = await getJson('/shop/bid/$bidId');
+      return WebBid.fromJson(data);
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
   Future<bool> sendBid({
     required double amount,
     required String address,
@@ -330,6 +341,7 @@ class WebShopService extends BaseService {
     required double amount,
     required bool isBuyNow,
     required String address,
+    required String signature,
   }) async {
     try {
       final params = {
@@ -338,6 +350,7 @@ class WebShopService extends BaseService {
         "amount": amount,
         "is_buy_now": isBuyNow,
         "address": address,
+        "signature": signature,
       };
 
       await postJson(

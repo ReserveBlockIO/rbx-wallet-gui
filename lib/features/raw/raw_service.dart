@@ -146,9 +146,9 @@ class RawService extends BaseService {
     }
   }
 
-  Future<dynamic> nftTransferData(String scId, String toAddress) async {
+  Future<dynamic> nftTransferData(String scId, String toAddress, String locator) async {
     try {
-      final response = await postJson("/nft-transfer-data/$scId/$toAddress/", responseIsJson: true);
+      final response = await postJson("/nft-transfer-data/$scId/$toAddress/$locator/", responseIsJson: true);
       print(response['data']);
       return response['data'];
     } catch (e) {
@@ -181,19 +181,17 @@ class RawService extends BaseService {
     }
   }
 
-  Future<bool> beaconUpload(String scId, String toAddress, String signature, [int attempt = 0]) async {
+  Future<String?> beaconUpload(String scId, String toAddress, String signature, [int attempt = 0]) async {
     try {
-      await getText("/beacon/upload/$scId/$toAddress/$signature", cleanPath: false);
+      final data = await getJson("/beacon/upload/$scId/$toAddress/$signature", cleanPath: false);
+      if (data['success'] == true) {
+        return data['locator'];
+      }
+      return null;
     } catch (e) {
       print(e);
+      return null;
     }
-
-    if (attempt < 3) {
-      await Future.delayed(Duration(seconds: 1));
-      return await beaconUpload(scId, toAddress, signature, attempt + 1);
-    }
-
-    return true;
   }
 
   // Future<dynamic> beaconDownload(String scId, String toAddress, String signature) async {
