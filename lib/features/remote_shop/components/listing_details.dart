@@ -120,7 +120,10 @@ class ListingDetails extends BaseComponent {
                 constraints: const BoxConstraints(maxWidth: 600),
                 child: Center(
                   child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    _Details(nft: nft),
+                    _Details(
+                      nft: nft,
+                      listing: listing,
+                    ),
                     // const SizedBox(height: 8),
                     // _NftDetails(nft: nft),
                     const SizedBox(height: 16),
@@ -439,10 +442,12 @@ class _PreviewState extends State<_Preview> {
 class _Details extends StatelessWidget {
   const _Details({
     super.key,
+    required this.listing,
     required this.nft,
   });
 
   final Nft nft;
+  final OrganizedListing listing;
 
   @override
   Widget build(BuildContext context) {
@@ -450,19 +455,12 @@ class _Details extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: Text(
-                nft.name,
-                style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+        Text(
+          "#${listing.id}\n${nft.name}",
+          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
               ),
-            ),
-            // if (withShareButtons) buildShareButtons(context),
-          ],
         ),
         const SizedBox(height: 8),
         ConstrainedBox(

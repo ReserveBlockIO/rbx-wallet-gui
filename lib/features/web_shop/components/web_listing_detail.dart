@@ -335,7 +335,7 @@ class _Details extends BaseComponent {
           children: [
             Expanded(
               child: Text(
-                listing.nft!.name,
+                "#${listing.id}\n${listing.nft!.name}",
                 style: Theme.of(context).textTheme.headlineMedium!.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
