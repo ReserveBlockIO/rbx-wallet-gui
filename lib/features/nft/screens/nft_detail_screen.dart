@@ -668,13 +668,17 @@ class NftDetailScreen extends BaseScreen {
                               );
 
                               if (confirmed == true) {
+                                ref.read(globalLoadingProvider.notifier).start();
                                 final success = kIsWeb ? await _provider.burnWeb() : await _provider.burn();
 
                                 if (success) {
                                   Toast.message("Burn transaction sent successfully!");
                                   ref.read(mySmartContractsProvider.notifier).load();
                                   Navigator.of(context).pop();
+                                  ref.read(globalLoadingProvider.notifier).complete();
                                 } else {
+                                  ref.read(globalLoadingProvider.notifier).complete();
+
                                   Toast.error();
                                 }
                               }

@@ -101,36 +101,14 @@ class AppContainer extends ConsumerWidget {
             if (ref.watch(globalLoadingProvider))
               Container(
                 color: Colors.black54,
-                child: Stack(
-                  children: [
-                    Center(
-                      child: Text(
-                        "Loading...",
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                      ),
-                    ),
-                    Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 72.0),
-                          child: Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              onTap: () => ref.read(globalLoadingProvider.notifier).complete(),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "[CLOSE]",
-                                  style: Theme.of(context).textTheme.caption,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ))
-                  ],
+                child: Center(
+                  child: Text(
+                    "Loading...",
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
                 ),
               ),
             if (ref.watch(shopLoadingProvider) != null)
