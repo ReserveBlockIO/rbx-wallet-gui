@@ -46,9 +46,16 @@ class WebShopService extends BaseService {
 
   // Shops
 
-  Future<ServerPaginatedReponse<WebShop>> listShops({int page = 1, String? ownerAddress}) async {
+  Future<ServerPaginatedReponse<WebShop>> listShops({
+    int page = 1,
+    String? ownerAddress,
+    String search = '',
+  }) async {
     try {
-      Map<String, dynamic> params = {'page': page};
+      Map<String, dynamic> params = {
+        'page': page,
+        'search': search,
+      };
 
       if (ownerAddress != null) {
         params['owner_address'] = ownerAddress;

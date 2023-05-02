@@ -14,6 +14,7 @@ import '../../../core/env.dart';
 import '../../../core/theme/app_theme.dart';
 import '../providers/web_shop_form_provider.dart';
 import '../providers/web_shop_list_provider.dart';
+import '../providers/web_shop_search_provider.dart';
 
 class WebShopList extends BaseComponent {
   final bool mine;
@@ -27,8 +28,44 @@ class WebShopList extends BaseComponent {
     final listProvider = ref.watch(webShopListProvider(mine ? WebShopListType.mine : WebShopListType.public).notifier);
     final model = ref.watch(webShopListProvider(mine ? WebShopListType.mine : WebShopListType.public));
 
+    final searchQuery = ref.watch(webShopSearchProvider).toLowerCase();
+
     return Column(
       children: [
+        Row(
+          children: [
+            Expanded(
+              child: TextFormField(
+                controller: ref.read(webShopSearchProvider.notifier).controller,
+                autofocus: true,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: Colors.white70,
+                  ),
+                  hintText: "Search for auction house...",
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      Icons.clear,
+                      color: searchQuery.isEmpty ? Colors.white10 : Colors.white,
+                    ),
+                    onPressed: () {
+                      ref.read(webShopSearchProvider.notifier).clear();
+                    },
+                  ),
+                ),
+                onChanged: (val) {
+                  ref.read(webShopSearchProvider.notifier).update(val);
+                },
+              ),
+            ),
+            IconButton(
+                onPressed: () {
+                  listProvider.refresh();
+                },
+                icon: Icon(Icons.refresh))
+          ],
+        ),
         Expanded(
           child: InfiniteList<WebShop>(
             pagingController: listProvider.pagingController,

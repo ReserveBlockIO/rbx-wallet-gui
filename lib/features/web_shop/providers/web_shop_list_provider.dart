@@ -5,6 +5,7 @@ import 'package:rbx_wallet/core/models/paginated_response.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_shop.dart';
+import 'package:rbx_wallet/features/web_shop/providers/web_shop_search_provider.dart';
 
 import '../services/web_shop_service.dart';
 
@@ -27,9 +28,10 @@ class WebShopListProvider extends StateNotifier<List<WebShop>> {
   Future<void> _fetchPage(int page) async {
     try {
       late ServerPaginatedReponse<WebShop> data;
+      final search = ref.read(webShopSearchProvider);
 
       if (type == WebShopListType.public) {
-        data = await WebShopService().listShops(page: page);
+        data = await WebShopService().listShops(page: page, search: search);
       } else {
         final address = kIsWeb ? ref.read(webSessionProvider).keypair?.address : ref.read(sessionProvider).currentWallet?.address;
         if (address == null) {
@@ -37,7 +39,7 @@ class WebShopListProvider extends StateNotifier<List<WebShop>> {
           return;
         }
 
-        data = await WebShopService().listShops(page: page, ownerAddress: address);
+        data = await WebShopService().listShops(page: page, ownerAddress: address, search: search);
       }
 
       if (data.page >= data.num_pages) {
