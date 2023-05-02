@@ -58,6 +58,7 @@ class WebListing with _$WebListing {
         isVisibleBeforeStartDate: false,
         isAuctionStarted: true,
         thumbnails: [],
+        listingId: 0,
       );
 
   bool get isActive {
