@@ -13,6 +13,7 @@ class AuthToken with _$AuthToken {
     required String address,
     @JsonKey(name: "expires_at") required DateTime expiresAt,
     required String signature,
+    String? email,
   }) = _AuthToken;
 
   factory AuthToken.fromJson(Map<String, dynamic> json) => _$AuthTokenFromJson(json);

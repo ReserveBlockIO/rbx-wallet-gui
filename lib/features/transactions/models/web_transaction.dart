@@ -98,4 +98,13 @@ class WebTransaction with _$WebTransaction {
 
     return d.containsKey(key) ? d[key].toString() : null;
   }
+
+  double? nftDataValueDouble(String key) {
+    final d = parseNftData();
+    if (d == null) {
+      return null;
+    }
+
+    return d.containsKey(key) && d[key] is num ? d[key] as double : null;
+  }
 }

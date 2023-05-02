@@ -9,6 +9,7 @@ import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_shop_bid_provider.dart';
 import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../web_shop/components/complete_sale_button.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/base_screen.dart';
@@ -97,16 +98,9 @@ class _TransactionDetails extends BaseComponent {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AppButton(
-            label: "TEMP",
-            onPressed: () async {
-              // print(tx.parseNftData());
-
-              // ref.read(webBidListProvider(0).notifier).buildSaleCompleteTx(nft, 150, "xMjrfrzkrNC2g3KJidbwF21gB7R3m46B9w", "trJvrrSFJi1682906273");
-              ref
-                  .read(webBidListProvider(0).notifier)
-                  .waitForSaleStart("b98f27f73b0345a3bbbb1de31cd5ae89:1682906227", "xMjrfrzkrNC2g3KJidbwF21gB7R3m46B9w", 10);
-            },
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(child: CompleteSaleButton(tx: tx)),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),

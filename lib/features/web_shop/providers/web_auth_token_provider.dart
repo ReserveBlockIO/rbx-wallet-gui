@@ -50,6 +50,10 @@ class WebAuthTokenProvider extends StateNotifier<AuthToken?> {
 
     return null;
   }
+
+  void addEmail(String email) {
+    state = state?.copyWith(email: email);
+  }
 }
 
 final webAuthTokenProvider = StateNotifierProvider<WebAuthTokenProvider, AuthToken?>(

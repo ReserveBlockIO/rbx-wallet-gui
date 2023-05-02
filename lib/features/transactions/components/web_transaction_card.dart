@@ -2,10 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/services/explorer_service.dart';
-import 'package:rbx_wallet/features/web_shop/providers/web_shop_bid_provider.dart';
-import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/base_component.dart';
@@ -14,6 +10,7 @@ import '../../../core/providers/web_session_provider.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/web_router.gr.dart';
 import '../models/web_transaction.dart';
+import '../../web_shop/components/complete_sale_button.dart';
 
 class WebTransactionCard extends BaseComponent {
   final WebTransaction tx;
@@ -68,36 +65,7 @@ class WebTransactionCard extends BaseComponent {
                     style: const TextStyle(fontSize: 12),
                   )
                 : Text("To: ${tx.toAddress}\n$date", style: const TextStyle(fontSize: 12)),
-            trailing: Builder(builder: (context) {
-              if (tx.type == TxType.nftSale) {
-                if (address != null && tx.toAddress == address) {
-                  final function = tx.nftDataValue("Function");
-                  final nftId = tx.nftDataValue("ContractUID");
-                  final keySign = tx.nftDataValue("KeySign");
-                  if (function == "Sale_Start()" && nftId != null && keySign != null) {
-                    return AppButton(
-                      label: "Complete Sale",
-                      variant: AppColorVariant.Warning,
-                      onPressed: () async {
-                        final nft = await ExplorerService().retrieveNft(nftId);
-                        if (nft == null) {
-                          return;
-                        }
-
-                        if (nft.currentOwner == address) {
-                          Toast.error("You are already the owner of this NFT.");
-                          return;
-                        }
-
-                        ref.read(webBidListProvider(0).notifier).buildSaleCompleteTx(nft, 150, address, keySign);
-                      },
-                    );
-                  }
-                }
-              }
-
-              return Icon(Icons.chevron_right);
-            }),
+            trailing: CompleteSaleButton(tx: tx),
             onTap: () {
               AutoRouter.of(context).push(WebTransactionDetailScreenRoute(hash: tx.hash));
             },

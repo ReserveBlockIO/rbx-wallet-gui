@@ -18,13 +18,12 @@ import 'package:rbx_wallet/features/web_shop/providers/web_shop_list_provider.da
 import 'package:rbx_wallet/features/web_shop/utils/shop_publishing.dart';
 import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/toast.dart';
+import 'package:rbx_wallet/utils/validation.dart';
 
 import '../../../core/providers/session_provider.dart';
 import '../../../core/providers/web_session_provider.dart';
 import '../models/web_collection.dart';
 import '../services/web_shop_service.dart';
-
-// TODO: Hosting Type + IP / Port + AutoUpdateNetworkDNS
 
 class WebShopFormProvider extends StateNotifier<WebShop> {
   final Ref ref;
@@ -103,6 +102,28 @@ class WebShopFormProvider extends StateNotifier<WebShop> {
     }
 
     final updatedShop = await WebShopService().saveWebShop(state);
+
+    final currentEmail = ref.read(webAuthTokenProvider)?.email;
+
+    if (address != null && currentEmail == null) {
+      String? email = await PromptModal.show(
+        contextOverride: context,
+        title: "Subscribe for updates?",
+        body: "Would you like to provide your email address to be notified of bids and buy nows? (Optional)",
+        validator: formValidatorEmailOrEmpty,
+        labelText: "Email Address",
+      );
+
+      email = email?.trim();
+
+      if (email != null && email.isNotEmpty) {
+        final subscribed = await WebShopService().createContact(email, address);
+        if (subscribed) {
+          ref.read(webAuthTokenProvider.notifier).addEmail(email);
+          Toast.message("Subscribed");
+        }
+      }
+    }
 
     if (updatedShop != null) {
       ref.read(webShopListProvider(WebShopListType.mine).notifier).refresh();
