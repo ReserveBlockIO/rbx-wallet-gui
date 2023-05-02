@@ -21,8 +21,10 @@ late final Box rbxBox;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Env.init();
-  await Hive.initFlutter();
-  rbxBox = await Hive.openBox('RBX');
+  if (kIsWeb) {
+    await Hive.initFlutter();
+    rbxBox = await Hive.openBox('RBX');
+  }
   await initSingletons();
 
   if (!kIsWeb && Platform.isMacOS) {
