@@ -8,6 +8,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:rbx_wallet/core/base_component.dart';
@@ -17,24 +18,20 @@ import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
-import 'package:rbx_wallet/features/dst/models/bid.dart';
-import 'package:rbx_wallet/features/dst/providers/listing_detail_provider.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/nft/models/web_nft.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_auction.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_bid.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_listing.dart';
 import 'package:rbx_wallet/features/web_shop/providers/create_web_listing_provider.dart';
-import 'package:rbx_wallet/features/web_shop/providers/web_listing_detail_provider.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_shop_bid_provider.dart';
-import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
-import '../../../core/app_router.gr.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../../core/providers/web_session_provider.dart';
+import '../../nft/components/nft_qr_code.dart';
+import '../../sc_property/models/sc_property.dart';
 
 class WebListingDetails extends BaseComponent {
   final WebListing listing;
@@ -118,7 +115,20 @@ class WebListingDetails extends BaseComponent {
           children: [
             Padding(
               padding: const EdgeInsets.only(right: 20),
-              child: _Preview(listing: listing),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _Preview(listing: listing),
+                  if (nft != null) ...[
+                    _Features(nft: nft.smartContract),
+                    _Properties(nft: nft.smartContract),
+                    _QRCode(
+                      nft: nft.smartContract,
+                      size: 150,
+                    ),
+                  ]
+                ],
+              ),
             ),
             ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 600),
@@ -334,12 +344,25 @@ class _Details extends BaseComponent {
         Row(
           children: [
             Expanded(
-              child: Text(
-                "#${listing.id}\n${listing.nft!.name}",
-                style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "#${listing.id}",
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: Theme.of(context).textTheme.bodyLarge!.fontSize! + 4,
+                          color: Colors.white.withAlpha(200),
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                  Text(
+                    listing.nft!.name,
+                    style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                ],
               ),
             ),
             // if (withShareButtons) buildShareButtons(context),
@@ -470,6 +493,169 @@ class _Details extends BaseComponent {
 //     );
 //   }
 // }
+
+class _QRCode extends StatelessWidget {
+  final double size;
+  final Nft nft;
+  const _QRCode({
+    super.key,
+    required this.nft,
+    this.size = 260,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+      constraints: BoxConstraints(maxWidth: size),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          NftQrCode(
+            data: nft.explorerUrl,
+            size: size,
+            bgColor: Colors.transparent,
+            cardPadding: 0,
+            withOpen: true,
+            iconButtons: true,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Properties extends StatelessWidget {
+  final double size;
+
+  final Nft nft;
+  const _Properties({
+    super.key,
+    required this.nft,
+    this.size = 260,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (nft.properties.isEmpty) {
+      return SizedBox.shrink();
+    }
+    return ConstrainedBox(
+      constraints: BoxConstraints(maxWidth: size),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Properties:",
+            style: Theme.of(context).textTheme.headline5,
+          ),
+          SizedBox(height: 6),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: nft.properties
+                .map((p) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 2),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 2),
+                            child: Builder(builder: (context) {
+                              switch (p.type) {
+                                case ScPropertyType.color:
+                                  return Icon(
+                                    Icons.color_lens,
+                                    color: colorFromHex(p.value),
+                                    size: 14,
+                                  );
+                                case ScPropertyType.number:
+                                  return Icon(Icons.numbers, size: 14);
+                                default:
+                                  return Icon(Icons.text_fields, size: 14);
+                              }
+                            }),
+                          ),
+                          Text(" ${p.name}: ${p.value}"),
+                        ],
+                      ),
+                    ))
+                .toList(),
+          ),
+          SizedBox(
+            height: 8,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Features extends StatelessWidget {
+  final Nft nft;
+  const _Features({super.key, required this.nft});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("NFT Features:", style: Theme.of(context).textTheme.headline5),
+          Builder(
+            builder: (context) {
+              if (nft.features.isEmpty) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      Icon(
+                        Icons.cancel,
+                        size: 16,
+                        color: Colors.white54,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 4.0),
+                        child: Text(
+                          "Baseline Asset",
+                          style: TextStyle(fontSize: 14, color: Colors.white54),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: nft.featureList
+                    .map(
+                      (f) => ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 300),
+                        child: ListTile(
+                          dense: true,
+                          visualDensity: VisualDensity.compact,
+                          contentPadding: EdgeInsets.zero,
+                          leading: Icon(f.icon),
+                          title: Text(f.nameLabel),
+                          subtitle: Text(f.description),
+                        ),
+                      ),
+                    )
+                    .toList(),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 class _WebNftDetails extends StatelessWidget {
   final Nft nft;
