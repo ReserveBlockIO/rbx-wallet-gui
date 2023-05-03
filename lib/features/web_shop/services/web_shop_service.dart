@@ -323,7 +323,7 @@ class WebShopService extends BaseService {
       "listing": listingId,
       "from_third_party": kIsWeb,
       "is_buy_now": isBuyNow,
-      "signature": signature ?? "",
+      "signature": signature ?? "NA",
       "pre_signed_sale_complete_tx": preSignedSaleCompleteTx ?? "",
     };
 

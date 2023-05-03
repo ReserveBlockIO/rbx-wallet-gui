@@ -7,6 +7,7 @@ import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/components/centered_loader.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/raw/raw_service.dart';
 import 'package:rbx_wallet/features/web/components/web_no_wallet.dart';
 import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
@@ -87,6 +88,7 @@ class BuildSaleStartTxScreen extends BaseScreen {
                       label: "Start Transaction",
                       variant: AppColorVariant.Success,
                       onPressed: () async {
+                        ref.read(globalLoadingProvider.notifier).start();
                         final txService = RawService();
 
                         final message = scId;
@@ -99,6 +101,8 @@ class BuildSaleStartTxScreen extends BaseScreen {
 
                         if (beaconSignature == null) {
                           Toast.error("Couldn't produce beacon upload signature");
+                          ref.read(globalLoadingProvider.notifier).complete();
+
                           return false;
                         }
 
@@ -106,6 +110,7 @@ class BuildSaleStartTxScreen extends BaseScreen {
 
                         if (locator == null) {
                           Toast.error("Could not create beacon upload request.");
+                          ref.read(globalLoadingProvider.notifier).complete();
                           return false;
                         }
 
@@ -122,12 +127,14 @@ class BuildSaleStartTxScreen extends BaseScreen {
                         final timestamp = await txService.getTimestamp();
                         if (timestamp == null) {
                           Toast.error("Could not get timestamp");
+                          ref.read(globalLoadingProvider.notifier).complete();
                           return false;
                         }
 
                         final nonce = await txService.getNonce(keypair.address);
                         if (nonce == null) {
                           Toast.error("Could not get nonce");
+                          ref.read(globalLoadingProvider.notifier).complete();
                           return false;
                         }
 
@@ -144,6 +151,7 @@ class BuildSaleStartTxScreen extends BaseScreen {
                         final fee = await txService.getFee(txData);
                         if (fee == null) {
                           Toast.error("Could not get fee");
+                          ref.read(globalLoadingProvider.notifier).complete();
                           return false;
                         }
 
@@ -161,6 +169,7 @@ class BuildSaleStartTxScreen extends BaseScreen {
                         final hash = await txService.getHash(txData);
                         if (hash == null) {
                           Toast.error("Could not generate hash");
+                          ref.read(globalLoadingProvider.notifier).complete();
                           return false;
                         }
 
@@ -172,6 +181,7 @@ class BuildSaleStartTxScreen extends BaseScreen {
 
                         if (signature == null) {
                           Toast.error("Signature generation failed.");
+                          ref.read(globalLoadingProvider.notifier).complete();
                           return false;
                         }
 
@@ -183,6 +193,7 @@ class BuildSaleStartTxScreen extends BaseScreen {
 
                         if (!isValid) {
                           Toast.error("Signature not valid (primary)");
+                          ref.read(globalLoadingProvider.notifier).complete();
                           return false;
                         }
 
@@ -206,12 +217,14 @@ class BuildSaleStartTxScreen extends BaseScreen {
 
                         if (verifyTransactionData == null) {
                           Toast.error("Could not verify transaction");
+                          ref.read(globalLoadingProvider.notifier).complete();
                           return false;
                         }
 
                         if (verifyTransactionData['Result'] != "Success") {
                           print(verifyTransactionData['Message']);
                           Toast.error(verifyTransactionData['Message']);
+                          ref.read(globalLoadingProvider.notifier).complete();
                           return false;
                         }
 
@@ -225,11 +238,13 @@ class BuildSaleStartTxScreen extends BaseScreen {
                         if (tx != null) {
                           if (tx['Result'] == "Success") {
                             Toast.message("TX Broadcasted");
+                            ref.read(globalLoadingProvider.notifier).complete();
                             return true;
                           }
                         }
 
                         Toast.error();
+                        ref.read(globalLoadingProvider.notifier).complete();
                         return false;
                       },
                     ),
