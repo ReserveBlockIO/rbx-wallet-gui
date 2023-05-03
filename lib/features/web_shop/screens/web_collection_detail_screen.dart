@@ -89,7 +89,7 @@ class WebCollectionDetailScreen extends BaseScreen {
       data: (collection) => collection != null
           ? Column(
               children: [
-                WebWalletDetails(),
+                if (!collection.shop!.isOwner(ref)) WebWalletDetails(),
                 Padding(
                   padding: const EdgeInsets.only(top: 15, bottom: 8),
                   child: Center(

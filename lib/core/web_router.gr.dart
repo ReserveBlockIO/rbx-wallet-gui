@@ -457,8 +457,15 @@ class WebRouter extends _i25.RootStackRouter {
               parent: WebDashboardContainerRoute.name,
               children: [
                 _i25.RouteConfig(
-                  WebShopLandingScreenRoute.name,
+                  '#redirect',
                   path: '',
+                  parent: WebShopTabRouter.name,
+                  redirectTo: 'landing',
+                  fullMatch: true,
+                ),
+                _i25.RouteConfig(
+                  WebShopLandingScreenRoute.name,
+                  path: 'landing',
                   parent: WebShopTabRouter.name,
                 ),
                 _i25.RouteConfig(
@@ -895,7 +902,7 @@ class WebShopLandingScreenRoute extends _i25.PageRouteInfo<void> {
   const WebShopLandingScreenRoute()
       : super(
           WebShopLandingScreenRoute.name,
-          path: '',
+          path: 'landing',
         );
 
   static const String name = 'WebShopLandingScreenRoute';

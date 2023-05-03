@@ -82,13 +82,13 @@ class WebShopListScreen extends BaseScreen {
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
       centerTitle: true,
-      leading: kIsWeb
-          ? SizedBox.shrink()
-          : IconButton(
-              onPressed: () {
-                AutoRouter.of(context).pop();
-              },
-              icon: Icon(Icons.chevron_left)),
+      // leading: kIsWeb
+      //     ? SizedBox.shrink()
+      //     : IconButton(
+      //         onPressed: () {
+      //           AutoRouter.of(context).pop();
+      //         },
+      //         icon: Icon(Icons.chevron_left)),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
       title: Text("Auction Houses"),

@@ -231,7 +231,6 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                               );
                             },
                             handlePrivateKey: (context) async {
-                              print("PRIVATE");
                               await handleImportWithPrivateKey(context, ref).then((value) {
                                 if (ref.read(webSessionProvider).isAuthenticated) {
                                   redirectToDashboard();

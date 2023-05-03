@@ -342,6 +342,7 @@ class _Details extends BaseComponent {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
               child: Column(
@@ -932,6 +933,10 @@ class _Auction extends BaseComponent {
                       icon: Icons.gavel,
                       size: AppSizeVariant.Lg,
                       onPressed: () {
+                        if (listing.collection.shop!.isOwner(ref)) {
+                          Toast.error("You are the owner of this shop.");
+                          return;
+                        }
                         ref.read(webBidListProvider(listing.id).notifier).sendBid(context, listing);
                       }),
                   const SizedBox(

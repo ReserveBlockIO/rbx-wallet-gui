@@ -21,6 +21,7 @@ import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dar
 import 'package:rbx_wallet/features/transactions/providers/web_transaction_list_provider.dart';
 import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_listing.dart';
+import 'package:rbx_wallet/features/web_shop/providers/web_auth_token_provider.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_collection_detail_provider.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_listing_list_provider.dart';
 import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
@@ -597,7 +598,7 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
       return null;
     }
 
-    final minimumBid = listing.auction?.currentBidPrice ?? listing.floorPrice! + (listing.auction?.incrementAmount ?? 0.01);
+    final minimumBid = (listing.auction?.currentBidPrice ?? listing.floorPrice!) + (listing.auction?.incrementAmount ?? 0.01);
     print(minimumBid);
     final amountStr = await PromptModal.show(
       contextOverride: context,
@@ -696,6 +697,35 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
     }
 
     if (success) {
+      if (kIsWeb) {
+        final authenticated = await guardWebAuthorizedFromProvider(ref, address);
+        print("authenticated: $authenticated");
+        if (authenticated) {
+          final currentEmail = ref.read(webAuthTokenProvider)?.email;
+          print("currentEmail: $currentEmail");
+          if (currentEmail == null) {
+            String? email = await PromptModal.show(
+              contextOverride: context,
+              title: "Subscribe for updates?",
+              body: "In order for the web wallet to provide notifications to auction winners to sign transactions, an email address is required.",
+              validator: formValidatorEmail,
+              labelText: "Email Address",
+            );
+
+            email = email?.trim();
+
+            if (email == null || email.isEmpty) {
+              Toast.error("You will not be notified. You can update this setting on the dashboard if you change your mind.");
+            } else {
+              final subscribed = await WebShopService().createContact(email, address);
+              if (subscribed) {
+                ref.read(webAuthTokenProvider.notifier).addEmail(email);
+                Toast.message("Subscribed");
+              }
+            }
+          }
+        }
+      }
       ref.read(webListingListProvider("${listing.collection.shop?.id},${listing.collection.id}").notifier).refresh();
       Toast.message("Bid Submitted");
     } else {

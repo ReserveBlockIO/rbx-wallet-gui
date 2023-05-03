@@ -59,8 +59,6 @@ import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_container_sc
     as _i9;
 import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_detail_screen.dart'
     as _i41;
-import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_list_screen.dart'
-    as _i39;
 import 'package:rbx_wallet/features/reserve/screens/reserve_account_overview_screen.dart'
     as _i14;
 import 'package:rbx_wallet/features/root/root_container.dart' as _i1;
@@ -95,6 +93,8 @@ import 'package:rbx_wallet/features/web_shop/screens/web_listing_detail_screen.d
     as _i45;
 import 'package:rbx_wallet/features/web_shop/screens/web_shop_detail_screen.dart'
     as _i43;
+import 'package:rbx_wallet/features/web_shop/screens/web_shop_list_screen.dart'
+    as _i39;
 
 class AppRouter extends _i46.RootStackRouter {
   AppRouter([_i47.GlobalKey<_i47.NavigatorState>? navigatorKey])
@@ -457,10 +457,10 @@ class AppRouter extends _i46.RootStackRouter {
         child: const _i38.SmartContractCreatorMain(),
       );
     },
-    RemoteShopListScreenRoute.name: (routeData) {
+    WebShopListScreenRoute.name: (routeData) {
       return _i46.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i39.RemoteShopListScreen(),
+        child: const _i39.WebShopListScreen(),
       );
     },
     BuyerChatThreadListScreenRoute.name: (routeData) {
@@ -833,7 +833,7 @@ class AppRouter extends _i46.RootStackRouter {
               fullMatch: true,
             ),
             _i46.RouteConfig(
-              RemoteShopListScreenRoute.name,
+              WebShopListScreenRoute.name,
               path: 'shops',
               parent: RemoteShopContainerScreenRoute.name,
             ),
@@ -1680,15 +1680,15 @@ class SmartContractCreatorMainRoute extends _i46.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i39.RemoteShopListScreen]
-class RemoteShopListScreenRoute extends _i46.PageRouteInfo<void> {
-  const RemoteShopListScreenRoute()
+/// [_i39.WebShopListScreen]
+class WebShopListScreenRoute extends _i46.PageRouteInfo<void> {
+  const WebShopListScreenRoute()
       : super(
-          RemoteShopListScreenRoute.name,
+          WebShopListScreenRoute.name,
           path: 'shops',
         );
 
-  static const String name = 'RemoteShopListScreenRoute';
+  static const String name = 'WebShopListScreenRoute';
 }
 
 /// generated route for

@@ -55,9 +55,7 @@ class WebShopLandingScreen extends BaseScreen {
                   iconData: Icons.connect_without_contact,
                   body: "Connect to a remote auction house to trade NFTs.",
                   onPressed: () async {
-                    if (Env.isWeb) {
-                      AutoRouter.of(context).push(WebShopListScreenRoute());
-                    }
+                    AutoRouter.of(context).push(WebShopListScreenRoute());
                   },
                 ),
                 BigButton(
@@ -65,9 +63,7 @@ class WebShopLandingScreen extends BaseScreen {
                   iconData: Icons.house,
                   body: "Manage your wallet's auction house and trade NFTs.",
                   onPressed: () async {
-                    if (Env.isWeb) {
-                      AutoRouter.of(context).push(MyWebShopListScreenRoute());
-                    }
+                    AutoRouter.of(context).push(MyWebShopListScreenRoute());
                   },
                 ),
               ],

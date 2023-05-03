@@ -9,6 +9,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/keygen/services/keygen_service.dart'
     if (dart.library.io) 'package:rbx_wallet/features/keygen/services/keygen_service_mock.dart';
+import 'package:rbx_wallet/features/web_shop/providers/web_auth_token_provider.dart';
+import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
+import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 
@@ -90,7 +93,16 @@ Future<void> handleCreateWithEmail(
 
   // await TransactionService().createWallet(email, keypair.address);
   await handleRememberMe(context, ref);
-  login(context, ref, keypair.copyWith(email: email));
+
+  await login(context, ref, keypair.copyWith(email: email));
+
+  final authorized = await guardWebAuthorized(ref, keypair.address);
+  if (authorized) {
+    final subscribed = await WebShopService().createContact(email, keypair.address);
+    if (subscribed) {
+      ref.read(webAuthTokenProvider.notifier).addEmail(email);
+    }
+  }
 }
 
 Future<void> handleCreateWithMnemonic(

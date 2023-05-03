@@ -133,7 +133,7 @@ const webDashboardTabRouter = AutoRoute(
       children: [
         AutoRoute(
           initial: true,
-          path: "",
+          path: "landing",
           page: WebShopLandingScreen,
         ),
         AutoRoute(

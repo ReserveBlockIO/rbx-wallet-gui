@@ -109,14 +109,17 @@ class WebShopFormProvider extends StateNotifier<WebShop> {
       String? email = await PromptModal.show(
         contextOverride: context,
         title: "Subscribe for updates?",
-        body: "Would you like to provide your email address to be notified of bids and buy nows? (Optional)",
-        validator: formValidatorEmailOrEmpty,
+        body:
+            "In order for the web wallet to provide notifications about bids/purchases for you to sign the transactions, an email address is required.",
+        validator: formValidatorEmail,
         labelText: "Email Address",
       );
 
       email = email?.trim();
 
-      if (email != null && email.isNotEmpty) {
+      if (email == null || email.isEmpty) {
+        Toast.error("You will not be notified. You can update this setting on the dashboard if you change your mind.");
+      } else {
         final subscribed = await WebShopService().createContact(email, address);
         if (subscribed) {
           ref.read(webAuthTokenProvider.notifier).addEmail(email);
