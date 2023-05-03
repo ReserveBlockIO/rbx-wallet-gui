@@ -13,6 +13,7 @@ import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../utils/toast.dart';
+import '../../remote_shop/providers/shop_list_view_provider.dart';
 import '../../web/components/web_wallet_details.dart';
 import '../models/web_listing.dart';
 import '../providers/create_web_listing_provider.dart';
@@ -84,26 +85,56 @@ class WebCollectionDetailScreen extends BaseScreen {
   @override
   Widget body(BuildContext context, WidgetRef ref) {
     final data = ref.watch(webCollectionDetailProvider("$shopId,$collectionId"));
+    final listModeProvider = ref.read(shopListViewProvider.notifier);
+    final isExpanded = ref.watch(shopListViewProvider);
 
     return data.when(
       data: (collection) => collection != null
           ? Column(
               children: [
                 if (!collection.shop!.isOwner(ref)) WebWalletDetails(),
-                Padding(
-                  padding: const EdgeInsets.only(top: 15, bottom: 8),
-                  child: Center(
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(maxWidth: 600),
-                      child: Text(
-                        collection.description,
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              color: Colors.white,
-                            ),
-                        textAlign: TextAlign.center,
+                Stack(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            listModeProvider.setExpanded();
+                          },
+                          icon: Icon(
+                            Icons.grid_on,
+                            color: isExpanded ? Colors.white : Colors.white38,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            listModeProvider.setCondensed();
+                          },
+                          icon: Icon(
+                            Icons.list_outlined,
+                            color: !isExpanded ? Colors.white : Colors.white38,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 15, bottom: 8),
+                      child: Center(
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(maxWidth: 600),
+                          child: Text(
+                            collection.description,
+                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                  color: Colors.white,
+                                ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
                 Divider(),
                 Expanded(
