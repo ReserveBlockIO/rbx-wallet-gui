@@ -38,6 +38,8 @@ import 'package:rbx_wallet/utils/toast.dart';
 import 'package:collection/collection.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../../core/env.dart';
+
 class ListingDetails extends BaseComponent {
   final OrganizedListing listing;
   const ListingDetails({super.key, required this.listing});
@@ -120,9 +122,26 @@ class ListingDetails extends BaseComponent {
                 constraints: const BoxConstraints(maxWidth: 600),
                 child: Center(
                   child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    _Details(
-                      nft: nft,
-                      listing: listing,
+                    Row(
+                      children: [
+                        _Details(
+                          nft: nft,
+                          listing: listing,
+                        ),
+                        // TODO: Get back to sharing
+                        // AppButton(
+                        //   label: "Share Listing",
+                        //   icon: Icons.ios_share_rounded,
+                        //   variant: AppColorVariant.Light,
+                        //   type: AppButtonType.Text,
+                        //   onPressed: () async {
+                        //     await Clipboard.setData(ClipboardData(
+                        //         text:
+                        //             "${Env.appBaseUrl}/#dashboard/p2p/shop/${listing.}/collection/${listing.collectionId}/listing/${listing.id}"));
+                        //     Toast.message("Share url copied to clipboard");
+                        //   },
+                        // ),
+                      ],
                     ),
                     // const SizedBox(height: 8),
                     // _NftDetails(nft: nft),
