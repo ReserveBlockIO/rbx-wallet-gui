@@ -8,9 +8,14 @@ import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/app_router.gr.dart';
 import '../../../core/base_component.dart';
+import '../../../core/components/badges.dart';
+import '../../../core/dialogs.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/web_router.gr.dart';
+import '../../bridge/providers/wallet_info_provider.dart';
+import '../../remote_shop/providers/connected_shop_provider.dart';
 import '../models/web_shop.dart';
+import '../services/web_shop_service.dart';
 
 class WebShopTile extends BaseComponent {
   final WebShop shop;
@@ -19,6 +24,8 @@ class WebShopTile extends BaseComponent {
   const WebShopTile(this.shop, {Key? key, this.requiresAuth = false}) : super(key: key);
   @override
   Widget body(BuildContext context, WidgetRef ref) {
+    final currentUrl = ref.watch(connectedShopProvider).url;
+    final isConnected = ref.watch(connectedShopProvider).isConnected;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -60,7 +67,16 @@ class WebShopTile extends BaseComponent {
             leading: Icon(
               Icons.house,
             ),
-            trailing: Icon(Icons.chevron_right),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AppBadge(
+                  label: shop.isOnline ? 'Online' : 'Offline',
+                  variant: shop.isOnline ? AppColorVariant.Success : AppColorVariant.Danger,
+                ),
+                Icon(Icons.chevron_right),
+              ],
+            ),
             onTap: () async {
               if (requiresAuth) {
                 if (!await guardWebAuthorized(ref, shop.ownerAddress)) {
@@ -68,9 +84,13 @@ class WebShopTile extends BaseComponent {
                   return;
                 }
               }
+              //If is web just push the web route
               if (Env.isWeb) {
                 AutoRouter.of(context).push(WebShopDetailScreenRoute(shopId: shop.id));
+                return;
               }
+
+              await pushToShop(context, ref, shop);
             },
           ),
         ),
@@ -90,5 +110,35 @@ class WebShopTile extends BaseComponent {
     //     },
     //   ),
     // );
+  }
+
+  static Future pushToShop(BuildContext context, WidgetRef ref, WebShop shop) async {
+    final currentUrl = ref.watch(connectedShopProvider).url;
+    final isConnected = ref.watch(connectedShopProvider).isConnected;
+    if (shop.isThirdParty) {
+      AutoRouter.of(context).push(ThirdPartyWebShopDetailScreenRoute(shopId: shop.id));
+      return;
+    }
+
+    if (ref.read(walletInfoProvider) == null || !ref.read(walletInfoProvider)!.isChainSynced) {
+      final cont = await ConfirmDialog.show(
+        title: "Wallet Not Synced",
+        body: "Since your wallet is not synced there may be some issues viewing the data in this shop. Continue anyway?",
+        confirmText: "Continue",
+        cancelText: "Cancel",
+      );
+
+      if (cont != true) {
+        return;
+      }
+    }
+
+    if (currentUrl == shop.url && isConnected) {
+      ref.read(connectedShopProvider.notifier).refresh();
+      ref.read(connectedShopProvider.notifier).activateRefreshTimer();
+      AutoRouter.of(context).push(RemoteShopDetailScreenRoute(shopUrl: shop.url));
+    } else {
+      await ref.read(connectedShopProvider.notifier).loadShop(context, ref, shop.url);
+    }
   }
 }

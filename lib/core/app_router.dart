@@ -274,7 +274,7 @@ const List<AutoRoute> appRoutes = [
     path: "remote-shop-container",
     page: RemoteShopContainerScreen,
     children: [
-      AutoRoute(path: "shops", page: RemoteShopListScreen, initial: true),
+      AutoRoute(path: "shops", page: WebShopListScreen, initial: true),
       AutoRoute(path: "shops/chat", page: BuyerChatThreadListScreen),
       AutoRoute(path: "shops/:url", page: RemoteShopDetailScreen),
       // AutoRoute(path: "shops/:url/chat", page: ShopChatScreen),

@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/components/big_button.dart';
 
-import '../../../core/app_router.gr.dart';
 import '../../../core/base_screen.dart';
 import '../../../core/env.dart';
 import '../../../core/web_router.gr.dart';
-import '../../../generated/assets.gen.dart';
 
 class WebShopLandingScreen extends BaseScreen {
   const WebShopLandingScreen({Key? key})

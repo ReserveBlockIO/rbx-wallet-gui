@@ -51,6 +51,7 @@ class WebShopList extends BaseComponent {
                     ),
                     onPressed: () {
                       ref.read(webShopSearchProvider.notifier).clear();
+                      listProvider.refresh();
                     },
                   ),
                 ),
@@ -66,7 +67,7 @@ class WebShopList extends BaseComponent {
                 onPressed: () {
                   listProvider.refresh();
                 },
-                icon: Icon(Icons.refresh))
+                icon: Icon(Icons.search))
           ],
         ),
         Expanded(

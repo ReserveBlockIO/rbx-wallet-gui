@@ -393,6 +393,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
     final url = state.remoteInfo!.snapshot.url;
 
     showDialog(
+        barrierDismissible: false,
         context: rootNavigatorKey.currentContext!,
         builder: (context) {
           return SnapshotDownloader(
