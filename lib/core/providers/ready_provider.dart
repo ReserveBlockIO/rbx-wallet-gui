@@ -9,7 +9,9 @@ class ReadyProvider extends StateNotifier<bool> {
     Future.delayed(Duration(milliseconds: 100)).then((value) {
       state = val;
       if (kIsWeb) {
-        FlutterNativeSplash.remove();
+        Future.delayed(Duration(milliseconds: 300)).then((value) {
+          FlutterNativeSplash.remove();
+        });
       }
     });
   }

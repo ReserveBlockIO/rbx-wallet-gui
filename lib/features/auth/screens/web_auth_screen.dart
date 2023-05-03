@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:rbx_wallet/core/models/web_session_model.dart';
+import 'package:rbx_wallet/features/web/components/web_wordmark.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/app_router.gr.dart';
@@ -120,13 +121,9 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
               //     fit: BoxFit.contain,
               //   ),
               // ),
-
               Padding(
                 padding: const EdgeInsets.all(12.0),
-                child: Text(
-                  "RBX Web Wallet",
-                  style: Theme.of(context).textTheme.headlineLarge!.copyWith(fontWeight: FontWeight.bold, fontSize: isMobile ? 20 : 30),
-                ),
+                child: WebWordmark(),
               ),
               const Text(
                 APP_VERSION,

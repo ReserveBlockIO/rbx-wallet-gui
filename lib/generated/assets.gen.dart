@@ -233,6 +233,10 @@ class $AssetsImagesGen {
   AssetGenImage get wordmark =>
       const AssetGenImage('assets/images/wordmark.png');
 
+  /// File path: assets/images/wordmark_web.png
+  AssetGenImage get wordmarkWeb =>
+      const AssetGenImage('assets/images/wordmark_web.png');
+
   /// List of all assets
   List<AssetGenImage> get values => [
         animatedCube,
@@ -267,7 +271,8 @@ class $AssetsImagesGen {
         tutRoyalty1,
         tutRoyalty2,
         tutRoyalty3,
-        wordmark
+        wordmark,
+        wordmarkWeb
       ];
 }
 

@@ -46,6 +46,6 @@ void main() async {
   ));
 
   if (kIsWeb) {
-    Future.delayed(Duration(seconds: 10)).then((_) => FlutterNativeSplash.remove());
+    Future.delayed(Duration(seconds: 15)).then((_) => FlutterNativeSplash.remove());
   }
 }

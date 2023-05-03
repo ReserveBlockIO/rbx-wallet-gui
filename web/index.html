@@ -2,7 +2,8 @@
     <style>
       html,
       body {
-        background-color: #020d26;
+        /* background-color: #020d26; */
+        background-color: #000;
       }
     </style>
     <!--
@@ -51,15 +52,23 @@
 
     <title>RBX Wallet</title>
     <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" type="text/css" href="splash/style.css">
+    <link rel="stylesheet" type="text/css" href="splash/splash.css">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
   <script src="splash/splash.js"></script>
 </head>
-  <body>  <picture id="splash">
-      <source srcset="splash/img/light-1x.png 1x, splash/img/light-2x.png 2x, splash/img/light-3x.png 3x, splash/img/light-4x.png 4x" media="(prefers-color-scheme: light)">
-      <source srcset="splash/img/dark-1x.png 1x, splash/img/dark-2x.png 2x, splash/img/dark-3x.png 3x, splash/img/dark-4x.png 4x" media="(prefers-color-scheme: dark)">
-      <img class="center" aria-hidden="true" src="splash/img/light-1x.png" alt="">
-  </picture>                  
+  <body>  
+  
+    <div id="splash" class="center">
+
+     
+      <div id="splash-cube">
+        <img  aria-hidden="true" src="cube.gif" width="160" height="160" alt="">
+      </div>
+      <div id="splash-wordmark">
+        <img  aria-hidden="true" src="wordmark.png"  height="25" width="200" alt="">
+      </div>
+      <div id="splash-loading">Loading...</div>
+    </div>
     <!-- <script src="https://js.stripe.com/v3/"></script> -->
     <!-- <script src="assets/assets/js/keygen.js" defer></script> -->
     <script src="assets/assets/js/keygen-v2.js?v=1.37" defer=""></script>
@@ -75,7 +84,7 @@
         }
         scriptLoaded = true;
         var scriptTag = document.createElement("script");
-        scriptTag.src = "main.dart.js?version=3.5.3";
+        scriptTag.src = "main.dart.js?version=3.6.1";
         scriptTag.type = "application/javascript";
         document.body.append(scriptTag);
       }
