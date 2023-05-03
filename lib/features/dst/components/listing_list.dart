@@ -77,7 +77,7 @@ class ListingList extends BaseComponent {
                         title: Text(listing.nft != null ? listing.nft!.name : listing.smartContractUid),
                         subtitle: listing.deactivateForSeller
                             ? Text(
-                                listing.saleHasFailed ? "Sale Complete TX" : "Completed",
+                                listing.saleHasFailed ? "Sale Complete TX Failed" : "Completed",
                                 style: TextStyle(
                                   color: listing.saleHasFailed ? Theme.of(context).colorScheme.danger : Theme.of(context).colorScheme.success,
                                   fontWeight: FontWeight.w600,
