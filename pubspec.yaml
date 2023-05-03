@@ -29,7 +29,7 @@ dependencies:
   flutter_window_close: ^0.2.2
   desktop_window: ^0.4.0
   dart_ipify: ^1.1.1
-  flutter_launcher_icons: ^0.11.0
+  flutter_launcher_icons: ^0.12.0
   process: ^4.2.4
   flutter_awesome_select: ^6.4.0
   path_provider: ^2.0.11
@@ -79,6 +79,7 @@ dev_dependencies:
   freezed: ^2.3.2
   json_serializable: ^6.3.1
   msix: ^3.6.2
+  flutter_native_splash: ^2.2.19
   
 
 flutter:
@@ -117,3 +118,8 @@ flutter_icons:
   macos: true
   windows: true
   image_path: "assets/images/icon.png"
+
+
+flutter_native_splash:
+  background_image: 'resources/splash-bg.png'
+  image: 'resources/splash-fg.png'

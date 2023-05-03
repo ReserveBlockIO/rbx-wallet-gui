@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'app.dart';
 import 'core/env.dart';
@@ -19,7 +20,10 @@ const MIN_HEIGHT = 600.0;
 late final Box rbxBox;
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  if (kIsWeb) {
+    FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  }
   await Env.init();
   if (kIsWeb) {
     await Hive.initFlutter();
@@ -40,4 +44,8 @@ void main() async {
       child: App(),
     ),
   ));
+
+  if (kIsWeb) {
+    Future.delayed(Duration(seconds: 10)).then((_) => FlutterNativeSplash.remove());
+  }
 }
