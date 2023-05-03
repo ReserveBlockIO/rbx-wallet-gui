@@ -103,9 +103,11 @@ class WebShopFormProvider extends StateNotifier<WebShop> {
 
     final updatedShop = await WebShopService().saveWebShop(state);
 
+    final authenticated = await guardWebAuthorizedFromProvider(ref, address);
+
     final currentEmail = ref.read(webAuthTokenProvider)?.email;
 
-    if (address != null && currentEmail == null) {
+    if (authenticated && address != null && currentEmail == null) {
       String? email = await PromptModal.show(
         contextOverride: context,
         title: "Subscribe for updates?",

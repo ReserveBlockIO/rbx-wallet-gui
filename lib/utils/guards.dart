@@ -71,7 +71,11 @@ Future<bool> guardWebAuthorized(WidgetRef ref, String expectedAddress) async {
   return false;
 }
 
-Future<bool> guardWebAuthorizedFromProvider(Ref ref, String expectedAddress, [bool withError = true]) async {
+Future<bool> guardWebAuthorizedFromProvider(Ref ref, String? expectedAddress, [bool withError = true]) async {
+  if (expectedAddress == null) {
+    print("Address was null");
+    return false;
+  }
   final address = kIsWeb ? ref.read(webSessionProvider).keypair?.address : ref.read(sessionProvider).currentWallet?.address;
 
   if (address != expectedAddress) {

@@ -732,6 +732,8 @@ class _BuyNow extends BaseComponent {
 
             if (success == true) {
               Toast.message("Buy Now transaction sent successfully. Please wait for confirmation.");
+            } else {
+              Toast.error();
             }
           },
         ),
