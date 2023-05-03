@@ -77,9 +77,9 @@ class ListingList extends BaseComponent {
                         title: Text(listing.nft != null ? listing.nft!.name : listing.smartContractUid),
                         subtitle: listing.deactivateForSeller
                             ? Text(
-                                "Completed",
+                                listing.saleHasFailed ? "Sale Complete TX" : "Completed",
                                 style: TextStyle(
-                                  color: Theme.of(context).colorScheme.warning,
+                                  color: listing.saleHasFailed ? Theme.of(context).colorScheme.danger : Theme.of(context).colorScheme.success,
                                   fontWeight: FontWeight.w600,
                                 ),
                               )
@@ -88,25 +88,27 @@ class ListingList extends BaseComponent {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             if (listing.saleHasFailed)
-                              AppButton(
-                                label: "Complete Sale",
-                                variant: AppColorVariant.Warning,
-                                onPressed: () {
-                                  DstService().retrySale(listing.id);
-                                },
+                              Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: AppButton(
+                                  label: "Complete Sale",
+                                  variant: AppColorVariant.Warning,
+                                  onPressed: () {
+                                    DstService().retrySale(listing.id);
+                                  },
+                                ),
                               ),
-                            if (listing.isAuction) ...[
-                              AppButton(
-                                label: "Activity",
-                                variant: AppColorVariant.Success,
-                                onPressed: () {
-                                  AutoRouter.of(context).push(ListingAuctionDetailScreenRoute(listingId: listing.id));
-                                },
+                            if (listing.isAuction)
+                              Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: AppButton(
+                                  label: "Activity",
+                                  variant: AppColorVariant.Success,
+                                  onPressed: () {
+                                    AutoRouter.of(context).push(ListingAuctionDetailScreenRoute(listingId: listing.id));
+                                  },
+                                ),
                               ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                            ],
                             AppButton(
                               label: 'Delete',
                               variant: AppColorVariant.Danger,

@@ -498,7 +498,7 @@ class DstService extends BaseService {
       final response = await getText("/RetrySale/$listingId");
       final data = jsonDecode(response);
       if (data['Success'] == true) {
-        Toast.message("Retrying Sale Complete Transaction");
+        Toast.message("Attempting to send sale complete TX.");
         return true;
       }
 
