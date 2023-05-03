@@ -349,7 +349,7 @@ class _Details extends BaseComponent {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "#${listing.id}",
+                    "#${listing.listingId}",
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           fontSize: Theme.of(context).textTheme.bodyLarge!.fontSize! + 4,
                           color: Colors.white.withAlpha(200),

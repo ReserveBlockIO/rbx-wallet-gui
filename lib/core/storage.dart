@@ -122,7 +122,7 @@ class StorageImplementation extends Storage {
     }
     final List<dynamic> data = jsonDecode(str);
 
-    final List<String> items = data.map((item) => item.toString()).toList();
+    final List<String> items = data.map<String>((item) => item.toString()).toList();
 
     return items;
   }
@@ -199,7 +199,7 @@ class StorageWebImplementation extends Storage {
     }
     final List<dynamic> data = jsonDecode(str);
 
-    final List<String> items = data.map((item) => item.toString()).toList();
+    final List<String> items = data.map<String>((item) => item.toString()).toList();
     return items;
   }
 

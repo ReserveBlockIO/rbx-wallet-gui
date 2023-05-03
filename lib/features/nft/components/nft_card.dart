@@ -57,6 +57,9 @@ class NftCard extends BaseComponent {
     final isBurned = ref.watch(burnedProvider).contains(nft.id);
     final isTransferred = ref.watch(transferredProvider).contains(nft.id);
 
+    // final isBurned = false;
+    // final isTransferred = false;
+
     return InkWell(
       onTap: isBurned || (isTransferred && !manageOnPress)
           ? null
