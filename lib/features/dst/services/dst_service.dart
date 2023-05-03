@@ -492,4 +492,23 @@ class DstService extends BaseService {
 
     return ids;
   }
+
+  Future<bool> retrySale(int listingId) async {
+    try {
+      final response = await getText("/RetrySale/$listingId");
+      final data = jsonDecode(response);
+      if (data['Success'] == true) {
+        Toast.message("Retrying Sale Complete Transaction");
+        return true;
+      }
+
+      Toast.error(data['Message']);
+
+      return false;
+    } catch (e) {
+      print(e);
+      Toast.error();
+      return false;
+    }
+  }
 }

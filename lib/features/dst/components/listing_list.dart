@@ -87,6 +87,14 @@ class ListingList extends BaseComponent {
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
+                            if (listing.saleHasFailed)
+                              AppButton(
+                                label: "Complete Sale",
+                                variant: AppColorVariant.Warning,
+                                onPressed: () {
+                                  DstService().retrySale(listing.id);
+                                },
+                              ),
                             if (listing.isAuction) ...[
                               AppButton(
                                 label: "Activity",

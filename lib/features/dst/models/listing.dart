@@ -70,6 +70,7 @@ class Listing with _$Listing {
     @JsonKey(name: "FinalPrice") double? finalPrice,
     @JsonKey(name: "WinningAddress") String? winningAddress,
     @JsonKey(name: "CollectionId") required int collectionId,
+    @JsonKey(name: "SaleHasFailed") @Default(false) bool saleHasFailed,
     @Default(false) @JsonKey(ignore: true) bool enableBuyNow,
     @Default(false) @JsonKey(ignore: true) bool enableAuction,
     @Default(false) @JsonKey(ignore: true) bool enableReservePrice,
