@@ -32,6 +32,7 @@ class WebDashboardContainer extends StatelessWidget {
     const WebSmartContractTabRouter(),
     const WebShopTabRouter(),
     const WebAdnrTabRouter(),
+    const WebSignTxTabRouter(),
   ];
 
   @override

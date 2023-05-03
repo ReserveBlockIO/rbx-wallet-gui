@@ -137,10 +137,6 @@ const webDashboardTabRouter = AutoRoute(
           page: WebShopLandingScreen,
         ),
         AutoRoute(
-          path: "build-sale-start/:scId/:bidId",
-          page: BuildSaleStartTxScreen,
-        ),
-        AutoRoute(
           path: "shops",
           page: WebShopListScreen,
         ),
@@ -167,6 +163,17 @@ const webDashboardTabRouter = AutoRoute(
         AutoRoute(
           path: "shop/:shopId/collection/:collectionId/listing/:listingId",
           page: WebListingDetailScreen,
+        ),
+      ],
+    ),
+    AutoRoute(
+      path: 'sign-tx',
+      name: "WebSignTxTabRouter",
+      page: EmptyRouterPage,
+      children: [
+        AutoRoute(
+          path: "build-sale-start/:scId/:bidId",
+          page: BuildSaleStartTxScreen,
         ),
       ],
     ),

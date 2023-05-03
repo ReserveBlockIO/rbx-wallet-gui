@@ -34,25 +34,25 @@ import 'package:rbx_wallet/features/transactions/screens/web_transaction_detail_
 import 'package:rbx_wallet/features/transactions/screens/web_transactions_screen.dart'
     as _i9;
 import 'package:rbx_wallet/features/web_shop/screens/build_sale_start_tx_screen.dart'
-    as _i17;
-import 'package:rbx_wallet/features/web_shop/screens/create_web_listing_screen.dart'
-    as _i21;
-import 'package:rbx_wallet/features/web_shop/screens/create_web_shop_container_screen.dart'
-    as _i20;
-import 'package:rbx_wallet/features/web_shop/screens/my_web_shops_list_screen.dart'
-    as _i19;
-import 'package:rbx_wallet/features/web_shop/screens/web_collection_detail_screen.dart'
-    as _i23;
-import 'package:rbx_wallet/features/web_shop/screens/web_listing_detail_screen.dart'
     as _i24;
+import 'package:rbx_wallet/features/web_shop/screens/create_web_listing_screen.dart'
+    as _i20;
+import 'package:rbx_wallet/features/web_shop/screens/create_web_shop_container_screen.dart'
+    as _i19;
+import 'package:rbx_wallet/features/web_shop/screens/my_web_shops_list_screen.dart'
+    as _i18;
+import 'package:rbx_wallet/features/web_shop/screens/web_collection_detail_screen.dart'
+    as _i22;
+import 'package:rbx_wallet/features/web_shop/screens/web_listing_detail_screen.dart'
+    as _i23;
 import 'package:rbx_wallet/features/web_shop/screens/web_shop_container_screen.dart'
     as _i4;
 import 'package:rbx_wallet/features/web_shop/screens/web_shop_detail_screen.dart'
-    as _i22;
+    as _i21;
 import 'package:rbx_wallet/features/web_shop/screens/web_shop_landing_screen.dart'
     as _i16;
 import 'package:rbx_wallet/features/web_shop/screens/web_shop_list_screen.dart'
-    as _i18;
+    as _i17;
 
 class WebRouter extends _i25.RootStackRouter {
   WebRouter([_i26.GlobalKey<_i26.NavigatorState>? navigatorKey])
@@ -126,6 +126,12 @@ class WebRouter extends _i25.RootStackRouter {
       return _i25.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i4.WebShopContainerScreen(),
+      );
+    },
+    WebSignTxTabRouter.name: (routeData) {
+      return _i25.AdaptivePage<dynamic>(
+        routeData: routeData,
+        child: const _i1.EmptyRouterPage(),
       );
     },
     WebHomeScreenRoute.name: (routeData) {
@@ -225,38 +231,22 @@ class WebRouter extends _i25.RootStackRouter {
         child: const _i16.WebShopLandingScreen(),
       );
     },
-    BuildSaleStartTxScreenRoute.name: (routeData) {
-      final pathParams = routeData.inheritedPathParams;
-      final args = routeData.argsAs<BuildSaleStartTxScreenRouteArgs>(
-          orElse: () => BuildSaleStartTxScreenRouteArgs(
-                scId: pathParams.getString('scId'),
-                bidId: pathParams.getInt('bidId'),
-              ));
-      return _i25.AdaptivePage<dynamic>(
-        routeData: routeData,
-        child: _i17.BuildSaleStartTxScreen(
-          key: args.key,
-          scId: args.scId,
-          bidId: args.bidId,
-        ),
-      );
-    },
     WebShopListScreenRoute.name: (routeData) {
       return _i25.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i18.WebShopListScreen(),
+        child: const _i17.WebShopListScreen(),
       );
     },
     MyWebShopListScreenRoute.name: (routeData) {
       return _i25.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i19.MyWebShopListScreen(),
+        child: const _i18.MyWebShopListScreen(),
       );
     },
     CreateWebShopContainerScreenRoute.name: (routeData) {
       return _i25.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i20.CreateWebShopContainerScreen(),
+        child: const _i19.CreateWebShopContainerScreen(),
       );
     },
     CreateWebListingScreenRoute.name: (routeData) {
@@ -268,7 +258,7 @@ class WebRouter extends _i25.RootStackRouter {
               ));
       return _i25.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: _i21.CreateWebListingScreen(
+        child: _i20.CreateWebListingScreen(
           key: args.key,
           shopId: args.shopId,
           collectionId: args.collectionId,
@@ -282,7 +272,7 @@ class WebRouter extends _i25.RootStackRouter {
               shopId: pathParams.getInt('shopId')));
       return _i25.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: _i22.WebShopDetailScreen(
+        child: _i21.WebShopDetailScreen(
           key: args.key,
           shopId: args.shopId,
         ),
@@ -297,7 +287,7 @@ class WebRouter extends _i25.RootStackRouter {
               ));
       return _i25.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: _i23.WebCollectionDetailScreen(
+        child: _i22.WebCollectionDetailScreen(
           key: args.key,
           shopId: args.shopId,
           collectionId: args.collectionId,
@@ -314,11 +304,27 @@ class WebRouter extends _i25.RootStackRouter {
               ));
       return _i25.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: _i24.WebListingDetailScreen(
+        child: _i23.WebListingDetailScreen(
           key: args.key,
           shopId: args.shopId,
           collectionId: args.collectionId,
           listingId: args.listingId,
+        ),
+      );
+    },
+    BuildSaleStartTxScreenRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<BuildSaleStartTxScreenRouteArgs>(
+          orElse: () => BuildSaleStartTxScreenRouteArgs(
+                scId: pathParams.getString('scId'),
+                bidId: pathParams.getInt('bidId'),
+              ));
+      return _i25.AdaptivePage<dynamic>(
+        routeData: routeData,
+        child: _i24.BuildSaleStartTxScreen(
+          key: args.key,
+          scId: args.scId,
+          bidId: args.bidId,
         ),
       );
     },
@@ -469,11 +475,6 @@ class WebRouter extends _i25.RootStackRouter {
                   parent: WebShopTabRouter.name,
                 ),
                 _i25.RouteConfig(
-                  BuildSaleStartTxScreenRoute.name,
-                  path: 'build-sale-start/:scId/:bidId',
-                  parent: WebShopTabRouter.name,
-                ),
-                _i25.RouteConfig(
                   WebShopListScreenRoute.name,
                   path: 'shops',
                   parent: WebShopTabRouter.name,
@@ -509,6 +510,18 @@ class WebRouter extends _i25.RootStackRouter {
                       'shop/:shopId/collection/:collectionId/listing/:listingId',
                   parent: WebShopTabRouter.name,
                 ),
+              ],
+            ),
+            _i25.RouteConfig(
+              WebSignTxTabRouter.name,
+              path: 'sign-tx',
+              parent: WebDashboardContainerRoute.name,
+              children: [
+                _i25.RouteConfig(
+                  BuildSaleStartTxScreenRoute.name,
+                  path: 'build-sale-start/:scId/:bidId',
+                  parent: WebSignTxTabRouter.name,
+                )
               ],
             ),
           ],
@@ -677,6 +690,19 @@ class WebShopTabRouter extends _i25.PageRouteInfo<void> {
         );
 
   static const String name = 'WebShopTabRouter';
+}
+
+/// generated route for
+/// [_i1.EmptyRouterPage]
+class WebSignTxTabRouter extends _i25.PageRouteInfo<void> {
+  const WebSignTxTabRouter({List<_i25.PageRouteInfo>? children})
+      : super(
+          WebSignTxTabRouter.name,
+          path: 'sign-tx',
+          initialChildren: children,
+        );
+
+  static const String name = 'WebSignTxTabRouter';
 }
 
 /// generated route for
@@ -909,51 +935,7 @@ class WebShopLandingScreenRoute extends _i25.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i17.BuildSaleStartTxScreen]
-class BuildSaleStartTxScreenRoute
-    extends _i25.PageRouteInfo<BuildSaleStartTxScreenRouteArgs> {
-  BuildSaleStartTxScreenRoute({
-    _i26.Key? key,
-    required String scId,
-    required int bidId,
-  }) : super(
-          BuildSaleStartTxScreenRoute.name,
-          path: 'build-sale-start/:scId/:bidId',
-          args: BuildSaleStartTxScreenRouteArgs(
-            key: key,
-            scId: scId,
-            bidId: bidId,
-          ),
-          rawPathParams: {
-            'scId': scId,
-            'bidId': bidId,
-          },
-        );
-
-  static const String name = 'BuildSaleStartTxScreenRoute';
-}
-
-class BuildSaleStartTxScreenRouteArgs {
-  const BuildSaleStartTxScreenRouteArgs({
-    this.key,
-    required this.scId,
-    required this.bidId,
-  });
-
-  final _i26.Key? key;
-
-  final String scId;
-
-  final int bidId;
-
-  @override
-  String toString() {
-    return 'BuildSaleStartTxScreenRouteArgs{key: $key, scId: $scId, bidId: $bidId}';
-  }
-}
-
-/// generated route for
-/// [_i18.WebShopListScreen]
+/// [_i17.WebShopListScreen]
 class WebShopListScreenRoute extends _i25.PageRouteInfo<void> {
   const WebShopListScreenRoute()
       : super(
@@ -965,7 +947,7 @@ class WebShopListScreenRoute extends _i25.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i19.MyWebShopListScreen]
+/// [_i18.MyWebShopListScreen]
 class MyWebShopListScreenRoute extends _i25.PageRouteInfo<void> {
   const MyWebShopListScreenRoute()
       : super(
@@ -977,7 +959,7 @@ class MyWebShopListScreenRoute extends _i25.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i20.CreateWebShopContainerScreen]
+/// [_i19.CreateWebShopContainerScreen]
 class CreateWebShopContainerScreenRoute extends _i25.PageRouteInfo<void> {
   const CreateWebShopContainerScreenRoute()
       : super(
@@ -989,7 +971,7 @@ class CreateWebShopContainerScreenRoute extends _i25.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i21.CreateWebListingScreen]
+/// [_i20.CreateWebListingScreen]
 class CreateWebListingScreenRoute
     extends _i25.PageRouteInfo<CreateWebListingScreenRouteArgs> {
   CreateWebListingScreenRoute({
@@ -1033,7 +1015,7 @@ class CreateWebListingScreenRouteArgs {
 }
 
 /// generated route for
-/// [_i22.WebShopDetailScreen]
+/// [_i21.WebShopDetailScreen]
 class WebShopDetailScreenRoute
     extends _i25.PageRouteInfo<WebShopDetailScreenRouteArgs> {
   WebShopDetailScreenRoute({
@@ -1069,7 +1051,7 @@ class WebShopDetailScreenRouteArgs {
 }
 
 /// generated route for
-/// [_i23.WebCollectionDetailScreen]
+/// [_i22.WebCollectionDetailScreen]
 class WebCollectionDetailScreenRoute
     extends _i25.PageRouteInfo<WebCollectionDetailScreenRouteArgs> {
   WebCollectionDetailScreenRoute({
@@ -1113,7 +1095,7 @@ class WebCollectionDetailScreenRouteArgs {
 }
 
 /// generated route for
-/// [_i24.WebListingDetailScreen]
+/// [_i23.WebListingDetailScreen]
 class WebListingDetailScreenRoute
     extends _i25.PageRouteInfo<WebListingDetailScreenRouteArgs> {
   WebListingDetailScreenRoute({
@@ -1159,5 +1141,49 @@ class WebListingDetailScreenRouteArgs {
   @override
   String toString() {
     return 'WebListingDetailScreenRouteArgs{key: $key, shopId: $shopId, collectionId: $collectionId, listingId: $listingId}';
+  }
+}
+
+/// generated route for
+/// [_i24.BuildSaleStartTxScreen]
+class BuildSaleStartTxScreenRoute
+    extends _i25.PageRouteInfo<BuildSaleStartTxScreenRouteArgs> {
+  BuildSaleStartTxScreenRoute({
+    _i26.Key? key,
+    required String scId,
+    required int bidId,
+  }) : super(
+          BuildSaleStartTxScreenRoute.name,
+          path: 'build-sale-start/:scId/:bidId',
+          args: BuildSaleStartTxScreenRouteArgs(
+            key: key,
+            scId: scId,
+            bidId: bidId,
+          ),
+          rawPathParams: {
+            'scId': scId,
+            'bidId': bidId,
+          },
+        );
+
+  static const String name = 'BuildSaleStartTxScreenRoute';
+}
+
+class BuildSaleStartTxScreenRouteArgs {
+  const BuildSaleStartTxScreenRouteArgs({
+    this.key,
+    required this.scId,
+    required this.bidId,
+  });
+
+  final _i26.Key? key;
+
+  final String scId;
+
+  final int bidId;
+
+  @override
+  String toString() {
+    return 'BuildSaleStartTxScreenRouteArgs{key: $key, scId: $scId, bidId: $bidId}';
   }
 }
