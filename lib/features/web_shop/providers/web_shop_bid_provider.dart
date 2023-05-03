@@ -111,18 +111,22 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
     return await RawTransaction.getSignature(message: message, privateKey: keypair.private, publicKey: keypair.public);
   }
 
-  Future<dynamic> buildSaleCompleteTx(Nft nft, double amount, String buyerAddress, String keySign) async {
+  Future<dynamic> buildSaleCompleteTx(
+    Nft nft,
+    double amount,
+    String buyerAddress,
+    String keySign, [
+    int? timestampOverride,
+    bool returnPayloadOnly = false,
+    bool surpressErrors = false,
+  ]) async {
     final txService = RawService();
     final keypair = ref.read(webSessionProvider).keypair;
 
     if (keypair == null) {
-      Toast.error("no wallet");
+      Toast.error("no wallet", surpressErrors);
       return;
     }
-    print("----------------");
-
-    print(nft.royalty);
-    print("----------------");
 
     final scId = nft.id;
     final currentOwnerAddress = nft.currentOwner;
@@ -134,15 +138,15 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
 
     double amountLessRoyalty = amount;
 
-    final timestamp = await txService.getTimestamp();
+    final timestamp = timestampOverride ?? await txService.getTimestamp();
     if (timestamp == null) {
-      Toast.error("Could not get timestamp");
+      Toast.error("Could not get timestamp", surpressErrors);
       return false;
     }
 
     final nonce = await txService.getNonce(buyerAddress);
     if (nonce == null) {
-      Toast.error("Could not get nonce");
+      Toast.error("Could not get nonce", surpressErrors);
       return false;
     }
 
@@ -150,8 +154,6 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
     bool hasRoyalty = false;
 
     if (royaltyAmountBeforeConversion != null && royaltyAddress != null) {
-      print("Royalty Amount: $royaltyAmountBeforeConversion");
-
       hasRoyalty = true;
 
       if (royaltyType == RoyaltyType.percent) {
@@ -159,8 +161,6 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
       } else {
         royaltyAmount = royaltyAmountBeforeConversion;
       }
-
-      print("Royalty Amount After: $royaltyAmount");
 
       amountLessRoyalty = amount - royaltyAmount;
 
@@ -187,7 +187,7 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
 
       final royaltyFee = await txService.getFee(royaltyData);
       if (royaltyFee == null) {
-        Toast.error("Could not get fee");
+        Toast.error("Could not get fee", surpressErrors);
         return false;
       }
 
@@ -204,7 +204,7 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
 
       final royaltyHash = await txService.getHash(royaltyData);
       if (royaltyHash == null) {
-        Toast.error("Could not generate hash");
+        Toast.error("Could not generate hash", surpressErrors);
         return false;
       }
 
@@ -214,7 +214,7 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
         publicKey: keypair.public,
       );
       if (royaltySignature == null) {
-        Toast.error("Signature generation failed.");
+        Toast.error("Signature generation failed.", surpressErrors);
         return false;
       }
 
@@ -225,7 +225,7 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
       );
 
       if (!isValid) {
-        Toast.error("Signature not valid");
+        Toast.error("Signature not valid", surpressErrors);
         return false;
       }
 
@@ -273,7 +273,7 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
 
     final fee = await txService.getFee(txData);
     if (fee == null) {
-      Toast.error("Could not get fee");
+      Toast.error("Could not get fee", surpressErrors);
       return false;
     }
 
@@ -290,7 +290,7 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
 
     final hash = await txService.getHash(txData);
     if (hash == null) {
-      Toast.error("Could not generate hash");
+      Toast.error("Could not generate hash", surpressErrors);
       return false;
     }
 
@@ -301,7 +301,7 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
     );
 
     if (signature == null) {
-      Toast.error("Signature generation failed.");
+      Toast.error("Signature generation failed.", surpressErrors);
       return false;
     }
 
@@ -312,7 +312,7 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
     );
 
     if (!isValid) {
-      Toast.error("Signature not valid");
+      Toast.error("Signature not valid", surpressErrors);
       return false;
     }
 
@@ -355,7 +355,7 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
 
     final primaryFee = await txService.getFee(primaryTxData);
     if (primaryFee == null) {
-      Toast.error("Could not get fee");
+      Toast.error("Could not get fee", surpressErrors);
       return false;
     }
 
@@ -372,7 +372,7 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
 
     final hashPrimary = await txService.getHash(primaryTxData);
     if (hashPrimary == null) {
-      Toast.error("Could not generate hash");
+      Toast.error("Could not generate hash", surpressErrors);
       return false;
     }
 
@@ -383,7 +383,7 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
     );
 
     if (signaturePrimary == null) {
-      Toast.error("Signature generation failed.");
+      Toast.error("Signature generation failed.", surpressErrors);
       return false;
     }
 
@@ -394,7 +394,7 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
     );
 
     if (!isValidPrimary) {
-      Toast.error("Signature not valid (primary)");
+      Toast.error("Signature not valid (primary)", surpressErrors);
       return false;
     }
 
@@ -411,9 +411,9 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
       signature: signaturePrimary,
     );
 
-    print("-----");
-    print(jsonEncode(primaryTxData));
-    print("-----");
+    if (returnPayloadOnly) {
+      return primaryTxData;
+    }
 
     final verifyTransactionData = (await txService.sendTransaction(
       transactionData: primaryTxData,
@@ -421,17 +421,17 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
     ));
 
     if (verifyTransactionData == null) {
-      Toast.error("Could not verify transaction");
+      Toast.error("Could not verify transaction", surpressErrors);
       return false;
     }
 
     if (verifyTransactionData['Result'] != "Success") {
       print(verifyTransactionData['Message']);
-      Toast.error(verifyTransactionData['Message']);
+      Toast.error(verifyTransactionData['Message'], surpressErrors);
       return false;
     }
 
-    Toast.message(verifyTransactionData['Message']);
+    Toast.message(verifyTransactionData['Message'], surpressErrors);
 
     final tx = await txService.sendTransaction(
       transactionData: primaryTxData,
@@ -440,12 +440,12 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
 
     if (tx != null) {
       if (tx['Result'] == "Success") {
-        Toast.message("TX Broadcasted");
+        Toast.message("TX Broadcasted", surpressErrors);
         return true;
       }
     }
 
-    Toast.error();
+    Toast.error("A problem ocurred", surpressErrors);
     return false;
   }
 
@@ -655,7 +655,7 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
     }
 
     String? signature;
-
+    String? preSignedSaleCompleteTx;
     if (kIsWeb) {
       final keypair = ref.read(webSessionProvider).keypair;
       if (keypair == null) {
@@ -669,6 +669,23 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
         Toast.error("Could not produce signature");
         return null;
       }
+      if (listing.nft != null) {
+        final dynamic presignedTx = await buildSaleCompleteTx(
+          listing.nft!.smartContract,
+          amount,
+          address,
+          listing.purchaseKey,
+          listing.endDate.millisecondsSinceEpoch.round(),
+          true,
+          false,
+        );
+
+        if (presignedTx != null) {
+          if (presignedTx is Map) {
+            preSignedSaleCompleteTx = jsonEncode(presignedTx);
+          }
+        }
+      }
     }
 
     bool success = await WebShopService().sendBid(
@@ -677,6 +694,7 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
       listingId: listing.id,
       isBuyNow: false,
       signature: signature,
+      preSignedSaleCompleteTx: preSignedSaleCompleteTx,
     );
 
     if (kIsWeb) {

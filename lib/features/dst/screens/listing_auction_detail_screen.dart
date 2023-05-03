@@ -30,6 +30,7 @@ class ListingAuctionDetailScreen extends BaseScreen {
           title: Text(
             "Auction Activity for ${listing.nft != null ? listing.nft!.name : listing.smartContractUid}",
           ),
+          backgroundColor: Colors.black,
           actions: [
             IconButton(
                 onPressed: () {

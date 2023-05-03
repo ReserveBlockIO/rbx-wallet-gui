@@ -39,12 +39,9 @@ class CreateListingFormGroup extends BaseComponent {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Flexible(
-                    child: Card(
-                      margin: EdgeInsets.zero,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                        child: _NFT(),
-                      ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      child: _NFT(),
                     ),
                   ),
                   Flexible(child: _StartDate()),

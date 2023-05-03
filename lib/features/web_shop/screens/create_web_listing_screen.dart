@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/dialogs.dart';
@@ -64,16 +65,20 @@ class CreateWebListingScreen extends BaseScreen {
       );
     }
     return Center(
-      child: Card(
-          child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 600),
-            child: CreateListingFormGroup(
-              store: shopId,
-              collection: collectionId,
+      child: Container(
+        decoration: BoxDecoration(boxShadow: glowingBox),
+        child: Card(
+            color: Colors.black,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 600),
+                  child: CreateListingFormGroup(
+                    store: shopId,
+                    collection: collectionId,
+                  )),
             )),
-      )),
+      ),
     );
   }
 }

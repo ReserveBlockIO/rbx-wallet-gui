@@ -315,6 +315,7 @@ class WebShopService extends BaseService {
     required int listingId,
     required bool isBuyNow,
     String? signature,
+    String? preSignedSaleCompleteTx,
   }) async {
     final payload = {
       "amount": amount,
@@ -322,7 +323,8 @@ class WebShopService extends BaseService {
       "listing": listingId,
       "from_third_party": kIsWeb,
       "is_buy_now": isBuyNow,
-      "signature": signature ?? "test"
+      "signature": signature ?? "",
+      "pre_signed_sale_complete_tx": preSignedSaleCompleteTx ?? "",
     };
 
     final response = await postJson(

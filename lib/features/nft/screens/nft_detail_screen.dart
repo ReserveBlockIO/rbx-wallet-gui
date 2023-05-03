@@ -246,70 +246,76 @@ class NftDetailScreen extends BaseScreen {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("Asset:", style: Theme.of(context).textTheme.headline5),
-                        ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 512),
-                          child: Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  kIsWeb
-                                      ? nft.primaryAssetWeb != null
-                                          ? WebAssetCard(nft.primaryAssetWeb)
-                                          : buildAssetsNotAvailable(_provider)
-                                      : AssetCard(
-                                          nft.currentEvolveAsset,
-                                          ownerAddress: nft.nextOwner ?? nft.currentOwner,
-                                          nftId: nft.id,
-                                        ),
-                                  if (nft.additionalAssets.isNotEmpty)
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 8),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          const Divider(),
-                                          Text(
-                                            "Additional Assets:",
-                                            style: Theme.of(context).textTheme.headline5,
+                        Container(
+                          decoration: BoxDecoration(
+                            boxShadow: glowingBox,
+                          ),
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(maxWidth: 512),
+                            child: Card(
+                              color: Colors.black,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    kIsWeb
+                                        ? nft.primaryAssetWeb != null
+                                            ? WebAssetCard(nft.primaryAssetWeb)
+                                            : buildAssetsNotAvailable(_provider)
+                                        : AssetCard(
+                                            nft.currentEvolveAsset,
+                                            ownerAddress: nft.nextOwner ?? nft.currentOwner,
+                                            nftId: nft.id,
                                           ),
-                                          const SizedBox(
-                                            height: 6,
-                                          ),
-                                          kIsWeb && nft.additionalAssetsWeb == null
-                                              ? buildAssetsNotAvailable(_provider, false)
-                                              : kIsWeb
-                                                  ? Wrap(
-                                                      children: (nft.additionalAssetsWeb ?? [])
-                                                          .map(
-                                                            (a) => Padding(
-                                                              padding: const EdgeInsets.only(right: 6.0),
-                                                              child: WebAssetThumbnail(a),
-                                                            ),
-                                                          )
-                                                          .toList(),
-                                                    )
-                                                  : Wrap(
-                                                      children: nft.additionalLocalAssets
-                                                          .map(
-                                                            (a) => Padding(
-                                                              padding: const EdgeInsets.only(right: 6.0),
-                                                              child: AssetThumbnail(
-                                                                a,
-                                                                nftId: nft.id,
-                                                                ownerAddress: nft.nextOwner ?? nft.currentOwner,
+                                    if (nft.additionalAssets.isNotEmpty)
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 8),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            const Divider(),
+                                            Text(
+                                              "Additional Assets:",
+                                              style: Theme.of(context).textTheme.headline5,
+                                            ),
+                                            const SizedBox(
+                                              height: 6,
+                                            ),
+                                            kIsWeb && nft.additionalAssetsWeb == null
+                                                ? buildAssetsNotAvailable(_provider, false)
+                                                : kIsWeb
+                                                    ? Wrap(
+                                                        children: (nft.additionalAssetsWeb ?? [])
+                                                            .map(
+                                                              (a) => Padding(
+                                                                padding: const EdgeInsets.only(right: 6.0),
+                                                                child: WebAssetThumbnail(a),
                                                               ),
-                                                            ),
-                                                          )
-                                                          .toList(),
-                                                    ),
-                                        ],
-                                      ),
-                                    )
-                                ],
+                                                            )
+                                                            .toList(),
+                                                      )
+                                                    : Wrap(
+                                                        children: nft.additionalLocalAssets
+                                                            .map(
+                                                              (a) => Padding(
+                                                                padding: const EdgeInsets.only(right: 6.0),
+                                                                child: AssetThumbnail(
+                                                                  a,
+                                                                  nftId: nft.id,
+                                                                  ownerAddress: nft.nextOwner ?? nft.currentOwner,
+                                                                ),
+                                                              ),
+                                                            )
+                                                            .toList(),
+                                                      ),
+                                          ],
+                                        ),
+                                      )
+                                  ],
+                                ),
                               ),
                             ),
                           ),
