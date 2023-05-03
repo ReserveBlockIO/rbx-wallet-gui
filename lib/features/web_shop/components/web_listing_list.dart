@@ -8,6 +8,7 @@ import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/web_shop/components/web_listing_detail.dart';
+import 'package:rbx_wallet/features/web_shop/components/web_listing_detail_tile.dart';
 import 'package:rbx_wallet/features/web_shop/components/web_listing_list_tile.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_listing.dart';
 import 'package:rbx_wallet/features/web_shop/providers/create_web_listing_provider.dart';
@@ -17,6 +18,7 @@ import 'package:rbx_wallet/features/web_shop/providers/web_shop_detail_provider.
 
 import '../../../core/base_component.dart';
 import '../../../core/components/infinite_list.dart';
+import '../../remote_shop/providers/shop_list_view_provider.dart';
 
 class WebListingList extends BaseComponent {
   final int shopId;
@@ -32,10 +34,11 @@ class WebListingList extends BaseComponent {
   @override
   Widget body(BuildContext context, WidgetRef ref) {
     final listProvider = ref.watch(webListingListProvider("$shopId,$collectionId").notifier);
+    final isExpanded = ref.watch(shopListViewProvider);
 
     return InfiniteList<WebListing>(
       pagingController: listProvider.pagingController,
-      itemBuilder: (context, listing, index) => WebListingDetails(listing: listing),
+      itemBuilder: (context, listing, index) => isExpanded ? WebListingDetails(listing: listing) : WebListingDetailsListTile(listing: listing),
       emptyText: "No Listings",
       emptyWidget: Center(
         child: Column(
