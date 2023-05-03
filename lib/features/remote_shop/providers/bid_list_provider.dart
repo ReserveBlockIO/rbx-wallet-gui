@@ -5,6 +5,7 @@ import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/features/dst/models/bid.dart';
 import 'package:rbx_wallet/features/dst/services/dst_service.dart';
+import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/models/shop_data.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
@@ -107,6 +108,7 @@ class BidListProvider extends StateNotifier<List<Bid>> {
     if (confirmed != true) {
       return null;
     }
+    ref.read(globalLoadingProvider.notifier).start();
 
     final bid = Bid.create(
       address: ref.read(sessionProvider).currentWallet!.address,
@@ -122,6 +124,8 @@ class BidListProvider extends StateNotifier<List<Bid>> {
     if (success) {
       ref.read(connectedShopProvider.notifier).refresh(true);
     }
+    ref.read(globalLoadingProvider.notifier).complete();
+
     return success;
   }
 
@@ -216,6 +220,7 @@ class BidListProvider extends StateNotifier<List<Bid>> {
     if (confirmed != true) {
       return null;
     }
+    ref.read(globalLoadingProvider.notifier).start();
 
     final bid = Bid.create(
       address: wallet.address,
@@ -232,6 +237,8 @@ class BidListProvider extends StateNotifier<List<Bid>> {
       await Future.delayed(Duration(milliseconds: 500));
       ref.read(connectedShopProvider.notifier).refresh(true);
     }
+    ref.read(globalLoadingProvider.notifier).complete();
+
     return success;
   }
 }

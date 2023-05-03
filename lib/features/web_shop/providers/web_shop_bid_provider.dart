@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,6 +30,8 @@ import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 import 'package:collection/collection.dart';
+
+import '../../global_loader/global_loading_provider.dart';
 
 class WebBidListProvider extends StateNotifier<List<Bid>> {
   final Ref ref;
@@ -514,10 +517,13 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
     if (confirmed != true) {
       return null;
     }
+    ref.read(globalLoadingProvider.notifier).start();
 
     final address = kIsWeb ? ref.read(webSessionProvider).keypair?.address : ref.read(sessionProvider).currentWallet?.address;
     if (address == null) {
       Toast.error("No Wallet");
+      ref.read(globalLoadingProvider.notifier).complete();
+
       return null;
     }
 
@@ -527,6 +533,8 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
       final keypair = ref.read(webSessionProvider).keypair;
       if (keypair == null) {
         Toast.error("No Wallet");
+        ref.read(globalLoadingProvider.notifier).complete();
+
         return null;
       }
 
@@ -534,17 +542,25 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
 
       if (signature == null) {
         Toast.error("Could not produce signature");
+        ref.read(globalLoadingProvider.notifier).complete();
+
         return null;
       }
     }
 
-    final success = await WebShopService().sendBid(
+    final success = await WebShopService()
+        .sendBid(
       amount: listing.buyNowPrice!,
       address: address,
       listingId: listing.id,
       isBuyNow: true,
       signature: signature,
-    );
+    )
+        .catchError((e) {
+      Toast.error();
+      ref.read(globalLoadingProvider.notifier).complete();
+      return false;
+    });
 
     if (kIsWeb) {
       if (success) {
@@ -552,6 +568,7 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
           waitForSaleStart(listing.nft!.smartContract.id, address, listing.buyNowPrice!);
         });
         Toast.message("Buy Now TX broadcasted. Please wait for it to be accepted by the shop owner");
+        ref.read(globalLoadingProvider.notifier).complete();
       }
     } else {
       final coreBid = Bid.create(
@@ -566,6 +583,8 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
       );
 
       final bidSaved = await RemoteShopService().sendBid(coreBid, listing.id);
+      ref.read(webListingListProvider("${listing.collection.shop?.id},${listing.collection.id}").notifier).refresh();
+      ref.read(globalLoadingProvider.notifier).complete();
 
       return bidSaved && success;
     }
@@ -653,12 +672,14 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
     if (confirmed != true) {
       return null;
     }
+    ref.read(globalLoadingProvider.notifier).start();
 
     String? signature;
     String? preSignedSaleCompleteTx;
     if (kIsWeb) {
       final keypair = ref.read(webSessionProvider).keypair;
       if (keypair == null) {
+        ref.read(globalLoadingProvider.notifier).complete();
         Toast.error("No Wallet");
         return null;
       }
@@ -667,6 +688,7 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
 
       if (signature == null) {
         Toast.error("Could not produce signature");
+        ref.read(globalLoadingProvider.notifier).complete();
         return null;
       }
       if (listing.nft != null) {
@@ -688,14 +710,20 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
       }
     }
 
-    bool success = await WebShopService().sendBid(
+    bool success = await WebShopService()
+        .sendBid(
       amount: amount,
       address: address,
       listingId: listing.id,
       isBuyNow: false,
       signature: signature,
       preSignedSaleCompleteTx: preSignedSaleCompleteTx,
-    );
+    )
+        .catchError((e) {
+      Toast.error();
+      ref.read(globalLoadingProvider.notifier).complete();
+      return false;
+    });
 
     if (kIsWeb) {
       //TODO: web
@@ -749,6 +777,7 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
     } else {
       Toast.error();
     }
+    ref.read(globalLoadingProvider.notifier).complete();
 
     return success;
   }
