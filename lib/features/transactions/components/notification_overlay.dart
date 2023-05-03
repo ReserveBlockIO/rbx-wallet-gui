@@ -85,7 +85,9 @@ class NotificationOverlay extends BaseComponent {
                                               padding: const EdgeInsets.only(top: 8.0),
                                               child: Text(
                                                 n.body!,
-                                                style: Theme.of(context).textTheme.bodySmall,
+                                                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                                      fontSize: 10,
+                                                    ),
                                               ),
                                             )
                                         ],

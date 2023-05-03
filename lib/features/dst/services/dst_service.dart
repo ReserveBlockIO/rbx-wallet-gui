@@ -273,6 +273,26 @@ class DstService extends BaseService {
     }
   }
 
+  Future<bool> importShop(String address) async {
+    try {
+      final response = await getText('/GetImportDecShopFromNetwork');
+      final data = jsonDecode(response);
+
+      print("********");
+      print(response);
+      print("********");
+
+      if (data['Success'] == true) {
+        return true;
+      }
+
+      return false;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
   Future<bool> deleteShopLocally() async {
     try {
       final response = await getText('/GetDeleteLocalDecShop');
