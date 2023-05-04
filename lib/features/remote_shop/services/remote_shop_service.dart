@@ -117,7 +117,6 @@ class RemoteShopService extends BaseService {
 
       final List<Bid> response = [];
       for (final bidData in bids) {
-        print(bidData);
         final b = Bid.fromJson(bidData);
         if (b.listingId == listingId) {
           response.add(b);

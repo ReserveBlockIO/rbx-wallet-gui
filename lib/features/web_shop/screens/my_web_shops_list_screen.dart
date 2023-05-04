@@ -33,7 +33,6 @@ class MyWebShopListScreen extends BaseScreen {
               final token = await ref.read(webAuthTokenProvider.notifier).authorize();
 
               if (token != null) {
-                print(token);
                 Toast.message("Authorized");
               }
             },

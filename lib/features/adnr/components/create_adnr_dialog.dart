@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/services/explorer_service.dart';
+import 'package:rbx_wallet/features/adnr/services/adnr_service.dart';
 import 'package:rbx_wallet/features/raw/raw_service.dart';
 import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
 
@@ -143,7 +144,7 @@ class CreateAdnrDialog extends BaseComponent {
               Toast.error();
             } else {
               ref.read(globalLoadingProvider.notifier).start();
-              final result = await RawService().createAdnr(address, controller.text);
+              final result = await AdnrService().createAdnr(address, controller.text);
               ref.read(globalLoadingProvider.notifier).complete();
 
               if (result.success) {

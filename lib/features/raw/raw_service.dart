@@ -117,8 +117,6 @@ class RawService extends BaseService {
         execute: true,
       );
 
-      print(tx);
-
       if (tx != null && tx['Result'] == "Success") {
         return true;
       }
@@ -149,7 +147,6 @@ class RawService extends BaseService {
   Future<dynamic> nftTransferData(String scId, String toAddress, String locator) async {
     try {
       final response = await postJson("/nft-transfer-data/$scId/$toAddress/$locator/", responseIsJson: true);
-      print(response['data']);
       return response['data'];
     } catch (e) {
       print(e);
@@ -215,50 +212,6 @@ class RawService extends BaseService {
     } catch (e) {
       print(e);
       return false;
-    }
-  }
-
-  // ADNRs
-
-  Future<AdnrResponse> createAdnr(String address, String name) async {
-    try {
-      final response = await getText("/CreateAdnr/$address/$name");
-      final data = jsonDecode(response);
-      return AdnrResponse(
-        success: data['Result'] == "Success",
-        message: data['Message'],
-        hash: data['Hash'],
-      );
-    } catch (e) {
-      return AdnrResponse(success: false, message: "An error occurred: ${e.toString()}");
-    }
-  }
-
-  Future<AdnrResponse> transferAdnr(String fromAddress, String toAddress) async {
-    try {
-      final response = await getText("/TransferAdnr/$fromAddress/$toAddress");
-      final data = jsonDecode(response);
-      return AdnrResponse(
-        success: data['Result'] == "Success",
-        message: data['Message'],
-        hash: data['Hash'],
-      );
-    } catch (e) {
-      return AdnrResponse(success: false, message: "An error occurred: ${e.toString()}");
-    }
-  }
-
-  Future<AdnrResponse> deleteAdnr(String address) async {
-    try {
-      final response = await getText("/DeleteAdnr/$address");
-      final data = jsonDecode(response);
-      return AdnrResponse(
-        success: data['Result'] == "Success",
-        message: data['Message'],
-        hash: data['Hash'],
-      );
-    } catch (e) {
-      return AdnrResponse(success: false, message: "An error occurred: ${e.toString()}");
     }
   }
 

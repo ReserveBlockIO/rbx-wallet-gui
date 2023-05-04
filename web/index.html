@@ -52,15 +52,12 @@
 
     <title>RBX Wallet</title>
     <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" type="text/css" href="splash/splash.css">
-  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
-  <script src="splash/splash.js"></script>
-</head>
+    <!-- <link rel="stylesheet" type="text/css" href="splash/splash.css"> -->
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+  </head>
   <body>  
   
-    <div id="splash" class="center">
-
-     
+    <!-- <div id="splash-screen" class="center">
       <div id="splash-cube">
         <img  aria-hidden="true" src="cube.gif" width="160" height="160" alt="">
       </div>
@@ -68,10 +65,12 @@
         <img  aria-hidden="true" src="wordmark.png"  height="25" width="200" alt="">
       </div>
       <div id="splash-loading">Loading...</div>
-    </div>
+    </div> -->
+
+
     <!-- <script src="https://js.stripe.com/v3/"></script> -->
     <!-- <script src="assets/assets/js/keygen.js" defer></script> -->
-    <script src="assets/assets/js/keygen-v2.js?v=1.37" defer=""></script>
+    <script src="assets/assets/js/keygen-v2.js?v=1.0.0" defer=""></script>
     <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
@@ -84,7 +83,7 @@
         }
         scriptLoaded = true;
         var scriptTag = document.createElement("script");
-        scriptTag.src = "main.dart.js?version=3.6.2";
+        scriptTag.src = "main.dart.js?version=3.7.4";
         scriptTag.type = "application/javascript";
         document.body.append(scriptTag);
       }
@@ -139,6 +138,15 @@
         loadMainDartJs();
       }
     </script>
+
+  <!-- <script>
+
+   setTimeout(function() {
+    document.getElementById('splash-screen').remove();
+   }, 3000)
+
+  </script> -->
+
   
 
 </body></html>

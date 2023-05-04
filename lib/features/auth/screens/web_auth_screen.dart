@@ -43,8 +43,7 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
     final bool rememberMe = singleton<Storage>().getBool(Storage.REMEMBER_ME) ?? false;
 
     if (session.isAuthenticated && rememberMe) {
-      print("Currentpath $currentPath");
-      if (currentPath == '/' || currentPath.isEmpty) {
+      if (currentPath == '/') {
         AutoRouter.of(context).push(WebDashboardContainerRoute());
       }
     } else {

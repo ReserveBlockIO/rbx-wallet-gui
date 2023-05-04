@@ -60,7 +60,6 @@ class WebTransaction with _$WebTransaction {
   }
 
   Map<String, dynamic>? parseNftData() {
-    print(data);
     try {
       if (data == null) {
         return null;
