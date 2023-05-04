@@ -52,7 +52,7 @@ class WebListing with _$WebListing {
         smartContractUid: '',
         ownerAddress: '',
         startDate: DateTime.now(),
-        endDate: DateTime.now(),
+        endDate: DateTime.now().add(Duration(days: 7)),
         collection: WebCollection.empty(),
         isVisibleAfterEndDate: false,
         isVisibleBeforeStartDate: false,

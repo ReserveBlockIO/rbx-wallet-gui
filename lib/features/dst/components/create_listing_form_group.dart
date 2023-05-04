@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/asset/polling_image_preview.dart';
 import 'package:rbx_wallet/features/dst/components/nft_selector.dart';
-import 'package:rbx_wallet/features/dst/providers/collection_form_provider.dart';
-import 'package:rbx_wallet/features/dst/providers/listed_nfts_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/base_component.dart';
 import '../../../utils/validation.dart';
 import '../../smart_contracts/components/sc_creator/common/form_group_container.dart';
-import '../../smart_contracts/components/sc_creator/common/form_group_header.dart';
 import '../providers/listing_form_provider.dart';
 
 class CreateListingFormGroup extends BaseComponent {
@@ -44,8 +40,6 @@ class CreateListingFormGroup extends BaseComponent {
                       ),
                     ),
                   ),
-                  Flexible(child: _StartDate()),
-                  Flexible(child: _EndDate()),
                   if (model.isAuction && model.auctionStarted && model.exists)
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -75,6 +69,8 @@ class CreateListingFormGroup extends BaseComponent {
                           style: Theme.of(context).textTheme.bodySmall,
                         )),
                       ),
+                    Flexible(child: _StartDate()),
+                    Flexible(child: _EndDate()),
                   ],
                 ],
               ),

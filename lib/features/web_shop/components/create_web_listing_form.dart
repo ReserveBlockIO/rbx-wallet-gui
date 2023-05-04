@@ -45,8 +45,6 @@ class CreateListingFormGroup extends BaseComponent {
                       child: _NFT(),
                     ),
                   ),
-                  Flexible(child: _StartDate()),
-                  Flexible(child: _EndDate()),
                   if (model.isAuction && model.isAuctionStarted && model.exists)
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -79,6 +77,8 @@ class CreateListingFormGroup extends BaseComponent {
                           style: Theme.of(context).textTheme.bodySmall,
                         )),
                       ),
+                    Flexible(child: _StartDate()),
+                    Flexible(child: _EndDate()),
                   ],
                 ],
               ),

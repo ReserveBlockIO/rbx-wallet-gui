@@ -1,18 +1,12 @@
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/listing_detail_provider.dart';
 import 'package:rbx_wallet/features/dst/services/dst_service.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
 
 import '../../../utils/toast.dart';
 import '../models/listing.dart';
@@ -146,13 +140,21 @@ class ListingFormProvider extends StateNotifier<Listing> {
   }
 
   updateEnableAuction(bool enableAuction) {
-    if (state.auctionStarted && state.exists) {
+    print("Auction started: ${state.isAuctionStarted} exists: ${state.exists}");
+    if (state.isAuctionStarted && state.exists) {
       Toast.error('The auction has already started.');
       return;
     }
     state = state.copyWith(enableAuction: enableAuction);
     if (enableAuction) {
       state = state.copyWith(galleryOnly: false);
+      state = state.copyWith(endDate: DateTime.now());
+      state = state.copyWith(endDate: state.startDate.add(Duration(days: 7)));
+      startDateController.text = DateFormat.yMd().format(DateTime.now());
+      endDateController.text = DateFormat.yMd().format(state.endDate);
+    } else {
+      state = state.copyWith(endDate: DateTime.now());
+      state = state.copyWith(endDate: DateTime(3000));
     }
   }
 
