@@ -43,7 +43,7 @@ class WebChatService extends BaseService {
     }
   }
 
-  Future<WebChatThread?> retrieveThread(int threadId) async {
+  Future<WebChatThread?> retrieveThread(String threadId) async {
     try {
       final data = await getJson("/chat/$threadId/", auth: false);
       return WebChatThread.fromJson(data);
@@ -55,7 +55,7 @@ class WebChatService extends BaseService {
   }
 
   Future<WebChatMessage?> sendMessage({
-    required int threadId,
+    required String threadId,
     required String body,
     required bool isFromBuyer,
   }) async {
