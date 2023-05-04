@@ -126,9 +126,12 @@ class SendForm extends BaseComponent {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             if (isWeb)
-                              Text(
-                                "${isMobile ? "From: " : ""}${keypair!.address}",
-                                style: TextStyle(color: color, fontSize: 16),
+                              Flexible(
+                                child: Text(
+                                  keypair!.address,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(color: color, fontSize: 16),
+                                ),
                               ),
                             if (!isWeb)
                               PopupMenuButton(

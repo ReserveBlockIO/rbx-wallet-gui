@@ -21,9 +21,10 @@ class CreateListingFormGroup extends BaseComponent {
   }) : super(key: key);
 
   @override
-  Widget desktopBody(BuildContext context, WidgetRef ref) {
+  Widget body(BuildContext context, WidgetRef ref) {
     final provider = ref.watch(createWebListingProvider.notifier);
     final model = ref.watch(createWebListingProvider);
+
     return FormGroupContainer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

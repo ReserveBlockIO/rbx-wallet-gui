@@ -19,6 +19,7 @@ import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
 import 'package:rbx_wallet/features/web_shop/utils/shop_publishing.dart';
 import 'package:rbx_wallet/core/components/poller.dart';
 
+import '../../../core/breakpoints.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../utils/toast.dart';
@@ -96,6 +97,7 @@ class WebShopDetailScreen extends BaseScreen {
   @override
   Widget body(BuildContext context, WidgetRef ref) {
     final data = ref.watch(webShopDetailProvider(shopId));
+    final isMobile = BreakPoints.useMobileLayout(context);
 
     return data.when(
       data: (shop) => shop != null
@@ -180,7 +182,7 @@ class WebShopDetailScreen extends BaseScreen {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           AppButton(
-                            label: 'Delete shop',
+                            label: isMobile ? 'Delete' : 'Delete shop',
                             icon: Icons.delete,
                             variant: AppColorVariant.Danger,
                             onPressed: () async {
@@ -205,7 +207,7 @@ class WebShopDetailScreen extends BaseScreen {
                             },
                           ),
                           AppButton(
-                            label: "Edit Shop",
+                            label: isMobile ? "Edit" : "Edit Shop",
                             icon: Icons.edit,
                             variant: AppColorVariant.Primary,
                             onPressed: () {

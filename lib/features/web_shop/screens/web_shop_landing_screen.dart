@@ -10,6 +10,7 @@ import '../../../core/web_router.gr.dart';
 class WebShopLandingScreen extends BaseScreen {
   const WebShopLandingScreen({Key? key})
       : super(
+          includeWebDrawer: true,
           key: key,
           verticalPadding: 0,
           horizontalPadding: 0,

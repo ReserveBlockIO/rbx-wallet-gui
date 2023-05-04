@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
+import 'package:rbx_wallet/core/breakpoints.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/web_shop/components/web_listing_list.dart';
@@ -87,7 +88,7 @@ class WebCollectionDetailScreen extends BaseScreen {
     final data = ref.watch(webCollectionDetailProvider("$shopId,$collectionId"));
     final listModeProvider = ref.read(shopListViewProvider.notifier);
     final isExpanded = ref.watch(shopListViewProvider);
-
+    final isMobile = BreakPoints.useMobileLayout(context);
     return data.when(
       data: (collection) => collection != null
           ? Column(
@@ -153,7 +154,7 @@ class WebCollectionDetailScreen extends BaseScreen {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           AppButton(
-                            label: 'Delete collection',
+                            label: isMobile ? "Delete" : "Delete collection",
                             icon: Icons.delete,
                             variant: AppColorVariant.Danger,
                             onPressed: () async {
@@ -169,7 +170,7 @@ class WebCollectionDetailScreen extends BaseScreen {
                             },
                           ),
                           AppButton(
-                            label: "Edit Collection",
+                            label: isMobile ? "Edit" : "Edit Collection",
                             icon: Icons.edit,
                             variant: AppColorVariant.Primary,
                             onPressed: () {
