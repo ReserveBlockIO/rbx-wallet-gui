@@ -11,8 +11,7 @@ abstract class WebChatMessage with _$WebChatMessage {
   const WebChatMessage._();
 
   factory WebChatMessage({
-    required int id,
-    @JsonKey(name: "thread") required int threadId,
+    required String uuid,
     @JsonKey(name: "is_from_buyer") required bool isFromBuyer,
     required String body,
     @JsonKey(name: "is_delivered") @Default(false) bool isDelivered,
@@ -23,12 +22,13 @@ abstract class WebChatMessage with _$WebChatMessage {
 
   ChatMessage toNative(WebChatThread thread) {
     return ChatMessage(
-      id: "$id",
+      id: uuid,
       message: body,
-      toAddress: isFromBuyer ? thread.buyerAddress : thread.shop.url,
-      fromAddress: isFromBuyer ? thread.shop.url : thread.buyerAddress,
+      fromAddress: isFromBuyer ? thread.buyerAddress : thread.shop.url,
+      toAddress: isFromBuyer ? thread.shop.url : thread.buyerAddress,
       timestamp: (createdAt.millisecondsSinceEpoch / 1000).round(),
       isShopSentMessage: !isFromBuyer,
+      received: isDelivered,
     );
   }
 }

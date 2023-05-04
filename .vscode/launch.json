@@ -10,14 +10,16 @@
             "request": "launch",
         },
         {
-            "name": "rbx (web)",
+            "name": "rbx (web local)",
             "request": "launch",
             "type": "dart",
             "args": [
                 "-d",
                 "chrome",
                 "--web-port",
-                "42069"
+                "42069",
+                "--dart-define",
+                "ENV=web_local"
             ],
         },
     ]

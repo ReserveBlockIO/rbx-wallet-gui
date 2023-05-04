@@ -1,11 +1,15 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/env.dart';
+import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
+import 'package:rbx_wallet/features/chat/services/web_chat_service.dart';
 import 'package:rbx_wallet/features/web_shop/components/web_listing_list.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_collection_detail_provider.dart';
 
@@ -34,6 +38,7 @@ class WebCollectionDetailScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     final data = ref.watch(webCollectionDetailProvider("$shopId,$collectionId"));
+    final address = kIsWeb ? ref.watch(webSessionProvider).keypair?.address : ref.watch(sessionProvider).currentWallet?.address;
 
     return data.when(
       data: (collection) => collection != null
@@ -43,6 +48,25 @@ class WebCollectionDetailScreen extends BaseScreen {
               backgroundColor: Colors.black12,
               shadowColor: Colors.transparent,
               actions: [
+                if (collection.shop != null && address != null)
+                  AppButton(
+                    type: AppButtonType.Text,
+                    variant: AppColorVariant.Light,
+                    icon: Icons.chat_bubble_outline,
+                    label: 'Chat',
+                    onPressed: () async {
+                      final thread = await WebChatService().getOrCreateThread(
+                        shopUrl: collection.shop!.url,
+                        buyerAddress: address,
+                        isThirdParty: true,
+                      );
+                      if (thread == null) {
+                        Toast.error("Could not create or get thread");
+                        return;
+                      }
+                      AutoRouter.of(context).push(WebShopChatScreenRoute(identifier: thread.uuid));
+                    },
+                  ),
                 AppButton(
                   label: "Share Collection",
                   icon: Icons.ios_share_rounded,

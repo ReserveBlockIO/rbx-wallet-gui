@@ -29,7 +29,7 @@ class WebChatService extends BaseService {
         ...shopUrl != null ? {"shop_url": shopUrl} : {},
       };
 
-      final data = await getJson("/chat/", params: params);
+      final data = await getJson("/chat/", params: params, inspect: true);
       final List<WebChatThread> results = data['results'].map<WebChatThread>((item) => WebChatThread.fromJson(item)).toList();
       return ServerPaginatedReponse<WebChatThread>(
         count: data['count'],
@@ -45,7 +45,7 @@ class WebChatService extends BaseService {
 
   Future<WebChatThread?> retrieveThread(String threadId) async {
     try {
-      final data = await getJson("/chat/$threadId/", auth: false);
+      final data = await getJson("/chat/$threadId/", auth: false, inspect: true);
       return WebChatThread.fromJson(data);
     } catch (e, st) {
       print(e);
@@ -54,19 +54,39 @@ class WebChatService extends BaseService {
     }
   }
 
+  Future<WebChatThread?> getOrCreateThread({
+    required String shopUrl,
+    required String buyerAddress,
+    required bool isThirdParty,
+  }) async {
+    try {
+      final params = {"shop_url": shopUrl, "buyer_address": buyerAddress, "is_third_party": isThirdParty};
+      final response = await postJson("/chat/", params: params, auth: false, inspect: true);
+      return WebChatThread.fromJson(response['data']);
+    } catch (e, st) {
+      print(e);
+      print(st);
+      return null;
+    }
+  }
+
   Future<WebChatMessage?> sendMessage({
-    required String threadId,
+    required String threadUuid,
     required String body,
     required bool isFromBuyer,
   }) async {
     final params = {
-      "thread": threadId,
       "body": body,
       "is_from_buyer": isFromBuyer,
     };
 
     try {
-      final response = await postJson("/chat/$threadId/", params: params, auth: true);
+      final response = await postJson(
+        "/chat/$threadUuid/message/",
+        params: params,
+        auth: true,
+        inspect: true,
+      );
       return WebChatMessage.fromJson(response['data']);
     } catch (e, st) {
       print(e);

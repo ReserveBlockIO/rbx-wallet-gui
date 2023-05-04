@@ -11,6 +11,8 @@ import 'package:rbx_wallet/features/chat/providers/chat_list_provider_interface.
 import 'package:rbx_wallet/features/chat/providers/chat_notification_provider.dart';
 import 'package:rbx_wallet/features/chat/providers/shop_chat_list_provider.dart';
 import 'package:rbx_wallet/features/chat/providers/seller_chat_list_provider.dart';
+import 'package:rbx_wallet/features/chat/providers/web_seller_chat_list_provider.dart';
+import 'package:rbx_wallet/features/chat/providers/web_shop_chat_list_provider.dart';
 import 'package:rbx_wallet/utils/dates.dart';
 import 'package:context_menus/context_menus.dart';
 import 'package:rbx_wallet/utils/toast.dart';
@@ -18,16 +20,31 @@ import 'package:rbx_wallet/utils/toast.dart';
 class ShopChatList extends BaseComponent {
   final String identifier;
   final bool isSeller;
+  final bool isThirdParty;
   const ShopChatList({
     super.key,
     required this.identifier,
+    required this.isThirdParty,
     this.isSeller = false,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final messages = isSeller ? ref.watch(sellerChatListProvider(identifier)) : ref.watch(shopChatListProvider(identifier));
-    final provider = isSeller ? ref.read(sellerChatListProvider(identifier).notifier) : ref.read(shopChatListProvider(identifier).notifier);
+    final messages = isThirdParty
+        ? isSeller
+            ? ref.watch(webSellerChatListProvider(identifier))
+            : ref.watch(webShopChatListProvider(identifier))
+        : isSeller
+            ? ref.watch(sellerChatListProvider(identifier))
+            : ref.watch(shopChatListProvider(identifier));
+
+    final provider = isThirdParty
+        ? isSeller
+            ? ref.read(webSellerChatListProvider(identifier).notifier)
+            : ref.read(webShopChatListProvider(identifier).notifier)
+        : isSeller
+            ? ref.read(sellerChatListProvider(identifier).notifier)
+            : ref.read(shopChatListProvider(identifier).notifier);
 
     return Column(
       mainAxisSize: MainAxisSize.min,

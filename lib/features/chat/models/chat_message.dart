@@ -35,6 +35,10 @@ abstract class ChatMessage with _$ChatMessage {
   }
 
   String get fromLabel {
+    if (isShopSentMessage) {
+      return fromAddress;
+    }
+
     final start = fromAddress.substring(0, 5);
     final end = fromAddress.substring(fromAddress.length - 5, fromAddress.length);
 

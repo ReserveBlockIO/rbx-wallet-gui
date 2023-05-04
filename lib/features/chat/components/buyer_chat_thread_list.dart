@@ -71,7 +71,7 @@ class BuyerChatThreadList extends BaseComponent {
               if (currentUrl != thread.user) {
                 await ref.read(connectedShopProvider.notifier).loadShop(context, ref, thread.user);
               }
-              AutoRouter.of(context).push(ShopChatScreenRoute(shopUrl: thread.user));
+              AutoRouter.of(context).push(ShopChatScreenRoute(url: thread.user));
             },
           ),
         );

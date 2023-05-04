@@ -103,7 +103,7 @@ class ChatNotificationProvider extends StateNotifier<List<ChatNotificationModel>
           if (isSeller) {
             AutoRouter.of(context).push(SellerChatScreenRoute(address: entry.identifer));
           } else {
-            AutoRouter.of(context).push(ShopChatScreenRoute(shopUrl: entry.identifer));
+            AutoRouter.of(context).push(ShopChatScreenRoute(url: entry.identifer));
           }
         });
 

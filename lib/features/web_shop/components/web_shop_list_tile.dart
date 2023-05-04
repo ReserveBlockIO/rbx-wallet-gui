@@ -11,7 +11,7 @@ import '../../../core/base_component.dart';
 import '../../../core/components/badges.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/theme/app_theme.dart';
-import '../../../core/web_router.gr.dart';
+import '../../../core/web_router.gr.dart' as webRouter;
 import '../../bridge/providers/wallet_info_provider.dart';
 import '../../remote_shop/providers/connected_shop_provider.dart';
 import '../models/web_shop.dart';
@@ -86,7 +86,7 @@ class WebShopTile extends BaseComponent {
               }
               //If is web just push the web route
               if (Env.isWeb) {
-                AutoRouter.of(context).push(WebShopDetailScreenRoute(shopId: shop.id));
+                AutoRouter.of(context).push(webRouter.WebShopDetailScreenRoute(shopId: shop.id));
                 return;
               }
 
@@ -116,7 +116,7 @@ class WebShopTile extends BaseComponent {
     final currentUrl = ref.watch(connectedShopProvider).url;
     final isConnected = ref.watch(connectedShopProvider).isConnected;
     if (shop.isThirdParty) {
-      AutoRouter.of(context).push(ThirdPartyWebShopDetailScreenRoute(shopId: shop.id));
+      AutoRouter.of(context).push(WebShopDetailScreenRoute(shopId: shop.id));
       return;
     }
 

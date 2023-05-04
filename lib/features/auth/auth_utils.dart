@@ -134,7 +134,7 @@ Future<dynamic> handleRememberMe(BuildContext context, WidgetRef ref) async {
         return AlertDialog(
           title: const Text('Store Private Key?'),
           content: const Text(
-              'Would you like your browser to remember your private key locally? Either way, your key will never be transmitted accross the internet. \n\nChoose "No" if this is a shared computer.'),
+              'Would you like your browser to remember your private key locally?\nEither way, your key will never be transmitted accross the internet. \n\nChoose "No" if this is a shared computer.'),
           actions: [
             TextButton(
               style: TextButton.styleFrom(

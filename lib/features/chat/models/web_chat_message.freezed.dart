@@ -20,9 +20,7 @@ WebChatMessage _$WebChatMessageFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$WebChatMessage {
-  int get id => throw _privateConstructorUsedError;
-  @JsonKey(name: "thread")
-  int get threadId => throw _privateConstructorUsedError;
+  String get uuid => throw _privateConstructorUsedError;
   @JsonKey(name: "is_from_buyer")
   bool get isFromBuyer => throw _privateConstructorUsedError;
   String get body => throw _privateConstructorUsedError;
@@ -44,8 +42,7 @@ abstract class $WebChatMessageCopyWith<$Res> {
       _$WebChatMessageCopyWithImpl<$Res, WebChatMessage>;
   @useResult
   $Res call(
-      {int id,
-      @JsonKey(name: "thread") int threadId,
+      {String uuid,
       @JsonKey(name: "is_from_buyer") bool isFromBuyer,
       String body,
       @JsonKey(name: "is_delivered") bool isDelivered,
@@ -65,22 +62,17 @@ class _$WebChatMessageCopyWithImpl<$Res, $Val extends WebChatMessage>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? threadId = null,
+    Object? uuid = null,
     Object? isFromBuyer = null,
     Object? body = null,
     Object? isDelivered = null,
     Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      threadId: null == threadId
-          ? _value.threadId
-          : threadId // ignore: cast_nullable_to_non_nullable
-              as int,
+      uuid: null == uuid
+          ? _value.uuid
+          : uuid // ignore: cast_nullable_to_non_nullable
+              as String,
       isFromBuyer: null == isFromBuyer
           ? _value.isFromBuyer
           : isFromBuyer // ignore: cast_nullable_to_non_nullable
@@ -110,8 +102,7 @@ abstract class _$$_WebChatMessageCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int id,
-      @JsonKey(name: "thread") int threadId,
+      {String uuid,
       @JsonKey(name: "is_from_buyer") bool isFromBuyer,
       String body,
       @JsonKey(name: "is_delivered") bool isDelivered,
@@ -129,22 +120,17 @@ class __$$_WebChatMessageCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? threadId = null,
+    Object? uuid = null,
     Object? isFromBuyer = null,
     Object? body = null,
     Object? isDelivered = null,
     Object? createdAt = null,
   }) {
     return _then(_$_WebChatMessage(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      threadId: null == threadId
-          ? _value.threadId
-          : threadId // ignore: cast_nullable_to_non_nullable
-              as int,
+      uuid: null == uuid
+          ? _value.uuid
+          : uuid // ignore: cast_nullable_to_non_nullable
+              as String,
       isFromBuyer: null == isFromBuyer
           ? _value.isFromBuyer
           : isFromBuyer // ignore: cast_nullable_to_non_nullable
@@ -169,8 +155,7 @@ class __$$_WebChatMessageCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_WebChatMessage extends _WebChatMessage {
   _$_WebChatMessage(
-      {required this.id,
-      @JsonKey(name: "thread") required this.threadId,
+      {required this.uuid,
       @JsonKey(name: "is_from_buyer") required this.isFromBuyer,
       required this.body,
       @JsonKey(name: "is_delivered") this.isDelivered = false,
@@ -181,10 +166,7 @@ class _$_WebChatMessage extends _WebChatMessage {
       _$$_WebChatMessageFromJson(json);
 
   @override
-  final int id;
-  @override
-  @JsonKey(name: "thread")
-  final int threadId;
+  final String uuid;
   @override
   @JsonKey(name: "is_from_buyer")
   final bool isFromBuyer;
@@ -199,7 +181,7 @@ class _$_WebChatMessage extends _WebChatMessage {
 
   @override
   String toString() {
-    return 'WebChatMessage(id: $id, threadId: $threadId, isFromBuyer: $isFromBuyer, body: $body, isDelivered: $isDelivered, createdAt: $createdAt)';
+    return 'WebChatMessage(uuid: $uuid, isFromBuyer: $isFromBuyer, body: $body, isDelivered: $isDelivered, createdAt: $createdAt)';
   }
 
   @override
@@ -207,9 +189,7 @@ class _$_WebChatMessage extends _WebChatMessage {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_WebChatMessage &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.threadId, threadId) ||
-                other.threadId == threadId) &&
+            (identical(other.uuid, uuid) || other.uuid == uuid) &&
             (identical(other.isFromBuyer, isFromBuyer) ||
                 other.isFromBuyer == isFromBuyer) &&
             (identical(other.body, body) || other.body == body) &&
@@ -221,8 +201,8 @@ class _$_WebChatMessage extends _WebChatMessage {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, threadId, isFromBuyer, body, isDelivered, createdAt);
+  int get hashCode =>
+      Object.hash(runtimeType, uuid, isFromBuyer, body, isDelivered, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -240,8 +220,7 @@ class _$_WebChatMessage extends _WebChatMessage {
 
 abstract class _WebChatMessage extends WebChatMessage {
   factory _WebChatMessage(
-          {required final int id,
-          @JsonKey(name: "thread") required final int threadId,
+          {required final String uuid,
           @JsonKey(name: "is_from_buyer") required final bool isFromBuyer,
           required final String body,
           @JsonKey(name: "is_delivered") final bool isDelivered,
@@ -253,10 +232,7 @@ abstract class _WebChatMessage extends WebChatMessage {
       _$_WebChatMessage.fromJson;
 
   @override
-  int get id;
-  @override
-  @JsonKey(name: "thread")
-  int get threadId;
+  String get uuid;
   @override
   @JsonKey(name: "is_from_buyer")
   bool get isFromBuyer;

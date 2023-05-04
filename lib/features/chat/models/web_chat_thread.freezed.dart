@@ -20,7 +20,7 @@ WebChatThread _$WebChatThreadFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$WebChatThread {
-  int get id => throw _privateConstructorUsedError;
+  String get uuid => throw _privateConstructorUsedError;
   WebShop get shop => throw _privateConstructorUsedError;
   @JsonKey(name: "is_third_party")
   bool get isThirdParty => throw _privateConstructorUsedError;
@@ -29,6 +29,8 @@ mixin _$WebChatThread {
   @JsonKey(name: "created_at")
   DateTime get createdAt => throw _privateConstructorUsedError;
   List<WebChatMessage> get messages => throw _privateConstructorUsedError;
+  @JsonKey(name: "latest_message")
+  WebChatMessage? get latestMessage => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,14 +45,16 @@ abstract class $WebChatThreadCopyWith<$Res> {
       _$WebChatThreadCopyWithImpl<$Res, WebChatThread>;
   @useResult
   $Res call(
-      {int id,
+      {String uuid,
       WebShop shop,
       @JsonKey(name: "is_third_party") bool isThirdParty,
       @JsonKey(name: "buyer_address") String buyerAddress,
       @JsonKey(name: "created_at") DateTime createdAt,
-      List<WebChatMessage> messages});
+      List<WebChatMessage> messages,
+      @JsonKey(name: "latest_message") WebChatMessage? latestMessage});
 
   $WebShopCopyWith<$Res> get shop;
+  $WebChatMessageCopyWith<$Res>? get latestMessage;
 }
 
 /// @nodoc
@@ -66,18 +70,19 @@ class _$WebChatThreadCopyWithImpl<$Res, $Val extends WebChatThread>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? uuid = null,
     Object? shop = null,
     Object? isThirdParty = null,
     Object? buyerAddress = null,
     Object? createdAt = null,
     Object? messages = null,
+    Object? latestMessage = freezed,
   }) {
     return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
+      uuid: null == uuid
+          ? _value.uuid
+          : uuid // ignore: cast_nullable_to_non_nullable
+              as String,
       shop: null == shop
           ? _value.shop
           : shop // ignore: cast_nullable_to_non_nullable
@@ -98,6 +103,10 @@ class _$WebChatThreadCopyWithImpl<$Res, $Val extends WebChatThread>
           ? _value.messages
           : messages // ignore: cast_nullable_to_non_nullable
               as List<WebChatMessage>,
+      latestMessage: freezed == latestMessage
+          ? _value.latestMessage
+          : latestMessage // ignore: cast_nullable_to_non_nullable
+              as WebChatMessage?,
     ) as $Val);
   }
 
@@ -106,6 +115,18 @@ class _$WebChatThreadCopyWithImpl<$Res, $Val extends WebChatThread>
   $WebShopCopyWith<$Res> get shop {
     return $WebShopCopyWith<$Res>(_value.shop, (value) {
       return _then(_value.copyWith(shop: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $WebChatMessageCopyWith<$Res>? get latestMessage {
+    if (_value.latestMessage == null) {
+      return null;
+    }
+
+    return $WebChatMessageCopyWith<$Res>(_value.latestMessage!, (value) {
+      return _then(_value.copyWith(latestMessage: value) as $Val);
     });
   }
 }
@@ -119,15 +140,18 @@ abstract class _$$_WebChatThreadCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int id,
+      {String uuid,
       WebShop shop,
       @JsonKey(name: "is_third_party") bool isThirdParty,
       @JsonKey(name: "buyer_address") String buyerAddress,
       @JsonKey(name: "created_at") DateTime createdAt,
-      List<WebChatMessage> messages});
+      List<WebChatMessage> messages,
+      @JsonKey(name: "latest_message") WebChatMessage? latestMessage});
 
   @override
   $WebShopCopyWith<$Res> get shop;
+  @override
+  $WebChatMessageCopyWith<$Res>? get latestMessage;
 }
 
 /// @nodoc
@@ -141,18 +165,19 @@ class __$$_WebChatThreadCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? uuid = null,
     Object? shop = null,
     Object? isThirdParty = null,
     Object? buyerAddress = null,
     Object? createdAt = null,
     Object? messages = null,
+    Object? latestMessage = freezed,
   }) {
     return _then(_$_WebChatThread(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
+      uuid: null == uuid
+          ? _value.uuid
+          : uuid // ignore: cast_nullable_to_non_nullable
+              as String,
       shop: null == shop
           ? _value.shop
           : shop // ignore: cast_nullable_to_non_nullable
@@ -173,6 +198,10 @@ class __$$_WebChatThreadCopyWithImpl<$Res>
           ? _value._messages
           : messages // ignore: cast_nullable_to_non_nullable
               as List<WebChatMessage>,
+      latestMessage: freezed == latestMessage
+          ? _value.latestMessage
+          : latestMessage // ignore: cast_nullable_to_non_nullable
+              as WebChatMessage?,
     ));
   }
 }
@@ -181,12 +210,13 @@ class __$$_WebChatThreadCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_WebChatThread extends _WebChatThread {
   _$_WebChatThread(
-      {required this.id,
+      {required this.uuid,
       required this.shop,
       @JsonKey(name: "is_third_party") required this.isThirdParty,
       @JsonKey(name: "buyer_address") required this.buyerAddress,
       @JsonKey(name: "created_at") required this.createdAt,
-      required final List<WebChatMessage> messages})
+      final List<WebChatMessage> messages = const [],
+      @JsonKey(name: "latest_message") this.latestMessage})
       : _messages = messages,
         super._();
 
@@ -194,7 +224,7 @@ class _$_WebChatThread extends _WebChatThread {
       _$$_WebChatThreadFromJson(json);
 
   @override
-  final int id;
+  final String uuid;
   @override
   final WebShop shop;
   @override
@@ -208,6 +238,7 @@ class _$_WebChatThread extends _WebChatThread {
   final DateTime createdAt;
   final List<WebChatMessage> _messages;
   @override
+  @JsonKey()
   List<WebChatMessage> get messages {
     if (_messages is EqualUnmodifiableListView) return _messages;
     // ignore: implicit_dynamic_type
@@ -215,8 +246,12 @@ class _$_WebChatThread extends _WebChatThread {
   }
 
   @override
+  @JsonKey(name: "latest_message")
+  final WebChatMessage? latestMessage;
+
+  @override
   String toString() {
-    return 'WebChatThread(id: $id, shop: $shop, isThirdParty: $isThirdParty, buyerAddress: $buyerAddress, createdAt: $createdAt, messages: $messages)';
+    return 'WebChatThread(uuid: $uuid, shop: $shop, isThirdParty: $isThirdParty, buyerAddress: $buyerAddress, createdAt: $createdAt, messages: $messages, latestMessage: $latestMessage)';
   }
 
   @override
@@ -224,7 +259,7 @@ class _$_WebChatThread extends _WebChatThread {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_WebChatThread &&
-            (identical(other.id, id) || other.id == id) &&
+            (identical(other.uuid, uuid) || other.uuid == uuid) &&
             (identical(other.shop, shop) || other.shop == shop) &&
             (identical(other.isThirdParty, isThirdParty) ||
                 other.isThirdParty == isThirdParty) &&
@@ -232,13 +267,22 @@ class _$_WebChatThread extends _WebChatThread {
                 other.buyerAddress == buyerAddress) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
-            const DeepCollectionEquality().equals(other._messages, _messages));
+            const DeepCollectionEquality().equals(other._messages, _messages) &&
+            (identical(other.latestMessage, latestMessage) ||
+                other.latestMessage == latestMessage));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, shop, isThirdParty,
-      buyerAddress, createdAt, const DeepCollectionEquality().hash(_messages));
+  int get hashCode => Object.hash(
+      runtimeType,
+      uuid,
+      shop,
+      isThirdParty,
+      buyerAddress,
+      createdAt,
+      const DeepCollectionEquality().hash(_messages),
+      latestMessage);
 
   @JsonKey(ignore: true)
   @override
@@ -256,19 +300,24 @@ class _$_WebChatThread extends _WebChatThread {
 
 abstract class _WebChatThread extends WebChatThread {
   factory _WebChatThread(
-      {required final int id,
+      {required final String uuid,
       required final WebShop shop,
-      @JsonKey(name: "is_third_party") required final bool isThirdParty,
-      @JsonKey(name: "buyer_address") required final String buyerAddress,
-      @JsonKey(name: "created_at") required final DateTime createdAt,
-      required final List<WebChatMessage> messages}) = _$_WebChatThread;
+      @JsonKey(name: "is_third_party")
+          required final bool isThirdParty,
+      @JsonKey(name: "buyer_address")
+          required final String buyerAddress,
+      @JsonKey(name: "created_at")
+          required final DateTime createdAt,
+      final List<WebChatMessage> messages,
+      @JsonKey(name: "latest_message")
+          final WebChatMessage? latestMessage}) = _$_WebChatThread;
   _WebChatThread._() : super._();
 
   factory _WebChatThread.fromJson(Map<String, dynamic> json) =
       _$_WebChatThread.fromJson;
 
   @override
-  int get id;
+  String get uuid;
   @override
   WebShop get shop;
   @override
@@ -282,6 +331,9 @@ abstract class _WebChatThread extends WebChatThread {
   DateTime get createdAt;
   @override
   List<WebChatMessage> get messages;
+  @override
+  @JsonKey(name: "latest_message")
+  WebChatMessage? get latestMessage;
   @override
   @JsonKey(ignore: true)
   _$$_WebChatThreadCopyWith<_$_WebChatThread> get copyWith =>

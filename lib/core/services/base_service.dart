@@ -25,7 +25,6 @@ class BaseService {
   Map<String, dynamic> _headers([bool auth = true, bool json = false]) {
     final token = singleton<ApiTokenManager>().get();
 
-    print("TOKEN: ${singleton<Storage>().getString(Storage.WEB_AUTH_TOKEN)}");
     return json
         ? {
             HttpHeaders.contentTypeHeader: "application/json",

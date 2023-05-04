@@ -81,7 +81,7 @@ class RemoteShopCollectionScreen extends BaseScreen {
           icon: Icons.chat_bubble_outline,
           label: 'Chat',
           onPressed: () {
-            AutoRouter.of(context).push(ShopChatScreenRoute(shopUrl: url));
+            AutoRouter.of(context).push(ShopChatScreenRoute(url: url));
           },
         )
       ],

@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/empty_router_widgets.dart';
 import 'package:rbx_wallet/features/adnr/screens/web_adnr_screen.dart';
+import 'package:rbx_wallet/features/chat/screens/web_seller_chat_thread_list_screen.dart';
+import 'package:rbx_wallet/features/chat/screens/web_seller_chat_screen.dart';
 import 'package:rbx_wallet/features/web_shop/screens/build_sale_start_tx_screen.dart';
 import 'package:rbx_wallet/features/web_shop/screens/web_shop_container_screen.dart';
 import 'package:rbx_wallet/features/web_shop/components/web_shop_list.dart';
@@ -143,6 +145,14 @@ const webDashboardTabRouter = AutoRoute(
         AutoRoute(
           path: "mine",
           page: MyWebShopListScreen,
+        ),
+        AutoRoute(
+          path: "chat/:shopId",
+          page: WebSellerChatThreadListScreen,
+        ),
+        AutoRoute(
+          path: "chat/:shopId/:address",
+          page: WebSellerChatScreen,
         ),
         AutoRoute(
           path: "createWebShop",

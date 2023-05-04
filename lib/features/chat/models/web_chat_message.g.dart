@@ -8,8 +8,7 @@ part of 'web_chat_message.dart';
 
 _$_WebChatMessage _$$_WebChatMessageFromJson(Map<String, dynamic> json) =>
     _$_WebChatMessage(
-      id: json['id'] as int,
-      threadId: json['thread'] as int,
+      uuid: json['uuid'] as String,
       isFromBuyer: json['is_from_buyer'] as bool,
       body: json['body'] as String,
       isDelivered: json['is_delivered'] as bool? ?? false,
@@ -18,8 +17,7 @@ _$_WebChatMessage _$$_WebChatMessageFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$_WebChatMessageToJson(_$_WebChatMessage instance) =>
     <String, dynamic>{
-      'id': instance.id,
-      'thread': instance.threadId,
+      'uuid': instance.uuid,
       'is_from_buyer': instance.isFromBuyer,
       'body': instance.body,
       'is_delivered': instance.isDelivered,

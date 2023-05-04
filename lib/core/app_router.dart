@@ -23,6 +23,7 @@ import '../features/beacon/screens/beacon_list_screen.dart';
 import '../features/chat/screens/seller_chat_screen.dart';
 import '../features/chat/screens/seller_chat_thread_list_screen.dart';
 import '../features/chat/screens/shop_chat_screen.dart';
+import '../features/chat/screens/web_shop_chat_screen.dart';
 import '../features/config/screens/config_container_screen.dart';
 import '../features/datanode/screens/datanode_screen.dart';
 import '../features/dst/screens/create_listing_container_screen.dart';
@@ -281,17 +282,19 @@ const List<AutoRoute> appRoutes = [
       AutoRoute(path: "shops/:url/collection/:collectionId", page: RemoteShopCollectionScreen),
       AutoRoute(
         path: "third-party/shop/:shopId",
-        name: "ThirdPartyWebShopDetailScreenRoute",
+        // name: "WebShopDetailScreenRoute",
         page: WebShopDetailScreen,
       ),
       AutoRoute(
+        path: "third-party/shop/:identifier/shop",
+        page: WebShopChatScreen,
+      ),
+      AutoRoute(
         path: "third-party/shop/:shopId/collection/:collectionId",
-        name: "ThirdPartyWebCollectionDetailScreenRoute",
         page: WebCollectionDetailScreen,
       ),
       AutoRoute(
         path: "third-party/shop/:shopId/collection/:collectionId/listing/:listingId",
-        name: "ThirdPartyWebListingDetailScreenRoute",
         page: WebListingDetailScreen,
       ),
     ],

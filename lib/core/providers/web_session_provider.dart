@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/models/web_session_model.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
@@ -21,6 +22,9 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
   late final Timer loopTimer;
 
   WebSessionProvider(this.ref, WebSessionModel model) : super(model) {
+    if (!kIsWeb) {
+      return;
+    }
     loopTimer = Timer.periodic(const Duration(seconds: REFRESH_TIMEOUT_SECONDS), (_) => loop());
     init();
   }

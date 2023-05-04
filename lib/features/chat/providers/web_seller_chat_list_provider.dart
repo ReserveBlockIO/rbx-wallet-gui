@@ -3,12 +3,15 @@ import 'package:rbx_wallet/core/storage.dart';
 import 'package:rbx_wallet/features/chat/models/chat_message.dart';
 import 'package:rbx_wallet/features/chat/services/web_chat_service.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_shop.dart';
+import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import "./chat_list_provider_interface.dart";
 
 class WebSellerChatListProvider extends ChatListProviderInterface {
   WebShop? shop;
-  WebSellerChatListProvider(ref, address) : super(ref, address) {
+  String? identifierOverride;
+
+  WebSellerChatListProvider(ref, identifier) : super(ref, identifier) {
     loadSavedMessages();
     fetch();
   }
@@ -20,11 +23,35 @@ class WebSellerChatListProvider extends ChatListProviderInterface {
 
   @override
   fetch() async {
-    final webThread = await WebChatService().retrieveThread(identifier);
-    if (webThread != null) {
-      shop = webThread.shop;
+    if (identifier.contains("||")) {
+      final shopId = int.tryParse(identifier.split("||").first);
+      final address = identifier.split("||").last;
 
-      handleMessages(webThread.toNative().messages);
+      if (shop == null) {
+        if (shopId != null) {
+          shop = await WebShopService().retrieveShop(shopId);
+        }
+      }
+
+      if (shop != null) {
+        final webThread2 = await WebChatService().getOrCreateThread(
+          shopUrl: shop!.url,
+          buyerAddress: address,
+          isThirdParty: true,
+        );
+        if (webThread2 != null) {
+          identifierOverride = webThread2.uuid;
+
+          handleMessages(webThread2.toNative().messages);
+        }
+      }
+    } else {
+      final webThread = await WebChatService().retrieveThread(identifier);
+      if (webThread != null) {
+        shop = webThread.shop;
+
+        handleMessages(webThread.toNative().messages);
+      }
     }
   }
 
@@ -36,7 +63,7 @@ class WebSellerChatListProvider extends ChatListProviderInterface {
     }
 
     final newMessage = await WebChatService().sendMessage(
-      threadId: identifier,
+      threadUuid: identifierOverride ?? identifier,
       body: message,
       isFromBuyer: false,
     );
@@ -52,5 +79,5 @@ class WebSellerChatListProvider extends ChatListProviderInterface {
 }
 
 final webSellerChatListProvider = StateNotifierProvider.family<WebSellerChatListProvider, List<ChatMessage>, String>(
-  (ref, shopUrl) => WebSellerChatListProvider(ref, shopUrl),
+  (ref, identifier) => WebSellerChatListProvider(ref, identifier),
 );
