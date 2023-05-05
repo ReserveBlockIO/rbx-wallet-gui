@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
@@ -9,6 +10,7 @@ import 'package:rbx_wallet/features/chat/components/shop_chat_list.dart';
 import 'package:rbx_wallet/features/chat/providers/seller_chat_list_provider.dart';
 import 'package:rbx_wallet/features/chat/providers/web_seller_chat_list_provider.dart';
 import 'package:rbx_wallet/features/chat/services/web_chat_service.dart';
+import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_shop_detail_provider.dart';
 import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
@@ -50,27 +52,40 @@ class WebSellerChatScreen extends BaseScreen {
 
             if (confirmed == true) {
               ref.read(globalLoadingProvider.notifier).start();
-              final shop = await WebShopService().retrieveShop(shopId);
-              if (shop == null) {
-                Toast.error();
-                ref.read(globalLoadingProvider.notifier).complete();
+
+              String? url;
+              if (shopId != 0) {
+                final shop = await WebShopService().retrieveShop(shopId);
+                if (shop == null) {
+                  Toast.error("No shop");
+                  ref.read(globalLoadingProvider.notifier).complete();
+                  return;
+                }
+              } else {
+                url = ref.read(decShopProvider).value?.url;
+              }
+
+              if (url == null) {
+                Toast.error("No shop");
                 return;
               }
 
               final webThread = await WebChatService().lookup(
-                shopUrl: shop.url,
+                shopUrl: url,
                 buyerAddress: address,
               );
 
               if (webThread == null) {
-                Toast.error();
+                Toast.error("No Thread ");
                 ref.read(globalLoadingProvider.notifier).complete();
                 return;
               }
 
               print("Deleting thread ${webThread.uuid}");
 
-              final success = await ref.read(sellerChatListProvider(address).notifier).deleteThread(webThread.uuid, webThread.shop.id);
+              final success = await ref
+                  .read(sellerChatListProvider(address).notifier)
+                  .deleteThread(webThread.uuid, webThread.shop.id);
               ref.read(globalLoadingProvider.notifier).complete();
               // if (success) {
               AutoRouter.of(context).pop();
