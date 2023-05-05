@@ -75,6 +75,14 @@ class WebSmartContractLandingScreen extends BaseScreen {
                       AutoRouter.of(context).push(const WebCreateSmartContractScreenRoute());
                     },
                   ),
+                  //    BigButton(
+                  //   title: "Mint NFT Collection",
+                  //   iconData: Icons.auto_awesome,
+                  //   body: "Mint multiple Smart Contracts into a collection",
+                  //   onPressed: () {
+                  //     AutoRouter.of(context).push(const BulkCreateScreenRoute());
+                  //   },
+                  // ),
                   BigButton(
                     title: "Launch IDE",
                     iconData: Icons.code,

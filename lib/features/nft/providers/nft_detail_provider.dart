@@ -282,6 +282,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     final tx = await RawService().sendTransaction(
       transactionData: txData,
       execute: true,
+      ref: ref,
     );
 
     if (tx != null) {
@@ -454,6 +455,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     final tx = await RawService().sendTransaction(
       transactionData: txData,
       execute: true,
+      ref: ref,
     );
 
     if (tx != null) {

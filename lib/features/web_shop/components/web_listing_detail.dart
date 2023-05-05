@@ -239,13 +239,13 @@ class _PreviewState extends State<_Preview> {
                                   onTap: () {
                                     Navigator.of(context).pop();
                                   },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: PinchZoom(
+                                  child: Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(16.0),
                                       child: CachedNetworkImage(
                                         imageUrl: path,
-                                        width: double.infinity,
-                                        height: double.infinity,
+                                        width: isMobile ? 300 : 512,
+                                        height: isMobile ? 300 : 512,
                                         fit: BoxFit.contain,
                                       ),
                                     ),

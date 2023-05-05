@@ -84,6 +84,7 @@ class RawService extends BaseService {
     required Map<String, dynamic> transactionData,
     bool execute = false,
     Ref? ref,
+    WidgetRef? widgetRef,
   }) async {
     final data = transactionData;
 
@@ -94,7 +95,7 @@ class RawService extends BaseService {
       );
 
       if (response['data']['Result'] == "Success") {
-        if (execute && ref != null) {
+        if (execute && (ref != null || widgetRef != null)) {
           final pendingTx = WebTransaction(
             hash: transactionData['Hash'],
             toAddress: transactionData['ToAddress'],
@@ -106,7 +107,11 @@ class RawService extends BaseService {
             height: 0,
           );
 
-          ref.read(webTransactionListProvider(transactionData['FromAddress']).notifier).insertPendingTx(pendingTx);
+          if (ref != null) {
+            ref.read(webTransactionListProvider(transactionData['FromAddress']).notifier).insertPendingTx(pendingTx);
+          } else if (widgetRef != null) {
+            widgetRef.read(webTransactionListProvider(transactionData['FromAddress']).notifier).insertPendingTx(pendingTx);
+          }
         }
       }
 
@@ -117,7 +122,7 @@ class RawService extends BaseService {
     }
   }
 
-  Future<bool> compileAndMintSmartContract(Map<String, dynamic> payload, Keypair keypair) async {
+  Future<bool> compileAndMintSmartContract(Map<String, dynamic> payload, Keypair keypair, Ref ref) async {
     try {
       final response = await postJson('/smart-contract-data/', params: payload, responseIsJson: true);
 
@@ -137,6 +142,7 @@ class RawService extends BaseService {
       final tx = await RawService().sendTransaction(
         transactionData: txData,
         execute: true,
+        ref: ref,
       );
 
       if (tx != null && tx['Result'] == "Success") {

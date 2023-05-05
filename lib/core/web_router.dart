@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/empty_router_widgets.dart';
+import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/features/adnr/screens/web_adnr_screen.dart';
 import 'package:rbx_wallet/features/chat/screens/web_seller_chat_thread_list_screen.dart';
 import 'package:rbx_wallet/features/chat/screens/web_seller_chat_screen.dart';

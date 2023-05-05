@@ -406,7 +406,7 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
     final timezoneName = ref.read(webSessionProvider).timezoneName;
     final payload = state.serializeForCompiler(timezoneName);
 
-    final success = await RawService().compileAndMintSmartContract(payload, ref.read(webSessionProvider).keypair!);
+    final success = await RawService().compileAndMintSmartContract(payload, ref.read(webSessionProvider).keypair!, ref);
     if (success == true) {
       ref
           .read(nftListProvider.notifier)

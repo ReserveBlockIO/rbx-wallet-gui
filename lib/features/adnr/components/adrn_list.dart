@@ -116,7 +116,7 @@ class AdnrList extends BaseComponent {
                                   if (!widgetGuardWalletIsSynced(ref)) {
                                     return;
                                   }
-                                  if (wallet.balance < (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
+                                  if (wallet.balance < (ADNR_TRANSFER_COST + MIN_RBX_FOR_SC_ACTION)) {
                                     Toast.error("Not enough RBX in this wallet to transfer an RBX domain. $ADNR_COST RBX required (plus TX fee).");
                                     return;
                                   }
@@ -124,7 +124,7 @@ class AdnrList extends BaseComponent {
                                   PromptModal.show(
                                       contextOverride: context,
                                       title: "Transfer RBX Domain",
-                                      body: "There is a cost of $ADNR_COST RBX to transfer an RBX Domain.",
+                                      body: "There is a cost of $ADNR_TRANSFER_COST RBX to transfer an RBX Domain.",
                                       validator: (value) => formValidatorRbxAddress(value, false),
                                       labelText: "Address",
                                       onValidSubmission: (toAddress) async {
@@ -163,8 +163,8 @@ class AdnrList extends BaseComponent {
                               return;
                             }
 
-                            if (wallet.balance < (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
-                              Toast.error("Not enough RBX in this wallet to delete an RBX domain. $ADNR_COST RBX required (plus TX fee).");
+                            if (wallet.balance < (ADNR_DELETE_COST + MIN_RBX_FOR_SC_ACTION)) {
+                              Toast.error("Not enough RBX in this wallet to delete an RBX domain.");
 
                               return;
                             }
@@ -172,7 +172,7 @@ class AdnrList extends BaseComponent {
                             final confirmed = await ConfirmDialog.show(
                               title: "Delete RBX Domain?",
                               body:
-                                  "Are you sure you want to delete this RBX Domain?\nThere is a cost of $ADNR_COST RBX to delete an RBX Domain.\n\nOnce deleted, this ADNR will no longer be able to receive any transactions.",
+                                  "Are you sure you want to delete this RBX Domain?\n${ADNR_DELETE_COST == 0 ? 'There is no cost to delete and RBX Domain (aside from the TX fee).' : 'There is a cost of $ADNR_DELETE_COST RBX to delete an RBX Domain.'}\n\nOnce deleted, this ADNR will no longer be able to receive any transactions.",
                               destructive: true,
                               cancelText: "Cancel",
                               confirmText: "Delete",

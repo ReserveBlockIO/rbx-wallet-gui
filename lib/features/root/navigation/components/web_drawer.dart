@@ -85,7 +85,11 @@ class WebMenu extends BaseComponent {
           leading: const Icon(Icons.dashboard),
           trailing: const Icon(Icons.chevron_right),
           onTap: () {
-            tabsRouter.setActiveIndex(WebRouteIndex.home);
+            if (tabsRouter.activeIndex == WebRouteIndex.home) {
+              tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
+            } else {
+              tabsRouter.setActiveIndex(WebRouteIndex.home);
+            }
 
             if (inDrawer) {
               Navigator.of(context).pop();
@@ -171,7 +175,11 @@ class WebMenu extends BaseComponent {
           leading: const Icon(Icons.receipt_long),
           trailing: const Icon(Icons.chevron_right),
           onTap: () {
-            tabsRouter.setActiveIndex(WebRouteIndex.smartContracts);
+            if (tabsRouter.activeIndex == WebRouteIndex.smartContracts) {
+              tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
+            } else {
+              tabsRouter.setActiveIndex(WebRouteIndex.smartContracts);
+            }
             if (inDrawer) {
               Navigator.of(context).pop();
             }
@@ -187,7 +195,11 @@ class WebMenu extends BaseComponent {
           leading: const Icon(Icons.lightbulb_outline),
           trailing: const Icon(Icons.chevron_right),
           onTap: () {
-            tabsRouter.setActiveIndex(WebRouteIndex.nfts);
+            if (tabsRouter.activeIndex == WebRouteIndex.nfts) {
+              tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
+            } else {
+              tabsRouter.setActiveIndex(WebRouteIndex.nfts);
+            }
             if (inDrawer) {
               Navigator.of(context).pop();
             }
@@ -203,7 +215,11 @@ class WebMenu extends BaseComponent {
           leading: const Icon(Icons.leak_add),
           trailing: const Icon(Icons.chevron_right),
           onTap: () {
-            tabsRouter.setActiveIndex(WebRouteIndex.shop);
+            if (tabsRouter.activeIndex == WebRouteIndex.shop) {
+              tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
+            } else {
+              tabsRouter.setActiveIndex(WebRouteIndex.shop);
+            }
             if (inDrawer) {
               Navigator.of(context).pop();
             }

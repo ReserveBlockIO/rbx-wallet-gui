@@ -168,7 +168,7 @@ class WebAdnrScreen extends BaseScreen {
                       AppButton(
                         label: "Transfer",
                         onPressed: () async {
-                          if (balance < (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
+                          if (balance < (ADNR_TRANSFER_COST + MIN_RBX_FOR_SC_ACTION)) {
                             Toast.error("Not enough RBX in this wallet to create a transaction.");
                             return;
                           }
@@ -176,13 +176,13 @@ class WebAdnrScreen extends BaseScreen {
                           PromptModal.show(
                               contextOverride: context,
                               title: "Transfer RBX Domain",
-                              body: "There is a cost of $ADNR_COST RBX to transfer an RBX Domain.",
+                              body: "There is a cost of $ADNR_TRANSFER_COST RBX to transfer an RBX Domain.",
                               validator: (value) => formValidatorRbxAddress(value, false),
                               labelText: "Address",
                               onValidSubmission: (toAddress) async {
                                 final txData = await RawTransaction.generate(
                                   keypair: ref.read(webSessionProvider).keypair!,
-                                  amount: ADNR_COST,
+                                  amount: ADNR_TRANSFER_COST,
                                   toAddress: toAddress,
                                   txType: TxType.adnr,
                                   data: {"Function": "AdnrTransfer()", "Name": adnr},
@@ -211,6 +211,7 @@ class WebAdnrScreen extends BaseScreen {
                                 final tx = await RawService().sendTransaction(
                                   transactionData: txData,
                                   execute: true,
+                                  widgetRef: ref,
                                 );
 
                                 if (tx != null && tx['Result'] == "Success") {
@@ -229,7 +230,7 @@ class WebAdnrScreen extends BaseScreen {
                         label: "Delete",
                         variant: AppColorVariant.Danger,
                         onPressed: () async {
-                          if (balance < (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
+                          if (balance < (ADNR_DELETE_COST + MIN_RBX_FOR_SC_ACTION)) {
                             Toast.error("Not enough RBX in this wallet to create a transaction.");
                             return;
                           }
@@ -237,7 +238,7 @@ class WebAdnrScreen extends BaseScreen {
                           final confirmed = await ConfirmDialog.show(
                             title: "Delete RBX Domain?",
                             body:
-                                "Are you sure you want to delete this RBX Domain?\nThere is a cost of $ADNR_COST RBX to delete an RBX Domain.\n\nOnce deleted, this ADNR will no longer be able to receive any transactions.",
+                                "Are you sure you want to delete this RBX Domain?\n${ADNR_DELETE_COST == 0 ? 'There is no cost to delete and RBX Domain (aside from the TX fee).' : 'There is a cost of $ADNR_DELETE_COST RBX to delete an RBX Domain.'}\n\nOnce deleted, this ADNR will no longer be able to receive any transactions.",
                             destructive: true,
                             cancelText: "Cancel",
                             confirmText: "Delete",
@@ -246,7 +247,7 @@ class WebAdnrScreen extends BaseScreen {
                           if (confirmed == true) {
                             final txData = await RawTransaction.generate(
                               keypair: ref.read(webSessionProvider).keypair!,
-                              amount: ADNR_COST,
+                              amount: ADNR_DELETE_COST,
                               toAddress: "Adnr_Base",
                               txType: TxType.adnr,
                               data: {"Function": "AdnrDelete()", "Name": adnr},
@@ -272,10 +273,7 @@ class WebAdnrScreen extends BaseScreen {
                               return;
                             }
 
-                            final tx = await RawService().sendTransaction(
-                              transactionData: txData,
-                              execute: true,
-                            );
+                            final tx = await RawService().sendTransaction(transactionData: txData, execute: true, widgetRef: ref);
 
                             if (tx != null && tx['Result'] == "Success") {
                               ref.read(adnrPendingProvider.notifier).addId(address, "delete", adnr);

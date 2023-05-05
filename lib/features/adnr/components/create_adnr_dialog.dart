@@ -127,10 +127,7 @@ class CreateAdnrDialog extends BaseComponent {
               }
               ref.read(globalLoadingProvider.notifier).start();
 
-              final tx = await RawService().sendTransaction(
-                transactionData: txData,
-                execute: true,
-              );
+              final tx = await RawService().sendTransaction(transactionData: txData, execute: true, widgetRef: ref);
               ref.read(globalLoadingProvider.notifier).complete();
 
               if (tx != null && tx['Result'] == "Success") {
