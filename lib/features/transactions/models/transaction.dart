@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
+import 'package:rbx_wallet/core/utils.dart';
 
 import '../../../core/env.dart';
 import '../../../core/theme/app_theme.dart';
@@ -63,6 +64,14 @@ class Transaction with _$Transaction {
       case 4:
         return "NFT Burn";
       case 5:
+        final data = parseNftData(this);
+        if (data != null) {
+          if (nftDataValue(data, 'Function') == "Sale_Start()") {
+            return "NFT Sale Start";
+          } else if (nftDataValue(data, 'Function') == "Sale_Complete()") {
+            return "NFT Sale Complete";
+          }
+        }
         return "NFT Sale";
       case 6:
         return "ADNR";
