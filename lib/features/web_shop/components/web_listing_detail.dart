@@ -779,6 +779,7 @@ class _WebNftData extends StatelessWidget {
             children: [
               buildDetailRow(context, "Identifier", nft.id, true),
               buildDetailRow(context, "Minted By", nft.minterName),
+              buildDetailRow(context, "Minter Address", nft.minterAddress),
               buildDetailRow(context, "Owned by", nft.currentOwner),
               buildDetailRow(context, "Chain", "RBX"),
               //TODO: Auction stuff

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:rbx_wallet/features/asset/web_asset.dart';
+import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../core/components/buttons.dart';
@@ -8,9 +9,9 @@ import '../../../core/components/centered_loader.dart';
 import '../../../utils/html_helpers.dart';
 
 class WebAssetCard extends StatelessWidget {
-  final WebAsset? asset;
+  final Nft? nft;
 
-  const WebAssetCard(this.asset, {Key? key}) : super(key: key);
+  const WebAssetCard(this.nft, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +19,7 @@ class WebAssetCard extends StatelessWidget {
     //   const Duration(seconds: 1),
     //   () => 'Data Loaded',
     // );
+    final asset = nft!.primaryAssetWeb;
 
     Future<String> _textDownload() async {
       final url = asset!.location;
@@ -77,15 +79,15 @@ class WebAssetCard extends StatelessWidget {
                 subtitle: const Text("File Type"),
               ),
             ),
-            // SizedBox(
-            //   width: 200,
-            //   child: ListTile(
-            //     leading: const Icon(Icons.line_weight),
-            //     contentPadding: EdgeInsets.zero,
-            //     title: Text(asset!.filesizeLabel),
-            //     subtitle: const Text("File Size"),
-            //   ),
-            // ),
+            SizedBox(
+              width: 200,
+              child: ListTile(
+                leading: const Icon(Icons.line_weight),
+                contentPadding: EdgeInsets.zero,
+                title: Text(nft!.primaryAsset.filesizeLabel),
+                subtitle: const Text("File Size"),
+              ),
+            ),
           ],
         ),
         const Divider(),

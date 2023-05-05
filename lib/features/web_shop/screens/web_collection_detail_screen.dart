@@ -108,57 +108,13 @@ class WebCollectionDetailScreen extends BaseScreen {
   @override
   Widget body(BuildContext context, WidgetRef ref) {
     final data = ref.watch(webCollectionDetailProvider("$shopId,$collectionId"));
-    final listModeProvider = ref.read(shopListViewProvider.notifier);
-    final isExpanded = ref.watch(shopListViewProvider);
+
     final isMobile = BreakPoints.useMobileLayout(context);
     return data.when(
       data: (collection) => collection != null
           ? Column(
               children: [
                 if (!collection.shop!.isOwner(ref)) WebWalletDetails(),
-                Stack(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            listModeProvider.setExpanded();
-                          },
-                          icon: Icon(
-                            Icons.grid_on,
-                            color: isExpanded ? Colors.white : Colors.white38,
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            listModeProvider.setCondensed();
-                          },
-                          icon: Icon(
-                            Icons.list_outlined,
-                            color: !isExpanded ? Colors.white : Colors.white38,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 15, bottom: 8),
-                      child: Center(
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(maxWidth: 600),
-                          child: Text(
-                            collection.description,
-                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                  color: Colors.white,
-                                ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
                 Divider(),
                 Expanded(
                   child: WebListingList(

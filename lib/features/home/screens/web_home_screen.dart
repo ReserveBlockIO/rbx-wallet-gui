@@ -31,7 +31,7 @@ class WebHomeScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: const Text("ReserveBlock"),
+      title: const Text("Dashboard"),
       backgroundColor: Colors.black,
       shadowColor: Colors.transparent,
     );

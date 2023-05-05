@@ -262,7 +262,7 @@ class NftDetailScreen extends BaseScreen {
                                   children: [
                                     kIsWeb
                                         ? nft.primaryAssetWeb != null
-                                            ? WebAssetCard(nft.primaryAssetWeb)
+                                            ? WebAssetCard(nft)
                                             : buildAssetsNotAvailable(_provider)
                                         : AssetCard(
                                             nft.currentEvolveAsset,
@@ -292,7 +292,10 @@ class NftDetailScreen extends BaseScreen {
                                                             .map(
                                                               (a) => Padding(
                                                                 padding: const EdgeInsets.only(right: 6.0),
-                                                                child: WebAssetThumbnail(a),
+                                                                child: WebAssetThumbnail(
+                                                                  a,
+                                                                  nft: nft,
+                                                                ),
                                                               ),
                                                             )
                                                             .toList(),
