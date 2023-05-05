@@ -37,11 +37,11 @@ class WebSellerChatThreadListScreen extends BaseScreen {
   Widget body(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
-        // Poller(
-        //   pollFunction: () {
-        //     ref.read(sellerChatThreadListProvider.notifier).fetch();
-        //   },
-        // ),
+        _ThreadPoller(
+          pollFunction: () {
+            ref.read(webSellerChatThreadListProvider(shopId).notifier).fetch();
+          },
+        ),
         Expanded(
             child: SellerChatThreadList(
           shopId: shopId,
