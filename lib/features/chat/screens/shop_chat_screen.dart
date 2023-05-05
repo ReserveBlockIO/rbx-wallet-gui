@@ -48,10 +48,10 @@ class ShopChatScreen extends BaseScreen {
 
                     if (confirmed == true) {
                       final success = await ref.read(shopChatListProvider(url).notifier).deleteThread(null);
-                      if (success) {
-                        Navigator.of(context).pop();
-                        return;
-                      }
+                      // if (success) {
+                      AutoRouter.of(context).pop();
+                      return;
+                      // }
                     }
                   },
                 )

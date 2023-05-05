@@ -35,10 +35,8 @@ class SellerChatScreen extends BaseScreen {
 
             if (confirmed == true) {
               final success = await ref.read(sellerChatListProvider(address).notifier).deleteThread(null);
-              if (success) {
-                Navigator.of(context).pop();
-                return;
-              }
+              AutoRouter.of(context).pop();
+              return;
             }
           },
         )
