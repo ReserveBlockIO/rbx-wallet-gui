@@ -102,6 +102,9 @@ class BaseService {
     } catch (e, st) {
       print(e);
       print(st);
+      if (!preventError) {
+        rethrow;
+      }
       return "";
     }
   }
