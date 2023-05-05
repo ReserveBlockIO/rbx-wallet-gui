@@ -10,6 +10,9 @@
 class FontFamily {
   FontFamily._();
 
+  /// Font family: NotoColorEmoji
+  static const String notoColorEmoji = 'NotoColorEmoji';
+
   /// Font family: RobotoMono
   static const String robotoMono = 'RobotoMono';
 }

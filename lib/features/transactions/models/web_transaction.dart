@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/features/transactions/models/transaction.dart';
 
 part 'web_transaction.freezed.dart';
 part 'web_transaction.g.dart';
@@ -27,6 +28,21 @@ class WebTransaction with _$WebTransaction {
   }) = _WebTransaction;
 
   factory WebTransaction.fromJson(Map<String, dynamic> json) => _$WebTransactionFromJson(json);
+
+  Transaction toNative() {
+    return Transaction(
+      hash: hash,
+      toAddress: toAddress,
+      fromAddress: fromAddress,
+      type: type,
+      amount: amount ?? 0,
+      nonce: 0,
+      fee: fee ?? 0,
+      timestamp: (date.millisecondsSinceEpoch / 1000).round(),
+      nftData: data,
+      height: height,
+    );
+  }
 
   String get parseTimeStamp {
     //TODO: fix this;

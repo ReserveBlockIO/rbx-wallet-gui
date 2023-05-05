@@ -29,7 +29,7 @@ class WebTransactionScreen extends BaseScreen {
             onPressed: () {
               final address = ref.read(webSessionProvider).keypair?.address;
               if (address != null) {
-                ref.read(webTransactionListProvider(address).notifier).load();
+                ref.read(webTransactionListProvider(address).notifier).refresh();
               }
             },
             icon: const Icon(Icons.refresh))

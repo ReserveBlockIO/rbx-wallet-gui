@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/app.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/env.dart';
+import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/dst_tx_pending_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
@@ -124,7 +126,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       TransactionNotification(identifier: transaction.hash, transaction: transaction, title: "NFT Minted", body: body, icon: Icons.lightbulb_outline),
     );
 
-    ref.read(sessionProvider.notifier).smartContractLoop(false);
+    kIsWeb ? ref.read(webSessionProvider.notifier).getNfts() : ref.read(sessionProvider.notifier).smartContractLoop(false);
   }
 
   void _handleVoteTopic(Transaction transaction) {
@@ -171,7 +173,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
               body: "NFT evolved to state $evoState.",
               icon: Icons.change_circle),
         );
-        ref.read(sessionProvider.notifier).smartContractLoop(false);
+        kIsWeb ? ref.read(webSessionProvider.notifier).getNfts() : ref.read(sessionProvider.notifier).smartContractLoop(false);
 
         return;
       }
@@ -206,7 +208,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       );
     }
 
-    ref.read(sessionProvider.notifier).smartContractLoop(false);
+    kIsWeb ? ref.read(webSessionProvider.notifier).getNfts() : ref.read(sessionProvider.notifier).smartContractLoop(false);
   }
 
   void _handleAdnr(Transaction transaction) {
@@ -282,7 +284,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
         color: AppColorVariant.Danger,
       ),
     );
-    ref.read(sessionProvider.notifier).smartContractLoop(false);
+    kIsWeb ? ref.read(webSessionProvider.notifier).getNfts() : ref.read(sessionProvider.notifier).smartContractLoop(false);
   }
 
   void _handleNftSale(Transaction transaction) async {

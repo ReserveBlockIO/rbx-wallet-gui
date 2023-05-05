@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/transactions/providers/transaction_signal_provider.dart';
 
 import '../../../core/providers/web_session_provider.dart';
 import '../../../core/services/explorer_service.dart';
@@ -8,19 +9,23 @@ import 'package:collection/collection.dart';
 class WebTransactionListModel {
   final List<WebTransaction> transactions;
   final bool isLoading;
+  final bool canLoadMore;
 
   const WebTransactionListModel({
     this.transactions = const [],
     this.isLoading = false,
+    this.canLoadMore = true,
   });
 
   WebTransactionListModel copyWith({
     List<WebTransaction>? transactions,
     bool? isLoading,
+    bool? canLoadMore,
   }) {
     return WebTransactionListModel(
       transactions: transactions ?? this.transactions,
       isLoading: isLoading ?? this.isLoading,
+      canLoadMore: canLoadMore ?? this.canLoadMore,
     );
   }
 }
@@ -33,50 +38,38 @@ class WebTransactionListProvider extends StateNotifier<WebTransactionListModel> 
     this.ref,
     this.address, [
     WebTransactionListModel model = const WebTransactionListModel(),
-  ]) : super(model) {
-    load();
+  ]) : super(model);
+
+  init() {
+    load(address: address, page: 1, invokeLoop: true);
   }
 
-  void set(List<WebTransaction> transactions, bool isLoading) {
-    state = state.copyWith(
-      transactions: transactions,
-      isLoading: isLoading,
-    );
-  }
-
-  Future<List<WebTransaction>> loadRecursive({
+  Future<void> load({
     required String address,
-    int page = 1,
-    List<WebTransaction> appendWith = const [],
+    required int page,
+    required bool invokeLoop,
   }) async {
+    state = state.copyWith(isLoading: true);
     final data = await ExplorerService().getTransactions(
       address: address,
       page: page,
     );
-    List<WebTransaction> results = [...appendWith, ...data.results];
 
-    if (data.page < data.num_pages) {
-      results = await loadRecursive(address: address, page: page + 1, appendWith: results);
-    }
-
-    return results;
-  }
-
-  Future<void> load([bool invokeLoop = false]) async {
-    // final address = ref.read(webSessionProvider).keypair?.address;
-    // if (address == null) return;
-
-    Future.delayed(Duration(milliseconds: 10)).then((_) {
-      state = state.copyWith(isLoading: true);
-    });
-
-    final transactions = await loadRecursive(address: address);
-    set(transactions, false);
+    state = state.copyWith(
+      transactions: [...state.transactions, ...data.results],
+      isLoading: false,
+      canLoadMore: data.num_pages > data.page,
+    );
 
     if (invokeLoop) {
       await Future.delayed(const Duration(seconds: 10));
       checkForNew(address);
     }
+  }
+
+  Future<void> refresh() async {
+    state = state.copyWith(isLoading: true, transactions: []);
+    load(address: address, page: 1, invokeLoop: false);
   }
 
   Future<void> checkForNew(String address) async {
@@ -94,10 +87,17 @@ class WebTransactionListProvider extends StateNotifier<WebTransactionListModel> 
     }
     if (newItems.isNotEmpty) {
       state = state.copyWith(transactions: [...newItems, ...state.transactions]);
+      for (final tx in newItems) {
+        handleNewTx(tx);
+      }
     }
 
     await Future.delayed(const Duration(seconds: 10));
     checkForNew(address);
+  }
+
+  void handleNewTx(WebTransaction tx) {
+    ref.read(transactionSignalProvider.notifier).insert(tx.toNative());
   }
 }
 

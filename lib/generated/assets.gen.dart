@@ -96,11 +96,14 @@ class $AssetsEnvGen {
 class $AssetsFontsGen {
   const $AssetsFontsGen();
 
+  /// File path: assets/fonts/NotoColorEmoji-Regular.ttf
+  String get notoColorEmojiRegular => 'assets/fonts/NotoColorEmoji-Regular.ttf';
+
   /// File path: assets/fonts/RobotoMono-Regular.ttf
   String get robotoMonoRegular => 'assets/fonts/RobotoMono-Regular.ttf';
 
   /// List of all assets
-  List<String> get values => [robotoMonoRegular];
+  List<String> get values => [notoColorEmojiRegular, robotoMonoRegular];
 }
 
 class $AssetsImagesGen {
