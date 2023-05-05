@@ -21,7 +21,7 @@ class WebSellerChatScreen extends BaseScreen {
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
-    final identifier = "$shopId||$address";
+    final identifier = shopId == 0 ? address : "$shopId||$address";
 
     return AppBar(
       title: Text("Chat with $address"),
@@ -45,7 +45,9 @@ class WebSellerChatScreen extends BaseScreen {
             );
 
             if (confirmed == true) {
-              final success = await ref.read(sellerChatListProvider(address).notifier).deleteThread();
+              final success = await ref
+                  .read(sellerChatListProvider(address).notifier)
+                  .deleteThread();
               if (success) {
                 Navigator.of(context).pop();
                 return;
@@ -59,7 +61,7 @@ class WebSellerChatScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final identifier = "$shopId||$address";
+    final identifier = shopId == 0 ? address : "$shopId||$address";
     return Column(
       children: [
         Expanded(

@@ -28,14 +28,16 @@ class WebShopService extends BaseService {
     required String publicKey,
   }) async {
     try {
-      final signature = await RawTransaction.getSignature(message: message, privateKey: privateKey, publicKey: publicKey);
+      final signature = await RawTransaction.getSignature(
+          message: message, privateKey: privateKey, publicKey: publicKey);
       final params = {
         'address': address,
         'message': message,
         'signature': signature,
       };
 
-      final response = await postJson('/auth/sign-token/', params: params, auth: false);
+      final response =
+          await postJson('/auth/sign-token/', params: params, auth: false);
 
       return AuthToken.fromJson(response['data']);
     } catch (e) {
@@ -63,7 +65,9 @@ class WebShopService extends BaseService {
 
       final data = await getJson("/shop/", params: params, auth: false);
 
-      final List<WebShop> results = data['results'].map<WebShop>((item) => WebShop.fromJson(item)).toList();
+      final List<WebShop> results = data['results']
+          .map<WebShop>((item) => WebShop.fromJson(item))
+          .toList();
       return ServerPaginatedReponse<WebShop>(
         count: data['count'],
         page: data['page'],
@@ -90,7 +94,8 @@ class WebShopService extends BaseService {
 
   Future<WebShop?> lookupShop(String url) async {
     try {
-      final data = await getJson("/shop/url", params: {'url': url}, auth: false);
+      final data =
+          await getJson("/shop/url", params: {'url': url}, auth: false);
       return WebShop.fromJson(data);
     } catch (e, st) {
       print(e);
@@ -101,7 +106,8 @@ class WebShopService extends BaseService {
 
   Future<bool> checkAvailabilty(String url) async {
     try {
-      final data = await getJson("/shop/url/available", params: {'url': url}, auth: false);
+      final data = await getJson("/shop/url/available",
+          params: {'url': url}, auth: false);
       return data['available'] == true;
     } catch (e, st) {
       print(e);
@@ -138,10 +144,14 @@ class WebShopService extends BaseService {
 
   // Collections
 
-  Future<ServerPaginatedReponse<WebCollection>> listCollections(int shopId, [int page = 1]) async {
+  Future<ServerPaginatedReponse<WebCollection>> listCollections(int shopId,
+      [int page = 1]) async {
     try {
-      final data = await getJson("/shop/$shopId/collection/", params: {'page': page}, auth: false);
-      final List<WebCollection> results = data['results'].map<WebCollection>((item) => WebCollection.fromJson(item)).toList();
+      final data = await getJson("/shop/$shopId/collection/",
+          params: {'page': page}, auth: false);
+      final List<WebCollection> results = data['results']
+          .map<WebCollection>((item) => WebCollection.fromJson(item))
+          .toList();
       return ServerPaginatedReponse<WebCollection>(
         count: data['count'],
         page: data['page'],
@@ -163,13 +173,15 @@ class WebShopService extends BaseService {
     }
     try {
       if (!collection.exists) {
-        final response = await postJson("/shop/${collection.shop!.id}/collection/", params: collection.toJson(), inspect: true, auth: false);
+        final response = await postJson(
+            "/shop/${collection.shop!.id}/collection/",
+            params: collection.toJson(),
+            auth: false);
         return WebCollection.fromJson(response['data']);
       } else {
         final response = await patchJson(
           "/shop/${collection.shop!.id}/collection/${collection.id}/",
           params: collection.toJson(),
-          inspect: true,
           auth: true,
         );
         return WebCollection.fromJson(response['data']);
@@ -180,9 +192,11 @@ class WebShopService extends BaseService {
     }
   }
 
-  Future<WebCollection?> retrieveCollection(int shopId, int collectionId) async {
+  Future<WebCollection?> retrieveCollection(
+      int shopId, int collectionId) async {
     try {
-      final data = await getJson("/shop/$shopId/collection/$collectionId/", auth: false);
+      final data =
+          await getJson("/shop/$shopId/collection/$collectionId/", auth: false);
       return WebCollection.fromJson(data);
     } catch (e, st) {
       print(e);
@@ -193,7 +207,9 @@ class WebShopService extends BaseService {
 
   // Listings
 
-  Future<ServerPaginatedReponse<WebListing>> listListings(int shopId, int collectionId, [int page = 1]) async {
+  Future<ServerPaginatedReponse<WebListing>> listListings(
+      int shopId, int collectionId,
+      [int page = 1]) async {
     try {
       final data = await getJson(
         "/shop/$shopId/collection/$collectionId/listing",
@@ -201,7 +217,9 @@ class WebShopService extends BaseService {
         auth: false,
       );
 
-      final List<WebListing> results = data['results'].map<WebListing>((item) => WebListing.fromJson(item)).toList();
+      final List<WebListing> results = data['results']
+          .map<WebListing>((item) => WebListing.fromJson(item))
+          .toList();
 
       return ServerPaginatedReponse<WebListing>(
         count: data['count'],
@@ -217,7 +235,8 @@ class WebShopService extends BaseService {
     return ServerPaginatedReponse<WebListing>.empty();
   }
 
-  Future<WebListing?> retrieveListing(int shopId, int collectionId, int listingId) async {
+  Future<WebListing?> retrieveListing(
+      int shopId, int collectionId, int listingId) async {
     try {
       final data = await getJson(
         "/shop/$shopId/collection/$collectionId/listing/$listingId/",
@@ -231,7 +250,8 @@ class WebShopService extends BaseService {
     }
   }
 
-  Future<bool> saveWebListing(WebListing listing, int shopId, int collectionId) async {
+  Future<bool> saveWebListing(
+      WebListing listing, int shopId, int collectionId) async {
     try {
       if (listing.exists) {
         final data = await patchJson(
@@ -240,7 +260,9 @@ class WebShopService extends BaseService {
           auth: true,
         );
       } else {
-        final data = await postJson('/shop/$shopId/collection/$collectionId/listing/', params: listing.toJson());
+        final data = await postJson(
+            '/shop/$shopId/collection/$collectionId/listing/',
+            params: listing.toJson());
       }
       return true;
     } catch (e, st) {
@@ -365,7 +387,6 @@ class WebShopService extends BaseService {
       await postJson(
         "/shop/bid/submit/",
         params: params,
-        inspect: true,
       );
       return true;
     } catch (e) {
@@ -380,7 +401,8 @@ class WebShopService extends BaseService {
 
   Future<bool> createContact(String email, String address) async {
     try {
-      await postJson("/auth/email-subscribe/", params: {'email': email, 'address': address});
+      await postJson("/auth/email-subscribe/",
+          params: {'email': email, 'address': address});
       return true;
     } catch (e) {
       print(e);

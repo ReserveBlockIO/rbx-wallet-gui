@@ -18,7 +18,8 @@ abstract class WebChatMessage with _$WebChatMessage {
     @JsonKey(name: "created_at") required DateTime createdAt,
   }) = _WebChatMessage;
 
-  factory WebChatMessage.fromJson(Map<String, dynamic> json) => _$WebChatMessageFromJson(json);
+  factory WebChatMessage.fromJson(Map<String, dynamic> json) =>
+      _$WebChatMessageFromJson(json);
 
   ChatMessage toNative(WebChatThread thread) {
     return ChatMessage(
@@ -29,6 +30,7 @@ abstract class WebChatMessage with _$WebChatMessage {
       timestamp: (createdAt.millisecondsSinceEpoch / 1000).round(),
       isShopSentMessage: !isFromBuyer,
       received: isDelivered,
+      isThirdParty: thread.isThirdParty,
     );
   }
 }

@@ -21,6 +21,7 @@ import '../features/adjudicator/adjudicator_screen.dart';
 import '../features/adnr/screens/adnr_screen.dart';
 import '../features/beacon/screens/beacon_list_screen.dart';
 import '../features/chat/screens/seller_chat_screen.dart';
+import '../features/chat/screens/web_seller_chat_screen.dart';
 import '../features/chat/screens/seller_chat_thread_list_screen.dart';
 import '../features/chat/screens/shop_chat_screen.dart';
 import '../features/chat/screens/web_shop_chat_screen.dart';
@@ -66,7 +67,8 @@ const List<AutoRoute> appRoutes = [
         page: EmptyRouterPage,
         children: [
           AutoRoute(path: "", page: HomeScreen),
-          AutoRoute(path: "reserve-accounts", page: ReserveAccountOverviewScreen),
+          AutoRoute(
+              path: "reserve-accounts", page: ReserveAccountOverviewScreen),
         ],
       ),
       AutoRoute(
@@ -148,6 +150,8 @@ const List<AutoRoute> appRoutes = [
         children: [
           AutoRoute(path: "", page: DstLandingScreen),
           AutoRoute(path: "chat", page: SellerChatThreadListScreen),
+          AutoRoute(path: "chat/:shopId/:address", page: WebSellerChatScreen),
+
           // AutoRoute(path: "chat/:address", page: SellerChatScreen),
           // AutoRoute(path: "shops", page: RemoteShopListScreen),
           // AutoRoute(path: "shops/:url", page: RemoteShopDetailScreen),
@@ -155,11 +159,15 @@ const List<AutoRoute> appRoutes = [
           // AutoRoute(path: "shops/:url/collection/:collectionId", page: RemoteShopCollectionScreen),
           AutoRoute(path: "me", page: MyCollectionsListScreen),
           AutoRoute(path: ":collectionId", page: MyCollectionDetailScreen),
-          AutoRoute(path: "createCollection", page: CreateCollectionContainerScreen),
+          AutoRoute(
+              path: "createCollection", page: CreateCollectionContainerScreen),
           AutoRoute(path: "createDecShop", page: CreateDecShopContainerScreen),
           AutoRoute(path: ":listingId", page: ListingDetailScreen),
-          AutoRoute(path: ":listingId/auction", page: ListingAuctionDetailScreen),
-          AutoRoute(path: "createListing/:collectionId", page: CreateListingContainerScreen),
+          AutoRoute(
+              path: ":listingId/auction", page: ListingAuctionDetailScreen),
+          AutoRoute(
+              path: "createListing/:collectionId",
+              page: CreateListingContainerScreen),
         ],
       ),
       AutoRoute(
@@ -279,7 +287,9 @@ const List<AutoRoute> appRoutes = [
       AutoRoute(path: "shops/chat", page: BuyerChatThreadListScreen),
       AutoRoute(path: "shops/:url", page: RemoteShopDetailScreen),
       // AutoRoute(path: "shops/:url/chat", page: ShopChatScreen),
-      AutoRoute(path: "shops/:url/collection/:collectionId", page: RemoteShopCollectionScreen),
+      AutoRoute(
+          path: "shops/:url/collection/:collectionId",
+          page: RemoteShopCollectionScreen),
       AutoRoute(
         path: "third-party/shop/:shopId",
         // name: "WebShopDetailScreenRoute",
@@ -294,7 +304,8 @@ const List<AutoRoute> appRoutes = [
         page: WebCollectionDetailScreen,
       ),
       AutoRoute(
-        path: "third-party/shop/:shopId/collection/:collectionId/listing/:listingId",
+        path:
+            "third-party/shop/:shopId/collection/:collectionId/listing/:listingId",
         page: WebListingDetailScreen,
       ),
     ],

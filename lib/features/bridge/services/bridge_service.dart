@@ -42,7 +42,8 @@ class BridgeService extends BaseService {
 
   Future<String?> encryptWallet(String password) async {
     try {
-      final data = await getText("/GetEncryptWallet/$password", cleanPath: false, timeout: 0);
+      final data = await getText("/GetEncryptWallet/$password",
+          cleanPath: false, timeout: 0);
       final response = jsonDecode(data);
       if (response['Result'] != null && response['Result'] == "Success") {
         return null;
@@ -61,7 +62,8 @@ class BridgeService extends BaseService {
 
   Future<bool> unlockWallet(String password) async {
     try {
-      final data = await getText("/GetDecryptWallet/$password", cleanPath: false);
+      final data =
+          await getText("/GetDecryptWallet/$password", cleanPath: false);
       final response = jsonDecode(data);
 
       if (response['Result'] != null && response['Result'] == "Success") {
@@ -124,8 +126,10 @@ class BridgeService extends BaseService {
     }
   }
 
-  Future<Map<String, dynamic>?> importPrivateKey(String key, [bool rescan = false]) async {
-    final response = await getText("/ImportPrivateKey/${key.trim()}/${rescan ? 'true' : 'false'}");
+  Future<Map<String, dynamic>?> importPrivateKey(String key,
+      [bool rescan = false]) async {
+    final response = await getText(
+        "/ImportPrivateKey/${key.trim()}/${rescan ? 'true' : 'false'}");
     if (response == "NAC") {
       return null;
     }
@@ -162,8 +166,8 @@ class BridgeService extends BaseService {
     required String to,
     required String from,
   }) async {
-    final response = await getText("/SendTransaction/$from/$to/$amount",
-        inspect: true, timeout: 0);
+    final response =
+        await getText("/SendTransaction/$from/$to/$amount", timeout: 0);
 
     if (response == "FAIL") {
       Toast.error();
@@ -171,7 +175,8 @@ class BridgeService extends BaseService {
       return null;
     }
 
-    if (response == "This is not a valid RBX address to send to. Please verify again.") {
+    if (response ==
+        "This is not a valid RBX address to send to. Please verify again.") {
       Toast.error(response);
       return null;
     }
@@ -310,7 +315,8 @@ class BridgeService extends BaseService {
 
   Future<String?> getHdWallet([int strength = 24]) async {
     try {
-      final response = await getText("/GetHDWallet/$strength", cleanPath: false);
+      final response =
+          await getText("/GetHDWallet/$strength", cleanPath: false);
       final data = jsonDecode(response);
       print(data);
       if (data != null && data['Result'] != null) {
@@ -338,7 +344,8 @@ class BridgeService extends BaseService {
 
   Future<bool> restoreHd(String mnumonic) async {
     try {
-      final response = await getText("/GetRestoreHDWallet/${mnumonic.trim()}", cleanPath: false);
+      final response = await getText("/GetRestoreHDWallet/${mnumonic.trim()}",
+          cleanPath: false);
       final data = jsonDecode(response);
       print(data);
       return true;
@@ -350,7 +357,8 @@ class BridgeService extends BaseService {
 
   Future<bool> validateSendToAddress(String address) async {
     try {
-      final response = await getText("/ValidateAddress/$address", cleanPath: false);
+      final response =
+          await getText("/ValidateAddress/$address", cleanPath: false);
       if (response.toLowerCase() == "true") {
         return true;
       }
@@ -376,7 +384,8 @@ class BridgeService extends BaseService {
       if (data.containsKey('Result') && data['Result'] == "Success") {
         if (data.containsKey("Message")) {
           print(data['Message']);
-          final filenames = jsonDecode(data['Message'].toString()) as List<dynamic>;
+          final filenames =
+              jsonDecode(data['Message'].toString()) as List<dynamic>;
           return filenames.map((e) => e.toString()).toList();
         }
       }
@@ -423,7 +432,9 @@ class BridgeService extends BaseService {
       return null;
     }
 
-    final data = await getJson('/GetLatestRelease/${execute ? 'true' : 'false'}/$filename', cleanPath: false);
+    final data = await getJson(
+        '/GetLatestRelease/${execute ? 'true' : 'false'}/$filename',
+        cleanPath: false);
     if (data.containsKey('Result') && data['Result'] == "Success") {
       if (data.containsKey("Message")) {
         final message = data['Message'];

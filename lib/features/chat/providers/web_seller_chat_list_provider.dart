@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/storage.dart';
 import 'package:rbx_wallet/features/chat/models/chat_message.dart';
 import 'package:rbx_wallet/features/chat/services/web_chat_service.dart';
+import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_shop.dart';
 import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
 import 'package:rbx_wallet/utils/toast.dart';
@@ -45,6 +47,20 @@ class WebSellerChatListProvider extends ChatListProviderInterface {
           handleMessages(_webThread.toNative().messages);
         }
       }
+    } else if (!kIsWeb) {
+      final shop = ref.read(decShopProvider).value;
+      if (shop == null) {
+        return;
+      }
+
+      final webThread2 = await WebChatService().getOrCreateThread(
+          shopUrl: shop.url, buyerAddress: identifier, isThirdParty: true);
+      if (webThread2 != null) {
+        // shop = webThread2.shop;
+        identifierOverride = webThread2.uuid;
+
+        handleMessages(webThread2.toNative().messages);
+      }
     } else {
       final webThread = await WebChatService().retrieveThread(identifier);
       if (webThread != null) {
@@ -78,6 +94,7 @@ class WebSellerChatListProvider extends ChatListProviderInterface {
   }
 }
 
-final webSellerChatListProvider = StateNotifierProvider.family<WebSellerChatListProvider, List<ChatMessage>, String>(
+final webSellerChatListProvider = StateNotifierProvider.family<
+    WebSellerChatListProvider, List<ChatMessage>, String>(
   (ref, identifier) => WebSellerChatListProvider(ref, identifier),
 );

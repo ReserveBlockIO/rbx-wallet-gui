@@ -156,7 +156,6 @@ class DstService extends BaseService {
       final response = await getText(
         '/GetShopListingBids/$listingId',
         cleanPath: false,
-        inspect: true,
       );
       final data = jsonDecode(response);
 
@@ -413,7 +412,8 @@ class DstService extends BaseService {
 
   Future<List<Listing>> listListings(int collectionId) async {
     try {
-      final response = await getText("/GetCollectionListings/$collectionId", cleanPath: false);
+      final response = await getText("/GetCollectionListings/$collectionId",
+          cleanPath: false);
 
       if (response.isEmpty) {
         return [];

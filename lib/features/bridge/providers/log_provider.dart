@@ -12,21 +12,25 @@ class LogProvider extends StateNotifier<List<LogEntry>> {
   LogProvider(this.ref, [List<LogEntry> model = const []]) : super(model);
 
   void append(LogEntry entry) async {
-    final items = [...state, entry];
-    if (items.length > LOG_HISTORY_LENGTH) {
-      state = items.getRange(items.length - LOG_HISTORY_LENGTH, items.length).toList();
-    } else {
-      state = items;
-    }
+    Future.delayed(Duration(milliseconds: 100)).then((_) async {
+      final items = [...state, entry];
+      if (items.length > LOG_HISTORY_LENGTH) {
+        state = items
+            .getRange(items.length - LOG_HISTORY_LENGTH, items.length)
+            .toList();
+      } else {
+        state = items;
+      }
 
-    if (scrollController.hasClients) {
-      await Future.delayed(const Duration(milliseconds: 300));
-      scrollController.animateTo(
-        scrollController.position.maxScrollExtent - 24,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.linear,
-      );
-    }
+      if (scrollController.hasClients) {
+        await Future.delayed(const Duration(milliseconds: 300));
+        scrollController.animateTo(
+          scrollController.position.maxScrollExtent - 24,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.linear,
+        );
+      }
+    });
   }
 
   void clear() {

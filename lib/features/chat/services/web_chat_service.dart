@@ -11,7 +11,8 @@ class WebChatService extends BaseService {
           withWebAuth: true,
         );
 
-  Future<ServerPaginatedReponse<WebChatThread>> listThreads({int page = 1, String? buyerAddress, String? shopUrl}) async {
+  Future<ServerPaginatedReponse<WebChatThread>> listThreads(
+      {int page = 1, String? buyerAddress, String? shopUrl}) async {
     if (buyerAddress == null && shopUrl == null) {
       print("buyerAddress and shopUrl can not both be null, silly goose.");
       return ServerPaginatedReponse.empty();
@@ -29,8 +30,10 @@ class WebChatService extends BaseService {
         ...shopUrl != null ? {"shop_url": shopUrl} : {},
       };
 
-      final data = await getJson("/chat/", params: params, inspect: true);
-      final List<WebChatThread> results = data['results'].map<WebChatThread>((item) => WebChatThread.fromJson(item)).toList();
+      final data = await getJson("/chat/", params: params);
+      final List<WebChatThread> results = data['results']
+          .map<WebChatThread>((item) => WebChatThread.fromJson(item))
+          .toList();
       return ServerPaginatedReponse<WebChatThread>(
         count: data['count'],
         page: data['page'],
@@ -45,7 +48,7 @@ class WebChatService extends BaseService {
 
   Future<WebChatThread?> retrieveThread(String threadId) async {
     try {
-      final data = await getJson("/chat/$threadId/", auth: false, inspect: true);
+      final data = await getJson("/chat/$threadId/", auth: false);
       return WebChatThread.fromJson(data);
     } catch (e, st) {
       print(e);
@@ -60,8 +63,12 @@ class WebChatService extends BaseService {
     required bool isThirdParty,
   }) async {
     try {
-      final params = {"shop_url": shopUrl, "buyer_address": buyerAddress, "is_third_party": isThirdParty};
-      final response = await postJson("/chat/", params: params, auth: false, inspect: true);
+      final params = {
+        "shop_url": shopUrl,
+        "buyer_address": buyerAddress,
+        "is_third_party": isThirdParty
+      };
+      final response = await postJson("/chat/", params: params, auth: false);
       return WebChatThread.fromJson(response['data']);
     } catch (e, st) {
       print(e);
@@ -85,7 +92,6 @@ class WebChatService extends BaseService {
         "/chat/$threadUuid/message/",
         params: params,
         auth: true,
-        inspect: true,
       );
       return WebChatMessage.fromJson(response['data']);
     } catch (e, st) {

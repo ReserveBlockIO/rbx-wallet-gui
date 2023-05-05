@@ -24,14 +24,17 @@ class TopicService extends BaseService {
   Future<List<Topic>> _list(String path) async {
     try {
       final response = await getText(path, cleanPath: false);
-      if (response.isEmpty) {
+      if (response.trim().isEmpty) {
         return [];
       }
+
       final items = jsonDecode(response);
 
       final List<Topic> topics = [];
-      for (final item in items) {
-        topics.add(Topic.fromJson(item));
+      if (items != null) {
+        for (final item in items) {
+          topics.add(Topic.fromJson(item));
+        }
       }
       return topics;
     } catch (e, st) {
@@ -77,14 +80,15 @@ class TopicService extends BaseService {
     return await _list("/GetSearchTopics/$query");
   }
 
-  Future<bool> create(NewTopic topic, [Map<String, dynamic>? adjVoteData]) async {
+  Future<bool> create(NewTopic topic,
+      [Map<String, dynamic>? adjVoteData]) async {
     Map<String, dynamic> payload = topic.toJson();
     if (adjVoteData != null) {
       payload = {...payload, 'TopicDescription': jsonEncode(adjVoteData)};
     }
 
     try {
-      final response = await postJson("/PostNewTopic", params: payload, inspect: true);
+      final response = await postJson("/PostNewTopic", params: payload);
 
       if (response['data']?['Success'] == true) {
         return true;
