@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -194,6 +195,7 @@ class _ChatMessageCard extends StatelessWidget {
                       style: TextStyle(
                         height: 1.3,
                         color: Colors.white,
+                        // fontFamily: kIsWeb ? 'NotoColorEmoji' : null,
                       ),
                       children: [
                         if (!continued)

@@ -96,6 +96,21 @@ class Env {
     }
   }
 
+  static String get appBaseUrl {
+    switch (_env) {
+      case _Environment.MacTestNet:
+      case _Environment.WinTestNet:
+      case _Environment.ReleaseTestNet:
+      case _Environment.BlockExplorerTestNet:
+      case _Environment.WebLocalEnv:
+        return 'http://localhost:42069';
+      case _Environment.WebTestNet:
+        return 'https://test-wallet.rbx.network/';
+      default:
+        return 'https://rbx.network/';
+    }
+  }
+
   static String get envName {
     return DotEnv.dotenv.env['ENVIRONMENT_NAME'] ?? 'unset';
   }
@@ -154,10 +169,6 @@ class Env {
 
   static bool get useWebMedia {
     return DotEnv.dotenv.env['USE_WEB_MEDIA'] == "true";
-  }
-
-  static String get appBaseUrl {
-    return DotEnv.dotenv.env['APP_BASE_URL'] ?? 'http://localhost:42069';
   }
 
   static String get shopBaseUrl {

@@ -66,6 +66,7 @@ dependencies:
   context_menus: ^1.0.2
   infinite_scroll_pagination: ^3.2.0
   cached_network_image: ^3.2.3
+  
 
 
 
@@ -99,6 +100,9 @@ flutter:
     - family: RobotoMono
       fonts:
         - asset: assets/fonts/RobotoMono-Regular.ttf
+    - family: NotoColorEmoji
+      fonts:
+        - asset: assets/fonts/NotoColorEmoji-Regular.ttf
 
 flutter_gen:
   output: lib/generated

@@ -7,3 +7,4 @@ LAUNCH_CLI=true
 IS_TEST_NET=true
 HIDE_CLI_OUTPUT=false
 ALLOW_VALIDATING=true
+APP_BASE_URL=https://test-wallet.rbx.network
