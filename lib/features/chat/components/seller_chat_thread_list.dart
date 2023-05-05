@@ -30,32 +30,35 @@ class SellerChatThreadList extends BaseComponent {
 
         final message = thread.messages.isEmpty ? null : thread.messages.first;
 
-        return Container(
-          key: Key("chat_thread_${thread.user}${message?.message}"),
-          decoration: BoxDecoration(
-            boxShadow: glowingBox,
-          ),
-          child: Card(
-            color: Colors.black,
-            child: ListTile(
-              title: Text(thread.user),
-              subtitle: Text(
-                message?.message ?? "No messages yet",
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              trailing: Icon(Icons.chevron_right),
-              onTap: () {
-                if (kIsWeb) {
-                  AutoRouter.of(context).push(web_router.WebSellerChatScreenRoute(address: thread.user, shopId: shopId));
-                } else {
-                  if (thread.isThirdParty) {
-                    AutoRouter.of(context).push(WebSellerChatScreenRoute(address: thread.user, shopId: 0));
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 6.0),
+          child: Container(
+            key: Key("chat_thread_${thread.user}${message?.message}"),
+            decoration: BoxDecoration(
+              boxShadow: glowingBox,
+            ),
+            child: Card(
+              color: Colors.black,
+              child: ListTile(
+                title: Text(thread.user),
+                subtitle: Text(
+                  message?.message ?? "No messages yet",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                trailing: Icon(Icons.chevron_right),
+                onTap: () {
+                  if (kIsWeb) {
+                    AutoRouter.of(context).push(web_router.WebSellerChatScreenRoute(address: thread.user, shopId: shopId));
                   } else {
-                    AutoRouter.of(context).push(SellerChatScreenRoute(address: thread.user));
+                    if (thread.isThirdParty) {
+                      AutoRouter.of(context).push(WebSellerChatScreenRoute(address: thread.user, shopId: 0));
+                    } else {
+                      AutoRouter.of(context).push(SellerChatScreenRoute(address: thread.user));
+                    }
                   }
-                }
-              },
+                },
+              ),
             ),
           ),
         );

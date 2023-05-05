@@ -73,10 +73,9 @@ class WebShopDetailScreen extends BaseScreen {
                             web_router.WebSellerChatThreadListScreenRoute(
                                 shopId: shop.id));
                       } else {
-                        final thread = await WebChatService().getOrCreateThread(
+                        final thread = await WebChatService().lookup(
                           shopUrl: shop.url,
                           buyerAddress: address,
-                          isThirdParty: true,
                         );
                         if (thread == null) {
                           Toast.error("Could not create or get thread");

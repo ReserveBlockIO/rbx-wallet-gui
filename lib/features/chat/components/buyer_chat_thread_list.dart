@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/chat/providers/buyer_chat_thread_list_provider.dart';
 import 'package:rbx_wallet/features/chat/providers/chat_notification_provider.dart';
 import 'package:collection/collection.dart';
@@ -40,39 +41,48 @@ class BuyerChatThreadList extends BaseComponent {
         //   }
         // }
 
-        return Card(
-          child: ListTile(
-            title: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // if (!hasRead)
-                //   Padding(
-                //     padding: const EdgeInsets.only(right: 6.0),
-                //     child: Container(
-                //       width: 12,
-                //       height: 12,
-                //       decoration: BoxDecoration(
-                //         color: Theme.of(context).colorScheme.secondary,
-                //         borderRadius: BorderRadius.circular(6.0),
-                //       ),
-                //     ),
-                //   ),
-                Text(thread.user),
-              ],
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 6.0),
+          child: Container(
+            decoration: BoxDecoration(
+              boxShadow: glowingBox,
             ),
-            subtitle: Text(
-              message.message,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+            child: Card(
+              color: Colors.black,
+              child: ListTile(
+                title: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // if (!hasRead)
+                    //   Padding(
+                    //     padding: const EdgeInsets.only(right: 6.0),
+                    //     child: Container(
+                    //       width: 12,
+                    //       height: 12,
+                    //       decoration: BoxDecoration(
+                    //         color: Theme.of(context).colorScheme.secondary,
+                    //         borderRadius: BorderRadius.circular(6.0),
+                    //       ),
+                    //     ),
+                    //   ),
+                    Text(thread.user),
+                  ],
+                ),
+                subtitle: Text(
+                  message.message,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                trailing: Icon(Icons.chevron_right),
+                onTap: () async {
+                  final currentUrl = ref.read(connectedShopProvider).url;
+                  if (currentUrl != thread.user) {
+                    await ref.read(connectedShopProvider.notifier).loadShop(context, ref, thread.user);
+                  }
+                  AutoRouter.of(context).push(ShopChatScreenRoute(url: thread.user));
+                },
+              ),
             ),
-            trailing: Icon(Icons.chevron_right),
-            onTap: () async {
-              final currentUrl = ref.read(connectedShopProvider).url;
-              if (currentUrl != thread.user) {
-                await ref.read(connectedShopProvider.notifier).loadShop(context, ref, thread.user);
-              }
-              AutoRouter.of(context).push(ShopChatScreenRoute(url: thread.user));
-            },
           ),
         );
       },

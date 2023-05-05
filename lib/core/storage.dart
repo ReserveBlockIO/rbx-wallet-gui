@@ -22,8 +22,8 @@ abstract class Storage {
   static const REMEMBER_ME = "REMEMBER_ME";
   static const SAVED_SHOPS = "SAVE_SHOPS";
   static const CHAT_PREPEND = "CHAT_";
-  static const BUYER_CHAT_THREADS = "BUYER_CHAT_THREADS_V2";
-  static const SELLER_CHAT_THREADS = "SELLER_CHAT_THREADS_V2";
+  static const BUYER_CHAT_THREADS = "BUYER_CHAT_THREADS_V3";
+  static const SELLER_CHAT_THREADS = "SELLER_CHAT_THREADS_V3";
   static const WEB_AUTH_TOKEN = "WEB_AUTH_TOKEN";
 
   bool isInitialized = false;

@@ -8,7 +8,11 @@ import 'package:rbx_wallet/features/chat/components/new_chat_message.dart';
 import 'package:rbx_wallet/features/chat/components/shop_chat_list.dart';
 import 'package:rbx_wallet/features/chat/providers/seller_chat_list_provider.dart';
 import 'package:rbx_wallet/features/chat/providers/web_seller_chat_list_provider.dart';
+import 'package:rbx_wallet/features/chat/services/web_chat_service.dart';
+import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_shop_detail_provider.dart';
+import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 class WebSellerChatScreen extends BaseScreen {
   final String address;
@@ -38,16 +42,36 @@ class WebSellerChatScreen extends BaseScreen {
           onPressed: () async {
             final confirmed = await ConfirmDialog.show(
               title: "Delete Chat Thread",
-              body: "Are you sure you want to delete this chat thread locally?",
+              body: "Are you sure you want to delete this chat thread?",
               destructive: true,
               confirmText: "Delete",
               cancelText: "Cancel",
             );
 
             if (confirmed == true) {
-              final success = await ref
-                  .read(sellerChatListProvider(address).notifier)
-                  .deleteThread();
+              ref.read(globalLoadingProvider.notifier).start();
+              final shop = await WebShopService().retrieveShop(shopId);
+              if (shop == null) {
+                Toast.error();
+                ref.read(globalLoadingProvider.notifier).complete();
+                return;
+              }
+
+              final webThread = await WebChatService().lookup(
+                shopUrl: shop.url,
+                buyerAddress: address,
+              );
+
+              if (webThread == null) {
+                Toast.error();
+                ref.read(globalLoadingProvider.notifier).complete();
+                return;
+              }
+
+              print("Deleting thread ${webThread.uuid}");
+
+              final success = await ref.read(sellerChatListProvider(address).notifier).deleteThread(webThread.uuid);
+              ref.read(globalLoadingProvider.notifier).complete();
               if (success) {
                 Navigator.of(context).pop();
                 return;

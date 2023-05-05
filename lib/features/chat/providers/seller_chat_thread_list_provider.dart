@@ -45,12 +45,18 @@ class SellerChatThreadListProvider extends StateNotifier<List<ChatThread>> {
     saveThreads();
   }
 
+  void reload() {
+    state = [];
+    fetch();
+  }
+
   loadSavedThreads() {
+    return;
     final str = singleton<Storage>().getString(Storage.SELLER_CHAT_THREADS);
 
     if (str != null) {
       final List<dynamic> data = jsonDecode(str);
-      final threads = data.map((m) => ChatThread.fromJson(m)).toList();
+      final threads = data.map((m) => ChatThread.fromJson(m)).toList().where((t) => t.isThirdParty == false).toList();
       state = threads;
     }
   }

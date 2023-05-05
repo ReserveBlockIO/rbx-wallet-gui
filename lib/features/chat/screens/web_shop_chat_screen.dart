@@ -9,6 +9,7 @@ import 'package:rbx_wallet/features/chat/components/shop_chat_list.dart';
 import 'package:rbx_wallet/features/chat/providers/shop_chat_list_provider.dart';
 import 'package:rbx_wallet/features/chat/providers/web_chat_thread_detail_provider.dart';
 import 'package:rbx_wallet/features/chat/providers/web_shop_chat_list_provider.dart';
+import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/remote_shop_detail_provider.dart';
 
 class WebShopChatScreen extends BaseScreen {
@@ -35,26 +36,30 @@ class WebShopChatScreen extends BaseScreen {
                   },
                   icon: Icon(Icons.refresh),
                 ),
-                // IconButton(
-                //   icon: Icon(Icons.delete),
-                //   onPressed: () async {
-                //     final confirmed = await ConfirmDialog.show(
-                //       title: "Delete Chat Thread",
-                //       body: "Are you sure you want to delete this chat thread locally?",
-                //       destructive: true,
-                //       confirmText: "Delete",
-                //       cancelText: "Cancel",
-                //     );
+                IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () async {
+                    final confirmed = await ConfirmDialog.show(
+                      title: "Delete Chat Thread",
+                      body: "Are you sure you want to delete this chat thread?",
+                      destructive: true,
+                      confirmText: "Delete",
+                      cancelText: "Cancel",
+                    );
 
-                //     if (confirmed == true) {
-                //       final success = await ref.read(shopChatListProvider(identifier).notifier).deleteThread();
-                //       if (success) {
-                //         Navigator.of(context).pop();
-                //         return;
-                //       }
-                //     }
-                //   },
-                // )
+                    if (confirmed == true) {
+                      ref.read(globalLoadingProvider.notifier).start();
+
+                      final success = await ref.read(shopChatListProvider(identifier).notifier).deleteThread(identifier);
+                      ref.read(globalLoadingProvider.notifier).complete();
+
+                      if (success) {
+                        Navigator.of(context).pop();
+                        return;
+                      }
+                    }
+                  },
+                )
               ],
             )
           : AppBar(
@@ -65,6 +70,7 @@ class WebShopChatScreen extends BaseScreen {
       ),
       loading: () => AppBar(
         title: const Text(""),
+        backgroundColor: Colors.black,
       ),
     );
   }
