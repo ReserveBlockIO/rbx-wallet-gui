@@ -42,6 +42,12 @@ class WebSellerChatThreadListProvider extends StateNotifier<List<ChatThread>> {
       }
     }
   }
+
+  void reload() async {
+    state = [];
+    await Future.delayed(Duration(milliseconds: 500));
+    fetch();
+  }
 }
 
 final webSellerChatThreadListProvider = StateNotifierProvider.family<WebSellerChatThreadListProvider, List<ChatThread>, int>(

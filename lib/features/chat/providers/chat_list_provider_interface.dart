@@ -8,6 +8,7 @@ import 'package:rbx_wallet/features/chat/models/chat_message.dart';
 import 'package:collection/collection.dart';
 import 'package:rbx_wallet/features/chat/providers/buyer_chat_thread_list_provider.dart';
 import 'package:rbx_wallet/features/chat/providers/seller_chat_thread_list_provider.dart';
+import 'package:rbx_wallet/features/chat/providers/web_seller_chat_thread_list_provider.dart';
 import 'package:rbx_wallet/features/chat/services/chat_service.dart';
 import 'package:rbx_wallet/features/chat/services/web_chat_service.dart';
 import 'package:rbx_wallet/features/dst/services/dst_service.dart';
@@ -88,15 +89,18 @@ abstract class ChatListProviderInterface extends StateNotifier<List<ChatMessage>
     fetch();
   }
 
-  Future<bool> deleteThread(String? thirdPartyIdentifier) async {
+  Future<bool> deleteThread([String? thirdPartyIdentifier, int? shopId]) async {
     final success =
         thirdPartyIdentifier != null ? await WebChatService().deleteThread(thirdPartyIdentifier) : await ChatService().deleteChatThread(identifier);
-
+    await Future.delayed(Duration(milliseconds: 1000));
     if (success) {
       singleton<Storage>().remove(storageKey);
-      ref.invalidateSelf();
+      // ref.invalidateSelf();
       ref.read(sellerChatThreadListProvider.notifier).reload();
       ref.read(buyerChatThreadListProvider.notifier).reload();
+      if (shopId != null) {
+        ref.read(webSellerChatThreadListProvider(shopId).notifier).reload();
+      }
       return true;
     }
     return false;

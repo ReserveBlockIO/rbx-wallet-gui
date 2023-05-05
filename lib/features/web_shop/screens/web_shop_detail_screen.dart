@@ -40,9 +40,7 @@ class WebShopDetailScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     final data = ref.watch(webShopDetailProvider(shopId));
-    final address = kIsWeb
-        ? ref.watch(webSessionProvider).keypair?.address
-        : ref.watch(sessionProvider).currentWallet?.address;
+    final address = kIsWeb ? ref.watch(webSessionProvider).keypair?.address : ref.watch(sessionProvider).currentWallet?.address;
 
     return data.when(
       data: (shop) => shop != null
@@ -69,13 +67,12 @@ class WebShopDetailScreen extends BaseScreen {
                     label: 'Chat',
                     onPressed: () async {
                       if (shop.isOwner(ref)) {
-                        AutoRouter.of(context).push(
-                            web_router.WebSellerChatThreadListScreenRoute(
-                                shopId: shop.id));
+                        AutoRouter.of(context).push(web_router.WebSellerChatThreadListScreenRoute(shopId: shop.id));
                       } else {
-                        final thread = await WebChatService().lookup(
+                        final thread = await WebChatService().getOrCreateThread(
                           shopUrl: shop.url,
                           buyerAddress: address,
+                          isThirdParty: true,
                         );
                         if (thread == null) {
                           Toast.error("Could not create or get thread");
@@ -83,12 +80,9 @@ class WebShopDetailScreen extends BaseScreen {
                         }
 
                         if (kIsWeb) {
-                          AutoRouter.of(context).push(
-                              web_router.WebShopChatScreenRoute(
-                                  identifier: thread.uuid));
+                          AutoRouter.of(context).push(web_router.WebShopChatScreenRoute(identifier: thread.uuid));
                         } else {
-                          AutoRouter.of(context).push(
-                              WebShopChatScreenRoute(identifier: thread.uuid));
+                          AutoRouter.of(context).push(WebShopChatScreenRoute(identifier: thread.uuid));
                         }
                       }
                     },
@@ -99,18 +93,14 @@ class WebShopDetailScreen extends BaseScreen {
                   variant: AppColorVariant.Light,
                   type: AppButtonType.Text,
                   onPressed: () async {
-                    await Clipboard.setData(ClipboardData(
-                        text:
-                            "${Env.appBaseUrl}/#dashboard/p2p/shop/${shop.id}"));
+                    await Clipboard.setData(ClipboardData(text: "${Env.appBaseUrl}/#dashboard/p2p/shop/${shop.id}"));
                     Toast.message("Share url copied to clipboard");
                   },
                 ),
                 IconButton(
                     onPressed: () {
                       ref.invalidate(webShopDetailProvider(shopId));
-                      ref
-                          .read(webCollectionListProvider(shopId).notifier)
-                          .refresh();
+                      ref.read(webCollectionListProvider(shopId).notifier).refresh();
                     },
                     icon: Icon(Icons.refresh))
               ],
@@ -171,11 +161,9 @@ class WebShopDetailScreen extends BaseScreen {
                     children: [
                       Text(
                         "Collections",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w600),
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                       ),
-                      if (shop.isOwner(ref) &&
-                          ref.read(webSessionProvider).keypair != null)
+                      if (shop.isOwner(ref) && ref.read(webSessionProvider).keypair != null)
                         Builder(
                           builder: (context) {
                             if (shop.isPublished) {
@@ -190,24 +178,17 @@ class WebShopDetailScreen extends BaseScreen {
                               onPressed: () async {
                                 final confirmed = await ConfirmDialog.show(
                                   title: "Publish Shop?",
-                                  body:
-                                      "There is a cost of $SHOP_PUBLISH_COST RBX to publish your shop to the network (plus the transaction fee).",
+                                  body: "There is a cost of $SHOP_PUBLISH_COST RBX to publish your shop to the network (plus the transaction fee).",
                                   confirmText: "Publish",
                                   cancelText: "Cancel",
                                 );
 
                                 if (confirmed == true) {
-                                  final success = await broadcastShopTx(
-                                      ref.read(webSessionProvider).keypair!,
-                                      shop,
-                                      ShopPublishTxType.create);
+                                  final success = await broadcastShopTx(ref.read(webSessionProvider).keypair!, shop, ShopPublishTxType.create);
                                   if (success) {
-                                    final updatedShop = await WebShopService()
-                                        .saveWebShop(
-                                            shop.copyWith(isPublished: true));
+                                    final updatedShop = await WebShopService().saveWebShop(shop.copyWith(isPublished: true));
                                     if (updatedShop != null) {
-                                      ref.invalidate(
-                                          webShopDetailProvider(shop.id));
+                                      ref.invalidate(webShopDetailProvider(shop.id));
                                     }
                                   }
                                 }
@@ -224,8 +205,7 @@ class WebShopDetailScreen extends BaseScreen {
                     isMine: shop.isOwner(ref),
                   ),
                 ),
-                if (shop.isOwner(ref) &&
-                    ref.read(webSessionProvider).keypair != null)
+                if (shop.isOwner(ref) && ref.read(webSessionProvider).keypair != null)
                   Container(
                     color: Colors.black,
                     child: Padding(
@@ -250,15 +230,10 @@ class WebShopDetailScreen extends BaseScreen {
                               );
 
                               if (confirmed == true) {
-                                final success = await broadcastShopTx(
-                                    ref.read(webSessionProvider).keypair!,
-                                    shop,
-                                    ShopPublishTxType.delete);
+                                final success = await broadcastShopTx(ref.read(webSessionProvider).keypair!, shop, ShopPublishTxType.delete);
 
                                 if (success) {
-                                  ref
-                                      .read(webShopFormProvider.notifier)
-                                      .delete(context, shop);
+                                  ref.read(webShopFormProvider.notifier).delete(context, shop);
                                 }
                               }
                             },
@@ -270,8 +245,7 @@ class WebShopDetailScreen extends BaseScreen {
                             onPressed: () {
                               ref.read(webShopFormProvider.notifier).load(shop);
                               if (Env.isWeb) {
-                                AutoRouter.of(context).push(web_router
-                                    .CreateWebShopContainerScreenRoute());
+                                AutoRouter.of(context).push(web_router.CreateWebShopContainerScreenRoute());
                               }
                             },
                           ),
@@ -280,12 +254,8 @@ class WebShopDetailScreen extends BaseScreen {
                             icon: Icons.add,
                             variant: AppColorVariant.Success,
                             onPressed: () {
-                              ref
-                                  .read(webCollectionFormProvider.notifier)
-                                  .clear(shop);
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (_) =>
-                                      MyCreateCollectionContainerScreen()));
+                              ref.read(webCollectionFormProvider.notifier).clear(shop);
+                              Navigator.of(context).push(MaterialPageRoute(builder: (_) => MyCreateCollectionContainerScreen()));
                             },
                           ),
                         ],

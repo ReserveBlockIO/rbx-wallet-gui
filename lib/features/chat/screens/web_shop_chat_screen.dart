@@ -50,7 +50,7 @@ class WebShopChatScreen extends BaseScreen {
                     if (confirmed == true) {
                       ref.read(globalLoadingProvider.notifier).start();
 
-                      final success = await ref.read(shopChatListProvider(identifier).notifier).deleteThread(identifier);
+                      final success = await ref.read(shopChatListProvider(identifier).notifier).deleteThread(identifier, thread.shop.id);
                       ref.read(globalLoadingProvider.notifier).complete();
 
                       if (success) {

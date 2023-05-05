@@ -70,7 +70,7 @@ class WebSellerChatScreen extends BaseScreen {
 
               print("Deleting thread ${webThread.uuid}");
 
-              final success = await ref.read(sellerChatListProvider(address).notifier).deleteThread(webThread.uuid);
+              final success = await ref.read(sellerChatListProvider(address).notifier).deleteThread(webThread.uuid, webThread.shop.id);
               ref.read(globalLoadingProvider.notifier).complete();
               if (success) {
                 Navigator.of(context).pop();
