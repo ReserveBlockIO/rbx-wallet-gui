@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/core/web_router.gr.dart';
+import 'package:rbx_wallet/core/web_router.gr.dart' as web_router;
 import 'package:rbx_wallet/features/chat/providers/seller_chat_thread_list_provider.dart';
 import 'package:rbx_wallet/features/chat/providers/web_seller_chat_thread_list_provider.dart';
 
@@ -44,7 +44,11 @@ class SellerChatThreadList extends BaseComponent {
               ),
               trailing: Icon(Icons.chevron_right),
               onTap: () {
-                AutoRouter.of(context).push(WebSellerChatScreenRoute(address: thread.user, shopId: shopId));
+                if (kIsWeb) {
+                  AutoRouter.of(context).push(web_router.WebSellerChatScreenRoute(address: thread.user, shopId: shopId));
+                } else {
+                  AutoRouter.of(context).push(SellerChatScreenRoute(address: thread.user));
+                }
               },
             ),
           ),
