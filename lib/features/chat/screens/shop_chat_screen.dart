@@ -65,6 +65,7 @@ class ShopChatScreen extends BaseScreen {
       ),
       loading: () => AppBar(
         title: const Text(""),
+        backgroundColor: Colors.black,
       ),
     );
   }

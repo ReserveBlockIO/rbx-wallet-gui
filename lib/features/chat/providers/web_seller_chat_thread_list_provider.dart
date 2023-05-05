@@ -32,9 +32,13 @@ class WebSellerChatThreadListProvider extends StateNotifier<List<ChatThread>> {
     final nativeThreads = data.results.map((t) => t.toNative()).toList();
 
     for (final thread in nativeThreads) {
-      final exists = state.firstWhereOrNull((t) => t.user == thread.user) != null;
-      if (!exists) {
-        state = [...state, thread];
+      final existingIndex = state.indexWhere((t) => t.user == thread.user);
+      if (existingIndex < 0) {
+        state = [thread, ...state];
+      } else {
+        state = [...state]
+          ..removeAt(existingIndex)
+          ..insert(existingIndex, thread);
       }
     }
   }

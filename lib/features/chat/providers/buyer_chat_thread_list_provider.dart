@@ -31,9 +31,13 @@ class BuyerChatThreadListProvider extends StateNotifier<List<ChatThread>> {
     }
 
     for (final thread in threads) {
-      final exists = state.firstWhereOrNull((t) => t.user == thread.user) != null;
-      if (!exists) {
-        state = [...state, thread];
+      final existingIndex = state.indexWhere((t) => t.user == thread.user);
+      if (existingIndex < 0) {
+        state = [thread, ...state];
+      } else {
+        state = [...state]
+          ..removeAt(existingIndex)
+          ..insert(existingIndex, thread);
       }
     }
 
@@ -51,7 +55,7 @@ class BuyerChatThreadListProvider extends StateNotifier<List<ChatThread>> {
   }
 
   saveThreads() {
-    final data = state.map((m) => m.toJson()).toList();
+    final data = state.where((t) => !t.isThirdParty).map((m) => m.toJson()).toList();
     final str = jsonEncode(data);
     singleton<Storage>().setString(Storage.BUYER_CHAT_THREADS, str);
   }

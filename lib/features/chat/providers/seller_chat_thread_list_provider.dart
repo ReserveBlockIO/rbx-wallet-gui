@@ -21,18 +21,24 @@ class SellerChatThreadListProvider extends StateNotifier<List<ChatThread>> {
 
     final shop = ref.read(decShopProvider).value;
     if (shop != null) {
-      final webThreads =
-          await WebChatService().listThreads(page: 1, shopUrl: shop.url);
+      final webThreads = await WebChatService().listThreads(
+        page: 1,
+        shopUrl: shop.url,
+      );
+
       for (final t in webThreads.results) {
         threads.add(t.toNative());
       }
     }
 
     for (final thread in threads) {
-      final exists =
-          state.firstWhereOrNull((t) => t.user == thread.user) != null;
-      if (!exists) {
-        state = [...state, thread];
+      final existingIndex = state.indexWhere((t) => t.user == thread.user);
+      if (existingIndex < 0) {
+        state = [thread, ...state];
+      } else {
+        state = [...state]
+          ..removeAt(existingIndex)
+          ..insert(existingIndex, thread);
       }
     }
 
@@ -50,14 +56,12 @@ class SellerChatThreadListProvider extends StateNotifier<List<ChatThread>> {
   }
 
   saveThreads() {
-    final data =
-        state.where((t) => !t.isThirdParty).map((m) => m.toJson()).toList();
+    final data = state.where((t) => !t.isThirdParty).map((m) => m.toJson()).toList();
     final str = jsonEncode(data);
     singleton<Storage>().setString(Storage.SELLER_CHAT_THREADS, str);
   }
 }
 
-final sellerChatThreadListProvider =
-    StateNotifierProvider<SellerChatThreadListProvider, List<ChatThread>>(
+final sellerChatThreadListProvider = StateNotifierProvider<SellerChatThreadListProvider, List<ChatThread>>(
   (ref) => SellerChatThreadListProvider(ref),
 );

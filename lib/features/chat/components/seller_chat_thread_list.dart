@@ -16,9 +16,7 @@ class SellerChatThreadList extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final threads = kIsWeb
-        ? ref.watch(webSellerChatThreadListProvider(shopId))
-        : ref.watch(sellerChatThreadListProvider);
+    final threads = kIsWeb ? ref.watch(webSellerChatThreadListProvider(shopId)) : ref.watch(sellerChatThreadListProvider);
 
     if (threads.isEmpty) {
       return Center(
@@ -33,6 +31,7 @@ class SellerChatThreadList extends BaseComponent {
         final message = thread.messages.isEmpty ? null : thread.messages.first;
 
         return Container(
+          key: Key("chat_thread_${thread.user}${message?.message}"),
           decoration: BoxDecoration(
             boxShadow: glowingBox,
           ),
@@ -48,16 +47,12 @@ class SellerChatThreadList extends BaseComponent {
               trailing: Icon(Icons.chevron_right),
               onTap: () {
                 if (kIsWeb) {
-                  AutoRouter.of(context).push(
-                      web_router.WebSellerChatScreenRoute(
-                          address: thread.user, shopId: shopId));
+                  AutoRouter.of(context).push(web_router.WebSellerChatScreenRoute(address: thread.user, shopId: shopId));
                 } else {
                   if (thread.isThirdParty) {
-                    AutoRouter.of(context).push(WebSellerChatScreenRoute(
-                        address: thread.user, shopId: 0));
+                    AutoRouter.of(context).push(WebSellerChatScreenRoute(address: thread.user, shopId: 0));
                   } else {
-                    AutoRouter.of(context)
-                        .push(SellerChatScreenRoute(address: thread.user));
+                    AutoRouter.of(context).push(SellerChatScreenRoute(address: thread.user));
                   }
                 }
               },
