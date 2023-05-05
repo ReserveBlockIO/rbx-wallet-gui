@@ -49,7 +49,7 @@ class BuyerChatThreadListProvider extends StateNotifier<List<ChatThread>> {
 
     if (str != null) {
       final List<dynamic> data = jsonDecode(str);
-      final threads = data.map((m) => ChatThread.fromJson(m)).toList();
+      final threads = data.map((m) => ChatThread.fromJson(m)).toList().where((t) => t.isThirdParty == false).toList();
       state = threads;
     }
   }
@@ -58,6 +58,11 @@ class BuyerChatThreadListProvider extends StateNotifier<List<ChatThread>> {
     final data = state.where((t) => !t.isThirdParty).map((m) => m.toJson()).toList();
     final str = jsonEncode(data);
     singleton<Storage>().setString(Storage.BUYER_CHAT_THREADS, str);
+  }
+
+  void reload() {
+    state = [];
+    fetch();
   }
 }
 

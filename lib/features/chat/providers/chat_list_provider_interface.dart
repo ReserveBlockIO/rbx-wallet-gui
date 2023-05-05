@@ -6,7 +6,10 @@ import 'package:rbx_wallet/core/singletons.dart';
 import 'package:rbx_wallet/core/storage.dart';
 import 'package:rbx_wallet/features/chat/models/chat_message.dart';
 import 'package:collection/collection.dart';
+import 'package:rbx_wallet/features/chat/providers/buyer_chat_thread_list_provider.dart';
+import 'package:rbx_wallet/features/chat/providers/seller_chat_thread_list_provider.dart';
 import 'package:rbx_wallet/features/chat/services/chat_service.dart';
+import 'package:rbx_wallet/features/chat/services/web_chat_service.dart';
 import 'package:rbx_wallet/features/dst/services/dst_service.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
@@ -85,11 +88,15 @@ abstract class ChatListProviderInterface extends StateNotifier<List<ChatMessage>
     fetch();
   }
 
-  Future<bool> deleteThread() async {
-    final success = await ChatService().deleteChatThread(identifier);
+  Future<bool> deleteThread(String? thirdPartyIdentifier) async {
+    final success =
+        thirdPartyIdentifier != null ? await WebChatService().deleteThread(thirdPartyIdentifier) : await ChatService().deleteChatThread(identifier);
+
     if (success) {
       singleton<Storage>().remove(storageKey);
       ref.invalidateSelf();
+      ref.read(sellerChatThreadListProvider.notifier).reload();
+      ref.read(buyerChatThreadListProvider.notifier).reload();
       return true;
     }
     return false;

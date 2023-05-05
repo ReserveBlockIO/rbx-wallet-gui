@@ -36,10 +36,9 @@ class WebSellerChatListProvider extends ChatListProviderInterface {
       }
 
       if (shop != null) {
-        final _webThread = await WebChatService().getOrCreateThread(
+        final _webThread = await WebChatService().lookup(
           shopUrl: shop!.url,
           buyerAddress: address,
-          isThirdParty: true,
         );
         if (_webThread != null) {
           identifierOverride = _webThread.uuid;
@@ -53,8 +52,7 @@ class WebSellerChatListProvider extends ChatListProviderInterface {
         return;
       }
 
-      final webThread2 = await WebChatService().getOrCreateThread(
-          shopUrl: shop.url, buyerAddress: identifier, isThirdParty: true);
+      final webThread2 = await WebChatService().lookup(shopUrl: shop.url, buyerAddress: identifier);
       if (webThread2 != null) {
         // shop = webThread2.shop;
         identifierOverride = webThread2.uuid;
@@ -94,7 +92,6 @@ class WebSellerChatListProvider extends ChatListProviderInterface {
   }
 }
 
-final webSellerChatListProvider = StateNotifierProvider.family<
-    WebSellerChatListProvider, List<ChatMessage>, String>(
+final webSellerChatListProvider = StateNotifierProvider.family<WebSellerChatListProvider, List<ChatMessage>, String>(
   (ref, identifier) => WebSellerChatListProvider(ref, identifier),
 );

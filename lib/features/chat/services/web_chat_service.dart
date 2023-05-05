@@ -11,8 +11,7 @@ class WebChatService extends BaseService {
           withWebAuth: true,
         );
 
-  Future<ServerPaginatedReponse<WebChatThread>> listThreads(
-      {int page = 1, String? buyerAddress, String? shopUrl}) async {
+  Future<ServerPaginatedReponse<WebChatThread>> listThreads({int page = 1, String? buyerAddress, String? shopUrl}) async {
     if (buyerAddress == null && shopUrl == null) {
       print("buyerAddress and shopUrl can not both be null, silly goose.");
       return ServerPaginatedReponse.empty();
@@ -31,9 +30,7 @@ class WebChatService extends BaseService {
       };
 
       final data = await getJson("/chat/", params: params);
-      final List<WebChatThread> results = data['results']
-          .map<WebChatThread>((item) => WebChatThread.fromJson(item))
-          .toList();
+      final List<WebChatThread> results = data['results'].map<WebChatThread>((item) => WebChatThread.fromJson(item)).toList();
       return ServerPaginatedReponse<WebChatThread>(
         count: data['count'],
         page: data['page'],
@@ -57,19 +54,41 @@ class WebChatService extends BaseService {
     }
   }
 
+  Future<bool> deleteThread(String threadId) async {
+    try {
+      await deleteJson("/chat/$threadId/", auth: false);
+      return true;
+    } catch (e, st) {
+      print(e);
+      print(st);
+      return false;
+    }
+  }
+
   Future<WebChatThread?> getOrCreateThread({
     required String shopUrl,
     required String buyerAddress,
     required bool isThirdParty,
   }) async {
     try {
-      final params = {
-        "shop_url": shopUrl,
-        "buyer_address": buyerAddress,
-        "is_third_party": isThirdParty
-      };
+      final params = {"shop_url": shopUrl, "buyer_address": buyerAddress, "is_third_party": isThirdParty};
       final response = await postJson("/chat/", params: params, auth: false);
       return WebChatThread.fromJson(response['data']);
+    } catch (e, st) {
+      print(e);
+      print(st);
+      return null;
+    }
+  }
+
+  Future<WebChatThread?> lookup({
+    required String shopUrl,
+    required String buyerAddress,
+  }) async {
+    try {
+      final params = {"url": shopUrl, "buyer_address": buyerAddress};
+      final response = await getJson("/chat/lookup/", params: params, auth: false);
+      return WebChatThread.fromJson(response);
     } catch (e, st) {
       print(e);
       print(st);
