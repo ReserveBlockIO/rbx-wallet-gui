@@ -93,16 +93,16 @@ abstract class ChatListProviderInterface extends StateNotifier<List<ChatMessage>
     final success =
         thirdPartyIdentifier != null ? await WebChatService().deleteThread(thirdPartyIdentifier) : await ChatService().deleteChatThread(identifier);
     await Future.delayed(Duration(milliseconds: 1000));
-    if (success) {
-      singleton<Storage>().remove(storageKey);
-      // ref.invalidateSelf();
-      ref.read(sellerChatThreadListProvider.notifier).reload();
-      ref.read(buyerChatThreadListProvider.notifier).reload();
-      if (shopId != null) {
-        ref.read(webSellerChatThreadListProvider(shopId).notifier).reload();
-      }
-      return true;
+    // if (success) {
+    singleton<Storage>().remove(storageKey);
+    // ref.invalidateSelf();
+    ref.read(sellerChatThreadListProvider.notifier).reload();
+    ref.read(buyerChatThreadListProvider.notifier).reload();
+    if (shopId != null) {
+      ref.read(webSellerChatThreadListProvider(shopId).notifier).reload();
     }
-    return false;
+    return true;
+    // }
+    // return false;
   }
 }
