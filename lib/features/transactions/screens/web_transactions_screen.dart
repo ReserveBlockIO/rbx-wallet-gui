@@ -85,7 +85,6 @@ class _NextPageRequester extends StatefulWidget {
 class __NextPageRequesterState extends State<_NextPageRequester> {
   @override
   void initState() {
-    print("PAGE INIT");
     Future.delayed(Duration(milliseconds: 300)).then((_) {
       widget.pageRequestFunction();
     });

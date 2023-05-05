@@ -66,7 +66,14 @@ class WebTransaction with _$WebTransaction {
       case 4:
         return "NFT Burn";
       case 5:
+        if (nftDataValue('Function') == "Sale_Start()") {
+          return "NFT Sale Start";
+        } else if (nftDataValue('Function') == "Sale_Complete()") {
+          return "NFT Sale Complete";
+        }
+
         return "NFT Sale";
+
       case 6:
         return "Address";
       case 7:

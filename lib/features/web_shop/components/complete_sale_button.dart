@@ -12,10 +12,12 @@ import 'package:rbx_wallet/utils/toast.dart';
 
 class CompleteSaleButton extends BaseComponent {
   final WebTransaction tx;
+  final Widget fallbackWidget;
 
   const CompleteSaleButton({
     super.key,
     required this.tx,
+    required this.fallbackWidget,
   });
 
   @override
@@ -53,6 +55,6 @@ class CompleteSaleButton extends BaseComponent {
       }
     }
 
-    return Icon(Icons.chevron_right);
+    return fallbackWidget;
   }
 }

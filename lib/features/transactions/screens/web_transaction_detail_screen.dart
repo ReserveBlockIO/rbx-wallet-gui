@@ -100,7 +100,11 @@ class _TransactionDetails extends BaseComponent {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Center(child: CompleteSaleButton(tx: tx)),
+            child: Center(
+                child: CompleteSaleButton(
+              tx: tx,
+              fallbackWidget: SizedBox(),
+            )),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),

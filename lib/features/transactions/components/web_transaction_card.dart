@@ -76,7 +76,10 @@ class WebTransactionCard extends BaseComponent {
                     label: "Pending",
                     variant: AppColorVariant.Warning,
                   ),
-                CompleteSaleButton(tx: tx),
+                CompleteSaleButton(
+                  tx: tx,
+                  fallbackWidget: Icon(Icons.chevron_right),
+                ),
               ],
             ),
             onTap: () {
