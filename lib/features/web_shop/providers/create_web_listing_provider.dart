@@ -153,6 +153,13 @@ class WebListingFormProvider extends StateNotifier<WebListing> {
     state = state.copyWith(enableAuction: enableAuction);
     if (enableAuction) {
       state = state.copyWith(galleryOnly: false);
+      state = state.copyWith(endDate: DateTime.now());
+      state = state.copyWith(endDate: state.startDate.add(Duration(days: 7)));
+      startDateController.text = DateFormat.yMd().format(DateTime.now());
+      endDateController.text = DateFormat.yMd().format(state.endDate);
+    } else {
+      state = state.copyWith(endDate: DateTime.now());
+      state = state.copyWith(endDate: DateTime(3000));
     }
   }
 

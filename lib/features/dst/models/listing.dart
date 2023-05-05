@@ -85,7 +85,7 @@ class Listing with _$Listing {
         smartContractUid: '',
         ownerAddress: '',
         startDate: DateTime.now(),
-        endDate: DateTime.now(),
+        endDate: DateTime.now().add(Duration(days: 7)),
         collectionId: 0,
       );
 
