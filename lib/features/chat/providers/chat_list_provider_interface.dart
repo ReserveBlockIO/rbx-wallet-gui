@@ -58,13 +58,13 @@ abstract class ChatListProviderInterface extends StateNotifier<List<ChatMessage>
     final str = singleton<Storage>().getString(storageKey);
     if (str != null) {
       final List<dynamic> data = jsonDecode(str);
-      final messages = data.map((m) => ChatMessage.fromJson(m)).toList();
+      final messages = data.map((m) => ChatMessage.fromJson(m)).toList().where((m) => !m.isThirdParty).toList();
       state = messages;
     }
   }
 
   void saveMessages() {
-    final data = state.map((m) => m.toJson()).toList();
+    final data = state.where((m) => !m.isThirdParty).map((m) => m.toJson()).toList();
     final str = jsonEncode(data);
     singleton<Storage>().setString(storageKey, str);
   }
