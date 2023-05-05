@@ -47,7 +47,11 @@ class SellerChatThreadList extends BaseComponent {
                 if (kIsWeb) {
                   AutoRouter.of(context).push(web_router.WebSellerChatScreenRoute(address: thread.user, shopId: shopId));
                 } else {
-                  AutoRouter.of(context).push(WebShopChatScreenRoute(identifier: thread.user));
+                  if (thread.isThirdParty) {
+                    AutoRouter.of(context).push(WebShopChatScreenRoute(identifier: thread.user));
+                  } else {
+                    AutoRouter.of(context).push(SellerChatScreenRoute(address: thread.user));
+                  }
                 }
               },
             ),

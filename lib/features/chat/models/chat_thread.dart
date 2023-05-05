@@ -11,6 +11,7 @@ abstract class ChatThread with _$ChatThread {
   factory ChatThread({
     @JsonKey(name: "User") required String user,
     @JsonKey(name: "Messages") @Default([]) List<ChatMessage> messages,
+    @Default(false) bool isThirdParty,
   }) = _ChatThread;
 
   factory ChatThread.fromJson(Map<String, dynamic> json) => _$ChatThreadFromJson(json);

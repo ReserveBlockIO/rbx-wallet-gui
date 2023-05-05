@@ -29,6 +29,7 @@ abstract class WebChatThread with _$WebChatThread {
     return ChatThread(
       user: buyerAddress,
       messages: nativeMessages,
+      isThirdParty: isThirdParty,
     );
   }
 }
