@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/models/web_session_model.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/transactions/providers/web_transaction_list_provider.dart';
+import 'package:rbx_wallet/utils/html_helpers.dart';
 
 import '../../app.dart';
 import '../../features/keygen/models/keypair.dart';
@@ -15,6 +16,7 @@ import '../services/explorer_service.dart';
 import '../singletons.dart';
 import '../storage.dart';
 import 'ready_provider.dart';
+import 'dart:html' as html;
 
 class WebSessionProvider extends StateNotifier<WebSessionModel> {
   final Ref ref;
@@ -37,6 +39,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
       if (savedKeypair != null) {
         final keypair = Keypair.fromJson(savedKeypair);
         login(keypair, false);
+        ref.read(webTransactionListProvider(keypair.address).notifier);
       }
     } else {
       Future.delayed(const Duration(milliseconds: 500), () {
@@ -66,7 +69,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     state = state.copyWith(keypair: keypair, isAuthenticated: true);
     loop();
 
-    ref.read(webTransactionListProvider(keypair.address).notifier).init();
+    // ref.read(webTransactionListProvider(keypair.address).notifier).init();
   }
 
   void loop() async {
@@ -107,6 +110,11 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     state = WebSessionModel();
 
     await Future.delayed(const Duration(milliseconds: 150));
+
+    HtmlHelpers().redirect("/");
+    await Future.delayed(const Duration(milliseconds: 150));
+
+    html.window.location.reload();
   }
 }
 

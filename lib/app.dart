@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/chat/providers/chat_notification_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/shop_loading_provider.dart';
+import 'package:rbx_wallet/features/transactions/providers/web_transaction_list_provider.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
 
 import 'core/app_router.gr.dart';
@@ -40,6 +41,7 @@ class App extends ConsumerWidget {
 
     if (kIsWeb) {
       ref.read(webSessionProvider.notifier);
+
       return const AppContainer();
     }
 

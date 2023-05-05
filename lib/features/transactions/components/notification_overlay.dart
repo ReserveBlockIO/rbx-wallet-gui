@@ -22,7 +22,7 @@ class NotificationOverlay extends BaseComponent {
       child: Align(
         alignment: Alignment.topRight,
         child: SizedBox(
-          width: 350,
+          width: 400,
           child: Padding(
             padding: EdgeInsets.all(notifications.isEmpty ? 0 : 8.0),
             child: ListView.builder(
@@ -57,7 +57,7 @@ class NotificationOverlay extends BaseComponent {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ConstrainedBox(
-                              constraints: const BoxConstraints(maxWidth: 350, minWidth: 200),
+                              constraints: const BoxConstraints(maxWidth: 400, minWidth: 200),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [

@@ -1,7 +1,10 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:rbx_wallet/core/components/badges.dart';
+import 'package:rbx_wallet/features/transactions/providers/transaction_signal_provider.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/base_component.dart';
@@ -65,9 +68,22 @@ class WebTransactionCard extends BaseComponent {
                     style: const TextStyle(fontSize: 12),
                   )
                 : Text("To: ${tx.toAddress}\n$date", style: const TextStyle(fontSize: 12)),
-            trailing: CompleteSaleButton(tx: tx),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (tx.isPending)
+                  AppBadge(
+                    label: "Pending",
+                    variant: AppColorVariant.Warning,
+                  ),
+                CompleteSaleButton(tx: tx),
+              ],
+            ),
             onTap: () {
               AutoRouter.of(context).push(WebTransactionDetailScreenRoute(hash: tx.hash));
+              // if (kDebugMode) {
+              //   ref.read(transactionSignalProvider.notifier).insert(tx.toNative());
+              // }
             },
           ),
         ),

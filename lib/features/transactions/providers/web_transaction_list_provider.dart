@@ -10,22 +10,26 @@ class WebTransactionListModel {
   final List<WebTransaction> transactions;
   final bool isLoading;
   final bool canLoadMore;
+  final int page;
 
   const WebTransactionListModel({
     this.transactions = const [],
     this.isLoading = false,
     this.canLoadMore = true,
+    this.page = 1,
   });
 
   WebTransactionListModel copyWith({
     List<WebTransaction>? transactions,
     bool? isLoading,
     bool? canLoadMore,
+    int? page,
   }) {
     return WebTransactionListModel(
       transactions: transactions ?? this.transactions,
       isLoading: isLoading ?? this.isLoading,
       canLoadMore: canLoadMore ?? this.canLoadMore,
+      page: page ?? this.page,
     );
   }
 }
@@ -38,9 +42,7 @@ class WebTransactionListProvider extends StateNotifier<WebTransactionListModel> 
     this.ref,
     this.address, [
     WebTransactionListModel model = const WebTransactionListModel(),
-  ]) : super(model);
-
-  init() {
+  ]) : super(model) {
     load(address: address, page: 1, invokeLoop: true);
   }
 
@@ -59,11 +61,26 @@ class WebTransactionListProvider extends StateNotifier<WebTransactionListModel> 
       transactions: [...state.transactions, ...data.results],
       isLoading: false,
       canLoadMore: data.num_pages > data.page,
+      page: page,
     );
 
     if (invokeLoop) {
       await Future.delayed(const Duration(seconds: 10));
       checkForNew(address);
+    }
+  }
+
+  void insertPendingTx(WebTransaction tx) {
+    state = state.copyWith(transactions: [
+      tx.copyWith(isPending: true),
+      ...state.transactions,
+    ]);
+  }
+
+  void fetchNextPage() {
+    print("Next");
+    if (state.canLoadMore) {
+      load(address: address, page: state.page + 1, invokeLoop: false);
     }
   }
 
@@ -81,7 +98,16 @@ class WebTransactionListProvider extends StateNotifier<WebTransactionListModel> 
     final List<WebTransaction> newItems = [];
     for (final tx in data.results) {
       final exists = state.transactions.firstWhereOrNull((t) => t.hash == tx.hash) != null;
-      if (!exists) {
+      final pendingIndex = state.transactions.indexWhere((t) => t.hash == tx.hash && t.isPending == true);
+
+      if (pendingIndex >= 0) {
+        state = state.copyWith(
+            transactions: [...state.transactions]
+              ..removeAt(pendingIndex)
+              ..insert(pendingIndex, tx));
+
+        handleNewTx(tx);
+      } else if (!exists) {
         newItems.add(tx);
       }
     }

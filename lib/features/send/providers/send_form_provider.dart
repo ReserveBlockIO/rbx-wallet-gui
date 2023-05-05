@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
+import 'package:rbx_wallet/features/transactions/models/web_transaction.dart';
+import 'package:rbx_wallet/features/transactions/providers/web_transaction_list_provider.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 
 import '../../../core/dialogs.dart';
@@ -244,6 +246,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
         );
 
         if (message != null) {
+          final hash = message.replaceAll("Success! TX ID: ", "");
           Toast.message("$amount RBX has been sent to $address. See dashboard for TX ID.");
           ref.read(logProvider.notifier).append(
                 LogEntry(
@@ -252,6 +255,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
                   variant: AppColorVariant.Success,
                 ),
               );
+
           clear();
         } else {
           state = state.copyWith(isProcessing: false);
@@ -286,10 +290,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
 
         if (confirmed == true) {
           ref.read(globalLoadingProvider.notifier).start();
-          final tx = await RawService().sendTransaction(
-            transactionData: txData,
-            execute: true,
-          );
+          final tx = await RawService().sendTransaction(transactionData: txData, execute: true, ref: ref);
 
           ref.read(globalLoadingProvider.notifier).complete();
 

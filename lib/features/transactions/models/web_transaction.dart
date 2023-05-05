@@ -20,6 +20,7 @@ class WebTransaction with _$WebTransaction {
     @JsonKey(name: "total_amount") required double? amount,
     @JsonKey(name: "total_fee") required double? fee,
     @JsonKey(name: 'date_crafted') required DateTime date,
+    @Default(false) bool isPending,
     // required int nonce,
     // required int timestamp,
     String? data,

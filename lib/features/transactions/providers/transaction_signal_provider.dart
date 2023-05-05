@@ -11,6 +11,7 @@ import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/dst_tx_pending_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
+import 'package:rbx_wallet/features/transactions/providers/web_transaction_list_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/app_constants.dart';
@@ -28,10 +29,11 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
   TransactionSignalProvider(this.ref) : super([]);
 
   List<String> get _addresses {
-    return ref.read(walletListProvider).map((w) => w.address).toList();
+    return kIsWeb ? ["${ref.read(webSessionProvider).keypair?.address}"] : ref.read(walletListProvider).map((w) => w.address).toList();
   }
 
   bool _hasAddress(String address) {
+    print(address);
     return _addresses.firstWhereOrNull((a) => a == address) != null;
   }
 
@@ -51,6 +53,8 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
   void _handle(Transaction transaction) {
     final isOutgoing = _hasAddress(transaction.fromAddress);
     final isIncoming = _hasAddress(transaction.toAddress);
+
+    print(transaction.type);
 
     switch (transaction.type) {
       case TxType.rbxTransfer:
@@ -88,10 +92,6 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
     bool isOutgoing = false,
     bool isIncoming = false,
   }) {
-    if (Env.isTestNet) {
-      return;
-    }
-
     if (isIncoming) {
       _broadcastNotification(
         TransactionNotification(
@@ -113,6 +113,13 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
           icon: Icons.outbox,
         ),
       );
+    }
+
+    if (kIsWeb) {
+      final address = ref.read(webSessionProvider).keypair?.address;
+      if (address != null) {
+        ref.read(webTransactionListProvider(address).notifier).checkForNew(address);
+      }
     }
   }
 

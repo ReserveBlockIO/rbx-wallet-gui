@@ -48,16 +48,56 @@ class WebTransactionScreen extends BaseScreen {
     final model = ref.watch(webTransactionListProvider(address));
     final transactions = model.transactions;
 
-    if (model.isLoading) {
-      return const CenteredLoader();
-    }
-
     return ListView.builder(
         itemCount: transactions.length,
         itemBuilder: (context, index) {
           final tx = transactions[index];
 
-          return WebTransactionCard(tx);
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              WebTransactionCard(tx),
+              if (index + 1 == transactions.length)
+                _NextPageRequester(
+                    isLoading: model.isLoading,
+                    pageRequestFunction: () {
+                      ref.read(webTransactionListProvider(address).notifier).fetchNextPage();
+                    })
+            ],
+          );
         });
+  }
+}
+
+class _NextPageRequester extends StatefulWidget {
+  final Function pageRequestFunction;
+  final bool isLoading;
+  const _NextPageRequester({
+    super.key,
+    required this.pageRequestFunction,
+    required this.isLoading,
+  });
+
+  @override
+  State<_NextPageRequester> createState() => __NextPageRequesterState();
+}
+
+class __NextPageRequesterState extends State<_NextPageRequester> {
+  @override
+  void initState() {
+    print("PAGE INIT");
+    Future.delayed(Duration(milliseconds: 300)).then((_) {
+      widget.pageRequestFunction();
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      height: 100,
+      child: widget.isLoading ? CenteredLoader() : SizedBox(),
+    );
   }
 }

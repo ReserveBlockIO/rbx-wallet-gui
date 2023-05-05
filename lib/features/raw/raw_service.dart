@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/services/base_service.dart';
@@ -7,6 +8,8 @@ import 'package:rbx_wallet/features/adnr/models/adnr_response.dart';
 import 'package:rbx_wallet/features/keygen/models/keypair.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/models/web_nft.dart';
+import 'package:rbx_wallet/features/transactions/models/web_transaction.dart';
+import 'package:rbx_wallet/features/transactions/providers/web_transaction_list_provider.dart';
 import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
@@ -80,6 +83,7 @@ class RawService extends BaseService {
   Future<Map<String, dynamic>?> sendTransaction({
     required Map<String, dynamic> transactionData,
     bool execute = false,
+    Ref? ref,
   }) async {
     final data = transactionData;
 
@@ -88,6 +92,24 @@ class RawService extends BaseService {
         execute ? '/send' : '/verify',
         params: {'transaction': data},
       );
+
+      if (response['data']['Result'] == "Success") {
+        if (execute && ref != null) {
+          final pendingTx = WebTransaction(
+            hash: transactionData['Hash'],
+            toAddress: transactionData['ToAddress'],
+            fromAddress: transactionData['FromAddress'],
+            type: transactionData['TransactionType'],
+            amount: transactionData['Amount'],
+            fee: transactionData['Fee'],
+            date: DateTime.now(),
+            height: 0,
+          );
+
+          ref.read(webTransactionListProvider(transactionData['FromAddress']).notifier).insertPendingTx(pendingTx);
+        }
+      }
+
       return response['data'];
     } catch (e) {
       print(e);
