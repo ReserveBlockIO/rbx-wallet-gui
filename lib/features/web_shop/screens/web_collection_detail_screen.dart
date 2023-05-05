@@ -48,7 +48,7 @@ class WebCollectionDetailScreen extends BaseScreen {
               backgroundColor: Colors.black12,
               shadowColor: Colors.transparent,
               actions: [
-                if (collection.shop != null && address != null)
+                if (collection.shop != null && address != null && !collection.shop!.isOwner(ref))
                   AppButton(
                     type: AppButtonType.Text,
                     variant: AppColorVariant.Light,

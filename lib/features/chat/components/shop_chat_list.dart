@@ -191,7 +191,10 @@ class _ChatMessageCard extends StatelessWidget {
                   ),
                   child: RichText(
                     text: TextSpan(
-                      style: TextStyle(height: 1.3),
+                      style: TextStyle(
+                        height: 1.3,
+                        color: Colors.white,
+                      ),
                       children: [
                         if (!continued)
                           TextSpan(

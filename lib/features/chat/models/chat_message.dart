@@ -39,6 +39,10 @@ abstract class ChatMessage with _$ChatMessage {
       return fromAddress;
     }
 
+    if (fromAddress.length < 10) {
+      return fromAddress;
+    }
+
     final start = fromAddress.substring(0, 5);
     final end = fromAddress.substring(fromAddress.length - 5, fromAddress.length);
 

@@ -34,15 +34,15 @@ class WebSellerChatListProvider extends ChatListProviderInterface {
       }
 
       if (shop != null) {
-        final webThread2 = await WebChatService().getOrCreateThread(
+        final _webThread = await WebChatService().getOrCreateThread(
           shopUrl: shop!.url,
           buyerAddress: address,
           isThirdParty: true,
         );
-        if (webThread2 != null) {
-          identifierOverride = webThread2.uuid;
+        if (_webThread != null) {
+          identifierOverride = _webThread.uuid;
 
-          handleMessages(webThread2.toNative().messages);
+          handleMessages(_webThread.toNative().messages);
         }
       }
     } else {
