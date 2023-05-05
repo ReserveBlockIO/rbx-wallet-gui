@@ -39,5 +39,18 @@
                 "ENV=web_local"
             ],
         },
+        {
+            "name": "Web [Testnet]",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "-d",
+                "chrome",
+                "--web-port",
+                "42069",
+                "--dart-define",
+                "ENV=web_testnet"
+            ],
+        },
     ]
 }
