@@ -31,7 +31,7 @@ class WebShopListProvider extends StateNotifier<List<WebShop>> {
       final search = ref.read(webShopSearchProvider);
 
       if (type == WebShopListType.public) {
-        data = await WebShopService().listShops(page: page, search: search);
+        data = await WebShopService().listShops(page: page, search: search, myShops: type == WebShopListType.mine);
       } else {
         final address = kIsWeb ? ref.read(webSessionProvider).keypair?.address : ref.read(sessionProvider).currentWallet?.address;
         if (address == null) {
@@ -39,7 +39,7 @@ class WebShopListProvider extends StateNotifier<List<WebShop>> {
           return;
         }
 
-        data = await WebShopService().listShops(page: page, ownerAddress: address, search: search);
+        data = await WebShopService().listShops(page: page, ownerAddress: address, search: search, myShops: type == WebShopListType.mine);
       }
 
       if (data.page >= data.num_pages) {

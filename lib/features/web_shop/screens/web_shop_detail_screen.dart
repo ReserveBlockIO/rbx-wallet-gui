@@ -230,10 +230,14 @@ class WebShopDetailScreen extends BaseScreen {
                               );
 
                               if (confirmed == true) {
-                                final success = await broadcastShopTx(ref.read(webSessionProvider).keypair!, shop, ShopPublishTxType.delete);
+                                bool success = true;
+                                if (shop.isPublished) {
+                                  success = await broadcastShopTx(ref.read(webSessionProvider).keypair!, shop, ShopPublishTxType.delete);
+                                }
 
                                 if (success) {
                                   ref.read(webShopFormProvider.notifier).delete(context, shop);
+                                  AutoRouter.of(context).pop();
                                 }
                               }
                             },

@@ -58,7 +58,7 @@ class HomeScreen extends BaseScreen {
   @override
   Widget body(BuildContext context, WidgetRef ref) {
     return Container(
-      color: Colors.black87,
+      color: Colors.transparent,
       child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),

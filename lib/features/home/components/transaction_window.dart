@@ -31,7 +31,7 @@ class TransactionWindow extends BaseComponent {
             boxShadow: glowingBox,
             color: Colors.black,
           ),
-          height: MediaQuery.of(context).size.height * 0.3,
+          height: MediaQuery.of(context).size.height * 0.4,
           width: double.infinity,
           child: recentTransactions.isEmpty
               ? Center(
@@ -53,7 +53,7 @@ class TransactionWindow extends BaseComponent {
                 ),
         ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(16.0),
           child: Center(
             child: AppButton(
               label: "View All",
