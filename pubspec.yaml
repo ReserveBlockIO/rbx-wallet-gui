@@ -11,7 +11,7 @@ environment:
 dependencies:
   auto_route: ^5.0.4
   cupertino_icons: ^1.0.5
-  dio: ^5.1.1
+  dio: ^4.0.6
   flutter:
     sdk: flutter
   flutter_dotenv: ^5.0.2
@@ -57,7 +57,7 @@ dependencies:
   video_player: ^2.4.5
   archive: ^3.3.1
   pie_chart: ^5.3.2
-  awesome_dio_interceptor: ^1.0.0
+  dio_logging_interceptor: ^1.0.1
   csv: ^5.0.1
   hive: ^2.2.3
   hive_flutter: ^1.1.0
