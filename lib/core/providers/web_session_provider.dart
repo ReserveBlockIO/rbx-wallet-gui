@@ -16,7 +16,6 @@ import '../services/explorer_service.dart';
 import '../singletons.dart';
 import '../storage.dart';
 import 'ready_provider.dart';
-import 'dart:html' as html;
 
 class WebSessionProvider extends StateNotifier<WebSessionModel> {
   final Ref ref;
