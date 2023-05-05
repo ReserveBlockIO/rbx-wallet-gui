@@ -2,23 +2,34 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
+import 'package:rbx_wallet/core/components/centered_loader.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/features/chat/components/new_chat_message.dart';
 import 'package:rbx_wallet/features/chat/components/shop_chat_list.dart';
 import 'package:rbx_wallet/features/chat/providers/seller_chat_list_provider.dart';
+import 'package:rbx_wallet/features/chat/providers/web_seller_chat_list_provider.dart';
+import 'package:rbx_wallet/features/web_shop/providers/web_shop_detail_provider.dart';
 
-class SellerChatScreen extends BaseScreen {
+class WebSellerChatScreen extends BaseScreen {
   final String address;
-  const SellerChatScreen({Key? key, @PathParam("address") required this.address}) : super(key: key);
+  final int shopId;
+  const WebSellerChatScreen({
+    Key? key,
+    @PathParam("address") required this.address,
+    @PathParam("shopId") required this.shopId,
+  }) : super(key: key);
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
+    final identifier = shopId == 0 ? address : "$shopId||$address";
+
     return AppBar(
-      title: Text("Chat"),
+      title: Text("Chat with $address"),
+      backgroundColor: Colors.black,
       actions: [
         IconButton(
           onPressed: () {
-            ref.read(sellerChatListProvider(address).notifier).fetch();
+            ref.read(webSellerChatListProvider(identifier).notifier).fetch();
           },
           icon: Icon(Icons.refresh),
         ),
@@ -34,7 +45,9 @@ class SellerChatScreen extends BaseScreen {
             );
 
             if (confirmed == true) {
-              final success = await ref.read(sellerChatListProvider(address).notifier).deleteThread();
+              final success = await ref
+                  .read(sellerChatListProvider(address).notifier)
+                  .deleteThread();
               if (success) {
                 Navigator.of(context).pop();
                 return;
@@ -48,19 +61,20 @@ class SellerChatScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
+    final identifier = shopId == 0 ? address : "$shopId||$address";
     return Column(
       children: [
         Expanded(
           child: ShopChatList(
-            identifier: address,
+            identifier: identifier,
             isSeller: true,
-            isThirdParty: false,
+            isThirdParty: true,
           ),
         ),
         NewChatMessage(
-          identifier: address,
+          identifier: identifier,
           isSeller: true,
-          isThirdParty: false,
+          isThirdParty: true,
         )
       ],
     );

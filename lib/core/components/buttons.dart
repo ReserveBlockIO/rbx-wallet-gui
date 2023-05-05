@@ -18,6 +18,7 @@ class AppButton extends StatelessWidget {
   final bool iconTrails;
   final HelpType? helpType;
   final bool disabled;
+  final bool underlined;
 
   const AppButton({
     Key? key,
@@ -31,6 +32,7 @@ class AppButton extends StatelessWidget {
     this.iconTrails = false,
     this.helpType,
     this.disabled = false,
+    this.underlined = false,
   }) : super(key: key);
 
   ButtonStyle _styleElevated(BuildContext context) {
@@ -235,12 +237,20 @@ class AppButton extends StatelessWidget {
           ),
           Text(
             label,
+            style: TextStyle(
+              decoration: underlined ? TextDecoration.underline : TextDecoration.none,
+            ),
           ),
         ],
       );
     }
 
-    return Text(label);
+    return Text(
+      label,
+      style: TextStyle(
+        decoration: underlined ? TextDecoration.underline : TextDecoration.none,
+      ),
+    );
   }
 
   @override

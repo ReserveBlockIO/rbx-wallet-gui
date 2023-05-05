@@ -66,7 +66,9 @@ class WebTransactionListProvider extends StateNotifier<WebTransactionListModel> 
     // final address = ref.read(webSessionProvider).keypair?.address;
     // if (address == null) return;
 
-    state = state.copyWith(isLoading: true);
+    Future.delayed(Duration(milliseconds: 10)).then((_) {
+      state = state.copyWith(isLoading: true);
+    });
 
     final transactions = await loadRecursive(address: address);
     set(transactions, false);

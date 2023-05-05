@@ -24,6 +24,7 @@ mixin _$ChatThread {
   String get user => throw _privateConstructorUsedError;
   @JsonKey(name: "Messages")
   List<ChatMessage> get messages => throw _privateConstructorUsedError;
+  bool get isThirdParty => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -39,7 +40,8 @@ abstract class $ChatThreadCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: "User") String user,
-      @JsonKey(name: "Messages") List<ChatMessage> messages});
+      @JsonKey(name: "Messages") List<ChatMessage> messages,
+      bool isThirdParty});
 }
 
 /// @nodoc
@@ -57,6 +59,7 @@ class _$ChatThreadCopyWithImpl<$Res, $Val extends ChatThread>
   $Res call({
     Object? user = null,
     Object? messages = null,
+    Object? isThirdParty = null,
   }) {
     return _then(_value.copyWith(
       user: null == user
@@ -67,6 +70,10 @@ class _$ChatThreadCopyWithImpl<$Res, $Val extends ChatThread>
           ? _value.messages
           : messages // ignore: cast_nullable_to_non_nullable
               as List<ChatMessage>,
+      isThirdParty: null == isThirdParty
+          ? _value.isThirdParty
+          : isThirdParty // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -81,7 +88,8 @@ abstract class _$$_ChatThreadCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: "User") String user,
-      @JsonKey(name: "Messages") List<ChatMessage> messages});
+      @JsonKey(name: "Messages") List<ChatMessage> messages,
+      bool isThirdParty});
 }
 
 /// @nodoc
@@ -97,6 +105,7 @@ class __$$_ChatThreadCopyWithImpl<$Res>
   $Res call({
     Object? user = null,
     Object? messages = null,
+    Object? isThirdParty = null,
   }) {
     return _then(_$_ChatThread(
       user: null == user
@@ -107,6 +116,10 @@ class __$$_ChatThreadCopyWithImpl<$Res>
           ? _value._messages
           : messages // ignore: cast_nullable_to_non_nullable
               as List<ChatMessage>,
+      isThirdParty: null == isThirdParty
+          ? _value.isThirdParty
+          : isThirdParty // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -116,7 +129,8 @@ class __$$_ChatThreadCopyWithImpl<$Res>
 class _$_ChatThread extends _ChatThread {
   _$_ChatThread(
       {@JsonKey(name: "User") required this.user,
-      @JsonKey(name: "Messages") final List<ChatMessage> messages = const []})
+      @JsonKey(name: "Messages") final List<ChatMessage> messages = const [],
+      this.isThirdParty = false})
       : _messages = messages,
         super._();
 
@@ -136,8 +150,12 @@ class _$_ChatThread extends _ChatThread {
   }
 
   @override
+  @JsonKey()
+  final bool isThirdParty;
+
+  @override
   String toString() {
-    return 'ChatThread(user: $user, messages: $messages)';
+    return 'ChatThread(user: $user, messages: $messages, isThirdParty: $isThirdParty)';
   }
 
   @override
@@ -146,13 +164,15 @@ class _$_ChatThread extends _ChatThread {
         (other.runtimeType == runtimeType &&
             other is _$_ChatThread &&
             (identical(other.user, user) || other.user == user) &&
-            const DeepCollectionEquality().equals(other._messages, _messages));
+            const DeepCollectionEquality().equals(other._messages, _messages) &&
+            (identical(other.isThirdParty, isThirdParty) ||
+                other.isThirdParty == isThirdParty));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, user, const DeepCollectionEquality().hash(_messages));
+  int get hashCode => Object.hash(runtimeType, user,
+      const DeepCollectionEquality().hash(_messages), isThirdParty);
 
   @JsonKey(ignore: true)
   @override
@@ -170,9 +190,9 @@ class _$_ChatThread extends _ChatThread {
 
 abstract class _ChatThread extends ChatThread {
   factory _ChatThread(
-          {@JsonKey(name: "User") required final String user,
-          @JsonKey(name: "Messages") final List<ChatMessage> messages}) =
-      _$_ChatThread;
+      {@JsonKey(name: "User") required final String user,
+      @JsonKey(name: "Messages") final List<ChatMessage> messages,
+      final bool isThirdParty}) = _$_ChatThread;
   _ChatThread._() : super._();
 
   factory _ChatThread.fromJson(Map<String, dynamic> json) =
@@ -184,6 +204,8 @@ abstract class _ChatThread extends ChatThread {
   @override
   @JsonKey(name: "Messages")
   List<ChatMessage> get messages;
+  @override
+  bool get isThirdParty;
   @override
   @JsonKey(ignore: true)
   _$$_ChatThreadCopyWith<_$_ChatThread> get copyWith =>

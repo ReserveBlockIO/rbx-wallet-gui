@@ -7,54 +7,54 @@ import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/features/chat/components/new_chat_message.dart';
 import 'package:rbx_wallet/features/chat/components/shop_chat_list.dart';
 import 'package:rbx_wallet/features/chat/providers/shop_chat_list_provider.dart';
+import 'package:rbx_wallet/features/chat/providers/web_chat_thread_detail_provider.dart';
 import 'package:rbx_wallet/features/chat/providers/web_shop_chat_list_provider.dart';
 import 'package:rbx_wallet/features/remote_shop/providers/remote_shop_detail_provider.dart';
 
-class ShopChatScreen extends BaseScreen {
-  final String url;
-  const ShopChatScreen({Key? key, @PathParam("url") required this.url}) : super(key: key);
+class WebShopChatScreen extends BaseScreen {
+  final String identifier;
+  const WebShopChatScreen({
+    Key? key,
+    @PathParam("identifier") required this.identifier,
+  }) : super(key: key);
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
-    final data = ref.watch(remoteShopDetailProvider(url));
+    final data = ref.watch(webChatThreadDetailProvider(identifier));
 
     return data.when(
-      data: (shop) => shop != null
+      data: (thread) => thread != null
           ? AppBar(
-              title: Text("Chatting with ${shop.name}"),
+              title: Text("Chatting with ${thread.shop.name}"),
               centerTitle: true,
               backgroundColor: Colors.black,
               actions: [
                 IconButton(
                   onPressed: () {
-                    if (shop.isThirdParty) {
-                      ref.read(webShopChatListProvider(url).notifier).fetch();
-                    } else {
-                      ref.read(shopChatListProvider(url).notifier).fetch();
-                    }
+                    ref.read(webShopChatListProvider(identifier).notifier).fetch();
                   },
                   icon: Icon(Icons.refresh),
                 ),
-                IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: () async {
-                    final confirmed = await ConfirmDialog.show(
-                      title: "Delete Chat Thread",
-                      body: "Are you sure you want to delete this chat thread locally?",
-                      destructive: true,
-                      confirmText: "Delete",
-                      cancelText: "Cancel",
-                    );
+                // IconButton(
+                //   icon: Icon(Icons.delete),
+                //   onPressed: () async {
+                //     final confirmed = await ConfirmDialog.show(
+                //       title: "Delete Chat Thread",
+                //       body: "Are you sure you want to delete this chat thread locally?",
+                //       destructive: true,
+                //       confirmText: "Delete",
+                //       cancelText: "Cancel",
+                //     );
 
-                    if (confirmed == true) {
-                      final success = await ref.read(shopChatListProvider(url).notifier).deleteThread();
-                      if (success) {
-                        Navigator.of(context).pop();
-                        return;
-                      }
-                    }
-                  },
-                )
+                //     if (confirmed == true) {
+                //       final success = await ref.read(shopChatListProvider(identifier).notifier).deleteThread();
+                //       if (success) {
+                //         Navigator.of(context).pop();
+                //         return;
+                //       }
+                //     }
+                //   },
+                // )
               ],
             )
           : AppBar(
@@ -71,21 +71,21 @@ class ShopChatScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final data = ref.watch(remoteShopDetailProvider(url));
+    final data = ref.watch(webChatThreadDetailProvider(identifier));
 
     return data.when(
-      data: (shop) => shop != null
+      data: (thread) => thread != null
           ? Column(
               children: [
                 Expanded(
                   child: ShopChatList(
-                    identifier: url,
-                    isThirdParty: shop.isThirdParty,
+                    identifier: identifier,
+                    isThirdParty: true,
                   ),
                 ),
                 NewChatMessage(
-                  identifier: url,
-                  isThirdParty: shop.isThirdParty,
+                  identifier: identifier,
+                  isThirdParty: true,
                 )
               ],
             )

@@ -25,7 +25,6 @@ class BaseService {
   Map<String, dynamic> _headers([bool auth = true, bool json = false]) {
     final token = singleton<ApiTokenManager>().get();
 
-    print("TOKEN: ${singleton<Storage>().getString(Storage.WEB_AUTH_TOKEN)}");
     return json
         ? {
             HttpHeaders.contentTypeHeader: "application/json",
@@ -77,6 +76,7 @@ class BaseService {
   }) async {
     try {
       final dio = Dio(_options(auth: auth, timeout: timeout));
+
       if (!kIsWeb) {
         (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
           client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
@@ -87,6 +87,7 @@ class BaseService {
       if (inspect) {
         NetworkInspector.attach(dio);
       }
+
       final p = cleanPath ? _cleanPath(path) : path;
       var response = await dio.get(
         p,

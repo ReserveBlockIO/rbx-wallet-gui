@@ -83,7 +83,7 @@ class RemoteShopListTile extends BaseComponent {
                   return;
                 }
 
-                AutoRouter.of(context).push(ThirdPartyWebShopDetailScreenRoute(shopId: webShop.id));
+                AutoRouter.of(context).push(WebShopDetailScreenRoute(shopId: webShop.id));
                 return;
               }
 

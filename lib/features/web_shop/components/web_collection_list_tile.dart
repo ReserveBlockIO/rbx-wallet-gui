@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
@@ -6,7 +7,7 @@ import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 
 import '../../../core/base_component.dart';
-import '../../../core/web_router.gr.dart';
+import '../../../core/web_router.gr.dart' as webRouter;
 import '../models/web_collection.dart';
 
 class WebCollectionTile extends BaseComponent {
@@ -36,10 +37,10 @@ class WebCollectionTile extends BaseComponent {
                 print("Shop is null");
                 return;
               }
-              if (Env.isWeb) {
-                AutoRouter.of(context).push(WebCollectionDetailScreenRoute(shopId: collection.shop!.id, collectionId: collection.id));
+              if (kIsWeb) {
+                AutoRouter.of(context).push(webRouter.WebCollectionDetailScreenRoute(shopId: collection.shop!.id, collectionId: collection.id));
               } else {
-                AutoRouter.of(context).push(ThirdPartyWebCollectionDetailScreenRoute(shopId: collection.shop!.id, collectionId: collection.id));
+                AutoRouter.of(context).push(WebCollectionDetailScreenRoute(shopId: collection.shop!.id, collectionId: collection.id));
               }
             },
           ),

@@ -1,14 +1,16 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/env.dart';
+import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
+import 'package:rbx_wallet/features/chat/services/web_chat_service.dart';
 import 'package:rbx_wallet/features/raw/raw_service.dart';
 import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
 import 'package:rbx_wallet/features/web_shop/components/web_collection_list.dart';
@@ -37,6 +39,7 @@ class WebShopDetailScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     final data = ref.watch(webShopDetailProvider(shopId));
+    final address = kIsWeb ? ref.watch(webSessionProvider).keypair?.address : ref.watch(sessionProvider).currentWallet?.address;
 
     return data.when(
       data: (shop) => shop != null
@@ -55,6 +58,29 @@ class WebShopDetailScreen extends BaseScreen {
                 },
               ),
               actions: [
+                if (address != null)
+                  AppButton(
+                    type: AppButtonType.Text,
+                    variant: AppColorVariant.Light,
+                    icon: Icons.chat_bubble_outline,
+                    label: 'Chat',
+                    onPressed: () async {
+                      if (shop.isOwner(ref)) {
+                        AutoRouter.of(context).push(WebSellerChatThreadListScreenRoute(shopId: shop.id));
+                      } else {
+                        final thread = await WebChatService().getOrCreateThread(
+                          shopUrl: shop.url,
+                          buyerAddress: address,
+                          isThirdParty: true,
+                        );
+                        if (thread == null) {
+                          Toast.error("Could not create or get thread");
+                          return;
+                        }
+                        AutoRouter.of(context).push(WebShopChatScreenRoute(identifier: thread.uuid));
+                      }
+                    },
+                  ),
                 AppButton(
                   label: "Share Shop",
                   icon: Icons.ios_share_rounded,

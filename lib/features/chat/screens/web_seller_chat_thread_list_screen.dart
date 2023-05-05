@@ -1,14 +1,20 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/chat/components/seller_chat_thread_list.dart';
 import 'package:rbx_wallet/features/chat/providers/seller_chat_thread_list_provider.dart';
+import 'package:rbx_wallet/features/chat/providers/web_seller_chat_thread_list_provider.dart';
 
 import '../../../core/base_screen.dart';
 
-class SellerChatThreadListScreen extends BaseScreen {
-  const SellerChatThreadListScreen({Key? key}) : super(key: key);
+class WebSellerChatThreadListScreen extends BaseScreen {
+  final int shopId;
+  const WebSellerChatThreadListScreen({
+    Key? key,
+    @PathParam("shopId") required this.shopId,
+  }) : super(key: key);
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
@@ -19,7 +25,7 @@ class SellerChatThreadListScreen extends BaseScreen {
       actions: [
         IconButton(
           onPressed: () {
-            ref.read(sellerChatThreadListProvider.notifier).fetch();
+            ref.read(webSellerChatThreadListProvider(shopId).notifier).fetch();
           },
           icon: Icon(Icons.refresh),
         )
@@ -31,14 +37,14 @@ class SellerChatThreadListScreen extends BaseScreen {
   Widget body(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
-        _ThreadPoller(
-          pollFunction: () {
-            ref.read(sellerChatThreadListProvider.notifier).fetch();
-          },
-        ),
+        // Poller(
+        //   pollFunction: () {
+        //     ref.read(sellerChatThreadListProvider.notifier).fetch();
+        //   },
+        // ),
         Expanded(
             child: SellerChatThreadList(
-          shopId: 0,
+          shopId: shopId,
         )),
       ],
     );
