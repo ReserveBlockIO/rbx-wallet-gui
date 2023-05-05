@@ -86,7 +86,7 @@ class NotificationOverlay extends BaseComponent {
                                               child: Text(
                                                 n.body!,
                                                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                                      fontSize: 10,
+                                                      fontSize: 12,
                                                     ),
                                               ),
                                             )
