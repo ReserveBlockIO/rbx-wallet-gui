@@ -80,6 +80,8 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
 
     final isMobile = BreakPoints.useMobileLayout(context);
 
+    final keypair = ref.watch(webSessionProvider).keypair;
+
     return Stack(
       children: [
         // Align(
@@ -243,6 +245,19 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                   ),
                 ],
               ),
+              if (keypair != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 12.0),
+                  child: AppButton(
+                    label: "Resume Session",
+                    variant: AppColorVariant.Light,
+                    type: AppButtonType.Text,
+                    underlined: true,
+                    onPressed: () {
+                      redirectToDashboard();
+                    },
+                  ),
+                ),
               if (Env.isTestNet)
                 const Padding(
                   padding: EdgeInsets.only(top: 16.0),

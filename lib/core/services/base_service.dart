@@ -1,8 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 import 'package:flutter/foundation.dart';
 import 'package:rbx_wallet/core/api_token_manager.dart';
 import 'package:rbx_wallet/core/singletons.dart';
@@ -52,8 +51,8 @@ class BaseService {
     return BaseOptions(
       baseUrl: baseUrl,
       headers: _headers(auth, json),
-      connectTimeout: timeout,
-      receiveTimeout: timeout,
+      connectTimeout: Duration(milliseconds: timeout),
+      receiveTimeout: Duration(milliseconds: timeout),
     );
   }
 
@@ -76,6 +75,7 @@ class BaseService {
   }) async {
     try {
       final dio = Dio(_options(auth: auth, timeout: timeout));
+
       if (!kIsWeb) {
         (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
           client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;

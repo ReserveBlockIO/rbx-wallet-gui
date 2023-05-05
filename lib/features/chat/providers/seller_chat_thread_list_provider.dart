@@ -6,15 +6,27 @@ import 'package:rbx_wallet/core/storage.dart';
 import 'package:rbx_wallet/features/chat/models/chat_thread.dart';
 import 'package:rbx_wallet/features/chat/services/chat_service.dart';
 import 'package:collection/collection.dart';
+import 'package:rbx_wallet/features/chat/services/web_chat_service.dart';
+import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
 
 class SellerChatThreadListProvider extends StateNotifier<List<ChatThread>> {
-  SellerChatThreadListProvider() : super([]) {
+  final Ref ref;
+  SellerChatThreadListProvider(this.ref) : super([]) {
     loadSavedThreads();
     fetch();
   }
 
   fetch() async {
     final threads = await ChatService().listSellerChatThreads();
+
+    final shop = ref.read(decShopProvider).value;
+    if (shop != null) {
+      final webThreads = await WebChatService().listThreads(page: 1, shopUrl: shop.url);
+      for (final t in webThreads.results) {
+        threads.add(t.toNative());
+      }
+    }
+
     for (final thread in threads) {
       final exists = state.firstWhereOrNull((t) => t.user == thread.user) != null;
       if (!exists) {
@@ -43,5 +55,5 @@ class SellerChatThreadListProvider extends StateNotifier<List<ChatThread>> {
 }
 
 final sellerChatThreadListProvider = StateNotifierProvider<SellerChatThreadListProvider, List<ChatThread>>(
-  (_) => SellerChatThreadListProvider(),
+  (ref) => SellerChatThreadListProvider(ref),
 );

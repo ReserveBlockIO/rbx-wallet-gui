@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
@@ -23,18 +22,17 @@ import '../models/web_listing.dart';
 import '../providers/create_web_listing_provider.dart';
 import '../providers/web_collection_form_provider.dart';
 import '../providers/web_listing_list_provider.dart';
-import '../providers/web_shop_form_provider.dart';
 import 'my_create_collection_container_screen.dart';
 
 class WebCollectionDetailScreen extends BaseScreen {
-  WebCollectionDetailScreen({
+  final int shopId;
+  final int collectionId;
+  const WebCollectionDetailScreen({
     super.key,
     @PathParam("shopId") required this.shopId,
     @PathParam("collectionId") required this.collectionId,
   }) : super(horizontalPadding: 0, verticalPadding: 0);
 
-  int shopId;
-  int collectionId;
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     final data = ref.watch(webCollectionDetailProvider("$shopId,$collectionId"));
