@@ -72,10 +72,10 @@ class WebSellerChatScreen extends BaseScreen {
 
               final success = await ref.read(sellerChatListProvider(address).notifier).deleteThread(webThread.uuid, webThread.shop.id);
               ref.read(globalLoadingProvider.notifier).complete();
-              if (success) {
-                Navigator.of(context).pop();
-                return;
-              }
+              // if (success) {
+              AutoRouter.of(context).pop();
+              return;
+              // }
             }
           },
         )

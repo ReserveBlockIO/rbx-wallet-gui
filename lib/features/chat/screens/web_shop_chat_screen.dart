@@ -53,10 +53,10 @@ class WebShopChatScreen extends BaseScreen {
                       final success = await ref.read(shopChatListProvider(identifier).notifier).deleteThread(identifier, thread.shop.id);
                       ref.read(globalLoadingProvider.notifier).complete();
 
-                      if (success) {
-                        Navigator.of(context).pop();
-                        return;
-                      }
+                      // if (success) {
+                      AutoRouter.of(context).pop();
+                      return;
+                      // }
                     }
                   },
                 )
