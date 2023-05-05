@@ -27,4 +27,9 @@ class HtmlHelpersImplementation extends HtmlHelpersInterface {
     anchorElement.target = "_blank";
     anchorElement.click();
   }
+
+  @override
+  void reload() {
+    html.window.location.reload();
+  }
 }

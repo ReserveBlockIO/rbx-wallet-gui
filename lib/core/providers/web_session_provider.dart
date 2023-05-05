@@ -114,7 +114,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     HtmlHelpers().redirect("/");
     await Future.delayed(const Duration(milliseconds: 150));
 
-    html.window.location.reload();
+    HtmlHelpers().reload();
   }
 }
 
