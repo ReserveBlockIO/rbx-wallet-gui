@@ -262,7 +262,7 @@ class NftDetailScreen extends BaseScreen {
                                   children: [
                                     kIsWeb
                                         ? nft.primaryAssetWeb != null
-                                            ? WebAssetCard(nft)
+                                            ? WebAssetCard(nft, nft.primaryAssetWeb)
                                             : buildAssetsNotAvailable(_provider)
                                         : AssetCard(
                                             nft.currentEvolveAsset,

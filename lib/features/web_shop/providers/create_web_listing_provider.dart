@@ -158,7 +158,7 @@ class WebListingFormProvider extends StateNotifier<WebListing> {
       startDateController.text = DateFormat.yMd().format(DateTime.now());
       endDateController.text = DateFormat.yMd().format(state.endDate);
     } else {
-      state = state.copyWith(endDate: DateTime.now());
+      state = state.copyWith(startDate: DateTime.now());
       state = state.copyWith(endDate: DateTime(3000));
     }
   }

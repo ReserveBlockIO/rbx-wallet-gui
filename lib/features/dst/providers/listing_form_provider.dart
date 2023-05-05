@@ -153,7 +153,7 @@ class ListingFormProvider extends StateNotifier<Listing> {
       startDateController.text = DateFormat.yMd().format(DateTime.now());
       endDateController.text = DateFormat.yMd().format(state.endDate);
     } else {
-      state = state.copyWith(endDate: DateTime.now());
+      state = state.copyWith(startDate: DateTime.now());
       state = state.copyWith(endDate: DateTime(3000));
     }
   }
@@ -181,8 +181,9 @@ class ListingFormProvider extends StateNotifier<Listing> {
         floorPrice: null,
         buyNowPrice: null,
         reservePrice: null,
+        startDate: DateTime.now(),
+        endDate: DateTime(3000),
       );
-
       buyNowController.clear();
       floorPriceController.clear();
       reservePriceController.clear();

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:rbx_wallet/core/breakpoints.dart';
 import 'package:rbx_wallet/features/asset/web_asset.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:video_player/video_player.dart';
@@ -10,8 +11,9 @@ import '../../../utils/html_helpers.dart';
 
 class WebAssetCard extends StatelessWidget {
   final Nft? nft;
+  final WebAsset? asset;
 
-  const WebAssetCard(this.nft, {Key? key}) : super(key: key);
+  const WebAssetCard(this.nft, this.asset, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,8 @@ class WebAssetCard extends StatelessWidget {
     //   const Duration(seconds: 1),
     //   () => 'Data Loaded',
     // );
-    final asset = nft!.primaryAssetWeb;
+    // final asset = nft!.primaryAssetWeb;
+    final isMobile = BreakPoints.useMobileLayout(context);
 
     Future<String> _textDownload() async {
       final url = asset!.location;
@@ -40,6 +43,7 @@ class WebAssetCard extends StatelessWidget {
             ? Image.network(
                 asset!.location,
                 width: double.infinity,
+                height: isMobile ? 300 : null,
                 fit: BoxFit.contain,
               )
             : asset!.isVideo

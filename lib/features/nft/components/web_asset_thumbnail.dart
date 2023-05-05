@@ -41,7 +41,7 @@ class WebAssetThumbnail extends StatelessWidget {
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
-                        WebAssetCard(nft),
+                        WebAssetCard(nft, asset),
                       ],
                     ),
                   ),
