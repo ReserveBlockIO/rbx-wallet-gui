@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:rbx_wallet/features/asset/web_asset.dart';
 
+import '../models/nft.dart';
 import 'web_asset_card.dart';
 
 class WebAssetThumbnail extends StatelessWidget {
   final double size;
   final WebAsset? asset;
+  final Nft? nft;
   const WebAssetThumbnail(
     this.asset, {
     Key? key,
     this.size = 150.0,
+    this.nft,
   }) : super(key: key);
 
   @override
@@ -38,7 +41,7 @@ class WebAssetThumbnail extends StatelessWidget {
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
-                        WebAssetCard(asset),
+                        WebAssetCard(nft),
                       ],
                     ),
                   ),
