@@ -28,7 +28,7 @@ class HtmlHelpersImplementation extends HtmlHelpersInterface {
     anchorElement.click();
   }
 
-  // @override
+  @override
   void reload() {
     html.window.location.reload();
   }

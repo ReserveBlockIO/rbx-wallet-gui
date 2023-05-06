@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/env.dart';
@@ -38,14 +39,25 @@ class WebShopTile extends BaseComponent {
           color: Colors.white.withOpacity(0.03),
           child: ListTile(
             title: RichText(
-                text: TextSpan(style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500), children: [
-              TextSpan(
-                text: shop.name,
-                style: TextStyle(
-                  color: Colors.white,
-                ),
+              text: TextSpan(
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                children: [
+                  TextSpan(
+                    text: shop.name,
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  if (shop.isOwner(ref))
+                    TextSpan(
+                      text: " [My Shop]",
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.warning,
+                      ),
+                    ),
+                ],
               ),
-            ])),
+            ),
             subtitle: RichText(
               text: TextSpan(style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500), children: [
                 TextSpan(
@@ -84,8 +96,19 @@ class WebShopTile extends BaseComponent {
                   return;
                 }
               }
+
+              if (!requiresAuth && shop.isOwner(ref) && !kIsWeb) {
+                Toast.error("This is your own shop.");
+                return;
+              }
+
+              if (!shop.isOnline) {
+                Toast.error("Shop is offline.");
+                return;
+              }
+
               //If is web just push the web route
-              if (Env.isWeb) {
+              if (kIsWeb) {
                 AutoRouter.of(context).push(webRouter.WebShopDetailScreenRoute(shopId: shop.id));
                 return;
               }
