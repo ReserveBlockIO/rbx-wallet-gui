@@ -11,6 +11,7 @@ import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/chat/services/web_chat_service.dart';
 import 'package:rbx_wallet/features/web_shop/components/web_listing_list.dart';
+import 'package:rbx_wallet/features/web_shop/components/web_my_listing_list.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_collection_detail_provider.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_listing_full_list_provider.dart';
 
@@ -105,7 +106,7 @@ class WebCollectionDetailScreen extends BaseScreen {
         shadowColor: Colors.transparent,
       ),
       loading: () => AppBar(
-        title: const Text("loading"),
+        title: const Text(""),
         centerTitle: true,
         backgroundColor: Colors.black12,
         shadowColor: Colors.transparent,
@@ -125,11 +126,15 @@ class WebCollectionDetailScreen extends BaseScreen {
                 if (!collection.shop!.isOwner(ref)) WebWalletDetails(),
                 Divider(),
                 Expanded(
-                  child: WebListingListContainer(
-                    shopId,
-                    collectionId,
-                    isMine: collection.shop!.isOwner(ref),
-                  ),
+                  child: collection.shop!.isOwner(ref)
+                      ? WebMyListingList(
+                          shopId,
+                          collectionId,
+                        )
+                      : WebListingListContainer(
+                          shopId,
+                          collectionId,
+                        ),
                 ),
                 if (collection.shop!.isOwner(ref))
                   Container(
@@ -183,7 +188,7 @@ class WebCollectionDetailScreen extends BaseScreen {
             )
           : const Text("Error"),
       error: (_, __) => const Text("Error"),
-      loading: () => const Text("Loading"),
+      loading: () => const Text(""),
     );
   }
 }

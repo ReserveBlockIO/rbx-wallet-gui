@@ -19,13 +19,11 @@ import '../../remote_shop/providers/shop_list_view_provider.dart';
 class WebListingListContainer extends ConsumerStatefulWidget {
   final int shopId;
   final int collectionId;
-  final bool isMine;
 
   const WebListingListContainer(
     this.shopId,
     this.collectionId, {
     Key? key,
-    this.isMine = false,
   }) : super(key: key);
 
   @override
@@ -50,7 +48,6 @@ class _WebListingListContainerState extends ConsumerState<WebListingListContaine
     return WebListingList(
       widget.shopId,
       widget.collectionId,
-      isMine: widget.isMine,
     );
   }
 }
@@ -58,12 +55,10 @@ class _WebListingListContainerState extends ConsumerState<WebListingListContaine
 class WebListingList extends BaseComponent {
   final int shopId;
   final int collectionId;
-  final bool isMine;
   const WebListingList(
     this.shopId,
     this.collectionId, {
     Key? key,
-    this.isMine = false,
   }) : super(key: key);
 
   @override
@@ -76,20 +71,7 @@ class WebListingList extends BaseComponent {
     final listings = ref.watch(webListingFullListProvider("$shopId,$collectionId"));
 
     if (listings.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            EmptyPlaceholder(title: "No Listings"),
-            if (isMine)
-              _CreateListingButton(
-                buttonType: AppButtonType.Outlined,
-                shopId: shopId,
-                collectionId: collectionId,
-              ),
-          ],
-        ),
-      );
+      return SizedBox();
     }
 
     return ListView.builder(
@@ -147,33 +129,5 @@ class WebListingList extends BaseComponent {
             ],
           );
         });
-  }
-}
-
-class _CreateListingButton extends BaseComponent {
-  final int shopId;
-  final int collectionId;
-  final AppButtonType buttonType;
-  const _CreateListingButton({
-    super.key,
-    required this.shopId,
-    required this.collectionId,
-    this.buttonType = AppButtonType.Elevated,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return AppButton(
-      label: 'Create Listing',
-      icon: Icons.add,
-      type: buttonType,
-      variant: AppColorVariant.Success,
-      onPressed: () async {
-        ref.read(createWebListingProvider.notifier).load(WebListing.empty(), collectionId, shopId);
-        if (Env.isWeb) {
-          AutoRouter.of(context).push(CreateWebListingScreenRoute(shopId: shopId, collectionId: collectionId));
-        }
-      },
-    );
   }
 }

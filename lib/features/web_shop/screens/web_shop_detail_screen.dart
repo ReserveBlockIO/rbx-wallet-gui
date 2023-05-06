@@ -15,6 +15,7 @@ import 'package:rbx_wallet/features/chat/services/web_chat_service.dart';
 import 'package:rbx_wallet/features/raw/raw_service.dart';
 import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
 import 'package:rbx_wallet/features/web_shop/components/web_collection_list.dart';
+import 'package:rbx_wallet/features/web_shop/components/web_my_collection_list.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_collection_form_provider.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_shop_form_provider.dart';
 import 'package:rbx_wallet/features/web_shop/screens/my_create_collection_container_screen.dart';
@@ -27,6 +28,7 @@ import '../../../core/dialogs.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../utils/toast.dart';
 import '../providers/web_collection_list_provider.dart';
+import '../providers/web_collection_full_list_provider.dart';
 import '../providers/web_shop_detail_provider.dart';
 import '../../../core/components/badges.dart';
 
@@ -55,6 +57,7 @@ class WebShopDetailScreen extends BaseScreen {
                   size: 32,
                 ),
                 onPressed: () {
+                  ref.watch(webCollectionFullListProvider(shopId).notifier).pauseTimer();
                   AutoRouter.of(context).pop();
                 },
               ),
@@ -200,10 +203,13 @@ class WebShopDetailScreen extends BaseScreen {
                   ),
                 ),
                 Expanded(
-                  child: WebCollectionList(
-                    shop.id,
-                    isMine: shop.isOwner(ref),
-                  ),
+                  child: shop.isOwner(ref)
+                      ? WebMyCollectionList(
+                          shop.id,
+                        )
+                      : WebCollectionList(
+                          shop.id,
+                        ),
                 ),
                 if (shop.isOwner(ref) && ref.read(webSessionProvider).keypair != null)
                   Container(
