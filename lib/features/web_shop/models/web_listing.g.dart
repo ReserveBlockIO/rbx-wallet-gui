@@ -29,6 +29,8 @@ _$_WebListing _$$_WebListingFromJson(Map<String, dynamic> json) =>
       isCancelled: json['is_cancelled'] as bool? ?? false,
       isAuctionStarted: json['has_started'] as bool? ?? true,
       isAuctionEnded: json['has_ended'] as bool? ?? false,
+      isSaleComplete: json['is_sale_complete'] as bool? ?? true,
+      isSalePending: json['is_sale_pending'] as bool? ?? true,
       purchaseKey: json['purchase_key'] as String? ?? "",
       thumbnails: (json['thumbnails'] as List<dynamic>?)
               ?.map((e) => e as String)
@@ -62,6 +64,8 @@ Map<String, dynamic> _$$_WebListingToJson(_$_WebListing instance) =>
       'is_cancelled': instance.isCancelled,
       'has_started': instance.isAuctionStarted,
       'has_ended': instance.isAuctionEnded,
+      'is_sale_complete': instance.isSaleComplete,
+      'is_sale_pending': instance.isSalePending,
       'purchase_key': instance.purchaseKey,
       'thumbnails': instance.thumbnails,
       'auction': instance.auction,

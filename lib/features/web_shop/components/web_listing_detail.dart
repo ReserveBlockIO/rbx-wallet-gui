@@ -61,9 +61,27 @@ class WebListingDetails extends BaseComponent {
               _Details(listing: listing),
               _Preview(listing: listing),
               if (listing.canBuyNow) _BuyNow(listing: listing),
+              if (listing.canBid) _Auction(listing: listing),
+              SizedBox(
+                height: 16,
+              ),
+
+              if (listing.isSaleComplete)
+                Text(
+                  "Sale has Completed",
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
+                ),
+
+              if (!listing.isSaleComplete && listing.isSalePending)
+                Text(
+                  "Sale is Pending",
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
+                ),
+
               // _WebNftDetails(nft: nft.smartContract),
               _WebNftData(nft: nft.smartContract),
-            ]
+            ],
+
             // _Features(nft: nft),
           ],
         ),
@@ -156,6 +174,19 @@ class WebListingDetails extends BaseComponent {
                       if (listing.canBid) _Auction(listing: listing),
                     ],
                   ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  if (listing.isSaleComplete)
+                    Text(
+                      "Sale has Completed",
+                      style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
+                    ),
+                  if (!listing.isSaleComplete && listing.isSalePending)
+                    Text(
+                      "Sale is Pending",
+                      style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
+                    ),
                 ],
               ),
             ),
@@ -834,7 +865,10 @@ class _BuyNow extends BaseComponent {
                 icon: Icons.money,
                 size: AppSizeVariant.Lg,
                 onPressed: () async {
-                  ref.read(webBidListProvider(listing.id).notifier).buyNow(context, listing);
+                  final success = await ref.read(webBidListProvider(listing.id).notifier).buyNow(context, listing);
+                  if (success == true) {
+                    ref.read(webListingFullListProvider("${listing.collection.shop!.id},${listing.collection.id}").notifier).fetch();
+                  }
                 },
               ),
             ],

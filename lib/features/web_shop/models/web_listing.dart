@@ -35,6 +35,8 @@ class WebListing with _$WebListing {
     @JsonKey(name: "is_cancelled") @Default(false) bool isCancelled,
     @JsonKey(name: "has_started") @Default(true) bool isAuctionStarted,
     @JsonKey(name: "has_ended") @Default(false) bool isAuctionEnded,
+    @JsonKey(name: "is_sale_complete") @Default(true) bool isSaleComplete,
+    @JsonKey(name: "is_sale_pending") @Default(true) bool isSalePending,
     @JsonKey(name: "purchase_key") @Default("") String purchaseKey,
     @Default(false) @JsonKey(ignore: true) bool enableBuyNow,
     @Default(false) @JsonKey(ignore: true) bool enableAuction,
@@ -62,6 +64,10 @@ class WebListing with _$WebListing {
       );
 
   bool get isActive {
+    if (isSalePending || isSaleComplete) {
+      return false;
+    }
+
     final now = DateTime.now();
     return startDate.isBefore(now) && endDate.isAfter(now);
   }

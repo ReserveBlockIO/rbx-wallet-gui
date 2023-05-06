@@ -104,7 +104,6 @@ Future<ShopData?> getShopData({required RemoteShopService service, int attempt =
   final data = jsonDecode(response);
 
   if (data['Success'] == true) {
-    print(jsonEncode(data['DecShopData']));
     return ShopData.fromJson(data['DecShopData']);
   }
 

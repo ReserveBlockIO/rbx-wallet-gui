@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:rbx_wallet/core/singletons.dart';
 import 'package:rbx_wallet/core/storage.dart';
+import 'package:rbx_wallet/core/utils.dart';
 import 'package:rbx_wallet/features/dst/models/bid.dart';
 import 'package:rbx_wallet/features/dst/models/dec_shop.dart';
 import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
@@ -49,14 +50,76 @@ class RemoteShopService extends BaseService {
     }
   }
 
+  Future<void> clearPings() async {
+    await getText("/ClearPingRequest", cleanPath: false);
+  }
+
+  Future<bool> pingCheck([String? pingId, int attempt = 1]) async {
+    pingId ??= generateRandomString(16);
+
+    print("Pinging with $pingId");
+
+    final response = await getText("/PingShop/$pingId", cleanPath: false);
+    final data = jsonDecode(response);
+
+    print("Response 1:");
+    print(data);
+    if (data['Success'] != true) {
+      if (attempt < 3) {
+        await Future.delayed(Duration(seconds: 1));
+        return pingCheck(pingId, attempt + 1);
+      }
+      await clearPings();
+      return false;
+    }
+
+    final checkResponse = await getText("/CheckPingShop/$pingId", cleanPath: false);
+    final checkData = jsonDecode(checkResponse);
+
+    if (checkData["Success"] != true) {
+      if (attempt < 5) {
+        await Future.delayed(Duration(seconds: 1));
+
+        return pingCheck(pingId, attempt + 1);
+      }
+      await clearPings();
+      return false;
+    }
+
+    if (checkData['Ping']['Item1'] == true) {
+      print("Ping Success");
+      await clearPings();
+      return true;
+    }
+
+    if (attempt < 5) {
+      await Future.delayed(Duration(seconds: 1));
+
+      return pingCheck(pingId, attempt + 1);
+    }
+    await clearPings();
+
+    return false;
+  }
+
   Future<OrganizedShop?> getConnectedShopData({
     bool showErrors = false,
     int attempt = 1,
   }) async {
+    final pingSuccess = await pingCheck();
+
+    if (!pingSuccess) {
+      print("Ping Fail");
+      final shopData = await shop_utils.getShopData(service: this);
+      if (shopData != null) {
+        return await shop_utils.organizeShopData(service: this, shopData: shopData);
+      }
+      return null;
+    }
     final shopData = await shop_utils.getShopData(service: this);
 
     if (attempt > 5) {
-      Toast.error("An error occurred. Could not get full shop data. Sending as is.");
+      print("An error occurred. Could not get full shop data. Sending as is.");
       if (shopData != null) {
         return await shop_utils.organizeShopData(service: this, shopData: shopData);
       }
@@ -68,12 +131,12 @@ class RemoteShopService extends BaseService {
       return await getConnectedShopData(attempt: attempt + 1);
     }
 
-    print("Count: ${shopData.decShop.listingCount}");
+    print("L Count: ${shopData.decShop.listingCount}");
     print("Listings[]: ${shopData.listings.length}");
 
     if (shopData.listings.length < shopData.decShop.listingCount) {
-      // if (shopData.listings.isEmpty) {
-      await Future.delayed(Duration(seconds: 2));
+      print("Incorrect Count. Trying again in 10 sec");
+      await Future.delayed(Duration(seconds: 10));
 
       return await getConnectedShopData(attempt: attempt + 1);
     }

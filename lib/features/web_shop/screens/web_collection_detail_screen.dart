@@ -89,6 +89,7 @@ class WebCollectionDetailScreen extends BaseScreen {
                 IconButton(
                     onPressed: () {
                       ref.read(webListingListProvider("$shopId,$collectionId").notifier).refresh();
+                      ref.read(webListingFullListProvider("$shopId,$collectionId").notifier).reload();
                     },
                     icon: Icon(Icons.refresh)),
               ],

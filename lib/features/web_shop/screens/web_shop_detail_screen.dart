@@ -104,6 +104,7 @@ class WebShopDetailScreen extends BaseScreen {
                     onPressed: () {
                       ref.invalidate(webShopDetailProvider(shopId));
                       ref.read(webCollectionListProvider(shopId).notifier).refresh();
+                      ref.read(webCollectionFullListProvider(shopId).notifier).reload();
                     },
                     icon: Icon(Icons.refresh))
               ],

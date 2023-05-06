@@ -26,16 +26,37 @@ class WebCollectionFullListProvider extends StateNotifier<List<WebCollection>> {
     print("Fetching page $page");
     final data = await WebShopService().listCollections(shopId, page);
 
-    for (final collection in data.results) {
-      final currentIndex = state.indexWhere((c) => c.id == collection.id);
-      if (currentIndex < 0) {
-        state = [...state, collection];
-      } else {
-        state = [...state]
-          ..removeAt(currentIndex)
-          ..insert(currentIndex, collection);
-      }
+    if (page == 1) {
+      state = data.results;
+    } else {
+      state = [...state, ...data.results];
     }
+
+    // for (final collection in data.results) {
+    //   final currentIndex = state.indexWhere((c) => c.id == collection.id);
+    //   if (currentIndex < 0) {
+    //     state = [...state, collection];
+    //   } else {
+    //     state = [...state]
+    //       ..removeAt(currentIndex)
+    //       ..insert(currentIndex, collection);
+    //   }
+    // }
+
+    // await Future.delayed(Duration(milliseconds: 300));
+
+    // int stateIndex = 0;
+    // for (final collection in state) {
+    //   final currentIndex = state.indexWhere((c) => c.id == collection.id);
+
+    //   if (currentIndex < 1) {
+    //     state = [...state]..removeAt(stateIndex);
+    //   } else {
+
+    //   }
+
+    //   stateIndex += 1;
+    // }
 
     if (data.page < data.num_pages) {
       fetch(page + 1);

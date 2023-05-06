@@ -528,6 +528,7 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
     }
 
     String? signature;
+    String? preSignedSaleCompleteTx;
 
     if (kIsWeb) {
       final keypair = ref.read(webSessionProvider).keypair;
@@ -546,6 +547,29 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
 
         return null;
       }
+
+      if (listing.nft != null) {
+        final dynamic presignedTx = await buildSaleCompleteTx(
+          listing.nft!.smartContract,
+          listing.buyNowPrice!,
+          address,
+          listing.purchaseKey,
+          listing.endDate.millisecondsSinceEpoch.round(),
+          true,
+          false,
+        );
+
+        if (presignedTx == null) {
+          Toast.error("A problem occurred presigning the sale transaction. Please try again");
+          return null;
+        }
+
+        if (presignedTx != null) {
+          if (presignedTx is Map) {
+            preSignedSaleCompleteTx = jsonEncode(presignedTx);
+          }
+        }
+      }
     }
 
     final success = await WebShopService()
@@ -555,20 +579,29 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
       listingId: listing.id,
       isBuyNow: true,
       signature: signature,
+      preSignedSaleCompleteTx: preSignedSaleCompleteTx,
     )
-        .catchError((e) {
-      Toast.error();
-      ref.read(globalLoadingProvider.notifier).complete();
-      return false;
-    });
+        .catchError(
+      (e) {
+        Toast.error();
+        ref.read(globalLoadingProvider.notifier).complete();
+        return false;
+      },
+    );
 
     if (kIsWeb) {
       if (success) {
-        Future.delayed(Duration(seconds: 10)).then((_) {
-          waitForSaleStart(listing.nft!.smartContract.id, address, listing.buyNowPrice!);
-        });
+        // Future.delayed(Duration(seconds: 10)).then((_) {
+        //   waitForSaleStart(listing.nft!.smartContract.id, address, listing.buyNowPrice!);
+        // });
         Toast.message("Buy Now TX broadcasted. Please wait for it to be accepted by the shop owner");
+
         ref.read(globalLoadingProvider.notifier).complete();
+        String body = "Please wait for the transaction to be finalized.";
+        if (listing.collection.shop!.isThirdParty) {
+          body += "\nBecause this auction house is hosted on the RBX Web Wallet, the seller will need to authorize the Sale Start transaction";
+        }
+        InfoDialog.show(contextOverride: context, title: "Buy Now TX broadcasted.", body: body);
       }
     } else {
       final coreBid = Bid.create(
@@ -699,8 +732,13 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
           listing.purchaseKey,
           listing.endDate.millisecondsSinceEpoch.round(),
           true,
-          false,
+          true,
         );
+
+        if (presignedTx == null) {
+          Toast.error("A problem occurred presigning the sale transaction. Please try again");
+          return null;
+        }
 
         if (presignedTx != null) {
           if (presignedTx is Map) {

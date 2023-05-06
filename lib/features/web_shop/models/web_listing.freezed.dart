@@ -55,6 +55,10 @@ mixin _$WebListing {
   bool get isAuctionStarted => throw _privateConstructorUsedError;
   @JsonKey(name: "has_ended")
   bool get isAuctionEnded => throw _privateConstructorUsedError;
+  @JsonKey(name: "is_sale_complete")
+  bool get isSaleComplete => throw _privateConstructorUsedError;
+  @JsonKey(name: "is_sale_pending")
+  bool get isSalePending => throw _privateConstructorUsedError;
   @JsonKey(name: "purchase_key")
   String get purchaseKey => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -118,6 +122,10 @@ abstract class $WebListingCopyWith<$Res> {
           bool isAuctionStarted,
       @JsonKey(name: "has_ended")
           bool isAuctionEnded,
+      @JsonKey(name: "is_sale_complete")
+          bool isSaleComplete,
+      @JsonKey(name: "is_sale_pending")
+          bool isSalePending,
       @JsonKey(name: "purchase_key")
           String purchaseKey,
       @JsonKey(ignore: true)
@@ -169,6 +177,8 @@ class _$WebListingCopyWithImpl<$Res, $Val extends WebListing>
     Object? isCancelled = null,
     Object? isAuctionStarted = null,
     Object? isAuctionEnded = null,
+    Object? isSaleComplete = null,
+    Object? isSalePending = null,
     Object? purchaseKey = null,
     Object? enableBuyNow = null,
     Object? enableAuction = null,
@@ -250,6 +260,14 @@ class _$WebListingCopyWithImpl<$Res, $Val extends WebListing>
       isAuctionEnded: null == isAuctionEnded
           ? _value.isAuctionEnded
           : isAuctionEnded // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isSaleComplete: null == isSaleComplete
+          ? _value.isSaleComplete
+          : isSaleComplete // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isSalePending: null == isSalePending
+          ? _value.isSalePending
+          : isSalePending // ignore: cast_nullable_to_non_nullable
               as bool,
       purchaseKey: null == purchaseKey
           ? _value.purchaseKey
@@ -363,6 +381,10 @@ abstract class _$$_WebListingCopyWith<$Res>
           bool isAuctionStarted,
       @JsonKey(name: "has_ended")
           bool isAuctionEnded,
+      @JsonKey(name: "is_sale_complete")
+          bool isSaleComplete,
+      @JsonKey(name: "is_sale_pending")
+          bool isSalePending,
       @JsonKey(name: "purchase_key")
           String purchaseKey,
       @JsonKey(ignore: true)
@@ -415,6 +437,8 @@ class __$$_WebListingCopyWithImpl<$Res>
     Object? isCancelled = null,
     Object? isAuctionStarted = null,
     Object? isAuctionEnded = null,
+    Object? isSaleComplete = null,
+    Object? isSalePending = null,
     Object? purchaseKey = null,
     Object? enableBuyNow = null,
     Object? enableAuction = null,
@@ -497,6 +521,14 @@ class __$$_WebListingCopyWithImpl<$Res>
           ? _value.isAuctionEnded
           : isAuctionEnded // ignore: cast_nullable_to_non_nullable
               as bool,
+      isSaleComplete: null == isSaleComplete
+          ? _value.isSaleComplete
+          : isSaleComplete // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isSalePending: null == isSalePending
+          ? _value.isSalePending
+          : isSalePending // ignore: cast_nullable_to_non_nullable
+              as bool,
       purchaseKey: null == purchaseKey
           ? _value.purchaseKey
           : purchaseKey // ignore: cast_nullable_to_non_nullable
@@ -572,6 +604,10 @@ class _$_WebListing extends _WebListing {
           this.isAuctionStarted = true,
       @JsonKey(name: "has_ended")
           this.isAuctionEnded = false,
+      @JsonKey(name: "is_sale_complete")
+          this.isSaleComplete = true,
+      @JsonKey(name: "is_sale_pending")
+          this.isSalePending = true,
       @JsonKey(name: "purchase_key")
           this.purchaseKey = "",
       @JsonKey(ignore: true)
@@ -647,6 +683,12 @@ class _$_WebListing extends _WebListing {
   @JsonKey(name: "has_ended")
   final bool isAuctionEnded;
   @override
+  @JsonKey(name: "is_sale_complete")
+  final bool isSaleComplete;
+  @override
+  @JsonKey(name: "is_sale_pending")
+  final bool isSalePending;
+  @override
   @JsonKey(name: "purchase_key")
   final String purchaseKey;
   @override
@@ -684,7 +726,7 @@ class _$_WebListing extends _WebListing {
 
   @override
   String toString() {
-    return 'WebListing(id: $id, listingId: $listingId, collection: $collection, nft: $nft, smartContractUid: $smartContractUid, ownerAddress: $ownerAddress, winningAddress: $winningAddress, buyNowPrice: $buyNowPrice, floorPrice: $floorPrice, reservePrice: $reservePrice, finalPrice: $finalPrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, isCancelled: $isCancelled, isAuctionStarted: $isAuctionStarted, isAuctionEnded: $isAuctionEnded, purchaseKey: $purchaseKey, enableBuyNow: $enableBuyNow, enableAuction: $enableAuction, enableReservePrice: $enableReservePrice, galleryOnly: $galleryOnly, thumbnails: $thumbnails, auction: $auction, bids: $bids)';
+    return 'WebListing(id: $id, listingId: $listingId, collection: $collection, nft: $nft, smartContractUid: $smartContractUid, ownerAddress: $ownerAddress, winningAddress: $winningAddress, buyNowPrice: $buyNowPrice, floorPrice: $floorPrice, reservePrice: $reservePrice, finalPrice: $finalPrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, isCancelled: $isCancelled, isAuctionStarted: $isAuctionStarted, isAuctionEnded: $isAuctionEnded, isSaleComplete: $isSaleComplete, isSalePending: $isSalePending, purchaseKey: $purchaseKey, enableBuyNow: $enableBuyNow, enableAuction: $enableAuction, enableReservePrice: $enableReservePrice, galleryOnly: $galleryOnly, thumbnails: $thumbnails, auction: $auction, bids: $bids)';
   }
 
   @override
@@ -726,6 +768,10 @@ class _$_WebListing extends _WebListing {
                 other.isAuctionStarted == isAuctionStarted) &&
             (identical(other.isAuctionEnded, isAuctionEnded) ||
                 other.isAuctionEnded == isAuctionEnded) &&
+            (identical(other.isSaleComplete, isSaleComplete) ||
+                other.isSaleComplete == isSaleComplete) &&
+            (identical(other.isSalePending, isSalePending) ||
+                other.isSalePending == isSalePending) &&
             (identical(other.purchaseKey, purchaseKey) ||
                 other.purchaseKey == purchaseKey) &&
             (identical(other.enableBuyNow, enableBuyNow) ||
@@ -764,6 +810,8 @@ class _$_WebListing extends _WebListing {
         isCancelled,
         isAuctionStarted,
         isAuctionEnded,
+        isSaleComplete,
+        isSalePending,
         purchaseKey,
         enableBuyNow,
         enableAuction,
@@ -825,6 +873,10 @@ abstract class _WebListing extends WebListing {
           final bool isAuctionStarted,
       @JsonKey(name: "has_ended")
           final bool isAuctionEnded,
+      @JsonKey(name: "is_sale_complete")
+          final bool isSaleComplete,
+      @JsonKey(name: "is_sale_pending")
+          final bool isSalePending,
       @JsonKey(name: "purchase_key")
           final String purchaseKey,
       @JsonKey(ignore: true)
@@ -897,6 +949,12 @@ abstract class _WebListing extends WebListing {
   @override
   @JsonKey(name: "has_ended")
   bool get isAuctionEnded;
+  @override
+  @JsonKey(name: "is_sale_complete")
+  bool get isSaleComplete;
+  @override
+  @JsonKey(name: "is_sale_pending")
+  bool get isSalePending;
   @override
   @JsonKey(name: "purchase_key")
   String get purchaseKey;

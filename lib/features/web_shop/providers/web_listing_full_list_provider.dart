@@ -27,15 +27,10 @@ class WebListingFullListProvider extends StateNotifier<List<WebListing>> {
     print("Fetching page $page");
     final data = await WebShopService().listListings(shopId, collectionId, page);
 
-    for (final listing in data.results) {
-      final currentIndex = state.indexWhere((l) => l.id == listing.id);
-      if (currentIndex < 0) {
-        state = [...state, listing];
-      } else {
-        state = [...state]
-          ..removeAt(currentIndex)
-          ..insert(currentIndex, listing);
-      }
+    if (page == 1) {
+      state = data.results;
+    } else {
+      state = [...state, ...data.results];
     }
 
     if (data.page < data.num_pages) {
@@ -43,8 +38,11 @@ class WebListingFullListProvider extends StateNotifier<List<WebListing>> {
     }
   }
 
-  reload() {
+  reload() async {
     state = [];
+
+    await Future.delayed(Duration(milliseconds: 200));
+
     timer?.cancel();
     init();
   }
