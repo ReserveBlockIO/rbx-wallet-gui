@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
+import 'package:rbx_wallet/core/components/empty_placeholder.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/features/dst/models/dec_shop.dart';
 import 'package:rbx_wallet/features/remote_shop/components/listing_details_list_tile.dart';
@@ -114,11 +115,7 @@ class RemoteShopCollectionScreen extends BaseScreen {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _Header(collection: collection),
-          Expanded(
-            child: Center(
-              child: Text("No Active Listings"),
-            ),
-          ),
+          EmptyPlaceholder(title: "No Active Listings"),
         ],
       );
     }

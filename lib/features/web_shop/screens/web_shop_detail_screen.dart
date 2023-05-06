@@ -207,7 +207,7 @@ class WebShopDetailScreen extends BaseScreen {
                       ? WebMyCollectionList(
                           shop.id,
                         )
-                      : WebCollectionList(
+                      : WebCollectionListContainer(
                           shop.id,
                         ),
                 ),

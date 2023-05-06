@@ -14,7 +14,7 @@ class WebListingFullListProvider extends StateNotifier<List<WebListing>> {
 
   init() async {
     await fetch(1);
-    timer = Timer.periodic(Duration(seconds: 5), (timer) {
+    timer = Timer.periodic(Duration(seconds: 30), (timer) {
       fetch(1);
     });
   }

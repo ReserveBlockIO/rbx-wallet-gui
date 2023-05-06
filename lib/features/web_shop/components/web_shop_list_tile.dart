@@ -138,8 +138,6 @@ class WebShopTile extends BaseComponent {
   }
 
   static Future pushToShop(BuildContext context, WidgetRef ref, WebShop shop) async {
-    final currentUrl = ref.watch(connectedShopProvider).url;
-    final isConnected = ref.watch(connectedShopProvider).isConnected;
     if (shop.isThirdParty) {
       AutoRouter.of(context).push(WebShopDetailScreenRoute(shopId: shop.id));
       return;
@@ -157,6 +155,9 @@ class WebShopTile extends BaseComponent {
         return;
       }
     }
+
+    final currentUrl = ref.watch(connectedShopProvider).url;
+    final isConnected = ref.watch(connectedShopProvider).isConnected;
 
     if (currentUrl == shop.url && isConnected) {
       ref.read(connectedShopProvider.notifier).refresh();

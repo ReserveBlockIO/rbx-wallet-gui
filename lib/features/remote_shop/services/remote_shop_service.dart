@@ -21,8 +21,7 @@ class RemoteShopService extends BaseService {
     return await shop_utils.getNetworkShop(service: this, shopUrl: shopUrl);
   }
 
-  Future<bool> connectToShop(
-      {required String myAddress, required String shopUrl}) async {
+  Future<bool> connectToShop({required String myAddress, required String shopUrl}) async {
     return await shop_utils.connectToShop(
       service: this,
       myAddress: myAddress,
@@ -86,11 +85,11 @@ class RemoteShopService extends BaseService {
       return await getConnectedShopData(attempt: attempt + 1);
     }
 
-    if (shopData.listings.isEmpty) {
-      await Future.delayed(Duration(seconds: 2));
+    // if (shopData.listings.isEmpty) {
+    //   await Future.delayed(Duration(seconds: 2));
 
-      return await getConnectedShopData(attempt: attempt + 1);
-    }
+    //   return await getConnectedShopData(attempt: attempt + 1);
+    // }
 
     return await shop_utils.organizeShopData(service: this, shopData: shopData);
   }
@@ -216,8 +215,7 @@ class RemoteShopService extends BaseService {
   // }
 
   Future<List<DecShop>> listRemoteShops() async {
-    final response =
-        await getJson("/GetDecShopStateTreiList", cleanPath: false);
+    final response = await getJson("/GetDecShopStateTreiList", cleanPath: false);
 
     if (response['Success'] == true) {
       final List<dynamic> items = response['DecShops'];
