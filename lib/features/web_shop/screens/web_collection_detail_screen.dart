@@ -12,6 +12,7 @@ import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/chat/services/web_chat_service.dart';
 import 'package:rbx_wallet/features/web_shop/components/web_listing_list.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_collection_detail_provider.dart';
+import 'package:rbx_wallet/features/web_shop/providers/web_listing_full_list_provider.dart';
 
 import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';
@@ -46,6 +47,13 @@ class WebCollectionDetailScreen extends BaseScreen {
               centerTitle: true,
               backgroundColor: Colors.black12,
               shadowColor: Colors.transparent,
+              leading: IconButton(
+                icon: Icon(Icons.navigate_before),
+                onPressed: () {
+                  ref.read(webListingFullListProvider("$shopId,$collectionId").notifier).pauseTimer();
+                  AutoRouter.of(context).pop();
+                },
+              ),
               actions: [
                 if (collection.shop != null && address != null && !collection.shop!.isOwner(ref))
                   AppButton(
@@ -117,7 +125,7 @@ class WebCollectionDetailScreen extends BaseScreen {
                 if (!collection.shop!.isOwner(ref)) WebWalletDetails(),
                 Divider(),
                 Expanded(
-                  child: WebListingList(
+                  child: WebListingListContainer(
                     shopId,
                     collectionId,
                     isMine: collection.shop!.isOwner(ref),

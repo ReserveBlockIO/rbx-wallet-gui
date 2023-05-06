@@ -13,13 +13,14 @@ class LogProvider extends StateNotifier<List<LogEntry>> {
 
   void append(LogEntry entry) async {
     // Future.delayed(Duration(milliseconds: 100)).then((_) async {
-    final items = [...state, entry];
-    if (items.length > LOG_HISTORY_LENGTH) {
-      state = items.getRange(items.length - LOG_HISTORY_LENGTH, items.length).toList();
-    } else {
-      state = items;
-    }
-
+    Future.delayed(Duration(milliseconds: 300)).then((value) {
+      final items = [...state, entry];
+      if (items.length > LOG_HISTORY_LENGTH) {
+        state = items.getRange(items.length - LOG_HISTORY_LENGTH, items.length).toList();
+      } else {
+        state = items;
+      }
+    });
     if (scrollController.hasClients) {
       await Future.delayed(const Duration(milliseconds: 300));
       scrollController.animateTo(

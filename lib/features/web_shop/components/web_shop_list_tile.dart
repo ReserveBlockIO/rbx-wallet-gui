@@ -82,10 +82,12 @@ class WebShopTile extends BaseComponent {
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                AppBadge(
-                  label: shop.isOnline ? 'Online' : 'Offline',
-                  variant: shop.isOnline ? AppColorVariant.Success : AppColorVariant.Danger,
-                ),
+                if (shop.isPublished)
+                  AppBadge(
+                    label: shop.isOnline ? 'Online' : 'Offline',
+                    variant: shop.isOnline ? AppColorVariant.Success : AppColorVariant.Danger,
+                  ),
+                if (!shop.isPublished && shop.isOwner(ref)) AppBadge(label: "Unpublished", variant: AppColorVariant.Warning),
                 Icon(Icons.chevron_right),
               ],
             ),
