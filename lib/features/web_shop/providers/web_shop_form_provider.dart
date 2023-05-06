@@ -11,6 +11,7 @@ import 'package:rbx_wallet/features/dst/providers/collection_list_provider.dart'
 import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/listing_list_provider.dart';
 import 'package:rbx_wallet/features/dst/services/dst_service.dart';
+import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_shop.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_auth_token_provider.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_shop_detail_provider.dart';
@@ -68,11 +69,14 @@ class WebShopFormProvider extends StateNotifier<WebShop> {
       return null;
     }
 
+    ref.read(globalLoadingProvider.notifier).start();
+
     if (state.isNew) {
       final urlAvailable = await WebShopService().checkAvailabilty(state.url);
 
       if (!urlAvailable) {
         Toast.error("Shop URL is not available.");
+        ref.read(globalLoadingProvider.notifier).complete();
         return null;
       }
     }
@@ -80,13 +84,18 @@ class WebShopFormProvider extends StateNotifier<WebShop> {
     state = state.copyWith(ownerAddress: address ?? '');
     if (state.ownerAddress.isEmpty) {
       Toast.error("Address Required.");
+      ref.read(globalLoadingProvider.notifier).complete();
+
       return null;
     }
 
     if (!state.isNew) {
       if (!await guardWebAuthorizedFromProvider(ref, state.ownerAddress)) {
+        ref.read(globalLoadingProvider.notifier).complete();
+
         return null;
       }
+      ref.read(globalLoadingProvider.notifier).complete();
 
       final confirmed = await ConfirmDialog.show(
         title: "Update Shop?",
@@ -95,13 +104,18 @@ class WebShopFormProvider extends StateNotifier<WebShop> {
         cancelText: "Cancel",
       );
       if (confirmed == true) {
+        ref.read(globalLoadingProvider.notifier).start();
+
         await broadcastShopTx(ref.read(webSessionProvider).keypair!, state, ShopPublishTxType.update);
+        ref.read(globalLoadingProvider.notifier).complete();
       } else {
         return null;
       }
     }
+    ref.read(globalLoadingProvider.notifier).start();
 
     final updatedShop = await WebShopService().saveWebShop(state);
+    ref.read(globalLoadingProvider.notifier).complete();
 
     final authenticated = await guardWebAuthorizedFromProvider(ref, address);
 
@@ -122,7 +136,11 @@ class WebShopFormProvider extends StateNotifier<WebShop> {
       if (email == null || email.isEmpty) {
         Toast.error("You will not be notified. You can update this setting on the dashboard if you change your mind.");
       } else {
+        ref.read(globalLoadingProvider.notifier).start();
+
         final subscribed = await WebShopService().createContact(email, address);
+        ref.read(globalLoadingProvider.notifier).complete();
+
         if (subscribed) {
           ref.read(webAuthTokenProvider.notifier).addEmail(email);
           Toast.message("Subscribed");
@@ -138,9 +156,12 @@ class WebShopFormProvider extends StateNotifier<WebShop> {
       AutoRouter.of(context).pop();
 
       clear();
+      ref.read(globalLoadingProvider.notifier).complete();
+
       return true;
     } else {
       Toast.error();
+      ref.read(globalLoadingProvider.notifier).complete();
       return false;
     }
   }

@@ -24,6 +24,7 @@ import 'package:rbx_wallet/features/web_shop/models/web_auction.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_bid.dart';
 import 'package:rbx_wallet/features/web_shop/models/web_listing.dart';
 import 'package:rbx_wallet/features/web_shop/providers/create_web_listing_provider.dart';
+import 'package:rbx_wallet/features/web_shop/providers/web_listing_full_list_provider.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_shop_bid_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
@@ -939,6 +940,7 @@ class _Auction extends BaseComponent {
                           return;
                         }
                         ref.read(webBidListProvider(listing.id).notifier).sendBid(context, listing);
+                        ref.read(webListingFullListProvider("${listing.collection.shop!.id},${listing.collection.id}").notifier).fetch(1);
                       }),
                   const SizedBox(
                     width: 6,
