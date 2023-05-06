@@ -29,6 +29,7 @@ _$_DecShop _$$_DecShopFromJson(Map<String, dynamic> json) => _$_DecShop(
       isOffline: json['IsOffline'] as bool,
       isPublished: json['IsPublished'] as bool,
       collectionCount: json['CollectionCount'] as int? ?? 0,
+      listingCount: json['ListingCount'] as int? ?? 0,
       auctionCount: json['AuctionCount'] as int? ?? 0,
       ipIsDifferent: json['IsIPDifferent'] as bool,
     );
@@ -57,6 +58,7 @@ Map<String, dynamic> _$$_DecShopToJson(_$_DecShop instance) =>
       'IsOffline': instance.isOffline,
       'IsPublished': instance.isPublished,
       'CollectionCount': instance.collectionCount,
+      'ListingCount': instance.listingCount,
       'AuctionCount': instance.auctionCount,
       'IsIPDifferent': instance.ipIsDifferent,
     };

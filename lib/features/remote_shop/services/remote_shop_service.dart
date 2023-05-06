@@ -51,45 +51,32 @@ class RemoteShopService extends BaseService {
 
   Future<OrganizedShop?> getConnectedShopData({
     bool showErrors = false,
-    listingCount = 0,
     int attempt = 1,
   }) async {
-    if (attempt > 10) {
-      Toast.error("An error occurred. Could not get shop data.");
-      return null;
-    }
     final shopData = await shop_utils.getShopData(service: this);
 
-    // ShopData? shopData = await shop_utils.getShopData(service: this);
-
-    // ShopData? shopData;
-
-    // await shop_utils.requestCollectionsAndListings(
-    //   service: this,
-    //   listingCount: listingCount,
-    // );
-
-    // await Future.delayed(Duration(milliseconds: 500));
-
-    // await shop_utils.requestCollectionsAndListings(
-    //   service: this,
-    //   listingCount: listingCount,
-    // );
-
-    // shopData = await shop_utils.getShopData(service: this);
-    // await Future.delayed(Duration(seconds: 1));
-    // shopData = await shop_utils.getShopData(service: this);
+    if (attempt > 5) {
+      Toast.error("An error occurred. Could not get full shop data. Sending as is.");
+      if (shopData != null) {
+        return await shop_utils.organizeShopData(service: this, shopData: shopData);
+      }
+      return null;
+    }
 
     if (shopData == null) {
       await Future.delayed(Duration(seconds: 2));
       return await getConnectedShopData(attempt: attempt + 1);
     }
 
-    // if (shopData.listings.isEmpty) {
-    //   await Future.delayed(Duration(seconds: 2));
+    print("Count: ${shopData.decShop.listingCount}");
+    print("Listings[]: ${shopData.listings.length}");
 
-    //   return await getConnectedShopData(attempt: attempt + 1);
-    // }
+    if (shopData.listings.length < shopData.decShop.listingCount) {
+      // if (shopData.listings.isEmpty) {
+      await Future.delayed(Duration(seconds: 2));
+
+      return await getConnectedShopData(attempt: attempt + 1);
+    }
 
     return await shop_utils.organizeShopData(service: this, shopData: shopData);
   }

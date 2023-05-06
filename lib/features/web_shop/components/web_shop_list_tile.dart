@@ -156,6 +156,10 @@ class WebShopTile extends BaseComponent {
       }
     }
 
+    await ref.read(connectedShopProvider.notifier).loadShop(context, ref, shop.url);
+
+    return;
+
     final currentUrl = ref.watch(connectedShopProvider).url;
     final isConnected = ref.watch(connectedShopProvider).isConnected;
 

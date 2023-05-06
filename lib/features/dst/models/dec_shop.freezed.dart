@@ -71,6 +71,8 @@ mixin _$DecShop {
   bool get isPublished => throw _privateConstructorUsedError;
   @JsonKey(name: "CollectionCount")
   int get collectionCount => throw _privateConstructorUsedError;
+  @JsonKey(name: "ListingCount")
+  int get listingCount => throw _privateConstructorUsedError;
   @JsonKey(name: "AuctionCount")
   int get auctionCount => throw _privateConstructorUsedError;
   @JsonKey(name: "IsIPDifferent")
@@ -109,6 +111,7 @@ abstract class $DecShopCopyWith<$Res> {
       @JsonKey(name: "IsOffline") bool isOffline,
       @JsonKey(name: "IsPublished") bool isPublished,
       @JsonKey(name: "CollectionCount") int collectionCount,
+      @JsonKey(name: "ListingCount") int listingCount,
       @JsonKey(name: "AuctionCount") int auctionCount,
       @JsonKey(name: "IsIPDifferent") bool ipIsDifferent});
 }
@@ -148,6 +151,7 @@ class _$DecShopCopyWithImpl<$Res, $Val extends DecShop>
     Object? isOffline = null,
     Object? isPublished = null,
     Object? collectionCount = null,
+    Object? listingCount = null,
     Object? auctionCount = null,
     Object? ipIsDifferent = null,
   }) {
@@ -240,6 +244,10 @@ class _$DecShopCopyWithImpl<$Res, $Val extends DecShop>
           ? _value.collectionCount
           : collectionCount // ignore: cast_nullable_to_non_nullable
               as int,
+      listingCount: null == listingCount
+          ? _value.listingCount
+          : listingCount // ignore: cast_nullable_to_non_nullable
+              as int,
       auctionCount: null == auctionCount
           ? _value.auctionCount
           : auctionCount // ignore: cast_nullable_to_non_nullable
@@ -282,6 +290,7 @@ abstract class _$$_DecShopCopyWith<$Res> implements $DecShopCopyWith<$Res> {
       @JsonKey(name: "IsOffline") bool isOffline,
       @JsonKey(name: "IsPublished") bool isPublished,
       @JsonKey(name: "CollectionCount") int collectionCount,
+      @JsonKey(name: "ListingCount") int listingCount,
       @JsonKey(name: "AuctionCount") int auctionCount,
       @JsonKey(name: "IsIPDifferent") bool ipIsDifferent});
 }
@@ -318,6 +327,7 @@ class __$$_DecShopCopyWithImpl<$Res>
     Object? isOffline = null,
     Object? isPublished = null,
     Object? collectionCount = null,
+    Object? listingCount = null,
     Object? auctionCount = null,
     Object? ipIsDifferent = null,
   }) {
@@ -410,6 +420,10 @@ class __$$_DecShopCopyWithImpl<$Res>
           ? _value.collectionCount
           : collectionCount // ignore: cast_nullable_to_non_nullable
               as int,
+      listingCount: null == listingCount
+          ? _value.listingCount
+          : listingCount // ignore: cast_nullable_to_non_nullable
+              as int,
       auctionCount: null == auctionCount
           ? _value.auctionCount
           : auctionCount // ignore: cast_nullable_to_non_nullable
@@ -470,6 +484,8 @@ class _$_DecShop extends _DecShop {
           required this.isPublished,
       @JsonKey(name: "CollectionCount")
           this.collectionCount = 0,
+      @JsonKey(name: "ListingCount")
+          this.listingCount = 0,
       @JsonKey(name: "AuctionCount")
           this.auctionCount = 0,
       @JsonKey(name: "IsIPDifferent")
@@ -555,6 +571,9 @@ class _$_DecShop extends _DecShop {
   @JsonKey(name: "CollectionCount")
   final int collectionCount;
   @override
+  @JsonKey(name: "ListingCount")
+  final int listingCount;
+  @override
   @JsonKey(name: "AuctionCount")
   final int auctionCount;
   @override
@@ -563,7 +582,7 @@ class _$_DecShop extends _DecShop {
 
   @override
   String toString() {
-    return 'DecShop(id: $id, uuid: $uuid, name: $name, url: $url, thirdPartyBaseUrl: $thirdPartyBaseUrl, thirdParyApiUrl: $thirdParyApiUrl, description: $description, ownerAddress: $ownerAddress, type: $type, ip: $ip, port: $port, stunServerGroup: $stunServerGroup, originalBlockHeight: $originalBlockHeight, originaTxHash: $originaTxHash, latestBlockHeight: $latestBlockHeight, lastestTxHash: $lastestTxHash, updateTimestamp: $updateTimestamp, autoUpdateNetworkDns: $autoUpdateNetworkDns, needsPublishToNetwork: $needsPublishToNetwork, isOffline: $isOffline, isPublished: $isPublished, collectionCount: $collectionCount, auctionCount: $auctionCount, ipIsDifferent: $ipIsDifferent)';
+    return 'DecShop(id: $id, uuid: $uuid, name: $name, url: $url, thirdPartyBaseUrl: $thirdPartyBaseUrl, thirdParyApiUrl: $thirdParyApiUrl, description: $description, ownerAddress: $ownerAddress, type: $type, ip: $ip, port: $port, stunServerGroup: $stunServerGroup, originalBlockHeight: $originalBlockHeight, originaTxHash: $originaTxHash, latestBlockHeight: $latestBlockHeight, lastestTxHash: $lastestTxHash, updateTimestamp: $updateTimestamp, autoUpdateNetworkDns: $autoUpdateNetworkDns, needsPublishToNetwork: $needsPublishToNetwork, isOffline: $isOffline, isPublished: $isPublished, collectionCount: $collectionCount, listingCount: $listingCount, auctionCount: $auctionCount, ipIsDifferent: $ipIsDifferent)';
   }
 
   @override
@@ -608,6 +627,8 @@ class _$_DecShop extends _DecShop {
                 other.isPublished == isPublished) &&
             (identical(other.collectionCount, collectionCount) ||
                 other.collectionCount == collectionCount) &&
+            (identical(other.listingCount, listingCount) ||
+                other.listingCount == listingCount) &&
             (identical(other.auctionCount, auctionCount) ||
                 other.auctionCount == auctionCount) &&
             (identical(other.ipIsDifferent, ipIsDifferent) ||
@@ -640,6 +661,7 @@ class _$_DecShop extends _DecShop {
         isOffline,
         isPublished,
         collectionCount,
+        listingCount,
         auctionCount,
         ipIsDifferent
       ]);
@@ -704,6 +726,8 @@ abstract class _DecShop extends DecShop {
           required final bool isPublished,
       @JsonKey(name: "CollectionCount")
           final int collectionCount,
+      @JsonKey(name: "ListingCount")
+          final int listingCount,
       @JsonKey(name: "AuctionCount")
           final int auctionCount,
       @JsonKey(name: "IsIPDifferent")
@@ -778,6 +802,9 @@ abstract class _DecShop extends DecShop {
   @override
   @JsonKey(name: "CollectionCount")
   int get collectionCount;
+  @override
+  @JsonKey(name: "ListingCount")
+  int get listingCount;
   @override
   @JsonKey(name: "AuctionCount")
   int get auctionCount;

@@ -23,7 +23,7 @@ class WebListingFullListProvider extends StateNotifier<List<WebListing>> {
     timer?.cancel();
   }
 
-  fetch(int page) async {
+  fetch([int page = 1]) async {
     print("Fetching page $page");
     final data = await WebShopService().listListings(shopId, collectionId, page);
 

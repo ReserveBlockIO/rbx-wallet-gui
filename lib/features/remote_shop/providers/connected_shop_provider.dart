@@ -47,6 +47,7 @@ class ConnectedShopProvider extends StateNotifier<ConnectedShop> {
       isConnected: true,
       shouldWarnDisconnection: true,
     );
+
     await checkConnectionStatus();
     await refresh(true);
 
@@ -84,36 +85,35 @@ class ConnectedShopProvider extends StateNotifier<ConnectedShop> {
 
     state = state.copyWith(isConnected: isConnected);
 
-    if (!isConnected) {
-      if (state.shouldWarnDisconnection && !state.hasShownDisconnectAlert) {
-        state = state.copyWith(hasShownDisconnectAlert: true);
-        await InfoDialog.show(
-          title: "Shop Disconnected",
-          body: "The shop you are connected to ${state.decShop != null ? '(${state.decShop!.name})' : ''} has gone offline.",
-        );
-      }
+    // if (!isConnected) {
+    //   if (state.shouldWarnDisconnection && !state.hasShownDisconnectAlert) {
+    //     state = state.copyWith(hasShownDisconnectAlert: true);
+    //     await InfoDialog.show(
+    //       title: "Shop Disconnected",
+    //       body: "The shop you are connected to ${state.decShop != null ? '(${state.decShop!.name})' : ''} has gone offline.",
+    //     );
+    //   }
 
-      return;
-    }
+    //   return;
+    // }
   }
 
   refresh([bool showErrors = false]) async {
-    if (!state.isConnected) {
-      return;
-    }
+    // if (!state.isConnected) {
+    //   return;
+    // }
 
-    int listingCount = 0;
-    if (state.data != null) {
-      for (final c in state.data!.collections) {
-        listingCount += c.listings.length;
-      }
-    }
+    // int listingCount = 0;
+    // if (state.data != null) {
+    //   for (final c in state.data!.collections) {
+    //     listingCount += c.listings.length;
+    //   }
+    // }
 
     await Future.delayed(Duration(seconds: 2));
 
     final data = await RemoteShopService().getConnectedShopData(
       showErrors: showErrors,
-      listingCount: listingCount,
     );
     if (data != null) {
       state = state.copyWith(data: data);
@@ -158,6 +158,7 @@ class ConnectedShopProvider extends StateNotifier<ConnectedShop> {
     if (confirmed == true) {
       ref.read(shopLoadingProvider.notifier).start("Connecting to shop...");
       final success = await RemoteShopService().connectToShop(myAddress: address, shopUrl: shop.url);
+
       if (!success) {
         ref.read(shopLoadingProvider.notifier).start("Shop is offline.");
         await Future.delayed(Duration(seconds: 2));

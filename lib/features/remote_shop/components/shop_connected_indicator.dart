@@ -16,15 +16,17 @@ class ShopConnectedIndicator extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (shopUrl != ref.watch(connectedShopProvider).url) {
-      return SizedBox();
-    }
+    return SizedBox.shrink();
 
-    final isConnected = ref.watch(connectedShopProvider).isConnected;
+    // if (shopUrl != ref.watch(connectedShopProvider).url) {
+    //   return SizedBox();
+    // }
 
-    return AppBadge(
-      variant: isConnected ? AppColorVariant.Success : AppColorVariant.Danger,
-      label: isConnected ? "Connected" : "Disconnected",
-    );
+    // final isConnected = ref.watch(connectedShopProvider).isConnected;
+
+    // return AppBadge(
+    //   variant: isConnected ? AppColorVariant.Success : AppColorVariant.Danger,
+    //   label: isConnected ? "Connected" : "Disconnected",
+    // );
   }
 }

@@ -58,6 +58,8 @@ Future<bool> connectToShop({
   );
 
   if (data == "true") {
+    print("Connected");
+    await Future.delayed(Duration(seconds: 1));
     return true;
   }
 
@@ -102,6 +104,7 @@ Future<ShopData?> getShopData({required RemoteShopService service, int attempt =
   final data = jsonDecode(response);
 
   if (data['Success'] == true) {
+    print(jsonEncode(data['DecShopData']));
     return ShopData.fromJson(data['DecShopData']);
   }
 

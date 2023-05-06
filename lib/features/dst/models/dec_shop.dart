@@ -32,6 +32,7 @@ class DecShop with _$DecShop {
     @JsonKey(name: "IsOffline") required bool isOffline, // * updating when published
     @JsonKey(name: "IsPublished") required bool isPublished,
     @JsonKey(name: "CollectionCount") @Default(0) int collectionCount,
+    @JsonKey(name: "ListingCount") @Default(0) int listingCount,
     @JsonKey(name: "AuctionCount") @Default(0) int auctionCount,
     @JsonKey(name: "IsIPDifferent") required bool ipIsDifferent,
   }) = _DecShop;
