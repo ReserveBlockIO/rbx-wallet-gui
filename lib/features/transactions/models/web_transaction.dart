@@ -53,6 +53,28 @@ class WebTransaction with _$WebTransaction {
     // return d12;
   }
 
+  List<dynamic>? get subTxs {
+    if (nftDataValue('Function') == "Sale_Complete()") {
+      if (nftDataValue('Transactions') != null) {
+        return nftDataValueList('Transactions');
+      }
+    }
+
+    return null;
+  }
+
+  double? get subTxAmount {
+    if (subTxs != null) {
+      double amount = 0;
+      for (final s in subTxs!) {
+        amount += s['Amount'];
+      }
+      return amount;
+    }
+
+    return 0;
+  }
+
   String get typeLabel {
     switch (type) {
       case 0:
@@ -62,21 +84,43 @@ class WebTransaction with _$WebTransaction {
       case 2:
         return "NFT Mint";
       case 3:
+        if (nftDataValue('Function') == "Transfer()") {
+          return "NFT Transfer";
+        } else if (["ChangeEvolveStateSpecific()", "Evolve()", "Devolve()"].contains(nftDataValue('Function'))) {
+          return "NFT Evolution";
+        }
+
         return "NFT Tx";
+
       case 4:
         return "NFT Burn";
       case 5:
         if (nftDataValue('Function') == "Sale_Start()") {
-          return "NFT Sale Start";
+          return "NFT Sale (Start)";
         } else if (nftDataValue('Function') == "Sale_Complete()") {
-          return "NFT Sale Complete";
+          return "NFT Sale (Complete)";
         }
 
         return "NFT Sale";
 
       case 6:
+        if (nftDataValue('Function') == "AdnrCreate()") {
+          return "RBX Domain (Create)";
+        } else if (nftDataValue('Function') == "AdnrTransfer()") {
+          return "RBX Domain (Transfer)";
+        } else if (nftDataValue('Function') == "AdnrDelete()") {
+          return "RBX Domain (Delete)";
+        }
+
         return "Address";
       case 7:
+        if (nftDataValue('Function') == "DecShopCreate()") {
+          return "P2P Auction House (Create)";
+        } else if (nftDataValue('Function') == "DecShopUpdate()") {
+          return "P2P Auction House (Update)";
+        } else if (nftDataValue('Function') == "DecShopDelete()") {
+          return "P2P Auction House (Delete)";
+        }
         return "DST Registration";
       default:
         return "-";
@@ -129,5 +173,14 @@ class WebTransaction with _$WebTransaction {
     }
 
     return d.containsKey(key) && d[key] is num ? d[key] as double : null;
+  }
+
+  List<dynamic>? nftDataValueList(String key) {
+    final d = parseNftData();
+    if (d == null) {
+      return null;
+    }
+
+    return d.containsKey(key) && d[key] is List ? d[key] as List<dynamic> : null;
   }
 }

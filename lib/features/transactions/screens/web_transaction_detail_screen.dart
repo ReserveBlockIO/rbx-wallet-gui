@@ -43,7 +43,7 @@ class WebTransactionDetailScreen extends BaseScreen {
       actions: [
         IconButton(
           onPressed: () {
-            launchUrl(Uri.parse("${Env.explorerWebsiteBaseUrl}/transaction/$hash"));
+            launchUrl(Uri.parse("${Env.baseExplorerUrl}/transaction/$hash"));
           },
           icon: const Icon(Icons.open_in_new),
         )
@@ -209,7 +209,7 @@ class _TransactionDetails extends BaseComponent {
               child: Card(
                 color: Colors.black,
                 child: ListTile(
-                  title: Text("${tx.amount} RBX"),
+                  title: Text("${tx.subTxAmount ?? tx.amount} RBX"),
                   subtitle: const Text("Amount"),
                 ),
               ),

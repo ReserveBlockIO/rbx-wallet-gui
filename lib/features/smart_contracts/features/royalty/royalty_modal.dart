@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
 
 import '../../../../core/base_component.dart';
 import '../../../../core/components/dropdowns.dart';
@@ -149,7 +151,11 @@ class RoyaltyModal extends BaseComponent {
           label: const Text("Address"),
           labelStyle: const TextStyle(color: Colors.white),
           suffixIcon: kIsWeb
-              ? IconButton(
+              ? AppButton(
+                  label: "Use My Address",
+                  variant: AppColorVariant.Light,
+                  type: AppButtonType.Text,
+                  underlined: true,
                   onPressed: () {
                     final address = ref.read(webSessionProvider).keypair?.address;
 
@@ -157,7 +163,7 @@ class RoyaltyModal extends BaseComponent {
                       _provider.addressController.text = address;
                     }
                   },
-                  icon: const Icon(Icons.import_export))
+                )
               : IconButton(
                   icon: const Icon(
                     FontAwesomeIcons.folderOpen,

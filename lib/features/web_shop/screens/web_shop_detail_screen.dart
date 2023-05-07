@@ -12,6 +12,7 @@ import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart' as web_router;
 import 'package:rbx_wallet/features/chat/services/web_chat_service.dart';
+import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/raw/raw_service.dart';
 import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
 import 'package:rbx_wallet/features/web_shop/components/web_collection_list.dart';
@@ -239,6 +240,7 @@ class WebShopDetailScreen extends BaseScreen {
                               if (confirmed == true) {
                                 bool success = true;
                                 if (shop.isPublished) {
+                                  ref.read(globalLoadingProvider.notifier).start();
                                   success = await broadcastShopTx(ref.read(webSessionProvider).keypair!, shop, ShopPublishTxType.delete);
                                 }
 
@@ -246,6 +248,7 @@ class WebShopDetailScreen extends BaseScreen {
                                   ref.read(webShopFormProvider.notifier).delete(context, shop);
                                   AutoRouter.of(context).pop();
                                 }
+                                ref.read(globalLoadingProvider.notifier).complete();
                               }
                             },
                           ),

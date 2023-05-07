@@ -366,6 +366,7 @@ class WebRouter extends _i28.RootStackRouter {
           orElse: () => BuildSaleStartTxScreenRouteArgs(
                 scId: pathParams.getString('scId'),
                 bidId: pathParams.getInt('bidId'),
+                ownerAddress: pathParams.getString('ownerAddress'),
               ));
       return _i28.AdaptivePage<dynamic>(
         routeData: routeData,
@@ -373,6 +374,7 @@ class WebRouter extends _i28.RootStackRouter {
           key: args.key,
           scId: args.scId,
           bidId: args.bidId,
+          ownerAddress: args.ownerAddress,
         ),
       );
     },
@@ -582,7 +584,7 @@ class WebRouter extends _i28.RootStackRouter {
               children: [
                 _i28.RouteConfig(
                   BuildSaleStartTxScreenRoute.name,
-                  path: 'build-sale-start/:scId/:bidId',
+                  path: 'build-sale-start/:scId/:bidId/:ownerAddress',
                   parent: WebSignTxTabRouter.name,
                 )
               ],
@@ -1331,17 +1333,20 @@ class BuildSaleStartTxScreenRoute
     _i29.Key? key,
     required String scId,
     required int bidId,
+    required String ownerAddress,
   }) : super(
           BuildSaleStartTxScreenRoute.name,
-          path: 'build-sale-start/:scId/:bidId',
+          path: 'build-sale-start/:scId/:bidId/:ownerAddress',
           args: BuildSaleStartTxScreenRouteArgs(
             key: key,
             scId: scId,
             bidId: bidId,
+            ownerAddress: ownerAddress,
           ),
           rawPathParams: {
             'scId': scId,
             'bidId': bidId,
+            'ownerAddress': ownerAddress,
           },
         );
 
@@ -1353,6 +1358,7 @@ class BuildSaleStartTxScreenRouteArgs {
     this.key,
     required this.scId,
     required this.bidId,
+    required this.ownerAddress,
   });
 
   final _i29.Key? key;
@@ -1361,8 +1367,10 @@ class BuildSaleStartTxScreenRouteArgs {
 
   final int bidId;
 
+  final String ownerAddress;
+
   @override
   String toString() {
-    return 'BuildSaleStartTxScreenRouteArgs{key: $key, scId: $scId, bidId: $bidId}';
+    return 'BuildSaleStartTxScreenRouteArgs{key: $key, scId: $scId, bidId: $bidId, ownerAddress: $ownerAddress}';
   }
 }

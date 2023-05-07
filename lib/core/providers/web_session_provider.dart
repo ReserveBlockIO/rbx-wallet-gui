@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/models/web_session_model.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/transactions/providers/web_transaction_list_provider.dart';
+import 'package:rbx_wallet/features/web_shop/providers/web_listed_nfts_provider.dart';
 import 'package:rbx_wallet/utils/html_helpers.dart';
 
 import '../../app.dart';
@@ -102,6 +103,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
       return;
     }
     ref.read(nftListProvider.notifier).load(1, state.keypair!.email, state.keypair!.address);
+    ref.read(webListedNftsProvider.notifier).refresh();
   }
 
   Future<void> logout() async {

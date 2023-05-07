@@ -188,7 +188,7 @@ const webDashboardTabRouter = AutoRoute(
       page: EmptyRouterPage,
       children: [
         AutoRoute(
-          path: "build-sale-start/:scId/:bidId",
+          path: "build-sale-start/:scId/:bidId/:ownerAddress",
           page: BuildSaleStartTxScreen,
         ),
       ],

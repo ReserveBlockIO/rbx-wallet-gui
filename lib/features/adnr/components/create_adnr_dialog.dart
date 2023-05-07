@@ -91,8 +91,12 @@ class CreateAdnrDialog extends BaseComponent {
               final domainWithoutSuffix = controller.text;
               final domain = "$domainWithoutSuffix.rbx";
 
+              ref.read(globalLoadingProvider.notifier).start();
+
               final available = await ExplorerService().adnrAvailable(domain);
+
               if (!available) {
+                ref.read(globalLoadingProvider.notifier).complete();
                 Toast.error("This RBX Domain already exists");
                 return;
               }
@@ -104,6 +108,8 @@ class CreateAdnrDialog extends BaseComponent {
                 txType: TxType.adnr,
                 data: {"Function": "AdnrCreate()", "Name": domainWithoutSuffix},
               );
+
+              ref.read(globalLoadingProvider.notifier).complete();
 
               if (txData == null) {
                 Toast.error("Invalid transaction data.");

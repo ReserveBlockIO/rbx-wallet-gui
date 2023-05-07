@@ -149,14 +149,33 @@ class WebShopFormProvider extends StateNotifier<WebShop> {
     }
 
     if (updatedShop != null) {
-      ref.read(webShopListProvider(WebShopListType.mine).notifier).refresh();
-      ref.read(webShopListProvider(WebShopListType.public).notifier).refresh();
+      if (!updatedShop.isPublished) {
+        final confirm = await ConfirmDialog.show(
+          title: "Publish Shop?",
+          body: "There is a cost of $SHOP_PUBLISH_COST RBX to publish your shop to the network (plus the transaction fee).",
+          confirmText: "Publish",
+          cancelText: "Cancel",
+        );
+
+        if (confirm == true) {
+          final published = await broadcastShopTx(ref.read(webSessionProvider).keypair!, updatedShop, ShopPublishTxType.create);
+          if (published) {
+            final s = await WebShopService().saveWebShop(updatedShop.copyWith(isPublished: true));
+
+            if (s != null) {
+              ref.invalidate(webShopDetailProvider(updatedShop.id));
+            }
+          }
+        }
+      }
+
       ref.invalidate(webShopDetailProvider(updatedShop.id));
+      ref.read(globalLoadingProvider.notifier).complete();
+      ref.read(webShopListProvider(WebShopListType.public).notifier).refresh();
+      ref.read(webShopListProvider(WebShopListType.mine).notifier).refresh();
+      clear();
 
       AutoRouter.of(context).pop();
-
-      clear();
-      ref.read(globalLoadingProvider.notifier).complete();
 
       return true;
     } else {

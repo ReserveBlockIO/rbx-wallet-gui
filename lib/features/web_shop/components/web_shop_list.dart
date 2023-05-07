@@ -25,7 +25,7 @@ class WebShopList extends BaseComponent {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final listProvider = ref.watch(webShopListProvider(mine ? WebShopListType.mine : WebShopListType.public).notifier);
+    final listProvider = ref.read(webShopListProvider(mine ? WebShopListType.mine : WebShopListType.public).notifier);
     final model = ref.watch(webShopListProvider(mine ? WebShopListType.mine : WebShopListType.public));
 
     final searchQuery = ref.watch(webShopSearchProvider).toLowerCase();

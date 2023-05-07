@@ -9,6 +9,7 @@ import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/adnr/components/create_adnr_dialog.dart';
 import 'package:rbx_wallet/features/adnr/providers/adnr_pending_provider.dart';
+import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/raw/raw_service.dart';
 import 'package:rbx_wallet/features/web/components/web_no_wallet.dart';
 import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
@@ -180,6 +181,8 @@ class WebAdnrScreen extends BaseScreen {
                               validator: (value) => formValidatorRbxAddress(value, false),
                               labelText: "Address",
                               onValidSubmission: (toAddress) async {
+                                ref.read(globalLoadingProvider.notifier).start();
+
                                 final txData = await RawTransaction.generate(
                                   keypair: ref.read(webSessionProvider).keypair!,
                                   amount: ADNR_TRANSFER_COST,
@@ -187,6 +190,8 @@ class WebAdnrScreen extends BaseScreen {
                                   txType: TxType.adnr,
                                   data: {"Function": "AdnrTransfer()", "Name": adnr},
                                 );
+
+                                ref.read(globalLoadingProvider.notifier).complete();
 
                                 if (txData == null) {
                                   Toast.error("Invalid transaction data.");
@@ -208,11 +213,15 @@ class WebAdnrScreen extends BaseScreen {
                                   return;
                                 }
 
+                                ref.read(globalLoadingProvider.notifier).start();
+
                                 final tx = await RawService().sendTransaction(
                                   transactionData: txData,
                                   execute: true,
                                   widgetRef: ref,
                                 );
+
+                                ref.read(globalLoadingProvider.notifier).complete();
 
                                 if (tx != null && tx['Result'] == "Success") {
                                   ref.read(adnrPendingProvider.notifier).addId(address, "transfer", adnr);
@@ -245,6 +254,7 @@ class WebAdnrScreen extends BaseScreen {
                           );
 
                           if (confirmed == true) {
+                            ref.read(globalLoadingProvider.notifier).start();
                             final txData = await RawTransaction.generate(
                               keypair: ref.read(webSessionProvider).keypair!,
                               amount: ADNR_DELETE_COST,
@@ -253,8 +263,10 @@ class WebAdnrScreen extends BaseScreen {
                               data: {"Function": "AdnrDelete()", "Name": adnr},
                             );
 
+                            ref.read(globalLoadingProvider.notifier).complete();
                             if (txData == null) {
                               Toast.error("Invalid transaction data.");
+
                               return;
                             }
 
@@ -273,7 +285,10 @@ class WebAdnrScreen extends BaseScreen {
                               return;
                             }
 
+                            ref.read(globalLoadingProvider.notifier).start();
+
                             final tx = await RawService().sendTransaction(transactionData: txData, execute: true, widgetRef: ref);
+                            ref.read(globalLoadingProvider.notifier).complete();
 
                             if (tx != null && tx['Result'] == "Success") {
                               ref.read(adnrPendingProvider.notifier).addId(address, "delete", adnr);

@@ -461,13 +461,13 @@ class NftDetailScreen extends BaseScreen {
                               int? delayHours;
                               String? fromAddress;
 
+                              if (nft.isListed(ref)) {
+                                Toast.error("This NFT is listed in your auction house. Please remove the listing before transferring.");
+                                return;
+                              }
+
                               if (!kIsWeb) {
                                 if (!await passwordRequiredGuard(context, ref)) {
-                                  return;
-                                }
-
-                                if (nft.isListed(ref)) {
-                                  Toast.error("This NFT is listed in your auction house. Please remove the listing before transferring.");
                                   return;
                                 }
 
@@ -660,11 +660,9 @@ class NftDetailScreen extends BaseScreen {
                       variant: AppColorVariant.Danger,
                       onPressed: nft.isPublished
                           ? () async {
-                              if (!kIsWeb) {
-                                if (nft.isListed(ref)) {
-                                  Toast.error("This NFT is listed in your auction house. Please remove the listing before burning.");
-                                  return;
-                                }
+                              if (nft.isListed(ref)) {
+                                Toast.error("This NFT is listed in your auction house. Please remove the listing before burning.");
+                                return;
                               }
 
                               if (!await passwordRequiredGuard(context, ref)) return;

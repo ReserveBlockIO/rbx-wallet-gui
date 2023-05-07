@@ -200,9 +200,6 @@ Future<dynamic> handleRecoverFromMnemonic(BuildContext context, WidgetRef ref) a
       // showKeys(context, keypair);
       // await TransactionService().createWallet(null, keypair.address);
       login(context, ref, keypair);
-      if (ref.read(webSessionProvider).isAuthenticated) {
-        AutoRouter.of(context).push(WebDashboardContainerRoute());
-      }
     },
   );
 }

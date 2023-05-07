@@ -214,6 +214,10 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                             handleMneumonic: () async {
                               await handleRecoverFromMnemonic(context, ref);
 
+                              if (ref.read(webSessionProvider).isAuthenticated) {
+                                redirectToDashboard();
+                              }
+
                               //do stuff
                             },
                             handleUsername: () {

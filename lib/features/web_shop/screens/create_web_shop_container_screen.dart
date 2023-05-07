@@ -1,11 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
+import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/features/dst/components/publish_shop_button.dart';
 import 'package:rbx_wallet/features/dst/components/shop_online_button.dart';
 import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
 import 'package:rbx_wallet/features/dst/providers/dst_tx_pending_provider.dart';
 import 'package:rbx_wallet/features/dst/services/dst_service.dart';
+import 'package:rbx_wallet/features/web_shop/providers/web_shop_detail_provider.dart';
+import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
+import 'package:rbx_wallet/features/web_shop/utils/shop_publishing.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/base_screen.dart';
@@ -105,11 +110,8 @@ class CreateWebShopContainerScreen extends BaseScreen {
                 AppButton(
                   label: model.id != 0 ? 'Save Changes' : 'Create',
                   variant: AppColorVariant.Success,
-                  onPressed: () async {
-                    final success = await provider.complete(context);
-                    if (success == true) {
-                      AutoRouter.of(context).pop();
-                    }
+                  onPressed: () {
+                    provider.complete(context);
                   },
                 )
               ],

@@ -107,7 +107,7 @@ class Env {
       case _Environment.WebTestNet:
         return 'https://test-wallet.rbx.network/';
       default:
-        return 'https://rbx.network/';
+        return 'https://wallet.rbx.network/';
     }
   }
 
