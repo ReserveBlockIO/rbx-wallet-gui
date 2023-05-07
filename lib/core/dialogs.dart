@@ -360,6 +360,8 @@ class AuthModal {
       Navigator.of(context).pop();
     }
 
+    bool obscuringPassword = true;
+
     return await showDialog(
       context: context,
       barrierDismissible: true,
@@ -401,20 +403,38 @@ class AuthModal {
                       validator: formValidatorEmail,
                       keyboardType: TextInputType.emailAddress,
                     ),
-                    TextFormField(
-                      controller: _passwordController,
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        hintText: "Password",
-                      ),
-                      validator: formValidatorPassword,
-                      keyboardType: TextInputType.emailAddress,
-                      onFieldSubmitted: (_) {
-                        if (!forCreate) {
-                          submit(context);
-                        }
-                      },
-                    ),
+                    StatefulBuilder(builder: (context, setState) {
+                      return Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              controller: _passwordController,
+                              obscureText: obscuringPassword,
+                              decoration: const InputDecoration(
+                                hintText: "Password",
+                              ),
+                              validator: formValidatorPassword,
+                              keyboardType: TextInputType.emailAddress,
+                              onFieldSubmitted: (_) {
+                                if (!forCreate) {
+                                  submit(context);
+                                }
+                              },
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              setState(() {
+                                obscuringPassword = !obscuringPassword;
+                              });
+                            },
+                            icon: Icon(
+                              obscuringPassword ? Icons.remove_red_eye : Icons.hide_source_outlined,
+                            ),
+                          )
+                        ],
+                      );
+                    }),
                     if (forCreate)
                       TextFormField(
                         controller: _confirmPasswordController,

@@ -22,6 +22,7 @@ class ReserveAccountOverviewScreen extends BaseScreen {
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
       title: Text("Reserve Accounts"),
+      backgroundColor: Colors.black,
       actions: [
         // TextButton(
         //   onPressed: () {
@@ -186,7 +187,7 @@ class _Top extends BaseComponent {
         ],
       ),
       SizedBox(
-        height: 4,
+        height: 16,
       ),
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
