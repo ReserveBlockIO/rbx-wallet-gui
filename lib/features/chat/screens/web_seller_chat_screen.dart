@@ -2,19 +2,19 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/components/centered_loader.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/features/chat/components/new_chat_message.dart';
-import 'package:rbx_wallet/features/chat/components/shop_chat_list.dart';
-import 'package:rbx_wallet/features/chat/providers/seller_chat_list_provider.dart';
-import 'package:rbx_wallet/features/chat/providers/web_seller_chat_list_provider.dart';
-import 'package:rbx_wallet/features/chat/services/web_chat_service.dart';
-import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/features/web_shop/providers/web_shop_detail_provider.dart';
-import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../core/base_screen.dart';
+import '../../../core/components/centered_loader.dart';
+import '../../../core/dialogs.dart';
+import '../components/new_chat_message.dart';
+import '../components/shop_chat_list.dart';
+import '../providers/seller_chat_list_provider.dart';
+import '../providers/web_seller_chat_list_provider.dart';
+import '../services/web_chat_service.dart';
+import '../../dst/providers/dec_shop_provider.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../../web_shop/providers/web_shop_detail_provider.dart';
+import '../../web_shop/services/web_shop_service.dart';
+import '../../../utils/toast.dart';
 
 class WebSellerChatScreen extends BaseScreen {
   final String address;
@@ -83,9 +83,7 @@ class WebSellerChatScreen extends BaseScreen {
 
               print("Deleting thread ${webThread.uuid}");
 
-              final success = await ref
-                  .read(sellerChatListProvider(address).notifier)
-                  .deleteThread(webThread.uuid, webThread.shop.id);
+              final success = await ref.read(sellerChatListProvider(address).notifier).deleteThread(webThread.uuid, webThread.shop.id);
               ref.read(globalLoadingProvider.notifier).complete();
               // if (success) {
               AutoRouter.of(context).pop();

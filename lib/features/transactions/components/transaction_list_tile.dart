@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/utils.dart';
-import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
+import '../../../core/app_constants.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/utils.dart';
+import '../../remote_shop/services/remote_shop_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../reserve/components/callback_button.dart';

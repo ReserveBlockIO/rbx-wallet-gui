@@ -3,13 +3,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/remote_shop/components/listing_details.dart';
-import 'package:rbx_wallet/features/remote_shop/models/shop_data.dart';
-import 'package:rbx_wallet/features/remote_shop/providers/remote_shop_expanded_listings_provider.dart';
-import 'package:rbx_wallet/utils/files.dart';
+import '../../../core/base_component.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../nft/models/nft.dart';
+import 'listing_details.dart';
+import '../models/shop_data.dart';
+import '../providers/remote_shop_expanded_listings_provider.dart';
+import '../../../utils/files.dart';
 
 class ListingDetailsListTile extends BaseComponent {
   final OrganizedListing listing;

@@ -4,9 +4,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/services/explorer_service.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
+import '../../../../../core/env.dart';
+import '../../../../../core/services/explorer_service.dart';
+import '../../../../global_loader/global_loading_provider.dart';
 
 import '../../../../../core/app_constants.dart';
 import '../../../../../core/base_component.dart';

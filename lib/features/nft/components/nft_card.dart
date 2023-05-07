@@ -80,7 +80,7 @@ class NftCard extends BaseComponent {
                         fit: BoxFit.cover,
                       ),
                     )
-                  : nft.primaryAssetWeb != null
+                  : nft.currentEvolveAssetWeb != null
                       ? const Icon(Icons.file_present_outlined)
                       : const Text("NFT assets have not been transfered to the RBX Web Wallet."),
             if (!kIsWeb)

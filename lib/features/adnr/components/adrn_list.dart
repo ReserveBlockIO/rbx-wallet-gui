@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/adnr/services/adnr_service.dart';
-import 'package:rbx_wallet/features/raw/raw_service.dart';
+import '../services/adnr_service.dart';
+import '../../raw/raw_service.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/base_component.dart';

@@ -2,13 +2,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/core/web_router.gr.dart' as web_router;
-import 'package:rbx_wallet/features/chat/providers/seller_chat_thread_list_provider.dart';
-import 'package:rbx_wallet/features/chat/providers/web_seller_chat_thread_list_provider.dart';
-import 'package:rbx_wallet/features/chat/screens/web_seller_chat_screen.dart';
+import '../../../core/app_router.gr.dart';
+import '../../../core/base_component.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../core/web_router.gr.dart' as web_router;
+import '../providers/seller_chat_thread_list_provider.dart';
+import '../providers/web_seller_chat_thread_list_provider.dart';
+import '../screens/web_seller_chat_screen.dart';
 
 class SellerChatThreadList extends BaseComponent {
   final int shopId;

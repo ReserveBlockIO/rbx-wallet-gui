@@ -1,14 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:rbx_wallet/core/singletons.dart';
-import 'package:rbx_wallet/core/storage.dart';
-import 'package:rbx_wallet/core/utils.dart';
-import 'package:rbx_wallet/features/dst/models/bid.dart';
-import 'package:rbx_wallet/features/dst/models/dec_shop.dart';
-import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
-import 'package:rbx_wallet/generated/assets.gen.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../core/singletons.dart';
+import '../../../core/storage.dart';
+import '../../../core/utils.dart';
+import '../../dst/models/bid.dart';
+import '../../dst/models/dec_shop.dart';
+import '../../web_shop/services/web_shop_service.dart';
+import '../../../generated/assets.gen.dart';
+import '../../../utils/toast.dart';
 
 import '../../../core/services/base_service.dart';
 import "../models/shop_data.dart";

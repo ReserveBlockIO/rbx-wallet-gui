@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:rbx_wallet/core/services/explorer_service.dart';
+import '../core/services/explorer_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../core/app_constants.dart';

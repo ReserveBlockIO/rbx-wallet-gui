@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/dst/models/dec_shop.dart';
+import '../../dst/models/dec_shop.dart';
 import 'package:collection/collection.dart';
 import '../../../core/singletons.dart';
 import '../../../core/storage.dart';

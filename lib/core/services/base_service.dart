@@ -4,9 +4,9 @@ import 'dart:io';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:rbx_wallet/core/api_token_manager.dart';
-import 'package:rbx_wallet/core/singletons.dart';
-import 'package:rbx_wallet/core/storage.dart';
+import '../api_token_manager.dart';
+import '../singletons.dart';
+import '../storage.dart';
 
 import '../../features/inspector/network_inspector.dart';
 import '../env.dart';

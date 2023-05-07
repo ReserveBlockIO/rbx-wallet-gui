@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/metrics/models/network_metrics.dart';
+import '../../metrics/models/network_metrics.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/providers/session_provider.dart';

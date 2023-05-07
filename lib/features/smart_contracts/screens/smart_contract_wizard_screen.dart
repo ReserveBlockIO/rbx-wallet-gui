@@ -1,17 +1,17 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/collection_form.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_wizard_list.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/bulk_smart_contract_entry.dart';
-import 'package:rbx_wallet/features/smart_contracts/screens/sc_wizard_edit_item_screen.dart';
-import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
+import '../../../core/app_constants.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../components/collection_form.dart';
+import '../components/sc_wizard_list.dart';
+import '../models/bulk_smart_contract_entry.dart';
+import 'sc_wizard_edit_item_screen.dart';
+import '../../wallet/components/wallet_selector.dart';
 import 'package:collection/collection.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../utils/toast.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/components/buttons.dart';

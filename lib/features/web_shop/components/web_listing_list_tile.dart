@@ -2,9 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/features/web_shop/models/web_listing.dart';
+import '../../../core/app_router.gr.dart';
+import '../../../core/env.dart';
+import '../models/web_listing.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/web_router.gr.dart' as webRouter;

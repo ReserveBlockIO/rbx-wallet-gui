@@ -1,10 +1,10 @@
 import 'dart:convert';
-import 'package:rbx_wallet/features/dst/models/bid.dart';
-import 'package:rbx_wallet/features/dst/models/listing.dart';
-import 'package:rbx_wallet/features/dst/models/collection.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/nft/services/nft_service.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../models/bid.dart';
+import '../models/listing.dart';
+import '../models/collection.dart';
+import '../../nft/models/nft.dart';
+import '../../nft/services/nft_service.dart';
+import '../../../utils/toast.dart';
 
 import '../../../core/services/base_service.dart';
 import '../models/dec_shop.dart';
@@ -412,8 +412,7 @@ class DstService extends BaseService {
 
   Future<List<Listing>> listListings(int collectionId) async {
     try {
-      final response = await getText("/GetCollectionListings/$collectionId",
-          cleanPath: false);
+      final response = await getText("/GetCollectionListings/$collectionId", cleanPath: false);
 
       if (response.isEmpty) {
         return [];

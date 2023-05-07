@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/features/chat/models/chat_message.dart';
+import 'chat_message.dart';
 
 part 'chat_thread.freezed.dart';
 part 'chat_thread.g.dart';

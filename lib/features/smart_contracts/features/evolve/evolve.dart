@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/core/utils.dart';
-import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
+import '../../../../core/utils.dart';
+import '../../../sc_property/models/sc_property.dart';
 
 import '../../../asset/asset.dart';
 import 'evolve_phase.dart';

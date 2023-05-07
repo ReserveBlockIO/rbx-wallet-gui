@@ -1,14 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
-import 'package:rbx_wallet/features/dst/providers/listing_list_provider.dart';
-import 'package:rbx_wallet/features/dst/providers/collection_detail_provider.dart';
-import 'package:rbx_wallet/features/dst/providers/collection_list_provider.dart';
-import 'package:rbx_wallet/features/dst/services/dst_service.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../core/app_router.gr.dart';
+import 'dec_shop_provider.dart';
+import 'listing_list_provider.dart';
+import 'collection_detail_provider.dart';
+import 'collection_list_provider.dart';
+import '../services/dst_service.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../../../utils/toast.dart';
 
 import '../../../core/dialogs.dart';
 import '../models/collection.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/core/services/explorer_service.dart';
-import 'package:rbx_wallet/features/dst/services/dst_service.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../../core/services/explorer_service.dart';
+import '../../dst/services/dst_service.dart';
 
 class WebListedNftsProvider extends StateNotifier<List<String>> {
   final Ref ref;

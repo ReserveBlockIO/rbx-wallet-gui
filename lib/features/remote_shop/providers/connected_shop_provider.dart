@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/app.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/features/dst/models/dec_shop.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/features/remote_shop/models/shop_data.dart';
-import 'package:rbx_wallet/features/remote_shop/providers/saved_shops_provider.dart';
-import 'package:rbx_wallet/features/remote_shop/providers/shop_loading_provider.dart';
-import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../app.dart';
+import '../../../core/app_router.gr.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../dst/models/dec_shop.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../models/shop_data.dart';
+import 'saved_shops_provider.dart';
+import 'shop_loading_provider.dart';
+import '../services/remote_shop_service.dart';
+import '../../../utils/toast.dart';
 
 part 'connected_shop_provider.freezed.dart';
 

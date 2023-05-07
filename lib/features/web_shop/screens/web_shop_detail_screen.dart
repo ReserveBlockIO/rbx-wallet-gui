@@ -3,26 +3,26 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/core/web_router.gr.dart' as web_router;
-import 'package:rbx_wallet/features/chat/services/web_chat_service.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/features/raw/raw_service.dart';
-import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
-import 'package:rbx_wallet/features/web_shop/components/web_collection_list.dart';
-import 'package:rbx_wallet/features/web_shop/components/web_my_collection_list.dart';
-import 'package:rbx_wallet/features/web_shop/providers/web_collection_form_provider.dart';
-import 'package:rbx_wallet/features/web_shop/providers/web_shop_form_provider.dart';
-import 'package:rbx_wallet/features/web_shop/screens/my_create_collection_container_screen.dart';
-import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
-import 'package:rbx_wallet/features/web_shop/utils/shop_publishing.dart';
-import 'package:rbx_wallet/core/components/poller.dart';
+import '../../../core/app_constants.dart';
+import '../../../core/app_router.gr.dart';
+import '../../../core/base_screen.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/env.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../../core/web_router.gr.dart' as web_router;
+import '../../chat/services/web_chat_service.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../../raw/raw_service.dart';
+import '../../web/utils/raw_transaction.dart';
+import '../components/web_collection_list.dart';
+import '../components/web_my_collection_list.dart';
+import '../providers/web_collection_form_provider.dart';
+import '../providers/web_shop_form_provider.dart';
+import 'my_create_collection_container_screen.dart';
+import '../services/web_shop_service.dart';
+import '../utils/shop_publishing.dart';
+import '../../../core/components/poller.dart';
 
 import '../../../core/breakpoints.dart';
 import '../../../core/dialogs.dart';
@@ -253,9 +253,9 @@ class WebShopDetailScreen extends BaseScreen {
                             },
                           ),
                           AppButton(
-                            label: isMobile ? "Edit" : "Edit Shop",
+                            label: isMobile ? "Edit" : "Edit Auction House",
                             icon: Icons.edit,
-                            variant: AppColorVariant.Primary,
+                            variant: AppColorVariant.Light,
                             onPressed: () {
                               ref.read(webShopFormProvider.notifier).load(shop);
                               if (Env.isWeb) {

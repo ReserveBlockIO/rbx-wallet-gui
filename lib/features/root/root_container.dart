@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/validator/components/validating_status.dart';
+import '../validator/components/validating_status.dart';
 
 import '../../app.dart';
 import '../../core/app_router.gr.dart';

@@ -4,11 +4,11 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/core/utils.dart';
-import 'package:rbx_wallet/features/asset/web_asset.dart';
-import 'package:rbx_wallet/features/dst/providers/listed_nfts_provider.dart';
-import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/royalty/royalty.dart';
+import '../../../core/utils.dart';
+import '../../asset/web_asset.dart';
+import '../../dst/providers/listed_nfts_provider.dart';
+import '../../sc_property/models/sc_property.dart';
+import '../../smart_contracts/features/royalty/royalty.dart';
 
 import '../../../core/env.dart';
 import '../../asset/asset.dart';
@@ -17,7 +17,7 @@ import '../../smart_contracts/features/evolve/evolve_phase.dart';
 import '../../smart_contracts/models/feature.dart';
 import '../../smart_contracts/models/multi_asset.dart';
 
-import 'package:rbx_wallet/features/web_shop/providers/web_listed_nfts_provider.dart';
+import '../../web_shop/providers/web_listed_nfts_provider.dart';
 
 part 'nft.freezed.dart';
 part 'nft.g.dart';
@@ -65,6 +65,7 @@ abstract class Nft with _$Nft {
     @JsonKey(name: "SmartContractAsset") required Asset primaryAsset,
     @JsonKey(ignore: true) WebAsset? primaryAssetWeb,
     @JsonKey(ignore: true) List<WebAsset>? additionalAssetsWeb,
+    // @JsonKey(ignore: true) List<WebAsset>? evolveAssetsWeb,
     @JsonKey(name: "IsPublic") required bool isPublic,
     @JsonKey(name: "IsPublished") required bool isPublished,
     @JsonKey(name: "IsMinter") required bool isMinter,
@@ -173,6 +174,7 @@ abstract class Nft with _$Nft {
       name: "Base",
       description: description,
       asset: primaryAsset,
+      webAsset: primaryAssetWeb,
       evolutionState: 0,
       isCurrentState: evolutionPhases.firstWhereOrNull((p) => p.isCurrentState == true) == null ? true : false,
       properties: properties,
@@ -232,6 +234,14 @@ abstract class Nft with _$Nft {
   }
 
   WebAsset? get currentEvolveAssetWeb {
+    if (!canEvolve) {
+      return primaryAssetWeb;
+    }
+
+    if (currentEvolvePhase.webAsset != null) {
+      return currentEvolvePhase.webAsset!;
+    }
+
     return primaryAssetWeb;
 
     //TODO handle evolve asset stuff

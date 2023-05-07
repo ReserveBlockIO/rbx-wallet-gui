@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
-import 'package:rbx_wallet/core/utils.dart';
+import '../../../core/utils.dart';
 
 import '../../../core/env.dart';
 import '../../../core/theme/app_theme.dart';

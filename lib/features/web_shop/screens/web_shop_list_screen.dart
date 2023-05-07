@@ -2,9 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/features/web_shop/providers/web_shop_full_list_provider.dart';
-import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
+import '../../../core/base_screen.dart';
+import '../providers/web_shop_full_list_provider.dart';
+import '../services/web_shop_service.dart';
 
 import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';

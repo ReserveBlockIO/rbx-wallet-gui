@@ -4,14 +4,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/components/centered_loader.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/dst/components/listing_list.dart';
-import 'package:rbx_wallet/features/dst/providers/collection_detail_provider.dart';
-import 'package:rbx_wallet/features/dst/providers/collection_form_provider.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/components/centered_loader.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/theme/app_theme.dart';
+import '../components/listing_list.dart';
+import '../providers/collection_detail_provider.dart';
+import '../providers/collection_form_provider.dart';
+import '../../../utils/toast.dart';
 
 import '../../../core/app_router.gr.dart';
 

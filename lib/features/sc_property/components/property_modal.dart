@@ -4,13 +4,13 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/components/dropdowns.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/sc_property/providers/edit_sc_property_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
-import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
+import '../../../core/base_component.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/components/dropdowns.dart';
+import '../../../core/theme/app_theme.dart';
+import '../providers/edit_sc_property_provider.dart';
+import '../../smart_contracts/components/sc_creator/common/modal_container.dart';
+import '../models/sc_property.dart';
 
 class PropertyModal extends BaseComponent {
   const PropertyModal({Key? key}) : super(key: key);

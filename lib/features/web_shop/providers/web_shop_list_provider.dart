@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:rbx_wallet/core/models/paginated_response.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/features/web_shop/models/web_shop.dart';
-import 'package:rbx_wallet/features/web_shop/providers/web_shop_search_provider.dart';
+import '../../../core/models/paginated_response.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../models/web_shop.dart';
+import 'web_shop_search_provider.dart';
 
 import '../services/web_shop_service.dart';
 

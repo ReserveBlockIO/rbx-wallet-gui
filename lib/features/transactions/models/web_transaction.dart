@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/features/transactions/models/transaction.dart';
+import 'transaction.dart';
 
 part 'web_transaction.freezed.dart';
 part 'web_transaction.g.dart';

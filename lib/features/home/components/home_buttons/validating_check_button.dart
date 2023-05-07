@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../../core/base_component.dart';
+import '../../../../core/components/buttons.dart';
+import '../../../../core/dialogs.dart';
+import '../../../../core/providers/session_provider.dart';
+import '../../../bridge/services/bridge_service.dart';
+import '../../../../utils/toast.dart';
 
 class ValidatingCheckButton extends BaseComponent {
   const ValidatingCheckButton({

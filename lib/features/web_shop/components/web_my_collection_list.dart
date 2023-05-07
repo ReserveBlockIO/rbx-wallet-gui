@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/components/empty_placeholder.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/web_shop/components/web_collection_list_tile.dart';
-import 'package:rbx_wallet/features/web_shop/providers/web_collection_form_provider.dart';
-import 'package:rbx_wallet/features/web_shop/providers/web_shop_detail_provider.dart';
-import 'package:rbx_wallet/features/web_shop/screens/my_create_collection_container_screen.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/components/empty_placeholder.dart';
+import '../../../core/theme/app_theme.dart';
+import 'web_collection_list_tile.dart';
+import '../providers/web_collection_form_provider.dart';
+import '../providers/web_shop_detail_provider.dart';
+import '../screens/my_create_collection_container_screen.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/infinite_list.dart';
@@ -34,9 +34,19 @@ class WebMyCollectionList extends BaseComponent {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            EmptyPlaceholder(title: "No Collections"),
+            Text(
+              "Now you can create collections and then add listings to them.",
+              style: TextStyle(
+                fontSize: 18,
+                height: 1.5,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(
+              height: 32,
+            ),
             _CreateCollectionButton(
-              buttonType: AppButtonType.Outlined,
+              buttonType: AppButtonType.Elevated,
               shopId: shopId,
             ),
           ],

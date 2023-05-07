@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:rbx_wallet/features/dst/models/dec_shop.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/nft/services/nft_service.dart';
-import 'package:rbx_wallet/features/remote_shop/models/shop_data.dart';
-import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
-import 'package:rbx_wallet/utils/files.dart';
+import '../dst/models/dec_shop.dart';
+import '../nft/models/nft.dart';
+import '../nft/services/nft_service.dart';
+import 'models/shop_data.dart';
+import 'services/remote_shop_service.dart';
+import '../../utils/files.dart';
 import 'package:collection/collection.dart';
 
 const MAX_ATTEMPTS = 3;

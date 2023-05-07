@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/features/adnr/models/adnr_response.dart';
-import 'package:rbx_wallet/features/nft/models/web_nft.dart';
-import 'package:rbx_wallet/features/web/models/web_address.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../app_constants.dart';
+import '../../features/adnr/models/adnr_response.dart';
+import '../../features/nft/models/web_nft.dart';
+import '../../features/web/models/web_address.dart';
+import '../../utils/toast.dart';
 import '../../features/keygen/models/keypair.dart';
 
 import '../../features/nft/models/nft.dart';
@@ -111,6 +111,21 @@ class ExplorerService extends BaseService {
   Future<List<Nft>> listNfts(String ownerAddress) async {
     try {
       final response = await getJson('/nft/', params: {'owner_address': ownerAddress});
+
+      // final items = response['results'] as List<dynamic>;
+
+      final List<Nft> results = response['results'].map<Nft>((json) => WebNft.fromJson(json).smartContract).toList();
+      return results;
+      // return items.map((n) => Nft.fromJson(n['data'])).toList();
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  Future<List<Nft>> listMintedNfts(String minterAddress) async {
+    try {
+      final response = await getJson('/nft/', params: {'minter_address': minterAddress});
 
       // final items = response['results'] as List<dynamic>;
 

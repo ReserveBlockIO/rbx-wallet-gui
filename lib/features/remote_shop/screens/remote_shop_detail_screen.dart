@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/features/remote_shop/components/remote_shop_details.dart';
-import 'package:rbx_wallet/features/remote_shop/components/shop_connected_indicator.dart';
-import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
-import 'package:rbx_wallet/features/remote_shop/providers/remote_shop_detail_provider.dart';
+import '../../../core/app_router.gr.dart';
+import '../components/remote_shop_details.dart';
+import '../components/shop_connected_indicator.dart';
+import '../providers/connected_shop_provider.dart';
+import '../providers/remote_shop_detail_provider.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/components/buttons.dart';

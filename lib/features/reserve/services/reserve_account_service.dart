@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:rbx_wallet/features/reserve/models/new_reserve_account.dart';
-import 'package:rbx_wallet/features/wallet/models/wallet.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../models/new_reserve_account.dart';
+import '../../wallet/models/wallet.dart';
+import '../../../utils/toast.dart';
 
 import '../../../core/services/base_service.dart';
 
@@ -51,8 +51,7 @@ class ReserveAccountService extends BaseService {
     if (data != null) {
       print(jsonEncode(data));
       if (data['Success'] == true) {
-        if (data['ReserveAccount'] != null &&
-            data['ReserveAccount']['Result'] != null) {
+        if (data['ReserveAccount'] != null && data['ReserveAccount']['Result'] != null) {
           return NewReserveAccount.fromJson(data['ReserveAccount']['Result']);
         }
       }
@@ -95,12 +94,9 @@ class ReserveAccountService extends BaseService {
     return null;
   }
 
-  Future<bool> publish(
-      {required String address, required String password}) async {
+  Future<bool> publish({required String address, required String password}) async {
     try {
-      final response = await getText(
-          "/PublishReserveAccount/$address/$password",
-          cleanPath: false);
+      final response = await getText("/PublishReserveAccount/$address/$password", cleanPath: false);
       final data = jsonDecode(response);
       print(data);
       print("****");
@@ -131,8 +127,7 @@ class ReserveAccountService extends BaseService {
     };
 
     try {
-      final response =
-          await postJson("/SendReserveTransaction", params: params);
+      final response = await postJson("/SendReserveTransaction", params: params);
       final data = response['data'];
 
       if (data['Success'] != null && data['Success'] == true) {
@@ -148,9 +143,7 @@ class ReserveAccountService extends BaseService {
 
   Future<String?> callBack(String password, String txHash) async {
     try {
-      final response = await getText(
-          "/CallBackReserveAccountTx/$txHash/$password",
-          cleanPath: false);
+      final response = await getText("/CallBackReserveAccountTx/$txHash/$password", cleanPath: false);
       final data = jsonDecode(response);
       if (data['Success'] != null && data["Success"] == true) {
         return data['Hash'];
@@ -165,9 +158,7 @@ class ReserveAccountService extends BaseService {
 
   Future<String?> recoverTx(String password, String txHash) async {
     try {
-      final response = await getText(
-          "/RecoverReserveAccountTx/$txHash/$password",
-          cleanPath: false);
+      final response = await getText("/RecoverReserveAccountTx/$txHash/$password", cleanPath: false);
       final data = jsonDecode(response);
       if (data['Success'] != null && data["Success"] == true) {
         return data['Hash'];
@@ -206,13 +197,11 @@ class ReserveAccountService extends BaseService {
       print(jsonEncode(params));
       print("**********");
 
-      final response =
-          await postJson(url, timeout: 0, params: params, cleanPath: false);
+      final response = await postJson(url, timeout: 0, params: params, cleanPath: false);
       final data = response['data'];
 
       if (data['Success'] == true) {
-        Toast.message(
-            data['Message'] ?? 'Success: NFT Transfer has been started.');
+        Toast.message(data['Message'] ?? 'Success: NFT Transfer has been started.');
         return true;
       }
 
@@ -225,12 +214,9 @@ class ReserveAccountService extends BaseService {
     }
   }
 
-  Future<bool> downloadAssets(
-      String scId, String address, String password) async {
+  Future<bool> downloadAssets(String scId, String address, String password) async {
     try {
-      final response = await getText(
-          "/GetReserveAccountNFTAssets/$scId/$address/$password",
-          cleanPath: false);
+      final response = await getText("/GetReserveAccountNFTAssets/$scId/$address/$password", cleanPath: false);
       final data = jsonDecode(response);
 
       if (data['Success'] == true) {

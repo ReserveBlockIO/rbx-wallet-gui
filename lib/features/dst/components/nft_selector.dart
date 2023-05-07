@@ -1,13 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/features/nft/components/nft_list_tile.dart';
-import 'package:rbx_wallet/features/nft/components/nft_navigator.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
+import '../../../core/base_component.dart';
+import '../../../core/components/buttons.dart';
+import '../../nft/components/nft_list_tile.dart';
+import '../../nft/components/nft_navigator.dart';
+import '../../nft/models/nft.dart';
+import '../../nft/providers/nft_list_provider.dart';
+import '../../smart_contracts/components/sc_creator/common/modal_container.dart';
 import '../../web_shop/providers/web_listed_nfts_provider.dart';
 
 class NftSelector extends BaseComponent {

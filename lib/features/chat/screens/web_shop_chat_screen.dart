@@ -1,16 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/components/centered_loader.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/features/chat/components/new_chat_message.dart';
-import 'package:rbx_wallet/features/chat/components/shop_chat_list.dart';
-import 'package:rbx_wallet/features/chat/providers/shop_chat_list_provider.dart';
-import 'package:rbx_wallet/features/chat/providers/web_chat_thread_detail_provider.dart';
-import 'package:rbx_wallet/features/chat/providers/web_shop_chat_list_provider.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/features/remote_shop/providers/remote_shop_detail_provider.dart';
+import '../../../core/base_screen.dart';
+import '../../../core/components/centered_loader.dart';
+import '../../../core/dialogs.dart';
+import '../components/new_chat_message.dart';
+import '../components/shop_chat_list.dart';
+import '../providers/shop_chat_list_provider.dart';
+import '../providers/web_chat_thread_detail_provider.dart';
+import '../providers/web_shop_chat_list_provider.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../../remote_shop/providers/remote_shop_detail_provider.dart';
 
 class WebShopChatScreen extends BaseScreen {
   final String identifier;

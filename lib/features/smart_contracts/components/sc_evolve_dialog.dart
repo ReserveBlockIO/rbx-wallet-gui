@@ -2,10 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase_wizard_form_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/sc_wizard_provider.dart';
+import 'sc_creator/common/help_button.dart';
+import '../features/evolve/evolve.dart';
+import '../features/evolve/evolve_phase_wizard_form_provider.dart';
+import '../providers/sc_wizard_provider.dart';
 
 import '../../../core/base_component.dart';
 import '../../asset/asset.dart';

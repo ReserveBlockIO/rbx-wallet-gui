@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/components/empty_placeholder.dart';
-import 'package:rbx_wallet/core/web_router.gr.dart';
-import 'package:rbx_wallet/features/web_shop/components/web_shop_list_tile.dart';
-import 'package:rbx_wallet/features/web_shop/models/web_shop.dart';
+import '../../../core/app_router.gr.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/components/empty_placeholder.dart';
+import '../../../core/web_router.gr.dart';
+import 'web_shop_list_tile.dart';
+import '../models/web_shop.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/infinite_list.dart';
@@ -80,10 +80,18 @@ class WebMyShopList extends BaseComponent {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  EmptyPlaceholder(title: "No Auction Houses"),
-                  _CreateShopButton(
-                    buttonType: AppButtonType.Outlined,
+                  Text(
+                    "First, setup your auction house / gallery.\nThen you'll be able to create collections and add listings to them.",
+                    style: TextStyle(
+                      fontSize: 18,
+                      height: 1.5,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
+                  SizedBox(
+                    height: 32,
+                  ),
+                  _CreateShopButton(buttonType: AppButtonType.Elevated, variant: AppColorVariant.Light),
                 ],
               ),
             ),
@@ -112,18 +120,16 @@ class WebMyShopList extends BaseComponent {
 
 class _CreateShopButton extends BaseComponent {
   final AppButtonType buttonType;
-  const _CreateShopButton({
-    super.key,
-    this.buttonType = AppButtonType.Elevated,
-  });
+  final AppColorVariant variant;
+  const _CreateShopButton({super.key, this.buttonType = AppButtonType.Elevated, this.variant = AppColorVariant.Success});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AppButton(
-      label: 'Create Auction House',
-      icon: Icons.add,
+      label: 'Setup Auction House',
+      icon: Icons.store,
       type: buttonType,
-      variant: AppColorVariant.Success,
+      variant: variant,
       onPressed: () async {
         ref.read(webShopFormProvider.notifier).clear();
         if (Env.isWeb) {

@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/web_shop/models/web_listing.dart';
-import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
+import '../models/web_listing.dart';
+import '../services/web_shop_service.dart';
 
 class WebListingFullListProvider extends StateNotifier<List<WebListing>> {
   final int shopId;

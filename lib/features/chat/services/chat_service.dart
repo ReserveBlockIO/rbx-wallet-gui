@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:rbx_wallet/features/chat/models/chat_message.dart';
-import 'package:rbx_wallet/features/chat/models/chat_payload.dart';
-import 'package:rbx_wallet/features/chat/models/chat_thread.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../models/chat_message.dart';
+import '../models/chat_payload.dart';
+import '../models/chat_thread.dart';
+import '../../../utils/toast.dart';
 
 import '../../../core/services/base_service.dart';
 

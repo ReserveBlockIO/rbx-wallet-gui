@@ -1,17 +1,17 @@
 import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/services/base_service.dart';
-import 'package:rbx_wallet/features/adnr/models/adnr_response.dart';
-import 'package:rbx_wallet/features/keygen/models/keypair.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/nft/models/web_nft.dart';
-import 'package:rbx_wallet/features/transactions/models/web_transaction.dart';
-import 'package:rbx_wallet/features/transactions/providers/web_transaction_list_provider.dart';
-import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../core/app_constants.dart';
+import '../../core/env.dart';
+import '../../core/services/base_service.dart';
+import '../adnr/models/adnr_response.dart';
+import '../keygen/models/keypair.dart';
+import '../nft/models/nft.dart';
+import '../nft/models/web_nft.dart';
+import '../transactions/models/web_transaction.dart';
+import '../transactions/providers/web_transaction_list_provider.dart';
+import '../web/utils/raw_transaction.dart';
+import '../../utils/toast.dart';
 
 class RawService extends BaseService {
   RawService()

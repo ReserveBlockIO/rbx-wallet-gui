@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/startup/startup_data.dart';
+import 'startup_data.dart';
 
 class StartupDataProvider extends StateNotifier<StartupData?> {
   StartupDataProvider() : super(null);

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:rbx_wallet/features/web_shop/components/web_shop_list_tile.dart';
-import 'package:rbx_wallet/features/web_shop/providers/web_shop_full_list_provider.dart';
+import 'web_shop_list_tile.dart';
+import '../providers/web_shop_full_list_provider.dart';
 
 import '../../../core/base_component.dart';
 

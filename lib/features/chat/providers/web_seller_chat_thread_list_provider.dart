@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/singletons.dart';
-import 'package:rbx_wallet/core/storage.dart';
-import 'package:rbx_wallet/features/chat/models/chat_thread.dart';
-import 'package:rbx_wallet/features/chat/services/chat_service.dart';
+import '../../../core/singletons.dart';
+import '../../../core/storage.dart';
+import '../models/chat_thread.dart';
+import '../services/chat_service.dart';
 import 'package:collection/collection.dart';
-import 'package:rbx_wallet/features/chat/services/web_chat_service.dart';
-import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
+import '../services/web_chat_service.dart';
+import '../../web_shop/services/web_shop_service.dart';
 
 class WebSellerChatThreadListProvider extends StateNotifier<List<ChatThread>> {
   final Ref ref;

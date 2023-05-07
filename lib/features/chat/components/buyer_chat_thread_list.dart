@@ -1,14 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/chat/providers/buyer_chat_thread_list_provider.dart';
-import 'package:rbx_wallet/features/chat/providers/chat_notification_provider.dart';
+import '../../../core/app_router.gr.dart';
+import '../../../core/base_component.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/theme/app_theme.dart';
+import '../providers/buyer_chat_thread_list_provider.dart';
+import '../providers/chat_notification_provider.dart';
 import 'package:collection/collection.dart';
-import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
+import '../../remote_shop/providers/connected_shop_provider.dart';
 
 class BuyerChatThreadList extends BaseComponent {
   const BuyerChatThreadList({super.key});

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
-import 'package:rbx_wallet/features/reserve/models/new_reserve_account.dart';
-import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
-import 'package:rbx_wallet/features/wallet/components/bulk_import_wallet_modal.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../bridge/providers/wallet_info_provider.dart';
+import '../../reserve/models/new_reserve_account.dart';
+import '../../reserve/services/reserve_account_service.dart';
+import '../../smart_contracts/components/sc_creator/common/modal_container.dart';
+import 'bulk_import_wallet_modal.dart';
 
 import '../../../app.dart';
 import '../../../core/base_component.dart';

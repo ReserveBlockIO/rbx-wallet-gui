@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
-import 'package:rbx_wallet/features/startup/startup_data_provider.dart';
+import '../theme/app_theme.dart';
+import '../../features/bridge/models/log_entry.dart';
+import '../../features/startup/startup_data_provider.dart';
 
 import '../../features/bridge/providers/log_provider.dart';
 import '../base_component.dart';
@@ -19,8 +19,7 @@ class BootContainer extends BaseComponent {
       start = logs.length - maxLogs;
     }
 
-    final List<LogEntry> truncatedLogs =
-        logs.isEmpty ? [] : logs.getRange(start, logs.length - 1).toList();
+    final List<LogEntry> truncatedLogs = logs.isEmpty ? [] : logs.getRange(start, logs.length - 1).toList();
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -53,29 +52,19 @@ class BootContainer extends BaseComponent {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        "Syncing state treis due to improper shutdown"
-                            .toUpperCase(),
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Theme.of(context).colorScheme.warning),
+                        "Syncing state treis due to improper shutdown".toUpperCase(),
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.warning),
                       ),
                       const SizedBox(height: 6),
                       const Divider(),
                       Text(
                         "Block: ${data.block}",
-                        style: const TextStyle(
-                            fontFamily: 'RobotoMono',
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontFamily: 'RobotoMono', fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 3),
                       Text(
                         "Progress: ${data.percent}",
-                        style: const TextStyle(
-                            fontFamily: 'RobotoMono',
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontFamily: 'RobotoMono', fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 10),
                       SizedBox(

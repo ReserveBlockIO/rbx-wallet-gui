@@ -1,9 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/nft/models/web_nft.dart';
-import 'package:rbx_wallet/features/web_shop/models/web_auction.dart';
-import 'package:rbx_wallet/features/web_shop/models/web_bid.dart';
-import 'package:rbx_wallet/features/web_shop/models/web_collection.dart';
+import '../../nft/models/nft.dart';
+import '../../nft/models/web_nft.dart';
+import 'web_auction.dart';
+import 'web_bid.dart';
+import 'web_collection.dart';
 
 part 'web_listing.freezed.dart';
 part 'web_listing.g.dart';

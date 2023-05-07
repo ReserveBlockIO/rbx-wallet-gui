@@ -1,13 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/core/singletons.dart';
-import 'package:rbx_wallet/core/storage.dart';
-import 'package:rbx_wallet/core/utils.dart';
-import 'package:rbx_wallet/features/web_shop/models/auth_token.dart';
-import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../../core/singletons.dart';
+import '../../../core/storage.dart';
+import '../../../core/utils.dart';
+import '../models/auth_token.dart';
+import '../services/web_shop_service.dart';
+import '../../../utils/toast.dart';
 
 class WebAuthTokenProvider extends StateNotifier<AuthToken?> {
   final Ref ref;

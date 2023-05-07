@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
+import '../../../core/components/buttons.dart';
+import 'sc_creator/common/help_button.dart';
+import '../features/evolve/evolve.dart';
 import '../../../core/base_component.dart';
 
 class ScWizardEvolveTypeDialog extends BaseComponent {

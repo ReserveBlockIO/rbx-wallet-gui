@@ -4,9 +4,9 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/services/explorer_service.dart';
-import 'package:rbx_wallet/features/raw/raw_service.dart';
-import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
+import '../../../core/services/explorer_service.dart';
+import '../../raw/raw_service.dart';
+import '../../sc_property/models/sc_property.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/providers/session_provider.dart';

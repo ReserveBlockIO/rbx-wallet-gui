@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../models/nft.dart';
+import '../../sc_property/models/sc_property.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/base_screen.dart';
@@ -116,7 +116,7 @@ class NftDetailScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final _provider = ref.watch(nftDetailProvider(id).notifier);
+    final _provider = ref.read(nftDetailProvider(id).notifier);
     final nft = ref.watch(nftDetailProvider(id));
 
     if (nft == null) {
@@ -261,8 +261,8 @@ class NftDetailScreen extends BaseScreen {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     kIsWeb
-                                        ? nft.primaryAssetWeb != null
-                                            ? WebAssetCard(nft, nft.primaryAssetWeb)
+                                        ? nft.currentEvolveAssetWeb != null
+                                            ? WebAssetCard(nft, nft.currentEvolveAssetWeb)
                                             : buildAssetsNotAvailable(_provider)
                                         : AssetCard(
                                             nft.currentEvolveAsset,
@@ -389,6 +389,8 @@ class NftDetailScreen extends BaseScreen {
                                   label: "Reveal Evolve Stages",
                                   variant: AppColorVariant.Dark,
                                   onPressed: () {
+                                    print(nft.updatedEvolutionPhases);
+
                                     showModalBottomSheet(
                                         context: context,
                                         isScrollControlled: true,

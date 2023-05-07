@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/features/keygen/models/keypair.dart';
-import 'package:rbx_wallet/features/raw/raw_service.dart';
-import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
-import 'package:rbx_wallet/features/web_shop/models/web_shop.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../core/app_constants.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../keygen/models/keypair.dart';
+import '../../raw/raw_service.dart';
+import '../../web/utils/raw_transaction.dart';
+import '../models/web_shop.dart';
+import '../../../utils/toast.dart';
 
 enum ShopPublishTxType { create, update, delete }
 

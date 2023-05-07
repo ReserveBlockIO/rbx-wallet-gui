@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
-import 'package:rbx_wallet/features/chat/models/chat_message.dart';
-import 'package:rbx_wallet/features/chat/models/web_chat_thread.dart';
+import 'chat_message.dart';
+import 'web_chat_thread.dart';
 
 part 'web_chat_message.freezed.dart';
 part 'web_chat_message.g.dart';
@@ -18,8 +18,7 @@ abstract class WebChatMessage with _$WebChatMessage {
     @JsonKey(name: "created_at") required DateTime createdAt,
   }) = _WebChatMessage;
 
-  factory WebChatMessage.fromJson(Map<String, dynamic> json) =>
-      _$WebChatMessageFromJson(json);
+  factory WebChatMessage.fromJson(Map<String, dynamic> json) => _$WebChatMessageFromJson(json);
 
   ChatMessage toNative(WebChatThread thread) {
     return ChatMessage(

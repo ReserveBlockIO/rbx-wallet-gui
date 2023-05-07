@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/dst/providers/collection_form_provider.dart';
+import '../providers/collection_form_provider.dart';
 
 import '../../../core/base_component.dart';
 import '../../../utils/validation.dart';

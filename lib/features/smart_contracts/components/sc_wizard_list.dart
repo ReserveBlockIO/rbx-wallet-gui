@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_wizard_asset_preview.dart';
-import 'package:rbx_wallet/features/smart_contracts/screens/sc_wizard_edit_item_screen.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/theme/app_theme.dart';
+import 'sc_wizard_asset_preview.dart';
+import '../screens/sc_wizard_edit_item_screen.dart';
 
 import '../../../core/base_component.dart';
 import '../providers/sc_wizard_provider.dart';

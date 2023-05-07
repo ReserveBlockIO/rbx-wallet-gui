@@ -8,7 +8,7 @@ import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:rbx_wallet/features/transactions/models/transaction.dart';
+import '../features/transactions/models/transaction.dart';
 
 import '../features/wallet/providers/wallet_list_provider.dart';
 import '../utils/toast.dart';
@@ -88,7 +88,7 @@ Future<bool> backupMedia(BuildContext context, WidgetRef ref) async {
   }
 }
 
-String generateRandomString(int len, [String chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890' ]) {
+String generateRandomString(int len, [String chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890']) {
   var r = Random();
   return List.generate(len, (index) => chars[r.nextInt(chars.length)]).join();
 }

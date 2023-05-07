@@ -1,16 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/components/empty_placeholder.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/core/web_router.gr.dart';
-import 'package:rbx_wallet/features/web_shop/components/web_listing_detail.dart';
-import 'package:rbx_wallet/features/web_shop/components/web_listing_detail_tile.dart';
-import 'package:rbx_wallet/features/web_shop/models/web_listing.dart';
-import 'package:rbx_wallet/features/web_shop/providers/create_web_listing_provider.dart';
-import 'package:rbx_wallet/features/web_shop/providers/web_listing_list_provider.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/components/empty_placeholder.dart';
+import '../../../core/env.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../core/web_router.gr.dart';
+import 'web_listing_detail.dart';
+import 'web_listing_detail_tile.dart';
+import '../models/web_listing.dart';
+import '../providers/create_web_listing_provider.dart';
+import '../providers/web_listing_list_provider.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/infinite_list.dart';
@@ -38,9 +38,16 @@ class WebMyListingList extends BaseComponent {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            EmptyPlaceholder(title: "No Listings"),
+            // EmptyPlaceholder(title: "No Listings"),
+            Text(
+              "Now you can create listings for the NFTs you own.",
+              style: TextStyle(fontSize: 16),
+            ),
+            SizedBox(
+              height: 16,
+            ),
             _CreateListingButton(
-              buttonType: AppButtonType.Outlined,
+              buttonType: AppButtonType.Elevated,
               shopId: shopId,
               collectionId: collectionId,
             ),

@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+
 part 'network_metrics.freezed.dart';
 part 'network_metrics.g.dart';
 

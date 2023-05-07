@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/breakpoints.dart';
-import 'package:rbx_wallet/features/asset/web_asset.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
+import '../../../core/breakpoints.dart';
+import '../../asset/web_asset.dart';
+import '../models/nft.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../core/components/buttons.dart';

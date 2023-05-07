@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/chat/components/seller_chat_thread_list.dart';
-import 'package:rbx_wallet/features/chat/providers/seller_chat_thread_list_provider.dart';
-import 'package:rbx_wallet/features/chat/providers/web_seller_chat_thread_list_provider.dart';
+import '../components/seller_chat_thread_list.dart';
+import '../providers/seller_chat_thread_list_provider.dart';
+import '../providers/web_seller_chat_thread_list_provider.dart';
 
 import '../../../core/base_screen.dart';
 

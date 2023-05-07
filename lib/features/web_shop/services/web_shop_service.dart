@@ -2,16 +2,16 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/models/paginated_response.dart';
-import 'package:rbx_wallet/core/services/base_service.dart';
-import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
-import 'package:rbx_wallet/features/web_shop/models/web_bid.dart';
-import 'package:rbx_wallet/features/web_shop/models/web_collection.dart';
-import 'package:rbx_wallet/features/web_shop/models/web_listing.dart';
-import 'package:rbx_wallet/features/web_shop/models/web_shop.dart';
-import 'package:rbx_wallet/features/web_shop/models/auth_token.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../core/env.dart';
+import '../../../core/models/paginated_response.dart';
+import '../../../core/services/base_service.dart';
+import '../../web/utils/raw_transaction.dart';
+import '../models/web_bid.dart';
+import '../models/web_collection.dart';
+import '../models/web_listing.dart';
+import '../models/web_shop.dart';
+import '../models/auth_token.dart';
+import '../../../utils/toast.dart';
 
 class WebShopService extends BaseService {
   WebShopService()

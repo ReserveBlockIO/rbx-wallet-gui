@@ -1,8 +1,8 @@
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/models/paginated_response.dart';
-import 'package:rbx_wallet/core/services/base_service.dart';
-import 'package:rbx_wallet/features/chat/models/web_chat_message.dart';
-import 'package:rbx_wallet/features/chat/models/web_chat_thread.dart';
+import '../../../core/env.dart';
+import '../../../core/models/paginated_response.dart';
+import '../../../core/services/base_service.dart';
+import '../models/web_chat_message.dart';
+import '../models/web_chat_thread.dart';
 
 class WebChatService extends BaseService {
   WebChatService()

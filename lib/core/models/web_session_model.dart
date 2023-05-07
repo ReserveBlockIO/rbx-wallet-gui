@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/features/keygen/models/keypair.dart';
-import 'package:rbx_wallet/features/wallet/models/wallet.dart';
+import '../../features/keygen/models/keypair.dart';
+import '../../features/wallet/models/wallet.dart';
 
 part 'web_session_model.freezed.dart';
 part 'web_session_model.g.dart';

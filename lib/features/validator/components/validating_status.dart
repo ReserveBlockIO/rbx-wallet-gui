@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/features/validator/providers/validating_status_provider.dart';
-import 'package:rbx_wallet/features/validator/screens/validator_screen.dart';
+import '../../../core/base_component.dart';
+import '../providers/validating_status_provider.dart';
+import '../screens/validator_screen.dart';
 
 class ValidatingStatus extends BaseComponent {
   const ValidatingStatus({Key? key}) : super(key: key);

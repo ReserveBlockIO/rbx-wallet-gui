@@ -2,12 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:rbx_wallet/core/services/explorer_service.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/nft/models/web_nft.dart';
-import 'package:rbx_wallet/features/web_shop/models/web_collection.dart';
-import 'package:rbx_wallet/features/web_shop/models/web_shop.dart';
-import 'package:rbx_wallet/features/web_shop/providers/web_listing_list_provider.dart';
+import '../../../core/services/explorer_service.dart';
+import '../../nft/models/nft.dart';
+import '../../nft/models/web_nft.dart';
+import '../models/web_collection.dart';
+import '../models/web_shop.dart';
+import 'web_listing_list_provider.dart';
 
 import '../../../core/dialogs.dart';
 import '../../../utils/toast.dart';

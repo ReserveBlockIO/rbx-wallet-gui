@@ -1,13 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/storage.dart';
-import 'package:rbx_wallet/features/chat/models/chat_message.dart';
-import 'package:rbx_wallet/features/chat/services/web_chat_service.dart';
-import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
-import 'package:rbx_wallet/features/web_shop/models/web_shop.dart';
-import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-import "./chat_list_provider_interface.dart";
+import '../../../core/storage.dart';
+import '../models/chat_message.dart';
+import '../services/web_chat_service.dart';
+import '../../dst/providers/dec_shop_provider.dart';
+import '../../web_shop/models/web_shop.dart';
+import '../../web_shop/services/web_shop_service.dart';
+import '../../../utils/toast.dart';
+import "chat_list_provider_interface.dart";
 
 class WebSellerChatListProvider extends ChatListProviderInterface {
   WebShop? shop;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/breakpoints.dart';
+import '../breakpoints.dart';
 
 class BigButton extends StatelessWidget {
   final String title;

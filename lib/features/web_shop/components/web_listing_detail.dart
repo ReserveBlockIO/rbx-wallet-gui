@@ -11,22 +11,23 @@ import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/breakpoints.dart';
-import 'package:rbx_wallet/core/components/badges.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/core/web_router.gr.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
-import 'package:rbx_wallet/features/web_shop/models/web_auction.dart';
-import 'package:rbx_wallet/features/web_shop/models/web_bid.dart';
-import 'package:rbx_wallet/features/web_shop/models/web_listing.dart';
-import 'package:rbx_wallet/features/web_shop/providers/create_web_listing_provider.dart';
-import 'package:rbx_wallet/features/web_shop/providers/web_listing_full_list_provider.dart';
-import 'package:rbx_wallet/features/web_shop/providers/web_shop_bid_provider.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import 'package:rbx_wallet/utils/files.dart';
+import '../../../core/base_component.dart';
+import '../../../core/breakpoints.dart';
+import '../../../core/components/badges.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/env.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../core/web_router.gr.dart';
+import '../../nft/models/nft.dart';
+import '../../smart_contracts/components/sc_creator/common/modal_container.dart';
+import '../models/web_auction.dart';
+import '../models/web_bid.dart';
+import '../models/web_listing.dart';
+import '../providers/create_web_listing_provider.dart';
+import '../providers/web_listing_full_list_provider.dart';
+import '../providers/web_shop_bid_provider.dart';
+import '../../../utils/toast.dart';
 
 import '../../../core/dialogs.dart';
 import '../../../core/providers/session_provider.dart';
@@ -301,29 +302,31 @@ class _PreviewState extends State<_Preview> {
                                 );
                               });
                         },
-                        child: CachedNetworkImage(
-                          imageUrl: path,
-                          errorWidget: (context, _, __) {
-                            // return Text(path);
-                            return Center(
-                              child: IconButton(
-                                icon: Icon(Icons.refresh),
-                                onPressed: () async {
-                                  setState(() {
-                                    rebuilding = true;
-                                  });
-                                  await FileImage(File(path)).evict();
+                        child: fileTypeFromPath(path) == "Image"
+                            ? CachedNetworkImage(
+                                imageUrl: path,
+                                errorWidget: (context, _, __) {
+                                  // return Text(path);
+                                  return Center(
+                                    child: IconButton(
+                                      icon: Icon(Icons.refresh),
+                                      onPressed: () async {
+                                        setState(() {
+                                          rebuilding = true;
+                                        });
+                                        await FileImage(File(path)).evict();
 
-                                  Future.delayed(Duration(milliseconds: 300)).then((value) {
-                                    setState(() {
-                                      rebuilding = false;
-                                    });
-                                  });
+                                        Future.delayed(Duration(milliseconds: 300)).then((value) {
+                                          setState(() {
+                                            rebuilding = false;
+                                          });
+                                        });
+                                      },
+                                    ),
+                                  );
                                 },
-                              ),
-                            );
-                          },
-                        ),
+                              )
+                            : Center(child: Icon(iconFromPath(path))),
                       ),
                     );
                   }).toList(),

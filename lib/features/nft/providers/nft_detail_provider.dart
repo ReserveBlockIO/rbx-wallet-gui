@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/services/explorer_service.dart';
-import 'package:rbx_wallet/features/raw/raw_service.dart';
-import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
+import '../../../core/services/explorer_service.dart';
+import '../../raw/raw_service.dart';
+import '../../reserve/services/reserve_account_service.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/providers/web_session_provider.dart';
@@ -337,6 +337,40 @@ class NftDetailProvider extends StateNotifier<Nft?> {
 
   Future<bool> setEvolve(int stage, String toAddress) async {
     // if (!canTransact()) return false;
+
+    if (kIsWeb) {
+      Toast.error("A problem ocurred evolving this NFT");
+      return false;
+
+      //    final keypair = ref.read(webSessionProvider).keypair;
+      // if (keypair == null) {
+      //   return false;
+      // }
+      // final txService = RawService();
+
+      // final timestamp = await txService.getTimestamp();
+
+      // if (timestamp == null) {
+      //   Toast.error("Failed to retrieve timestamp");
+      //   return false;
+      // }
+
+      // final nonce = await txService.getNonce(keypair.address);
+      // if (nonce == null) {
+      //   Toast.error("Failed to retrieve nonce");
+      //   return false;
+      // }
+
+      // var txData = RawTransaction.buildTransaction(
+      //   amount: 0.0,
+      //   type: TxType.nftBurn,
+      //   toAddress: keypair.address,
+      //   fromAddress: keypair.address,
+      //   timestamp: timestamp,
+      //   nonce: nonce,
+      //   data: [{"Function": "ChangeEvolveStateSpecific()", }],
+      // );
+    }
 
     final success = await SmartContractService().evolve(id, toAddress, stage);
 

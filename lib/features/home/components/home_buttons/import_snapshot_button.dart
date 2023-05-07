@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
-import 'package:rbx_wallet/features/remote_info/services/remote_info_service.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../bridge/services/bridge_service.dart';
+import '../../../remote_info/services/remote_info_service.dart';
+import '../../../../utils/toast.dart';
 
 import '../../../../core/base_component.dart';
 import '../../../../core/components/buttons.dart';

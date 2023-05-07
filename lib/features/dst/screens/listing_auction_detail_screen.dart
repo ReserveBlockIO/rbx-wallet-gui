@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/components/centered_loader.dart';
-import 'package:rbx_wallet/features/dst/components/auction_activity.dart';
-import 'package:rbx_wallet/features/dst/providers/seller_bid_list_provider.dart';
+import '../../../core/base_screen.dart';
+import '../../../core/components/centered_loader.dart';
+import '../components/auction_activity.dart';
+import '../providers/seller_bid_list_provider.dart';
 
 import '../providers/listing_detail_provider.dart';
 

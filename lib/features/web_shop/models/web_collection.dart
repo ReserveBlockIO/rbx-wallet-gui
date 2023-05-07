@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
-import 'package:rbx_wallet/features/web_shop/models/web_shop.dart';
+import 'web_shop.dart';
 
 part 'web_collection.freezed.dart';
 part 'web_collection.g.dart';

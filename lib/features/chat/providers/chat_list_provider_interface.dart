@@ -2,17 +2,17 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/singletons.dart';
-import 'package:rbx_wallet/core/storage.dart';
-import 'package:rbx_wallet/features/chat/models/chat_message.dart';
+import '../../../core/singletons.dart';
+import '../../../core/storage.dart';
+import '../models/chat_message.dart';
 import 'package:collection/collection.dart';
-import 'package:rbx_wallet/features/chat/providers/buyer_chat_thread_list_provider.dart';
-import 'package:rbx_wallet/features/chat/providers/seller_chat_thread_list_provider.dart';
-import 'package:rbx_wallet/features/chat/providers/web_seller_chat_thread_list_provider.dart';
-import 'package:rbx_wallet/features/chat/services/chat_service.dart';
-import 'package:rbx_wallet/features/chat/services/web_chat_service.dart';
-import 'package:rbx_wallet/features/dst/services/dst_service.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import 'buyer_chat_thread_list_provider.dart';
+import 'seller_chat_thread_list_provider.dart';
+import 'web_seller_chat_thread_list_provider.dart';
+import '../services/chat_service.dart';
+import '../services/web_chat_service.dart';
+import '../../dst/services/dst_service.dart';
+import '../../../utils/toast.dart';
 
 abstract class ChatListProviderInterface extends StateNotifier<List<ChatMessage>> {
   final Ref ref;

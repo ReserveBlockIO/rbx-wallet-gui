@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:rbx_wallet/core/services/base_service.dart';
-import 'package:rbx_wallet/features/adnr/models/adnr_response.dart';
+import '../../../core/services/base_service.dart';
+import '../models/adnr_response.dart';
 
 class AdnrService extends BaseService {
   AdnrService() : super(apiBasePathOverride: "/txapi/TXV1");

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/theme/app_theme.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/providers/web_session_provider.dart';

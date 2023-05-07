@@ -2,12 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
-import 'package:rbx_wallet/features/transactions/models/web_transaction.dart';
-import 'package:rbx_wallet/features/transactions/providers/web_transaction_list_provider.dart';
-import 'package:rbx_wallet/features/wallet/models/wallet.dart';
+import '../../../core/app_constants.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../../reserve/services/reserve_account_service.dart';
+import '../../transactions/models/web_transaction.dart';
+import '../../transactions/providers/web_transaction_list_provider.dart';
+import '../../wallet/models/wallet.dart';
 
 import '../../../core/dialogs.dart';
 import '../../../core/env.dart';

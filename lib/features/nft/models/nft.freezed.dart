@@ -37,7 +37,8 @@ mixin _$Nft {
   @JsonKey(ignore: true)
   WebAsset? get primaryAssetWeb => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  List<WebAsset>? get additionalAssetsWeb => throw _privateConstructorUsedError;
+  List<WebAsset>? get additionalAssetsWeb =>
+      throw _privateConstructorUsedError; // @JsonKey(ignore: true) List<WebAsset>? evolveAssetsWeb,
   @JsonKey(name: "IsPublic")
   bool get isPublic => throw _privateConstructorUsedError;
   @JsonKey(name: "IsPublished")
@@ -516,6 +517,7 @@ class _$_Nft extends _Nft with DiagnosticableTreeMixin {
     return EqualUnmodifiableListView(value);
   }
 
+// @JsonKey(ignore: true) List<WebAsset>? evolveAssetsWeb,
   @override
   @JsonKey(name: "IsPublic")
   final bool isPublic;
@@ -776,7 +778,7 @@ abstract class _Nft extends Nft {
   @override
   @JsonKey(ignore: true)
   List<WebAsset>? get additionalAssetsWeb;
-  @override
+  @override // @JsonKey(ignore: true) List<WebAsset>? evolveAssetsWeb,
   @JsonKey(name: "IsPublic")
   bool get isPublic;
   @override

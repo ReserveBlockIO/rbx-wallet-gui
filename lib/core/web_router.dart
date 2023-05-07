@@ -1,13 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/empty_router_widgets.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/features/adnr/screens/web_adnr_screen.dart';
-import 'package:rbx_wallet/features/chat/screens/web_seller_chat_thread_list_screen.dart';
-import 'package:rbx_wallet/features/chat/screens/web_seller_chat_screen.dart';
-import 'package:rbx_wallet/features/chat/screens/web_shop_chat_screen.dart';
-import 'package:rbx_wallet/features/web_shop/screens/build_sale_start_tx_screen.dart';
-import 'package:rbx_wallet/features/web_shop/screens/web_shop_container_screen.dart';
-import 'package:rbx_wallet/features/web_shop/components/web_shop_list.dart';
+import 'app_router.gr.dart';
+import '../features/adnr/screens/web_adnr_screen.dart';
+import '../features/chat/screens/web_seller_chat_thread_list_screen.dart';
+import '../features/chat/screens/web_seller_chat_screen.dart';
+import '../features/chat/screens/web_shop_chat_screen.dart';
+import '../features/web_shop/screens/build_sale_start_tx_screen.dart';
+import '../features/web_shop/screens/web_shop_container_screen.dart';
+import '../features/web_shop/components/web_shop_list.dart';
 
 import '../features/auth/screens/web_auth_screen.dart';
 // import '../features/dsts/screens/create_store_screen.dart';
@@ -20,6 +20,7 @@ import '../features/root/web_dashboard_container.dart';
 import '../features/send/screens/web_prefilled_send_screen.dart';
 import '../features/send/screens/web_send_screen.dart';
 import '../features/smart_contracts/screens/web_create_smart_contract_screen.dart';
+import '../features/smart_contracts/screens/bulk_create_screen.dart';
 import '../features/smart_contracts/screens/web_smart_contract_landing_screen.dart';
 import '../features/transactions/screens/web_transaction_detail_screen.dart';
 import '../features/transactions/screens/web_transactions_screen.dart';
@@ -117,6 +118,7 @@ const webDashboardTabRouter = AutoRoute(
       children: [
         AutoRoute(path: "", page: WebSmartContractLandingScreen),
         AutoRoute(path: "create", page: WebCreateSmartContractScreen),
+        AutoRoute(path: "wizard", name: "WebBuldCreateScreen", page: BulkCreateScreen),
       ],
     ),
     // AutoRoute(

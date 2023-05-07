@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
+import '../../../../core/components/buttons.dart';
+import '../../../../core/theme/app_theme.dart';
 
 import '../../../../core/base_component.dart';
 import '../../../../core/components/dropdowns.dart';

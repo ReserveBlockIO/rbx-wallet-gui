@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/web_shop/models/web_shop.dart';
+import '../models/web_shop.dart';
 
 import '../services/web_shop_service.dart';
 

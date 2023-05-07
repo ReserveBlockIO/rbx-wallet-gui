@@ -2,10 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/chat/providers/chat_notification_provider.dart';
-import 'package:rbx_wallet/features/remote_shop/providers/shop_loading_provider.dart';
-import 'package:rbx_wallet/features/transactions/providers/web_transaction_list_provider.dart';
-import 'package:rbx_wallet/generated/assets.gen.dart';
+import 'features/chat/providers/chat_notification_provider.dart';
+import 'features/remote_shop/providers/shop_loading_provider.dart';
+import 'features/transactions/providers/web_transaction_list_provider.dart';
+import 'generated/assets.gen.dart';
 
 import 'core/app_router.gr.dart';
 import 'core/components/boot_container.dart';

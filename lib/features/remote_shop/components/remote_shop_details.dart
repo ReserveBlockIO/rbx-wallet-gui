@@ -1,14 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/empty_placeholder.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/dst/models/dec_shop.dart';
-import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
-import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
-import 'package:rbx_wallet/features/remote_shop/utils.dart';
+import '../../../core/app_router.gr.dart';
+import '../../../core/base_component.dart';
+import '../../../core/components/empty_placeholder.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../dst/models/dec_shop.dart';
+import '../providers/connected_shop_provider.dart';
+import '../services/remote_shop_service.dart';
+import '../utils.dart';
 
 class RemoteShopDetails extends BaseComponent {
   const RemoteShopDetails({super.key});

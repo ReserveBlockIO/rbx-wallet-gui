@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/features/chat/providers/shop_chat_list_provider.dart';
-import 'package:rbx_wallet/features/chat/providers/seller_chat_list_provider.dart';
-import 'package:rbx_wallet/features/chat/providers/web_seller_chat_list_provider.dart';
-import 'package:rbx_wallet/features/chat/providers/web_shop_chat_list_provider.dart';
+import '../../../core/base_component.dart';
+import '../providers/shop_chat_list_provider.dart';
+import '../providers/seller_chat_list_provider.dart';
+import '../providers/web_seller_chat_list_provider.dart';
+import '../providers/web_shop_chat_list_provider.dart';
 
 class NewChatMessage extends BaseComponent {
   final String identifier;

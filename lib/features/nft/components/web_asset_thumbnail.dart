@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/features/asset/web_asset.dart';
+import '../../asset/web_asset.dart';
 
 import '../models/nft.dart';
 import 'web_asset_card.dart';

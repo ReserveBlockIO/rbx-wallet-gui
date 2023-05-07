@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/features/reserve/providers/reserve_account_provider.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../reserve/providers/reserve_account_provider.dart';
+import '../../wallet/providers/wallet_list_provider.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/breakpoints.dart';

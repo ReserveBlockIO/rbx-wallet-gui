@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:rbx_wallet/utils/files.dart';
+import '../../utils/files.dart';
 
 class DebugLogger {
   static Future<void> log(Object error, StackTrace stackTrace) async {

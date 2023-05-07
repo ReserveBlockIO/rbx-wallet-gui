@@ -1,8 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/features/chat/models/chat_message.dart';
-import 'package:rbx_wallet/features/chat/models/chat_thread.dart';
-import 'package:rbx_wallet/features/chat/models/web_chat_message.dart';
-import 'package:rbx_wallet/features/web_shop/models/web_shop.dart';
+import 'chat_message.dart';
+import 'chat_thread.dart';
+import 'web_chat_message.dart';
+import '../../web_shop/models/web_shop.dart';
 
 part 'web_chat_thread.freezed.dart';
 part 'web_chat_thread.g.dart';

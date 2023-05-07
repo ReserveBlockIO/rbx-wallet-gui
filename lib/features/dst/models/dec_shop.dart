@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/core/utils.dart';
-import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
+import '../../../core/utils.dart';
+import '../../web_shop/services/web_shop_service.dart';
 
 part 'dec_shop.freezed.dart';
 part 'dec_shop.g.dart';

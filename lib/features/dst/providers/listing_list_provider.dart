@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/dst/providers/listed_nfts_provider.dart';
-import 'package:rbx_wallet/features/dst/services/dst_service.dart';
+import 'listed_nfts_provider.dart';
+import '../services/dst_service.dart';
 
 import '../models/listing.dart';
 

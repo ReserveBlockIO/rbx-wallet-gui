@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/components/badges.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
+import '../../../core/base_component.dart';
+import '../../../core/base_screen.dart';
+import '../../../core/components/badges.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
 
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/reserve/providers/pending_activation_provider.dart';
+import '../../../core/theme/app_theme.dart';
+import '../providers/pending_activation_provider.dart';
 
-import 'package:rbx_wallet/features/reserve/providers/reserve_account_provider.dart';
-import 'package:rbx_wallet/features/wallet/models/wallet.dart';
+import '../providers/reserve_account_provider.dart';
+import '../../wallet/models/wallet.dart';
 
 class ReserveAccountOverviewScreen extends BaseScreen {
   const ReserveAccountOverviewScreen({Key? key})
