@@ -203,7 +203,11 @@ class MainMenu extends BaseComponent {
                     title: "P2P Auctions",
                     icon: Icons.leak_add,
                     onPressed: () {
-                      tabsRouter.setActiveIndex(9);
+                      if (tabsRouter.activeIndex == 9) {
+                        tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
+                      } else {
+                        tabsRouter.setActiveIndex(9);
+                      }
                     },
                     isActive: tabsRouter.activeIndex == 9,
                   ),

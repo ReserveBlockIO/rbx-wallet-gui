@@ -365,7 +365,7 @@ class DecShopButton extends BaseComponent {
                   final address = await PromptModal.show(
                     title: "Import Shop",
                     validator: formValidatorRbxAddress,
-                    labelText: "RBX Address",
+                    labelText: "Your RBX Address",
                   );
 
                   if (address != null) {

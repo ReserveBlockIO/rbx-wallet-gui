@@ -274,7 +274,7 @@ class DstService extends BaseService {
 
   Future<bool> importShop(String address) async {
     try {
-      final response = await getText('/GetImportDecShopFromNetwork');
+      final response = await getText('/GetImportDecShopFromNetwork/$address', cleanPath: false);
       final data = jsonDecode(response);
 
       print("********");
