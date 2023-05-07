@@ -182,6 +182,16 @@ class RawService extends BaseService {
     }
   }
 
+  Future<dynamic> nftEvolveData(String scId, String toAddress, int stage) async {
+    try {
+      final response = await postJson("/nft-evolve-data/$scId/$toAddress/$stage/", responseIsJson: true);
+      return response['data'];
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
   Future<dynamic> nftBurnData(String scId, String toAddress) async {
     try {
       final response = await postJson("/nft-burn-data/$scId/$toAddress/", responseIsJson: true);

@@ -339,37 +339,116 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     // if (!canTransact()) return false;
 
     if (kIsWeb) {
-      Toast.error("A problem ocurred evolving this NFT");
-      return false;
+      final keypair = ref.read(webSessionProvider).keypair;
+      if (keypair == null) {
+        return false;
+      }
+      final txService = RawService();
 
-      //    final keypair = ref.read(webSessionProvider).keypair;
-      // if (keypair == null) {
-      //   return false;
-      // }
-      // final txService = RawService();
+      final timestamp = await txService.getTimestamp();
 
-      // final timestamp = await txService.getTimestamp();
+      if (timestamp == null) {
+        Toast.error("Failed to retrieve timestamp");
+        return false;
+      }
 
-      // if (timestamp == null) {
-      //   Toast.error("Failed to retrieve timestamp");
-      //   return false;
-      // }
+      final nonce = await txService.getNonce(keypair.address);
+      if (nonce == null) {
+        Toast.error("Failed to retrieve nonce");
+        return false;
+      }
 
-      // final nonce = await txService.getNonce(keypair.address);
-      // if (nonce == null) {
-      //   Toast.error("Failed to retrieve nonce");
-      //   return false;
-      // }
+      final evolveData = await txService.nftEvolveData(id, toAddress, stage);
 
-      // var txData = RawTransaction.buildTransaction(
-      //   amount: 0.0,
-      //   type: TxType.nftBurn,
-      //   toAddress: keypair.address,
-      //   fromAddress: keypair.address,
-      //   timestamp: timestamp,
-      //   nonce: nonce,
-      //   data: [{"Function": "ChangeEvolveStateSpecific()", }],
-      // );
+      var txData = RawTransaction.buildTransaction(
+        amount: 0.0,
+        type: TxType.nftTx,
+        toAddress: keypair.address,
+        fromAddress: keypair.address,
+        timestamp: timestamp,
+        nonce: nonce,
+        data: evolveData,
+      );
+      final fee = await txService.getFee(txData);
+
+      if (fee == null) {
+        Toast.error("Failed to parse fee");
+        return false;
+      }
+
+      txData = RawTransaction.buildTransaction(
+        amount: 0.0,
+        type: TxType.nftTx,
+        toAddress: keypair.address,
+        fromAddress: keypair.address,
+        timestamp: timestamp,
+        nonce: nonce,
+        data: evolveData,
+        fee: fee,
+      );
+
+      final hash = (await txService.getHash(txData));
+
+      if (hash == null) {
+        Toast.error("Failed to parse hash");
+        return false;
+      }
+
+      final signature = await RawTransaction.getSignature(message: hash, privateKey: keypair.private, publicKey: keypair.public);
+      if (signature == null) {
+        Toast.error("Signature generation failed.");
+        return false;
+      }
+
+      final isValid = await txService.validateSignature(
+        hash,
+        keypair.address,
+        signature,
+      );
+
+      if (!isValid) {
+        Toast.error("Signature not valid");
+        return false;
+      }
+
+      txData = RawTransaction.buildTransaction(
+        amount: 0.0,
+        type: TxType.nftTx,
+        toAddress: keypair.address,
+        fromAddress: keypair.address,
+        timestamp: timestamp,
+        nonce: nonce,
+        data: evolveData,
+        fee: fee,
+        hash: hash,
+        signature: signature,
+      );
+
+      final verifyTransactionData = (await txService.sendTransaction(
+        transactionData: txData,
+        execute: false,
+      ));
+
+      if (verifyTransactionData == null) {
+        Toast.error("Transaction not valid");
+        return false;
+      }
+
+      final tx = await RawService().sendTransaction(
+        transactionData: txData,
+        execute: true,
+        ref: ref,
+      );
+
+      if (tx != null) {
+        if (tx['Result'] == "Success") {
+          ref.read(burnedProvider.notifier).addId(id);
+
+          return true;
+        }
+      }
+
+      Toast.error();
     }
 
     final success = await SmartContractService().evolve(id, toAddress, stage);
@@ -500,7 +579,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       }
     }
 
-    Toast.error("The fact something went wrong here but not until this point is odd.");
+    Toast.error();
 
     return false;
   }
