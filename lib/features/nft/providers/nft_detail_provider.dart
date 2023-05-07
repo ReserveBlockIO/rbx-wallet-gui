@@ -363,7 +363,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       var txData = RawTransaction.buildTransaction(
         amount: 0.0,
         type: TxType.nftTx,
-        toAddress: keypair.address,
+        toAddress: toAddress,
         fromAddress: keypair.address,
         timestamp: timestamp,
         nonce: nonce,
@@ -379,7 +379,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       txData = RawTransaction.buildTransaction(
         amount: 0.0,
         type: TxType.nftTx,
-        toAddress: keypair.address,
+        toAddress: toAddress,
         fromAddress: keypair.address,
         timestamp: timestamp,
         nonce: nonce,
@@ -414,7 +414,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       txData = RawTransaction.buildTransaction(
         amount: 0.0,
         type: TxType.nftTx,
-        toAddress: keypair.address,
+        toAddress: toAddress,
         fromAddress: keypair.address,
         timestamp: timestamp,
         nonce: nonce,
@@ -442,18 +442,17 @@ class NftDetailProvider extends StateNotifier<Nft?> {
 
       if (tx != null) {
         if (tx['Result'] == "Success") {
-          ref.read(burnedProvider.notifier).addId(id);
-
           return true;
         }
       }
 
       Toast.error();
+      return false;
+    } else {
+      final success = await SmartContractService().evolve(id, toAddress, stage);
+
+      return success;
     }
-
-    final success = await SmartContractService().evolve(id, toAddress, stage);
-
-    return success;
   }
 
   Future<bool> evolve() async {

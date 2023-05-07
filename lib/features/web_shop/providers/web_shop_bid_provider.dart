@@ -599,7 +599,8 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
         ref.read(globalLoadingProvider.notifier).complete();
         String body = "Please wait for the transaction to be finalized.";
         if (listing.collection.shop!.isThirdParty) {
-          body += "\nBecause this auction house is hosted on the RBX Web Wallet, the seller will need to authorize the Sale Start transaction";
+          body +=
+              "\nBecause this auction house is hosted on the RBX Web Wallet, the seller will need to authorize the Sale Start transaction. You will see that in your transaction list once it's been sent.";
         }
         InfoDialog.show(contextOverride: context, title: "Buy Now TX broadcasted.", body: body);
       }
