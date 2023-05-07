@@ -46,7 +46,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
         final context = rootNavigatorKey.currentContext;
 
         //TODO set whitelisted routes
-        if (context != null) AutoRouter.of(context).replace(const WebAuthRouter());
+        // if (context != null) AutoRouter.of(context).replace(const WebAuthRouter());
       });
       state = state.copyWith(isAuthenticated: false);
     }

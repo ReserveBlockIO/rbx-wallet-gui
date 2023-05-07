@@ -41,6 +41,7 @@ class BuildSaleStartTxScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
+    bool completed = false;
     final keypair = ref.watch(webSessionProvider).keypair;
 
     // if (keypair == null) {
@@ -153,8 +154,6 @@ class BuildSaleStartTxScreen extends BaseScreen {
         final bidSignature = bid.signature;
         final purchaseKey = bid.purchaseKey;
         final amount = bid.amount;
-
-        bool completed = false;
 
         return Center(
           child: Container(

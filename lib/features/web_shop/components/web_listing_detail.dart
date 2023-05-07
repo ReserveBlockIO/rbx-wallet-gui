@@ -884,6 +884,11 @@ class _BuyNow extends BaseComponent {
                 icon: Icons.money,
                 size: AppSizeVariant.Lg,
                 onPressed: () async {
+                  if (listing.collection.shop!.isOwner(ref)) {
+                    Toast.error("You are the owner of this shop.");
+                    return;
+                  }
+
                   final success = await ref.read(webBidListProvider(listing.id).notifier).buyNow(context, listing);
                   if (success == true) {
                     ref.read(webListingFullListProvider("${listing.collection.shop!.id},${listing.collection.id}").notifier).fetch();
