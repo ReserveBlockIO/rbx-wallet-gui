@@ -10,6 +10,7 @@ import 'package:rbx_wallet/features/web_shop/providers/web_auth_token_provider.d
 import 'package:rbx_wallet/utils/toast.dart';
 
 import '../components/web_shop_list.dart';
+import '../components/web_my_shop_list.dart';
 import '../providers/web_shop_list_provider.dart';
 
 class MyWebShopListScreen extends BaseScreen {
@@ -49,6 +50,6 @@ class MyWebShopListScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    return const WebShopList(mine: true);
+    return const WebMyShopList();
   }
 }

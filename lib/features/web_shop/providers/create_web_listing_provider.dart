@@ -235,6 +235,11 @@ class WebListingFormProvider extends StateNotifier<WebListing> {
     if (!state.exists) {
       //Images
       final assets = [state.nft?.smartContract.primaryAssetWeb].where((element) => element != null).toList(); //TOOD: multiasset
+      if (state.nft!.smartContract.additionalAssetsWeb != null) {
+        for (final a in state.nft!.smartContract.additionalAssetsWeb!) {
+          assets.add(a);
+        }
+      }
       final List<String> thumbnailUrls = [];
       for (final a in assets) {
         if (a?.location != null) {

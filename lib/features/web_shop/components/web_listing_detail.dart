@@ -229,6 +229,22 @@ class _PreviewState extends State<_Preview> {
 
     final isMobile = BreakPoints.useMobileLayout(context);
 
+    final primaryFilename = widget.listing.nft!.smartContract.primaryAsset.fileName;
+    final additionalFilenames = widget.listing.nft!.smartContract.additionalAssets.map((e) => e.fileName).toList();
+
+    final assetFilenames = [primaryFilename, ...additionalFilenames];
+
+    final List<String> orderedThumbs = [];
+
+    for (final a in assetFilenames) {
+      for (final t in widget.listing.thumbnails) {
+        final f = t.split("/").last.split('.').first;
+        if (a.contains(f)) {
+          orderedThumbs.add(t);
+        }
+      }
+    }
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -259,7 +275,7 @@ class _PreviewState extends State<_Preview> {
                       });
                     },
                   ),
-                  items: widget.listing.thumbnails.map((path) {
+                  items: orderedThumbs.map((path) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 0),
                       child: GestureDetector(
