@@ -87,7 +87,7 @@ class WebListingList extends BaseComponent {
                   children: [
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 15, bottom: 8),
+                        padding: EdgeInsets.only(top: 15, bottom: 8, left: isMobile ? 12 : 0),
                         child: ConstrainedBox(
                           constraints: BoxConstraints(maxWidth: 600),
                           child: Text(

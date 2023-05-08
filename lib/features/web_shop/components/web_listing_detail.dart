@@ -61,12 +61,20 @@ class WebListingDetails extends BaseComponent {
             if (nft == null) Text(listing.smartContractUid),
             if (nft != null) ...[
               _Details(listing: listing),
+              SizedBox(
+                height: 3,
+              ),
               _Preview(listing: listing),
 
               _Features(nft: nft.smartContract),
               _Properties(nft: nft.smartContract),
 
-              if (listing.canBuyNow) _BuyNow(listing: listing),
+              if (listing.canBuyNow) ...[
+                _BuyNow(listing: listing),
+                SizedBox(
+                  height: 3,
+                )
+              ],
               if (listing.canBid) _Auction(listing: listing),
               SizedBox(
                 height: 16,
@@ -90,7 +98,10 @@ class WebListingDetails extends BaseComponent {
                 ),
 
               // _WebNftDetails(nft: nft.smartContract),
-              _WebNftData(nft: nft.smartContract),
+              Padding(
+                padding: const EdgeInsets.only(left: 3),
+                child: _WebNftData(nft: nft.smartContract),
+              ),
               Center(
                 child: _QRCode(
                   nft: nft.smartContract,
@@ -1089,7 +1100,7 @@ class _Countdown extends StatelessWidget {
       children: [
         if (listing.isActive)
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 3),
             child: AppCountdown(
               dueDate: listing.endDate,
               prefix: listing.floorPrice != null ? "Auction Ends" : "Ends in",
