@@ -326,17 +326,18 @@ class _PreviewState extends State<_Preview> {
                                     });
                               },
                         child: isIcon
-                            ? Center(child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(icon),
-                                if(filename != null)
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 6.0),
-                                  child: Text(filename),
-                                )
-                              ],
-                            ))
+                            ? Center(
+                                child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(icon),
+                                  if (filename != null)
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 6.0),
+                                      child: Text(filename),
+                                    )
+                                ],
+                              ))
                             : fileTypeFromPath(path) == "Image"
                                 ? CachedNetworkImage(
                                     imageUrl: path,

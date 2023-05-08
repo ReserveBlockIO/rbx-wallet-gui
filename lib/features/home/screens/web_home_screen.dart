@@ -59,7 +59,27 @@ class WebHomeScreen extends BaseScreen {
             const _Brand(),
             const _Actions(),
             const SizedBox(height: 16),
-            const WebLatestBlock(),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Opacity(
+                    opacity: 0.5,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 0),
+                      child: Image.asset(
+                        Assets.images.decorBottomRight.path,
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                ),
+                const WebLatestBlock(),
+              ],
+            ),
           ],
         ),
       ),

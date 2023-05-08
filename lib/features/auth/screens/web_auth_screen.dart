@@ -84,19 +84,21 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
 
     return Stack(
       children: [
-        if (!isMobile)
-          Align(
-            alignment: Alignment.bottomRight,
+        Align(
+          alignment: Alignment.bottomRight,
+          child: Transform.translate(
+            offset: Offset(12, 12),
             child: Opacity(
               opacity: 0.5,
               child: Image.asset(
                 Assets.images.decorBottomRight.path,
-                width: 300,
-                height: 300,
+                width: isMobile ? 250 : 400,
+                height: isMobile ? 250 : 400,
                 fit: BoxFit.contain,
               ),
             ),
           ),
+        ),
         Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
