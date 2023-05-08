@@ -108,7 +108,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
 
   Future<void> logout() async {
     singleton<Storage>().remove(Storage.WEB_KEYPAIR);
-    state = WebSessionModel();
+    // state = WebSessionModel();
 
     await Future.delayed(const Duration(milliseconds: 150));
 
