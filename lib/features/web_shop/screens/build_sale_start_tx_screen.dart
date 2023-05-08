@@ -202,6 +202,8 @@ class BuildSaleStartTxScreen extends BaseScreen {
                               ref.read(globalLoadingProvider.notifier).start();
                               final txService = RawService();
 
+                              String? locator;
+
                               final message = scId;
 
                               final beaconSignature = await RawTransaction.getSignature(
@@ -217,12 +219,11 @@ class BuildSaleStartTxScreen extends BaseScreen {
                                 return false;
                               }
 
-                              final locator = await RawService().beaconUpload(scId, toAddress, beaconSignature);
+                              locator = await RawService().beaconUpload(scId, toAddress, beaconSignature);
 
                               if (locator == null) {
-                                Toast.error("Could not create beacon upload request.");
-                                ref.read(globalLoadingProvider.notifier).complete();
-                                return false;
+                                // Toast.error("Could not create beacon upload request.");
+                                print("Could not create beacon upload request.");
                               }
 
                               var txPayload = {
@@ -232,7 +233,7 @@ class BuildSaleStartTxScreen extends BaseScreen {
                                 "SoldFor": amount,
                                 "KeySign": purchaseKey,
                                 "BidSignature": bidSignature,
-                                "Locators": locator,
+                                "Locators": locator ?? "NA",
                               };
 
                               final timestamp = await txService.getTimestamp();
