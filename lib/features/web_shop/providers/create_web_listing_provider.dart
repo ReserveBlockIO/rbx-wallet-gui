@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:rbx_wallet/features/web_shop/providers/web_listing_full_list_provider.dart';
 import '../../../core/services/explorer_service.dart';
 import '../../nft/models/nft.dart';
 import '../../nft/models/web_nft.dart';
@@ -247,6 +248,7 @@ class WebListingFormProvider extends StateNotifier<WebListing> {
     final success = await WebShopService().saveWebListing(state, state.collection.shop!.id, state.collection.id);
     if (success) {
       ref.read(webListingListProvider("${state.collection.shop!.id},${state.collection.id}").notifier).refresh();
+      ref.read(webListingFullListProvider("${state.collection.shop!.id},${state.collection.id}").notifier).reload(false);
       clear();
       AutoRouter.of(context).pop();
     } else {

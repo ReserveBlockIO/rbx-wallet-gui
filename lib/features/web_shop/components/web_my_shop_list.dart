@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/web_shop/components/web_import_shop_button.dart';
 import '../../../core/app_router.gr.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/components/empty_placeholder.dart';
@@ -108,7 +109,15 @@ class WebMyShopList extends BaseComponent {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _CreateShopButton(),
+                _CreateShopButton(
+                  buttonType: AppButtonType.Elevated,
+                  variant: AppColorVariant.Success,
+                  withImport: false,
+                ),
+                WebImportShopButton(
+                  type: AppButtonType.Elevated,
+                  variant: AppColorVariant.Light,
+                ),
               ],
             ),
           ),
@@ -121,21 +130,46 @@ class WebMyShopList extends BaseComponent {
 class _CreateShopButton extends BaseComponent {
   final AppButtonType buttonType;
   final AppColorVariant variant;
-  const _CreateShopButton({super.key, this.buttonType = AppButtonType.Elevated, this.variant = AppColorVariant.Success});
+  final bool withImport;
+
+  const _CreateShopButton({
+    super.key,
+    this.buttonType = AppButtonType.Elevated,
+    this.variant = AppColorVariant.Success,
+    this.withImport = true,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return AppButton(
-      label: 'Setup Auction House',
-      icon: Icons.store,
-      type: buttonType,
-      variant: variant,
-      onPressed: () async {
-        ref.read(webShopFormProvider.notifier).clear();
-        if (Env.isWeb) {
-          AutoRouter.of(context).push(const CreateWebShopContainerScreenRoute());
-        }
-      },
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        AppButton(
+          label: 'Setup Auction House',
+          icon: Icons.store,
+          type: buttonType,
+          variant: variant,
+          onPressed: () async {
+            ref.read(webShopFormProvider.notifier).clear();
+            if (Env.isWeb) {
+              AutoRouter.of(context).push(const CreateWebShopContainerScreenRoute());
+            }
+          },
+        ),
+        if (withImport) ...[
+          SizedBox(
+            height: 8,
+          ),
+          Text(
+            "or",
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.white54,
+            ),
+          ),
+          WebImportShopButton()
+        ],
+      ],
     );
   }
 }

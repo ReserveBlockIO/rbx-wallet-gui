@@ -4,6 +4,8 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/web_shop/providers/web_listing_list_provider.dart';
+import 'package:rbx_wallet/features/web_shop/providers/web_shop_list_provider.dart';
 import '../../../app.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/env.dart';
@@ -324,6 +326,10 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
           color: AppColorVariant.Success,
         ),
       );
+
+      // if (kIsWeb) {
+      //   ref.read(webListingListProvider().notifier).refresh();
+      // }
     }
   }
 
@@ -357,8 +363,12 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
   }
 
   void _handleDstShop(Transaction transaction) {
-    ref.invalidate(decShopProvider);
-    ref.read(dstTxPendingProvider.notifier).set(false);
+    if (kIsWeb) {
+      ref.read(webShopListProvider(WebShopListType.mine).notifier).refresh();
+    } else {
+      ref.invalidate(decShopProvider);
+      ref.read(dstTxPendingProvider.notifier).set(false);
+    }
 
     _broadcastNotification(
       TransactionNotification(

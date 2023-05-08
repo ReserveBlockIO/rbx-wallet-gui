@@ -73,7 +73,7 @@ class WebShop with _$WebShop {
       "AutoUpdateNetworkDNS": true,
       "NeedsPublishToNetwork": true,
       "IsOffline": false,
-      "IsPublished": false,
+      "IsPublished": true,
       "CollectionCount": 0,
       "ListingCount": 0,
       "AuctionCount": 0,

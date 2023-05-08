@@ -127,15 +127,11 @@ class WebCollectionDetailScreen extends BaseScreen {
                 if (!collection.shop!.isOwner(ref)) WebWalletDetails(),
                 Divider(),
                 Expanded(
-                  child: collection.shop!.isOwner(ref)
-                      ? WebMyListingList(
-                          shopId,
-                          collectionId,
-                        )
-                      : WebListingListContainer(
-                          shopId,
-                          collectionId,
-                        ),
+                  child: WebListingListContainer(
+                    shopId,
+                    collectionId,
+                    isMine: collection.shop!.isOwner(ref),
+                  ),
                 ),
                 if (collection.shop!.isOwner(ref))
                   Container(

@@ -64,6 +64,8 @@ class WebShopService extends BaseService {
 
       if (!myShops) {
         params['is_published'] = true;
+      } else {
+        params['is_third_party'] = true;
       }
 
       final data = await getJson("/shop/", params: params, auth: false);

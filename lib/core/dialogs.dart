@@ -186,8 +186,9 @@ class PromptModal {
     TextInputType? keyboardType,
     Function(String)? onValidSubmission,
     List<TextInputFormatter> inputFormatters = const [],
-    final bool popOnValidSubmission = true,
-    final Widget? titleTrailing,
+    bool popOnValidSubmission = true,
+    Widget? titleTrailing,
+    String? prefixText,
   }) async {
     // final context = rootNavigatorKey.currentContext!;
     final context = contextOverride ?? rootScaffoldKey.currentContext!;
@@ -244,6 +245,7 @@ class PromptModal {
                             keyboardType: keyboardType,
                             decoration: InputDecoration(
                               label: Text(labelText),
+                              prefixText: prefixText,
                             ),
                             validator: validator,
                             inputFormatters: inputFormatters,

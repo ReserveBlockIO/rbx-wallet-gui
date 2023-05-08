@@ -31,7 +31,7 @@ class MyWebShopListScreen extends BaseScreen {
       actions: [
         IconButton(
             onPressed: () {
-              ref.watch(webShopListProvider(WebShopListType.mine).notifier).refresh();
+              ref.read(webShopListProvider(WebShopListType.mine).notifier).refresh();
             },
             icon: Icon(Icons.refresh)),
 

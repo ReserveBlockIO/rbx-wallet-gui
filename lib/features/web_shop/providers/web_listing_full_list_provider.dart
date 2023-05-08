@@ -38,10 +38,11 @@ class WebListingFullListProvider extends StateNotifier<List<WebListing>> {
     }
   }
 
-  reload() async {
+  reload([bool withDelay = true]) async {
     state = [];
-
-    await Future.delayed(Duration(milliseconds: 200));
+    if (withDelay) {
+      await Future.delayed(Duration(milliseconds: 200));
+    }
 
     timer?.cancel();
     init();

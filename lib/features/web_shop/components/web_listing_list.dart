@@ -19,11 +19,12 @@ import '../../remote_shop/providers/shop_list_view_provider.dart';
 class WebListingListContainer extends ConsumerStatefulWidget {
   final int shopId;
   final int collectionId;
-
+  final bool isMine;
   const WebListingListContainer(
     this.shopId,
     this.collectionId, {
     Key? key,
+    this.isMine = false,
   }) : super(key: key);
 
   @override
