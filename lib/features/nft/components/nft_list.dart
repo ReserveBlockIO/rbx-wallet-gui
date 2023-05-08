@@ -40,6 +40,7 @@ class NftList extends BaseComponent {
                   nft,
                   key: Key(nft.id),
                   manageOnPress: minted,
+                  showListedStatus: true,
                 );
               },
             );
