@@ -1,3 +1,5 @@
+import 'package:rbx_wallet/features/chat/models/latest_chat_message.dart';
+
 import '../../../core/env.dart';
 import '../../../core/models/paginated_response.dart';
 import '../../../core/services/base_service.dart';
@@ -40,6 +42,20 @@ class WebChatService extends BaseService {
     } catch (e) {
       print(e);
       return ServerPaginatedReponse.empty();
+    }
+  }
+
+  Future<List<LatestChatMessage>?> listNewMessages(String address) async {
+    try {
+      final data = await getJson("/chat/new-messages", params: {'address': address});
+
+      print(data);
+
+      final List<LatestChatMessage> results = data['results'].map<LatestChatMessage>((item) => LatestChatMessage.fromJson(item)).toList();
+
+      return results;
+    } catch (e) {
+      return null;
     }
   }
 
