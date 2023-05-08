@@ -11,6 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
+import 'package:rbx_wallet/core/components/countdown.dart';
 import 'package:rbx_wallet/utils/files.dart';
 import '../../../core/base_component.dart';
 import '../../../core/breakpoints.dart';
@@ -66,6 +67,11 @@ class WebListingDetails extends BaseComponent {
               SizedBox(
                 height: 16,
               ),
+
+              if (listing.canBid && !listing.isSaleComplete && !listing.isSalePending)
+                _Countdown(
+                  listing: listing,
+                ),
 
               if (listing.isSaleComplete)
                 Text(
@@ -178,6 +184,10 @@ class WebListingDetails extends BaseComponent {
                   SizedBox(
                     height: 16,
                   ),
+                  if (listing.canBid && !listing.isSaleComplete && !listing.isSalePending)
+                    _Countdown(
+                      listing: listing,
+                    ),
                   if (listing.isSaleComplete)
                     Text(
                       "Sale has Completed",
@@ -1027,6 +1037,37 @@ class _Auction extends BaseComponent {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _Countdown extends StatelessWidget {
+  final WebListing listing;
+  const _Countdown({super.key, required this.listing});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: BreakPoints.useMobileLayout(context) ? CrossAxisAlignment.stretch : CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (listing.isActive)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: AppCountdown(
+              dueDate: listing.endDate,
+              prefix: listing.floorPrice != null ? "Auction Ends" : "Ends in",
+            ),
+          ),
+        // if (!listing.hasStarted)
+        //   Padding(
+        //     padding: const EdgeInsets.symmetric(vertical: 16.0),
+        //     child: AppCountdown(
+        //       dueDate: listing.startDate,
+        //       prefix: "Auction Starts",
+        //     ),
+        //   ),
+      ],
     );
   }
 }

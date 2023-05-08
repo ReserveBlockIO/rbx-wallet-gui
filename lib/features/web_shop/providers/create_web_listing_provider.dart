@@ -112,12 +112,6 @@ class WebListingFormProvider extends StateNotifier<WebListing> {
   }
 
   updateDate(DateTime date, bool isStartDate) {
-    if (date.isBefore(DateTime.now()) && !isStartDate) {
-      OverlayToast.error("End date must be in the future.");
-
-      return;
-    }
-
     if (!isStartDate) {
       if (date.isBefore(state.startDate)) {
         OverlayToast.error("End Date must be after the start date");

@@ -33,11 +33,15 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
   }
 
   bool _hasAddress(String address) {
-    print(address);
     return _addresses.firstWhereOrNull((a) => a == address) != null;
   }
 
   void insert(Transaction transaction) {
+    final threshold = (DateTime.now().subtract(Duration(minutes: 5)).millisecondsSinceEpoch / 1000).round();
+    if (transaction.timestamp < threshold) {
+      return;
+    }
+
     if (state.firstWhereOrNull((t) => t.hash == transaction.hash) == null) {
       state = [...state, transaction];
       _handle(transaction);
@@ -53,8 +57,6 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
   void _handle(Transaction transaction) {
     final isOutgoing = _hasAddress(transaction.fromAddress);
     final isIncoming = _hasAddress(transaction.toAddress);
-
-    print(transaction.type);
 
     switch (transaction.type) {
       case TxType.rbxTransfer:
