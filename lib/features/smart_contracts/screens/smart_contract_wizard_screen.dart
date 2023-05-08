@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/app_constants.dart';
 import '../../../core/dialogs.dart';
+import '../../../core/env.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../../core/providers/web_session_provider.dart';
 import '../components/collection_form.dart';
@@ -32,7 +33,9 @@ class SmartContractWizardScreen extends BaseScreen {
       title: const Text("NFT Collection Wizard"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      actions: const [WalletSelector()],
+      actions: [
+        !Env.isWeb ? WalletSelector() : SizedBox.shrink(),
+      ],
       leading: IconButton(
           onPressed: () async {
             final confirmed = await ConfirmDialog.show(

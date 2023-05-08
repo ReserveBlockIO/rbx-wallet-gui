@@ -64,7 +64,7 @@ class NftListTile extends BaseComponent {
               : () {
                   _showDetails(context, ref);
                 }),
-      title: Text("${nft.currentEvolveName}${isBurned ? ' (Burned)' : ''} ${showListedStatus == nft.isListed(ref) ? ' (Listed)' : ''}"),
+      title: Text("${nft.currentEvolveName}${isBurned ? ' (Burned)' : ''} ${showListedStatus && nft.isListed(ref) ? ' (Listed)' : ''}"),
       subtitle: Text(nft.id),
       leading: SizedBox(
         height: 32,
