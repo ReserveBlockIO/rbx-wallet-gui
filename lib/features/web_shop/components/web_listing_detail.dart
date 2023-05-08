@@ -248,11 +248,17 @@ class _PreviewState extends State<_Preview> {
     final List<String> orderedThumbs = [];
 
     for (final a in assetFilenames) {
-      for (final t in widget.listing.thumbnails) {
-        final f = t.split("/").last.split('.').first;
-        if (a.contains(f)) {
-          orderedThumbs.add(t);
+      final ext = a.split("/").last.split('.').last;
+
+      if (["jpg", "jpeg", "gif", "png", "pdf", "webp"].contains(ext.toLowerCase())) {
+        for (final t in widget.listing.thumbnails) {
+          final f = t.split("/").last.split('.').first;
+          if (a.contains(f)) {
+            orderedThumbs.add(t);
+          }
         }
+      } else {
+        orderedThumbs.add("ICON||$a||$ext");
       }
     }
 
@@ -287,56 +293,75 @@ class _PreviewState extends State<_Preview> {
                     },
                   ),
                   items: orderedThumbs.map((path) {
+                    final isIcon = path.contains("ICON||");
+
+                    IconData? icon = isIcon ? iconFromPath(path.split("||").last) : null;
+                    String? filename = isIcon ? path.split("||")[1] : null;
+
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 0),
                       child: GestureDetector(
-                        onTap: () {
-                          showDialog(
-                              context: context,
-                              builder: (context) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Center(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(16.0),
-                                      child: CachedNetworkImage(
-                                        imageUrl: path,
-                                        width: isMobile ? 300 : 512,
-                                        height: isMobile ? 300 : 512,
-                                        fit: BoxFit.contain,
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              });
-                        },
-                        child: fileTypeFromPath(path) == "Image"
-                            ? CachedNetworkImage(
-                                imageUrl: path,
-                                errorWidget: (context, _, __) {
-                                  // return Text(path);
-                                  return Center(
-                                    child: IconButton(
-                                      icon: Icon(Icons.refresh),
-                                      onPressed: () async {
-                                        setState(() {
-                                          rebuilding = true;
-                                        });
-                                        await FileImage(File(path)).evict();
+                        onTap: isIcon
+                            ? null
+                            : () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Center(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(16.0),
+                                            child: CachedNetworkImage(
+                                              imageUrl: path,
+                                              width: isMobile ? 300 : 512,
+                                              height: isMobile ? 300 : 512,
+                                              fit: BoxFit.contain,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    });
+                              },
+                        child: isIcon
+                            ? Center(child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(icon),
+                                if(filename != null)
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 6.0),
+                                  child: Text(filename),
+                                )
+                              ],
+                            ))
+                            : fileTypeFromPath(path) == "Image"
+                                ? CachedNetworkImage(
+                                    imageUrl: path,
+                                    errorWidget: (context, _, __) {
+                                      // return Text(path);
+                                      return Center(
+                                        child: IconButton(
+                                          icon: Icon(Icons.refresh),
+                                          onPressed: () async {
+                                            setState(() {
+                                              rebuilding = true;
+                                            });
+                                            await FileImage(File(path)).evict();
 
-                                        Future.delayed(Duration(milliseconds: 300)).then((value) {
-                                          setState(() {
-                                            rebuilding = false;
-                                          });
-                                        });
-                                      },
-                                    ),
-                                  );
-                                },
-                              )
-                            : Center(child: Icon(iconFromPath(path))),
+                                            Future.delayed(Duration(milliseconds: 300)).then((value) {
+                                              setState(() {
+                                                rebuilding = false;
+                                              });
+                                            });
+                                          },
+                                        ),
+                                      );
+                                    },
+                                  )
+                                : Center(child: Icon(iconFromPath(path))),
                       ),
                     );
                   }).toList(),
@@ -346,7 +371,7 @@ class _PreviewState extends State<_Preview> {
         const SizedBox(
           height: 8,
         ),
-        if (widget.listing.thumbnails.length > 1)
+        if (orderedThumbs.length > 1)
           SizedBox(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -358,7 +383,7 @@ class _PreviewState extends State<_Preview> {
                   },
                 ),
                 DotsIndicator(
-                  dotsCount: widget.listing.thumbnails.length,
+                  dotsCount: orderedThumbs.length,
                   position: selectedIndex.toDouble(),
                   decorator: const DotsDecorator(
                     activeColor: Colors.white,
