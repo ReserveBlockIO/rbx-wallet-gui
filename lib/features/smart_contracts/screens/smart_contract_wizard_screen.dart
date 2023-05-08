@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/breakpoints.dart';
 import '../../../core/app_constants.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/env.dart';
@@ -57,6 +58,7 @@ class SmartContractWizardScreen extends BaseScreen {
   Widget body(BuildContext context, WidgetRef ref) {
     final provider = ref.read(scWizardProvider.notifier);
     final items = ref.watch(scWizardProvider);
+    final isMobile = BreakPoints.useMobileLayout(context);
     return Column(
       children: [
         const Expanded(child: ScWizardList()),
@@ -93,7 +95,7 @@ class SmartContractWizardScreen extends BaseScreen {
                     variant: AppColorVariant.Danger,
                   ),
                   AppButton(
-                    label: "Create New Instance",
+                    label: "${isMobile ? '' : 'Create'} New Instance",
                     onPressed: () {
                       provider.insert(
                         entry: BulkSmartContractEntry.empty(),
@@ -114,7 +116,7 @@ class SmartContractWizardScreen extends BaseScreen {
                     variant: AppColorVariant.Primary,
                   ),
                   AppButton(
-                    label: "Compile & Mint",
+                    label: isMobile ? "Mint" : "Compile & Mint",
                     onPressed: () async {
                       final wallet = kIsWeb ? ref.read(webSessionProvider).currentWallet : ref.read(sessionProvider).currentWallet;
                       if (wallet == null) {
