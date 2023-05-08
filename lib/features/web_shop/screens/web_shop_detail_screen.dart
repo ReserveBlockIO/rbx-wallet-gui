@@ -150,12 +150,15 @@ class WebShopDetailScreen extends BaseScreen {
                 Center(
                   child: ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: 600),
-                    child: Text(
-                      shop.description,
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            color: Colors.white,
-                          ),
-                      textAlign: TextAlign.center,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        shop.description,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              color: Colors.white,
+                            ),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
                 ),

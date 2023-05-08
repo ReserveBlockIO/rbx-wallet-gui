@@ -272,14 +272,14 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                   width: 120,
                 ),
               ),
-              // if (Env.isTestNet)
-              //   const Padding(
-              //     padding: EdgeInsets.only(top: 16.0),
-              //     child: Text(
-              //       "TESTNET",
-              //       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.green, letterSpacing: 2),
-              //     ),
-              //   ),
+              if (Env.isTestNet)
+                const Padding(
+                  padding: EdgeInsets.only(top: 16.0),
+                  child: Text(
+                    "TESTNET",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.green, letterSpacing: 2),
+                  ),
+                ),
             ],
           ),
         ),

@@ -828,7 +828,22 @@ class _WebNftData extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Text(value),
+            Row(
+              children: [
+                Text(value),
+                if (copyValue)
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: InkWell(
+                        onTap: () async {
+                          await Clipboard.setData(ClipboardData(text: value));
+
+                          Toast.message("$label copied to clipboard");
+                        },
+                        child: const Icon(Icons.copy, size: 12)),
+                  ),
+              ],
+            ),
             const SizedBox(
               height: 6,
             ),
@@ -916,7 +931,7 @@ class _BuyNow extends BaseComponent {
         color: Colors.transparent,
         margin: EdgeInsets.zero,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: isMobile ? 0 : 16),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1018,7 +1033,7 @@ class _Auction extends BaseComponent {
         color: Colors.transparent,
         margin: EdgeInsets.zero,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: isMobile ? 0 : 16),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1043,7 +1058,7 @@ class _Auction extends BaseComponent {
               ],
               const SizedBox(height: 16),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: isMobile ? MainAxisAlignment.start : MainAxisAlignment.center,
                 children: [
                   AppButton(
                       label: "Bid Now",

@@ -98,6 +98,8 @@ class Env {
 
   static String get appBaseUrl {
     switch (_env) {
+      case _Environment.Release:
+        return 'https://wallet.rbx.network/';
       case _Environment.MacTestNet:
       case _Environment.WinTestNet:
       case _Environment.ReleaseTestNet:
@@ -124,7 +126,7 @@ class Env {
   }
 
   static String get explorerApiBaseUrl {
-    return DotEnv.dotenv.env['EXPLORER_API_BASE_URL'] ?? 'https://rbx-explorer-service.herokuapp.com/api';
+    return DotEnv.dotenv.env['EXPLORER_API_BASE_URL'] ?? 'https://data.rbx.network/api';
   }
 
   static String get explorerWebsiteBaseUrl {
