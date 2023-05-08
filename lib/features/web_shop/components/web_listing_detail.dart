@@ -10,17 +10,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:rbx_wallet/core/components/countdown.dart';
 import 'package:rbx_wallet/utils/files.dart';
+import 'package:timeago/timeago.dart' as timeago;
+
 import '../../../core/base_component.dart';
 import '../../../core/breakpoints.dart';
 import '../../../core/components/badges.dart';
 import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
 import '../../../core/env.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/providers/web_session_provider.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/web_router.gr.dart';
+import '../../../utils/toast.dart';
+import '../../nft/components/nft_qr_code.dart';
 import '../../nft/models/nft.dart';
+import '../../sc_property/models/sc_property.dart';
 import '../../smart_contracts/components/sc_creator/common/modal_container.dart';
 import '../models/web_auction.dart';
 import '../models/web_bid.dart';
@@ -28,13 +35,6 @@ import '../models/web_listing.dart';
 import '../providers/create_web_listing_provider.dart';
 import '../providers/web_listing_full_list_provider.dart';
 import '../providers/web_shop_bid_provider.dart';
-import '../../../utils/toast.dart';
-
-import '../../../core/dialogs.dart';
-import '../../../core/providers/session_provider.dart';
-import '../../../core/providers/web_session_provider.dart';
-import '../../nft/components/nft_qr_code.dart';
-import '../../sc_property/models/sc_property.dart';
 
 class WebListingDetails extends BaseComponent {
   final WebListing listing;
@@ -62,6 +62,10 @@ class WebListingDetails extends BaseComponent {
             if (nft != null) ...[
               _Details(listing: listing),
               _Preview(listing: listing),
+
+              _Features(nft: nft.smartContract),
+              _Properties(nft: nft.smartContract),
+
               if (listing.canBuyNow) _BuyNow(listing: listing),
               if (listing.canBid) _Auction(listing: listing),
               SizedBox(
@@ -87,6 +91,12 @@ class WebListingDetails extends BaseComponent {
 
               // _WebNftDetails(nft: nft.smartContract),
               _WebNftData(nft: nft.smartContract),
+              Center(
+                child: _QRCode(
+                  nft: nft.smartContract,
+                  size: 150,
+                ),
+              ),
             ],
 
             // _Features(nft: nft),
@@ -1221,6 +1231,7 @@ class _BidHistoryModal extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isMobile = BreakPoints.useMobileLayout(context);
     return ModalContainer(
       withClose: true,
       withDecor: false,
@@ -1243,7 +1254,7 @@ class _BidHistoryModal extends BaseComponent {
               return ListTile(
                 leading: _BidStatusIndicator(bid),
                 title: Text("${bid.amount} RBX"),
-                subtitle: SelectableText(bid.address),
+                subtitle: SelectableText(isMobile ? "${bid.address} \n${timeago.format(bid.sendDateTime)}" : bid.address),
                 trailing: Builder(builder: (context) {
                   final currentAddress = kIsWeb ? ref.watch(webSessionProvider).keypair?.address : ref.watch(sessionProvider).currentWallet?.address;
                   final isBidder = currentAddress == bid.address;
@@ -1257,7 +1268,7 @@ class _BidHistoryModal extends BaseComponent {
                   //   );
                   // }
 
-                  return Text(bid.sendTimeLabel);
+                  return Text(isMobile ? '' : bid.sendTimeLabel);
                 }),
               );
             },
