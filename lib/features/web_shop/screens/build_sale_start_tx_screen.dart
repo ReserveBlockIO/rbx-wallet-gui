@@ -223,7 +223,13 @@ class BuildSaleStartTxScreen extends BaseScreen {
 
                               if (locator == null) {
                                 // Toast.error("Could not create beacon upload request.");
-                                print("Could not create beacon upload request.");
+                                await Future.delayed(Duration(seconds: 3));
+
+                                locator = await RawService().beaconUpload(scId, toAddress, beaconSignature);
+
+                                if (locator == null) {
+                                  print("Could not create beacon upload request.");
+                                }
                               }
 
                               var txPayload = {
