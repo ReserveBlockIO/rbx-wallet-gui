@@ -31,7 +31,7 @@ import 'package:rbx_wallet/features/root/web_dashboard_container.dart' as _i2;
 import 'package:rbx_wallet/features/send/screens/web_prefilled_send_screen.dart'
     as _i7;
 import 'package:rbx_wallet/features/send/screens/web_send_screen.dart' as _i6;
-import 'package:rbx_wallet/features/smart_contracts/screens/bulk_create_screen.dart'
+import 'package:rbx_wallet/features/smart_contracts/screens/smart_contract_wizard_screen.dart'
     as _i16;
 import 'package:rbx_wallet/features/smart_contracts/screens/web_create_smart_contract_screen.dart'
     as _i15;
@@ -233,10 +233,10 @@ class WebRouter extends _i29.RootStackRouter {
         child: const _i15.WebCreateSmartContractScreen(),
       );
     },
-    WebBuldCreateScreen.name: (routeData) {
+    WebSmartContractWizardScreenRoute.name: (routeData) {
       return _i29.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i16.BulkCreateScreen(),
+        child: const _i16.SmartContractWizardScreen(),
       );
     },
     WebShopLandingScreenRoute.name: (routeData) {
@@ -514,8 +514,8 @@ class WebRouter extends _i29.RootStackRouter {
                   parent: WebSmartContractTabRouter.name,
                 ),
                 _i29.RouteConfig(
-                  WebBuldCreateScreen.name,
-                  path: 'wizard',
+                  WebSmartContractWizardScreenRoute.name,
+                  path: 'create',
                   parent: WebSmartContractTabRouter.name,
                 ),
               ],
@@ -1001,15 +1001,15 @@ class WebCreateSmartContractScreenRoute extends _i29.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i16.BulkCreateScreen]
-class WebBuldCreateScreen extends _i29.PageRouteInfo<void> {
-  const WebBuldCreateScreen()
+/// [_i16.SmartContractWizardScreen]
+class WebSmartContractWizardScreenRoute extends _i29.PageRouteInfo<void> {
+  const WebSmartContractWizardScreenRoute()
       : super(
-          WebBuldCreateScreen.name,
-          path: 'wizard',
+          WebSmartContractWizardScreenRoute.name,
+          path: 'create',
         );
 
-  static const String name = 'WebBuldCreateScreen';
+  static const String name = 'WebSmartContractWizardScreenRoute';
 }
 
 /// generated route for

@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../../sc_property/models/sc_property.dart';
 import 'sc_evolve_dialog.dart';
 import 'sc_property_dialog.dart';
@@ -66,6 +68,7 @@ class ScWizedCard extends BaseComponent {
                     constraints: const BoxConstraints(),
                     onPressed: () async {
                       final value = await PromptModal.show(
+                        contextOverride: context,
                         title: entry.name.isEmpty ? "Add Name" : "Edit Name",
                         validator: (value) => formValidatorNotEmpty(value, "Name"),
                         labelText: "Name",
@@ -101,6 +104,7 @@ class ScWizedCard extends BaseComponent {
                     constraints: const BoxConstraints(),
                     onPressed: () async {
                       String? value = await PromptModal.show(
+                        contextOverride: context,
                         title: "Quantity to Mint",
                         validator: (value) => formValidatorNotEmpty(value, "Quantity"),
                         labelText: "Quantity",
@@ -179,7 +183,11 @@ class ScWizedCard extends BaseComponent {
                                     ),
                                     child: IconButton(
                                         onPressed: () async {
-                                          openFile(entry.primaryAsset!.file);
+                                          if (kIsWeb) {
+                                            launchUrlString(entry.primaryAsset!.location!);
+                                          } else {
+                                            openFile(entry.primaryAsset!.file);
+                                          }
                                         },
                                         icon: const Icon(Icons.open_in_new)),
                                   ),
@@ -197,6 +205,7 @@ class ScWizedCard extends BaseComponent {
                                     child: IconButton(
                                         onPressed: () async {
                                           final confirmed = await ConfirmDialog.show(
+                                            context: context,
                                             title: "Delete Primary Asset?",
                                             body: "Are you sure you want to delete the primary asset?",
                                             confirmText: "Delete",
@@ -234,6 +243,7 @@ class ScWizedCard extends BaseComponent {
                     constraints: const BoxConstraints(),
                     onPressed: () async {
                       final value = await PromptModal.show(
+                        contextOverride: context,
                         title: entry.creatorName.isEmpty ? "Add Creator Name" : "Edit Creator Name",
                         validator: (value) => formValidatorNotEmpty(value, "Creator Name"),
                         labelText: "Creator Name",
@@ -274,6 +284,7 @@ class ScWizedCard extends BaseComponent {
                     constraints: const BoxConstraints(),
                     onPressed: () async {
                       final value = await PromptModal.show(
+                        contextOverride: context,
                         title: entry.name.isEmpty ? "Add Description" : "Edit Description",
                         validator: (value) => formValidatorNotEmpty(value, "Description"),
                         labelText: "Description",
@@ -394,7 +405,7 @@ class ScWizedCard extends BaseComponent {
                         final i = e.key;
                         final asset = e.value;
                         return Padding(
-                          key: Key(asset.file.path),
+                          key: Key(kIsWeb ? asset.location! : asset.file.path),
                           padding: const EdgeInsets.symmetric(vertical: 6.0),
                           child: Row(
                             children: [
@@ -404,16 +415,27 @@ class ScWizedCard extends BaseComponent {
                                         alignment: Alignment.centerLeft,
                                         child: InkWell(
                                           onTap: () {
-                                            openFile(asset.file);
+                                            if (kIsWeb) {
+                                              launchUrlString(asset.location!);
+                                            } else {
+                                              openFile(asset.file);
+                                            }
                                           },
                                           child: Row(
                                             children: [
-                                              Image.asset(
-                                                asset.file.path,
-                                                width: 32,
-                                                height: 32,
-                                                fit: BoxFit.cover,
-                                              ),
+                                              kIsWeb
+                                                  ? Image.network(
+                                                      asset.location!,
+                                                      width: 32,
+                                                      height: 32,
+                                                      fit: BoxFit.cover,
+                                                    )
+                                                  : Image.asset(
+                                                      asset.file.path,
+                                                      width: 32,
+                                                      height: 32,
+                                                      fit: BoxFit.cover,
+                                                    ),
                                               const SizedBox(width: 6),
                                               Text(
                                                 asset.truncatedFileName(),
@@ -428,7 +450,11 @@ class ScWizedCard extends BaseComponent {
                                   : Expanded(
                                       child: InkWell(
                                         onTap: () {
-                                          openFile(asset.file);
+                                          if (kIsWeb) {
+                                            launchUrlString(asset.location!);
+                                          } else {
+                                            openFile(asset.file);
+                                          }
                                         },
                                         child: Text(
                                           asset.fileName,
@@ -535,7 +561,7 @@ class ScWizedCard extends BaseComponent {
                                     constraints: const BoxConstraints(),
                                     onPressed: () async {
                                       final confirmed = await ConfirmDialog.show(
-                                        title: "Remove Asset?",
+                                        title: "Remove Phase?",
                                         body: "Are you sure you want to remove this evolution phase?",
                                         confirmText: "Remove",
                                         cancelText: "Cancel",

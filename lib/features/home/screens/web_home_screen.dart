@@ -68,22 +68,41 @@ class WebHomeScreen extends BaseScreen {
 
   @override
   Widget desktopBody(BuildContext context, WidgetRef ref) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Stack(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: const [
-              WebWalletDetails(),
-              SizedBox(height: 32),
-            ],
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  WebWalletDetails(),
+                  SizedBox(height: 32),
+                ],
+              ),
+            ),
+            const _Brand(),
+            const _Actions(),
+            const WebLatestBlock(),
+          ],
+        ),
+        Align(
+          alignment: Alignment.bottomRight,
+          child: Opacity(
+            opacity: 0.5,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 240.0),
+              child: Image.asset(
+                Assets.images.decorBottomRight.path,
+                width: 200,
+                height: 200,
+                fit: BoxFit.contain,
+              ),
+            ),
           ),
         ),
-        const _Brand(),
-        const _Actions(),
-        const WebLatestBlock(),
       ],
     );
   }

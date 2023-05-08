@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/app_router.gr.dart';
+// import '../../../core/app_router.gr.dart';
 import '../../../core/env.dart';
 import '../../../core/web_router.gr.dart';
 import '../../dst/providers/collection_list_provider.dart';
@@ -44,6 +44,8 @@ class WebCollectionFormProvider extends StateNotifier<WebCollection> {
   }
 
   complete(BuildContext context) async {
+    final isNewCollection = state.id == 0;
+
     if (!formKey.currentState!.validate()) {
       return null;
     }
@@ -62,7 +64,13 @@ class WebCollectionFormProvider extends StateNotifier<WebCollection> {
         }
       }
 
-      AutoRouter.of(context).pop();
+      if (isNewCollection && collection.shop != null) {
+        AutoRouter.of(context).popAndPush(WebCollectionDetailScreenRoute(shopId: collection.shop!.id, collectionId: collection.id));
+      } else {
+        AutoRouter.of(context).pop();
+      }
+
+      // AutoRouter.of(context).pop();
 
       clear();
     } else {

@@ -80,86 +80,93 @@ class ScWizardList extends BaseComponent {
           description = "$description | ${item.entry.properties.length} ${item.entry.properties.length == 1 ? 'Property' : 'Properties'}";
         }
 
-        return Card(
-          child: ListTile(
-            title: RichText(
-              text: TextSpan(
+        return Container(
+          decoration: BoxDecoration(
+            boxShadow: glowingBox,
+          ),
+          child: Card(
+            color: Colors.black,
+            child: ListTile(
+              title: RichText(
+                text: TextSpan(
+                  style: TextStyle(color: Colors.white),
+                  children: [
+                    TextSpan(
+                      text: entry.name,
+                    ),
+                    TextSpan(
+                      text: " (x${entry.quantity})",
+                      style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.success),
+                    ),
+                  ],
+                ),
+              ),
+              leading: SizedBox(
+                width: 32,
+                height: 32,
+                child: ScWizardAssetPreview(entry: entry, small: true),
+              ),
+              subtitle: Text(
+                description,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  TextSpan(
-                    text: entry.name,
+                  AppButton(
+                    label: "Duplicate",
+                    icon: Icons.copy,
+                    onPressed: () {
+                      createNew(context: context, provider: provider, index: items.length, x: 0, y: 0, item: item.copyWith());
+                    },
+                    variant: AppColorVariant.Light,
                   ),
-                  TextSpan(
-                    text: " (x${entry.quantity})",
-                    style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.success),
+                  const SizedBox(width: 6),
+                  AppButton(
+                    label: "Edit",
+                    icon: Icons.edit,
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => ScWizardEditItemScreen(
+                            title: "Edit Instance",
+                            index: index,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(width: 6),
+                  AppButton(
+                    label: "Delete",
+                    icon: Icons.delete,
+                    variant: AppColorVariant.Danger,
+                    onPressed: () async {
+                      final confirmed = await ConfirmDialog.show(
+                        title: "Delete Instance?",
+                        body: "Are you sure you want to delete this instance?",
+                        confirmText: "Delete",
+                        destructive: true,
+                      );
+                      if (confirmed == true) {
+                        ref.read(scWizardProvider.notifier).removeAt(index, delay: 300);
+                      }
+                    },
                   ),
                 ],
               ),
-            ),
-            leading: SizedBox(
-              width: 32,
-              height: 32,
-              child: ScWizardAssetPreview(entry: entry, small: true),
-            ),
-            subtitle: Text(
-              description,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                AppButton(
-                  label: "Duplicate",
-                  icon: Icons.copy,
-                  onPressed: () {
-                    createNew(context: context, provider: provider, index: items.length, x: 0, y: 0, item: item.copyWith());
-                  },
-                  variant: AppColorVariant.Light,
-                ),
-                const SizedBox(width: 6),
-                AppButton(
-                  label: "Edit",
-                  icon: Icons.edit,
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => ScWizardEditItemScreen(
-                          title: "Edit Instance",
-                          index: index,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-                const SizedBox(width: 6),
-                AppButton(
-                  label: "Delete",
-                  icon: Icons.delete,
-                  variant: AppColorVariant.Danger,
-                  onPressed: () async {
-                    final confirmed = await ConfirmDialog.show(
-                      title: "Delete Instance?",
-                      body: "Are you sure you want to delete this instance?",
-                      confirmText: "Delete",
-                      destructive: true,
-                    );
-                    if (confirmed == true) {
-                      ref.read(scWizardProvider.notifier).removeAt(index, delay: 300);
-                    }
-                  },
-                ),
-              ],
-            ),
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => ScWizardEditItemScreen(
-                    title: "Edit Instance",
-                    index: index,
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ScWizardEditItemScreen(
+                      title: "Edit Instance",
+                      index: index,
+                    ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         );
       },

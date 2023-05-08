@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/smart_contracts/screens/smart_contract_wizard_screen.dart';
 import '../../../core/components/big_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -75,14 +76,17 @@ class WebSmartContractLandingScreen extends BaseScreen {
                       AutoRouter.of(context).push(const WebCreateSmartContractScreenRoute());
                     },
                   ),
-                  // BigButton(
-                  //   title: "Mint NFT Collection",
-                  //   iconData: Icons.auto_awesome,
-                  //   body: "Mint multiple Smart Contracts into a collection",
-                  //   onPressed: () {
-                  //     AutoRouter.of(context).push(const WebBuldCreateScreen());
-                  //   },
-                  // ),
+                  BigButton(
+                    title: "Mint NFT Collection",
+                    iconData: Icons.auto_awesome,
+                    body: "Mint multiple Smart Contracts into a collection",
+                    onPressed: () {
+                      AutoRouter.of(context).push(WebSmartContractWizardScreenRoute());
+                      // Navigator.of(context).push(
+                      //   MaterialPageRoute(builder: (context) => const SmartContractWizardScreen()),
+                      // );
+                    },
+                  ),
                   BigButton(
                     title: "Launch IDE",
                     iconData: Icons.code,

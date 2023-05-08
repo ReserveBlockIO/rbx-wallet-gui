@@ -20,6 +20,7 @@ import '../features/root/web_dashboard_container.dart';
 import '../features/send/screens/web_prefilled_send_screen.dart';
 import '../features/send/screens/web_send_screen.dart';
 import '../features/smart_contracts/screens/web_create_smart_contract_screen.dart';
+import '../features/smart_contracts/screens/smart_contract_wizard_screen.dart';
 import '../features/smart_contracts/screens/bulk_create_screen.dart';
 import '../features/smart_contracts/screens/web_smart_contract_landing_screen.dart';
 import '../features/transactions/screens/web_transaction_detail_screen.dart';
@@ -118,7 +119,8 @@ const webDashboardTabRouter = AutoRoute(
       children: [
         AutoRoute(path: "", page: WebSmartContractLandingScreen),
         AutoRoute(path: "create", page: WebCreateSmartContractScreen),
-        AutoRoute(path: "wizard", name: "WebBuldCreateScreen", page: BulkCreateScreen),
+        AutoRoute(path: "create", name: "WebSmartContractWizardScreenRoute", page: SmartContractWizardScreen),
+        // AutoRoute(path: "wizard", name: "WebBuldCreateScreen", page: BulkCreateScreen),
       ],
     ),
     // AutoRoute(

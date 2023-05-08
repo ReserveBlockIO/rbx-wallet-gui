@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 import '../../../core/base_component.dart';
 import '../../../core/base_screen.dart';
 import '../../../core/components/badges.dart';
@@ -181,6 +182,8 @@ class _Top extends BaseComponent {
             icon: Icons.add,
             variant: AppColorVariant.Success,
             onPressed: () {
+              Toast.error("This feature is currently locked");
+              return;
               provider.newAccount(context);
             },
           ),
@@ -198,6 +201,9 @@ class _Top extends BaseComponent {
             type: AppButtonType.Text,
             variant: AppColorVariant.Light,
             onPressed: () async {
+              Toast.error("This feature is currently locked");
+              return;
+
               provider.restoreAccount(context);
             },
           ),
@@ -207,6 +213,8 @@ class _Top extends BaseComponent {
             type: AppButtonType.Text,
             variant: AppColorVariant.Warning,
             onPressed: () async {
+              Toast.error("This feature is currently locked");
+              return;
               provider.recoverAccount(context);
             },
           ),

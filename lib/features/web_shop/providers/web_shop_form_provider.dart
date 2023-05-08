@@ -2,8 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/web_shop/screens/my_create_collection_container_screen.dart';
 import '../../../core/app_constants.dart';
-import '../../../core/app_router.gr.dart';
+// import '../../../core/app_router.gr.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/env.dart';
 import '../../../core/web_router.gr.dart';
@@ -65,6 +66,7 @@ class WebShopFormProvider extends StateNotifier<WebShop> {
   }
 
   Future<bool?> complete(BuildContext context) async {
+    final isNewShop = state.isNew;
     if (!formKey.currentState!.validate()) {
       return null;
     }
@@ -175,7 +177,11 @@ class WebShopFormProvider extends StateNotifier<WebShop> {
       ref.read(webShopListProvider(WebShopListType.mine).notifier).refresh();
       clear();
 
-      AutoRouter.of(context).pop();
+      if (isNewShop) {
+        AutoRouter.of(context).popAndPush(WebShopDetailScreenRoute(shopId: updatedShop.id));
+      } else {
+        AutoRouter.of(context).pop();
+      }
 
       return true;
     } else {

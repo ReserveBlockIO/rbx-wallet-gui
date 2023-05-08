@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../models/bulk_smart_contract_entry.dart';
@@ -18,6 +19,14 @@ class ScWizardAssetPreview extends StatelessWidget {
     if (asset == null) return const SizedBox.shrink();
 
     if (asset.isImage) {
+      if (kIsWeb) {
+        return Image.network(
+          asset.location!,
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: double.infinity,
+        );
+      }
       return Image.file(
         asset.file,
         fit: BoxFit.cover,
