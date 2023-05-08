@@ -2,14 +2,17 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:rbx_wallet/features/web_shop/models/web_collection.dart';
-import 'package:rbx_wallet/features/web_shop/models/web_shop.dart';
-import 'package:rbx_wallet/features/web_shop/providers/web_listing_list_provider.dart';
+import 'package:rbx_wallet/features/web_shop/providers/web_listing_full_list_provider.dart';
+import '../../../core/services/explorer_service.dart';
+import '../../nft/models/nft.dart';
+import '../../nft/models/web_nft.dart';
+import '../models/web_collection.dart';
+import '../models/web_shop.dart';
+import 'web_listing_list_provider.dart';
 
 import '../../../core/dialogs.dart';
 import '../../../utils/toast.dart';
 import '../models/web_listing.dart';
-import '../models/web_nft.dart';
 import '../services/web_shop_service.dart';
 
 class WebListingFormProvider extends StateNotifier<WebListing> {
@@ -67,15 +70,17 @@ class WebListingFormProvider extends StateNotifier<WebListing> {
     print('State: $state');
   }
 
-  updateNFT(String nft) {
-    state = state.copyWith(
-      smartContractUid: nft,
-    );
+  Future<void> updateNFT(Nft nft) async {
+    // final webNft = WebNft.fromNft(nft);
+
+    final webNft = await ExplorerService().retrieveWebNft(nft.id);
+
+    state = state.copyWith(nft: webNft, smartContractUid: nft.id);
   }
 
   clearNft() {
     state = state.copyWith(
-      nft: WebNft.empty(),
+      nft: null,
       smartContractUid: '',
       ownerAddress: '',
     );
@@ -108,12 +113,6 @@ class WebListingFormProvider extends StateNotifier<WebListing> {
   }
 
   updateDate(DateTime date, bool isStartDate) {
-    if (date.isBefore(DateTime.now()) && !isStartDate) {
-      OverlayToast.error("End date must be in the future.");
-
-      return;
-    }
-
     if (!isStartDate) {
       if (date.isBefore(state.startDate)) {
         OverlayToast.error("End Date must be after the start date");
@@ -136,6 +135,9 @@ class WebListingFormProvider extends StateNotifier<WebListing> {
 
   updateEnableBuyOnly(bool enableBuyOnly) {
     state = state.copyWith(enableBuyNow: enableBuyOnly);
+    if (enableBuyOnly) {
+      state = state.copyWith(galleryOnly: false);
+    }
   }
 
   updateEnableAuction(bool enableAuction) {
@@ -144,6 +146,43 @@ class WebListingFormProvider extends StateNotifier<WebListing> {
       return;
     }
     state = state.copyWith(enableAuction: enableAuction);
+    if (enableAuction) {
+      state = state.copyWith(galleryOnly: false);
+      state = state.copyWith(endDate: DateTime.now());
+      state = state.copyWith(endDate: state.startDate.add(Duration(days: 7)));
+      startDateController.text = DateFormat.yMd().format(DateTime.now());
+      endDateController.text = DateFormat.yMd().format(state.endDate);
+    } else {
+      state = state.copyWith(startDate: DateTime.now());
+      state = state.copyWith(endDate: DateTime(3000));
+    }
+  }
+
+  updateGalleryOnly(bool value) {
+    if (state.isAuctionStarted && state.exists) {
+      Toast.error('The auction has already started.');
+      return;
+    }
+
+    if (value) {
+      state = state.copyWith(
+        galleryOnly: true,
+        enableBuyNow: false,
+        enableAuction: false,
+        enableReservePrice: false,
+        floorPrice: null,
+        buyNowPrice: null,
+        reservePrice: null,
+      );
+
+      buyNowController.clear();
+      floorPriceController.clear();
+      reservePriceController.clear();
+    } else {
+      state = state.copyWith(
+        galleryOnly: false,
+      );
+    }
   }
 
   complete(BuildContext context) async {
@@ -170,8 +209,8 @@ class WebListingFormProvider extends StateNotifier<WebListing> {
       Toast.error('The NFT must be set');
       return;
     }
-    if (!state.enableAuction && !state.enableBuyNow) {
-      Toast.error('Enable at least one of the options (Buy now or Auction)');
+    if (!state.enableAuction && !state.enableBuyNow && !state.galleryOnly) {
+      Toast.error('Enable at least one of the options (Gallery, Buy Now, or Auction)');
       return;
     }
 
@@ -187,10 +226,29 @@ class WebListingFormProvider extends StateNotifier<WebListing> {
     if (!state.enableReservePrice) {
       state = state.copyWith(reservePrice: state.floorPrice);
     }
-    print("Collection: ${state.collection}");
 
-    if (await WebShopService().saveWebListing(state, state.collection.shop!.id, state.collection.id)) {
+    if (!state.exists) {
+      //Images
+      final assets = [state.nft?.smartContract.primaryAssetWeb].where((element) => element != null).toList(); //TOOD: multiasset
+      if (state.nft!.smartContract.additionalAssetsWeb != null) {
+        for (final a in state.nft!.smartContract.additionalAssetsWeb!) {
+          assets.add(a);
+        }
+      }
+      final List<String> thumbnailUrls = [];
+      for (final a in assets) {
+        if (a?.location != null) {
+          thumbnailUrls.add(a!.location);
+        }
+      }
+
+      state = state.copyWith(thumbnails: thumbnailUrls);
+    }
+
+    final success = await WebShopService().saveWebListing(state, state.collection.shop!.id, state.collection.id);
+    if (success) {
       ref.read(webListingListProvider("${state.collection.shop!.id},${state.collection.id}").notifier).refresh();
+      ref.read(webListingFullListProvider("${state.collection.shop!.id},${state.collection.id}").notifier).reload(false);
       clear();
       AutoRouter.of(context).pop();
     } else {

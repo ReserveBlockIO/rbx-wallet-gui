@@ -2,13 +2,17 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/singletons.dart';
-import 'package:rbx_wallet/core/storage.dart';
-import 'package:rbx_wallet/features/chat/models/chat_message.dart';
+import '../../../core/singletons.dart';
+import '../../../core/storage.dart';
+import '../models/chat_message.dart';
 import 'package:collection/collection.dart';
-import 'package:rbx_wallet/features/chat/services/chat_service.dart';
-import 'package:rbx_wallet/features/dst/services/dst_service.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import 'buyer_chat_thread_list_provider.dart';
+import 'seller_chat_thread_list_provider.dart';
+import 'web_seller_chat_thread_list_provider.dart';
+import '../services/chat_service.dart';
+import '../services/web_chat_service.dart';
+import '../../dst/services/dst_service.dart';
+import '../../../utils/toast.dart';
 
 abstract class ChatListProviderInterface extends StateNotifier<List<ChatMessage>> {
   final Ref ref;
@@ -54,13 +58,13 @@ abstract class ChatListProviderInterface extends StateNotifier<List<ChatMessage>
     final str = singleton<Storage>().getString(storageKey);
     if (str != null) {
       final List<dynamic> data = jsonDecode(str);
-      final messages = data.map((m) => ChatMessage.fromJson(m)).toList();
+      final messages = data.map((m) => ChatMessage.fromJson(m)).toList().where((m) => !m.isThirdParty).toList();
       state = messages;
     }
   }
 
   void saveMessages() {
-    final data = state.map((m) => m.toJson()).toList();
+    final data = state.where((m) => !m.isThirdParty).map((m) => m.toJson()).toList();
     final str = jsonEncode(data);
     singleton<Storage>().setString(storageKey, str);
   }
@@ -85,13 +89,20 @@ abstract class ChatListProviderInterface extends StateNotifier<List<ChatMessage>
     fetch();
   }
 
-  Future<bool> deleteThread() async {
-    final success = await ChatService().deleteChatThread(identifier);
-    if (success) {
-      singleton<Storage>().remove(storageKey);
-      ref.invalidateSelf();
-      return true;
+  Future<bool> deleteThread([String? thirdPartyIdentifier, int? shopId]) async {
+    final success =
+        thirdPartyIdentifier != null ? await WebChatService().deleteThread(thirdPartyIdentifier) : await ChatService().deleteChatThread(identifier);
+    await Future.delayed(Duration(milliseconds: 1000));
+    // if (success) {
+    singleton<Storage>().remove(storageKey);
+    // ref.invalidateSelf();
+    ref.read(sellerChatThreadListProvider.notifier).reload();
+    ref.read(buyerChatThreadListProvider.notifier).reload();
+    if (shopId != null) {
+      ref.read(webSellerChatThreadListProvider(shopId).notifier).reload();
     }
-    return false;
+    return true;
+    // }
+    // return false;
   }
 }

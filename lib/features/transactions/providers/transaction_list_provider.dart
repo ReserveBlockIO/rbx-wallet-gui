@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/transaction.dart';
@@ -30,6 +31,9 @@ class TransactionListProvider extends StateNotifier<List<Transaction>> {
   }
 
   Future<void> load() async {
+    if (kIsWeb) {
+      return;
+    }
     late final List<Transaction> transactions;
 
     switch (type) {

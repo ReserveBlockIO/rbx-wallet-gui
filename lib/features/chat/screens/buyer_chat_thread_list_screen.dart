@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/chat/components/buyer_chat_thread_list.dart';
-import 'package:rbx_wallet/features/chat/providers/buyer_chat_thread_list_provider.dart';
+import '../components/buyer_chat_thread_list.dart';
+import '../providers/buyer_chat_thread_list_provider.dart';
 
 import '../../../core/base_screen.dart';
 

@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
+import '../../../core/theme/app_theme.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/buttons.dart';
@@ -31,7 +31,7 @@ class TransactionWindow extends BaseComponent {
             boxShadow: glowingBox,
             color: Colors.black,
           ),
-          height: MediaQuery.of(context).size.height * 0.3,
+          height: MediaQuery.of(context).size.height * 0.4,
           width: double.infinity,
           child: recentTransactions.isEmpty
               ? Center(
@@ -53,7 +53,7 @@ class TransactionWindow extends BaseComponent {
                 ),
         ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(16.0),
           child: Center(
             child: AppButton(
               label: "View All",

@@ -73,6 +73,17 @@ String? formValidatorEmail(String? value) {
   return null;
 }
 
+String? formValidatorEmailOrEmpty(String? value) {
+  if (value == null || value.isEmpty) {
+    return null;
+  }
+
+  if (!isValidEmail(value)) {
+    return "Invalid email.";
+  }
+  return null;
+}
+
 String? formValidatorUsername(String? value) {
   if (value == null || value.isEmpty) {
     return "Username required.";

@@ -1,31 +1,37 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/components/centered_loader.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/features/chat/components/new_chat_message.dart';
-import 'package:rbx_wallet/features/chat/components/shop_chat_list.dart';
-import 'package:rbx_wallet/features/chat/providers/shop_chat_list_provider.dart';
-import 'package:rbx_wallet/features/remote_shop/providers/remote_shop_detail_provider.dart';
+import '../../../core/base_screen.dart';
+import '../../../core/components/centered_loader.dart';
+import '../../../core/dialogs.dart';
+import '../components/new_chat_message.dart';
+import '../components/shop_chat_list.dart';
+import '../providers/shop_chat_list_provider.dart';
+import '../providers/web_shop_chat_list_provider.dart';
+import '../../remote_shop/providers/remote_shop_detail_provider.dart';
 
 class ShopChatScreen extends BaseScreen {
-  final String shopUrl;
-  const ShopChatScreen({Key? key, @PathParam("url") required this.shopUrl}) : super(key: key);
+  final String url;
+  const ShopChatScreen({Key? key, @PathParam("url") required this.url}) : super(key: key);
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
-    final data = ref.watch(remoteShopDetailProvider(shopUrl));
+    final data = ref.watch(remoteShopDetailProvider(url));
 
     return data.when(
       data: (shop) => shop != null
           ? AppBar(
               title: Text("Chatting with ${shop.name}"),
               centerTitle: true,
+              backgroundColor: Colors.black,
               actions: [
                 IconButton(
                   onPressed: () {
-                    ref.read(shopChatListProvider(shopUrl).notifier).fetch();
+                    if (shop.isThirdParty) {
+                      ref.read(webShopChatListProvider(url).notifier).fetch();
+                    } else {
+                      ref.read(shopChatListProvider(url).notifier).fetch();
+                    }
                   },
                   icon: Icon(Icons.refresh),
                 ),
@@ -41,11 +47,11 @@ class ShopChatScreen extends BaseScreen {
                     );
 
                     if (confirmed == true) {
-                      final success = await ref.read(shopChatListProvider(shopUrl).notifier).deleteThread();
-                      if (success) {
-                        Navigator.of(context).pop();
-                        return;
-                      }
+                      final success = await ref.read(shopChatListProvider(url).notifier).deleteThread(null);
+                      // if (success) {
+                      AutoRouter.of(context).pop();
+                      return;
+                      // }
                     }
                   },
                 )
@@ -59,13 +65,14 @@ class ShopChatScreen extends BaseScreen {
       ),
       loading: () => AppBar(
         title: const Text(""),
+        backgroundColor: Colors.black,
       ),
     );
   }
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final data = ref.watch(remoteShopDetailProvider(shopUrl));
+    final data = ref.watch(remoteShopDetailProvider(url));
 
     return data.when(
       data: (shop) => shop != null
@@ -73,11 +80,13 @@ class ShopChatScreen extends BaseScreen {
               children: [
                 Expanded(
                   child: ShopChatList(
-                    identifier: shopUrl,
+                    identifier: url,
+                    isThirdParty: shop.isThirdParty,
                   ),
                 ),
                 NewChatMessage(
-                  identifier: shopUrl,
+                  identifier: url,
+                  isThirdParty: shop.isThirdParty,
                 )
               ],
             )

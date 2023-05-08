@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/storage.dart';
-import 'package:rbx_wallet/features/chat/models/chat_message.dart';
-import 'package:rbx_wallet/features/chat/models/chat_payload.dart';
-import 'package:rbx_wallet/features/chat/providers/chat_list_provider_interface.dart';
-import 'package:rbx_wallet/features/chat/services/chat_service.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/storage.dart';
+import '../models/chat_message.dart';
+import '../models/chat_payload.dart';
+import 'chat_list_provider_interface.dart';
+import '../services/chat_service.dart';
+import '../../../utils/toast.dart';
 
 class ShopChatListProvider extends ChatListProviderInterface {
   ShopChatListProvider(ref, shopUrl) : super(ref, shopUrl) {

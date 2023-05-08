@@ -104,8 +104,9 @@ class AppTheme {
 
   factory AppTheme.dark() {
     final _themeData = ThemeData(
-      textSelectionTheme: const TextSelectionThemeData(cursorColor: _secondaryColor),
+      textSelectionTheme: TextSelectionThemeData(cursorColor: _secondaryColor, selectionColor: _secondaryColor.withOpacity(0.3)),
       inputDecorationTheme: const InputDecorationTheme(
+        fillColor: Colors.green,
         labelStyle: TextStyle(color: _secondaryColor),
         floatingLabelStyle: TextStyle(
           color: _secondaryColor,

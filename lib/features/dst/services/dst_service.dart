@@ -1,10 +1,10 @@
 import 'dart:convert';
-import 'package:rbx_wallet/features/dst/models/bid.dart';
-import 'package:rbx_wallet/features/dst/models/listing.dart';
-import 'package:rbx_wallet/features/dst/models/collection.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/nft/services/nft_service.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../models/bid.dart';
+import '../models/listing.dart';
+import '../models/collection.dart';
+import '../../nft/models/nft.dart';
+import '../../nft/services/nft_service.dart';
+import '../../../utils/toast.dart';
 
 import '../../../core/services/base_service.dart';
 import '../models/dec_shop.dart';
@@ -156,7 +156,6 @@ class DstService extends BaseService {
       final response = await getText(
         '/GetShopListingBids/$listingId',
         cleanPath: false,
-        inspect: true,
       );
       final data = jsonDecode(response);
 
@@ -261,6 +260,26 @@ class DstService extends BaseService {
       // print("********");
       // print(response);
       // print("********");
+
+      if (data['Success'] == true) {
+        return true;
+      }
+
+      return false;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> importShop(String address) async {
+    try {
+      final response = await getText('/GetImportDecShopFromNetwork/$address', cleanPath: false);
+      final data = jsonDecode(response);
+
+      print("********");
+      print(response);
+      print("********");
 
       if (data['Success'] == true) {
         return true;
@@ -471,5 +490,24 @@ class DstService extends BaseService {
     }
 
     return ids;
+  }
+
+  Future<bool> retrySale(int listingId) async {
+    try {
+      final response = await getText("/RetrySale/$listingId");
+      final data = jsonDecode(response);
+      if (data['Success'] == true) {
+        Toast.message("Attempting to send sale complete TX.");
+        return true;
+      }
+
+      Toast.error(data['Message']);
+
+      return false;
+    } catch (e) {
+      print(e);
+      Toast.error();
+      return false;
+    }
   }
 }

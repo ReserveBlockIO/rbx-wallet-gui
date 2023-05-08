@@ -48,6 +48,9 @@ class $AssetsEnvGen {
   /// File path: assets/env/dev_win_env
   String get devWinEnv => 'assets/env/dev_win_env';
 
+  /// File path: assets/env/local_testnet_env
+  String get localTestnetEnv => 'assets/env/local_testnet_env';
+
   /// File path: assets/env/mac_dev_env
   String get macDevEnv => 'assets/env/mac_dev_env';
 
@@ -66,6 +69,9 @@ class $AssetsEnvGen {
   /// File path: assets/env/web_env
   String get webEnv => 'assets/env/web_env';
 
+  /// File path: assets/env/web_local_env
+  String get webLocalEnv => 'assets/env/web_local_env';
+
   /// File path: assets/env/win_testnet_env
   String get winTestnetEnv => 'assets/env/win_testnet_env';
 
@@ -75,12 +81,14 @@ class $AssetsEnvGen {
         blockExplorerTestNetEnv,
         devEnv,
         devWinEnv,
+        localTestnetEnv,
         macDevEnv,
         macTestnetEnv,
         releaseEnv,
         releaseTestnet,
         webDevEnv,
         webEnv,
+        webLocalEnv,
         winTestnetEnv
       ];
 }
@@ -88,11 +96,14 @@ class $AssetsEnvGen {
 class $AssetsFontsGen {
   const $AssetsFontsGen();
 
+  /// File path: assets/fonts/NotoColorEmoji-Regular.ttf
+  String get notoColorEmojiRegular => 'assets/fonts/NotoColorEmoji-Regular.ttf';
+
   /// File path: assets/fonts/RobotoMono-Regular.ttf
   String get robotoMonoRegular => 'assets/fonts/RobotoMono-Regular.ttf';
 
   /// List of all assets
-  List<String> get values => [robotoMonoRegular];
+  List<String> get values => [notoColorEmojiRegular, robotoMonoRegular];
 }
 
 class $AssetsImagesGen {
@@ -148,6 +159,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/rbx_wallet.png
   AssetGenImage get rbxWallet =>
       const AssetGenImage('assets/images/rbx_wallet.png');
+
+  /// File path: assets/images/reserve_block_wordmark.png
+  AssetGenImage get reserveBlockWordmark =>
+      const AssetGenImage('assets/images/reserve_block_wordmark.png');
 
   /// File path: assets/images/template_basic_1a.jpg
   AssetGenImage get templateBasic1a =>
@@ -225,6 +240,10 @@ class $AssetsImagesGen {
   AssetGenImage get wordmark =>
       const AssetGenImage('assets/images/wordmark.png');
 
+  /// File path: assets/images/wordmark_web.png
+  AssetGenImage get wordmarkWeb =>
+      const AssetGenImage('assets/images/wordmark_web.png');
+
   /// List of all assets
   List<AssetGenImage> get values => [
         animatedCube,
@@ -241,6 +260,7 @@ class $AssetsImagesGen {
         nester,
         nodelines,
         rbxWallet,
+        reserveBlockWordmark,
         templateBasic1a,
         templateBasic2a,
         templateBasic3a,
@@ -259,18 +279,22 @@ class $AssetsImagesGen {
         tutRoyalty1,
         tutRoyalty2,
         tutRoyalty3,
-        wordmark
+        wordmark,
+        wordmarkWeb
       ];
 }
 
 class $AssetsJsGen {
   const $AssetsJsGen();
 
+  /// File path: assets/js/keygen-v2.js
+  String get keygenV2 => 'assets/js/keygen-v2.js';
+
   /// File path: assets/js/keygen.js
   String get keygen => 'assets/js/keygen.js';
 
   /// List of all assets
-  List<String> get values => [keygen];
+  List<String> get values => [keygenV2, keygen];
 }
 
 class Assets {
@@ -342,7 +366,16 @@ class AssetGenImage {
     );
   }
 
-  ImageProvider provider() => AssetImage(_assetName);
+  ImageProvider provider({
+    AssetBundle? bundle,
+    String? package,
+  }) {
+    return AssetImage(
+      _assetName,
+      bundle: bundle,
+      package: package,
+    );
+  }
 
   String get path => _assetName;
 

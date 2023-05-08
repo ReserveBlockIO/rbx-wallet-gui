@@ -1,17 +1,18 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/features/beacon/providers/beacon_list_provider.dart';
-import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
-import 'package:rbx_wallet/features/dst/components/publish_shop_button.dart';
-import 'package:rbx_wallet/features/dst/components/shop_online_button.dart';
-import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
-import 'package:rbx_wallet/features/dst/providers/dst_tx_pending_provider.dart';
-import 'package:rbx_wallet/features/dst/services/dst_service.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../core/app_constants.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../beacon/providers/beacon_list_provider.dart';
+import '../../bridge/providers/wallet_info_provider.dart';
+import '../components/publish_shop_button.dart';
+import '../components/shop_online_button.dart';
+import '../providers/dec_shop_provider.dart';
+import '../providers/dst_tx_pending_provider.dart';
+import '../services/dst_service.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../../web_shop/services/web_shop_service.dart';
+import '../../../utils/toast.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/components/buttons.dart';
@@ -126,6 +127,8 @@ class CreateDecShopContainerScreen extends BaseScreen {
                       if (confirmed == true) {
                         final success = model.id == 0 ? await DstService().publishShop() : await DstService().updateShop();
                         if (success) {
+                          final shopUrl = model.url;
+
                           ref.read(dstTxPendingProvider.notifier).set(true);
                           ref.invalidate(decShopProvider);
                           Toast.message("Publish Transaction Sent!");

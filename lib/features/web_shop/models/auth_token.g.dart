@@ -12,6 +12,7 @@ _$_AuthToken _$$_AuthTokenFromJson(Map<String, dynamic> json) => _$_AuthToken(
       address: json['address'] as String,
       expiresAt: DateTime.parse(json['expires_at'] as String),
       signature: json['signature'] as String,
+      email: json['email'] as String?,
     );
 
 Map<String, dynamic> _$$_AuthTokenToJson(_$_AuthToken instance) =>
@@ -21,4 +22,5 @@ Map<String, dynamic> _$$_AuthTokenToJson(_$_AuthToken instance) =>
       'address': instance.address,
       'expires_at': instance.expiresAt.toIso8601String(),
       'signature': instance.signature,
+      'email': instance.email,
     };

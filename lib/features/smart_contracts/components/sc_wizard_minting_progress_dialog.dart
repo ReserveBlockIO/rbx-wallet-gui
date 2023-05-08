@@ -1,13 +1,17 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/sc_wizard_provider.dart';
+import 'package:rbx_wallet/app.dart';
+import '../providers/sc_wizard_provider.dart';
 
 import '../../../core/base_component.dart';
 import '../../../generated/assets.gen.dart';
 import '../providers/sc_wizard_minting_progress_provider.dart';
 
 class ScWizardMintingProgressDialog extends BaseComponent {
-  const ScWizardMintingProgressDialog({Key? key}) : super(key: key);
+  final BuildContext? contextOverride;
+  const ScWizardMintingProgressDialog({Key? key, this.contextOverride}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -61,8 +65,13 @@ class ScWizardMintingProgressDialog extends BaseComponent {
             onPressed: model.percent >= 1
                 ? () {
                     ref.read(scWizardProvider.notifier).clear();
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
+                    if (kIsWeb) {
+                      // Navigator.of(context).pop();
+                      AutoRouter.of(context).pop();
+                    } else {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                    }
                   }
                 : null,
             child: const Text(

@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
+import '../../../core/app_constants.dart';
 
 part 'remote_info.freezed.dart';
 part 'remote_info.g.dart';

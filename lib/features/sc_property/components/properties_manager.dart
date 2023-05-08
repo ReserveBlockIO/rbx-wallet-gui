@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/sc_property/components/property_modal.dart';
-import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
-import 'package:rbx_wallet/features/sc_property/providers/edit_sc_property_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_container.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/form_group_header.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
+import '../../../core/base_component.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/theme/app_theme.dart';
+import 'property_modal.dart';
+import '../models/sc_property.dart';
+import '../providers/edit_sc_property_provider.dart';
+import '../../smart_contracts/components/sc_creator/common/form_group_container.dart';
+import '../../smart_contracts/components/sc_creator/common/form_group_header.dart';
+import '../../smart_contracts/components/sc_creator/common/help_button.dart';
+import '../../smart_contracts/providers/create_smart_contract_provider.dart';
 
 class PropertiesManager extends BaseComponent {
   const PropertiesManager({Key? key}) : super(key: key);

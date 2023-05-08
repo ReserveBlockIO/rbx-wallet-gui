@@ -28,6 +28,7 @@ _$_Listing _$$_ListingFromJson(Map<String, dynamic> json) => _$_Listing(
       finalPrice: (json['FinalPrice'] as num?)?.toDouble(),
       winningAddress: json['WinningAddress'] as String?,
       collectionId: json['CollectionId'] as int,
+      saleHasFailed: json['SaleHasFailed'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$_ListingToJson(_$_Listing instance) =>
@@ -52,4 +53,5 @@ Map<String, dynamic> _$$_ListingToJson(_$_Listing instance) =>
       'FinalPrice': instance.finalPrice,
       'WinningAddress': instance.winningAddress,
       'CollectionId': instance.collectionId,
+      'SaleHasFailed': instance.saleHasFailed,
     };

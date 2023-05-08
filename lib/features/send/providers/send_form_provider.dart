@@ -2,16 +2,17 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
-import 'package:rbx_wallet/features/wallet/models/wallet.dart';
+import '../../../core/app_constants.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../../reserve/services/reserve_account_service.dart';
+import '../../transactions/models/web_transaction.dart';
+import '../../transactions/providers/web_transaction_list_provider.dart';
+import '../../wallet/models/wallet.dart';
 
 import '../../../core/dialogs.dart';
 import '../../../core/env.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../../core/providers/web_session_provider.dart';
-import '../../../core/services/transaction_service.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../utils/guards.dart';
 import '../../../utils/toast.dart';
@@ -20,6 +21,7 @@ import '../../bridge/models/log_entry.dart';
 import '../../bridge/providers/log_provider.dart';
 import '../../bridge/services/bridge_service.dart';
 import '../../web/utils/raw_transaction.dart';
+import '../../raw/raw_service.dart';
 // import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 
 class SendFormModel {
@@ -193,7 +195,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
         return;
       }
 
-      senderAddress = ref.read(webSessionProvider).keypair!.public;
+      senderAddress = ref.read(webSessionProvider).keypair!.address;
     }
 
     final confirmed = await ConfirmDialog.show(
@@ -203,7 +205,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
       cancelText: "Cancel",
     );
 
-    if (!confirmed) {
+    if (confirmed != true) {
       return;
     }
 
@@ -244,6 +246,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
         );
 
         if (message != null) {
+          final hash = message.replaceAll("Success! TX ID: ", "");
           Toast.message("$amount RBX has been sent to $address. See dashboard for TX ID.");
           ref.read(logProvider.notifier).append(
                 LogEntry(
@@ -252,6 +255,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
                   variant: AppColorVariant.Success,
                 ),
               );
+
           clear();
         } else {
           state = state.copyWith(isProcessing: false);
@@ -263,7 +267,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
 
     state = state.copyWith(isProcessing: true);
 
-    if (Env.isWeb) {
+    if (kIsWeb) {
       final amountDouble = double.parse(amount);
       final txData = await RawTransaction.generate(
         keypair: ref.read(webSessionProvider).keypair!,
@@ -286,14 +290,12 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
 
         if (confirmed == true) {
           ref.read(globalLoadingProvider.notifier).start();
-          final tx = await TransactionService().sendTransaction(
-            transactionData: txData,
-            execute: true,
-          );
+          final tx = await RawService().sendTransaction(transactionData: txData, execute: true, ref: ref);
+
           ref.read(globalLoadingProvider.notifier).complete();
 
           if (tx != null) {
-            if (tx['data']['Result'] == "Success") {
+            if (tx['Result'] == "Success") {
               Toast.message("$amount RBX sent to $address");
               clear();
               return;

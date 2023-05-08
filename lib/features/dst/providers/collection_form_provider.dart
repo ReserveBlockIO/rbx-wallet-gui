@@ -1,13 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/features/dst/providers/listing_list_provider.dart';
-import 'package:rbx_wallet/features/dst/providers/collection_detail_provider.dart';
-import 'package:rbx_wallet/features/dst/providers/collection_list_provider.dart';
-import 'package:rbx_wallet/features/dst/services/dst_service.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../core/app_router.gr.dart';
+import 'dec_shop_provider.dart';
+import 'listing_list_provider.dart';
+import 'collection_detail_provider.dart';
+import 'collection_list_provider.dart';
+import '../services/dst_service.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../../../utils/toast.dart';
 
 import '../../../core/dialogs.dart';
 import '../models/collection.dart';
@@ -64,6 +65,7 @@ class CollectionFormProvider extends StateNotifier<Collection> {
         }
         AutoRouter.of(context).pop();
       }
+      ref.read(decShopProvider).value?.requestShopSync();
       clear();
     } else {
       Toast.error();
@@ -93,6 +95,7 @@ class CollectionFormProvider extends StateNotifier<Collection> {
       if (success) {
         ref.read(collectionListProvider.notifier).refresh();
         ref.invalidate(storeDetailProvider(collection.id));
+        ref.read(decShopProvider).value?.requestShopSync();
       } else {
         Toast.error();
       }
@@ -105,7 +108,8 @@ class CollectionFormProvider extends StateNotifier<Collection> {
       clear();
       ref.invalidate(listingListProvider(store.id));
       ref.read(collectionListProvider.notifier).refresh();
-      AutoRouter.of(context).popUntilRoot();
+      ref.read(decShopProvider).value?.requestShopSync();
+      AutoRouter.of(context).pop();
     } else {
       Toast.error();
     }

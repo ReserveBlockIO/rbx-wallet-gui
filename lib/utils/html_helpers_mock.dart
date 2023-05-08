@@ -20,4 +20,9 @@ class HtmlHelpersImplementation extends HtmlHelpersInterface {
   void triggerDownload(String url) {
     print(url);
   }
+
+  @override
+  void reload() {
+    print("Not implemented for non web");
+  }
 }

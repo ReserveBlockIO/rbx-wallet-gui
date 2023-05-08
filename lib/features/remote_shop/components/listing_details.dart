@@ -11,32 +11,34 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/breakpoints.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/components/centered_loader.dart';
-import 'package:rbx_wallet/core/components/countdown.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/features/nft/components/nft_qr_code.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
-import 'package:rbx_wallet/features/nft/services/nft_service.dart';
-import 'package:rbx_wallet/features/remote_shop/components/bid_history_modal.dart';
-import 'package:rbx_wallet/features/remote_shop/models/shop_data.dart';
-import 'package:rbx_wallet/features/remote_shop/providers/bid_list_provider.dart';
-import 'package:rbx_wallet/features/remote_shop/providers/carousel_memory_provider.dart';
-import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
-import 'package:rbx_wallet/features/remote_shop/providers/thumbnail_fetcher_provider.dart';
-import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
-import 'package:rbx_wallet/features/remote_shop/utils.dart';
-import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
-import 'package:rbx_wallet/utils/files.dart';
-import 'package:rbx_wallet/utils/guards.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../core/base_component.dart';
+import '../../../core/breakpoints.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/components/centered_loader.dart';
+import '../../../core/components/countdown.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../../nft/components/nft_qr_code.dart';
+import '../../nft/models/nft.dart';
+import '../../nft/screens/nft_detail_screen.dart';
+import '../../nft/services/nft_service.dart';
+import 'bid_history_modal.dart';
+import '../models/shop_data.dart';
+import '../providers/bid_list_provider.dart';
+import '../providers/carousel_memory_provider.dart';
+import '../providers/connected_shop_provider.dart';
+import '../providers/thumbnail_fetcher_provider.dart';
+import '../services/remote_shop_service.dart';
+import '../utils.dart';
+import '../../sc_property/models/sc_property.dart';
+import '../../../utils/files.dart';
+import '../../../utils/guards.dart';
+import '../../../utils/toast.dart';
 import 'package:collection/collection.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+
+import '../../../core/env.dart';
 
 class ListingDetails extends BaseComponent {
   final OrganizedListing listing;
@@ -120,9 +122,29 @@ class ListingDetails extends BaseComponent {
                 constraints: const BoxConstraints(maxWidth: 600),
                 child: Center(
                   child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    _Details(nft: nft),
-                    const SizedBox(height: 8),
-                    _NftDetails(nft: nft),
+                    Row(
+                      children: [
+                        _Details(
+                          nft: nft,
+                          listing: listing,
+                        ),
+                        // TODO: Get back to sharing
+                        // AppButton(
+                        //   label: "Share Listing",
+                        //   icon: Icons.ios_share_rounded,
+                        //   variant: AppColorVariant.Light,
+                        //   type: AppButtonType.Text,
+                        //   onPressed: () async {
+                        //     await Clipboard.setData(ClipboardData(
+                        //         text:
+                        //             "${Env.appBaseUrl}/#dashboard/p2p/shop/${listing.}/collection/${listing.collectionId}/listing/${listing.id}"));
+                        //     Toast.message("Share url copied to clipboard");
+                        //   },
+                        // ),
+                      ],
+                    ),
+                    // const SizedBox(height: 8),
+                    // _NftDetails(nft: nft),
                     const SizedBox(height: 16),
                     _NftData(nft: nft, listing: listing),
                     const SizedBox(height: 8),
@@ -439,10 +461,12 @@ class _PreviewState extends State<_Preview> {
 class _Details extends StatelessWidget {
   const _Details({
     super.key,
+    required this.listing,
     required this.nft,
   });
 
   final Nft nft;
+  final OrganizedListing listing;
 
   @override
   Widget build(BuildContext context) {
@@ -450,25 +474,19 @@ class _Details extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: Text(
-                nft.name,
-                style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+        Text(
+          "#${listing.id}\n${nft.name}",
+          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
               ),
-            ),
-            // if (withShareButtons) buildShareButtons(context),
-          ],
         ),
         const SizedBox(height: 8),
         ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 600),
-          child: Text(nft.description),
-        ),
+            constraints: const BoxConstraints(maxWidth: 600),
+            child: RichText(
+              text: TextSpan(text: nft.description.replaceAll("\\n", "\n")),
+            )),
       ],
     );
   }
@@ -733,6 +751,8 @@ class _BuyNow extends BaseComponent {
 
             if (success == true) {
               Toast.message("Buy Now transaction sent successfully. Please wait for confirmation.");
+            } else {
+              Toast.error();
             }
           },
         ),
@@ -948,18 +968,18 @@ class _AuctionInfoDialogContent extends StatelessWidget {
               )
             ],
           ),
-          TableRow(
-            children: [
-              Text(
-                "Max Bid Price:",
-                style: labelStyle,
-              ),
-              Text(
-                "${auction.maxBidPrice} RBX",
-                style: valueStyle,
-              )
-            ],
-          ),
+          // TableRow(
+          //   children: [
+          //     Text(
+          //       "Max Bid Price:",
+          //       style: labelStyle,
+          //     ),
+          //     Text(
+          //       "${auction.maxBidPrice} RBX",
+          //       style: valueStyle,
+          //     )
+          //   ],
+          // ),
           TableRow(
             children: [
               Text(

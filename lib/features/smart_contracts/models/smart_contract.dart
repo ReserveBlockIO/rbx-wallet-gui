@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
+import '../../sc_property/models/sc_property.dart';
 
 import '../../../core/app_constants.dart';
 import '../../asset/asset.dart';

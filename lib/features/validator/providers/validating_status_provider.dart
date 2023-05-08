@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
+import '../../bridge/services/bridge_service.dart';
 
 class ValidatingStatusProvider extends StateNotifier<bool> {
   ValidatingStatusProvider() : super(false) {

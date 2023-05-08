@@ -125,6 +125,7 @@ class NftQrCode extends StatelessWidget {
                     icon: Icons.open_in_new,
                     label: "Open",
                     onPressed: () {
+                      print("OPEN: $data");
                       launchUrlString(data);
                     },
                   ),

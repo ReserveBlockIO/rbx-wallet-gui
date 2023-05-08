@@ -5,14 +5,51 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "rbx (web)",
+            "name": "Mac [TestNet]",
+            "type": "dart",
+            "request": "launch",
+            "args": [
+                "-d",
+                "macos",
+                "--dart-define",
+                "ENV=testnet"
+            ]
+        },
+        {
+            "name": "Win [TestNet]",
+            "type": "dart",
+            "request": "launch",
+            "args": [
+                "-d",
+                "win64",
+                "--dart-define",
+                "ENV=testnet"
+            ]
+        },
+        {
+            "name": "Web [Local]",
             "request": "launch",
             "type": "dart",
             "args": [
                 "-d",
                 "chrome",
                 "--web-port",
-                "42069"
+                "42069",
+                "--dart-define",
+                "ENV=web_local"
+            ],
+        },
+        {
+            "name": "Web [Testnet]",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "-d",
+                "chrome",
+                "--web-port",
+                "42069",
+                "--dart-define",
+                "ENV=web_testnet"
             ],
         },
     ]

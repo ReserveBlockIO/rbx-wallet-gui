@@ -124,14 +124,15 @@ class ScWizardRoyaltyDialog extends BaseComponent {
                     labelStyle: const TextStyle(color: Colors.white),
                     suffixIcon: kIsWeb
                         ? IconButton(
+                            color: Colors.white,
                             onPressed: () {
-                              final address = ref.read(webSessionProvider).keypair?.public;
+                              final address = ref.read(webSessionProvider).keypair?.address;
 
                               if (address != null) {
                                 addressController.text = address;
                               }
                             },
-                            icon: const Icon(Icons.import_export))
+                            icon: const Icon(Icons.wallet))
                         : IconButton(
                             icon: const Icon(
                               FontAwesomeIcons.folderOpen,

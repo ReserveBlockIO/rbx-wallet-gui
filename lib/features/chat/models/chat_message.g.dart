@@ -15,6 +15,7 @@ _$_ChatMessage _$$_ChatMessageFromJson(Map<String, dynamic> json) =>
       timestamp: json['TimeStamp'] as int,
       shopUrl: json['ShopURL'] as String?,
       received: json['MessageReceived'] as bool? ?? false,
+      isThirdParty: json['IsThirdParty'] as bool? ?? false,
       isShopSentMessage: json['IsShopSentMessage'] as bool,
     );
 
@@ -27,5 +28,6 @@ Map<String, dynamic> _$$_ChatMessageToJson(_$_ChatMessage instance) =>
       'TimeStamp': instance.timestamp,
       'ShopURL': instance.shopUrl,
       'MessageReceived': instance.received,
+      'IsThirdParty': instance.isThirdParty,
       'IsShopSentMessage': instance.isShopSentMessage,
     };

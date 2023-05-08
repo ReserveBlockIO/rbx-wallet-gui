@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+import '../models/sc_property.dart';
+import '../../../utils/validation.dart';
 
 class EditScPropertyProvider extends StateNotifier<ScProperty> {
   EditScPropertyProvider(ScProperty initial) : super(initial);

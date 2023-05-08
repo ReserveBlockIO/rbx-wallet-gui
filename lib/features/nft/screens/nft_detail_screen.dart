@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../models/nft.dart';
+import '../../sc_property/models/sc_property.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/base_screen.dart';
@@ -31,8 +31,8 @@ import '../../wallet/models/wallet.dart';
 import '../../wallet/providers/wallet_list_provider.dart';
 import '../components/media_backup.dart';
 import '../components/nft_qr_code.dart';
-import '../components/proxy_asset_card.dart';
-import '../components/proxy_asset_thumbnail.dart';
+import '../components/web_asset_card.dart';
+import '../components/web_asset_thumbnail.dart';
 import '../modals/nft_management_modal.dart';
 import '../providers/nft_detail_provider.dart';
 import '../providers/transferred_provider.dart';
@@ -116,7 +116,7 @@ class NftDetailScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final _provider = ref.watch(nftDetailProvider(id).notifier);
+    final _provider = ref.read(nftDetailProvider(id).notifier);
     final nft = ref.watch(nftDetailProvider(id));
 
     if (nft == null) {
@@ -246,71 +246,79 @@ class NftDetailScreen extends BaseScreen {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("Asset:", style: Theme.of(context).textTheme.headline5),
-                        ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 512),
-                          child: Card(
-                            color: Colors.black54,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  kIsWeb
-                                      ? nft.assetsAvailable
-                                          ? ProxiedAssetCard(nft.proxiedAsset)
-                                          : buildAssetsNotAvailable(_provider)
-                                      : AssetCard(
-                                          nft.currentEvolveAsset,
-                                          ownerAddress: nft.nextOwner ?? nft.currentOwner,
-                                          nftId: nft.id,
-                                        ),
-                                  if (nft.additionalAssets.isNotEmpty)
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 8),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          const Divider(),
-                                          Text(
-                                            "Additional Assets:",
-                                            style: Theme.of(context).textTheme.headline5,
+                        Container(
+                          decoration: BoxDecoration(
+                            boxShadow: glowingBox,
+                          ),
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(maxWidth: 512),
+                            child: Card(
+                              color: Colors.black,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    kIsWeb
+                                        ? nft.currentEvolveAssetWeb != null
+                                            ? WebAssetCard(nft, nft.currentEvolveAssetWeb)
+                                            : buildAssetsNotAvailable(_provider)
+                                        : AssetCard(
+                                            nft.currentEvolveAsset,
+                                            ownerAddress: nft.nextOwner ?? nft.currentOwner,
+                                            nftId: nft.id,
                                           ),
-                                          const SizedBox(
-                                            height: 6,
-                                          ),
-                                          kIsWeb && !nft.assetsAvailable
-                                              ? buildAssetsNotAvailable(_provider, false)
-                                              : kIsWeb
-                                                  ? Wrap(
-                                                      children: (nft.additionalProxiedAssets ?? [])
-                                                          .map(
-                                                            (a) => Padding(
-                                                              padding: const EdgeInsets.only(right: 6.0),
-                                                              child: ProxyAssetThumbnail(a),
-                                                            ),
-                                                          )
-                                                          .toList(),
-                                                    )
-                                                  : Wrap(
-                                                      children: nft.additionalLocalAssets
-                                                          .map(
-                                                            (a) => Padding(
-                                                              padding: const EdgeInsets.only(right: 6.0),
-                                                              child: AssetThumbnail(
-                                                                a,
-                                                                nftId: nft.id,
-                                                                ownerAddress: nft.nextOwner ?? nft.currentOwner,
+                                    if (nft.additionalAssets.isNotEmpty)
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 8),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            const Divider(),
+                                            Text(
+                                              "Additional Assets:",
+                                              style: Theme.of(context).textTheme.headline5,
+                                            ),
+                                            const SizedBox(
+                                              height: 6,
+                                            ),
+                                            kIsWeb && nft.additionalAssetsWeb == null
+                                                ? buildAssetsNotAvailable(_provider, false)
+                                                : kIsWeb
+                                                    ? Wrap(
+                                                        children: (nft.additionalAssetsWeb ?? [])
+                                                            .map(
+                                                              (a) => Padding(
+                                                                padding: const EdgeInsets.only(right: 6.0),
+                                                                child: WebAssetThumbnail(
+                                                                  a,
+                                                                  nft: nft,
+                                                                ),
                                                               ),
-                                                            ),
-                                                          )
-                                                          .toList(),
-                                                    ),
-                                        ],
-                                      ),
-                                    )
-                                ],
+                                                            )
+                                                            .toList(),
+                                                      )
+                                                    : Wrap(
+                                                        children: nft.additionalLocalAssets
+                                                            .map(
+                                                              (a) => Padding(
+                                                                padding: const EdgeInsets.only(right: 6.0),
+                                                                child: AssetThumbnail(
+                                                                  a,
+                                                                  nftId: nft.id,
+                                                                  ownerAddress: nft.nextOwner ?? nft.currentOwner,
+                                                                ),
+                                                              ),
+                                                            )
+                                                            .toList(),
+                                                      ),
+                                          ],
+                                        ),
+                                      )
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -318,7 +326,7 @@ class NftDetailScreen extends BaseScreen {
                       ],
                     ),
                     ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: 400),
+                      constraints: const BoxConstraints(maxWidth: 216),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -330,6 +338,7 @@ class NftDetailScreen extends BaseScreen {
                           NftQrCode(
                             data: nft.explorerUrl,
                             size: 200,
+                            withOpen: true,
                           ),
                           MediaBackup(nft),
                         ],
@@ -380,6 +389,8 @@ class NftDetailScreen extends BaseScreen {
                                   label: "Reveal Evolve Stages",
                                   variant: AppColorVariant.Dark,
                                   onPressed: () {
+                                    print(nft.updatedEvolutionPhases);
+
                                     showModalBottomSheet(
                                         context: context,
                                         isScrollControlled: true,
@@ -452,13 +463,13 @@ class NftDetailScreen extends BaseScreen {
                               int? delayHours;
                               String? fromAddress;
 
+                              if (nft.isListed(ref)) {
+                                Toast.error("This NFT is listed in your auction house. Please remove the listing before transferring.");
+                                return;
+                              }
+
                               if (!kIsWeb) {
                                 if (!await passwordRequiredGuard(context, ref)) {
-                                  return;
-                                }
-
-                                if (nft.isListed(ref)) {
-                                  Toast.error("This NFT is listed in your auction house. Please remove the listing before transferring.");
                                   return;
                                 }
 
@@ -651,11 +662,9 @@ class NftDetailScreen extends BaseScreen {
                       variant: AppColorVariant.Danger,
                       onPressed: nft.isPublished
                           ? () async {
-                              if (!kIsWeb) {
-                                if (nft.isListed(ref)) {
-                                  Toast.error("This NFT is listed in your auction house. Please remove the listing before burning.");
-                                  return;
-                                }
+                              if (nft.isListed(ref)) {
+                                Toast.error("This NFT is listed in your auction house. Please remove the listing before burning.");
+                                return;
                               }
 
                               if (!await passwordRequiredGuard(context, ref)) return;
@@ -668,13 +677,17 @@ class NftDetailScreen extends BaseScreen {
                               );
 
                               if (confirmed == true) {
+                                ref.read(globalLoadingProvider.notifier).start();
                                 final success = kIsWeb ? await _provider.burnWeb() : await _provider.burn();
 
                                 if (success) {
                                   Toast.message("Burn transaction sent successfully!");
                                   ref.read(mySmartContractsProvider.notifier).load();
                                   Navigator.of(context).pop();
+                                  ref.read(globalLoadingProvider.notifier).complete();
                                 } else {
+                                  ref.read(globalLoadingProvider.notifier).complete();
+
                                   Toast.error();
                                 }
                               }

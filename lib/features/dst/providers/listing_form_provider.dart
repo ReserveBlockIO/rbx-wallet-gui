@@ -1,16 +1,12 @@
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/features/asset/asset.dart';
-import 'package:rbx_wallet/features/dst/providers/listing_detail_provider.dart';
-import 'package:rbx_wallet/features/dst/services/dst_service.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
+import '../../../core/dialogs.dart';
+import 'dec_shop_provider.dart';
+import 'listing_detail_provider.dart';
+import '../services/dst_service.dart';
+import '../../nft/models/nft.dart';
 
 import '../../../utils/toast.dart';
 import '../models/listing.dart';
@@ -144,13 +140,21 @@ class ListingFormProvider extends StateNotifier<Listing> {
   }
 
   updateEnableAuction(bool enableAuction) {
-    if (state.auctionStarted && state.exists) {
+    print("Auction started: ${state.isAuctionStarted} exists: ${state.exists}");
+    if (state.isAuctionStarted && state.exists) {
       Toast.error('The auction has already started.');
       return;
     }
     state = state.copyWith(enableAuction: enableAuction);
     if (enableAuction) {
       state = state.copyWith(galleryOnly: false);
+      state = state.copyWith(endDate: DateTime.now());
+      state = state.copyWith(endDate: state.startDate.add(Duration(days: 7)));
+      startDateController.text = DateFormat.yMd().format(DateTime.now());
+      endDateController.text = DateFormat.yMd().format(state.endDate);
+    } else {
+      state = state.copyWith(startDate: DateTime.now());
+      state = state.copyWith(endDate: DateTime(3000));
     }
   }
 
@@ -177,8 +181,9 @@ class ListingFormProvider extends StateNotifier<Listing> {
         floorPrice: null,
         buyNowPrice: null,
         reservePrice: null,
+        startDate: DateTime.now(),
+        endDate: DateTime(3000),
       );
-
       buyNowController.clear();
       floorPriceController.clear();
       reservePriceController.clear();
@@ -254,6 +259,7 @@ class ListingFormProvider extends StateNotifier<Listing> {
         print('invalidating');
         ref.invalidate(listingDetailProvider(state.id));
       }
+      ref.read(decShopProvider).value?.requestShopSync();
       clear();
       AutoRouter.of(context).pop();
     }
@@ -287,6 +293,7 @@ class ListingFormProvider extends StateNotifier<Listing> {
       if (await DstService().deleteListing(listing)) {
         clear();
         ref.read(listingListProvider(storeId).notifier).refresh();
+        ref.read(decShopProvider).value?.requestShopSync();
         if (shouldPop) {
           AutoRouter.of(context).pop();
         }

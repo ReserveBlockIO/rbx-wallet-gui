@@ -1,22 +1,32 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/features/chat/providers/shop_chat_list_provider.dart';
-import 'package:rbx_wallet/features/chat/providers/seller_chat_list_provider.dart';
+import '../../../core/base_component.dart';
+import '../providers/shop_chat_list_provider.dart';
+import '../providers/seller_chat_list_provider.dart';
+import '../providers/web_seller_chat_list_provider.dart';
+import '../providers/web_shop_chat_list_provider.dart';
 
 class NewChatMessage extends BaseComponent {
   final String identifier;
   final bool isSeller;
+  final bool isThirdParty;
   const NewChatMessage({
     super.key,
     required this.identifier,
     this.isSeller = false,
+    required this.isThirdParty,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final provider = isSeller ? ref.read(sellerChatListProvider(identifier).notifier) : ref.read(shopChatListProvider(identifier).notifier);
+    final provider = isThirdParty
+        ? isSeller
+            ? ref.read(webSellerChatListProvider(identifier).notifier)
+            : ref.read(webShopChatListProvider(identifier).notifier)
+        : isSeller
+            ? ref.read(sellerChatListProvider(identifier).notifier)
+            : ref.read(shopChatListProvider(identifier).notifier);
 
     return Container(
       decoration: BoxDecoration(color: Colors.black87, borderRadius: BorderRadius.circular(8.0), boxShadow: [

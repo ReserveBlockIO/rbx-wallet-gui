@@ -61,6 +61,8 @@ mixin _$Listing {
   String? get winningAddress => throw _privateConstructorUsedError;
   @JsonKey(name: "CollectionId")
   int get collectionId => throw _privateConstructorUsedError;
+  @JsonKey(name: "SaleHasFailed")
+  bool get saleHasFailed => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   bool get enableBuyNow => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -123,6 +125,8 @@ abstract class $ListingCopyWith<$Res> {
           String? winningAddress,
       @JsonKey(name: "CollectionId")
           int collectionId,
+      @JsonKey(name: "SaleHasFailed")
+          bool saleHasFailed,
       @JsonKey(ignore: true)
           bool enableBuyNow,
       @JsonKey(ignore: true)
@@ -170,6 +174,7 @@ class _$ListingCopyWithImpl<$Res, $Val extends Listing>
     Object? finalPrice = freezed,
     Object? winningAddress = freezed,
     Object? collectionId = null,
+    Object? saleHasFailed = null,
     Object? enableBuyNow = null,
     Object? enableAuction = null,
     Object? enableReservePrice = null,
@@ -257,6 +262,10 @@ class _$ListingCopyWithImpl<$Res, $Val extends Listing>
           ? _value.collectionId
           : collectionId // ignore: cast_nullable_to_non_nullable
               as int,
+      saleHasFailed: null == saleHasFailed
+          ? _value.saleHasFailed
+          : saleHasFailed // ignore: cast_nullable_to_non_nullable
+              as bool,
       enableBuyNow: null == enableBuyNow
           ? _value.enableBuyNow
           : enableBuyNow // ignore: cast_nullable_to_non_nullable
@@ -341,6 +350,8 @@ abstract class _$$_ListingCopyWith<$Res> implements $ListingCopyWith<$Res> {
           String? winningAddress,
       @JsonKey(name: "CollectionId")
           int collectionId,
+      @JsonKey(name: "SaleHasFailed")
+          bool saleHasFailed,
       @JsonKey(ignore: true)
           bool enableBuyNow,
       @JsonKey(ignore: true)
@@ -386,6 +397,7 @@ class __$$_ListingCopyWithImpl<$Res>
     Object? finalPrice = freezed,
     Object? winningAddress = freezed,
     Object? collectionId = null,
+    Object? saleHasFailed = null,
     Object? enableBuyNow = null,
     Object? enableAuction = null,
     Object? enableReservePrice = null,
@@ -473,6 +485,10 @@ class __$$_ListingCopyWithImpl<$Res>
           ? _value.collectionId
           : collectionId // ignore: cast_nullable_to_non_nullable
               as int,
+      saleHasFailed: null == saleHasFailed
+          ? _value.saleHasFailed
+          : saleHasFailed // ignore: cast_nullable_to_non_nullable
+              as bool,
       enableBuyNow: null == enableBuyNow
           ? _value.enableBuyNow
           : enableBuyNow // ignore: cast_nullable_to_non_nullable
@@ -541,6 +557,8 @@ class _$_Listing extends _Listing {
           this.winningAddress,
       @JsonKey(name: "CollectionId")
           required this.collectionId,
+      @JsonKey(name: "SaleHasFailed")
+          this.saleHasFailed = false,
       @JsonKey(ignore: true)
           this.enableBuyNow = false,
       @JsonKey(ignore: true)
@@ -618,6 +636,9 @@ class _$_Listing extends _Listing {
   @JsonKey(name: "CollectionId")
   final int collectionId;
   @override
+  @JsonKey(name: "SaleHasFailed")
+  final bool saleHasFailed;
+  @override
   @JsonKey(ignore: true)
   final bool enableBuyNow;
   @override
@@ -635,7 +656,7 @@ class _$_Listing extends _Listing {
 
   @override
   String toString() {
-    return 'Listing(id: $id, smartContractUid: $smartContractUid, ownerAddress: $ownerAddress, buyNowPrice: $buyNowPrice, isBuyNowOnly: $isBuyNowOnly, isRoyaltyEnforced: $isRoyaltyEnforced, isCancelled: $isCancelled, requireBalanceCheck: $requireBalanceCheck, isAuctionStarted: $isAuctionStarted, isAuctionEnded: $isAuctionEnded, isSaleComplete: $isSaleComplete, floorPrice: $floorPrice, reservePrice: $reservePrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, finalPrice: $finalPrice, winningAddress: $winningAddress, collectionId: $collectionId, enableBuyNow: $enableBuyNow, enableAuction: $enableAuction, enableReservePrice: $enableReservePrice, galleryOnly: $galleryOnly, nft: $nft)';
+    return 'Listing(id: $id, smartContractUid: $smartContractUid, ownerAddress: $ownerAddress, buyNowPrice: $buyNowPrice, isBuyNowOnly: $isBuyNowOnly, isRoyaltyEnforced: $isRoyaltyEnforced, isCancelled: $isCancelled, requireBalanceCheck: $requireBalanceCheck, isAuctionStarted: $isAuctionStarted, isAuctionEnded: $isAuctionEnded, isSaleComplete: $isSaleComplete, floorPrice: $floorPrice, reservePrice: $reservePrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, finalPrice: $finalPrice, winningAddress: $winningAddress, collectionId: $collectionId, saleHasFailed: $saleHasFailed, enableBuyNow: $enableBuyNow, enableAuction: $enableAuction, enableReservePrice: $enableReservePrice, galleryOnly: $galleryOnly, nft: $nft)';
   }
 
   @override
@@ -682,6 +703,8 @@ class _$_Listing extends _Listing {
                 other.winningAddress == winningAddress) &&
             (identical(other.collectionId, collectionId) ||
                 other.collectionId == collectionId) &&
+            (identical(other.saleHasFailed, saleHasFailed) ||
+                other.saleHasFailed == saleHasFailed) &&
             (identical(other.enableBuyNow, enableBuyNow) ||
                 other.enableBuyNow == enableBuyNow) &&
             (identical(other.enableAuction, enableAuction) ||
@@ -717,6 +740,7 @@ class _$_Listing extends _Listing {
         finalPrice,
         winningAddress,
         collectionId,
+        saleHasFailed,
         enableBuyNow,
         enableAuction,
         enableReservePrice,
@@ -780,6 +804,8 @@ abstract class _Listing extends Listing {
           final String? winningAddress,
       @JsonKey(name: "CollectionId")
           required final int collectionId,
+      @JsonKey(name: "SaleHasFailed")
+          final bool saleHasFailed,
       @JsonKey(ignore: true)
           final bool enableBuyNow,
       @JsonKey(ignore: true)
@@ -855,6 +881,9 @@ abstract class _Listing extends Listing {
   @override
   @JsonKey(name: "CollectionId")
   int get collectionId;
+  @override
+  @JsonKey(name: "SaleHasFailed")
+  bool get saleHasFailed;
   @override
   @JsonKey(ignore: true)
   bool get enableBuyNow;

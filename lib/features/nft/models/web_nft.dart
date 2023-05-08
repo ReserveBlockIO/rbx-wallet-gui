@@ -3,9 +3,11 @@ import 'dart:convert';
 import 'package:archive/archive_io.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
+import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
+import '../../asset/web_asset.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-import '../../asset/proxied_asset.dart';
 import 'nft.dart';
 
 part 'web_nft.freezed.dart';
@@ -19,23 +21,39 @@ abstract class WebNft with _$WebNft {
     required String identifier,
     required String name,
     required String description,
+    @JsonKey(name: "minter_address") required String minterAddress,
     @JsonKey(name: "owner_address") required String ownerAddress,
     @JsonKey(name: "minter_name") required String minterName,
     @JsonKey(name: "primary_asset_name") required String primaryAssetName,
     @JsonKey(name: "primary_asset_size") required int primaryAssetSize,
-    @JsonKey(name: "primary_asset_remote_key") String? primaryAssetRemoteKey,
-    // @JsonKey(name: "additional_assets_remote_keys") List<String>? additionalAssetsRemoteKeys,
     @JsonKey(name: "smart_contract_data") required String smartContractDataString,
     @JsonKey(name: "minted_at") required DateTime mintedAt,
-    @JsonKey(name: "assets_available") required bool assetsAvailable,
     @JsonKey(name: "data") String? data,
+    @JsonKey(name: "is_burned") required bool isBurned,
+    @JsonKey(name: "asset_urls") Map<String, dynamic>? assetUrls,
+    @JsonKey(name: "is_listed") @Default(false) bool isListed,
   }) = _WebNft;
 
   factory WebNft.fromJson(Map<String, dynamic> json) => _$WebNftFromJson(json);
 
+  factory WebNft.empty() {
+    return WebNft(
+      identifier: '',
+      name: '',
+      description: '',
+      minterAddress: '',
+      ownerAddress: '',
+      minterName: '',
+      primaryAssetName: '',
+      primaryAssetSize: 0,
+      smartContractDataString: '',
+      mintedAt: DateTime.now(),
+      isBurned: false,
+    );
+  }
+
   Map<String, dynamic> get smartContractData {
-    final sanatizedString = smartContractDataString.replaceAll("'", '"');
-    final Map<String, dynamic> data = jsonDecode(sanatizedString);
+    final Map<String, dynamic> data = jsonDecode(smartContractDataString);
     if (data.containsKey('SmartContractMain')) {
       return data['SmartContractMain'];
     }
@@ -44,7 +62,12 @@ abstract class WebNft with _$WebNft {
   }
 
   Nft get smartContract {
-    final List<ProxiedAsset> additionalProxiedAssets = [];
+    //TODO: handle multiasset and evolves
+
+    final List<WebAsset> additionalAssetsWeb = [];
+    final List<WebAsset> evolveAssetsWeb = [];
+
+    List<EvolvePhase> updatedEvolutionPhases = [];
 
     if (smartContractData["Features"] != null) {
       for (var feature in smartContractData["Features"]) {
@@ -52,33 +75,65 @@ abstract class WebNft with _$WebNft {
           for (var asset in feature['FeatureFeatures']) {
             final fileName = asset['FileName'];
 
-            if (primaryAssetRemoteKey != null) {
-              final key = primaryAssetRemoteKey!.replaceAll(primaryAssetName, fileName);
-              final a = ProxiedAsset(
-                key: key,
-                fileName: fileName,
-                fileSize: asset['FileSize'],
-                authorName: asset['AssetAuthorName'],
-              );
-              additionalProxiedAssets.add(a);
+            if (assetUrls != null && assetUrls!.containsKey(fileName)) {
+              additionalAssetsWeb.add(WebAsset(location: assetUrls![fileName]));
             }
           }
         }
+
+        try {
+          if (feature['FeatureName'] == 0) {
+            for (var phase in feature['FeatureFeatures']) {
+              print(jsonEncode(phase));
+              final fileName = phase['SmartContractAsset']["Name"];
+
+              WebAsset? webAsset;
+              if (assetUrls != null && assetUrls!.containsKey(fileName)) {
+                webAsset = WebAsset(location: assetUrls![fileName]);
+              }
+
+              updatedEvolutionPhases.add(EvolvePhase(
+                name: phase["Name"],
+                description: phase["Description"],
+                evolutionState: phase["EvolutionState"],
+                isCurrentState: phase['IsCurrentState'] ?? false,
+                dateTime: phase['EvolveDate'] != null && phase['EvolveDate'] is num
+                    ? DateTime.fromMillisecondsSinceEpoch(phase['EvolveDate'] * 1000)
+                    : null,
+                blockHeight: phase['EvolveBlockHeight'],
+                properties: phase['Properties'] != null ? phase['Properties'].map((p) => ScProperty.fromJson(p)).toList() : [],
+                webAsset: webAsset,
+              ));
+            }
+          }
+        } catch (e, st) {
+          print(e);
+          print(st);
+        }
       }
     }
+
+    final primaryAssetFilename = smartContractData['SmartContractAsset']['Name'];
+    final primaryAssetWeb =
+        (assetUrls != null && assetUrls!.containsKey(primaryAssetFilename)) ? WebAsset(location: assetUrls![primaryAssetFilename]) : null;
+
+    // final List<WebAsset> _evoAssetsWeb = primaryAssetWeb != null ? [primaryAssetWeb, ...evolveAssetsWeb] : [];
+
+    // final initialPhase = EvolvePhase(
+    //   name: name,
+    //   description: description,
+    //   webAsset: primaryAssetWeb
+    // );
+
     return Nft.fromJson(smartContractData).copyWith(
-        currentOwner: ownerAddress,
-        assetsAvailable: assetsAvailable,
-        proxiedAsset: primaryAssetRemoteKey != null
-            ? ProxiedAsset(
-                key: primaryAssetRemoteKey!,
-                fileName: primaryAssetName,
-                fileSize: primaryAssetSize,
-                authorName: minterName,
-              )
-            : null,
-        additionalProxiedAssets: additionalProxiedAssets,
-        code: getCode());
+      currentOwner: ownerAddress,
+      primaryAssetWeb: primaryAssetWeb,
+      additionalAssetsWeb: additionalAssetsWeb.isNotEmpty ? additionalAssetsWeb : null,
+      // additionalProxiedAssets: additionalProxiedAssets,
+      // evolveAssetsWeb: _evoAssetsWeb,
+      updatedEvolutionPhases: [...updatedEvolutionPhases],
+      code: getCode(),
+    );
   }
 
   String get mintedAtLabel {

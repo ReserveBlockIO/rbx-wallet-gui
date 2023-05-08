@@ -8,8 +8,8 @@ import 'package:crypto/crypto.dart';
 import 'package:dart_bip66/dart_bip66.dart';
 import 'package:hex/hex.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/services/transaction_service.dart';
 import 'package:rbx_wallet/features/keygen/models/keypair.dart';
+import 'package:rbx_wallet/features/raw/raw_service.dart';
 import 'package:secp256k1/secp256k1.dart' as secp256k1;
 
 class RawTxValue {
@@ -36,7 +36,7 @@ class RawTransaction {
     int txType = TxType.rbxTransfer,
     dynamic data,
   }) async {
-    final rawTx = await _getTransactionForSignature(fromAddress: keypair.public, toAddress: toAddress, amount: amount, data: data, txType: txType);
+    final rawTx = await _getTransactionForSignature(fromAddress: keypair.address, toAddress: toAddress, amount: amount, data: data, txType: txType);
 
     if (rawTx == null) {
       return null;
@@ -47,22 +47,22 @@ class RawTransaction {
     final signature = await getSignature(
       message: hash,
       privateKey: keypair.private,
-      publicKey: keypair.publicInflated,
+      publicKey: keypair.public,
     );
 
     if (signature == null) {
       return null;
     }
 
-    final txService = TransactionService();
+    final rawTxService = RawService();
 
-    final validateData = await txService.validateSignature(
+    final signatureIsValid = await rawTxService.validateSignature(
       hash,
-      keypair.public,
+      keypair.address,
       signature,
     );
 
-    if (!_responseIsValid(validateData)) {
+    if (!signatureIsValid) {
       print("Signature not valid");
       return null;
     }
@@ -71,7 +71,7 @@ class RawTransaction {
       type: txType,
       hash: rawTx.hash,
       toAddress: toAddress,
-      fromAddress: keypair.public,
+      fromAddress: keypair.address,
       amount: amount,
       nonce: rawTx.nonce,
       timestamp: rawTx.timestamp,
@@ -80,12 +80,12 @@ class RawTransaction {
       data: data,
     );
 
-    final verifyTransactionData = (await txService.sendTransaction(
+    final verifyTransactionData = await rawTxService.sendTransaction(
       transactionData: txData,
       execute: false,
-    ))!['data'];
+    );
 
-    if (!_responseIsValid(verifyTransactionData)) {
+    if (verifyTransactionData == null) {
       print("Transaction not valid");
       return null;
     }
@@ -100,30 +100,18 @@ class RawTransaction {
     required int txType,
     dynamic data,
   }) async {
-    final txService = TransactionService();
+    final rawTxService = RawService();
 
-    final timestampData = await txService.getTimestamp();
+    final timestamp = await rawTxService.getTimestamp();
 
-    if (!_responseIsValid(timestampData)) {
+    if (timestamp == null) {
       print("Failed to retrieve timestamp");
       return null;
     }
 
-    final int? timestamp = timestampData!['Timestamp'];
-    if (timestamp == null) {
-      print("Failed to parse timestamp");
-      return null;
-    }
-
-    final nonceData = await txService.getNonce(fromAddress);
-    if (!_responseIsValid(nonceData)) {
-      print("Failed to retrieve nonce");
-      return null;
-    }
-
-    final int? nonce = nonceData!['Nonce'];
+    final nonce = await rawTxService.getNonce(fromAddress);
     if (nonce == null) {
-      print("Failed to parse nonce");
+      print("Failed to retrieve nonce");
       return null;
     }
 
@@ -137,14 +125,8 @@ class RawTransaction {
       data: data,
     );
 
-    final feeData = (await txService.getFee(txData))!['data'];
+    final fee = await rawTxService.getFee(txData);
 
-    if (!_responseIsValid(feeData)) {
-      print("Failed to retreive fee");
-      return null;
-    }
-
-    final double? fee = feeData!['Fee'];
     if (fee == null) {
       print("Failed to parse fee");
       return null;
@@ -161,14 +143,7 @@ class RawTransaction {
       data: data,
     );
 
-    final hashData = (await txService.getHash(txData))!['data'];
-
-    if (!_responseIsValid(hashData)) {
-      print("Failed to retreive hash");
-      return null;
-    }
-
-    final String? hash = hashData!['Hash'];
+    final hash = await rawTxService.getHash(txData);
 
     if (hash == null) {
       print("Failed to parse hash");
@@ -206,9 +181,13 @@ class RawTransaction {
 
     final base64Signature = base64Encode(der);
 
+    print("publicKey: $publicKey");
+
     if (publicKey.startsWith("04")) {
       publicKey = publicKey.replaceFirst("04", "");
     }
+
+    print("publicKey afet: $publicKey");
 
     final hex = HEX.decode(publicKey);
 

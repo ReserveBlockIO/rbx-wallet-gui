@@ -1,71 +1,108 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/web_router.gr.dart';
-import 'package:rbx_wallet/features/web_shop/components/web_shop_list_tile.dart';
-import 'package:rbx_wallet/features/web_shop/models/web_shop.dart';
+
+import 'web_shop_list_tile.dart';
+import '../providers/web_shop_full_list_provider.dart';
 
 import '../../../core/base_component.dart';
-import '../../../core/components/infinite_list.dart';
-import '../../../core/env.dart';
-import '../../../core/theme/app_theme.dart';
-import '../providers/web_shop_form_provider.dart';
-import '../providers/web_shop_list_provider.dart';
+
+import '../providers/web_shop_search_provider.dart';
+
+class WebShopListContainer extends ConsumerStatefulWidget {
+  const WebShopListContainer({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  _WebShopListContainerState createState() => _WebShopListContainerState();
+}
+
+class _WebShopListContainerState extends ConsumerState<WebShopListContainer> {
+  late final int shopId;
+
+  @override
+  void initState() {
+    super.initState();
+
+    ref.read(webShopFullListProvider.notifier).init();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return WebShopList();
+  }
+}
 
 class WebShopList extends BaseComponent {
-  final bool mine;
   const WebShopList({
     Key? key,
-    this.mine = false,
   }) : super(key: key);
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final listProvider = ref.watch(webShopListProvider(mine ? WebShopListType.mine : WebShopListType.public).notifier);
-    final model = ref.watch(webShopListProvider(mine ? WebShopListType.mine : WebShopListType.public));
+    final shops = ref.watch(webShopFullListProvider);
+
+    final searchQuery = ref.watch(webShopSearchProvider).toLowerCase();
+
+    final filteredShops = searchQuery.isEmpty
+        ? [...shops]
+        : shops.where((s) {
+            if (s.url.replaceAll("rbx://", "").toLowerCase().contains(searchQuery)) {
+              return true;
+            }
+
+            if (s.name.toLowerCase().contains(searchQuery)) {
+              return true;
+            }
+
+            if (s.ownerAddress.toLowerCase().contains(searchQuery)) {
+              return true;
+            }
+            return false;
+          }).toList();
 
     return Column(
       children: [
-        Expanded(
-          child: InfiniteList<WebShop>(
-            pagingController: listProvider.pagingController,
-            itemBuilder: (context, shop, index) => WebShopTile(
-              shop,
-            ),
-            emptyText: "No Shops",
-            onRefresh: listProvider.refresh,
-          ),
-        ),
-        if (mine)
-          Container(
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              color: Color(0xFF040f26),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  AppButton(
-                    label: 'Create Shop',
-                    icon: Icons.add,
-                    variant: AppColorVariant.Success,
-                    onPressed: () async {
-                      ref.read(webShopFormProvider.notifier).clear();
-                      if (Env.isWeb) {
-                        AutoRouter.of(context).push(const CreateWebShopContainerScreenRoute());
-                      } else {
-                        AutoRouter.of(context).push(const DebugWebShopCreateScreenRoute());
-                      }
+        Row(
+          children: [
+            Expanded(
+              child: TextFormField(
+                controller: ref.read(webShopSearchProvider.notifier).controller,
+                autofocus: true,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: Colors.white70,
+                  ),
+                  hintText: "Search for auction house...",
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      Icons.clear,
+                      color: searchQuery.isEmpty ? Colors.white10 : Colors.white,
+                    ),
+                    onPressed: () {
+                      ref.read(webShopSearchProvider.notifier).clear();
                     },
-                  )
-                ],
+                  ),
+                ),
+                onChanged: (val) {
+                  ref.read(webShopSearchProvider.notifier).update(val);
+                },
+                onFieldSubmitted: (val) {},
               ),
             ),
-          ),
+          ],
+        ),
+        Expanded(
+            child: ListView.builder(
+                itemCount: filteredShops.length,
+                itemBuilder: (context, index) {
+                  final s = filteredShops[index];
+                  return WebShopTile(
+                    s,
+                    requiresAuth: false,
+                  );
+                })),
       ],
     );
   }

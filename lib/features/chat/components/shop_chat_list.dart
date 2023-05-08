@@ -1,33 +1,51 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/features/chat/models/chat_message.dart';
-import 'package:rbx_wallet/features/chat/providers/chat_list_provider_interface.dart';
-import 'package:rbx_wallet/features/chat/providers/chat_notification_provider.dart';
-import 'package:rbx_wallet/features/chat/providers/shop_chat_list_provider.dart';
-import 'package:rbx_wallet/features/chat/providers/seller_chat_list_provider.dart';
-import 'package:rbx_wallet/utils/dates.dart';
+import '../../../core/base_component.dart';
+import '../../../core/providers/session_provider.dart';
+import '../models/chat_message.dart';
+import '../providers/chat_list_provider_interface.dart';
+import '../providers/chat_notification_provider.dart';
+import '../providers/shop_chat_list_provider.dart';
+import '../providers/seller_chat_list_provider.dart';
+import '../providers/web_seller_chat_list_provider.dart';
+import '../providers/web_shop_chat_list_provider.dart';
+import '../../../utils/dates.dart';
 import 'package:context_menus/context_menus.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../utils/toast.dart';
 
 class ShopChatList extends BaseComponent {
   final String identifier;
   final bool isSeller;
+  final bool isThirdParty;
   const ShopChatList({
     super.key,
     required this.identifier,
+    required this.isThirdParty,
     this.isSeller = false,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final messages = isSeller ? ref.watch(sellerChatListProvider(identifier)) : ref.watch(shopChatListProvider(identifier));
-    final provider = isSeller ? ref.read(sellerChatListProvider(identifier).notifier) : ref.read(shopChatListProvider(identifier).notifier);
+    final messages = isThirdParty
+        ? isSeller
+            ? ref.watch(webSellerChatListProvider(identifier))
+            : ref.watch(webShopChatListProvider(identifier))
+        : isSeller
+            ? ref.watch(sellerChatListProvider(identifier))
+            : ref.watch(shopChatListProvider(identifier));
+
+    final provider = isThirdParty
+        ? isSeller
+            ? ref.read(webSellerChatListProvider(identifier).notifier)
+            : ref.read(webShopChatListProvider(identifier).notifier)
+        : isSeller
+            ? ref.read(sellerChatListProvider(identifier).notifier)
+            : ref.read(shopChatListProvider(identifier).notifier);
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -174,7 +192,11 @@ class _ChatMessageCard extends StatelessWidget {
                   ),
                   child: RichText(
                     text: TextSpan(
-                      style: TextStyle(height: 1.3),
+                      style: TextStyle(
+                        height: 1.3,
+                        color: Colors.white,
+                        // fontFamily: kIsWeb ? 'NotoColorEmoji' : null,
+                      ),
                       children: [
                         if (!continued)
                           TextSpan(

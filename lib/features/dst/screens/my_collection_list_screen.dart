@@ -2,25 +2,25 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/components/centered_loader.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
+import '../../../core/app_constants.dart';
+import '../../../core/app_router.gr.dart';
+import '../../../core/base_component.dart';
+import '../../../core/base_screen.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/components/centered_loader.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
-import 'package:rbx_wallet/features/dst/components/publish_shop_button.dart';
-import 'package:rbx_wallet/features/dst/components/shop_online_button.dart';
-import 'package:rbx_wallet/features/dst/components/collection_list.dart';
-import 'package:rbx_wallet/features/dst/providers/collection_form_provider.dart';
-import 'package:rbx_wallet/features/dst/providers/collection_list_provider.dart';
-import 'package:rbx_wallet/features/dst/services/dst_service.dart';
-import 'package:rbx_wallet/features/dsts_legacy/providers/my_store_listings_provider.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../components/publish_shop_button.dart';
+import '../components/shop_online_button.dart';
+import '../components/collection_list.dart';
+import '../providers/collection_form_provider.dart';
+import '../providers/collection_list_provider.dart';
+import '../services/dst_service.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../../../utils/toast.dart';
+import '../../../utils/validation.dart';
 
 import '../providers/dec_shop_form_provider.dart';
 import '../providers/dec_shop_provider.dart';
@@ -261,19 +261,21 @@ class MyCollectionsListScreen extends BaseScreen {
                             height: 32,
                           )
                         ],
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        Column(
                           children: [
                             DecShopButton(),
                             if (shop != null && shop.isPublished)
-                              AppButton(
-                                label: 'Create New Collection',
-                                icon: Icons.add,
-                                variant: AppColorVariant.Success,
-                                onPressed: () async {
-                                  ref.read(storeFormProvider.notifier).clear();
-                                  AutoRouter.of(context).push(const CreateCollectionContainerScreenRoute());
-                                },
+                              Padding(
+                                padding: const EdgeInsets.only(top: 24.0),
+                                child: AppButton(
+                                  label: 'Create New Collection',
+                                  icon: Icons.add,
+                                  variant: AppColorVariant.Success,
+                                  onPressed: () async {
+                                    ref.read(storeFormProvider.notifier).clear();
+                                    AutoRouter.of(context).push(const CreateCollectionContainerScreenRoute());
+                                  },
+                                ),
                               )
                           ],
                         ),
@@ -335,14 +337,51 @@ class DecShopButton extends BaseComponent {
       error: (_, __) => SizedBox(),
       data: (shop) {
         if (shop == null) {
-          return AppButton(
-            label: 'Setup Auction House',
-            icon: Icons.store,
-            variant: AppColorVariant.Light,
-            onPressed: () async {
-              ref.read(decShopFormProvider.notifier).clear();
-              AutoRouter.of(context).push(const CreateDecShopContainerScreenRoute());
-            },
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AppButton(
+                label: 'Setup Auction House',
+                icon: Icons.store,
+                variant: AppColorVariant.Light,
+                onPressed: () async {
+                  ref.read(decShopFormProvider.notifier).clear();
+                  AutoRouter.of(context).push(const CreateDecShopContainerScreenRoute());
+                },
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Text(
+                "or",
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.white54,
+                ),
+              ),
+              AppButton(
+                label: "Import Shop",
+                onPressed: () async {
+                  final address = await PromptModal.show(
+                    title: "Import Shop",
+                    validator: formValidatorRbxAddress,
+                    labelText: "Your RBX Address",
+                  );
+
+                  if (address != null) {
+                    final success = await DstService().importShop(address);
+                    if (success == true) {
+                      ref.invalidate(decShopProvider);
+                      Toast.message("Shop Imported");
+                    } else {
+                      Toast.error();
+                    }
+                  }
+                },
+                variant: AppColorVariant.Light,
+                type: AppButtonType.Text,
+              )
+            ],
           );
         }
 

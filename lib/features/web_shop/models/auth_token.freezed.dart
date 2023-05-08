@@ -26,6 +26,7 @@ mixin _$AuthToken {
   @JsonKey(name: "expires_at")
   DateTime get expiresAt => throw _privateConstructorUsedError;
   String get signature => throw _privateConstructorUsedError;
+  String? get email => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,7 +44,8 @@ abstract class $AuthTokenCopyWith<$Res> {
       String token,
       String address,
       @JsonKey(name: "expires_at") DateTime expiresAt,
-      String signature});
+      String signature,
+      String? email});
 }
 
 /// @nodoc
@@ -64,6 +66,7 @@ class _$AuthTokenCopyWithImpl<$Res, $Val extends AuthToken>
     Object? address = null,
     Object? expiresAt = null,
     Object? signature = null,
+    Object? email = freezed,
   }) {
     return _then(_value.copyWith(
       message: null == message
@@ -86,6 +89,10 @@ class _$AuthTokenCopyWithImpl<$Res, $Val extends AuthToken>
           ? _value.signature
           : signature // ignore: cast_nullable_to_non_nullable
               as String,
+      email: freezed == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -102,7 +109,8 @@ abstract class _$$_AuthTokenCopyWith<$Res> implements $AuthTokenCopyWith<$Res> {
       String token,
       String address,
       @JsonKey(name: "expires_at") DateTime expiresAt,
-      String signature});
+      String signature,
+      String? email});
 }
 
 /// @nodoc
@@ -121,6 +129,7 @@ class __$$_AuthTokenCopyWithImpl<$Res>
     Object? address = null,
     Object? expiresAt = null,
     Object? signature = null,
+    Object? email = freezed,
   }) {
     return _then(_$_AuthToken(
       message: null == message
@@ -143,6 +152,10 @@ class __$$_AuthTokenCopyWithImpl<$Res>
           ? _value.signature
           : signature // ignore: cast_nullable_to_non_nullable
               as String,
+      email: freezed == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -155,7 +168,8 @@ class _$_AuthToken extends _AuthToken {
       required this.token,
       required this.address,
       @JsonKey(name: "expires_at") required this.expiresAt,
-      required this.signature})
+      required this.signature,
+      this.email})
       : super._();
 
   factory _$_AuthToken.fromJson(Map<String, dynamic> json) =>
@@ -172,10 +186,12 @@ class _$_AuthToken extends _AuthToken {
   final DateTime expiresAt;
   @override
   final String signature;
+  @override
+  final String? email;
 
   @override
   String toString() {
-    return 'AuthToken(message: $message, token: $token, address: $address, expiresAt: $expiresAt, signature: $signature)';
+    return 'AuthToken(message: $message, token: $token, address: $address, expiresAt: $expiresAt, signature: $signature, email: $email)';
   }
 
   @override
@@ -189,13 +205,14 @@ class _$_AuthToken extends _AuthToken {
             (identical(other.expiresAt, expiresAt) ||
                 other.expiresAt == expiresAt) &&
             (identical(other.signature, signature) ||
-                other.signature == signature));
+                other.signature == signature) &&
+            (identical(other.email, email) || other.email == email));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, message, token, address, expiresAt, signature);
+  int get hashCode => Object.hash(
+      runtimeType, message, token, address, expiresAt, signature, email);
 
   @JsonKey(ignore: true)
   @override
@@ -217,7 +234,8 @@ abstract class _AuthToken extends AuthToken {
       required final String token,
       required final String address,
       @JsonKey(name: "expires_at") required final DateTime expiresAt,
-      required final String signature}) = _$_AuthToken;
+      required final String signature,
+      final String? email}) = _$_AuthToken;
   _AuthToken._() : super._();
 
   factory _AuthToken.fromJson(Map<String, dynamic> json) =
@@ -234,6 +252,8 @@ abstract class _AuthToken extends AuthToken {
   DateTime get expiresAt;
   @override
   String get signature;
+  @override
+  String? get email;
   @override
   @JsonKey(ignore: true)
   _$$_AuthTokenCopyWith<_$_AuthToken> get copyWith =>

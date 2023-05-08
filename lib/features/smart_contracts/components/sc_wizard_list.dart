@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_wizard_asset_preview.dart';
-import 'package:rbx_wallet/features/smart_contracts/screens/sc_wizard_edit_item_screen.dart';
+import 'package:rbx_wallet/core/breakpoints.dart';
+import '../../../app.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/theme/app_theme.dart';
+import 'sc_wizard_asset_preview.dart';
+import '../screens/sc_wizard_edit_item_screen.dart';
 
 import '../../../core/base_component.dart';
 import '../providers/sc_wizard_provider.dart';
@@ -41,6 +43,7 @@ class ScWizardList extends BaseComponent {
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref.read(scWizardProvider.notifier);
     final items = ref.watch(scWizardProvider);
+    final isMobile = BreakPoints.useMobileLayout(context);
 
     if (items.isEmpty) {
       return Center(
@@ -80,86 +83,135 @@ class ScWizardList extends BaseComponent {
           description = "$description | ${item.entry.properties.length} ${item.entry.properties.length == 1 ? 'Property' : 'Properties'}";
         }
 
-        return Card(
-          child: ListTile(
-            title: RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: entry.name,
-                  ),
-                  TextSpan(
-                    text: " (x${entry.quantity})",
-                    style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.success),
-                  ),
-                ],
+        return Container(
+          decoration: BoxDecoration(
+            boxShadow: glowingBox,
+          ),
+          child: Card(
+            color: Colors.black,
+            child: ListTile(
+              title: RichText(
+                text: TextSpan(
+                  style: TextStyle(color: Colors.white),
+                  children: [
+                    TextSpan(
+                      text: entry.name,
+                    ),
+                    TextSpan(
+                      text: " (x${entry.quantity})",
+                      style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.success),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            leading: SizedBox(
-              width: 32,
-              height: 32,
-              child: ScWizardAssetPreview(entry: entry, small: true),
-            ),
-            subtitle: Text(
-              description,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                AppButton(
-                  label: "Duplicate",
-                  icon: Icons.copy,
-                  onPressed: () {
-                    createNew(context: context, provider: provider, index: items.length, x: 0, y: 0, item: item.copyWith());
-                  },
-                  variant: AppColorVariant.Light,
-                ),
-                const SizedBox(width: 6),
-                AppButton(
-                  label: "Edit",
-                  icon: Icons.edit,
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => ScWizardEditItemScreen(
-                          title: "Edit Instance",
-                          index: index,
+              leading: SizedBox(
+                width: 32,
+                height: 32,
+                child: ScWizardAssetPreview(entry: entry, small: true),
+              ),
+              subtitle: Text(
+                description,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              trailing: isMobile
+                  ? PopupMenuButton(itemBuilder: ((context) {
+                      return [
+                        PopupMenuItem(
+                            onTap: () {
+                              createNew(context: context, provider: provider, index: items.length, x: 0, y: 0, item: item.copyWith());
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(
+                              "Duplicate",
+                            )),
+                        PopupMenuItem(
+                            onTap: () {
+                              Navigator.of(rootNavigatorKey.currentContext!).push(
+                                MaterialPageRoute(
+                                  builder: (context) => ScWizardEditItemScreen(
+                                    title: "Edit Instance",
+                                    index: index,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              "Edit",
+                            )),
+                        PopupMenuItem(
+                            onTap: () async {
+                              final confirmed = await ConfirmDialog.show(
+                                title: "Delete Instance?",
+                                body: "Are you sure you want to delete this instance?",
+                                confirmText: "Delete",
+                                destructive: true,
+                              );
+                              if (confirmed == true) {
+                                ref.read(scWizardProvider.notifier).removeAt(index, delay: 300);
+                              }
+                            },
+                            child: Text(
+                              "Delete",
+                            )),
+                      ];
+                    }))
+                  : Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        AppButton(
+                          label: "Duplicate",
+                          icon: Icons.copy,
+                          onPressed: () {
+                            createNew(context: context, provider: provider, index: items.length, x: 0, y: 0, item: item.copyWith());
+                          },
+                          variant: AppColorVariant.Light,
                         ),
-                      ),
-                    );
-                  },
-                ),
-                const SizedBox(width: 6),
-                AppButton(
-                  label: "Delete",
-                  icon: Icons.delete,
-                  variant: AppColorVariant.Danger,
-                  onPressed: () async {
-                    final confirmed = await ConfirmDialog.show(
-                      title: "Delete Instance?",
-                      body: "Are you sure you want to delete this instance?",
-                      confirmText: "Delete",
-                      destructive: true,
-                    );
-                    if (confirmed == true) {
-                      ref.read(scWizardProvider.notifier).removeAt(index, delay: 300);
-                    }
-                  },
-                ),
-              ],
-            ),
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => ScWizardEditItemScreen(
-                    title: "Edit Instance",
-                    index: index,
+                        const SizedBox(width: 6),
+                        AppButton(
+                          label: "Edit",
+                          icon: Icons.edit,
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => ScWizardEditItemScreen(
+                                  title: "Edit Instance",
+                                  index: index,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                        const SizedBox(width: 6),
+                        AppButton(
+                          label: "Delete",
+                          icon: Icons.delete,
+                          variant: AppColorVariant.Danger,
+                          onPressed: () async {
+                            final confirmed = await ConfirmDialog.show(
+                              title: "Delete Instance?",
+                              body: "Are you sure you want to delete this instance?",
+                              confirmText: "Delete",
+                              destructive: true,
+                            );
+                            if (confirmed == true) {
+                              ref.read(scWizardProvider.notifier).removeAt(index, delay: 300);
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ScWizardEditItemScreen(
+                      title: "Edit Instance",
+                      index: index,
+                    ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         );
       },

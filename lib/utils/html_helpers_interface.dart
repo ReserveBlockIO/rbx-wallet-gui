@@ -3,4 +3,5 @@ abstract class HtmlHelpersInterface {
   String getUrl();
   String getUserAgent();
   void triggerDownload(String url);
+  void reload();
 }

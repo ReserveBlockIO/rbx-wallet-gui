@@ -6,9 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
+import '../../core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/keygen/services/keygen_service.dart'
     if (dart.library.io) 'package:rbx_wallet/features/keygen/services/keygen_service_mock.dart';
+import 'package:rbx_wallet/features/web_shop/providers/web_auth_token_provider.dart';
+import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
+import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 
@@ -16,7 +19,6 @@ import '../../core/breakpoints.dart';
 import '../../core/components/buttons.dart';
 import '../../core/dialogs.dart';
 import '../../core/providers/web_session_provider.dart';
-import '../../core/services/transaction_service.dart';
 import '../../core/web_router.gr.dart';
 import '../global_loader/global_loading_provider.dart';
 import '../keygen/models/keypair.dart';
@@ -32,7 +34,6 @@ Future<void> login(
 Future<void> handleImportWithPrivateKey(
   BuildContext context,
   WidgetRef ref,
-  String email,
 ) async {
   await PromptModal.show(
     contextOverride: context,
@@ -40,10 +41,10 @@ Future<void> handleImportWithPrivateKey(
     title: "Import Wallet",
     validator: (String? value) => formValidatorNotEmpty(value, "Private Key"),
     labelText: "Private Key",
-    onValidSubmission: (submission) async {
+    onValidSubmission: (privateKey) async {
       await handleRememberMe(context, ref);
-      final keypair = await KeygenService.importPrivateKey(submission, email);
-      await TransactionService().createWallet(email, keypair.public);
+      final keypair = await KeygenService.importPrivateKey(privateKey);
+      // await TransactionService().createWallet(null, keypair.address);
       login(context, ref, keypair);
       if (ref.read(webSessionProvider).isAuthenticated) {
         AutoRouter.of(context).push(WebDashboardContainerRoute());
@@ -80,7 +81,7 @@ Future<void> handleCreateWithEmail(
     seed = sha256.convert(utf8.encode(seed)).toString();
   }
 
-  final keypair = await KeygenService.seedToKeypair(seed, 0, email);
+  final keypair = await KeygenService.seedToKeypair(seed);
   if (keypair == null) {
     ref.read(globalLoadingProvider.notifier).complete();
     Toast.error();
@@ -90,17 +91,29 @@ Future<void> handleCreateWithEmail(
     await showKeys(context, keypair);
   }
 
-  await TransactionService().createWallet(email, keypair.public);
+  // await TransactionService().createWallet(email, keypair.address);
   await handleRememberMe(context, ref);
-  login(context, ref, keypair.copyWith(email: email));
+
+  await login(context, ref, keypair.copyWith(email: email));
+
+  final authorized = await guardWebAuthorized(ref, keypair.address);
+  if (authorized) {
+    final subscribed = await WebShopService().createContact(email, keypair.address);
+    if (subscribed) {
+      ref.read(webAuthTokenProvider.notifier).addEmail(email);
+    }
+  }
 }
 
-Future<void> handleCreateWithMnemonic(BuildContext context, WidgetRef ref, String email) async {
+Future<void> handleCreateWithMnemonic(
+  BuildContext context,
+  WidgetRef ref,
+) async {
   ref.read(globalLoadingProvider.notifier).start();
 
   await Future.delayed(const Duration(milliseconds: 300));
 
-  final keypair = await KeygenService.generate(email);
+  final keypair = await KeygenService.generate();
   if (keypair == null) {
     ref.read(globalLoadingProvider.notifier).complete();
     Toast.error();
@@ -108,7 +121,7 @@ Future<void> handleCreateWithMnemonic(BuildContext context, WidgetRef ref, Strin
   }
   ref.read(globalLoadingProvider.notifier).complete();
 
-  await TransactionService().createWallet(email, keypair.public);
+  // await TransactionService().createWallet(null, keypair.address);
 
   login(context, ref, keypair);
   await showKeys(context, keypair);
@@ -120,7 +133,8 @@ Future<dynamic> handleRememberMe(BuildContext context, WidgetRef ref) async {
       builder: (context) {
         return AlertDialog(
           title: const Text('Store Private Key?'),
-          content: const Text('Would you like the web wallet to store and remember your private key? Choose "No" if this is a shared computer.'),
+          content: const Text(
+              'Would you like your browser to remember your private key locally?\nEither way, your key will never be transmitted accross the internet. \n\nChoose "No" if this is a shared computer.'),
           actions: [
             TextButton(
               style: TextButton.styleFrom(
@@ -159,7 +173,7 @@ Future<dynamic> handleRememberMe(BuildContext context, WidgetRef ref) async {
       });
 }
 
-Future<dynamic> handleRecoverFromMnemonic(BuildContext context, WidgetRef ref, String email) async {
+Future<dynamic> handleRecoverFromMnemonic(BuildContext context, WidgetRef ref) async {
   return await PromptModal.show(
     contextOverride: context,
     title: "Input Recovery Mnemonic",
@@ -173,7 +187,7 @@ Future<dynamic> handleRecoverFromMnemonic(BuildContext context, WidgetRef ref, S
 
       await Future.delayed(const Duration(milliseconds: 300));
 
-      final keypair = await KeygenService.recover(value.trim(), email);
+      final keypair = await KeygenService.recover(value.trim());
 
       if (keypair == null) {
         Toast.error();
@@ -184,11 +198,8 @@ Future<dynamic> handleRecoverFromMnemonic(BuildContext context, WidgetRef ref, S
       ref.read(globalLoadingProvider.notifier).complete();
 
       // showKeys(context, keypair);
-      await TransactionService().createWallet(email, keypair.public);
+      // await TransactionService().createWallet(null, keypair.address);
       login(context, ref, keypair);
-      if (ref.read(webSessionProvider).isAuthenticated) {
-        AutoRouter.of(context).push(WebDashboardContainerRoute());
-      }
     },
   );
 }
@@ -237,7 +248,7 @@ Future<void> showKeys(
             ListTile(
               leading: isMobile ? null : const Icon(Icons.account_balance_wallet),
               title: TextFormField(
-                initialValue: keypair.public,
+                initialValue: keypair.address,
                 decoration: const InputDecoration(label: Text("Address")),
                 readOnly: true,
                 style: const TextStyle(fontSize: 13),
@@ -245,7 +256,7 @@ Future<void> showKeys(
               trailing: IconButton(
                 icon: const Icon(Icons.copy),
                 onPressed: () async {
-                  await Clipboard.setData(ClipboardData(text: keypair.public));
+                  await Clipboard.setData(ClipboardData(text: keypair.address));
                   Toast.message("Public key copied to clipboard");
                 },
               ),
@@ -253,7 +264,7 @@ Future<void> showKeys(
             ListTile(
               leading: isMobile ? null : const Icon(Icons.security),
               title: TextFormField(
-                initialValue: keypair.privateCorrected,
+                initialValue: keypair.private,
                 decoration: const InputDecoration(
                   label: Text("Private Key"),
                 ),
@@ -263,7 +274,7 @@ Future<void> showKeys(
               trailing: IconButton(
                 icon: const Icon(Icons.copy),
                 onPressed: () async {
-                  await Clipboard.setData(ClipboardData(text: keypair.privateCorrected));
+                  await Clipboard.setData(ClipboardData(text: keypair.private));
                   Toast.message("Private key copied to clipboard");
                 },
               ),

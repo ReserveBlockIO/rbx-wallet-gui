@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
+import '../../sc_property/models/sc_property.dart';
 
 import '../../../../utils/toast.dart';
 import '../../../../utils/validation.dart';

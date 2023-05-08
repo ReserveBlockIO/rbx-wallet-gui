@@ -1,9 +1,12 @@
 import 'dart:io';
 
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
+import 'package:rbx_wallet/core/providers/web_session_provider.dart';
+import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
+import '../../smart_contracts/components/sc_creator/common/modal_container.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/badges.dart';
@@ -182,6 +185,7 @@ class NftMangementModal extends BaseComponent {
           //       ),
           //     ],
           //   ),
+
           Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -262,7 +266,9 @@ class EvolutionStateRow extends BaseComponent {
     // const isCurrent = false; // TEMP
     final isCurrent = phase.isCurrentState;
 
-    final isMinter = ref.watch(walletListProvider).firstWhereOrNull((w) => w.address == nft.minterAddress) != null;
+    final isMinter = kIsWeb
+        ? ref.watch(webSessionProvider).keypair?.address == nft.minterAddress
+        : ref.watch(walletListProvider).firstWhereOrNull((w) => w.address == nft.minterAddress) != null;
 
     final showMedia = isMinter || index <= nft.currentEvolvePhaseIndex + 1;
 
@@ -307,30 +313,45 @@ class EvolutionStateRow extends BaseComponent {
                       ),
                     if (showMedia)
                       InkWell(
-                        onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AssetThumbnailDialog(
-                                asset: phase.asset!,
-                                nftId: nftId,
-                                ownerAddress: nft.currentOwner,
-                                onAssociate: () {
-                                  if (onAssociate != null) {
-                                    onAssociate!();
-                                  }
-                                },
-                              );
-                            },
-                          );
-                        },
+                        onTap: kIsWeb
+                            ? null
+                            : () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AssetThumbnailDialog(
+                                      asset: phase.asset!,
+                                      nftId: nftId,
+                                      ownerAddress: nft.currentOwner,
+                                      onAssociate: () {
+                                        if (onAssociate != null) {
+                                          onAssociate!();
+                                        }
+                                      },
+                                    );
+                                  },
+                                );
+                              },
                         child: SizedBox(
                           width: 100,
                           height: 100,
                           child: Stack(
                             alignment: Alignment.bottomCenter,
                             children: [
-                              if (phase.asset != null && phase.asset!.isImage)
+                              if (kIsWeb)
+                                phase.webAsset != null
+                                    ? SizedBox(
+                                        width: 100,
+                                        height: 100,
+                                        child: Image.network(
+                                          phase.webAsset!.location,
+                                          width: 100,
+                                          height: 100,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      )
+                                    : Text(""),
+                              if (!kIsWeb && phase.asset != null && phase.asset!.isImage)
                                 phase.asset!.localPath != null
                                     ? SizedBox(
                                         width: 100,
@@ -350,7 +371,7 @@ class EvolutionStateRow extends BaseComponent {
                               Container(
                                 color: Colors.black38,
                               ),
-                              if (phase.asset != null && phase.asset!.localPath == null)
+                              if (phase.asset != null && phase.asset!.localPath == null && !kIsWeb)
                                 AppButton(
                                   label: "Associate",
                                   type: AppButtonType.Text,

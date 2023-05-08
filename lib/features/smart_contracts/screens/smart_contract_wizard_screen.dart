@@ -1,17 +1,19 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/collection_form.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_wizard_list.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/bulk_smart_contract_entry.dart';
-import 'package:rbx_wallet/features/smart_contracts/screens/sc_wizard_edit_item_screen.dart';
-import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
+import 'package:rbx_wallet/core/breakpoints.dart';
+import '../../../core/app_constants.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/env.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../components/collection_form.dart';
+import '../components/sc_wizard_list.dart';
+import '../models/bulk_smart_contract_entry.dart';
+import 'sc_wizard_edit_item_screen.dart';
+import '../../wallet/components/wallet_selector.dart';
 import 'package:collection/collection.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../utils/toast.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/components/buttons.dart';
@@ -32,7 +34,9 @@ class SmartContractWizardScreen extends BaseScreen {
       title: const Text("NFT Collection Wizard"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      actions: const [WalletSelector()],
+      actions: [
+        !Env.isWeb ? WalletSelector() : SizedBox.shrink(),
+      ],
       leading: IconButton(
           onPressed: () async {
             final confirmed = await ConfirmDialog.show(
@@ -41,7 +45,7 @@ class SmartContractWizardScreen extends BaseScreen {
               cancelText: "Cancel",
               confirmText: "Continue",
             );
-            if (confirmed) {
+            if (confirmed == true) {
               ref.read(scWizardProvider.notifier).clear();
               Navigator.of(context).pop();
             }
@@ -54,6 +58,7 @@ class SmartContractWizardScreen extends BaseScreen {
   Widget body(BuildContext context, WidgetRef ref) {
     final provider = ref.read(scWizardProvider.notifier);
     final items = ref.watch(scWizardProvider);
+    final isMobile = BreakPoints.useMobileLayout(context);
     return Column(
       children: [
         const Expanded(child: ScWizardList()),
@@ -90,7 +95,7 @@ class SmartContractWizardScreen extends BaseScreen {
                     variant: AppColorVariant.Danger,
                   ),
                   AppButton(
-                    label: "Create New Instance",
+                    label: "${isMobile ? '' : 'Create'} New Instance",
                     onPressed: () {
                       provider.insert(
                         entry: BulkSmartContractEntry.empty(),
@@ -111,7 +116,7 @@ class SmartContractWizardScreen extends BaseScreen {
                     variant: AppColorVariant.Primary,
                   ),
                   AppButton(
-                    label: "Compile & Mint",
+                    label: isMobile ? "Mint" : "Compile & Mint",
                     onPressed: () async {
                       final wallet = kIsWeb ? ref.read(webSessionProvider).currentWallet : ref.read(sessionProvider).currentWallet;
                       if (wallet == null) {

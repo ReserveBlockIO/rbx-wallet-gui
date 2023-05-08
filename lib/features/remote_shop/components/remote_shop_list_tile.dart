@@ -1,13 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
-import 'package:rbx_wallet/features/dst/models/dec_shop.dart';
-import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
+import '../../../core/app_router.gr.dart';
+import '../../../core/base_component.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/services/explorer_service.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../bridge/providers/wallet_info_provider.dart';
+import '../../dst/models/dec_shop.dart';
+import '../providers/connected_shop_provider.dart';
+import '../../web_shop/services/web_shop_service.dart';
+import '../../../utils/toast.dart';
 
 class RemoteShopListTile extends BaseComponent {
   const RemoteShopListTile({
@@ -72,6 +75,18 @@ class RemoteShopListTile extends BaseComponent {
             ),
             trailing: Icon(Icons.chevron_right),
             onTap: () async {
+              if (shop.isThirdParty) {
+                final webShop = await WebShopService().lookupShop(shop.url);
+
+                if (webShop == null) {
+                  Toast.error();
+                  return;
+                }
+
+                AutoRouter.of(context).push(WebShopDetailScreenRoute(shopId: webShop.id));
+                return;
+              }
+
               if (ref.read(walletInfoProvider) == null || !ref.read(walletInfoProvider)!.isChainSynced) {
                 final cont = await ConfirmDialog.show(
                   title: "Wallet Not Synced",

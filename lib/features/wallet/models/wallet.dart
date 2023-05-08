@@ -38,10 +38,10 @@ class Wallet with _$Wallet {
     required double balance,
   }) {
     return Wallet(
-      address: keypair.public,
+      address: keypair.address,
       balance: balance,
       id: 0,
-      publicKey: keypair.publicInflated,
+      publicKey: keypair.public,
       privateKey: keypair.private,
       // isEncrypted: false,
       isValidating: false,

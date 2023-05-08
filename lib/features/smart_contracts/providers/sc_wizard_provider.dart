@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:csv/csv.dart';
 import 'package:dio/dio.dart';
@@ -9,19 +10,19 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:rbx_wallet/core/utils.dart';
-import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase_wizard_form_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/multi_asset.dart';
+import 'package:rbx_wallet/features/raw/raw_service.dart';
+import '../../../core/utils.dart';
+import '../../sc_property/models/sc_property.dart';
+import '../features/evolve/evolve.dart';
+import '../features/evolve/evolve_phase.dart';
+import '../features/evolve/evolve_phase_wizard_form_provider.dart';
+import '../models/multi_asset.dart';
 import 'package:path/path.dart';
-import 'package:rbx_wallet/utils/guards.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+import '../../../utils/guards.dart';
+import '../../../utils/validation.dart';
 
 import '../../../core/providers/session_provider.dart';
 import '../../../core/providers/web_session_provider.dart';
-import '../../../core/services/transaction_service.dart';
 import '../../../utils/toast.dart';
 import '../../asset/asset.dart';
 import '../../nft/providers/minted_nft_list_provider.dart';
@@ -297,6 +298,7 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowedExtensions: extensions,
       allowMultiple: false,
+      type: FileType.custom,
     );
     if (result == null) {
       return null;
@@ -648,7 +650,7 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
   }
 
   Future<void> mint(BuildContext context) async {
-    if (!kDebugMode) {
+    if (!kDebugMode && !kIsWeb) {
       if (!guardWalletIsSynced(ref)) {
         return;
       }
@@ -659,16 +661,24 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
     showDialog(
       context: context,
       builder: (context) {
-        return const ScWizardMintingProgressDialog();
+        return ScWizardMintingProgressDialog(
+          contextOverride: context,
+        );
       },
-    );
+    ).then((value) {
+      if (kIsWeb) {
+        AutoRouter.of(context).pop();
+      }
+    });
 
     final totalItems = state.map((e) => e.entry.quantity).toList().sum;
     int totalProgress = 0;
 
     for (final item in state) {
       final entry = item.entry;
-      final owner = ref.read(sessionProvider).currentWallet;
+
+      final owner = kIsWeb ? ref.read(webSessionProvider).currentWallet : ref.read(sessionProvider).currentWallet;
+
       if (owner == null) {
         Toast.error("No wallet selected.");
         return;
@@ -695,48 +705,52 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
 
         ref.read(scWizardMintingProgress.notifier).setLabel("Minting ${totalProgress + 1}/$totalItems...");
 
-        final csc = await SmartContractService().compileSmartContract(payload);
+        if (kIsWeb) {
+          final success = await RawService().compileAndMintSmartContract(payload, ref.read(webSessionProvider).keypair!, ref);
+          if (!success) {
+            Toast.error();
+            print("Mint error");
+            return;
+          }
+        } else {
+          final csc = await SmartContractService().compileSmartContract(payload);
 
-        if (csc == null) {
-          Toast.error();
-          print("CSC was null");
-          return;
+          if (csc == null) {
+            Toast.error();
+            print("CSC was null");
+            return;
+          }
+
+          if (!csc.success) {
+            Toast.error();
+            print("CSC not successful");
+            return;
+          }
+
+          final details = await SmartContractService().retrieve(csc.smartContract.id);
+          if (details == null) {
+            Toast.error();
+            print("Details null");
+            return;
+          }
+          final id = details.smartContract.id;
+
+          final success = await SmartContractService().mint(id);
+          if (!success) {
+            Toast.error();
+            print("Mint error");
+            return;
+          }
+
+          NftService().saveId(id);
         }
 
-        if (!csc.success) {
-          Toast.error();
-          print("CSC not successful");
-          return;
-        }
-        print('-----');
-        print(csc.smartContract);
-        print(csc.smartContract.id);
-        final details = await SmartContractService().retrieve(csc.smartContract.id);
-        if (details == null) {
-          Toast.error();
-          print("Details null");
-          return;
-        }
-        final id = details.smartContract.id;
-
-        final success = kIsWeb ? await TransactionService().mintSmartContract(id) : await SmartContractService().mint(id);
-        if (!success) {
-          Toast.error();
-          print("Mint error");
-          return;
-        }
-
-        NftService().saveId(id);
-
-        await Future.delayed(const Duration(milliseconds: 1500));
+        await Future.delayed(const Duration(milliseconds: kIsWeb ? 500 : 1500));
         totalProgress += 1;
 
         final percent = totalProgress / totalItems;
 
         ref.read(scWizardMintingProgress.notifier).setPercent(percent);
-
-        // final updatedDetails = kIsWeb ? await TransactionService().retrieveSmartContract(id) : await SmartContractService().retrieve(id);
-
       }
 
       // clear();
@@ -747,10 +761,11 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
     ref.read(mintedNftListProvider.notifier).reloadCurrentPage();
 
     ref.read(mySmartContractsProvider.notifier).load();
+
     kIsWeb
         ? ref
             .read(nftListProvider.notifier)
-            .reloadCurrentPage(ref.read(webSessionProvider).keypair?.email, ref.read(webSessionProvider).keypair?.public)
+            .reloadCurrentPage(ref.read(webSessionProvider).keypair?.email, ref.read(webSessionProvider).keypair?.address)
         : ref.read(nftListProvider.notifier).reloadCurrentPage();
   }
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../core/services/explorer_service.dart';
 
 import '../../../core/models/paginated_response.dart';
-import '../../../core/services/transaction_service.dart';
 import '../models/nft.dart';
 import '../services/nft_service.dart';
 
@@ -46,14 +46,14 @@ class NftListProvider extends StateNotifier<NftListModel> {
 
   Future<void> load(int page, [String? email, String? address]) async {
     // email ??= ref.read(webSessionProvider).keypair?.email;
-    // address ??= ref.read(webSessionProvider).keypair?.public;
+    // address ??= ref.read(webSessionProvider).keypair?.address;
 
     if (kIsWeb) {
-      if (email == null || address == null) {
+      if (address == null) {
         return;
       }
 
-      final nfts = await TransactionService().listNfts(email, address);
+      final nfts = await ExplorerService().listNfts(address);
       final d = CliPaginatedResponse(count: nfts.length, results: nfts, page: 1);
       state = state.copyWith(data: d, page: 1, currentSearch: '');
       return;

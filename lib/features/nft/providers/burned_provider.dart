@@ -5,8 +5,8 @@ import '../../../core/storage.dart';
 
 class BurnedProvider extends StateNotifier<List<String>> {
   BurnedProvider() : super([]) {
-    final items = singleton<Storage>().getStringList(Storage.BURNED_NFT_IDS) ?? [];
-    state = items;
+    // final items = singleton<Storage>().getStringList(Storage.BURNED_NFT_IDS) ?? [];
+    // state = items;
   }
 
   addId(String id) {

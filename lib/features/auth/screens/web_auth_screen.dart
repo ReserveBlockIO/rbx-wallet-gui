@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/models/web_session_model.dart';
+import '../../../core/models/web_session_model.dart';
+import '../../web/components/web_wordmark.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/app_router.gr.dart';
@@ -40,10 +41,30 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
   void _handleSession(WebSessionModel session) {
     final currentPath = singleton<AppRouter>().current.path;
     final bool rememberMe = singleton<Storage>().getBool(Storage.REMEMBER_ME) ?? false;
+
     if (session.isAuthenticated && rememberMe) {
-      if (currentPath == '') {
+      if (currentPath == '/') {
         AutoRouter.of(context).push(WebDashboardContainerRoute());
       }
+    } else {
+      // final path = Uri.base.toString().split("#").last;
+      // final pathComponents = path.split("/");
+      // print(pathComponents);
+      // if (pathComponents[1] == "p2p" && pathComponents[2] == "shop") {
+      //   final shopId = int.tryParse(pathComponents[3]);
+      //   final collectionId = int.tryParse(pathComponents[5]);
+
+      //   if (shopId == null || collectionId == null) {
+      //     return;
+      //   }
+
+      //   if (pathComponents.length == 6) {
+      //     if (pathComponents[4] == "collection") {
+      //       AutoRouter.of(context)
+      //           .pushAll([WebDashboardContainerRoute(), WebCollectionDetailScreenRoute(shopId: shopId, collectionId: collectionId)]);
+      //     }
+      //   }
+      // }
     }
   }
 
@@ -59,20 +80,25 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
 
     final isMobile = BreakPoints.useMobileLayout(context);
 
+    final keypair = ref.watch(webSessionProvider).keypair;
+
     return Stack(
       children: [
-        // Align(
-        //   alignment: Alignment.bottomRight,
-        //   child: Opacity(
-        //     opacity: 0.5,
-        //     child: Image.asset(
-        //       Assets.images.decorBottomRight.path,
-        //       width: 300,
-        //       height: 300,
-        //       fit: BoxFit.contain,
-        //     ),
-        //   ),
-        // ),
+        Align(
+          alignment: Alignment.bottomRight,
+          child: Transform.translate(
+            offset: Offset(12, 12),
+            child: Opacity(
+              opacity: 0.5,
+              child: Image.asset(
+                Assets.images.decorBottomRight.path,
+                width: isMobile ? 250 : 400,
+                height: isMobile ? 250 : 400,
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+        ),
         Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -100,13 +126,9 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
               //     fit: BoxFit.contain,
               //   ),
               // ),
-
               Padding(
                 padding: const EdgeInsets.all(12.0),
-                child: Text(
-                  "RBX Web Wallet",
-                  style: Theme.of(context).textTheme.headlineLarge!.copyWith(fontWeight: FontWeight.bold, fontSize: isMobile ? 20 : 30),
-                ),
+                child: WebWordmark(),
               ),
               const Text(
                 APP_VERSION,
@@ -140,20 +162,13 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                         builder: (context) {
                           return AuthTypeModal(
                             handleMneumonic: () async {
-                              final email = await PromptModal.show(
-                                contextOverride: context,
-                                title: "Email Address",
-                                labelText: "Email",
-                                validator: formValidatorEmail,
-                              );
-
-                              if (email == null || email.isEmpty) {
-                                return;
-                              }
-
-                              await handleCreateWithMnemonic(context, ref, email);
-                              if (ref.read(webSessionProvider).isAuthenticated) {
-                                redirectToDashboard();
+                              final success =
+                                  await ConfirmDialog.show(title: 'Mneumonic', body: 'Are you sure you want to create a Mneumonic wallet?');
+                              if (success == true) {
+                                await handleCreateWithMnemonic(context, ref);
+                                if (ref.read(webSessionProvider).isAuthenticated) {
+                                  redirectToDashboard();
+                                }
                               }
                             },
                             handleUsername: () {
@@ -200,18 +215,11 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                         builder: (context) {
                           return AuthTypeModal(
                             handleMneumonic: () async {
-                              final email = await PromptModal.show(
-                                contextOverride: context,
-                                title: "Email Address",
-                                labelText: "Email",
-                                validator: formValidatorEmail,
-                              );
+                              await handleRecoverFromMnemonic(context, ref);
 
-                              if (email == null || email.isEmpty) {
-                                return;
+                              if (ref.read(webSessionProvider).isAuthenticated) {
+                                redirectToDashboard();
                               }
-
-                              await handleRecoverFromMnemonic(context, ref, email);
 
                               //do stuff
                             },
@@ -229,18 +237,7 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                               );
                             },
                             handlePrivateKey: (context) async {
-                              final email = await PromptModal.show(
-                                contextOverride: context,
-                                title: "Email Address",
-                                labelText: "Email",
-                                validator: formValidatorEmail,
-                              );
-
-                              if (email == null || email.isEmpty) {
-                                return;
-                              }
-
-                              await handleImportWithPrivateKey(context, ref, email).then((value) {
+                              await handleImportWithPrivateKey(context, ref).then((value) {
                                 if (ref.read(webSessionProvider).isAuthenticated) {
                                   redirectToDashboard();
                                 }
@@ -254,6 +251,26 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                     variant: AppColorVariant.Light,
                   ),
                 ],
+              ),
+              if (keypair != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 12.0),
+                  child: AppButton(
+                    label: "Resume Session",
+                    variant: AppColorVariant.Light,
+                    type: AppButtonType.Text,
+                    underlined: true,
+                    onPressed: () {
+                      redirectToDashboard();
+                    },
+                  ),
+                ),
+              Padding(
+                padding: const EdgeInsets.only(top: 24.0),
+                child: Image.asset(
+                  Assets.images.reserveBlockWordmark.path,
+                  width: 120,
+                ),
               ),
               if (Env.isTestNet)
                 const Padding(

@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
-import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
+import 'package:rbx_wallet/features/asset/web_asset.dart';
+import '../../../sc_property/models/sc_property.dart';
 
 import '../../../asset/asset.dart';
 
@@ -21,6 +22,7 @@ class EvolvePhase with _$EvolvePhase {
     @Default(0) int evolutionState,
     @Default(false) bool isCurrentState,
     Asset? asset,
+    @JsonKey(ignore: true) WebAsset? webAsset,
     @Default([]) List<ScProperty> properties,
   }) = _EvolvePhase;
 

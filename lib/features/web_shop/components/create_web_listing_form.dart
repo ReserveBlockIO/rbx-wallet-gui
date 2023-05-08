@@ -1,26 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/dst/components/nft_selector.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../dst/components/nft_selector.dart';
+import '../../../utils/toast.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/buttons.dart';
 import '../../../utils/validation.dart';
 import '../../smart_contracts/components/sc_creator/common/form_group_container.dart';
-import '../models/web_collection.dart';
 import '../providers/create_web_listing_provider.dart';
 
 class CreateListingFormGroup extends BaseComponent {
-  int collection;
-  int store;
-  CreateListingFormGroup({Key? key, required this.collection, required this.store}) : super(key: key);
+  final int collection;
+  final int store;
+  const CreateListingFormGroup({
+    Key? key,
+    required this.collection,
+    required this.store,
+  }) : super(key: key);
 
   @override
-  Widget desktopBody(BuildContext context, WidgetRef ref) {
+  Widget body(BuildContext context, WidgetRef ref) {
     final provider = ref.watch(createWebListingProvider.notifier);
     final model = ref.watch(createWebListingProvider);
+
     return FormGroupContainer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,16 +40,11 @@ class CreateListingFormGroup extends BaseComponent {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Flexible(
-                    child: Card(
-                      margin: EdgeInsets.zero,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                        child: _NFT(),
-                      ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      child: _NFT(),
                     ),
                   ),
-                  Flexible(child: _StartDate()),
-                  Flexible(child: _EndDate()),
                   if (model.isAuction && model.isAuctionStarted && model.exists)
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -55,6 +54,8 @@ class CreateListingFormGroup extends BaseComponent {
                         style: Theme.of(context).textTheme.bodySmall,
                       )),
                     ),
+                  SizedBox(height: 16),
+                  Flexible(child: _EnableGallery()),
                   SizedBox(height: 16),
                   Flexible(child: _EnableBuyNow()),
                   if (model.enableBuyNow) Flexible(child: _BuyNow()),
@@ -76,6 +77,8 @@ class CreateListingFormGroup extends BaseComponent {
                           style: Theme.of(context).textTheme.bodySmall,
                         )),
                       ),
+                    Flexible(child: _StartDate()),
+                    Flexible(child: _EndDate()),
                   ],
                 ],
               ),
@@ -85,7 +88,7 @@ class CreateListingFormGroup extends BaseComponent {
             padding: const EdgeInsets.only(top: 16.0),
             child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
               AppButton(
-                label: 'Complete',
+                label: 'Save',
                 variant: AppColorVariant.Success,
                 onPressed: () {
                   provider.complete(context);
@@ -182,6 +185,36 @@ class _BuyNow extends BaseComponent {
   }
 }
 
+class _EnableGallery extends BaseComponent {
+  const _EnableGallery({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ref) {
+    final provider = ref.read(createWebListingProvider.notifier);
+    final model = ref.watch(createWebListingProvider).galleryOnly;
+
+    return Row(
+      children: [
+        Checkbox(
+            value: model,
+            onChanged: (val) {
+              if (val != null) {
+                provider.updateGalleryOnly(val);
+              }
+            }),
+        GestureDetector(
+          onTap: () {
+            provider.updateGalleryOnly(!model);
+          },
+          child: const Text("Gallery Only?"),
+        ),
+      ],
+    );
+  }
+}
+
 class _EnableReservePrice extends BaseComponent {
   const _EnableReservePrice({
     Key? key,
@@ -270,10 +303,26 @@ class _NFT extends BaseComponent {
 
   @override
   Widget build(BuildContext context, ref) {
+    // return SizedBox();
     final provider = ref.read(createWebListingProvider.notifier);
     final model = ref.watch(createWebListingProvider);
 
-    final nft = model.nft;
+    final webNft = model.nft;
+
+    if (webNft == null) {
+      return NftSelector(
+        labelOverride: "Select NFT",
+        disabled: model.exists,
+        onSelect: (nft) {
+          if (nft.isListed(ref)) {
+            Toast.error("This NFT is already listed. Please choose another");
+            provider.clearNft();
+            return;
+          }
+          provider.updateNFT(nft);
+        },
+      );
+    }
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -282,7 +331,29 @@ class _NFT extends BaseComponent {
         children: [
           Builder(
             builder: (context) {
-              return const Icon(Icons.file_present_outlined);
+              if (webNft.smartContract.currentEvolveAssetWeb != null && webNft.smartContract.currentEvolveAssetWeb!.isImage) {
+                return SizedBox(
+                  width: 32,
+                  height: 32,
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: Image.network(
+                      webNft.smartContract.currentEvolveAssetWeb!.location,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                );
+              }
+
+              if (webNft.smartContract.primaryAssetWeb != null) {
+                return Icon(Icons.file_present_outlined);
+              }
+
+              return SizedBox(
+                width: 32,
+                height: 32,
+              );
             },
           ),
           SizedBox(
@@ -293,9 +364,9 @@ class _NFT extends BaseComponent {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("NFT: ${model.smartContractUid}"),
+                Text("NFT: ${webNft.name}"),
                 Text(
-                  nft.identifier,
+                  webNft.smartContract.id,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ],
@@ -304,13 +375,13 @@ class _NFT extends BaseComponent {
           NftSelector(
             labelOverride: "Select NFT",
             disabled: model.exists,
-            onSelect: (nft) {
+            onSelect: (nft) async {
               if (nft.isListed(ref)) {
                 Toast.error("This NFT is already listed. Please choose another");
                 provider.clearNft();
                 return;
               }
-              provider.updateNFT(nft.id);
+              await provider.updateNFT(nft);
             },
           ),
         ],
@@ -321,14 +392,30 @@ class _NFT extends BaseComponent {
 
 Future<void> _showDatePicker(BuildContext context, WidgetRef ref, bool isStartDate) async {
   final _provider = ref.read(createWebListingProvider.notifier);
+  final _model = ref.read(createWebListingProvider);
+
+  if (_model.isAuction && _model.isAuctionStarted && _model.exists) {
+    Toast.error('The auction has already started.');
+    return;
+  }
   final _d = await showDatePicker(
-    context: context,
-    initialDate: DateTime.now(),
-    firstDate: DateTime.now(),
-    lastDate: DateTime.now().add(
-      const Duration(days: 365 * 100),
-    ),
-  );
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(
+        const Duration(days: 365 * 100),
+      ),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.dark().copyWith(
+              buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.accent),
+              colorScheme: Theme.of(context).colorScheme.copyWith(
+                    primary: Color(0xFF82e4fb),
+                    onPrimary: Color(0xFF031745),
+                  )),
+          child: child!,
+        );
+      });
 
   if (_d != null) {
     _provider.updateDate(_d, isStartDate);
@@ -353,9 +440,17 @@ Future<void> _showTimePicker(BuildContext context, WidgetRef ref, bool isStartDa
     initialEntryMode: TimePickerEntryMode.input,
     initialTime: TimeOfDay(hour: initialDateTime.hour, minute: initialDateTime.minute),
     builder: (BuildContext context, Widget? child) {
-      return MediaQuery(
-        data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
-        child: child ?? const SizedBox(),
+      return Theme(
+        data: ThemeData.dark().copyWith(
+            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+            colorScheme: Theme.of(context).colorScheme.copyWith(
+                  primary: Color(0xFF82e4fb),
+                  onPrimary: Color(0xFF031745),
+                )),
+        child: MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+          child: child ?? const SizedBox(),
+        ),
       );
     },
   );

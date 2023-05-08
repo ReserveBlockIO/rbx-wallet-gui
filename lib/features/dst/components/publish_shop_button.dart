@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
-import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
-import 'package:rbx_wallet/features/dst/providers/dst_tx_pending_provider.dart';
-import 'package:rbx_wallet/features/dst/services/dst_service.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../core/app_constants.dart';
+import '../../../core/base_component.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../beacon/providers/beacon_list_provider.dart';
+import '../../bridge/providers/wallet_info_provider.dart';
+import '../providers/dec_shop_provider.dart';
+import '../providers/dst_tx_pending_provider.dart';
+import '../services/dst_service.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../../web_shop/services/web_shop_service.dart';
+import '../../../utils/toast.dart';
 
 import '../../../core/providers/session_provider.dart';
 
@@ -47,7 +50,7 @@ class DecPublishShopButton extends BaseComponent {
                 if (shop.updateWillCost) {
                   final confirm = await ConfirmDialog.show(
                     title: "Publish Shop?",
-                    body: "There is a cost of 1 RBX to publish your shop changes to the network (plus the transaction fee).",
+                    body: "There is a cost of $SHOP_UPDATE_COST RBX to publish your shop changes to the network (plus the transaction fee).",
                     confirmText: "Publish Changes",
                     cancelText: "Cancel",
                   );
@@ -90,14 +93,17 @@ class DecPublishShopButton extends BaseComponent {
           onPressed: () async {
             final confirm = await ConfirmDialog.show(
               title: "Publish Shop?",
-              body: "There is a cost of 10 RBX to publish your shop to the network (plus the transaction fee).",
+              body: "There is a cost of $SHOP_PUBLISH_COST RBX to publish your shop to the network (plus the transaction fee).",
               confirmText: "Publish",
               cancelText: "Cancel",
             );
 
             if (confirm == true) {
               final success = await DstService().publishShop();
+
               if (success) {
+                Toast.message("Publish Transaction Sent!");
+
                 ref.invalidate(decShopProvider);
                 ref.read(dstTxPendingProvider.notifier).set(true);
                 final confirmed = await ConfirmDialog.show(
@@ -108,11 +114,9 @@ class DecPublishShopButton extends BaseComponent {
                   destructive: true,
                 );
 
-                if (confirmed) {
+                if (confirmed == true) {
                   ref.read(sessionProvider.notifier).restartCli();
                 }
-
-                Toast.message("Publish Transaction Sent!");
               } else {
                 Toast.error();
               }

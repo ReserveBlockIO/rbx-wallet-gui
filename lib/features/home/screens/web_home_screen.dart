@@ -1,7 +1,9 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
+import '../../../core/dialogs.dart';
+import '../../web/components/web_wordmark.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/base_component.dart';
@@ -30,7 +32,7 @@ class WebHomeScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: const Text("ReserveBlock"),
+      title: const Text("Dashboard"),
       backgroundColor: Colors.black,
       shadowColor: Colors.transparent,
     );
@@ -57,7 +59,27 @@ class WebHomeScreen extends BaseScreen {
             const _Brand(),
             const _Actions(),
             const SizedBox(height: 16),
-            const WebLatestBlock(),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Opacity(
+                    opacity: 0.5,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 0),
+                      child: Image.asset(
+                        Assets.images.decorBottomRight.path,
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                ),
+                const WebLatestBlock(),
+              ],
+            ),
           ],
         ),
       ),
@@ -66,22 +88,41 @@ class WebHomeScreen extends BaseScreen {
 
   @override
   Widget desktopBody(BuildContext context, WidgetRef ref) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Stack(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: const [
-              WebWalletDetails(),
-              SizedBox(height: 32),
-            ],
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  WebWalletDetails(),
+                  SizedBox(height: 32),
+                ],
+              ),
+            ),
+            const _Brand(),
+            const _Actions(),
+            const WebLatestBlock(),
+          ],
+        ),
+        Align(
+          alignment: Alignment.bottomRight,
+          child: Opacity(
+            opacity: 0.5,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 240.0),
+              child: Image.asset(
+                Assets.images.decorBottomRight.path,
+                width: 200,
+                height: 200,
+                fit: BoxFit.contain,
+              ),
+            ),
           ),
         ),
-        const _Brand(),
-        const _Actions(),
-        const WebLatestBlock(),
       ],
     );
   }
@@ -116,10 +157,8 @@ class _Brand extends StatelessWidget {
           //   ),
           // ),
           Center(
-              child: Text(
-            "RBX Web Wallet",
-            style: Theme.of(context).textTheme.headlineLarge!.copyWith(fontWeight: FontWeight.bold, fontSize: isMobile ? 20 : 30),
-          ))
+            child: WebWordmark(),
+          )
         ],
       ),
     );
@@ -162,6 +201,7 @@ class _Actions extends BaseComponent {
                 //     otherTest();
                 //   },
                 // ),
+
                 AppButton(
                   label: "Send",
                   icon: Icons.outbox,

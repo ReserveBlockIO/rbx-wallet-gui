@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:rbx_wallet/features/metrics/models/network_metrics.dart';
+import '../../metrics/models/network_metrics.dart';
 
 import '../../../core/env.dart';
 import '../../../core/services/base_service.dart';
@@ -162,8 +162,7 @@ class BridgeService extends BaseService {
     required String to,
     required String from,
   }) async {
-    final response = await getText("/SendTransaction/$from/$to/$amount",
-        inspect: true, timeout: 0);
+    final response = await getText("/SendTransaction/$from/$to/$amount", timeout: 0);
 
     if (response == "FAIL") {
       Toast.error();

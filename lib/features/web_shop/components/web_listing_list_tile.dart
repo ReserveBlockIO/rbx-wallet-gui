@@ -1,12 +1,13 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/features/web_shop/models/web_listing.dart';
+import '../../../core/app_router.gr.dart';
+import '../../../core/env.dart';
+import '../models/web_listing.dart';
 
 import '../../../core/base_component.dart';
-import '../../../core/web_router.gr.dart';
+import '../../../core/web_router.gr.dart' as webRouter;
 
 class WebListingTile extends BaseComponent {
   WebListingTile(this.listing, {Key? key}) : super(key: key);
@@ -25,14 +26,14 @@ class WebListingTile extends BaseComponent {
             return;
           }
 
-          if (Env.isWeb) {
-            AutoRouter.of(context).push(WebListingDetailScreenRoute(
+          if (kIsWeb) {
+            AutoRouter.of(context).push(webRouter.WebListingDetailScreenRoute(
               shopId: listing.collection.shop!.id,
               collectionId: listing.collection.id,
               listingId: listing.id,
             ));
           } else {
-            AutoRouter.of(context).push(DebugWebListingDetailScreenRoute(
+            AutoRouter.of(context).push(WebListingDetailScreenRoute(
               shopId: listing.collection.shop!.id,
               collectionId: listing.collection.id,
               listingId: listing.id,

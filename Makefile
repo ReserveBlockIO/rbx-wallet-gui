@@ -100,8 +100,14 @@ build_web:
 
 
 deploy_web:
-	fvm flutter build web
-	firebase deploy --only hosting
+	echo "Disabled to prevent accidents"
+	# fvm flutter build web --dart-define ENV=web
+	# firebase use rbx-web-wallet && firebase deploy --only hosting
+
+
+deploy_web_testnet:
+	fvm flutter build web --dart-define ENV=web_testnet
+	firebase use rbx-web-wallet-testnet && firebase deploy --only hosting
 
 
 deploy_web_no_build:
@@ -113,3 +119,7 @@ delete_gen:
 
 run_web:
 	fvm flutter run -d chrome --web-port 42069
+
+
+run_web_cors:
+	fvm flutter run -d chrome --web-browser-flag "--disable-web-security" --web-port 42069

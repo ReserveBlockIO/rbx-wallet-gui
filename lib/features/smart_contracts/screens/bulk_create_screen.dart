@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/generated/assets.gen.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../../../generated/assets.gen.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../core/base_screen.dart';

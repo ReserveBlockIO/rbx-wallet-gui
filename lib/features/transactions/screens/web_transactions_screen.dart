@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/components/centered_loader.dart';
+import '../../../core/components/centered_loader.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/providers/web_session_provider.dart';
@@ -27,9 +27,9 @@ class WebTransactionScreen extends BaseScreen {
       actions: [
         IconButton(
             onPressed: () {
-              final address = ref.read(webSessionProvider).keypair?.public;
+              final address = ref.read(webSessionProvider).keypair?.address;
               if (address != null) {
-                ref.read(webTransactionListProvider.notifier).load(address);
+                ref.read(webTransactionListProvider(address).notifier).refresh();
               }
             },
             icon: const Icon(Icons.refresh))
@@ -39,22 +39,64 @@ class WebTransactionScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final model = ref.watch(webTransactionListProvider);
-    final transactions = model.transactions;
-    final address = ref.read(webSessionProvider).keypair?.public;
+    final address = ref.read(webSessionProvider).keypair?.address;
 
-    if (address == null) return const WebNotWallet();
-
-    if (model.isLoading) {
-      return const CenteredLoader();
+    if (address == null) {
+      return const WebNotWallet();
     }
+
+    final model = ref.watch(webTransactionListProvider(address));
+    final transactions = model.transactions;
 
     return ListView.builder(
         itemCount: transactions.length,
         itemBuilder: (context, index) {
           final tx = transactions[index];
 
-          return WebTransactionCard(tx);
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              WebTransactionCard(tx),
+              if (index + 1 == transactions.length)
+                _NextPageRequester(
+                    isLoading: model.isLoading,
+                    pageRequestFunction: () {
+                      ref.read(webTransactionListProvider(address).notifier).fetchNextPage();
+                    })
+            ],
+          );
         });
+  }
+}
+
+class _NextPageRequester extends StatefulWidget {
+  final Function pageRequestFunction;
+  final bool isLoading;
+  const _NextPageRequester({
+    super.key,
+    required this.pageRequestFunction,
+    required this.isLoading,
+  });
+
+  @override
+  State<_NextPageRequester> createState() => __NextPageRequesterState();
+}
+
+class __NextPageRequesterState extends State<_NextPageRequester> {
+  @override
+  void initState() {
+    Future.delayed(Duration(milliseconds: 300)).then((_) {
+      widget.pageRequestFunction();
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      height: 100,
+      child: widget.isLoading ? CenteredLoader() : SizedBox(),
+    );
   }
 }

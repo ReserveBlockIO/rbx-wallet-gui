@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../core/theme/app_theme.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/dialogs.dart';
@@ -22,7 +23,6 @@ class CreateWebListingScreen extends BaseScreen {
   }) : super(
           key: key,
           includeWebDrawer: true,
-          backgroundColor: Colors.black87,
           horizontalPadding: 0,
           verticalPadding: 0,
         );
@@ -33,6 +33,7 @@ class CreateWebListingScreen extends BaseScreen {
     final model = ref.watch(createWebListingProvider);
 
     return AppBar(
+      backgroundColor: Colors.black,
       title: Text(model.id == 0 ? "Create Listing" : "Edit Listing"),
       leading: IconButton(
         onPressed: () async {
@@ -56,7 +57,7 @@ class CreateWebListingScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final address = kIsWeb ? ref.read(webSessionProvider).keypair?.public : ref.read(sessionProvider).currentWallet?.address;
+    final address = kIsWeb ? ref.read(webSessionProvider).keypair?.address : ref.read(sessionProvider).currentWallet?.address;
 
     if (address == null) {
       return const Center(
@@ -64,16 +65,20 @@ class CreateWebListingScreen extends BaseScreen {
       );
     }
     return Center(
-      child: Card(
-          child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 600),
-            child: CreateListingFormGroup(
-              store: shopId,
-              collection: collectionId,
+      child: Container(
+        decoration: BoxDecoration(boxShadow: glowingBox),
+        child: Card(
+            color: Colors.black,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 600),
+                  child: CreateListingFormGroup(
+                    store: shopId,
+                    collection: collectionId,
+                  )),
             )),
-      )),
+      ),
     );
   }
 }

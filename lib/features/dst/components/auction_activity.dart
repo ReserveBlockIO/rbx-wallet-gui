@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/features/dst/models/listing.dart';
-import 'package:rbx_wallet/features/dst/providers/seller_bid_list_provider.dart';
-import 'package:rbx_wallet/features/remote_shop/components/bid_status_indicator.dart';
+import '../../../core/base_component.dart';
+import '../models/listing.dart';
+import '../providers/seller_bid_list_provider.dart';
+import '../../remote_shop/components/bid_status_indicator.dart';
 
 class AuctionActivity extends BaseComponent {
   final Listing listing;

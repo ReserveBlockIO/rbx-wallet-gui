@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase_wizard_form_provider.dart';
+import '../features/evolve/evolve_phase_wizard_form_provider.dart';
 
 import '../../../core/base_component.dart';
 import '../../sc_property/models/sc_property.dart';

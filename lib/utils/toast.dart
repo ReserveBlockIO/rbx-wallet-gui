@@ -7,7 +7,11 @@ import '../core/theme/app_theme.dart';
 import 'html_helpers.dart';
 
 class Toast {
-  static message(String message) {
+  static message(String message, [bool surpress = false]) {
+    if (surpress) {
+      print(message);
+      return;
+    }
     final context = rootNavigatorKey.currentContext!;
 
     final snackBar = SnackBar(
@@ -29,7 +33,11 @@ class Toast {
     rootScaffoldMessengerKey.currentState?.showSnackBar(snackBar);
   }
 
-  static error([String message = "A problem occurred."]) {
+  static error([String message = "A problem occurred.", bool surpress = false]) {
+    if (surpress) {
+      print(message);
+      return;
+    }
     final context = rootNavigatorKey.currentContext!;
 
     final snackBar = SnackBar(

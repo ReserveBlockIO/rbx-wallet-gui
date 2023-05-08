@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'transaction.dart';
 
 part 'web_transaction.freezed.dart';
 part 'web_transaction.g.dart';
@@ -17,14 +20,30 @@ class WebTransaction with _$WebTransaction {
     @JsonKey(name: "total_amount") required double? amount,
     @JsonKey(name: "total_fee") required double? fee,
     @JsonKey(name: 'date_crafted') required DateTime date,
+    @Default(false) bool isPending,
     // required int nonce,
     // required int timestamp,
-    // @JsonKey(name: 'nft_data') dynamic nftData,
+    String? data,
     // required String signature,
     required int height,
   }) = _WebTransaction;
 
   factory WebTransaction.fromJson(Map<String, dynamic> json) => _$WebTransactionFromJson(json);
+
+  Transaction toNative() {
+    return Transaction(
+      hash: hash,
+      toAddress: toAddress,
+      fromAddress: fromAddress,
+      type: type,
+      amount: amount ?? 0,
+      nonce: 0,
+      fee: fee ?? 0,
+      timestamp: (date.millisecondsSinceEpoch / 1000).round(),
+      nftData: data,
+      height: height,
+    );
+  }
 
   String get parseTimeStamp {
     //TODO: fix this;
@@ -32,6 +51,28 @@ class WebTransaction with _$WebTransaction {
     // var date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
     // var d12 = DateFormat('MM-dd-yyyy hh:mm a').format(date);
     // return d12;
+  }
+
+  List<dynamic>? get subTxs {
+    if (nftDataValue('Function') == "Sale_Complete()") {
+      if (nftDataValue('Transactions') != null) {
+        return nftDataValueList('Transactions');
+      }
+    }
+
+    return null;
+  }
+
+  double? get subTxAmount {
+    if (subTxs != null) {
+      double amount = 0;
+      for (final s in subTxs!) {
+        amount += s['Amount'];
+      }
+      return amount;
+    }
+
+    return 0;
   }
 
   String get typeLabel {
@@ -43,17 +84,103 @@ class WebTransaction with _$WebTransaction {
       case 2:
         return "NFT Mint";
       case 3:
+        if (nftDataValue('Function') == "Transfer()") {
+          return "NFT Transfer";
+        } else if (["ChangeEvolveStateSpecific()", "Evolve()", "Devolve()"].contains(nftDataValue('Function'))) {
+          return "NFT Evolution";
+        }
+
         return "NFT Tx";
+
       case 4:
         return "NFT Burn";
       case 5:
+        if (nftDataValue('Function') == "Sale_Start()") {
+          return "NFT Sale (Start)";
+        } else if (nftDataValue('Function') == "Sale_Complete()") {
+          return "NFT Sale (Complete)";
+        }
+
         return "NFT Sale";
+
       case 6:
+        if (nftDataValue('Function') == "AdnrCreate()") {
+          return "RBX Domain (Create)";
+        } else if (nftDataValue('Function') == "AdnrTransfer()") {
+          return "RBX Domain (Transfer)";
+        } else if (nftDataValue('Function') == "AdnrDelete()") {
+          return "RBX Domain (Delete)";
+        }
+
         return "Address";
       case 7:
+        if (nftDataValue('Function') == "DecShopCreate()") {
+          return "P2P Auction House (Create)";
+        } else if (nftDataValue('Function') == "DecShopUpdate()") {
+          return "P2P Auction House (Update)";
+        } else if (nftDataValue('Function') == "DecShopDelete()") {
+          return "P2P Auction House (Delete)";
+        }
         return "DST Registration";
       default:
         return "-";
     }
+  }
+
+  Map<String, dynamic>? parseNftData() {
+    try {
+      if (data == null) {
+        return null;
+      }
+
+      final d = jsonDecode(data!);
+      if (d is Map) {
+        return d as Map<String, dynamic>;
+      }
+
+      if (d == null || d.isEmpty) {
+        return null;
+      }
+
+      if (d[0] == null) {
+        return null;
+      }
+
+      final Map<String, dynamic> response = d[0];
+
+      return response;
+    } catch (e, st) {
+      print("Problem parsing NFT data on TX $hash");
+      print(e);
+      print(st);
+      return null;
+    }
+  }
+
+  String? nftDataValue(String key) {
+    final d = parseNftData();
+    if (d == null) {
+      return null;
+    }
+
+    return d.containsKey(key) ? d[key].toString() : null;
+  }
+
+  double? nftDataValueDouble(String key) {
+    final d = parseNftData();
+    if (d == null) {
+      return null;
+    }
+
+    return d.containsKey(key) && d[key] is num ? d[key] as double : null;
+  }
+
+  List<dynamic>? nftDataValueList(String key) {
+    final d = parseNftData();
+    if (d == null) {
+      return null;
+    }
+
+    return d.containsKey(key) && d[key] is List ? d[key] as List<dynamic> : null;
   }
 }

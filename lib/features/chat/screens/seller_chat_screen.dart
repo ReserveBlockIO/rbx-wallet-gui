@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/features/chat/components/new_chat_message.dart';
-import 'package:rbx_wallet/features/chat/components/shop_chat_list.dart';
-import 'package:rbx_wallet/features/chat/providers/seller_chat_list_provider.dart';
+import '../../../core/base_screen.dart';
+import '../../../core/dialogs.dart';
+import '../components/new_chat_message.dart';
+import '../components/shop_chat_list.dart';
+import '../providers/seller_chat_list_provider.dart';
 
 class SellerChatScreen extends BaseScreen {
   final String address;
@@ -34,11 +34,9 @@ class SellerChatScreen extends BaseScreen {
             );
 
             if (confirmed == true) {
-              final success = await ref.read(sellerChatListProvider(address).notifier).deleteThread();
-              if (success) {
-                Navigator.of(context).pop();
-                return;
-              }
+              final success = await ref.read(sellerChatListProvider(address).notifier).deleteThread(null);
+              AutoRouter.of(context).pop();
+              return;
             }
           },
         )
@@ -54,11 +52,13 @@ class SellerChatScreen extends BaseScreen {
           child: ShopChatList(
             identifier: address,
             isSeller: true,
+            isThirdParty: false,
           ),
         ),
         NewChatMessage(
           identifier: address,
           isSeller: true,
+          isThirdParty: false,
         )
       ],
     );

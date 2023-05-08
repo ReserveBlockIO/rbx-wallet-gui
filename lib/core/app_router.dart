@@ -1,28 +1,30 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/empty_router_widgets.dart';
-import 'package:rbx_wallet/features/chat/screens/buyer_chat_thread_list_screen.dart';
-import 'package:rbx_wallet/features/dst/screens/create_collection_container_screen.dart';
-import 'package:rbx_wallet/features/dst/screens/create_dec_shop_container_screen.dart';
-import 'package:rbx_wallet/features/dst/screens/dst_landing_screen.dart';
-import 'package:rbx_wallet/features/dst/screens/my_collection_detail_screen.dart';
-import 'package:rbx_wallet/features/dst/screens/my_collection_list_screen.dart';
-import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_collection_screen.dart';
-import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_container_screen.dart';
-import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_detail_screen.dart';
-import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_list_screen.dart';
-import 'package:rbx_wallet/features/reserve/screens/reserve_account_overview_screen.dart';
-import 'package:rbx_wallet/features/web_shop/screens/create_web_listing_screen.dart';
-import 'package:rbx_wallet/features/web_shop/screens/web_collection_detail_screen.dart';
-import 'package:rbx_wallet/features/web_shop/screens/web_listing_detail_screen.dart';
-import 'package:rbx_wallet/features/web_shop/screens/web_shop_container_screen.dart';
-import 'package:rbx_wallet/features/web_shop/screens/web_shop_landing_screen.dart';
+import '../features/chat/screens/buyer_chat_thread_list_screen.dart';
+import '../features/dst/screens/create_collection_container_screen.dart';
+import '../features/dst/screens/create_dec_shop_container_screen.dart';
+import '../features/dst/screens/dst_landing_screen.dart';
+import '../features/dst/screens/my_collection_detail_screen.dart';
+import '../features/dst/screens/my_collection_list_screen.dart';
+import '../features/remote_shop/screens/remote_shop_collection_screen.dart';
+import '../features/remote_shop/screens/remote_shop_container_screen.dart';
+import '../features/remote_shop/screens/remote_shop_detail_screen.dart';
+import '../features/remote_shop/screens/remote_shop_list_screen.dart';
+import '../features/reserve/screens/reserve_account_overview_screen.dart';
+import '../features/web_shop/screens/create_web_listing_screen.dart';
+import '../features/web_shop/screens/web_collection_detail_screen.dart';
+import '../features/web_shop/screens/web_listing_detail_screen.dart';
+import '../features/web_shop/screens/web_shop_container_screen.dart';
+import '../features/web_shop/screens/web_shop_landing_screen.dart';
 
 import '../features/adjudicator/adjudicator_screen.dart';
 import '../features/adnr/screens/adnr_screen.dart';
 import '../features/beacon/screens/beacon_list_screen.dart';
 import '../features/chat/screens/seller_chat_screen.dart';
+import '../features/chat/screens/web_seller_chat_screen.dart';
 import '../features/chat/screens/seller_chat_thread_list_screen.dart';
 import '../features/chat/screens/shop_chat_screen.dart';
+import '../features/chat/screens/web_shop_chat_screen.dart';
 import '../features/config/screens/config_container_screen.dart';
 import '../features/datanode/screens/datanode_screen.dart';
 import '../features/dst/screens/create_listing_container_screen.dart';
@@ -147,6 +149,8 @@ const List<AutoRoute> appRoutes = [
         children: [
           AutoRoute(path: "", page: DstLandingScreen),
           AutoRoute(path: "chat", page: SellerChatThreadListScreen),
+          AutoRoute(path: "chat/:shopId/:address", page: WebSellerChatScreen),
+
           // AutoRoute(path: "chat/:address", page: SellerChatScreen),
           // AutoRoute(path: "shops", page: RemoteShopListScreen),
           // AutoRoute(path: "shops/:url", page: RemoteShopDetailScreen),
@@ -187,53 +191,53 @@ const List<AutoRoute> appRoutes = [
           AutoRoute(path: "", page: BeaconListScreen),
         ],
       ),
-      AutoRoute(
-        path: "web-shop",
-        name: "DebugWebShopTabsRouter",
-        page: WebShopContainerScreen,
-        children: [
-          AutoRoute(
-            initial: true,
-            path: "",
-            page: WebShopLandingScreen,
-          ),
-          AutoRoute(
-            path: "shops",
-            page: WebShopListScreen,
-            name: "DebugWebShopListScreenRoute",
-          ),
-          AutoRoute(
-            path: "mine",
-            name: "DebugMyWebShopListScreenRoute",
-            page: MyWebShopListScreen,
-          ),
-          AutoRoute(
-            path: "createWebShop",
-            name: "DebugWebShopCreateScreenRoute",
-            page: CreateWebShopContainerScreen,
-          ),
-          AutoRoute(
-            path: "shop/:shopId/collection/:collectionId/createWebListing",
-            name: "DebugWebListingCreateScreenRoute",
-            page: CreateWebListingScreen,
-          ),
-          AutoRoute(
-            path: "shop/:shopId",
-            name: "DebugWebShopDetailScreenRoute",
-            page: WebShopDetailScreen,
-          ),
-          AutoRoute(
-            path: "shop/:shopId/collection/:collectionId",
-            name: "DebugWebCollectionDetailScreenRoute",
-            page: WebCollectionDetailScreen,
-          ),
-          AutoRoute(
-            path: "shop/:shopId/collection/:collectionId/listing/:listingId",
-            name: "DebugWebListingDetailScreenRoute",
-            page: WebListingDetailScreen,
-          ),
-        ],
-      ),
+      // AutoRoute(
+      //   path: "web-shop",
+      //   name: "DebugWebShopTabsRouter",
+      //   page: WebShopContainerScreen,
+      //   children: [
+      //     AutoRoute(
+      //       initial: true,
+      //       path: "",
+      //       page: WebShopLandingScreen,
+      //     ),
+      //     AutoRoute(
+      //       path: "shops",
+      //       page: WebShopListScreen,
+      //       name: "DebugWebShopListScreenRoute",
+      //     ),
+      //     AutoRoute(
+      //       path: "mine",
+      //       name: "DebugMyWebShopListScreenRoute",
+      //       page: MyWebShopListScreen,
+      //     ),
+      //     AutoRoute(
+      //       path: "createWebShop",
+      //       name: "DebugWebShopCreateScreenRoute",
+      //       page: CreateWebShopContainerScreen,
+      //     ),
+      //     AutoRoute(
+      //       path: "shop/:shopId/collection/:collectionId/createWebListing",
+      //       name: "DebugWebListingCreateScreenRoute",
+      //       page: CreateWebListingScreen,
+      //     ),
+      //     AutoRoute(
+      //       path: "shop/:shopId",
+      //       name: "DebugWebShopDetailScreenRoute",
+      //       page: WebShopDetailScreen,
+      //     ),
+      //     AutoRoute(
+      //       path: "shop/:shopId/collection/:collectionId",
+      //       name: "DebugWebCollectionDetailScreenRoute",
+      //       page: WebCollectionDetailScreen,
+      //     ),
+      //     AutoRoute(
+      //       path: "shop/:shopId/collection/:collectionId/listing/:listingId",
+      //       name: "DebugWebListingDetailScreenRoute",
+      //       page: WebListingDetailScreen,
+      //     ),
+      //   ],
+      // ),
     ],
   ),
   AutoRoute(
@@ -274,11 +278,28 @@ const List<AutoRoute> appRoutes = [
     path: "remote-shop-container",
     page: RemoteShopContainerScreen,
     children: [
-      AutoRoute(path: "shops", page: RemoteShopListScreen, initial: true),
+      AutoRoute(path: "shops", page: WebShopListScreen, initial: true),
       AutoRoute(path: "shops/chat", page: BuyerChatThreadListScreen),
       AutoRoute(path: "shops/:url", page: RemoteShopDetailScreen),
       // AutoRoute(path: "shops/:url/chat", page: ShopChatScreen),
       AutoRoute(path: "shops/:url/collection/:collectionId", page: RemoteShopCollectionScreen),
+      AutoRoute(
+        path: "third-party/shop/:shopId",
+        // name: "WebShopDetailScreenRoute",
+        page: WebShopDetailScreen,
+      ),
+      AutoRoute(
+        path: "third-party/shop/:identifier/shop",
+        page: WebShopChatScreen,
+      ),
+      AutoRoute(
+        path: "third-party/shop/:shopId/collection/:collectionId",
+        page: WebCollectionDetailScreen,
+      ),
+      AutoRoute(
+        path: "third-party/shop/:shopId/collection/:collectionId/listing/:listingId",
+        page: WebListingDetailScreen,
+      ),
     ],
   ),
   AutoRoute(path: "chat/:address", page: SellerChatScreen),

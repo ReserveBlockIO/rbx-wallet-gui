@@ -62,7 +62,7 @@ class WebReceiveScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final address = ref.watch(webSessionProvider).keypair?.public;
+    final address = ref.watch(webSessionProvider).keypair?.address;
     final adnr = ref.watch(webSessionProvider).adnr;
 
     if (address == null) {
@@ -72,48 +72,29 @@ class WebReceiveScreen extends BaseScreen {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Card(
-            color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 500),
-                    child: TextFormField(
-                      initialValue: address,
-                      readOnly: true,
-                      decoration: InputDecoration(
-                        label: const Text("Your Address"),
-                        border: InputBorder.none,
-                        suffixIcon: IconButton(
-                          icon: const Icon(Icons.copy),
-                          onPressed: () {
-                            copyToClipboard(address);
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    "This is the address the sender needs to send funds to.",
-                    style: Theme.of(context).textTheme.caption,
-                  ),
-                  if (adnr != null && adnr.isNotEmpty) ...[
+          Container(
+            decoration: BoxDecoration(
+              boxShadow: glowingBox,
+            ),
+            child: Card(
+              color: Colors.black87,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
                     ConstrainedBox(
                       constraints: const BoxConstraints(maxWidth: 500),
                       child: TextFormField(
-                        initialValue: adnr,
+                        initialValue: address,
                         readOnly: true,
                         decoration: InputDecoration(
-                          label: const Text("Your RBX Domain"),
+                          label: const Text("Your Address"),
                           border: InputBorder.none,
                           suffixIcon: IconButton(
                             icon: const Icon(Icons.copy),
                             onPressed: () {
-                              copyToClipboard(adnr);
+                              copyToClipboard(address);
                             },
                           ),
                         ),
@@ -121,12 +102,36 @@ class WebReceiveScreen extends BaseScreen {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      "Alternatively, you can receive funds to your RBX Domain.",
+                      "This is the address the sender needs to send funds to.",
                       style: Theme.of(context).textTheme.caption,
                     ),
+                    if (adnr != null && adnr.isNotEmpty) ...[
+                      ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 500),
+                        child: TextFormField(
+                          initialValue: adnr,
+                          readOnly: true,
+                          decoration: InputDecoration(
+                            label: const Text("Your RBX Domain"),
+                            border: InputBorder.none,
+                            suffixIcon: IconButton(
+                              icon: const Icon(Icons.copy),
+                              onPressed: () {
+                                copyToClipboard(adnr);
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        "Alternatively, you can receive funds to your RBX Domain.",
+                        style: Theme.of(context).textTheme.caption,
+                      ),
+                    ],
+                    const Divider(),
                   ],
-                  const Divider(),
-                ],
+                ),
               ),
             ),
           ),

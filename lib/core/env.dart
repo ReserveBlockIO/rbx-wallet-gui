@@ -14,13 +14,32 @@ enum _Environment {
   Web,
   WebTestNet,
   BlockExplorerTestNet,
+  LocalTestNet,
+  WebLocalEnv,
 }
 
-const _env = _Environment.Release;
+_Environment _env = _Environment.Release;
 
 class Env {
   static init() async {
     String? envPath;
+
+    const envOverride = String.fromEnvironment("ENV");
+
+    if (envOverride.isNotEmpty) {
+      if (envOverride == "web") {
+        _env = _Environment.Web;
+      } else if (envOverride == "web_testnet") {
+        _env = _Environment.WebTestNet;
+      } else if (envOverride == "web_local") {
+        _env = _Environment.WebLocalEnv;
+      } else if (envOverride == "testnet") {
+        _env = _Environment.ReleaseTestNet;
+      } else if (envOverride == "mainnet") {
+        _env = _Environment.Release;
+      }
+    }
+
     switch (_env) {
       case _Environment.Dev:
         envPath = Assets.env.devEnv;
@@ -52,6 +71,12 @@ class Env {
       case _Environment.WebTestNet:
         envPath = Assets.env.webDevEnv;
         break;
+      case _Environment.WebLocalEnv:
+        envPath = Assets.env.webLocalEnv;
+        break;
+      case _Environment.LocalTestNet:
+        envPath = Assets.env.localTestnetEnv;
+        break;
     }
 
     await DotEnv.dotenv.load(fileName: envPath);
@@ -64,9 +89,27 @@ class Env {
       case _Environment.ReleaseTestNet:
       case _Environment.BlockExplorerTestNet:
       case _Environment.WebTestNet:
+      case _Environment.WebLocalEnv:
         return 'https://testnet.rbx.network/';
       default:
         return 'https://rbx.network/';
+    }
+  }
+
+  static String get appBaseUrl {
+    switch (_env) {
+      case _Environment.Release:
+        return 'https://wallet.rbx.network/';
+      case _Environment.MacTestNet:
+      case _Environment.WinTestNet:
+      case _Environment.ReleaseTestNet:
+      case _Environment.BlockExplorerTestNet:
+      case _Environment.WebLocalEnv:
+        return 'http://localhost:42069';
+      case _Environment.WebTestNet:
+        return 'https://test-wallet.rbx.network/';
+      default:
+        return 'https://wallet.rbx.network/';
     }
   }
 
@@ -83,15 +126,11 @@ class Env {
   }
 
   static String get explorerApiBaseUrl {
-    return DotEnv.dotenv.env['EXPLORER_API_BASE_URL'] ?? 'https://rbx-explorer-service.herokuapp.com/api';
+    return DotEnv.dotenv.env['EXPLORER_API_BASE_URL'] ?? 'https://data.rbx.network/api';
   }
 
   static String get explorerWebsiteBaseUrl {
     return DotEnv.dotenv.env['EXPLORER_WEBSITE_BASE_URL'] ?? 'https://rbx.network';
-  }
-
-  static String get transactionApiBaseUrl {
-    return DotEnv.dotenv.env['TRANSACTION_API_BASE_URL'] ?? 'http://localhost:7292/txapi/txV1';
   }
 
   static bool get launchCli {
@@ -128,5 +167,17 @@ class Env {
 
   static bool get isWeb {
     return DotEnv.dotenv.env['IS_WEB'] == "true";
+  }
+
+  static bool get useWebMedia {
+    return DotEnv.dotenv.env['USE_WEB_MEDIA'] == "true";
+  }
+
+  static String get shopBaseUrl {
+    return DotEnv.dotenv.env['SHOP_BASE_URL'] ?? "https://wallet.rbx.network";
+  }
+
+  static String get shopApiUrl {
+    return DotEnv.dotenv.env['SHOP_API_URL'] ?? "https://data.rbx.network/api";
   }
 }

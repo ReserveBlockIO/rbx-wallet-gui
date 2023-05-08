@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/theme/app_theme.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/providers/web_session_provider.dart';
@@ -21,11 +22,12 @@ class WebWalletDetails extends BaseComponent {
 
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary,
+        color: const Color(0xFF050505),
+        boxShadow: glowingBox,
       ),
       child: ListTile(
         title: SelectableText(
-          sessionModel.adnr != null && sessionModel.adnr!.isNotEmpty ? "${sessionModel.adnr} [${keypair.public}]" : keypair.public,
+          sessionModel.adnr != null && sessionModel.adnr!.isNotEmpty ? "${sessionModel.adnr} [${keypair.address}]" : keypair.address,
           style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 13),
         ),
         subtitle: sessionModel.balance != null
@@ -39,8 +41,8 @@ class WebWalletDetails extends BaseComponent {
           children: [
             InkWell(
                 onTap: () async {
-                  await Clipboard.setData(ClipboardData(text: keypair.public));
-                  Toast.message("Address ${keypair.public} copied to clipboard");
+                  await Clipboard.setData(ClipboardData(text: keypair.address));
+                  Toast.message("Address ${keypair.address} copied to clipboard");
                 },
                 child: const Padding(
                   padding: EdgeInsets.all(4.0),

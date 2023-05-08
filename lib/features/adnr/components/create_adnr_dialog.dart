@@ -2,14 +2,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/core/services/explorer_service.dart';
-import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../../core/services/explorer_service.dart';
+import '../services/adnr_service.dart';
+import '../../raw/raw_service.dart';
+import '../../web/utils/raw_transaction.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/base_component.dart';
-import '../../../core/services/transaction_service.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../utils/toast.dart';
 import '../../../utils/validation.dart';
@@ -90,8 +91,12 @@ class CreateAdnrDialog extends BaseComponent {
               final domainWithoutSuffix = controller.text;
               final domain = "$domainWithoutSuffix.rbx";
 
+              ref.read(globalLoadingProvider.notifier).start();
+
               final available = await ExplorerService().adnrAvailable(domain);
+
               if (!available) {
+                ref.read(globalLoadingProvider.notifier).complete();
                 Toast.error("This RBX Domain already exists");
                 return;
               }
@@ -103,6 +108,8 @@ class CreateAdnrDialog extends BaseComponent {
                 txType: TxType.adnr,
                 data: {"Function": "AdnrCreate()", "Name": domainWithoutSuffix},
               );
+
+              ref.read(globalLoadingProvider.notifier).complete();
 
               if (txData == null) {
                 Toast.error("Invalid transaction data.");
@@ -126,13 +133,10 @@ class CreateAdnrDialog extends BaseComponent {
               }
               ref.read(globalLoadingProvider.notifier).start();
 
-              final tx = await TransactionService().sendTransaction(
-                transactionData: txData,
-                execute: true,
-              );
+              final tx = await RawService().sendTransaction(transactionData: txData, execute: true, widgetRef: ref);
               ref.read(globalLoadingProvider.notifier).complete();
 
-              if (tx != null && tx['data']['Result'] == "Success") {
+              if (tx != null && tx['Result'] == "Success") {
                 ref.read(adnrPendingProvider.notifier).addId(address, "create", "null");
                 Toast.message("RBX Domain Transaction has been broadcasted. See log for hash.");
                 Navigator.of(context).pop();
@@ -143,7 +147,7 @@ class CreateAdnrDialog extends BaseComponent {
               Toast.error();
             } else {
               ref.read(globalLoadingProvider.notifier).start();
-              final result = await TransactionService().createAdnr(address, controller.text);
+              final result = await AdnrService().createAdnr(address, controller.text);
               ref.read(globalLoadingProvider.notifier).complete();
 
               if (result.success) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/components/badges.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/dst/models/bid.dart';
+import '../../../core/components/badges.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../dst/models/bid.dart';
 
 class BidStatusIndicator extends StatelessWidget {
   final Bid bid;

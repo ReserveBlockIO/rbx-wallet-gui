@@ -1,6 +1,10 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/core/providers/web_session_provider.dart';
+import 'package:rbx_wallet/features/chat/components/web_chat_notifier.dart';
 
 import '../../core/base_component.dart';
 import '../../core/env.dart';
@@ -32,6 +36,7 @@ class WebDashboardContainer extends StatelessWidget {
     const WebSmartContractTabRouter(),
     const WebShopTabRouter(),
     const WebAdnrTabRouter(),
+    const WebSignTxTabRouter(),
   ];
 
   @override
@@ -75,6 +80,8 @@ class _ContentWrapper extends BaseComponent {
               ),
             ),
           ),
+        if (kIsWeb) WebChatNotifier(ref: ref, address: ref.watch(webSessionProvider).keypair?.address),
+        if (!kIsWeb) WebChatNotifier(ref: ref, address: ref.watch(sessionProvider).currentWallet?.address),
         Expanded(
           child: Row(
             children: [
@@ -113,6 +120,7 @@ class _ContentWrapper extends BaseComponent {
             ),
           ),
         ),
+      if (kIsWeb) WebChatNotifier(ref: ref, address: ref.watch(webSessionProvider).keypair!.address),
       Expanded(child: child),
     ]);
   }

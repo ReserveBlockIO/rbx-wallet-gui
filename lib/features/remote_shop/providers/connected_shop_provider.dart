@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/app.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/features/dst/models/dec_shop.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/features/remote_shop/models/shop_data.dart';
-import 'package:rbx_wallet/features/remote_shop/providers/saved_shops_provider.dart';
-import 'package:rbx_wallet/features/remote_shop/providers/shop_loading_provider.dart';
-import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../app.dart';
+import '../../../core/app_router.gr.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../dst/models/dec_shop.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../models/shop_data.dart';
+import 'saved_shops_provider.dart';
+import 'shop_loading_provider.dart';
+import '../services/remote_shop_service.dart';
+import '../../../utils/toast.dart';
 
 part 'connected_shop_provider.freezed.dart';
 
@@ -47,6 +47,7 @@ class ConnectedShopProvider extends StateNotifier<ConnectedShop> {
       isConnected: true,
       shouldWarnDisconnection: true,
     );
+
     await checkConnectionStatus();
     await refresh(true);
 
@@ -84,36 +85,35 @@ class ConnectedShopProvider extends StateNotifier<ConnectedShop> {
 
     state = state.copyWith(isConnected: isConnected);
 
-    if (!isConnected) {
-      if (state.shouldWarnDisconnection && !state.hasShownDisconnectAlert) {
-        state = state.copyWith(hasShownDisconnectAlert: true);
-        await InfoDialog.show(
-          title: "Shop Disconnected",
-          body: "The shop you are connected to ${state.decShop != null ? '(${state.decShop!.name})' : ''} has gone offline.",
-        );
-      }
+    // if (!isConnected) {
+    //   if (state.shouldWarnDisconnection && !state.hasShownDisconnectAlert) {
+    //     state = state.copyWith(hasShownDisconnectAlert: true);
+    //     await InfoDialog.show(
+    //       title: "Shop Disconnected",
+    //       body: "The shop you are connected to ${state.decShop != null ? '(${state.decShop!.name})' : ''} has gone offline.",
+    //     );
+    //   }
 
-      return;
-    }
+    //   return;
+    // }
   }
 
   refresh([bool showErrors = false]) async {
-    if (!state.isConnected) {
-      return;
-    }
+    // if (!state.isConnected) {
+    //   return;
+    // }
 
-    int listingCount = 0;
-    if (state.data != null) {
-      for (final c in state.data!.collections) {
-        listingCount += c.listings.length;
-      }
-    }
+    // int listingCount = 0;
+    // if (state.data != null) {
+    //   for (final c in state.data!.collections) {
+    //     listingCount += c.listings.length;
+    //   }
+    // }
 
     await Future.delayed(Duration(seconds: 2));
 
     final data = await RemoteShopService().getConnectedShopData(
       showErrors: showErrors,
-      listingCount: listingCount,
     );
     if (data != null) {
       state = state.copyWith(data: data);
@@ -127,7 +127,7 @@ class ConnectedShopProvider extends StateNotifier<ConnectedShop> {
       confirmText: "Remove",
       cancelText: "Cancel",
     );
-    if (confirmed) {
+    if (confirmed == true) {
       ref.read(savedShopsProvider.notifier).remove(url);
     }
   }
@@ -158,6 +158,7 @@ class ConnectedShopProvider extends StateNotifier<ConnectedShop> {
     if (confirmed == true) {
       ref.read(shopLoadingProvider.notifier).start("Connecting to shop...");
       final success = await RemoteShopService().connectToShop(myAddress: address, shopUrl: shop.url);
+
       if (!success) {
         ref.read(shopLoadingProvider.notifier).start("Shop is offline.");
         await Future.delayed(Duration(seconds: 2));

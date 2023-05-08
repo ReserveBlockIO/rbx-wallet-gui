@@ -13,10 +13,12 @@ _$_ChatThread _$$_ChatThreadFromJson(Map<String, dynamic> json) =>
               ?.map((e) => ChatMessage.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      isThirdParty: json['isThirdParty'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$_ChatThreadToJson(_$_ChatThread instance) =>
     <String, dynamic>{
       'User': instance.user,
       'Messages': instance.messages,
+      'isThirdParty': instance.isThirdParty,
     };

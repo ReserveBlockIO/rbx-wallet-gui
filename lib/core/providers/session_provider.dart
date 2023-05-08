@@ -9,22 +9,22 @@ import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:intl/intl.dart';
 import 'package:process/process.dart';
 import 'package:process_run/shell.dart';
-import 'package:rbx_wallet/core/api_token_manager.dart';
-import 'package:rbx_wallet/core/utils.dart';
-import 'package:rbx_wallet/features/chat/providers/chat_notification_provider.dart';
-import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
-import 'package:rbx_wallet/features/dst/providers/listed_nfts_provider.dart';
-import 'package:rbx_wallet/features/dst/services/dst_service.dart';
-import 'package:rbx_wallet/features/remote_info/components/snapshot_downloader.dart';
-import 'package:rbx_wallet/features/remote_info/models/remote_info.dart';
-import 'package:rbx_wallet/features/remote_info/services/remote_info_service.dart';
-import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
-import 'package:rbx_wallet/features/remote_shop/providers/thumbnail_fetcher_provider.dart';
-import 'package:rbx_wallet/features/reserve/providers/reserve_account_provider.dart';
-import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
-import 'package:rbx_wallet/features/startup/startup_data.dart';
-import 'package:rbx_wallet/features/startup/startup_data_provider.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../api_token_manager.dart';
+import '../utils.dart';
+import '../../features/chat/providers/chat_notification_provider.dart';
+import '../../features/dst/providers/dec_shop_provider.dart';
+import '../../features/dst/providers/listed_nfts_provider.dart';
+import '../../features/dst/services/dst_service.dart';
+import '../../features/remote_info/components/snapshot_downloader.dart';
+import '../../features/remote_info/models/remote_info.dart';
+import '../../features/remote_info/services/remote_info_service.dart';
+import '../../features/remote_shop/providers/connected_shop_provider.dart';
+import '../../features/remote_shop/providers/thumbnail_fetcher_provider.dart';
+import '../../features/reserve/providers/reserve_account_provider.dart';
+import '../../features/reserve/services/reserve_account_service.dart';
+import '../../features/startup/startup_data.dart';
+import '../../features/startup/startup_data_provider.dart';
+import '../../utils/toast.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../app.dart';
@@ -153,6 +153,9 @@ class SessionProvider extends StateNotifier<SessionModel> {
   static const _initial = SessionModel();
 
   SessionProvider(this.ref, [SessionModel sessionModel = _initial]) : super(sessionModel) {
+    if (kIsWeb) {
+      return;
+    }
     init(true);
   }
 
@@ -390,6 +393,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
     final url = state.remoteInfo!.snapshot.url;
 
     showDialog(
+        barrierDismissible: false,
         context: rootNavigatorKey.currentContext!,
         builder: (context) {
           return SnapshotDownloader(

@@ -1,7 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/components/big_button.dart';
+import 'package:rbx_wallet/features/smart_contracts/screens/smart_contract_wizard_screen.dart';
+import '../../../core/components/big_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/base_screen.dart';
@@ -44,17 +45,17 @@ class WebSmartContractLandingScreen extends BaseScreen {
 
     return Stack(
       children: [
-        Image.asset(
-          Assets.images.gridBg.path,
-          width: double.infinity,
-          height: double.infinity,
-          fit: BoxFit.cover,
-        ),
+        // Image.asset(
+        //   Assets.images.gridBg.path,
+        //   width: double.infinity,
+        //   height: double.infinity,
+        //   fit: BoxFit.cover,
+        // ),
         Container(
           width: double.infinity,
           height: double.infinity,
           decoration: const BoxDecoration(
-            color: Colors.black38,
+            color: Colors.black,
             border: Border(
                 // top: BorderSide(color: Colors.white30, width: 2),
                 // bottom: BorderSide(color: Colors.white30, width: 2),
@@ -73,6 +74,17 @@ class WebSmartContractLandingScreen extends BaseScreen {
                     body: "Start with a baseline smart contract and add customized features",
                     onPressed: () {
                       AutoRouter.of(context).push(const WebCreateSmartContractScreenRoute());
+                    },
+                  ),
+                  BigButton(
+                    title: "Mint NFT Collection",
+                    iconData: Icons.auto_awesome,
+                    body: "Mint multiple Smart Contracts into a collection",
+                    onPressed: () {
+                      AutoRouter.of(context).push(WebSmartContractWizardScreenRoute());
+                      // Navigator.of(context).push(
+                      //   MaterialPageRoute(builder: (context) => const SmartContractWizardScreen()),
+                      // );
                     },
                   ),
                   BigButton(

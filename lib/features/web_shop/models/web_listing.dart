@@ -1,7 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/features/web_shop/models/web_collection.dart';
-
-import 'web_nft.dart';
+import '../../nft/models/nft.dart';
+import '../../nft/models/web_nft.dart';
+import 'web_auction.dart';
+import 'web_bid.dart';
+import 'web_collection.dart';
 
 part 'web_listing.freezed.dart';
 part 'web_listing.g.dart';
@@ -16,8 +18,9 @@ class WebListing with _$WebListing {
 
   factory WebListing({
     required int id,
+    @JsonKey(name: "listing_id") required int listingId,
     @JsonKey(toJson: collectionToJson) required WebCollection collection,
-    required WebNft nft,
+    @JsonKey(includeToJson: false) WebNft? nft,
     @JsonKey(name: "smart_contract_uid") required String smartContractUid,
     @JsonKey(name: "owner_address") required String ownerAddress,
     @JsonKey(name: "winning_address") String? winningAddress,
@@ -29,14 +32,19 @@ class WebListing with _$WebListing {
     @JsonKey(name: "end_date") required DateTime endDate,
     @JsonKey(name: "is_visible_before_start_date") required bool isVisibleBeforeStartDate,
     @JsonKey(name: "is_visible_after_end_date") required bool isVisibleAfterEndDate,
-    @JsonKey(name: "thumbnails_fetched") required bool thumbnailsFetched,
-    @JsonKey(name: "IsCancelled") @Default(false) bool isCancelled,
-    @JsonKey(name: "IsAuctionStarted") @Default(true) bool isAuctionStarted,
-    @JsonKey(name: "IsAuctionEnded") @Default(false) bool isAuctionEnded,
+    @JsonKey(name: "is_cancelled") @Default(false) bool isCancelled,
+    @JsonKey(name: "has_started") @Default(true) bool isAuctionStarted,
+    @JsonKey(name: "has_ended") @Default(false) bool isAuctionEnded,
+    @JsonKey(name: "is_sale_complete") @Default(true) bool isSaleComplete,
+    @JsonKey(name: "is_sale_pending") @Default(true) bool isSalePending,
+    @JsonKey(name: "purchase_key") @Default("") String purchaseKey,
     @Default(false) @JsonKey(ignore: true) bool enableBuyNow,
     @Default(false) @JsonKey(ignore: true) bool enableAuction,
     @Default(false) @JsonKey(ignore: true) bool enableReservePrice,
+    @Default(false) @JsonKey(ignore: true) bool galleryOnly,
     @JsonKey(defaultValue: []) required List<String> thumbnails,
+    @Default(null) WebAuction? auction,
+    @Default([]) List<WebBid> bids,
   }) = _WebListing;
 
   factory WebListing.fromJson(Map<String, dynamic> json) => _$WebListingFromJson(json);
@@ -45,21 +53,28 @@ class WebListing with _$WebListing {
         id: 0,
         smartContractUid: '',
         ownerAddress: '',
-        nft: WebNft.empty(),
         startDate: DateTime.now(),
-        endDate: DateTime.now(),
+        endDate: DateTime.now().add(Duration(days: 7)),
         collection: WebCollection.empty(),
         isVisibleAfterEndDate: false,
         isVisibleBeforeStartDate: false,
         isAuctionStarted: true,
         thumbnails: [],
-        thumbnailsFetched: false,
+        listingId: 0,
       );
 
   bool get isActive {
+    if (isSalePending || isSaleComplete) {
+      return false;
+    }
+
     final now = DateTime.now();
     return startDate.isBefore(now) && endDate.isAfter(now);
   }
+
+  // Nft? get nft {
+  //   return nft?.smartContract;
+  // }
 
   bool get exists {
     return id != 0;

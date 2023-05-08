@@ -1,17 +1,17 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/app.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/core/utils.dart';
-import 'package:rbx_wallet/features/chat/models/chat_message.dart';
-import 'package:rbx_wallet/features/chat/services/chat_service.dart';
+import '../../../app.dart';
+import '../../../core/app_router.gr.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../core/utils.dart';
+import '../models/chat_message.dart';
+import '../services/chat_service.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:collection/collection.dart';
-import 'package:rbx_wallet/features/transactions/models/transaction_notification.dart';
-import 'package:rbx_wallet/features/transactions/providers/transaction_notification_provider.dart';
+import '../../transactions/models/transaction_notification.dart';
+import '../../transactions/providers/transaction_notification_provider.dart';
 
 part 'chat_notification_provider.freezed.dart';
 
@@ -103,7 +103,7 @@ class ChatNotificationProvider extends StateNotifier<List<ChatNotificationModel>
           if (isSeller) {
             AutoRouter.of(context).push(SellerChatScreenRoute(address: entry.identifer));
           } else {
-            AutoRouter.of(context).push(ShopChatScreenRoute(shopUrl: entry.identifer));
+            AutoRouter.of(context).push(ShopChatScreenRoute(url: entry.identifer));
           }
         });
 

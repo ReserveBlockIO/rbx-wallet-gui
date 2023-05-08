@@ -1,9 +1,10 @@
 import 'dart:convert';
 
-import 'package:rbx_wallet/features/chat/models/chat_message.dart';
-import 'package:rbx_wallet/features/chat/models/chat_payload.dart';
-import 'package:rbx_wallet/features/chat/models/chat_thread.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import 'package:flutter/foundation.dart';
+import '../models/chat_message.dart';
+import '../models/chat_payload.dart';
+import '../models/chat_thread.dart';
+import '../../../utils/toast.dart';
 
 import '../../../core/services/base_service.dart';
 
@@ -11,6 +12,9 @@ class ChatService extends BaseService {
   ChatService() : super(apiBasePathOverride: "/dstapi/DSTV1");
 
   Future<List<ChatThread>> listSellerChatThreads() async {
+    if (kIsWeb) {
+      return [];
+    }
     try {
       final response = await getText("/GetSummaryChatMessages", cleanPath: false);
 
@@ -30,6 +34,9 @@ class ChatService extends BaseService {
   }
 
   Future<List<ChatThread>> listBuyerChatThreads() async {
+    if (kIsWeb) {
+      return [];
+    }
     try {
       final response = await getText("/GetSimpleShopChatMessages", cleanPath: false);
 

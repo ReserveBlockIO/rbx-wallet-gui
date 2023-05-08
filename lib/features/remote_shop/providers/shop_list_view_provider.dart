@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/remote_shop/providers/remote_shop_expanded_listings_provider.dart';
+import 'remote_shop_expanded_listings_provider.dart';
 
 class ShopListViewProvider extends StateNotifier<bool> {
   final Ref ref;

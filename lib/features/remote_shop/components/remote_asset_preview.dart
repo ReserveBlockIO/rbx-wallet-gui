@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
+import '../../nft/models/nft.dart';
 
 class RemoteThumbnailPreview extends StatelessWidget {
   final double width;

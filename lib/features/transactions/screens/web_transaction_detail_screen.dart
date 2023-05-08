@@ -3,7 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/services/explorer_service.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../web_shop/providers/web_shop_bid_provider.dart';
+import '../../web_shop/services/web_shop_service.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../web_shop/components/complete_sale_button.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/base_screen.dart';
@@ -37,7 +43,7 @@ class WebTransactionDetailScreen extends BaseScreen {
       actions: [
         IconButton(
           onPressed: () {
-            launchUrl(Uri.parse("${Env.explorerWebsiteBaseUrl}/transaction/$hash"));
+            launchUrl(Uri.parse("${Env.baseExplorerUrl}/transaction/$hash"));
           },
           icon: const Icon(Icons.open_in_new),
         )
@@ -68,23 +74,23 @@ class _TransactionDetails extends BaseComponent {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final address = ref.read(webSessionProvider).keypair?.public;
+    final address = ref.read(webSessionProvider).keypair?.address;
 
     return SingleChildScrollView(
-      child: buildContent(context, address),
+      child: buildContent(context, address, ref),
     );
   }
 
   // @override
   // Widget desktopBody(BuildContext context, WidgetRef ref) {
-  //   final address = ref.read(webSessionProvider).keypair?.public;
+  //   final address = ref.read(webSessionProvider).keypair?.address;
 
   //   return SingleChildScrollView(
   //     child: buildContent(context, address),
   //   );
   // }
 
-  Padding buildContent(BuildContext context, String? address) {
+  Padding buildContent(BuildContext context, String? address, WidgetRef ref) {
     final DateFormat formatter = DateFormat('MM-dd-yyyy hh:mm a');
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -92,78 +98,134 @@ class _TransactionDetails extends BaseComponent {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Card(
-            color: Colors.white10,
-            child: ListTile(
-              title: SelectableText(tx.hash),
-              subtitle: const Text("Tx Hash"),
-              trailing: IconButton(
-                icon: const Icon(Icons.copy),
-                onPressed: () {
-                  copyToClipboard(tx.hash);
-                },
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+                child: CompleteSaleButton(
+              tx: tx,
+              fallbackWidget: SizedBox(),
+            )),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(boxShadow: glowingBox),
+              child: Card(
+                color: Colors.black,
+                child: ListTile(
+                  title: SelectableText(tx.hash),
+                  subtitle: const Text("Tx Hash"),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.copy),
+                    onPressed: () {
+                      copyToClipboard(tx.hash);
+                    },
+                  ),
+                ),
               ),
             ),
           ),
-          Card(
-            color: Colors.white10,
-            child: ListTile(
-              title: Text(formatter.format(tx.date)),
-              subtitle: const Text("Date"),
-            ),
-          ),
-          Card(
-            color: Colors.white10,
-            child: ListTile(
-              title: Text("${tx.height}"),
-              subtitle: const Text("Block Height"),
-            ),
-          ),
-          Card(
-            color: Colors.white10,
-            child: ListTile(
-              title: Text(tx.typeLabel),
-              subtitle: const Text("Tx Type"),
-            ),
-          ),
-          Card(
-            color: Colors.white10,
-            child: ListTile(
-              title: SelectableText("${tx.toAddress} ${address == tx.toAddress ? '[ME]' : ''}"),
-              subtitle: const Text("To"),
-              trailing: IconButton(
-                icon: const Icon(Icons.copy),
-                onPressed: () {
-                  copyToClipboard(tx.toAddress);
-                },
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(boxShadow: glowingBox),
+              child: Card(
+                color: Colors.black,
+                child: ListTile(
+                  title: Text(formatter.format(tx.date)),
+                  subtitle: const Text("Date"),
+                ),
               ),
             ),
           ),
-          Card(
-            color: Colors.white10,
-            child: ListTile(
-              title: SelectableText("${tx.fromAddress} ${address == tx.fromAddress ? '[ME]' : ''}"),
-              subtitle: const Text("From"),
-              trailing: IconButton(
-                icon: const Icon(Icons.copy),
-                onPressed: () {
-                  copyToClipboard(tx.fromAddress);
-                },
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(boxShadow: glowingBox),
+              child: Card(
+                color: Colors.black,
+                child: ListTile(
+                  title: Text("${tx.height}"),
+                  subtitle: const Text("Block Height"),
+                ),
               ),
             ),
           ),
-          Card(
-            color: Colors.white10,
-            child: ListTile(
-              title: Text("${tx.amount} RBX"),
-              subtitle: const Text("Amount"),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(boxShadow: glowingBox),
+              child: Card(
+                color: Colors.black,
+                child: ListTile(
+                  title: Text(tx.typeLabel),
+                  subtitle: const Text("Tx Type"),
+                ),
+              ),
             ),
           ),
-          Card(
-            color: Colors.white10,
-            child: ListTile(
-              title: Text("${tx.fee} RBX"),
-              subtitle: const Text("Fee"),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(boxShadow: glowingBox),
+              child: Card(
+                color: Colors.black,
+                child: ListTile(
+                  title: SelectableText("${tx.toAddress} ${address == tx.toAddress ? '[ME]' : ''}"),
+                  subtitle: const Text("To"),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.copy),
+                    onPressed: () {
+                      copyToClipboard(tx.toAddress);
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(boxShadow: glowingBox),
+              child: Card(
+                color: Colors.black,
+                child: ListTile(
+                  title: SelectableText("${tx.fromAddress} ${address == tx.fromAddress ? '[ME]' : ''}"),
+                  subtitle: const Text("From"),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.copy),
+                    onPressed: () {
+                      copyToClipboard(tx.fromAddress);
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(boxShadow: glowingBox),
+              child: Card(
+                color: Colors.black,
+                child: ListTile(
+                  title: Text("${tx.subTxAmount ?? tx.amount} RBX"),
+                  subtitle: const Text("Amount"),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(boxShadow: glowingBox),
+              child: Card(
+                color: Colors.black,
+                child: ListTile(
+                  title: Text("${tx.fee} RBX"),
+                  subtitle: const Text("Fee"),
+                ),
+              ),
             ),
           ),
           // ListTile(

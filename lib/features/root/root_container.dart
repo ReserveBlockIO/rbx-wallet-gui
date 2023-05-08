@@ -2,7 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/validator/components/validating_status.dart';
+import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/features/chat/components/web_chat_notifier.dart';
+import '../validator/components/validating_status.dart';
 
 import '../../app.dart';
 import '../../core/app_router.gr.dart';
@@ -37,7 +39,7 @@ class RootContainer extends BaseComponent {
       const AdnrTabRouter(),
       const VotingTabRouter(),
       const BeaconTabRouter(),
-      if (kDebugMode) const DebugWebShopTabsRouter(),
+      // if (kDebugMode) const DebugWebShopTabsRouter(),
     ];
 
     return AutoTabsScaffold(
@@ -126,6 +128,7 @@ class RootContainer extends BaseComponent {
                       ),
                     ),
                   ),
+                WebChatNotifier(ref: ref, address: ref.watch(sessionProvider).currentWallet?.address),
                 Expanded(
                   child: Row(
                     children: [

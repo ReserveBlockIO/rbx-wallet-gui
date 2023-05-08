@@ -140,7 +140,7 @@ class ConfirmDialog {
     );
   }
 
-  static show({
+  static Future<bool?> show({
     required String title,
     Widget? content,
     String? body,
@@ -186,8 +186,9 @@ class PromptModal {
     TextInputType? keyboardType,
     Function(String)? onValidSubmission,
     List<TextInputFormatter> inputFormatters = const [],
-    final bool popOnValidSubmission = true,
-    final Widget? titleTrailing,
+    bool popOnValidSubmission = true,
+    Widget? titleTrailing,
+    String? prefixText,
   }) async {
     // final context = rootNavigatorKey.currentContext!;
     final context = contextOverride ?? rootScaffoldKey.currentContext!;
@@ -244,6 +245,7 @@ class PromptModal {
                             keyboardType: keyboardType,
                             decoration: InputDecoration(
                               label: Text(labelText),
+                              prefixText: prefixText,
                             ),
                             validator: validator,
                             inputFormatters: inputFormatters,
@@ -360,6 +362,8 @@ class AuthModal {
       Navigator.of(context).pop();
     }
 
+    bool obscuringPassword = true;
+
     return await showDialog(
       context: context,
       barrierDismissible: true,
@@ -401,20 +405,38 @@ class AuthModal {
                       validator: formValidatorEmail,
                       keyboardType: TextInputType.emailAddress,
                     ),
-                    TextFormField(
-                      controller: _passwordController,
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        hintText: "Password",
-                      ),
-                      validator: formValidatorPassword,
-                      keyboardType: TextInputType.emailAddress,
-                      onFieldSubmitted: (_) {
-                        if (!forCreate) {
-                          submit(context);
-                        }
-                      },
-                    ),
+                    StatefulBuilder(builder: (context, setState) {
+                      return Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              controller: _passwordController,
+                              obscureText: obscuringPassword,
+                              decoration: const InputDecoration(
+                                hintText: "Password",
+                              ),
+                              validator: formValidatorPassword,
+                              keyboardType: TextInputType.emailAddress,
+                              onFieldSubmitted: (_) {
+                                if (!forCreate) {
+                                  submit(context);
+                                }
+                              },
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              setState(() {
+                                obscuringPassword = !obscuringPassword;
+                              });
+                            },
+                            icon: Icon(
+                              obscuringPassword ? Icons.remove_red_eye : Icons.hide_source_outlined,
+                            ),
+                          )
+                        ],
+                      );
+                    }),
                     if (forCreate)
                       TextFormField(
                         controller: _confirmPasswordController,

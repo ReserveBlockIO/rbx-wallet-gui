@@ -1,10 +1,13 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/models/web_session_model.dart';
-import 'package:rbx_wallet/core/web_router.gr.dart';
-import 'package:rbx_wallet/features/transactions/providers/web_transaction_list_provider.dart';
+import '../models/web_session_model.dart';
+import '../web_router.gr.dart';
+import '../../features/transactions/providers/web_transaction_list_provider.dart';
+import '../../features/web_shop/providers/web_listed_nfts_provider.dart';
+import '../../utils/html_helpers.dart';
 
 import '../../app.dart';
 import '../../features/keygen/models/keypair.dart';
@@ -21,6 +24,9 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
   late final Timer loopTimer;
 
   WebSessionProvider(this.ref, WebSessionModel model) : super(model) {
+    if (!kIsWeb) {
+      return;
+    }
     loopTimer = Timer.periodic(const Duration(seconds: REFRESH_TIMEOUT_SECONDS), (_) => loop());
     init();
   }
@@ -33,13 +39,14 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
       if (savedKeypair != null) {
         final keypair = Keypair.fromJson(savedKeypair);
         login(keypair, false);
+        ref.read(webTransactionListProvider(keypair.address).notifier);
       }
     } else {
       Future.delayed(const Duration(milliseconds: 500), () {
         final context = rootNavigatorKey.currentContext;
 
         //TODO set whitelisted routes
-        if (context != null) AutoRouter.of(context).replace(const WebAuthRouter());
+        // if (context != null) AutoRouter.of(context).replace(const WebAuthRouter());
       });
       state = state.copyWith(isAuthenticated: false);
     }
@@ -62,7 +69,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     state = state.copyWith(keypair: keypair, isAuthenticated: true);
     loop();
 
-    ref.read(webTransactionListProvider.notifier).load(keypair.public, true);
+    // ref.read(webTransactionListProvider(keypair.address).notifier).init();
   }
 
   void loop() async {
@@ -74,7 +81,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     if (state.keypair == null) {
       return;
     }
-    final webAddress = await ExplorerService().getWebAddress(state.keypair!.public);
+    final webAddress = await ExplorerService().getWebAddress(state.keypair!.address);
 
     state = state.copyWith(
       balance: webAddress.balance,
@@ -86,7 +93,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
   //   if (state.keypair == null) {
   //     return;
   //   }
-  //   final balance = await ExplorerService().getBalance(state.keypair!.public);
+  //   final balance = await ExplorerService().getBalance(state.keypair!.address);
 
   //   state = state.copyWith(balance: balance);
   // }
@@ -95,14 +102,20 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     if (state.keypair == null) {
       return;
     }
-    ref.read(nftListProvider.notifier).load(1, state.keypair!.email, state.keypair!.public);
+    ref.read(nftListProvider.notifier).load(1, state.keypair!.email, state.keypair!.address);
+    ref.read(webListedNftsProvider.notifier).refresh();
   }
 
   Future<void> logout() async {
     singleton<Storage>().remove(Storage.WEB_KEYPAIR);
-    state = WebSessionModel();
+    // state = WebSessionModel();
 
     await Future.delayed(const Duration(milliseconds: 150));
+
+    HtmlHelpers().redirect("/");
+    await Future.delayed(const Duration(milliseconds: 150));
+
+    HtmlHelpers().reload();
   }
 }
 

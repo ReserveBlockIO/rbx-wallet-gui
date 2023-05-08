@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:rbx_wallet/features/reserve/models/new_reserve_account.dart';
-import 'package:rbx_wallet/features/wallet/models/wallet.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../models/new_reserve_account.dart';
+import '../../wallet/models/wallet.dart';
+import '../../../utils/toast.dart';
 
 import '../../../core/services/base_service.dart';
 
@@ -127,7 +127,7 @@ class ReserveAccountService extends BaseService {
     };
 
     try {
-      final response = await postJson("/SendReserveTransaction", params: params, inspect: true);
+      final response = await postJson("/SendReserveTransaction", params: params);
       final data = response['data'];
 
       if (data['Success'] != null && data['Success'] == true) {
@@ -197,7 +197,7 @@ class ReserveAccountService extends BaseService {
       print(jsonEncode(params));
       print("**********");
 
-      final response = await postJson(url, timeout: 0, params: params, inspect: true, cleanPath: false);
+      final response = await postJson(url, timeout: 0, params: params, cleanPath: false);
       final data = response['data'];
 
       if (data['Success'] == true) {
@@ -216,7 +216,7 @@ class ReserveAccountService extends BaseService {
 
   Future<bool> downloadAssets(String scId, String address, String password) async {
     try {
-      final response = await getText("/GetReserveAccountNFTAssets/$scId/$address/$password", cleanPath: false, inspect: true);
+      final response = await getText("/GetReserveAccountNFTAssets/$scId/$address/$password", cleanPath: false);
       final data = jsonDecode(response);
 
       if (data['Success'] == true) {

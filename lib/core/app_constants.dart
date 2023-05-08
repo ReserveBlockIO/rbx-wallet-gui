@@ -1,6 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
-const APP_V = "3.6.0";
+const APP_V = "3.7.0";
 const APP_VERSION = "beta$APP_V";
 
 const REFRESH_TIMEOUT_SECONDS = 10;
@@ -11,10 +11,18 @@ const DELETE_DRAFT_ON_MINT = true;
 const USD_TO_RBX = 5.0;
 const ASSURED_AMOUNT_TO_VALIDATE = 12000.0;
 const ADNR_COST = 5.0;
+// const ADNR_TRANSFER_COST = 1.0;
+// const ADNR_DELETE_COST = 0.0;
+const ADNR_TRANSFER_COST = 5.0;
+const ADNR_DELETE_COST = 5.0;
+
 const VOTE_TOPIC_COST = 10.0;
 const MAX_COMPILE_QUANTITY = 10;
 const MAX_ASSET_BYTES = 157286400;
 const DEV_API_TOKEN = "devtoken";
+const SHOP_PUBLISH_COST = 10.0;
+const SHOP_DELETE_COST = 10.0;
+const SHOP_UPDATE_COST = 1.0;
 
 class TxType {
   static const int rbxTransfer = 0;

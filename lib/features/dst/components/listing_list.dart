@@ -3,15 +3,14 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/badges.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/asset/polling_image_preview.dart';
-import 'package:rbx_wallet/features/dst/providers/listing_form_provider.dart';
-import 'package:rbx_wallet/features/dst/providers/listing_list_provider.dart';
-import 'package:rbx_wallet/features/dst/services/dst_service.dart';
+import '../../../core/app_router.gr.dart';
+import '../../../core/base_component.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/theme/app_theme.dart';
+import '../providers/listing_form_provider.dart';
+import '../providers/listing_list_provider.dart';
+import '../services/dst_service.dart';
+import '../../../core/components/poller.dart';
 
 class ListingList extends BaseComponent {
   const ListingList(this.collectionId, {Key? key}) : super(key: key);
@@ -24,7 +23,7 @@ class ListingList extends BaseComponent {
     return listings.isNotEmpty
         ? Column(
             children: [
-              _Poller(
+              Poller(
                 pollFunction: () {
                   ref.read(listingListProvider(collectionId).notifier).refresh();
                 },
@@ -78,9 +77,9 @@ class ListingList extends BaseComponent {
                         title: Text(listing.nft != null ? listing.nft!.name : listing.smartContractUid),
                         subtitle: listing.deactivateForSeller
                             ? Text(
-                                "Completed",
+                                listing.saleHasFailed ? "Sale Complete TX Failed" : "Completed",
                                 style: TextStyle(
-                                  color: Theme.of(context).colorScheme.warning,
+                                  color: listing.saleHasFailed ? Theme.of(context).colorScheme.danger : Theme.of(context).colorScheme.success,
                                   fontWeight: FontWeight.w600,
                                 ),
                               )
@@ -88,18 +87,28 @@ class ListingList extends BaseComponent {
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            if (listing.isAuction) ...[
-                              AppButton(
-                                label: "Activity",
-                                variant: AppColorVariant.Success,
-                                onPressed: () {
-                                  AutoRouter.of(context).push(ListingAuctionDetailScreenRoute(listingId: listing.id));
-                                },
+                            if (listing.saleHasFailed)
+                              Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: AppButton(
+                                  label: "Complete Sale",
+                                  variant: AppColorVariant.Warning,
+                                  onPressed: () {
+                                    DstService().retrySale(listing.id);
+                                  },
+                                ),
                               ),
-                              SizedBox(
-                                width: 8,
+                            if (listing.isAuction)
+                              Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: AppButton(
+                                  label: "Activity",
+                                  variant: AppColorVariant.Success,
+                                  onPressed: () {
+                                    AutoRouter.of(context).push(ListingAuctionDetailScreenRoute(listingId: listing.id));
+                                  },
+                                ),
                               ),
-                            ],
                             AppButton(
                               label: 'Delete',
                               variant: AppColorVariant.Danger,
@@ -165,40 +174,5 @@ class ListingList extends BaseComponent {
               ),
             ),
           );
-  }
-}
-
-class _Poller extends StatefulWidget {
-  final Function pollFunction;
-  const _Poller({
-    super.key,
-    required this.pollFunction,
-  });
-
-  @override
-  State<_Poller> createState() => __PollerState();
-}
-
-class __PollerState extends State<_Poller> {
-  late final Timer timer;
-
-  @override
-  void initState() {
-    timer = Timer.periodic(Duration(seconds: 15), (timer) {
-      widget.pollFunction();
-    });
-    super.initState();
-    widget.pollFunction();
-  }
-
-  @override
-  void dispose() {
-    timer.cancel();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return const SizedBox();
   }
 }

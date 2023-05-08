@@ -1,15 +1,20 @@
 import 'dart:convert';
 
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/app.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/features/dst/providers/dec_shop_provider.dart';
-import 'package:rbx_wallet/features/dst/providers/dst_tx_pending_provider.dart';
-import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import 'package:rbx_wallet/features/web_shop/providers/web_listing_list_provider.dart';
+import 'package:rbx_wallet/features/web_shop/providers/web_shop_list_provider.dart';
+import '../../../app.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/env.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../dst/providers/dec_shop_provider.dart';
+import '../../dst/providers/dst_tx_pending_provider.dart';
+import '../../remote_shop/services/remote_shop_service.dart';
+import 'web_transaction_list_provider.dart';
+import '../../../utils/toast.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/providers/session_provider.dart';
@@ -26,7 +31,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
   TransactionSignalProvider(this.ref) : super([]);
 
   List<String> get _addresses {
-    return ref.read(walletListProvider).map((w) => w.address).toList();
+    return kIsWeb ? ["${ref.read(webSessionProvider).keypair?.address}"] : ref.read(walletListProvider).map((w) => w.address).toList();
   }
 
   bool _hasAddress(String address) {
@@ -34,6 +39,11 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
   }
 
   void insert(Transaction transaction) {
+    final threshold = (DateTime.now().subtract(Duration(minutes: 5)).millisecondsSinceEpoch / 1000).round();
+    if (transaction.timestamp < threshold) {
+      return;
+    }
+
     if (state.firstWhereOrNull((t) => t.hash == transaction.hash) == null) {
       state = [...state, transaction];
       _handle(transaction);
@@ -86,10 +96,6 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
     bool isOutgoing = false,
     bool isIncoming = false,
   }) {
-    if (Env.isTestNet) {
-      return;
-    }
-
     if (isIncoming) {
       _broadcastNotification(
         TransactionNotification(
@@ -112,6 +118,13 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
         ),
       );
     }
+
+    if (kIsWeb) {
+      final address = ref.read(webSessionProvider).keypair?.address;
+      if (address != null) {
+        ref.read(webTransactionListProvider(address).notifier).checkForNew(address);
+      }
+    }
   }
 
   void _handleNftMint(Transaction transaction) {
@@ -124,7 +137,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       TransactionNotification(identifier: transaction.hash, transaction: transaction, title: "NFT Minted", body: body, icon: Icons.lightbulb_outline),
     );
 
-    ref.read(sessionProvider.notifier).smartContractLoop(false);
+    kIsWeb ? ref.read(webSessionProvider.notifier).getNfts() : ref.read(sessionProvider.notifier).smartContractLoop(false);
   }
 
   void _handleVoteTopic(Transaction transaction) {
@@ -171,7 +184,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
               body: "NFT evolved to state $evoState.",
               icon: Icons.change_circle),
         );
-        ref.read(sessionProvider.notifier).smartContractLoop(false);
+        kIsWeb ? ref.read(webSessionProvider.notifier).getNfts() : ref.read(sessionProvider.notifier).smartContractLoop(false);
 
         return;
       }
@@ -206,7 +219,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       );
     }
 
-    ref.read(sessionProvider.notifier).smartContractLoop(false);
+    kIsWeb ? ref.read(webSessionProvider.notifier).getNfts() : ref.read(sessionProvider.notifier).smartContractLoop(false);
   }
 
   void _handleAdnr(Transaction transaction) {
@@ -282,7 +295,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
         color: AppColorVariant.Danger,
       ),
     );
-    ref.read(sessionProvider.notifier).smartContractLoop(false);
+    kIsWeb ? ref.read(webSessionProvider.notifier).getNfts() : ref.read(sessionProvider.notifier).smartContractLoop(false);
   }
 
   void _handleNftSale(Transaction transaction) async {
@@ -313,6 +326,10 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
           color: AppColorVariant.Success,
         ),
       );
+
+      // if (kIsWeb) {
+      //   ref.read(webListingListProvider().notifier).refresh();
+      // }
     }
   }
 
@@ -346,8 +363,12 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
   }
 
   void _handleDstShop(Transaction transaction) {
-    ref.invalidate(decShopProvider);
-    ref.read(dstTxPendingProvider.notifier).set(false);
+    if (kIsWeb) {
+      ref.read(webShopListProvider(WebShopListType.mine).notifier).refresh();
+    } else {
+      ref.invalidate(decShopProvider);
+      ref.read(dstTxPendingProvider.notifier).set(false);
+    }
 
     _broadcastNotification(
       TransactionNotification(

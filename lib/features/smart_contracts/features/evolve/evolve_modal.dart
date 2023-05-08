@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/utils.dart';
-import 'package:rbx_wallet/features/sc_property/components/property_modal.dart';
-import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
-import 'package:rbx_wallet/features/sc_property/providers/edit_sc_property_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
+import '../../../../core/utils.dart';
+import '../../../sc_property/components/property_modal.dart';
+import '../../../sc_property/models/sc_property.dart';
+import '../../../sc_property/providers/edit_sc_property_provider.dart';
+import '../../providers/create_smart_contract_provider.dart';
 
 import '../../../../core/base_component.dart';
 import '../../../../core/components/buttons.dart';

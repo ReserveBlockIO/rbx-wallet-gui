@@ -1,4 +1,12 @@
-import 'package:rbx_wallet/features/web/models/web_address.dart';
+import 'dart:convert';
+import 'dart:typed_data';
+
+import '../app_constants.dart';
+import '../../features/adnr/models/adnr_response.dart';
+import '../../features/nft/models/web_nft.dart';
+import '../../features/web/models/web_address.dart';
+import '../../utils/toast.dart';
+import '../../features/keygen/models/keypair.dart';
 
 import '../../features/nft/models/nft.dart';
 import '../../features/node/models/masternode.dart';
@@ -7,6 +15,8 @@ import '../../features/web/models/paginated_response.dart';
 import '../../features/web/models/web_block.dart';
 import '../env.dart';
 import 'base_service.dart';
+import 'package:dio/dio.dart';
+import '../../features/web/utils/raw_transaction.dart';
 
 class ExplorerService extends BaseService {
   ExplorerService()
@@ -98,13 +108,40 @@ class ExplorerService extends BaseService {
     }
   }
 
-  Future<List<Nft>> listNfts() async {
+  Future<List<Nft>> listNfts(String ownerAddress) async {
     try {
-      final response = await getJson('/nfts');
+      final response = await getJson('/nft/', params: {'owner_address': ownerAddress});
 
-      final items = response['results'] as List<dynamic>;
+      // final items = response['results'] as List<dynamic>;
 
-      return items.map((n) => Nft.fromJson(n['data'])).toList();
+      final List<Nft> results = response['results'].map<Nft>((json) => WebNft.fromJson(json).smartContract).toList();
+      return results;
+      // return items.map((n) => Nft.fromJson(n['data'])).toList();
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  Future<List<Nft>> listMintedNfts(String minterAddress) async {
+    try {
+      final response = await getJson('/nft/', params: {'minter_address': minterAddress});
+
+      // final items = response['results'] as List<dynamic>;
+
+      final List<Nft> results = response['results'].map<Nft>((json) => WebNft.fromJson(json).smartContract).toList();
+      return results;
+      // return items.map((n) => Nft.fromJson(n['data'])).toList();
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  Future<List<String>> listedNftIds(String ownerAddress) async {
+    try {
+      final response = await getJson('/nft/listed/$ownerAddress/');
+      return response['results'].map<String>((id) => id.toString()).toList() as List<String>;
     } catch (e) {
       print(e);
       return [];
@@ -113,9 +150,20 @@ class ExplorerService extends BaseService {
 
   Future<Nft?> retrieveNft(String id) async {
     try {
-      final response = await getJson('/nfts/$id');
+      final response = await getJson('/nft/$id');
 
-      return Nft.fromJson(response['data']);
+      return WebNft.fromJson(response).smartContract;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<WebNft?> retrieveWebNft(String id) async {
+    try {
+      final response = await getJson('/nft/$id');
+
+      return WebNft.fromJson(response);
     } catch (e) {
       print(e);
       return null;
@@ -129,5 +177,20 @@ class ExplorerService extends BaseService {
     } catch (e) {
       return true;
     }
+  }
+
+  Future<String?> uploadAsset(Uint8List bytes, String filename, String? ext) async {
+    FormData body = FormData();
+
+    final MultipartFile file = MultipartFile.fromBytes(bytes, filename: filename);
+    MapEntry<String, MultipartFile> entry = MapEntry("file", file);
+
+    body.files.add(entry);
+
+    final response = await postFormData('/media/', data: body);
+
+    if (!response.containsKey("url")) return null;
+
+    return response['url'];
   }
 }

@@ -3,8 +3,8 @@ import 'dart:math' as math;
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/features/validator/providers/validating_status_provider.dart';
+import '../../../core/app_constants.dart';
+import '../providers/validating_status_provider.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/components/buttons.dart';
@@ -237,7 +237,7 @@ class ValidatorScreen extends BaseScreen {
                     cancelText: "Cancel",
                   );
 
-                  if (confirmed) {
+                  if (confirmed == true) {
                     ref.read(sessionProvider.notifier).restartCli();
                     Toast.message("Restarting CLI...");
                   }

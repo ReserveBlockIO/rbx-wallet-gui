@@ -4,10 +4,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+import '../../core/dialogs.dart';
+import '../reserve/services/reserve_account_service.dart';
+import '../../utils/toast.dart';
+import '../../utils/validation.dart';
 
 import '../../core/components/buttons.dart';
 import '../nft/providers/minted_nft_list_provider.dart';

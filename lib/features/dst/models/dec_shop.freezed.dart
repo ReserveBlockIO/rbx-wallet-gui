@@ -30,6 +30,10 @@ mixin _$DecShop {
   @JsonKey(name: "DecShopURL")
   String get url =>
       throw _privateConstructorUsedError; //* submit  // * updating when published
+  @JsonKey(name: "ThirdPartyBaseURL")
+  String? get thirdPartyBaseUrl => throw _privateConstructorUsedError;
+  @JsonKey(name: "ThirdPartyAPIURL")
+  String? get thirdParyApiUrl => throw _privateConstructorUsedError;
   @JsonKey(name: "Description")
   String get description =>
       throw _privateConstructorUsedError; //* submit  // * updating when published
@@ -43,6 +47,8 @@ mixin _$DecShop {
   @JsonKey(name: "Port")
   int get port =>
       throw _privateConstructorUsedError; //* submit IF self hosted  // * updating
+  @JsonKey(name: "STUNServerGroup")
+  int get stunServerGroup => throw _privateConstructorUsedError;
   @JsonKey(name: "OriginalBlockHeight")
   double get originalBlockHeight => throw _privateConstructorUsedError;
   @JsonKey(name: "OriginalTXHash")
@@ -63,6 +69,12 @@ mixin _$DecShop {
       throw _privateConstructorUsedError; // * updating when published
   @JsonKey(name: "IsPublished")
   bool get isPublished => throw _privateConstructorUsedError;
+  @JsonKey(name: "CollectionCount")
+  int get collectionCount => throw _privateConstructorUsedError;
+  @JsonKey(name: "ListingCount")
+  int get listingCount => throw _privateConstructorUsedError;
+  @JsonKey(name: "AuctionCount")
+  int get auctionCount => throw _privateConstructorUsedError;
   @JsonKey(name: "IsIPDifferent")
   bool get ipIsDifferent => throw _privateConstructorUsedError;
 
@@ -81,11 +93,14 @@ abstract class $DecShopCopyWith<$Res> {
       @JsonKey(name: "UniqueId") String uuid,
       @JsonKey(name: "Name") String name,
       @JsonKey(name: "DecShopURL") String url,
+      @JsonKey(name: "ThirdPartyBaseURL") String? thirdPartyBaseUrl,
+      @JsonKey(name: "ThirdPartyAPIURL") String? thirdParyApiUrl,
       @JsonKey(name: "Description") String description,
       @JsonKey(name: "OwnerAddress") String? ownerAddress,
       @JsonKey(name: "HostingType") int type,
       @JsonKey(name: "IP") String ip,
       @JsonKey(name: "Port") int port,
+      @JsonKey(name: "STUNServerGroup") int stunServerGroup,
       @JsonKey(name: "OriginalBlockHeight") double originalBlockHeight,
       @JsonKey(name: "OriginalTXHash") String? originaTxHash,
       @JsonKey(name: "LatestBlockHeight") double latestBlockHeight,
@@ -95,6 +110,9 @@ abstract class $DecShopCopyWith<$Res> {
       @JsonKey(name: "NeedsPublishToNetwork") bool needsPublishToNetwork,
       @JsonKey(name: "IsOffline") bool isOffline,
       @JsonKey(name: "IsPublished") bool isPublished,
+      @JsonKey(name: "CollectionCount") int collectionCount,
+      @JsonKey(name: "ListingCount") int listingCount,
+      @JsonKey(name: "AuctionCount") int auctionCount,
       @JsonKey(name: "IsIPDifferent") bool ipIsDifferent});
 }
 
@@ -115,11 +133,14 @@ class _$DecShopCopyWithImpl<$Res, $Val extends DecShop>
     Object? uuid = null,
     Object? name = null,
     Object? url = null,
+    Object? thirdPartyBaseUrl = freezed,
+    Object? thirdParyApiUrl = freezed,
     Object? description = null,
     Object? ownerAddress = freezed,
     Object? type = null,
     Object? ip = null,
     Object? port = null,
+    Object? stunServerGroup = null,
     Object? originalBlockHeight = null,
     Object? originaTxHash = freezed,
     Object? latestBlockHeight = null,
@@ -129,6 +150,9 @@ class _$DecShopCopyWithImpl<$Res, $Val extends DecShop>
     Object? needsPublishToNetwork = null,
     Object? isOffline = null,
     Object? isPublished = null,
+    Object? collectionCount = null,
+    Object? listingCount = null,
+    Object? auctionCount = null,
     Object? ipIsDifferent = null,
   }) {
     return _then(_value.copyWith(
@@ -148,6 +172,14 @@ class _$DecShopCopyWithImpl<$Res, $Val extends DecShop>
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
+      thirdPartyBaseUrl: freezed == thirdPartyBaseUrl
+          ? _value.thirdPartyBaseUrl
+          : thirdPartyBaseUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      thirdParyApiUrl: freezed == thirdParyApiUrl
+          ? _value.thirdParyApiUrl
+          : thirdParyApiUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -167,6 +199,10 @@ class _$DecShopCopyWithImpl<$Res, $Val extends DecShop>
       port: null == port
           ? _value.port
           : port // ignore: cast_nullable_to_non_nullable
+              as int,
+      stunServerGroup: null == stunServerGroup
+          ? _value.stunServerGroup
+          : stunServerGroup // ignore: cast_nullable_to_non_nullable
               as int,
       originalBlockHeight: null == originalBlockHeight
           ? _value.originalBlockHeight
@@ -204,6 +240,18 @@ class _$DecShopCopyWithImpl<$Res, $Val extends DecShop>
           ? _value.isPublished
           : isPublished // ignore: cast_nullable_to_non_nullable
               as bool,
+      collectionCount: null == collectionCount
+          ? _value.collectionCount
+          : collectionCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      listingCount: null == listingCount
+          ? _value.listingCount
+          : listingCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      auctionCount: null == auctionCount
+          ? _value.auctionCount
+          : auctionCount // ignore: cast_nullable_to_non_nullable
+              as int,
       ipIsDifferent: null == ipIsDifferent
           ? _value.ipIsDifferent
           : ipIsDifferent // ignore: cast_nullable_to_non_nullable
@@ -224,11 +272,14 @@ abstract class _$$_DecShopCopyWith<$Res> implements $DecShopCopyWith<$Res> {
       @JsonKey(name: "UniqueId") String uuid,
       @JsonKey(name: "Name") String name,
       @JsonKey(name: "DecShopURL") String url,
+      @JsonKey(name: "ThirdPartyBaseURL") String? thirdPartyBaseUrl,
+      @JsonKey(name: "ThirdPartyAPIURL") String? thirdParyApiUrl,
       @JsonKey(name: "Description") String description,
       @JsonKey(name: "OwnerAddress") String? ownerAddress,
       @JsonKey(name: "HostingType") int type,
       @JsonKey(name: "IP") String ip,
       @JsonKey(name: "Port") int port,
+      @JsonKey(name: "STUNServerGroup") int stunServerGroup,
       @JsonKey(name: "OriginalBlockHeight") double originalBlockHeight,
       @JsonKey(name: "OriginalTXHash") String? originaTxHash,
       @JsonKey(name: "LatestBlockHeight") double latestBlockHeight,
@@ -238,6 +289,9 @@ abstract class _$$_DecShopCopyWith<$Res> implements $DecShopCopyWith<$Res> {
       @JsonKey(name: "NeedsPublishToNetwork") bool needsPublishToNetwork,
       @JsonKey(name: "IsOffline") bool isOffline,
       @JsonKey(name: "IsPublished") bool isPublished,
+      @JsonKey(name: "CollectionCount") int collectionCount,
+      @JsonKey(name: "ListingCount") int listingCount,
+      @JsonKey(name: "AuctionCount") int auctionCount,
       @JsonKey(name: "IsIPDifferent") bool ipIsDifferent});
 }
 
@@ -255,11 +309,14 @@ class __$$_DecShopCopyWithImpl<$Res>
     Object? uuid = null,
     Object? name = null,
     Object? url = null,
+    Object? thirdPartyBaseUrl = freezed,
+    Object? thirdParyApiUrl = freezed,
     Object? description = null,
     Object? ownerAddress = freezed,
     Object? type = null,
     Object? ip = null,
     Object? port = null,
+    Object? stunServerGroup = null,
     Object? originalBlockHeight = null,
     Object? originaTxHash = freezed,
     Object? latestBlockHeight = null,
@@ -269,6 +326,9 @@ class __$$_DecShopCopyWithImpl<$Res>
     Object? needsPublishToNetwork = null,
     Object? isOffline = null,
     Object? isPublished = null,
+    Object? collectionCount = null,
+    Object? listingCount = null,
+    Object? auctionCount = null,
     Object? ipIsDifferent = null,
   }) {
     return _then(_$_DecShop(
@@ -288,6 +348,14 @@ class __$$_DecShopCopyWithImpl<$Res>
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
+      thirdPartyBaseUrl: freezed == thirdPartyBaseUrl
+          ? _value.thirdPartyBaseUrl
+          : thirdPartyBaseUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      thirdParyApiUrl: freezed == thirdParyApiUrl
+          ? _value.thirdParyApiUrl
+          : thirdParyApiUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -307,6 +375,10 @@ class __$$_DecShopCopyWithImpl<$Res>
       port: null == port
           ? _value.port
           : port // ignore: cast_nullable_to_non_nullable
+              as int,
+      stunServerGroup: null == stunServerGroup
+          ? _value.stunServerGroup
+          : stunServerGroup // ignore: cast_nullable_to_non_nullable
               as int,
       originalBlockHeight: null == originalBlockHeight
           ? _value.originalBlockHeight
@@ -344,6 +416,18 @@ class __$$_DecShopCopyWithImpl<$Res>
           ? _value.isPublished
           : isPublished // ignore: cast_nullable_to_non_nullable
               as bool,
+      collectionCount: null == collectionCount
+          ? _value.collectionCount
+          : collectionCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      listingCount: null == listingCount
+          ? _value.listingCount
+          : listingCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      auctionCount: null == auctionCount
+          ? _value.auctionCount
+          : auctionCount // ignore: cast_nullable_to_non_nullable
+              as int,
       ipIsDifferent: null == ipIsDifferent
           ? _value.ipIsDifferent
           : ipIsDifferent // ignore: cast_nullable_to_non_nullable
@@ -364,6 +448,10 @@ class _$_DecShop extends _DecShop {
           required this.name,
       @JsonKey(name: "DecShopURL")
           required this.url,
+      @JsonKey(name: "ThirdPartyBaseURL")
+          this.thirdPartyBaseUrl,
+      @JsonKey(name: "ThirdPartyAPIURL")
+          this.thirdParyApiUrl,
       @JsonKey(name: "Description")
           required this.description,
       @JsonKey(name: "OwnerAddress")
@@ -371,9 +459,11 @@ class _$_DecShop extends _DecShop {
       @JsonKey(name: "HostingType")
           required this.type,
       @JsonKey(name: "IP")
-          this.ip = "",
+          this.ip = "NA",
       @JsonKey(name: "Port")
           this.port = 0,
+      @JsonKey(name: "STUNServerGroup")
+          this.stunServerGroup = 1,
       @JsonKey(name: "OriginalBlockHeight")
           required this.originalBlockHeight,
       @JsonKey(name: "OriginalTXHash")
@@ -392,6 +482,12 @@ class _$_DecShop extends _DecShop {
           required this.isOffline,
       @JsonKey(name: "IsPublished")
           required this.isPublished,
+      @JsonKey(name: "CollectionCount")
+          this.collectionCount = 0,
+      @JsonKey(name: "ListingCount")
+          this.listingCount = 0,
+      @JsonKey(name: "AuctionCount")
+          this.auctionCount = 0,
       @JsonKey(name: "IsIPDifferent")
           required this.ipIsDifferent})
       : super._();
@@ -414,6 +510,12 @@ class _$_DecShop extends _DecShop {
   final String url;
 //* submit  // * updating when published
   @override
+  @JsonKey(name: "ThirdPartyBaseURL")
+  final String? thirdPartyBaseUrl;
+  @override
+  @JsonKey(name: "ThirdPartyAPIURL")
+  final String? thirdParyApiUrl;
+  @override
   @JsonKey(name: "Description")
   final String description;
 //* submit  // * updating when published
@@ -433,6 +535,9 @@ class _$_DecShop extends _DecShop {
   @JsonKey(name: "Port")
   final int port;
 //* submit IF self hosted  // * updating
+  @override
+  @JsonKey(name: "STUNServerGroup")
+  final int stunServerGroup;
   @override
   @JsonKey(name: "OriginalBlockHeight")
   final double originalBlockHeight;
@@ -463,12 +568,21 @@ class _$_DecShop extends _DecShop {
   @JsonKey(name: "IsPublished")
   final bool isPublished;
   @override
+  @JsonKey(name: "CollectionCount")
+  final int collectionCount;
+  @override
+  @JsonKey(name: "ListingCount")
+  final int listingCount;
+  @override
+  @JsonKey(name: "AuctionCount")
+  final int auctionCount;
+  @override
   @JsonKey(name: "IsIPDifferent")
   final bool ipIsDifferent;
 
   @override
   String toString() {
-    return 'DecShop(id: $id, uuid: $uuid, name: $name, url: $url, description: $description, ownerAddress: $ownerAddress, type: $type, ip: $ip, port: $port, originalBlockHeight: $originalBlockHeight, originaTxHash: $originaTxHash, latestBlockHeight: $latestBlockHeight, lastestTxHash: $lastestTxHash, updateTimestamp: $updateTimestamp, autoUpdateNetworkDns: $autoUpdateNetworkDns, needsPublishToNetwork: $needsPublishToNetwork, isOffline: $isOffline, isPublished: $isPublished, ipIsDifferent: $ipIsDifferent)';
+    return 'DecShop(id: $id, uuid: $uuid, name: $name, url: $url, thirdPartyBaseUrl: $thirdPartyBaseUrl, thirdParyApiUrl: $thirdParyApiUrl, description: $description, ownerAddress: $ownerAddress, type: $type, ip: $ip, port: $port, stunServerGroup: $stunServerGroup, originalBlockHeight: $originalBlockHeight, originaTxHash: $originaTxHash, latestBlockHeight: $latestBlockHeight, lastestTxHash: $lastestTxHash, updateTimestamp: $updateTimestamp, autoUpdateNetworkDns: $autoUpdateNetworkDns, needsPublishToNetwork: $needsPublishToNetwork, isOffline: $isOffline, isPublished: $isPublished, collectionCount: $collectionCount, listingCount: $listingCount, auctionCount: $auctionCount, ipIsDifferent: $ipIsDifferent)';
   }
 
   @override
@@ -480,6 +594,10 @@ class _$_DecShop extends _DecShop {
             (identical(other.uuid, uuid) || other.uuid == uuid) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.url, url) || other.url == url) &&
+            (identical(other.thirdPartyBaseUrl, thirdPartyBaseUrl) ||
+                other.thirdPartyBaseUrl == thirdPartyBaseUrl) &&
+            (identical(other.thirdParyApiUrl, thirdParyApiUrl) ||
+                other.thirdParyApiUrl == thirdParyApiUrl) &&
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.ownerAddress, ownerAddress) ||
@@ -487,6 +605,8 @@ class _$_DecShop extends _DecShop {
             (identical(other.type, type) || other.type == type) &&
             (identical(other.ip, ip) || other.ip == ip) &&
             (identical(other.port, port) || other.port == port) &&
+            (identical(other.stunServerGroup, stunServerGroup) ||
+                other.stunServerGroup == stunServerGroup) &&
             (identical(other.originalBlockHeight, originalBlockHeight) ||
                 other.originalBlockHeight == originalBlockHeight) &&
             (identical(other.originaTxHash, originaTxHash) ||
@@ -505,6 +625,12 @@ class _$_DecShop extends _DecShop {
                 other.isOffline == isOffline) &&
             (identical(other.isPublished, isPublished) ||
                 other.isPublished == isPublished) &&
+            (identical(other.collectionCount, collectionCount) ||
+                other.collectionCount == collectionCount) &&
+            (identical(other.listingCount, listingCount) ||
+                other.listingCount == listingCount) &&
+            (identical(other.auctionCount, auctionCount) ||
+                other.auctionCount == auctionCount) &&
             (identical(other.ipIsDifferent, ipIsDifferent) ||
                 other.ipIsDifferent == ipIsDifferent));
   }
@@ -517,11 +643,14 @@ class _$_DecShop extends _DecShop {
         uuid,
         name,
         url,
+        thirdPartyBaseUrl,
+        thirdParyApiUrl,
         description,
         ownerAddress,
         type,
         ip,
         port,
+        stunServerGroup,
         originalBlockHeight,
         originaTxHash,
         latestBlockHeight,
@@ -531,6 +660,9 @@ class _$_DecShop extends _DecShop {
         needsPublishToNetwork,
         isOffline,
         isPublished,
+        collectionCount,
+        listingCount,
+        auctionCount,
         ipIsDifferent
       ]);
 
@@ -558,6 +690,10 @@ abstract class _DecShop extends DecShop {
           required final String name,
       @JsonKey(name: "DecShopURL")
           required final String url,
+      @JsonKey(name: "ThirdPartyBaseURL")
+          final String? thirdPartyBaseUrl,
+      @JsonKey(name: "ThirdPartyAPIURL")
+          final String? thirdParyApiUrl,
       @JsonKey(name: "Description")
           required final String description,
       @JsonKey(name: "OwnerAddress")
@@ -568,6 +704,8 @@ abstract class _DecShop extends DecShop {
           final String ip,
       @JsonKey(name: "Port")
           final int port,
+      @JsonKey(name: "STUNServerGroup")
+          final int stunServerGroup,
       @JsonKey(name: "OriginalBlockHeight")
           required final double originalBlockHeight,
       @JsonKey(name: "OriginalTXHash")
@@ -586,6 +724,12 @@ abstract class _DecShop extends DecShop {
           required final bool isOffline,
       @JsonKey(name: "IsPublished")
           required final bool isPublished,
+      @JsonKey(name: "CollectionCount")
+          final int collectionCount,
+      @JsonKey(name: "ListingCount")
+          final int listingCount,
+      @JsonKey(name: "AuctionCount")
+          final int auctionCount,
       @JsonKey(name: "IsIPDifferent")
           required final bool ipIsDifferent}) = _$_DecShop;
   _DecShop._() : super._();
@@ -605,6 +749,12 @@ abstract class _DecShop extends DecShop {
   @JsonKey(name: "DecShopURL")
   String get url;
   @override //* submit  // * updating when published
+  @JsonKey(name: "ThirdPartyBaseURL")
+  String? get thirdPartyBaseUrl;
+  @override
+  @JsonKey(name: "ThirdPartyAPIURL")
+  String? get thirdParyApiUrl;
+  @override
   @JsonKey(name: "Description")
   String get description;
   @override //* submit  // * updating when published
@@ -620,6 +770,9 @@ abstract class _DecShop extends DecShop {
   @JsonKey(name: "Port")
   int get port;
   @override //* submit IF self hosted  // * updating
+  @JsonKey(name: "STUNServerGroup")
+  int get stunServerGroup;
+  @override
   @JsonKey(name: "OriginalBlockHeight")
   double get originalBlockHeight;
   @override
@@ -646,6 +799,15 @@ abstract class _DecShop extends DecShop {
   @override // * updating when published
   @JsonKey(name: "IsPublished")
   bool get isPublished;
+  @override
+  @JsonKey(name: "CollectionCount")
+  int get collectionCount;
+  @override
+  @JsonKey(name: "ListingCount")
+  int get listingCount;
+  @override
+  @JsonKey(name: "AuctionCount")
+  int get auctionCount;
   @override
   @JsonKey(name: "IsIPDifferent")
   bool get ipIsDifferent;

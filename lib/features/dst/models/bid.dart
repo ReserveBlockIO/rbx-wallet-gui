@@ -33,19 +33,22 @@ class Bid with _$Bid {
     @JsonKey(name: "PurchaseKey") @Default("") String purchaseKey,
     @JsonKey(name: "BidStatus", fromJson: bidStatusFromJson, toJson: bidStatusToJson) required BidStatus bidStatus,
     @JsonKey(name: "BidSendReceive", fromJson: bidSendReceiveFromJson, toJson: bidSendReveiveToJson) required BidSendReceive bidSendReceive,
+    @JsonKey(name: "RawBid") @Default(false) isRaw,
   }) = _Bid;
 
   factory Bid.fromJson(Map<String, dynamic> json) => _$BidFromJson(json);
 
-  factory Bid.create({
-    required String address,
-    required int listingId,
-    required int collectionId,
-    required double bidAmount,
-    required double maxBidAmount,
-    bool isBuyNow = false,
-    required String purchaseKey,
-  }) {
+  factory Bid.create(
+      {required String address,
+      required int listingId,
+      required int collectionId,
+      required double bidAmount,
+      required double maxBidAmount,
+      bool isBuyNow = false,
+      required String purchaseKey,
+      bool isRaw = false,
+      BidStatus bidStatus = BidStatus.Sent,
+      BidSendReceive bidSendReceive = BidSendReceive.Sent}) {
     return Bid(
       id: "00000000-0000-0000-0000-000000000000",
       bidAddress: address,
@@ -57,9 +60,10 @@ class Bid with _$Bid {
       isAutoBid: false,
       listingId: listingId,
       collectionId: collectionId,
-      bidStatus: BidStatus.Sent,
-      bidSendReceive: BidSendReceive.Sent,
+      bidStatus: bidStatus,
+      bidSendReceive: bidSendReceive,
       purchaseKey: purchaseKey,
+      isRaw: isRaw,
     );
   }
 

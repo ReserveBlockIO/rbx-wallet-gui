@@ -22,8 +22,9 @@ abstract class Storage {
   static const REMEMBER_ME = "REMEMBER_ME";
   static const SAVED_SHOPS = "SAVE_SHOPS";
   static const CHAT_PREPEND = "CHAT_";
-  static const BUYER_CHAT_THREADS = "BUYER_CHAT_THREADS";
-  static const SELLER_CHAT_THREADS = "SELLER_CHAT_THREADS";
+  static const BUYER_CHAT_THREADS = "BUYER_CHAT_THREADS_V3";
+  static const SELLER_CHAT_THREADS = "SELLER_CHAT_THREADS_V3";
+  static const WEB_AUTH_TOKEN = "WEB_AUTH_TOKEN";
 
   bool isInitialized = false;
 
@@ -121,7 +122,7 @@ class StorageImplementation extends Storage {
     }
     final List<dynamic> data = jsonDecode(str);
 
-    final List<String> items = data.map((item) => item.toString()).toList();
+    final List<String> items = data.map<String>((item) => item.toString()).toList();
 
     return items;
   }
@@ -198,7 +199,7 @@ class StorageWebImplementation extends Storage {
     }
     final List<dynamic> data = jsonDecode(str);
 
-    final List<String> items = data.map((item) => item.toString()).toList();
+    final List<String> items = data.map<String>((item) => item.toString()).toList();
     return items;
   }
 

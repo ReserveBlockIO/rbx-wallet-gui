@@ -16,6 +16,7 @@ abstract class ChatMessage with _$ChatMessage {
     @JsonKey(name: "TimeStamp") required int timestamp,
     @JsonKey(name: "ShopURL") String? shopUrl,
     @JsonKey(name: "MessageReceived") @Default(false) bool received,
+    @JsonKey(name: "IsThirdParty") @Default(false) bool isThirdParty,
     @JsonKey(name: "IsShopSentMessage") required bool isShopSentMessage,
   }) = _ChatMessage;
 
@@ -34,6 +35,14 @@ abstract class ChatMessage with _$ChatMessage {
   }
 
   String get fromLabel {
+    if (isShopSentMessage) {
+      return fromAddress;
+    }
+
+    if (fromAddress.length < 10) {
+      return fromAddress;
+    }
+
     final start = fromAddress.substring(0, 5);
     final end = fromAddress.substring(fromAddress.length - 5, fromAddress.length);
 

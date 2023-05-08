@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
-import 'package:rbx_wallet/features/remote_shop/utils.dart';
-import 'package:rbx_wallet/utils/files.dart';
+import '../services/remote_shop_service.dart';
+import '../utils.dart';
+import '../../../utils/files.dart';
 import 'package:collection/collection.dart';
 
 class QueueEntry {

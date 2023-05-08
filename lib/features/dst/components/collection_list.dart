@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/badges.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/dst/models/dec_shop.dart';
-import 'package:rbx_wallet/features/dst/providers/collection_list_provider.dart';
+import '../../../core/app_router.gr.dart';
+import '../../../core/base_component.dart';
+import '../../../core/components/badges.dart';
+import '../../../core/theme/app_theme.dart';
+import '../models/dec_shop.dart';
+import '../providers/collection_list_provider.dart';
 
 import '../providers/collection_form_provider.dart';
 

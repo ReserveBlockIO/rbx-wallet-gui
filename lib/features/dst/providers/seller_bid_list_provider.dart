@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/dst/models/bid.dart';
-import 'package:rbx_wallet/features/dst/services/dst_service.dart';
+import '../models/bid.dart';
+import '../services/dst_service.dart';
 
 class SellerBidListProvider extends StateNotifier<List<Bid>> {
   final Ref ref;

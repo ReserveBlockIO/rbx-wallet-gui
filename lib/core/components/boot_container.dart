@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/startup/startup_data_provider.dart';
+import '../theme/app_theme.dart';
+import '../../features/bridge/models/log_entry.dart';
+import '../../features/startup/startup_data_provider.dart';
 
 import '../../features/bridge/providers/log_provider.dart';
 import '../base_component.dart';
@@ -18,7 +19,7 @@ class BootContainer extends BaseComponent {
       start = logs.length - maxLogs;
     }
 
-    final truncatedLogs = logs.getRange(start, logs.length - 1);
+    final List<LogEntry> truncatedLogs = logs.isEmpty ? [] : logs.getRange(start, logs.length - 1).toList();
 
     return Column(
       mainAxisSize: MainAxisSize.min,

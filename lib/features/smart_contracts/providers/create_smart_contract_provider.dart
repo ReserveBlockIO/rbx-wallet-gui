@@ -4,12 +4,13 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
+import '../../../core/services/explorer_service.dart';
+import '../../raw/raw_service.dart';
+import '../../sc_property/models/sc_property.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../../core/providers/web_session_provider.dart';
-import '../../../core/services/transaction_service.dart';
 import '../../../utils/generators.dart';
 import '../../../utils/guards.dart';
 import '../../asset/asset.dart';
@@ -405,9 +406,11 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
     final timezoneName = ref.read(webSessionProvider).timezoneName;
     final payload = state.serializeForCompiler(timezoneName);
 
-    final success = await TransactionService().compileAndMintSmartContract(payload, ref.read(webSessionProvider).keypair!);
+    final success = await RawService().compileAndMintSmartContract(payload, ref.read(webSessionProvider).keypair!, ref);
     if (success == true) {
-      ref.read(nftListProvider.notifier).reloadCurrentPage(ref.read(webSessionProvider).keypair?.email, ref.read(webSessionProvider).keypair?.public);
+      ref
+          .read(nftListProvider.notifier)
+          .reloadCurrentPage(ref.read(webSessionProvider).keypair?.email, ref.read(webSessionProvider).keypair?.address);
       return true;
     }
     return false;
@@ -424,12 +427,12 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
 
     final payload = state.serializeForCompiler(timezoneName);
 
-    if (kIsWeb) {
-      final success = await TransactionService().compileAndMintSmartContract(payload, ref.read(webSessionProvider).keypair!);
-      if (success == true) {
-        ref.read(nftListProvider.notifier).reloadCurrentPage();
-      }
-    }
+    // if (kIsWeb) {
+    //   final success = await ExplorerService().compileAndMintSmartContract(payload, ref.read(webSessionProvider).keypair!);
+    //   if (success == true) {
+    //     ref.read(nftListProvider.notifier).reloadCurrentPage();
+    //   }
+    // }
 
     final csc = await SmartContractService().compileSmartContract(payload);
 
@@ -472,19 +475,19 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
   }
 
   Future<bool> mint([String? idOverride]) async {
-    final success = kIsWeb ? await TransactionService().mintSmartContract(state.id) : await SmartContractService().mint(idOverride ?? state.id);
+    final success = await SmartContractService().mint(idOverride ?? state.id);
 
     if (success) {
       saveMintedNft(state.id);
     }
 
-    final details = kIsWeb ? await TransactionService().retrieveSmartContract(state.id) : await SmartContractService().retrieve(state.id);
+    final details = await SmartContractService().retrieve(state.id);
 
     ref.read(mySmartContractsProvider.notifier).load();
     kIsWeb
         ? ref
             .read(nftListProvider.notifier)
-            .reloadCurrentPage(ref.read(webSessionProvider).keypair?.email, ref.read(webSessionProvider).keypair?.public)
+            .reloadCurrentPage(ref.read(webSessionProvider).keypair?.email, ref.read(webSessionProvider).keypair?.address)
         : ref.read(nftListProvider.notifier).reloadCurrentPage();
 
     if (details != null) {

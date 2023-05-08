@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/badges.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/dst/models/bid.dart';
-import 'package:rbx_wallet/features/remote_shop/components/bid_status_indicator.dart';
-import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../core/base_component.dart';
+import '../../../core/components/badges.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../dst/models/bid.dart';
+import 'bid_status_indicator.dart';
+import '../services/remote_shop_service.dart';
+import '../../smart_contracts/components/sc_creator/common/modal_container.dart';
+import '../../../utils/toast.dart';
 
 class BidHistoryModal extends BaseComponent {
   final List<Bid> bids;

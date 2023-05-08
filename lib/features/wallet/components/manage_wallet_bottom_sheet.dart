@@ -2,10 +2,10 @@ import "package:collection/collection.dart";
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
-import 'package:rbx_wallet/features/reserve/providers/reserve_account_provider.dart';
-import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
-import 'package:rbx_wallet/features/wallet/models/wallet.dart';
+import '../../bridge/services/bridge_service.dart';
+import '../../reserve/providers/reserve_account_provider.dart';
+import '../../reserve/services/reserve_account_service.dart';
+import '../models/wallet.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/buttons.dart';
@@ -247,7 +247,7 @@ class ManageWalletBottomSheet extends BaseComponent {
                                         cancelText: "Cancel",
                                       );
 
-                                      if (confirmed) {
+                                      if (confirmed == true) {
                                         ref.read(walletDetailProvider(wallet).notifier).delete();
                                       }
                                     },

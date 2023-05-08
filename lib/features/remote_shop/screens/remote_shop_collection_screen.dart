@@ -4,20 +4,22 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/features/dst/models/dec_shop.dart';
-import 'package:rbx_wallet/features/remote_shop/components/listing_details_list_tile.dart';
-import 'package:rbx_wallet/features/remote_shop/components/remote_asset_preview.dart';
-import 'package:rbx_wallet/features/remote_shop/components/shop_connected_indicator.dart';
-import 'package:rbx_wallet/features/remote_shop/models/shop_data.dart';
-import 'package:rbx_wallet/features/remote_shop/providers/connected_shop_provider.dart';
+import '../../../core/app_router.gr.dart';
+import '../../../core/base_component.dart';
+import '../../../core/base_screen.dart';
+import '../../../core/components/empty_placeholder.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../dst/models/dec_shop.dart';
+import '../components/listing_details_list_tile.dart';
+import '../components/remote_asset_preview.dart';
+import '../components/shop_connected_indicator.dart';
+import '../models/shop_data.dart';
+import '../providers/connected_shop_provider.dart';
 import 'package:collection/collection.dart';
-import 'package:rbx_wallet/features/remote_shop/providers/shop_list_view_provider.dart';
-import 'package:rbx_wallet/features/remote_shop/services/remote_shop_service.dart';
-import 'package:rbx_wallet/features/remote_shop/utils.dart';
-import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
+import '../providers/shop_list_view_provider.dart';
+import '../services/remote_shop_service.dart';
+import '../utils.dart';
+import '../../wallet/components/wallet_selector.dart';
 
 import '../../../core/components/buttons.dart';
 import '../../../core/theme/app_theme.dart';
@@ -36,6 +38,7 @@ class RemoteShopCollectionScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     final model = ref.watch(connectedShopProvider);
+    final balance = ref.watch(sessionProvider).currentWallet!.balance;
     final shop = model.data;
 
     if (shop == null) {
@@ -62,6 +65,11 @@ class RemoteShopCollectionScreen extends BaseScreen {
           width: 8,
         ),
         WalletSelector(),
+        Center(
+            child: Tooltip(
+          message: "My Balance",
+          child: Text("${balance.toStringAsFixed(5)} RBX"),
+        )),
         IconButton(
           onPressed: () {
             ref.read(connectedShopProvider.notifier).refresh(true);
@@ -74,7 +82,7 @@ class RemoteShopCollectionScreen extends BaseScreen {
           icon: Icons.chat_bubble_outline,
           label: 'Chat',
           onPressed: () {
-            AutoRouter.of(context).push(ShopChatScreenRoute(shopUrl: url));
+            AutoRouter.of(context).push(ShopChatScreenRoute(url: url));
           },
         )
       ],
@@ -107,11 +115,7 @@ class RemoteShopCollectionScreen extends BaseScreen {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _Header(collection: collection),
-          Expanded(
-            child: Center(
-              child: Text("No Active Listings"),
-            ),
-          ),
+          EmptyPlaceholder(title: "No Active Listings"),
         ],
       );
     }

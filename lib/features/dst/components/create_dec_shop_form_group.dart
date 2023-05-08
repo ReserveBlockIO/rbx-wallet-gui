@@ -120,22 +120,27 @@ class CreateDecShopFormGroup extends BaseComponent {
                 ),
               )
             ],
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: wallets
-                  .map(
-                    (w) => TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop(w.address);
-                      },
-                      child: Text(
-                        w.fullLabel,
-                        style: const TextStyle(color: Colors.white, decoration: TextDecoration.underline),
-                      ),
-                    ),
-                  )
-                  .toList(),
+            content: ConstrainedBox(
+              constraints: BoxConstraints(maxHeight: 300),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: wallets
+                      .map(
+                        (w) => TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(w.address);
+                          },
+                          child: Text(
+                            w.fullLabel,
+                            style: const TextStyle(color: Colors.white, decoration: TextDecoration.underline),
+                          ),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
             ),
           );
         });

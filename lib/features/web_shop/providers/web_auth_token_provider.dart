@@ -1,36 +1,38 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/core/utils.dart';
-import 'package:rbx_wallet/features/web_shop/models/auth_token.dart';
-import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../../core/singletons.dart';
+import '../../../core/storage.dart';
+import '../../../core/utils.dart';
+import '../models/auth_token.dart';
+import '../services/web_shop_service.dart';
+import '../../../utils/toast.dart';
 
-class WebAuthTokenProvider extends StateNotifier<List<AuthToken>> {
+class WebAuthTokenProvider extends StateNotifier<AuthToken?> {
   final Ref ref;
 
-  WebAuthTokenProvider(this.ref) : super([]);
+  WebAuthTokenProvider(this.ref) : super(null);
 
-  Future<bool> authorize() async {
+  Future<AuthToken?> authorize() async {
     final message = generateRandomString(32);
 
-    final address = kIsWeb ? ref.read(webSessionProvider).keypair?.public : ref.read(sessionProvider).currentWallet?.address;
+    final address = kIsWeb ? ref.read(webSessionProvider).keypair?.address : ref.read(sessionProvider).currentWallet?.address;
     if (address == null) {
       Toast.error("No address.");
-      return false;
+      return null;
     }
 
-    final privateKey = kIsWeb ? ref.read(webSessionProvider).keypair?.privateCorrected : ref.read(sessionProvider).currentWallet?.privateKey;
+    final privateKey = kIsWeb ? ref.read(webSessionProvider).keypair?.private : ref.read(sessionProvider).currentWallet?.privateKey;
     if (privateKey == null) {
       Toast.error("No private key.");
-      return false;
+      return null;
     }
 
-    final publicKey = kIsWeb ? ref.read(webSessionProvider).keypair?.publicInflated : ref.read(sessionProvider).currentWallet?.publicKey;
+    final publicKey = kIsWeb ? ref.read(webSessionProvider).keypair?.public : ref.read(sessionProvider).currentWallet?.publicKey;
     if (publicKey == null) {
       Toast.error("No public key.");
-      return false;
+      return null;
     }
 
     final newToken = await WebShopService().authorize(
@@ -41,14 +43,19 @@ class WebAuthTokenProvider extends StateNotifier<List<AuthToken>> {
     );
 
     if (newToken != null) {
-      state = [...state, newToken];
-      return true;
+      state = newToken;
+      singleton<Storage>().setString(Storage.WEB_AUTH_TOKEN, newToken.token);
+      return newToken;
     }
 
-    return false;
+    return null;
+  }
+
+  void addEmail(String email) {
+    state = state?.copyWith(email: email);
   }
 }
 
-final webAuthTokenProvider = StateNotifierProvider<WebAuthTokenProvider, List<AuthToken>>(
+final webAuthTokenProvider = StateNotifierProvider<WebAuthTokenProvider, AuthToken?>(
   (ref) => WebAuthTokenProvider(ref),
 );

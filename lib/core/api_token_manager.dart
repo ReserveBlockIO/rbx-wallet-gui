@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
+import 'app_constants.dart';
 
 abstract class ApiTokenManager {
   String token = "";

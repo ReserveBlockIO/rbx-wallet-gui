@@ -1,9 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/chat/providers/chat_notification_provider.dart';
-import 'package:rbx_wallet/features/remote_shop/providers/shop_loading_provider.dart';
-import 'package:rbx_wallet/generated/assets.gen.dart';
+import 'features/chat/providers/chat_notification_provider.dart';
+import 'features/remote_shop/providers/shop_loading_provider.dart';
+import 'features/transactions/providers/web_transaction_list_provider.dart';
+import 'generated/assets.gen.dart';
 
 import 'core/app_router.gr.dart';
 import 'core/components/boot_container.dart';
@@ -39,6 +41,7 @@ class App extends ConsumerWidget {
 
     if (kIsWeb) {
       ref.read(webSessionProvider.notifier);
+
       return const AppContainer();
     }
 
@@ -70,12 +73,12 @@ class AppContainer extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       scaffoldMessengerKey: rootScaffoldMessengerKey,
       theme: AppTheme.dark().themeData,
-      routeInformationParser: router.defaultRouteParser(),
-      // routerDelegate: AutoRouterDelegate(
-      //   router,
-      //   navigatorObservers: () => [AutoRouteObserver()],
-      // ),
-      routerDelegate: router.delegate(),
+      routeInformationParser: router.defaultRouteParser(includePrefixMatches: true),
+      routerDelegate: AutoRouterDelegate(
+        router,
+        navigatorObservers: () => [AutoRouteObserver()],
+      ),
+      // routerDelegate: router.delegate(),
       builder: (context, widget) {
         if (!ref.watch(readyProvider)) {
           if (kIsWeb) {
@@ -100,36 +103,14 @@ class AppContainer extends ConsumerWidget {
             if (ref.watch(globalLoadingProvider))
               Container(
                 color: Colors.black54,
-                child: Stack(
-                  children: [
-                    Center(
-                      child: Text(
-                        "Loading...",
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                      ),
-                    ),
-                    Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 72.0),
-                          child: Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              onTap: () => ref.read(globalLoadingProvider.notifier).complete(),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "[CLOSE]",
-                                  style: Theme.of(context).textTheme.caption,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ))
-                  ],
+                child: Center(
+                  child: Text(
+                    "Loading...",
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
                 ),
               ),
             if (ref.watch(shopLoadingProvider) != null)

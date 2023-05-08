@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/utils/files.dart';
+import '../../nft/models/nft.dart';
+import '../../../utils/files.dart';
 
 part 'listing.freezed.dart';
 part 'listing.g.dart';
@@ -70,6 +70,7 @@ class Listing with _$Listing {
     @JsonKey(name: "FinalPrice") double? finalPrice,
     @JsonKey(name: "WinningAddress") String? winningAddress,
     @JsonKey(name: "CollectionId") required int collectionId,
+    @JsonKey(name: "SaleHasFailed") @Default(false) bool saleHasFailed,
     @Default(false) @JsonKey(ignore: true) bool enableBuyNow,
     @Default(false) @JsonKey(ignore: true) bool enableAuction,
     @Default(false) @JsonKey(ignore: true) bool enableReservePrice,
@@ -84,7 +85,7 @@ class Listing with _$Listing {
         smartContractUid: '',
         ownerAddress: '',
         startDate: DateTime.now(),
-        endDate: DateTime.now(),
+        endDate: DateTime.now().add(Duration(days: 7)),
         collectionId: 0,
       );
 

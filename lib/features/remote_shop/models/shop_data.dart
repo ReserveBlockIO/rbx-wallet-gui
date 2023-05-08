@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/features/dst/models/bid.dart';
-import 'package:rbx_wallet/features/dst/models/dec_shop.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
+import '../../dst/models/bid.dart';
+import '../../dst/models/dec_shop.dart';
+import '../../nft/models/nft.dart';
 
 part 'shop_data.freezed.dart';
 part 'shop_data.g.dart';

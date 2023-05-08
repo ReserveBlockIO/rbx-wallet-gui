@@ -52,6 +52,8 @@ mixin _$Bid {
       fromJson: bidSendReceiveFromJson,
       toJson: bidSendReveiveToJson)
   BidSendReceive get bidSendReceive => throw _privateConstructorUsedError;
+  @JsonKey(name: "RawBid")
+  dynamic get isRaw => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -91,7 +93,9 @@ abstract class $BidCopyWith<$Res> {
       @JsonKey(name: "BidStatus", fromJson: bidStatusFromJson, toJson: bidStatusToJson)
           BidStatus bidStatus,
       @JsonKey(name: "BidSendReceive", fromJson: bidSendReceiveFromJson, toJson: bidSendReveiveToJson)
-          BidSendReceive bidSendReceive});
+          BidSendReceive bidSendReceive,
+      @JsonKey(name: "RawBid")
+          dynamic isRaw});
 }
 
 /// @nodoc
@@ -120,6 +124,7 @@ class _$BidCopyWithImpl<$Res, $Val extends Bid> implements $BidCopyWith<$Res> {
     Object? purchaseKey = null,
     Object? bidStatus = null,
     Object? bidSendReceive = null,
+    Object? isRaw = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -178,6 +183,10 @@ class _$BidCopyWithImpl<$Res, $Val extends Bid> implements $BidCopyWith<$Res> {
           ? _value.bidSendReceive
           : bidSendReceive // ignore: cast_nullable_to_non_nullable
               as BidSendReceive,
+      isRaw: freezed == isRaw
+          ? _value.isRaw
+          : isRaw // ignore: cast_nullable_to_non_nullable
+              as dynamic,
     ) as $Val);
   }
 }
@@ -216,7 +225,9 @@ abstract class _$$_BidCopyWith<$Res> implements $BidCopyWith<$Res> {
       @JsonKey(name: "BidStatus", fromJson: bidStatusFromJson, toJson: bidStatusToJson)
           BidStatus bidStatus,
       @JsonKey(name: "BidSendReceive", fromJson: bidSendReceiveFromJson, toJson: bidSendReveiveToJson)
-          BidSendReceive bidSendReceive});
+          BidSendReceive bidSendReceive,
+      @JsonKey(name: "RawBid")
+          dynamic isRaw});
 }
 
 /// @nodoc
@@ -242,6 +253,7 @@ class __$$_BidCopyWithImpl<$Res> extends _$BidCopyWithImpl<$Res, _$_Bid>
     Object? purchaseKey = null,
     Object? bidStatus = null,
     Object? bidSendReceive = null,
+    Object? isRaw = freezed,
   }) {
     return _then(_$_Bid(
       id: null == id
@@ -300,6 +312,7 @@ class __$$_BidCopyWithImpl<$Res> extends _$BidCopyWithImpl<$Res, _$_Bid>
           ? _value.bidSendReceive
           : bidSendReceive // ignore: cast_nullable_to_non_nullable
               as BidSendReceive,
+      isRaw: freezed == isRaw ? _value.isRaw! : isRaw,
     ));
   }
 }
@@ -335,7 +348,9 @@ class _$_Bid extends _Bid {
       @JsonKey(name: "BidStatus", fromJson: bidStatusFromJson, toJson: bidStatusToJson)
           required this.bidStatus,
       @JsonKey(name: "BidSendReceive", fromJson: bidSendReceiveFromJson, toJson: bidSendReveiveToJson)
-          required this.bidSendReceive})
+          required this.bidSendReceive,
+      @JsonKey(name: "RawBid")
+          this.isRaw = false})
       : super._();
 
   factory _$_Bid.fromJson(Map<String, dynamic> json) => _$$_BidFromJson(json);
@@ -386,10 +401,13 @@ class _$_Bid extends _Bid {
       fromJson: bidSendReceiveFromJson,
       toJson: bidSendReveiveToJson)
   final BidSendReceive bidSendReceive;
+  @override
+  @JsonKey(name: "RawBid")
+  final dynamic isRaw;
 
   @override
   String toString() {
-    return 'Bid(id: $id, bidAddress: $bidAddress, bidSignature: $bidSignature, bidAmount: $bidAmount, maxBidAmount: $maxBidAmount, bidSendTime: $bidSendTime, isBuyNow: $isBuyNow, isAutoBid: $isAutoBid, isProcessed: $isProcessed, listingId: $listingId, collectionId: $collectionId, purchaseKey: $purchaseKey, bidStatus: $bidStatus, bidSendReceive: $bidSendReceive)';
+    return 'Bid(id: $id, bidAddress: $bidAddress, bidSignature: $bidSignature, bidAmount: $bidAmount, maxBidAmount: $maxBidAmount, bidSendTime: $bidSendTime, isBuyNow: $isBuyNow, isAutoBid: $isAutoBid, isProcessed: $isProcessed, listingId: $listingId, collectionId: $collectionId, purchaseKey: $purchaseKey, bidStatus: $bidStatus, bidSendReceive: $bidSendReceive, isRaw: $isRaw)';
   }
 
   @override
@@ -423,7 +441,8 @@ class _$_Bid extends _Bid {
             (identical(other.bidStatus, bidStatus) ||
                 other.bidStatus == bidStatus) &&
             (identical(other.bidSendReceive, bidSendReceive) ||
-                other.bidSendReceive == bidSendReceive));
+                other.bidSendReceive == bidSendReceive) &&
+            const DeepCollectionEquality().equals(other.isRaw, isRaw));
   }
 
   @JsonKey(ignore: true)
@@ -443,7 +462,8 @@ class _$_Bid extends _Bid {
       collectionId,
       purchaseKey,
       bidStatus,
-      bidSendReceive);
+      bidSendReceive,
+      const DeepCollectionEquality().hash(isRaw));
 
   @JsonKey(ignore: true)
   @override
@@ -488,7 +508,9 @@ abstract class _Bid extends Bid {
       @JsonKey(name: "BidStatus", fromJson: bidStatusFromJson, toJson: bidStatusToJson)
           required final BidStatus bidStatus,
       @JsonKey(name: "BidSendReceive", fromJson: bidSendReceiveFromJson, toJson: bidSendReveiveToJson)
-          required final BidSendReceive bidSendReceive}) = _$_Bid;
+          required final BidSendReceive bidSendReceive,
+      @JsonKey(name: "RawBid")
+          final dynamic isRaw}) = _$_Bid;
   _Bid._() : super._();
 
   factory _Bid.fromJson(Map<String, dynamic> json) = _$_Bid.fromJson;
@@ -539,6 +561,9 @@ abstract class _Bid extends Bid {
       fromJson: bidSendReceiveFromJson,
       toJson: bidSendReveiveToJson)
   BidSendReceive get bidSendReceive;
+  @override
+  @JsonKey(name: "RawBid")
+  dynamic get isRaw;
   @override
   @JsonKey(ignore: true)
   _$$_BidCopyWith<_$_Bid> get copyWith => throw _privateConstructorUsedError;

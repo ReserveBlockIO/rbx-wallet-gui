@@ -34,6 +34,8 @@ mixin _$ChatMessage {
   String? get shopUrl => throw _privateConstructorUsedError;
   @JsonKey(name: "MessageReceived")
   bool get received => throw _privateConstructorUsedError;
+  @JsonKey(name: "IsThirdParty")
+  bool get isThirdParty => throw _privateConstructorUsedError;
   @JsonKey(name: "IsShopSentMessage")
   bool get isShopSentMessage => throw _privateConstructorUsedError;
 
@@ -57,6 +59,7 @@ abstract class $ChatMessageCopyWith<$Res> {
       @JsonKey(name: "TimeStamp") int timestamp,
       @JsonKey(name: "ShopURL") String? shopUrl,
       @JsonKey(name: "MessageReceived") bool received,
+      @JsonKey(name: "IsThirdParty") bool isThirdParty,
       @JsonKey(name: "IsShopSentMessage") bool isShopSentMessage});
 }
 
@@ -80,6 +83,7 @@ class _$ChatMessageCopyWithImpl<$Res, $Val extends ChatMessage>
     Object? timestamp = null,
     Object? shopUrl = freezed,
     Object? received = null,
+    Object? isThirdParty = null,
     Object? isShopSentMessage = null,
   }) {
     return _then(_value.copyWith(
@@ -111,6 +115,10 @@ class _$ChatMessageCopyWithImpl<$Res, $Val extends ChatMessage>
           ? _value.received
           : received // ignore: cast_nullable_to_non_nullable
               as bool,
+      isThirdParty: null == isThirdParty
+          ? _value.isThirdParty
+          : isThirdParty // ignore: cast_nullable_to_non_nullable
+              as bool,
       isShopSentMessage: null == isShopSentMessage
           ? _value.isShopSentMessage
           : isShopSentMessage // ignore: cast_nullable_to_non_nullable
@@ -135,6 +143,7 @@ abstract class _$$_ChatMessageCopyWith<$Res>
       @JsonKey(name: "TimeStamp") int timestamp,
       @JsonKey(name: "ShopURL") String? shopUrl,
       @JsonKey(name: "MessageReceived") bool received,
+      @JsonKey(name: "IsThirdParty") bool isThirdParty,
       @JsonKey(name: "IsShopSentMessage") bool isShopSentMessage});
 }
 
@@ -156,6 +165,7 @@ class __$$_ChatMessageCopyWithImpl<$Res>
     Object? timestamp = null,
     Object? shopUrl = freezed,
     Object? received = null,
+    Object? isThirdParty = null,
     Object? isShopSentMessage = null,
   }) {
     return _then(_$_ChatMessage(
@@ -187,6 +197,10 @@ class __$$_ChatMessageCopyWithImpl<$Res>
           ? _value.received
           : received // ignore: cast_nullable_to_non_nullable
               as bool,
+      isThirdParty: null == isThirdParty
+          ? _value.isThirdParty
+          : isThirdParty // ignore: cast_nullable_to_non_nullable
+              as bool,
       isShopSentMessage: null == isShopSentMessage
           ? _value.isShopSentMessage
           : isShopSentMessage // ignore: cast_nullable_to_non_nullable
@@ -206,6 +220,7 @@ class _$_ChatMessage extends _ChatMessage {
       @JsonKey(name: "TimeStamp") required this.timestamp,
       @JsonKey(name: "ShopURL") this.shopUrl,
       @JsonKey(name: "MessageReceived") this.received = false,
+      @JsonKey(name: "IsThirdParty") this.isThirdParty = false,
       @JsonKey(name: "IsShopSentMessage") required this.isShopSentMessage})
       : super._();
 
@@ -234,12 +249,15 @@ class _$_ChatMessage extends _ChatMessage {
   @JsonKey(name: "MessageReceived")
   final bool received;
   @override
+  @JsonKey(name: "IsThirdParty")
+  final bool isThirdParty;
+  @override
   @JsonKey(name: "IsShopSentMessage")
   final bool isShopSentMessage;
 
   @override
   String toString() {
-    return 'ChatMessage(id: $id, message: $message, toAddress: $toAddress, fromAddress: $fromAddress, timestamp: $timestamp, shopUrl: $shopUrl, received: $received, isShopSentMessage: $isShopSentMessage)';
+    return 'ChatMessage(id: $id, message: $message, toAddress: $toAddress, fromAddress: $fromAddress, timestamp: $timestamp, shopUrl: $shopUrl, received: $received, isThirdParty: $isThirdParty, isShopSentMessage: $isShopSentMessage)';
   }
 
   @override
@@ -258,14 +276,25 @@ class _$_ChatMessage extends _ChatMessage {
             (identical(other.shopUrl, shopUrl) || other.shopUrl == shopUrl) &&
             (identical(other.received, received) ||
                 other.received == received) &&
+            (identical(other.isThirdParty, isThirdParty) ||
+                other.isThirdParty == isThirdParty) &&
             (identical(other.isShopSentMessage, isShopSentMessage) ||
                 other.isShopSentMessage == isShopSentMessage));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, message, toAddress,
-      fromAddress, timestamp, shopUrl, received, isShopSentMessage);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      message,
+      toAddress,
+      fromAddress,
+      timestamp,
+      shopUrl,
+      received,
+      isThirdParty,
+      isShopSentMessage);
 
   @JsonKey(ignore: true)
   @override
@@ -297,6 +326,8 @@ abstract class _ChatMessage extends ChatMessage {
           final String? shopUrl,
       @JsonKey(name: "MessageReceived")
           final bool received,
+      @JsonKey(name: "IsThirdParty")
+          final bool isThirdParty,
       @JsonKey(name: "IsShopSentMessage")
           required final bool isShopSentMessage}) = _$_ChatMessage;
   _ChatMessage._() : super._();
@@ -325,6 +356,9 @@ abstract class _ChatMessage extends ChatMessage {
   @override
   @JsonKey(name: "MessageReceived")
   bool get received;
+  @override
+  @JsonKey(name: "IsThirdParty")
+  bool get isThirdParty;
   @override
   @JsonKey(name: "IsShopSentMessage")
   bool get isShopSentMessage;
