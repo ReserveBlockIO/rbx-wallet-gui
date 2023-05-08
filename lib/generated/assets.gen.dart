@@ -160,6 +160,10 @@ class $AssetsImagesGen {
   AssetGenImage get rbxWallet =>
       const AssetGenImage('assets/images/rbx_wallet.png');
 
+  /// File path: assets/images/reserve_block_wordmark.png
+  AssetGenImage get reserveBlockWordmark =>
+      const AssetGenImage('assets/images/reserve_block_wordmark.png');
+
   /// File path: assets/images/template_basic_1a.jpg
   AssetGenImage get templateBasic1a =>
       const AssetGenImage('assets/images/template_basic_1a.jpg');
@@ -256,6 +260,7 @@ class $AssetsImagesGen {
         nester,
         nodelines,
         rbxWallet,
+        reserveBlockWordmark,
         templateBasic1a,
         templateBasic2a,
         templateBasic3a,
