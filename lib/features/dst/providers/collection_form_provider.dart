@@ -65,7 +65,7 @@ class CollectionFormProvider extends StateNotifier<Collection> {
         }
         AutoRouter.of(context).pop();
       }
-      ref.read(decShopProvider).value?.requestShopSync();
+
       clear();
     } else {
       Toast.error();

@@ -99,10 +99,9 @@ build_web:
 	fvm flutter build web
 
 
-deploy_web:
-	echo "Disabled to prevent accidents"
-	# fvm flutter build web --dart-define ENV=web
-	# firebase use rbx-web-wallet && firebase deploy --only hosting
+deploy_web_main:
+	fvm flutter build web --dart-define ENV=web
+	firebase use rbx-web-wallet && firebase deploy --only hosting
 
 
 deploy_web_testnet:

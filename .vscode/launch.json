@@ -5,6 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Mac [Mainnet]",
+            "type": "dart",
+            "request": "launch",
+            "args": [
+                "-d",
+                "macos",
+                "--dart-define",
+                "ENV=mainnet"
+            ]
+        },
+        {
             "name": "Mac [TestNet]",
             "type": "dart",
             "request": "launch",
@@ -37,6 +48,19 @@
                 "42069",
                 "--dart-define",
                 "ENV=web_local"
+            ],
+        },
+        {
+            "name": "Web [Mainnet]",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "-d",
+                "chrome",
+                "--web-port",
+                "42069",
+                "--dart-define",
+                "ENV=web"
             ],
         },
         {
