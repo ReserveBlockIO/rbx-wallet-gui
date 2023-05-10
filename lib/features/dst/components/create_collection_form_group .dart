@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/config/constants.dart';
 import '../providers/collection_form_provider.dart';
 
 import '../../../core/base_component.dart';
@@ -102,6 +103,7 @@ class _CollectionName extends BaseComponent {
     return TextFormField(
       controller: provider.nameController,
       onChanged: provider.updateName,
+      maxLength: MAX_DEC_SHOP_COLLECTION_NAME_LENGTH,
       validator: formValidatorDecName,
       decoration: InputDecoration(
         label: const Text(
@@ -123,6 +125,7 @@ class _CollectionDescription extends BaseComponent {
     final provider = ref.read(storeFormProvider.notifier);
     return TextFormField(
       controller: provider.descriptionController,
+      maxLength: MAX_DEC_SHOP_COLLECTION_DESCRIPTION_LENGTH,
       onChanged: provider.updateDescription,
       validator: formValidatorDecDescription,
       maxLines: 3,

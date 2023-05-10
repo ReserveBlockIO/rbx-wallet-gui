@@ -19,7 +19,7 @@ import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/theme/app_theme.dart';
 import '../components/create_dec_shop_form_group.dart';
-import '../components/create_store_form_group .dart';
+import '../components/create_collection_form_group .dart';
 import '../providers/dec_shop_form_provider.dart';
 
 class CreateDecShopContainerScreen extends BaseScreen {
