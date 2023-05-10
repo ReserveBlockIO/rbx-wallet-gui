@@ -87,7 +87,7 @@ class _CollectionName extends BaseComponent {
     return TextFormField(
       controller: provider.nameController,
       onChanged: provider.updateName,
-      validator: (value) => formValidatorNotEmpty(value, "Collection Name"),
+      validator: formValidatorDecName,
       decoration: InputDecoration(
         label: const Text(
           "Collection Name",
@@ -109,7 +109,7 @@ class _CollectionDescription extends BaseComponent {
     return TextFormField(
       controller: provider.descriptionController,
       onChanged: provider.updateDescription,
-      validator: (value) => formValidatorNotEmpty(value, "Collection Description"),
+      validator: formValidatorDecDescription,
       maxLines: 3,
       decoration: InputDecoration(
         label: const Text(

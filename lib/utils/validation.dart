@@ -1,3 +1,5 @@
+import 'package:rbx_wallet/features/config/constants.dart';
+
 import '../core/env.dart';
 
 bool isInt(String number) {
@@ -123,6 +125,32 @@ String? formValidatorNotEmpty(String? value, String label) {
     return "$label is required.";
   }
 
+  return null;
+}
+
+String? formValidatorDecDescription(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'The description is required';
+  }
+  if (value.length > MAX_DEC_SHOP_DESCRIPTION_LENGTH) {
+    return 'The description exceeds the maximum character length';
+  }
+  if (value.split(' ').length > MAX_DEC_SHOP_DESCRIPTION_WORDS) {
+    return 'The description exceeds the maximum word count';
+  }
+  return null;
+}
+
+String? formValidatorDecName(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'The name is required';
+  }
+  if (value.length > MAX_DEC_SHOP_NAME_LENGTH) {
+    return 'The name exceeds the maximum character length';
+  }
+  if (value.split(' ').length > MAX_DEC_SHOP_NAME_WORDS) {
+    return 'The name exceeds the maximum word count';
+  }
   return null;
 }
 
