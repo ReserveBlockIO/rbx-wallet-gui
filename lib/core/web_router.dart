@@ -119,6 +119,7 @@ const webDashboardTabRouter = AutoRoute(
       children: [
         AutoRoute(path: "", page: WebSmartContractLandingScreen),
         AutoRoute(path: "create", page: WebCreateSmartContractScreen),
+        AutoRoute(path: "bulk", name: 'WebBulkCreateScreenRoute', page: BulkCreateScreen),
         AutoRoute(path: "create", name: "WebSmartContractWizardScreenRoute", page: SmartContractWizardScreen),
         // AutoRoute(path: "wizard", name: "WebBuldCreateScreen", page: BulkCreateScreen),
       ],

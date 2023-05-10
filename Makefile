@@ -4,7 +4,7 @@ gen:
 	fvm flutter packages pub run build_runner build --delete-conflicting-outputs
 
 gen_folder:
-	fvm flutter packages pub run build_runner build --build-filter "$(path)/*.dart" 
+	fvm flutter packages pub run build_runner build --build-filter "$(path)/*.dart" --delete-conflicting-outputs
 
 gen_watch:
 	fvm flutter packages pub run build_runner watch --delete-conflicting-outputs
