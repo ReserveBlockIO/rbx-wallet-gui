@@ -29,9 +29,9 @@ mixin _$WebBlock {
   @JsonKey(name: "total_amount")
   double get totalAmount => throw _privateConstructorUsedError;
   @JsonKey(name: "total_reward")
-  double get totalReward => throw _privateConstructorUsedError;
-  @JsonKey(name: "number_of_transactions")
-  int get numberOfTransactions => throw _privateConstructorUsedError;
+  double get totalReward =>
+      throw _privateConstructorUsedError; // @JsonKey(name: "number_of_transactions") required int numberOfTransactions,
+  List<WebTransaction> get transactions => throw _privateConstructorUsedError;
   int get size => throw _privateConstructorUsedError;
   @JsonKey(name: "craft_time")
   int get craftTime => throw _privateConstructorUsedError;
@@ -56,7 +56,7 @@ abstract class $WebBlockCopyWith<$Res> {
       @JsonKey(name: "validator_address") String validator,
       @JsonKey(name: "total_amount") double totalAmount,
       @JsonKey(name: "total_reward") double totalReward,
-      @JsonKey(name: "number_of_transactions") int numberOfTransactions,
+      List<WebTransaction> transactions,
       int size,
       @JsonKey(name: "craft_time") int craftTime,
       @JsonKey(name: "previous_hash") String prevHash});
@@ -81,7 +81,7 @@ class _$WebBlockCopyWithImpl<$Res, $Val extends WebBlock>
     Object? validator = null,
     Object? totalAmount = null,
     Object? totalReward = null,
-    Object? numberOfTransactions = null,
+    Object? transactions = null,
     Object? size = null,
     Object? craftTime = null,
     Object? prevHash = null,
@@ -111,10 +111,10 @@ class _$WebBlockCopyWithImpl<$Res, $Val extends WebBlock>
           ? _value.totalReward
           : totalReward // ignore: cast_nullable_to_non_nullable
               as double,
-      numberOfTransactions: null == numberOfTransactions
-          ? _value.numberOfTransactions
-          : numberOfTransactions // ignore: cast_nullable_to_non_nullable
-              as int,
+      transactions: null == transactions
+          ? _value.transactions
+          : transactions // ignore: cast_nullable_to_non_nullable
+              as List<WebTransaction>,
       size: null == size
           ? _value.size
           : size // ignore: cast_nullable_to_non_nullable
@@ -145,7 +145,7 @@ abstract class _$$_WebBlockCopyWith<$Res> implements $WebBlockCopyWith<$Res> {
       @JsonKey(name: "validator_address") String validator,
       @JsonKey(name: "total_amount") double totalAmount,
       @JsonKey(name: "total_reward") double totalReward,
-      @JsonKey(name: "number_of_transactions") int numberOfTransactions,
+      List<WebTransaction> transactions,
       int size,
       @JsonKey(name: "craft_time") int craftTime,
       @JsonKey(name: "previous_hash") String prevHash});
@@ -168,7 +168,7 @@ class __$$_WebBlockCopyWithImpl<$Res>
     Object? validator = null,
     Object? totalAmount = null,
     Object? totalReward = null,
-    Object? numberOfTransactions = null,
+    Object? transactions = null,
     Object? size = null,
     Object? craftTime = null,
     Object? prevHash = null,
@@ -198,10 +198,10 @@ class __$$_WebBlockCopyWithImpl<$Res>
           ? _value.totalReward
           : totalReward // ignore: cast_nullable_to_non_nullable
               as double,
-      numberOfTransactions: null == numberOfTransactions
-          ? _value.numberOfTransactions
-          : numberOfTransactions // ignore: cast_nullable_to_non_nullable
-              as int,
+      transactions: null == transactions
+          ? _value._transactions
+          : transactions // ignore: cast_nullable_to_non_nullable
+              as List<WebTransaction>,
       size: null == size
           ? _value.size
           : size // ignore: cast_nullable_to_non_nullable
@@ -223,23 +223,17 @@ class __$$_WebBlockCopyWithImpl<$Res>
 class _$_WebBlock extends _WebBlock {
   _$_WebBlock(
       {required this.height,
-      @JsonKey(name: "date_crafted")
-          required this.dateCrafted,
+      @JsonKey(name: "date_crafted") required this.dateCrafted,
       required this.hash,
-      @JsonKey(name: "validator_address")
-          required this.validator,
-      @JsonKey(name: "total_amount")
-          required this.totalAmount,
-      @JsonKey(name: "total_reward")
-          required this.totalReward,
-      @JsonKey(name: "number_of_transactions")
-          required this.numberOfTransactions,
+      @JsonKey(name: "validator_address") required this.validator,
+      @JsonKey(name: "total_amount") required this.totalAmount,
+      @JsonKey(name: "total_reward") required this.totalReward,
+      final List<WebTransaction> transactions = const [],
       required this.size,
-      @JsonKey(name: "craft_time")
-          required this.craftTime,
-      @JsonKey(name: "previous_hash")
-          required this.prevHash})
-      : super._();
+      @JsonKey(name: "craft_time") required this.craftTime,
+      @JsonKey(name: "previous_hash") required this.prevHash})
+      : _transactions = transactions,
+        super._();
 
   factory _$_WebBlock.fromJson(Map<String, dynamic> json) =>
       _$$_WebBlockFromJson(json);
@@ -260,9 +254,17 @@ class _$_WebBlock extends _WebBlock {
   @override
   @JsonKey(name: "total_reward")
   final double totalReward;
+// @JsonKey(name: "number_of_transactions") required int numberOfTransactions,
+  final List<WebTransaction> _transactions;
+// @JsonKey(name: "number_of_transactions") required int numberOfTransactions,
   @override
-  @JsonKey(name: "number_of_transactions")
-  final int numberOfTransactions;
+  @JsonKey()
+  List<WebTransaction> get transactions {
+    if (_transactions is EqualUnmodifiableListView) return _transactions;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_transactions);
+  }
+
   @override
   final int size;
   @override
@@ -274,7 +276,7 @@ class _$_WebBlock extends _WebBlock {
 
   @override
   String toString() {
-    return 'WebBlock(height: $height, dateCrafted: $dateCrafted, hash: $hash, validator: $validator, totalAmount: $totalAmount, totalReward: $totalReward, numberOfTransactions: $numberOfTransactions, size: $size, craftTime: $craftTime, prevHash: $prevHash)';
+    return 'WebBlock(height: $height, dateCrafted: $dateCrafted, hash: $hash, validator: $validator, totalAmount: $totalAmount, totalReward: $totalReward, transactions: $transactions, size: $size, craftTime: $craftTime, prevHash: $prevHash)';
   }
 
   @override
@@ -292,8 +294,8 @@ class _$_WebBlock extends _WebBlock {
                 other.totalAmount == totalAmount) &&
             (identical(other.totalReward, totalReward) ||
                 other.totalReward == totalReward) &&
-            (identical(other.numberOfTransactions, numberOfTransactions) ||
-                other.numberOfTransactions == numberOfTransactions) &&
+            const DeepCollectionEquality()
+                .equals(other._transactions, _transactions) &&
             (identical(other.size, size) || other.size == size) &&
             (identical(other.craftTime, craftTime) ||
                 other.craftTime == craftTime) &&
@@ -311,7 +313,7 @@ class _$_WebBlock extends _WebBlock {
       validator,
       totalAmount,
       totalReward,
-      numberOfTransactions,
+      const DeepCollectionEquality().hash(_transactions),
       size,
       craftTime,
       prevHash);
@@ -332,23 +334,17 @@ class _$_WebBlock extends _WebBlock {
 
 abstract class _WebBlock extends WebBlock {
   factory _WebBlock(
-      {required final int height,
-      @JsonKey(name: "date_crafted")
-          required final DateTime dateCrafted,
-      required final String hash,
-      @JsonKey(name: "validator_address")
-          required final String validator,
-      @JsonKey(name: "total_amount")
-          required final double totalAmount,
-      @JsonKey(name: "total_reward")
-          required final double totalReward,
-      @JsonKey(name: "number_of_transactions")
-          required final int numberOfTransactions,
-      required final int size,
-      @JsonKey(name: "craft_time")
-          required final int craftTime,
-      @JsonKey(name: "previous_hash")
-          required final String prevHash}) = _$_WebBlock;
+          {required final int height,
+          @JsonKey(name: "date_crafted") required final DateTime dateCrafted,
+          required final String hash,
+          @JsonKey(name: "validator_address") required final String validator,
+          @JsonKey(name: "total_amount") required final double totalAmount,
+          @JsonKey(name: "total_reward") required final double totalReward,
+          final List<WebTransaction> transactions,
+          required final int size,
+          @JsonKey(name: "craft_time") required final int craftTime,
+          @JsonKey(name: "previous_hash") required final String prevHash}) =
+      _$_WebBlock;
   _WebBlock._() : super._();
 
   factory _WebBlock.fromJson(Map<String, dynamic> json) = _$_WebBlock.fromJson;
@@ -369,9 +365,8 @@ abstract class _WebBlock extends WebBlock {
   @override
   @JsonKey(name: "total_reward")
   double get totalReward;
-  @override
-  @JsonKey(name: "number_of_transactions")
-  int get numberOfTransactions;
+  @override // @JsonKey(name: "number_of_transactions") required int numberOfTransactions,
+  List<WebTransaction> get transactions;
   @override
   int get size;
   @override
