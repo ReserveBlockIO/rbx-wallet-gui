@@ -109,6 +109,10 @@ class $AssetsFontsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/Colonials Fog Insider.gif
+  AssetGenImage get colonialsFogInsider =>
+      const AssetGenImage('assets/images/Colonials Fog Insider.gif');
+
   /// File path: assets/images/animated_cube.gif
   AssetGenImage get animatedCube =>
       const AssetGenImage('assets/images/animated_cube.gif');
@@ -246,6 +250,7 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
+        colonialsFogInsider,
         animatedCube,
         animatedCubeFast,
         decorBottom,
@@ -366,16 +371,7 @@ class AssetGenImage {
     );
   }
 
-  ImageProvider provider({
-    AssetBundle? bundle,
-    String? package,
-  }) {
-    return AssetImage(
-      _assetName,
-      bundle: bundle,
-      package: package,
-    );
-  }
+  ImageProvider provider() => AssetImage(_assetName);
 
   String get path => _assetName;
 

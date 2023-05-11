@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/features/transactions/models/web_transaction.dart';
 
 import '../../block/block.dart';
 
@@ -16,7 +17,8 @@ abstract class WebBlock with _$WebBlock {
     @JsonKey(name: "validator_address") required String validator,
     @JsonKey(name: "total_amount") required double totalAmount,
     @JsonKey(name: "total_reward") required double totalReward,
-    @JsonKey(name: "number_of_transactions") required int numberOfTransactions,
+    // @JsonKey(name: "number_of_transactions") required int numberOfTransactions,
+    @Default([]) List<WebTransaction> transactions,
     required int size,
     @JsonKey(name: "craft_time") required int craftTime,
     @JsonKey(name: "previous_hash") required String prevHash,
@@ -40,7 +42,8 @@ abstract class WebBlock with _$WebBlock {
       version: 1,
       totalAmount: totalAmount,
       totalReward: totalReward,
-      numberOfTransactions: numberOfTransactions,
+      // numberOfTransactions: numberOfTransactions,
+      numberOfTransactions: transactions.length,
       size: size,
       craftTime: craftTime,
       transactions: [],

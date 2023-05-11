@@ -7,7 +7,7 @@ import '../../../core/base_screen.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/theme/app_theme.dart';
-import '../components/create_store_form_group .dart';
+import '../components/create_collection_form_group .dart';
 
 class CreateCollectionContainerScreen extends BaseScreen {
   const CreateCollectionContainerScreen({Key? key}) : super(key: key, verticalPadding: 0, horizontalPadding: 0);

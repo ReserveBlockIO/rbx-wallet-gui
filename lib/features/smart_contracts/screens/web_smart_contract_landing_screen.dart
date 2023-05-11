@@ -81,7 +81,9 @@ class WebSmartContractLandingScreen extends BaseScreen {
                     iconData: Icons.auto_awesome,
                     body: "Mint multiple Smart Contracts into a collection",
                     onPressed: () {
-                      AutoRouter.of(context).push(WebSmartContractWizardScreenRoute());
+                      AutoRouter.of(context).push(const WebBulkCreateScreenRoute());
+
+                      // AutoRouter.of(context).push(WebSmartContractWizardScreenRoute());
                       // Navigator.of(context).push(
                       //   MaterialPageRoute(builder: (context) => const SmartContractWizardScreen()),
                       // );

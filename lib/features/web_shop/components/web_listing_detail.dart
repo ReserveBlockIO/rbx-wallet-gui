@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:context_menus/context_menus.dart';
+import 'package:dio/dio.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -267,21 +268,36 @@ class _PreviewState extends State<_Preview> {
     final assetFilenames = [primaryFilename, ...additionalFilenames];
 
     final List<String> orderedThumbs = [];
+    final List<IconData?> icons = [];
+
+    final thumbnailPreviews = widget.listing.thumbnailPreviews;
 
     for (final a in assetFilenames) {
-      final ext = a.split("/").last.split('.').last;
+      final ext = a.split("/").last.split('.').last.toLowerCase();
 
-      if (["jpg", "jpeg", "gif", "png", "pdf", "webp"].contains(ext.toLowerCase())) {
-        for (final t in widget.listing.thumbnails) {
-          final f = t.split("/").last.split('.').first;
-          if (a.contains(f)) {
+      // if (["jpg", "jpeg", "gif", "png", "pdf", "webp"].contains(ext.toLowerCase())) {
+      for (final t in widget.listing.thumbnails) {
+        // final f = t.split("/").last.split('.').first;
+        final fname = t.split("/").last;
+        if (a == fname) {
+          if (["jpg", "jpeg", "gif", "png", "webp"].contains(ext)) {
             orderedThumbs.add(t);
+            icons.add(null);
+          } else if (thumbnailPreviews != null && thumbnailPreviews.containsKey(fname)) {
+            orderedThumbs.add(thumbnailPreviews[fname]);
+            icons.add(iconFromPath(fname));
+          } else {
+            orderedThumbs.add("ICON||$a||$ext");
+            icons.add(iconFromPath(fname));
           }
         }
-      } else {
-        orderedThumbs.add("ICON||$a||$ext");
       }
     }
+
+    // else {
+    //   orderedThumbs.add("ICON||$a||$ext");
+    // }
+    // }
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -313,78 +329,98 @@ class _PreviewState extends State<_Preview> {
                       });
                     },
                   ),
-                  items: orderedThumbs.map((path) {
+                  items: orderedThumbs.asMap().entries.map((entry) {
+                    final path = entry.value;
+                    final i = entry.key;
                     final isIcon = path.contains("ICON||");
 
                     IconData? icon = isIcon ? iconFromPath(path.split("||").last) : null;
+
+                    final IconData? extraIcon = icons[i];
+
                     String? filename = isIcon ? path.split("||")[1] : null;
 
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 0),
                       child: GestureDetector(
-                        onTap: isIcon
-                            ? null
-                            : () {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return GestureDetector(
-                                        onTap: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Center(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(16.0),
-                                            child: CachedNetworkImage(
-                                              imageUrl: path,
-                                              width: isMobile ? 300 : 512,
-                                              height: isMobile ? 300 : 512,
-                                              fit: BoxFit.contain,
+                          onTap: isIcon
+                              ? null
+                              : () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return GestureDetector(
+                                          onTap: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Center(
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(16.0),
+                                              child: CachedNetworkImage(
+                                                imageUrl: path,
+                                                width: isMobile ? 300 : 512,
+                                                height: isMobile ? 300 : 512,
+                                                fit: BoxFit.contain,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      );
-                                    });
-                              },
-                        child: isIcon
-                            ? Center(
-                                child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(icon),
-                                  if (filename != null)
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 6.0),
-                                      child: Text(filename),
-                                    )
-                                ],
-                              ))
-                            : fileTypeFromPath(path) == "Image"
-                                ? CachedNetworkImage(
-                                    imageUrl: path,
-                                    errorWidget: (context, _, __) {
-                                      // return Text(path);
-                                      return Center(
-                                        child: IconButton(
-                                          icon: Icon(Icons.refresh),
-                                          onPressed: () async {
-                                            setState(() {
-                                              rebuilding = true;
-                                            });
-                                            await FileImage(File(path)).evict();
+                                        );
+                                      });
+                                },
+                          child: isIcon
+                              ? Center(
+                                  child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(icon),
+                                    if (filename != null)
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 6.0),
+                                        child: Text(filename),
+                                      )
+                                  ],
+                                ))
+                              : Builder(builder: (context) {
+                                  if (fileTypeFromPath(path) == "Image") {
+                                    return Stack(
+                                      children: [
+                                        CachedNetworkImage(
+                                          imageUrl: path,
+                                          errorWidget: (context, _, __) {
+                                            // return Text(path);
+                                            return Center(
+                                              child: IconButton(
+                                                icon: Icon(Icons.refresh),
+                                                onPressed: () async {
+                                                  setState(() {
+                                                    rebuilding = true;
+                                                  });
+                                                  await FileImage(File(path)).evict();
 
-                                            Future.delayed(Duration(milliseconds: 300)).then((value) {
-                                              setState(() {
-                                                rebuilding = false;
-                                              });
-                                            });
+                                                  Future.delayed(Duration(milliseconds: 300)).then((value) {
+                                                    setState(() {
+                                                      rebuilding = false;
+                                                    });
+                                                  });
+                                                },
+                                              ),
+                                            );
                                           },
                                         ),
-                                      );
-                                    },
-                                  )
-                                : Center(child: Icon(iconFromPath(path))),
-                      ),
+                                        if (extraIcon != null)
+                                          Align(
+                                            alignment: Alignment.bottomRight,
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Icon(extraIcon),
+                                            ),
+                                          )
+                                      ],
+                                    );
+                                  }
+
+                                  return Center(child: Icon(iconFromPath(path)));
+                                })),
                     );
                   }).toList(),
                 ),
