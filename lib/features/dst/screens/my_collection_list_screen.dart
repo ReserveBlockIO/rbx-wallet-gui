@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import '../../../core/app_constants.dart';
 import '../../../core/app_router.gr.dart';
 import '../../../core/base_component.dart';
@@ -331,6 +332,7 @@ class DecShopButton extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final data = ref.watch(decShopProvider);
+    final addresses = ref.watch(walletListProvider).map((e) => e.address).toList();
 
     return data.when(
       loading: () => SizedBox(),
@@ -369,6 +371,10 @@ class DecShopButton extends BaseComponent {
                   );
 
                   if (address != null) {
+                    if (!addresses.contains(address)) {
+                      Toast.error('This is not one of your addresses');
+                      return;
+                    }
                     final success = await DstService().importShop(address);
                     if (success == true) {
                       ref.invalidate(decShopProvider);
