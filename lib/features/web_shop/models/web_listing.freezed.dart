@@ -71,6 +71,9 @@ mixin _$WebListing {
   bool get galleryOnly => throw _privateConstructorUsedError;
   @JsonKey(defaultValue: [])
   List<String> get thumbnails => throw _privateConstructorUsedError;
+  @JsonKey(name: "thumbnail_previews")
+  Map<String, dynamic>? get thumbnailPreviews =>
+      throw _privateConstructorUsedError;
   WebAuction? get auction => throw _privateConstructorUsedError;
   List<WebBid> get bids => throw _privateConstructorUsedError;
 
@@ -138,6 +141,8 @@ abstract class $WebListingCopyWith<$Res> {
           bool galleryOnly,
       @JsonKey(defaultValue: [])
           List<String> thumbnails,
+      @JsonKey(name: "thumbnail_previews")
+          Map<String, dynamic>? thumbnailPreviews,
       WebAuction? auction,
       List<WebBid> bids});
 
@@ -185,6 +190,7 @@ class _$WebListingCopyWithImpl<$Res, $Val extends WebListing>
     Object? enableReservePrice = null,
     Object? galleryOnly = null,
     Object? thumbnails = null,
+    Object? thumbnailPreviews = freezed,
     Object? auction = freezed,
     Object? bids = null,
   }) {
@@ -293,6 +299,10 @@ class _$WebListingCopyWithImpl<$Res, $Val extends WebListing>
           ? _value.thumbnails
           : thumbnails // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      thumbnailPreviews: freezed == thumbnailPreviews
+          ? _value.thumbnailPreviews
+          : thumbnailPreviews // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
       auction: freezed == auction
           ? _value.auction
           : auction // ignore: cast_nullable_to_non_nullable
@@ -397,6 +407,8 @@ abstract class _$$_WebListingCopyWith<$Res>
           bool galleryOnly,
       @JsonKey(defaultValue: [])
           List<String> thumbnails,
+      @JsonKey(name: "thumbnail_previews")
+          Map<String, dynamic>? thumbnailPreviews,
       WebAuction? auction,
       List<WebBid> bids});
 
@@ -445,6 +457,7 @@ class __$$_WebListingCopyWithImpl<$Res>
     Object? enableReservePrice = null,
     Object? galleryOnly = null,
     Object? thumbnails = null,
+    Object? thumbnailPreviews = freezed,
     Object? auction = freezed,
     Object? bids = null,
   }) {
@@ -553,6 +566,10 @@ class __$$_WebListingCopyWithImpl<$Res>
           ? _value._thumbnails
           : thumbnails // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      thumbnailPreviews: freezed == thumbnailPreviews
+          ? _value._thumbnailPreviews
+          : thumbnailPreviews // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
       auction: freezed == auction
           ? _value.auction
           : auction // ignore: cast_nullable_to_non_nullable
@@ -620,9 +637,12 @@ class _$_WebListing extends _WebListing {
           this.galleryOnly = false,
       @JsonKey(defaultValue: [])
           required final List<String> thumbnails,
+      @JsonKey(name: "thumbnail_previews")
+          final Map<String, dynamic>? thumbnailPreviews,
       this.auction = null,
       final List<WebBid> bids = const []})
       : _thumbnails = thumbnails,
+        _thumbnailPreviews = thumbnailPreviews,
         _bids = bids,
         super._();
 
@@ -712,6 +732,18 @@ class _$_WebListing extends _WebListing {
     return EqualUnmodifiableListView(_thumbnails);
   }
 
+  final Map<String, dynamic>? _thumbnailPreviews;
+  @override
+  @JsonKey(name: "thumbnail_previews")
+  Map<String, dynamic>? get thumbnailPreviews {
+    final value = _thumbnailPreviews;
+    if (value == null) return null;
+    if (_thumbnailPreviews is EqualUnmodifiableMapView)
+      return _thumbnailPreviews;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
+
   @override
   @JsonKey()
   final WebAuction? auction;
@@ -726,7 +758,7 @@ class _$_WebListing extends _WebListing {
 
   @override
   String toString() {
-    return 'WebListing(id: $id, listingId: $listingId, collection: $collection, nft: $nft, smartContractUid: $smartContractUid, ownerAddress: $ownerAddress, winningAddress: $winningAddress, buyNowPrice: $buyNowPrice, floorPrice: $floorPrice, reservePrice: $reservePrice, finalPrice: $finalPrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, isCancelled: $isCancelled, isAuctionStarted: $isAuctionStarted, isAuctionEnded: $isAuctionEnded, isSaleComplete: $isSaleComplete, isSalePending: $isSalePending, purchaseKey: $purchaseKey, enableBuyNow: $enableBuyNow, enableAuction: $enableAuction, enableReservePrice: $enableReservePrice, galleryOnly: $galleryOnly, thumbnails: $thumbnails, auction: $auction, bids: $bids)';
+    return 'WebListing(id: $id, listingId: $listingId, collection: $collection, nft: $nft, smartContractUid: $smartContractUid, ownerAddress: $ownerAddress, winningAddress: $winningAddress, buyNowPrice: $buyNowPrice, floorPrice: $floorPrice, reservePrice: $reservePrice, finalPrice: $finalPrice, startDate: $startDate, endDate: $endDate, isVisibleBeforeStartDate: $isVisibleBeforeStartDate, isVisibleAfterEndDate: $isVisibleAfterEndDate, isCancelled: $isCancelled, isAuctionStarted: $isAuctionStarted, isAuctionEnded: $isAuctionEnded, isSaleComplete: $isSaleComplete, isSalePending: $isSalePending, purchaseKey: $purchaseKey, enableBuyNow: $enableBuyNow, enableAuction: $enableAuction, enableReservePrice: $enableReservePrice, galleryOnly: $galleryOnly, thumbnails: $thumbnails, thumbnailPreviews: $thumbnailPreviews, auction: $auction, bids: $bids)';
   }
 
   @override
@@ -784,6 +816,8 @@ class _$_WebListing extends _WebListing {
                 other.galleryOnly == galleryOnly) &&
             const DeepCollectionEquality()
                 .equals(other._thumbnails, _thumbnails) &&
+            const DeepCollectionEquality()
+                .equals(other._thumbnailPreviews, _thumbnailPreviews) &&
             (identical(other.auction, auction) || other.auction == auction) &&
             const DeepCollectionEquality().equals(other._bids, _bids));
   }
@@ -818,6 +852,7 @@ class _$_WebListing extends _WebListing {
         enableReservePrice,
         galleryOnly,
         const DeepCollectionEquality().hash(_thumbnails),
+        const DeepCollectionEquality().hash(_thumbnailPreviews),
         auction,
         const DeepCollectionEquality().hash(_bids)
       ]);
@@ -889,6 +924,8 @@ abstract class _WebListing extends WebListing {
           final bool galleryOnly,
       @JsonKey(defaultValue: [])
           required final List<String> thumbnails,
+      @JsonKey(name: "thumbnail_previews")
+          final Map<String, dynamic>? thumbnailPreviews,
       final WebAuction? auction,
       final List<WebBid> bids}) = _$_WebListing;
   _WebListing._() : super._();
@@ -973,6 +1010,9 @@ abstract class _WebListing extends WebListing {
   @override
   @JsonKey(defaultValue: [])
   List<String> get thumbnails;
+  @override
+  @JsonKey(name: "thumbnail_previews")
+  Map<String, dynamic>? get thumbnailPreviews;
   @override
   WebAuction? get auction;
   @override

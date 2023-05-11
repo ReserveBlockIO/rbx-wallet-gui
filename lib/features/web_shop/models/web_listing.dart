@@ -43,6 +43,7 @@ class WebListing with _$WebListing {
     @Default(false) @JsonKey(ignore: true) bool enableReservePrice,
     @Default(false) @JsonKey(ignore: true) bool galleryOnly,
     @JsonKey(defaultValue: []) required List<String> thumbnails,
+    @JsonKey(name: "thumbnail_previews") Map<String, dynamic>? thumbnailPreviews,
     @Default(null) WebAuction? auction,
     @Default([]) List<WebBid> bids,
   }) = _WebListing;
