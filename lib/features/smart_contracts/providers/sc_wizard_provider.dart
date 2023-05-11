@@ -315,11 +315,17 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
   Future<bool> uploadJson() async {
     state = [];
     final file = await _getFile(['json']);
-    if (file == null || file.path == null) {
-      return false;
+    if (!kIsWeb) {
+      if (file == null || file.path == null) {
+        return false;
+      }
+    } else {
+      if (file == null || file.bytes == null) {
+        return false;
+      }
     }
 
-    final input = File(file.path!).readAsStringSync();
+    final input = kIsWeb ? utf8.decode(file.bytes!.toList()) : File(file.path!).readAsStringSync();
 
     List<dynamic> data = [];
     try {
@@ -408,13 +414,21 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
   Future<bool> uploadCsv() async {
     state = [];
     final file = await _getFile(['csv']);
-    if (file == null || file.path == null) {
-      return false;
+    if (!kIsWeb) {
+      if (file == null || file.path == null) {
+        return false;
+      }
+    } else {
+      if (file == null || file.bytes == null) {
+        return false;
+      }
     }
 
-    final input = File(file.path!).openRead();
+    // final input = File(file.path!).openRead();
 
-    final fields = await input.transform(utf8.decoder).transform(const CsvToListConverter()).toList();
+    final List<List<dynamic>> fields = kIsWeb
+        ? CsvToListConverter().convert(utf8.decode(file.bytes!.toList()))
+        : await File(file.path!).openRead().transform(utf8.decoder).transform(const CsvToListConverter()).toList();
 
     // final headers = fields.first;
     final rows = [...fields]..removeAt(0);
@@ -496,7 +510,16 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
       required List<String>? additionalAssetUrls,
       List<ScProperty> properties = const [],
       Map<String, dynamic>? evolve}) async {
-    final primaryAsset = await urlToAsset(primaryAssetUrl, creatorName);
+    final primaryAsset = kIsWeb
+        ? Asset(
+            id: '',
+            fileSize: 0,
+            location: primaryAssetUrl,
+          )
+        : await urlToAsset(
+            primaryAssetUrl,
+            creatorName,
+          );
     if (primaryAsset == null) {
       Toast.error("Problem downloading $primaryAssetUrl. Skipping.");
       return null;
@@ -581,7 +604,16 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
     final List<Asset> additionalAssets = [];
     if (additionalAssetUrls != null && additionalAssetUrls.isNotEmpty) {
       for (final url in additionalAssetUrls) {
-        final a = await urlToAsset(url, creatorName);
+        final a = kIsWeb
+            ? Asset(
+                id: '',
+                fileSize: 0,
+                location: url,
+              )
+            : await urlToAsset(
+                url,
+                creatorName,
+              );
         if (a != null) {
           additionalAssets.add(a);
         }
