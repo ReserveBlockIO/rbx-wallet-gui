@@ -384,28 +384,30 @@ class _PreviewState extends State<_Preview> {
                                   if (fileTypeFromPath(path) == "Image") {
                                     return Stack(
                                       children: [
-                                        CachedNetworkImage(
-                                          imageUrl: path,
-                                          errorWidget: (context, _, __) {
-                                            // return Text(path);
-                                            return Center(
-                                              child: IconButton(
-                                                icon: Icon(Icons.refresh),
-                                                onPressed: () async {
-                                                  setState(() {
-                                                    rebuilding = true;
-                                                  });
-                                                  await FileImage(File(path)).evict();
-
-                                                  Future.delayed(Duration(milliseconds: 300)).then((value) {
+                                        Center(
+                                          child: CachedNetworkImage(
+                                            imageUrl: path,
+                                            errorWidget: (context, _, __) {
+                                              // return Text(path);
+                                              return Center(
+                                                child: IconButton(
+                                                  icon: Icon(Icons.refresh),
+                                                  onPressed: () async {
                                                     setState(() {
-                                                      rebuilding = false;
+                                                      rebuilding = true;
                                                     });
-                                                  });
-                                                },
-                                              ),
-                                            );
-                                          },
+                                                    await FileImage(File(path)).evict();
+
+                                                    Future.delayed(Duration(milliseconds: 300)).then((value) {
+                                                      setState(() {
+                                                        rebuilding = false;
+                                                      });
+                                                    });
+                                                  },
+                                                ),
+                                              );
+                                            },
+                                          ),
                                         ),
                                         if (extraIcon != null)
                                           Align(
