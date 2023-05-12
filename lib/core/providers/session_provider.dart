@@ -551,7 +551,9 @@ class SessionProvider extends StateNotifier<SessionModel> {
               ...item,
               'friendlyName': names.containsKey(item['Address']) ? names[item['Address']] : null,
             };
-            wallets.add(Wallet.fromJson(_item));
+            if (!deleted.contains(item['Address'])) {
+              wallets.add(Wallet.fromJson(_item));
+            }
           }
         }
       }
@@ -577,8 +579,16 @@ class SessionProvider extends StateNotifier<SessionModel> {
         state = state.copyWith(currentWallet: wallets.first, totalBalance: totalBalance);
         ref.read(currentValidatorProvider.notifier).set(wallets.first);
       }
+
       final reserveWallets = wallets.where((w) => w.isReserved).toList();
-      ref.read(reserveAccountProvider.notifier).set(reserveWallets);
+      final List<Wallet> reservedWalletsAfterDeleteCheck = [];
+      for (final w in reserveWallets) {
+        if (!deleted.contains(w.address)) {
+          reservedWalletsAfterDeleteCheck.add(w);
+        }
+      }
+
+      ref.read(reserveAccountProvider.notifier).set(reservedWalletsAfterDeleteCheck);
     }
   }
 

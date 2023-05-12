@@ -7,7 +7,6 @@ import '../../remote_shop/services/remote_shop_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../reserve/components/callback_button.dart';
-import '../../reserve/components/recover_button.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/buttons.dart';

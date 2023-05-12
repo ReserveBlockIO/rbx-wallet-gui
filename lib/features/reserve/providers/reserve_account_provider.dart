@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/wallet/providers/wallet_detail_provider.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/providers/session_provider.dart';
@@ -19,6 +20,7 @@ import '../../wallet/providers/wallet_list_provider.dart';
 import '../../../utils/toast.dart';
 import '../../../utils/validation.dart';
 import '../components/balance_indicator.dart';
+import 'package:collection/collection.dart';
 
 class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
   final Ref ref;
@@ -194,23 +196,47 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
     }
   }
 
-  Future<void> recoverAccount(BuildContext context) async {
-    final restoreCode = await PromptModal.show(
+  Future<void> recoverAccount(BuildContext context, String address) async {
+    final recoveryPhrase = await PromptModal.show(
       title: "Restore Code",
       body: "Paste in your RESTORE CODE to import the recovery account for this Reserve Account.",
       validator: (v) => null,
       labelText: "Restore Code",
     );
 
-    if (restoreCode == null) return;
-    final password = await PromptModal.show(title: "Password", validator: (v) => null, lines: 1, obscureText: true, labelText: "Password");
-    if (password == null) return;
+    if (recoveryPhrase == null || recoveryPhrase.isEmpty) return;
 
-    final wallet = await ReserveAccountService().recover(restoreCode: restoreCode, password: password);
+    final password = await PromptModal.show(
+      title: "Password",
+      validator: (v) => null,
+      lines: 1,
+      obscureText: true,
+      labelText: "Password",
+    );
+    if (password == null || password.isEmpty) return;
 
-    if (wallet != null) {
+    final hash = await ReserveAccountService().recoverAccount(password: password, recoveryPhrase: recoveryPhrase, address: address);
+
+    if (hash != null) {
+      final w = ref.read(walletListProvider).firstWhereOrNull((e) => e.address == address);
+
+      if (w != null) {
+        ref.read(walletDetailProvider(w).notifier).delete();
+
+        if (ref.read(sessionProvider).currentWallet?.address == address) {
+          if (ref.read(walletListProvider).isNotEmpty) {
+            ref.read(sessionProvider.notifier).setCurrentWallet(ref.read(walletListProvider).first);
+          }
+        }
+      }
+
       await ref.read(sessionProvider.notifier).loadWallets();
-      Toast.message("Recovery Account Restored");
+
+      InfoDialog.show(
+        title: "Recovery process has started",
+        body:
+            "All your outstanding transactions have been called back and all funds and NFTs are being transferred to your recovery address.\n\nTransaction Hash: $hash",
+      );
     }
   }
 

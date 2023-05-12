@@ -20,6 +20,10 @@ class TransferredProvider extends StateNotifier<List<String>> {
     singleton<Storage>().setStringList(Storage.TRANSFERRED_NFT_IDS, update);
     state = update;
   }
+
+  clear() {
+    state = [];
+  }
 }
 
 final transferredProvider = StateNotifierProvider<TransferredProvider, List<String>>(

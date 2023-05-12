@@ -52,59 +52,97 @@ class ReserveAccountOverviewScreen extends BaseScreen {
 
               return Column(
                 children: [
-                  if (index == 0) _Top(),
-                  Card(
-                    child: ListTile(
-                      title: SelectableText(wallet.address),
-                      subtitle: Row(mainAxisSize: MainAxisSize.min, children: [
-                        Text("Available: ${wallet.availableBalance} RBX"),
-                        SizedBox(width: 4),
-                        InkWell(
-                          onTap: () {
-                            provider.showBalanceInfo(wallet);
-                          },
-                          child: Icon(
-                            Icons.help,
-                            size: 16,
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
-                        )
-                      ]),
-                      trailing: Builder(builder: (context) {
-                        if (wallet.isNetworkProtected) {
-                          return AppBadge(
-                            label: "Activated",
-                            variant: AppColorVariant.Success,
-                          );
-                        }
+                  if (index == 0)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: _Top(),
+                    ),
+                  Container(
+                    decoration: BoxDecoration(
+                      boxShadow: glowingBox,
+                    ),
+                    child: Card(
+                      color: Colors.deepPurple.withOpacity(0.25),
+                      child: ListTile(
+                        title: SelectableText(wallet.address),
+                        subtitle: Row(mainAxisSize: MainAxisSize.min, children: [
+                          Text("Available: ${wallet.availableBalance} RBX"),
+                          SizedBox(width: 4),
+                          InkWell(
+                            onTap: () {
+                              provider.showBalanceInfo(wallet);
+                            },
+                            child: Icon(
+                              Icons.help,
+                              size: 16,
+                              color: Theme.of(context).colorScheme.secondary,
+                            ),
+                          )
+                        ]),
+                        trailing: Builder(builder: (context) {
+                          if (wallet.isNetworkProtected) {
+                            return Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                AppButton(
+                                  label: "Recover",
+                                  icon: Icons.warning,
+                                  type: AppButtonType.Text,
+                                  variant: AppColorVariant.Warning,
+                                  onPressed: () async {
+                                    final confirmed = await ConfirmDialog.show(
+                                      title: "Recover Funds & NFTs",
+                                      body:
+                                          "This is a destructive function that will call back all pending transactions and NFTs and move everything to this recovery address:\n\n${wallet.recoveryAddress}",
+                                      confirmText: "Proceed",
+                                      cancelText: "Cancel",
+                                      destructive: true,
+                                    );
 
-                        if (ref.watch(pendingActivationProvider).contains(wallet.address)) {
-                          return AppBadge(
-                            label: "Activation Pending",
-                            variant: AppColorVariant.Warning,
-                          );
-                        }
+                                    if (confirmed != true) {
+                                      return;
+                                    }
 
-                        if (wallet.balance < 5) {
+                                    provider.recoverAccount(context, wallet.address);
+                                  },
+                                ),
+                                AppBadge(
+                                  label: "Activated",
+                                  variant: AppColorVariant.Success,
+                                ),
+                              ],
+                            );
+                          }
+
+                          if (ref.watch(pendingActivationProvider).contains(wallet.address)) {
+                            return AppBadge(
+                              label: "Activation Pending",
+                              variant: AppColorVariant.Warning,
+                            );
+                          }
+
+                          if (wallet.balance < 5) {
+                            return AppButton(
+                              label: "Awaiting Funds",
+                              variant: AppColorVariant.Danger,
+                              onPressed: () {
+                                InfoDialog.show(
+                                  title: "Funds Required",
+                                  content: SelectableText("To activate, please send a minimum of 5 RBX to:\n\n${wallet.address}."),
+                                );
+                              },
+                            );
+                          }
+
                           return AppButton(
-                            label: "Awaiting Funds",
-                            variant: AppColorVariant.Danger,
+                            label: "Activate Now",
+                            variant: AppColorVariant.Light,
                             onPressed: () {
-                              InfoDialog.show(
-                                title: "Funds Required",
-                                content: SelectableText("To activate, please send a minimum of 5 RBX to:\n\n${wallet.address}."),
-                              );
+                              provider.activate(wallet);
                             },
                           );
-                        }
-
-                        return AppButton(
-                          label: "Activate",
-                          onPressed: () {
-                            provider.activate(wallet);
-                          },
-                        );
-                      }),
+                        }),
+                      ),
                     ),
                   ),
                 ],
@@ -182,8 +220,6 @@ class _Top extends BaseComponent {
             icon: Icons.add,
             variant: AppColorVariant.Success,
             onPressed: () {
-              Toast.error("This feature is currently locked");
-              return;
               provider.newAccount(context);
             },
           ),
@@ -201,21 +237,7 @@ class _Top extends BaseComponent {
             type: AppButtonType.Text,
             variant: AppColorVariant.Light,
             onPressed: () async {
-              Toast.error("This feature is currently locked");
-              return;
-
               provider.restoreAccount(context);
-            },
-          ),
-          AppButton(
-            label: "Restore Recovery Account",
-            icon: Icons.warning,
-            type: AppButtonType.Text,
-            variant: AppColorVariant.Warning,
-            onPressed: () async {
-              Toast.error("This feature is currently locked");
-              return;
-              provider.recoverAccount(context);
             },
           ),
         ],
