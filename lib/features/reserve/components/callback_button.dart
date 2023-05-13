@@ -50,11 +50,7 @@ class CallbackButton extends BaseComponent {
                     variant: AppColorVariant.Success,
                   ),
                 );
-            if (transaction.type == 3) {
-              Future.delayed(Duration(seconds: 30)).then((value) {
-                ref.read(transferredProvider.notifier).clear();
-              });
-            }
+            ref.read(transferredProvider.notifier).clear();
           }
         }
       },

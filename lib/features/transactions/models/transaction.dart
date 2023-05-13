@@ -82,6 +82,17 @@ class Transaction with _$Transaction {
       case 9:
         return "Topic Vote";
       case 10:
+        final data = parseNftData(this);
+        if (data != null) {
+          if (nftDataValue(data, 'Function') == "CallBack()") {
+            return "Reserve (Callback)";
+          } else if (nftDataValue(data, 'Function') == "Register()") {
+            return "Reserve (Register)";
+          } else if (nftDataValue(data, 'Function') == "Recover()") {
+            return "Reserve (Recover)";
+          }
+        }
+
         return "Reserve";
       default:
         return type.toString();

@@ -16,4 +16,19 @@ abstract class NewReserveAccount with _$NewReserveAccount {
   }) = _NewReserveAccount;
 
   factory NewReserveAccount.fromJson(Map<String, dynamic> json) => _$NewReserveAccountFromJson(json);
+
+  String get backupContents {
+    return [
+      "Restore Code:",
+      restoreCode,
+      "\nPrivate Key:",
+      privateKey,
+      "\nAddress:",
+      address,
+      "\nRecovery Private Key:",
+      recoveryPrivateKey,
+      "\nRecovery Address:",
+      recoveryAddress,
+    ].join("\n");
+  }
 }
