@@ -303,6 +303,11 @@ class ReserveAccountDetails extends StatelessWidget {
               ),
             ),
             SizedBox(height: 6),
+            Text(
+              "You will need the Restore Code and Password to Recover any transaction. It is highly advised to copy all and store safely as you would for any private key.",
+              style: TextStyle(fontSize: 12, color: Colors.grey),
+            ),
+            SizedBox(height: 6),
             ListTile(
               contentPadding: EdgeInsets.zero,
               title: TextFormField(
@@ -401,7 +406,7 @@ class ReserveAccountDetails extends StatelessWidget {
                       final d = "${date.year}-${date.month}-${date.day}";
 
                       if (Platform.isMacOS) {
-                        await FileSaver.instance.saveAs("rbx-reserve-account-backup-$d", Uint8List.fromList(bytes), 'txt', MimeType.TEXT);
+                        await FileSaver.instance.saveAs("xRBX Reserve Account Backup", Uint8List.fromList(bytes), 'txt', MimeType.TEXT);
                         Toast.message("Reserve Account Data saved");
                       } else {
                         final data = await FileSaver.instance
