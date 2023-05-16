@@ -152,7 +152,7 @@ class KeygenCta extends BaseComponent {
               ListTile(
                 leading: const Icon(Icons.security),
                 title: TextFormField(
-                  initialValue: keypair.private,
+                  initialValue: keypair.privateCorrected,
                   decoration: const InputDecoration(
                     label: Text("Private Key"),
                   ),
@@ -162,7 +162,7 @@ class KeygenCta extends BaseComponent {
                 trailing: IconButton(
                   icon: const Icon(Icons.copy),
                   onPressed: () async {
-                    await Clipboard.setData(ClipboardData(text: keypair.private));
+                    await Clipboard.setData(ClipboardData(text: keypair.privateCorrected));
                     Toast.message("Private key copied to clipboard");
                   },
                 ),
