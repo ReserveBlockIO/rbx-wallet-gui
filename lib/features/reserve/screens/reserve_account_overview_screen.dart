@@ -182,7 +182,7 @@ class _Top extends BaseComponent {
                 ),
                 children: [
                   TextSpan(
-                    text: "Reserve Accounts [",
+                    text: "Reserve (Protected) Accounts [",
                   ),
                   TextSpan(
                       text: "xRBX",
@@ -191,12 +191,12 @@ class _Top extends BaseComponent {
                         color: Theme.of(context).colorScheme.secondary,
                       )),
                   TextSpan(
-                    text: "] is a personal safe deposit storage feature that is on-chain to help keep your RBX funds and / or NFT assets safe.\n\n",
+                    text: "] is a Cold Storage and On-Chain Escrow Feature to keep your RBX Funds and your Digital Assets Safe.\n\n",
                   ),
                   TextSpan(
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
                     text:
-                        "This feature is separate from your RBX instant settlement address and enables both recovery and call-back on-chain escrow features that allows you to be able to revert funds and assets back to your Reserve Account in the event of theft, misplacement, or from a recipient that requires trustless escrow within 24 hours of occurrence or within a user pre-set defined time.\n\n",
+                        "This feature is separate from your RBX instant settlement address and enables both recovery and call-back on-chain escrow features that allows you to be able to recover funds and assets back to your Reserve Account in the event of theft, misplacement, or from a recipient that requires trustless escrow within 24 hours of occurrence or within a user pre-set defined time.\n\n",
                   ),
                   TextSpan(
                     text: "These features are all on-chain and all peers are aware of their current state.\n",
