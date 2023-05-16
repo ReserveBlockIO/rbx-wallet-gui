@@ -124,7 +124,13 @@ class SendForm extends BaseComponent {
                       ),
                       Expanded(
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            if (wallet!.isReserved && !wallet!.isNetworkProtected)
+                              AppBadge(
+                                label: 'Not Activated',
+                                variant: AppColorVariant.Danger,
+                              ),
                             Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -190,7 +196,6 @@ class SendForm extends BaseComponent {
                                   )
                               ],
                             ),
-                            if (ref.watch(pendingActivationProvider).contains(wallet!.address)) AppBadge(label: 'Not Activated')
                           ],
                         ),
                       ),
@@ -345,6 +350,7 @@ class SendForm extends BaseComponent {
                           label: "Send",
                           type: AppButtonType.Elevated,
                           processing: formModel.isProcessing,
+                          disabled: (wallet!.isReserved && !wallet!.isNetworkProtected),
                           onPressed: () async {
                             if (!await passwordRequiredGuard(context, ref)) return;
 
