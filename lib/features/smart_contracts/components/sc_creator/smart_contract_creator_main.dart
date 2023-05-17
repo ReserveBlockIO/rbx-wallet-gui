@@ -269,8 +269,8 @@ class SmartContractCreatorMain extends BaseComponent {
                     Expanded(child: PrimaryAssetFormGroup()),
                   ],
                 ),
-                const FeaturesFormGroup(),
                 const PropertiesManager(),
+                const FeaturesFormGroup(),
               ],
             ),
           ),
@@ -302,7 +302,6 @@ class SmartContractCreatorMain extends BaseComponent {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const BasicPropertiesFormGroup(),
-                const FeaturesFormGroup(),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -310,6 +309,7 @@ class SmartContractCreatorMain extends BaseComponent {
                     const Expanded(child: PrimaryAssetFormGroup()),
                   ],
                 ),
+                const FeaturesFormGroup(),
               ],
             ),
           ),
