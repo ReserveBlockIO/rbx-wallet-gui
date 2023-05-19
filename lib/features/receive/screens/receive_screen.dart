@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/components/badges.dart';
 import '../../../core/theme/app_theme.dart';
 
 import '../../../core/base_screen.dart';
@@ -43,6 +44,14 @@ class ReceiveScreen extends BaseScreen {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
+        if (currentWallet.isReserved && !currentWallet.isNetworkProtected)
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: AppBadge(
+              label: 'Not Activated',
+              variant: AppColorVariant.Danger,
+            ),
+          ),
         Container(
           decoration: BoxDecoration(
             boxShadow: glowingBox,
