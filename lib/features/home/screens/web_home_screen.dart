@@ -19,6 +19,8 @@ import '../../root/web_dashboard_container.dart';
 import '../../web/components/web_latest_block.dart';
 import '../../web/components/web_wallet_details.dart';
 
+import '../../payment/components/payment_iframe_container.dart';
+
 class WebHomeScreen extends BaseScreen {
   const WebHomeScreen({Key? key})
       : super(
@@ -260,6 +262,18 @@ class _Actions extends BaseComponent {
                     launchUrl(Uri.parse(Env.baseExplorerUrl));
                   },
                 ),
+                if (kDebugMode)
+                  AppButton(
+                    label: "Payment",
+                    icon: Icons.attach_money_outlined,
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return WebPaymentIFrameContainer();
+                          });
+                    },
+                  ),
                 // AppButton(
                 //   label: "DEBUG BUTTON",
                 //   onPressed: () async {
