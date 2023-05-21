@@ -21,7 +21,7 @@ class NftNavigator extends BaseComponent {
 
     final address = kIsWeb ? ref.watch(webSessionProvider).keypair?.address : null;
 
-    final hasNextPage = _model.data.canLoadMore;
+    final hasNextPage = kIsWeb ? true : _model.data.canLoadMore;
     final hasPrevPage = _model.data.page > 1;
     final canSearch = _model.search.isNotEmpty;
     final canClearSearch = _model.search.isNotEmpty;
