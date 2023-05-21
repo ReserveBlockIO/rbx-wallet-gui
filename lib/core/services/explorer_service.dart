@@ -108,9 +108,19 @@ class ExplorerService extends BaseService {
     }
   }
 
-  Future<List<Nft>> listNfts(String ownerAddress) async {
+  Future<List<Nft>> listNfts(
+    String ownerAddress, {
+    int page = 1,
+    String? search,
+  }) async {
     try {
-      final response = await getJson('/nft/', params: {'owner_address': ownerAddress});
+      final params = {
+        'owner_address': ownerAddress,
+        'page': page,
+        'search': search ?? '',
+      };
+
+      final response = await getJson('/nft/', params: params);
 
       // final items = response['results'] as List<dynamic>;
 
@@ -123,9 +133,19 @@ class ExplorerService extends BaseService {
     }
   }
 
-  Future<List<Nft>> listMintedNfts(String minterAddress) async {
+  Future<List<Nft>> listMintedNfts(
+    String minterAddress, {
+    int page = 1,
+    String? search,
+  }) async {
     try {
-      final response = await getJson('/nft/', params: {'minter_address': minterAddress});
+      final params = {
+        'minter_address': minterAddress,
+        'page': page,
+        'search': search ?? '',
+      };
+
+      final response = await getJson('/nft/', params: params);
 
       // final items = response['results'] as List<dynamic>;
 

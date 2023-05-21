@@ -8,6 +8,7 @@ import 'package:video_player/video_player.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/components/centered_loader.dart';
 import '../../../utils/html_helpers.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class WebAssetCard extends StatelessWidget {
   final Nft? nft;
@@ -40,8 +41,8 @@ class WebAssetCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         asset!.isImage
-            ? Image.network(
-                asset!.location,
+            ? CachedNetworkImage(
+                imageUrl: asset!.location,
                 width: double.infinity,
                 height: isMobile ? 300 : null,
                 fit: BoxFit.contain,

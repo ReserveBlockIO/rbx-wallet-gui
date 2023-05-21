@@ -28,6 +28,7 @@ import 'sc_creator/common/file_selector.dart';
 import 'sc_creator/common/help_button.dart';
 import 'sc_wizard_asset_preview.dart';
 import 'sc_wizard_royalty_dialog.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ScWizedCard extends BaseComponent {
   final int index;
@@ -425,8 +426,8 @@ class ScWizedCard extends BaseComponent {
                                             child: Row(
                                               children: [
                                                 kIsWeb
-                                                    ? Image.network(
-                                                        asset.location!,
+                                                    ? CachedNetworkImage(
+                                                        imageUrl: asset.location!,
                                                         width: 32,
                                                         height: 32,
                                                         fit: BoxFit.cover,

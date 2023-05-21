@@ -21,6 +21,7 @@ import '../providers/nft_detail_provider.dart';
 import '../providers/nft_list_provider.dart';
 import '../providers/transferred_provider.dart';
 import '../screens/nft_detail_screen.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class NftCard extends BaseComponent {
   final Nft nft;
@@ -74,8 +75,8 @@ class NftCard extends BaseComponent {
               nft.currentEvolveAssetWeb != null && nft.currentEvolveAssetWeb!.isImage
                   ? AspectRatio(
                       aspectRatio: 1,
-                      child: Image.network(
-                        nft.currentEvolveAssetWeb!.location,
+                      child: CachedNetworkImage(
+                        imageUrl: nft.currentEvolveAssetWeb!.location,
                         width: double.infinity,
                         fit: BoxFit.cover,
                       ),

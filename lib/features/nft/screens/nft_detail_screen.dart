@@ -349,6 +349,9 @@ class NftDetailScreen extends BaseScreen {
                 if (nft.currentEvolveProperties.isNotEmpty) ...[
                   const Divider(),
                   Text("Properties:", style: Theme.of(context).textTheme.headline5),
+                  SizedBox(
+                    height: 8,
+                  ),
                   NftPropertiesWrap(
                     properties: nft.currentEvolveProperties,
                   )
@@ -756,29 +759,39 @@ class NftPropertiesWrap extends StatelessWidget {
   Widget build(BuildContext context) {
     return Wrap(
       // mainAxisSize: MainAxisSize.min,
+      spacing: 12,
+      runSpacing: 12,
       children: properties.map((p) {
         return ConstrainedBox(
           constraints: BoxConstraints(maxWidth: 250),
-          child: Card(
-            color: cardColor,
-            child: ListTile(
-              // dense: true,
-              visualDensity: VisualDensity.compact,
-              leading: Builder(builder: (context) {
-                switch (p.type) {
-                  case ScPropertyType.color:
-                    return Icon(
-                      Icons.color_lens,
-                      color: colorFromHex(p.value),
-                    );
-                  case ScPropertyType.number:
-                    return Icon(Icons.numbers);
-                  default:
-                    return Icon(Icons.text_fields);
-                }
-              }),
-              title: Text(p.value),
-              subtitle: Text(p.name),
+          child: Container(
+            decoration: BoxDecoration(
+              boxShadow: glowingBox,
+            ),
+            child: Card(
+              color: Colors.black,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 3.0),
+                child: ListTile(
+                  // dense: true,
+                  visualDensity: VisualDensity.compact,
+                  leading: Builder(builder: (context) {
+                    switch (p.type) {
+                      case ScPropertyType.color:
+                        return Icon(
+                          Icons.color_lens,
+                          color: colorFromHex(p.value),
+                        );
+                      case ScPropertyType.number:
+                        return Icon(Icons.numbers);
+                      default:
+                        return Icon(Icons.text_fields);
+                    }
+                  }),
+                  title: Text(p.value),
+                  subtitle: Text(p.name),
+                ),
+              ),
             ),
           ),
         );
