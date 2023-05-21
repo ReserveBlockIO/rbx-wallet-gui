@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/nft/providers/transferred_provider.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_detail_provider.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';
@@ -231,7 +232,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
       }
 
       await ref.read(sessionProvider.notifier).loadWallets();
-
+      ref.read(transferredProvider.notifier).clear();
       InfoDialog.show(
         title: "Recovery process has started",
         body:
