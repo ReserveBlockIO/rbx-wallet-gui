@@ -1,5 +1,4 @@
 // ignore_for_file: constant_identifier_names
-
 const APP_V = "3.9.3";
 const APP_VERSION = "beta$APP_V";
 

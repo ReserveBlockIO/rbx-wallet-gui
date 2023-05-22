@@ -19,11 +19,10 @@ class NftList extends BaseComponent {
 
     return Column(
       children: [
-        if (!kIsWeb)
-          Padding(
-            padding: const EdgeInsets.all(6.0),
-            child: NftNavigator(minted: minted),
-          ),
+        Padding(
+          padding: const EdgeInsets.all(6.0),
+          child: NftNavigator(minted: minted),
+        ),
         Expanded(
           child: Builder(builder: (context) {
             if (_model.data.results.isEmpty) {

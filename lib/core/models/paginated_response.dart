@@ -1,6 +1,8 @@
 // ignore_for_file: non_constant_identifier_names
 
-const RESULTS_PER_PAGE = 9;
+import 'package:flutter/foundation.dart';
+
+const RESULTS_PER_PAGE = kIsWeb ? 30 : 9;
 
 class CliPaginatedResponse<T> {
   final int count;
@@ -18,7 +20,7 @@ class CliPaginatedResponse<T> {
   }
 
   bool get canLoadMore {
-    if (page * RESULTS_PER_PAGE < count) {
+    if ((page - (kIsWeb ? 1 : 0)) * RESULTS_PER_PAGE < count) {
       return true;
     }
     return false;

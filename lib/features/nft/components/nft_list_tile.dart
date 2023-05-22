@@ -12,6 +12,7 @@ import '../providers/nft_detail_provider.dart';
 import '../providers/transferred_provider.dart';
 import '../screens/nft_detail_screen.dart';
 import 'nft_card.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class NftListTile extends BaseComponent {
   final Nft nft;
@@ -79,8 +80,8 @@ class NftListTile extends BaseComponent {
                           height: 32,
                           child: AspectRatio(
                             aspectRatio: 1,
-                            child: Image.network(
-                              nft.currentEvolveAssetWeb!.location,
+                            child: CachedNetworkImage(
+                              imageUrl: nft.currentEvolveAssetWeb!.location,
                               width: double.infinity,
                               fit: BoxFit.cover,
                             ),

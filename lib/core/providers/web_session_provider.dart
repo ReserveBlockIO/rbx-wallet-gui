@@ -102,7 +102,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     if (state.keypair == null) {
       return;
     }
-    ref.read(nftListProvider.notifier).load(1, state.keypair!.email, state.keypair!.address);
+    ref.read(nftListProvider.notifier).reloadCurrentPage(address: state.keypair!.address);
     ref.read(webListedNftsProvider.notifier).refresh();
   }
 
