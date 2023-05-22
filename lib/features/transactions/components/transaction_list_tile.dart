@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:rbx_wallet/features/transactions/providers/transaction_list_provider.dart';
 import '../../../core/app_constants.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/utils.dart';
@@ -7,7 +8,6 @@ import '../../remote_shop/services/remote_shop_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../reserve/components/callback_button.dart';
-import '../../reserve/components/recover_button.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/buttons.dart';
@@ -18,6 +18,7 @@ import '../../wallet/models/wallet.dart';
 import '../../wallet/providers/wallet_list_provider.dart';
 import '../models/transaction.dart';
 import 'nft_data_modal.dart';
+import "package:collection/collection.dart";
 
 class TransactionListTile extends BaseStatefulComponent {
   final bool compact;
@@ -225,7 +226,7 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                                   height: 4,
                                 ),
                                 Text(
-                                  "Recoverable Until: ${widget.transaction.parseUnlockTimeAsDate}",
+                                  "Settlement Date: ${widget.transaction.parseUnlockTimeAsDate}",
                                   style: Theme.of(context).textTheme.caption,
                                 ),
                               ],
@@ -242,7 +243,42 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                                     });
                               },
                             ),
-                          // if (canCallBack) Text("${widget.transaction.unlockTime}"),
+                          if (widget.transaction.type == 10) //Reserve Transaction
+                            Builder(builder: (context) {
+                              final data = parseNftData(widget.transaction);
+                              if (data == null) {
+                                return SizedBox.shrink();
+                              }
+                              final func = nftDataValue(data, "Function");
+                              if (func != "CallBack()") {
+                                return SizedBox.shrink();
+                              }
+
+                              final hash = nftDataValue(data, "Hash");
+                              if (hash == null) {
+                                return SizedBox.shrink();
+                              }
+
+                              final originalTx = ref.watch(transactionListProvider(TransactionListType.All)).lastWhereOrNull((t) => t.hash == hash);
+                              if (originalTx == null) {
+                                return SizedBox.shrink();
+                              }
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                                child: AppButton(
+                                  label: "Original TX",
+                                  variant: AppColorVariant.Warning,
+                                  onPressed: () {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      builder: (context) {
+                                        return Container(color: Colors.black, child: TransactionListTile(originalTx));
+                                      },
+                                    );
+                                  },
+                                ),
+                              );
+                            }),
                           if (canCallBack)
                             Row(
                               mainAxisSize: MainAxisSize.min,
@@ -254,7 +290,10 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                                 // SizedBox(
                                 //   width: 6,
                                 // ),
-                                CallbackButton(transaction: widget.transaction),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                                  child: CallbackButton(transaction: widget.transaction),
+                                ),
                               ],
                             ),
                           // if (canSettle)

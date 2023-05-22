@@ -41,7 +41,14 @@ class AssetThumbnail extends StatelessWidget {
                     localPath: asset.localPath!,
                     expectedSize: asset.fileSize,
                   )
-                : const Icon(Icons.file_present_outlined)
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.file_present_outlined),
+                      Text(asset.truncatedFileName()),
+                    ],
+                  )
             : const Center(
                 child: Text("Media not found."),
               ),

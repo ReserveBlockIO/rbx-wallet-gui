@@ -89,7 +89,11 @@ class MainMenu extends BaseComponent {
                     title: "Dashboard",
                     icon: Icons.dashboard,
                     onPressed: () {
-                      tabsRouter.setActiveIndex(0);
+                      if (tabsRouter.activeIndex == 0) {
+                        tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
+                      } else {
+                        tabsRouter.setActiveIndex(0);
+                      }
                     },
                     isActive: tabsRouter.activeIndex == 0,
                   ),

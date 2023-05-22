@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../core/providers/session_provider.dart';
+import '../../reserve/providers/pending_activation_provider.dart';
 import '../../reserve/providers/reserve_account_provider.dart';
 import '../../wallet/providers/wallet_list_provider.dart';
 
@@ -122,69 +123,79 @@ class SendForm extends BaseComponent {
                         child: Text("From:"),
                       ),
                       Expanded(
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            if (isWeb)
-                              Flexible(
-                                child: Text(
-                                  keypair!.address,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(color: color, fontSize: 16),
-                                ),
+                            if (wallet!.isReserved && !wallet!.isNetworkProtected)
+                              AppBadge(
+                                label: 'Not Activated',
+                                variant: AppColorVariant.Danger,
                               ),
-                            if (!isWeb)
-                              PopupMenuButton(
-                                constraints: BoxConstraints(maxWidth: 500),
-                                itemBuilder: (context) {
-                                  final currentWallet = ref.watch(sessionProvider).currentWallet;
-                                  final allWallets = ref.watch(walletListProvider);
-                                  final list = <PopupMenuEntry<int>>[];
-
-                                  for (final wallet in allWallets) {
-                                    final isSelected = currentWallet != null && wallet.address == currentWallet.address;
-
-                                    final color = wallet.isReserved ? Colors.deepPurple.shade200 : Theme.of(context).textTheme.bodyText1!.color!;
-
-                                    list.add(
-                                      PopupMenuItem(
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            if (isSelected)
-                                              Padding(
-                                                padding: const EdgeInsets.only(right: 4.0),
-                                                child: Icon(Icons.check),
-                                              ),
-                                            Text(
-                                              wallet.labelWithoutTruncation,
-                                              style: TextStyle(color: color),
-                                            ),
-                                          ],
-                                        ),
-                                        onTap: () {
-                                          ref.read(sessionProvider.notifier).setCurrentWallet(wallet);
-                                        },
-                                      ),
-                                    );
-                                  }
-                                  return list;
-                                },
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      wallet!.address,
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                if (isWeb)
+                                  Flexible(
+                                    child: Text(
+                                      keypair!.address,
+                                      overflow: TextOverflow.ellipsis,
                                       style: TextStyle(color: color, fontSize: 16),
                                     ),
-                                    Icon(
-                                      Icons.arrow_drop_down,
-                                      size: 24,
-                                      color: wallet!.isReserved ? Colors.deepPurple.shade200 : Theme.of(context).textTheme.bodyText1!.color!,
+                                  ),
+                                if (!isWeb)
+                                  PopupMenuButton(
+                                    constraints: BoxConstraints(maxWidth: 500),
+                                    itemBuilder: (context) {
+                                      final currentWallet = ref.watch(sessionProvider).currentWallet;
+                                      final allWallets = ref.watch(walletListProvider);
+                                      final list = <PopupMenuEntry<int>>[];
+
+                                      for (final wallet in allWallets) {
+                                        final isSelected = currentWallet != null && wallet.address == currentWallet.address;
+
+                                        final color = wallet.isReserved ? Colors.deepPurple.shade200 : Theme.of(context).textTheme.bodyText1!.color!;
+
+                                        list.add(
+                                          PopupMenuItem(
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                if (isSelected)
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(right: 4.0),
+                                                    child: Icon(Icons.check),
+                                                  ),
+                                                Text(
+                                                  wallet.labelWithoutTruncation,
+                                                  style: TextStyle(color: color),
+                                                ),
+                                              ],
+                                            ),
+                                            onTap: () {
+                                              ref.read(sessionProvider.notifier).setCurrentWallet(wallet);
+                                            },
+                                          ),
+                                        );
+                                      }
+                                      return list;
+                                    },
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          wallet!.address,
+                                          style: TextStyle(color: color, fontSize: 16),
+                                        ),
+                                        Icon(
+                                          Icons.arrow_drop_down,
+                                          size: 24,
+                                          color: wallet!.isReserved ? Colors.deepPurple.shade200 : Theme.of(context).textTheme.bodyText1!.color!,
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                              )
+                                  )
+                              ],
+                            ),
                           ],
                         ),
                       ),
@@ -339,6 +350,7 @@ class SendForm extends BaseComponent {
                           label: "Send",
                           type: AppButtonType.Elevated,
                           processing: formModel.isProcessing,
+                          disabled: (wallet!.isReserved && !wallet!.isNetworkProtected),
                           onPressed: () async {
                             if (!await passwordRequiredGuard(context, ref)) return;
 

@@ -34,7 +34,15 @@ class AssetCard extends StatelessWidget {
         asset.localPath != null
             ? asset.isImage
                 ? PollingImagePreview(localPath: asset.localPath!, expectedSize: asset.fileSize)
-                : const Icon(Icons.file_present_outlined)
+                : Row(
+                    children: [
+                      const Icon(Icons.file_present_outlined),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Text("File Name: ${asset.truncatedFileName()}"),
+                      )
+                    ],
+                  )
             : DownloadOrAssociate(
                 asset: asset,
                 nftId: nftId,

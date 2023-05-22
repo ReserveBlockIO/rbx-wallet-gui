@@ -42,7 +42,7 @@ class ManageWalletBottomSheet extends BaseComponent {
                     final isLast = index >= wallets.length - 1;
                     final isFirst = index == 0;
 
-                    final color = wallet.isReserved ? Colors.deepPurple.shade300 : Colors.white;
+                    final color = wallet.isReserved ? Colors.deepPurple.shade200 : Colors.white;
 
                     return Column(
                       mainAxisSize: MainAxisSize.min,

@@ -144,7 +144,10 @@ class PropertiesManager extends BaseComponent {
                         )
                       ],
                     ),
-                  )
+                  ),
+            SizedBox(
+              height: 13,
+            )
           ],
         ),
       ),

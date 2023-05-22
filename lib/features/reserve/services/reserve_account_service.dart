@@ -62,37 +62,37 @@ class ReserveAccountService extends BaseService {
     return null;
   }
 
-  Future<Wallet?> recover({
-    required String restoreCode,
-    required String password,
-    bool store = true,
-    bool rescan = true,
-  }) async {
-    final payload = {
-      "RestoreCode": restoreCode,
-      "Password": password,
-      "StoreRecoveryAccount": store,
-      "RescanForTx": rescan,
-      "OnlyRestoreRecovery": true,
-    };
+  // Future<Wallet?> recover({
+  //   required String restoreCode,
+  //   required String password,
+  //   bool store = true,
+  //   bool rescan = true,
+  // }) async {
+  //   final payload = {
+  //     "RestoreCode": restoreCode,
+  //     "Password": password,
+  //     "StoreRecoveryAccount": store,
+  //     "RescanForTx": rescan,
+  //     "OnlyRestoreRecovery": true,
+  //   };
 
-    final response = await postJson('/RestoreReserveAddress', params: payload);
-    print(response);
-    print("****");
-    final data = response['data'];
-    if (data != null) {
-      print(jsonEncode(data));
-      if (data['Success'] == true) {
-        if (data['Account'] != null) {
-          return Wallet.fromJson(data['Account']);
-        }
-      }
-    }
+  //   final response = await postJson('/RestoreReserveAddress', params: payload);
+  //   print(response);
+  //   print("****");
+  //   final data = response['data'];
+  //   if (data != null) {
+  //     print(jsonEncode(data));
+  //     if (data['Success'] == true) {
+  //       if (data['Account'] != null) {
+  //         return Wallet.fromJson(data['Account']);
+  //       }
+  //     }
+  //   }
 
-    Toast.error(data['Message'] ?? "A problem occurred.");
+  //   Toast.error(data['Message'] ?? "A problem occurred.");
 
-    return null;
-  }
+  //   return null;
+  // }
 
   Future<bool> publish({required String address, required String password}) async {
     try {
@@ -156,13 +156,18 @@ class ReserveAccountService extends BaseService {
     }
   }
 
-  Future<String?> recoverTx(String password, String txHash) async {
+  Future<String?> recoverAccount({
+    required String recoveryPhrase,
+    required String address,
+    required String password,
+  }) async {
     try {
-      final response = await getText("/RecoverReserveAccountTx/$txHash/$password", cleanPath: false);
+      final response = await getText("/RecoverReserveAccountTx/$recoveryPhrase/$address/$password", cleanPath: false);
       final data = jsonDecode(response);
       if (data['Success'] != null && data["Success"] == true) {
         return data['Hash'];
       }
+
       Toast.error(data['Message']);
       return null;
     } catch (e) {
@@ -204,6 +209,8 @@ class ReserveAccountService extends BaseService {
         Toast.message(data['Message'] ?? 'Success: NFT Transfer has been started.');
         return true;
       }
+
+      print(data);
 
       Toast.error(data['Message']);
       return false;

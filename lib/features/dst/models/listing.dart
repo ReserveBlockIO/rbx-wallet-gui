@@ -57,7 +57,7 @@ class Listing with _$Listing {
     @JsonKey(name: "IsBuyNowOnly") @Default(false) bool isBuyNowOnly,
     @JsonKey(name: "IsRoyaltyEnforced") @Default(false) bool isRoyaltyEnforced,
     @JsonKey(name: "IsCancelled") @Default(false) bool isCancelled,
-    @JsonKey(name: "RequireBalanceCheck") @Default(false) bool requireBalanceCheck,
+    @JsonKey(name: "RequireBalanceCheck") @Default(true) bool requireBalanceCheck,
     @JsonKey(name: "IsAuctionStarted") @Default(false) bool isAuctionStarted,
     @JsonKey(name: "IsAuctionEnded") @Default(false) bool isAuctionEnded,
     @JsonKey(name: "IsSaleComplete") @Default(false) bool isSaleComplete,

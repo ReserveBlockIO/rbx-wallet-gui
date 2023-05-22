@@ -1,6 +1,12 @@
+import 'dart:io';
+import 'dart:convert';
+
+import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/singletons.dart';
+import 'package:rbx_wallet/core/storage.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../bridge/providers/wallet_info_provider.dart';
@@ -32,6 +38,8 @@ class WalletSelector extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentWallet = ref.watch(sessionProvider).currentWallet;
+    // final List<dynamic> deleted = singleton<Storage>().getList(Storage.DELETED_WALLETS_KEY) ?? [];
+
     final allWallets = ref.watch(walletListProvider);
 
     final color = currentWallet != null && currentWallet.isReserved ? Colors.deepPurple.shade200 : Colors.white;
@@ -54,6 +62,7 @@ class WalletSelector extends BaseComponent {
             ),
           ),
         PopupMenuButton(
+          color: Colors.black,
           child: Center(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -199,17 +208,26 @@ class WalletSelector extends BaseComponent {
             for (final wallet in allWallets) {
               final isSelected = currentWallet != null && wallet.address == currentWallet.address;
 
-              Color? color = isSelected ? Theme.of(context).colorScheme.secondary : Theme.of(context).textTheme.bodyText1!.color;
-
-              if (wallet.isReserved) {
-                color = isSelected ? Theme.of(context).colorScheme.secondary : Colors.deepPurple.shade200;
-              }
+              final color = wallet.isReserved ? Colors.deepPurple.shade200 : Theme.of(context).textTheme.bodyText1!.color;
 
               list.add(
                 PopupMenuItem(
-                  child: Text(
-                    truncatedLabel ? wallet.label : wallet.labelWithoutTruncation,
-                    style: TextStyle(color: color),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        isSelected ? Icons.check_box_rounded : Icons.check_box_outline_blank_outlined,
+                        color: color,
+                      ),
+                      SizedBox(width: 8),
+                      Text(
+                        truncatedLabel ? wallet.label : wallet.labelWithoutTruncation,
+                        style: TextStyle(
+                          color: color,
+                          decoration: isSelected ? TextDecoration.underline : TextDecoration.none,
+                        ),
+                      ),
+                    ],
                   ),
                   onTap: () {
                     ref.read(sessionProvider.notifier).setCurrentWallet(wallet);
@@ -269,23 +287,6 @@ class ReserveAccountDetails extends StatelessWidget {
                 readOnly: true,
                 initialValue: account.restoreCode,
               ),
-              // trailing: AppButton(
-              //   icon: Icons.copy,
-              //   label: "Copy",
-              //   variant: AppColorVariant.Success,
-              //   onPressed: () async {
-              //     await Clipboard.setData(ClipboardData(text: account.restoreCode));
-              //     Toast.message("Restore Code copied to clipboard");
-              //   },
-              // ),
-              // trailing: IconButton(
-              //   icon: const Icon(Icons.copy),
-
-              //   onPressed: () async {
-              //     await Clipboard.setData(ClipboardData(text: account.restoreCode));
-              //     Toast.message("Restore Code copied to clipboard");
-              //   },
-              // ),
             ),
             SizedBox(
               height: 4,
@@ -302,6 +303,11 @@ class ReserveAccountDetails extends StatelessWidget {
               ),
             ),
             SizedBox(height: 6),
+            Text(
+              "You will need the Restore Code and Password to Recover any transaction. It is highly advised to copy all and store safely as you would for any private key.",
+              style: TextStyle(fontSize: 12, color: Colors.grey),
+            ),
+            SizedBox(height: 6),
             ListTile(
               contentPadding: EdgeInsets.zero,
               title: TextFormField(
@@ -309,6 +315,15 @@ class ReserveAccountDetails extends StatelessWidget {
                 decoration: const InputDecoration(label: Text("Address")),
                 readOnly: true,
                 style: const TextStyle(fontSize: 13),
+              ),
+              trailing: IconButton(
+                icon: Icon(
+                  Icons.copy,
+                ),
+                onPressed: () async {
+                  await Clipboard.setData(ClipboardData(text: account.address));
+                  Toast.message("Address copied to clipboard");
+                },
               ),
             ),
             ListTile(
@@ -321,13 +336,15 @@ class ReserveAccountDetails extends StatelessWidget {
                 style: const TextStyle(fontSize: 13),
                 readOnly: true,
               ),
-              // trailing: IconButton(
-              //   icon: const Icon(Icons.copy),
-              //   onPressed: () async {
-              //     await Clipboard.setData(ClipboardData(text: account.privateKey));
-              //     Toast.message("Private Key copied to clipboard");
-              //   },
-              // ),
+              trailing: IconButton(
+                icon: Icon(
+                  Icons.copy,
+                ),
+                onPressed: () async {
+                  await Clipboard.setData(ClipboardData(text: account.privateKey));
+                  Toast.message("Private Key copied to clipboard");
+                },
+              ),
             ),
             ListTile(
               contentPadding: EdgeInsets.zero,
@@ -336,6 +353,15 @@ class ReserveAccountDetails extends StatelessWidget {
                 decoration: const InputDecoration(label: Text("Recovery Address")),
                 readOnly: true,
                 style: const TextStyle(fontSize: 13),
+              ),
+              trailing: IconButton(
+                icon: Icon(
+                  Icons.copy,
+                ),
+                onPressed: () async {
+                  await Clipboard.setData(ClipboardData(text: account.recoveryAddress));
+                  Toast.message("Recovery Address copied to clipboard");
+                },
               ),
             ),
             ListTile(
@@ -348,31 +374,63 @@ class ReserveAccountDetails extends StatelessWidget {
                 style: const TextStyle(fontSize: 13),
                 readOnly: true,
               ),
-              // trailing: IconButton(
-              //   icon: const Icon(Icons.copy),
-              //   onPressed: () async {
-              //     await Clipboard.setData(ClipboardData(text: account.recoveryPrivateKey));
-              //     Toast.message("Recovery Private Key copied to clipboard");
-              //   },
-              // ),
-            ),
-            const Divider(),
-            Center(
-              child: AppButton(
-                label: "Done",
+              trailing: IconButton(
+                icon: Icon(
+                  Icons.copy,
+                ),
                 onPressed: () async {
-                  final shouldClose = await ConfirmDialog.show(
-                    title: "Backed up?",
-                    body: "Please confirm you have backed up your RESTORE CODE as well as your PASSWORD.",
-                    confirmText: "I'm Backed Up",
-                    cancelText: "Cancel",
-                  );
-
-                  if (shouldClose == true) {
-                    Navigator.of(context).pop();
-                  }
+                  await Clipboard.setData(ClipboardData(text: account.recoveryPrivateKey));
+                  Toast.message("Recovery Private Key copied to clipboard");
                 },
               ),
+            ),
+            const Divider(),
+            SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                AppButton(
+                    label: "Copy All",
+                    icon: Icons.copy,
+                    onPressed: () async {
+                      await Clipboard.setData(ClipboardData(text: account.backupContents));
+                      Toast.message("Reserve Account Data copied to clipboard");
+                    }),
+                AppButton(
+                    label: "Save as File",
+                    icon: Icons.save,
+                    onPressed: () async {
+                      List<int> bytes = utf8.encode(account.backupContents);
+
+                      final date = DateTime.now();
+                      final d = "${date.year}-${date.month}-${date.day}";
+
+                      if (Platform.isMacOS) {
+                        await FileSaver.instance.saveAs("xRBX Reserve Account Backup-$d", Uint8List.fromList(bytes), 'txt', MimeType.TEXT);
+                        Toast.message("Reserve Account Data saved");
+                      } else {
+                        final data = await FileSaver.instance
+                            .saveFile("xRBX Reserve Account Backup-$d", Uint8List.fromList(bytes), 'txt', mimeType: MimeType.TEXT);
+                        Toast.message("Reserve Account Data saved to $data");
+                      }
+                    }),
+                AppButton(
+                  label: "Close",
+                  icon: Icons.check,
+                  onPressed: () async {
+                    final shouldClose = await ConfirmDialog.show(
+                      title: "Backed up?",
+                      body: "Please confirm you have backed up your RESTORE CODE as well as your PASSWORD.",
+                      confirmText: "I'm Backed Up",
+                      cancelText: "Cancel",
+                    );
+
+                    if (shouldClose == true) {
+                      Navigator.of(context).pop();
+                    }
+                  },
+                ),
+              ],
             )
           ],
         ),
