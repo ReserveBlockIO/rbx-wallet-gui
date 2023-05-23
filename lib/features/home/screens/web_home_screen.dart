@@ -2,6 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/payment/components/payment_webview.dart';
+import 'package:rbx_wallet/features/payment/payment_utils.dart';
+import 'package:rbx_wallet/utils/html_helpers.dart';
 import '../../../core/dialogs.dart';
 import '../../web/components/web_wordmark.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -267,11 +270,26 @@ class _Actions extends BaseComponent {
                     label: "Payment",
                     icon: Icons.attach_money_outlined,
                     onPressed: () {
-                      showDialog(
+                      // showModalBottomSheet(
+                      //     context: context,
+                      //     builder: (context) {
+                      //       return PaymentWebView();
+                      //     });
+                      showModalBottomSheet(
                           context: context,
+                          backgroundColor: Colors.white,
                           builder: (context) {
                             return WebPaymentIFrameContainer();
                           });
+
+                      // paymentRedirect(amount: 100);
+
+                      // return;
+                      // showDialog(
+                      //     context: context,
+                      //     builder: (context) {
+                      //       return WebPaymentIFrameContainer();
+                      //     });
                     },
                   ),
                 // AppButton(

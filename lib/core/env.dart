@@ -182,6 +182,10 @@ class Env {
   }
 
   static String get paymentEmbedUrl {
-    return DotEnv.dotenv.env['PAYMENT_EMBED_URL'] ?? "https://rbx-explorer-service-testnet.herokuapp.com/payment/embed/";
+    return DotEnv.dotenv.env['PAYMENT_EMBED_URL'] ?? "https://rbx-payment-integration.vercel.app/";
+  }
+
+  static String? get paymentDomain {
+    return DotEnv.dotenv.env['PAYMENT_DOMAIN'];
   }
 }
