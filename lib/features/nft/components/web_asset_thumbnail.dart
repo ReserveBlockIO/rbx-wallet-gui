@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../asset/web_asset.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../models/nft.dart';
 import 'web_asset_card.dart';
@@ -61,8 +62,8 @@ class WebAssetThumbnail extends StatelessWidget {
               width: size,
               height: size,
               child: asset!.isImage
-                  ? Image.network(
-                      asset!.location,
+                  ? CachedNetworkImage(
+                      imageUrl: asset!.location,
                       width: double.infinity,
                       fit: BoxFit.cover,
                     )

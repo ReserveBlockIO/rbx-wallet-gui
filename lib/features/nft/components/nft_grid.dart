@@ -23,11 +23,11 @@ class NftGrid extends BaseComponent {
 
     return Column(
       children: [
-        if (!kIsWeb)
-          Padding(
-            padding: const EdgeInsets.all(6.0),
-            child: NftNavigator(minted: minted),
-          ),
+        // if (!kIsWeb)
+        Padding(
+          padding: const EdgeInsets.all(6.0),
+          child: NftNavigator(minted: minted),
+        ),
         Expanded(
           child: Builder(builder: (context) {
             if (_model.data.results.isEmpty) {

@@ -20,12 +20,13 @@ class MintedNftListProvider extends StateNotifier<NftListModel> {
 
   Future<void> load(int page) async {
     if (kIsWeb) {
-      final nfts = await ExplorerService().listMintedNfts(ref.read(webSessionProvider).keypair!.address);
+      final nfts = await ExplorerService()
+          .listMintedNfts(ref.read(webSessionProvider).keypair!.address, page: page, search: state.search.isNotEmpty ? state.search : null);
 
       final filteredNfts = nfts.where((n) => n.canEvolve).toList();
 
-      final d = CliPaginatedResponse(count: nfts.length, results: filteredNfts, page: 1);
-      state = state.copyWith(data: d, page: 1, currentSearch: '');
+      final d = CliPaginatedResponse(count: nfts.length, results: filteredNfts, page: page);
+      state = state.copyWith(data: d, page: page, currentSearch: state.search);
       return;
     }
 
@@ -51,6 +52,6 @@ class MintedNftListProvider extends StateNotifier<NftListModel> {
 final mintedNftListProvider = StateNotifierProvider<MintedNftListProvider, NftListModel>(
   (ref) => MintedNftListProvider(
     ref,
-    NftListModel(page: 0, data: CliPaginatedResponse.empty()),
+    NftListModel(page: kIsWeb ? 1 : 0, data: CliPaginatedResponse.empty()),
   ),
 );
