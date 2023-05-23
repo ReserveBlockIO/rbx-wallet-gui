@@ -324,6 +324,7 @@ class EvolutionStateRow extends BaseComponent {
                                       asset: phase.asset!,
                                       nftId: nftId,
                                       ownerAddress: nft.currentOwner,
+                                      isPrimaryAsset: index == 0,
                                       onAssociate: () {
                                         if (onAssociate != null) {
                                           onAssociate!();
@@ -384,6 +385,7 @@ class EvolutionStateRow extends BaseComponent {
                                         return AssetThumbnailDialog(
                                           asset: phase.asset!,
                                           nftId: nftId,
+                                          isPrimaryAsset: index == 0,
                                           ownerAddress: nft.currentOwner,
                                           onAssociate: () {
                                             if (onAssociate != null) {

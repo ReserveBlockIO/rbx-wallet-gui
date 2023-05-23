@@ -15,6 +15,7 @@ class AssetCard extends StatelessWidget {
   final String nftId;
   final Function()? onAssociate;
   final String ownerAddress;
+  final bool isPrimaryAsset;
 
   const AssetCard(
     this.asset, {
@@ -23,6 +24,7 @@ class AssetCard extends StatelessWidget {
     this.interactive = false,
     this.onAssociate,
     required this.ownerAddress,
+    required this.isPrimaryAsset,
   }) : super(key: key);
 
   @override
@@ -47,6 +49,7 @@ class AssetCard extends StatelessWidget {
                 asset: asset,
                 nftId: nftId,
                 ownerAddress: ownerAddress,
+                allowBeaconRequest: isPrimaryAsset,
                 onComplete: () {
                   if (onAssociate != null) {
                     onAssociate!();
