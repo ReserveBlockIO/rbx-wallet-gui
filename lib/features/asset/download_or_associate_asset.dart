@@ -22,12 +22,14 @@ class DownloadOrAssociate extends StatefulWidget {
   final String nftId;
   final Function() onComplete;
   final String ownerAddress;
+  final bool allowBeaconRequest;
   const DownloadOrAssociate({
     Key? key,
     required this.asset,
     required this.nftId,
     required this.onComplete,
     required this.ownerAddress,
+    required this.allowBeaconRequest,
   }) : super(key: key);
 
   @override
@@ -59,6 +61,39 @@ class _DownloadOrAssociateState extends State<DownloadOrAssociate> {
       setState(() {
         visible = true;
       });
+    }
+  }
+
+  void chooseLocalFiles(WidgetRef ref) async {
+    FilePickerResult? result;
+    if (!kIsWeb) {
+      final Directory currentDir = Directory.current;
+      result = await FilePicker.platform.pickFiles();
+      Directory.current = currentDir;
+    } else {
+      result = await FilePicker.platform.pickFiles();
+    }
+    if (result == null) {
+      return;
+    }
+
+    final location = result.files.single.path;
+
+    if (location == null) {
+      return;
+    }
+
+    final success = await SmartContractService().associateAsset(
+      widget.nftId,
+      location,
+    );
+
+    if (success == true) {
+      await checkAvailable();
+      ref.refresh(nftDetailProvider(widget.nftId));
+      ref.refresh(mintedNftListProvider);
+      widget.onComplete();
+      Navigator.of(context).pop();
     }
   }
 
@@ -112,69 +147,51 @@ class _DownloadOrAssociateState extends State<DownloadOrAssociate> {
             AppButton(
               label: "Associate Media",
               onPressed: () async {
-                showModalBottomSheet(
-                    context: context,
-                    backgroundColor: Colors.black87,
-                    builder: (context) {
-                      return ModalContainer(
-                        color: Colors.black,
-                        withDecor: false,
-                        withClose: true,
-                        children: [
-                          ListTile(
-                            leading: Icon(Icons.file_upload),
-                            title: Text("Choose Local File"),
-                            trailing: Icon(Icons.chevron_right),
-                            onTap: () async {
-                              FilePickerResult? result;
-                              if (!kIsWeb) {
-                                final Directory currentDir = Directory.current;
-                                result = await FilePicker.platform.pickFiles();
-                                Directory.current = currentDir;
-                              } else {
-                                result = await FilePicker.platform.pickFiles();
-                              }
-                              if (result == null) {
-                                return;
-                              }
+                if (widget.allowBeaconRequest) {
+                  showModalBottomSheet(
+                      context: context,
+                      backgroundColor: Colors.black87,
+                      builder: (context) {
+                        return ModalContainer(
+                          color: Colors.black,
+                          withDecor: false,
+                          withClose: true,
+                          children: [
+                            ListTile(
+                              leading: Icon(Icons.file_upload),
+                              title: Text("Choose Local File"),
+                              trailing: Icon(Icons.chevron_right),
+                              onTap: () async {
+                                chooseLocalFiles(ref);
+                              },
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.wifi_tethering_outlined),
+                              title: Text("Call Media"),
+                              trailing: Icon(Icons.chevron_right),
+                              onTap: () async {
+                                final success = await NftService().requestMediaFromBeacon(widget.nftId);
+                                if (success == true) {
+                                  widget.onComplete();
 
-                              final location = result.files.single.path;
+                                  InfoDialog.show(
+                                      contextOverride: context,
+                                      title: "Call to beacon process has started.",
+                                      body:
+                                          " Please be patient while ALL assets associated with the NFT are called and downloaded.\n\nDo not close your wallet or attempt to call again.");
 
-                              if (location == null) {
-                                return;
-                              }
-
-                              final success = await SmartContractService().associateAsset(
-                                widget.nftId,
-                                location,
-                              );
-
-                              if (success == true) {
-                                await checkAvailable();
-                                ref.refresh(nftDetailProvider(widget.nftId));
-                                ref.refresh(mintedNftListProvider);
-                                widget.onComplete();
-                                Navigator.of(context).pop();
-                              }
-                            },
-                          ),
-                          ListTile(
-                            leading: Icon(Icons.wifi_tethering_outlined),
-                            title: Text("Request from Beacon"),
-                            trailing: Icon(Icons.chevron_right),
-                            onTap: () async {
-                              final success = await NftService().requestMediaFromBeacon(widget.nftId);
-                              if (success == true) {
-                                widget.onComplete();
-                                Toast.message("Call to beacon process has started. Please check your NFT or logs for more details.");
-
-                                Navigator.of(context).pop();
-                              }
-                            },
-                          ),
-                        ],
-                      );
-                    });
+                                  Toast.message(
+                                      "Call to beacon process has started. Please be patient while ALL assets associated with the NFT are called and downloaded.");
+                                  Navigator.of(context).pop();
+                                }
+                              },
+                            ),
+                          ],
+                        );
+                      });
+                } else {
+                  chooseLocalFiles(ref);
+                }
               },
             ),
           ],

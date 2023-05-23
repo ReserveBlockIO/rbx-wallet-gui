@@ -268,6 +268,7 @@ class NftDetailScreen extends BaseScreen {
                                             nft.currentEvolveAsset,
                                             ownerAddress: nft.nextOwner ?? nft.currentOwner,
                                             nftId: nft.id,
+                                            isPrimaryAsset: true,
                                           ),
                                     if (nft.additionalAssets.isNotEmpty)
                                       Padding(
@@ -309,6 +310,7 @@ class NftDetailScreen extends BaseScreen {
                                                                   a,
                                                                   nftId: nft.id,
                                                                   ownerAddress: nft.nextOwner ?? nft.currentOwner,
+                                                                  isPrimaryAsset: false,
                                                                 ),
                                                               ),
                                                             )
