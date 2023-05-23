@@ -145,7 +145,7 @@ class _DownloadOrAssociateState extends State<DownloadOrAssociate> {
               height: 12,
             ),
             AppButton(
-              label: "Associate Media",
+              label: widget.allowBeaconRequest ? "Call Media" : "Associate Media",
               onPressed: () async {
                 if (widget.allowBeaconRequest) {
                   showModalBottomSheet(
@@ -158,16 +158,8 @@ class _DownloadOrAssociateState extends State<DownloadOrAssociate> {
                           withClose: true,
                           children: [
                             ListTile(
-                              leading: Icon(Icons.file_upload),
-                              title: Text("Choose Local File"),
-                              trailing: Icon(Icons.chevron_right),
-                              onTap: () async {
-                                chooseLocalFiles(ref);
-                              },
-                            ),
-                            ListTile(
                               leading: Icon(Icons.wifi_tethering_outlined),
-                              title: Text("Call Media"),
+                              title: Text("Call Media from Beacon"),
                               trailing: Icon(Icons.chevron_right),
                               onTap: () async {
                                 final success = await NftService().requestMediaFromBeacon(widget.nftId);
@@ -184,6 +176,14 @@ class _DownloadOrAssociateState extends State<DownloadOrAssociate> {
                                       "Call to beacon process has started. Please be patient while ALL assets associated with the NFT are called and downloaded.");
                                   Navigator.of(context).pop();
                                 }
+                              },
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.file_upload),
+                              title: Text("Associate Local File"),
+                              trailing: Icon(Icons.chevron_right),
+                              onTap: () async {
+                                chooseLocalFiles(ref);
                               },
                             ),
                           ],
