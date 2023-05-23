@@ -178,7 +178,7 @@ class _DownloadOrAssociateState extends State<DownloadOrAssociate> {
                                       contextOverride: context,
                                       title: "Call to beacon process has started.",
                                       body:
-                                          " Please be patient while ALL assets associated with the NFT are called and downloaded.\n\nDo not close your wallet or attempt to call again.");
+                                          "Please be patient while ALL assets associated with the NFT are called and downloaded.\n\nDo not close your wallet or attempt to call again.");
 
                                   Toast.message(
                                       "Call to beacon process has started. Please be patient while ALL assets associated with the NFT are called and downloaded.");
