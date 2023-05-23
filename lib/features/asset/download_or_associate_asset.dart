@@ -4,6 +4,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/nft/services/nft_service.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import '../../core/dialogs.dart';
 import '../reserve/services/reserve_account_service.dart';
 import '../../utils/toast.dart';
@@ -105,56 +107,75 @@ class _DownloadOrAssociateState extends State<DownloadOrAssociate> {
             Text("Media asset file not found on your machine (${widget.asset.fileName})."),
             const Text("Please check any other wallets with the same address for the media."),
             const SizedBox(
-              height: 6,
+              height: 12,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                // AppButton(
-                //   label: "Download Asset",
-                //   onPressed: () async {
-                //     final success = await SmartContractService().downloadAssets(widget.nftId);
-                //     checkAvailable();
-                //   },
-                // ),
-                // SizedBox(
-                //   width: 8,
-                // ),
-                AppButton(
-                  label: "Associate File",
-                  onPressed: () async {
-                    FilePickerResult? result;
-                    if (!kIsWeb) {
-                      final Directory currentDir = Directory.current;
-                      result = await FilePicker.platform.pickFiles();
-                      Directory.current = currentDir;
-                    } else {
-                      result = await FilePicker.platform.pickFiles();
-                    }
-                    if (result == null) {
-                      return;
-                    }
+            AppButton(
+              label: "Associate Media",
+              onPressed: () async {
+                showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.black87,
+                    builder: (context) {
+                      return ModalContainer(
+                        color: Colors.black,
+                        withDecor: false,
+                        withClose: true,
+                        children: [
+                          ListTile(
+                            leading: Icon(Icons.file_upload),
+                            title: Text("Choose Local File"),
+                            trailing: Icon(Icons.chevron_right),
+                            onTap: () async {
+                              FilePickerResult? result;
+                              if (!kIsWeb) {
+                                final Directory currentDir = Directory.current;
+                                result = await FilePicker.platform.pickFiles();
+                                Directory.current = currentDir;
+                              } else {
+                                result = await FilePicker.platform.pickFiles();
+                              }
+                              if (result == null) {
+                                return;
+                              }
 
-                    final location = result.files.single.path;
+                              final location = result.files.single.path;
 
-                    if (location == null) {
-                      return;
-                    }
+                              if (location == null) {
+                                return;
+                              }
 
-                    final success = await SmartContractService().associateAsset(
-                      widget.nftId,
-                      location,
-                    );
+                              final success = await SmartContractService().associateAsset(
+                                widget.nftId,
+                                location,
+                              );
 
-                    if (success == true) {
-                      await checkAvailable();
-                      ref.refresh(nftDetailProvider(widget.nftId));
-                      ref.refresh(mintedNftListProvider);
-                      widget.onComplete();
-                    }
-                  },
-                ),
-              ],
+                              if (success == true) {
+                                await checkAvailable();
+                                ref.refresh(nftDetailProvider(widget.nftId));
+                                ref.refresh(mintedNftListProvider);
+                                widget.onComplete();
+                                Navigator.of(context).pop();
+                              }
+                            },
+                          ),
+                          ListTile(
+                            leading: Icon(Icons.wifi_tethering_outlined),
+                            title: Text("Request from Beacon"),
+                            trailing: Icon(Icons.chevron_right),
+                            onTap: () async {
+                              final success = await NftService().requestMediaFromBeacon(widget.nftId);
+                              if (success == true) {
+                                widget.onComplete();
+                                Toast.message("Call to beacon process has started. Please check your NFT or logs for more details.");
+
+                                Navigator.of(context).pop();
+                              }
+                            },
+                          ),
+                        ],
+                      );
+                    });
+              },
             ),
           ],
         ),
