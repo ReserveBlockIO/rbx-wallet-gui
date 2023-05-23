@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:collection/collection.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/models/paginated_response.dart';
 import '../../../core/services/base_service.dart';
@@ -17,9 +18,7 @@ class NftService extends BaseService {
       page = 1;
     }
 
-    final url = search.isNotEmpty
-        ? "/GetAllSmartContracts/$page/$search"
-        : "/GetAllSmartContracts/$page";
+    final url = search.isNotEmpty ? "/GetAllSmartContracts/$page/$search" : "/GetAllSmartContracts/$page";
 
     final response = await getText(url, cleanPath: false);
     if (response == 'null') {
@@ -40,8 +39,7 @@ class NftService extends BaseService {
         smartContracts.add(nft);
       }
 
-      return CliPaginatedResponse(
-          page: page, count: count, results: smartContracts);
+      return CliPaginatedResponse(page: page, count: count, results: smartContracts);
       // return smartContracts;
     } catch (e) {
       print(e);
@@ -49,15 +47,12 @@ class NftService extends BaseService {
     }
   }
 
-  Future<CliPaginatedResponse<Nft>> minted(int page,
-      {String search = ""}) async {
+  Future<CliPaginatedResponse<Nft>> minted(int page, {String search = ""}) async {
     if (page < 1) {
       page = 1;
     }
 
-    final url = search.isNotEmpty
-        ? "/GetMintedSmartContracts/$page/$search"
-        : "/GetMintedSmartContracts/$page";
+    final url = search.isNotEmpty ? "/GetMintedSmartContracts/$page/$search" : "/GetMintedSmartContracts/$page";
     final response = await getText(url, cleanPath: false);
 
     if (response == 'null') {
@@ -76,8 +71,7 @@ class NftService extends BaseService {
         nft = await setAssetPath(nft);
         smartContracts.add(nft);
       }
-      return CliPaginatedResponse(
-          page: page, count: count, results: smartContracts);
+      return CliPaginatedResponse(page: page, count: count, results: smartContracts);
     } catch (e) {
       return CliPaginatedResponse.empty();
     }
@@ -89,9 +83,7 @@ class NftService extends BaseService {
       final data = jsonDecode(response);
 
       Nft nft = Nft.fromJson(data[0]['SmartContract']);
-      nft = nft.copyWith(
-          code: data[0]['SmartContractCode'],
-          currentOwner: data[0]['CurrentOwner']);
+      nft = nft.copyWith(code: data[0]['SmartContractCode'], currentOwner: data[0]['CurrentOwner']);
       nft = await setAssetPath(nft);
       return nft;
     } catch (e) {
@@ -114,8 +106,7 @@ class NftService extends BaseService {
   }
 
   void saveId(String id) {
-    final saved =
-        singleton<Storage>().getStringList(Storage.MANAGABLE_NFT_IDS) ?? [];
+    final saved = singleton<Storage>().getStringList(Storage.MANAGABLE_NFT_IDS) ?? [];
 
     final exists = saved.firstWhereOrNull((i) => i == id) != null;
 
@@ -139,8 +130,7 @@ class NftService extends BaseService {
           try {
             final data = jsonDecode(response);
             final d = data['SmartContractMain'];
-            Nft nft =
-                Nft.fromJson(d).copyWith(currentOwner: data['CurrentOwner']);
+            Nft nft = Nft.fromJson(d).copyWith(currentOwner: data['CurrentOwner']);
             nfts.add(nft);
           } catch (e) {
             print('problem loading nft from json');
@@ -163,8 +153,7 @@ class NftService extends BaseService {
         try {
           final data = jsonDecode(response);
           final d = data['SmartContractMain'];
-          Nft nft =
-              Nft.fromJson(d).copyWith(currentOwner: data['CurrentOwner']);
+          Nft nft = Nft.fromJson(d).copyWith(currentOwner: data['CurrentOwner']);
           return nft;
         } catch (e) {
           print('problem loading nft from json');
@@ -176,5 +165,20 @@ class NftService extends BaseService {
     }
 
     return null;
+  }
+
+  Future<bool> requestMediaFromBeacon(String scId) async {
+    try {
+      final response = await getText("/CallMediaFromBeacon/$scId", cleanPath: false);
+      final data = jsonDecode(response);
+      if (data["Success"] == true) {
+        return true;
+      }
+      Toast.error(data["Message"] ?? "A problem occurred");
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
   }
 }
