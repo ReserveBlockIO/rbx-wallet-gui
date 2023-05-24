@@ -1,5 +1,5 @@
 // ignore_for_file: constant_identifier_names
-const APP_V = "3.8.2";
+const APP_V = "3.9.5";
 const APP_VERSION = "beta$APP_V";
 
 const REFRESH_TIMEOUT_SECONDS = 10;
