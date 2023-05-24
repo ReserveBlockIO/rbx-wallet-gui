@@ -1,10 +1,7 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/payment/components/payment_webview.dart';
-import 'package:rbx_wallet/features/payment/payment_utils.dart';
-import 'package:rbx_wallet/utils/html_helpers.dart';
+
 import '../../../core/dialogs.dart';
 import '../../web/components/web_wordmark.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -22,7 +19,7 @@ import '../../root/web_dashboard_container.dart';
 import '../../web/components/web_latest_block.dart';
 import '../../web/components/web_wallet_details.dart';
 
-import '../../payment/components/payment_iframe_container.dart';
+import '../../payment/components/payment_iframe_container.dart' if (dart.library.io) '../../payment/components/payment_iframe_container_mock.dart';
 
 class WebHomeScreen extends BaseScreen {
   const WebHomeScreen({Key? key})
@@ -266,11 +263,9 @@ class _Actions extends BaseComponent {
                   },
                 ),
                 AppButton(
-                  label: "Buy Coin",
+                  label: "Fund Address",
                   icon: Icons.attach_money_outlined,
                   onPressed: () {
-                    // final double width = BreakPoints.useMobileLayout(context) ? 400 : 600;
-                    // final double height = BreakPoints.useMobileLayout(context) ? 400 : 600;
                     final maxWidth = BreakPoints.useMobileLayout(context) ? 400.0 : 600.0;
                     final maxHeight = BreakPoints.useMobileLayout(context) ? 700.0 : 800.0;
                     double width = MediaQuery.of(context).size.width - 32;
@@ -284,60 +279,37 @@ class _Actions extends BaseComponent {
                       height = maxHeight;
                     }
 
-                    // showModalBottomSheet(
-                    //     context: context,
-                    //     builder: (context) {
-                    //       return PaymentWebView();
-                    //     });
-                    // showModalBottomSheet(
-                    //     context: context,
-                    //     backgroundColor: Colors.white,
-                    //     builder: (context) {
-                    //       return WebPaymentIFrameContainer();
-                    //     });
-
-                    // paymentRedirect(amount: 100);
-
                     showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            contentPadding: EdgeInsets.zero,
-                            insetPadding: EdgeInsets.zero,
-                            actionsPadding: EdgeInsets.zero,
-                            buttonPadding: EdgeInsets.zero,
-                            content: WebPaymentIFrameContainer(
-                              walletAddress: "0x46125FD84289f8D6224059BAeA1a8A0f76Ef3395",
-                              coinAmount: 0.1,
-                              width: width,
-                              height: height,
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text(
-                                  "Close",
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              )
-                            ],
-                          );
-                        });
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          contentPadding: EdgeInsets.zero,
+                          insetPadding: EdgeInsets.zero,
+                          actionsPadding: EdgeInsets.zero,
+                          buttonPadding: EdgeInsets.zero,
+                          content: WebPaymentIFrameContainer(
+                            walletAddress: "0x46125FD84289f8D6224059BAeA1a8A0f76Ef3395",
+                            coinAmount: 0.1,
+                            width: width,
+                            height: height,
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text(
+                                "Close",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            )
+                          ],
+                        );
+                      },
+                    );
                   },
                 ),
-                // AppButton(
-                //   label: "DEBUG BUTTON",
-                //   onPressed: () async {
-                //     await RawTransaction.generate(
-                //       keypair: ref.read(webSessionProvider).keypair!,
-                //       amount: 1.1,
-                //       toAddress: "RKY4KEZrYc1Uj7vcKnmuSkqCkCPwFxPono",
-                //     );
 
-                //   },
-                // ),
                 if (ref.read(webSessionProvider).keypair != null)
                   AppButton(
                     label: "Logout",
