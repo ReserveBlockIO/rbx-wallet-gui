@@ -106,12 +106,18 @@ class $AssetsFontsGen {
   List<String> get values => [notoColorEmojiRegular, robotoMonoRegular];
 }
 
+class $AssetsHtmlGen {
+  const $AssetsHtmlGen();
+
+  /// File path: assets/html/payment.html
+  String get payment => 'assets/html/payment.html';
+
+  /// List of all assets
+  List<String> get values => [payment];
+}
+
 class $AssetsImagesGen {
   const $AssetsImagesGen();
-
-  /// File path: assets/images/Colonials Fog Insider.gif
-  AssetGenImage get colonialsFogInsider =>
-      const AssetGenImage('assets/images/Colonials Fog Insider.gif');
 
   /// File path: assets/images/animated_cube.gif
   AssetGenImage get animatedCube =>
@@ -250,7 +256,6 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
-        colonialsFogInsider,
         animatedCube,
         animatedCubeFast,
         decorBottom,
@@ -309,6 +314,7 @@ class Assets {
   static const $AssetsDocsGen docs = $AssetsDocsGen();
   static const $AssetsEnvGen env = $AssetsEnvGen();
   static const $AssetsFontsGen fonts = $AssetsFontsGen();
+  static const $AssetsHtmlGen html = $AssetsHtmlGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsJsGen js = $AssetsJsGen();
 }

@@ -265,33 +265,68 @@ class _Actions extends BaseComponent {
                     launchUrl(Uri.parse(Env.baseExplorerUrl));
                   },
                 ),
-                if (kDebugMode)
-                  AppButton(
-                    label: "Payment",
-                    icon: Icons.attach_money_outlined,
-                    onPressed: () {
-                      // showModalBottomSheet(
-                      //     context: context,
-                      //     builder: (context) {
-                      //       return PaymentWebView();
-                      //     });
-                      showModalBottomSheet(
-                          context: context,
-                          backgroundColor: Colors.white,
-                          builder: (context) {
-                            return WebPaymentIFrameContainer();
-                          });
+                AppButton(
+                  label: "Buy Coin",
+                  icon: Icons.attach_money_outlined,
+                  onPressed: () {
+                    // final double width = BreakPoints.useMobileLayout(context) ? 400 : 600;
+                    // final double height = BreakPoints.useMobileLayout(context) ? 400 : 600;
+                    final maxWidth = BreakPoints.useMobileLayout(context) ? 400.0 : 600.0;
+                    final maxHeight = BreakPoints.useMobileLayout(context) ? 700.0 : 800.0;
+                    double width = MediaQuery.of(context).size.width - 32;
+                    double height = MediaQuery.of(context).size.height - 64;
 
-                      // paymentRedirect(amount: 100);
+                    if (width > maxWidth) {
+                      width = maxWidth;
+                    }
 
-                      // return;
-                      // showDialog(
-                      //     context: context,
-                      //     builder: (context) {
-                      //       return WebPaymentIFrameContainer();
-                      //     });
-                    },
-                  ),
+                    if (height > maxHeight) {
+                      height = maxHeight;
+                    }
+
+                    // showModalBottomSheet(
+                    //     context: context,
+                    //     builder: (context) {
+                    //       return PaymentWebView();
+                    //     });
+                    // showModalBottomSheet(
+                    //     context: context,
+                    //     backgroundColor: Colors.white,
+                    //     builder: (context) {
+                    //       return WebPaymentIFrameContainer();
+                    //     });
+
+                    // paymentRedirect(amount: 100);
+
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            contentPadding: EdgeInsets.zero,
+                            insetPadding: EdgeInsets.zero,
+                            actionsPadding: EdgeInsets.zero,
+                            buttonPadding: EdgeInsets.zero,
+                            content: WebPaymentIFrameContainer(
+                              walletAddress: "0x46125FD84289f8D6224059BAeA1a8A0f76Ef3395",
+                              coinAmount: 0.1,
+                              width: width,
+                              height: height,
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text(
+                                  "Close",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              )
+                            ],
+                          );
+                        });
+                  },
+                ),
                 // AppButton(
                 //   label: "DEBUG BUTTON",
                 //   onPressed: () async {

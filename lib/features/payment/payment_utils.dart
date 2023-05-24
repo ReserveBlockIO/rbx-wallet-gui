@@ -23,3 +23,20 @@ void openPaymentPopup({
   String fiatType = "USD",
   required double amount,
 }) {}
+
+String paymentUrl({
+  String fiatType = "USD",
+  required double amount,
+}) {
+  final domain = Env.paymentDomain;
+
+  if (domain == null) {
+    print("Payment not available in this environment");
+  }
+
+  const COIN_TYPE = "ETH";
+
+  final url = "$domain/?coinType=$COIN_TYPE&fiatType=$fiatType&fiatAmount=$amount&blockchain=$COIN_TYPE";
+
+  return url;
+}
