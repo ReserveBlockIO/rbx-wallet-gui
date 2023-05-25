@@ -15,6 +15,6 @@ String? paymentUrl({
   const COIN_TYPE = "ETH";
 
   final url = "$domain/?coinType=$COIN_TYPE&fiatType=$fiatType&coinAmount=$amount&blockchain=$COIN_TYPE&walletAddress=$walletAddress";
-
+  print(url);
   return url;
 }

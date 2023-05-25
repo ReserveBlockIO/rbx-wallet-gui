@@ -49,13 +49,16 @@
                 // const banxa = new Banxa(company); 
                 const banxa = new Banxa(company, `sandbox`); 
 
-                banxa.iframe('#iframeButton', '#iframeTarget',
-                    {
+                const params = {
                         'fiatType': fiatType,
                         'coinType': coinType,
                         'coinAmount': coinAmount,
                         'walletAddress': walletAddress,
-                    },
+                    };
+
+
+                banxa.iframe('#iframeButton', '#iframeTarget',
+                params,
                     `${width}px`, 
                     `${height}px`
                     );
