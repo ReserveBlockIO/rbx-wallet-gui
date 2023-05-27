@@ -675,7 +675,7 @@ class NftDetailScreen extends BaseScreen {
                         },
                       ),
                     ),
-                  if (kDebugMode)
+                  if (false)
                     Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: AppButton(

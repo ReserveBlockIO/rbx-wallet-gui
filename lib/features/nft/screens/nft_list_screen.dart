@@ -39,6 +39,7 @@ class NftListScreen extends BaseScreen {
           mainAxisSize: MainAxisSize.min,
           children: [
             AppButton(
+              type: AppButtonType.Text,
               label: "Import NFT",
               variant: AppColorVariant.Light,
               onPressed: () async {
