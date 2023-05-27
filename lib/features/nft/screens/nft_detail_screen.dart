@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/nft/services/nft_service.dart';
 import '../../global_loader/global_loading_provider.dart';
 import '../models/nft.dart';
 import '../../sc_property/models/sc_property.dart';
@@ -165,7 +166,23 @@ class NftDetailScreen extends BaseScreen {
                 const SizedBox(
                   height: 4,
                 ),
-                SelectableText("ID: ${nft.id}"),
+                Row(
+                  children: [
+                    SelectableText("ID: ${nft.id}"),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    InkWell(
+                        onTap: () async {
+                          await Clipboard.setData(ClipboardData(text: nft.id));
+                          Toast.message("Smart Contract Identifier copied to clipboard");
+                        },
+                        child: Icon(
+                          Icons.copy,
+                          size: 14,
+                        ))
+                  ],
+                ),
                 const SizedBox(
                   height: 4,
                 ),
@@ -654,6 +671,57 @@ class NftDetailScreen extends BaseScreen {
                             builder: (context) {
                               return CodeModal(nft.code!);
                             },
+                          );
+                        },
+                      ),
+                    ),
+                  if (kDebugMode)
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: AppButton(
+                        label: "Prove Ownership",
+                        icon: Icons.security,
+                        variant: AppColorVariant.Primary,
+                        onPressed: () async {
+                          final str = await NftService().proveOwnership(id);
+                          if (str == null) {
+                            return;
+                          }
+
+                          InfoDialog.show(
+                            title: "Ownership Verification Signature",
+                            content: SizedBox(
+                              width: 420,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Send this ownership validation signature to prove you are the owner.",
+                                    style: Theme.of(context).textTheme.bodySmall,
+                                  ),
+                                  TextFormField(
+                                    initialValue: str,
+                                    readOnly: true,
+                                    minLines: 7,
+                                    maxLines: 7,
+                                  ),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  Center(
+                                    child: AppButton(
+                                      label: "Copy Signature",
+                                      icon: Icons.copy,
+                                      onPressed: () async {
+                                        await Clipboard.setData(ClipboardData(text: str));
+                                        Toast.message("Signature Verification copied to clipboard.");
+                                      },
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
                           );
                         },
                       ),

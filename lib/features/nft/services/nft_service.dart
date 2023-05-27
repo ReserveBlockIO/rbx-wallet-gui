@@ -181,4 +181,52 @@ class NftService extends BaseService {
       return false;
     }
   }
+
+  Future<bool> importFromNetwork(String scId) async {
+    try {
+      final response = await getText("/AddNFTDataFromNetwork/$scId", cleanPath: false);
+      final Map<String, dynamic> data = jsonDecode(response);
+
+      print(data);
+
+      if (data["Success"] == true) {
+        return true;
+      }
+      Toast.error(data["Message"]);
+      return false;
+    } catch (e) {
+      print(e);
+      Toast.error("A problem occurred");
+      return false;
+    }
+  }
+
+  Future<String?> proveOwnership(String scId) async {
+    try {
+      final response = await getText("/ProveOwnership/$scId", cleanPath: false);
+      final Map<String, dynamic> data = jsonDecode(response);
+
+      if (data["Success"] == true) {
+        return data['OwnershipScript'];
+      }
+      Toast.error(data["Message"]);
+      return null;
+    } catch (e) {
+      print(e);
+      Toast.error("A problem occurred");
+      return null;
+    }
+  }
+
+  Future<bool?> verifyOwnership(String signature) async {
+    try {
+      final response = await getText("/VerifyOwnership/$signature", cleanPath: false);
+      final Map<String, dynamic> data = jsonDecode(response);
+      return data["Success"] == true;
+    } catch (e) {
+      print(e);
+      Toast.error("A problem occurred");
+      return null;
+    }
+  }
 }
