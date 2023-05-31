@@ -250,31 +250,12 @@ class TransferingOverlay extends StatelessWidget {
     return Container(
       color: Colors.black54,
       child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              "Transferring...",
-              style: TextStyle(
-                fontSize: small ? 14 : 20,
-                fontWeight: small ? FontWeight.w500 : FontWeight.bold,
-              ),
-            ),
-            if (withLog && !kIsWeb)
-              AppButton(
-                label: "View Upload Progress",
-                onPressed: () {
-                  final List<String> fileNames = [nft.primaryAsset.fileName];
-                  for (final a in nft.additionalAssets) {
-                    fileNames.add(a.fileName);
-                  }
-
-                  showDialog(context: context, builder: (context) => UploadProgressModal(fileNames: fileNames));
-                },
-                type: AppButtonType.Text,
-                variant: AppColorVariant.Info,
-              )
-          ],
+        child: Text(
+          "Transferring...",
+          style: TextStyle(
+            fontSize: small ? 14 : 20,
+            fontWeight: small ? FontWeight.w500 : FontWeight.bold,
+          ),
         ),
       ),
     );
