@@ -79,8 +79,8 @@ class RoyaltyModal extends BaseComponent {
           key: _formKey,
           child: Row(
             children: [
-              buildRoyaltyType(_model, _provider),
-              const SizedBox(width: 32),
+              // buildRoyaltyType(_model, _provider),
+              // const SizedBox(width: 32),
               Expanded(
                 child: buildAmount(_provider, _model),
               ),
@@ -113,8 +113,8 @@ class RoyaltyModal extends BaseComponent {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              buildRoyaltyType(_model, _provider),
-              const SizedBox(height: 16),
+              // buildRoyaltyType(_model, _provider),
+              // const SizedBox(height: 16),
               buildAmount(_provider, _model),
               const SizedBox(width: 16),
               buildAddress(_provider, ref, context),
@@ -183,7 +183,7 @@ class RoyaltyModal extends BaseComponent {
     return TextFormField(
       controller: _provider.amountController,
       decoration: InputDecoration(
-          label: const Text("Amount"),
+          label: const Text("Percentage"),
           labelStyle: const TextStyle(color: Colors.white),
           suffix: Text(_model.type == RoyaltyType.percent ? "%" : "RBX"),
           prefixIcon: HelpButton(_model.type == RoyaltyType.percent ? HelpType.royaltyPercent : HelpType.royaltyFlat, subtle: true)),
