@@ -476,6 +476,56 @@ class NftDetailScreen extends BaseScreen {
                   Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: AppButton(
+                      label: "Prove Ownership",
+                      icon: Icons.security,
+                      variant: AppColorVariant.Primary,
+                      onPressed: () async {
+                        final str = await NftService().proveOwnership(id);
+                        if (str == null) {
+                          return;
+                        }
+
+                        InfoDialog.show(
+                          title: "Ownership Verification Signature",
+                          content: SizedBox(
+                            width: 420,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Send this ownership validation signature to prove you are the owner.",
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                                TextFormField(
+                                  initialValue: str,
+                                  readOnly: true,
+                                  minLines: 7,
+                                  maxLines: 7,
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                Center(
+                                  child: AppButton(
+                                    label: "Copy Signature",
+                                    icon: Icons.copy,
+                                    onPressed: () async {
+                                      await Clipboard.setData(ClipboardData(text: str));
+                                      Toast.message("Signature Verification copied to clipboard.");
+                                    },
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: AppButton(
                       label: "Transfer",
                       // helpType: HelpType.transfer,
                       icon: Icons.send,
@@ -675,57 +725,7 @@ class NftDetailScreen extends BaseScreen {
                         },
                       ),
                     ),
-                  if (false)
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: AppButton(
-                        label: "Prove Ownership",
-                        icon: Icons.security,
-                        variant: AppColorVariant.Primary,
-                        onPressed: () async {
-                          final str = await NftService().proveOwnership(id);
-                          if (str == null) {
-                            return;
-                          }
 
-                          InfoDialog.show(
-                            title: "Ownership Verification Signature",
-                            content: SizedBox(
-                              width: 420,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Send this ownership validation signature to prove you are the owner.",
-                                    style: Theme.of(context).textTheme.bodySmall,
-                                  ),
-                                  TextFormField(
-                                    initialValue: str,
-                                    readOnly: true,
-                                    minLines: 7,
-                                    maxLines: 7,
-                                  ),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  Center(
-                                    child: AppButton(
-                                      label: "Copy Signature",
-                                      icon: Icons.copy,
-                                      onPressed: () async {
-                                        await Clipboard.setData(ClipboardData(text: str));
-                                        Toast.message("Signature Verification copied to clipboard.");
-                                      },
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
                   Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: AppButton(

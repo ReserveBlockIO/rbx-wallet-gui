@@ -147,6 +147,8 @@ class SmartContractService extends BaseService {
       final url = backupUrl != null && backupUrl.isNotEmpty ? "/TransferNFT/$id/$address/$backupUrl" : "/TransferNFT/$id/$address";
       final text = await getText(url, timeout: 0);
 
+      print(text);
+
       // if (text.isEmpty) {
       //   print("No response on transfer API call ($url)");
       //   return false;
