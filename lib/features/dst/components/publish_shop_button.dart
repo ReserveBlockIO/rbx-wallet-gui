@@ -48,6 +48,10 @@ class DecPublishShopButton extends BaseComponent {
               icon: shop.ipIsDifferent ? Icons.error : Icons.publish,
               onPressed: () async {
                 if (shop.updateWillCost) {
+                  if (ref.read(sessionProvider).currentWallet!.balance < 10) {
+                    Toast.error("This wallet doesn't have the minimmun balance send an update tx");
+                    return;
+                  }
                   final confirm = await ConfirmDialog.show(
                     title: "Publish Shop?",
                     body: "There is a cost of $SHOP_UPDATE_COST RBX to publish your shop changes to the network (plus the transaction fee).",
@@ -91,6 +95,11 @@ class DecPublishShopButton extends BaseComponent {
           label: "Publish Shop",
           variant: AppColorVariant.Light,
           onPressed: () async {
+            if (ref.read(sessionProvider).currentWallet!.balance < 10) {
+              Toast.error("This wallet doesn't have the minimmun balance send a publish tx");
+              return;
+            }
+
             final confirm = await ConfirmDialog.show(
               title: "Publish Shop?",
               body: "There is a cost of $SHOP_PUBLISH_COST RBX to publish your shop to the network (plus the transaction fee).",
