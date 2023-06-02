@@ -265,14 +265,16 @@ class _PreviewState extends State<_Preview> {
     final primaryFilename = widget.listing.nft!.smartContract.primaryAsset.fileName;
     final additionalFilenames = widget.listing.nft!.smartContract.additionalAssets.map((e) => e.fileName).toList();
 
-    final assetFilenames = [primaryFilename, ...additionalFilenames]
-        .map((a) => a
-            .replaceAll(".png", ".jpg")
-            .replaceAll(".gif", ".jpg")
-            .replaceAll(".pdf", ".jpg")
-            .replaceAll(".webp", ".jpg")
-            .replaceAll(".jpeg", ".jpg"))
-        .toList();
+    final assetFilenames = widget.listing.collection.shop!.isThirdParty
+        ? [primaryFilename, ...additionalFilenames]
+        : [primaryFilename, ...additionalFilenames]
+            .map((a) => a
+                .replaceAll(".png", ".jpg")
+                .replaceAll(".gif", ".jpg")
+                .replaceAll(".pdf", ".jpg")
+                .replaceAll(".webp", ".jpg")
+                .replaceAll(".jpeg", ".jpg"))
+            .toList();
 
     final List<String> orderedThumbs = [];
     final List<IconData?> icons = [];
