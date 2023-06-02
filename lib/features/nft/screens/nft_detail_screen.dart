@@ -263,6 +263,9 @@ class NftDetailScreen extends BaseScreen {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("Asset:", style: Theme.of(context).textTheme.headline5),
+                        SizedBox(
+                          height: 8,
+                        ),
                         Container(
                           decoration: BoxDecoration(
                             boxShadow: glowingBox,

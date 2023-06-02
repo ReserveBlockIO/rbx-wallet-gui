@@ -137,3 +137,28 @@ Map<String, dynamic>? parseNftData(Transaction transaction) {
 String? nftDataValue(Map<String, dynamic> nftData, String key) {
   return nftData.containsKey(key) ? nftData[key].toString() : null;
 }
+
+String getExtensionFromMimeType(String mimeType) {
+  switch (mimeType) {
+    case 'image/jpeg':
+      return 'jpg';
+    case 'image/png':
+      return 'png';
+    case 'image/gif':
+      return 'gif';
+    case 'image/webp':
+      return 'webp';
+    case 'application/pdf':
+      return 'pdf';
+    case 'text/plain':
+      return 'txt';
+    case 'video/mp4':
+      return 'mp4';
+    case 'video/mpeg':
+      return 'mpeg';
+    case 'video/quicktime':
+      return 'mov';
+    default:
+      return '';
+  }
+}
