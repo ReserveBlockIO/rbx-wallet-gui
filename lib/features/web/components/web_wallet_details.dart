@@ -31,9 +31,18 @@ class WebWalletDetails extends BaseComponent {
           style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 13),
         ),
         subtitle: sessionModel.balance != null
-            ? Text(
-                "${sessionModel.balance} RBX",
-                style: Theme.of(context).textTheme.caption,
+            ? Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Tooltip(
+                    message:
+                        "Available: ${sessionModel.balance} RBX\nLocked: ${sessionModel.balanceLocked} RBX \nTotal: ${sessionModel.balanceTotal} RBX",
+                    child: Text(
+                      "${sessionModel.balance} RBX",
+                      style: Theme.of(context).textTheme.caption,
+                    ),
+                  ),
+                ],
               )
             : null,
         trailing: Row(
