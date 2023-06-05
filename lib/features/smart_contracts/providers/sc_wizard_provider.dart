@@ -432,7 +432,15 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
         ? CsvToListConverter().convert(utf8.decode(file.bytes!.toList()))
         : await File(file.path!).openRead().transform(utf8.decoder).transform(const CsvToListConverter()).toList();
 
-    // final headers = fields.first;
+    final headers = fields.first;
+    if (!headers
+        .join(',')
+        .toLowerCase()
+        .contains('Name,Description,Primary Asset URL,Creator Name,Royalty Amount,Royalty Address,Additional Asset URLs,Quantity'.toLowerCase())) {
+      Toast.error("The CSV headers are not in the correct format, please check the example file");
+      return false;
+    }
+
     final rows = [...fields]..removeAt(0);
     final List<BulkSmartContractEntry> entries = [];
     for (final row in rows) {

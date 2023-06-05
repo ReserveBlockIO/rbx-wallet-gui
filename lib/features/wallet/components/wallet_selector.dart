@@ -213,19 +213,26 @@ class WalletSelector extends BaseComponent {
               list.add(
                 PopupMenuItem(
                   child: Row(
-                    mainAxisSize: MainAxisSize.min,
+                    // mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Icon(
                         isSelected ? Icons.check_box_rounded : Icons.check_box_outline_blank_outlined,
                         color: color,
                       ),
-                      SizedBox(width: 8),
                       Text(
                         truncatedLabel ? wallet.label : wallet.labelWithoutTruncation,
                         style: TextStyle(
                           color: color,
                           decoration: isSelected ? TextDecoration.underline : TextDecoration.none,
                         ),
+                      ),
+                      InkWell(
+                        onTap: () async {
+                          await Clipboard.setData(ClipboardData(text: wallet.address));
+                          Toast.message("${wallet.address} copied to clipboard");
+                        },
+                        child: SizedBox(width: 40, height: 20, child: Icon(Icons.copy, size: 15)),
                       ),
                     ],
                   ),
