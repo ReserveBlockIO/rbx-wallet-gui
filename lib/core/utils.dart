@@ -27,6 +27,15 @@ Future<bool> backupKeys(BuildContext context, WidgetRef ref) async {
       output += "===================================\n\n";
     }
 
+    output += "FOR BULK IMPORT:\n\n";
+
+    for (final w in wallets) {
+      if (w.privateKey != '0') {
+        output += "${w.privateKey}\n";
+      }
+    }
+    output += "\n===================================\n\n";
+
     List<int> bytes = utf8.encode(output);
 
     final date = DateTime.now();
