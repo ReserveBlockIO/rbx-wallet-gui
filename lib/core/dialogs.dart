@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -177,9 +179,11 @@ class RecoverDialog {
       return AlertDialog(
         title: Text("Recovery process has started"),
         content: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 500),
-            child: Text(
-                "Your Reserve (Protected) Account is being recovered to your recovery address.\n\nTransaction Hash: $hash\n\nAll non-settled transactions for funds and NFTs have been transferred as well as your current available balance. \n\nIt is recommended you import your recovery private key into a new machine. NFT media will not be transferred over so please export them by clicking the button below and import them to your new environment.")),
+          constraints: const BoxConstraints(maxWidth: 500),
+          child: SelectableText(
+            "Your Reserve (Protected) Account is being recovered to your recovery address.\n\nTransaction Hash: $hash\n\nAll non-settled transactions for funds and NFTs will be transferred as well as your current available balance. \n\nIt is recommended you import your recovery private key into a new machine. NFT media will not be transferred over so please export them by clicking the button below and import them to your new environment.",
+          ),
+        ),
         actions: [
           TextButton(
             style: TextButton.styleFrom(
@@ -193,7 +197,9 @@ class RecoverDialog {
               print('Backing up');
               if (success == true) {
                 Navigator.of(context).pop();
-                Toast.message("Media backed up successfully.");
+                if (Platform.isMacOS) {
+                  Toast.message("Media backed up successfully.");
+                }
               } else {
                 Toast.error();
               }
@@ -233,6 +239,7 @@ class RecoverDialog {
   }) async {
     return await showDialog(
       context: context ?? rootNavigatorKey.currentContext!,
+      barrierDismissible: false,
       builder: (context) {
         return alert(
           context,

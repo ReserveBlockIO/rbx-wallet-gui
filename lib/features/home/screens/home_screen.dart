@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/features/home/components/home_buttons/verify_nft_ownership_button.dart';
 import '../../../core/env.dart';
 import '../../bridge/providers/wallet_info_provider.dart';
@@ -100,6 +102,13 @@ class HomeScreen extends BaseScreen {
                     const VerifyNftOwnershipButton(),
                     const BackupButton(),
                     if (Env.promptForUpdates) const ImportSnapshotButton(),
+                    if (kDebugMode)
+                      AppButton(
+                        label: "DEBUG: ra message",
+                        onPressed: () {
+                          RecoverDialog.show(hash: "abc123");
+                        },
+                      )
                   ],
                 ),
               const Divider(),
