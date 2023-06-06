@@ -4,6 +4,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:archive/archive_io.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,6 +12,7 @@ import 'package:path_provider/path_provider.dart';
 import '../features/transactions/models/transaction.dart';
 
 import '../features/wallet/providers/wallet_list_provider.dart';
+import '../utils/files.dart';
 import '../utils/toast.dart';
 import 'env.dart';
 
@@ -54,6 +56,45 @@ Future<bool> backupKeys(BuildContext context, WidgetRef ref) async {
     print(e);
     return false;
   }
+}
+
+Future<bool> importMedia(BuildContext context, WidgetRef ref) async {
+  final file = await getFile(['zip']);
+  if (file == null) {
+    return false;
+  }
+  final zipPath = file.path;
+  final _assetsPath = await assetsPath();
+  final dir = Directory(_assetsPath);
+
+  final bytes = await File(zipPath!).readAsBytes();
+  final archive = ZipDecoder().decodeBytes(bytes);
+
+  for (final file in archive) {
+    String filename = file.name;
+
+    if (filename.contains('/')) {
+      final list = filename.split('/');
+      if (filename.contains('thumbs')) {
+        filename = [list[list.length - 3], list[list.length - 2], list.last].join('/');
+      } else {
+        filename = [list[list.length - 2], list.last].join('/');
+      }
+    }
+
+    if (file.isFile) {
+      final data = file.content as List<int>;
+
+      final p = "$_assetsPath/$filename";
+      File(p)
+        ..createSync(recursive: true)
+        ..writeAsBytesSync(data);
+    } else {
+      Directory("$_assetsPath/$filename").create(recursive: true);
+    }
+  }
+
+  return false;
 }
 
 Future<bool> backupMedia(BuildContext context, WidgetRef ref) async {
