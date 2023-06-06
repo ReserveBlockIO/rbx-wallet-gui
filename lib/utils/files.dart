@@ -24,6 +24,24 @@ Future<void> openFile(File file) async {
   }
 }
 
+Future<PlatformFile?> getFile(List<String> extensions) async {
+  FilePickerResult? result = await FilePicker.platform.pickFiles(
+    allowedExtensions: extensions,
+    allowMultiple: false,
+    type: FileType.custom,
+  );
+  if (result == null) {
+    return null;
+  }
+  if (result.files.isEmpty) {
+    return null;
+  }
+
+  final file = result.files.first;
+
+  return file;
+}
+
 Future<String> dbPath() async {
   Directory appDocDir = await getApplicationDocumentsDirectory();
   String appDocPath = appDocDir.path;
