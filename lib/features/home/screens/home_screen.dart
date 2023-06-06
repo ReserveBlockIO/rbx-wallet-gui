@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/features/home/components/home_buttons/import_media_button.dart';
 import 'package:rbx_wallet/features/home/components/home_buttons/verify_nft_ownership_button.dart';
 import '../../../core/env.dart';
 import '../../bridge/providers/wallet_info_provider.dart';
@@ -101,6 +102,7 @@ class HomeScreen extends BaseScreen {
                     const OpenLogButton(),
                     const VerifyNftOwnershipButton(),
                     const BackupButton(),
+                    const ImportMediaButton(),
                     if (Env.promptForUpdates) const ImportSnapshotButton(),
                     if (kDebugMode)
                       AppButton(
