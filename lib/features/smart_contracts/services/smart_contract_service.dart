@@ -147,16 +147,35 @@ class SmartContractService extends BaseService {
       final url = backupUrl != null && backupUrl.isNotEmpty ? "/TransferNFT/$id/$address/$backupUrl" : "/TransferNFT/$id/$address";
       final text = await getText(url, timeout: 0);
 
-      print(text);
-
-      // if (text.isEmpty) {
-      //   print("No response on transfer API call ($url)");
-      //   return false;
-      // }
-
       final Map<String, dynamic> data = jsonDecode(text);
       if (data['Result'] == "Success") {
         Toast.message(data['Message'] ?? 'Success: NFT Transfer has been started.');
+        return true;
+      }
+      Toast.error(data['Message']);
+      return false;
+    } catch (e) {
+      print(e);
+      Toast.error(e.toString());
+      return false;
+    }
+  }
+
+  Future<bool> transferSale(String id, String address, double amount, String? backupUrl) async {
+    try {
+      final url = backupUrl != null && backupUrl.isNotEmpty ? "/TransferSale/$id/$address/$amount/$backupUrl" : "/TransferSale/$id/$address/$amount";
+      print("***");
+      print(url);
+      print("****");
+
+      final text = await getText(url, timeout: 0, cleanPath: false);
+
+      final Map<String, dynamic> data = jsonDecode(text);
+
+      print(data);
+
+      if (data['Success'] == true) {
+        Toast.message(data['Message'] ?? 'Success: NFT Sale Transfer has been started.');
         return true;
       }
       Toast.error(data['Message']);
