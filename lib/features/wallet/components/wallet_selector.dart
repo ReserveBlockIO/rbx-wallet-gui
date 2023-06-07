@@ -328,10 +328,15 @@ class ReserveAccountDetails extends StatelessWidget {
 
                       final date = DateTime.now();
                       final d = "${date.year}-${date.month}-${date.day}";
+                      if (Platform.isMacOS) {
+                        await FileSaver.instance
+                            .saveAs(name: "xRBX Reserve Account Backup-$d", bytes: Uint8List.fromList(bytes), ext: 'txt', mimeType: MimeType.text);
+                      } else {
+                        final data = await FileSaver.instance
+                            .saveFile(name: "xRBX Reserve Account Backup-$d", bytes: Uint8List.fromList(bytes), ext: 'txt', mimeType: MimeType.text);
 
-                      await FileSaver.instance
-                          .saveAs(name: "xRBX Reserve Account Backup-$d", bytes: Uint8List.fromList(bytes), ext: 'txt', mimeType: MimeType.text);
-                      Toast.message("Reserve Account Data saved");
+                        Toast.message("Saved to $data");
+                      }
 
                       // if (Platform.isMacOS) {
                       //   await FileSaver.instance.saveAs("xRBX Reserve Account Backup-$d", Uint8List.fromList(bytes), 'txt', MimeType.TEXT);
