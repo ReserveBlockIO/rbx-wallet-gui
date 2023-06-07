@@ -38,10 +38,11 @@ class WebWalletDetails extends BaseComponent {
                     "${sessionModel.balance} RBX",
                     style: Theme.of(context).textTheme.caption,
                   ),
+                  SizedBox(width: 2),
                   Tooltip(
                     message:
                         "Available: ${sessionModel.balance} RBX\nLocked: ${sessionModel.balanceLocked} RBX \nTotal: ${sessionModel.balanceTotal} RBX",
-                    child: Icon(Icons.help, color: Theme.of(context).colorScheme.secondary.withOpacity(0.7), size: 16),
+                    child: Icon(Icons.help, color: Theme.of(context).colorScheme.secondary.withOpacity(0.7), size: 14),
                   ),
                 ],
               )
