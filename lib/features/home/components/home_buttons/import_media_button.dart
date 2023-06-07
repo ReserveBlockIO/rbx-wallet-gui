@@ -24,9 +24,9 @@ class ImportMediaButton extends BaseComponent {
           : () async {
               final success = await importMedia(context, ref);
 
-              if (success) {
+              if (success == true) {
                 Toast.message("Media Imported Successfully");
-              } else {
+              } else if (success == false) {
                 Toast.error("Could not import media");
               }
             },

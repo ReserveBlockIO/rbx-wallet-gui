@@ -58,43 +58,49 @@ Future<bool> backupKeys(BuildContext context, WidgetRef ref) async {
   }
 }
 
-Future<bool> importMedia(BuildContext context, WidgetRef ref) async {
+Future<bool?> importMedia(BuildContext context, WidgetRef ref) async {
   final file = await getFile(['zip']);
   if (file == null) {
-    return false;
+    return null;
   }
-  final zipPath = file.path;
-  final _assetsPath = await assetsPath();
-  final dir = Directory(_assetsPath);
 
-  final bytes = await File(zipPath!).readAsBytes();
-  final archive = ZipDecoder().decodeBytes(bytes);
+  try {
+    final zipPath = file.path;
+    final _assetsPath = await assetsPath();
+    final dir = Directory(_assetsPath);
 
-  for (final file in archive) {
-    String filename = file.name;
+    final bytes = await File(zipPath!).readAsBytes();
+    final archive = ZipDecoder().decodeBytes(bytes);
 
-    if (filename.contains('/')) {
-      final list = filename.split('/');
-      if (filename.contains('thumbs')) {
-        filename = [list[list.length - 3], list[list.length - 2], list.last].join('/');
+    for (final file in archive) {
+      String filename = file.name;
+
+      if (filename.contains('/')) {
+        final list = filename.split('/');
+        if (filename.contains('thumbs')) {
+          filename = [list[list.length - 3], list[list.length - 2], list.last].join('/');
+        } else {
+          filename = [list[list.length - 2], list.last].join('/');
+        }
+      }
+
+      if (file.isFile) {
+        final data = file.content as List<int>;
+
+        final p = "$_assetsPath/$filename";
+        File(p)
+          ..createSync(recursive: true)
+          ..writeAsBytesSync(data);
       } else {
-        filename = [list[list.length - 2], list.last].join('/');
+        Directory("$_assetsPath/$filename").create(recursive: true);
       }
     }
 
-    if (file.isFile) {
-      final data = file.content as List<int>;
-
-      final p = "$_assetsPath/$filename";
-      File(p)
-        ..createSync(recursive: true)
-        ..writeAsBytesSync(data);
-    } else {
-      Directory("$_assetsPath/$filename").create(recursive: true);
-    }
+    return true;
+  } catch (e) {
+    print(e);
+    return false;
   }
-
-  return false;
 }
 
 Future<bool> backupMedia(BuildContext context, WidgetRef ref) async {
