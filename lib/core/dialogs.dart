@@ -194,7 +194,6 @@ class RecoverDialog {
             ),
             onPressed: () async {
               final success = await backupMedia(context, ref);
-              print('Backing up');
               if (success == true) {
                 // Navigator.of(context).pop();
                 if (Platform.isMacOS) {
