@@ -187,6 +187,26 @@ class SmartContractService extends BaseService {
     }
   }
 
+  Future<bool> completeTransferSale(String purchaseKey, String scId) async {
+    try {
+      final text = await getText("/CompleteTransferSale/$purchaseKey/$scId", cleanPath: false);
+
+      final data = jsonDecode(text);
+      if (data['Success'] == true) {
+        Toast.message(data['Message'] ?? "Sale Complete TX Sent");
+        return true;
+      }
+
+      Toast.error(data['Message'] ?? "A problem occurred");
+
+      return false;
+    } catch (e) {
+      print(e);
+      Toast.error();
+      return false;
+    }
+  }
+
   Future<bool> evolve(String id, String toAddress, int stage) async {
     try {
       await getText("/EvolveSpecific/$id/$toAddress/$stage");

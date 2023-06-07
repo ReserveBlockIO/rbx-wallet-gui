@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/features/nft/providers/sale_provider.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
 import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
 import '../../global_loader/global_loading_provider.dart';
@@ -798,7 +800,9 @@ class NftDetailScreen extends BaseScreen {
                             final success = await SmartContractService().transferSale(id, address, amount, backupUrl);
                             ref.read(globalLoadingProvider.notifier).complete();
                             if (success) {
-                              Toast.message("Sale Start transaction broadcasted");
+                              // Toast.message("Sale Start transaction broadcasted");
+                              ref.read(saleProvider.notifier).addId(id);
+                              Navigator.of(context).pop();
                             }
                           }
                         },

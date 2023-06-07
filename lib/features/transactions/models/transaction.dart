@@ -68,6 +68,8 @@ class Transaction with _$Transaction {
         if (data != null) {
           if (nftDataValue(data, 'Function') == "Sale_Start()") {
             return "NFT Sale Start";
+          } else if (nftDataValue(data, 'Function') == "M_Sale_Start()") {
+            return "NFT Sale Start (Manual)";
           } else if (nftDataValue(data, 'Function') == "Sale_Complete()") {
             return "NFT Sale Complete";
           }

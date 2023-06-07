@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:rbx_wallet/features/nft/providers/pending_sale_provider.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/smart_contract.dart';
+import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
 import 'package:rbx_wallet/features/transactions/providers/transaction_list_provider.dart';
 import '../../../core/app_constants.dart';
 import '../../../core/dialogs.dart';
@@ -241,6 +244,63 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                                     builder: (context) {
                                       return NftDataModal(widget.transaction.nftData);
                                     });
+                              },
+                            ),
+                          if (widget.transaction.type == 5) //NFT Sale
+                            Builder(
+                              builder: (context) {
+                                if (widget.transaction.status != TransactionStatus.Success) {
+                                  return SizedBox.shrink();
+                                }
+                                final data = parseNftData(widget.transaction);
+                                if (data == null) {
+                                  return SizedBox.shrink();
+                                }
+                                final func = nftDataValue(data, "Function");
+                                if (func == "M_Sale_Start()") {
+                                  if (!toMe) {
+                                    return SizedBox.shrink();
+                                  }
+
+                                  final scId = nftDataValue(data, "ContractUID");
+                                  final purchaseKey = nftDataValue(data, "KeySign");
+                                  final amount = nftDataValue(data, "SoldFor");
+
+                                  if (scId == null || purchaseKey == null) {
+                                    return SizedBox.shrink();
+                                  }
+
+                                  final canPress = ref.watch(pendingSaleProvider).contains(widget.transaction.hash);
+
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                                    child: AppButton(
+                                      label: "Complete Sale",
+                                      variant: AppColorVariant.Success,
+                                      onPressed: canPress
+                                          ? null
+                                          : () async {
+                                              final confirmed = await ConfirmDialog.show(
+                                                title: "Complete Sale",
+                                                body: "Are you sure you want to complete the sale of $scId for $amount RBX?",
+                                                confirmText: "Complete Sale",
+                                                cancelText: "Cancel",
+                                              );
+
+                                              if (confirmed != true) {
+                                                return;
+                                              }
+
+                                              final success = await SmartContractService().completeTransferSale(purchaseKey, scId);
+                                              if (success) {
+                                                ref.read(pendingSaleProvider.notifier).addHash(widget.transaction.hash);
+                                              }
+                                            },
+                                    ),
+                                  );
+                                }
+
+                                return SizedBox.shrink();
                               },
                             ),
                           if (widget.transaction.type == 10) //Reserve Transaction
