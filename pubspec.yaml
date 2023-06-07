@@ -35,7 +35,7 @@ dependencies:
   path_provider: ^2.0.11
   uuid: ^3.0.6
   file_picker: ^4.6.1
-  file_saver: ^0.1.0
+  file_saver: ^0.2.4
   qr_flutter: ^4.0.0
   animate_icons: ^2.0.0
   timezone: ^0.9.1

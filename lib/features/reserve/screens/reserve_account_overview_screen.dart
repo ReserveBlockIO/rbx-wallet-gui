@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/utils.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import '../../../core/base_component.dart';
 import '../../../core/base_screen.dart';
@@ -103,6 +104,18 @@ class ReserveAccountOverviewScreen extends BaseScreen {
 
                                       if (confirmed != true) {
                                         return;
+                                      }
+
+                                      final backup = await ConfirmDialog.show(
+                                        title: "Backup Media",
+                                        body:
+                                            "NFT Media will not be transferred in this process. Would you like to export a backup now now so you can import into your new environment?",
+                                        confirmText: "Backup",
+                                        cancelText: "No",
+                                      );
+
+                                      if (backup == true) {
+                                        await backupMedia(context, ref);
                                       }
 
                                       provider.recoverAccount(context, wallet.address);

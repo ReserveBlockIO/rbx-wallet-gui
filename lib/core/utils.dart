@@ -43,12 +43,14 @@ Future<bool> backupKeys(BuildContext context, WidgetRef ref) async {
     final date = DateTime.now();
     final d = "${date.year}-${date.month}-${date.day}";
 
-    if (Platform.isMacOS) {
-      await FileSaver.instance.saveAs("rbx-keys-backup-$d", Uint8List.fromList(bytes), 'txt', MimeType.TEXT);
-    } else {
-      final data = await FileSaver.instance.saveFile("rbx-keys-backup-$d", Uint8List.fromList(bytes), 'txt', mimeType: MimeType.TEXT);
-      Toast.message("Saved to $data");
-    }
+    await FileSaver.instance.saveAs(name: "rbx-keys-backup-$d", bytes: Uint8List.fromList(bytes), ext: 'txt', mimeType: MimeType.text);
+
+    // if (Platform.isMacOS) {
+    //   await FileSaver.instance.saveAs("rbx-keys-backup-$d", Uint8List.fromList(bytes), 'txt', MimeType.TEXT);
+    // } else {
+    //   final data = await FileSaver.instance.saveFile("rbx-keys-backup-$d", Uint8List.fromList(bytes), 'txt', mimeType: MimeType.TEXT);
+    //   Toast.message("Saved to $data");
+    // }
 
     return true;
   } catch (e) {
@@ -124,12 +126,16 @@ Future<bool> backupMedia(BuildContext context, WidgetRef ref) async {
     final date = DateTime.now();
     final d = "${date.year}-${date.month}-${date.day}";
 
-    if (Platform.isMacOS) {
-      await FileSaver.instance.saveAs("rbx-media-backup-$d", Uint8List.fromList(bytes), 'zip', MimeType.ZIP);
-    } else {
-      final data = await FileSaver.instance.saveFile("rbx-media-backup-$d", Uint8List.fromList(bytes), 'zip', mimeType: MimeType.ZIP);
-      Toast.message("Saved to $data");
-    }
+    await FileSaver.instance.saveAs(name: "rbx-media-backup-$d", ext: "zip", mimeType: MimeType.zip, bytes: Uint8List.fromList(bytes));
+
+    // await FileSaver.instance.saveAs("rbx-media-backup-$d", Uint8List.fromList(bytes), 'zip', MimeType.ZIP);
+
+    // if (Platform.isMacOS) {
+    //   await FileSaver.instance.saveAs("rbx-media-backup-$d", Uint8List.fromList(bytes), 'zip', MimeType.ZIP);
+    // } else {
+    //   final data = await FileSaver.instance.saveFile("rbx-media-backup-$d", Uint8List.fromList(bytes), 'zip', mimeType: MimeType.ZIP);
+    //   Toast.message("Saved to $data");
+    // }
 
     return true;
   } catch (e) {
