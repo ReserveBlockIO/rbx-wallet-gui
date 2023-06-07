@@ -31,6 +31,9 @@ abstract class WebSessionModel with _$WebSessionModel {
       address: keypair!.address,
       balance: balance ?? 0,
       isValidating: false,
+      totalBalance: balanceTotal ?? 0,
+      lockedBalance: balanceLocked ?? 0,
+
       // isEncrypted: false,
     );
   }
