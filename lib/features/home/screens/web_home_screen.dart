@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../core/dialogs.dart';
 import '../../web/components/web_wordmark.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -18,6 +18,9 @@ import '../../../generated/assets.gen.dart';
 import '../../root/web_dashboard_container.dart';
 import '../../web/components/web_latest_block.dart';
 import '../../web/components/web_wallet_details.dart';
+import 'package:rbx_wallet/features/payment/payment_utils.dart';
+
+import '../../payment/components/payment_iframe_container.dart' if (dart.library.io) '../../payment/components/payment_iframe_container_mock.dart';
 
 class WebHomeScreen extends BaseScreen {
   const WebHomeScreen({Key? key})
@@ -260,17 +263,54 @@ class _Actions extends BaseComponent {
                     launchUrl(Uri.parse(Env.baseExplorerUrl));
                   },
                 ),
-                // AppButton(
-                //   label: "DEBUG BUTTON",
-                //   onPressed: () async {
-                //     await RawTransaction.generate(
-                //       keypair: ref.read(webSessionProvider).keypair!,
-                //       amount: 1.1,
-                //       toAddress: "RKY4KEZrYc1Uj7vcKnmuSkqCkCPwFxPono",
-                //     );
+                AppButton(
+                  label: "Fund Address",
+                  icon: Icons.attach_money_outlined,
+                  onPressed: () {
+                    final maxWidth = BreakPoints.useMobileLayout(context) ? 400.0 : 600.0;
+                    final maxHeight = BreakPoints.useMobileLayout(context) ? 700.0 : 800.0;
+                    double width = MediaQuery.of(context).size.width - 32;
+                    double height = MediaQuery.of(context).size.height - 64;
 
-                //   },
-                // ),
+                    if (width > maxWidth) {
+                      width = maxWidth;
+                    }
+
+                    if (height > maxHeight) {
+                      height = maxHeight;
+                    }
+
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          contentPadding: EdgeInsets.zero,
+                          insetPadding: EdgeInsets.zero,
+                          actionsPadding: EdgeInsets.zero,
+                          buttonPadding: EdgeInsets.zero,
+                          content: WebPaymentIFrameContainer(
+                            walletAddress: "0x46125FD84289f8D6224059BAeA1a8A0f76Ef3395",
+                            coinAmount: 0.1,
+                            width: width,
+                            height: height,
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text(
+                                "Close",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            )
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
+
                 if (ref.read(webSessionProvider).keypair != null)
                   AppButton(
                     label: "Logout",

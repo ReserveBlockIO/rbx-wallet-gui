@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+
+    <style>
+        html,body{
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="iframeTarget"></div>
+    <button id="iframeButton" style="opacity: 0">Launch iframe</button>
+
+    <script>
+        function init(callback) {
+            var b = document.createElement('script');
+            b.type = "text/javascript";
+            b.async = !0;
+            b.src = "https://sdk.banxa.com/js/banxa-sdk-latest.js";
+
+            var x = document.getElementsByTagName('script')[0];
+            x.parentNode.insertBefore(b, x);
+
+            if (callback) {
+                b.addEventListener("load", function() {
+                    callback()
+                })
+            }
+        }
+
+        window.addEventListener('message', handleMessage, false);
+
+        function handleMessage(e) {
+
+            var data = JSON.parse(e.data);
+
+            const {width, height, fiatType, coinType, coinAmount, walletAddress} = data;
+
+            init(function() {
+                const company = "rbx";
+                // const banxa = new Banxa(company); 
+                const banxa = new Banxa(company, `sandbox`); 
+
+                const params = {
+                        'fiatType': fiatType,
+                        'coinType': coinType,
+                        'coinAmount': coinAmount,
+                        'walletAddress': walletAddress,
+                    };
+
+
+                banxa.iframe('#iframeButton', '#iframeTarget',
+                params,
+                    `${width}px`, 
+                    `${height}px`
+                    );
+                document.getElementById('iframeButton').click();
+            });
+        }
+    </script>
+    
+</body>
+</html>

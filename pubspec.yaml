@@ -49,7 +49,6 @@ dependencies:
   dart_bip66: ^2.0.1
   window_manager: ^0.3.0
   secp256k1: ^0.3.0
-  stripe_checkout: ^1.0.0
   dots_indicator: ^2.1.0
   carousel_slider: ^4.1.1
   pinch_zoom: ^1.0.0
@@ -66,6 +65,7 @@ dependencies:
   context_menus: ^1.0.2
   infinite_scroll_pagination: ^3.2.0
   cached_network_image: ^3.2.3
+  webviewx: ^0.2.2
 
 
 
@@ -94,6 +94,7 @@ flutter:
     - assets/js/
     - assets/docs/
     - assets/data/
+    - assets/html/
 
   fonts:
     - family: RobotoMono

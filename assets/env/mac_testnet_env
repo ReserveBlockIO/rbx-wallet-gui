@@ -8,3 +8,4 @@ IS_TEST_NET=true
 HIDE_CLI_OUTPUT=false
 ALLOW_VALIDATING=true
 USE_WEB_MEDIA=true
+PAYMENT_DOMAIN=https://rbx.banxa-sandbox.com
