@@ -2,11 +2,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/features/payment/payment_utils.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/features/home/components/home_buttons/import_media_button.dart';
+import 'package:rbx_wallet/features/home/components/home_buttons/verify_nft_ownership_button.dart';
 import '../../../core/env.dart';
 import '../../bridge/providers/wallet_info_provider.dart';
-import '../../dst/components/nft_selector.dart';
 import '../components/home_buttons/import_snapshot_button.dart';
 import '../components/home_buttons/mother_button.dart';
 import '../components/home_buttons/reserve_accounts_button.dart';
@@ -100,21 +100,17 @@ class HomeScreen extends BaseScreen {
                     const ShowDebugDataButton(),
                     const OpenDbFolderButton(),
                     const OpenLogButton(),
+                    const VerifyNftOwnershipButton(),
                     const BackupButton(),
+                    const ImportMediaButton(),
+                    if (Env.promptForUpdates) const ImportSnapshotButton(),
                     if (kDebugMode)
                       AppButton(
-                        icon: Icons.attach_money,
-                        label: "Fund Address",
+                        label: "DEBUG: ra message",
                         onPressed: () {
-                          final url = paymentUrl(amount: 0.1, walletAddress: "0xf47D54E9ED7113b18fA451E81FdB65648574A116");
-
-                          print(url);
-                          if (url != null) {
-                            launchUrlString(url);
-                          }
+                          RecoverDialog.show(hash: "abc123");
                         },
-                      ),
-                    if (Env.promptForUpdates) const ImportSnapshotButton(),
+                      )
                   ],
                 ),
               const Divider(),

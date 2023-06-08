@@ -4,6 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/nft/providers/sale_provider.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_listing_list_provider.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_shop_list_provider.dart';
 import '../../../app.dart';
@@ -330,6 +331,29 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       // if (kIsWeb) {
       //   ref.read(webListingListProvider().notifier).refresh();
       // }
+    } else if (function == "M_Sale_Start()") {
+      _broadcastNotification(
+        TransactionNotification(
+          identifier: transaction.hash,
+          transaction: transaction,
+          title: "Sale Started (Manual)",
+          body: scId,
+          color: AppColorVariant.Warning,
+        ),
+      );
+    } else if (function == "M_Sale_Complete()") {
+      _broadcastNotification(
+        TransactionNotification(
+          identifier: transaction.hash,
+          transaction: transaction,
+          title: "Sale Completed (Manual)",
+          body: scId,
+          color: AppColorVariant.Success,
+        ),
+      );
+      if (scId != null) {
+        ref.read(saleProvider.notifier).removeId(scId);
+      }
     }
   }
 

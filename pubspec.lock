@@ -9,6 +9,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "50.0.0"
+  amdjs:
+    dependency: transitive
+    description:
+      name: amdjs
+      sha256: "97e6d96fd0e64d3eeb6fc85f386160322a23b1192662aac1fa4139569add2434"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.3"
   analyzer:
     dependency: transitive
     description:
@@ -49,6 +57,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.10.0"
+  async_extension:
+    dependency: transitive
+    description:
+      name: async_extension
+      sha256: "891a2ea770693a70cdf5155f5a0b5e81b0e3a2d3d631d112cffbca4807186468"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   auto_route:
     dependency: "direct main"
     description:
@@ -385,6 +401,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.1"
+  dom_tools:
+    dependency: transitive
+    description:
+      name: dom_tools
+      sha256: bfb56b021f8c3a3e4e1955a536604f21dd149be73c9d81fbe8d6324fcb9996e5
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.8"
   dots_indicator:
     dependency: "direct main"
     description:
@@ -393,6 +417,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
+  enum_to_string:
+    dependency: transitive
+    description:
+      name: enum_to_string
+      sha256: bd9e83a33b754cb43a75b36a9af2a0b92a757bfd9847d2621ca0b1bed45f8e7a
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   fake_async:
     dependency: transitive
     description:
@@ -429,10 +461,10 @@ packages:
     dependency: "direct main"
     description:
       name: file_saver
-      sha256: "9efc615b43127952aa394e98b23d9e932715e8c008dc10710177008882b3d141"
+      sha256: ea6506816af8fa381e3934ecc730d260b33a089e5391a80ea4ba405d16aa5bc0
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.1"
+    version: "0.2.4"
   fixnum:
     dependency: transitive
     description:
@@ -712,6 +744,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.8.1"
+  json_object_mapper:
+    dependency: transitive
+    description:
+      name: json_object_mapper
+      sha256: "8566947565045eb2a8dd679029c4fcbb84dfd0e10309a1693e67e83e174893a2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   json_serializable:
     dependency: "direct dev"
     description:
@@ -744,6 +784,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  markdown:
+    dependency: transitive
+    description:
+      name: markdown
+      sha256: "39caf989ccc72c63e87b961851a74257141938599ed2db45fbd9403fee0db423"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.0"
   matcher:
     dependency: transitive
     description:
@@ -912,14 +960,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
-  pointer_interceptor:
-    dependency: transitive
-    description:
-      name: pointer_interceptor
-      sha256: "6aa680b30d96dccef496933d00208ad25f07e047f644dc98ce03ec6141633a9a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.9.3+4"
   pointycastle:
     dependency: "direct main"
     description:
@@ -984,6 +1024,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.0"
+  resource_portable:
+    dependency: transitive
+    description:
+      name: resource_portable
+      sha256: "7b33fa68d1f088227f0d4ba6b1476ea9784fd320fc38385d938d641dc7b6ca0b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.1"
   responsive_framework:
     dependency: "direct main"
     description:
@@ -1189,6 +1237,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  stripe_checkout:
+    dependency: "direct main"
+    description:
+      name: stripe_checkout
+      sha256: b6265ca2ecc212c62252c712ee1dbc9706f80f8467a61958cca51f4e566c2977
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
+  swiss_knife:
+    dependency: transitive
+    description:
+      name: swiss_knife
+      sha256: "8baa4c6b61998b240da599ce66013accf84a7019b3a2e2f8bc469fddce071fa1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.2"
   synchronized:
     dependency: transitive
     description:
@@ -1401,10 +1465,10 @@ packages:
     dependency: transitive
     description:
       name: webview_flutter
-      sha256: "6886b3ceef1541109df5001054aade5ee3c36b5780302e41701c78357233721c"
+      sha256: "392c1d83b70fe2495de3ea2c84531268d5b8de2de3f01086a53334d8b6030a88"
       url: "https://pub.dev"
     source: hosted
-    version: "2.8.0"
+    version: "3.0.4"
   webview_flutter_android:
     dependency: transitive
     description:
@@ -1429,14 +1493,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.9.5"
-  webviewx:
-    dependency: "direct main"
-    description:
-      name: webviewx
-      sha256: "51845c6440645279dc9245876743a05d19233421b19e45c7519b13bd6c647b82"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.2"
   win32:
     dependency: transitive
     description:

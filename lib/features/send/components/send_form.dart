@@ -199,7 +199,7 @@ class SendForm extends BaseComponent {
                           ],
                         ),
                       ),
-                      !wallet!.isReserved
+                      wallet!.totalBalance != wallet!.availableBalance || wallet!.isReserved
                           ? Column(
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.end,

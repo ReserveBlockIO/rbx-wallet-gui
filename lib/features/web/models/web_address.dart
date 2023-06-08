@@ -10,6 +10,8 @@ abstract class WebAddress with _$WebAddress {
   factory WebAddress({
     required String address,
     required double balance,
+    @JsonKey(name: "balance_total") @Default(0) double balanceTotal,
+    @JsonKey(name: "balance_locked") @Default(0) double balanceLocked,
     String? adnr,
   }) = _WebAddress;
 

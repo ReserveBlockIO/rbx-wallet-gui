@@ -1,7 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_window_close/flutter_window_close.dart';
+import 'package:rbx_wallet/core/utils.dart';
+import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 
 import '../app.dart';
+import '../features/bridge/services/bridge_service.dart';
 import '../utils/toast.dart';
 import '../utils/validation.dart';
 import 'theme/app_theme.dart';
@@ -160,6 +167,82 @@ class ConfirmDialog {
           cancelText: cancelText,
           confirmText: confirmText,
           destructive: destructive,
+        );
+      },
+    );
+  }
+}
+
+class RecoverDialog {
+  static alert(BuildContext context, {required String hash}) {
+    return Consumer(builder: (context, ref, child) {
+      return AlertDialog(
+        title: Text("Recovery process has started"),
+        content: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 500),
+          child: SelectableText(
+            "Your Reserve (Protected) Account is being recovered to your recovery address.\n\nTransaction Hash: $hash\n\nAll non-settled transactions for funds and NFTs will be transferred as well as your current available balance. \n\nIt is recommended you import your recovery private key into a new machine. NFT media will not be transferred over so please export them by clicking the button below and import them to your new environment.",
+          ),
+        ),
+        actions: [
+          TextButton(
+            style: TextButton.styleFrom(
+              textStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.info,
+              ),
+            ),
+            onPressed: () async {
+              final success = await backupMedia(context, ref);
+              if (success == true) {
+                // Navigator.of(context).pop();
+                if (Platform.isMacOS) {
+                  Toast.message("Media backed up successfully.");
+                }
+              } else {
+                Toast.error();
+              }
+            },
+            child: Text(
+              "Export NFT Media",
+              style: TextStyle(color: Theme.of(context).colorScheme.info),
+            ),
+          ),
+          TextButton(
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.red.shade600,
+              textStyle: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            onPressed: () async {
+              await BridgeService().killCli();
+              ref.read(globalLoadingProvider.notifier).start();
+              await Future.delayed(const Duration(milliseconds: 3000));
+              ref.read(globalLoadingProvider.notifier).complete();
+              FlutterWindowClose.closeWindow();
+            },
+            child: Text(
+              "Close Wallet",
+              style: TextStyle(
+                color: Colors.red.shade600,
+              ),
+            ),
+          )
+        ],
+      );
+    });
+  }
+
+  static Future<bool?> show({
+    required String hash,
+    BuildContext? context,
+  }) async {
+    return await showDialog(
+      context: context ?? rootNavigatorKey.currentContext!,
+      barrierDismissible: false,
+      builder: (context) {
+        return alert(
+          context,
+          hash: hash,
         );
       },
     );

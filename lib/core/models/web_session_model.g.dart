@@ -12,6 +12,8 @@ _$_WebSessionModel _$$_WebSessionModelFromJson(Map<String, dynamic> json) =>
           ? null
           : Keypair.fromJson(json['keypair'] as Map<String, dynamic>),
       balance: (json['balance'] as num?)?.toDouble(),
+      balanceTotal: (json['balanceTotal'] as num?)?.toDouble(),
+      balanceLocked: (json['balanceLocked'] as num?)?.toDouble(),
       adnr: json['adnr'] as String?,
       isAuthenticated: json['isAuthenticated'] as bool? ?? false,
       timezoneName: json['timezoneName'] as String? ?? "America/Los_Angeles",
@@ -22,6 +24,8 @@ Map<String, dynamic> _$$_WebSessionModelToJson(_$_WebSessionModel instance) =>
     <String, dynamic>{
       'keypair': instance.keypair,
       'balance': instance.balance,
+      'balanceTotal': instance.balanceTotal,
+      'balanceLocked': instance.balanceLocked,
       'adnr': instance.adnr,
       'isAuthenticated': instance.isAuthenticated,
       'timezoneName': instance.timezoneName,

@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rbx_wallet/features/nft/providers/sale_provider.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/badges.dart';
@@ -57,12 +58,12 @@ class NftCard extends BaseComponent {
   Widget build(BuildContext context, WidgetRef ref) {
     final isBurned = ref.watch(burnedProvider).contains(nft.id);
     final isTransferred = ref.watch(transferredProvider).contains(nft.id);
-
+    final isSelling = ref.watch(saleProvider).contains(nft.id);
     // final isBurned = false;
     // final isTransferred = false;
 
     return InkWell(
-      onTap: isBurned || (isTransferred && !manageOnPress)
+      onTap: isBurned || (isSelling && !manageOnPress) || (isTransferred && !manageOnPress)
           ? null
           : () {
               _showDetails(context, ref);
@@ -196,6 +197,12 @@ class NftCard extends BaseComponent {
                 nft,
                 withLog: true,
               ),
+            if (isSelling && !manageOnPress)
+              TransferingOverlay(
+                nft,
+                withLog: true,
+                label: "Sale in Progress...",
+              ),
             if (nft.isLocked)
               Align(
                   alignment: Alignment.bottomRight,
@@ -238,43 +245,20 @@ class TransferingOverlay extends StatelessWidget {
   final Nft nft;
   final bool withLog;
   final bool small;
-  const TransferingOverlay(
-    this.nft, {
-    Key? key,
-    this.withLog = false,
-    this.small = false,
-  }) : super(key: key);
+  final String label;
+  const TransferingOverlay(this.nft, {Key? key, this.withLog = false, this.small = false, this.label = "Transferring..."}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.black54,
       child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              "Transferring...",
-              style: TextStyle(
-                fontSize: small ? 14 : 20,
-                fontWeight: small ? FontWeight.w500 : FontWeight.bold,
-              ),
-            ),
-            if (withLog && !kIsWeb)
-              AppButton(
-                label: "View Upload Progress",
-                onPressed: () {
-                  final List<String> fileNames = [nft.primaryAsset.fileName];
-                  for (final a in nft.additionalAssets) {
-                    fileNames.add(a.fileName);
-                  }
-
-                  showDialog(context: context, builder: (context) => UploadProgressModal(fileNames: fileNames));
-                },
-                type: AppButtonType.Text,
-                variant: AppColorVariant.Info,
-              )
-          ],
+        child: Text(
+          label,
+          style: TextStyle(
+            fontSize: small ? 14 : 20,
+            fontWeight: small ? FontWeight.w500 : FontWeight.bold,
+          ),
         ),
       ),
     );

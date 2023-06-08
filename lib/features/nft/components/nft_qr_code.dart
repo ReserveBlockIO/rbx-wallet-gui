@@ -64,7 +64,7 @@ class NftQrCode extends StatelessWidget {
         return;
       }
 
-      await FileSaver.instance.saveFile("qr.png", picData.buffer.asUint8List(), 'image/png');
+      await FileSaver.instance.saveFile(name: "qr", bytes: picData.buffer.asUint8List(), mimeType: MimeType.png, ext: "png");
     } else {
       Directory tempDir = await getTemporaryDirectory();
       String tempPath = tempDir.path;

@@ -213,19 +213,26 @@ class WalletSelector extends BaseComponent {
               list.add(
                 PopupMenuItem(
                   child: Row(
-                    mainAxisSize: MainAxisSize.min,
+                    // mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Icon(
                         isSelected ? Icons.check_box_rounded : Icons.check_box_outline_blank_outlined,
                         color: color,
                       ),
-                      SizedBox(width: 8),
                       Text(
                         truncatedLabel ? wallet.label : wallet.labelWithoutTruncation,
                         style: TextStyle(
                           color: color,
                           decoration: isSelected ? TextDecoration.underline : TextDecoration.none,
                         ),
+                      ),
+                      InkWell(
+                        onTap: () async {
+                          await Clipboard.setData(ClipboardData(text: wallet.address));
+                          Toast.message("${wallet.address} copied to clipboard");
+                        },
+                        child: SizedBox(width: 40, height: 20, child: Icon(Icons.copy, size: 15)),
                       ),
                     ],
                   ),
@@ -287,20 +294,60 @@ class ReserveAccountDetails extends StatelessWidget {
                 readOnly: true,
                 initialValue: account.restoreCode,
               ),
-            ),
-            SizedBox(
-              height: 4,
-            ),
-            Center(
-              child: AppButton(
-                icon: Icons.copy,
-                label: "Copy Restore Code",
-                variant: AppColorVariant.Success,
+              trailing: IconButton(
+                icon: Icon(
+                  Icons.copy,
+                ),
                 onPressed: () async {
                   await Clipboard.setData(ClipboardData(text: account.restoreCode));
                   Toast.message("Restore Code copied to clipboard");
                 },
               ),
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                AppButton(
+                  icon: Icons.copy,
+                  label: "Copy All",
+                  variant: AppColorVariant.Success,
+                  onPressed: () async {
+                    await Clipboard.setData(ClipboardData(text: account.backupContents));
+                    Toast.message("Reserve Account Data copied to clipboard");
+                  },
+                ),
+                AppButton(
+                    label: "Save as File",
+                    icon: Icons.save,
+                    variant: AppColorVariant.Success,
+                    onPressed: () async {
+                      List<int> bytes = utf8.encode(account.backupContents);
+
+                      final date = DateTime.now();
+                      final d = "${date.year}-${date.month}-${date.day}";
+                      if (Platform.isMacOS) {
+                        await FileSaver.instance
+                            .saveAs(name: "xRBX Reserve Account Backup-$d", bytes: Uint8List.fromList(bytes), ext: 'txt', mimeType: MimeType.text);
+                      } else {
+                        final data = await FileSaver.instance
+                            .saveFile(name: "xRBX Reserve Account Backup-$d", bytes: Uint8List.fromList(bytes), ext: 'txt', mimeType: MimeType.text);
+
+                        Toast.message("Saved to $data");
+                      }
+
+                      // if (Platform.isMacOS) {
+                      //   await FileSaver.instance.saveAs("xRBX Reserve Account Backup-$d", Uint8List.fromList(bytes), 'txt', MimeType.TEXT);
+                      //   Toast.message("Reserve Account Data saved");
+                      // } else {
+                      //   final data = await FileSaver.instance
+                      //       .saveFile("xRBX Reserve Account Backup-$d", Uint8List.fromList(bytes), 'txt', mimeType: MimeType.TEXT);
+                      //   Toast.message("Reserve Account Data saved to $data");
+                      // }
+                    }),
+              ],
             ),
             SizedBox(height: 6),
             Text(
@@ -386,51 +433,23 @@ class ReserveAccountDetails extends StatelessWidget {
             ),
             const Divider(),
             SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                AppButton(
-                    label: "Copy All",
-                    icon: Icons.copy,
-                    onPressed: () async {
-                      await Clipboard.setData(ClipboardData(text: account.backupContents));
-                      Toast.message("Reserve Account Data copied to clipboard");
-                    }),
-                AppButton(
-                    label: "Save as File",
-                    icon: Icons.save,
-                    onPressed: () async {
-                      List<int> bytes = utf8.encode(account.backupContents);
+            Center(
+              child: AppButton(
+                label: "Close",
+                icon: Icons.check,
+                onPressed: () async {
+                  final shouldClose = await ConfirmDialog.show(
+                    title: "Backed up?",
+                    body: "Please confirm you have backed up your RESTORE CODE as well as your PASSWORD.",
+                    confirmText: "I'm Backed Up",
+                    cancelText: "Cancel",
+                  );
 
-                      final date = DateTime.now();
-                      final d = "${date.year}-${date.month}-${date.day}";
-
-                      if (Platform.isMacOS) {
-                        await FileSaver.instance.saveAs("xRBX Reserve Account Backup-$d", Uint8List.fromList(bytes), 'txt', MimeType.TEXT);
-                        Toast.message("Reserve Account Data saved");
-                      } else {
-                        final data = await FileSaver.instance
-                            .saveFile("xRBX Reserve Account Backup-$d", Uint8List.fromList(bytes), 'txt', mimeType: MimeType.TEXT);
-                        Toast.message("Reserve Account Data saved to $data");
-                      }
-                    }),
-                AppButton(
-                  label: "Close",
-                  icon: Icons.check,
-                  onPressed: () async {
-                    final shouldClose = await ConfirmDialog.show(
-                      title: "Backed up?",
-                      body: "Please confirm you have backed up your RESTORE CODE as well as your PASSWORD.",
-                      confirmText: "I'm Backed Up",
-                      cancelText: "Cancel",
-                    );
-
-                    if (shouldClose == true) {
-                      Navigator.of(context).pop();
-                    }
-                  },
-                ),
-              ],
+                  if (shouldClose == true) {
+                    Navigator.of(context).pop();
+                  }
+                },
+              ),
             )
           ],
         ),

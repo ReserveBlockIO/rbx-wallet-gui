@@ -22,6 +22,8 @@ WebSessionModel _$WebSessionModelFromJson(Map<String, dynamic> json) {
 mixin _$WebSessionModel {
   Keypair? get keypair => throw _privateConstructorUsedError;
   double? get balance => throw _privateConstructorUsedError;
+  double? get balanceTotal => throw _privateConstructorUsedError;
+  double? get balanceLocked => throw _privateConstructorUsedError;
   String? get adnr => throw _privateConstructorUsedError;
   bool get isAuthenticated => throw _privateConstructorUsedError;
   String get timezoneName => throw _privateConstructorUsedError;
@@ -42,6 +44,8 @@ abstract class $WebSessionModelCopyWith<$Res> {
   $Res call(
       {Keypair? keypair,
       double? balance,
+      double? balanceTotal,
+      double? balanceLocked,
       String? adnr,
       bool isAuthenticated,
       String timezoneName,
@@ -65,6 +69,8 @@ class _$WebSessionModelCopyWithImpl<$Res, $Val extends WebSessionModel>
   $Res call({
     Object? keypair = freezed,
     Object? balance = freezed,
+    Object? balanceTotal = freezed,
+    Object? balanceLocked = freezed,
     Object? adnr = freezed,
     Object? isAuthenticated = null,
     Object? timezoneName = null,
@@ -78,6 +84,14 @@ class _$WebSessionModelCopyWithImpl<$Res, $Val extends WebSessionModel>
       balance: freezed == balance
           ? _value.balance
           : balance // ignore: cast_nullable_to_non_nullable
+              as double?,
+      balanceTotal: freezed == balanceTotal
+          ? _value.balanceTotal
+          : balanceTotal // ignore: cast_nullable_to_non_nullable
+              as double?,
+      balanceLocked: freezed == balanceLocked
+          ? _value.balanceLocked
+          : balanceLocked // ignore: cast_nullable_to_non_nullable
               as double?,
       adnr: freezed == adnr
           ? _value.adnr
@@ -122,6 +136,8 @@ abstract class _$$_WebSessionModelCopyWith<$Res>
   $Res call(
       {Keypair? keypair,
       double? balance,
+      double? balanceTotal,
+      double? balanceLocked,
       String? adnr,
       bool isAuthenticated,
       String timezoneName,
@@ -144,6 +160,8 @@ class __$$_WebSessionModelCopyWithImpl<$Res>
   $Res call({
     Object? keypair = freezed,
     Object? balance = freezed,
+    Object? balanceTotal = freezed,
+    Object? balanceLocked = freezed,
     Object? adnr = freezed,
     Object? isAuthenticated = null,
     Object? timezoneName = null,
@@ -157,6 +175,14 @@ class __$$_WebSessionModelCopyWithImpl<$Res>
       balance: freezed == balance
           ? _value.balance
           : balance // ignore: cast_nullable_to_non_nullable
+              as double?,
+      balanceTotal: freezed == balanceTotal
+          ? _value.balanceTotal
+          : balanceTotal // ignore: cast_nullable_to_non_nullable
+              as double?,
+      balanceLocked: freezed == balanceLocked
+          ? _value.balanceLocked
+          : balanceLocked // ignore: cast_nullable_to_non_nullable
               as double?,
       adnr: freezed == adnr
           ? _value.adnr
@@ -184,6 +210,8 @@ class _$_WebSessionModel extends _WebSessionModel {
   _$_WebSessionModel(
       {this.keypair,
       this.balance,
+      this.balanceTotal,
+      this.balanceLocked,
       this.adnr,
       this.isAuthenticated = false,
       this.timezoneName = "America/Los_Angeles",
@@ -198,6 +226,10 @@ class _$_WebSessionModel extends _WebSessionModel {
   @override
   final double? balance;
   @override
+  final double? balanceTotal;
+  @override
+  final double? balanceLocked;
+  @override
   final String? adnr;
   @override
   @JsonKey()
@@ -211,7 +243,7 @@ class _$_WebSessionModel extends _WebSessionModel {
 
   @override
   String toString() {
-    return 'WebSessionModel(keypair: $keypair, balance: $balance, adnr: $adnr, isAuthenticated: $isAuthenticated, timezoneName: $timezoneName, rememberMe: $rememberMe)';
+    return 'WebSessionModel(keypair: $keypair, balance: $balance, balanceTotal: $balanceTotal, balanceLocked: $balanceLocked, adnr: $adnr, isAuthenticated: $isAuthenticated, timezoneName: $timezoneName, rememberMe: $rememberMe)';
   }
 
   @override
@@ -221,6 +253,10 @@ class _$_WebSessionModel extends _WebSessionModel {
             other is _$_WebSessionModel &&
             (identical(other.keypair, keypair) || other.keypair == keypair) &&
             (identical(other.balance, balance) || other.balance == balance) &&
+            (identical(other.balanceTotal, balanceTotal) ||
+                other.balanceTotal == balanceTotal) &&
+            (identical(other.balanceLocked, balanceLocked) ||
+                other.balanceLocked == balanceLocked) &&
             (identical(other.adnr, adnr) || other.adnr == adnr) &&
             (identical(other.isAuthenticated, isAuthenticated) ||
                 other.isAuthenticated == isAuthenticated) &&
@@ -232,8 +268,8 @@ class _$_WebSessionModel extends _WebSessionModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, keypair, balance, adnr,
-      isAuthenticated, timezoneName, rememberMe);
+  int get hashCode => Object.hash(runtimeType, keypair, balance, balanceTotal,
+      balanceLocked, adnr, isAuthenticated, timezoneName, rememberMe);
 
   @JsonKey(ignore: true)
   @override
@@ -253,6 +289,8 @@ abstract class _WebSessionModel extends WebSessionModel {
   factory _WebSessionModel(
       {final Keypair? keypair,
       final double? balance,
+      final double? balanceTotal,
+      final double? balanceLocked,
       final String? adnr,
       final bool isAuthenticated,
       final String timezoneName,
@@ -266,6 +304,10 @@ abstract class _WebSessionModel extends WebSessionModel {
   Keypair? get keypair;
   @override
   double? get balance;
+  @override
+  double? get balanceTotal;
+  @override
+  double? get balanceLocked;
   @override
   String? get adnr;
   @override
