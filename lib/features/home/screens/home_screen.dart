@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/home/components/home_buttons/import_media_button.dart';
 import 'package:rbx_wallet/features/home/components/home_buttons/verify_nft_ownership_button.dart';
+import 'package:rbx_wallet/features/payment/payment_utils.dart';
 import '../../../core/env.dart';
 import '../../bridge/providers/wallet_info_provider.dart';
 import '../components/home_buttons/import_snapshot_button.dart';
@@ -30,6 +32,7 @@ import '../components/home_buttons/restart_cli_button.dart';
 import '../components/home_buttons/show_debug_data_button.dart';
 import '../components/log_window.dart';
 import '../components/transaction_window.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends BaseScreen {
   const HomeScreen({Key? key})
@@ -41,19 +44,36 @@ class HomeScreen extends BaseScreen {
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
+    final address = ref.watch(sessionProvider).currentWallet?.address;
     return AppBar(
       title: const Text("Dashboard"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
+      leadingWidth: 140,
       // centerTitle: false,
-      leading: IconButton(
-        onPressed: () {
-          ref.read(walletInfoProvider.notifier).infoLoop(false);
-          ref.read(sessionProvider.notifier).mainLoop(false);
-          ref.read(sessionProvider.notifier).smartContractLoop(false);
-        },
-        icon: const Icon(Icons.refresh),
-      ),
+      // leading: IconButton(
+      //   onPressed: () {
+      //     ref.read(walletInfoProvider.notifier).infoLoop(false);
+      //     ref.read(sessionProvider.notifier).mainLoop(false);
+      //     ref.read(sessionProvider.notifier).smartContractLoop(false);
+      //   },
+      //   icon: const Icon(Icons.refresh),
+      // ),
+      leading: address == null
+          ? SizedBox()
+          : Padding(
+              padding: const EdgeInsets.only(left: 4.0),
+              child: AppButton(
+                onPressed: () {
+                  final url = paymentUrl(amount: 0.1, walletAddress: address);
+                  if (url != null) {
+                    launchUrl(Uri.parse(url));
+                  }
+                },
+                label: "Purchase RBX",
+                variant: AppColorVariant.Success,
+              ),
+            ),
       actions: const [WalletSelector()],
     );
   }
