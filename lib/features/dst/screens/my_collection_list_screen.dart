@@ -179,10 +179,14 @@ class MyCollectionsListScreen extends BaseScreen {
                               label: "Delete Shop",
                               icon: Icons.delete,
                               onPressed: () async {
+                                final deleteCost = ref.read(walletInfoProvider)!.lastestBlock!.height >= BLOCK_LOCK_4
+                                    ? SHOP_DELETE_COST_AFTER_BLOCK_LOCK_4
+                                    : SHOP_DELETE_COST;
+
                                 final confirmed = await ConfirmDialog.show(
                                   title: "Delete Shop",
                                   body:
-                                      "Are you sure you want to delete this shop from the network? There is a cost of 10 RBX plus TX fee to perform this operation.",
+                                      "Are you sure you want to delete this shop from the network? There is a cost of $deleteCost RBX plus TX fee to perform this operation.",
                                   destructive: true,
                                   confirmText: "Delete",
                                   cancelText: "Cancel",

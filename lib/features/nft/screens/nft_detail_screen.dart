@@ -5,6 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
+import 'package:rbx_wallet/features/nft/providers/sale_provider.dart';
+import 'package:rbx_wallet/features/nft/services/nft_service.dart';
+import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
 import '../../global_loader/global_loading_provider.dart';
 import '../models/nft.dart';
 import '../../sc_property/models/sc_property.dart';
@@ -165,7 +170,23 @@ class NftDetailScreen extends BaseScreen {
                 const SizedBox(
                   height: 4,
                 ),
-                SelectableText("ID: ${nft.id}"),
+                Row(
+                  children: [
+                    SelectableText("ID: ${nft.id}"),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    InkWell(
+                        onTap: () async {
+                          await Clipboard.setData(ClipboardData(text: nft.id));
+                          Toast.message("Smart Contract Identifier copied to clipboard");
+                        },
+                        child: Icon(
+                          Icons.copy,
+                          size: 14,
+                        ))
+                  ],
+                ),
                 const SizedBox(
                   height: 4,
                 ),
@@ -246,6 +267,9 @@ class NftDetailScreen extends BaseScreen {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("Asset:", style: Theme.of(context).textTheme.headline5),
+                        SizedBox(
+                          height: 8,
+                        ),
                         Container(
                           decoration: BoxDecoration(
                             boxShadow: glowingBox,
@@ -459,6 +483,56 @@ class NftDetailScreen extends BaseScreen {
                   Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: AppButton(
+                      label: "Prove Ownership",
+                      icon: Icons.security,
+                      variant: AppColorVariant.Primary,
+                      onPressed: () async {
+                        final str = await NftService().proveOwnership(id);
+                        if (str == null) {
+                          return;
+                        }
+
+                        InfoDialog.show(
+                          title: "Ownership Verification Signature",
+                          content: SizedBox(
+                            width: 420,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Send this ownership validation signature to prove you are the owner.",
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                                TextFormField(
+                                  initialValue: str,
+                                  readOnly: true,
+                                  minLines: 7,
+                                  maxLines: 7,
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                Center(
+                                  child: AppButton(
+                                    label: "Copy Signature",
+                                    icon: Icons.copy,
+                                    onPressed: () async {
+                                      await Clipboard.setData(ClipboardData(text: str));
+                                      Toast.message("Signature Verification copied to clipboard.");
+                                    },
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: AppButton(
                       label: "Transfer",
                       // helpType: HelpType.transfer,
                       icon: Icons.send,
@@ -609,6 +683,137 @@ class NftDetailScreen extends BaseScreen {
                           : null,
                     ),
                   ),
+                  if (!kIsWeb)
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: AppButton(
+                        label: "Sell",
+                        // helpType: HelpType.transfer,
+                        icon: Icons.attach_money,
+                        onPressed: () async {
+                          if (ref.read(walletInfoProvider)!.lastestBlock!.height < BLOCK_LOCK_4) {
+                            Toast.error("Manual sales are locked until block $BLOCK_LOCK_4.");
+                            return;
+                          }
+
+                          if (!await passwordRequiredGuard(context, ref)) {
+                            return;
+                          }
+                          Wallet? wallet = ref.read(walletListProvider).firstWhereOrNull((w) => w.address == nft.currentOwner);
+                          if (wallet == null) {
+                            Toast.error("No wallet selected");
+                            return;
+                          }
+
+                          if (wallet.isReserved) {
+                            Toast.error("Reserve Accounts can not sell NFTs.");
+                            return;
+                          }
+
+                          if (wallet.balance < MIN_RBX_FOR_SC_ACTION) {
+                            Toast.error("Not enough balance for transaction");
+                            return;
+                          }
+
+                          final _nft = await setAssetPath(nft);
+
+                          final filesReady = await _nft.areFilesReady();
+
+                          if (!filesReady) {
+                            Toast.error("Media files not found on this machine.");
+                            return;
+                          }
+                          String? address = await PromptModal.show(
+                            contextOverride: context,
+                            title: "Self NFT",
+                            validator: (value) => formValidatorRbxAddress(value, true),
+                            labelText: "RBX Address",
+                            confirmText: "Continue",
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9.]')),
+                            ],
+                            lines: 1,
+                          );
+
+                          if (address == null) {
+                            return;
+                          }
+
+                          address = address.trim().replaceAll("\n", "");
+
+                          final isValid = await BridgeService().validateSendToAddress(address);
+                          if (!isValid) {
+                            Toast.error("Invalid Address");
+                            return;
+                          }
+
+                          final String? amountString = await PromptModal.show(
+                            contextOverride: context,
+                            title: "Sale Amount",
+                            body: "How much are you selling this NFT for?",
+                            labelText: "RBX Amount)",
+                            confirmText: "Continue",
+                            inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Amount required";
+                              }
+
+                              double parsed = 0;
+                              try {
+                                parsed = double.parse(value);
+                              } catch (e) {
+                                return "Not a valid amount";
+                              }
+
+                              if (parsed <= 0) {
+                                return "The amount has to be a positive value";
+                              }
+                              return null;
+                            },
+                          );
+
+                          if (amountString == null) {
+                            return;
+                          }
+
+                          final amount = double.tryParse(amountString);
+
+                          if (amount == null) {
+                            Toast.error("Invalid Amount");
+                            return;
+                          }
+
+                          final String? backupUrl = await PromptModal.show(
+                            contextOverride: context,
+                            title: "Backup URL (Optional)",
+                            body: "Paste in a public URL to a hosted zipfile containing the assets.",
+                            validator: (value) {
+                              return null;
+                            },
+                            labelText: "URL (Optional)",
+                            confirmText: "Continue",
+                          );
+
+                          final confirmed = await ConfirmDialog.show(
+                            title: "Confirm Sale Start",
+                            body: "Please confirm you want to sell the NFT to \"$address\" for $amount RBX.",
+                            confirmText: "Start Sale",
+                          );
+
+                          if (confirmed == true) {
+                            ref.read(globalLoadingProvider.notifier).start();
+                            final success = await SmartContractService().transferSale(id, address, amount, backupUrl);
+                            ref.read(globalLoadingProvider.notifier).complete();
+                            if (success) {
+                              // Toast.message("Sale Start transaction broadcasted");
+                              ref.read(saleProvider.notifier).addId(id);
+                              Navigator.of(context).pop();
+                            }
+                          }
+                        },
+                      ),
+                    ),
                   if (nft.manageable && nft.isMinter)
                     Padding(
                       padding: const EdgeInsets.all(4.0),
@@ -658,6 +863,7 @@ class NftDetailScreen extends BaseScreen {
                         },
                       ),
                     ),
+
                   Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: AppButton(

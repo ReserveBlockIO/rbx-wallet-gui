@@ -1,5 +1,14 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/nft/services/nft_service.dart';
+import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
+import 'package:rbx_wallet/utils/toast.dart';
+import 'package:rbx_wallet/utils/validation.dart';
 
 import '../../../core/base_screen.dart';
 import '../components/nft_grid.dart';
@@ -29,6 +38,27 @@ class NftListScreen extends BaseScreen {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
+            AppButton(
+              type: AppButtonType.Text,
+              label: "Import NFT",
+              variant: AppColorVariant.Light,
+              onPressed: () async {
+                final scId = await PromptModal.show(
+                  title: "Smart Contract Identifier",
+                  body: "Paste in the smart contract's unique identifier.",
+                  validator: (val) => formValidatorNotEmpty(val, "Identifier"),
+                  labelText: "Identifier",
+                );
+
+                if (scId != null && scId.isNotEmpty) {
+                  final success = await NftService().importFromNetwork(scId);
+                  if (success) {
+                    ref.read(sessionProvider.notifier).smartContractLoop(false);
+                    Toast.message("Smart Contract imported from network");
+                  }
+                }
+              },
+            ),
             IconButton(
               onPressed: () {
                 _provider.setGrid();

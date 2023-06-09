@@ -379,8 +379,8 @@ class WebShopService extends BaseService {
     }
   }
 
-  Future<void> requestShopSync(String shopUrl) async {
-    await getJson("/shop/resync", params: {'url': shopUrl});
+  Future<void> requestShopSync(String shopUrl, {int delay = 35}) async {
+    await getJson("/shop/resync", params: {'url': shopUrl, 'delay': delay});
   }
 
   Future<bool> createContact(String email, String address) async {

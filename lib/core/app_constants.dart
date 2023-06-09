@@ -1,6 +1,8 @@
 // ignore_for_file: constant_identifier_names
-const APP_V = "3.8.2";
+const APP_V = "4.0.0";
 const APP_VERSION = "beta$APP_V";
+
+const ALLOW_PAYMENT = false;
 
 const REFRESH_TIMEOUT_SECONDS = 10;
 const REFRESH_TIMEOUT_SECONDS_INACTIVE = 300;
@@ -21,7 +23,10 @@ const MAX_ASSET_BYTES = 157286400;
 const DEV_API_TOKEN = "devtoken";
 const SHOP_PUBLISH_COST = 10.0;
 const SHOP_DELETE_COST = 10.0;
+const SHOP_DELETE_COST_AFTER_BLOCK_LOCK_4 = 1.0;
 const SHOP_UPDATE_COST = 1.0;
+
+const BLOCK_LOCK_4 = 1079488;
 
 class TxType {
   static const int rbxTransfer = 0;

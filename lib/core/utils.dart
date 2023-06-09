@@ -4,6 +4,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:archive/archive_io.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,6 +12,7 @@ import 'package:path_provider/path_provider.dart';
 import '../features/transactions/models/transaction.dart';
 
 import '../features/wallet/providers/wallet_list_provider.dart';
+import '../utils/files.dart';
 import '../utils/toast.dart';
 import 'env.dart';
 
@@ -27,21 +29,75 @@ Future<bool> backupKeys(BuildContext context, WidgetRef ref) async {
       output += "===================================\n\n";
     }
 
+    output += "FOR BULK IMPORT:\n\n";
+
+    for (final w in wallets) {
+      if (w.privateKey != '0') {
+        output += "${w.privateKey}\n";
+      }
+    }
+    output += "\n===================================\n\n";
+
     List<int> bytes = utf8.encode(output);
 
     final date = DateTime.now();
     final d = "${date.year}-${date.month}-${date.day}";
-
     if (Platform.isMacOS) {
-      await FileSaver.instance.saveAs("rbx-keys-backup-$d", Uint8List.fromList(bytes), 'txt', MimeType.TEXT);
+      await FileSaver.instance.saveAs(name: "rbx-keys-backup-$d", bytes: Uint8List.fromList(bytes), ext: 'txt', mimeType: MimeType.text);
     } else {
-      final data = await FileSaver.instance.saveFile("rbx-keys-backup-$d", Uint8List.fromList(bytes), 'txt', mimeType: MimeType.TEXT);
+      final data =
+          await FileSaver.instance.saveFile(name: "rbx-keys-backup-$d", bytes: Uint8List.fromList(bytes), ext: 'txt', mimeType: MimeType.text);
       Toast.message("Saved to $data");
     }
 
     return true;
   } catch (e) {
     print("Error on backupKeys");
+    print(e);
+    return false;
+  }
+}
+
+Future<bool?> importMedia(BuildContext context, WidgetRef ref) async {
+  final file = await getFile(['zip']);
+  if (file == null) {
+    return null;
+  }
+
+  try {
+    final zipPath = file.path;
+    final _assetsPath = await assetsPath();
+    final dir = Directory(_assetsPath);
+
+    final bytes = await File(zipPath!).readAsBytes();
+    final archive = ZipDecoder().decodeBytes(bytes);
+
+    for (final file in archive) {
+      String filename = file.name;
+
+      if (filename.contains('/')) {
+        final list = filename.split('/');
+        if (filename.contains('thumbs')) {
+          filename = [list[list.length - 3], list[list.length - 2], list.last].join('/');
+        } else {
+          filename = [list[list.length - 2], list.last].join('/');
+        }
+      }
+
+      if (file.isFile) {
+        final data = file.content as List<int>;
+
+        final p = "$_assetsPath/$filename";
+        File(p)
+          ..createSync(recursive: true)
+          ..writeAsBytesSync(data);
+      } else {
+        Directory("$_assetsPath/$filename").create(recursive: true);
+      }
+    }
+
+    return true;
+  } catch (e) {
     print(e);
     return false;
   }
@@ -73,11 +129,11 @@ Future<bool> backupMedia(BuildContext context, WidgetRef ref) async {
 
     final date = DateTime.now();
     final d = "${date.year}-${date.month}-${date.day}";
-
     if (Platform.isMacOS) {
-      await FileSaver.instance.saveAs("rbx-media-backup-$d", Uint8List.fromList(bytes), 'zip', MimeType.ZIP);
+      await FileSaver.instance.saveAs(name: "rbx-media-backup-$d", ext: "zip", mimeType: MimeType.zip, bytes: Uint8List.fromList(bytes));
     } else {
-      final data = await FileSaver.instance.saveFile("rbx-media-backup-$d", Uint8List.fromList(bytes), 'zip', mimeType: MimeType.ZIP);
+      final data =
+          await FileSaver.instance.saveFile(name: "rbx-media-backup-$d", ext: "zip", mimeType: MimeType.zip, bytes: Uint8List.fromList(bytes));
       Toast.message("Saved to $data");
     }
 
@@ -136,4 +192,29 @@ Map<String, dynamic>? parseNftData(Transaction transaction) {
 
 String? nftDataValue(Map<String, dynamic> nftData, String key) {
   return nftData.containsKey(key) ? nftData[key].toString() : null;
+}
+
+String getExtensionFromMimeType(String mimeType) {
+  switch (mimeType) {
+    case 'image/jpeg':
+      return 'jpg';
+    case 'image/png':
+      return 'png';
+    case 'image/gif':
+      return 'gif';
+    case 'image/webp':
+      return 'webp';
+    case 'application/pdf':
+      return 'pdf';
+    case 'text/plain':
+      return 'txt';
+    case 'video/mp4':
+      return 'mp4';
+    case 'video/mpeg':
+      return 'mpeg';
+    case 'video/quicktime':
+      return 'mov';
+    default:
+      return '';
+  }
 }

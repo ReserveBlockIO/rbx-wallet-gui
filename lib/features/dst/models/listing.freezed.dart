@@ -532,7 +532,7 @@ class _$_Listing extends _Listing {
       @JsonKey(name: "IsCancelled")
           this.isCancelled = false,
       @JsonKey(name: "RequireBalanceCheck")
-          this.requireBalanceCheck = false,
+          this.requireBalanceCheck = true,
       @JsonKey(name: "IsAuctionStarted")
           this.isAuctionStarted = false,
       @JsonKey(name: "IsAuctionEnded")

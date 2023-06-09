@@ -1,6 +1,4 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/app_constants.dart';
-import '../../../core/providers/web_session_provider.dart';
 import '../../keygen/models/keypair.dart';
 import '../../raw/raw_service.dart';
 import '../../web/utils/raw_transaction.dart';

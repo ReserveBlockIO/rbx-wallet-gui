@@ -85,6 +85,8 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
 
     state = state.copyWith(
       balance: webAddress.balance,
+      balanceLocked: webAddress.balanceLocked,
+      balanceTotal: webAddress.balanceTotal,
       adnr: webAddress.adnr,
     );
   }

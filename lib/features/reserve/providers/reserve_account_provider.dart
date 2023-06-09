@@ -233,11 +233,8 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
 
       await ref.read(sessionProvider.notifier).loadWallets();
       ref.read(transferredProvider.notifier).clear();
-      InfoDialog.show(
-        title: "Recovery process has started",
-        body:
-            "All your outstanding transactions have been called back and all funds and NFTs are being transferred to your recovery address.\n\nTransaction Hash: $hash",
-      );
+
+      RecoverDialog.show(hash: hash);
     }
   }
 

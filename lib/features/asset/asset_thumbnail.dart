@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
 
 import 'asset.dart';
 import 'asset_card.dart';
@@ -48,12 +49,38 @@ class AssetThumbnail extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.file_present_outlined),
-                      Text(asset.truncatedFileName()),
+                      Icon(asset.icon),
+                      SizedBox(height: 4),
+                      SizedBox(
+                        height: 30,
+                        child: Text(
+                          asset.fileName,
+                          style: TextStyle(fontSize: 12, height: 1.2),
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     ],
                   )
-            : const Center(
-                child: Text("Media not found."),
+            : Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(asset.icon),
+                    SizedBox(height: 4),
+                    SizedBox(
+                      height: 30,
+                      child: Text(
+                        asset.fileName,
+                        style: TextStyle(fontSize: 12, height: 1.2),
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
               ),
       ),
     );
@@ -78,37 +105,44 @@ class AssetThumbnailDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: SizedBox(
-            width: 400,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text(
-                    "Close",
-                    style: TextStyle(color: Colors.white),
+      child: Container(
+        decoration: BoxDecoration(
+          boxShadow: glowingBox,
+        ),
+        child: Card(
+          margin: EdgeInsets.zero,
+          color: Colors.black,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SizedBox(
+              width: 400,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text(
+                      "Close",
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
-                ),
-                AssetCard(
-                  asset,
-                  interactive: true,
-                  nftId: nftId,
-                  ownerAddress: ownerAddress,
-                  isPrimaryAsset: isPrimaryAsset,
-                  onAssociate: () {
-                    Navigator.of(context).pop();
-                    if (onAssociate != null) {
-                      onAssociate!();
-                    }
-                  },
-                ),
-              ],
+                  AssetCard(
+                    asset,
+                    interactive: true,
+                    nftId: nftId,
+                    ownerAddress: ownerAddress,
+                    isPrimaryAsset: isPrimaryAsset,
+                    onAssociate: () {
+                      Navigator.of(context).pop();
+                      if (onAssociate != null) {
+                        onAssociate!();
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),

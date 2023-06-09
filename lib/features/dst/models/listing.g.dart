@@ -14,7 +14,7 @@ _$_Listing _$$_ListingFromJson(Map<String, dynamic> json) => _$_Listing(
       isBuyNowOnly: json['IsBuyNowOnly'] as bool? ?? false,
       isRoyaltyEnforced: json['IsRoyaltyEnforced'] as bool? ?? false,
       isCancelled: json['IsCancelled'] as bool? ?? false,
-      requireBalanceCheck: json['RequireBalanceCheck'] as bool? ?? false,
+      requireBalanceCheck: json['RequireBalanceCheck'] as bool? ?? true,
       isAuctionStarted: json['IsAuctionStarted'] as bool? ?? false,
       isAuctionEnded: json['IsAuctionEnded'] as bool? ?? false,
       isSaleComplete: json['IsSaleComplete'] as bool? ?? false,

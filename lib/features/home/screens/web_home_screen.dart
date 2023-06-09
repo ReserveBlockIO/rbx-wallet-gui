@@ -1,7 +1,8 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
+
 import '../../../core/dialogs.dart';
 import '../../web/components/web_wordmark.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -18,6 +19,9 @@ import '../../../generated/assets.gen.dart';
 import '../../root/web_dashboard_container.dart';
 import '../../web/components/web_latest_block.dart';
 import '../../web/components/web_wallet_details.dart';
+import 'package:rbx_wallet/features/payment/payment_utils.dart';
+
+import '../../payment/components/payment_iframe_container.dart' if (dart.library.io) '../../payment/components/payment_iframe_container_mock.dart';
 
 class WebHomeScreen extends BaseScreen {
   const WebHomeScreen({Key? key})
@@ -31,10 +35,82 @@ class WebHomeScreen extends BaseScreen {
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
+    final address = ref.watch(webSessionProvider).currentWallet?.address;
+
     return AppBar(
       title: const Text("Dashboard"),
       backgroundColor: Colors.black,
       shadowColor: Colors.transparent,
+      leadingWidth: 140,
+      leading: address == null || !ALLOW_PAYMENT
+          ? SizedBox.shrink()
+          : Padding(
+              padding: const EdgeInsets.only(left: 6.0),
+              child: AppButton(
+                label: "Purchase RBX",
+                // icon: Icons.attach_money_outlined,
+                variant: AppColorVariant.Success,
+
+                onPressed: () {
+                  final maxWidth = BreakPoints.useMobileLayout(context) ? 400.0 : 600.0;
+                  final maxHeight = BreakPoints.useMobileLayout(context) ? 500.0 : 800.0;
+                  double width = MediaQuery.of(context).size.width - 32;
+                  double height = MediaQuery.of(context).size.height - 64;
+
+                  if (width > maxWidth) {
+                    width = maxWidth;
+                  }
+
+                  if (height > maxHeight) {
+                    height = maxHeight;
+                  }
+
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        contentPadding: EdgeInsets.zero,
+                        insetPadding: EdgeInsets.zero,
+                        actionsPadding: EdgeInsets.zero,
+                        buttonPadding: EdgeInsets.zero,
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            WebPaymentIFrameContainer(
+                              walletAddress: address,
+                              coinAmount: 0.1,
+                              width: width,
+                              height: height,
+                            ),
+                            SizedBox(
+                              width: width,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est.",
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(
+                              "Close",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          )
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
     );
   }
 
@@ -260,17 +336,7 @@ class _Actions extends BaseComponent {
                     launchUrl(Uri.parse(Env.baseExplorerUrl));
                   },
                 ),
-                // AppButton(
-                //   label: "DEBUG BUTTON",
-                //   onPressed: () async {
-                //     await RawTransaction.generate(
-                //       keypair: ref.read(webSessionProvider).keypair!,
-                //       amount: 1.1,
-                //       toAddress: "RKY4KEZrYc1Uj7vcKnmuSkqCkCPwFxPono",
-                //     );
 
-                //   },
-                // ),
                 if (ref.read(webSessionProvider).keypair != null)
                   AppButton(
                     label: "Logout",

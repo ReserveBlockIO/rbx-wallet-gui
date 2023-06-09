@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:mime/mime.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:csv/csv.dart';
@@ -10,7 +10,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
 import 'package:rbx_wallet/features/raw/raw_service.dart';
+import 'package:rbx_wallet/features/smart_contracts/providers/sc_wizard_log_provider.dart';
 import '../../../core/utils.dart';
 import '../../sc_property/models/sc_property.dart';
 import '../features/evolve/evolve.dart';
@@ -430,7 +432,15 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
         ? CsvToListConverter().convert(utf8.decode(file.bytes!.toList()))
         : await File(file.path!).openRead().transform(utf8.decoder).transform(const CsvToListConverter()).toList();
 
-    // final headers = fields.first;
+    final headers = fields.first;
+    if (!headers
+        .join(',')
+        .toLowerCase()
+        .contains('Name,Description,Primary Asset URL,Creator Name,Royalty Amount,Royalty Address,Additional Asset URLs,Quantity'.toLowerCase())) {
+      Toast.error("The CSV headers are not in the correct format, please check the example file");
+      return false;
+    }
+
     final rows = [...fields]..removeAt(0);
     final List<BulkSmartContractEntry> entries = [];
     for (final row in rows) {
@@ -499,17 +509,23 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
     return entries.isNotEmpty;
   }
 
-  Future<BulkSmartContractEntry?> _propertiesToEntry(
-      {required String name,
-      required String description,
-      required String primaryAssetUrl,
-      required String creatorName,
-      required int quantity,
-      required String? royaltyAmount,
-      required String? royaltyAddress,
-      required List<String>? additionalAssetUrls,
-      List<ScProperty> properties = const [],
-      Map<String, dynamic>? evolve}) async {
+  Future<BulkSmartContractEntry?> _propertiesToEntry({
+    required String name,
+    required String description,
+    required String primaryAssetUrl,
+    required String creatorName,
+    required int quantity,
+    required String? royaltyAmount,
+    required String? royaltyAddress,
+    required List<String>? additionalAssetUrls,
+    List<ScProperty> properties = const [],
+    Map<String, dynamic>? evolve,
+  }) async {
+    final logProvider = ref.read(scWizardLogProvider.notifier);
+    logProvider.append("Creating $name...");
+
+    logProvider.append("Downloading $primaryAssetUrl...");
+
     final primaryAsset = kIsWeb
         ? Asset(
             id: '',
@@ -520,14 +536,12 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
             primaryAssetUrl,
             creatorName,
           );
+
     if (primaryAsset == null) {
       Toast.error("Problem downloading $primaryAssetUrl. Skipping.");
+      logProvider.append("Problem downloading $primaryAssetUrl. Skipping.");
       return null;
     }
-
-    //TODO stats
-
-    //TODO validation
 
     Royalty? royalty;
     if (royaltyAmount != null && royaltyAddress != null && royaltyAmount.isNotEmpty && royaltyAddress.isNotEmpty) {
@@ -620,6 +634,8 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
       }
     }
 
+    logProvider.append("Created $name");
+
     return BulkSmartContractEntry(
         name: name,
         description: description,
@@ -637,11 +653,13 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
   }
 
   Future<Asset?> urlToAsset(String url, String creatorName) async {
+    final logProvider = ref.read(scWizardLogProvider.notifier);
+
     try {
       final uri = Uri.parse(url).replace(queryParameters: {});
       final f = File(uri.toString().replaceAll("?", ""));
-      final filename = basename(f.path);
-      final ext = extension(f.path);
+      String filename = basename(f.path);
+      String ext = extension(f.path);
 
       print(filename);
 
@@ -649,13 +667,34 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
       // final extension = filename.split(".").last;
 
       final downloadDirectory = await getTemporaryDirectory();
-      final path = "${downloadDirectory.path}/$filename";
+      String path = "${downloadDirectory.path}/$filename";
 
       await Dio().download(url, path, onReceiveProgress: (value1, value2) {
         // print("Downloading $value1/$value2");
       });
 
-      final fileSize = (await File(path).readAsBytes()).length;
+      final bytes = await File(path).readAsBytes();
+
+      final fileSize = (bytes).length;
+
+      if (ext.isEmpty) {
+        logProvider.append("No Extension on file. Parsing mime from file...");
+
+        final mime = lookupMimeType(path, headerBytes: bytes);
+
+        if (mime != null) {
+          ext = getExtensionFromMimeType(mime);
+
+          if (ext.isNotEmpty) {
+            final newPath = "$path.$ext";
+
+            await File(path).rename(newPath);
+            path = newPath;
+            filename = "$filename.$ext";
+            logProvider.append("Renaming file to $filename");
+          }
+        }
+      }
 
       final asset = Asset(
         id: "00000000-0000-0000-0000-000000000000",

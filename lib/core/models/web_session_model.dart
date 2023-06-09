@@ -12,6 +12,8 @@ abstract class WebSessionModel with _$WebSessionModel {
   factory WebSessionModel({
     Keypair? keypair,
     double? balance,
+    double? balanceTotal,
+    double? balanceLocked,
     String? adnr,
     @Default(false) bool isAuthenticated,
     @Default("America/Los_Angeles") String timezoneName,
@@ -29,6 +31,9 @@ abstract class WebSessionModel with _$WebSessionModel {
       address: keypair!.address,
       balance: balance ?? 0,
       isValidating: false,
+      totalBalance: balanceTotal ?? 0,
+      lockedBalance: balanceLocked ?? 0,
+
       // isEncrypted: false,
     );
   }

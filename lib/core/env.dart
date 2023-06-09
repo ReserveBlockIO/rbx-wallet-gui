@@ -18,7 +18,7 @@ enum _Environment {
   WebLocalEnv,
 }
 
-_Environment _env = _Environment.Release;
+_Environment _env = _Environment.ReleaseTestNet;
 
 class Env {
   static init() async {
@@ -105,7 +105,7 @@ class Env {
       case _Environment.ReleaseTestNet:
       case _Environment.BlockExplorerTestNet:
       case _Environment.WebLocalEnv:
-        return 'http://localhost:42069';
+        return 'http://localhost:42069/';
       case _Environment.WebTestNet:
         return 'https://test-wallet.rbx.network/';
       default:
@@ -179,5 +179,13 @@ class Env {
 
   static String get shopApiUrl {
     return DotEnv.dotenv.env['SHOP_API_URL'] ?? "https://data.rbx.network/api";
+  }
+
+  static String get paymentEmbedUrl {
+    return DotEnv.dotenv.env['PAYMENT_EMBED_URL'] ?? "https://rbx-payment-integration.vercel.app/";
+  }
+
+  static String? get paymentDomain {
+    return DotEnv.dotenv.env['PAYMENT_DOMAIN'];
   }
 }
