@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
@@ -59,7 +60,7 @@ class HomeScreen extends BaseScreen {
       //   },
       //   icon: const Icon(Icons.refresh),
       // ),
-      leading: address == null
+      leading: address == null || !ALLOW_PAYMENT
           ? SizedBox()
           : Padding(
               padding: const EdgeInsets.only(left: 4.0),

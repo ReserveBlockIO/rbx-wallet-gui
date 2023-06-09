@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import '../../../core/app_constants.dart';
 import '../../../core/app_router.gr.dart';
 import '../../../core/base_screen.dart';
@@ -229,8 +230,12 @@ class WebShopDetailScreen extends BaseScreen {
                             icon: Icons.delete,
                             variant: AppColorVariant.Danger,
                             onPressed: () async {
+                              final deleteCost = ref.read(walletInfoProvider)!.lastestBlock!.height >= BLOCK_LOCK_4
+                                  ? SHOP_DELETE_COST_AFTER_BLOCK_LOCK_4
+                                  : SHOP_DELETE_COST;
+
                               final message = shop.isPublished
-                                  ? "Are you sure you want to delete this shop? There is a cost of $SHOP_DELETE_COST RBX to delete this from the network."
+                                  ? "Are you sure you want to delete this shop? There is a cost of $deleteCost RBX to delete this from the network."
                                   : "Are you sure you want to delete this shop?";
 
                               final confirmed = await ConfirmDialog.show(

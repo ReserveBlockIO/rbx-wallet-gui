@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
 
 import '../../../core/dialogs.dart';
 import '../../web/components/web_wordmark.dart';
@@ -41,7 +42,7 @@ class WebHomeScreen extends BaseScreen {
       backgroundColor: Colors.black,
       shadowColor: Colors.transparent,
       leadingWidth: 140,
-      leading: address == null
+      leading: address == null || !ALLOW_PAYMENT
           ? SizedBox.shrink()
           : Padding(
               padding: const EdgeInsets.only(left: 6.0),

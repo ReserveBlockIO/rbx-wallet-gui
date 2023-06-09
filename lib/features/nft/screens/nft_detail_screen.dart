@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/nft/providers/sale_provider.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
 import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
@@ -690,6 +691,11 @@ class NftDetailScreen extends BaseScreen {
                         // helpType: HelpType.transfer,
                         icon: Icons.attach_money,
                         onPressed: () async {
+                          if (ref.read(walletInfoProvider)!.lastestBlock!.height < BLOCK_LOCK_4) {
+                            Toast.error("Manual sales are locked until block $BLOCK_LOCK_4.");
+                            return;
+                          }
+
                           if (!await passwordRequiredGuard(context, ref)) {
                             return;
                           }
