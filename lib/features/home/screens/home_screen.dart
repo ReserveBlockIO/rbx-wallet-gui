@@ -50,8 +50,8 @@ class HomeScreen extends BaseScreen {
       title: const Text("Dashboard"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      leadingWidth: 140,
-      // centerTitle: false,
+      leadingWidth: address == null || !ALLOW_PAYMENT ? null : 140,
+      centerTitle: true,
       // leading: IconButton(
       //   onPressed: () {
       //     ref.read(walletInfoProvider.notifier).infoLoop(false);
@@ -125,13 +125,6 @@ class HomeScreen extends BaseScreen {
                     const BackupButton(),
                     const ImportMediaButton(),
                     if (Env.promptForUpdates) const ImportSnapshotButton(),
-                    if (kDebugMode)
-                      AppButton(
-                        label: "DEBUG: ra message",
-                        onPressed: () {
-                          RecoverDialog.show(hash: "abc123");
-                        },
-                      )
                   ],
                 ),
               const Divider(),

@@ -144,6 +144,7 @@ class SendForm extends BaseComponent {
                                   ),
                                 if (!isWeb)
                                   PopupMenuButton(
+                                    color: Color(0xFF080808),
                                     constraints: BoxConstraints(maxWidth: 500),
                                     itemBuilder: (context) {
                                       final currentWallet = ref.watch(sessionProvider).currentWallet;
@@ -199,7 +200,7 @@ class SendForm extends BaseComponent {
                           ],
                         ),
                       ),
-                      wallet!.totalBalance != wallet!.availableBalance || wallet!.isReserved
+                      wallet!.lockedBalance == 0 || wallet!.isReserved
                           ? Column(
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.end,
@@ -237,7 +238,7 @@ class SendForm extends BaseComponent {
                               children: [
                                 BalanceIndicator(
                                   label: "Available",
-                                  value: wallet!.availableBalance,
+                                  value: wallet!.balance,
                                   bgColor: Colors.deepPurple.shade400,
                                   fgColor: Colors.white,
                                 ),
@@ -249,7 +250,7 @@ class SendForm extends BaseComponent {
                                 ),
                                 BalanceIndicator(
                                   label: "Total",
-                                  value: wallet!.totalBalance,
+                                  value: wallet!.balance + wallet!.lockedBalance,
                                   bgColor: Colors.green.shade700,
                                   fgColor: Colors.white,
                                 ),
