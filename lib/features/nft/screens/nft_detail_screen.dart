@@ -691,11 +691,6 @@ class NftDetailScreen extends BaseScreen {
                         // helpType: HelpType.transfer,
                         icon: Icons.attach_money,
                         onPressed: () async {
-                          if (ref.read(walletInfoProvider)!.lastestBlock!.height < BLOCK_LOCK_4) {
-                            Toast.error("Manual sales are locked until block $BLOCK_LOCK_4.");
-                            return;
-                          }
-
                           if (!await passwordRequiredGuard(context, ref)) {
                             return;
                           }
