@@ -49,7 +49,7 @@ class PrintAdressesButton extends BaseComponent {
                               color: Colors.deepPurple.shade200,
                             ),
                             onTap: () {
-                              ref.read(reserveAccountProvider.notifier).showBalanceInfo(wallet);
+                              ref.read(reserveAccountProvider.notifier).showBalanceInfo(context, wallet);
                             },
                           )
                         : null));

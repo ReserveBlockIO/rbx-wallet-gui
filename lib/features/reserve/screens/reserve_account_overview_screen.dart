@@ -73,7 +73,7 @@ class ReserveAccountOverviewScreen extends BaseScreen {
                             SizedBox(width: 4),
                             InkWell(
                               onTap: () {
-                                provider.showBalanceInfo(wallet);
+                                provider.showBalanceInfo(context, wallet);
                               },
                               child: Icon(
                                 Icons.help,
@@ -153,7 +153,7 @@ class ReserveAccountOverviewScreen extends BaseScreen {
                               label: "Activate Now",
                               variant: AppColorVariant.Light,
                               onPressed: () {
-                                provider.activate(wallet);
+                                provider.activate(context, wallet);
                               },
                             );
                           }),
