@@ -192,6 +192,7 @@ class _Top extends BaseComponent {
                 style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w500,
+                  color: Colors.white,
                 ),
                 children: [
                   TextSpan(

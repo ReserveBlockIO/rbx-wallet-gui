@@ -330,6 +330,13 @@ class _Actions extends BaseComponent {
                   },
                 ),
                 AppButton(
+                  label: "Reserve Accounts",
+                  icon: Icons.security,
+                  onPressed: () {
+                    AutoRouter.of(context).push(WebReserveAccountOverviewScreenRoute());
+                  },
+                ),
+                AppButton(
                   label: "Open Explorer",
                   icon: Icons.explore,
                   onPressed: () {
