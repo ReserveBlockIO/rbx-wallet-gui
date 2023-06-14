@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/keygen/models/ra_keypair.dart';
 import '../models/web_session_model.dart';
 import '../web_router.gr.dart';
 import '../../features/transactions/providers/web_transaction_list_provider.dart';
@@ -38,7 +39,11 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
       final savedKeypair = singleton<Storage>().getMap(Storage.WEB_KEYPAIR);
       if (savedKeypair != null) {
         final keypair = Keypair.fromJson(savedKeypair);
-        login(keypair, false);
+
+        final savedRaKeypair = singleton<Storage>().getMap(Storage.WEB_RA_KEYPAIR);
+        final raKeypair = savedRaKeypair != null ? RaKeypair.fromJson(savedRaKeypair) : null;
+
+        login(keypair, raKeypair, andSave: false);
         ref.read(webTransactionListProvider(keypair.address).notifier);
       }
     } else {
@@ -60,20 +65,28 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     singleton<Storage>().setBool(Storage.REMEMBER_ME, val);
   }
 
-  void login(Keypair keypair, [bool andSave = true]) {
+  void login(Keypair keypair, RaKeypair? raKeypair, {bool andSave = true}) {
     final rememberMe = singleton<Storage>().getBool(Storage.REMEMBER_ME) ?? false;
     if (rememberMe) {
       singleton<Storage>().setMap(Storage.WEB_KEYPAIR, keypair.toJson());
+      if (raKeypair != null) {
+        singleton<Storage>().setMap(Storage.WEB_RA_KEYPAIR, raKeypair.toJson());
+      }
     }
 
-    state = state.copyWith(keypair: keypair, isAuthenticated: true);
+    state = state.copyWith(keypair: keypair, raKeypair: raKeypair, isAuthenticated: true);
     loop();
 
     // ref.read(webTransactionListProvider(keypair.address).notifier).init();
   }
 
+  void setUsingRa(bool value) {
+    state = state.copyWith(usingRa: value);
+  }
+
   void loop() async {
     getAddress();
+    getRaAddress();
     getNfts();
   }
 
@@ -88,6 +101,20 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
       balanceLocked: webAddress.balanceLocked,
       balanceTotal: webAddress.balanceTotal,
       adnr: webAddress.adnr,
+    );
+  }
+
+  Future<void> getRaAddress() async {
+    if (state.raKeypair == null) {
+      return;
+    }
+    final webAddress = await ExplorerService().getWebAddress(state.raKeypair!.address);
+
+    state = state.copyWith(
+      raBalance: webAddress.balance,
+      raBalanceLocked: webAddress.balanceLocked,
+      raBalanceTotal: webAddress.balanceTotal,
+      raActivated: webAddress.activated,
     );
   }
 

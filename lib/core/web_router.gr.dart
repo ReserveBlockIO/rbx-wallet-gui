@@ -15,21 +15,21 @@ import 'package:auto_route/auto_route.dart' as _i31;
 import 'package:auto_route/empty_router_widgets.dart' as _i1;
 import 'package:flutter/material.dart' as _i32;
 import 'package:rbx_wallet/features/adnr/screens/web_adnr_screen.dart' as _i14;
-import 'package:rbx_wallet/features/auth/screens/web_auth_screen.dart' as _i3;
+import 'package:rbx_wallet/features/auth/screens/web_auth_screen.dart' as _i4;
 import 'package:rbx_wallet/features/chat/screens/web_seller_chat_screen.dart'
     as _i24;
 import 'package:rbx_wallet/features/chat/screens/web_seller_chat_thread_list_screen.dart'
     as _i22;
 import 'package:rbx_wallet/features/chat/screens/web_shop_chat_screen.dart'
     as _i23;
-import 'package:rbx_wallet/features/home/screens/web_home_screen.dart' as _i5;
+import 'package:rbx_wallet/features/home/screens/web_home_screen.dart' as _i6;
 import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart' as _i13;
 import 'package:rbx_wallet/features/nft/screens/nft_list_screen.dart' as _i12;
 import 'package:rbx_wallet/features/receive/screens/web_receive_screen.dart'
     as _i9;
-import 'package:rbx_wallet/features/reserve/screens/reserve_account_overview_screen.dart'
-    as _i6;
-import 'package:rbx_wallet/features/root/web_dashboard_container.dart' as _i2;
+import 'package:rbx_wallet/features/reserve/screens/web_reserve_account_overview_screen.dart'
+    as _i2;
+import 'package:rbx_wallet/features/root/web_dashboard_container.dart' as _i3;
 import 'package:rbx_wallet/features/send/screens/web_prefilled_send_screen.dart'
     as _i8;
 import 'package:rbx_wallet/features/send/screens/web_send_screen.dart' as _i7;
@@ -58,7 +58,7 @@ import 'package:rbx_wallet/features/web_shop/screens/web_collection_detail_scree
 import 'package:rbx_wallet/features/web_shop/screens/web_listing_detail_screen.dart'
     as _i29;
 import 'package:rbx_wallet/features/web_shop/screens/web_shop_container_screen.dart'
-    as _i4;
+    as _i5;
 import 'package:rbx_wallet/features/web_shop/screens/web_shop_detail_screen.dart'
     as _i27;
 import 'package:rbx_wallet/features/web_shop/screens/web_shop_landing_screen.dart'
@@ -78,18 +78,24 @@ class WebRouter extends _i31.RootStackRouter {
         child: const _i1.EmptyRouterPage(),
       );
     },
+    WebReserveAccountOverviewScreenRoute.name: (routeData) {
+      return _i31.AdaptivePage<dynamic>(
+        routeData: routeData,
+        child: const _i2.WebReserveAccountOverviewScreen(),
+      );
+    },
     WebDashboardContainerRoute.name: (routeData) {
       final args = routeData.argsAs<WebDashboardContainerRouteArgs>(
           orElse: () => const WebDashboardContainerRouteArgs());
       return _i31.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: _i2.WebDashboardContainer(key: args.key),
+        child: _i3.WebDashboardContainer(key: args.key),
       );
     },
     WebAuthScreenRoute.name: (routeData) {
       return _i31.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i3.WebAuthScreen(),
+        child: const _i4.WebAuthScreen(),
       );
     },
     WebHomeTabRouter.name: (routeData) {
@@ -137,7 +143,7 @@ class WebRouter extends _i31.RootStackRouter {
     WebShopTabRouter.name: (routeData) {
       return _i31.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i4.WebShopContainerScreen(),
+        child: const _i5.WebShopContainerScreen(),
       );
     },
     WebSignTxTabRouter.name: (routeData) {
@@ -149,13 +155,7 @@ class WebRouter extends _i31.RootStackRouter {
     WebHomeScreenRoute.name: (routeData) {
       return _i31.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i5.WebHomeScreen(),
-      );
-    },
-    WebReserveAccountOverviewScreenRoute.name: (routeData) {
-      return _i31.AdaptivePage<dynamic>(
-        routeData: routeData,
-        child: const _i6.ReserveAccountOverviewScreen(),
+        child: const _i6.WebHomeScreen(),
       );
     },
     WebSendScreenRoute.name: (routeData) {
@@ -424,6 +424,10 @@ class WebRouter extends _i31.RootStackRouter {
           ],
         ),
         _i31.RouteConfig(
+          WebReserveAccountOverviewScreenRoute.name,
+          path: 'reserve-account',
+        ),
+        _i31.RouteConfig(
           WebDashboardContainerRoute.name,
           path: 'dashboard',
           children: [
@@ -436,12 +440,7 @@ class WebRouter extends _i31.RootStackRouter {
                   WebHomeScreenRoute.name,
                   path: '',
                   parent: WebHomeTabRouter.name,
-                ),
-                _i31.RouteConfig(
-                  WebReserveAccountOverviewScreenRoute.name,
-                  path: 'reserve-accounts',
-                  parent: WebHomeTabRouter.name,
-                ),
+                )
               ],
             ),
             _i31.RouteConfig(
@@ -653,7 +652,19 @@ class WebAuthRouter extends _i31.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i2.WebDashboardContainer]
+/// [_i2.WebReserveAccountOverviewScreen]
+class WebReserveAccountOverviewScreenRoute extends _i31.PageRouteInfo<void> {
+  const WebReserveAccountOverviewScreenRoute()
+      : super(
+          WebReserveAccountOverviewScreenRoute.name,
+          path: 'reserve-account',
+        );
+
+  static const String name = 'WebReserveAccountOverviewScreenRoute';
+}
+
+/// generated route for
+/// [_i3.WebDashboardContainer]
 class WebDashboardContainerRoute
     extends _i31.PageRouteInfo<WebDashboardContainerRouteArgs> {
   WebDashboardContainerRoute({
@@ -681,7 +692,7 @@ class WebDashboardContainerRouteArgs {
 }
 
 /// generated route for
-/// [_i3.WebAuthScreen]
+/// [_i4.WebAuthScreen]
 class WebAuthScreenRoute extends _i31.PageRouteInfo<void> {
   const WebAuthScreenRoute()
       : super(
@@ -784,7 +795,7 @@ class WebSmartContractTabRouter extends _i31.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i4.WebShopContainerScreen]
+/// [_i5.WebShopContainerScreen]
 class WebShopTabRouter extends _i31.PageRouteInfo<void> {
   const WebShopTabRouter({List<_i31.PageRouteInfo>? children})
       : super(
@@ -810,7 +821,7 @@ class WebSignTxTabRouter extends _i31.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i5.WebHomeScreen]
+/// [_i6.WebHomeScreen]
 class WebHomeScreenRoute extends _i31.PageRouteInfo<void> {
   const WebHomeScreenRoute()
       : super(
@@ -819,18 +830,6 @@ class WebHomeScreenRoute extends _i31.PageRouteInfo<void> {
         );
 
   static const String name = 'WebHomeScreenRoute';
-}
-
-/// generated route for
-/// [_i6.ReserveAccountOverviewScreen]
-class WebReserveAccountOverviewScreenRoute extends _i31.PageRouteInfo<void> {
-  const WebReserveAccountOverviewScreenRoute()
-      : super(
-          WebReserveAccountOverviewScreenRoute.name,
-          path: 'reserve-accounts',
-        );
-
-  static const String name = 'WebReserveAccountOverviewScreenRoute';
 }
 
 /// generated route for

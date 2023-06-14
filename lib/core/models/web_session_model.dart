@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/features/keygen/models/ra_keypair.dart';
 import '../../features/keygen/models/keypair.dart';
 import '../../features/wallet/models/wallet.dart';
 
@@ -11,10 +12,16 @@ abstract class WebSessionModel with _$WebSessionModel {
 
   factory WebSessionModel({
     Keypair? keypair,
+    RaKeypair? raKeypair,
     double? balance,
     double? balanceTotal,
     double? balanceLocked,
+    double? raBalance,
+    double? raBalanceTotal,
+    double? raBalanceLocked,
     String? adnr,
+    @Default(false) bool usingRa,
+    @Default(false) bool raActivated,
     @Default(false) bool isAuthenticated,
     @Default("America/Los_Angeles") String timezoneName,
     @Default(false) bool rememberMe,

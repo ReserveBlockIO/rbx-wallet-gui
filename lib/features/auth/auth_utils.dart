@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rbx_wallet/features/keygen/models/ra_keypair.dart';
 import '../../core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/keygen/services/keygen_service.dart'
     if (dart.library.io) 'package:rbx_wallet/features/keygen/services/keygen_service_mock.dart';
@@ -27,8 +28,9 @@ Future<void> login(
   BuildContext context,
   WidgetRef ref,
   Keypair keypair,
+  RaKeypair? raKeypair,
 ) async {
-  ref.read(webSessionProvider.notifier).login(keypair);
+  ref.read(webSessionProvider.notifier).login(keypair, raKeypair);
 }
 
 Future<void> handleImportWithPrivateKey(
@@ -45,7 +47,7 @@ Future<void> handleImportWithPrivateKey(
       await handleRememberMe(context, ref);
       final keypair = await KeygenService.importPrivateKey(privateKey);
       // await TransactionService().createWallet(null, keypair.address);
-      login(context, ref, keypair);
+      login(context, ref, keypair, null);
       if (ref.read(webSessionProvider).isAuthenticated) {
         AutoRouter.of(context).push(WebDashboardContainerRoute());
       }
@@ -74,7 +76,10 @@ Future<void> handleCreateWithEmail(
   final upperChars = regUpperChars.hasMatch(password) ? regUpperChars.allMatches(password).length : 1;
   final upperNumbers = regNumbers.hasMatch(password) ? regNumbers.allMatches(password).length : 1;
 
-  seed = "$seed${(chars + upperChars + upperNumbers) * password.length}3571";
+  var append = 3571;
+  final seedPriorToSha = "$seed${(chars + upperChars + upperNumbers) * password.length}";
+
+  seed = "$seedPriorToSha$append";
   seed = "$seed$seed";
 
   for (int i = 0; i <= 50; i++) {
@@ -87,6 +92,40 @@ Future<void> handleCreateWithEmail(
     Toast.error();
     return;
   }
+
+  // Generate Reserve
+
+  RaKeypair? reserveKeyPair;
+
+  while (true) {
+    seed = "$seedPriorToSha$append";
+    seed = "$seed$seed";
+
+    print("SEED: $seed");
+
+    for (int i = 0; i <= 50; i++) {
+      seed = sha256.convert(utf8.encode(seed)).toString();
+    }
+
+    final kp = await KeygenService.seedToKeypair(seed);
+    if (kp == null) {
+      print("kp null");
+      continue;
+    }
+
+    print("PRIVATE: ${kp.private}");
+
+    reserveKeyPair = await KeygenService.importReserveAccountPrivateKey(kp.private);
+
+    print("ADDRESS: ${reserveKeyPair.address}");
+
+    if (reserveKeyPair.address.startsWith("xRBX")) {
+      break;
+    }
+
+    append += 1;
+  }
+
   if (forCreate) {
     await showKeys(context, keypair);
   }
@@ -94,7 +133,7 @@ Future<void> handleCreateWithEmail(
   // await TransactionService().createWallet(email, keypair.address);
   await handleRememberMe(context, ref);
 
-  await login(context, ref, keypair.copyWith(email: email));
+  await login(context, ref, keypair.copyWith(email: email), reserveKeyPair);
 
   final authorized = await guardWebAuthorized(ref, keypair.address);
   if (authorized) {
@@ -123,7 +162,7 @@ Future<void> handleCreateWithMnemonic(
 
   // await TransactionService().createWallet(null, keypair.address);
 
-  login(context, ref, keypair);
+  login(context, ref, keypair, null);
   await showKeys(context, keypair);
 }
 
@@ -199,7 +238,7 @@ Future<dynamic> handleRecoverFromMnemonic(BuildContext context, WidgetRef ref) a
 
       // showKeys(context, keypair);
       // await TransactionService().createWallet(null, keypair.address);
-      login(context, ref, keypair);
+      login(context, ref, keypair, null);
     },
   );
 }
@@ -299,4 +338,133 @@ Future<void> logout(BuildContext context, WidgetRef ref) async {
   await ref.read(webSessionProvider.notifier).logout();
 
   AutoRouter.of(context).replace(const WebAuthRouter());
+}
+
+Future<void> showRaKeys(
+  BuildContext context,
+  RaKeypair keypair, [
+  bool forReveal = false,
+]) async {
+  final isMobile = BreakPoints.useMobileLayout(context);
+
+  await showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) {
+      return AlertDialog(
+        title: Text("Reserve Account Details"),
+        content: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 700),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Here are your Reserve Account wallet details. Please ensure to back up your private key in a safe place."),
+              ),
+
+              ListTile(
+                leading: isMobile ? null : const Icon(Icons.account_balance_wallet),
+                title: TextFormField(
+                  initialValue: keypair.address,
+                  decoration: const InputDecoration(label: Text("Address")),
+                  readOnly: true,
+                  style: const TextStyle(fontSize: 13),
+                ),
+                trailing: IconButton(
+                  icon: const Icon(Icons.copy),
+                  onPressed: () async {
+                    await Clipboard.setData(ClipboardData(text: keypair.address));
+                    Toast.message("Public key copied to clipboard");
+                  },
+                ),
+              ),
+              ListTile(
+                leading: isMobile ? null : const Icon(Icons.security),
+                title: TextFormField(
+                  initialValue: keypair.privateCorrected,
+                  decoration: const InputDecoration(
+                    label: Text("Private Key"),
+                  ),
+                  style: const TextStyle(fontSize: 13),
+                  readOnly: true,
+                ),
+                trailing: IconButton(
+                  icon: const Icon(Icons.copy),
+                  onPressed: () async {
+                    await Clipboard.setData(ClipboardData(text: keypair.privateCorrected));
+                    Toast.message("Private key copied to clipboard");
+                  },
+                ),
+              ),
+
+              ListTile(
+                leading: isMobile ? null : const Icon(Icons.account_balance_wallet),
+                title: TextFormField(
+                  initialValue: keypair.recoveryAddress,
+                  decoration: const InputDecoration(label: Text("Recovery Address")),
+                  readOnly: true,
+                  style: const TextStyle(fontSize: 13),
+                ),
+                trailing: IconButton(
+                  icon: const Icon(Icons.copy),
+                  onPressed: () async {
+                    await Clipboard.setData(ClipboardData(text: keypair.recoveryAddress));
+                    Toast.message("Recovery Address copied to clipboard");
+                  },
+                ),
+              ),
+              ListTile(
+                leading: isMobile ? null : const Icon(Icons.security),
+                title: TextFormField(
+                  initialValue: keypair.recoveryPrivateCorrected,
+                  decoration: const InputDecoration(
+                    label: Text("Recovery Private Key"),
+                  ),
+                  style: const TextStyle(fontSize: 13),
+                  readOnly: true,
+                ),
+                trailing: IconButton(
+                  icon: const Icon(Icons.copy),
+                  onPressed: () async {
+                    await Clipboard.setData(ClipboardData(text: keypair.recoveryPrivateCorrected));
+                    Toast.message("Recovery Private Key copied to clipboard");
+                  },
+                ),
+              ),
+              ListTile(
+                leading: isMobile ? null : const Icon(Icons.error),
+                title: TextFormField(
+                  initialValue: keypair.restoreCode,
+                  decoration: const InputDecoration(
+                    label: Text("Restore Code"),
+                  ),
+                  style: const TextStyle(fontSize: 13),
+                  readOnly: true,
+                  minLines: 3,
+                  maxLines: 6,
+                ),
+                trailing: IconButton(
+                  icon: const Icon(Icons.copy),
+                  onPressed: () async {
+                    await Clipboard.setData(ClipboardData(text: keypair.restoreCode));
+                    Toast.message("Restore Code copied to clipboard");
+                  },
+                ),
+              ),
+              // if (keypair.mneumonic != null) Text(keypair.mneumonic!),
+
+              const Divider(),
+              AppButton(
+                label: "Done",
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }
