@@ -19,8 +19,6 @@ class NftNavigator extends BaseComponent {
   Widget build(BuildContext context, WidgetRef ref) {
     final NftListModel _model = ref.watch(minted ? mintedNftListProvider : nftListProvider);
 
-    final address = kIsWeb ? ref.watch(webSessionProvider).keypair?.address : null;
-
     final hasNextPage = kIsWeb ? true : _model.data.canLoadMore;
     final hasPrevPage = _model.data.page > 1;
     final canSearch = _model.search.isNotEmpty;
@@ -104,7 +102,7 @@ class NftNavigator extends BaseComponent {
                       if (minted) {
                         ref.read(mintedNftListProvider.notifier).load(_model.data.page - 1);
                       } else {
-                        ref.read(nftListProvider.notifier).load(_model.data.page - 1, address: address);
+                        ref.read(nftListProvider.notifier).load(_model.data.page - 1);
                       }
                     }
                   : null,
@@ -119,7 +117,7 @@ class NftNavigator extends BaseComponent {
                       if (minted) {
                         ref.read(mintedNftListProvider.notifier).load(_model.data.page + 1);
                       } else {
-                        ref.read(nftListProvider.notifier).load(_model.data.page + 1, address: address);
+                        ref.read(nftListProvider.notifier).load(_model.data.page + 1);
                       }
                     }
                   : null,

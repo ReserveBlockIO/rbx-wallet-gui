@@ -7,6 +7,7 @@ import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
 import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
+import 'package:rbx_wallet/features/web/components/web_ra_mode_switcher.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 
@@ -38,6 +39,7 @@ class NftListScreen extends BaseScreen {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
+            if (kIsWeb) WebRaModeSwitcher(),
             AppButton(
               type: AppButtonType.Text,
               label: "Import NFT",

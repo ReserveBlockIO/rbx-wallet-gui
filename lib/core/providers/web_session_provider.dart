@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/keygen/models/ra_keypair.dart';
+import 'package:rbx_wallet/features/nft/providers/minted_nft_list_provider.dart';
 import '../models/web_session_model.dart';
 import '../web_router.gr.dart';
 import '../../features/transactions/providers/web_transaction_list_provider.dart';
@@ -82,6 +83,8 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
 
   void setUsingRa(bool value) {
     state = state.copyWith(usingRa: value);
+    ref.read(mintedNftListProvider.notifier).load(1);
+    ref.read(nftListProvider.notifier).load(1);
   }
 
   void loop() async {
