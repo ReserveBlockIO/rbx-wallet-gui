@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/nft/providers/sale_provider.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
@@ -600,6 +601,21 @@ class NftDetailScreen extends BaseScreen {
                                 }
                               }
 
+                              if (kIsWeb && ref.read(webSessionProvider).usingRa) {
+                                final hoursString = await PromptModal.show(
+                                  title: "Timelock Duration",
+                                  validator: (_) => null,
+                                  labelText: "Hours (24 Minimum)",
+                                  initialValue: "24",
+                                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                );
+
+                                delayHours = (hoursString != null ? int.tryParse(hoursString) : 24) ?? 24;
+                                if (delayHours < 24) {
+                                  delayHours = 24;
+                                }
+                              }
+
                               PromptModal.show(
                                 contextOverride: context,
                                 title: "Transfer NFT",
@@ -617,7 +633,7 @@ class NftDetailScreen extends BaseScreen {
 
                                   if (kIsWeb) {
                                     ref.read(globalLoadingProvider.notifier).start();
-                                    success = await _provider.transferWebOut(address);
+                                    success = await _provider.transferWebOut(address, delayHours);
                                     if (success == true) {
                                       ref.read(transferredProvider.notifier).addId(id);
 
