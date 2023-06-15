@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/features/keygen/models/keypair.dart';
 
 part 'ra_keypair.freezed.dart';
 part 'ra_keypair.g.dart';
@@ -25,5 +26,13 @@ abstract class RaKeypair with _$RaKeypair {
 
   String get recoveryPrivateCorrected {
     return "00$recoveryPrivate";
+  }
+
+  Keypair get asKeypair {
+    return Keypair(
+      address: address,
+      private: private,
+      public: public,
+    );
   }
 }

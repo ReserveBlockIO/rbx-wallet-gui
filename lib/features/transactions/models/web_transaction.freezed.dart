@@ -32,6 +32,8 @@ mixin _$WebTransaction {
   double? get fee => throw _privateConstructorUsedError;
   @JsonKey(name: 'date_crafted')
   DateTime get date => throw _privateConstructorUsedError;
+  @JsonKey(name: 'unlock_time')
+  DateTime? get unlockTime => throw _privateConstructorUsedError;
   bool get isPending =>
       throw _privateConstructorUsedError; // required int nonce,
 // required int timestamp,
@@ -59,6 +61,7 @@ abstract class $WebTransactionCopyWith<$Res> {
       @JsonKey(name: "total_amount") double? amount,
       @JsonKey(name: "total_fee") double? fee,
       @JsonKey(name: 'date_crafted') DateTime date,
+      @JsonKey(name: 'unlock_time') DateTime? unlockTime,
       bool isPending,
       String? data,
       int height});
@@ -84,6 +87,7 @@ class _$WebTransactionCopyWithImpl<$Res, $Val extends WebTransaction>
     Object? amount = freezed,
     Object? fee = freezed,
     Object? date = null,
+    Object? unlockTime = freezed,
     Object? isPending = null,
     Object? data = freezed,
     Object? height = null,
@@ -117,6 +121,10 @@ class _$WebTransactionCopyWithImpl<$Res, $Val extends WebTransaction>
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      unlockTime: freezed == unlockTime
+          ? _value.unlockTime
+          : unlockTime // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       isPending: null == isPending
           ? _value.isPending
           : isPending // ignore: cast_nullable_to_non_nullable
@@ -149,6 +157,7 @@ abstract class _$$_WebTransactionCopyWith<$Res>
       @JsonKey(name: "total_amount") double? amount,
       @JsonKey(name: "total_fee") double? fee,
       @JsonKey(name: 'date_crafted') DateTime date,
+      @JsonKey(name: 'unlock_time') DateTime? unlockTime,
       bool isPending,
       String? data,
       int height});
@@ -172,6 +181,7 @@ class __$$_WebTransactionCopyWithImpl<$Res>
     Object? amount = freezed,
     Object? fee = freezed,
     Object? date = null,
+    Object? unlockTime = freezed,
     Object? isPending = null,
     Object? data = freezed,
     Object? height = null,
@@ -205,6 +215,10 @@ class __$$_WebTransactionCopyWithImpl<$Res>
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      unlockTime: freezed == unlockTime
+          ? _value.unlockTime
+          : unlockTime // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       isPending: null == isPending
           ? _value.isPending
           : isPending // ignore: cast_nullable_to_non_nullable
@@ -232,6 +246,7 @@ class _$_WebTransaction extends _WebTransaction {
       @JsonKey(name: "total_amount") required this.amount,
       @JsonKey(name: "total_fee") required this.fee,
       @JsonKey(name: 'date_crafted') required this.date,
+      @JsonKey(name: 'unlock_time') this.unlockTime,
       this.isPending = false,
       this.data,
       required this.height})
@@ -260,6 +275,9 @@ class _$_WebTransaction extends _WebTransaction {
   @JsonKey(name: 'date_crafted')
   final DateTime date;
   @override
+  @JsonKey(name: 'unlock_time')
+  final DateTime? unlockTime;
+  @override
   @JsonKey()
   final bool isPending;
 // required int nonce,
@@ -272,7 +290,7 @@ class _$_WebTransaction extends _WebTransaction {
 
   @override
   String toString() {
-    return 'WebTransaction(hash: $hash, toAddress: $toAddress, fromAddress: $fromAddress, type: $type, amount: $amount, fee: $fee, date: $date, isPending: $isPending, data: $data, height: $height)';
+    return 'WebTransaction(hash: $hash, toAddress: $toAddress, fromAddress: $fromAddress, type: $type, amount: $amount, fee: $fee, date: $date, unlockTime: $unlockTime, isPending: $isPending, data: $data, height: $height)';
   }
 
   @override
@@ -289,6 +307,8 @@ class _$_WebTransaction extends _WebTransaction {
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.fee, fee) || other.fee == fee) &&
             (identical(other.date, date) || other.date == date) &&
+            (identical(other.unlockTime, unlockTime) ||
+                other.unlockTime == unlockTime) &&
             (identical(other.isPending, isPending) ||
                 other.isPending == isPending) &&
             (identical(other.data, data) || other.data == data) &&
@@ -298,7 +318,7 @@ class _$_WebTransaction extends _WebTransaction {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, hash, toAddress, fromAddress,
-      type, amount, fee, date, isPending, data, height);
+      type, amount, fee, date, unlockTime, isPending, data, height);
 
   @JsonKey(ignore: true)
   @override
@@ -323,6 +343,7 @@ abstract class _WebTransaction extends WebTransaction {
       @JsonKey(name: "total_amount") required final double? amount,
       @JsonKey(name: "total_fee") required final double? fee,
       @JsonKey(name: 'date_crafted') required final DateTime date,
+      @JsonKey(name: 'unlock_time') final DateTime? unlockTime,
       final bool isPending,
       final String? data,
       required final int height}) = _$_WebTransaction;
@@ -350,6 +371,9 @@ abstract class _WebTransaction extends WebTransaction {
   @override
   @JsonKey(name: 'date_crafted')
   DateTime get date;
+  @override
+  @JsonKey(name: 'unlock_time')
+  DateTime? get unlockTime;
   @override
   bool get isPending;
   @override // required int nonce,

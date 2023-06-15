@@ -31,17 +31,27 @@ abstract class WebSessionModel with _$WebSessionModel {
 
   Wallet? get currentWallet {
     if (keypair == null) return null;
-    return Wallet(
-      id: 0,
-      publicKey: keypair!.public,
-      privateKey: keypair!.private,
-      address: keypair!.address,
-      balance: balance ?? 0,
-      isValidating: false,
-      totalBalance: balanceTotal ?? 0,
-      lockedBalance: balanceLocked ?? 0,
 
-      // isEncrypted: false,
-    );
+    return usingRa
+        ? Wallet(
+            id: 0,
+            publicKey: raKeypair!.asKeypair.public,
+            privateKey: raKeypair!.asKeypair.private,
+            address: raKeypair!.asKeypair.address,
+            balance: raBalance ?? 0,
+            isValidating: false,
+            totalBalance: raBalanceTotal ?? 0,
+            lockedBalance: raBalanceLocked ?? 0,
+          )
+        : Wallet(
+            id: 0,
+            publicKey: keypair!.public,
+            privateKey: keypair!.private,
+            address: keypair!.address,
+            balance: balance ?? 0,
+            isValidating: false,
+            totalBalance: balanceTotal ?? 0,
+            lockedBalance: balanceLocked ?? 0,
+          );
   }
 }

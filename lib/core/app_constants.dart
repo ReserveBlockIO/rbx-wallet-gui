@@ -26,6 +26,7 @@ const DEV_API_TOKEN = "devtoken";
 const SHOP_PUBLISH_COST = 10.0;
 const SHOP_DELETE_COST = 1.0;
 const SHOP_UPDATE_COST = 1.0;
+const RA_ACTIVATION_COST = 4.0;
 
 class TxType {
   static const int rbxTransfer = 0;

@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:rbx_wallet/features/web/components/web_callback_button.dart';
 import '../../../core/components/badges.dart';
 import '../providers/transaction_signal_provider.dart';
 
@@ -25,12 +26,15 @@ class WebTransactionCard extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final DateFormat formatter = DateFormat('MM-dd-yyyy hh:mm a');
-
     var date1 = DateTime.fromMillisecondsSinceEpoch((tx.date.millisecondsSinceEpoch).round());
-    var date = DateFormat('MM-dd-yyyy hh:mm a').format(date1);
+    String date = DateFormat('MM-dd-yyyy hh:mm a').format(date1);
 
-    final address = ref.read(webSessionProvider).keypair?.address;
+    if (tx.isPendingSettlement) {
+      final settlementDate = DateFormat('MM-dd-yyyy hh:mm a').format(tx.unlockTime!);
+      date = "$date | Settlement Date: $settlementDate";
+    }
+
+    final address = ref.watch(webSessionProvider).currentWallet?.address;
     final isMobile = BreakPoints.useMobileLayout(context);
     final toMe = tx.toAddress == address;
 
@@ -49,9 +53,7 @@ class WebTransactionCard extends BaseComponent {
           boxShadow: glowingBox,
         ),
         child: Card(
-          // color: Theme.of(context).colorScheme.primary.withOpacity(0.4),
           color: Colors.black87,
-
           child: ListTile(
             leading: isMobile
                 ? null
@@ -63,11 +65,30 @@ class WebTransactionCard extends BaseComponent {
               style: TextStyle(color: color),
             ),
             subtitle: toMe
-                ? Text(
-                    "From: ${tx.fromAddress}\n$date",
-                    style: const TextStyle(fontSize: 12),
+                ? RichText(
+                    text: TextSpan(
+                      style: TextStyle(color: Colors.white70, fontSize: 12),
+                      children: [
+                        TextSpan(text: "From: "),
+                        TextSpan(
+                            text: "${tx.fromAddress}\n",
+                            style: TextStyle(color: tx.fromAddress.startsWith("xRBX") ? Colors.deepPurple.shade200 : Colors.white60)),
+                        TextSpan(text: date)
+                      ],
+                    ),
                   )
-                : Text("To: ${tx.toAddress}\n$date", style: const TextStyle(fontSize: 12)),
+                : RichText(
+                    text: TextSpan(
+                      style: TextStyle(color: Colors.white70, fontSize: 12),
+                      children: [
+                        TextSpan(text: "To: "),
+                        TextSpan(
+                            text: "${tx.toAddress}\n",
+                            style: TextStyle(color: tx.toAddress.startsWith("xRBX") ? Colors.deepPurple.shade200 : Colors.white60)),
+                        TextSpan(text: date)
+                      ],
+                    ),
+                  ),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -76,6 +97,7 @@ class WebTransactionCard extends BaseComponent {
                     label: "Pending",
                     variant: AppColorVariant.Warning,
                   ),
+                WebCallbackButton(tx),
                 CompleteSaleButton(
                   tx: tx,
                   fallbackWidget: Icon(Icons.chevron_right),

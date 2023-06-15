@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/web/components/web_ra_mode_switcher.dart';
 import '../../../core/components/centered_loader.dart';
 
 import '../../../core/base_screen.dart';
@@ -25,9 +26,10 @@ class WebTransactionScreen extends BaseScreen {
       backgroundColor: Colors.black,
       shadowColor: Colors.transparent,
       actions: [
+        WebRaModeSwitcher(),
         IconButton(
             onPressed: () {
-              final address = ref.read(webSessionProvider).keypair?.address;
+              final address = ref.read(webSessionProvider).currentWallet?.address;
               if (address != null) {
                 ref.read(webTransactionListProvider(address).notifier).refresh();
               }
@@ -39,7 +41,7 @@ class WebTransactionScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final address = ref.read(webSessionProvider).keypair?.address;
+    final address = ref.watch(webSessionProvider).currentWallet?.address;
 
     if (address == null) {
       return const WebNotWallet();

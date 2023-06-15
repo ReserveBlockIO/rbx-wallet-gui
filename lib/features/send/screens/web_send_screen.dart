@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/web/components/web_ra_mode_switcher.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/providers/web_session_provider.dart';
@@ -22,12 +23,16 @@ class WebSendScreen extends BaseScreen {
       title: const Text("Send RBX"),
       shadowColor: Colors.transparent,
       backgroundColor: Colors.black,
+      actions: [
+        WebRaModeSwitcher(),
+      ],
     );
   }
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
     final keypair = ref.watch(webSessionProvider).keypair;
+    final raKeypair = ref.watch(webSessionProvider).raKeypair;
     final wallet = ref.watch(webSessionProvider).currentWallet;
 
     if (keypair == null) {
@@ -35,12 +40,12 @@ class WebSendScreen extends BaseScreen {
     }
 
     return Center(
-
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 720),
         child: SendForm(
           keypair: keypair,
           wallet: wallet,
+          raKeypair: raKeypair,
         ),
       ),
     );
