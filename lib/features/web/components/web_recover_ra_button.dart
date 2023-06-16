@@ -1,40 +1,46 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
+import 'package:rbx_wallet/core/base_component.dart';
+import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/raw/raw_service.dart';
 import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
-class WebActivateRaButton extends BaseComponent {
-  const WebActivateRaButton({
+class WebRecoverRaButton extends BaseComponent {
+  const WebRecoverRaButton({
     super.key,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final keypair = ref.watch(webSessionProvider).raKeypair;
-
-    if (keypair == null) {
-      return SizedBox();
-    }
-
     return AppButton(
-      label: "Activate Now",
-      variant: AppColorVariant.Light,
+      label: "Recover",
+      icon: Icons.warning,
+      type: AppButtonType.Text,
+      variant: AppColorVariant.Warning,
       onPressed: () async {
+        final raKeypair = ref.read(webSessionProvider).raKeypair;
         final loadingProvider = ref.read(globalLoadingProvider.notifier);
 
+        if (raKeypair == null) {
+          Toast.error();
+          return null;
+        }
+
         final confirmed = await ConfirmDialog.show(
-          title: "Activate Reserve Account?",
-          body: "There is a cost of $RA_ACTIVATION_COST RBX to activate your reserve account which is burned.\n\nContinue?",
-          confirmText: "Activate",
-          cancelText: "Canacel",
+          title: "Recover Funds & NFTs",
+          body:
+              "This is a destructive function that will callback all pending transactions and NFTs and move everything to this recovery address:\n\n${raKeypair!.recoveryAddress}",
+          confirmText: "Proceed",
+          cancelText: "Cancel",
+          destructive: true,
         );
 
         if (confirmed != true) {
@@ -50,29 +56,48 @@ class WebActivateRaButton extends BaseComponent {
         if (timestamp == null) {
           Toast.error("Failed to retrieve timestamp");
           loadingProvider.complete();
+
           return false;
         }
 
-        final nonce = await txService.getNonce(keypair.address);
+        final nonce = await txService.getNonce(raKeypair.address);
         if (nonce == null) {
           Toast.error("Failed to retrieve nonce");
           loadingProvider.complete();
           return false;
         }
 
+        final currentTime = (DateTime.now().millisecondsSinceEpoch / 1000).round();
+
+        final recoverySigScriptMessage = "$currentTime${raKeypair.recoveryAddress}";
+
+        print(recoverySigScriptMessage);
+
+        final recoverySigScript = await RawTransaction.getSignature(
+            message: recoverySigScriptMessage, privateKey: raKeypair.recoveryPrivate, publicKey: raKeypair.recoveryPublic);
+
+        if (recoverySigScript == null) {
+          Toast.error("Problem generating RecoverySigScript");
+          loadingProvider.complete();
+          return false;
+        }
+
         final data = {
-          "Function": "Register()",
-          "RecoveryAddress": keypair.recoveryAddress,
+          "Function": "Recover()",
+          "RecoveryAddress": raKeypair.recoveryAddress,
+          "RecoverySigScript": recoverySigScript,
+          "SignatureTime": currentTime,
         };
 
         var txData = RawTransaction.buildTransaction(
-          amount: RA_ACTIVATION_COST,
+          amount: 0,
           type: TxType.reserve,
           toAddress: "Reserve_Base",
-          fromAddress: keypair.address,
+          fromAddress: raKeypair.address,
           timestamp: timestamp,
           nonce: nonce,
           data: data,
+          unlockTimestamp: 0,
         );
 
         final fee = await txService.getFee(txData);
@@ -84,14 +109,15 @@ class WebActivateRaButton extends BaseComponent {
         }
 
         txData = RawTransaction.buildTransaction(
-          amount: RA_ACTIVATION_COST,
+          amount: 0,
           type: TxType.reserve,
           toAddress: "Reserve_Base",
-          fromAddress: keypair.address,
+          fromAddress: raKeypair.address,
           timestamp: timestamp,
           nonce: nonce,
           data: data,
           fee: fee,
+          unlockTimestamp: 0,
         );
 
         final hash = (await txService.getHash(txData));
@@ -101,7 +127,7 @@ class WebActivateRaButton extends BaseComponent {
           return false;
         }
 
-        final signature = await RawTransaction.getSignature(message: hash, privateKey: keypair.private, publicKey: keypair.public);
+        final signature = await RawTransaction.getSignature(message: hash, privateKey: raKeypair.private, publicKey: raKeypair.public);
         if (signature == null) {
           Toast.error("Signature generation failed.");
           loadingProvider.complete();
@@ -110,7 +136,7 @@ class WebActivateRaButton extends BaseComponent {
 
         final isValid = await txService.validateSignature(
           hash,
-          keypair.address,
+          raKeypair.address,
           signature,
         );
 
@@ -121,16 +147,17 @@ class WebActivateRaButton extends BaseComponent {
         }
 
         txData = RawTransaction.buildTransaction(
-          amount: RA_ACTIVATION_COST,
+          amount: 0,
           type: TxType.reserve,
           toAddress: "Reserve_Base",
-          fromAddress: keypair.address,
+          fromAddress: raKeypair.address,
           timestamp: timestamp,
           nonce: nonce,
           data: data,
           fee: fee,
           hash: hash,
           signature: signature,
+          unlockTimestamp: 0,
         );
 
         final verifyTransactionData = (await txService.sendTransaction(
@@ -152,7 +179,7 @@ class WebActivateRaButton extends BaseComponent {
 
         if (tx != null) {
           if (tx['Result'] == "Success") {
-            Toast.message("Activation transaction broadcasted");
+            Toast.message("Recovery transaction broadcasted.");
             loadingProvider.complete();
             return true;
           }

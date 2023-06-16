@@ -8,9 +8,11 @@ import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/auth/auth_utils.dart';
+import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/keygen/models/ra_keypair.dart';
 import 'package:rbx_wallet/features/raw/raw_service.dart';
 import 'package:rbx_wallet/features/web/components/web_activate_ra_button.dart';
+import 'package:rbx_wallet/features/web/components/web_recover_ra_button.dart';
 import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
 import 'package:rbx_wallet/utils/toast.dart';
@@ -104,31 +106,102 @@ class WebReserveAccountOverviewScreen extends BaseScreen {
                     child: Builder(
                       builder: (context) {
                         if (ref.watch(webSessionProvider).raActivated) {
-                          return AppBadge(
-                            label: "Activated",
-                            variant: AppColorVariant.Success,
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              AppBadge(
+                                label: "Activated",
+                                variant: AppColorVariant.Success,
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              WebRecoverRaButton()
+                            ],
                           );
                         }
 
                         final balance = ref.watch(webSessionProvider).raBalance;
 
                         if (balance == 0) {
-                          return Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text("To activate, you must first transfer 5.0 RBX to this address."),
-                              SizedBox(
-                                height: 8,
+                          return Container(
+                            decoration: BoxDecoration(color: Colors.white.withOpacity(0.02)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    "Awaiting Funds",
+                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                  ),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  Text("To activate, you must first transfer 5.0 RBX to this address."),
+                                  SizedBox(
+                                    height: 16,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      if ((ref.watch(webSessionProvider).balance ?? 0) > 5 &&
+                                          ref.watch(webSessionProvider).keypair != null &&
+                                          ref.read(webSessionProvider).raKeypair != null)
+                                        AppButton(
+                                          label: "Fund Account",
+                                          icon: Icons.money_outlined,
+                                          onPressed: () async {
+                                            final confirmed = await ConfirmDialog.show(
+                                                title: "Fund Your Reserve Account",
+                                                body: "Would you like to send 5 RBX from ${ref.watch(webSessionProvider).keypair!.address}?",
+                                                confirmText: "Send",
+                                                cancelText: "Cancel");
+
+                                            if (confirmed == true) {
+                                              ref.read(globalLoadingProvider.notifier).start();
+
+                                              final txData = await RawTransaction.generate(
+                                                keypair: ref.read(webSessionProvider).keypair!,
+                                                amount: 5.0,
+                                                toAddress: ref.read(webSessionProvider).raKeypair!.address,
+                                                txType: TxType.rbxTransfer,
+                                              );
+
+                                              if (txData == null) {
+                                                ref.read(globalLoadingProvider.notifier).complete();
+                                                Toast.error();
+                                                return;
+                                              }
+
+                                              final tx = await RawService().sendTransaction(transactionData: txData, execute: true, widgetRef: ref);
+                                              if (tx != null) {
+                                                if (tx['Result'] == "Success") {
+                                                  Toast.message("5 RBX sent to ${ref.read(webSessionProvider).raKeypair!.address}");
+                                                  ref.read(globalLoadingProvider.notifier).complete();
+
+                                                  return;
+                                                }
+                                              }
+
+                                              Toast.error();
+                                              ref.read(globalLoadingProvider.notifier).complete();
+                                            }
+                                          },
+                                        ),
+                                      AppButton(
+                                        label: "Copy Address",
+                                        icon: Icons.copy,
+                                        onPressed: () async {
+                                          await Clipboard.setData(ClipboardData(text: keypair.address));
+                                          Toast.message("Address copied to clipboard");
+                                        },
+                                      ),
+                                    ],
+                                  )
+                                ],
                               ),
-                              AppButton(
-                                label: "Copy Address",
-                                icon: Icons.copy,
-                                onPressed: () async {
-                                  await Clipboard.setData(ClipboardData(text: keypair.address));
-                                  Toast.message("Address copied to clipboard");
-                                },
-                              )
-                            ],
+                            ),
                           );
                         }
 
