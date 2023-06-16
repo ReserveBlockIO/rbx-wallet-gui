@@ -37,22 +37,43 @@ Future<void> handleImportWithPrivateKey(
   BuildContext context,
   WidgetRef ref,
 ) async {
-  await PromptModal.show(
+  final privateKey = await PromptModal.show(
     contextOverride: context,
     tightPadding: true,
     title: "Import Wallet",
     validator: (String? value) => formValidatorNotEmpty(value, "Private Key"),
     labelText: "Private Key",
-    onValidSubmission: (privateKey) async {
-      await handleRememberMe(context, ref);
-      final keypair = await KeygenService.importPrivateKey(privateKey);
-      // await TransactionService().createWallet(null, keypair.address);
-      login(context, ref, keypair, null);
-      if (ref.read(webSessionProvider).isAuthenticated) {
-        AutoRouter.of(context).push(WebDashboardContainerRoute());
-      }
-    },
   );
+
+  if (privateKey != null) {
+    await handleRememberMe(context, ref);
+    final keypair = await KeygenService.importPrivateKey(privateKey);
+
+    RaKeypair? reserveKeyPair;
+    int append = 0;
+    while (true) {
+      String input = keypair.private;
+      if (input.startsWith("00")) {
+        input = input.substring(2);
+      }
+      String seed = "${input.substring(0, 32)}$append";
+
+      final kp = await KeygenService.seedToKeypair(seed);
+      if (kp == null) {
+        continue;
+      }
+
+      reserveKeyPair = await KeygenService.importReserveAccountPrivateKey(kp.private);
+
+      if (reserveKeyPair.address.startsWith("xRBX")) {
+        break;
+      }
+
+      append += 1;
+    }
+
+    await login(context, ref, keypair, reserveKeyPair);
+  }
 }
 
 Future<void> handleCreateWithEmail(
@@ -76,10 +97,10 @@ Future<void> handleCreateWithEmail(
   final upperChars = regUpperChars.hasMatch(password) ? regUpperChars.allMatches(password).length : 1;
   final upperNumbers = regNumbers.hasMatch(password) ? regNumbers.allMatches(password).length : 1;
 
-  var append = 3571;
-  final seedPriorToSha = "$seed${(chars + upperChars + upperNumbers) * password.length}";
+  // var append = 3571;
+  seed = "$seed${(chars + upperChars + upperNumbers) * password.length}3571";
 
-  seed = "$seedPriorToSha$append";
+  // seed = "${seedPriorToSha}3571";
   seed = "$seed$seed";
 
   for (int i = 0; i <= 50; i++) {
@@ -97,27 +118,21 @@ Future<void> handleCreateWithEmail(
 
   RaKeypair? reserveKeyPair;
 
+  int append = 0;
+
   while (true) {
-    seed = "$seedPriorToSha$append";
-    seed = "$seed$seed";
-
-    print("SEED: $seed");
-
-    for (int i = 0; i <= 50; i++) {
-      seed = sha256.convert(utf8.encode(seed)).toString();
+    String input = keypair.private;
+    if (input.startsWith("00")) {
+      input = input.substring(2);
     }
+    String raSeed = "${input.substring(0, 32)}$append";
 
-    final kp = await KeygenService.seedToKeypair(seed);
+    final kp = await KeygenService.seedToKeypair(raSeed);
     if (kp == null) {
-      print("kp null");
       continue;
     }
 
-    print("PRIVATE: ${kp.private}");
-
     reserveKeyPair = await KeygenService.importReserveAccountPrivateKey(kp.private);
-
-    print("ADDRESS: ${reserveKeyPair.address}");
 
     if (reserveKeyPair.address.startsWith("xRBX")) {
       break;
@@ -151,18 +166,41 @@ Future<void> handleCreateWithMnemonic(
   ref.read(globalLoadingProvider.notifier).start();
 
   await Future.delayed(const Duration(milliseconds: 300));
-
+  RaKeypair? reserveKeyPair;
   final keypair = await KeygenService.generate();
   if (keypair == null) {
     ref.read(globalLoadingProvider.notifier).complete();
     Toast.error();
     return;
   }
+  int append = 0;
+  while (true) {
+    String input = keypair.private;
+    if (input.startsWith("00")) {
+      input = input.substring(2);
+    }
+
+    String seed = "${input!.substring(0, 32)}$append";
+
+    final kp = await KeygenService.seedToKeypair(seed);
+    print(kp);
+    if (kp == null) {
+      continue;
+    }
+    reserveKeyPair = await KeygenService.importReserveAccountPrivateKey(kp.private);
+
+    if (reserveKeyPair.address.startsWith("xRBX")) {
+      break;
+    }
+
+    append += 1;
+  }
+
   ref.read(globalLoadingProvider.notifier).complete();
 
   // await TransactionService().createWallet(null, keypair.address);
 
-  login(context, ref, keypair, null);
+  login(context, ref, keypair, reserveKeyPair);
   await showKeys(context, keypair);
 }
 
@@ -213,34 +251,58 @@ Future<dynamic> handleRememberMe(BuildContext context, WidgetRef ref) async {
 }
 
 Future<dynamic> handleRecoverFromMnemonic(BuildContext context, WidgetRef ref) async {
-  return await PromptModal.show(
+  final value = await PromptModal.show(
     contextOverride: context,
     title: "Input Recovery Mnemonic",
     validator: (value) => formValidatorNotEmpty(value, "Recovery Mnemonic"),
     labelText: "Recovery Mnemonic",
     lines: 3,
     tightPadding: true,
-    onValidSubmission: (value) async {
-      await handleRememberMe(context, ref);
-      ref.read(globalLoadingProvider.notifier).start();
+  );
 
-      await Future.delayed(const Duration(milliseconds: 300));
+  if (value != null) {
+    await handleRememberMe(context, ref);
+    RaKeypair? reserveKeyPair;
+    ref.read(globalLoadingProvider.notifier).start();
 
-      final keypair = await KeygenService.recover(value.trim());
+    await Future.delayed(const Duration(milliseconds: 300));
 
-      if (keypair == null) {
-        Toast.error();
-        ref.read(globalLoadingProvider.notifier).complete();
+    final keypair = await KeygenService.recover(value.trim());
 
-        return;
-      }
+    if (keypair == null) {
+      Toast.error();
       ref.read(globalLoadingProvider.notifier).complete();
 
-      // showKeys(context, keypair);
-      // await TransactionService().createWallet(null, keypair.address);
-      login(context, ref, keypair, null);
-    },
-  );
+      return;
+    }
+    int append = 0;
+    while (true) {
+      String input = keypair.private;
+      if (input.startsWith("00")) {
+        input = input.substring(2);
+      }
+
+      String seed = "${input.substring(0, 32)}$append";
+      final kp = await KeygenService.seedToKeypair(seed);
+      if (kp == null) {
+        continue;
+      }
+      reserveKeyPair = await KeygenService.importReserveAccountPrivateKey(kp.private);
+
+      if (reserveKeyPair.address.startsWith("xRBX")) {
+        print(reserveKeyPair.address);
+        break;
+      }
+
+      append += 1;
+    }
+
+    ref.read(globalLoadingProvider.notifier).complete();
+
+    // showKeys(context, keypair);
+    // await TransactionService().createWallet(null, keypair.address);
+    await login(context, ref, keypair, reserveKeyPair);
+  }
 }
 
 Future<void> showKeys(
