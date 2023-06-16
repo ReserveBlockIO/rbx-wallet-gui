@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/breakpoints.dart';
 import 'package:rbx_wallet/features/web/components/web_ra_mode_switcher.dart';
 import '../../../core/components/centered_loader.dart';
 

@@ -13,6 +13,7 @@ import 'package:rbx_wallet/features/keygen/models/ra_keypair.dart';
 import 'package:rbx_wallet/features/raw/raw_service.dart';
 import 'package:rbx_wallet/features/web/components/web_activate_ra_button.dart';
 import 'package:rbx_wallet/features/web/components/web_recover_ra_button.dart';
+import 'package:rbx_wallet/features/web/components/web_restore_ra_button.dart';
 import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
 import 'package:rbx_wallet/utils/toast.dart';
@@ -208,7 +209,9 @@ class WebReserveAccountOverviewScreen extends BaseScreen {
                         return WebActivateRaButton();
                       },
                     ),
-                  )
+                  ),
+                  SizedBox(height: 16),
+                  WebRestoreRaButton(),
                 ],
               )
           ],

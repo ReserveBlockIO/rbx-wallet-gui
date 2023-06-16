@@ -180,7 +180,7 @@ Future<void> handleCreateWithMnemonic(
       input = input.substring(2);
     }
 
-    String seed = "${input!.substring(0, 32)}$append";
+    String seed = "${input.substring(0, 32)}$append";
 
     final kp = await KeygenService.seedToKeypair(seed);
     print(kp);

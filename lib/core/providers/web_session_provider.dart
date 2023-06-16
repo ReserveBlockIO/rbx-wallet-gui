@@ -87,6 +87,10 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     ref.read(nftListProvider.notifier).load(1);
   }
 
+  void setRaKeypair(RaKeypair keypair) {
+    state = state.copyWith(raKeypair: keypair);
+  }
+
   void loop() async {
     getAddress();
     getRaAddress();

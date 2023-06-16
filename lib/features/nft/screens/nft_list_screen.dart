@@ -40,27 +40,28 @@ class NftListScreen extends BaseScreen {
           mainAxisSize: MainAxisSize.min,
           children: [
             if (kIsWeb) WebRaModeSwitcher(),
-            AppButton(
-              type: AppButtonType.Text,
-              label: "Import NFT",
-              variant: AppColorVariant.Light,
-              onPressed: () async {
-                final scId = await PromptModal.show(
-                  title: "Smart Contract Identifier",
-                  body: "Paste in the smart contract's unique identifier.",
-                  validator: (val) => formValidatorNotEmpty(val, "Identifier"),
-                  labelText: "Identifier",
-                );
+            if (!kIsWeb)
+              AppButton(
+                type: AppButtonType.Text,
+                label: "Import NFT",
+                variant: AppColorVariant.Light,
+                onPressed: () async {
+                  final scId = await PromptModal.show(
+                    title: "Smart Contract Identifier",
+                    body: "Paste in the smart contract's unique identifier.",
+                    validator: (val) => formValidatorNotEmpty(val, "Identifier"),
+                    labelText: "Identifier",
+                  );
 
-                if (scId != null && scId.isNotEmpty) {
-                  final success = await NftService().importFromNetwork(scId);
-                  if (success) {
-                    ref.read(sessionProvider.notifier).smartContractLoop(false);
-                    Toast.message("Smart Contract imported from network");
+                  if (scId != null && scId.isNotEmpty) {
+                    final success = await NftService().importFromNetwork(scId);
+                    if (success) {
+                      ref.read(sessionProvider.notifier).smartContractLoop(false);
+                      Toast.message("Smart Contract imported from network");
+                    }
                   }
-                }
-              },
-            ),
+                },
+              ),
             IconButton(
               onPressed: () {
                 _provider.setGrid();

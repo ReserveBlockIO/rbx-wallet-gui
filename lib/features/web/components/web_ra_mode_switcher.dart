@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
+import 'package:rbx_wallet/core/breakpoints.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/utils/toast.dart';
@@ -22,6 +23,13 @@ class WebRaModeSwitcher extends BaseComponent {
     }
     final color = usingRa ? Colors.deepPurple.shade200 : Colors.white;
     final selectedAddress = usingRa ? raAddress : primaryAddress;
+    final fontSize = BreakPoints.useMobileLayout(context) ? 12.0 : 14.0;
+
+    final start = selectedAddress.substring(0, 5);
+    final end = selectedAddress.substring(selectedAddress.length - 5, selectedAddress.length);
+    final truncatedAddress = "$start...$end";
+
+    final selectedAddressLabel = BreakPoints.useMobileLayout(context) ? truncatedAddress : selectedAddress;
 
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -49,8 +57,8 @@ class WebRaModeSwitcher extends BaseComponent {
           child: Row(
             children: [
               Text(
-                selectedAddress,
-                style: TextStyle(color: color),
+                selectedAddressLabel,
+                style: TextStyle(color: color, fontSize: fontSize),
               ),
               Icon(
                 Icons.arrow_drop_down,
@@ -70,7 +78,10 @@ class WebRaModeSwitcher extends BaseComponent {
                     !usingRa ? Icons.check_box_rounded : Icons.check_box_outline_blank_outlined,
                   ),
                   SizedBox(width: 6),
-                  Text(primaryAddress),
+                  Text(
+                    primaryAddress,
+                    style: TextStyle(fontSize: fontSize),
+                  ),
                 ],
               ),
               onTap: () {
@@ -90,7 +101,7 @@ class WebRaModeSwitcher extends BaseComponent {
                   Expanded(
                     child: Text(
                       raAddress,
-                      style: TextStyle(color: Colors.deepPurple.shade200),
+                      style: TextStyle(color: Colors.deepPurple.shade200, fontSize: fontSize),
                     ),
                   ),
                   SizedBox(width: 6),
