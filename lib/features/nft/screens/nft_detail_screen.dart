@@ -890,6 +890,19 @@ class NftDetailScreen extends BaseScreen {
                               }
 
                               if (!await passwordRequiredGuard(context, ref)) return;
+
+                              if (kIsWeb) {
+                                if (ref.read(webSessionProvider).usingRa) {
+                                  Toast.error("Reserve Accounts cannot burn NFTs");
+                                  return;
+                                }
+                              } else {
+                                if (ref.read(sessionProvider).currentWallet?.isReserved == true) {
+                                  Toast.error("Reserve Accounts cannot burn NFTs");
+                                  return;
+                                }
+                              }
+
                               final confirmed = await ConfirmDialog.show(
                                 title: "Burn NFT?",
                                 body: "Are you sure you want to burn ${nft.name}",

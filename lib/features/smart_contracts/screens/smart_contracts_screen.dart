@@ -81,7 +81,7 @@ class SmartContractsScreen extends BaseScreen {
                     }
 
                     if (ref.read(sessionProvider).currentWallet?.isReserved == true) {
-                      Toast.error("Reserve Accounts cannot mint Smart Contracts");
+                      Toast.error("Reserve Accounts cannot mint smart contracts");
                       return;
                     }
 
