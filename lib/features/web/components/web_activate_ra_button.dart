@@ -20,148 +20,156 @@ class WebActivateRaButton extends BaseComponent {
   Widget build(BuildContext context, WidgetRef ref) {
     final keypair = ref.watch(webSessionProvider).raKeypair;
 
+    bool hasActivated = false;
+
     if (keypair == null) {
       return SizedBox();
     }
 
-    return AppButton(
-      label: "Activate Now",
-      variant: AppColorVariant.Light,
-      onPressed: () async {
-        final loadingProvider = ref.read(globalLoadingProvider.notifier);
+    return StatefulBuilder(builder: (context, setState) {
+      return AppButton(
+        label: "Activate Now",
+        disabled: hasActivated,
+        variant: AppColorVariant.Light,
+        onPressed: () async {
+          final loadingProvider = ref.read(globalLoadingProvider.notifier);
 
-        final confirmed = await ConfirmDialog.show(
-          title: "Activate Reserve Account?",
-          body: "There is a cost of $RA_ACTIVATION_COST RBX to activate your reserve account which is burned.\n\nContinue?",
-          confirmText: "Activate",
-          cancelText: "Canacel",
-        );
+          final confirmed = await ConfirmDialog.show(
+            title: "Activate Reserve Account?",
+            body: "There is a cost of $RA_ACTIVATION_COST RBX to activate your reserve account which is burned.\n\nContinue?",
+            confirmText: "Activate",
+            cancelText: "Canacel",
+          );
 
-        if (confirmed != true) {
-          return null;
-        }
-
-        loadingProvider.start();
-
-        final txService = RawService();
-
-        final timestamp = await txService.getTimestamp();
-
-        if (timestamp == null) {
-          Toast.error("Failed to retrieve timestamp");
-          loadingProvider.complete();
-          return false;
-        }
-
-        final nonce = await txService.getNonce(keypair.address);
-        if (nonce == null) {
-          Toast.error("Failed to retrieve nonce");
-          loadingProvider.complete();
-          return false;
-        }
-
-        final data = {
-          "Function": "Register()",
-          "RecoveryAddress": keypair.recoveryAddress,
-        };
-
-        var txData = RawTransaction.buildTransaction(
-          amount: RA_ACTIVATION_COST,
-          type: TxType.reserve,
-          toAddress: "Reserve_Base",
-          fromAddress: keypair.address,
-          timestamp: timestamp,
-          nonce: nonce,
-          data: data,
-        );
-
-        final fee = await txService.getFee(txData);
-
-        if (fee == null) {
-          Toast.error("Failed to parse fee");
-          loadingProvider.complete();
-          return false;
-        }
-
-        txData = RawTransaction.buildTransaction(
-          amount: RA_ACTIVATION_COST,
-          type: TxType.reserve,
-          toAddress: "Reserve_Base",
-          fromAddress: keypair.address,
-          timestamp: timestamp,
-          nonce: nonce,
-          data: data,
-          fee: fee,
-        );
-
-        final hash = (await txService.getHash(txData));
-        if (hash == null) {
-          Toast.error("Failed to parse hash");
-          loadingProvider.complete();
-          return false;
-        }
-
-        final signature = await RawTransaction.getSignature(message: hash, privateKey: keypair.private, publicKey: keypair.public);
-        if (signature == null) {
-          Toast.error("Signature generation failed.");
-          loadingProvider.complete();
-          return false;
-        }
-
-        final isValid = await txService.validateSignature(
-          hash,
-          keypair.address,
-          signature,
-        );
-
-        if (!isValid) {
-          Toast.error("Signature not valid");
-          loadingProvider.complete();
-          return false;
-        }
-
-        txData = RawTransaction.buildTransaction(
-          amount: RA_ACTIVATION_COST,
-          type: TxType.reserve,
-          toAddress: "Reserve_Base",
-          fromAddress: keypair.address,
-          timestamp: timestamp,
-          nonce: nonce,
-          data: data,
-          fee: fee,
-          hash: hash,
-          signature: signature,
-        );
-
-        final verifyTransactionData = (await txService.sendTransaction(
-          transactionData: txData,
-          execute: false,
-        ));
-
-        if (verifyTransactionData == null) {
-          Toast.error("Transaction not valid");
-          loadingProvider.complete();
-          return false;
-        }
-
-        final tx = await RawService().sendTransaction(
-          transactionData: txData,
-          execute: true,
-          widgetRef: ref,
-        );
-
-        if (tx != null) {
-          if (tx['Result'] == "Success") {
-            Toast.message("Activation transaction broadcasted");
-            loadingProvider.complete();
-            return true;
+          if (confirmed != true) {
+            return null;
           }
-        }
 
-        Toast.error();
-        loadingProvider.complete();
-        return false;
-      },
-    );
+          loadingProvider.start();
+
+          final txService = RawService();
+
+          final timestamp = await txService.getTimestamp();
+
+          if (timestamp == null) {
+            Toast.error("Failed to retrieve timestamp");
+            loadingProvider.complete();
+            return false;
+          }
+
+          final nonce = await txService.getNonce(keypair.address);
+          if (nonce == null) {
+            Toast.error("Failed to retrieve nonce");
+            loadingProvider.complete();
+            return false;
+          }
+
+          final data = {
+            "Function": "Register()",
+            "RecoveryAddress": keypair.recoveryAddress,
+          };
+
+          var txData = RawTransaction.buildTransaction(
+            amount: RA_ACTIVATION_COST,
+            type: TxType.reserve,
+            toAddress: "Reserve_Base",
+            fromAddress: keypair.address,
+            timestamp: timestamp,
+            nonce: nonce,
+            data: data,
+          );
+
+          final fee = await txService.getFee(txData);
+
+          if (fee == null) {
+            Toast.error("Failed to parse fee");
+            loadingProvider.complete();
+            return false;
+          }
+
+          txData = RawTransaction.buildTransaction(
+            amount: RA_ACTIVATION_COST,
+            type: TxType.reserve,
+            toAddress: "Reserve_Base",
+            fromAddress: keypair.address,
+            timestamp: timestamp,
+            nonce: nonce,
+            data: data,
+            fee: fee,
+          );
+
+          final hash = (await txService.getHash(txData));
+          if (hash == null) {
+            Toast.error("Failed to parse hash");
+            loadingProvider.complete();
+            return false;
+          }
+
+          final signature = await RawTransaction.getSignature(message: hash, privateKey: keypair.private, publicKey: keypair.public);
+          if (signature == null) {
+            Toast.error("Signature generation failed.");
+            loadingProvider.complete();
+            return false;
+          }
+
+          final isValid = await txService.validateSignature(
+            hash,
+            keypair.address,
+            signature,
+          );
+
+          if (!isValid) {
+            Toast.error("Signature not valid");
+            loadingProvider.complete();
+            return false;
+          }
+
+          txData = RawTransaction.buildTransaction(
+            amount: RA_ACTIVATION_COST,
+            type: TxType.reserve,
+            toAddress: "Reserve_Base",
+            fromAddress: keypair.address,
+            timestamp: timestamp,
+            nonce: nonce,
+            data: data,
+            fee: fee,
+            hash: hash,
+            signature: signature,
+          );
+
+          final verifyTransactionData = (await txService.sendTransaction(
+            transactionData: txData,
+            execute: false,
+          ));
+
+          if (verifyTransactionData == null) {
+            Toast.error("Transaction not valid");
+            loadingProvider.complete();
+            return false;
+          }
+
+          final tx = await RawService().sendTransaction(
+            transactionData: txData,
+            execute: true,
+            widgetRef: ref,
+          );
+
+          if (tx != null) {
+            if (tx['Result'] == "Success") {
+              Toast.message("Activation transaction broadcasted");
+              loadingProvider.complete();
+              setState(() {
+                hasActivated = true;
+              });
+              return true;
+            }
+          }
+
+          Toast.error();
+          loadingProvider.complete();
+          return false;
+        },
+      );
+    });
   }
 }

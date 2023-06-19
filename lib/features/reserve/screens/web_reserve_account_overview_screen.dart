@@ -12,6 +12,7 @@ import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/keygen/models/ra_keypair.dart';
 import 'package:rbx_wallet/features/raw/raw_service.dart';
 import 'package:rbx_wallet/features/web/components/web_activate_ra_button.dart';
+import 'package:rbx_wallet/features/web/components/web_fund_ra_account_button.dart';
 import 'package:rbx_wallet/features/web/components/web_recover_ra_button.dart';
 import 'package:rbx_wallet/features/web/components/web_restore_ra_button.dart';
 import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
@@ -149,47 +150,7 @@ class WebReserveAccountOverviewScreen extends BaseScreen {
                                       if ((ref.watch(webSessionProvider).balance ?? 0) > 5 &&
                                           ref.watch(webSessionProvider).keypair != null &&
                                           ref.read(webSessionProvider).raKeypair != null)
-                                        AppButton(
-                                          label: "Fund Account",
-                                          icon: Icons.money_outlined,
-                                          onPressed: () async {
-                                            final confirmed = await ConfirmDialog.show(
-                                                title: "Fund Your Reserve Account",
-                                                body: "Would you like to send 5 RBX from ${ref.watch(webSessionProvider).keypair!.address}?",
-                                                confirmText: "Send",
-                                                cancelText: "Cancel");
-
-                                            if (confirmed == true) {
-                                              ref.read(globalLoadingProvider.notifier).start();
-
-                                              final txData = await RawTransaction.generate(
-                                                keypair: ref.read(webSessionProvider).keypair!,
-                                                amount: 5.0,
-                                                toAddress: ref.read(webSessionProvider).raKeypair!.address,
-                                                txType: TxType.rbxTransfer,
-                                              );
-
-                                              if (txData == null) {
-                                                ref.read(globalLoadingProvider.notifier).complete();
-                                                Toast.error();
-                                                return;
-                                              }
-
-                                              final tx = await RawService().sendTransaction(transactionData: txData, execute: true, widgetRef: ref);
-                                              if (tx != null) {
-                                                if (tx['Result'] == "Success") {
-                                                  Toast.message("5 RBX sent to ${ref.read(webSessionProvider).raKeypair!.address}");
-                                                  ref.read(globalLoadingProvider.notifier).complete();
-
-                                                  return;
-                                                }
-                                              }
-
-                                              Toast.error();
-                                              ref.read(globalLoadingProvider.notifier).complete();
-                                            }
-                                          },
-                                        ),
+                                        WebFundRaAccountButton(),
                                       AppButton(
                                         label: "Copy Address",
                                         icon: Icons.copy,
