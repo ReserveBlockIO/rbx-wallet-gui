@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
+import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:flutter/material.dart';
@@ -27,9 +28,15 @@ class WebActivateRaButton extends BaseComponent {
       return SizedBox();
     }
 
+    if (hasActivated) {
+      return AppBadge(
+        label: "Pending Activation",
+        variant: AppColorVariant.Warning,
+      );
+    }
+
     return AppButton(
       label: "Activate Now",
-      disabled: hasActivated,
       variant: AppColorVariant.Light,
       onPressed: () async {
         final loadingProvider = ref.read(globalLoadingProvider.notifier);
