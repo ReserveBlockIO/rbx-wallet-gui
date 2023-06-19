@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import '../../web/models/web_recovery_details.dart';
 import 'transaction.dart';
 
 part 'web_transaction.freezed.dart';
@@ -28,6 +29,7 @@ class WebTransaction with _$WebTransaction {
     // required String signature,
     required int height,
     @JsonKey(name: "callback_details") WebTransaction? callbackDetails,
+    @JsonKey(name: "recovery_details") WebRecoveryDetails? recoveryDetails,
   }) = _WebTransaction;
 
   factory WebTransaction.fromJson(Map<String, dynamic> json) => _$WebTransactionFromJson(json);

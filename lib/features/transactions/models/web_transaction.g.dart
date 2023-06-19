@@ -25,6 +25,10 @@ _$_WebTransaction _$$_WebTransactionFromJson(Map<String, dynamic> json) =>
           ? null
           : WebTransaction.fromJson(
               json['callback_details'] as Map<String, dynamic>),
+      recoveryDetails: json['recovery_details'] == null
+          ? null
+          : WebRecoveryDetails.fromJson(
+              json['recovery_details'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_WebTransactionToJson(_$_WebTransaction instance) =>
@@ -41,4 +45,5 @@ Map<String, dynamic> _$$_WebTransactionToJson(_$_WebTransaction instance) =>
       'data': instance.data,
       'height': instance.height,
       'callback_details': instance.callbackDetails,
+      'recovery_details': instance.recoveryDetails,
     };

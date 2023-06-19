@@ -42,6 +42,8 @@ mixin _$WebTransaction {
   int get height => throw _privateConstructorUsedError;
   @JsonKey(name: "callback_details")
   WebTransaction? get callbackDetails => throw _privateConstructorUsedError;
+  @JsonKey(name: "recovery_details")
+  WebRecoveryDetails? get recoveryDetails => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -67,9 +69,11 @@ abstract class $WebTransactionCopyWith<$Res> {
       bool isPending,
       String? data,
       int height,
-      @JsonKey(name: "callback_details") WebTransaction? callbackDetails});
+      @JsonKey(name: "callback_details") WebTransaction? callbackDetails,
+      @JsonKey(name: "recovery_details") WebRecoveryDetails? recoveryDetails});
 
   $WebTransactionCopyWith<$Res>? get callbackDetails;
+  $WebRecoveryDetailsCopyWith<$Res>? get recoveryDetails;
 }
 
 /// @nodoc
@@ -97,6 +101,7 @@ class _$WebTransactionCopyWithImpl<$Res, $Val extends WebTransaction>
     Object? data = freezed,
     Object? height = null,
     Object? callbackDetails = freezed,
+    Object? recoveryDetails = freezed,
   }) {
     return _then(_value.copyWith(
       hash: null == hash
@@ -147,6 +152,10 @@ class _$WebTransactionCopyWithImpl<$Res, $Val extends WebTransaction>
           ? _value.callbackDetails
           : callbackDetails // ignore: cast_nullable_to_non_nullable
               as WebTransaction?,
+      recoveryDetails: freezed == recoveryDetails
+          ? _value.recoveryDetails
+          : recoveryDetails // ignore: cast_nullable_to_non_nullable
+              as WebRecoveryDetails?,
     ) as $Val);
   }
 
@@ -159,6 +168,18 @@ class _$WebTransactionCopyWithImpl<$Res, $Val extends WebTransaction>
 
     return $WebTransactionCopyWith<$Res>(_value.callbackDetails!, (value) {
       return _then(_value.copyWith(callbackDetails: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $WebRecoveryDetailsCopyWith<$Res>? get recoveryDetails {
+    if (_value.recoveryDetails == null) {
+      return null;
+    }
+
+    return $WebRecoveryDetailsCopyWith<$Res>(_value.recoveryDetails!, (value) {
+      return _then(_value.copyWith(recoveryDetails: value) as $Val);
     });
   }
 }
@@ -183,10 +204,13 @@ abstract class _$$_WebTransactionCopyWith<$Res>
       bool isPending,
       String? data,
       int height,
-      @JsonKey(name: "callback_details") WebTransaction? callbackDetails});
+      @JsonKey(name: "callback_details") WebTransaction? callbackDetails,
+      @JsonKey(name: "recovery_details") WebRecoveryDetails? recoveryDetails});
 
   @override
   $WebTransactionCopyWith<$Res>? get callbackDetails;
+  @override
+  $WebRecoveryDetailsCopyWith<$Res>? get recoveryDetails;
 }
 
 /// @nodoc
@@ -212,6 +236,7 @@ class __$$_WebTransactionCopyWithImpl<$Res>
     Object? data = freezed,
     Object? height = null,
     Object? callbackDetails = freezed,
+    Object? recoveryDetails = freezed,
   }) {
     return _then(_$_WebTransaction(
       hash: null == hash
@@ -262,6 +287,10 @@ class __$$_WebTransactionCopyWithImpl<$Res>
           ? _value.callbackDetails
           : callbackDetails // ignore: cast_nullable_to_non_nullable
               as WebTransaction?,
+      recoveryDetails: freezed == recoveryDetails
+          ? _value.recoveryDetails
+          : recoveryDetails // ignore: cast_nullable_to_non_nullable
+              as WebRecoveryDetails?,
     ));
   }
 }
@@ -281,7 +310,8 @@ class _$_WebTransaction extends _WebTransaction {
       this.isPending = false,
       this.data,
       required this.height,
-      @JsonKey(name: "callback_details") this.callbackDetails})
+      @JsonKey(name: "callback_details") this.callbackDetails,
+      @JsonKey(name: "recovery_details") this.recoveryDetails})
       : super._();
 
   factory _$_WebTransaction.fromJson(Map<String, dynamic> json) =>
@@ -322,10 +352,13 @@ class _$_WebTransaction extends _WebTransaction {
   @override
   @JsonKey(name: "callback_details")
   final WebTransaction? callbackDetails;
+  @override
+  @JsonKey(name: "recovery_details")
+  final WebRecoveryDetails? recoveryDetails;
 
   @override
   String toString() {
-    return 'WebTransaction(hash: $hash, toAddress: $toAddress, fromAddress: $fromAddress, type: $type, amount: $amount, fee: $fee, date: $date, unlockTime: $unlockTime, isPending: $isPending, data: $data, height: $height, callbackDetails: $callbackDetails)';
+    return 'WebTransaction(hash: $hash, toAddress: $toAddress, fromAddress: $fromAddress, type: $type, amount: $amount, fee: $fee, date: $date, unlockTime: $unlockTime, isPending: $isPending, data: $data, height: $height, callbackDetails: $callbackDetails, recoveryDetails: $recoveryDetails)';
   }
 
   @override
@@ -349,7 +382,9 @@ class _$_WebTransaction extends _WebTransaction {
             (identical(other.data, data) || other.data == data) &&
             (identical(other.height, height) || other.height == height) &&
             (identical(other.callbackDetails, callbackDetails) ||
-                other.callbackDetails == callbackDetails));
+                other.callbackDetails == callbackDetails) &&
+            (identical(other.recoveryDetails, recoveryDetails) ||
+                other.recoveryDetails == recoveryDetails));
   }
 
   @JsonKey(ignore: true)
@@ -367,7 +402,8 @@ class _$_WebTransaction extends _WebTransaction {
       isPending,
       data,
       height,
-      callbackDetails);
+      callbackDetails,
+      recoveryDetails);
 
   @JsonKey(ignore: true)
   @override
@@ -403,7 +439,9 @@ abstract class _WebTransaction extends WebTransaction {
       final String? data,
       required final int height,
       @JsonKey(name: "callback_details")
-          final WebTransaction? callbackDetails}) = _$_WebTransaction;
+          final WebTransaction? callbackDetails,
+      @JsonKey(name: "recovery_details")
+          final WebRecoveryDetails? recoveryDetails}) = _$_WebTransaction;
   _WebTransaction._() : super._();
 
   factory _WebTransaction.fromJson(Map<String, dynamic> json) =
@@ -441,6 +479,9 @@ abstract class _WebTransaction extends WebTransaction {
   @override
   @JsonKey(name: "callback_details")
   WebTransaction? get callbackDetails;
+  @override
+  @JsonKey(name: "recovery_details")
+  WebRecoveryDetails? get recoveryDetails;
   @override
   @JsonKey(ignore: true)
   _$$_WebTransactionCopyWith<_$_WebTransaction> get copyWith =>
