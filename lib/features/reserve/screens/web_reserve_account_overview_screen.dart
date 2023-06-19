@@ -15,6 +15,7 @@ import 'package:rbx_wallet/features/web/components/web_activate_ra_button.dart';
 import 'package:rbx_wallet/features/web/components/web_fund_ra_account_button.dart';
 import 'package:rbx_wallet/features/web/components/web_recover_ra_button.dart';
 import 'package:rbx_wallet/features/web/components/web_restore_ra_button.dart';
+import 'package:rbx_wallet/features/web/providers/web_ra_pending_recovery_provider.dart';
 import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
 import 'package:rbx_wallet/utils/toast.dart';
@@ -107,6 +108,36 @@ class WebReserveAccountOverviewScreen extends BaseScreen {
                     padding: const EdgeInsets.all(8.0),
                     child: Builder(
                       builder: (context) {
+                        final hasRecovered = ref.watch(webRaPendingRecoveryProvider).contains(keypair.address);
+
+                        if (hasRecovered) {
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                "Recovery In Progress",
+                                style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.white),
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              SelectableText(
+                                "Your Reserve (Protected) Account is being recovered to your recovery address.\nAll non-settled transactions for funds and NFTs will be transferred as well as your current available balance.\nIt is recommended you import your recovery private key into a new machine.",
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(
+                                height: 12,
+                              ),
+                              AppButton(
+                                label: "Reveal Keys",
+                                onPressed: () {
+                                  showRaKeys(context, keypair);
+                                },
+                              )
+                            ],
+                          );
+                        }
+
                         if (ref.watch(webSessionProvider).raActivated) {
                           return Column(
                             mainAxisSize: MainAxisSize.min,
