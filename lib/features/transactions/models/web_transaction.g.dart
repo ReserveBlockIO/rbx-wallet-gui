@@ -21,6 +21,10 @@ _$_WebTransaction _$$_WebTransactionFromJson(Map<String, dynamic> json) =>
       isPending: json['isPending'] as bool? ?? false,
       data: json['data'] as String?,
       height: json['height'] as int,
+      callbackDetails: json['callback_details'] == null
+          ? null
+          : WebTransaction.fromJson(
+              json['callback_details'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_WebTransactionToJson(_$_WebTransaction instance) =>
@@ -36,4 +40,5 @@ Map<String, dynamic> _$$_WebTransactionToJson(_$_WebTransaction instance) =>
       'isPending': instance.isPending,
       'data': instance.data,
       'height': instance.height,
+      'callback_details': instance.callbackDetails,
     };

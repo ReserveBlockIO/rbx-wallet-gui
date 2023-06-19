@@ -45,7 +45,12 @@ class WebTransactionCard extends BaseComponent {
             : Theme.of(context).colorScheme.danger
         : Colors.white;
 
-    final text = tx.type == TxType.rbxTransfer ? "${tx.amount} RBX" : tx.typeLabel;
+    String text = tx.type == TxType.rbxTransfer ? "${tx.amount} RBX" : tx.typeLabel;
+
+    if (tx.callbackDetails != null) {
+      final cb = tx.callbackDetails!;
+      text = "$text [${cb.amount} RBX from ${cb.toAddress}]";
+    }
 
     return Padding(
       padding: const EdgeInsets.all(6.0),

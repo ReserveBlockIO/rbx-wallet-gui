@@ -27,6 +27,7 @@ class WebTransaction with _$WebTransaction {
     String? data,
     // required String signature,
     required int height,
+    @JsonKey(name: "callback_details") WebTransaction? callbackDetails,
   }) = _WebTransaction;
 
   factory WebTransaction.fromJson(Map<String, dynamic> json) => _$WebTransactionFromJson(json);
