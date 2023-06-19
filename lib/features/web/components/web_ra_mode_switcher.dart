@@ -14,7 +14,7 @@ class WebRaModeSwitcher extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final session = ref.watch(webSessionProvider);
-    final primaryAddress = session.currentWallet?.address;
+    final primaryAddress = session.keypair?.address;
     final raAddress = session.raKeypair?.address;
     final usingRa = session.usingRa;
 
