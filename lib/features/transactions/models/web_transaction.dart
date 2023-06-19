@@ -73,7 +73,19 @@ class WebTransaction with _$WebTransaction {
       return amount;
     }
 
-    return 0;
+    return null;
+  }
+
+  String? get callbackHash {
+    if (type != 10) {
+      return null;
+    }
+
+    if (nftDataValue('Function') == "CallBack()") {
+      return nftDataValue("Hash");
+    }
+
+    return null;
   }
 
   String get typeLabel {
