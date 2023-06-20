@@ -300,11 +300,14 @@ class $AssetsJsGen {
   /// File path: assets/js/keygen-v2.js
   String get keygenV2 => 'assets/js/keygen-v2.js';
 
+  /// File path: assets/js/keygen-v3.js
+  String get keygenV3 => 'assets/js/keygen-v3.js';
+
   /// File path: assets/js/keygen.js
   String get keygen => 'assets/js/keygen.js';
 
   /// List of all assets
-  List<String> get values => [keygenV2, keygen];
+  List<String> get values => [keygenV2, keygenV3, keygen];
 }
 
 class Assets {

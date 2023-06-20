@@ -160,18 +160,25 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     return false;
   }
 
-  Future<bool?> transferWebOut(String toAddress) async {
-    final keypair = ref.read(webSessionProvider).keypair;
-    if (keypair == null) {
-      return false;
+  Future<bool?> transferWebOut(String toAddress, int? unlockHours) async {
+    final keyPair = ref.read(webSessionProvider).keypair;
+    final raKeypair = ref.read(webSessionProvider).raKeypair;
+    final usingRa = ref.read(webSessionProvider).usingRa;
+    final address = !usingRa ? keyPair?.address : raKeypair?.address;
+    final private = !usingRa ? keyPair?.private : raKeypair?.private;
+    final public = !usingRa ? keyPair?.public : raKeypair?.public;
+
+    if (address == null || private == null || public == null) {
+      Toast.error("No wallet");
+      return null;
     }
 
     final message = id;
 
     final beaconSignature = await RawTransaction.getSignature(
       message: message,
-      privateKey: keypair.private,
-      publicKey: keypair.public,
+      privateKey: private,
+      publicKey: public,
     );
 
     if (beaconSignature == null) {
@@ -195,7 +202,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       return false;
     }
 
-    final nonce = await txService.getNonce(keypair.address);
+    final nonce = await txService.getNonce(address);
     if (nonce == null) {
       Toast.error("Failed to retrieve nonce");
       return false;
@@ -204,15 +211,17 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     final nftTransferData = await txService.nftTransferData(id, toAddress, locator);
     print("NFT Transfer data: $nftTransferData");
 
+    final unlockTimestamp = unlockHours != null ? (DateTime.now().add(Duration(hours: unlockHours)).millisecondsSinceEpoch / 1000).round() : null;
+
     var txData = RawTransaction.buildTransaction(
-      amount: 0.0,
-      type: TxType.nftTx,
-      toAddress: toAddress,
-      fromAddress: keypair.address,
-      timestamp: timestamp,
-      nonce: nonce,
-      data: nftTransferData,
-    );
+        amount: 0.0,
+        type: TxType.nftTx,
+        toAddress: toAddress,
+        fromAddress: address,
+        timestamp: timestamp,
+        nonce: nonce,
+        data: nftTransferData,
+        unlockTimestamp: unlockTimestamp);
 
     final fee = await txService.getFee(txData);
 
@@ -225,11 +234,12 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       amount: 0.0,
       type: TxType.nftTx,
       toAddress: toAddress,
-      fromAddress: keypair.address,
+      fromAddress: address,
       timestamp: timestamp,
       nonce: nonce,
       data: nftTransferData,
       fee: fee,
+      unlockTimestamp: unlockTimestamp,
     );
 
     final hash = await txService.getHash(txData);
@@ -239,7 +249,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       return null;
     }
 
-    final signature = await RawTransaction.getSignature(message: hash, privateKey: keypair.private, publicKey: keypair.public);
+    final signature = await RawTransaction.getSignature(message: hash, privateKey: private, publicKey: public);
     if (signature == null) {
       Toast.error("Signature generation failed.");
       return false;
@@ -247,7 +257,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
 
     final isValid = await txService.validateSignature(
       hash,
-      keypair.address,
+      address,
       signature,
     );
 
@@ -260,13 +270,14 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       amount: 0.0,
       type: TxType.nftTx,
       toAddress: toAddress,
-      fromAddress: keypair.address,
+      fromAddress: address,
       timestamp: timestamp,
       nonce: nonce,
       data: nftTransferData,
       fee: fee,
       hash: hash,
       signature: signature,
+      unlockTimestamp: unlockTimestamp,
     );
 
     final verifyTransactionData = await txService.sendTransaction(

@@ -274,7 +274,7 @@ class PromptModal {
     String? prefixText,
   }) async {
     // final context = rootNavigatorKey.currentContext!;
-    final context = contextOverride ?? rootScaffoldKey.currentContext!;
+    final context = contextOverride ?? rootNavigatorKey.currentContext!;
 
     final GlobalKey<FormState> _formKey = GlobalKey();
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/web/components/web_ra_mode_switcher.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/components/buttons.dart';
@@ -29,6 +30,7 @@ class WebReceiveScreen extends BaseScreen {
       title: const Text("Receive"),
       backgroundColor: Colors.black,
       shadowColor: Colors.transparent,
+      actions: [WebRaModeSwitcher()],
     );
   }
 
@@ -62,7 +64,8 @@ class WebReceiveScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final address = ref.watch(webSessionProvider).keypair?.address;
+    final address = ref.watch(webSessionProvider).currentWallet?.address;
+    final usingRa = ref.watch(webSessionProvider).usingRa;
     final adnr = ref.watch(webSessionProvider).adnr;
 
     if (address == null) {
@@ -72,26 +75,29 @@ class WebReceiveScreen extends BaseScreen {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            decoration: BoxDecoration(
-              boxShadow: glowingBox,
-            ),
-            child: Card(
-              color: Colors.black87,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: 500),
-                      child: TextFormField(
-                        initialValue: address,
-                        readOnly: true,
-                        decoration: InputDecoration(
-                          label: const Text("Your Address"),
-                          border: InputBorder.none,
-                          suffixIcon: IconButton(
+          ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 650),
+            child: Container(
+              decoration: BoxDecoration(
+                boxShadow: glowingBox,
+              ),
+              child: Card(
+                color: Colors.black87,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 500),
+                        child: ListTile(
+                          title: SelectableText(
+                            address,
+                            style: TextStyle(color: usingRa ? Colors.deepPurple.shade200 : Colors.white),
+                          ),
+                          subtitle: Text("Your Address"),
+                          leading: Icon(Icons.wallet),
+                          trailing: IconButton(
                             icon: const Icon(Icons.copy),
                             onPressed: () {
                               copyToClipboard(address);
@@ -99,22 +105,18 @@ class WebReceiveScreen extends BaseScreen {
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      "This is the address the sender needs to send funds to.",
-                      style: Theme.of(context).textTheme.caption,
-                    ),
-                    if (adnr != null && adnr.isNotEmpty) ...[
-                      ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 500),
-                        child: TextFormField(
-                          initialValue: adnr,
-                          readOnly: true,
-                          decoration: InputDecoration(
-                            label: const Text("Your RBX Domain"),
-                            border: InputBorder.none,
-                            suffixIcon: IconButton(
+                      const SizedBox(height: 8),
+                      if (adnr != null && adnr.isNotEmpty && !usingRa) ...[
+                        ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 500),
+                          child: ListTile(
+                            title: SelectableText(
+                              adnr,
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            subtitle: Text("Your Domain"),
+                            leading: Icon(Icons.link),
+                            trailing: IconButton(
                               icon: const Icon(Icons.copy),
                               onPressed: () {
                                 copyToClipboard(adnr);
@@ -122,15 +124,14 @@ class WebReceiveScreen extends BaseScreen {
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        "Alternatively, you can receive funds to your RBX Domain.",
-                        style: Theme.of(context).textTheme.caption,
-                      ),
+                        const SizedBox(height: 8),
+                        Text(
+                          "Alternatively, you can receive funds to your RBX Domain.",
+                          style: Theme.of(context).textTheme.caption,
+                        ),
+                      ],
                     ],
-                    const Divider(),
-                  ],
+                  ),
                 ),
               ),
             ),
@@ -154,7 +155,7 @@ class WebReceiveScreen extends BaseScreen {
                       address: address,
                       onValidSubmission: (amount) async {
                         if (double.tryParse(amount) != null) {
-                          final value = adnr != null && adnr.isNotEmpty ? adnr : address;
+                          final value = adnr != null && adnr.isNotEmpty && !usingRa ? adnr : address;
                           final url = generateLink(value, double.parse(amount));
 
                           await copyToClipboard(url, "Request funds link copied to clipboard");
@@ -175,7 +176,7 @@ class WebReceiveScreen extends BaseScreen {
                       address: address,
                       onValidSubmission: (amount) async {
                         if (double.tryParse(amount) != null) {
-                          final value = adnr != null && adnr.isNotEmpty ? adnr : address;
+                          final value = adnr != null && adnr.isNotEmpty & !usingRa ? adnr : address;
                           final url = generateLink(value, double.parse(amount));
 
                           showDialog(

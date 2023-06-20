@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/providers/web_session_provider.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 import '../../../../core/dialogs.dart';
 
 import '../../../../core/base_component.dart';
@@ -159,6 +161,11 @@ class WebMenu extends BaseComponent {
           leading: const Icon(Icons.link),
           trailing: const Icon(Icons.chevron_right),
           onTap: () {
+            if (ref.read(webSessionProvider).usingRa) {
+              Toast.error("Reserve Accounts can not create domains.");
+              return;
+            }
+
             tabsRouter.setActiveIndex(WebRouteIndex.adnrs);
             if (inDrawer) {
               Navigator.of(context).pop();
@@ -215,6 +222,11 @@ class WebMenu extends BaseComponent {
           leading: const Icon(Icons.leak_add),
           trailing: const Icon(Icons.chevron_right),
           onTap: () {
+            if (ref.read(webSessionProvider).usingRa) {
+              Toast.error("Reserve Accounts can not create auction houses.");
+              return;
+            }
+
             if (tabsRouter.activeIndex == WebRouteIndex.shop) {
               tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
             } else {

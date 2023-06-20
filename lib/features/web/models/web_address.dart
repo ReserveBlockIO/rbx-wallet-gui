@@ -13,6 +13,7 @@ abstract class WebAddress with _$WebAddress {
     @JsonKey(name: "balance_total") @Default(0) double balanceTotal,
     @JsonKey(name: "balance_locked") @Default(0) double balanceLocked,
     String? adnr,
+    @Default(false) bool activated,
   }) = _WebAddress;
 
   factory WebAddress.fromJson(Map<String, dynamic> json) => _$WebAddressFromJson(json);

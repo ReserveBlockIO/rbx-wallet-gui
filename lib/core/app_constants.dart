@@ -1,7 +1,7 @@
 // ignore_for_file: constant_identifier_names
 import 'package:flutter/foundation.dart';
 
-const APP_V = "4.0.1";
+const APP_V = "4.1.1";
 const APP_VERSION = "beta$APP_V";
 
 const ALLOW_PAYMENT = false;
@@ -26,6 +26,7 @@ const DEV_API_TOKEN = "devtoken";
 const SHOP_PUBLISH_COST = 10.0;
 const SHOP_DELETE_COST = 1.0;
 const SHOP_UPDATE_COST = 1.0;
+const RA_ACTIVATION_COST = 4.0;
 
 class TxType {
   static const int rbxTransfer = 0;
@@ -38,6 +39,7 @@ class TxType {
   static const int dstShop = 7;
   static const int voteTopic = 8;
   static const int vote = 9;
+  static const int reserve = 10;
 }
 
 const DEFAULT_REJECTED_EXTENIONS = [

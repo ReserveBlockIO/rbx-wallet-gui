@@ -13,6 +13,7 @@ _$_WebAddress _$$_WebAddressFromJson(Map<String, dynamic> json) =>
       balanceTotal: (json['balance_total'] as num?)?.toDouble() ?? 0,
       balanceLocked: (json['balance_locked'] as num?)?.toDouble() ?? 0,
       adnr: json['adnr'] as String?,
+      activated: json['activated'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$_WebAddressToJson(_$_WebAddress instance) =>
@@ -22,4 +23,5 @@ Map<String, dynamic> _$$_WebAddressToJson(_$_WebAddress instance) =>
       'balance_total': instance.balanceTotal,
       'balance_locked': instance.balanceLocked,
       'adnr': instance.adnr,
+      'activated': instance.activated,
     };

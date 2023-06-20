@@ -2,6 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/smart_contracts/screens/smart_contract_wizard_screen.dart';
+import 'package:rbx_wallet/features/web/components/web_ra_mode_switcher.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 import '../../../core/components/big_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -30,6 +32,9 @@ class WebSmartContractLandingScreen extends BaseScreen {
       title: const Text("Create Smart Contract"),
       backgroundColor: Colors.black,
       shadowColor: Colors.transparent,
+      actions: [
+        WebRaModeSwitcher(),
+      ],
     );
   }
 
@@ -73,6 +78,10 @@ class WebSmartContractLandingScreen extends BaseScreen {
                     iconData: Icons.create,
                     body: "Start with a baseline smart contract and add customized features",
                     onPressed: () {
+                      if (ref.read(webSessionProvider).usingRa) {
+                        Toast.error("Reserve Accounts cannot mint smart contracts.");
+                        return;
+                      }
                       AutoRouter.of(context).push(const WebCreateSmartContractScreenRoute());
                     },
                   ),
@@ -81,6 +90,11 @@ class WebSmartContractLandingScreen extends BaseScreen {
                     iconData: Icons.auto_awesome,
                     body: "Mint multiple Smart Contracts into a collection",
                     onPressed: () {
+                      if (ref.read(webSessionProvider).usingRa) {
+                        Toast.error("Reserve Accounts cannot mint smart contracts.");
+                        return;
+                      }
+
                       AutoRouter.of(context).push(const WebBulkCreateScreenRoute());
 
                       // AutoRouter.of(context).push(WebSmartContractWizardScreenRoute());
