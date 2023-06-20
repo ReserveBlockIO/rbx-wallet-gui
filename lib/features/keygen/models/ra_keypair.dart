@@ -35,4 +35,19 @@ abstract class RaKeypair with _$RaKeypair {
       public: public,
     );
   }
+
+  String get backupContents {
+    return [
+      "Restore Code:",
+      restoreCode,
+      "\nPrivate Key:",
+      privateCorrected,
+      "\nAddress:",
+      address,
+      "\nRecovery Private Key:",
+      recoveryPrivateCorrected,
+      "\nRecovery Address:",
+      recoveryAddress,
+    ].join("\n");
+  }
 }

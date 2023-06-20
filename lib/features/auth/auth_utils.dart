@@ -517,11 +517,29 @@ Future<void> showRaKeys(
               // if (keypair.mneumonic != null) Text(keypair.mneumonic!),
 
               const Divider(),
-              AppButton(
-                label: "Done",
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  AppButton(
+                    label: "Copy All",
+                    variant: AppColorVariant.Success,
+                    icon: Icons.copy,
+                    onPressed: () async {
+                      await Clipboard.setData(ClipboardData(text: keypair.backupContents));
+                      Toast.message("Reserve Account Data copied to clipboard");
+                    },
+                  ),
+                  SizedBox(
+                    width: 8,
+                  ),
+                  AppButton(
+                    label: "Done",
+                    icon: Icons.check,
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
               )
             ],
           ),
