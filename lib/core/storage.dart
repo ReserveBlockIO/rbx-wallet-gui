@@ -19,6 +19,7 @@ abstract class Storage {
   static const TRANSFERRED_NFT_IDS = "TRANSFERRED_NFT_IDS";
   static const PENDING_ADNRS = "PENDING_ADNRS";
   static const WEB_KEYPAIR = "WEB_KEYPAIR_V2";
+  static const WEB_RA_KEYPAIR = "WEB_RA_KEYPAIR_V2";
   static const REMEMBER_ME = "REMEMBER_ME";
   static const SAVED_SHOPS = "SAVE_SHOPS";
   static const CHAT_PREPEND = "CHAT_";

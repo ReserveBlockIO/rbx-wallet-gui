@@ -21,7 +21,7 @@ class MintedNftListProvider extends StateNotifier<NftListModel> {
   Future<void> load(int page) async {
     if (kIsWeb) {
       final nfts = await ExplorerService()
-          .listMintedNfts(ref.read(webSessionProvider).keypair!.address, page: page, search: state.search.isNotEmpty ? state.search : null);
+          .listMintedNfts(ref.read(webSessionProvider).currentWallet!.address, page: page, search: state.search.isNotEmpty ? state.search : null);
 
       final filteredNfts = nfts.where((n) => n.canEvolve).toList();
 

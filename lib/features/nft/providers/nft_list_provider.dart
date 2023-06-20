@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import '../../../core/services/explorer_service.dart';
 
 import '../../../core/models/paginated_response.dart';
@@ -44,11 +45,13 @@ class NftListProvider extends StateNotifier<NftListModel> {
     load(1);
   }
 
-  Future<void> load(int page, {String? address}) async {
+  Future<void> load(int page) async {
     // email ??= ref.read(webSessionProvider).keypair?.email;
     // address ??= ref.read(webSessionProvider).keypair?.address;
 
     if (kIsWeb) {
+      final address = ref.read(webSessionProvider).currentWallet?.address;
+
       if (address == null) {
         return;
       }
@@ -63,7 +66,7 @@ class NftListProvider extends StateNotifier<NftListModel> {
   }
 
   Future<void> reloadCurrentPage({String? address}) async {
-    load(state.page, address: address);
+    load(state.page);
   }
 
   void setSearch(String search) {

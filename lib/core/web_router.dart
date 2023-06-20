@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/empty_router_widgets.dart';
+import 'package:rbx_wallet/core/web_router.gr.dart';
+import 'package:rbx_wallet/features/reserve/screens/reserve_account_overview_screen.dart';
 import 'app_router.gr.dart';
 import '../features/adnr/screens/web_adnr_screen.dart';
 import '../features/chat/screens/web_seller_chat_thread_list_screen.dart';
@@ -33,6 +35,7 @@ import '../features/web_shop/screens/web_listing_detail_screen.dart';
 import '../features/web_shop/screens/web_shop_detail_screen.dart';
 import '../features/web_shop/screens/web_shop_landing_screen.dart';
 import '../features/web_shop/screens/web_shop_list_screen.dart';
+import '../features/reserve/screens/web_reserve_account_overview_screen.dart';
 
 const List<AutoRoute> webRoutes = [
   // AutoRoute(initial: true, path: "", name: "WebAuthRoute", page: WebAuthScreen),
@@ -47,7 +50,7 @@ const List<AutoRoute> webRoutes = [
     ],
   ),
   // AutoRoute(path: "store/collection/:slug", page: StoreCollectionScreen),
-  // AutoRoute(path: "store/auction/:slug", page: StoreListingScreen),
+  AutoRoute(path: "reserve-account", page: WebReserveAccountOverviewScreen),
   webDashboardTabRouter,
   RedirectRoute(path: '*', redirectTo: '/'),
 ];
@@ -67,6 +70,11 @@ const webDashboardTabRouter = AutoRoute(
       page: EmptyRouterPage,
       children: [
         AutoRoute(path: "", page: WebHomeScreen),
+        // AutoRoute(
+        //   path: "reserve-accounts",
+        //   page: ReserveAccountOverviewScreen,
+        //   name: "WebReserveAccountOverviewScreenRoute",
+        // ),
       ],
     ),
     AutoRoute(

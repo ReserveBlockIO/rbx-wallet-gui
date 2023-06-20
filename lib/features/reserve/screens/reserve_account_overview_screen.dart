@@ -73,7 +73,7 @@ class ReserveAccountOverviewScreen extends BaseScreen {
                             SizedBox(width: 4),
                             InkWell(
                               onTap: () {
-                                provider.showBalanceInfo(wallet);
+                                provider.showBalanceInfo(context, wallet);
                               },
                               child: Icon(
                                 Icons.help,
@@ -96,7 +96,7 @@ class ReserveAccountOverviewScreen extends BaseScreen {
                                       final confirmed = await ConfirmDialog.show(
                                         title: "Recover Funds & NFTs",
                                         body:
-                                            "This is a destructive function that will call back all pending transactions and NFTs and move everything to this recovery address:\n\n${wallet.recoveryAddress}",
+                                            "This is a destructive function that will callback all pending transactions and NFTs and move everything to this recovery address:\n\n${wallet.recoveryAddress}",
                                         confirmText: "Proceed",
                                         cancelText: "Cancel",
                                         destructive: true,
@@ -153,7 +153,7 @@ class ReserveAccountOverviewScreen extends BaseScreen {
                               label: "Activate Now",
                               variant: AppColorVariant.Light,
                               onPressed: () {
-                                provider.activate(wallet);
+                                provider.activate(context, wallet);
                               },
                             );
                           }),
@@ -192,6 +192,7 @@ class _Top extends BaseComponent {
                 style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w500,
+                  color: Colors.white,
                 ),
                 children: [
                   TextSpan(

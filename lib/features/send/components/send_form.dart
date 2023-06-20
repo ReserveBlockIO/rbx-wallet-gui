@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rbx_wallet/features/keygen/models/ra_keypair.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../reserve/providers/pending_activation_provider.dart';
 import '../../reserve/providers/reserve_account_provider.dart';
@@ -26,7 +27,8 @@ import '../providers/send_form_provider.dart';
 class SendForm extends BaseComponent {
   final Wallet? wallet;
   final Keypair? keypair;
-  SendForm({Key? key, this.wallet, this.keypair}) : super(key: key) {
+  final RaKeypair? raKeypair;
+  SendForm({Key? key, this.wallet, this.keypair, this.raKeypair}) : super(key: key) {
     // assert(wallet != null && keypair != null);
   }
 
@@ -97,10 +99,18 @@ class SendForm extends BaseComponent {
       pasteMessage = pasteMessage.replaceAll("ctrl+v", "cmd+v");
     }
 
-    final balance = isWeb ? ref.read(webSessionProvider).balance : wallet!.balance;
+    final balance = isWeb
+        ? ref.watch(webSessionProvider).usingRa
+            ? ref.read(webSessionProvider).raBalance
+            : ref.read(webSessionProvider).balance
+        : wallet!.balance;
     final isMobile = BreakPoints.useMobileLayout(context);
 
-    final color = wallet!.isReserved ? Colors.deepPurple.shade200 : Colors.white;
+    Color color = wallet!.isReserved ? Colors.deepPurple.shade200 : Colors.white;
+
+    if (kIsWeb) {
+      color = ref.watch(webSessionProvider).usingRa ? Colors.deepPurple.shade200 : Colors.white;
+    }
 
     return Form(
       key: formProvider.formKey,
@@ -137,13 +147,14 @@ class SendForm extends BaseComponent {
                                 if (isWeb)
                                   Flexible(
                                     child: Text(
-                                      keypair!.address,
+                                      ref.watch(webSessionProvider).usingRa ? raKeypair!.address : keypair!.address,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(color: color, fontSize: 16),
                                     ),
                                   ),
                                 if (!isWeb)
                                   PopupMenuButton(
+                                    color: Color(0xFF080808),
                                     constraints: BoxConstraints(maxWidth: 500),
                                     itemBuilder: (context) {
                                       final currentWallet = ref.watch(sessionProvider).currentWallet;
@@ -199,7 +210,7 @@ class SendForm extends BaseComponent {
                           ],
                         ),
                       ),
-                      wallet!.totalBalance != wallet!.availableBalance || wallet!.isReserved
+                      wallet!.lockedBalance == 0 || wallet!.isReserved
                           ? Column(
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.end,
@@ -237,7 +248,7 @@ class SendForm extends BaseComponent {
                               children: [
                                 BalanceIndicator(
                                   label: "Available",
-                                  value: wallet!.availableBalance,
+                                  value: wallet!.balance,
                                   bgColor: Colors.deepPurple.shade400,
                                   fgColor: Colors.white,
                                 ),
@@ -249,7 +260,7 @@ class SendForm extends BaseComponent {
                                 ),
                                 BalanceIndicator(
                                   label: "Total",
-                                  value: wallet!.totalBalance,
+                                  value: wallet!.balance + wallet!.lockedBalance,
                                   bgColor: Colors.green.shade700,
                                   fgColor: Colors.white,
                                 ),

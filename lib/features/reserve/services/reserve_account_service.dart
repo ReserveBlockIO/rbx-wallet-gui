@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+
 import '../models/new_reserve_account.dart';
 import '../../wallet/models/wallet.dart';
 import '../../../utils/toast.dart';
@@ -14,6 +16,10 @@ class ReserveAccountService extends BaseService {
   }
 
   Future<NewReserveAccount?> create(String password) async {
+    if (kIsWeb) {
+      //TODO: logic for web
+    }
+
     final payload = {"Password": password, "StoreRecoveryAccount": true};
     final response = await postJson('/NewReserveAddress', params: payload);
     final data = response['data'];

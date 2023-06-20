@@ -93,7 +93,7 @@ class ManageWalletBottomSheet extends BaseComponent {
                                       padding: const EdgeInsets.only(left: 6.0),
                                       child: InkWell(
                                         onTap: () {
-                                          ref.read(reserveAccountProvider.notifier).showBalanceInfo(wallet);
+                                          ref.read(reserveAccountProvider.notifier).showBalanceInfo(context, wallet);
                                         },
                                         child: Icon(
                                           Icons.help,

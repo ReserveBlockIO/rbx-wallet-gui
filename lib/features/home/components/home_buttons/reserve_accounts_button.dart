@@ -24,11 +24,6 @@ class ReserveAccountsButton extends BaseComponent {
       onPressed: !cliStarted
           ? null
           : () {
-              if (ref.read(walletInfoProvider)!.lastestBlock!.height < BLOCK_LOCK_4) {
-                Toast.error("Reserve Accounts are locked until block $BLOCK_LOCK_4.");
-                return;
-              }
-
               AutoRouter.of(context).push(ReserveAccountOverviewScreenRoute());
             },
     );

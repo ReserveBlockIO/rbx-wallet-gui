@@ -62,7 +62,11 @@ class WalletSelector extends BaseComponent {
             ),
           ),
         PopupMenuButton(
-          color: Colors.black,
+          color: Color(0xFF080808),
+          constraints: const BoxConstraints(
+            minWidth: 2.0 * 56.0,
+            maxWidth: 8.0 * 56.0,
+          ),
           child: Center(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -213,18 +217,19 @@ class WalletSelector extends BaseComponent {
               list.add(
                 PopupMenuItem(
                   child: Row(
-                    // mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Icon(
                         isSelected ? Icons.check_box_rounded : Icons.check_box_outline_blank_outlined,
                         color: color,
                       ),
-                      Text(
-                        truncatedLabel ? wallet.label : wallet.labelWithoutTruncation,
-                        style: TextStyle(
-                          color: color,
-                          decoration: isSelected ? TextDecoration.underline : TextDecoration.none,
+                      SizedBox(width: 6),
+                      Expanded(
+                        child: Text(
+                          truncatedLabel ? wallet.label : wallet.labelWithoutTruncation,
+                          style: TextStyle(
+                            color: color,
+                            decoration: isSelected ? TextDecoration.underline : TextDecoration.none,
+                          ),
                         ),
                       ),
                       InkWell(

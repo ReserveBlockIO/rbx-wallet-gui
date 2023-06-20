@@ -18,7 +18,7 @@ enum _Environment {
   WebLocalEnv,
 }
 
-_Environment _env = _Environment.ReleaseTestNet;
+_Environment _env = _Environment.Release;
 
 class Env {
   static init() async {

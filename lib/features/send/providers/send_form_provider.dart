@@ -93,12 +93,12 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
     }
 
     if (kIsWeb) {
-      if (ref.read(webSessionProvider).keypair == null) {
+      if (ref.read(webSessionProvider).currentWallet == null) {
         return "No wallet selected";
       }
-      final balance = ref.read(webSessionProvider).balance;
+      final balance = ref.read(webSessionProvider).currentWallet!.balance;
 
-      if (balance == null || balance < parsed) {
+      if (balance < parsed) {
         return "Not enough balance in wallet.";
       }
     } else {
@@ -190,12 +190,23 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
         }
       }
     } else {
-      if (ref.read(webSessionProvider).keypair == null) {
+      if (ref.read(webSessionProvider).currentWallet == null) {
         Toast.error("No wallet selected");
         return;
       }
 
-      senderAddress = ref.read(webSessionProvider).keypair!.address;
+      final amountDouble = double.tryParse(amount);
+      if (amountDouble == null) {
+        Toast.error("Invalid amount");
+        return;
+      }
+
+      if (ref.read(webSessionProvider).currentWallet!.balance < amountDouble) {
+        Toast.error("Insufficent balance to send");
+        return;
+      }
+
+      senderAddress = ref.read(webSessionProvider).currentWallet!.address;
     }
 
     final confirmed = await ConfirmDialog.show(
@@ -268,17 +279,40 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
     state = state.copyWith(isProcessing: true);
 
     if (kIsWeb) {
+      int? unlockHours;
+      if (ref.read(webSessionProvider).usingRa) {
+        print("GOT HERE");
+        final hoursString = await PromptModal.show(
+          title: "Timelock Duration",
+          validator: (_) => null,
+          labelText: "Hours (24 Minimum)",
+          initialValue: "24",
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+        );
+
+        unlockHours = (hoursString != null ? int.tryParse(hoursString) : 24) ?? 24;
+        if (unlockHours < 24) {
+          unlockHours = 24;
+        }
+      }
+
       final amountDouble = double.parse(amount);
       final txData = await RawTransaction.generate(
-        keypair: ref.read(webSessionProvider).keypair!,
+        keypair: ref.read(webSessionProvider).usingRa ? ref.read(webSessionProvider).raKeypair!.asKeypair : ref.read(webSessionProvider).keypair!,
         amount: amountDouble,
         toAddress: address,
+        unlockHours: unlockHours,
+        txType: TxType.rbxTransfer,
       );
 
       state = state.copyWith(isProcessing: false);
 
       if (txData != null) {
         final txFee = txData['Fee'];
+
+        print("-----------");
+        print(txData);
+        print("-----------");
 
         final confirmed = await ConfirmDialog.show(
           title: "Valid Transaction",

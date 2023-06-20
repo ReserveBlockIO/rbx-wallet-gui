@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import '../../web/models/web_recovery_details.dart';
 import 'transaction.dart';
 
 part 'web_transaction.freezed.dart';
@@ -20,12 +21,15 @@ class WebTransaction with _$WebTransaction {
     @JsonKey(name: "total_amount") required double? amount,
     @JsonKey(name: "total_fee") required double? fee,
     @JsonKey(name: 'date_crafted') required DateTime date,
+    @JsonKey(name: 'unlock_time') DateTime? unlockTime,
     @Default(false) bool isPending,
     // required int nonce,
     // required int timestamp,
     String? data,
     // required String signature,
     required int height,
+    @JsonKey(name: "callback_details") WebTransaction? callbackDetails,
+    @JsonKey(name: "recovery_details") WebRecoveryDetails? recoveryDetails,
   }) = _WebTransaction;
 
   factory WebTransaction.fromJson(Map<String, dynamic> json) => _$WebTransactionFromJson(json);
@@ -72,7 +76,19 @@ class WebTransaction with _$WebTransaction {
       return amount;
     }
 
-    return 0;
+    return null;
+  }
+
+  String? get callbackHash {
+    if (type != 10) {
+      return null;
+    }
+
+    if (nftDataValue('Function') == "CallBack()") {
+      return nftDataValue("Hash");
+    }
+
+    return null;
   }
 
   String get typeLabel {
@@ -122,6 +138,21 @@ class WebTransaction with _$WebTransaction {
           return "P2P Auction House (Delete)";
         }
         return "DST Registration";
+      case 8:
+        return "Topic Create";
+      case 9:
+        return "Topic Vote";
+
+      case 10:
+        if (nftDataValue('Function') == "CallBack()") {
+          return "Reserve (Callback)";
+        } else if (nftDataValue('Function') == "Register()") {
+          return "Reserve (Register)";
+        } else if (nftDataValue('Function') == "Recover()") {
+          return "Reserve (Recover)";
+        }
+        return "Reserve";
+
       default:
         return "-";
     }
@@ -182,5 +213,13 @@ class WebTransaction with _$WebTransaction {
     }
 
     return d.containsKey(key) && d[key] is List ? d[key] as List<dynamic> : null;
+  }
+
+  bool get isPendingSettlement {
+    if (unlockTime == null) {
+      return false;
+    }
+
+    return unlockTime!.isAfter(DateTime.now());
   }
 }

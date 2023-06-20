@@ -35,6 +35,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
 
   Future<void> newAccount(BuildContext context) async {
     final password = await PromptModal.show(
+      contextOverride: context,
       title: "Setup Reserve Account",
       body: "Create a password to continue. You must remember this password as it will be required for any transaction with this Reserve Account.",
       validator: (value) => formValidatorNotEmpty(value, "Password"),
@@ -49,6 +50,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
     }
 
     final passwordConfirmation = await PromptModal.show(
+      contextOverride: context,
       title: "Confirm Password",
       body: "Please confirm your password.",
       validator: (value) => formValidatorNotEmpty(value, "Password"),
@@ -91,6 +93,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
 
     if (fundingWallet != null) {
       final shouldSendFunds = await ConfirmDialog.show(
+        context: context,
         title: "Fund Account",
         content: ConstrainedBox(
           constraints: BoxConstraints(maxWidth: 600),
@@ -115,6 +118,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
         const amount = 5.0;
 
         final confirmed = await ConfirmDialog.show(
+          context: context,
           title: "Please Confirm",
           body: "Sending:\n$amount RBX\n\nTo:\n${wallet.address}\n\nFrom:\n${fundingWallet.address}",
           confirmText: "Send",
@@ -136,6 +140,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
                 LogEntry(message: message, textToCopy: message.replaceAll("Success! TxId: ", ""), variant: AppColorVariant.Success),
               );
           await InfoDialog.show(
+            contextOverride: context,
             title: "Funds Sent",
             body: "$amount RBX has been sent to ${wallet.address}.\n\nPlease wait for transaction to reflect and then activate your Reserve Account.",
           );
@@ -146,6 +151,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
       }
     } else {
       InfoDialog.show(
+          contextOverride: context,
           title: "Fund Account",
           content: ConstrainedBox(
             constraints: BoxConstraints(maxWidth: 600),
@@ -173,6 +179,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
 
   Future<void> restoreAccount(BuildContext context) async {
     final restoreCode = await PromptModal.show(
+      contextOverride: context,
       title: "Restore Code",
       body: "Paste in your RESTORE CODE to import your existing Reserve Account.",
       validator: (v) => null,
@@ -180,7 +187,14 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
     );
 
     if (restoreCode == null) return;
-    final password = await PromptModal.show(title: "Password", validator: (v) => null, lines: 1, obscureText: true, labelText: "Password");
+    final password = await PromptModal.show(
+      contextOverride: context,
+      title: "Password",
+      validator: (v) => null,
+      lines: 1,
+      obscureText: true,
+      labelText: "Password",
+    );
     if (password == null) return;
 
     final account = await ReserveAccountService().restore(restoreCode: restoreCode, password: password);
@@ -199,6 +213,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
 
   Future<void> recoverAccount(BuildContext context, String address) async {
     final recoveryPhrase = await PromptModal.show(
+      contextOverride: context,
       title: "Restore Code",
       body: "Paste in your RESTORE CODE to import the recovery account for this Reserve Account.",
       validator: (v) => null,
@@ -208,6 +223,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
     if (recoveryPhrase == null || recoveryPhrase.isEmpty) return;
 
     final password = await PromptModal.show(
+      contextOverride: context,
       title: "Password",
       validator: (v) => null,
       lines: 1,
@@ -238,9 +254,10 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
     }
   }
 
-  void showBalanceInfo(Wallet wallet) {
+  void showBalanceInfo(BuildContext context, Wallet wallet) {
     if (wallet.isReserved) {
       InfoDialog.show(
+        contextOverride: context,
         title: "Reserve Account Balance",
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -269,6 +286,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
       );
     } else {
       InfoDialog.show(
+        contextOverride: context,
         title: "Account Balance",
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -298,7 +316,10 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
     }
   }
 
-  Future<void> activate(Wallet wallet) async {
+  Future<void> activate(
+    BuildContext context,
+    Wallet wallet,
+  ) async {
     if (!wallet.isReserved) {
       Toast.error("Not a reserve account");
       return;
@@ -310,6 +331,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
     }
 
     final confirmed = await ConfirmDialog.show(
+      context: context,
       title: "Activate on Network?",
       body: "There is a cost of 4 RBX (which is burned) plus TX fee to activate this Reserve Account on the network.  Continue?",
       confirmText: "Activate Now",
@@ -318,6 +340,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
 
     if (confirmed == true) {
       final password = await PromptModal.show(
+        contextOverride: context,
         title: "Password",
         validator: (v) => null,
         lines: 1,

@@ -27,6 +27,7 @@ mixin _$WebAddress {
   @JsonKey(name: "balance_locked")
   double get balanceLocked => throw _privateConstructorUsedError;
   String? get adnr => throw _privateConstructorUsedError;
+  bool get activated => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -45,7 +46,8 @@ abstract class $WebAddressCopyWith<$Res> {
       double balance,
       @JsonKey(name: "balance_total") double balanceTotal,
       @JsonKey(name: "balance_locked") double balanceLocked,
-      String? adnr});
+      String? adnr,
+      bool activated});
 }
 
 /// @nodoc
@@ -66,6 +68,7 @@ class _$WebAddressCopyWithImpl<$Res, $Val extends WebAddress>
     Object? balanceTotal = null,
     Object? balanceLocked = null,
     Object? adnr = freezed,
+    Object? activated = null,
   }) {
     return _then(_value.copyWith(
       address: null == address
@@ -88,6 +91,10 @@ class _$WebAddressCopyWithImpl<$Res, $Val extends WebAddress>
           ? _value.adnr
           : adnr // ignore: cast_nullable_to_non_nullable
               as String?,
+      activated: null == activated
+          ? _value.activated
+          : activated // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -105,7 +112,8 @@ abstract class _$$_WebAddressCopyWith<$Res>
       double balance,
       @JsonKey(name: "balance_total") double balanceTotal,
       @JsonKey(name: "balance_locked") double balanceLocked,
-      String? adnr});
+      String? adnr,
+      bool activated});
 }
 
 /// @nodoc
@@ -124,6 +132,7 @@ class __$$_WebAddressCopyWithImpl<$Res>
     Object? balanceTotal = null,
     Object? balanceLocked = null,
     Object? adnr = freezed,
+    Object? activated = null,
   }) {
     return _then(_$_WebAddress(
       address: null == address
@@ -146,6 +155,10 @@ class __$$_WebAddressCopyWithImpl<$Res>
           ? _value.adnr
           : adnr // ignore: cast_nullable_to_non_nullable
               as String?,
+      activated: null == activated
+          ? _value.activated
+          : activated // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -158,7 +171,8 @@ class _$_WebAddress extends _WebAddress {
       required this.balance,
       @JsonKey(name: "balance_total") this.balanceTotal = 0,
       @JsonKey(name: "balance_locked") this.balanceLocked = 0,
-      this.adnr})
+      this.adnr,
+      this.activated = false})
       : super._();
 
   factory _$_WebAddress.fromJson(Map<String, dynamic> json) =>
@@ -176,10 +190,13 @@ class _$_WebAddress extends _WebAddress {
   final double balanceLocked;
   @override
   final String? adnr;
+  @override
+  @JsonKey()
+  final bool activated;
 
   @override
   String toString() {
-    return 'WebAddress(address: $address, balance: $balance, balanceTotal: $balanceTotal, balanceLocked: $balanceLocked, adnr: $adnr)';
+    return 'WebAddress(address: $address, balance: $balance, balanceTotal: $balanceTotal, balanceLocked: $balanceLocked, adnr: $adnr, activated: $activated)';
   }
 
   @override
@@ -193,13 +210,15 @@ class _$_WebAddress extends _WebAddress {
                 other.balanceTotal == balanceTotal) &&
             (identical(other.balanceLocked, balanceLocked) ||
                 other.balanceLocked == balanceLocked) &&
-            (identical(other.adnr, adnr) || other.adnr == adnr));
+            (identical(other.adnr, adnr) || other.adnr == adnr) &&
+            (identical(other.activated, activated) ||
+                other.activated == activated));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, address, balance, balanceTotal, balanceLocked, adnr);
+  int get hashCode => Object.hash(runtimeType, address, balance, balanceTotal,
+      balanceLocked, adnr, activated);
 
   @JsonKey(ignore: true)
   @override
@@ -221,7 +240,8 @@ abstract class _WebAddress extends WebAddress {
       required final double balance,
       @JsonKey(name: "balance_total") final double balanceTotal,
       @JsonKey(name: "balance_locked") final double balanceLocked,
-      final String? adnr}) = _$_WebAddress;
+      final String? adnr,
+      final bool activated}) = _$_WebAddress;
   _WebAddress._() : super._();
 
   factory _WebAddress.fromJson(Map<String, dynamic> json) =
@@ -239,6 +259,8 @@ abstract class _WebAddress extends WebAddress {
   double get balanceLocked;
   @override
   String? get adnr;
+  @override
+  bool get activated;
   @override
   @JsonKey(ignore: true)
   _$$_WebAddressCopyWith<_$_WebAddress> get copyWith =>

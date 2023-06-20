@@ -33,10 +33,20 @@ class RawTransaction {
     required Keypair keypair,
     required String toAddress,
     required double amount,
-    int txType = TxType.rbxTransfer,
+    required int txType,
     dynamic data,
+    int? unlockHours,
   }) async {
-    final rawTx = await _getTransactionForSignature(fromAddress: keypair.address, toAddress: toAddress, amount: amount, data: data, txType: txType);
+    final unlockTimestamp = unlockHours != null ? (DateTime.now().add(Duration(hours: unlockHours)).millisecondsSinceEpoch / 1000).round() : null;
+
+    final rawTx = await _getTransactionForSignature(
+      fromAddress: keypair.address,
+      toAddress: toAddress,
+      amount: amount,
+      data: data,
+      txType: txType,
+      unlockTimestamp: unlockTimestamp,
+    );
 
     if (rawTx == null) {
       return null;
@@ -78,6 +88,7 @@ class RawTransaction {
       fee: rawTx.fee,
       signature: signature,
       data: data,
+      unlockTimestamp: unlockTimestamp,
     );
 
     final verifyTransactionData = await rawTxService.sendTransaction(
@@ -99,6 +110,7 @@ class RawTransaction {
     required double amount,
     required int txType,
     dynamic data,
+    int? unlockTimestamp,
   }) async {
     final rawTxService = RawService();
 
@@ -123,6 +135,7 @@ class RawTransaction {
       timestamp: timestamp,
       type: txType,
       data: data,
+      unlockTimestamp: unlockTimestamp,
     );
 
     final fee = await rawTxService.getFee(txData);
@@ -141,6 +154,7 @@ class RawTransaction {
       timestamp: timestamp,
       fee: fee,
       data: data,
+      unlockTimestamp: unlockTimestamp,
     );
 
     final hash = await rawTxService.getHash(txData);
@@ -216,6 +230,7 @@ class RawTransaction {
     required int timestamp,
     String? signature,
     dynamic data,
+    int? unlockTimestamp,
   }) {
     return {
       'Hash': hash ?? '',
@@ -228,7 +243,8 @@ class RawTransaction {
       'Timestamp': timestamp,
       'Signature': signature ?? '',
       'Height': 0,
-      'Data': data
+      'Data': data,
+      'UnlockTime': unlockTimestamp,
     };
   }
 

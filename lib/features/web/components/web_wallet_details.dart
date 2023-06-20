@@ -14,9 +14,12 @@ class WebWalletDetails extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final sessionModel = ref.watch(webSessionProvider);
-    final keypair = sessionModel.keypair;
-    if (keypair == null) {
+    final wallet = ref.watch(webSessionProvider).currentWallet;
+    final usingRa = ref.watch(webSessionProvider).usingRa;
+    // final keypair = sessionModel.keypair;
+    // final wallet = sessionModel.currentWallet;
+
+    if (wallet == null) {
       return Container();
     }
 
@@ -27,33 +30,30 @@ class WebWalletDetails extends BaseComponent {
       ),
       child: ListTile(
         title: SelectableText(
-          sessionModel.adnr != null && sessionModel.adnr!.isNotEmpty ? "${sessionModel.adnr} [${keypair.address}]" : keypair.address,
-          style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 13),
+          wallet.adnr != null && wallet.adnr!.isNotEmpty ? "${wallet.adnr} [${wallet.address}]" : wallet.address,
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 13, color: usingRa ? Colors.deepPurple.shade200 : Colors.white),
         ),
-        subtitle: sessionModel.balance != null
-            ? Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    "${sessionModel.balance} RBX",
-                    style: Theme.of(context).textTheme.caption,
-                  ),
-                  SizedBox(width: 2),
-                  Tooltip(
-                    message:
-                        "Available: ${sessionModel.balance} RBX\nLocked: ${sessionModel.balanceLocked} RBX \nTotal: ${sessionModel.balanceTotal} RBX",
-                    child: Icon(Icons.help, color: Theme.of(context).colorScheme.secondary.withOpacity(0.7), size: 14),
-                  ),
-                ],
-              )
-            : null,
+        subtitle: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "${wallet.balance} RBX",
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+            SizedBox(width: 2),
+            Tooltip(
+              message: "Available: ${wallet.balance} RBX\nLocked: ${wallet.lockedBalance} RBX \nTotal: ${wallet.totalBalance} RBX",
+              child: Icon(Icons.help, color: Theme.of(context).colorScheme.secondary.withOpacity(0.7), size: 14),
+            ),
+          ],
+        ),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             InkWell(
                 onTap: () async {
-                  await Clipboard.setData(ClipboardData(text: keypair.address));
-                  Toast.message("Address ${keypair.address} copied to clipboard");
+                  await Clipboard.setData(ClipboardData(text: wallet.address));
+                  Toast.message("Address ${wallet.address} copied to clipboard");
                 },
                 child: const Padding(
                   padding: EdgeInsets.all(4.0),
@@ -71,7 +71,11 @@ class WebWalletDetails extends BaseComponent {
                     cancelText: "Cancel",
                   );
                   if (confirmed == true) {
-                    showKeys(context, keypair, true);
+                    if (usingRa) {
+                      showRaKeys(context, ref.read(webSessionProvider).raKeypair!);
+                    } else {
+                      showKeys(context, ref.read(webSessionProvider).keypair!, true);
+                    }
                   }
                 },
                 child: const Padding(
