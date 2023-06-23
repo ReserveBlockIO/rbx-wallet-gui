@@ -10,7 +10,7 @@ import '../../../utils/toast.dart';
 import '../../../utils/validation.dart';
 import '../../global_loader/global_loading_provider.dart';
 import '../models/keypair.dart';
-import '../services/keygen_service.dart';
+import '../services/keygen_service.dart' if (dart.library.io) '../services/keygen_service_mock.dart';
 
 class KeygenCta extends BaseComponent {
   const KeygenCta({Key? key}) : super(key: key);

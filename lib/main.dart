@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:uni_links_desktop/uni_links_desktop.dart';
 
 import 'app.dart';
 import 'core/env.dart';
@@ -34,6 +35,10 @@ void main() async {
   }
 
   tz.initializeTimeZones();
+
+  if (Platform.isWindows) {
+    registerProtocol('rbx');
+  }
 
   runApp(const RootRestorationScope(
     restorationId: "root",

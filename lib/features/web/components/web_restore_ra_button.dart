@@ -10,7 +10,8 @@ import 'package:rbx_wallet/core/singletons.dart';
 import 'package:rbx_wallet/core/storage.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/keygen/models/ra_keypair.dart';
-import 'package:rbx_wallet/features/keygen/services/keygen_service.dart';
+import 'package:rbx_wallet/features/keygen/services/keygen_service.dart'
+    if (dart.library.io) 'package:rbx_wallet/features/keygen/services/keygen_service_mock.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 class WebRestoreRaButton extends BaseComponent {

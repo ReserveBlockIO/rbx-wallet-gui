@@ -1,4 +1,5 @@
 import '../models/keypair.dart';
+import 'package:rbx_wallet/features/keygen/models/ra_keypair.dart';
 
 // mock version of keygen service to allow compiling on non web devices
 
@@ -13,6 +14,22 @@ class KeygenService {
       public: "mock",
       email: "mock@mock.com",
     );
+  }
+
+  static Future<RaKeypair> importReserveAccountPrivateKey(String privateKey) async {
+    return RaKeypair(
+      private: "mock",
+      address: "mock",
+      public: "mock",
+      recoveryPrivate: "mock",
+      recoveryAddress: "mock",
+      recoveryPublic: "mock",
+      restoreCode: "mock",
+    );
+  }
+
+  static Future<String> addressFromPrivateKey(String privateKey) async {
+    return "";
   }
 
   static Future<Keypair?> seedToKeypair(
