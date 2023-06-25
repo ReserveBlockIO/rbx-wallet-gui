@@ -12,7 +12,7 @@ String? paymentUrl({
     return null;
   }
 
-  const COIN_TYPE = "ETH";
+  const COIN_TYPE = "RBX";
 
   final url = "$domain/?coinType=$COIN_TYPE&fiatType=$fiatType&coinAmount=$amount&blockchain=$COIN_TYPE&walletAddress=$walletAddress";
   print(url);

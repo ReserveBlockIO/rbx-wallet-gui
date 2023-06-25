@@ -7,8 +7,8 @@ import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/payment/components/payment_disclaimer.dart';
-import 'package:rbx_wallet/features/payment/components/payment_iframe_container.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import 'package:rbx_wallet/features/payment/components/payment_iframe_container.dart'
+    if (dart.library.io) 'package:rbx_wallet/features/payment/components/payment_iframe_container_mock.dart';
 
 class WebBuyRBXButton extends BaseComponent {
   const WebBuyRBXButton({super.key});
@@ -57,7 +57,7 @@ class WebBuyRBXButton extends BaseComponent {
                 children: [
                   WebPaymentIFrameContainer(
                     walletAddress: address,
-                    coinAmount: 0.1,
+                    coinAmount: 1000,
                     width: width,
                     height: height,
                   ),

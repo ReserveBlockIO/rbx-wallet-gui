@@ -68,7 +68,7 @@ class _WebPaymentIFrameContainerState extends State<WebPaymentIFrameContainer> {
         "width": widget.width,
         "height": widget.height,
         "fiatType": widget.fiatType,
-        "coinType": "ETH",
+        "coinType": "RBX",
         "coinAmount": widget.coinAmount,
         "walletAddress": widget.walletAddress,
       };

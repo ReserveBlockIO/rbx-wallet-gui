@@ -65,13 +65,19 @@ class HomeScreen extends BaseScreen {
           : Padding(
               padding: const EdgeInsets.only(left: 4.0),
               child: AppButton(
-                onPressed: () {
-                  final url = paymentUrl(amount: 0.1, walletAddress: address);
+                onPressed: () async {
+                  final agreed = await PaymentTermsDialog.show(context);
+
+                  if (agreed != true) {
+                    return;
+                  }
+
+                  final url = paymentUrl(amount: 1000, walletAddress: address);
                   if (url != null) {
                     launchUrl(Uri.parse(url));
                   }
                 },
-                label: "Purchase RBX",
+                label: "Buy RBX",
                 variant: AppColorVariant.Success,
               ),
             ),
