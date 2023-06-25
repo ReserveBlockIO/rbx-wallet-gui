@@ -1,0 +1,90 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/base_component.dart';
+import 'package:rbx_wallet/core/breakpoints.dart';
+import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/core/providers/web_session_provider.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/payment/components/payment_disclaimer.dart';
+import 'package:rbx_wallet/features/payment/components/payment_iframe_container.dart';
+import 'package:rbx_wallet/utils/toast.dart';
+
+class WebBuyRBXButton extends BaseComponent {
+  const WebBuyRBXButton({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final address = ref.read(webSessionProvider).keypair?.address;
+
+    if (address == null) {
+      return SizedBox.shrink();
+    }
+
+    return AppButton(
+      label: "Buy RBX",
+      variant: AppColorVariant.Success,
+      onPressed: () async {
+        final maxWidth = BreakPoints.useMobileLayout(context) ? 400.0 : 600.0;
+        final maxHeight = BreakPoints.useMobileLayout(context) ? 500.0 : 700.0;
+        double width = MediaQuery.of(context).size.width - 32;
+        double height = MediaQuery.of(context).size.height - 64;
+
+        if (width > maxWidth) {
+          width = maxWidth;
+        }
+
+        if (height > maxHeight) {
+          height = maxHeight;
+        }
+
+        final agreed = await PaymentTermsDialog.show(context);
+
+        if (agreed != true) {
+          return;
+        }
+
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              contentPadding: EdgeInsets.zero,
+              insetPadding: EdgeInsets.zero,
+              actionsPadding: EdgeInsets.zero,
+              buttonPadding: EdgeInsets.zero,
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  WebPaymentIFrameContainer(
+                    walletAddress: address,
+                    coinAmount: 0.1,
+                    width: width,
+                    height: height,
+                  ),
+                  SizedBox(
+                    width: width,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: PaymentDisclaimer(),
+                    ),
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    "Close",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                )
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+}

@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:rbx_wallet/core/utils.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
+import 'package:rbx_wallet/features/payment/components/payment_disclaimer.dart';
 
 import '../app.dart';
 import '../features/bridge/services/bridge_service.dart';
@@ -565,6 +566,74 @@ class AuthModal {
               child: Text(forCreate ? "Create" : "Login", style: TextStyle(color: Theme.of(context).colorScheme.info)),
             )
           ],
+        );
+      },
+    );
+  }
+}
+
+class PaymentTermsDialog {
+  static Future<bool?> show(BuildContext context) async {
+    return await showDialog(
+      context: context,
+      builder: (context) {
+        bool hasAgreed = false;
+
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: Text("Disclaimer"),
+              content: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 600),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    PaymentDisclaimer(),
+                    SizedBox(height: 8),
+                    CheckboxListTile(
+                      value: hasAgreed,
+                      onChanged: (val) {
+                        if (val != null) {
+                          setState(() {
+                            hasAgreed = val;
+                          });
+                        }
+                      },
+                      title: Text("I have read and agree to the disclaimer."),
+                      controlAffinity: ListTileControlAffinity.leading,
+                      contentPadding: EdgeInsets.zero,
+                      checkColor: Colors.white,
+                      activeColor: Theme.of(context).colorScheme.primary,
+                    )
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    "Cancel",
+                    style: TextStyle(color: Colors.white70),
+                  ),
+                ),
+                TextButton(
+                  onPressed: hasAgreed
+                      ? () {
+                          Navigator.of(context).pop(true);
+                        }
+                      : () {
+                          Toast.error("You must agree to the terms before proceeding.");
+                        },
+                  child: Text(
+                    "Accept",
+                    style: TextStyle(color: hasAgreed ? Colors.white : Colors.white54),
+                  ),
+                )
+              ],
+            );
+          },
         );
       },
     );

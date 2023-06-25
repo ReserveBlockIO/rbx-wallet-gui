@@ -36,8 +36,10 @@ void main() async {
 
   tz.initializeTimeZones();
 
-  if (Platform.isWindows) {
-    registerProtocol('rbx');
+  if (!kIsWeb) {
+    if (Platform.isWindows) {
+      registerProtocol('rbx');
+    }
   }
 
   runApp(const RootRestorationScope(
