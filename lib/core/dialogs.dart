@@ -627,7 +627,7 @@ class PaymentTermsDialog {
                           Toast.error("You must agree to the terms before proceeding.");
                         },
                   child: Text(
-                    "Accept",
+                    "Confirm",
                     style: TextStyle(color: hasAgreed ? Colors.white : Colors.white54),
                   ),
                 )
