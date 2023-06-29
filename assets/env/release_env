@@ -4,3 +4,4 @@ API_BASE_URL=https://localhost:7293/api/V1
 LAUNCH_CLI=true
 ALLOW_VALIDATING=true
 HIDE_CLI_OUTPUT=false
+PAYMENT_DOMAIN=https://rbx.banxa.com

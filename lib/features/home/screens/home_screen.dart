@@ -77,7 +77,7 @@ class HomeScreen extends BaseScreen {
                     launchUrl(Uri.parse(url));
                   }
                 },
-                label: "Buy RBX",
+                label: "Get \$RBX Now",
                 variant: AppColorVariant.Success,
               ),
             ),

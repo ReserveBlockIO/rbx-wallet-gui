@@ -31,9 +31,23 @@ class PaymentDisclaimer extends StatelessWidget {
           TextSpan(
               text:
                   "), which is a third-party services platform. By proceeding and procuring services from Banxa, you acknowledge that you have read and agreed to Banxa’s "),
-          TextSpan(text: "Terms of Use", style: boldStyle),
+          TextSpan(
+            text: "Terms of Use",
+            style: linkStyle,
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                launchUrl(Uri.parse("https://banxa.com/wp-content/uploads/2023/06/Customer-Terms-and-Conditions-19-June-2023.pdf"));
+              },
+          ),
           TextSpan(text: " and "),
-          TextSpan(text: "Privacy and Cookies Policy", style: boldStyle),
+          TextSpan(
+            text: "Privacy and Cookies Policy",
+            style: linkStyle,
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                launchUrl(Uri.parse("https://banxa.com/wp-content/uploads/2023/06/Privacy-and-Cookies-Policy-19-June-2023.pdf"));
+              },
+          ),
           TextSpan(
               text:
                   ". You additionally understand that the ReserveBlock RBX Network is an autonomous and decentralized ecosystem and does not share in any fees whatsoever by you utilizing Banxa’s services and does not take any responsibility for any issues that may affect your transaction with any third-party service provider at anytime. For any questions related to Banxa’s services, please contact Banxa at "),
