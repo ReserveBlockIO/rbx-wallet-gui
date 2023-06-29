@@ -1,10 +1,10 @@
 // ignore_for_file: constant_identifier_names
 import 'package:flutter/foundation.dart';
 
-const APP_V = "4.1.1";
+const APP_V = "4.0.2";
 const APP_VERSION = "beta$APP_V";
 
-const ALLOW_PAYMENT = false;
+const ALLOW_PAYMENT = true;
 
 const REFRESH_TIMEOUT_SECONDS = 10;
 const REFRESH_TIMEOUT_SECONDS_INACTIVE = 300;
