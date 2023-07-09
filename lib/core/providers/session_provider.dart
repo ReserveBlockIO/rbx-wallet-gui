@@ -745,7 +745,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
       startupDataLoop();
 
       final cliPath = Env.cliPathOverride ?? getCliPath();
-      List<String> options = Env.isTestNet ? ['enableapi', 'gui'] : ['enableapi', 'gui', 'apitoken=$apiToken'];
+      List<String> options = Env.isTestNet ? ['enableapi', 'gui', 'blockv2'] : ['enableapi', 'gui', 'blockv2', 'apitoken=$apiToken'];
 
       if (Env.isTestNet) {
         options.add("testnet");
