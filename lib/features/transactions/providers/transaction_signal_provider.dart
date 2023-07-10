@@ -135,11 +135,30 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
     String? body;
     final nftData = _parseNftData(transaction);
     if (nftData != null) {
-      body = _nftDataValue(nftData, 'ContractUID');
+      if (_nftDataValue(nftData, 'Function') == "TokenDeploy()") {
+        body = _nftDataValue(nftData, 'ContractUID');
+        _broadcastNotification(
+          TransactionNotification(
+            identifier: transaction.hash,
+            transaction: transaction,
+            title: "Token Deployed",
+            body: body,
+            icon: Icons.toll,
+          ),
+        );
+      } else {
+        body = _nftDataValue(nftData, 'ContractUID');
+        _broadcastNotification(
+          TransactionNotification(
+            identifier: transaction.hash,
+            transaction: transaction,
+            title: "NFT Minted",
+            body: body,
+            icon: Icons.lightbulb_outline,
+          ),
+        );
+      }
     }
-    _broadcastNotification(
-      TransactionNotification(identifier: transaction.hash, transaction: transaction, title: "NFT Minted", body: body, icon: Icons.lightbulb_outline),
-    );
 
     kIsWeb ? ref.read(webSessionProvider.notifier).getNfts() : ref.read(sessionProvider.notifier).smartContractLoop(false);
   }

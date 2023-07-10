@@ -8,6 +8,7 @@ import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
+import 'package:rbx_wallet/features/nft/services/nft_service.dart';
 import 'package:rbx_wallet/features/token/models/token_account.dart';
 import 'package:rbx_wallet/features/token/models/token_sc_feature.dart';
 import 'package:rbx_wallet/features/token/services/token_service.dart';
@@ -35,6 +36,13 @@ class BurnTokensButton extends BaseComponent {
       variant: AppColorVariant.Danger,
       type: elevated ? AppButtonType.Elevated : AppButtonType.Text,
       onPressed: () async {
+        final nft = await NftService().getNftData(scId);
+
+        if (nft?.tokenDetails?.burnable != true) {
+          Toast.error("This token is not burnable");
+          return;
+        }
+
         final amount = await PromptModal.show(
           title: "Amount to Burn",
           validator: (val) => formValidatorNumber(val, "Amount"),

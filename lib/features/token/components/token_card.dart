@@ -7,6 +7,8 @@ import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/nft/providers/transferred_provider.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/smart_contract.dart';
+import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
 import 'package:rbx_wallet/features/token/components/burn_tokens_button.dart';
 import 'package:rbx_wallet/features/token/components/transfer_tokens_button.dart';
 import 'package:rbx_wallet/features/token/models/token_account.dart';
@@ -35,68 +37,64 @@ class TokenCard extends BaseComponent {
         child: Card(
           color: Colors.black,
           child: ListTile(
-            leading: token != null && token!.imageBase64 != null
-                ? SizedBox(
-                    width: 32,
-                    height: 32,
-                    child: Image.memory(Base64Decoder().convert(token!.imageBase64!), width: 32, height: 32),
-                  )
-                : Icon(Icons.toll),
-            title: Text(tokenAccount.label),
-            subtitle: Text("Balance: ${tokenAccount.balance}"),
-            trailing: token != null
-                ? Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TransferTokensButton(
-                        scId: tokenAccount.smartContractId,
-                        fromAddress: address,
-                        currentBalance: tokenAccount.balance,
-                      ),
-                      if (token!.burnable)
-                        Padding(
-                          padding: const EdgeInsets.only(left: 6.0),
-                          child: BurnTokensButton(
-                            scId: tokenAccount.smartContractId,
-                            fromAddress: address,
-                            currentBalance: tokenAccount.balance,
-                          ),
-                        ),
-                    ],
-                  )
-                : SizedBox(),
-            onTap: token != null
-                ? () async {
-                    if (!ref.read(transferredProvider).contains(tokenAccount.smartContractId)) {
-                      final detail = await NftService().getNftData(tokenAccount.smartContractId);
-                      if (detail != null && detail.isToken) {
-                        if (detail.currentOwner == address) {
-                          final tokenAccount = TokenAccount.fromNft(detail, ref);
-                          final tokenFeature = TokenScFeature.fromNft(detail);
-                          if (tokenAccount != null && tokenFeature != null) {
-                            Navigator.of(context)
-                                .push(MaterialPageRoute(builder: (_) => TokenManagementScreen(tokenAccount, tokenFeature, detail.id)));
-                            return;
-                          }
-                        }
+              leading: token != null && token!.imageBase64 != null
+                  ? SizedBox(
+                      width: 32,
+                      height: 32,
+                      child: Image.memory(Base64Decoder().convert(token!.imageBase64!), width: 32, height: 32),
+                    )
+                  : Icon(Icons.toll),
+              title: Text(tokenAccount.label),
+              subtitle: Text("Balance: ${tokenAccount.balance}"),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TransferTokensButton(
+                    scId: tokenAccount.smartContractId,
+                    fromAddress: address,
+                    currentBalance: tokenAccount.balance,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 6.0),
+                    child: BurnTokensButton(
+                      scId: tokenAccount.smartContractId,
+                      fromAddress: address,
+                      currentBalance: tokenAccount.balance,
+                    ),
+                  ),
+                ],
+              ),
+              onTap: () async {
+                final nft = await NftService().getNftData(tokenAccount.smartContractId);
+
+                if (!ref.read(transferredProvider).contains(tokenAccount.smartContractId)) {
+                  final detail = await NftService().getNftData(tokenAccount.smartContractId);
+                  if (detail != null && detail.isToken) {
+                    if (detail.currentOwner == address) {
+                      final tokenAccount = TokenAccount.fromNft(detail, ref);
+                      final tokenFeature = TokenScFeature.fromNft(detail);
+                      if (tokenAccount != null && tokenFeature != null) {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (_) => TokenManagementScreen(tokenAccount, tokenFeature, detail.id)));
+                        return;
                       }
                     }
-
-                    final nft = await NftService().retrieve(tokenAccount.smartContractId);
-
-                    if (nft != null) {
-                      InfoDialog.show(
-                        title: "Token Details",
-                        content: TokenDetailsContent(
-                          token: token!,
-                          tokenAccount: tokenAccount,
-                          owner: nft.currentOwner,
-                        ),
-                      );
-                    }
                   }
-                : null,
-          ),
+                }
+
+                // final nft = await NftService().retrieve(tokenAccount.smartContractId);
+
+                if (nft != null && nft.tokenStateDetails != null) {
+                  InfoDialog.show(
+                    title: "Token Details",
+                    content: TokenDetailsContent(
+                      token: nft.tokenStateDetails!,
+                      tokenAccount: tokenAccount,
+                      owner: nft.currentOwner,
+                      nft: nft,
+                    ),
+                  );
+                }
+              }),
         ),
       ),
     );

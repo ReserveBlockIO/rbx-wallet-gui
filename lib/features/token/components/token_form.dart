@@ -57,7 +57,7 @@ class TokenForm extends BaseComponent {
               hintText: "ABC",
               helperText: "The ticker for this new token.",
             ),
-            inputFormatters: [UpperCaseTextFormatter(), FilteringTextInputFormatter.allow(RegExp("[A-Z]"))],
+            inputFormatters: [UpperCaseTextFormatter(), FilteringTextInputFormatter.allow(RegExp("[a-zA-Z0-9]"))],
             textCapitalization: TextCapitalization.characters,
             maxLength: TOKEN_TICKER_MAX_LENGTH,
           ),

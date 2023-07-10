@@ -13,6 +13,7 @@ import 'package:rbx_wallet/features/nft/providers/nft_detail_watcher.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
 import 'package:rbx_wallet/features/token/components/mint_tokens_button.dart';
 import 'package:rbx_wallet/features/token/models/token_account.dart';
+import 'package:rbx_wallet/features/token/models/token_details.dart';
 import 'package:rbx_wallet/features/token/models/token_sc_feature.dart';
 import 'package:rbx_wallet/features/token/providers/token_nfts_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
@@ -103,8 +104,9 @@ class TokenManagementScreen extends BaseScreen {
                 Divider(),
                 TokenDetailsContent(
                   tokenAccount: tokenAccount,
-                  token: token,
+                  token: nft.tokenStateDetails!,
                   owner: nft.currentOwner,
+                  nft: nft,
                 ),
                 Divider(),
                 Padding(
@@ -179,11 +181,13 @@ class TokenDetailsContent extends StatelessWidget {
     required this.tokenAccount,
     required this.token,
     required this.owner,
+    required this.nft,
   });
 
   final TokenAccount tokenAccount;
-  final TokenScFeature token;
+  final TokenDetails token;
   final String owner;
+  final Nft nft;
 
   @override
   Widget build(BuildContext context) {
@@ -211,18 +215,19 @@ class TokenDetailsContent extends StatelessWidget {
           copyable: true,
         ),
         _DetailRow(
-          label: "Mintable",
-          value: token.mintable ? "YES" : "NO",
+          label: "Current Supply",
+          value: token.currentSupply.toString(),
         ),
-        if (!token.mintable)
+        if (nft.tokenDetails != null)
           _DetailRow(
-            label: "Supply",
-            value: token.supply.toString(),
+            label: "Mintable",
+            value: nft.tokenDetails!.mintable ? "YES" : "NO",
           ),
-        _DetailRow(
-          label: "Burnable",
-          value: token.burnable ? "YES" : "NO",
-        ),
+        if (nft.tokenDetails != null)
+          _DetailRow(
+            label: "Burnable",
+            value: nft.tokenDetails!.burnable ? "YES" : "NO",
+          ),
       ],
     );
   }

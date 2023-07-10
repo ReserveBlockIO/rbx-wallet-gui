@@ -78,10 +78,21 @@ class NftService extends BaseService {
     }
   }
 
+  Future<String?> currentOwner(String id) async {
+    final stateHeader = await getText('/GetCurrentSCOwner/$id', cleanPath: false);
+    final stateData = jsonDecode(stateHeader);
+
+    return stateData['OwnerAddress'];
+  }
+
   Future<Nft?> retrieve(String id) async {
     try {
       final response = await getText('/GetSingleSmartContract/$id');
       final data = jsonDecode(response);
+
+      if (data == null) {
+        return null;
+      }
 
       Nft nft = Nft.fromJson(data[0]['SmartContract']);
       nft = nft.copyWith(code: data[0]['SmartContractCode'], currentOwner: data[0]['CurrentOwner']);
@@ -96,8 +107,10 @@ class NftService extends BaseService {
       }
 
       return nft;
-    } catch (e) {
+    } catch (e, st) {
+      print("NFT Retrieve error");
       print(e);
+      print(st);
       return null;
     }
   }
@@ -141,6 +154,7 @@ class NftService extends BaseService {
             final data = jsonDecode(response);
             final d = data['SmartContractMain'];
             Nft nft = Nft.fromJson(d).copyWith(currentOwner: data['CurrentOwner']);
+
             nfts.add(nft);
           } catch (e) {
             print('problem loading nft from json');
@@ -164,6 +178,14 @@ class NftService extends BaseService {
           final data = jsonDecode(response);
           final d = data['SmartContractMain'];
           Nft nft = Nft.fromJson(d).copyWith(currentOwner: data['CurrentOwner']);
+          final stateHeader = await getText('/GetCurrentSCOwner/$scId', cleanPath: false);
+          final stateData = jsonDecode(stateHeader);
+
+          if (stateData.containsKey("TokenDetails") && stateData['TokenDetails'] != null) {
+            final tokenDetails = TokenDetails.fromJson(stateData['TokenDetails']);
+            nft = nft.copyWith(tokenStateDetails: tokenDetails);
+          }
+
           return nft;
         } catch (e) {
           print('problem loading nft from json');
