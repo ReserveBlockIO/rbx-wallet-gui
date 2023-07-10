@@ -7,9 +7,11 @@ class TokenNftsProvider extends StateNotifier<Map<String, TokenScFeature>> {
 
   TokenNftsProvider(this.ref) : super({});
 
-  add(String scId) async {
-    if (state.containsKey(scId)) {
-      return;
+  add(String scId, [bool forceUpdate = false]) async {
+    if (!forceUpdate) {
+      if (state.containsKey(scId)) {
+        return;
+      }
     }
 
     final nft = await NftService().retrieve(scId);

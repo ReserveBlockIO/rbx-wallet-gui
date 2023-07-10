@@ -71,6 +71,18 @@ class Transaction with _$Transaction {
           if (nftDataValue(data, 'Function') == "TokenBurn()") {
             return "Token Burn";
           }
+
+          if (nftDataValue(data, 'Function') == "TokenContractOwnerChange()") {
+            return "Token Ownership Change";
+          }
+          if (nftDataValue(data, 'Function') == "TokenPause()") {
+            final isPause = nftDataValue(data, 'Pause') == "true";
+            return "Token ${isPause ? 'Pause' : 'Resume'}";
+          }
+
+          if (nftDataValue(data, 'Function') == "TokenBanAddress()") {
+            return "Token Ban Address";
+          }
         }
 
         return "NFT Tx";

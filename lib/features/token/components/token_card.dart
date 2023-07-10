@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/nft/providers/transferred_provider.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
 import 'package:rbx_wallet/features/token/components/burn_tokens_button.dart';
 import 'package:rbx_wallet/features/token/components/transfer_tokens_button.dart';
@@ -66,25 +67,33 @@ class TokenCard extends BaseComponent {
                 : SizedBox(),
             onTap: token != null
                 ? () async {
-                    final detail = await NftService().getNftData(tokenAccount.smartContractId);
-                    if (detail != null && detail.isToken) {
-                      if (detail.currentOwner == address) {
-                        final tokenAccount = TokenAccount.fromNft(detail, ref);
-                        final tokenFeature = TokenScFeature.fromNft(detail);
-                        if (tokenAccount != null && tokenFeature != null) {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (_) => TokenManagementScreen(tokenAccount, tokenFeature, detail)));
-                          return;
+                    if (!ref.read(transferredProvider).contains(tokenAccount.smartContractId)) {
+                      final detail = await NftService().getNftData(tokenAccount.smartContractId);
+                      if (detail != null && detail.isToken) {
+                        if (detail.currentOwner == address) {
+                          final tokenAccount = TokenAccount.fromNft(detail, ref);
+                          final tokenFeature = TokenScFeature.fromNft(detail);
+                          if (tokenAccount != null && tokenFeature != null) {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (_) => TokenManagementScreen(tokenAccount, tokenFeature, detail.id)));
+                            return;
+                          }
                         }
                       }
                     }
 
-                    InfoDialog.show(
-                      title: "Token Details",
-                      content: TokenDetails(
-                        token: token!,
-                        tokenAccount: tokenAccount,
-                      ),
-                    );
+                    final nft = await NftService().retrieve(tokenAccount.smartContractId);
+
+                    if (nft != null) {
+                      InfoDialog.show(
+                        title: "Token Details",
+                        content: TokenDetailsContent(
+                          token: token!,
+                          tokenAccount: tokenAccount,
+                          owner: nft.currentOwner,
+                        ),
+                      );
+                    }
                   }
                 : null,
           ),

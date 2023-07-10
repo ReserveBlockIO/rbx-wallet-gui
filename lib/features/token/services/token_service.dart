@@ -19,10 +19,10 @@ class TokenService extends BaseService {
       if (data['Success'] == true) {
         return true;
       }
-      Toast.error("Error minting token");
+      Toast.error(data['Message']);
       return false;
     } catch (e) {
-      print("Error minting token");
+      Toast.error("Error minting token");
       print(e);
       return false;
     }
@@ -41,10 +41,10 @@ class TokenService extends BaseService {
       if (data['Success'] == true) {
         return true;
       }
-      Toast.error("Error transferring token");
+      Toast.error(data['Message']);
       return false;
     } catch (e) {
-      print("Error transferring token");
+      Toast.error("Error transferring token");
       print(e);
       return false;
     }
@@ -62,10 +62,10 @@ class TokenService extends BaseService {
       if (data['Success'] == true) {
         return true;
       }
-      Toast.error("Error burning token");
+      Toast.error(data['Message']);
       return false;
     } catch (e) {
-      print("Error burning token");
+      Toast.error("Error burning token");
       print(e);
       return false;
     }
@@ -76,16 +76,17 @@ class TokenService extends BaseService {
     required String fromAddress,
   }) async {
     try {
-      final response = await getText("/PauseToken/$scId/$fromAddress", cleanPath: false);
+      final path = "/PauseTokenContract/$scId/$fromAddress";
+      final response = await getText(path, cleanPath: false, inspect: true);
       final data = jsonDecode(response);
 
       if (data['Success'] == true) {
         return true;
       }
-      Toast.error("Error pausing/unpausing token");
+      Toast.error(data['Message']);
       return false;
     } catch (e) {
-      print("Error pausing/unpausing token");
+      Toast.error("Error pausing/unpausing token");
       print(e);
       return false;
     }
@@ -103,10 +104,31 @@ class TokenService extends BaseService {
       if (data['Success'] == true) {
         return true;
       }
-      Toast.error("Error changing ownership");
+      Toast.error(data['Message']);
       return false;
     } catch (e) {
-      print("Error changing ownership");
+      Toast.error("Error changing ownership");
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> banAddress({
+    required String scId,
+    required String fromAddress,
+    required String banAddress,
+  }) async {
+    try {
+      final response = await getText("/BanAddress/$scId/$fromAddress/$banAddress", cleanPath: false);
+      final data = jsonDecode(response);
+
+      if (data['Success'] == true) {
+        return true;
+      }
+      Toast.error(data['Message']);
+      return false;
+    } catch (e) {
+      Toast.error("Error banning address");
       print(e);
       return false;
     }

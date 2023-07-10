@@ -46,7 +46,7 @@ class TransferTokensButton extends BaseComponent {
           return;
         }
 
-        if (amountDouble + MIN_RBX_FOR_SC_ACTION > currentBalance) {
+        if (amountDouble > currentBalance) {
           Toast.error("Not enough balance to perform this transaction");
           return;
         }

@@ -4,7 +4,10 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/nft/providers/nft_detail_watcher.dart';
 import 'package:rbx_wallet/features/nft/providers/sale_provider.dart';
+import 'package:rbx_wallet/features/token/providers/pending_token_pause_provider.dart';
+import 'package:rbx_wallet/features/token/providers/token_nfts_provider.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_listing_list_provider.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_shop_list_provider.dart';
 import '../../../app.dart';
@@ -186,9 +189,74 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
             transaction: transaction,
             title: "Tokens Minted",
             body: "$amount",
-            icon: Icons.send,
+            icon: Icons.toll,
           ),
         );
+        return;
+      }
+
+      if (function == "TokenPause()") {
+        final isPause = _nftDataValue(nftData, "Pause") == "true";
+
+        _broadcastNotification(
+          TransactionNotification(
+            identifier: "${transaction.hash}_outgoing",
+            transaction: transaction,
+            title: "Token Pause",
+            body: isPause ? "Paused" : "Resumed",
+            icon: Icons.toll,
+          ),
+        );
+
+        final scId = _nftDataValue(nftData, "ContractUID");
+
+        if (scId != null) {
+          ref.invalidate(nftDetailWatcher(scId));
+          ref.read(pendingTokenPauseProvider.notifier).removeId(scId);
+        }
+        return;
+      }
+
+      if (function == "TokenBanAddress()") {
+        final address = _nftDataValue(nftData, "BanAddress");
+
+        _broadcastNotification(
+          TransactionNotification(
+            identifier: "${transaction.hash}_outgoing",
+            transaction: transaction,
+            title: "Token Ban Address",
+            body: address,
+            icon: Icons.toll,
+          ),
+        );
+
+        final scId = _nftDataValue(nftData, "ContractUID");
+
+        if (scId != null) {
+          ref.invalidate(nftDetailWatcher(scId));
+        }
+        return;
+      }
+
+      if (function == "TokenContractOwnerChange()") {
+        final address = _nftDataValue(nftData, "ToAddress");
+
+        _broadcastNotification(
+          TransactionNotification(
+            identifier: "${transaction.hash}_outgoing",
+            transaction: transaction,
+            title: "Token Change Ownership",
+            body: address,
+            icon: Icons.toll,
+          ),
+        );
+
+        final scId = _nftDataValue(nftData, "ContractUID");
+
+        if (scId != null) {
+          ref.invalidate(nftDetailWatcher(scId));
+          ref.read(transferredProvider.notifier).removeId(scId);
+        }
         return;
       }
 

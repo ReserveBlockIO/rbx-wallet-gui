@@ -18,12 +18,14 @@ class BurnTokensButton extends BaseComponent {
   final String scId;
   final String fromAddress;
   final double currentBalance;
+  final bool elevated;
 
   const BurnTokensButton({
     super.key,
     required this.scId,
     required this.fromAddress,
     required this.currentBalance,
+    this.elevated = true,
   });
 
   @override
@@ -31,6 +33,7 @@ class BurnTokensButton extends BaseComponent {
     return AppButton(
       label: "Burn Tokens",
       variant: AppColorVariant.Danger,
+      type: elevated ? AppButtonType.Elevated : AppButtonType.Text,
       onPressed: () async {
         final amount = await PromptModal.show(
           title: "Amount to Burn",
@@ -49,7 +52,7 @@ class BurnTokensButton extends BaseComponent {
           return;
         }
 
-        if (amountDouble + MIN_RBX_FOR_SC_ACTION > currentBalance) {
+        if (amountDouble > currentBalance) {
           Toast.error("Not enough balance to perform this transaction");
           return;
         }

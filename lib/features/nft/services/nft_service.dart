@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:collection/collection.dart';
+import 'package:rbx_wallet/features/token/models/token_details.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/models/paginated_response.dart';
@@ -85,6 +86,15 @@ class NftService extends BaseService {
       Nft nft = Nft.fromJson(data[0]['SmartContract']);
       nft = nft.copyWith(code: data[0]['SmartContractCode'], currentOwner: data[0]['CurrentOwner']);
       nft = await setAssetPath(nft);
+
+      final stateHeader = await getText('/GetCurrentSCOwner/$id', cleanPath: false);
+      final stateData = jsonDecode(stateHeader);
+
+      if (stateData.containsKey("TokenDetails") && stateData['TokenDetails'] != null) {
+        final tokenDetails = TokenDetails.fromJson(stateData['TokenDetails']);
+        nft = nft.copyWith(tokenStateDetails: tokenDetails);
+      }
+
       return nft;
     } catch (e) {
       print(e);
