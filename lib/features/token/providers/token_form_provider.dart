@@ -130,8 +130,6 @@ class TokenFormProvider extends StateNotifier<TokenScFeature> {
     final timezoneName = ref.read(sessionProvider).timezoneName;
     final payload = sc.serializeForCompiler(timezoneName);
 
-    print(jsonEncode(payload));
-
     final csc = await SmartContractService().compileSmartContract(payload);
 
     if (csc == null) {

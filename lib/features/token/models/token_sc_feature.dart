@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/features/nft/models/nft.dart';
 
 import '../constants.dart';
 
@@ -42,6 +43,30 @@ class TokenScFeature with _$TokenScFeature {
       burnable: true,
       voting: false,
       mintable: true,
+    );
+  }
+
+  static TokenScFeature? fromNft(Nft nft) {
+    if (!nft.isToken) {
+      return null;
+    }
+
+    if (nft.tokenDetails == null) {
+      return null;
+    }
+
+    final details = nft.tokenDetails!;
+
+    return TokenScFeature(
+      name: details.name,
+      ticker: details.ticker,
+      decimalPlaces: details.decimalPlaces,
+      supply: details.supply,
+      burnable: details.burnable,
+      mintable: details.mintable,
+      voting: details.voting,
+      imageBase64: details.imageBase64,
+      imageUrl: details.imageUrl,
     );
   }
 }

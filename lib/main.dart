@@ -13,7 +13,7 @@ import 'core/env.dart';
 import 'core/singletons.dart';
 
 const DEFAULT_WIDTH = 1200.0;
-const DEFAULT_HEIGHT = 800.0;
+const DEFAULT_HEIGHT = 840.0;
 
 const MIN_WIDTH = 1000.0;
 const MIN_HEIGHT = 600.0;

@@ -9,6 +9,8 @@ import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:intl/intl.dart';
 import 'package:process/process.dart';
 import 'package:process_run/shell.dart';
+import 'package:rbx_wallet/features/balance/models/balance.dart';
+import 'package:rbx_wallet/features/bridge/services/bridge_service_v2.dart';
 import '../api_token_manager.dart';
 import '../utils.dart';
 import '../../features/chat/providers/chat_notification_provider.dart';
@@ -76,6 +78,7 @@ class SessionModel {
   final String timezoneName;
   final RemoteInfo? remoteInfo;
   final String? windowsLauncherPath;
+  final List<Balance> balances;
 
   const SessionModel({
     this.currentWallet,
@@ -93,6 +96,7 @@ class SessionModel {
     this.timezoneName = "America/Los_Angeles",
     this.remoteInfo,
     this.windowsLauncherPath,
+    this.balances = const [],
   });
 
   SessionModel copyWith({
@@ -111,6 +115,7 @@ class SessionModel {
     String? timezoneName,
     RemoteInfo? remoteInfo,
     String? windowsLauncherPath,
+    List<Balance>? balances,
   }) {
     return SessionModel(
       startTime: startTime ?? this.startTime,
@@ -128,6 +133,7 @@ class SessionModel {
       timezoneName: timezoneName ?? this.timezoneName,
       remoteInfo: remoteInfo ?? this.remoteInfo,
       windowsLauncherPath: windowsLauncherPath ?? this.windowsLauncherPath,
+      balances: balances ?? this.balances,
     );
   }
 
@@ -431,6 +437,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
   Future<void> mainLoop([inLoop = true]) async {
     if (state.cliStarted) {
       loadWallets();
+      loadBalances();
       loadValidators();
       // await loadMasterNodes();
       // await loadPeerInfo();
@@ -589,6 +596,14 @@ class SessionProvider extends StateNotifier<SessionModel> {
       }
 
       ref.read(reserveAccountProvider.notifier).set(reservedWalletsAfterDeleteCheck);
+    }
+  }
+
+  Future<void> loadBalances() async {
+    final balances = await BridgeServiceV2().getBalances(ref);
+
+    if (balances != null) {
+      state = state.copyWith(balances: balances);
     }
   }
 

@@ -10,8 +10,8 @@ class Balance with _$Balance {
 
   const factory Balance({
     @JsonKey(name: "Address") required String address,
-    @JsonKey(name: "RBXBalance") required String balance,
-    @JsonKey(name: "RBXLockedBalance") required String lockedBalance,
+    @JsonKey(name: "RBXBalance") required double balance,
+    @JsonKey(name: "RBXLockedBalance") required double lockedBalance,
     @JsonKey(name: "TokenAccounts") required List<TokenAccount> tokens,
   }) = _Balance;
 

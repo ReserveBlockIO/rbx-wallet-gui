@@ -7,21 +7,6 @@ import '../../../core/services/base_service.dart';
 class TokenService extends BaseService {
   TokenService() : super(apiBasePathOverride: "/tkapi/TKV2");
 
-  // Future<dynamic> compileAndMintSmartContract(Map<String, dynamic> payload) async {
-  //   try {
-  //     final response = await postJson("/CreateSmartContract", params: p, timeout: 0);
-  //     final csc = CompilerResponse.fromJson(response['data'][0]);
-
-  //     final id = csc.smartContract.id;
-
-  //   } catch (e, stackTrace) {
-  //     print('compileSmartContract error');
-  //     print(e);
-  //     print(stackTrace);
-  //     return null;
-  //   }
-  // }
-
   Future<bool> mint({
     required String scId,
     required String fromAddress,

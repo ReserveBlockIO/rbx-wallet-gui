@@ -60,6 +60,19 @@ class Transaction with _$Transaction {
       case 2:
         return "NFT Mint";
       case 3:
+        final data = parseNftData(this);
+        if (data != null) {
+          if (nftDataValue(data, 'Function') == "TokenMint()") {
+            return "Token Mint";
+          }
+          if (nftDataValue(data, 'Function') == "TokenTransfer()") {
+            return "Token Transfer";
+          }
+          if (nftDataValue(data, 'Function') == "TokenBurn()") {
+            return "Token Burn";
+          }
+        }
+
         return "NFT Tx";
       case 4:
         return "NFT Burn";

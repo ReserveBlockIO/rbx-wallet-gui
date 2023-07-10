@@ -175,6 +175,23 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
     final nftData = _parseNftData(transaction);
 
     if (nftData != null) {
+      final function = _nftDataValue(nftData, "Function");
+
+      if (function == "TokenMint()") {
+        final amount = _nftDataValue(nftData, "Amount");
+
+        _broadcastNotification(
+          TransactionNotification(
+            identifier: "${transaction.hash}_outgoing",
+            transaction: transaction,
+            title: "Tokens Minted",
+            body: "$amount",
+            icon: Icons.send,
+          ),
+        );
+        return;
+      }
+
       final evoState = _nftDataValue(nftData, "NewEvoState");
       if (evoState != null) {
         _broadcastNotification(

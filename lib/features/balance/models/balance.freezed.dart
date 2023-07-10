@@ -23,9 +23,9 @@ mixin _$Balance {
   @JsonKey(name: "Address")
   String get address => throw _privateConstructorUsedError;
   @JsonKey(name: "RBXBalance")
-  String get balance => throw _privateConstructorUsedError;
+  double get balance => throw _privateConstructorUsedError;
   @JsonKey(name: "RBXLockedBalance")
-  String get lockedBalance => throw _privateConstructorUsedError;
+  double get lockedBalance => throw _privateConstructorUsedError;
   @JsonKey(name: "TokenAccounts")
   List<TokenAccount> get tokens => throw _privateConstructorUsedError;
 
@@ -41,8 +41,8 @@ abstract class $BalanceCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: "Address") String address,
-      @JsonKey(name: "RBXBalance") String balance,
-      @JsonKey(name: "RBXLockedBalance") String lockedBalance,
+      @JsonKey(name: "RBXBalance") double balance,
+      @JsonKey(name: "RBXLockedBalance") double lockedBalance,
       @JsonKey(name: "TokenAccounts") List<TokenAccount> tokens});
 }
 
@@ -72,11 +72,11 @@ class _$BalanceCopyWithImpl<$Res, $Val extends Balance>
       balance: null == balance
           ? _value.balance
           : balance // ignore: cast_nullable_to_non_nullable
-              as String,
+              as double,
       lockedBalance: null == lockedBalance
           ? _value.lockedBalance
           : lockedBalance // ignore: cast_nullable_to_non_nullable
-              as String,
+              as double,
       tokens: null == tokens
           ? _value.tokens
           : tokens // ignore: cast_nullable_to_non_nullable
@@ -94,8 +94,8 @@ abstract class _$$_BalanceCopyWith<$Res> implements $BalanceCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: "Address") String address,
-      @JsonKey(name: "RBXBalance") String balance,
-      @JsonKey(name: "RBXLockedBalance") String lockedBalance,
+      @JsonKey(name: "RBXBalance") double balance,
+      @JsonKey(name: "RBXLockedBalance") double lockedBalance,
       @JsonKey(name: "TokenAccounts") List<TokenAccount> tokens});
 }
 
@@ -122,11 +122,11 @@ class __$$_BalanceCopyWithImpl<$Res>
       balance: null == balance
           ? _value.balance
           : balance // ignore: cast_nullable_to_non_nullable
-              as String,
+              as double,
       lockedBalance: null == lockedBalance
           ? _value.lockedBalance
           : lockedBalance // ignore: cast_nullable_to_non_nullable
-              as String,
+              as double,
       tokens: null == tokens
           ? _value._tokens
           : tokens // ignore: cast_nullable_to_non_nullable
@@ -154,10 +154,10 @@ class _$_Balance extends _Balance {
   final String address;
   @override
   @JsonKey(name: "RBXBalance")
-  final String balance;
+  final double balance;
   @override
   @JsonKey(name: "RBXLockedBalance")
-  final String lockedBalance;
+  final double lockedBalance;
   final List<TokenAccount> _tokens;
   @override
   @JsonKey(name: "TokenAccounts")
@@ -208,9 +208,9 @@ abstract class _Balance extends Balance {
       {@JsonKey(name: "Address")
           required final String address,
       @JsonKey(name: "RBXBalance")
-          required final String balance,
+          required final double balance,
       @JsonKey(name: "RBXLockedBalance")
-          required final String lockedBalance,
+          required final double lockedBalance,
       @JsonKey(name: "TokenAccounts")
           required final List<TokenAccount> tokens}) = _$_Balance;
   const _Balance._() : super._();
@@ -222,10 +222,10 @@ abstract class _Balance extends Balance {
   String get address;
   @override
   @JsonKey(name: "RBXBalance")
-  String get balance;
+  double get balance;
   @override
   @JsonKey(name: "RBXLockedBalance")
-  String get lockedBalance;
+  double get lockedBalance;
   @override
   @JsonKey(name: "TokenAccounts")
   List<TokenAccount> get tokens;
