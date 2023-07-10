@@ -39,6 +39,7 @@ class RootContainer extends BaseComponent {
       const AdnrTabRouter(),
       const VotingTabRouter(),
       const BeaconTabRouter(),
+      const TokenTabRouter(),
       // if (kDebugMode) const DebugWebShopTabsRouter(),
     ];
 

@@ -11,16 +11,16 @@
 // ignore_for_file: type=lint
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i48;
+import 'package:auto_route/auto_route.dart' as _i50;
 import 'package:auto_route/empty_router_widgets.dart' as _i12;
-import 'package:flutter/material.dart' as _i49;
+import 'package:flutter/material.dart' as _i51;
 import 'package:rbx_wallet/features/adjudicator/adjudicator_screen.dart'
     as _i19;
 import 'package:rbx_wallet/features/adnr/screens/adnr_screen.dart' as _i34;
 import 'package:rbx_wallet/features/beacon/screens/beacon_list_screen.dart'
     as _i38;
 import 'package:rbx_wallet/features/chat/screens/buyer_chat_thread_list_screen.dart'
-    as _i41;
+    as _i43;
 import 'package:rbx_wallet/features/chat/screens/seller_chat_screen.dart'
     as _i10;
 import 'package:rbx_wallet/features/chat/screens/seller_chat_thread_list_screen.dart'
@@ -29,7 +29,7 @@ import 'package:rbx_wallet/features/chat/screens/shop_chat_screen.dart' as _i11;
 import 'package:rbx_wallet/features/chat/screens/web_seller_chat_screen.dart'
     as _i26;
 import 'package:rbx_wallet/features/chat/screens/web_shop_chat_screen.dart'
-    as _i45;
+    as _i47;
 import 'package:rbx_wallet/features/config/screens/config_container_screen.dart'
     as _i6;
 import 'package:rbx_wallet/features/datanode/screens/datanode_screen.dart'
@@ -58,17 +58,17 @@ import 'package:rbx_wallet/features/node/screens/node_list_screen.dart' as _i20;
 import 'package:rbx_wallet/features/receive/screens/receive_screen.dart'
     as _i16;
 import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_collection_screen.dart'
-    as _i43;
+    as _i45;
 import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_container_screen.dart'
     as _i9;
 import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_detail_screen.dart'
-    as _i42;
+    as _i44;
 import 'package:rbx_wallet/features/reserve/screens/reserve_account_overview_screen.dart'
     as _i14;
 import 'package:rbx_wallet/features/root/root_container.dart' as _i1;
 import 'package:rbx_wallet/features/send/screens/send_screen.dart' as _i15;
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/smart_contract_creator_main.dart'
-    as _i39;
+    as _i41;
 import 'package:rbx_wallet/features/smart_contracts/screens/bulk_create_screen.dart'
     as _i5;
 import 'package:rbx_wallet/features/smart_contracts/screens/my_smart_contracts_screen.dart'
@@ -81,6 +81,10 @@ import 'package:rbx_wallet/features/smart_contracts/screens/smart_contracts_scre
     as _i23;
 import 'package:rbx_wallet/features/smart_contracts/screens/template_chooser_screen.dart'
     as _i4;
+import 'package:rbx_wallet/features/token/screens/token_create_screen.dart'
+    as _i40;
+import 'package:rbx_wallet/features/token/screens/token_list_screen.dart'
+    as _i39;
 import 'package:rbx_wallet/features/transactions/screens/transactions_screen.dart'
     as _i17;
 import 'package:rbx_wallet/features/validator/screens/validator_screen.dart'
@@ -92,70 +96,70 @@ import 'package:rbx_wallet/features/voting/screens/topic_detail_screen.dart'
 import 'package:rbx_wallet/features/voting/screens/topic_list_screen.dart'
     as _i35;
 import 'package:rbx_wallet/features/web_shop/screens/web_collection_detail_screen.dart'
-    as _i46;
+    as _i48;
 import 'package:rbx_wallet/features/web_shop/screens/web_listing_detail_screen.dart'
-    as _i47;
+    as _i49;
 import 'package:rbx_wallet/features/web_shop/screens/web_shop_detail_screen.dart'
-    as _i44;
+    as _i46;
 import 'package:rbx_wallet/features/web_shop/screens/web_shop_list_screen.dart'
-    as _i40;
+    as _i42;
 
-class AppRouter extends _i48.RootStackRouter {
-  AppRouter([_i49.GlobalKey<_i49.NavigatorState>? navigatorKey])
+class AppRouter extends _i50.RootStackRouter {
+  AppRouter([_i51.GlobalKey<_i51.NavigatorState>? navigatorKey])
       : super(navigatorKey);
 
   @override
-  final Map<String, _i48.PageFactory> pagesMap = {
+  final Map<String, _i50.PageFactory> pagesMap = {
     RootContainerRoute.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i1.RootContainer(),
       );
     },
     MySmartContractsScreenRoute.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i2.MySmartContractsScreen(),
       );
     },
     SmartContractDraftsScreenRoute.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i3.SmartContractDraftsScreen(),
       );
     },
     TemplateChooserScreenRoute.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i4.TemplateChooserScreen(),
       );
     },
     BulkCreateScreenRoute.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i5.BulkCreateScreen(),
       );
     },
     ConfigContainerScreenRoute.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i6.ConfigContainerScreen(),
       );
     },
     SmartContractCreatorContainerScreenRoute.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i7.SmartContractCreatorContainerScreen(),
       );
     },
     MotherDashboardScreenRoute.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i8.MotherDashboardScreen(),
       );
     },
     RemoteShopContainerScreenRoute.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i9.RemoteShopContainerScreen(),
       );
@@ -165,7 +169,7 @@ class AppRouter extends _i48.RootStackRouter {
       final args = routeData.argsAs<SellerChatScreenRouteArgs>(
           orElse: () => SellerChatScreenRouteArgs(
               address: pathParams.getString('address')));
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: _i10.SellerChatScreen(
           key: args.key,
@@ -178,7 +182,7 @@ class AppRouter extends _i48.RootStackRouter {
       final args = routeData.argsAs<ShopChatScreenRouteArgs>(
           orElse: () =>
               ShopChatScreenRouteArgs(url: pathParams.getString('url')));
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: _i11.ShopChatScreen(
           key: args.key,
@@ -187,163 +191,169 @@ class AppRouter extends _i48.RootStackRouter {
       );
     },
     HomeTabRouter.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i12.EmptyRouterPage(),
       );
     },
     SendTabRouter.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i12.EmptyRouterPage(),
       );
     },
     ReceiveTabRouter.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i12.EmptyRouterPage(),
       );
     },
     TransactionsTabRouter.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i12.EmptyRouterPage(),
       );
     },
     ValidatorTabRouter.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i12.EmptyRouterPage(),
       );
     },
     AdjudicatorTabRouter.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i12.EmptyRouterPage(),
       );
     },
     NodesTabsRouter.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i12.EmptyRouterPage(),
       );
     },
     DatanodeTabRouter.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i12.EmptyRouterPage(),
       );
     },
     NftTabRouter.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i12.EmptyRouterPage(),
       );
     },
     SmartContractsTabRouter.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i12.EmptyRouterPage(),
       );
     },
     DstsTabRouter.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i12.EmptyRouterPage(),
       );
     },
     AdnrTabRouter.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i12.EmptyRouterPage(),
       );
     },
     VotingTabRouter.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i12.EmptyRouterPage(),
       );
     },
     BeaconTabRouter.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
+        routeData: routeData,
+        child: const _i12.EmptyRouterPage(),
+      );
+    },
+    TokenTabRouter.name: (routeData) {
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i12.EmptyRouterPage(),
       );
     },
     HomeScreenRoute.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i13.HomeScreen(),
       );
     },
     ReserveAccountOverviewScreenRoute.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i14.ReserveAccountOverviewScreen(),
       );
     },
     SendScreenRoute.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i15.SendScreen(),
       );
     },
     ReceiveScreenRoute.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i16.ReceiveScreen(),
       );
     },
     TransactionsScreenRoute.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i17.TransactionsScreen(),
       );
     },
     ValidatorScreenRoute.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i18.ValidatorScreen(),
       );
     },
     AdjudicatorScreenRoute.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i19.AdjudicatorScreen(),
       );
     },
     NodeListScreenRoute.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i20.NodeListScreen(),
       );
     },
     DataNodeScreenRoute.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i21.DataNodeScreen(),
       );
     },
     NftListScreenRoute.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i22.NftListScreen(),
       );
     },
     SmartContractsScreenRoute.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i23.SmartContractsScreen(),
       );
     },
     DstLandingScreenRoute.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i24.DstLandingScreen(),
       );
     },
     SellerChatThreadListScreenRoute.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i25.SellerChatThreadListScreen(),
       );
@@ -355,7 +365,7 @@ class AppRouter extends _i48.RootStackRouter {
                 address: pathParams.getString('address'),
                 shopId: pathParams.getInt('shopId'),
               ));
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: _i26.WebSellerChatScreen(
           key: args.key,
@@ -365,7 +375,7 @@ class AppRouter extends _i48.RootStackRouter {
       );
     },
     MyCollectionsListScreenRoute.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i27.MyCollectionsListScreen(),
       );
@@ -375,7 +385,7 @@ class AppRouter extends _i48.RootStackRouter {
       final args = routeData.argsAs<MyCollectionDetailScreenRouteArgs>(
           orElse: () => MyCollectionDetailScreenRouteArgs(
               collectionId: pathParams.getInt('collectionId')));
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: _i28.MyCollectionDetailScreen(
           key: args.key,
@@ -384,13 +394,13 @@ class AppRouter extends _i48.RootStackRouter {
       );
     },
     CreateCollectionContainerScreenRoute.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i29.CreateCollectionContainerScreen(),
       );
     },
     CreateDecShopContainerScreenRoute.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i30.CreateDecShopContainerScreen(),
       );
@@ -400,7 +410,7 @@ class AppRouter extends _i48.RootStackRouter {
       final args = routeData.argsAs<ListingDetailScreenRouteArgs>(
           orElse: () => ListingDetailScreenRouteArgs(
               listingId: pathParams.getInt('listingId')));
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: _i31.ListingDetailScreen(
           key: args.key,
@@ -413,7 +423,7 @@ class AppRouter extends _i48.RootStackRouter {
       final args = routeData.argsAs<ListingAuctionDetailScreenRouteArgs>(
           orElse: () => ListingAuctionDetailScreenRouteArgs(
               listingId: pathParams.getInt('listingId')));
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: _i32.ListingAuctionDetailScreen(
           key: args.key,
@@ -426,7 +436,7 @@ class AppRouter extends _i48.RootStackRouter {
       final args = routeData.argsAs<CreateListingContainerScreenRouteArgs>(
           orElse: () => CreateListingContainerScreenRouteArgs(
               collectionId: pathParams.getInt('collectionId')));
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: _i33.CreateListingContainerScreen(
           args.collectionId,
@@ -435,13 +445,13 @@ class AppRouter extends _i48.RootStackRouter {
       );
     },
     AdnrScreenRoute.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i34.AdnrScreen(),
       );
     },
     TopicListScreenRoute.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i35.TopicListScreen(),
       );
@@ -451,7 +461,7 @@ class AppRouter extends _i48.RootStackRouter {
       final args = routeData.argsAs<TopicDetailScreenRouteArgs>(
           orElse: () => TopicDetailScreenRouteArgs(
               topicUid: pathParams.getString('uid')));
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: _i36.TopicDetailScreen(
           key: args.key,
@@ -460,33 +470,45 @@ class AppRouter extends _i48.RootStackRouter {
       );
     },
     CreateTopicScreenRoute.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i37.CreateTopicScreen(),
       );
     },
     BeaconListScreenRoute.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i38.BeaconListScreen(),
       );
     },
-    SmartContractCreatorMainRoute.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+    TokenListScreenRoute.name: (routeData) {
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i39.SmartContractCreatorMain(),
+        child: const _i39.TokenListScreen(),
+      );
+    },
+    TokenCreateScreenRoute.name: (routeData) {
+      return _i50.AdaptivePage<dynamic>(
+        routeData: routeData,
+        child: const _i40.TokenCreateScreen(),
+      );
+    },
+    SmartContractCreatorMainRoute.name: (routeData) {
+      return _i50.AdaptivePage<dynamic>(
+        routeData: routeData,
+        child: const _i41.SmartContractCreatorMain(),
       );
     },
     WebShopListScreenRoute.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i40.WebShopListScreen(),
+        child: const _i42.WebShopListScreen(),
       );
     },
     BuyerChatThreadListScreenRoute.name: (routeData) {
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i41.BuyerChatThreadListScreen(),
+        child: const _i43.BuyerChatThreadListScreen(),
       );
     },
     RemoteShopDetailScreenRoute.name: (routeData) {
@@ -494,9 +516,9 @@ class AppRouter extends _i48.RootStackRouter {
       final args = routeData.argsAs<RemoteShopDetailScreenRouteArgs>(
           orElse: () => RemoteShopDetailScreenRouteArgs(
               shopUrl: pathParams.getString('url')));
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: _i42.RemoteShopDetailScreen(
+        child: _i44.RemoteShopDetailScreen(
           key: args.key,
           shopUrl: args.shopUrl,
         ),
@@ -509,9 +531,9 @@ class AppRouter extends _i48.RootStackRouter {
                 collectionId: pathParams.getInt('collectionId'),
                 url: pathParams.getString('url'),
               ));
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: _i43.RemoteShopCollectionScreen(
+        child: _i45.RemoteShopCollectionScreen(
           key: args.key,
           collectionId: args.collectionId,
           url: args.url,
@@ -523,9 +545,9 @@ class AppRouter extends _i48.RootStackRouter {
       final args = routeData.argsAs<WebShopDetailScreenRouteArgs>(
           orElse: () => WebShopDetailScreenRouteArgs(
               shopId: pathParams.getInt('shopId')));
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: _i44.WebShopDetailScreen(
+        child: _i46.WebShopDetailScreen(
           key: args.key,
           shopId: args.shopId,
         ),
@@ -536,9 +558,9 @@ class AppRouter extends _i48.RootStackRouter {
       final args = routeData.argsAs<WebShopChatScreenRouteArgs>(
           orElse: () => WebShopChatScreenRouteArgs(
               identifier: pathParams.getString('identifier')));
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: _i45.WebShopChatScreen(
+        child: _i47.WebShopChatScreen(
           key: args.key,
           identifier: args.identifier,
         ),
@@ -551,9 +573,9 @@ class AppRouter extends _i48.RootStackRouter {
                 shopId: pathParams.getInt('shopId'),
                 collectionId: pathParams.getInt('collectionId'),
               ));
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: _i46.WebCollectionDetailScreen(
+        child: _i48.WebCollectionDetailScreen(
           key: args.key,
           shopId: args.shopId,
           collectionId: args.collectionId,
@@ -568,9 +590,9 @@ class AppRouter extends _i48.RootStackRouter {
                 collectionId: pathParams.getInt('collectionId'),
                 listingId: pathParams.getInt('listingId'),
               ));
-      return _i48.AdaptivePage<dynamic>(
+      return _i50.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: _i47.WebListingDetailScreen(
+        child: _i49.WebListingDetailScreen(
           key: args.key,
           shopId: args.shopId,
           collectionId: args.collectionId,
@@ -581,330 +603,347 @@ class AppRouter extends _i48.RootStackRouter {
   };
 
   @override
-  List<_i48.RouteConfig> get routes => [
-        _i48.RouteConfig(
+  List<_i50.RouteConfig> get routes => [
+        _i50.RouteConfig(
           RootContainerRoute.name,
           path: '/',
           children: [
-            _i48.RouteConfig(
+            _i50.RouteConfig(
               HomeTabRouter.name,
               path: 'home',
               parent: RootContainerRoute.name,
               children: [
-                _i48.RouteConfig(
+                _i50.RouteConfig(
                   HomeScreenRoute.name,
                   path: '',
                   parent: HomeTabRouter.name,
                 ),
-                _i48.RouteConfig(
+                _i50.RouteConfig(
                   ReserveAccountOverviewScreenRoute.name,
                   path: 'reserve-accounts',
                   parent: HomeTabRouter.name,
                 ),
               ],
             ),
-            _i48.RouteConfig(
+            _i50.RouteConfig(
               SendTabRouter.name,
               path: 'send',
               parent: RootContainerRoute.name,
               children: [
-                _i48.RouteConfig(
+                _i50.RouteConfig(
                   SendScreenRoute.name,
                   path: '',
                   parent: SendTabRouter.name,
                 )
               ],
             ),
-            _i48.RouteConfig(
+            _i50.RouteConfig(
               ReceiveTabRouter.name,
               path: 'receive',
               parent: RootContainerRoute.name,
               children: [
-                _i48.RouteConfig(
+                _i50.RouteConfig(
                   ReceiveScreenRoute.name,
                   path: '',
                   parent: ReceiveTabRouter.name,
                 )
               ],
             ),
-            _i48.RouteConfig(
+            _i50.RouteConfig(
               TransactionsTabRouter.name,
               path: 'transactions',
               parent: RootContainerRoute.name,
               children: [
-                _i48.RouteConfig(
+                _i50.RouteConfig(
                   TransactionsScreenRoute.name,
                   path: '',
                   parent: TransactionsTabRouter.name,
                 )
               ],
             ),
-            _i48.RouteConfig(
+            _i50.RouteConfig(
               ValidatorTabRouter.name,
               path: 'validator',
               parent: RootContainerRoute.name,
               children: [
-                _i48.RouteConfig(
+                _i50.RouteConfig(
                   ValidatorScreenRoute.name,
                   path: '',
                   parent: ValidatorTabRouter.name,
                 )
               ],
             ),
-            _i48.RouteConfig(
+            _i50.RouteConfig(
               AdjudicatorTabRouter.name,
               path: 'adjudicator',
               parent: RootContainerRoute.name,
               children: [
-                _i48.RouteConfig(
+                _i50.RouteConfig(
                   AdjudicatorScreenRoute.name,
                   path: '',
                   parent: AdjudicatorTabRouter.name,
                 )
               ],
             ),
-            _i48.RouteConfig(
+            _i50.RouteConfig(
               NodesTabsRouter.name,
               path: 'nodes',
               parent: RootContainerRoute.name,
               children: [
-                _i48.RouteConfig(
+                _i50.RouteConfig(
                   NodeListScreenRoute.name,
                   path: '',
                   parent: NodesTabsRouter.name,
                 )
               ],
             ),
-            _i48.RouteConfig(
+            _i50.RouteConfig(
               DatanodeTabRouter.name,
               path: 'datanode',
               parent: RootContainerRoute.name,
               children: [
-                _i48.RouteConfig(
+                _i50.RouteConfig(
                   DataNodeScreenRoute.name,
                   path: '',
                   parent: DatanodeTabRouter.name,
                 )
               ],
             ),
-            _i48.RouteConfig(
+            _i50.RouteConfig(
               NftTabRouter.name,
               path: 'nft',
               parent: RootContainerRoute.name,
               children: [
-                _i48.RouteConfig(
+                _i50.RouteConfig(
                   NftListScreenRoute.name,
                   path: '',
                   parent: NftTabRouter.name,
                 )
               ],
             ),
-            _i48.RouteConfig(
+            _i50.RouteConfig(
               SmartContractsTabRouter.name,
               path: 'smart-contracts',
               parent: RootContainerRoute.name,
               children: [
-                _i48.RouteConfig(
+                _i50.RouteConfig(
                   SmartContractsScreenRoute.name,
                   path: '',
                   parent: SmartContractsTabRouter.name,
                 )
               ],
             ),
-            _i48.RouteConfig(
+            _i50.RouteConfig(
               DstsTabRouter.name,
               path: 'dsts',
               parent: RootContainerRoute.name,
               children: [
-                _i48.RouteConfig(
+                _i50.RouteConfig(
                   DstLandingScreenRoute.name,
                   path: '',
                   parent: DstsTabRouter.name,
                 ),
-                _i48.RouteConfig(
+                _i50.RouteConfig(
                   SellerChatThreadListScreenRoute.name,
                   path: 'chat',
                   parent: DstsTabRouter.name,
                 ),
-                _i48.RouteConfig(
+                _i50.RouteConfig(
                   WebSellerChatScreenRoute.name,
                   path: 'chat/:shopId/:address',
                   parent: DstsTabRouter.name,
                 ),
-                _i48.RouteConfig(
+                _i50.RouteConfig(
                   MyCollectionsListScreenRoute.name,
                   path: 'me',
                   parent: DstsTabRouter.name,
                 ),
-                _i48.RouteConfig(
+                _i50.RouteConfig(
                   MyCollectionDetailScreenRoute.name,
                   path: ':collectionId',
                   parent: DstsTabRouter.name,
                 ),
-                _i48.RouteConfig(
+                _i50.RouteConfig(
                   CreateCollectionContainerScreenRoute.name,
                   path: 'createCollection',
                   parent: DstsTabRouter.name,
                 ),
-                _i48.RouteConfig(
+                _i50.RouteConfig(
                   CreateDecShopContainerScreenRoute.name,
                   path: 'createDecShop',
                   parent: DstsTabRouter.name,
                 ),
-                _i48.RouteConfig(
+                _i50.RouteConfig(
                   ListingDetailScreenRoute.name,
                   path: ':listingId',
                   parent: DstsTabRouter.name,
                 ),
-                _i48.RouteConfig(
+                _i50.RouteConfig(
                   ListingAuctionDetailScreenRoute.name,
                   path: ':listingId/auction',
                   parent: DstsTabRouter.name,
                 ),
-                _i48.RouteConfig(
+                _i50.RouteConfig(
                   CreateListingContainerScreenRoute.name,
                   path: 'createListing/:collectionId',
                   parent: DstsTabRouter.name,
                 ),
               ],
             ),
-            _i48.RouteConfig(
+            _i50.RouteConfig(
               AdnrTabRouter.name,
               path: 'adnr',
               parent: RootContainerRoute.name,
               children: [
-                _i48.RouteConfig(
+                _i50.RouteConfig(
                   AdnrScreenRoute.name,
                   path: '',
                   parent: AdnrTabRouter.name,
                 )
               ],
             ),
-            _i48.RouteConfig(
+            _i50.RouteConfig(
               VotingTabRouter.name,
               path: 'voting',
               parent: RootContainerRoute.name,
               children: [
-                _i48.RouteConfig(
+                _i50.RouteConfig(
                   TopicListScreenRoute.name,
                   path: '',
                   parent: VotingTabRouter.name,
                 ),
-                _i48.RouteConfig(
+                _i50.RouteConfig(
                   TopicDetailScreenRoute.name,
                   path: ':uid',
                   parent: VotingTabRouter.name,
                 ),
-                _i48.RouteConfig(
+                _i50.RouteConfig(
                   CreateTopicScreenRoute.name,
                   path: 'create',
                   parent: VotingTabRouter.name,
                 ),
               ],
             ),
-            _i48.RouteConfig(
+            _i50.RouteConfig(
               BeaconTabRouter.name,
               path: 'beacons',
               parent: RootContainerRoute.name,
               children: [
-                _i48.RouteConfig(
+                _i50.RouteConfig(
                   BeaconListScreenRoute.name,
                   path: '',
                   parent: BeaconTabRouter.name,
                 )
               ],
             ),
+            _i50.RouteConfig(
+              TokenTabRouter.name,
+              path: 'tokens',
+              parent: RootContainerRoute.name,
+              children: [
+                _i50.RouteConfig(
+                  TokenListScreenRoute.name,
+                  path: '',
+                  parent: TokenTabRouter.name,
+                ),
+                _i50.RouteConfig(
+                  TokenCreateScreenRoute.name,
+                  path: 'create',
+                  parent: TokenTabRouter.name,
+                ),
+              ],
+            ),
           ],
         ),
-        _i48.RouteConfig(
+        _i50.RouteConfig(
           MySmartContractsScreenRoute.name,
           path: 'my-smart-contracts',
         ),
-        _i48.RouteConfig(
+        _i50.RouteConfig(
           SmartContractDraftsScreenRoute.name,
           path: 'smart-contract-drafts',
         ),
-        _i48.RouteConfig(
+        _i50.RouteConfig(
           TemplateChooserScreenRoute.name,
           path: 'smart-contract-templates',
         ),
-        _i48.RouteConfig(
+        _i50.RouteConfig(
           BulkCreateScreenRoute.name,
           path: 'bulk-create-smart-contracts',
         ),
-        _i48.RouteConfig(
+        _i50.RouteConfig(
           ConfigContainerScreenRoute.name,
           path: 'config',
         ),
-        _i48.RouteConfig(
+        _i50.RouteConfig(
           SmartContractCreatorContainerScreenRoute.name,
           path: 'create-smart-contract',
           children: [
-            _i48.RouteConfig(
+            _i50.RouteConfig(
               '#redirect',
               path: '',
               parent: SmartContractCreatorContainerScreenRoute.name,
               redirectTo: 'main',
               fullMatch: true,
             ),
-            _i48.RouteConfig(
+            _i50.RouteConfig(
               SmartContractCreatorMainRoute.name,
               path: 'main',
               parent: SmartContractCreatorContainerScreenRoute.name,
             ),
           ],
         ),
-        _i48.RouteConfig(
+        _i50.RouteConfig(
           MotherDashboardScreenRoute.name,
           path: 'mother-dashboard',
         ),
-        _i48.RouteConfig(
+        _i50.RouteConfig(
           RemoteShopContainerScreenRoute.name,
           path: 'remote-shop-container',
           children: [
-            _i48.RouteConfig(
+            _i50.RouteConfig(
               '#redirect',
               path: '',
               parent: RemoteShopContainerScreenRoute.name,
               redirectTo: 'shops',
               fullMatch: true,
             ),
-            _i48.RouteConfig(
+            _i50.RouteConfig(
               WebShopListScreenRoute.name,
               path: 'shops',
               parent: RemoteShopContainerScreenRoute.name,
             ),
-            _i48.RouteConfig(
+            _i50.RouteConfig(
               BuyerChatThreadListScreenRoute.name,
               path: 'shops/chat',
               parent: RemoteShopContainerScreenRoute.name,
             ),
-            _i48.RouteConfig(
+            _i50.RouteConfig(
               RemoteShopDetailScreenRoute.name,
               path: 'shops/:url',
               parent: RemoteShopContainerScreenRoute.name,
             ),
-            _i48.RouteConfig(
+            _i50.RouteConfig(
               RemoteShopCollectionScreenRoute.name,
               path: 'shops/:url/collection/:collectionId',
               parent: RemoteShopContainerScreenRoute.name,
             ),
-            _i48.RouteConfig(
+            _i50.RouteConfig(
               WebShopDetailScreenRoute.name,
               path: 'third-party/shop/:shopId',
               parent: RemoteShopContainerScreenRoute.name,
             ),
-            _i48.RouteConfig(
+            _i50.RouteConfig(
               WebShopChatScreenRoute.name,
               path: 'third-party/shop/:identifier/shop',
               parent: RemoteShopContainerScreenRoute.name,
             ),
-            _i48.RouteConfig(
+            _i50.RouteConfig(
               WebCollectionDetailScreenRoute.name,
               path: 'third-party/shop/:shopId/collection/:collectionId',
               parent: RemoteShopContainerScreenRoute.name,
             ),
-            _i48.RouteConfig(
+            _i50.RouteConfig(
               WebListingDetailScreenRoute.name,
               path:
                   'third-party/shop/:shopId/collection/:collectionId/listing/:listingId',
@@ -912,11 +951,11 @@ class AppRouter extends _i48.RootStackRouter {
             ),
           ],
         ),
-        _i48.RouteConfig(
+        _i50.RouteConfig(
           SellerChatScreenRoute.name,
           path: 'chat/:address',
         ),
-        _i48.RouteConfig(
+        _i50.RouteConfig(
           ShopChatScreenRoute.name,
           path: 'shops/:url/chat',
         ),
@@ -925,8 +964,8 @@ class AppRouter extends _i48.RootStackRouter {
 
 /// generated route for
 /// [_i1.RootContainer]
-class RootContainerRoute extends _i48.PageRouteInfo<void> {
-  const RootContainerRoute({List<_i48.PageRouteInfo>? children})
+class RootContainerRoute extends _i50.PageRouteInfo<void> {
+  const RootContainerRoute({List<_i50.PageRouteInfo>? children})
       : super(
           RootContainerRoute.name,
           path: '/',
@@ -938,7 +977,7 @@ class RootContainerRoute extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i2.MySmartContractsScreen]
-class MySmartContractsScreenRoute extends _i48.PageRouteInfo<void> {
+class MySmartContractsScreenRoute extends _i50.PageRouteInfo<void> {
   const MySmartContractsScreenRoute()
       : super(
           MySmartContractsScreenRoute.name,
@@ -950,7 +989,7 @@ class MySmartContractsScreenRoute extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i3.SmartContractDraftsScreen]
-class SmartContractDraftsScreenRoute extends _i48.PageRouteInfo<void> {
+class SmartContractDraftsScreenRoute extends _i50.PageRouteInfo<void> {
   const SmartContractDraftsScreenRoute()
       : super(
           SmartContractDraftsScreenRoute.name,
@@ -962,7 +1001,7 @@ class SmartContractDraftsScreenRoute extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i4.TemplateChooserScreen]
-class TemplateChooserScreenRoute extends _i48.PageRouteInfo<void> {
+class TemplateChooserScreenRoute extends _i50.PageRouteInfo<void> {
   const TemplateChooserScreenRoute()
       : super(
           TemplateChooserScreenRoute.name,
@@ -974,7 +1013,7 @@ class TemplateChooserScreenRoute extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i5.BulkCreateScreen]
-class BulkCreateScreenRoute extends _i48.PageRouteInfo<void> {
+class BulkCreateScreenRoute extends _i50.PageRouteInfo<void> {
   const BulkCreateScreenRoute()
       : super(
           BulkCreateScreenRoute.name,
@@ -986,7 +1025,7 @@ class BulkCreateScreenRoute extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i6.ConfigContainerScreen]
-class ConfigContainerScreenRoute extends _i48.PageRouteInfo<void> {
+class ConfigContainerScreenRoute extends _i50.PageRouteInfo<void> {
   const ConfigContainerScreenRoute()
       : super(
           ConfigContainerScreenRoute.name,
@@ -999,9 +1038,9 @@ class ConfigContainerScreenRoute extends _i48.PageRouteInfo<void> {
 /// generated route for
 /// [_i7.SmartContractCreatorContainerScreen]
 class SmartContractCreatorContainerScreenRoute
-    extends _i48.PageRouteInfo<void> {
+    extends _i50.PageRouteInfo<void> {
   const SmartContractCreatorContainerScreenRoute(
-      {List<_i48.PageRouteInfo>? children})
+      {List<_i50.PageRouteInfo>? children})
       : super(
           SmartContractCreatorContainerScreenRoute.name,
           path: 'create-smart-contract',
@@ -1013,7 +1052,7 @@ class SmartContractCreatorContainerScreenRoute
 
 /// generated route for
 /// [_i8.MotherDashboardScreen]
-class MotherDashboardScreenRoute extends _i48.PageRouteInfo<void> {
+class MotherDashboardScreenRoute extends _i50.PageRouteInfo<void> {
   const MotherDashboardScreenRoute()
       : super(
           MotherDashboardScreenRoute.name,
@@ -1025,8 +1064,8 @@ class MotherDashboardScreenRoute extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i9.RemoteShopContainerScreen]
-class RemoteShopContainerScreenRoute extends _i48.PageRouteInfo<void> {
-  const RemoteShopContainerScreenRoute({List<_i48.PageRouteInfo>? children})
+class RemoteShopContainerScreenRoute extends _i50.PageRouteInfo<void> {
+  const RemoteShopContainerScreenRoute({List<_i50.PageRouteInfo>? children})
       : super(
           RemoteShopContainerScreenRoute.name,
           path: 'remote-shop-container',
@@ -1039,9 +1078,9 @@ class RemoteShopContainerScreenRoute extends _i48.PageRouteInfo<void> {
 /// generated route for
 /// [_i10.SellerChatScreen]
 class SellerChatScreenRoute
-    extends _i48.PageRouteInfo<SellerChatScreenRouteArgs> {
+    extends _i50.PageRouteInfo<SellerChatScreenRouteArgs> {
   SellerChatScreenRoute({
-    _i49.Key? key,
+    _i51.Key? key,
     required String address,
   }) : super(
           SellerChatScreenRoute.name,
@@ -1062,7 +1101,7 @@ class SellerChatScreenRouteArgs {
     required this.address,
   });
 
-  final _i49.Key? key;
+  final _i51.Key? key;
 
   final String address;
 
@@ -1074,9 +1113,9 @@ class SellerChatScreenRouteArgs {
 
 /// generated route for
 /// [_i11.ShopChatScreen]
-class ShopChatScreenRoute extends _i48.PageRouteInfo<ShopChatScreenRouteArgs> {
+class ShopChatScreenRoute extends _i50.PageRouteInfo<ShopChatScreenRouteArgs> {
   ShopChatScreenRoute({
-    _i49.Key? key,
+    _i51.Key? key,
     required String url,
   }) : super(
           ShopChatScreenRoute.name,
@@ -1097,7 +1136,7 @@ class ShopChatScreenRouteArgs {
     required this.url,
   });
 
-  final _i49.Key? key;
+  final _i51.Key? key;
 
   final String url;
 
@@ -1109,8 +1148,8 @@ class ShopChatScreenRouteArgs {
 
 /// generated route for
 /// [_i12.EmptyRouterPage]
-class HomeTabRouter extends _i48.PageRouteInfo<void> {
-  const HomeTabRouter({List<_i48.PageRouteInfo>? children})
+class HomeTabRouter extends _i50.PageRouteInfo<void> {
+  const HomeTabRouter({List<_i50.PageRouteInfo>? children})
       : super(
           HomeTabRouter.name,
           path: 'home',
@@ -1122,8 +1161,8 @@ class HomeTabRouter extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i12.EmptyRouterPage]
-class SendTabRouter extends _i48.PageRouteInfo<void> {
-  const SendTabRouter({List<_i48.PageRouteInfo>? children})
+class SendTabRouter extends _i50.PageRouteInfo<void> {
+  const SendTabRouter({List<_i50.PageRouteInfo>? children})
       : super(
           SendTabRouter.name,
           path: 'send',
@@ -1135,8 +1174,8 @@ class SendTabRouter extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i12.EmptyRouterPage]
-class ReceiveTabRouter extends _i48.PageRouteInfo<void> {
-  const ReceiveTabRouter({List<_i48.PageRouteInfo>? children})
+class ReceiveTabRouter extends _i50.PageRouteInfo<void> {
+  const ReceiveTabRouter({List<_i50.PageRouteInfo>? children})
       : super(
           ReceiveTabRouter.name,
           path: 'receive',
@@ -1148,8 +1187,8 @@ class ReceiveTabRouter extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i12.EmptyRouterPage]
-class TransactionsTabRouter extends _i48.PageRouteInfo<void> {
-  const TransactionsTabRouter({List<_i48.PageRouteInfo>? children})
+class TransactionsTabRouter extends _i50.PageRouteInfo<void> {
+  const TransactionsTabRouter({List<_i50.PageRouteInfo>? children})
       : super(
           TransactionsTabRouter.name,
           path: 'transactions',
@@ -1161,8 +1200,8 @@ class TransactionsTabRouter extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i12.EmptyRouterPage]
-class ValidatorTabRouter extends _i48.PageRouteInfo<void> {
-  const ValidatorTabRouter({List<_i48.PageRouteInfo>? children})
+class ValidatorTabRouter extends _i50.PageRouteInfo<void> {
+  const ValidatorTabRouter({List<_i50.PageRouteInfo>? children})
       : super(
           ValidatorTabRouter.name,
           path: 'validator',
@@ -1174,8 +1213,8 @@ class ValidatorTabRouter extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i12.EmptyRouterPage]
-class AdjudicatorTabRouter extends _i48.PageRouteInfo<void> {
-  const AdjudicatorTabRouter({List<_i48.PageRouteInfo>? children})
+class AdjudicatorTabRouter extends _i50.PageRouteInfo<void> {
+  const AdjudicatorTabRouter({List<_i50.PageRouteInfo>? children})
       : super(
           AdjudicatorTabRouter.name,
           path: 'adjudicator',
@@ -1187,8 +1226,8 @@ class AdjudicatorTabRouter extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i12.EmptyRouterPage]
-class NodesTabsRouter extends _i48.PageRouteInfo<void> {
-  const NodesTabsRouter({List<_i48.PageRouteInfo>? children})
+class NodesTabsRouter extends _i50.PageRouteInfo<void> {
+  const NodesTabsRouter({List<_i50.PageRouteInfo>? children})
       : super(
           NodesTabsRouter.name,
           path: 'nodes',
@@ -1200,8 +1239,8 @@ class NodesTabsRouter extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i12.EmptyRouterPage]
-class DatanodeTabRouter extends _i48.PageRouteInfo<void> {
-  const DatanodeTabRouter({List<_i48.PageRouteInfo>? children})
+class DatanodeTabRouter extends _i50.PageRouteInfo<void> {
+  const DatanodeTabRouter({List<_i50.PageRouteInfo>? children})
       : super(
           DatanodeTabRouter.name,
           path: 'datanode',
@@ -1213,8 +1252,8 @@ class DatanodeTabRouter extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i12.EmptyRouterPage]
-class NftTabRouter extends _i48.PageRouteInfo<void> {
-  const NftTabRouter({List<_i48.PageRouteInfo>? children})
+class NftTabRouter extends _i50.PageRouteInfo<void> {
+  const NftTabRouter({List<_i50.PageRouteInfo>? children})
       : super(
           NftTabRouter.name,
           path: 'nft',
@@ -1226,8 +1265,8 @@ class NftTabRouter extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i12.EmptyRouterPage]
-class SmartContractsTabRouter extends _i48.PageRouteInfo<void> {
-  const SmartContractsTabRouter({List<_i48.PageRouteInfo>? children})
+class SmartContractsTabRouter extends _i50.PageRouteInfo<void> {
+  const SmartContractsTabRouter({List<_i50.PageRouteInfo>? children})
       : super(
           SmartContractsTabRouter.name,
           path: 'smart-contracts',
@@ -1239,8 +1278,8 @@ class SmartContractsTabRouter extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i12.EmptyRouterPage]
-class DstsTabRouter extends _i48.PageRouteInfo<void> {
-  const DstsTabRouter({List<_i48.PageRouteInfo>? children})
+class DstsTabRouter extends _i50.PageRouteInfo<void> {
+  const DstsTabRouter({List<_i50.PageRouteInfo>? children})
       : super(
           DstsTabRouter.name,
           path: 'dsts',
@@ -1252,8 +1291,8 @@ class DstsTabRouter extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i12.EmptyRouterPage]
-class AdnrTabRouter extends _i48.PageRouteInfo<void> {
-  const AdnrTabRouter({List<_i48.PageRouteInfo>? children})
+class AdnrTabRouter extends _i50.PageRouteInfo<void> {
+  const AdnrTabRouter({List<_i50.PageRouteInfo>? children})
       : super(
           AdnrTabRouter.name,
           path: 'adnr',
@@ -1265,8 +1304,8 @@ class AdnrTabRouter extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i12.EmptyRouterPage]
-class VotingTabRouter extends _i48.PageRouteInfo<void> {
-  const VotingTabRouter({List<_i48.PageRouteInfo>? children})
+class VotingTabRouter extends _i50.PageRouteInfo<void> {
+  const VotingTabRouter({List<_i50.PageRouteInfo>? children})
       : super(
           VotingTabRouter.name,
           path: 'voting',
@@ -1278,8 +1317,8 @@ class VotingTabRouter extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i12.EmptyRouterPage]
-class BeaconTabRouter extends _i48.PageRouteInfo<void> {
-  const BeaconTabRouter({List<_i48.PageRouteInfo>? children})
+class BeaconTabRouter extends _i50.PageRouteInfo<void> {
+  const BeaconTabRouter({List<_i50.PageRouteInfo>? children})
       : super(
           BeaconTabRouter.name,
           path: 'beacons',
@@ -1290,8 +1329,21 @@ class BeaconTabRouter extends _i48.PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [_i12.EmptyRouterPage]
+class TokenTabRouter extends _i50.PageRouteInfo<void> {
+  const TokenTabRouter({List<_i50.PageRouteInfo>? children})
+      : super(
+          TokenTabRouter.name,
+          path: 'tokens',
+          initialChildren: children,
+        );
+
+  static const String name = 'TokenTabRouter';
+}
+
+/// generated route for
 /// [_i13.HomeScreen]
-class HomeScreenRoute extends _i48.PageRouteInfo<void> {
+class HomeScreenRoute extends _i50.PageRouteInfo<void> {
   const HomeScreenRoute()
       : super(
           HomeScreenRoute.name,
@@ -1303,7 +1355,7 @@ class HomeScreenRoute extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i14.ReserveAccountOverviewScreen]
-class ReserveAccountOverviewScreenRoute extends _i48.PageRouteInfo<void> {
+class ReserveAccountOverviewScreenRoute extends _i50.PageRouteInfo<void> {
   const ReserveAccountOverviewScreenRoute()
       : super(
           ReserveAccountOverviewScreenRoute.name,
@@ -1315,7 +1367,7 @@ class ReserveAccountOverviewScreenRoute extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i15.SendScreen]
-class SendScreenRoute extends _i48.PageRouteInfo<void> {
+class SendScreenRoute extends _i50.PageRouteInfo<void> {
   const SendScreenRoute()
       : super(
           SendScreenRoute.name,
@@ -1327,7 +1379,7 @@ class SendScreenRoute extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i16.ReceiveScreen]
-class ReceiveScreenRoute extends _i48.PageRouteInfo<void> {
+class ReceiveScreenRoute extends _i50.PageRouteInfo<void> {
   const ReceiveScreenRoute()
       : super(
           ReceiveScreenRoute.name,
@@ -1339,7 +1391,7 @@ class ReceiveScreenRoute extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i17.TransactionsScreen]
-class TransactionsScreenRoute extends _i48.PageRouteInfo<void> {
+class TransactionsScreenRoute extends _i50.PageRouteInfo<void> {
   const TransactionsScreenRoute()
       : super(
           TransactionsScreenRoute.name,
@@ -1351,7 +1403,7 @@ class TransactionsScreenRoute extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i18.ValidatorScreen]
-class ValidatorScreenRoute extends _i48.PageRouteInfo<void> {
+class ValidatorScreenRoute extends _i50.PageRouteInfo<void> {
   const ValidatorScreenRoute()
       : super(
           ValidatorScreenRoute.name,
@@ -1363,7 +1415,7 @@ class ValidatorScreenRoute extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i19.AdjudicatorScreen]
-class AdjudicatorScreenRoute extends _i48.PageRouteInfo<void> {
+class AdjudicatorScreenRoute extends _i50.PageRouteInfo<void> {
   const AdjudicatorScreenRoute()
       : super(
           AdjudicatorScreenRoute.name,
@@ -1375,7 +1427,7 @@ class AdjudicatorScreenRoute extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i20.NodeListScreen]
-class NodeListScreenRoute extends _i48.PageRouteInfo<void> {
+class NodeListScreenRoute extends _i50.PageRouteInfo<void> {
   const NodeListScreenRoute()
       : super(
           NodeListScreenRoute.name,
@@ -1387,7 +1439,7 @@ class NodeListScreenRoute extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i21.DataNodeScreen]
-class DataNodeScreenRoute extends _i48.PageRouteInfo<void> {
+class DataNodeScreenRoute extends _i50.PageRouteInfo<void> {
   const DataNodeScreenRoute()
       : super(
           DataNodeScreenRoute.name,
@@ -1399,7 +1451,7 @@ class DataNodeScreenRoute extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i22.NftListScreen]
-class NftListScreenRoute extends _i48.PageRouteInfo<void> {
+class NftListScreenRoute extends _i50.PageRouteInfo<void> {
   const NftListScreenRoute()
       : super(
           NftListScreenRoute.name,
@@ -1411,7 +1463,7 @@ class NftListScreenRoute extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i23.SmartContractsScreen]
-class SmartContractsScreenRoute extends _i48.PageRouteInfo<void> {
+class SmartContractsScreenRoute extends _i50.PageRouteInfo<void> {
   const SmartContractsScreenRoute()
       : super(
           SmartContractsScreenRoute.name,
@@ -1423,7 +1475,7 @@ class SmartContractsScreenRoute extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i24.DstLandingScreen]
-class DstLandingScreenRoute extends _i48.PageRouteInfo<void> {
+class DstLandingScreenRoute extends _i50.PageRouteInfo<void> {
   const DstLandingScreenRoute()
       : super(
           DstLandingScreenRoute.name,
@@ -1435,7 +1487,7 @@ class DstLandingScreenRoute extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i25.SellerChatThreadListScreen]
-class SellerChatThreadListScreenRoute extends _i48.PageRouteInfo<void> {
+class SellerChatThreadListScreenRoute extends _i50.PageRouteInfo<void> {
   const SellerChatThreadListScreenRoute()
       : super(
           SellerChatThreadListScreenRoute.name,
@@ -1448,9 +1500,9 @@ class SellerChatThreadListScreenRoute extends _i48.PageRouteInfo<void> {
 /// generated route for
 /// [_i26.WebSellerChatScreen]
 class WebSellerChatScreenRoute
-    extends _i48.PageRouteInfo<WebSellerChatScreenRouteArgs> {
+    extends _i50.PageRouteInfo<WebSellerChatScreenRouteArgs> {
   WebSellerChatScreenRoute({
-    _i49.Key? key,
+    _i51.Key? key,
     required String address,
     required int shopId,
   }) : super(
@@ -1477,7 +1529,7 @@ class WebSellerChatScreenRouteArgs {
     required this.shopId,
   });
 
-  final _i49.Key? key;
+  final _i51.Key? key;
 
   final String address;
 
@@ -1491,7 +1543,7 @@ class WebSellerChatScreenRouteArgs {
 
 /// generated route for
 /// [_i27.MyCollectionsListScreen]
-class MyCollectionsListScreenRoute extends _i48.PageRouteInfo<void> {
+class MyCollectionsListScreenRoute extends _i50.PageRouteInfo<void> {
   const MyCollectionsListScreenRoute()
       : super(
           MyCollectionsListScreenRoute.name,
@@ -1504,9 +1556,9 @@ class MyCollectionsListScreenRoute extends _i48.PageRouteInfo<void> {
 /// generated route for
 /// [_i28.MyCollectionDetailScreen]
 class MyCollectionDetailScreenRoute
-    extends _i48.PageRouteInfo<MyCollectionDetailScreenRouteArgs> {
+    extends _i50.PageRouteInfo<MyCollectionDetailScreenRouteArgs> {
   MyCollectionDetailScreenRoute({
-    _i49.Key? key,
+    _i51.Key? key,
     required int collectionId,
   }) : super(
           MyCollectionDetailScreenRoute.name,
@@ -1527,7 +1579,7 @@ class MyCollectionDetailScreenRouteArgs {
     required this.collectionId,
   });
 
-  final _i49.Key? key;
+  final _i51.Key? key;
 
   final int collectionId;
 
@@ -1539,7 +1591,7 @@ class MyCollectionDetailScreenRouteArgs {
 
 /// generated route for
 /// [_i29.CreateCollectionContainerScreen]
-class CreateCollectionContainerScreenRoute extends _i48.PageRouteInfo<void> {
+class CreateCollectionContainerScreenRoute extends _i50.PageRouteInfo<void> {
   const CreateCollectionContainerScreenRoute()
       : super(
           CreateCollectionContainerScreenRoute.name,
@@ -1551,7 +1603,7 @@ class CreateCollectionContainerScreenRoute extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i30.CreateDecShopContainerScreen]
-class CreateDecShopContainerScreenRoute extends _i48.PageRouteInfo<void> {
+class CreateDecShopContainerScreenRoute extends _i50.PageRouteInfo<void> {
   const CreateDecShopContainerScreenRoute()
       : super(
           CreateDecShopContainerScreenRoute.name,
@@ -1564,9 +1616,9 @@ class CreateDecShopContainerScreenRoute extends _i48.PageRouteInfo<void> {
 /// generated route for
 /// [_i31.ListingDetailScreen]
 class ListingDetailScreenRoute
-    extends _i48.PageRouteInfo<ListingDetailScreenRouteArgs> {
+    extends _i50.PageRouteInfo<ListingDetailScreenRouteArgs> {
   ListingDetailScreenRoute({
-    _i49.Key? key,
+    _i51.Key? key,
     required int listingId,
   }) : super(
           ListingDetailScreenRoute.name,
@@ -1587,7 +1639,7 @@ class ListingDetailScreenRouteArgs {
     required this.listingId,
   });
 
-  final _i49.Key? key;
+  final _i51.Key? key;
 
   final int listingId;
 
@@ -1600,9 +1652,9 @@ class ListingDetailScreenRouteArgs {
 /// generated route for
 /// [_i32.ListingAuctionDetailScreen]
 class ListingAuctionDetailScreenRoute
-    extends _i48.PageRouteInfo<ListingAuctionDetailScreenRouteArgs> {
+    extends _i50.PageRouteInfo<ListingAuctionDetailScreenRouteArgs> {
   ListingAuctionDetailScreenRoute({
-    _i49.Key? key,
+    _i51.Key? key,
     required int listingId,
   }) : super(
           ListingAuctionDetailScreenRoute.name,
@@ -1623,7 +1675,7 @@ class ListingAuctionDetailScreenRouteArgs {
     required this.listingId,
   });
 
-  final _i49.Key? key;
+  final _i51.Key? key;
 
   final int listingId;
 
@@ -1636,10 +1688,10 @@ class ListingAuctionDetailScreenRouteArgs {
 /// generated route for
 /// [_i33.CreateListingContainerScreen]
 class CreateListingContainerScreenRoute
-    extends _i48.PageRouteInfo<CreateListingContainerScreenRouteArgs> {
+    extends _i50.PageRouteInfo<CreateListingContainerScreenRouteArgs> {
   CreateListingContainerScreenRoute({
     required int collectionId,
-    _i49.Key? key,
+    _i51.Key? key,
   }) : super(
           CreateListingContainerScreenRoute.name,
           path: 'createListing/:collectionId',
@@ -1661,7 +1713,7 @@ class CreateListingContainerScreenRouteArgs {
 
   final int collectionId;
 
-  final _i49.Key? key;
+  final _i51.Key? key;
 
   @override
   String toString() {
@@ -1671,7 +1723,7 @@ class CreateListingContainerScreenRouteArgs {
 
 /// generated route for
 /// [_i34.AdnrScreen]
-class AdnrScreenRoute extends _i48.PageRouteInfo<void> {
+class AdnrScreenRoute extends _i50.PageRouteInfo<void> {
   const AdnrScreenRoute()
       : super(
           AdnrScreenRoute.name,
@@ -1683,7 +1735,7 @@ class AdnrScreenRoute extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i35.TopicListScreen]
-class TopicListScreenRoute extends _i48.PageRouteInfo<void> {
+class TopicListScreenRoute extends _i50.PageRouteInfo<void> {
   const TopicListScreenRoute()
       : super(
           TopicListScreenRoute.name,
@@ -1696,9 +1748,9 @@ class TopicListScreenRoute extends _i48.PageRouteInfo<void> {
 /// generated route for
 /// [_i36.TopicDetailScreen]
 class TopicDetailScreenRoute
-    extends _i48.PageRouteInfo<TopicDetailScreenRouteArgs> {
+    extends _i50.PageRouteInfo<TopicDetailScreenRouteArgs> {
   TopicDetailScreenRoute({
-    _i49.Key? key,
+    _i51.Key? key,
     required String topicUid,
   }) : super(
           TopicDetailScreenRoute.name,
@@ -1719,7 +1771,7 @@ class TopicDetailScreenRouteArgs {
     required this.topicUid,
   });
 
-  final _i49.Key? key;
+  final _i51.Key? key;
 
   final String topicUid;
 
@@ -1731,7 +1783,7 @@ class TopicDetailScreenRouteArgs {
 
 /// generated route for
 /// [_i37.CreateTopicScreen]
-class CreateTopicScreenRoute extends _i48.PageRouteInfo<void> {
+class CreateTopicScreenRoute extends _i50.PageRouteInfo<void> {
   const CreateTopicScreenRoute()
       : super(
           CreateTopicScreenRoute.name,
@@ -1743,7 +1795,7 @@ class CreateTopicScreenRoute extends _i48.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i38.BeaconListScreen]
-class BeaconListScreenRoute extends _i48.PageRouteInfo<void> {
+class BeaconListScreenRoute extends _i50.PageRouteInfo<void> {
   const BeaconListScreenRoute()
       : super(
           BeaconListScreenRoute.name,
@@ -1754,8 +1806,32 @@ class BeaconListScreenRoute extends _i48.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i39.SmartContractCreatorMain]
-class SmartContractCreatorMainRoute extends _i48.PageRouteInfo<void> {
+/// [_i39.TokenListScreen]
+class TokenListScreenRoute extends _i50.PageRouteInfo<void> {
+  const TokenListScreenRoute()
+      : super(
+          TokenListScreenRoute.name,
+          path: '',
+        );
+
+  static const String name = 'TokenListScreenRoute';
+}
+
+/// generated route for
+/// [_i40.TokenCreateScreen]
+class TokenCreateScreenRoute extends _i50.PageRouteInfo<void> {
+  const TokenCreateScreenRoute()
+      : super(
+          TokenCreateScreenRoute.name,
+          path: 'create',
+        );
+
+  static const String name = 'TokenCreateScreenRoute';
+}
+
+/// generated route for
+/// [_i41.SmartContractCreatorMain]
+class SmartContractCreatorMainRoute extends _i50.PageRouteInfo<void> {
   const SmartContractCreatorMainRoute()
       : super(
           SmartContractCreatorMainRoute.name,
@@ -1766,8 +1842,8 @@ class SmartContractCreatorMainRoute extends _i48.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i40.WebShopListScreen]
-class WebShopListScreenRoute extends _i48.PageRouteInfo<void> {
+/// [_i42.WebShopListScreen]
+class WebShopListScreenRoute extends _i50.PageRouteInfo<void> {
   const WebShopListScreenRoute()
       : super(
           WebShopListScreenRoute.name,
@@ -1778,8 +1854,8 @@ class WebShopListScreenRoute extends _i48.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i41.BuyerChatThreadListScreen]
-class BuyerChatThreadListScreenRoute extends _i48.PageRouteInfo<void> {
+/// [_i43.BuyerChatThreadListScreen]
+class BuyerChatThreadListScreenRoute extends _i50.PageRouteInfo<void> {
   const BuyerChatThreadListScreenRoute()
       : super(
           BuyerChatThreadListScreenRoute.name,
@@ -1790,11 +1866,11 @@ class BuyerChatThreadListScreenRoute extends _i48.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i42.RemoteShopDetailScreen]
+/// [_i44.RemoteShopDetailScreen]
 class RemoteShopDetailScreenRoute
-    extends _i48.PageRouteInfo<RemoteShopDetailScreenRouteArgs> {
+    extends _i50.PageRouteInfo<RemoteShopDetailScreenRouteArgs> {
   RemoteShopDetailScreenRoute({
-    _i49.Key? key,
+    _i51.Key? key,
     required String shopUrl,
   }) : super(
           RemoteShopDetailScreenRoute.name,
@@ -1815,7 +1891,7 @@ class RemoteShopDetailScreenRouteArgs {
     required this.shopUrl,
   });
 
-  final _i49.Key? key;
+  final _i51.Key? key;
 
   final String shopUrl;
 
@@ -1826,11 +1902,11 @@ class RemoteShopDetailScreenRouteArgs {
 }
 
 /// generated route for
-/// [_i43.RemoteShopCollectionScreen]
+/// [_i45.RemoteShopCollectionScreen]
 class RemoteShopCollectionScreenRoute
-    extends _i48.PageRouteInfo<RemoteShopCollectionScreenRouteArgs> {
+    extends _i50.PageRouteInfo<RemoteShopCollectionScreenRouteArgs> {
   RemoteShopCollectionScreenRoute({
-    _i49.Key? key,
+    _i51.Key? key,
     required int collectionId,
     required String url,
   }) : super(
@@ -1857,7 +1933,7 @@ class RemoteShopCollectionScreenRouteArgs {
     required this.url,
   });
 
-  final _i49.Key? key;
+  final _i51.Key? key;
 
   final int collectionId;
 
@@ -1870,11 +1946,11 @@ class RemoteShopCollectionScreenRouteArgs {
 }
 
 /// generated route for
-/// [_i44.WebShopDetailScreen]
+/// [_i46.WebShopDetailScreen]
 class WebShopDetailScreenRoute
-    extends _i48.PageRouteInfo<WebShopDetailScreenRouteArgs> {
+    extends _i50.PageRouteInfo<WebShopDetailScreenRouteArgs> {
   WebShopDetailScreenRoute({
-    _i49.Key? key,
+    _i51.Key? key,
     required int shopId,
   }) : super(
           WebShopDetailScreenRoute.name,
@@ -1895,7 +1971,7 @@ class WebShopDetailScreenRouteArgs {
     required this.shopId,
   });
 
-  final _i49.Key? key;
+  final _i51.Key? key;
 
   final int shopId;
 
@@ -1906,11 +1982,11 @@ class WebShopDetailScreenRouteArgs {
 }
 
 /// generated route for
-/// [_i45.WebShopChatScreen]
+/// [_i47.WebShopChatScreen]
 class WebShopChatScreenRoute
-    extends _i48.PageRouteInfo<WebShopChatScreenRouteArgs> {
+    extends _i50.PageRouteInfo<WebShopChatScreenRouteArgs> {
   WebShopChatScreenRoute({
-    _i49.Key? key,
+    _i51.Key? key,
     required String identifier,
   }) : super(
           WebShopChatScreenRoute.name,
@@ -1931,7 +2007,7 @@ class WebShopChatScreenRouteArgs {
     required this.identifier,
   });
 
-  final _i49.Key? key;
+  final _i51.Key? key;
 
   final String identifier;
 
@@ -1942,11 +2018,11 @@ class WebShopChatScreenRouteArgs {
 }
 
 /// generated route for
-/// [_i46.WebCollectionDetailScreen]
+/// [_i48.WebCollectionDetailScreen]
 class WebCollectionDetailScreenRoute
-    extends _i48.PageRouteInfo<WebCollectionDetailScreenRouteArgs> {
+    extends _i50.PageRouteInfo<WebCollectionDetailScreenRouteArgs> {
   WebCollectionDetailScreenRoute({
-    _i49.Key? key,
+    _i51.Key? key,
     required int shopId,
     required int collectionId,
   }) : super(
@@ -1973,7 +2049,7 @@ class WebCollectionDetailScreenRouteArgs {
     required this.collectionId,
   });
 
-  final _i49.Key? key;
+  final _i51.Key? key;
 
   final int shopId;
 
@@ -1986,11 +2062,11 @@ class WebCollectionDetailScreenRouteArgs {
 }
 
 /// generated route for
-/// [_i47.WebListingDetailScreen]
+/// [_i49.WebListingDetailScreen]
 class WebListingDetailScreenRoute
-    extends _i48.PageRouteInfo<WebListingDetailScreenRouteArgs> {
+    extends _i50.PageRouteInfo<WebListingDetailScreenRouteArgs> {
   WebListingDetailScreenRoute({
-    _i49.Key? key,
+    _i51.Key? key,
     required int shopId,
     required int collectionId,
     required int listingId,
@@ -2022,7 +2098,7 @@ class WebListingDetailScreenRouteArgs {
     required this.listingId,
   });
 
-  final _i49.Key? key;
+  final _i51.Key? key;
 
   final int shopId;
 

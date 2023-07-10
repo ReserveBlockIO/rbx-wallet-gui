@@ -26,13 +26,15 @@ mixin _$TokenScFeature {
   String get ticker => throw _privateConstructorUsedError;
   @JsonKey(name: "TokenDecimalPlaces")
   int get decimalPlaces => throw _privateConstructorUsedError;
-  @JsonKey(name: "TokenSupply")
+  @JsonKey(name: "TokenSupply", toJson: supplyToJson)
   double get supply => throw _privateConstructorUsedError;
   @JsonKey(name: "TokenBurnable")
   bool get burnable => throw _privateConstructorUsedError;
+  @JsonKey(name: "TokenMintable")
+  bool get mintable => throw _privateConstructorUsedError;
   @JsonKey(name: "TokenVoting")
   bool get voting => throw _privateConstructorUsedError;
-  @JsonKey(name: "TokenImageUrl")
+  @JsonKey(name: "TokenImageURL")
   String? get imageUrl => throw _privateConstructorUsedError;
   @JsonKey(name: "TokenImageBase")
   String? get imageBase64 => throw _privateConstructorUsedError;
@@ -53,10 +55,11 @@ abstract class $TokenScFeatureCopyWith<$Res> {
       {@JsonKey(name: "TokenName") String name,
       @JsonKey(name: "TokenTicker") String ticker,
       @JsonKey(name: "TokenDecimalPlaces") int decimalPlaces,
-      @JsonKey(name: "TokenSupply") double supply,
+      @JsonKey(name: "TokenSupply", toJson: supplyToJson) double supply,
       @JsonKey(name: "TokenBurnable") bool burnable,
+      @JsonKey(name: "TokenMintable") bool mintable,
       @JsonKey(name: "TokenVoting") bool voting,
-      @JsonKey(name: "TokenImageUrl") String? imageUrl,
+      @JsonKey(name: "TokenImageURL") String? imageUrl,
       @JsonKey(name: "TokenImageBase") String? imageBase64});
 }
 
@@ -78,6 +81,7 @@ class _$TokenScFeatureCopyWithImpl<$Res, $Val extends TokenScFeature>
     Object? decimalPlaces = null,
     Object? supply = null,
     Object? burnable = null,
+    Object? mintable = null,
     Object? voting = null,
     Object? imageUrl = freezed,
     Object? imageBase64 = freezed,
@@ -102,6 +106,10 @@ class _$TokenScFeatureCopyWithImpl<$Res, $Val extends TokenScFeature>
       burnable: null == burnable
           ? _value.burnable
           : burnable // ignore: cast_nullable_to_non_nullable
+              as bool,
+      mintable: null == mintable
+          ? _value.mintable
+          : mintable // ignore: cast_nullable_to_non_nullable
               as bool,
       voting: null == voting
           ? _value.voting
@@ -131,10 +139,11 @@ abstract class _$$_TokenScFeatureCopyWith<$Res>
       {@JsonKey(name: "TokenName") String name,
       @JsonKey(name: "TokenTicker") String ticker,
       @JsonKey(name: "TokenDecimalPlaces") int decimalPlaces,
-      @JsonKey(name: "TokenSupply") double supply,
+      @JsonKey(name: "TokenSupply", toJson: supplyToJson) double supply,
       @JsonKey(name: "TokenBurnable") bool burnable,
+      @JsonKey(name: "TokenMintable") bool mintable,
       @JsonKey(name: "TokenVoting") bool voting,
-      @JsonKey(name: "TokenImageUrl") String? imageUrl,
+      @JsonKey(name: "TokenImageURL") String? imageUrl,
       @JsonKey(name: "TokenImageBase") String? imageBase64});
 }
 
@@ -154,6 +163,7 @@ class __$$_TokenScFeatureCopyWithImpl<$Res>
     Object? decimalPlaces = null,
     Object? supply = null,
     Object? burnable = null,
+    Object? mintable = null,
     Object? voting = null,
     Object? imageUrl = freezed,
     Object? imageBase64 = freezed,
@@ -179,6 +189,10 @@ class __$$_TokenScFeatureCopyWithImpl<$Res>
           ? _value.burnable
           : burnable // ignore: cast_nullable_to_non_nullable
               as bool,
+      mintable: null == mintable
+          ? _value.mintable
+          : mintable // ignore: cast_nullable_to_non_nullable
+              as bool,
       voting: null == voting
           ? _value.voting
           : voting // ignore: cast_nullable_to_non_nullable
@@ -202,10 +216,11 @@ class _$_TokenScFeature extends _TokenScFeature {
       {@JsonKey(name: "TokenName") required this.name,
       @JsonKey(name: "TokenTicker") required this.ticker,
       @JsonKey(name: "TokenDecimalPlaces") required this.decimalPlaces,
-      @JsonKey(name: "TokenSupply") required this.supply,
+      @JsonKey(name: "TokenSupply", toJson: supplyToJson) required this.supply,
       @JsonKey(name: "TokenBurnable") required this.burnable,
+      @JsonKey(name: "TokenMintable") required this.mintable,
       @JsonKey(name: "TokenVoting") required this.voting,
-      @JsonKey(name: "TokenImageUrl") this.imageUrl,
+      @JsonKey(name: "TokenImageURL") this.imageUrl,
       @JsonKey(name: "TokenImageBase") this.imageBase64})
       : super._();
 
@@ -222,16 +237,19 @@ class _$_TokenScFeature extends _TokenScFeature {
   @JsonKey(name: "TokenDecimalPlaces")
   final int decimalPlaces;
   @override
-  @JsonKey(name: "TokenSupply")
+  @JsonKey(name: "TokenSupply", toJson: supplyToJson)
   final double supply;
   @override
   @JsonKey(name: "TokenBurnable")
   final bool burnable;
   @override
+  @JsonKey(name: "TokenMintable")
+  final bool mintable;
+  @override
   @JsonKey(name: "TokenVoting")
   final bool voting;
   @override
-  @JsonKey(name: "TokenImageUrl")
+  @JsonKey(name: "TokenImageURL")
   final String? imageUrl;
   @override
   @JsonKey(name: "TokenImageBase")
@@ -239,7 +257,7 @@ class _$_TokenScFeature extends _TokenScFeature {
 
   @override
   String toString() {
-    return 'TokenScFeature(name: $name, ticker: $ticker, decimalPlaces: $decimalPlaces, supply: $supply, burnable: $burnable, voting: $voting, imageUrl: $imageUrl, imageBase64: $imageBase64)';
+    return 'TokenScFeature(name: $name, ticker: $ticker, decimalPlaces: $decimalPlaces, supply: $supply, burnable: $burnable, mintable: $mintable, voting: $voting, imageUrl: $imageUrl, imageBase64: $imageBase64)';
   }
 
   @override
@@ -254,6 +272,8 @@ class _$_TokenScFeature extends _TokenScFeature {
             (identical(other.supply, supply) || other.supply == supply) &&
             (identical(other.burnable, burnable) ||
                 other.burnable == burnable) &&
+            (identical(other.mintable, mintable) ||
+                other.mintable == mintable) &&
             (identical(other.voting, voting) || other.voting == voting) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
@@ -264,7 +284,7 @@ class _$_TokenScFeature extends _TokenScFeature {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, name, ticker, decimalPlaces,
-      supply, burnable, voting, imageUrl, imageBase64);
+      supply, burnable, mintable, voting, imageUrl, imageBase64);
 
   @JsonKey(ignore: true)
   @override
@@ -282,15 +302,24 @@ class _$_TokenScFeature extends _TokenScFeature {
 
 abstract class _TokenScFeature extends TokenScFeature {
   const factory _TokenScFeature(
-          {@JsonKey(name: "TokenName") required final String name,
-          @JsonKey(name: "TokenTicker") required final String ticker,
-          @JsonKey(name: "TokenDecimalPlaces") required final int decimalPlaces,
-          @JsonKey(name: "TokenSupply") required final double supply,
-          @JsonKey(name: "TokenBurnable") required final bool burnable,
-          @JsonKey(name: "TokenVoting") required final bool voting,
-          @JsonKey(name: "TokenImageUrl") final String? imageUrl,
-          @JsonKey(name: "TokenImageBase") final String? imageBase64}) =
-      _$_TokenScFeature;
+      {@JsonKey(name: "TokenName")
+          required final String name,
+      @JsonKey(name: "TokenTicker")
+          required final String ticker,
+      @JsonKey(name: "TokenDecimalPlaces")
+          required final int decimalPlaces,
+      @JsonKey(name: "TokenSupply", toJson: supplyToJson)
+          required final double supply,
+      @JsonKey(name: "TokenBurnable")
+          required final bool burnable,
+      @JsonKey(name: "TokenMintable")
+          required final bool mintable,
+      @JsonKey(name: "TokenVoting")
+          required final bool voting,
+      @JsonKey(name: "TokenImageURL")
+          final String? imageUrl,
+      @JsonKey(name: "TokenImageBase")
+          final String? imageBase64}) = _$_TokenScFeature;
   const _TokenScFeature._() : super._();
 
   factory _TokenScFeature.fromJson(Map<String, dynamic> json) =
@@ -306,16 +335,19 @@ abstract class _TokenScFeature extends TokenScFeature {
   @JsonKey(name: "TokenDecimalPlaces")
   int get decimalPlaces;
   @override
-  @JsonKey(name: "TokenSupply")
+  @JsonKey(name: "TokenSupply", toJson: supplyToJson)
   double get supply;
   @override
   @JsonKey(name: "TokenBurnable")
   bool get burnable;
   @override
+  @JsonKey(name: "TokenMintable")
+  bool get mintable;
+  @override
   @JsonKey(name: "TokenVoting")
   bool get voting;
   @override
-  @JsonKey(name: "TokenImageUrl")
+  @JsonKey(name: "TokenImageURL")
   String? get imageUrl;
   @override
   @JsonKey(name: "TokenImageBase")

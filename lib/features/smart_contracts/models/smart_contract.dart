@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/features/token/models/token_sc_feature.dart';
 import '../../sc_property/models/sc_property.dart';
 
 import '../../../core/app_constants.dart';
@@ -51,6 +52,7 @@ abstract class SmartContract with _$SmartContract {
     @Default(false) bool isCompiled,
     @Default(false) bool isPublished,
     @Default([]) List<ScProperty> properties,
+    TokenScFeature? token,
   }) = _SmartContract;
 
   factory SmartContract.fromJson(Map<String, dynamic> json) => _$SmartContractFromJson(json);
@@ -173,6 +175,15 @@ abstract class SmartContract with _$SmartContract {
       final f = {'FeatureName': MultiAsset.compilerEnum, 'FeatureFeatures': m.serializeForCompiler(minterName)};
       features.add(f);
     }
+
+    if (token != null) {
+      final f = {
+        'FeatureName': TokenScFeature.compilerEnum,
+        'FeatureFeatures': token!.toJson(),
+      };
+      features.add(f);
+    }
+
     Map<String, String>? propertiesOutput;
     if (properties.isNotEmpty) {
       propertiesOutput = {};

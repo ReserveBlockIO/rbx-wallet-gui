@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/empty_router_widgets.dart';
+import 'package:rbx_wallet/features/token/screens/token_create_screen.dart';
+import 'package:rbx_wallet/features/token/screens/token_list_screen.dart';
 import '../features/chat/screens/buyer_chat_thread_list_screen.dart';
 import '../features/dst/screens/create_collection_container_screen.dart';
 import '../features/dst/screens/create_dec_shop_container_screen.dart';
@@ -189,6 +191,15 @@ const List<AutoRoute> appRoutes = [
         page: EmptyRouterPage,
         children: [
           AutoRoute(path: "", page: BeaconListScreen),
+        ],
+      ),
+      AutoRoute(
+        path: "tokens",
+        name: "TokenTabRouter",
+        page: EmptyRouterPage,
+        children: [
+          AutoRoute(path: "", page: TokenListScreen),
+          AutoRoute(path: "create", page: TokenCreateScreen),
         ],
       ),
       // AutoRoute(

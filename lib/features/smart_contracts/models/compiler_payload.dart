@@ -33,7 +33,8 @@ abstract class CompilerPayload with _$CompilerPayload {
         required bool isMinter,
     @JsonKey(name: "Properties")
         Map<String, String>? properties,
-    required String hash,
+    @JsonKey(includeToJson: false)
+        required String hash,
   }) = _CompilerPayload;
 
   factory CompilerPayload.fromJson(Map<String, dynamic> json) => _$CompilerPayloadFromJson(json);
