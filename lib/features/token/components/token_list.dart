@@ -62,22 +62,21 @@ class TokenList extends BaseComponent {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            if (index == 0)
+              SizedBox(
+                height: 8,
+              ),
             Container(
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary.withOpacity(0.7),
+                // color: Theme.of(context).colorScheme.primary.withOpacity(0.7),
+                color: Colors.white.withOpacity(0.03),
+                border: Border.all(color: Colors.white.withOpacity(0.03)),
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    SelectableText(
-                      account.address,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 18,
-                      ),
-                    ),
                     InkWell(
                       onTap: () async {
                         await Clipboard.setData(ClipboardData(text: account.address));
@@ -85,15 +84,25 @@ class TokenList extends BaseComponent {
                       },
                       child: Icon(
                         Icons.copy,
-                        size: 18,
+                        size: 14,
                       ),
-                    )
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    SelectableText(
+                      account.address,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                      ),
+                    ),
                   ],
                 ),
               ),
             ),
             SizedBox(
-              height: 4,
+              height: 8,
             ),
             ...tokens.map((t) {
               return TokenListTile(
@@ -103,7 +112,7 @@ class TokenList extends BaseComponent {
               );
             }),
             SizedBox(
-              height: 16,
+              height: 8,
             ),
           ],
         );
