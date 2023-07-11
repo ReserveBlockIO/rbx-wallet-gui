@@ -17,6 +17,7 @@ import '../../../core/providers/web_session_provider.dart';
 import '../../dst/providers/dec_shop_provider.dart';
 import '../../dst/providers/dst_tx_pending_provider.dart';
 import '../../remote_shop/services/remote_shop_service.dart';
+import '../../token/providers/token_list_provider.dart';
 import 'web_transaction_list_provider.dart';
 import '../../../utils/toast.dart';
 
@@ -146,6 +147,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
             icon: Icons.toll,
           ),
         );
+        ref.read(tokenListProvider.notifier).reloadCurrentPage();
       } else {
         body = _nftDataValue(nftData, 'ContractUID');
         _broadcastNotification(
@@ -201,14 +203,49 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
 
       if (function == "TokenMint()") {
         final amount = _nftDataValue(nftData, "Amount");
+        final ticker = _nftDataValue(nftData, "TokenTicker");
 
         _broadcastNotification(
           TransactionNotification(
             identifier: "${transaction.hash}_outgoing",
             transaction: transaction,
             title: "Tokens Minted",
-            body: "$amount",
+            body: "$amount ${ticker != null ? '[$ticker]' : ''}",
             icon: Icons.toll,
+          ),
+        );
+        return;
+      }
+
+      if (function == "TokenTransfer()") {
+        final amount = _nftDataValue(nftData, "Amount");
+        final ticker = _nftDataValue(nftData, "TokenTicker");
+
+        _broadcastNotification(
+          TransactionNotification(
+            identifier: "${transaction.hash}_outgoing",
+            transaction: transaction,
+            title: "Token Transfer",
+            body: "$amount ${ticker != null ? '[$ticker]' : ''}",
+            icon: Icons.toll,
+            color: AppColorVariant.Primary,
+          ),
+        );
+        return;
+      }
+
+      if (function == "TokenBurn()") {
+        final amount = _nftDataValue(nftData, "Amount");
+        final ticker = _nftDataValue(nftData, "TokenTicker");
+
+        _broadcastNotification(
+          TransactionNotification(
+            identifier: "${transaction.hash}_outgoing",
+            transaction: transaction,
+            title: "Token Burn",
+            body: "$amount ${ticker != null ? '[$ticker]' : ''}",
+            icon: Icons.toll,
+            color: AppColorVariant.Danger,
           ),
         );
         return;
@@ -275,6 +312,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
         if (scId != null) {
           ref.invalidate(nftDetailWatcher(scId));
           ref.read(transferredProvider.notifier).removeId(scId);
+          ref.read(tokenListProvider.notifier).reloadCurrentPage();
         }
         return;
       }

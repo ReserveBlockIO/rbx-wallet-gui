@@ -30,8 +30,9 @@ class TokenManagementScreen extends BaseScreen {
   final TokenAccount tokenAccount;
   final TokenScFeature token;
   final String nftId;
+  final String address;
 
-  const TokenManagementScreen(this.tokenAccount, this.token, this.nftId, {super.key})
+  const TokenManagementScreen(this.tokenAccount, this.token, this.nftId, this.address, {super.key})
       : super(
           backgroundColor: Colors.black87,
           horizontalPadding: 0,
@@ -82,32 +83,34 @@ class TokenManagementScreen extends BaseScreen {
           return SizedBox();
         }
 
+        final balance = ref.watch(sessionProvider).balances.firstWhereOrNull((b) => b.address == address);
+        print("ADDY $address");
+        print(balance);
+        // if (balance == null) {
+        //   return SizedBox();
+        // }
+
+        // final t = balance.tokens.firstWhereOrNull((t) => t.smartContractId == nftId);
+        // if (t == null) {
+        //   return SizedBox();
+        // }
+
         return SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                Builder(builder: (context) {
-                  final balance = ref.watch(sessionProvider).balances.firstWhereOrNull((b) => b.address == nft.currentOwner);
-
-                  if (balance == null) {
-                    return SizedBox();
-                  }
-
-                  final token = balance.tokens.firstWhereOrNull((t) => t.smartContractId == nftId);
-                  if (token == null) {
-                    return SizedBox();
-                  }
-
-                  return Text(
-                    "Balance: ${token.balance}",
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
-                  );
-                }),
+                // Builder(builder: (context) {
+                //   return Text(
+                //     // "Balance: ${t?.balance}",
+                //     "",
+                //     style: TextStyle(
+                //       fontSize: 22,
+                //       fontWeight: FontWeight.w500,
+                //       color: Theme.of(context).colorScheme.secondary,
+                //     ),
+                //   );
+                // }),
                 Divider(),
                 TokenDetailsContent(
                   tokenAccount: tokenAccount,
@@ -124,11 +127,11 @@ class TokenManagementScreen extends BaseScreen {
                     runSpacing: 12.0,
                     children: [
                       if (token.mintable) MintTokensButton(nft: nft),
-                      TransferTokensButton(
-                        scId: nft.id,
-                        fromAddress: nft.currentOwner,
-                        currentBalance: tokenAccount.balance,
-                      ),
+                      // TransferTokensButton(
+                      //   scId: nft.id,
+                      //   fromAddress: address,
+                      //   currentBalance: t.balance,
+                      // ),
                       PauseTokenButton(
                         scId: nft.id,
                         fromAddress: nft.currentOwner,
@@ -147,13 +150,13 @@ class TokenManagementScreen extends BaseScreen {
                     spacing: 12.0,
                     runSpacing: 12.0,
                     children: [
-                      if (token.burnable)
-                        BurnTokensButton(
-                          scId: nft.id,
-                          fromAddress: nft.currentOwner,
-                          currentBalance: tokenAccount.balance,
-                          elevated: false,
-                        ),
+                      // if (token.burnable)
+                      //   BurnTokensButton(
+                      //     scId: nft.id,
+                      //     fromAddress: nft.currentOwner,
+                      //     currentBalance: t.balance,
+                      //     elevated: false,
+                      //   ),
                       BanTokenAddressButton(
                         nft: nft,
                         fromAddress: nft.currentOwner,

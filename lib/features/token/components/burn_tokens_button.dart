@@ -38,7 +38,7 @@ class BurnTokensButton extends BaseComponent {
       onPressed: () async {
         final nft = await NftService().getNftData(scId);
 
-        if (nft?.tokenDetails?.burnable != true) {
+        if (nft?.tokenStateDetails?.burnable != true) {
           Toast.error("This token is not burnable");
           return;
         }

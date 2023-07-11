@@ -11,6 +11,7 @@ import 'package:process/process.dart';
 import 'package:process_run/shell.dart';
 import 'package:rbx_wallet/features/balance/models/balance.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service_v2.dart';
+import '../../features/token/providers/token_list_provider.dart';
 import '../api_token_manager.dart';
 import '../utils.dart';
 import '../../features/chat/providers/chat_notification_provider.dart';
@@ -473,6 +474,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
       ref.read(mintedNftListProvider.notifier).reloadCurrentPage();
       ref.read(draftsSmartContractProvider.notifier).load();
       ref.read(listedNftsProvider.notifier).refresh();
+      ref.read(tokenListProvider.notifier).reloadCurrentPage();
     }
 
     if (inLoop) {

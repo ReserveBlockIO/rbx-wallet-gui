@@ -94,7 +94,8 @@ class TokenListTile extends BaseComponent {
                       final tokenAccount = TokenAccount.fromNft(detail, ref);
                       final tokenFeature = TokenScFeature.fromNft(detail);
                       if (tokenAccount != null && tokenFeature != null) {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (_) => TokenManagementScreen(tokenAccount, tokenFeature, detail.id)));
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (_) => TokenManagementScreen(tokenAccount, tokenFeature, detail.id, address)));
                         return;
                       }
                     }
