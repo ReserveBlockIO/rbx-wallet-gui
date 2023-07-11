@@ -186,7 +186,7 @@ class TokenForm extends BaseComponent {
                       height: 64,
                       child: Image(
                         image: CacheMemoryImageProvider(
-                          model.imageBase64!.substring(0, 32),
+                          model.imageBase64!,
                           Base64Decoder().convert(model.imageBase64!),
                         ),
                         width: 64,

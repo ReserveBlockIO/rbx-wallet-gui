@@ -189,6 +189,7 @@ class TokenManagementScreen extends BaseScreen {
                     address: addresses[i],
                     token: ref.read(tokenNftsProvider)[t.smartContractId],
                     titleOverride: addresses[i],
+                    interactive: false,
                   );
                 }).toList()
               ],

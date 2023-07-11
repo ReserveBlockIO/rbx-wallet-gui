@@ -51,7 +51,7 @@ class PauseTokenButton extends BaseComponent {
           }
 
           return AppButton(
-            label: isPaused ? "Resume" : "Pause",
+            label: isPaused ? "Resume TXs" : "Pause TXs",
             variant: AppColorVariant.Light,
             onPressed: () async {
               final confirmed = await ConfirmDialog.show(
