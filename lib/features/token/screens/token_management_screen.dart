@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/core/providers/cached_memory_image_provider.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
@@ -50,11 +51,13 @@ class TokenManagementScreen extends BaseScreen {
               child: SizedBox(
                 width: 32,
                 height: 32,
-                child: Image.memory(
-                  Base64Decoder().convert(token.imageBase64!),
+                child: Image(
+                  image: CacheMemoryImageProvider(
+                    tokenAccount.smartContractId,
+                    Base64Decoder().convert(token.imageBase64!),
+                  ),
                   width: 32,
                   height: 32,
-                  fit: BoxFit.contain,
                 ),
               ),
             ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/core/providers/cached_memory_image_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/nft/providers/transferred_provider.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
@@ -41,7 +42,14 @@ class TokenCard extends BaseComponent {
                   ? SizedBox(
                       width: 32,
                       height: 32,
-                      child: Image.memory(Base64Decoder().convert(token!.imageBase64!), width: 32, height: 32),
+                      child: Image(
+                        image: CacheMemoryImageProvider(
+                          tokenAccount.smartContractId,
+                          Base64Decoder().convert(token!.imageBase64!),
+                        ),
+                        width: 32,
+                        height: 32,
+                      ),
                     )
                   : Icon(Icons.toll),
               title: Text(tokenAccount.label),

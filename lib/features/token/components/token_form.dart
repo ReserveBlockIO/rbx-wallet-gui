@@ -11,6 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/core/providers/cached_memory_image_provider.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
@@ -183,11 +184,13 @@ class TokenForm extends BaseComponent {
                     child: SizedBox(
                       width: 64,
                       height: 64,
-                      child: Image.memory(
-                        Base64Decoder().convert(model.imageBase64!),
+                      child: Image(
+                        image: CacheMemoryImageProvider(
+                          model.imageBase64!.substring(0, 32),
+                          Base64Decoder().convert(model.imageBase64!),
+                        ),
                         width: 64,
                         height: 64,
-                        fit: BoxFit.contain,
                       ),
                     ),
                   ),
