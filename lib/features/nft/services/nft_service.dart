@@ -14,12 +14,25 @@ import '../utils.dart';
 class NftService extends BaseService {
   NftService() : super(apiBasePathOverride: "/scapi/scv1");
 
-  Future<CliPaginatedResponse<Nft>> list(int page, {String search = ""}) async {
+  Future<CliPaginatedResponse<Nft>> list(
+    int page, {
+    String search = "",
+    bool forTokens = false,
+  }) async {
     if (page < 1) {
       page = 1;
     }
 
-    final url = search.isNotEmpty ? "/GetAllSmartContracts/$page/$search" : "/GetAllSmartContracts/$page";
+    late String url;
+
+    if (forTokens) {
+      // /{pageNumber}/{excludeToken?}/{tokensOnly?}/{**search}
+      url = search.isNotEmpty ? "/GetAllSmartContracts/$page/0/1/$search" : "/GetAllSmartContracts/$page/0/1";
+    } else {
+      url = search.isNotEmpty ? "/GetAllSmartContracts/$page/1/0/$search" : "/GetAllSmartContracts/$page/1/0";
+    }
+
+    // final params = forTokens ? {'tokensOnly': true} : {'excludeToken': true};
 
     final response = await getText(url, cleanPath: false);
     if (response == 'null') {

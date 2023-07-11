@@ -32,6 +32,12 @@ mixin _$TokenDetails {
   int get decimalPlaces => throw _privateConstructorUsedError;
   @JsonKey(name: "IsPaused")
   bool get isPaused => throw _privateConstructorUsedError;
+  @JsonKey(name: "TokenBurnable")
+  bool get burnable => throw _privateConstructorUsedError;
+  @JsonKey(name: "TokenVoting")
+  bool get voting => throw _privateConstructorUsedError;
+  @JsonKey(name: "TokenMintable")
+  bool get mintable => throw _privateConstructorUsedError;
   @JsonKey(name: "ContractOwner")
   String get contractOwner => throw _privateConstructorUsedError;
   @JsonKey(name: "AddressBlackList")
@@ -56,6 +62,9 @@ abstract class $TokenDetailsCopyWith<$Res> {
       @JsonKey(name: "CurrentSupply") double currentSupply,
       @JsonKey(name: "DecimalPlaces") int decimalPlaces,
       @JsonKey(name: "IsPaused") bool isPaused,
+      @JsonKey(name: "TokenBurnable") bool burnable,
+      @JsonKey(name: "TokenVoting") bool voting,
+      @JsonKey(name: "TokenMintable") bool mintable,
       @JsonKey(name: "ContractOwner") String contractOwner,
       @JsonKey(name: "AddressBlackList") List<String>? addressBlackList});
 }
@@ -79,6 +88,9 @@ class _$TokenDetailsCopyWithImpl<$Res, $Val extends TokenDetails>
     Object? currentSupply = null,
     Object? decimalPlaces = null,
     Object? isPaused = null,
+    Object? burnable = null,
+    Object? voting = null,
+    Object? mintable = null,
     Object? contractOwner = null,
     Object? addressBlackList = freezed,
   }) {
@@ -107,6 +119,18 @@ class _$TokenDetailsCopyWithImpl<$Res, $Val extends TokenDetails>
           ? _value.isPaused
           : isPaused // ignore: cast_nullable_to_non_nullable
               as bool,
+      burnable: null == burnable
+          ? _value.burnable
+          : burnable // ignore: cast_nullable_to_non_nullable
+              as bool,
+      voting: null == voting
+          ? _value.voting
+          : voting // ignore: cast_nullable_to_non_nullable
+              as bool,
+      mintable: null == mintable
+          ? _value.mintable
+          : mintable // ignore: cast_nullable_to_non_nullable
+              as bool,
       contractOwner: null == contractOwner
           ? _value.contractOwner
           : contractOwner // ignore: cast_nullable_to_non_nullable
@@ -134,6 +158,9 @@ abstract class _$$_TokenDetailsCopyWith<$Res>
       @JsonKey(name: "CurrentSupply") double currentSupply,
       @JsonKey(name: "DecimalPlaces") int decimalPlaces,
       @JsonKey(name: "IsPaused") bool isPaused,
+      @JsonKey(name: "TokenBurnable") bool burnable,
+      @JsonKey(name: "TokenVoting") bool voting,
+      @JsonKey(name: "TokenMintable") bool mintable,
       @JsonKey(name: "ContractOwner") String contractOwner,
       @JsonKey(name: "AddressBlackList") List<String>? addressBlackList});
 }
@@ -155,6 +182,9 @@ class __$$_TokenDetailsCopyWithImpl<$Res>
     Object? currentSupply = null,
     Object? decimalPlaces = null,
     Object? isPaused = null,
+    Object? burnable = null,
+    Object? voting = null,
+    Object? mintable = null,
     Object? contractOwner = null,
     Object? addressBlackList = freezed,
   }) {
@@ -183,6 +213,18 @@ class __$$_TokenDetailsCopyWithImpl<$Res>
           ? _value.isPaused
           : isPaused // ignore: cast_nullable_to_non_nullable
               as bool,
+      burnable: null == burnable
+          ? _value.burnable
+          : burnable // ignore: cast_nullable_to_non_nullable
+              as bool,
+      voting: null == voting
+          ? _value.voting
+          : voting // ignore: cast_nullable_to_non_nullable
+              as bool,
+      mintable: null == mintable
+          ? _value.mintable
+          : mintable // ignore: cast_nullable_to_non_nullable
+              as bool,
       contractOwner: null == contractOwner
           ? _value.contractOwner
           : contractOwner // ignore: cast_nullable_to_non_nullable
@@ -205,6 +247,9 @@ class _$_TokenDetails extends _TokenDetails {
       @JsonKey(name: "CurrentSupply") required this.currentSupply,
       @JsonKey(name: "DecimalPlaces") required this.decimalPlaces,
       @JsonKey(name: "IsPaused") required this.isPaused,
+      @JsonKey(name: "TokenBurnable") required this.burnable,
+      @JsonKey(name: "TokenVoting") required this.voting,
+      @JsonKey(name: "TokenMintable") required this.mintable,
       @JsonKey(name: "ContractOwner") required this.contractOwner,
       @JsonKey(name: "AddressBlackList") final List<String>? addressBlackList})
       : _addressBlackList = addressBlackList,
@@ -232,6 +277,15 @@ class _$_TokenDetails extends _TokenDetails {
   @JsonKey(name: "IsPaused")
   final bool isPaused;
   @override
+  @JsonKey(name: "TokenBurnable")
+  final bool burnable;
+  @override
+  @JsonKey(name: "TokenVoting")
+  final bool voting;
+  @override
+  @JsonKey(name: "TokenMintable")
+  final bool mintable;
+  @override
   @JsonKey(name: "ContractOwner")
   final String contractOwner;
   final List<String>? _addressBlackList;
@@ -248,7 +302,7 @@ class _$_TokenDetails extends _TokenDetails {
 
   @override
   String toString() {
-    return 'TokenDetails(name: $name, ticker: $ticker, startingSupply: $startingSupply, currentSupply: $currentSupply, decimalPlaces: $decimalPlaces, isPaused: $isPaused, contractOwner: $contractOwner, addressBlackList: $addressBlackList)';
+    return 'TokenDetails(name: $name, ticker: $ticker, startingSupply: $startingSupply, currentSupply: $currentSupply, decimalPlaces: $decimalPlaces, isPaused: $isPaused, burnable: $burnable, voting: $voting, mintable: $mintable, contractOwner: $contractOwner, addressBlackList: $addressBlackList)';
   }
 
   @override
@@ -266,6 +320,11 @@ class _$_TokenDetails extends _TokenDetails {
                 other.decimalPlaces == decimalPlaces) &&
             (identical(other.isPaused, isPaused) ||
                 other.isPaused == isPaused) &&
+            (identical(other.burnable, burnable) ||
+                other.burnable == burnable) &&
+            (identical(other.voting, voting) || other.voting == voting) &&
+            (identical(other.mintable, mintable) ||
+                other.mintable == mintable) &&
             (identical(other.contractOwner, contractOwner) ||
                 other.contractOwner == contractOwner) &&
             const DeepCollectionEquality()
@@ -282,6 +341,9 @@ class _$_TokenDetails extends _TokenDetails {
       currentSupply,
       decimalPlaces,
       isPaused,
+      burnable,
+      voting,
+      mintable,
       contractOwner,
       const DeepCollectionEquality().hash(_addressBlackList));
 
@@ -313,6 +375,12 @@ abstract class _TokenDetails extends TokenDetails {
           required final int decimalPlaces,
       @JsonKey(name: "IsPaused")
           required final bool isPaused,
+      @JsonKey(name: "TokenBurnable")
+          required final bool burnable,
+      @JsonKey(name: "TokenVoting")
+          required final bool voting,
+      @JsonKey(name: "TokenMintable")
+          required final bool mintable,
       @JsonKey(name: "ContractOwner")
           required final String contractOwner,
       @JsonKey(name: "AddressBlackList")
@@ -340,6 +408,15 @@ abstract class _TokenDetails extends TokenDetails {
   @override
   @JsonKey(name: "IsPaused")
   bool get isPaused;
+  @override
+  @JsonKey(name: "TokenBurnable")
+  bool get burnable;
+  @override
+  @JsonKey(name: "TokenVoting")
+  bool get voting;
+  @override
+  @JsonKey(name: "TokenMintable")
+  bool get mintable;
   @override
   @JsonKey(name: "ContractOwner")
   String get contractOwner;

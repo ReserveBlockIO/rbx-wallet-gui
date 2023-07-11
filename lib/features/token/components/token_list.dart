@@ -6,7 +6,7 @@ import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/token/components/token_card.dart';
+import 'package:rbx_wallet/features/token/components/token_list_tile.dart';
 import 'package:rbx_wallet/features/token/providers/token_nfts_provider.dart';
 
 class TokenList extends BaseComponent {
@@ -21,19 +21,8 @@ class TokenList extends BaseComponent {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              "No Tokens Found",
+              "No Tokens",
               style: TextStyle(fontSize: 18),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text("Accounts with a token balance will show up here."),
-            ),
-            AppButton(
-              label: "Create Token",
-              variant: AppColorVariant.Success,
-              onPressed: () {
-                AutoRouter.of(context).push(TokenCreateScreenRoute());
-              },
             ),
           ],
         ),
@@ -66,7 +55,7 @@ class TokenList extends BaseComponent {
               ),
             ),
             ...tokens.map((t) {
-              return TokenCard(
+              return TokenListTile(
                 tokenAccount: t,
                 address: account.address,
                 token: ref.read(tokenNftsProvider)[t.smartContractId],

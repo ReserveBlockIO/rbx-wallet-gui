@@ -14,6 +14,9 @@ class TokenDetails with _$TokenDetails {
     @JsonKey(name: "CurrentSupply") required double currentSupply,
     @JsonKey(name: "DecimalPlaces") required int decimalPlaces,
     @JsonKey(name: "IsPaused") required bool isPaused,
+    @JsonKey(name: "TokenBurnable") required bool burnable,
+    @JsonKey(name: "TokenVoting") required bool voting,
+    @JsonKey(name: "TokenMintable") required bool mintable,
     @JsonKey(name: "ContractOwner") required String contractOwner,
     @JsonKey(name: "AddressBlackList") List<String>? addressBlackList,
   }) = _TokenDetails;

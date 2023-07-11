@@ -19,11 +19,9 @@ class NftGrid extends BaseComponent {
   @override
   Widget body(BuildContext context, WidgetRef ref) {
     final NftListModel _model = ref.watch(minted ? mintedNftListProvider : nftListProvider);
-    // final searchController = ref.read(minted ? mintedNftListProvider.notifier : nftListProvider.notifier).searchController;
 
     return Column(
       children: [
-        // if (!kIsWeb)
         Padding(
           padding: const EdgeInsets.all(6.0),
           child: NftNavigator(minted: minted),

@@ -48,9 +48,13 @@ class TokenManagementScreen extends BaseScreen {
           if (token.imageBase64 != null && token.imageBase64!.isNotEmpty)
             Padding(
               padding: const EdgeInsets.only(right: 8.0),
-              child: SizedBox(
+              child: Container(
                 width: 32,
                 height: 32,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                clipBehavior: Clip.antiAlias,
                 child: Image(
                   image: CacheMemoryImageProvider(
                     tokenAccount.smartContractId,
@@ -217,10 +221,11 @@ class TokenDetailsContent extends StatelessWidget {
           value: token.ticker,
           copyable: true,
         ),
-        _DetailRow(
-          label: "Current Supply",
-          value: token.currentSupply.toString(),
-        ),
+        if (nft.tokenDetails != null && nft.tokenDetails!.supply > 0)
+          _DetailRow(
+            label: "Current Supply",
+            value: nft.tokenDetails!.supply.toString(),
+          ),
         if (nft.tokenDetails != null)
           _DetailRow(
             label: "Mintable",

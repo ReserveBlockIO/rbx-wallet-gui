@@ -14,6 +14,9 @@ _$_TokenDetails _$$_TokenDetailsFromJson(Map<String, dynamic> json) =>
       currentSupply: (json['CurrentSupply'] as num).toDouble(),
       decimalPlaces: json['DecimalPlaces'] as int,
       isPaused: json['IsPaused'] as bool,
+      burnable: json['TokenBurnable'] as bool,
+      voting: json['TokenVoting'] as bool,
+      mintable: json['TokenMintable'] as bool,
       contractOwner: json['ContractOwner'] as String,
       addressBlackList: (json['AddressBlackList'] as List<dynamic>?)
           ?.map((e) => e as String)
@@ -28,6 +31,9 @@ Map<String, dynamic> _$$_TokenDetailsToJson(_$_TokenDetails instance) =>
       'CurrentSupply': instance.currentSupply,
       'DecimalPlaces': instance.decimalPlaces,
       'IsPaused': instance.isPaused,
+      'TokenBurnable': instance.burnable,
+      'TokenVoting': instance.voting,
+      'TokenMintable': instance.mintable,
       'ContractOwner': instance.contractOwner,
       'AddressBlackList': instance.addressBlackList,
     };
