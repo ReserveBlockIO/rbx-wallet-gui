@@ -58,7 +58,7 @@ class TokenCard extends BaseComponent {
                       )
                     : Icon(Icons.toll),
                 SizedBox(
-                  height: 8,
+                  height: 16,
                 ),
                 Text(
                   tokenDetails.ticker,
@@ -72,6 +72,9 @@ class TokenCard extends BaseComponent {
                     ],
                   ),
                   textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  height: 8,
                 ),
                 Text(
                   nft.name,
@@ -87,21 +90,21 @@ class TokenCard extends BaseComponent {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4.0),
-                  child: Text(
-                    nft.id,
-                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                      shadows: [
-                        const Shadow(
-                          color: Colors.black87,
-                          offset: Offset.zero,
-                          blurRadius: 4.0,
-                        )
-                      ],
-                    ),
-                    textAlign: TextAlign.center,
+                SizedBox(
+                  height: 8,
+                ),
+                Text(
+                  nft.id,
+                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                    shadows: [
+                      const Shadow(
+                        color: Colors.black87,
+                        offset: Offset.zero,
+                        blurRadius: 4.0,
+                      )
+                    ],
                   ),
+                  textAlign: TextAlign.center,
                 ),
               ],
             ),

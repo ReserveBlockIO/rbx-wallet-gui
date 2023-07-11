@@ -27,9 +27,9 @@ class NftService extends BaseService {
 
     if (forTokens) {
       // /{pageNumber}/{excludeToken?}/{tokensOnly?}/{**search}
-      url = search.isNotEmpty ? "/GetAllSmartContracts/$page/0/1/$search" : "/GetAllSmartContracts/$page/0/1";
+      url = search.isNotEmpty ? "/GetAllSmartContracts/$page/false/true/$search" : "/GetAllSmartContracts/$page/false/true";
     } else {
-      url = search.isNotEmpty ? "/GetAllSmartContracts/$page/1/0/$search" : "/GetAllSmartContracts/$page/1/0";
+      url = search.isNotEmpty ? "/GetAllSmartContracts/$page/true/false/$search" : "/GetAllSmartContracts/$page/true/false";
     }
 
     // final params = forTokens ? {'tokensOnly': true} : {'excludeToken': true};

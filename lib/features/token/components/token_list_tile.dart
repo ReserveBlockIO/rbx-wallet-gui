@@ -28,7 +28,7 @@ class TokenListTile extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 0),
       child: Container(
         decoration: BoxDecoration(
           boxShadow: glowingBox,

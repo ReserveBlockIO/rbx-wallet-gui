@@ -216,7 +216,7 @@ class MainMenu extends BaseComponent {
                     isActive: tabsRouter.activeIndex == 9,
                   ),
                   _NavButton(
-                    title: "Tokens",
+                    title: "Fungible Tokens",
                     icon: Icons.toll,
                     onPressed: () {
                       if (tabsRouter.activeIndex == 13) {

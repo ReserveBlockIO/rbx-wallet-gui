@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_component.dart';
@@ -8,22 +9,44 @@ import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/token/components/token_list_tile.dart';
 import 'package:rbx_wallet/features/token/providers/token_nfts_provider.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 class TokenList extends BaseComponent {
-  const TokenList({super.key});
+  final Function()? handleManage;
+  const TokenList({super.key, this.handleManage});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final accounts = ref.watch(sessionProvider).balances.where((b) => b.tokens.isNotEmpty).toList();
-    if (accounts.isEmpty) {
+    if (!accounts.isEmpty) {
       return Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              "No Tokens",
+              "No Fungible Tokens",
               style: TextStyle(fontSize: 18),
             ),
+            SizedBox(height: 8),
+            Text("You have no fungible tokens minted/transferred to any of your wallets."),
+            SizedBox(height: 16),
+            AppButton(
+              label: "Create Token",
+              variant: AppColorVariant.Success,
+              onPressed: () {
+                AutoRouter.of(context).push(TokenCreateScreenRoute());
+              },
+            ),
+            SizedBox(height: 8),
+            if (handleManage != null)
+              AppButton(
+                label: "Manage Tokens",
+                type: AppButtonType.Text,
+                variant: AppColorVariant.Light,
+                onPressed: () {
+                  handleManage!();
+                },
+              ),
           ],
         ),
       );
@@ -44,15 +67,33 @@ class TokenList extends BaseComponent {
                 color: Theme.of(context).colorScheme.primary.withOpacity(0.7),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  account.address,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 18,
-                  ),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SelectableText(
+                      account.address,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 18,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () async {
+                        await Clipboard.setData(ClipboardData(text: account.address));
+                        Toast.message("Address copied to clipboard (${account.address})");
+                      },
+                      child: Icon(
+                        Icons.copy,
+                        size: 18,
+                      ),
+                    )
+                  ],
                 ),
               ),
+            ),
+            SizedBox(
+              height: 4,
             ),
             ...tokens.map((t) {
               return TokenListTile(

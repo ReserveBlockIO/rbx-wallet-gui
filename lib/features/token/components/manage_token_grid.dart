@@ -30,13 +30,13 @@ class ManageTokenGrid extends BaseComponent {
         ),
         Expanded(
           child: Builder(builder: (context) {
-            if (!_model.data.results.isEmpty) {
+            if (_model.data.results.isEmpty) {
               return Center(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      "No Tokens",
+                      "No Fungible Tokens",
                       style: TextStyle(fontSize: 18),
                     ),
                     SizedBox(
@@ -66,11 +66,6 @@ class ManageTokenGrid extends BaseComponent {
                 final nft = _model.data.results[index];
 
                 return TokenCard(nft: nft);
-                // return NftCard(
-                //   key: Key(nft.id),
-                //   nft,
-                //   manageOnPress: minted,
-                // );
               },
             );
           }),
