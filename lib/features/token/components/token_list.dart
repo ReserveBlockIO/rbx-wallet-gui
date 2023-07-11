@@ -18,7 +18,7 @@ class TokenList extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final accounts = ref.watch(sessionProvider).balances.where((b) => b.tokens.isNotEmpty).toList();
-    if (!accounts.isEmpty) {
+    if (accounts.isEmpty) {
       return Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
