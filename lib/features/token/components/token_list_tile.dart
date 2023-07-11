@@ -37,16 +37,30 @@ class TokenListTile extends BaseComponent {
           color: Colors.black,
           child: ListTile(
               leading: token != null && token!.imageBase64 != null
-                  ? SizedBox(
-                      width: 32,
-                      height: 32,
-                      child: Image(
-                        image: CacheMemoryImageProvider(
-                          tokenAccount.smartContractId,
-                          Base64Decoder().convert(token!.imageBase64!),
+                  ? Container(
+                      width: 34,
+                      height: 34,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(17.0),
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.5),
                         ),
+                      ),
+                      child: Container(
                         width: 32,
                         height: 32,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16.0),
+                        ),
+                        clipBehavior: Clip.antiAlias,
+                        child: Image(
+                          image: CacheMemoryImageProvider(
+                            tokenAccount.smartContractId,
+                            Base64Decoder().convert(token!.imageBase64!),
+                          ),
+                          width: 32,
+                          height: 32,
+                        ),
                       ),
                     )
                   : Icon(Icons.toll),

@@ -55,17 +55,29 @@ class TokenCard extends BaseComponent {
                 children: [
                   tokenDetails.imageBase64 != null
                       ? Container(
+                          width: 66,
+                          height: 66,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(32.0),
-                          ),
-                          clipBehavior: Clip.antiAlias,
-                          child: Image(
-                            image: CacheMemoryImageProvider(
-                              nft.id,
-                              Base64Decoder().convert(tokenDetails.imageBase64!),
+                            borderRadius: BorderRadius.circular(33.0),
+                            border: Border.all(
+                              color: Colors.white.withOpacity(0.5),
                             ),
+                          ),
+                          child: Container(
                             width: 64,
                             height: 64,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(32.0),
+                            ),
+                            clipBehavior: Clip.antiAlias,
+                            child: Image(
+                              image: CacheMemoryImageProvider(
+                                nft.id,
+                                Base64Decoder().convert(tokenDetails.imageBase64!),
+                              ),
+                              width: 64,
+                              height: 64,
+                            ),
                           ),
                         )
                       : Icon(Icons.toll),
