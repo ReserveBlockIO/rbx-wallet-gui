@@ -41,11 +41,12 @@ class SmartContractCreatorMain extends BaseComponent {
     await InfoDialog.show(
       title: "Stand by",
       body:
-          "Smart Contract mint transaction has been broadcasted.\n\nThe NFTs screen will reflect the change once the block is crafted and block height has synced with this transaction.",
+          "Smart Contract mint transaction has been broadcasted.\n\nThe Smart Contracts screen will reflect the change once the block is crafted and block height has synced with this transaction.",
     );
 
     // Future.delayed(const Duration(milliseconds: 300)).then((_) {
     AutoRouter.of(context).pop(id);
+
     // });
   }
 

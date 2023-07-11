@@ -294,7 +294,7 @@ class TokenForm extends BaseComponent {
                     await InfoDialog.show(
                       title: "Stand by",
                       body:
-                          "Token Smart Contract mint transaction has been broadcasted.\n\nThe NFTs and Token screens will reflect the change once the block is crafted and block height has synced with this transaction.",
+                          "Token Smart Contract mint transaction has been broadcasted.\n\nThe Smart Contracts screens will reflect the change once the block is crafted and block height has synced with this transaction.",
                     );
 
                     provider.clear();

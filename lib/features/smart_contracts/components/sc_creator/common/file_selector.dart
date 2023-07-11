@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/providers/cached_memory_image_provider.dart';
 import '../../../../../core/env.dart';
 import '../../../../../core/services/explorer_service.dart';
 import '../../../../global_loader/global_loading_provider.dart';
@@ -278,8 +279,11 @@ class _IconPreview extends StatelessWidget {
       builder: (context) {
         if (asset != null && asset!.isImage) {
           if (kIsWeb && asset!.bytes != null) {
-            return Image.memory(
-              asset!.bytes!,
+            return Image(
+              image: CacheMemoryImageProvider(
+                asset!.id,
+                asset!.bytes!,
+              ),
               width: size,
               height: size,
               fit: BoxFit.cover,

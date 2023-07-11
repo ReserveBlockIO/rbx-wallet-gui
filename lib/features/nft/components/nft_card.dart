@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rbx_wallet/core/providers/cached_memory_image_provider.dart';
 import 'package:rbx_wallet/features/nft/providers/sale_provider.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
 import 'package:rbx_wallet/features/token/models/token_account.dart';
@@ -87,41 +89,85 @@ class NftCard extends BaseComponent {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            if (kIsWeb)
-              nft.currentEvolveAssetWeb != null && nft.currentEvolveAssetWeb!.isImage
-                  ? AspectRatio(
-                      aspectRatio: 1,
-                      child: CachedNetworkImage(
-                        imageUrl: nft.currentEvolveAssetWeb!.location,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                      ),
-                    )
-                  : nft.currentEvolveAssetWeb != null
-                      ? const Icon(Icons.file_present_outlined)
-                      : const Text("NFT assets have not been transfered to the RBX Web Wallet."),
-            if (!kIsWeb)
-              nft.currentEvolveAsset.isImage
-                  ? AspectRatio(
-                      aspectRatio: 1,
-                      child: nft.currentEvolveAsset.localPath != null
-                          ? PollingImagePreview(
-                              localPath: nft.currentEvolveAsset.localPath!,
-                              expectedSize: nft.currentEvolveAsset.fileSize,
-                              withProgress: false,
+            if (nft.isToken) Container(color: Colors.black),
+            if (nft.isToken)
+              Container(
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
+              ),
+            Builder(builder: (context) {
+              if (nft.isToken) {
+                return Align(
+                    alignment: Alignment.topCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0).copyWith(top: 40),
+                      child: nft.tokenDetails?.imageBase64 != null
+                          ? Container(
+                              width: 64,
+                              height: 64,
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(32)),
+                              clipBehavior: Clip.antiAlias,
+                              child: Image(
+                                image: CacheMemoryImageProvider(
+                                  nft.id,
+                                  Base64Decoder().convert(nft.tokenDetails!.imageBase64!),
+                                ),
+                                width: 64,
+                                height: 64,
+                              ),
                             )
-                          : const Text(""),
-                    )
-                  : const Icon(Icons.file_present_outlined),
-            Container(
-              color: Colors.black38,
-            ),
+                          : SizedBox(
+                              width: 64,
+                              height: 64,
+                            ),
+                    ));
+              }
+
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (kIsWeb)
+                    nft.currentEvolveAssetWeb != null && nft.currentEvolveAssetWeb!.isImage
+                        ? AspectRatio(
+                            aspectRatio: 1,
+                            child: CachedNetworkImage(
+                              imageUrl: nft.currentEvolveAssetWeb!.location,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
+                          )
+                        : nft.currentEvolveAssetWeb != null
+                            ? const Icon(Icons.file_present_outlined)
+                            : const Text("NFT assets have not been transfered to the RBX Web Wallet."),
+                  if (!kIsWeb)
+                    nft.currentEvolveAsset.isImage
+                        ? AspectRatio(
+                            aspectRatio: 1,
+                            child: nft.currentEvolveAsset.localPath != null
+                                ? PollingImagePreview(
+                                    localPath: nft.currentEvolveAsset.localPath!,
+                                    expectedSize: nft.currentEvolveAsset.fileSize,
+                                    withProgress: false,
+                                  )
+                                : const Text(""),
+                          )
+                        : const Icon(Icons.file_present_outlined),
+                ],
+              );
+            }),
+            if (!nft.isToken)
+              Container(
+                color: Colors.black54,
+              ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  if (nft.isToken)
+                    SizedBox(
+                      height: 60,
+                    ),
                   Text(
                     nft.currentEvolveName,
                     style: Theme.of(context).textTheme.displaySmall!.copyWith(
@@ -151,6 +197,16 @@ class NftCard extends BaseComponent {
                       textAlign: TextAlign.center,
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      nft.isToken ? "[Fungible Token]" : "[Non-fungible Token]",
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),

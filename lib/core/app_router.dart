@@ -134,6 +134,8 @@ const List<AutoRoute> appRoutes = [
         page: EmptyRouterPage,
         children: [
           AutoRoute(path: "", page: NftListScreen),
+          AutoRoute(path: "create", page: SmartContractsScreen, name: "EmbeddedSmartContractsScreenRoute"),
+          AutoRoute(path: "create-token", page: TokenCreateScreen, name: "EmbeddedTokenCreateScreenRoute"),
         ],
       ),
       AutoRoute(

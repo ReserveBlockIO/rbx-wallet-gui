@@ -166,19 +166,19 @@ class MainMenu extends BaseComponent {
                     },
                     isActive: tabsRouter.activeIndex == 10,
                   ),
-                  _NavButton(
-                    title: "Smart Contracts",
-                    icon: Icons.receipt_long,
-                    onPressed: () {
-                      if (ref.read(sessionProvider).currentWallet == null) {
-                        Toast.error("A wallet is required to access this section.");
-                        return;
-                      }
-                      tabsRouter.setActiveIndex(8);
-                      tabsRouter.popTop();
-                    },
-                    isActive: tabsRouter.activeIndex == 8,
-                  ),
+                  // _NavButton(
+                  //   title: "Smart Contracts",
+                  //   icon: Icons.receipt_long,
+                  //   onPressed: () {
+                  //     if (ref.read(sessionProvider).currentWallet == null) {
+                  //       Toast.error("A wallet is required to access this section.");
+                  //       return;
+                  //     }
+                  //     tabsRouter.setActiveIndex(8);
+                  //     tabsRouter.popTop();
+                  //   },
+                  //   isActive: tabsRouter.activeIndex == 8,
+                  // ),
 
                   // if (!kIsWeb)
                   //   _NavButton(
@@ -190,8 +190,8 @@ class MainMenu extends BaseComponent {
                   //     isActive: tabsRouter.activeIndex == 5,
                   //   ),
                   _NavButton(
-                    title: "NFTs",
-                    icon: Icons.lightbulb_outline,
+                    title: "Smart Contracts",
+                    icon: Icons.receipt_long,
                     onPressed: () {
                       if (ref.read(sessionProvider).currentWallet == null) {
                         Toast.error("A wallet is required to access this section.");
@@ -216,7 +216,7 @@ class MainMenu extends BaseComponent {
                     isActive: tabsRouter.activeIndex == 9,
                   ),
                   _NavButton(
-                    title: "Tokens",
+                    title: "Fungible Tokens",
                     icon: Icons.toll,
                     onPressed: () {
                       if (tabsRouter.activeIndex == 13) {

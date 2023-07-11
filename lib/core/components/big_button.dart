@@ -21,7 +21,6 @@ class BigButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        width: 600,
         decoration: BoxDecoration(
           // color: Theme.of(context).colorScheme.primary,
           color: Theme.of(context).colorScheme.primary.withOpacity(0.7),
@@ -38,25 +37,28 @@ class BigButton extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 16.0,
-                vertical: 20,
+                vertical: 16,
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
                     iconData,
-                    size: isMobile ? 28 : 48,
+                    size: isMobile ? 24 : 32,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       title,
                       style: isMobile
-                          ? Theme.of(context).textTheme.headline5!.copyWith(
+                          ? Theme.of(context).textTheme.headline6!.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               )
-                          : Theme.of(context).textTheme.headline3,
+                          : Theme.of(context).textTheme.headline4!.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
                       textAlign: TextAlign.center,
                     ),
                   ),

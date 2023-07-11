@@ -26,6 +26,10 @@ class MediaBackup extends BaseComponent {
         return false;
       }
 
+      if (t.nftData.toString().contains("Token")) {
+        return false;
+      }
+
       final List<dynamic> data = jsonDecode(t.nftData);
       if (data.isEmpty) {
         return false;

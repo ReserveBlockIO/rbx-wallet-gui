@@ -1,11 +1,15 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/app_router.gr.dart';
+import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/import_smart_contract_button.dart';
 import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
 import 'package:rbx_wallet/features/web/components/web_ra_mode_switcher.dart';
 import 'package:rbx_wallet/utils/toast.dart';
@@ -32,7 +36,7 @@ class NftListScreen extends BaseScreen {
     final isGrid = ref.watch(nftListViewProvider);
 
     return AppBar(
-      title: const Text("NFTs"),
+      title: const Text("Smart Contracts"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
       actions: [
@@ -40,28 +44,35 @@ class NftListScreen extends BaseScreen {
           mainAxisSize: MainAxisSize.min,
           children: [
             if (kIsWeb) WebRaModeSwitcher(),
-            if (!kIsWeb)
-              AppButton(
-                type: AppButtonType.Text,
-                label: "Import NFT",
-                variant: AppColorVariant.Light,
-                onPressed: () async {
-                  final scId = await PromptModal.show(
-                    title: "Smart Contract Identifier",
-                    body: "Paste in the smart contract's unique identifier.",
-                    validator: (val) => formValidatorNotEmpty(val, "Identifier"),
-                    labelText: "Identifier",
-                  );
+            // if (!kIsWeb)
+            //   AppButton(
+            //     type: AppButtonType.Text,
+            //     label: "Import",
+            //     variant: AppColorVariant.Light,
+            //     onPressed: () async {
+            //       final scId = await PromptModal.show(
+            //         title: "Smart Contract Identifier",
+            //         body: "Paste in the smart contract's unique identifier.",
+            //         validator: (val) => formValidatorNotEmpty(val, "Identifier"),
+            //         labelText: "Identifier",
+            //       );
 
-                  if (scId != null && scId.isNotEmpty) {
-                    final success = await NftService().importFromNetwork(scId);
-                    if (success) {
-                      ref.read(sessionProvider.notifier).smartContractLoop(false);
-                      Toast.message("Smart Contract imported from network");
-                    }
-                  }
-                },
-              ),
+            //       if (scId != null && scId.isNotEmpty) {
+            //         final success = await NftService().importFromNetwork(scId);
+            //         if (success) {
+            //           ref.read(sessionProvider.notifier).smartContractLoop(false);
+            //           Toast.message("Smart Contract imported from network");
+            //         }
+            //       }
+            //     },
+            //   ),
+            AppButton(
+              label: "Create",
+              variant: AppColorVariant.Success,
+              onPressed: () {
+                AutoRouter.of(context).push(EmbeddedSmartContractsScreenRoute());
+              },
+            ),
             IconButton(
               onPressed: () {
                 _provider.setGrid();
@@ -90,32 +101,61 @@ class NftListScreen extends BaseScreen {
   Widget body(BuildContext context, WidgetRef ref) {
     final isGrid = ref.watch(nftListViewProvider);
 
-    return DefaultTabController(
-        length: 2,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const TabBar(
-              tabs: [
-                Tab(
-                  child: Text("My NFTs"),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Expanded(
+          child: DefaultTabController(
+              length: 2,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const TabBar(
+                    tabs: [
+                      Tab(
+                        child: Text("My Smart Contracts"),
+                      ),
+                      Tab(
+                        child: Text("Manage Minted Smart Contracts"),
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                    child: TabBarView(
+                      children: [
+                        isGrid ? const NftGrid() : const NftList(),
+                        isGrid ? const NftGrid(minted: true) : const NftList(minted: true),
+                        // const NftGrid(),
+                        // const NftGrid(minted: true),
+                      ],
+                    ),
+                  ),
+                ],
+              )),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.black,
+            boxShadow: glowingBox,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                AppButton(
+                  label: "Create Smart Contract",
+                  onPressed: () {
+                    AutoRouter.of(context).push(EmbeddedSmartContractsScreenRoute());
+                  },
+                  variant: AppColorVariant.Success,
                 ),
-                Tab(
-                  child: Text("Manage Minted NFTs"),
-                ),
+                ImportSmartContractButton(),
               ],
             ),
-            Expanded(
-              child: TabBarView(
-                children: [
-                  isGrid ? const NftGrid() : const NftList(),
-                  isGrid ? const NftGrid(minted: true) : const NftList(minted: true),
-                  // const NftGrid(),
-                  // const NftGrid(minted: true),
-                ],
-              ),
-            ),
-          ],
-        ));
+          ),
+        ),
+      ],
+    );
   }
 }
