@@ -18,11 +18,13 @@ class TokenListTile extends BaseComponent {
   final String address;
   final TokenAccount tokenAccount;
   final TokenScFeature? token;
+  final String? titleOverride;
   const TokenListTile({
     super.key,
     required this.address,
     required this.tokenAccount,
     required this.token,
+    this.titleOverride,
   });
 
   @override
@@ -64,7 +66,7 @@ class TokenListTile extends BaseComponent {
                       ),
                     )
                   : Icon(Icons.toll),
-              title: Text(tokenAccount.label),
+              title: Text(titleOverride ?? tokenAccount.label),
               subtitle: Text("Balance: ${tokenAccount.balance}"),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,

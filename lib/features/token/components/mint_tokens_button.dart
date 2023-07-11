@@ -15,10 +15,12 @@ import 'package:rbx_wallet/utils/validation.dart';
 
 class MintTokensButton extends BaseComponent {
   final Nft nft;
+  final bool elevated;
 
   const MintTokensButton({
     super.key,
     required this.nft,
+    this.elevated = true,
   });
 
   @override
@@ -37,6 +39,7 @@ class MintTokensButton extends BaseComponent {
     return AppButton(
       label: "Mint Tokens",
       variant: AppColorVariant.Success,
+      type: elevated ? AppButtonType.Elevated : AppButtonType.Text,
       onPressed: () async {
         final amount = await PromptModal.show(
           title: "Amount to Mint",

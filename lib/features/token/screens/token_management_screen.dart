@@ -13,6 +13,8 @@ import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_watcher.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
 import 'package:rbx_wallet/features/token/components/mint_tokens_button.dart';
+import 'package:rbx_wallet/features/token/components/token_list.dart';
+import 'package:rbx_wallet/features/token/components/token_list_tile.dart';
 import 'package:rbx_wallet/features/token/models/token_account.dart';
 import 'package:rbx_wallet/features/token/models/token_details.dart';
 import 'package:rbx_wallet/features/token/models/token_sc_feature.dart';
@@ -83,34 +85,24 @@ class TokenManagementScreen extends BaseScreen {
           return SizedBox();
         }
 
-        final balance = ref.watch(sessionProvider).balances.firstWhereOrNull((b) => b.address == address);
-        print("ADDY $address");
-        print(balance);
-        // if (balance == null) {
-        //   return SizedBox();
-        // }
+        final accounts = ref.watch(sessionProvider).balances.where((b) => b.tokens.isNotEmpty).toList();
+        final List<TokenAccount> tokenAccounts = [];
+        final List<String> addresses = [];
 
-        // final t = balance.tokens.firstWhereOrNull((t) => t.smartContractId == nftId);
-        // if (t == null) {
-        //   return SizedBox();
-        // }
+        for (final account in accounts) {
+          for (final t in account.tokens) {
+            if (t.smartContractId == tokenAccount.smartContractId) {
+              tokenAccounts.add(t);
+              addresses.add(account.address);
+            }
+          }
+        }
 
         return SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                // Builder(builder: (context) {
-                //   return Text(
-                //     // "Balance: ${t?.balance}",
-                //     "",
-                //     style: TextStyle(
-                //       fontSize: 22,
-                //       fontWeight: FontWeight.w500,
-                //       color: Theme.of(context).colorScheme.secondary,
-                //     ),
-                //   );
-                // }),
                 Divider(),
                 TokenDetailsContent(
                   tokenAccount: tokenAccount,
@@ -127,11 +119,6 @@ class TokenManagementScreen extends BaseScreen {
                     runSpacing: 12.0,
                     children: [
                       if (token.mintable) MintTokensButton(nft: nft),
-                      // TransferTokensButton(
-                      //   scId: nft.id,
-                      //   fromAddress: address,
-                      //   currentBalance: t.balance,
-                      // ),
                       PauseTokenButton(
                         scId: nft.id,
                         fromAddress: nft.currentOwner,
@@ -150,13 +137,6 @@ class TokenManagementScreen extends BaseScreen {
                     spacing: 12.0,
                     runSpacing: 12.0,
                     children: [
-                      // if (token.burnable)
-                      //   BurnTokensButton(
-                      //     scId: nft.id,
-                      //     fromAddress: nft.currentOwner,
-                      //     currentBalance: t.balance,
-                      //     elevated: false,
-                      //   ),
                       BanTokenAddressButton(
                         nft: nft,
                         fromAddress: nft.currentOwner,
@@ -175,7 +155,42 @@ class TokenManagementScreen extends BaseScreen {
                         ),
                     ],
                   ),
-                )
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 2),
+                  child: Text(
+                    "Token Accounts",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
+                ),
+                if (tokenAccounts.isEmpty)
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text("No tokens in any of your accounts."),
+                      if (token.mintable)
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: MintTokensButton(
+                            nft: nft,
+                            elevated: false,
+                          ),
+                        ),
+                    ],
+                  ),
+                SizedBox(
+                  height: 14,
+                ),
+                ...tokenAccounts.asMap().entries.map((entry) {
+                  final i = entry.key;
+                  final t = entry.value;
+                  return TokenListTile(
+                    tokenAccount: t,
+                    address: addresses[i],
+                    token: ref.read(tokenNftsProvider)[t.smartContractId],
+                    titleOverride: addresses[i],
+                  );
+                }).toList()
               ],
             ),
           ),
