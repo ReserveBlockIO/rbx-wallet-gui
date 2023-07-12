@@ -32,7 +32,7 @@ class BurnTokensButton extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AppButton(
-      label: "Burn Tokens",
+      label: "Burn",
       variant: AppColorVariant.Danger,
       type: elevated ? AppButtonType.Elevated : AppButtonType.Text,
       onPressed: () async {

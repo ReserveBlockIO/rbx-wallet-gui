@@ -34,7 +34,6 @@ class _WebChatNotifierState extends State<WebChatNotifier> {
   List<LatestChatMessage> messages = [];
 
   Future<void> fetch() async {
-    print("CHAT FETCH");
     if (widget.address == null) {
       return;
     }
@@ -73,7 +72,6 @@ class _WebChatNotifierState extends State<WebChatNotifier> {
 
   @override
   void initState() {
-    print("INITI STATE");
     super.initState();
 
     timer = Timer.periodic(Duration(seconds: 30), (timer) {

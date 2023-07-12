@@ -4,6 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_watcher.dart';
 import 'package:rbx_wallet/features/nft/providers/sale_provider.dart';
 import 'package:rbx_wallet/features/token/providers/pending_token_pause_provider.dart';
@@ -314,6 +315,32 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
           ref.read(transferredProvider.notifier).removeId(scId);
           ref.read(tokenListProvider.notifier).reloadCurrentPage();
         }
+        return;
+      }
+
+      if (function == "TokenVoteTopicCreate()") {
+        _broadcastNotification(
+          TransactionNotification(
+            identifier: "${transaction.hash}_outgoing",
+            transaction: transaction,
+            title: "Token Topic Created",
+            icon: FontAwesomeIcons.gavel,
+            color: AppColorVariant.Primary,
+          ),
+        );
+        return;
+      }
+
+      if (function == "TokenVoteTopicCast()") {
+        _broadcastNotification(
+          TransactionNotification(
+            identifier: "${transaction.hash}_outgoing",
+            transaction: transaction,
+            title: "Token Vote Cast",
+            icon: FontAwesomeIcons.gavel,
+            color: AppColorVariant.Primary,
+          ),
+        );
         return;
       }
 

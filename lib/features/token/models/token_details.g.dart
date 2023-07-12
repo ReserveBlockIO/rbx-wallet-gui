@@ -21,6 +21,10 @@ _$_TokenDetails _$$_TokenDetailsFromJson(Map<String, dynamic> json) =>
       addressBlackList: (json['AddressBlackList'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      topicList: (json['TokenTopicList'] as List<dynamic>?)
+              ?.map((e) => TokenVoteTopic.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$_TokenDetailsToJson(_$_TokenDetails instance) =>
@@ -36,4 +40,5 @@ Map<String, dynamic> _$$_TokenDetailsToJson(_$_TokenDetails instance) =>
       'TokenMintable': instance.mintable,
       'ContractOwner': instance.contractOwner,
       'AddressBlackList': instance.addressBlackList,
+      'TokenTopicList': instance.topicList,
     };

@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/features/token/models/token_vote_topic.dart';
 
 part 'token_details.freezed.dart';
 part 'token_details.g.dart';
@@ -19,6 +20,7 @@ class TokenDetails with _$TokenDetails {
     @JsonKey(name: "TokenMintable") required bool mintable,
     @JsonKey(name: "ContractOwner") required String contractOwner,
     @JsonKey(name: "AddressBlackList") List<String>? addressBlackList,
+    @JsonKey(name: "TokenTopicList") @Default([]) List<TokenVoteTopic> topicList,
   }) = _TokenDetails;
 
   factory TokenDetails.fromJson(Map<String, dynamic> json) => _$TokenDetailsFromJson(json);

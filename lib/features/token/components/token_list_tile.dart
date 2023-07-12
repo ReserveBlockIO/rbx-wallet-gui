@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
+import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/cached_memory_image_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
@@ -14,6 +15,10 @@ import 'package:rbx_wallet/features/token/models/token_account.dart';
 import 'package:rbx_wallet/features/token/models/token_sc_feature.dart';
 import 'package:rbx_wallet/features/token/providers/token_nfts_provider.dart';
 import 'package:rbx_wallet/features/token/screens/token_management_screen.dart';
+import 'package:rbx_wallet/utils/toast.dart';
+
+import '../../smart_contracts/components/sc_creator/common/modal_container.dart';
+import '../screens/token_topic_detail_screen.dart';
 
 class TokenListTile extends BaseComponent {
   final String address;
@@ -33,9 +38,11 @@ class TokenListTile extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     bool canBurn = true;
+    bool canVote = false;
     final nftRef = ref.read(tokenNftsProvider)[tokenAccount.smartContractId];
     if (nftRef != null) {
       canBurn = nftRef.burnable;
+      canVote = nftRef.voting;
     }
 
     return Padding(
@@ -92,6 +99,63 @@ class TokenListTile extends BaseComponent {
                         scId: tokenAccount.smartContractId,
                         fromAddress: address,
                         currentBalance: tokenAccount.balance,
+                      ),
+                    ),
+                  if (canVote)
+                    Padding(
+                      padding: const EdgeInsets.only(left: 6.0),
+                      child: AppButton(
+                        label: "Voting",
+                        variant: AppColorVariant.Light,
+                        onPressed: () async {
+                          final nft = await NftService().getNftData(tokenAccount.smartContractId);
+                          if (nft != null && nft.tokenStateDetails != null) {
+                            if (nft.tokenStateDetails!.topicList.isEmpty) {
+                              InfoDialog.show(title: "No Topics", body: "This token doesn't have any voting topics yet.");
+                              return;
+                            }
+
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              builder: (context) {
+                                return ModalContainer(
+                                  color: Colors.black,
+                                  withDecor: false,
+                                  withClose: true,
+                                  children: nft.tokenStateDetails!.topicList.map((t) {
+                                    return ListTile(
+                                      title: Text(t.topicName),
+                                      subtitle: Text(
+                                        t.topicDescription,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      trailing: Icon(Icons.chevron_right),
+                                      onTap: () {
+                                        Navigator.of(context).pop();
+
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (_) => TokenTopicDetailScreen(
+                                              t,
+                                              address,
+                                              tokenAccount.balance,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  }).toList(),
+                                );
+                              },
+                            );
+
+                            return;
+                          }
+
+                          Toast.error();
+                        },
                       ),
                     ),
                 ],

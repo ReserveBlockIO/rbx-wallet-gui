@@ -42,6 +42,8 @@ mixin _$TokenDetails {
   String get contractOwner => throw _privateConstructorUsedError;
   @JsonKey(name: "AddressBlackList")
   List<String>? get addressBlackList => throw _privateConstructorUsedError;
+  @JsonKey(name: "TokenTopicList")
+  List<TokenVoteTopic> get topicList => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -66,7 +68,8 @@ abstract class $TokenDetailsCopyWith<$Res> {
       @JsonKey(name: "TokenVoting") bool voting,
       @JsonKey(name: "TokenMintable") bool mintable,
       @JsonKey(name: "ContractOwner") String contractOwner,
-      @JsonKey(name: "AddressBlackList") List<String>? addressBlackList});
+      @JsonKey(name: "AddressBlackList") List<String>? addressBlackList,
+      @JsonKey(name: "TokenTopicList") List<TokenVoteTopic> topicList});
 }
 
 /// @nodoc
@@ -93,6 +96,7 @@ class _$TokenDetailsCopyWithImpl<$Res, $Val extends TokenDetails>
     Object? mintable = null,
     Object? contractOwner = null,
     Object? addressBlackList = freezed,
+    Object? topicList = null,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -139,6 +143,10 @@ class _$TokenDetailsCopyWithImpl<$Res, $Val extends TokenDetails>
           ? _value.addressBlackList
           : addressBlackList // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      topicList: null == topicList
+          ? _value.topicList
+          : topicList // ignore: cast_nullable_to_non_nullable
+              as List<TokenVoteTopic>,
     ) as $Val);
   }
 }
@@ -162,7 +170,8 @@ abstract class _$$_TokenDetailsCopyWith<$Res>
       @JsonKey(name: "TokenVoting") bool voting,
       @JsonKey(name: "TokenMintable") bool mintable,
       @JsonKey(name: "ContractOwner") String contractOwner,
-      @JsonKey(name: "AddressBlackList") List<String>? addressBlackList});
+      @JsonKey(name: "AddressBlackList") List<String>? addressBlackList,
+      @JsonKey(name: "TokenTopicList") List<TokenVoteTopic> topicList});
 }
 
 /// @nodoc
@@ -187,6 +196,7 @@ class __$$_TokenDetailsCopyWithImpl<$Res>
     Object? mintable = null,
     Object? contractOwner = null,
     Object? addressBlackList = freezed,
+    Object? topicList = null,
   }) {
     return _then(_$_TokenDetails(
       name: null == name
@@ -233,6 +243,10 @@ class __$$_TokenDetailsCopyWithImpl<$Res>
           ? _value._addressBlackList
           : addressBlackList // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      topicList: null == topicList
+          ? _value._topicList
+          : topicList // ignore: cast_nullable_to_non_nullable
+              as List<TokenVoteTopic>,
     ));
   }
 }
@@ -241,18 +255,32 @@ class __$$_TokenDetailsCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_TokenDetails extends _TokenDetails {
   const _$_TokenDetails(
-      {@JsonKey(name: "TokenName") required this.name,
-      @JsonKey(name: "TokenTicker") required this.ticker,
-      @JsonKey(name: "StartingSupply") required this.startingSupply,
-      @JsonKey(name: "CurrentSupply") required this.currentSupply,
-      @JsonKey(name: "DecimalPlaces") required this.decimalPlaces,
-      @JsonKey(name: "IsPaused") required this.isPaused,
-      @JsonKey(name: "TokenBurnable") required this.burnable,
-      @JsonKey(name: "TokenVoting") required this.voting,
-      @JsonKey(name: "TokenMintable") required this.mintable,
-      @JsonKey(name: "ContractOwner") required this.contractOwner,
-      @JsonKey(name: "AddressBlackList") final List<String>? addressBlackList})
+      {@JsonKey(name: "TokenName")
+          required this.name,
+      @JsonKey(name: "TokenTicker")
+          required this.ticker,
+      @JsonKey(name: "StartingSupply")
+          required this.startingSupply,
+      @JsonKey(name: "CurrentSupply")
+          required this.currentSupply,
+      @JsonKey(name: "DecimalPlaces")
+          required this.decimalPlaces,
+      @JsonKey(name: "IsPaused")
+          required this.isPaused,
+      @JsonKey(name: "TokenBurnable")
+          required this.burnable,
+      @JsonKey(name: "TokenVoting")
+          required this.voting,
+      @JsonKey(name: "TokenMintable")
+          required this.mintable,
+      @JsonKey(name: "ContractOwner")
+          required this.contractOwner,
+      @JsonKey(name: "AddressBlackList")
+          final List<String>? addressBlackList,
+      @JsonKey(name: "TokenTopicList")
+          final List<TokenVoteTopic> topicList = const []})
       : _addressBlackList = addressBlackList,
+        _topicList = topicList,
         super._();
 
   factory _$_TokenDetails.fromJson(Map<String, dynamic> json) =>
@@ -300,9 +328,18 @@ class _$_TokenDetails extends _TokenDetails {
     return EqualUnmodifiableListView(value);
   }
 
+  final List<TokenVoteTopic> _topicList;
+  @override
+  @JsonKey(name: "TokenTopicList")
+  List<TokenVoteTopic> get topicList {
+    if (_topicList is EqualUnmodifiableListView) return _topicList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_topicList);
+  }
+
   @override
   String toString() {
-    return 'TokenDetails(name: $name, ticker: $ticker, startingSupply: $startingSupply, currentSupply: $currentSupply, decimalPlaces: $decimalPlaces, isPaused: $isPaused, burnable: $burnable, voting: $voting, mintable: $mintable, contractOwner: $contractOwner, addressBlackList: $addressBlackList)';
+    return 'TokenDetails(name: $name, ticker: $ticker, startingSupply: $startingSupply, currentSupply: $currentSupply, decimalPlaces: $decimalPlaces, isPaused: $isPaused, burnable: $burnable, voting: $voting, mintable: $mintable, contractOwner: $contractOwner, addressBlackList: $addressBlackList, topicList: $topicList)';
   }
 
   @override
@@ -328,7 +365,9 @@ class _$_TokenDetails extends _TokenDetails {
             (identical(other.contractOwner, contractOwner) ||
                 other.contractOwner == contractOwner) &&
             const DeepCollectionEquality()
-                .equals(other._addressBlackList, _addressBlackList));
+                .equals(other._addressBlackList, _addressBlackList) &&
+            const DeepCollectionEquality()
+                .equals(other._topicList, _topicList));
   }
 
   @JsonKey(ignore: true)
@@ -345,7 +384,8 @@ class _$_TokenDetails extends _TokenDetails {
       voting,
       mintable,
       contractOwner,
-      const DeepCollectionEquality().hash(_addressBlackList));
+      const DeepCollectionEquality().hash(_addressBlackList),
+      const DeepCollectionEquality().hash(_topicList));
 
   @JsonKey(ignore: true)
   @override
@@ -384,7 +424,9 @@ abstract class _TokenDetails extends TokenDetails {
       @JsonKey(name: "ContractOwner")
           required final String contractOwner,
       @JsonKey(name: "AddressBlackList")
-          final List<String>? addressBlackList}) = _$_TokenDetails;
+          final List<String>? addressBlackList,
+      @JsonKey(name: "TokenTopicList")
+          final List<TokenVoteTopic> topicList}) = _$_TokenDetails;
   const _TokenDetails._() : super._();
 
   factory _TokenDetails.fromJson(Map<String, dynamic> json) =
@@ -423,6 +465,9 @@ abstract class _TokenDetails extends TokenDetails {
   @override
   @JsonKey(name: "AddressBlackList")
   List<String>? get addressBlackList;
+  @override
+  @JsonKey(name: "TokenTopicList")
+  List<TokenVoteTopic> get topicList;
   @override
   @JsonKey(ignore: true)
   _$$_TokenDetailsCopyWith<_$_TokenDetails> get copyWith =>

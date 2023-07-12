@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
@@ -12,6 +14,8 @@ import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_watcher.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
+import 'package:rbx_wallet/features/nft/services/nft_service.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:rbx_wallet/features/token/components/mint_tokens_button.dart';
 import 'package:rbx_wallet/features/token/components/token_list.dart';
 import 'package:rbx_wallet/features/token/components/token_list_tile.dart';
@@ -19,6 +23,7 @@ import 'package:rbx_wallet/features/token/models/token_account.dart';
 import 'package:rbx_wallet/features/token/models/token_details.dart';
 import 'package:rbx_wallet/features/token/models/token_sc_feature.dart';
 import 'package:rbx_wallet/features/token/providers/token_nfts_provider.dart';
+import 'package:rbx_wallet/features/token/screens/token_topic_detail_screen.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:collection/collection.dart';
 
@@ -123,6 +128,87 @@ class TokenManagementScreen extends BaseScreen {
                         scId: nft.id,
                         fromAddress: nft.currentOwner,
                       ),
+                      if (token.voting)
+                        AppButton(
+                          label: "Voting",
+                          onPressed: () {
+                            showModalBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                return ModalContainer(
+                                  color: Colors.black,
+                                  withDecor: false,
+                                  withClose: true,
+                                  children: [
+                                    ListTile(
+                                      title: Text("Create Token Topic"),
+                                      leading: Icon(Icons.new_label),
+                                      onTap: () {
+                                        Navigator.of(context).pop();
+                                        AutoRouter.of(context).push(CreateTokenTopicScreenRoute(scId: nft.id, address: nft.currentOwner));
+                                      },
+                                    ),
+                                    ListTile(
+                                      title: Text("View Topics"),
+                                      leading: Icon(Icons.remove_red_eye),
+                                      onTap: () async {
+                                        final nft = await NftService().getNftData(nftId);
+
+                                        if (nft != null && nft.tokenStateDetails != null) {
+                                          if (nft.tokenStateDetails!.topicList.isEmpty) {
+                                            InfoDialog.show(title: "No Topics", body: "This token doesn't have any voting topics yet.");
+                                            return;
+                                          }
+
+                                          showModalBottomSheet(
+                                            context: context,
+                                            isScrollControlled: true,
+                                            builder: (context) {
+                                              return ModalContainer(
+                                                color: Colors.black,
+                                                withDecor: false,
+                                                withClose: true,
+                                                children: nft.tokenStateDetails!.topicList.map((t) {
+                                                  return ListTile(
+                                                    title: Text(t.topicName),
+                                                    subtitle: Text(
+                                                      t.topicDescription,
+                                                      maxLines: 1,
+                                                      overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                    trailing: Icon(Icons.chevron_right),
+                                                    onTap: () {
+                                                      Navigator.of(context).pop();
+                                                      Navigator.of(context).pop();
+
+                                                      Navigator.of(context).push(
+                                                        MaterialPageRoute(
+                                                          builder: (_) => TokenTopicDetailScreen(
+                                                            t,
+                                                            nft.currentOwner,
+                                                            tokenAccount.balance,
+                                                          ),
+                                                        ),
+                                                      );
+                                                    },
+                                                  );
+                                                }).toList(),
+                                              );
+                                            },
+                                          );
+
+                                          return;
+                                        }
+
+                                        Toast.error();
+                                      },
+                                    )
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                        ),
                       ChangeTokenOwnershipButton(
                         nft: nft,
                         fromAddress: nft.currentOwner,
@@ -254,6 +340,11 @@ class TokenDetailsContent extends StatelessWidget {
           _DetailRow(
             label: "Burnable",
             value: nft.tokenDetails!.burnable ? "YES" : "NO",
+          ),
+        if (nft.tokenDetails != null)
+          _DetailRow(
+            label: "Voting",
+            value: nft.tokenDetails!.voting ? "YES" : "NO",
           ),
       ],
     );

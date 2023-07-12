@@ -20,7 +20,7 @@ class TokenListScreen extends BaseScreen {
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
       backgroundColor: Colors.black54,
-      title: Text("Tokens"),
+      title: Text("Fungible Tokens"),
       actions: [
         Padding(
           padding: const EdgeInsets.only(right: 8.0),

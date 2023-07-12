@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/services/base_service.dart';
+import '../models/new_token_topic.dart';
 
 class TokenService extends BaseService {
   TokenService() : super(apiBasePathOverride: "/tkapi/TKV2");
@@ -121,6 +122,53 @@ class TokenService extends BaseService {
     try {
       final response = await getText("/BanAddress/$scId/$fromAddress/$banAddress", cleanPath: false);
       final data = jsonDecode(response);
+
+      if (data['Success'] == true) {
+        return true;
+      }
+      Toast.error(data['Message']);
+      return false;
+    } catch (e) {
+      Toast.error("Error banning address");
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> createTopic(NewTokenTopic topic) async {
+    try {
+      final response = await postJson('/CreateTokenTopic', cleanPath: false, params: topic.toJson());
+
+      final data = response['data'];
+
+      if (data['Success'] == true) {
+        return true;
+      }
+
+      Toast.error(data['Message']);
+
+      return false;
+    } catch (e) {
+      print("Error creating topic");
+      Toast.error("Error creating topic");
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> castVote({
+    required String scId,
+    required String fromAddress,
+    required String topicUid,
+    required bool yes,
+  }) async {
+    try {
+      final path = "/CastTokenTopicVote/$scId/$fromAddress/$topicUid/${yes ? 1 : 0}";
+      print(path);
+      final response = await getText(path, cleanPath: false);
+      final data = jsonDecode(response);
+
+      print(data);
 
       if (data['Success'] == true) {
         return true;

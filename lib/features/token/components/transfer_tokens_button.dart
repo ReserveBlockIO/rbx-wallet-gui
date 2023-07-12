@@ -26,7 +26,7 @@ class TransferTokensButton extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AppButton(
-      label: "Transfer Tokens",
+      label: "Transfer",
       variant: AppColorVariant.Primary,
       onPressed: () async {
         final amount = await PromptModal.show(

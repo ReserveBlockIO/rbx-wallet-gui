@@ -90,6 +90,13 @@ class Transaction with _$Transaction {
           if (nftDataValue(data, 'Function') == "TokenBanAddress()") {
             return "Token Ban Address";
           }
+
+          if (nftDataValue(data, 'Function') == "TokenVoteTopicCast()") {
+            return "Token Vote Cast";
+          }
+          if (nftDataValue(data, 'Function') == "TokenVoteTopicCreate()") {
+            return "Token Topic Created";
+          }
         }
 
         return "NFT Tx";

@@ -13,6 +13,7 @@ import '../features/remote_shop/screens/remote_shop_container_screen.dart';
 import '../features/remote_shop/screens/remote_shop_detail_screen.dart';
 import '../features/remote_shop/screens/remote_shop_list_screen.dart';
 import '../features/reserve/screens/reserve_account_overview_screen.dart';
+import '../features/token/screens/token_topic_create_screen.dart';
 import '../features/web_shop/screens/create_web_listing_screen.dart';
 import '../features/web_shop/screens/web_collection_detail_screen.dart';
 import '../features/web_shop/screens/web_listing_detail_screen.dart';
@@ -200,6 +201,7 @@ const List<AutoRoute> appRoutes = [
         children: [
           AutoRoute(path: "", page: TokenListScreen),
           AutoRoute(path: "create", page: TokenCreateScreen),
+          AutoRoute(path: "create-topic/:scId/:address", page: CreateTokenTopicScreen)
         ],
       ),
       // AutoRoute(
