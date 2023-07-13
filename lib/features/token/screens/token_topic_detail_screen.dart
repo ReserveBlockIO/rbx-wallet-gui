@@ -311,17 +311,17 @@ class _TopicVotingDetails extends BaseComponent {
   Widget body(BuildContext context, WidgetRef ref) {
     return Builder(
       builder: (context) {
-        // if (topic.totalVotes < 1) {
-        //   return const Center(
-        //     child: Padding(
-        //       padding: EdgeInsets.all(8.0),
-        //       child: Text(
-        //         "No votes yet.",
-        //         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        //       ),
-        //     ),
-        //   );
-        // }
+        if (topic.totalVotes < 1) {
+          return const Center(
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                "No votes yet.",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
+          );
+        }
         return Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [

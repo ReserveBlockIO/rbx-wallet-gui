@@ -2,11 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/token/models/new_token_topic.dart';
 import 'package:rbx_wallet/features/token/services/token_service.dart';
-import 'package:rbx_wallet/features/voting/models/new_topic.dart';
-import 'package:rbx_wallet/features/voting/utils.dart';
-import '../../../core/app_constants.dart';
-import '../../../core/providers/session_provider.dart';
-import '../../../utils/toast.dart';
 
 import '../../../core/models/value_label.dart';
 import '../../../utils/validation.dart';
@@ -62,13 +57,6 @@ class TokenTopicFormProvider extends StateNotifier<NewTokenTopic> {
 
   Future<bool?> submit() async {
     if (!formKey.currentState!.validate()) {
-      return null;
-    }
-
-    final balance = ref.read(sessionProvider).currentWallet?.balance;
-
-    if (balance == null || balance < VOTE_TOPIC_COST) {
-      Toast.error("Submitting a topic costs $VOTE_TOPIC_COST RBX.");
       return null;
     }
 
