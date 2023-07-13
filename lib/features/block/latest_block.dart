@@ -25,112 +25,117 @@ class LatestBlock extends BaseComponent {
     if (latestBlock == null) {
       return const SizedBox();
     }
-    return Container(
-      decoration: BoxDecoration(
-        color: backgroundColor ?? const Color(0xFF050505),
-        boxShadow: glowingBox,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Block ${latestBlock.height}",
-                  style: Theme.of(context).textTheme.caption!.copyWith(color: Colors.white),
-                ),
-                Text(
-                  timeago.format(
-                    DateTime.fromMillisecondsSinceEpoch(
-                      latestBlock.timestamp * 1000,
+    return GestureDetector(
+      onTap: () {
+        ref.read(walletInfoProvider.notifier).infoLoop(false);
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: backgroundColor ?? const Color(0xFF050505),
+          boxShadow: glowingBox,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Block ${latestBlock.height}",
+                    style: Theme.of(context).textTheme.caption!.copyWith(color: Colors.white),
+                  ),
+                  Text(
+                    timeago.format(
+                      DateTime.fromMillisecondsSinceEpoch(
+                        latestBlock.timestamp * 1000,
+                      ),
+                    ),
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              _DetailItem(
+                label: "Hash",
+                value: latestBlock.hash,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: _DetailItem(
+                      label: "Craft Time",
+                      value: "${(latestBlock.craftTime / 1000)} seconds",
                     ),
                   ),
-                  style: Theme.of(context).textTheme.caption,
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            _DetailItem(
-              label: "Hash",
-              value: latestBlock.hash,
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: _DetailItem(
-                    label: "Craft Time",
-                    value: "${(latestBlock.craftTime / 1000)} seconds",
-                  ),
-                ),
-                Expanded(
-                  child: _DetailItem(
-                    label: "Size",
-                    value: formatIntWithCommas(latestBlock.size),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: _DetailItem(
-                    label: "# of Txs",
-                    value: "${latestBlock.numberOfTransactions}",
-                  ),
-                ),
-                if (latestBlock.transactions.isNotEmpty)
                   Expanded(
-                    child: InkWell(
-                      onTap: () {
-                        showModalBottomSheet(
-                            context: context,
-                            builder: (context) {
-                              return BlockTransactionListBottomSheet(transactions: latestBlock.transactions);
-                            });
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 4.0),
-                        child: Text(
-                          "View Txs",
-                          style: Theme.of(context)
-                              .textTheme
-                              .caption!
-                              .copyWith(fontSize: 10, color: Theme.of(context).colorScheme.secondary, decoration: TextDecoration.underline),
+                    child: _DetailItem(
+                      label: "Size",
+                      value: formatIntWithCommas(latestBlock.size),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: _DetailItem(
+                      label: "# of Txs",
+                      value: "${latestBlock.numberOfTransactions}",
+                    ),
+                  ),
+                  if (latestBlock.transactions.isNotEmpty)
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                return BlockTransactionListBottomSheet(transactions: latestBlock.transactions);
+                              });
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 4.0),
+                          child: Text(
+                            "View Txs",
+                            style: Theme.of(context)
+                                .textTheme
+                                .caption!
+                                .copyWith(fontSize: 10, color: Theme.of(context).colorScheme.secondary, decoration: TextDecoration.underline),
+                          ),
                         ),
                       ),
                     ),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: _DetailItem(
+                      label: "Total Amount",
+                      value: "${latestBlock.totalAmount} RBX",
+                    ),
                   ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: _DetailItem(
-                    label: "Total Amount",
-                    value: "${latestBlock.totalAmount} RBX",
+                  Expanded(
+                    child: _DetailItem(
+                      label: "Total Reward",
+                      value: "${latestBlock.totalReward} RBX",
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: _DetailItem(
-                    label: "Total Reward",
-                    value: "${latestBlock.totalReward} RBX",
-                  ),
-                ),
-              ],
-            ),
-            _DetailItem(
-              label: "Validated By",
-              value: latestBlock.validator,
-              mono: true,
-            ),
-          ],
+                ],
+              ),
+              _DetailItem(
+                label: "Validated By",
+                value: latestBlock.validator,
+                mono: true,
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -141,6 +141,7 @@ class TokenListTile extends BaseComponent {
                                               t,
                                               address,
                                               tokenAccount.balance,
+                                              nft.currentOwner == address,
                                             ),
                                           ),
                                         );

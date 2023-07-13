@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
+import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
@@ -12,6 +13,7 @@ import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/encrypt/utils.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:rbx_wallet/features/token/models/token_vote_topic.dart';
 import 'package:rbx_wallet/features/token/services/token_service.dart';
 import 'package:rbx_wallet/features/voting/providers/pending_votes_provider.dart';
@@ -19,12 +21,14 @@ import 'package:rbx_wallet/utils/toast.dart';
 import 'package:collection/collection.dart';
 
 import '../../voting/components/topic_detail.dart';
+import '../models/token_vote.dart';
 
 class TokenTopicDetailScreen extends BaseScreen {
   final TokenVoteTopic topic;
   final String address;
   final double balance;
-  const TokenTopicDetailScreen(this.topic, this.address, this.balance, {super.key});
+  final bool isOwner;
+  const TokenTopicDetailScreen(this.topic, this.address, this.balance, this.isOwner, {super.key});
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
@@ -40,6 +44,7 @@ class TokenTopicDetailScreen extends BaseScreen {
       topic: topic,
       address: address,
       balance: balance,
+      isOwner: isOwner,
     );
   }
 }
@@ -50,11 +55,13 @@ class TokenTopicDetail extends BaseStatefulComponent {
     required this.topic,
     required this.address,
     required this.balance,
+    required this.isOwner,
   });
 
   final TokenVoteTopic topic;
   final String address;
   final double balance;
+  final bool isOwner;
 
   @override
   _TokenTopicDetailState createState() => _TokenTopicDetailState();
@@ -64,10 +71,13 @@ class _TokenTopicDetailState extends BaseComponentState<TokenTopicDetail> {
   late TokenVoteTopic topic;
   late Timer timer;
 
+  TokenVote? currentVote;
+
   @override
   void initState() {
     topic = widget.topic;
-    timer = Timer.periodic(const Duration(seconds: 10), (timer) {
+    poll();
+    timer = Timer.periodic(const Duration(seconds: 20), (timer) {
       poll();
     });
     super.initState();
@@ -91,6 +101,12 @@ class _TokenTopicDetailState extends BaseComponentState<TokenTopicDetail> {
         });
       }
     }
+
+    final votes = await TokenService().listAddressVotes(widget.address);
+
+    setState(() {
+      currentVote = votes.firstWhereOrNull((v) => v.topicUid == widget.topic.topicUid);
+    });
   }
 
   @override
@@ -141,40 +157,54 @@ class _TokenTopicDetailState extends BaseComponentState<TokenTopicDetail> {
         // const SizedBox(height: 6),
         // Text("Token Holder Count: ${topic.tokenHolderCount}"),
         Divider(),
-        _TopicVotingDetails(topic: topic),
+        _TopicVotingDetails(
+          topic: topic,
+          isOwner: widget.isOwner,
+        ),
         const SizedBox(height: 12),
-        _TopicVotingActions(topic: topic, address: widget.address, balance: widget.balance)
+        _TopicVotingActions(
+          topic: topic,
+          address: widget.address,
+          balance: widget.balance,
+          currentVote: currentVote,
+        )
       ],
     );
   }
 }
 
 class _TopicVotingActions extends BaseComponent {
-  final String address;
   const _TopicVotingActions({
     super.key,
     required this.topic,
     required this.address,
     required this.balance,
+    required this.currentVote,
   });
 
+  final String address;
   final TokenVoteTopic topic;
   final double balance;
+  final TokenVote? currentVote;
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
+    if (currentVote != null) {
+      return _ErrorMessage("You voted ${currentVote!.voteTypeLabel} on block ${currentVote!.blockHeight}.");
+    }
+
+    final pendingVoteKey = "$address|${topic.topicUid}";
+
+    if (ref.watch(pendingVotesProvider).contains(pendingVoteKey)) {
+      return const _ErrorMessage("Vote transaction pending.");
+    }
+
     if (!topic.isActive) {
       return _ErrorMessage("Voting Ended on ${topic.endsAtFormatted}.");
     }
 
     if (balance < topic.minimumVoteRequirement) {
       return _ErrorMessage("You need at least ${topic.minimumVoteRequirement} tokens to vote.");
-    }
-
-    //TODO: check if already voted
-
-    if (ref.watch(pendingVotesProvider).contains(topic.topicUid)) {
-      return const _ErrorMessage("Vote transaction pending.");
     }
 
     return Column(
@@ -211,7 +241,7 @@ class _TopicVotingActions extends BaseComponent {
                   );
 
                   if (success) {
-                    ref.read(pendingVotesProvider.notifier).addId(topic.topicUid);
+                    ref.read(pendingVotesProvider.notifier).addId(pendingVoteKey);
                     Toast.message("Vote casted");
                   }
 
@@ -246,7 +276,7 @@ class _TopicVotingActions extends BaseComponent {
                     yes: false,
                   );
                   if (success) {
-                    ref.read(pendingVotesProvider.notifier).addId(topic.topicUid);
+                    ref.read(pendingVotesProvider.notifier).addId(pendingVoteKey);
                     Toast.message("Vote casted");
                   }
                   ref.read(globalLoadingProvider.notifier).complete();
@@ -271,25 +301,27 @@ class _TopicVotingDetails extends BaseComponent {
   const _TopicVotingDetails({
     super.key,
     required this.topic,
+    required this.isOwner,
   });
 
   final TokenVoteTopic topic;
+  final bool isOwner;
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
     return Builder(
       builder: (context) {
-        if (topic.totalVotes < 1) {
-          return const Center(
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                "No votes yet.",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-            ),
-          );
-        }
+        // if (topic.totalVotes < 1) {
+        //   return const Center(
+        //     child: Padding(
+        //       padding: EdgeInsets.all(8.0),
+        //       child: Text(
+        //         "No votes yet.",
+        //         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        //       ),
+        //     ),
+        //   );
+        // }
         return Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -390,23 +422,40 @@ class _TopicVotingDetails extends BaseComponent {
               },
             ),
             const SizedBox(width: 16),
-            // if (includeShowHistoryButton)
-            //   AppButton(
-            //     label: "Show History",
-            //     onPressed: () async {
-            //       await ref.read(voteListProvider(topic.uid).notifier).load();
-            //       showModalBottomSheet(
-            //         isScrollControlled: true,
-            //         backgroundColor: Colors.black87,
-            //         context: context,
-            //         builder: (context) {
-            //           return VoteListModal(topicUid: topic.uid);
-            //         },
-            //       );
-            //     },
-            //     type: AppButtonType.Elevated,
-            //     variant: AppColorVariant.Light,
-            //   )
+            if (isOwner)
+              AppButton(
+                label: "Vote History",
+                onPressed: () async {
+                  // await ref.read(voteListProvider(topic.uid).notifier).load();
+
+                  final votes = await TokenService().listVotes(topic.topicUid);
+                  showModalBottomSheet(
+                    isScrollControlled: true,
+                    backgroundColor: Colors.black87,
+                    context: context,
+                    builder: (context) {
+                      return ModalContainer(
+                          padding: 8,
+                          withClose: true,
+                          withDecor: false,
+                          children: votes
+                              .map(
+                                (vote) => ListTile(
+                                  title: SelectableText(vote.address),
+                                  subtitle: Text("Block ${vote.blockHeight}"),
+                                  trailing: AppBadge(
+                                    label: vote.voteTypeLabel,
+                                    variant: vote.voteType == TokenVoteType.Yes ? AppColorVariant.Success : AppColorVariant.Danger,
+                                  ),
+                                ),
+                              )
+                              .toList());
+                    },
+                  );
+                },
+                type: AppButtonType.Elevated,
+                variant: AppColorVariant.Light,
+              )
           ],
         );
       },

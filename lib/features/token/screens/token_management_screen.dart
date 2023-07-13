@@ -187,6 +187,7 @@ class TokenManagementScreen extends BaseScreen {
                                                             t,
                                                             nft.currentOwner,
                                                             tokenAccount.balance,
+                                                            true,
                                                           ),
                                                         ),
                                                       );
