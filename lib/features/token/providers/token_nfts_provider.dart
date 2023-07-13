@@ -14,7 +14,7 @@ class TokenNftsProvider extends StateNotifier<Map<String, TokenScFeature>> {
       }
     }
 
-    final nft = await NftService().retrieve(scId);
+    final nft = await NftService().getNftData(scId);
 
     if (nft != null) {
       final token = TokenScFeature.fromNft(nft);

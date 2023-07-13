@@ -156,7 +156,10 @@ class _VotingDetailsState extends BaseComponentState<VotingDetails> {
         PieChart(
           chartRadius: 100,
           chartType: ChartType.ring,
-          chartValuesOptions: const ChartValuesOptions(decimalPlaces: 0),
+          chartValuesOptions: const ChartValuesOptions(
+            decimalPlaces: 0,
+            showChartValues: false,
+          ),
           colorList: [
             Theme.of(context).colorScheme.success,
             Theme.of(context).colorScheme.danger,
