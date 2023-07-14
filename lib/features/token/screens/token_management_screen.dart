@@ -333,12 +333,12 @@ class TokenDetailsContent extends StatelessWidget {
         ),
         // if (token.currentSupply > 0)
         _DetailRow(
-          label: "Current Circulating",
+          label: "Circulating Supply",
           value: token.currentSupply.toString(),
         ),
         if (!token.mintable && token.currentSupply < token.startingSupply)
           _DetailRow(
-            label: "Burned Supply",
+            label: "Burned",
             value: "${token.startingSupply - token.currentSupply}",
           ),
         if (nft.tokenDetails != null)
