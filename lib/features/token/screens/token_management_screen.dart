@@ -327,10 +327,19 @@ class TokenDetailsContent extends StatelessWidget {
           value: token.ticker,
           copyable: true,
         ),
-        if (nft.tokenDetails != null && nft.tokenDetails!.supply > 0)
+        _DetailRow(
+          label: "${token.mintable ? 'Starting' : 'Fixed'} Supply",
+          value: "${token.startingSupply.toString()} ",
+        ),
+        // if (token.currentSupply > 0)
+        _DetailRow(
+          label: "Current Circulating",
+          value: token.currentSupply.toString(),
+        ),
+        if (!token.mintable && token.currentSupply < token.startingSupply)
           _DetailRow(
-            label: "Current Supply",
-            value: nft.tokenDetails!.supply.toString(),
+            label: "Burned Supply",
+            value: "${token.startingSupply - token.currentSupply}",
           ),
         if (nft.tokenDetails != null)
           _DetailRow(

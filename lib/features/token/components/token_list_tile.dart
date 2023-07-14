@@ -166,14 +166,13 @@ class TokenListTile extends BaseComponent {
                       final nft = await NftService().getNftData(tokenAccount.smartContractId);
 
                       if (!ref.read(transferredProvider).contains(tokenAccount.smartContractId)) {
-                        final detail = await NftService().getNftData(tokenAccount.smartContractId);
-                        if (detail != null && detail.isToken) {
-                          if (detail.currentOwner == address) {
-                            final tokenAccount = TokenAccount.fromNft(detail, ref);
-                            final tokenFeature = TokenScFeature.fromNft(detail);
+                        if (nft != null && nft.isToken) {
+                          if (nft.currentOwner == address) {
+                            final tokenAccount = TokenAccount.fromNft(nft, ref);
+                            final tokenFeature = TokenScFeature.fromNft(nft);
                             if (tokenAccount != null && tokenFeature != null) {
                               Navigator.of(context)
-                                  .push(MaterialPageRoute(builder: (_) => TokenManagementScreen(tokenAccount, tokenFeature, detail.id, address)));
+                                  .push(MaterialPageRoute(builder: (_) => TokenManagementScreen(tokenAccount, tokenFeature, nft.id, address)));
                               return;
                             }
                           }
