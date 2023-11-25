@@ -36,7 +36,7 @@ class PaymentDisclaimer extends StatelessWidget {
             style: linkStyle,
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                launchUrl(Uri.parse("https://banxa.com/wp-content/uploads/2023/06/Customer-Terms-and-Conditions-19-June-2023.pdf"));
+                launchUrl(Uri.parse("https://banxa.com/terms-of-use"));
               },
           ),
           TextSpan(text: " and "),
@@ -45,7 +45,7 @@ class PaymentDisclaimer extends StatelessWidget {
             style: linkStyle,
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                launchUrl(Uri.parse("https://banxa.com/wp-content/uploads/2023/06/Privacy-and-Cookies-Policy-19-June-2023.pdf"));
+                launchUrl(Uri.parse("https://banxa.com/privacy-and-cookies-policy"));
               },
           ),
           TextSpan(

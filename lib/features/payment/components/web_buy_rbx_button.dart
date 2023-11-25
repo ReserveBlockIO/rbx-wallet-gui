@@ -25,7 +25,7 @@ class WebBuyRBXButton extends BaseComponent {
       label: "Get \$RBX Now",
       variant: AppColorVariant.Success,
       onPressed: () async {
-        final maxWidth = BreakPoints.useMobileLayout(context) ? 400.0 : 1000.0;
+        final maxWidth = BreakPoints.useMobileLayout(context) ? 400.0 : 750.0;
         final maxHeight = BreakPoints.useMobileLayout(context) ? 500.0 : 700.0;
         double width = MediaQuery.of(context).size.width - 32;
         double height = MediaQuery.of(context).size.height - 64;
@@ -57,7 +57,7 @@ class WebBuyRBXButton extends BaseComponent {
                 children: [
                   WebPaymentIFrameContainer(
                     walletAddress: address,
-                    coinAmount: 1000,
+                    coinAmount: 5000,
                     width: width,
                     height: height,
                   ),

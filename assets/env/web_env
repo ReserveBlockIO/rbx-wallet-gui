@@ -1,6 +1,6 @@
 ENVIRONMENT_NAME=web
 STORAGE_PREFIX=web
-EXPLORER_API_BASE_URL=https://rbx-explorer-service.herokuapp.com/api
+EXPLORER_API_BASE_URL=https://data.rbx.network/api
 API_BASE_URL=https://rbx-transaction-service.herokuapp.com/api/v1
 LAUNCH_CLI=false
 ALLOW_VALIDATING=false

@@ -46,6 +46,7 @@ class WebChatService extends BaseService {
   }
 
   Future<List<LatestChatMessage>?> listNewMessages(String address) async {
+    return [];
     try {
       final data = await getJson("/chat/new-messages", params: {'address': address});
 

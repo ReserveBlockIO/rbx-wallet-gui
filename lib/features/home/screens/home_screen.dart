@@ -72,7 +72,7 @@ class HomeScreen extends BaseScreen {
                     return;
                   }
 
-                  final url = paymentUrl(amount: 1000, walletAddress: address);
+                  final url = paymentUrl(amount: 5000, walletAddress: address);
                   if (url != null) {
                     launchUrl(Uri.parse(url));
                   }
