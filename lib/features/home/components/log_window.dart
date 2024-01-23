@@ -9,7 +9,11 @@ import '../../bridge/providers/log_provider.dart';
 import 'log_item.dart';
 
 class LogWindow extends BaseComponent {
-  const LogWindow({Key? key}) : super(key: key);
+  final bool forBtc;
+  const LogWindow({
+    Key? key,
+    this.forBtc = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,7 +30,7 @@ class LogWindow extends BaseComponent {
         const SizedBox(height: 8),
         Container(
           decoration: BoxDecoration(
-            boxShadow: glowingBox,
+            boxShadow: forBtc ? glowingBoxBtc : glowingBox,
             color: Colors.black,
           ),
           child: Card(

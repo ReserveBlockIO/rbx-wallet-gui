@@ -27,6 +27,7 @@ enum FeatureType {
   fractionalization,
   pair,
   soulBound,
+  btc,
   // wrap,
   notImplemented,
 }
@@ -87,6 +88,8 @@ abstract class Feature with _$Feature {
           return "Pair/Wrap this smart contract with an existing NFT on or off this network";
         case FeatureType.soulBound:
           return "Create a non-transferrable smart contract bound to a perminent address";
+        case FeatureType.btc:
+          return "Securely embed Bitcoin (BTC) within a smart contract";
         default:
           break;
       }
@@ -103,6 +106,7 @@ abstract class Feature with _$Feature {
       case FeatureType.royalty:
       case FeatureType.evolution:
       case FeatureType.multiAsset:
+      case FeatureType.btc:
         // case FeatureType.tokenization:
         // case FeatureType.pair:
         // case FeatureType.fractionalization:
@@ -121,7 +125,8 @@ abstract class Feature with _$Feature {
       FeatureType.multiAsset,
       // FeatureType.tokenization,
       // FeatureType.fractionalization,
-      FeatureType.pair,
+      // FeatureType.pair,
+      FeatureType.btc,
       // FeatureType.soulBound,
       // FeatureType.ticket,
       // FeatureType.music,
@@ -197,6 +202,8 @@ abstract class Feature with _$Feature {
         return "Mint a physical or Real World Asset";
       case FeatureType.soulBound:
         return "Soul Bound";
+      case FeatureType.btc:
+        return "Embed Bitcoin (BTC)";
       case FeatureType.notImplemented:
         return "Not implemented";
     }
@@ -228,6 +235,8 @@ abstract class Feature with _$Feature {
         return FontAwesomeIcons.leftRight;
       case FeatureType.soulBound:
         return FontAwesomeIcons.person;
+      case FeatureType.btc:
+        return FontAwesomeIcons.bitcoin;
 
       default:
         return Icons.star;

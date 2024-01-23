@@ -83,6 +83,11 @@ class AppButton extends StatelessWidget {
           primary: disabled ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.lightButtonBg,
           onPrimary: Theme.of(context).colorScheme.lightButtonFg,
         );
+      case AppColorVariant.Btc:
+        return ElevatedButton.styleFrom(
+          primary: disabled ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.btcOrange,
+          onPrimary: Theme.of(context).colorScheme.darkButtonFg,
+        );
     }
   }
 
@@ -122,6 +127,10 @@ class AppButton extends StatelessWidget {
         return OutlinedButton.styleFrom(
           primary: _colorScheme.darkButtonBg,
         );
+      case AppColorVariant.Btc:
+        return OutlinedButton.styleFrom(
+          primary: _colorScheme.btcOrange,
+        );
     }
   }
 
@@ -160,6 +169,10 @@ class AppButton extends StatelessWidget {
         return OutlinedButton.styleFrom(
           primary: disabled ? Theme.of(context).disabledColor : _colorScheme.darkButtonBg,
         );
+      case AppColorVariant.Btc:
+        return OutlinedButton.styleFrom(
+          primary: disabled ? Theme.of(context).disabledColor : _colorScheme.btcOrange,
+        );
     }
   }
 
@@ -189,6 +202,8 @@ class AppButton extends StatelessWidget {
             return _colorScheme.lightButtonFg;
           case AppColorVariant.Dark:
             return _colorScheme.darkButtonFg;
+          case AppColorVariant.Btc:
+            return _colorScheme.darkButtonFg;
         }
       case AppButtonType.Text:
       case AppButtonType.Outlined:
@@ -208,6 +223,8 @@ class AppButton extends StatelessWidget {
           case AppColorVariant.Light:
             return _colorScheme.lightButtonBg;
           case AppColorVariant.Dark:
+            return _colorScheme.darkButtonBg;
+          case AppColorVariant.Btc:
             return _colorScheme.darkButtonBg;
         }
     }

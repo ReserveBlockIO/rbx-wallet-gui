@@ -9,6 +9,7 @@ import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:intl/intl.dart';
 import 'package:process/process.dart';
 import 'package:process_run/shell.dart';
+import '../../features/btc/providers/btc_wallet_list_provider.dart';
 import '../api_token_manager.dart';
 import '../utils.dart';
 import '../../features/chat/providers/chat_notification_provider.dart';
@@ -199,6 +200,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
     // mainLoop();
     mainLoop(inLoop);
+    btcLoop(inLoop);
     smartContractLoop(inLoop);
     checkGuiUpdateStatus(inLoop);
     ref.read(beaconListProvider.notifier).refresh();
@@ -863,6 +865,15 @@ class SessionProvider extends StateNotifier<SessionModel> {
           ));
     } catch (e) {
       print(e);
+    }
+  }
+
+  Future<void> btcLoop(bool inLoop) async {
+    ref.read(btcWalletListProvider.notifier).load();
+
+    if (inLoop) {
+      await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS));
+      btcLoop(true);
     }
   }
 }

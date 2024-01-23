@@ -11,12 +11,13 @@ import '../../../core/env.dart';
 import '../../easter/secret_button.dart';
 
 class Footer extends BaseComponent {
-  const Footer({Key? key}) : super(key: key);
+  final Color? backgroundColor;
+  const Footer({Key? key, this.backgroundColor}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      color: Colors.black.withOpacity(.9),
+      color: backgroundColor ?? Colors.black.withOpacity(.9),
       height: 70,
       child: Stack(
         children: [

@@ -10,8 +10,11 @@ import '../../../../utils/toast.dart';
 import '../../../bridge/services/bridge_service.dart';
 
 class ShowDebugDataButton extends BaseComponent {
+  final bool forBtc;
+
   const ShowDebugDataButton({
     Key? key,
+    this.forBtc = false,
   }) : super(key: key);
 
   @override
@@ -21,6 +24,7 @@ class ShowDebugDataButton extends BaseComponent {
     return AppButton(
       label: "Show Debug Data",
       icon: Icons.analytics_outlined,
+      variant: forBtc ? AppColorVariant.Btc : AppColorVariant.Primary,
       onPressed: !cliStarted
           ? null
           : () async {

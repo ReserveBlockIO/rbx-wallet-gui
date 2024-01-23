@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/base_component.dart';
 import '../../../../core/providers/session_provider.dart';
@@ -20,6 +21,7 @@ class MainMenu extends BaseComponent {
     final tabsRouter = AutoTabsRouter.of(context);
 
     final totalBalance = ref.watch(sessionProvider).totalBalance;
+    const totalBtcBalance = 0;
 
     return Scrollbar(
       controller: scrollController,
@@ -78,6 +80,20 @@ class MainMenu extends BaseComponent {
                       child: Center(
                         child: Text(
                           totalBalance != null ? "$totalBalance RBX" : "",
+                          style: Theme.of(context).textTheme.caption!.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    color: Colors.black,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0).copyWith(top: 0),
+                      child: Center(
+                        child: Text(
+                          "$totalBtcBalance BTC",
                           style: Theme.of(context).textTheme.caption!.copyWith(
                                 fontWeight: FontWeight.w600,
                               ),
@@ -178,6 +194,13 @@ class MainMenu extends BaseComponent {
                       tabsRouter.popTop();
                     },
                     isActive: tabsRouter.activeIndex == 8,
+                  ),
+
+                  _NavButton(
+                    title: "Reserve Bitcoin",
+                    icon: FontAwesomeIcons.bitcoin,
+                    onPressed: () {},
+                    isActive: false,
                   ),
 
                   // if (!kIsWeb)

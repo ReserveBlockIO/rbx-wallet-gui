@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/features/btc/providers/btc_mode_provider.dart';
 import 'package:rbx_wallet/features/chat/components/web_chat_notifier.dart';
 import '../validator/components/validating_status.dart';
 

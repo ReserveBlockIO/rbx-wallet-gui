@@ -13,6 +13,7 @@ import '../../../../utils/formatting.dart';
 import '../../../block/latest_block.dart';
 import '../../../bridge/providers/status_provider.dart';
 import '../../../bridge/providers/wallet_info_provider.dart';
+import '../../../btc/components/btc_rbx_switch.dart';
 
 class StatusContainer extends BaseComponent {
   const StatusContainer({Key? key}) : super(key: key);
@@ -86,6 +87,7 @@ class StatusContainer extends BaseComponent {
                                 )),
                           ),
                         ),
+                      Align(alignment: Alignment.centerRight, child: BtcRbxSwitch()),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

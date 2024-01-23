@@ -9,7 +9,11 @@ import '../../transactions/components/transaction_list_tile.dart';
 import '../../transactions/providers/transaction_list_provider.dart';
 
 class TransactionWindow extends BaseComponent {
-  const TransactionWindow({Key? key}) : super(key: key);
+  final bool forBtc;
+  const TransactionWindow({
+    Key? key,
+    this.forBtc = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -57,6 +61,7 @@ class TransactionWindow extends BaseComponent {
           child: Center(
             child: AppButton(
               label: "View All",
+              variant: forBtc ? AppColorVariant.Btc : AppColorVariant.Primary,
               onPressed: () {
                 final tabsRouter = AutoTabsRouter.of(context);
                 tabsRouter.setActiveIndex(3);

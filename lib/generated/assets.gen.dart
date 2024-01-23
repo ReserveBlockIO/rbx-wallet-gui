@@ -127,6 +127,10 @@ class $AssetsImagesGen {
   AssetGenImage get animatedCubeFast =>
       const AssetGenImage('assets/images/animated_cube_fast.gif');
 
+  /// File path: assets/images/animated_cube_orange.gif
+  AssetGenImage get animatedCubeOrange =>
+      const AssetGenImage('assets/images/animated_cube_orange.gif');
+
   /// File path: assets/images/decor_bottom.png
   AssetGenImage get decorBottom =>
       const AssetGenImage('assets/images/decor_bottom.png');
@@ -258,6 +262,7 @@ class $AssetsImagesGen {
   List<AssetGenImage> get values => [
         animatedCube,
         animatedCubeFast,
+        animatedCubeOrange,
         decorBottom,
         decorBottomLeft,
         decorBottomRight,

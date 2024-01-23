@@ -1,5 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/empty_router_widgets.dart';
+import '../features/btc/components/btc_root_container.dart';
+import '../features/btc/screens/btc_dashboard_screen.dart';
+import '../features/btc/screens/btc_receive_screen.dart';
+import '../features/btc/screens/btc_send_screen.dart';
 import '../features/chat/screens/buyer_chat_thread_list_screen.dart';
 import '../features/dst/screens/create_collection_container_screen.dart';
 import '../features/dst/screens/create_dec_shop_container_screen.dart';
@@ -9,13 +13,9 @@ import '../features/dst/screens/my_collection_list_screen.dart';
 import '../features/remote_shop/screens/remote_shop_collection_screen.dart';
 import '../features/remote_shop/screens/remote_shop_container_screen.dart';
 import '../features/remote_shop/screens/remote_shop_detail_screen.dart';
-import '../features/remote_shop/screens/remote_shop_list_screen.dart';
 import '../features/reserve/screens/reserve_account_overview_screen.dart';
-import '../features/web_shop/screens/create_web_listing_screen.dart';
 import '../features/web_shop/screens/web_collection_detail_screen.dart';
 import '../features/web_shop/screens/web_listing_detail_screen.dart';
-import '../features/web_shop/screens/web_shop_container_screen.dart';
-import '../features/web_shop/screens/web_shop_landing_screen.dart';
 
 import '../features/adjudicator/adjudicator_screen.dart';
 import '../features/adnr/screens/adnr_screen.dart';
@@ -271,9 +271,7 @@ const List<AutoRoute> appRoutes = [
       ),
     ],
   ),
-
   AutoRoute(path: "mother-dashboard", page: MotherDashboardScreen),
-
   AutoRoute(
     path: "remote-shop-container",
     page: RemoteShopContainerScreen,
@@ -304,8 +302,38 @@ const List<AutoRoute> appRoutes = [
   ),
   AutoRoute(path: "chat/:address", page: SellerChatScreen),
   AutoRoute(path: "shops/:url/chat", page: ShopChatScreen),
-
-  // AutoRoute(path: "shops/:url", page: RemoteShopDetailScreen),
+  AutoRoute(
+    path: "btc",
+    name: "BtcTabRouter",
+    page: BtcRootContainer,
+    children: [
+      AutoRoute(
+        initial: true,
+        path: "home",
+        name: "BtcDashboardTabRouter",
+        page: EmptyRouterPage,
+        children: [
+          AutoRoute(path: "", page: BtcDashboardScreen),
+        ],
+      ),
+      AutoRoute(
+        path: "send",
+        name: "BtcSendTabRouter",
+        page: EmptyRouterPage,
+        children: [
+          AutoRoute(path: "", page: BtcSendScreen),
+        ],
+      ),
+      AutoRoute(
+        path: "receive",
+        name: "BtcReceiveTabRouter",
+        page: EmptyRouterPage,
+        children: [
+          AutoRoute(path: "", page: BtcReceiveScreen),
+        ],
+      ),
+    ],
+  ),
 ];
 
 @AdaptiveAutoRouter(replaceInRouteName: 'Page,Route,Screen', routes: appRoutes)

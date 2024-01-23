@@ -11,8 +11,11 @@ import '../../../bridge/providers/log_provider.dart';
 import '../../../wallet/providers/wallet_list_provider.dart';
 
 class PrintAdressesButton extends BaseComponent {
+  final bool forBtc;
+
   const PrintAdressesButton({
     Key? key,
+    this.forBtc = false,
   }) : super(key: key);
 
   @override
@@ -22,6 +25,7 @@ class PrintAdressesButton extends BaseComponent {
     return AppButton(
       label: "Print Addresses",
       icon: Icons.wallet,
+      variant: forBtc ? AppColorVariant.Btc : AppColorVariant.Primary,
       onPressed: !cliStarted
           ? null
           : () {

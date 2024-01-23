@@ -3,14 +3,18 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:process_run/shell.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
 
 import '../../../../core/base_component.dart';
 import '../../../../core/components/buttons.dart';
 import '../../../../core/env.dart';
 
 class OpenLogButton extends BaseComponent {
+  final bool forBtc;
+
   const OpenLogButton({
     Key? key,
+    this.forBtc = false,
   }) : super(key: key);
 
   @override
@@ -18,6 +22,7 @@ class OpenLogButton extends BaseComponent {
     return AppButton(
       label: "Open Log",
       icon: Icons.open_in_new,
+      variant: forBtc ? AppColorVariant.Btc : AppColorVariant.Primary,
       onPressed: () async {
         final shell = Shell(throwOnError: false);
 

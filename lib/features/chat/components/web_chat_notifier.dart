@@ -34,7 +34,6 @@ class _WebChatNotifierState extends State<WebChatNotifier> {
   List<LatestChatMessage> messages = [];
 
   Future<void> fetch() async {
-    print("CHAT FETCH");
     if (widget.address == null) {
       return;
     }

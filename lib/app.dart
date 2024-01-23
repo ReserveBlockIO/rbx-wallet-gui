@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/btc/providers/btc_mode_provider.dart';
 import 'features/chat/providers/chat_notification_provider.dart';
 import 'features/remote_shop/providers/shop_loading_provider.dart';
 import 'features/transactions/providers/web_transaction_list_provider.dart';
@@ -28,6 +29,7 @@ import 'package:context_menus/context_menus.dart';
 final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
 final GlobalKey<ScaffoldState> rootScaffoldKey = GlobalKey<ScaffoldState>();
+final GlobalKey<ScaffoldState> btcRootScaffoldKey = GlobalKey<ScaffoldState>();
 
 GlobalKey<NavigatorState> rootNavigatorKey = Env.isWeb ? singleton<WebRouter>().navigatorKey : singleton<AppRouter>().navigatorKey;
 
