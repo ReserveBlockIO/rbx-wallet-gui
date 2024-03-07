@@ -24,6 +24,7 @@ class MainMenu extends BaseComponent {
 
     final totalBalance = ref.watch(sessionProvider).totalBalance;
     final btcBalance = ref.watch(btcBalanceProvider);
+    final btcAccountSyncInfo = ref.watch(sessionProvider).btcAccountSyncInfo;
 
     return Scrollbar(
       controller: scrollController,
@@ -81,7 +82,7 @@ class MainMenu extends BaseComponent {
                       padding: const EdgeInsets.all(8.0).copyWith(top: 0),
                       child: Center(
                         child: Text(
-                          totalBalance != null ? "$totalBalance RBX" : "",
+                          totalBalance != null ? "$totalBalance RBX" : "0.0 RBX",
                           style: Theme.of(context).textTheme.caption!.copyWith(
                                 fontWeight: FontWeight.w600,
                               ),
@@ -89,12 +90,16 @@ class MainMenu extends BaseComponent {
                       ),
                     ),
                   ),
-                  if (btcBalance > 0)
-                    Container(
-                      color: Colors.black,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0).copyWith(top: 0),
-                        child: Center(
+                  // if (btcBalance > 0)
+                  Container(
+                    color: Colors.black,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0).copyWith(top: 0),
+                      child: Center(
+                        child: Tooltip(
+                          message: btcAccountSyncInfo != null
+                              ? "Last Sync: ${btcAccountSyncInfo.lastSyncFormatted}\nNext Sync: ${btcAccountSyncInfo.nextSyncFormatted}"
+                              : "",
                           child: Text(
                             "$btcBalance BTC",
                             style: Theme.of(context).textTheme.caption!.copyWith(
@@ -105,6 +110,7 @@ class MainMenu extends BaseComponent {
                         ),
                       ),
                     ),
+                  ),
                   _NavButton(
                     title: "Dashboard",
                     icon: Icons.dashboard,

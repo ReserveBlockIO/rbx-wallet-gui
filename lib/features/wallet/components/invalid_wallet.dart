@@ -27,7 +27,7 @@ class InvalidWallet extends StatelessWidget {
             style: Theme.of(context).textTheme.caption,
           ),
           const SizedBox(
-            width: 350,
+            width: 400,
             child: WalletSelector(
               truncatedLabel: false,
               withOptions: false,

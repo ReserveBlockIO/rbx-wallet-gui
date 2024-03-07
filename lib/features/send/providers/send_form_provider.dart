@@ -2,6 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/btc/models/btc_fee_rate_preset.dart';
+import 'package:rbx_wallet/features/btc/models/btc_recommended_fees.dart';
+import 'package:rbx_wallet/features/btc/services/btc_service.dart';
 import '../../../core/app_constants.dart';
 import '../../global_loader/global_loading_provider.dart';
 import '../../reserve/services/reserve_account_service.dart';
@@ -27,27 +30,31 @@ import '../../raw/raw_service.dart';
 class SendFormModel {
   final String amount;
   final String address;
-  // final Wallet? wallet;
   final bool isProcessing;
+  final BtcFeeRatePreset btcFeeRatePreset;
+  final int btcCustomFeeRate;
 
   const SendFormModel({
     this.amount = "",
     this.address = "",
-    // this.wallet,
     this.isProcessing = false,
+    this.btcFeeRatePreset = BtcFeeRatePreset.economy,
+    this.btcCustomFeeRate = 0,
   });
 
   SendFormModel copyWith({
     String? amount,
     String? address,
-    // Wallet? wallet,
     bool? isProcessing,
+    BtcFeeRatePreset? btcFeeRatePreset,
+    int? btcCustomFeeRate,
   }) {
     return SendFormModel(
       amount: amount ?? this.amount,
       address: address ?? this.address,
-      // wallet: wallet ?? this.wallet,
       isProcessing: isProcessing ?? this.isProcessing,
+      btcFeeRatePreset: btcFeeRatePreset ?? this.btcFeeRatePreset,
+      btcCustomFeeRate: btcCustomFeeRate ?? this.btcCustomFeeRate,
     );
   }
 }
@@ -64,13 +71,18 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
 
   late final TextEditingController amountController;
   late final TextEditingController addressController;
+  late final TextEditingController btcCustomFeeRateController;
 
   SendFormProvider(this.ref, [SendFormModel model = _initial]) : super(model) {
     amountController = TextEditingController(text: model.amount);
     addressController = TextEditingController(text: model.address);
+    btcCustomFeeRateController = TextEditingController(text: '');
 
     amountController.addListener(_updateState);
     addressController.addListener(_updateState);
+    btcCustomFeeRateController.addListener(_updateState);
+
+    setBtcFeeRatePreset(state.btcFeeRatePreset);
   }
 
   String get amount => amountController.value.text;
@@ -90,6 +102,22 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
 
     if (parsed <= 0) {
       return "The amount has to be a positive value";
+    }
+
+    final isBtc = ref.read(sessionProvider).btcSelected;
+
+    if (isBtc) {
+      final account = ref.read(sessionProvider).currentBtcAccount;
+      if (account == null) {
+        return "No wallet selected";
+      }
+
+      double btcFee = 0;
+      //todo: handle fee estimate
+      if (account.balance < (parsed + btcFee)) {
+        return "Not enough balance in BTC account";
+      }
+      return null;
     }
 
     if (kIsWeb) {
@@ -115,17 +143,39 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
   }
 
   String? addressValidator(String? value) {
+    final isBtc = ref.read(sessionProvider).btcSelected;
+
+    if (isBtc) {
+      if (value == null) {
+        return "BTC Address required";
+      }
+      return null;
+    } else {
+      if (value == null) {
+        return "Address or RBX domain required";
+      }
+
+      return formValidatorRbxAddress(value, true);
+    }
+  }
+
+  String? btcCustomFeeRateValidator(String? value) {
     if (value == null) {
-      return "Address or RBX domain required";
+      return "Fee Rate Required";
     }
 
-    return formValidatorRbxAddress(value, true);
+    if ((int.tryParse(value) ?? 0) < 1) {
+      return "Invalid Fee Rate";
+    }
+
+    return null;
   }
 
   void _updateState() {
     state = state.copyWith(
       amount: amountController.value.text,
-      address: amountController.value.text,
+      address: addressController.value.text,
+      btcCustomFeeRate: int.tryParse(btcCustomFeeRateController.text) ?? 0,
     );
   }
 
@@ -144,14 +194,126 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
     );
   }
 
+  void setBtcFeeRatePreset(BtcFeeRatePreset preset) async {
+    final recommendedFees = ref.read(sessionProvider).btcRecommendedFees ?? BtcRecommendedFees.fallback();
+
+    int fee = 0;
+
+    switch (state.btcFeeRatePreset) {
+      case BtcFeeRatePreset.custom:
+        fee = 0;
+        break;
+      case BtcFeeRatePreset.minimum:
+        fee = recommendedFees.minimumFee;
+        break;
+      case BtcFeeRatePreset.economy:
+        fee = recommendedFees.economyFee;
+        break;
+      case BtcFeeRatePreset.hour:
+        fee = recommendedFees.hourFee;
+        break;
+      case BtcFeeRatePreset.halfHour:
+        fee = recommendedFees.halfHourFee;
+        break;
+      case BtcFeeRatePreset.fastest:
+        fee = recommendedFees.fastestFee;
+        break;
+    }
+
+    print(fee);
+
+    state = state.copyWith(btcFeeRatePreset: preset, btcCustomFeeRate: fee);
+  }
+
   Future<void> submit() async {
     String senderAddress = "";
     Wallet? currentWallet;
+
+    final isBtc = ref.read(sessionProvider).btcSelected;
+
+    if (isBtc) {
+      print(state.btcCustomFeeRate);
+      print("*****");
+
+      int feeRateInt = 0;
+
+      if (state.btcFeeRatePreset == BtcFeeRatePreset.custom) {
+        feeRateInt = int.tryParse(btcCustomFeeRateController.text) ?? 0;
+      } else {
+        final recommendedFees = ref.read(sessionProvider).btcRecommendedFees ?? BtcRecommendedFees.fallback();
+
+        switch (state.btcFeeRatePreset) {
+          case BtcFeeRatePreset.custom:
+            feeRateInt = 0;
+            break;
+          case BtcFeeRatePreset.minimum:
+            feeRateInt = recommendedFees.minimumFee;
+            break;
+          case BtcFeeRatePreset.economy:
+            feeRateInt = recommendedFees.economyFee;
+            break;
+          case BtcFeeRatePreset.hour:
+            feeRateInt = recommendedFees.hourFee;
+            break;
+          case BtcFeeRatePreset.halfHour:
+            feeRateInt = recommendedFees.halfHourFee;
+            break;
+          case BtcFeeRatePreset.fastest:
+            feeRateInt = recommendedFees.fastestFee;
+            break;
+        }
+      }
+
+      final account = ref.read(sessionProvider).currentBtcAccount;
+      if (account == null) {
+        Toast.error("No wallet selected");
+        return;
+      }
+
+      final amountDouble = double.tryParse(amount);
+      if (amountDouble == null) {
+        Toast.error("Invalid amount");
+        return;
+      }
+
+      double btcFee = 0;
+      //todo: handle fee estimate
+      if (account.balance < (amountDouble + btcFee)) {
+        Toast.error("Not enough balance in BTC account");
+        return;
+      }
+
+      final confirmed = await ConfirmDialog.show(
+        title: "Please Confirm",
+        body: "Sending:\n$amount BTC\n\nTo:\n$address\n\nFrom:\n${account.address}",
+        confirmText: "Send",
+        cancelText: "Cancel",
+      );
+
+      if (confirmed != true) {
+        return;
+      }
+
+      final error = await BtcService().sendTransaction(
+        fromAddress: account.address,
+        toAddress: address,
+        amount: amountDouble,
+        feeRate: feeRateInt,
+      );
+
+      if (error != null) {
+        Toast.error(error);
+      } else {
+        Toast.message("$amount BTC has been sent to $address.");
+      }
+
+      return;
+    }
+
     if (!kIsWeb) {
       currentWallet = ref.read(sessionProvider).currentWallet;
       if (currentWallet == null) {
         Toast.error("No wallet selected");
-
         return;
       }
 

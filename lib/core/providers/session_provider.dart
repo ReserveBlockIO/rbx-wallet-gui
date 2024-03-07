@@ -10,8 +10,11 @@ import 'package:intl/intl.dart';
 import 'package:process/process.dart';
 import 'package:process_run/shell.dart';
 import 'package:rbx_wallet/features/btc/models/btc_account.dart';
+import 'package:rbx_wallet/features/btc/models/btc_account_sync_info.dart';
 import 'package:rbx_wallet/features/btc/models/btc_address_type.dart';
+import 'package:rbx_wallet/features/btc/models/btc_recommended_fees.dart';
 import 'package:rbx_wallet/features/btc/providers/btc_account_list_provider.dart';
+import 'package:rbx_wallet/features/btc/services/btc_fee_rate_service.dart';
 import 'package:rbx_wallet/features/btc/services/btc_service.dart';
 import '../api_token_manager.dart';
 import '../utils.dart';
@@ -83,6 +86,8 @@ class SessionModel {
   final BtcAddressType btcAddressType;
   final BtcAccount? currentBtcAccount;
   final bool btcSelected;
+  final BtcAccountSyncInfo? btcAccountSyncInfo;
+  final BtcRecommendedFees? btcRecommendedFees;
 
   const SessionModel({
     this.currentWallet,
@@ -103,6 +108,8 @@ class SessionModel {
     this.btcAddressType = BtcAddressType.segwit,
     this.currentBtcAccount,
     this.btcSelected = false,
+    this.btcAccountSyncInfo,
+    this.btcRecommendedFees,
   });
 
   SessionModel copyWith({
@@ -124,6 +131,8 @@ class SessionModel {
     BtcAddressType? btcAddressType,
     BtcAccount? currentBtcAccount,
     bool? btcSelected,
+    BtcAccountSyncInfo? btcAccountSyncInfo,
+    BtcRecommendedFees? btcRecommendedFees,
   }) {
     return SessionModel(
       startTime: startTime ?? this.startTime,
@@ -144,6 +153,8 @@ class SessionModel {
       btcAddressType: btcAddressType ?? this.btcAddressType,
       currentBtcAccount: currentBtcAccount ?? this.currentBtcAccount,
       btcSelected: btcSelected ?? this.btcSelected,
+      btcAccountSyncInfo: btcAccountSyncInfo ?? this.btcAccountSyncInfo,
+      btcRecommendedFees: btcRecommendedFees ?? this.btcRecommendedFees,
     );
   }
 
@@ -215,7 +226,6 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
     // mainLoop();
     mainLoop(inLoop);
-    btcLoop(inLoop);
     smartContractLoop(inLoop);
     checkGuiUpdateStatus(inLoop);
     ref.read(beaconListProvider.notifier).refresh();
@@ -453,6 +463,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
       // await loadPeerInfo();
       loadTransactions();
       loadTopics();
+      btcLoop();
     }
 
     if (inLoop) {
@@ -888,7 +899,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
     }
   }
 
-  Future<void> btcLoop(bool inLoop) async {
+  Future<void> btcLoop() async {
     final addressType = await BtcService().addressType();
 
     if (addressType != state.btcAddressType) {
@@ -897,10 +908,15 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
     ref.read(btcAccountListProvider.notifier).load();
 
-    if (inLoop) {
-      await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS_BTC));
-      mainLoop(true);
-    }
+    final btcAccountSyncInfo = await BtcService().accountSyncInfo();
+    state = state.copyWith(btcAccountSyncInfo: btcAccountSyncInfo);
+
+    final btcRecommendedFees = await BtcFeeRateService().recommended();
+
+    state = state.copyWith(btcRecommendedFees: btcRecommendedFees);
+
+    await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS_BTC));
+    btcLoop();
   }
 }
 

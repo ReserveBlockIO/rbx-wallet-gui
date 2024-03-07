@@ -1,7 +1,7 @@
 import "package:rbx_wallet/features/btc/models/btc_account.dart";
+import "package:rbx_wallet/features/btc/models/btc_address_type.dart";
 import "package:rbx_wallet/features/btc/services/btc_service.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
-import "package:collection/collection.dart";
 
 part 'btc_account_list_provider.g.dart';
 
@@ -14,8 +14,6 @@ class BtcAccountList extends _$BtcAccountList {
 
   Future<void> load() async {
     state = await BtcService().listAccounts();
-
-    print(state);
   }
 
   Future<BtcAccount?> create() async {
@@ -26,5 +24,29 @@ class BtcAccountList extends _$BtcAccountList {
     }
 
     return null;
+  }
+
+  Future<bool> importPrivateKey(String privateKey, BtcAddressType addressType) async {
+    final success = await BtcService().importPrivateKey(privateKey, addressType);
+    if (success) {
+      await load();
+      return true;
+    }
+
+    return false;
+  }
+
+  Future<String?> sendTransaction({
+    required String fromAddress,
+    required String toAddress,
+    required double amount,
+    required int feeRate,
+  }) async {
+    return await BtcService().sendTransaction(
+      fromAddress: fromAddress,
+      toAddress: toAddress,
+      amount: amount,
+      feeRate: feeRate,
+    );
   }
 }

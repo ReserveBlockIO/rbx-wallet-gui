@@ -5,15 +5,11 @@ import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/singletons.dart';
-import 'package:rbx_wallet/core/storage.dart';
+import 'package:rbx_wallet/features/btc/models/btc_address_type.dart';
 import 'package:rbx_wallet/features/btc/providers/btc_account_list_provider.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/theme/app_theme.dart';
-import '../../bridge/providers/wallet_info_provider.dart';
 import '../../reserve/models/new_reserve_account.dart';
-import '../../reserve/services/reserve_account_service.dart';
-import '../../smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'bulk_import_wallet_modal.dart';
 
 import '../../../app.dart';
@@ -225,7 +221,77 @@ class WalletSelector extends BaseComponent {
                       ),
                     ],
                   ),
-                  onTap: () async {},
+                  onTap: () async {
+                    final privateKeyController = TextEditingController();
+                    final List<String>? data = await showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text("Import BTC Private Key"),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text("Paste in your BTC private key to import your account."),
+                              ),
+                              ListTile(
+                                leading: const Icon(Icons.security),
+                                title: TextFormField(
+                                  controller: privateKeyController,
+                                  decoration: InputDecoration(
+                                      label: Text(
+                                    "Private Key",
+                                    style: TextStyle(color: btcOrange),
+                                  )),
+                                  style: const TextStyle(fontSize: 13),
+                                ),
+                              ),
+                            ],
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text(
+                                "Cancel",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop([privateKeyController.text, "test"]);
+                              },
+                              child: Text(
+                                "Import",
+                                style: TextStyle(color: btcOrange),
+                              ),
+                            )
+                          ],
+                        );
+                      },
+                    );
+
+                    if (data != null) {
+                      if (data.length == 2) {
+                        final privateKey = data.first;
+                        const addressType = BtcAddressType.segwit;
+                        final success = await ref.read(btcAccountListProvider.notifier).importPrivateKey(privateKey, addressType);
+                        final btcAccountSyncInfo = ref.watch(sessionProvider).btcAccountSyncInfo;
+
+                        if (success) {
+                          if (btcAccountSyncInfo != null) {
+                            Toast.message("Private Key Imported! Please wait until ${btcAccountSyncInfo.nextSyncFormatted} for the balance to sync.");
+                          } else {
+                            Toast.message("Private Key Imported!");
+                          }
+                        } else {
+                          Toast.error();
+                        }
+                      }
+                    }
+                  },
                 ),
               );
 
@@ -252,55 +318,68 @@ class WalletSelector extends BaseComponent {
                     }
 
                     showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: const Text("BTC Wallet Created"),
-                            content: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text("Here are your BTC wallet details. Please ensure to back up your private key in a safe place."),
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text("BTC Wallet Created"),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text("Here are your BTC wallet details. Please ensure to back up your private key in a safe place."),
+                              ),
+                              ListTile(
+                                leading: const Icon(Icons.account_balance_wallet),
+                                title: TextFormField(
+                                  initialValue: account.address,
+                                  decoration: InputDecoration(
+                                      label: Text(
+                                    "Address",
+                                    style: TextStyle(color: btcOrange),
+                                  )),
+                                  readOnly: true,
+                                  style: const TextStyle(fontSize: 13),
                                 ),
-                                ListTile(
-                                  leading: const Icon(Icons.account_balance_wallet),
-                                  title: TextFormField(
-                                    initialValue: account.address,
-                                    decoration: const InputDecoration(label: Text("Address")),
-                                    readOnly: true,
-                                    style: const TextStyle(fontSize: 13),
+                              ),
+                              ListTile(
+                                leading: const Icon(Icons.security),
+                                title: TextFormField(
+                                  initialValue: account.privateKey,
+                                  decoration: InputDecoration(
+                                    label: Text("Private Key", style: TextStyle(color: btcOrange)),
                                   ),
+                                  style: const TextStyle(
+                                    fontSize: 13,
+                                  ),
+                                  readOnly: true,
                                 ),
-                                ListTile(
-                                  leading: const Icon(Icons.security),
-                                  title: TextFormField(
-                                    initialValue: account.privateKey,
-                                    decoration: const InputDecoration(
-                                      label: Text("Private Key"),
-                                    ),
-                                    style: const TextStyle(fontSize: 13),
-                                    readOnly: true,
+                                trailing: IconButton(
+                                  icon: Icon(
+                                    Icons.copy,
+                                    color: btcOrange,
                                   ),
-                                  trailing: IconButton(
-                                    icon: const Icon(Icons.copy),
-                                    onPressed: () async {
-                                      await Clipboard.setData(ClipboardData(text: account.privateKey));
-                                      Toast.message("Private Key copied to clipboard");
-                                    },
-                                  ),
-                                ),
-                                const Divider(),
-                                AppButton(
-                                  label: "Done",
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
+                                  onPressed: () async {
+                                    await Clipboard.setData(ClipboardData(text: account.privateKey));
+                                    Toast.message("Private Key copied to clipboard");
                                   },
-                                )
-                              ],
-                            ),
-                          );
-                        },);
+                                ),
+                              ),
+                            ],
+                          ),
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text(
+                                  "Done",
+                                  style: TextStyle(color: btcOrange),
+                                ))
+                          ],
+                        );
+                      },
+                    );
                   },
                 ),
               );

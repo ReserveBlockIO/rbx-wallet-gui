@@ -19,6 +19,8 @@ class AppButton extends StatelessWidget {
   final HelpType? helpType;
   final bool disabled;
   final bool underlined;
+  final Color? bgOverride;
+  final Color? fgOverride;
 
   const AppButton({
     Key? key,
@@ -33,10 +35,13 @@ class AppButton extends StatelessWidget {
     this.helpType,
     this.disabled = false,
     this.underlined = false,
+    this.bgOverride,
+    this.fgOverride,
   }) : super(key: key);
 
   ButtonStyle _styleElevated(BuildContext context) {
     final isMobile = BreakPoints.useMobileLayout(context);
+
     switch (variant) {
       case AppColorVariant.Primary:
         return ElevatedButton.styleFrom(
@@ -83,6 +88,11 @@ class AppButton extends StatelessWidget {
           primary: disabled ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.lightButtonBg,
           onPrimary: Theme.of(context).colorScheme.lightButtonFg,
         );
+      case AppColorVariant.Btc:
+        return ElevatedButton.styleFrom(
+          primary: disabled ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.btcOrange,
+          onPrimary: Theme.of(context).colorScheme.onBtcOrange,
+        );
     }
   }
 
@@ -122,6 +132,10 @@ class AppButton extends StatelessWidget {
         return OutlinedButton.styleFrom(
           primary: _colorScheme.darkButtonBg,
         );
+      case AppColorVariant.Btc:
+        return OutlinedButton.styleFrom(
+          primary: _colorScheme.btcOrange,
+        );
     }
   }
 
@@ -160,6 +174,10 @@ class AppButton extends StatelessWidget {
         return OutlinedButton.styleFrom(
           primary: disabled ? Theme.of(context).disabledColor : _colorScheme.darkButtonBg,
         );
+      case AppColorVariant.Btc:
+        return OutlinedButton.styleFrom(
+          primary: disabled ? Theme.of(context).disabledColor : _colorScheme.btcOrange,
+        );
     }
   }
 
@@ -189,6 +207,8 @@ class AppButton extends StatelessWidget {
             return _colorScheme.lightButtonFg;
           case AppColorVariant.Dark:
             return _colorScheme.darkButtonFg;
+          case AppColorVariant.Btc:
+            return _colorScheme.onBtcOrange;
         }
       case AppButtonType.Text:
       case AppButtonType.Outlined:
@@ -209,6 +229,8 @@ class AppButton extends StatelessWidget {
             return _colorScheme.lightButtonBg;
           case AppColorVariant.Dark:
             return _colorScheme.darkButtonBg;
+          case AppColorVariant.Btc:
+            return _colorScheme.btcOrange;
         }
     }
   }

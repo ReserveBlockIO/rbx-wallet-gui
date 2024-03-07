@@ -15,8 +15,10 @@ class SendScreen extends BaseScreen {
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
+    final isBtc = ref.watch(sessionProvider).btcSelected;
+
     return AppBar(
-      title: const Text("Send RBX"),
+      title: Text("Send ${isBtc ? 'BTC' : 'RBX'}"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
       actions: const [WalletSelector()],
@@ -25,11 +27,17 @@ class SendScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final currentWallet = ref.watch(sessionProvider).currentWallet;
-    if (currentWallet == null) {
+    final isBtc = ref.watch(sessionProvider).btcSelected;
+
+    final currentWallet = !isBtc ? ref.watch(sessionProvider).currentWallet : null;
+    final currentBtcAccount = isBtc ? ref.watch(sessionProvider).currentBtcAccount : null;
+    if (currentWallet == null && currentBtcAccount == null) {
       return const InvalidWallet(message: "No wallet selected");
     }
 
-    return SendForm(wallet: currentWallet);
+    return SendForm(
+      wallet: currentWallet,
+      btcAccount: currentBtcAccount,
+    );
   }
 }

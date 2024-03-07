@@ -1,5 +1,6 @@
 import 'package:rbx_wallet/core/services/base_service.dart';
 import 'package:rbx_wallet/features/btc/models/btc_account.dart';
+import 'package:rbx_wallet/features/btc/models/btc_account_sync_info.dart';
 import 'package:rbx_wallet/features/btc/models/btc_address_type.dart';
 import 'package:collection/collection.dart';
 
@@ -21,6 +22,25 @@ class BtcService extends BaseService {
     }
   }
 
+  Future<BtcAccountSyncInfo?> accountSyncInfo() async {
+    try {
+      final result = await getJson("/GetLastAccounySync");
+
+      if (result["Success"] == true) {
+        return BtcAccountSyncInfo(
+          lastSync: DateTime.parse(result['LastChecked']),
+          nextSync: DateTime.parse(result['NextCheck']),
+        );
+      }
+      print(result["Message"]);
+
+      return null;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
   Future<BtcAccount?> createAccount() async {
     try {
       final result = await getJson("/GetNewAddress");
@@ -37,6 +57,20 @@ class BtcService extends BaseService {
     } catch (e) {
       print(e);
       return null;
+    }
+  }
+
+  Future<bool> importPrivateKey(String privateKey, BtcAddressType addressType) async {
+    try {
+      final result = await getJson("/ImportPrivateKey/$privateKey/${addressType.value}");
+      if (result["Success"] == true) {
+        return true;
+      }
+      print(result['Message']);
+      return false;
+    } catch (e) {
+      print(e);
+      return false;
     }
   }
 
@@ -65,6 +99,25 @@ class BtcService extends BaseService {
       return null;
     } catch (e) {
       return null;
+    }
+  }
+
+  Future<String?> sendTransaction({
+    required String fromAddress,
+    required String toAddress,
+    required double amount,
+    required int feeRate,
+  }) async {
+    try {
+      final result = await getJson("/SendTransaction/$fromAddress/$toAddress/$amount/$feeRate/true", inspect: true);
+      if (result['Success'] == true) {
+        return null;
+      }
+      print(result['Message']);
+      return result['Message'] ?? "Error";
+    } catch (e) {
+      print(e);
+      return e.toString();
     }
   }
 }

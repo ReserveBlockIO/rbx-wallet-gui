@@ -125,4 +125,4 @@ run_web_cors:
 
 
 run_cli_testnet:
-	/Applications/RBXWallet.app/Contents/Resources/RBXCore/ReserveBlockCore testnet enableapi openapi
+	/Applications/RBXWallet.app/Contents/Resources/RBXCore/ReserveBlockCore testnet enableapi gui
