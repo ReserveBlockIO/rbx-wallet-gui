@@ -9,6 +9,10 @@ import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:intl/intl.dart';
 import 'package:process/process.dart';
 import 'package:process_run/shell.dart';
+import 'package:rbx_wallet/features/btc/models/btc_account.dart';
+import 'package:rbx_wallet/features/btc/models/btc_address_type.dart';
+import 'package:rbx_wallet/features/btc/providers/btc_account_list_provider.dart';
+import 'package:rbx_wallet/features/btc/services/btc_service.dart';
 import '../api_token_manager.dart';
 import '../utils.dart';
 import '../../features/chat/providers/chat_notification_provider.dart';
@@ -76,6 +80,9 @@ class SessionModel {
   final String timezoneName;
   final RemoteInfo? remoteInfo;
   final String? windowsLauncherPath;
+  final BtcAddressType btcAddressType;
+  final BtcAccount? currentBtcAccount;
+  final bool btcSelected;
 
   const SessionModel({
     this.currentWallet,
@@ -93,6 +100,9 @@ class SessionModel {
     this.timezoneName = "America/Los_Angeles",
     this.remoteInfo,
     this.windowsLauncherPath,
+    this.btcAddressType = BtcAddressType.segwit,
+    this.currentBtcAccount,
+    this.btcSelected = false,
   });
 
   SessionModel copyWith({
@@ -111,6 +121,9 @@ class SessionModel {
     String? timezoneName,
     RemoteInfo? remoteInfo,
     String? windowsLauncherPath,
+    BtcAddressType? btcAddressType,
+    BtcAccount? currentBtcAccount,
+    bool? btcSelected,
   }) {
     return SessionModel(
       startTime: startTime ?? this.startTime,
@@ -128,6 +141,9 @@ class SessionModel {
       timezoneName: timezoneName ?? this.timezoneName,
       remoteInfo: remoteInfo ?? this.remoteInfo,
       windowsLauncherPath: windowsLauncherPath ?? this.windowsLauncherPath,
+      btcAddressType: btcAddressType ?? this.btcAddressType,
+      currentBtcAccount: currentBtcAccount ?? this.currentBtcAccount,
+      btcSelected: btcSelected ?? this.btcSelected,
     );
   }
 
@@ -199,6 +215,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
     // mainLoop();
     mainLoop(inLoop);
+    btcLoop(inLoop);
     smartContractLoop(inLoop);
     checkGuiUpdateStatus(inLoop);
     ref.read(beaconListProvider.notifier).refresh();
@@ -642,7 +659,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   void setCurrentWallet(Wallet wallet) {
-    state = state.copyWith(currentWallet: wallet);
+    state = state.copyWith(currentWallet: wallet, btcSelected: false);
     singleton<Storage>().setString(Storage.CURRENT_WALLET_ADDRESS_KEY, wallet.address);
 
     final validators = ref.read(validatorListProvider);
@@ -652,6 +669,11 @@ class SessionProvider extends StateNotifier<SessionModel> {
     ref.read(currentValidatorProvider.notifier).set(currentValidator);
 
     setupChatListeners();
+  }
+
+  void setCurrentBtcAccount(BtcAccount account) {
+    state = state.copyWith(currentBtcAccount: account, btcSelected: true);
+    singleton<Storage>().setString(Storage.CURRENT_BTC_ACCOUNT_ADDRESS_KEY, account.address);
   }
 
   void setFilteringTransactions(bool val) {
@@ -863,6 +885,21 @@ class SessionProvider extends StateNotifier<SessionModel> {
           ));
     } catch (e) {
       print(e);
+    }
+  }
+
+  Future<void> btcLoop(bool inLoop) async {
+    final addressType = await BtcService().addressType();
+
+    if (addressType != state.btcAddressType) {
+      state = state.copyWith(btcAddressType: addressType);
+    }
+
+    ref.read(btcAccountListProvider.notifier).load();
+
+    if (inLoop) {
+      await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS_BTC));
+      mainLoop(true);
     }
   }
 }

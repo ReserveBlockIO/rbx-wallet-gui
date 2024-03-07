@@ -67,6 +67,8 @@ dependencies:
   cached_network_image: ^3.2.3
   webviewx: ^0.2.2
   uni_links_desktop: ^0.1.6
+  riverpod_annotation: ^2.1.2
+  riverpod_generator: ^2.1.5
 
 
 

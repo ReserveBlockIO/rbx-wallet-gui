@@ -122,3 +122,7 @@ run_web:
 
 run_web_cors:
 	fvm flutter run -d chrome --web-browser-flag "--disable-web-security" --web-port 42069
+
+
+run_cli_testnet:
+	/Applications/RBXWallet.app/Contents/Resources/RBXCore/ReserveBlockCore testnet enableapi openapi

@@ -73,6 +73,8 @@ extension CustomColorScheme on ColorScheme {
 
   Color get darkButtonBg => dark;
   Color get darkButtonFg => const Color(0xFFFFFFFF);
+
+  Color get btcOrange => Color(0xfff7931a);
 }
 
 class AppTheme {

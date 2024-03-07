@@ -56,7 +56,7 @@ class WalletListProvider extends StateNotifier<List<Wallet>> {
               children: [
                 const Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Here is your wallet details. Please ensure to back up your private key in a safe place."),
+                  child: Text("Here are your wallet details. Please ensure to back up your private key in a safe place."),
                 ),
                 ListTile(
                   leading: const Icon(Icons.account_balance_wallet),
