@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/features/btc/models/btc_account.dart';
 import 'package:rbx_wallet/features/btc/models/btc_fee_rate_preset.dart';
 import 'package:rbx_wallet/features/btc/models/btc_recommended_fees.dart';
 import 'package:rbx_wallet/features/btc/providers/btc_account_list_provider.dart';
+import 'package:rbx_wallet/features/btc/utils.dart';
 import 'package:rbx_wallet/features/keygen/models/ra_keypair.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../reserve/providers/pending_activation_provider.dart';
@@ -428,9 +430,9 @@ class SendForm extends BaseComponent {
                         break;
                     }
 
-                    final feeBtc = (fee * 0.00000001).toStringAsFixed(9);
-                    final feeEstimate = fee * 140;
-                    final feeEstimateBtc = (fee * 140 * 0.00000001).toStringAsFixed(9);
+                    final feeBtc = satashiToBtcLabel(fee);
+                    final feeEstimate = satashiTxFeeEstimate(fee);
+                    final feeEstimateBtc = btcTxFeeEstimateLabel(fee);
 
                     return Column(
                       mainAxisSize: MainAxisSize.min,
@@ -493,7 +495,7 @@ class SendForm extends BaseComponent {
                           Padding(
                             padding: const EdgeInsets.only(left: leadingWidth + 30),
                             child: Text(
-                              "Fee Estimate: ~${formState.btcCustomFeeRate * 140 * 0.00000001} BTC",
+                              "Fee Estimate: ~${formState.btcCustomFeeRate * BTC_TX_EXPECTED_BYTES * BTC_SATOSHI_MULTIPLIER} BTC",
                               style: Theme.of(context).textTheme.caption,
                             ),
                           ),

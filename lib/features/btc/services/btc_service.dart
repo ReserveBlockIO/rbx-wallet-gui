@@ -3,6 +3,7 @@ import 'package:rbx_wallet/features/btc/models/btc_account.dart';
 import 'package:rbx_wallet/features/btc/models/btc_account_sync_info.dart';
 import 'package:rbx_wallet/features/btc/models/btc_address_type.dart';
 import 'package:collection/collection.dart';
+import 'package:rbx_wallet/features/btc/models/btc_send_tx_result.dart';
 
 class BtcService extends BaseService {
   BtcService() : super(apiBasePathOverride: "/btcapi/BTCV2");
@@ -102,22 +103,35 @@ class BtcService extends BaseService {
     }
   }
 
-  Future<String?> sendTransaction({
+  Future<BtcSendTxResult> sendTransaction({
     required String fromAddress,
     required String toAddress,
     required double amount,
     required int feeRate,
   }) async {
     try {
-      final result = await getJson("/SendTransaction/$fromAddress/$toAddress/$amount/$feeRate/true", inspect: true);
+      final result = await getJson(
+        "/SendTransaction/$fromAddress/$toAddress/$amount/$feeRate/true",
+        inspect: true,
+        cleanPath: true,
+      );
+      print(result);
+
       if (result['Success'] == true) {
-        return null;
+        return BtcSendTxResult(
+          success: true,
+          message: result['Message'],
+        );
       }
-      print(result['Message']);
-      return result['Message'] ?? "Error";
+      return BtcSendTxResult(
+        success: false,
+        message: result['Message'] ?? "A Problem Occurred",
+      );
     } catch (e) {
-      print(e);
-      return e.toString();
+      return BtcSendTxResult(
+        success: false,
+        message: e.toString(),
+      );
     }
   }
 }

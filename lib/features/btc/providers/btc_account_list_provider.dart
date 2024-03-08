@@ -36,17 +36,4 @@ class BtcAccountList extends _$BtcAccountList {
     return false;
   }
 
-  Future<String?> sendTransaction({
-    required String fromAddress,
-    required String toAddress,
-    required double amount,
-    required int feeRate,
-  }) async {
-    return await BtcService().sendTransaction(
-      fromAddress: fromAddress,
-      toAddress: toAddress,
-      amount: amount,
-      feeRate: feeRate,
-    );
-  }
 }

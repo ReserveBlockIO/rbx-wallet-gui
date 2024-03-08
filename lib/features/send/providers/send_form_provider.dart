@@ -2,9 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/features/btc/models/btc_fee_rate_preset.dart';
 import 'package:rbx_wallet/features/btc/models/btc_recommended_fees.dart';
 import 'package:rbx_wallet/features/btc/services/btc_service.dart';
+import 'package:rbx_wallet/features/btc/utils.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../../../core/app_constants.dart';
 import '../../global_loader/global_loading_provider.dart';
 import '../../reserve/services/reserve_account_service.dart';
@@ -112,11 +116,16 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
         return "No wallet selected";
       }
 
-      double btcFee = 0;
-      //todo: handle fee estimate
+      final feeRateInt = getFeeRate();
+      final btcFee = satashisToBtc(feeRateInt);
       if (account.balance < (parsed + btcFee)) {
         return "Not enough balance in BTC account";
       }
+
+      if (parsed < BTC_MINIMUM_TX_AMOUNT) {
+        return "The minimum transaction acmount is $BTC_MINIMUM_TX_AMOUNT BTC";
+      }
+
       return null;
     }
 
@@ -165,7 +174,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
     }
 
     if ((int.tryParse(value) ?? 0) < 1) {
-      return "Invalid Fee Rate";
+      return "Invalid Fee Rate. Must be atleast 1 satoshi.";
     }
 
     return null;
@@ -220,9 +229,39 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
         break;
     }
 
-    print(fee);
-
     state = state.copyWith(btcFeeRatePreset: preset, btcCustomFeeRate: fee);
+  }
+
+  int getFeeRate() {
+    int feeRateInt = 0;
+
+    if (state.btcFeeRatePreset == BtcFeeRatePreset.custom) {
+      feeRateInt = int.tryParse(btcCustomFeeRateController.text) ?? 0;
+    } else {
+      final recommendedFees = ref.read(sessionProvider).btcRecommendedFees ?? BtcRecommendedFees.fallback();
+
+      switch (state.btcFeeRatePreset) {
+        case BtcFeeRatePreset.custom:
+          feeRateInt = 0;
+          break;
+        case BtcFeeRatePreset.minimum:
+          feeRateInt = recommendedFees.minimumFee;
+          break;
+        case BtcFeeRatePreset.economy:
+          feeRateInt = recommendedFees.economyFee;
+          break;
+        case BtcFeeRatePreset.hour:
+          feeRateInt = recommendedFees.hourFee;
+          break;
+        case BtcFeeRatePreset.halfHour:
+          feeRateInt = recommendedFees.halfHourFee;
+          break;
+        case BtcFeeRatePreset.fastest:
+          feeRateInt = recommendedFees.fastestFee;
+          break;
+      }
+    }
+    return feeRateInt;
   }
 
   Future<void> submit() async {
@@ -232,37 +271,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
     final isBtc = ref.read(sessionProvider).btcSelected;
 
     if (isBtc) {
-      print(state.btcCustomFeeRate);
-      print("*****");
-
-      int feeRateInt = 0;
-
-      if (state.btcFeeRatePreset == BtcFeeRatePreset.custom) {
-        feeRateInt = int.tryParse(btcCustomFeeRateController.text) ?? 0;
-      } else {
-        final recommendedFees = ref.read(sessionProvider).btcRecommendedFees ?? BtcRecommendedFees.fallback();
-
-        switch (state.btcFeeRatePreset) {
-          case BtcFeeRatePreset.custom:
-            feeRateInt = 0;
-            break;
-          case BtcFeeRatePreset.minimum:
-            feeRateInt = recommendedFees.minimumFee;
-            break;
-          case BtcFeeRatePreset.economy:
-            feeRateInt = recommendedFees.economyFee;
-            break;
-          case BtcFeeRatePreset.hour:
-            feeRateInt = recommendedFees.hourFee;
-            break;
-          case BtcFeeRatePreset.halfHour:
-            feeRateInt = recommendedFees.halfHourFee;
-            break;
-          case BtcFeeRatePreset.fastest:
-            feeRateInt = recommendedFees.fastestFee;
-            break;
-        }
-      }
+      int feeRateInt = getFeeRate();
 
       final account = ref.read(sessionProvider).currentBtcAccount;
       if (account == null) {
@@ -276,8 +285,12 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
         return;
       }
 
-      double btcFee = 0;
-      //todo: handle fee estimate
+      if (amountDouble < BTC_MINIMUM_TX_AMOUNT) {
+        Toast.error("The minimum transaction acmount is $BTC_MINIMUM_TX_AMOUNT BTC");
+        return;
+      }
+
+      double btcFee = satashisToBtc(feeRateInt);
       if (account.balance < (amountDouble + btcFee)) {
         Toast.error("Not enough balance in BTC account");
         return;
@@ -294,17 +307,76 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
         return;
       }
 
-      final error = await BtcService().sendTransaction(
+      final result = await BtcService().sendTransaction(
         fromAddress: account.address,
         toAddress: address,
         amount: amountDouble,
         feeRate: feeRateInt,
       );
 
-      if (error != null) {
-        Toast.error(error);
-      } else {
+      if (result.success) {
+        clear();
+        final txHash = result.message;
+        final message = "BTC TX broadcasted with hash of $txHash";
+
+        ref.read(logProvider.notifier).append(
+              LogEntry(
+                message: message,
+                textToCopy: txHash,
+                variant: AppColorVariant.Btc,
+              ),
+            );
+
         Toast.message("$amount BTC has been sent to $address.");
+
+        InfoDialog.show(
+            title: "Transaction Broadcasted",
+            buttonColorOverride: Color(0xfff7931a),
+            content: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 600),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextFormField(
+                    initialValue: txHash,
+                    readOnly: true,
+                    decoration: InputDecoration(
+                      label: Text(
+                        "Transaction Hash",
+                        style: TextStyle(
+                          color: Color(0xfff7931a),
+                        ),
+                      ),
+                      suffix: IconButton(
+                        icon: Icon(Icons.copy),
+                        onPressed: () async {
+                          await Clipboard.setData(ClipboardData(text: txHash));
+                          Toast.message("Transaction Hash copied to clipboard");
+                        },
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  AppButton(
+                    label: "Open in BTC Explorer",
+                    variant: AppColorVariant.Btc,
+                    type: AppButtonType.Text,
+                    onPressed: () {
+                      if (Env.isTestNet) {
+                        launchUrlString("https://live.blockcypher.com/btc-testnet/tx/$txHash/");
+                      } else {
+                        launchUrlString("https://live.blockcypher.com/btc/tx/$txHash/");
+                      }
+                    },
+                  )
+                ],
+              ),
+            ));
+      } else {
+        Toast.error(result.message);
       }
 
       return;

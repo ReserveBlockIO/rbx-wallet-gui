@@ -29,6 +29,10 @@ const SHOP_DELETE_COST = 1.0;
 const SHOP_UPDATE_COST = 1.0;
 const RA_ACTIVATION_COST = 4.0;
 
+const BTC_SATOSHI_MULTIPLIER = 0.00000001;
+const BTC_TX_EXPECTED_BYTES = 140;
+const BTC_MINIMUM_TX_AMOUNT = 0.00001;
+
 class TxType {
   static const int rbxTransfer = 0;
   static const int node = 1;

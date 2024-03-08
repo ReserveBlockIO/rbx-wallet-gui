@@ -23,6 +23,7 @@ class InfoDialog {
     String? closeText,
     IconData? icon,
     Color? headerColor = Colors.white,
+    Color? buttonColorOverride,
   }) {
     return AlertDialog(
       title: Row(
@@ -64,7 +65,7 @@ class InfoDialog {
           child: Text(
             closeText ?? "Close",
             style: TextStyle(
-              color: Theme.of(context).colorScheme.secondary,
+              color: buttonColorOverride ?? Theme.of(context).colorScheme.secondary,
             ),
           ),
         )
@@ -80,21 +81,21 @@ class InfoDialog {
     IconData? icon,
     Color? headerColor = Colors.white,
     BuildContext? contextOverride,
+    Color? buttonColorOverride,
   }) async {
     final context = rootNavigatorKey.currentContext!;
 
     return await showDialog(
       context: contextOverride ?? context,
       builder: (context) {
-        return alert(
-          context,
-          title: title,
-          body: body,
-          content: content,
-          closeText: closeText,
-          icon: icon,
-          headerColor: headerColor,
-        );
+        return alert(context,
+            title: title,
+            body: body,
+            content: content,
+            closeText: closeText,
+            icon: icon,
+            headerColor: headerColor,
+            buttonColorOverride: buttonColorOverride);
       },
     );
   }
