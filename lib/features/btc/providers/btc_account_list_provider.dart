@@ -3,6 +3,10 @@ import "package:rbx_wallet/features/btc/models/btc_address_type.dart";
 import "package:rbx_wallet/features/btc/services/btc_service.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
+import "btc_transaction_list_provider.dart";
+import "btc_utxo_list_provider.dart";
+import 'package:collection/collection.dart';
+
 part 'btc_account_list_provider.g.dart';
 
 @Riverpod(keepAlive: true)
@@ -14,6 +18,14 @@ class BtcAccountList extends _$BtcAccountList {
 
   Future<void> load() async {
     state = await BtcService().listAccounts();
+    _updateTransactions();
+  }
+
+  void _updateTransactions() {
+    for (final account in state) {
+      ref.read(btcUtxoListProvider(account.address).notifier).load();
+      ref.read(btcTransactionListProvider(account.address).notifier).load();
+    }
   }
 
   Future<BtcAccount?> create() async {
@@ -36,4 +48,7 @@ class BtcAccountList extends _$BtcAccountList {
     return false;
   }
 
+  BtcAccount? getAccount(String address) {
+    return state.firstWhereOrNull((element) => element.address == address);
+  }
 }

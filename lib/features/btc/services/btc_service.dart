@@ -4,6 +4,8 @@ import 'package:rbx_wallet/features/btc/models/btc_account_sync_info.dart';
 import 'package:rbx_wallet/features/btc/models/btc_address_type.dart';
 import 'package:collection/collection.dart';
 import 'package:rbx_wallet/features/btc/models/btc_send_tx_result.dart';
+import 'package:rbx_wallet/features/btc/models/btc_transaction.dart';
+import 'package:rbx_wallet/features/btc/models/btc_utxo.dart';
 
 class BtcService extends BaseService {
   BtcService() : super(apiBasePathOverride: "/btcapi/BTCV2");
@@ -132,6 +134,43 @@ class BtcService extends BaseService {
         success: false,
         message: e.toString(),
       );
+    }
+  }
+
+  Future<List<BtcUtxo>> listUtxos(String address) async {
+    try {
+      final result = await getJson("/GetAddressUTXOList/$address", cleanPath: false);
+
+      if (result['Success'] == true) {
+        final items = (result['UTXOs'] ?? []) as List;
+        return items.map((item) => BtcUtxo.fromJson(item)).toList();
+      }
+
+      print(result["Message"]);
+
+      return [];
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+
+  Future<List<BtcTransaction>> listTransactions(String address) async {
+    try {
+      final result = await getJson("/GetAddressTXList/$address", cleanPath: false);
+
+      if (result['Success'] == true) {
+        final items = (result['TXs'] ?? []) as List;
+        return items.map((item) => BtcTransaction.fromJson(item)).toList();
+      }
+
+      print(result["Message"]);
+
+      return [];
+    } catch (e) {
+      print(e);
+      return [];
     }
   }
 }

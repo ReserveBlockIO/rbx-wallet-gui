@@ -106,6 +106,7 @@ class MainMenu extends BaseComponent {
                                   fontWeight: FontWeight.w600,
                                   color: Theme.of(context).colorScheme.btcOrange,
                                 ),
+                            textAlign: TextAlign.center,
                           ),
                         ),
                       ),

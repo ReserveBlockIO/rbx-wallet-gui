@@ -214,3 +214,13 @@ List<BoxShadow> get glowingBox {
     ),
   ];
 }
+
+List<BoxShadow> get glowingBoxBtc {
+  return [
+    BoxShadow(
+      color: Color(0xFFf7931a).withOpacity(0.25),
+      spreadRadius: 3,
+      blurRadius: 3,
+    ),
+  ];
+}
