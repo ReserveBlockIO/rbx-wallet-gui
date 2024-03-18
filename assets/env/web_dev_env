@@ -6,3 +6,4 @@ ALLOW_VALIDATING=false
 IS_WEB=true
 IS_TEST_NET=true
 PAYMENT_DOMAIN=https://rbx.banxa.com
+RBX_NETWORK_DOWN=true

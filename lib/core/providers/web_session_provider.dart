@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/features/keygen/models/ra_keypair.dart';
 import 'package:rbx_wallet/features/nft/providers/minted_nft_list_provider.dart';
 import '../models/web_session_model.dart';
@@ -92,12 +93,15 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
   }
 
   void loop() async {
+    if (Env.rbxNetworkDown) return;
     getAddress();
     getRaAddress();
     getNfts();
   }
 
   Future<void> getAddress() async {
+    if (Env.rbxNetworkDown) return;
+
     if (state.keypair == null) {
       return;
     }
@@ -112,6 +116,8 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
   }
 
   Future<void> getRaAddress() async {
+    if (Env.rbxNetworkDown) return;
+
     if (state.raKeypair == null) {
       return;
     }
@@ -135,6 +141,8 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
   // }
 
   Future<void> getNfts() async {
+    if (Env.rbxNetworkDown) return;
+
     if (state.keypair == null) {
       return;
     }

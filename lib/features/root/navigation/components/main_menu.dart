@@ -101,7 +101,7 @@ class MainMenu extends BaseComponent {
                               ? "Last Sync: ${btcAccountSyncInfo.lastSyncFormatted}\nNext Sync: ${btcAccountSyncInfo.nextSyncFormatted}"
                               : "",
                           child: Text(
-                            "$btcBalance BTC",
+                            "${btcBalance.toStringAsFixed(9)} BTC",
                             style: Theme.of(context).textTheme.caption!.copyWith(
                                   fontWeight: FontWeight.w600,
                                   color: Theme.of(context).colorScheme.btcOrange,

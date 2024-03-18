@@ -7,6 +7,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/app.dart';
+import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/utils.dart';
 import 'package:rbx_wallet/features/chat/models/latest_chat_message.dart';
@@ -34,6 +35,8 @@ class _WebChatNotifierState extends State<WebChatNotifier> {
   List<LatestChatMessage> messages = [];
 
   Future<void> fetch() async {
+    if (Env.rbxNetworkDown) return;
+
     print("CHAT FETCH");
     if (widget.address == null) {
       return;

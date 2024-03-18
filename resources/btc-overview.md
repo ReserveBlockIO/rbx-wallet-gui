@@ -112,14 +112,33 @@ GET /ResetAccount
 * throttle once every five minutes max => aaron taking care of this, will be false with message
 
 
+=====
+Web Wallet
+======
+
+PART 1
+generate / import address (segwet) 
+- email/password
+- mnumonic version
 
 
+PART 2
+get balances & utxos
+- probably need to pay for an API key on btc explorer
+
+vout, tx hash, balance
+
+PART 3
+send transaction
+- fee rate
+- look up how to create inputs and outputs
+- send change back to the original address
+- broadcast to CLI via explorer
+- explorer service tracks this tx and 
 
 
-
-
-
-
-
+PART 4
+outputs
+- transaction list (will be saved in explorer db)
 
 

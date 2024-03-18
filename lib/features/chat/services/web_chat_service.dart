@@ -14,6 +14,8 @@ class WebChatService extends BaseService {
         );
 
   Future<ServerPaginatedReponse<WebChatThread>> listThreads({int page = 1, String? buyerAddress, String? shopUrl}) async {
+    if (Env.rbxNetworkDown) ServerPaginatedReponse.empty();
+
     if (buyerAddress == null && shopUrl == null) {
       print("buyerAddress and shopUrl can not both be null, silly goose.");
       return ServerPaginatedReponse.empty();

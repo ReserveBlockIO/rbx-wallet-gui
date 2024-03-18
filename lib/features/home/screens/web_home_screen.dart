@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
+import 'package:rbx_wallet/features/btc_web/services/btc_web_service.dart';
 import 'package:rbx_wallet/features/payment/components/web_buy_rbx_button.dart';
 import 'package:rbx_wallet/features/web/components/web_ra_mode_switcher.dart';
 
@@ -314,6 +315,21 @@ class _Actions extends BaseComponent {
                       AutoRouter.of(context).replace(const WebAuthRouter());
                     },
                   ),
+
+                AppButton(
+                  label: "TEST BUTTON1",
+                  onPressed: () async {
+                    final btcWebService = BtcWebService();
+
+                    // await btcWebService.listTransactions("tb1qh0nx4epkftfz3gmztkg9qmcyez604q36snzg0n");
+
+                    const senderWif = "cPQ5kbnuj8YmBoCaFmsPsZENVykN1GGmF18mg6sEZsJPX2np6PRa";
+                    const senderAddress = "tb1qh0nx4epkftfz3gmztkg9qmcyez604q36snzg0n";
+                    const recipientAddress = "tb1q4lahda9feljf695q473z4m8m7xhgzv35n6226q";
+                    const amount = 0.000002;
+                    await btcWebService.sendTransaction(senderWif, senderAddress, recipientAddress, amount);
+                  },
+                ),
               ],
             ),
           ),

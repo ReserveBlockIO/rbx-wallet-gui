@@ -302,6 +302,12 @@ class $AssetsImagesGen {
 class $AssetsJsGen {
   const $AssetsJsGen();
 
+  /// File path: assets/js/btc-testnet.js
+  String get btcTestnet => 'assets/js/btc-testnet.js';
+
+  /// File path: assets/js/btc.js
+  String get btc => 'assets/js/btc.js';
+
   /// File path: assets/js/keygen-v2.js
   String get keygenV2 => 'assets/js/keygen-v2.js';
 
@@ -312,7 +318,7 @@ class $AssetsJsGen {
   String get keygen => 'assets/js/keygen.js';
 
   /// List of all assets
-  List<String> get values => [keygenV2, keygenV3, keygen];
+  List<String> get values => [btcTestnet, btc, keygenV2, keygenV3, keygen];
 }
 
 class Assets {

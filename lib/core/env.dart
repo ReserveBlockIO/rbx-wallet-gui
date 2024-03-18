@@ -18,7 +18,7 @@ enum _Environment {
   WebLocalEnv,
 }
 
-_Environment _env = _Environment.ReleaseTestNet;
+_Environment _env = _Environment.WebTestNet;
 
 class Env {
   static init() async {
@@ -187,5 +187,9 @@ class Env {
 
   static String? get paymentDomain {
     return DotEnv.dotenv.env['PAYMENT_DOMAIN'];
+  }
+
+  static bool get rbxNetworkDown {
+    return DotEnv.dotenv.env['RBX_NETWORK_DOWN'] == 'true';
   }
 }
