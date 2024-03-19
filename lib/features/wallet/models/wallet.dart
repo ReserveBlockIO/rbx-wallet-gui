@@ -27,6 +27,7 @@ class Wallet with _$Wallet {
     @JsonKey(name: "LockedBalance") @Default(0.0) double lockedBalance,
     @JsonKey(name: "TotalBalance") @Default(0.0) double totalBalance,
     @JsonKey(name: "IsNetworkProtected") @Default(false) bool isNetworkProtected,
+    String? btcWif,
 
     // @Default(false) bool adnrPending,
   }) = _Wallet;

@@ -274,6 +274,7 @@ class PromptModal {
     bool popOnValidSubmission = true,
     Widget? titleTrailing,
     String? prefixText,
+    Color? labelColor,
   }) async {
     // final context = rootNavigatorKey.currentContext!;
     final context = contextOverride ?? rootNavigatorKey.currentContext!;
@@ -329,7 +330,10 @@ class PromptModal {
                             maxLines: lines,
                             keyboardType: keyboardType,
                             decoration: InputDecoration(
-                              label: Text(labelText),
+                              label: Text(
+                                labelText,
+                                style: TextStyle(color: labelColor ?? Theme.of(context).colorScheme.secondary),
+                              ),
                               prefixText: prefixText,
                             ),
                             validator: validator,

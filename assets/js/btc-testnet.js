@@ -10,6 +10,8 @@ function init() {
     const accountService = new btc.AccountService(true);
     const transactionService = new btc.TransactionService(true);
 
+    // KEYPAIRS
+
     window.btcKeypairFromRandom = function () {
         const result = keypairService.keypairFromRandom();
         return _responseOutput(result);

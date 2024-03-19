@@ -27,6 +27,7 @@ abstract class Storage {
   static const BUYER_CHAT_THREADS = "BUYER_CHAT_THREADS_V3";
   static const SELLER_CHAT_THREADS = "SELLER_CHAT_THREADS_V3";
   static const WEB_AUTH_TOKEN = "WEB_AUTH_TOKEN";
+  static const WEB_BTC_KEYPAIR = "WEB_BTC_KEYPAIR";
 
   bool isInitialized = false;
 

@@ -14,6 +14,7 @@ abstract class Keypair with _$Keypair {
     String? email,
     // @JsonKey(toJson: null) ECPrivateKey? ecPrivateKey,
     String? mneumonic,
+    String? btcWif,
   }) = _Keypair;
 
   factory Keypair.fromJson(Map<String, dynamic> json) => _$KeypairFromJson(json);

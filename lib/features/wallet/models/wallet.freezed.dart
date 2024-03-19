@@ -52,6 +52,7 @@ mixin _$Wallet {
   double get totalBalance => throw _privateConstructorUsedError;
   @JsonKey(name: "IsNetworkProtected")
   bool get isNetworkProtected => throw _privateConstructorUsedError;
+  String? get btcWif => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -94,7 +95,8 @@ abstract class $WalletCopyWith<$Res> {
       @JsonKey(name: "TotalBalance")
           double totalBalance,
       @JsonKey(name: "IsNetworkProtected")
-          bool isNetworkProtected});
+          bool isNetworkProtected,
+      String? btcWif});
 }
 
 /// @nodoc
@@ -126,6 +128,7 @@ class _$WalletCopyWithImpl<$Res, $Val extends Wallet>
     Object? lockedBalance = null,
     Object? totalBalance = null,
     Object? isNetworkProtected = null,
+    Object? btcWif = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -192,6 +195,10 @@ class _$WalletCopyWithImpl<$Res, $Val extends Wallet>
           ? _value.isNetworkProtected
           : isNetworkProtected // ignore: cast_nullable_to_non_nullable
               as bool,
+      btcWif: freezed == btcWif
+          ? _value.btcWif
+          : btcWif // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -233,7 +240,8 @@ abstract class _$$_WalletCopyWith<$Res> implements $WalletCopyWith<$Res> {
       @JsonKey(name: "TotalBalance")
           double totalBalance,
       @JsonKey(name: "IsNetworkProtected")
-          bool isNetworkProtected});
+          bool isNetworkProtected,
+      String? btcWif});
 }
 
 /// @nodoc
@@ -262,6 +270,7 @@ class __$$_WalletCopyWithImpl<$Res>
     Object? lockedBalance = null,
     Object? totalBalance = null,
     Object? isNetworkProtected = null,
+    Object? btcWif = freezed,
   }) {
     return _then(_$_Wallet(
       id: null == id
@@ -328,6 +337,10 @@ class __$$_WalletCopyWithImpl<$Res>
           ? _value.isNetworkProtected
           : isNetworkProtected // ignore: cast_nullable_to_non_nullable
               as bool,
+      btcWif: freezed == btcWif
+          ? _value.btcWif
+          : btcWif // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -366,7 +379,8 @@ class _$_Wallet extends _Wallet {
       @JsonKey(name: "TotalBalance")
           this.totalBalance = 0.0,
       @JsonKey(name: "IsNetworkProtected")
-          this.isNetworkProtected = false})
+          this.isNetworkProtected = false,
+      this.btcWif})
       : super._();
 
   factory _$_Wallet.fromJson(Map<String, dynamic> json) =>
@@ -420,10 +434,12 @@ class _$_Wallet extends _Wallet {
   @override
   @JsonKey(name: "IsNetworkProtected")
   final bool isNetworkProtected;
+  @override
+  final String? btcWif;
 
   @override
   String toString() {
-    return 'Wallet(id: $id, publicKey: $publicKey, privateKey: $privateKey, address: $address, friendlyName: $friendlyName, balance: $balance, isValidating: $isValidating, adnr: $adnr, recoveryAddress: $recoveryAddress, recoveryPrivateKey: $recoveryPrivateKey, recoveryEncryptedDecryptKey: $recoveryEncryptedDecryptKey, encryptedDecryptKey: $encryptedDecryptKey, availableBalance: $availableBalance, lockedBalance: $lockedBalance, totalBalance: $totalBalance, isNetworkProtected: $isNetworkProtected)';
+    return 'Wallet(id: $id, publicKey: $publicKey, privateKey: $privateKey, address: $address, friendlyName: $friendlyName, balance: $balance, isValidating: $isValidating, adnr: $adnr, recoveryAddress: $recoveryAddress, recoveryPrivateKey: $recoveryPrivateKey, recoveryEncryptedDecryptKey: $recoveryEncryptedDecryptKey, encryptedDecryptKey: $encryptedDecryptKey, availableBalance: $availableBalance, lockedBalance: $lockedBalance, totalBalance: $totalBalance, isNetworkProtected: $isNetworkProtected, btcWif: $btcWif)';
   }
 
   @override
@@ -460,7 +476,8 @@ class _$_Wallet extends _Wallet {
             (identical(other.totalBalance, totalBalance) ||
                 other.totalBalance == totalBalance) &&
             (identical(other.isNetworkProtected, isNetworkProtected) ||
-                other.isNetworkProtected == isNetworkProtected));
+                other.isNetworkProtected == isNetworkProtected) &&
+            (identical(other.btcWif, btcWif) || other.btcWif == btcWif));
   }
 
   @JsonKey(ignore: true)
@@ -482,7 +499,8 @@ class _$_Wallet extends _Wallet {
       availableBalance,
       lockedBalance,
       totalBalance,
-      isNetworkProtected);
+      isNetworkProtected,
+      btcWif);
 
   @JsonKey(ignore: true)
   @override
@@ -530,7 +548,8 @@ abstract class _Wallet extends Wallet {
       @JsonKey(name: "TotalBalance")
           final double totalBalance,
       @JsonKey(name: "IsNetworkProtected")
-          final bool isNetworkProtected}) = _$_Wallet;
+          final bool isNetworkProtected,
+      final String? btcWif}) = _$_Wallet;
   _Wallet._() : super._();
 
   factory _Wallet.fromJson(Map<String, dynamic> json) = _$_Wallet.fromJson;
@@ -582,6 +601,8 @@ abstract class _Wallet extends Wallet {
   @override
   @JsonKey(name: "IsNetworkProtected")
   bool get isNetworkProtected;
+  @override
+  String? get btcWif;
   @override
   @JsonKey(ignore: true)
   _$$_WalletCopyWith<_$_Wallet> get copyWith =>

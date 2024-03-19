@@ -12,7 +12,6 @@ import 'package:rbx_wallet/features/btc_web/models/btc_web_balance_info.dart';
 import 'package:rbx_wallet/features/btc_web/models/btc_web_transaction.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
-/// need to do this for any results that return a js promise
 @JS()
 external btcAddressInfo(String address);
 

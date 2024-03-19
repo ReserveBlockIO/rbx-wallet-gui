@@ -113,6 +113,8 @@ class ExplorerService extends BaseService {
     int page = 1,
     String? search,
   }) async {
+    if (Env.rbxNetworkDown) return [];
+
     try {
       final params = {
         'owner_address': ownerAddress,

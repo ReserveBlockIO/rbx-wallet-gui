@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/features/btc_web/services/btc_web_service.dart';
 import 'package:rbx_wallet/features/payment/components/web_buy_rbx_button.dart';
-import 'package:rbx_wallet/features/web/components/web_ra_mode_switcher.dart';
+import 'package:rbx_wallet/features/web/components/web_wallet_type_switcher.dart';
 
 import '../../../core/dialogs.dart';
 import '../../web/components/web_wordmark.dart';
@@ -52,7 +52,7 @@ class WebHomeScreen extends BaseScreen {
               padding: const EdgeInsets.only(left: 6.0),
               child: WebBuyRBXButton(),
             ),
-      actions: [WebRaModeSwitcher()],
+      actions: [WebWalletTypeSwitcher()],
     );
   }
 

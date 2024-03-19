@@ -6,6 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rbx_wallet/core/env.dart';
+import 'package:rbx_wallet/features/btc/models/btc_account.dart';
+import 'package:rbx_wallet/features/btc_web/models/btc_web_account.dart';
+import 'package:rbx_wallet/features/btc_web/services/btc_web_service.dart';
 import 'package:rbx_wallet/features/keygen/models/ra_keypair.dart';
 import '../../core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/keygen/services/keygen_service.dart'
@@ -24,13 +28,8 @@ import '../../core/web_router.gr.dart';
 import '../global_loader/global_loading_provider.dart';
 import '../keygen/models/keypair.dart';
 
-Future<void> login(
-  BuildContext context,
-  WidgetRef ref,
-  Keypair keypair,
-  RaKeypair? raKeypair,
-) async {
-  ref.read(webSessionProvider.notifier).login(keypair, raKeypair);
+Future<void> login(BuildContext context, WidgetRef ref, Keypair keypair, RaKeypair? raKeypair, BtcWebAccount? btcKeypair) async {
+  ref.read(webSessionProvider.notifier).login(keypair, raKeypair, btcKeypair);
 }
 
 Future<void> handleImportWithPrivateKey(
@@ -72,7 +71,7 @@ Future<void> handleImportWithPrivateKey(
       append += 1;
     }
 
-    await login(context, ref, keypair, reserveKeyPair);
+    await login(context, ref, keypair, reserveKeyPair, null);
   }
 }
 
@@ -141,6 +140,12 @@ Future<void> handleCreateWithEmail(
     append += 1;
   }
 
+  // BTC
+
+  final btcKeypair = await BtcWebService().keypairFromEmailPassword(email, password);
+  print(btcKeypair);
+  print("-----------");
+
   if (forCreate) {
     await showKeys(context, keypair);
   }
@@ -148,7 +153,9 @@ Future<void> handleCreateWithEmail(
   // await TransactionService().createWallet(email, keypair.address);
   await handleRememberMe(context, ref);
 
-  await login(context, ref, keypair.copyWith(email: email), reserveKeyPair);
+  await login(context, ref, keypair.copyWith(email: email), reserveKeyPair, btcKeypair);
+
+  if (Env.rbxNetworkDown) return;
 
   final authorized = await guardWebAuthorized(ref, keypair.address);
   if (authorized) {
@@ -196,11 +203,14 @@ Future<void> handleCreateWithMnemonic(
     append += 1;
   }
 
+  final btcKeypair =
+      keypair.mneumonic != null && keypair.mneumonic!.isNotEmpty ? await BtcWebService().keypairFromMnemonic(keypair.mneumonic!) : null;
+
   ref.read(globalLoadingProvider.notifier).complete();
 
   // await TransactionService().createWallet(null, keypair.address);
 
-  login(context, ref, keypair, reserveKeyPair);
+  login(context, ref, keypair, reserveKeyPair, btcKeypair);
   await showKeys(context, keypair);
 }
 
@@ -297,11 +307,13 @@ Future<dynamic> handleRecoverFromMnemonic(BuildContext context, WidgetRef ref) a
       append += 1;
     }
 
+    final btcKeypair = await BtcWebService().keypairFromMnemonic(value);
+
     ref.read(globalLoadingProvider.notifier).complete();
 
     // showKeys(context, keypair);
     // await TransactionService().createWallet(null, keypair.address);
-    await login(context, ref, keypair, reserveKeyPair);
+    await login(context, ref, keypair, reserveKeyPair, btcKeypair);
   }
 }
 
@@ -310,6 +322,7 @@ Future<void> showKeys(
   Keypair keypair, [
   bool forReveal = false,
 ]) async {
+  final isBtc = keypair.btcWif != null;
   final isMobile = BreakPoints.useMobileLayout(context);
 
   await showDialog(
@@ -321,9 +334,9 @@ Future<void> showKeys(
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Align(
+            Align(
               alignment: Alignment.centerLeft,
-              child: Text("Here are your wallet details. Please ensure to back up your private key in a safe place."),
+              child: Text("Here are your${isBtc ? ' BTC' : ''} wallet details. Please ensure to back up your private key in a safe place."),
             ),
             if (keypair.mneumonic != null)
               ListTile(
@@ -350,7 +363,13 @@ Future<void> showKeys(
               leading: isMobile ? null : const Icon(Icons.account_balance_wallet),
               title: TextFormField(
                 initialValue: keypair.address,
-                decoration: const InputDecoration(label: Text("Address")),
+                decoration: InputDecoration(
+                    label: Text(
+                  "Address",
+                  style: TextStyle(
+                    color: isBtc ? Theme.of(context).colorScheme.btcOrange : Theme.of(context).colorScheme.secondary,
+                  ),
+                )),
                 readOnly: true,
                 style: const TextStyle(fontSize: 13),
               ),
@@ -362,12 +381,41 @@ Future<void> showKeys(
                 },
               ),
             ),
+            if (keypair.btcWif != null)
+              ListTile(
+                leading: isMobile ? null : const Icon(Icons.security),
+                title: TextFormField(
+                  initialValue: keypair.btcWif,
+                  decoration: InputDecoration(
+                    label: Text(
+                      "WIF Private Key",
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.btcOrange,
+                      ),
+                    ),
+                  ),
+                  style: const TextStyle(fontSize: 13),
+                  readOnly: true,
+                ),
+                trailing: IconButton(
+                  icon: const Icon(Icons.copy),
+                  onPressed: () async {
+                    await Clipboard.setData(ClipboardData(text: keypair.btcWif));
+                    Toast.message("WIF private key copied to clipboard");
+                  },
+                ),
+              ),
             ListTile(
               leading: isMobile ? null : const Icon(Icons.security),
               title: TextFormField(
                 initialValue: keypair.privateCorrected,
-                decoration: const InputDecoration(
-                  label: Text("Private Key"),
+                decoration: InputDecoration(
+                  label: Text(
+                    "Private Key",
+                    style: TextStyle(
+                      color: isBtc ? Theme.of(context).colorScheme.btcOrange : Theme.of(context).colorScheme.secondary,
+                    ),
+                  ),
                 ),
                 style: const TextStyle(fontSize: 13),
                 readOnly: true,

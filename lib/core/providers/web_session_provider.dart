@@ -4,6 +4,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/env.dart';
+import 'package:rbx_wallet/features/btc/models/btc_account.dart';
+import 'package:rbx_wallet/features/btc_web/models/btc_web_account.dart';
+import 'package:rbx_wallet/features/btc_web/services/btc_web_service.dart';
 import 'package:rbx_wallet/features/keygen/models/ra_keypair.dart';
 import 'package:rbx_wallet/features/nft/providers/minted_nft_list_provider.dart';
 import '../models/web_session_model.dart';
@@ -45,7 +48,10 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
         final savedRaKeypair = singleton<Storage>().getMap(Storage.WEB_RA_KEYPAIR);
         final raKeypair = savedRaKeypair != null ? RaKeypair.fromJson(savedRaKeypair) : null;
 
-        login(keypair, raKeypair, andSave: false);
+        final savedBtcKeypair = singleton<Storage>().getMap(Storage.WEB_BTC_KEYPAIR);
+        final btcKeyPair = savedBtcKeypair != null ? BtcWebAccount.fromJson(savedBtcKeypair) : null;
+
+        login(keypair, raKeypair, btcKeyPair, andSave: false);
         ref.read(webTransactionListProvider(keypair.address).notifier);
       }
     } else {
@@ -67,23 +73,40 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     singleton<Storage>().setBool(Storage.REMEMBER_ME, val);
   }
 
-  void login(Keypair keypair, RaKeypair? raKeypair, {bool andSave = true}) {
+  void login(Keypair keypair, RaKeypair? raKeypair, BtcWebAccount? btcKeyPair, {bool andSave = true}) {
     final rememberMe = singleton<Storage>().getBool(Storage.REMEMBER_ME) ?? false;
     if (rememberMe) {
       singleton<Storage>().setMap(Storage.WEB_KEYPAIR, keypair.toJson());
       if (raKeypair != null) {
         singleton<Storage>().setMap(Storage.WEB_RA_KEYPAIR, raKeypair.toJson());
       }
+      if (btcKeyPair != null) {
+        singleton<Storage>().setMap(Storage.WEB_BTC_KEYPAIR, btcKeyPair.toJson());
+      }
     }
 
-    state = state.copyWith(keypair: keypair, raKeypair: raKeypair, isAuthenticated: true);
+    state = state.copyWith(
+      keypair: keypair,
+      raKeypair: raKeypair,
+      btcKeypair: btcKeyPair,
+      isAuthenticated: true,
+    );
+
+    refreshBtcBalanceInfo();
+
     loop();
 
     // ref.read(webTransactionListProvider(keypair.address).notifier).init();
   }
 
-  void setUsingRa(bool value) {
-    state = state.copyWith(usingRa: value);
+  // void setUsingRa(bool value) {
+  //   state = state.copyWith(selectedWalletType: value ?  );
+  //   ref.read(mintedNftListProvider.notifier).load(1);
+  //   ref.read(nftListProvider.notifier).load(1);
+  // }
+
+  void setSelectedWalletType(WalletType type) {
+    state = state.copyWith(selectedWalletType: type);
     ref.read(mintedNftListProvider.notifier).load(1);
     ref.read(nftListProvider.notifier).load(1);
   }
@@ -150,8 +173,36 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     ref.read(webListedNftsProvider.notifier).refresh();
   }
 
+  void updateBtcKeypair(BtcWebAccount? account, bool andSave) {
+    state = state.copyWith(
+      btcKeypair: account,
+      selectedWalletType: WalletType.btc,
+    );
+
+    refreshBtcBalanceInfo();
+
+    if (andSave) {
+      if (account != null) {
+        singleton<Storage>().setMap(Storage.WEB_BTC_KEYPAIR, account.toJson());
+      } else {
+        singleton<Storage>().remove(Storage.WEB_BTC_KEYPAIR);
+      }
+    }
+  }
+
+  void refreshBtcBalanceInfo() async {
+    if (state.btcKeypair != null) {
+      final btcBalanceInfo = await BtcWebService().addressInfo(state.btcKeypair!.address);
+      state = state.copyWith(
+        btcBalanceInfo: btcBalanceInfo,
+      );
+    }
+  }
+
   Future<void> logout() async {
     singleton<Storage>().remove(Storage.WEB_KEYPAIR);
+    singleton<Storage>().remove(Storage.WEB_RA_KEYPAIR);
+    singleton<Storage>().remove(Storage.WEB_BTC_KEYPAIR);
     // state = WebSessionModel();
 
     await Future.delayed(const Duration(milliseconds: 150));
