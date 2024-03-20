@@ -9,6 +9,7 @@ import 'package:rbx_wallet/features/btc_web/models/btc_web_account.dart';
 import 'package:rbx_wallet/features/btc_web/services/btc_web_service.dart';
 import 'package:rbx_wallet/features/keygen/models/ra_keypair.dart';
 import 'package:rbx_wallet/features/nft/providers/minted_nft_list_provider.dart';
+import 'package:collection/collection.dart';
 import '../models/web_session_model.dart';
 import '../web_router.gr.dart';
 import '../../features/transactions/providers/web_transaction_list_provider.dart';
@@ -53,6 +54,14 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
 
         login(keypair, raKeypair, btcKeyPair, andSave: false);
         ref.read(webTransactionListProvider(keypair.address).notifier);
+
+        final savedSelectedWalletType = singleton<Storage>().getString(Storage.WEB_SELECTED_WALLET_TYPE);
+        if (savedSelectedWalletType != null) {
+          final walletType = WalletType.values.firstWhereOrNull((t) => t.storageName == savedSelectedWalletType);
+          if (walletType != null) {
+            setSelectedWalletType(walletType, false);
+          }
+        }
       }
     } else {
       Future.delayed(const Duration(milliseconds: 500), () {
@@ -105,10 +114,17 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
   //   ref.read(nftListProvider.notifier).load(1);
   // }
 
-  void setSelectedWalletType(WalletType type) {
+  void setSelectedWalletType(WalletType type, [bool save = true]) {
     state = state.copyWith(selectedWalletType: type);
-    ref.read(mintedNftListProvider.notifier).load(1);
-    ref.read(nftListProvider.notifier).load(1);
+
+    if (type != WalletType.btc) {
+      ref.read(mintedNftListProvider.notifier).load(1);
+      ref.read(nftListProvider.notifier).load(1);
+    }
+
+    if (save) {
+      singleton<Storage>().setString(Storage.WEB_SELECTED_WALLET_TYPE, type.storageName);
+    }
   }
 
   void setRaKeypair(RaKeypair keypair) {

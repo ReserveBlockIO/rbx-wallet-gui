@@ -9,9 +9,13 @@ part 'web_session_model.freezed.dart';
 part 'web_session_model.g.dart';
 
 enum WalletType {
-  rbx,
-  ra,
-  btc,
+  rbx("rbx"),
+  ra("ra"),
+  btc("btc"),
+  ;
+
+  final String storageName;
+  const WalletType(this.storageName);
 }
 
 @freezed

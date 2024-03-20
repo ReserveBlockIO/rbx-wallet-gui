@@ -97,6 +97,7 @@ class BtcWebService {
   }
 
   Future<List<BtcWebTransaction>> listTransactions(String address, {int limit = 50, int? before}) async {
+    print("Listing txs for $address...");
     try {
       final promise = btcTransactions(address, limit, before);
       final data = await promiseToFuture(promise);
@@ -112,6 +113,7 @@ class BtcWebService {
 
       return transactions;
     } catch (e) {
+      print("Error");
       print(e);
       return [];
     }
