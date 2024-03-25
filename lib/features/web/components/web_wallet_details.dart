@@ -48,7 +48,7 @@ class WebWalletDetails extends BaseComponent {
             return Row(
               children: [
                 Text(
-                  "${btcInfo.btcBalance} BTC",
+                  "${btcInfo.btcFinalBalance} BTC",
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
                 SizedBox(width: 2),

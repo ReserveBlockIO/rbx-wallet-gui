@@ -37,7 +37,7 @@ class WebBtcTransactionList extends BaseComponent {
         itemCount: transactions.length,
         itemBuilder: (context, index) {
           final transaction = transactions[index];
-          return WebBtcTransactionListTile(transaction: transaction);
+          return WebBtcTransactionListTile(transaction: transaction, address: address);
         },
       ),
     );

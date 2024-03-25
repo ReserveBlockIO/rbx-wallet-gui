@@ -1,4 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:intl/intl.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
 
 part 'btc_web_transaction.freezed.dart';
 part 'btc_web_transaction.g.dart';
@@ -40,7 +42,7 @@ class BtcWebTransaction with _$BtcWebTransaction {
   const BtcWebTransaction._();
 
   factory BtcWebTransaction({
-    @JsonKey(name: "block_hash") required String blockHash,
+    @JsonKey(name: "block_hash") String? blockHash,
     @JsonKey(name: "block_height") required int blockHeight,
     required String hash,
     @Default([]) List<String> addresses,
@@ -55,4 +57,30 @@ class BtcWebTransaction with _$BtcWebTransaction {
   }) = _BtcWebTransaction;
 
   factory BtcWebTransaction.fromJson(Map<String, dynamic> json) => _$BtcWebTransactionFromJson(json);
+
+  double get totalBtc {
+    return total * BTC_SATOSHI_MULTIPLIER;
+  }
+
+  double get feesBtc {
+    return fees * BTC_SATOSHI_MULTIPLIER;
+  }
+
+  List<String> otherAddresses(String address) {
+    return addresses.where((a) => a != address).toList();
+  }
+
+  String get confirmedLabel {
+    if (confirmed == null) {
+      return "-";
+    }
+    return DateFormat('MM-dd-yyyy hh:mm a').format(confirmed!);
+  }
+
+  String get receivedLabel {
+    if (received == null) {
+      return "-";
+    }
+    return DateFormat('MM-dd-yyyy hh:mm a').format(received!);
+  }
 }

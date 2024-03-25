@@ -45640,7 +45640,7 @@
     return hashHex;
   }
   var createTx = async (toAddress, value, env, fromAddress) => {
-    const valueInSatoshi = value * 1e8;
+    const valueInSatoshi = Math.round(value * 1e8);
     if (!fromAddress || !toAddress || !value || !env) {
       return {
         code: 0,

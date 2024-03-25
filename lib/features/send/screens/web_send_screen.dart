@@ -34,8 +34,9 @@ class WebSendScreen extends BaseScreen {
     final keypair = ref.watch(webSessionProvider).keypair;
     final raKeypair = ref.watch(webSessionProvider).raKeypair;
     final wallet = ref.watch(webSessionProvider).currentWallet;
+    final btcWebAccount = ref.watch(webSessionProvider).btcKeypair;
 
-    if (keypair == null) {
+    if (keypair == null && raKeypair == null && btcWebAccount == null) {
       return const Center(child: WebNotWallet());
     }
 
@@ -46,6 +47,7 @@ class WebSendScreen extends BaseScreen {
           keypair: keypair,
           wallet: wallet,
           raKeypair: raKeypair,
+          btcWebAccount: btcWebAccount,
         ),
       ),
     );

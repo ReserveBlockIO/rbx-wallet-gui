@@ -7,6 +7,8 @@ import 'package:rbx_wallet/features/btc/models/btc_fee_rate_preset.dart';
 import 'package:rbx_wallet/features/btc/models/btc_recommended_fees.dart';
 import 'package:rbx_wallet/features/btc/services/btc_service.dart';
 import 'package:rbx_wallet/features/btc/utils.dart';
+import 'package:rbx_wallet/features/btc_web/providers/btc_web_transaction_list_provider.dart';
+import 'package:rbx_wallet/features/btc_web/services/btc_web_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../../core/app_constants.dart';
@@ -108,25 +110,41 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
       return "The amount has to be a positive value";
     }
 
-    final isBtc = ref.read(sessionProvider).btcSelected;
+    final isBtc = kIsWeb ? ref.read(webSessionProvider).usingBtc : ref.read(sessionProvider).btcSelected;
 
     if (isBtc) {
-      final account = ref.read(sessionProvider).currentBtcAccount;
-      if (account == null) {
-        return "No wallet selected";
-      }
+      if (kIsWeb) {
+        final account = ref.read(webSessionProvider).btcKeypair;
+        if (account == null) {
+          return "No wallet selected";
+        }
 
-      final feeRateInt = getFeeRate();
-      final btcFee = satashisToBtc(feeRateInt);
-      if (account.balance < (parsed + btcFee)) {
-        return "Not enough balance in BTC account";
-      }
+        if ((ref.read(webSessionProvider).btcBalanceInfo?.btcBalance ?? 0) < parsed) {
+          return "Not enough balance in BTC account";
+        }
 
-      if (parsed < BTC_MINIMUM_TX_AMOUNT) {
-        return "The minimum transaction acmount is $BTC_MINIMUM_TX_AMOUNT BTC";
-      }
+        if (parsed < BTC_MINIMUM_TX_AMOUNT) {
+          return "The minimum transaction acmount is $BTC_MINIMUM_TX_AMOUNT BTC";
+        }
+        return null;
+      } else {
+        final account = ref.read(sessionProvider).currentBtcAccount;
+        if (account == null) {
+          return "No wallet selected";
+        }
 
-      return null;
+        final feeRateInt = getFeeRate();
+        final btcFee = satashisToBtc(feeRateInt);
+        if (account.balance < (parsed + btcFee)) {
+          return "Not enough balance in BTC account";
+        }
+
+        if (parsed < BTC_MINIMUM_TX_AMOUNT) {
+          return "The minimum transaction acmount is $BTC_MINIMUM_TX_AMOUNT BTC";
+        }
+
+        return null;
+      }
     }
 
     if (kIsWeb) {
@@ -152,15 +170,15 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
   }
 
   String? addressValidator(String? value) {
-    final isBtc = ref.read(sessionProvider).btcSelected;
+    final isBtc = kIsWeb ? ref.read(webSessionProvider).usingBtc : ref.read(sessionProvider).btcSelected;
 
     if (isBtc) {
-      if (value == null) {
+      if (value == null || value.isEmpty) {
         return "BTC Address required";
       }
       return null;
     } else {
-      if (value == null) {
+      if (value == null || value.isEmpty) {
         return "Address or RBX domain required";
       }
 
@@ -268,66 +286,58 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
     String senderAddress = "";
     Wallet? currentWallet;
 
-    final isBtc = ref.read(sessionProvider).btcSelected;
+    final isBtc = kIsWeb ? ref.read(webSessionProvider).usingBtc : ref.read(sessionProvider).btcSelected;
 
     if (isBtc) {
-      int feeRateInt = getFeeRate();
+      if (kIsWeb) {
+        final account = ref.read(webSessionProvider).btcKeypair;
+        if (account == null) {
+          Toast.error("No BTC Wallet");
+          return;
+        }
 
-      final account = ref.read(sessionProvider).currentBtcAccount;
-      if (account == null) {
-        Toast.error("No wallet selected");
-        return;
-      }
+        final amountDouble = double.tryParse(amount);
+        if (amountDouble == null) {
+          Toast.error("Invalid amount");
+          return;
+        }
 
-      final amountDouble = double.tryParse(amount);
-      if (amountDouble == null) {
-        Toast.error("Invalid amount");
-        return;
-      }
+        final balance = ref.read(webSessionProvider).btcBalanceInfo?.btcFinalBalance;
+        if (balance == null || balance < amountDouble) {
+          Toast.error("Not enough balance");
+          return;
+        }
 
-      if (amountDouble < BTC_MINIMUM_TX_AMOUNT) {
-        Toast.error("The minimum transaction acmount is $BTC_MINIMUM_TX_AMOUNT BTC");
-        return;
-      }
+        final senderWif = account.wif;
+        senderAddress = account.address;
 
-      double btcFee = satashisToBtc(feeRateInt);
-      if (account.balance < (amountDouble + btcFee)) {
-        Toast.error("Not enough balance in BTC account");
-        return;
-      }
+        final confirmed = await ConfirmDialog.show(
+          title: "Please Confirm",
+          body: "Sending:\n$amount BTC\n\nTo:\n$address\n\nFrom:\n$senderAddress",
+          confirmText: "Send",
+          cancelText: "Cancel",
+        );
 
-      final confirmed = await ConfirmDialog.show(
-        title: "Please Confirm",
-        body: "Sending:\n$amount BTC\n\nTo:\n$address\n\nFrom:\n${account.address}",
-        confirmText: "Send",
-        cancelText: "Cancel",
-      );
+        if (confirmed != true) {
+          return;
+        }
 
-      if (confirmed != true) {
-        return;
-      }
+        final transaction = await BtcWebService().sendTransaction(senderWif, senderAddress, address, amountDouble);
 
-      final result = await BtcService().sendTransaction(
-        fromAddress: account.address,
-        toAddress: address,
-        amount: amountDouble,
-        feeRate: feeRateInt,
-      );
+        if (transaction == null) {
+          Toast.error();
+          return;
+        }
 
-      if (result.success) {
-        clear();
-        final txHash = result.message;
-        final message = "BTC TX broadcasted with hash of $txHash";
-
-        ref.read(logProvider.notifier).append(
-              LogEntry(
-                message: message,
-                textToCopy: txHash,
-                variant: AppColorVariant.Btc,
-              ),
-            );
+        final txHash = transaction.hash;
 
         Toast.message("$amount BTC has been sent to $address.");
+
+        ref.invalidate(btcWebTransactionListProvider(senderAddress));
+
+        Future.delayed(Duration(seconds: 2), () {
+          ref.read(webSessionProvider.notifier).refreshBtcBalanceInfo();
+        });
 
         InfoDialog.show(
             title: "Transaction Broadcasted",
@@ -375,11 +385,121 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
                 ],
               ),
             ));
-      } else {
-        Toast.error(result.message);
-      }
 
-      return;
+        clear();
+
+        return;
+      } else {
+        int feeRateInt = getFeeRate();
+
+        final account = ref.read(sessionProvider).currentBtcAccount;
+        if (account == null) {
+          Toast.error("No wallet selected");
+          return;
+        }
+
+        final amountDouble = double.tryParse(amount);
+        if (amountDouble == null) {
+          Toast.error("Invalid amount");
+          return;
+        }
+
+        if (amountDouble < BTC_MINIMUM_TX_AMOUNT) {
+          Toast.error("The minimum transaction acmount is $BTC_MINIMUM_TX_AMOUNT BTC");
+          return;
+        }
+
+        double btcFee = satashisToBtc(feeRateInt);
+        if (account.balance < (amountDouble + btcFee)) {
+          Toast.error("Not enough balance in BTC account");
+          return;
+        }
+
+        final confirmed = await ConfirmDialog.show(
+          title: "Please Confirm",
+          body: "Sending:\n$amount BTC\n\nTo:\n$address\n\nFrom:\n${account.address}",
+          confirmText: "Send",
+          cancelText: "Cancel",
+        );
+
+        if (confirmed != true) {
+          return;
+        }
+
+        final result = await BtcService().sendTransaction(
+          fromAddress: account.address,
+          toAddress: address,
+          amount: amountDouble,
+          feeRate: feeRateInt,
+        );
+
+        if (result.success) {
+          clear();
+          final txHash = result.message;
+          final message = "BTC TX broadcasted with hash of $txHash";
+
+          ref.read(logProvider.notifier).append(
+                LogEntry(
+                  message: message,
+                  textToCopy: txHash,
+                  variant: AppColorVariant.Btc,
+                ),
+              );
+
+          Toast.message("$amount BTC has been sent to $address.");
+
+          InfoDialog.show(
+              title: "Transaction Broadcasted",
+              buttonColorOverride: Color(0xfff7931a),
+              content: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 600),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextFormField(
+                      initialValue: txHash,
+                      readOnly: true,
+                      decoration: InputDecoration(
+                        label: Text(
+                          "Transaction Hash",
+                          style: TextStyle(
+                            color: Color(0xfff7931a),
+                          ),
+                        ),
+                        suffix: IconButton(
+                          icon: Icon(Icons.copy),
+                          onPressed: () async {
+                            await Clipboard.setData(ClipboardData(text: txHash));
+                            Toast.message("Transaction Hash copied to clipboard");
+                          },
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 12,
+                    ),
+                    AppButton(
+                      label: "Open in BTC Explorer",
+                      variant: AppColorVariant.Btc,
+                      type: AppButtonType.Text,
+                      onPressed: () {
+                        if (Env.isTestNet) {
+                          launchUrlString("https://live.blockcypher.com/btc-testnet/tx/$txHash/");
+                        } else {
+                          launchUrlString("https://live.blockcypher.com/btc/tx/$txHash/");
+                        }
+                      },
+                    )
+                  ],
+                ),
+              ));
+        } else {
+          Toast.error(result.message);
+        }
+
+        return;
+      }
     }
 
     if (!kIsWeb) {

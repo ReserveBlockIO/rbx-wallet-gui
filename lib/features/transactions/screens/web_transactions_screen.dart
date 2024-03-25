@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/breakpoints.dart';
 import 'package:rbx_wallet/core/models/web_session_model.dart';
+import 'package:rbx_wallet/features/btc_web/providers/btc_web_transaction_list_provider.dart';
 import 'package:rbx_wallet/features/web/components/web_wallet_type_switcher.dart';
 import '../../../core/components/centered_loader.dart';
 
@@ -32,6 +33,14 @@ class WebTransactionScreen extends BaseScreen {
         WebWalletTypeSwitcher(),
         IconButton(
             onPressed: () {
+              if (ref.read(webSessionProvider).selectedWalletType == WalletType.btc) {
+                final address = ref.read(webSessionProvider).btcKeypair?.address;
+                if (address != null) {
+                  ref.read(btcWebTransactionListProvider(address).notifier).reload();
+                }
+                return;
+              }
+
               final address = ref.read(webSessionProvider).currentWallet?.address;
               if (address != null) {
                 ref.read(webTransactionListProvider(address).notifier).refresh();

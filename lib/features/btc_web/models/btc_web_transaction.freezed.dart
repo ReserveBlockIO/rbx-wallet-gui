@@ -562,7 +562,7 @@ BtcWebTransaction _$BtcWebTransactionFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$BtcWebTransaction {
   @JsonKey(name: "block_hash")
-  String get blockHash => throw _privateConstructorUsedError;
+  String? get blockHash => throw _privateConstructorUsedError;
   @JsonKey(name: "block_height")
   int get blockHeight => throw _privateConstructorUsedError;
   String get hash => throw _privateConstructorUsedError;
@@ -590,7 +590,7 @@ abstract class $BtcWebTransactionCopyWith<$Res> {
       _$BtcWebTransactionCopyWithImpl<$Res, BtcWebTransaction>;
   @useResult
   $Res call(
-      {@JsonKey(name: "block_hash") String blockHash,
+      {@JsonKey(name: "block_hash") String? blockHash,
       @JsonKey(name: "block_height") int blockHeight,
       String hash,
       List<String> addresses,
@@ -617,7 +617,7 @@ class _$BtcWebTransactionCopyWithImpl<$Res, $Val extends BtcWebTransaction>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? blockHash = null,
+    Object? blockHash = freezed,
     Object? blockHeight = null,
     Object? hash = null,
     Object? addresses = null,
@@ -631,10 +631,10 @@ class _$BtcWebTransactionCopyWithImpl<$Res, $Val extends BtcWebTransaction>
     Object? outputs = null,
   }) {
     return _then(_value.copyWith(
-      blockHash: null == blockHash
+      blockHash: freezed == blockHash
           ? _value.blockHash
           : blockHash // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       blockHeight: null == blockHeight
           ? _value.blockHeight
           : blockHeight // ignore: cast_nullable_to_non_nullable
@@ -692,7 +692,7 @@ abstract class _$$_BtcWebTransactionCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "block_hash") String blockHash,
+      {@JsonKey(name: "block_hash") String? blockHash,
       @JsonKey(name: "block_height") int blockHeight,
       String hash,
       List<String> addresses,
@@ -717,7 +717,7 @@ class __$$_BtcWebTransactionCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? blockHash = null,
+    Object? blockHash = freezed,
     Object? blockHeight = null,
     Object? hash = null,
     Object? addresses = null,
@@ -731,10 +731,10 @@ class __$$_BtcWebTransactionCopyWithImpl<$Res>
     Object? outputs = null,
   }) {
     return _then(_$_BtcWebTransaction(
-      blockHash: null == blockHash
+      blockHash: freezed == blockHash
           ? _value.blockHash
           : blockHash // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       blockHeight: null == blockHeight
           ? _value.blockHeight
           : blockHeight // ignore: cast_nullable_to_non_nullable
@@ -787,7 +787,7 @@ class __$$_BtcWebTransactionCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_BtcWebTransaction extends _BtcWebTransaction {
   _$_BtcWebTransaction(
-      {@JsonKey(name: "block_hash") required this.blockHash,
+      {@JsonKey(name: "block_hash") this.blockHash,
       @JsonKey(name: "block_height") required this.blockHeight,
       required this.hash,
       final List<String> addresses = const [],
@@ -809,7 +809,7 @@ class _$_BtcWebTransaction extends _BtcWebTransaction {
 
   @override
   @JsonKey(name: "block_hash")
-  final String blockHash;
+  final String? blockHash;
   @override
   @JsonKey(name: "block_height")
   final int blockHeight;
@@ -921,7 +921,7 @@ class _$_BtcWebTransaction extends _BtcWebTransaction {
 
 abstract class _BtcWebTransaction extends BtcWebTransaction {
   factory _BtcWebTransaction(
-      {@JsonKey(name: "block_hash") required final String blockHash,
+      {@JsonKey(name: "block_hash") final String? blockHash,
       @JsonKey(name: "block_height") required final int blockHeight,
       required final String hash,
       final List<String> addresses,
@@ -940,7 +940,7 @@ abstract class _BtcWebTransaction extends BtcWebTransaction {
 
   @override
   @JsonKey(name: "block_hash")
-  String get blockHash;
+  String? get blockHash;
   @override
   @JsonKey(name: "block_height")
   int get blockHeight;

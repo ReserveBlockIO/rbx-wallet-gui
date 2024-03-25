@@ -6,11 +6,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
+import 'package:rbx_wallet/core/models/web_session_model.dart';
 import 'package:rbx_wallet/features/btc/models/btc_account.dart';
 import 'package:rbx_wallet/features/btc/models/btc_fee_rate_preset.dart';
 import 'package:rbx_wallet/features/btc/models/btc_recommended_fees.dart';
 import 'package:rbx_wallet/features/btc/providers/btc_account_list_provider.dart';
 import 'package:rbx_wallet/features/btc/utils.dart';
+import 'package:rbx_wallet/features/btc_web/models/btc_web_account.dart';
 import 'package:rbx_wallet/features/keygen/models/ra_keypair.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../reserve/providers/pending_activation_provider.dart';
@@ -35,11 +37,13 @@ class SendForm extends BaseComponent {
   final BtcAccount? btcAccount;
   final Keypair? keypair;
   final RaKeypair? raKeypair;
+  final BtcWebAccount? btcWebAccount;
   const SendForm({
     this.wallet,
     this.keypair,
     this.raKeypair,
     this.btcAccount,
+    this.btcWebAccount,
     super.key,
   });
 
@@ -98,8 +102,8 @@ class SendForm extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    bool isWeb = keypair != null;
-    bool isBtc = btcAccount != null;
+    bool isWeb = kIsWeb;
+    bool isBtc = kIsWeb ? ref.watch(webSessionProvider).usingBtc : btcWebAccount != null;
 
     const leadingWidth = 70.0;
 
@@ -119,7 +123,7 @@ class SendForm extends BaseComponent {
     Color color = Colors.white;
 
     if (isBtc) {
-      balance = btcAccount!.balance;
+      balance = kIsWeb ? ((ref.watch(webSessionProvider).btcBalanceInfo?.btcFinalBalance) ?? 0.0) : btcAccount!.balance;
       color = btcColor;
     } else {
       balance = isWeb
@@ -169,11 +173,25 @@ class SendForm extends BaseComponent {
                               children: [
                                 if (isWeb)
                                   Flexible(
-                                    child: Text(
-                                      ref.watch(webSessionProvider).usingRa ? raKeypair!.address : keypair!.address,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(color: color, fontSize: 16),
-                                    ),
+                                    child: Builder(builder: (context) {
+                                      String address = "";
+                                      switch (ref.watch(webSessionProvider).selectedWalletType) {
+                                        case WalletType.rbx:
+                                          address = keypair!.address;
+                                          break;
+                                        case WalletType.ra:
+                                          address = raKeypair!.address;
+                                          break;
+                                        case WalletType.btc:
+                                          address = btcWebAccount!.address;
+                                      }
+
+                                      return Text(
+                                        address,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(color: color, fontSize: 16),
+                                      );
+                                    }),
                                   ),
                                 if (!isWeb)
                                   PopupMenuButton(
@@ -304,7 +322,9 @@ class SendForm extends BaseComponent {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     AppBadge(
-                                      label: "${btcAccount!.balance} BTC",
+                                      label: kIsWeb
+                                          ? "${ref.watch(webSessionProvider).btcBalanceInfo?.btcFinalBalance ?? 0} BTC"
+                                          : "${btcAccount!.balance} BTC",
                                       variant: AppColorVariant.Btc,
                                     ),
                                   ],
@@ -403,7 +423,7 @@ class SendForm extends BaseComponent {
                     keyboardType: const TextInputType.numberWithOptions(decimal: true),
                   ),
                 ),
-                if (isBtc)
+                if (isBtc && !kIsWeb)
                   Consumer(builder: (context, ref, _) {
                     final recommendedFees = ref.watch(sessionProvider).btcRecommendedFees ?? BtcRecommendedFees.fallback();
 

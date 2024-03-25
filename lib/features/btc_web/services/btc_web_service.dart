@@ -102,6 +102,10 @@ class BtcWebService {
       final promise = btcTransactions(address, limit, before);
       final data = await promiseToFuture(promise);
       final decodedData = jsonDecode(data);
+      print("---------");
+
+      print(jsonEncode(decodedData['transactions'][0]));
+      print("---------");
 
       final List<dynamic> txDatas = decodedData['transactions'];
       final List<BtcWebTransaction> transactions = [];
@@ -124,6 +128,7 @@ class BtcWebService {
       final promise = btcSendTransaction(senderWif, senderAddress, recipientAddress, amount);
       final data = await promiseToFuture(promise);
       final decodedData = jsonDecode(data);
+
       if (decodedData['success'] == true) {
         if (decodedData['result'] != null && decodedData['result']['tx'] != null) {
           return BtcWebTransaction.fromJson(decodedData['result']['tx']);

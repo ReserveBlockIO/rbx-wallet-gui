@@ -57,7 +57,7 @@ Map<String, dynamic> _$$_BtcWebTxOutputToJson(_$_BtcWebTxOutput instance) =>
 
 _$_BtcWebTransaction _$$_BtcWebTransactionFromJson(Map<String, dynamic> json) =>
     _$_BtcWebTransaction(
-      blockHash: json['block_hash'] as String,
+      blockHash: json['block_hash'] as String?,
       blockHeight: json['block_height'] as int,
       hash: json['hash'] as String,
       addresses: (json['addresses'] as List<dynamic>?)
