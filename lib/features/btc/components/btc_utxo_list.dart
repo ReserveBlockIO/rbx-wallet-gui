@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/badges.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/btc/providers/btc_utxo_list_provider.dart';
+import '../../../core/base_component.dart';
+import '../../../core/components/badges.dart';
+import '../../../core/theme/app_theme.dart';
+import '../providers/btc_utxo_list_provider.dart';
 
 class BtcUtxoList extends BaseComponent {
   final String address;

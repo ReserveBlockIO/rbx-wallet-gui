@@ -1,11 +1,11 @@
-import 'package:rbx_wallet/core/services/base_service.dart';
-import 'package:rbx_wallet/features/btc/models/btc_account.dart';
-import 'package:rbx_wallet/features/btc/models/btc_account_sync_info.dart';
-import 'package:rbx_wallet/features/btc/models/btc_address_type.dart';
+import '../../../core/services/base_service.dart';
+import '../models/btc_account.dart';
+import '../models/btc_account_sync_info.dart';
+import '../models/btc_address_type.dart';
 import 'package:collection/collection.dart';
-import 'package:rbx_wallet/features/btc/models/btc_send_tx_result.dart';
-import 'package:rbx_wallet/features/btc/models/btc_transaction.dart';
-import 'package:rbx_wallet/features/btc/models/btc_utxo.dart';
+import '../models/btc_send_tx_result.dart';
+import '../models/btc_transaction.dart';
+import '../models/btc_utxo.dart';
 
 class BtcService extends BaseService {
   BtcService() : super(apiBasePathOverride: "/btcapi/BTCV2");
@@ -154,7 +154,6 @@ class BtcService extends BaseService {
       return [];
     }
   }
-
 
   Future<List<BtcTransaction>> listTransactions(String address) async {
     try {

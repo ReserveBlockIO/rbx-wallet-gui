@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/breakpoints.dart';
-import 'package:rbx_wallet/core/models/web_session_model.dart';
-import 'package:rbx_wallet/features/btc_web/providers/btc_web_transaction_list_provider.dart';
-import 'package:rbx_wallet/features/web/components/web_wallet_type_switcher.dart';
+import '../../../core/breakpoints.dart';
+import '../../../core/models/web_session_model.dart';
+import '../../btc_web/providers/btc_web_transaction_list_provider.dart';
+import '../../web/components/web_wallet_type_switcher.dart';
 import '../../../core/components/centered_loader.dart';
 
 import '../../../core/base_screen.dart';

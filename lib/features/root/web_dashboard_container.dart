@@ -2,9 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/features/chat/components/web_chat_notifier.dart';
+import '../../core/providers/session_provider.dart';
+import '../../core/providers/web_session_provider.dart';
+import '../chat/components/web_chat_notifier.dart';
 
 import '../../core/base_component.dart';
 import '../../core/env.dart';

@@ -4,8 +4,8 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../global_loader/global_loading_provider.dart';
 import '../../smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 

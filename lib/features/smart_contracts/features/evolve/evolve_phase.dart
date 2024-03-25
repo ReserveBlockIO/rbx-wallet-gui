@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
-import 'package:rbx_wallet/features/asset/web_asset.dart';
+import '../../../asset/web_asset.dart';
 import '../../../sc_property/models/sc_property.dart';
 
 import '../../../asset/asset.dart';

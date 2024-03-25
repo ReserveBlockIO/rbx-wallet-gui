@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
+import '../../../../core/app_constants.dart';
+import '../../../bridge/providers/wallet_info_provider.dart';
 import '../../../../core/app_router.gr.dart';
 
 import '../../../../core/base_component.dart';

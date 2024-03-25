@@ -2,17 +2,17 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/features/raw/raw_service.dart';
-import 'package:rbx_wallet/features/web/providers/web_ra_pending_recovery_provider.dart';
-import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../core/app_constants.dart';
+import '../../../core/base_component.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../../raw/raw_service.dart';
+import '../providers/web_ra_pending_recovery_provider.dart';
+import '../utils/raw_transaction.dart';
+import '../../../utils/toast.dart';
 
 class WebRecoverRaButton extends BaseComponent {
   const WebRecoverRaButton({
@@ -45,7 +45,7 @@ class WebRecoverRaButton extends BaseComponent {
         final confirmed = await ConfirmDialog.show(
           title: "Recover Funds & NFTs",
           body:
-              "This is a destructive function that will callback all pending transactions and NFTs and move everything to this recovery address:\n\n${raKeypair!.recoveryAddress}",
+              "This is a destructive function that will callback all pending transactions and NFTs and move everything to this recovery address:\n\n${raKeypair.recoveryAddress}",
           confirmText: "Proceed",
           cancelText: "Cancel",
           destructive: true,

@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
+import '../../../core/app_constants.dart';
 
 part 'btc_web_balance_info.freezed.dart';
 part 'btc_web_balance_info.g.dart';

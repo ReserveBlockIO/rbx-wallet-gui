@@ -1,4 +1,4 @@
-import 'package:rbx_wallet/features/chat/models/latest_chat_message.dart';
+import '../models/latest_chat_message.dart';
 
 import '../../../core/env.dart';
 import '../../../core/models/paginated_response.dart';

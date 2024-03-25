@@ -1,6 +1,6 @@
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/services/base_service.dart';
-import 'package:rbx_wallet/features/btc/models/btc_recommended_fees.dart';
+import '../../../core/env.dart';
+import '../../../core/services/base_service.dart';
+import '../models/btc_recommended_fees.dart';
 
 class BtcFeeRateService extends BaseService {
   BtcFeeRateService()

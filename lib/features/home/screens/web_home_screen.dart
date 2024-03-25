@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/features/btc_web/services/btc_web_service.dart';
-import 'package:rbx_wallet/features/payment/components/web_buy_rbx_button.dart';
-import 'package:rbx_wallet/features/web/components/web_wallet_type_switcher.dart';
+import '../../../core/app_constants.dart';
+import '../../btc_web/services/btc_web_service.dart';
+import '../../payment/components/web_buy_rbx_button.dart';
+import '../../web/components/web_wallet_type_switcher.dart';
 
 import '../../../core/dialogs.dart';
 import '../../web/components/web_wordmark.dart';
@@ -22,7 +22,7 @@ import '../../../generated/assets.gen.dart';
 import '../../root/web_dashboard_container.dart';
 import '../../web/components/web_latest_block.dart';
 import '../../web/components/web_wallet_details.dart';
-import 'package:rbx_wallet/features/payment/payment_utils.dart';
+import '../../payment/payment_utils.dart';
 
 import '../../payment/components/payment_iframe_container.dart' if (dart.library.io) '../../payment/components/payment_iframe_container_mock.dart';
 

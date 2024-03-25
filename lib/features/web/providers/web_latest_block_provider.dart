@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/env.dart';
+import '../../../core/env.dart';
 
 import '../../../core/services/explorer_service.dart';
 import '../models/web_block.dart';

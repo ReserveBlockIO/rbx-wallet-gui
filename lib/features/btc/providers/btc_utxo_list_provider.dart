@@ -1,5 +1,5 @@
-import 'package:rbx_wallet/features/btc/models/btc_utxo.dart';
-import 'package:rbx_wallet/features/btc/services/btc_service.dart';
+import '../models/btc_utxo.dart';
+import '../services/btc_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'btc_utxo_list_provider.g.dart';
@@ -13,6 +13,5 @@ class BtcUtxoList extends _$BtcUtxoList {
 
   load() async {
     state = await BtcService().listUtxos(address);
-
   }
 }

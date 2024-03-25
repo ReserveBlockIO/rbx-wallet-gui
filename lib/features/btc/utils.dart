@@ -1,4 +1,4 @@
-import 'package:rbx_wallet/core/app_constants.dart';
+import '../../core/app_constants.dart';
 
 double satashisToBtc(int satashis) {
   return satashis * BTC_SATOSHI_MULTIPLIER;

@@ -1,6 +1,6 @@
-import "package:rbx_wallet/features/btc/models/btc_account.dart";
-import "package:rbx_wallet/features/btc/models/btc_address_type.dart";
-import "package:rbx_wallet/features/btc/services/btc_service.dart";
+import "../models/btc_account.dart";
+import "../models/btc_address_type.dart";
+import "../services/btc_service.dart";
 import "package:riverpod_annotation/riverpod_annotation.dart";
 
 import "btc_transaction_list_provider.dart";

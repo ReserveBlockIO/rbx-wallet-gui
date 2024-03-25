@@ -3,7 +3,7 @@ import 'dart:html';
 import 'dart:ui' as ui;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/env.dart';
+import '../../../core/env.dart';
 
 class WebPaymentIFrameContainer extends StatefulWidget {
   final String fiatType;

@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/empty_router_widgets.dart';
-import 'package:rbx_wallet/core/web_router.gr.dart';
-import 'package:rbx_wallet/features/reserve/screens/reserve_account_overview_screen.dart';
+import 'web_router.gr.dart';
+import '../features/reserve/screens/reserve_account_overview_screen.dart';
 import 'app_router.gr.dart';
 import '../features/adnr/screens/web_adnr_screen.dart';
 import '../features/chat/screens/web_seller_chat_thread_list_screen.dart';

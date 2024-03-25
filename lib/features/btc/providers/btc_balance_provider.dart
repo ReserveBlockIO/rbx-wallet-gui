@@ -1,4 +1,4 @@
-import 'package:rbx_wallet/features/btc/providers/btc_account_list_provider.dart';
+import 'btc_account_list_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'btc_balance_provider.g.dart';

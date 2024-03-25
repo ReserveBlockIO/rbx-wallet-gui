@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'empty_placeholder.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
+import 'empty_placeholder.dart';
 
 class InfiniteList<T> extends StatelessWidget {
   final PagingController<int, T> pagingController;

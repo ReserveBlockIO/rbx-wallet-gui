@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/btc_web/models/btc_web_transaction.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/env.dart';
+import '../../../core/theme/app_theme.dart';
+import '../models/btc_web_transaction.dart';
+import '../../../utils/toast.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class WebBtcTransactionListTile extends StatefulWidget {

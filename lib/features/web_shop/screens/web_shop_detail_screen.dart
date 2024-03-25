@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
+import '../../bridge/providers/wallet_info_provider.dart';
 import '../../../core/app_constants.dart';
 import '../../../core/app_router.gr.dart';
 import '../../../core/base_screen.dart';

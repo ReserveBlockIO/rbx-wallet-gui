@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/features/btc/models/btc_account.dart';
-import 'package:rbx_wallet/features/btc_web/models/btc_web_account.dart';
-import 'package:rbx_wallet/features/btc_web/services/btc_web_service.dart';
-import 'package:rbx_wallet/features/keygen/models/ra_keypair.dart';
+import '../../core/env.dart';
+import '../btc/models/btc_account.dart';
+import '../btc_web/models/btc_web_account.dart';
+import '../btc_web/services/btc_web_service.dart';
+import '../keygen/models/ra_keypair.dart';
 import '../../core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/keygen/services/keygen_service.dart'
     if (dart.library.io) 'package:rbx_wallet/features/keygen/services/keygen_service_mock.dart';

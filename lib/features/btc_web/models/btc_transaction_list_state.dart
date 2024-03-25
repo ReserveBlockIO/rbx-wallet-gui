@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/features/btc_web/models/btc_web_transaction.dart';
+import 'btc_web_transaction.dart';
 
 part 'btc_transaction_list_state.freezed.dart';
 

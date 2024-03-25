@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/features/btc_web/models/btc_web_account.dart';
-import 'package:rbx_wallet/features/btc_web/models/btc_web_balance_info.dart';
-import 'package:rbx_wallet/features/keygen/models/ra_keypair.dart';
+import '../../features/btc_web/models/btc_web_account.dart';
+import '../../features/btc_web/models/btc_web_balance_info.dart';
+import '../../features/keygen/models/ra_keypair.dart';
 import '../../features/keygen/models/keypair.dart';
 import '../../features/wallet/models/wallet.dart';
 

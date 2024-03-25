@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_window_close/flutter_window_close.dart';
-import 'package:rbx_wallet/core/utils.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/features/payment/components/payment_disclaimer.dart';
+import 'utils.dart';
+import '../features/global_loader/global_loading_provider.dart';
+import '../features/payment/components/payment_disclaimer.dart';
 
 import '../app.dart';
 import '../features/bridge/services/bridge_service.dart';

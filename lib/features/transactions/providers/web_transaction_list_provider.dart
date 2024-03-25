@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/env.dart';
+import '../../../core/env.dart';
 import 'transaction_signal_provider.dart';
 
 import '../../../core/providers/web_session_provider.dart';

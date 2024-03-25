@@ -2,9 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/components/big_button.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../core/components/big_button.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../utils/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/app_router.gr.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/breakpoints.dart';
+import '../../../core/breakpoints.dart';
 import '../../../app.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/btc/models/btc_account.dart';
-import 'package:rbx_wallet/features/btc/models/btc_transaction.dart';
-import 'package:rbx_wallet/features/btc/providers/btc_account_list_provider.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../core/base_component.dart';
+import '../../../core/env.dart';
+import '../../../core/theme/app_theme.dart';
+import '../models/btc_account.dart';
+import '../models/btc_transaction.dart';
+import '../providers/btc_account_list_provider.dart';
+import '../../../utils/toast.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class BtcTransactionListTile extends BaseStatefulComponent {

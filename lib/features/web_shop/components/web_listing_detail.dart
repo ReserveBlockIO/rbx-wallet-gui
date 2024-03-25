@@ -11,8 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/components/countdown.dart';
-import 'package:rbx_wallet/utils/files.dart';
+import '../../../core/components/countdown.dart';
+import '../../../utils/files.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../core/base_component.dart';

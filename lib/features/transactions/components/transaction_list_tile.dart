@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:rbx_wallet/features/nft/providers/pending_sale_provider.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/smart_contract.dart';
-import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
-import 'package:rbx_wallet/features/transactions/providers/transaction_list_provider.dart';
+import '../../nft/providers/pending_sale_provider.dart';
+import '../../smart_contracts/models/smart_contract.dart';
+import '../../smart_contracts/services/smart_contract_service.dart';
+import '../providers/transaction_list_provider.dart';
 import '../../../core/app_constants.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/utils.dart';

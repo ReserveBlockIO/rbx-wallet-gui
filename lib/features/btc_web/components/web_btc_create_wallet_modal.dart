@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../smart_contracts/components/sc_creator/common/modal_container.dart';
 
 enum NewBtcWalletOption {
   generate,
