@@ -26,6 +26,10 @@ mixin _$BtcAccount {
   String get address => throw _privateConstructorUsedError;
   @JsonKey(name: "PrivateKey")
   String get privateKey => throw _privateConstructorUsedError;
+  @JsonKey(name: "ADNR")
+  String? get adnr => throw _privateConstructorUsedError;
+  @JsonKey(name: "ADNROwnerAddress")
+  String? get adnrOwnerAddress => throw _privateConstructorUsedError;
   @JsonKey(name: "WifKey")
   String get wifKey => throw _privateConstructorUsedError;
   @JsonKey(name: "Balance")
@@ -47,6 +51,8 @@ abstract class $BtcAccountCopyWith<$Res> {
       {@JsonKey(name: "Id") int id,
       @JsonKey(name: "Address") String address,
       @JsonKey(name: "PrivateKey") String privateKey,
+      @JsonKey(name: "ADNR") String? adnr,
+      @JsonKey(name: "ADNROwnerAddress") String? adnrOwnerAddress,
       @JsonKey(name: "WifKey") String wifKey,
       @JsonKey(name: "Balance") double balance});
 }
@@ -67,6 +73,8 @@ class _$BtcAccountCopyWithImpl<$Res, $Val extends BtcAccount>
     Object? id = null,
     Object? address = null,
     Object? privateKey = null,
+    Object? adnr = freezed,
+    Object? adnrOwnerAddress = freezed,
     Object? wifKey = null,
     Object? balance = null,
   }) {
@@ -83,6 +91,14 @@ class _$BtcAccountCopyWithImpl<$Res, $Val extends BtcAccount>
           ? _value.privateKey
           : privateKey // ignore: cast_nullable_to_non_nullable
               as String,
+      adnr: freezed == adnr
+          ? _value.adnr
+          : adnr // ignore: cast_nullable_to_non_nullable
+              as String?,
+      adnrOwnerAddress: freezed == adnrOwnerAddress
+          ? _value.adnrOwnerAddress
+          : adnrOwnerAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
       wifKey: null == wifKey
           ? _value.wifKey
           : wifKey // ignore: cast_nullable_to_non_nullable
@@ -107,6 +123,8 @@ abstract class _$$_BtcAccountCopyWith<$Res>
       {@JsonKey(name: "Id") int id,
       @JsonKey(name: "Address") String address,
       @JsonKey(name: "PrivateKey") String privateKey,
+      @JsonKey(name: "ADNR") String? adnr,
+      @JsonKey(name: "ADNROwnerAddress") String? adnrOwnerAddress,
       @JsonKey(name: "WifKey") String wifKey,
       @JsonKey(name: "Balance") double balance});
 }
@@ -125,6 +143,8 @@ class __$$_BtcAccountCopyWithImpl<$Res>
     Object? id = null,
     Object? address = null,
     Object? privateKey = null,
+    Object? adnr = freezed,
+    Object? adnrOwnerAddress = freezed,
     Object? wifKey = null,
     Object? balance = null,
   }) {
@@ -141,6 +161,14 @@ class __$$_BtcAccountCopyWithImpl<$Res>
           ? _value.privateKey
           : privateKey // ignore: cast_nullable_to_non_nullable
               as String,
+      adnr: freezed == adnr
+          ? _value.adnr
+          : adnr // ignore: cast_nullable_to_non_nullable
+              as String?,
+      adnrOwnerAddress: freezed == adnrOwnerAddress
+          ? _value.adnrOwnerAddress
+          : adnrOwnerAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
       wifKey: null == wifKey
           ? _value.wifKey
           : wifKey // ignore: cast_nullable_to_non_nullable
@@ -160,6 +188,8 @@ class _$_BtcAccount extends _BtcAccount {
       {@JsonKey(name: "Id") this.id = 0,
       @JsonKey(name: "Address") required this.address,
       @JsonKey(name: "PrivateKey") required this.privateKey,
+      @JsonKey(name: "ADNR") this.adnr,
+      @JsonKey(name: "ADNROwnerAddress") this.adnrOwnerAddress,
       @JsonKey(name: "WifKey") required this.wifKey,
       @JsonKey(name: "Balance") this.balance = 0.0})
       : super._();
@@ -177,6 +207,12 @@ class _$_BtcAccount extends _BtcAccount {
   @JsonKey(name: "PrivateKey")
   final String privateKey;
   @override
+  @JsonKey(name: "ADNR")
+  final String? adnr;
+  @override
+  @JsonKey(name: "ADNROwnerAddress")
+  final String? adnrOwnerAddress;
+  @override
   @JsonKey(name: "WifKey")
   final String wifKey;
   @override
@@ -185,7 +221,7 @@ class _$_BtcAccount extends _BtcAccount {
 
   @override
   String toString() {
-    return 'BtcAccount(id: $id, address: $address, privateKey: $privateKey, wifKey: $wifKey, balance: $balance)';
+    return 'BtcAccount(id: $id, address: $address, privateKey: $privateKey, adnr: $adnr, adnrOwnerAddress: $adnrOwnerAddress, wifKey: $wifKey, balance: $balance)';
   }
 
   @override
@@ -197,14 +233,17 @@ class _$_BtcAccount extends _BtcAccount {
             (identical(other.address, address) || other.address == address) &&
             (identical(other.privateKey, privateKey) ||
                 other.privateKey == privateKey) &&
+            (identical(other.adnr, adnr) || other.adnr == adnr) &&
+            (identical(other.adnrOwnerAddress, adnrOwnerAddress) ||
+                other.adnrOwnerAddress == adnrOwnerAddress) &&
             (identical(other.wifKey, wifKey) || other.wifKey == wifKey) &&
             (identical(other.balance, balance) || other.balance == balance));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, address, privateKey, wifKey, balance);
+  int get hashCode => Object.hash(runtimeType, id, address, privateKey, adnr,
+      adnrOwnerAddress, wifKey, balance);
 
   @JsonKey(ignore: true)
   @override
@@ -225,6 +264,8 @@ abstract class _BtcAccount extends BtcAccount {
       {@JsonKey(name: "Id") final int id,
       @JsonKey(name: "Address") required final String address,
       @JsonKey(name: "PrivateKey") required final String privateKey,
+      @JsonKey(name: "ADNR") final String? adnr,
+      @JsonKey(name: "ADNROwnerAddress") final String? adnrOwnerAddress,
       @JsonKey(name: "WifKey") required final String wifKey,
       @JsonKey(name: "Balance") final double balance}) = _$_BtcAccount;
   _BtcAccount._() : super._();
@@ -241,6 +282,12 @@ abstract class _BtcAccount extends BtcAccount {
   @override
   @JsonKey(name: "PrivateKey")
   String get privateKey;
+  @override
+  @JsonKey(name: "ADNR")
+  String? get adnr;
+  @override
+  @JsonKey(name: "ADNROwnerAddress")
+  String? get adnrOwnerAddress;
   @override
   @JsonKey(name: "WifKey")
   String get wifKey;

@@ -230,6 +230,8 @@ class SessionProvider extends StateNotifier<SessionModel> {
     checkGuiUpdateStatus(inLoop);
     ref.read(beaconListProvider.notifier).refresh();
 
+    updateBtcFeeRates();
+
     Future.delayed(const Duration(milliseconds: 300)).then((_) async {
       ref.read(walletInfoProvider.notifier).infoLoop(inLoop);
 
@@ -911,12 +913,14 @@ class SessionProvider extends StateNotifier<SessionModel> {
     final btcAccountSyncInfo = await BtcService().accountSyncInfo();
     state = state.copyWith(btcAccountSyncInfo: btcAccountSyncInfo);
 
-    final btcRecommendedFees = await BtcFeeRateService().recommended();
-
-    state = state.copyWith(btcRecommendedFees: btcRecommendedFees);
-
     await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS_BTC));
     btcLoop();
+  }
+
+  void updateBtcFeeRates() {
+    BtcFeeRateService().recommended().then((value) {
+      state = state.copyWith(btcRecommendedFees: value);
+    });
   }
 }
 

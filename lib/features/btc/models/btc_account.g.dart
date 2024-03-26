@@ -11,6 +11,8 @@ _$_BtcAccount _$$_BtcAccountFromJson(Map<String, dynamic> json) =>
       id: json['Id'] as int? ?? 0,
       address: json['Address'] as String,
       privateKey: json['PrivateKey'] as String,
+      adnr: json['ADNR'] as String?,
+      adnrOwnerAddress: json['ADNROwnerAddress'] as String?,
       wifKey: json['WifKey'] as String,
       balance: (json['Balance'] as num?)?.toDouble() ?? 0.0,
     );
@@ -20,6 +22,8 @@ Map<String, dynamic> _$$_BtcAccountToJson(_$_BtcAccount instance) =>
       'Id': instance.id,
       'Address': instance.address,
       'PrivateKey': instance.privateKey,
+      'ADNR': instance.adnr,
+      'ADNROwnerAddress': instance.adnrOwnerAddress,
       'WifKey': instance.wifKey,
       'Balance': instance.balance,
     };

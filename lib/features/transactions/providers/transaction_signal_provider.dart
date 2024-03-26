@@ -278,6 +278,56 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
         );
         return;
       }
+
+
+      //BTC
+
+       if (function.contains('BtcAdnrCreate')) {
+        final name = _nftDataValue(nftData!, 'Name');
+        if (name == null) return;
+        body = "BTC Domain created for $name.rbx";
+        _broadcastNotification(
+          TransactionNotification(
+              identifier: transaction.hash,
+              transaction: transaction,
+              title: "BTC Domain Name Created",
+              body: body,
+              color: AppColorVariant.Btc,
+              icon: Icons.link),
+        );
+        return;
+      }
+      if (function.contains('BtcAdnrDelete')) {
+        final name = _nftDataValue(nftData!, 'Name');
+        if (name == null) return;
+        body = "BTC Domain deleted for $name";
+        _broadcastNotification(
+          TransactionNotification(
+              identifier: transaction.hash,
+              transaction: transaction,
+              title: "BTC Domain Name Deleted",
+              body: body,
+              color: AppColorVariant.Btc,
+              icon: Icons.delete_forever),
+        );
+        return;
+      }
+      if (function.contains('BtcAdnrTransfer')) {
+        final name = _nftDataValue(nftData!, 'Name');
+        if (name == null) return;
+        body = "RBX Domain transfer for $name";
+        _broadcastNotification(
+          TransactionNotification(
+            identifier: transaction.hash,
+            transaction: transaction,
+            title: "BTC Domain Name Transfered",
+            body: body,
+            color: AppColorVariant.Btc,
+            icon: Icons.move_down,
+          ),
+        );
+        return;
+      }
     }
   }
 

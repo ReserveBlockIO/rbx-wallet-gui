@@ -11,6 +11,8 @@ class BtcAccount with _$BtcAccount {
     @JsonKey(name: "Id") @Default(0) int id,
     @JsonKey(name: "Address") required String address,
     @JsonKey(name: "PrivateKey") required String privateKey,
+    @JsonKey(name: "ADNR") String? adnr,
+    @JsonKey(name: "ADNROwnerAddress") String? adnrOwnerAddress,
     @JsonKey(name: "WifKey") required String wifKey,
     @JsonKey(name: "Balance") @Default(0.0) double balance,
   }) = _BtcAccount;

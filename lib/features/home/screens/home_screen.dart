@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/home/components/home_buttons.dart';
 import '../../../core/app_constants.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';
@@ -103,35 +104,10 @@ class HomeScreen extends BaseScreen {
                 ),
               if (kIsWeb) const Divider(),
               if (kIsWeb) const KeygenCta(),
-              if (!kIsWeb)
-                Text(
-                  "General Tools",
-                  style: Theme.of(context).textTheme.subtitle2,
-                ),
               if (!kIsWeb) const Divider(),
               if (!kIsWeb)
-                Wrap(
-                  alignment: WrapAlignment.spaceEvenly,
-                  spacing: 12.0,
-                  runSpacing: 12.0,
-                  children: [
-                    const RestartCliButton(),
-                    const HdWalletButton(),
-                    if (ref.watch(walletListProvider).isEmpty) const RestoreHdWalletButton(),
-                    const EncryptWalletButton(),
-                    const ReserveAccountsButton(),
-                    const PrintAdressesButton(),
-                    const PrintValidatorsButton(),
-                    const ValidatingCheckButton(),
-                    const MotherButton(),
-                    const ShowDebugDataButton(),
-                    const OpenDbFolderButton(),
-                    const OpenLogButton(),
-                    const VerifyNftOwnershipButton(),
-                    const BackupButton(),
-                    const ImportMediaButton(),
-                    if (Env.promptForUpdates) const ImportSnapshotButton(),
-                  ],
+                HomeButtons(
+                  includeRestoreHd: ref.watch(walletListProvider).isEmpty,
                 ),
               const Divider(),
               const LogWindow(),
