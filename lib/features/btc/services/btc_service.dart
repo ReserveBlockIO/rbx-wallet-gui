@@ -1,3 +1,5 @@
+import 'package:rbx_wallet/utils/toast.dart';
+
 import '../../../core/services/base_service.dart';
 import '../models/btc_account.dart';
 import '../models/btc_account_sync_info.dart';
@@ -170,6 +172,78 @@ class BtcService extends BaseService {
     } catch (e) {
       print(e);
       return [];
+    }
+  }
+
+  Future<String?> createAdnr({
+    required String address,
+    required String btcAddress,
+    required String name,
+  }) async {
+    try {
+      final result = await getJson("/CreateAdnr/$address/$btcAddress/$name", cleanPath: false);
+
+      if (result['Success'] == true) {
+        if (result.containsKey('Hash')) {
+          return result['Hash'];
+        }
+      }
+
+      Toast.error(result['Message']);
+      return null;
+    } catch (e, st) {
+      print(e);
+      print(st);
+      Toast.error();
+      return null;
+    }
+  }
+
+  Future<dynamic> transferAdnr({
+    required String fromAddress,
+    required String toAddress,
+    required String fromBtcAddress,
+    required String toBtcAddress,
+  }) async {
+    try {
+      final result = await getJson("/TransferAdnr/$fromAddress/$toAddress/$fromBtcAddress/$toBtcAddress", cleanPath: false);
+
+      if (result['Success'] == true) {
+        if (result.containsKey('Hash')) {
+          return result['Hash'];
+        }
+      }
+
+      Toast.error(result['Message']);
+      return null;
+    } catch (e, st) {
+      print(e);
+      print(st);
+      Toast.error();
+      return null;
+    }
+  }
+
+  Future<dynamic> deleteAdnr({
+    required String address,
+    required String btcAddress,
+  }) async {
+    try {
+      final result = await getJson("/DeleteAdnr/$address/$btcAddress", cleanPath: false);
+
+      if (result['Success'] == true) {
+        if (result.containsKey('Hash')) {
+          return result['Hash'];
+        }
+      }
+
+      Toast.error(result['Message']);
+      return null;
+    } catch (e, st) {
+      print(e);
+      print(st);
+      Toast.error();
+      return null;
     }
   }
 }
