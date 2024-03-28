@@ -80,7 +80,6 @@ class _WebChatNotifierState extends State<WebChatNotifier> {
 
   @override
   void initState() {
-    print("INITI STATE");
     super.initState();
 
     timer = Timer.periodic(Duration(seconds: 30), (timer) {

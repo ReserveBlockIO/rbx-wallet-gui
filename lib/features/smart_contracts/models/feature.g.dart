@@ -31,5 +31,6 @@ const _$FeatureTypeEnumMap = {
   FeatureType.fractionalization: 'fractionalization',
   FeatureType.pair: 'pair',
   FeatureType.soulBound: 'soulBound',
+  FeatureType.btcTokenization: 'btcTokenization',
   FeatureType.notImplemented: 'notImplemented',
 };

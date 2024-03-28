@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/home/components/home_buttons.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../../../core/app_constants.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';
@@ -67,6 +68,11 @@ class HomeScreen extends BaseScreen {
               padding: const EdgeInsets.only(left: 4.0),
               child: AppButton(
                 onPressed: () async {
+                  if (Env.isTestNet) {
+                    launchUrlString("https://testnet.rbx.network/faucet");
+                    return;
+                  }
+
                   final agreed = await PaymentTermsDialog.show(context);
 
                   if (agreed != true) {

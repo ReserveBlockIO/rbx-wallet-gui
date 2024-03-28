@@ -10,6 +10,7 @@ import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:collection/collection.dart';
+import 'package:rbx_wallet/utils/validation.dart';
 
 import '../../bridge/models/log_entry.dart';
 
@@ -21,6 +22,7 @@ abstract class BtcAdnrTransferFormState with _$BtcAdnrTransferFormState {
 
   factory BtcAdnrTransferFormState({
     String? fromBtcAddress,
+    String? domainName,
   }) = _BtcAdnrTransferFormState;
 }
 
@@ -33,10 +35,26 @@ class BtcAdnrTransferFormProvider extends StateNotifier<BtcAdnrTransferFormState
   final toBtcAddressController = TextEditingController();
   final toRbxAddressController = TextEditingController();
 
-  initWithFromBtcAddress({required String fromBtcAddress}) {
+  initWithFromBtcAddress({required String fromBtcAddress, required String? domainName}) {
     state = state.copyWith(
       fromBtcAddress: fromBtcAddress,
+      domainName: domainName,
     );
+  }
+
+  String? toBtcAddressValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return "To BTC address required.";
+    }
+    return null;
+  }
+
+  String? toRbxAddressValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return "To RBX address required.";
+    }
+
+    return formValidatorRbxAddress(value);
   }
 
   Future<bool?> submit() async {
@@ -44,49 +62,34 @@ class BtcAdnrTransferFormProvider extends StateNotifier<BtcAdnrTransferFormState
       return null;
     }
 
-    //   if (state.btcAddress == null) {
-    //     Toast.error("Selecting a BTC address is required.");
-    //     return null;
-    //   }
+    if (state.fromBtcAddress == null) {
+      Toast.error("Selecting a BTC address is required.");
+      return false;
+    }
 
-    //   if (state.selectedAddress == null) {
-    //     Toast.error("Selecting an RBX Address is required.");
-    //     return null;
-    //   }
+    final toBtcAddress = toBtcAddressController.text.trim();
+    final toRbxAddress = toRbxAddressController.text.trim();
 
-    //   final wallet = ref.read(walletListProvider).firstWhereOrNull((w) => w.address == state.selectedAddress);
+    ref.read(globalLoadingProvider.notifier).start();
 
-    //   if (wallet == null) {
-    //     Toast.error("The RBX wallet that controls this BTC domain was not found. [${state.selectedAddress}]");
-    //     return null;
-    //   }
+    final hash = await BtcService().transferAdnr(
+      fromBtcAddress: state.fromBtcAddress!,
+      toBtcAddress: toBtcAddress,
+      toRbxAddress: toRbxAddress,
+    );
 
-    //   if (wallet.balance < (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
-    //     Toast.error("Not enough RBX in your controlling wallet to delete an RBX domain. [${state.selectedAddress}]");
-    //     return null;
-    //   }
+    ref.read(globalLoadingProvider.notifier).complete();
 
-    //   final nameValue = nameController.text.trim().replaceAll(".btc", "");
+    if (hash != null) {
+      ref.read(adnrPendingProvider.notifier).addId(state.fromBtcAddress!, "transfer", state.domainName ?? 'null');
+      ref.read(logProvider.notifier).append(
+            LogEntry(message: "BTC Domain Create TX Sent: $hash", textToCopy: hash, variant: AppColorVariant.Btc),
+          );
+      state = BtcAdnrTransferFormState();
+      return true;
+    }
 
-    //   ref.read(globalLoadingProvider.notifier).start();
-
-    //   final hash = await BtcService().createAdnr(
-    //     address: state.selectedAddress!,
-    //     btcAddress: state.btcAddress!,
-    //     name: nameValue,
-    //   );
-
-    //   ref.read(globalLoadingProvider.notifier).complete();
-
-    //   if (hash != null) {
-    //     ref.read(adnrPendingProvider.notifier).addId(state.btcAddress!, "create", nameValue);
-    //     ref.read(logProvider.notifier).append(
-    //           LogEntry(message: "BTC Domain Create TX Sent: $hash", textToCopy: hash, variant: AppColorVariant.Btc),
-    //         );
-    //     return true;
-    //   }
-
-    //   return false;
+    return false;
   }
 }
 

@@ -419,7 +419,6 @@ class NftDetailScreen extends BaseScreen {
                                   label: "Reveal Evolve Stages",
                                   variant: AppColorVariant.Dark,
                                   onPressed: () {
-                                    print(nft.updatedEvolutionPhases);
 
                                     showModalBottomSheet(
                                         context: context,

@@ -79,9 +79,12 @@ class BtcService extends BaseService {
     }
   }
 
-  Future<List<BtcAccount>> listAccounts() async {
+  Future<List<BtcAccount>> listAccounts([bool omitKeys = true]) async {
     try {
-      final result = await getJson("/GetBitcoinAccountList/true");
+      final result = await getJson(
+        "/GetBitcoinAccountList/${omitKeys ? 'true' : 'false'}",
+        cleanPath: false,
+      );
       if (result["Success"] == true) {
         final accounts = result['BitcoinAccounts'] as List;
 
@@ -183,7 +186,7 @@ class BtcService extends BaseService {
     try {
       final result = await getJson("/CreateAdnr/$address/$btcAddress/$name", cleanPath: false);
 
-      if (result['Success'] == true) {
+      if (result['Result'] == "Success") {
         if (result.containsKey('Hash')) {
           return result['Hash'];
         }
@@ -199,16 +202,15 @@ class BtcService extends BaseService {
     }
   }
 
-  Future<dynamic> transferAdnr({
-    required String fromAddress,
-    required String toAddress,
+  Future<String?> transferAdnr({
+    required String toRbxAddress,
     required String fromBtcAddress,
     required String toBtcAddress,
   }) async {
     try {
-      final result = await getJson("/TransferAdnr/$fromAddress/$toAddress/$fromBtcAddress/$toBtcAddress", cleanPath: false);
+      final result = await getJson("/TransferAdnr/$toRbxAddress/$fromBtcAddress/$toBtcAddress", cleanPath: false);
 
-      if (result['Success'] == true) {
+      if (result['Result'] == "Success") {
         if (result.containsKey('Hash')) {
           return result['Hash'];
         }
@@ -225,13 +227,12 @@ class BtcService extends BaseService {
   }
 
   Future<dynamic> deleteAdnr({
-    required String address,
     required String btcAddress,
   }) async {
     try {
-      final result = await getJson("/DeleteAdnr/$address/$btcAddress", cleanPath: false);
+      final result = await getJson("/DeleteAdnr/$btcAddress", cleanPath: false);
 
-      if (result['Success'] == true) {
+      if (result['Result'] == "Success") {
         if (result.containsKey('Hash')) {
           return result['Hash'];
         }

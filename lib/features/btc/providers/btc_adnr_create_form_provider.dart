@@ -107,10 +107,11 @@ class BtcAdnrCreateFormProvider extends StateNotifier<BtcAdnrCreateFormState> {
     ref.read(globalLoadingProvider.notifier).complete();
 
     if (hash != null) {
-      ref.read(adnrPendingProvider.notifier).addId(state.btcAddress!, "create", nameValue);
+      ref.read(adnrPendingProvider.notifier).addId(state.btcAddress!, "create", 'null');
       ref.read(logProvider.notifier).append(
             LogEntry(message: "BTC Domain Create TX Sent: $hash", textToCopy: hash, variant: AppColorVariant.Btc),
           );
+      state = BtcAdnrCreateFormState();
       return true;
     }
 

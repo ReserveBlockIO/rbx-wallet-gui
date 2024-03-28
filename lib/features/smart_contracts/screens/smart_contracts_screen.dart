@@ -80,6 +80,11 @@ class SmartContractsScreen extends BaseScreen {
                       }
                     }
 
+                    if (ref.read(sessionProvider).btcSelected) {
+                      Toast.error("Please choose an RBX wallet to begin creating a smart contract.");
+                      return;
+                    }
+
                     if (ref.read(sessionProvider).currentWallet?.isReserved == true) {
                       Toast.error("Reserve Accounts cannot mint smart contracts");
                       return;

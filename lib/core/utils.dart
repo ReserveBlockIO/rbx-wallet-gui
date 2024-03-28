@@ -9,6 +9,7 @@ import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rbx_wallet/features/btc/services/btc_service.dart';
 import '../features/transactions/models/transaction.dart';
 
 import '../features/wallet/providers/wallet_list_provider.dart';
@@ -37,6 +38,19 @@ Future<bool> backupKeys(BuildContext context, WidgetRef ref) async {
       }
     }
     output += "\n===================================\n\n";
+
+    final btcAccounts = await BtcService().listAccounts(false);
+
+    if (btcAccounts.isNotEmpty) {
+      output += "BTC Accounts:\n\n";
+
+      for (final b in btcAccounts) {
+        output += "Addresss: \n${b.address}\n\n";
+        output += "Private Key: \n${b.privateKey}\n\n";
+        output += "WIF Private Key: \n${b.wifKey}\n\n";
+        output += "===================================\n\n";
+      }
+    }
 
     List<int> bytes = utf8.encode(output);
 
