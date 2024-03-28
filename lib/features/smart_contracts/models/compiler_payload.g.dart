@@ -37,5 +37,4 @@ Map<String, dynamic> _$$_CompilerPayloadToJson(_$_CompilerPayload instance) =>
       'MinterAddress': instance.minterAddress,
       'IsMinter': instance.isMinter,
       'Properties': instance.properties,
-      'hash': instance.hash,
     };

@@ -9,6 +9,11 @@ import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:intl/intl.dart';
 import 'package:process/process.dart';
 import 'package:process_run/shell.dart';
+
+import 'package:rbx_wallet/features/balance/models/balance.dart';
+import 'package:rbx_wallet/features/bridge/services/bridge_service_v2.dart';
+import '../../features/token/providers/token_list_provider.dart';
+
 import '../../features/btc/models/btc_account.dart';
 import '../../features/btc/models/btc_account_sync_info.dart';
 import '../../features/btc/models/btc_address_type.dart';
@@ -16,6 +21,7 @@ import '../../features/btc/models/btc_recommended_fees.dart';
 import '../../features/btc/providers/btc_account_list_provider.dart';
 import '../../features/btc/services/btc_fee_rate_service.dart';
 import '../../features/btc/services/btc_service.dart';
+
 import '../api_token_manager.dart';
 import '../utils.dart';
 import '../../features/chat/providers/chat_notification_provider.dart';
@@ -83,11 +89,15 @@ class SessionModel {
   final String timezoneName;
   final RemoteInfo? remoteInfo;
   final String? windowsLauncherPath;
+
+  final List<Balance> balances;
+
   final BtcAddressType btcAddressType;
   final BtcAccount? currentBtcAccount;
   final bool btcSelected;
   final BtcAccountSyncInfo? btcAccountSyncInfo;
   final BtcRecommendedFees? btcRecommendedFees;
+
 
   const SessionModel({
     this.currentWallet,
@@ -105,11 +115,15 @@ class SessionModel {
     this.timezoneName = "America/Los_Angeles",
     this.remoteInfo,
     this.windowsLauncherPath,
+
+    this.balances = const [],
+
     this.btcAddressType = BtcAddressType.segwit,
     this.currentBtcAccount,
     this.btcSelected = false,
     this.btcAccountSyncInfo,
     this.btcRecommendedFees,
+
   });
 
   SessionModel copyWith({
@@ -128,6 +142,7 @@ class SessionModel {
     String? timezoneName,
     RemoteInfo? remoteInfo,
     String? windowsLauncherPath,
+    List<Balance>? balances,
     BtcAddressType? btcAddressType,
     BtcAccount? currentBtcAccount,
     bool? btcSelected,
@@ -150,11 +165,15 @@ class SessionModel {
       timezoneName: timezoneName ?? this.timezoneName,
       remoteInfo: remoteInfo ?? this.remoteInfo,
       windowsLauncherPath: windowsLauncherPath ?? this.windowsLauncherPath,
+
+      balances: balances ?? this.balances,
+
       btcAddressType: btcAddressType ?? this.btcAddressType,
       currentBtcAccount: currentBtcAccount ?? this.currentBtcAccount,
       btcSelected: btcSelected ?? this.btcSelected,
       btcAccountSyncInfo: btcAccountSyncInfo ?? this.btcAccountSyncInfo,
       btcRecommendedFees: btcRecommendedFees ?? this.btcRecommendedFees,
+
     );
   }
 
@@ -460,6 +479,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
   Future<void> mainLoop([inLoop = true]) async {
     if (state.cliStarted) {
       loadWallets();
+      loadBalances();
       loadValidators();
       // await loadMasterNodes();
       // await loadPeerInfo();
@@ -496,6 +516,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
       ref.read(mintedNftListProvider.notifier).reloadCurrentPage();
       ref.read(draftsSmartContractProvider.notifier).load();
       ref.read(listedNftsProvider.notifier).refresh();
+      ref.read(tokenListProvider.notifier).reloadCurrentPage();
     }
 
     if (inLoop) {
@@ -619,6 +640,14 @@ class SessionProvider extends StateNotifier<SessionModel> {
       }
 
       ref.read(reserveAccountProvider.notifier).set(reservedWalletsAfterDeleteCheck);
+    }
+  }
+
+  Future<void> loadBalances() async {
+    final balances = await BridgeServiceV2().getBalances(ref);
+
+    if (balances != null) {
+      state = state.copyWith(balances: balances);
     }
   }
 
@@ -780,7 +809,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
       startupDataLoop();
 
       final cliPath = Env.cliPathOverride ?? getCliPath();
-      List<String> options = Env.isTestNet ? ['enableapi', 'gui'] : ['enableapi', 'gui', 'apitoken=$apiToken'];
+      List<String> options = Env.isTestNet ? ['enableapi', 'gui', 'blockv2'] : ['enableapi', 'gui', 'blockv2', 'apitoken=$apiToken'];
 
       if (Env.isTestNet) {
         options.add("testnet");

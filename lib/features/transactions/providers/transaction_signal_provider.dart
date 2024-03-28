@@ -4,9 +4,19 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rbx_wallet/features/nft/providers/nft_detail_watcher.dart';
+import 'package:rbx_wallet/features/nft/providers/sale_provider.dart';
+import 'package:rbx_wallet/features/token/providers/pending_token_pause_provider.dart';
+import 'package:rbx_wallet/features/token/providers/token_nfts_provider.dart';
+import 'package:rbx_wallet/features/web_shop/providers/web_listing_list_provider.dart';
+import 'package:rbx_wallet/features/web_shop/providers/web_shop_list_provider.dart';
+
 import '../../nft/providers/sale_provider.dart';
 import '../../web_shop/providers/web_listing_list_provider.dart';
 import '../../web_shop/providers/web_shop_list_provider.dart';
+
 import '../../../app.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/env.dart';
@@ -14,6 +24,7 @@ import '../../../core/providers/web_session_provider.dart';
 import '../../dst/providers/dec_shop_provider.dart';
 import '../../dst/providers/dst_tx_pending_provider.dart';
 import '../../remote_shop/services/remote_shop_service.dart';
+import '../../token/providers/token_list_provider.dart';
 import 'web_transaction_list_provider.dart';
 import '../../../utils/toast.dart';
 
@@ -132,11 +143,31 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
     String? body;
     final nftData = _parseNftData(transaction);
     if (nftData != null) {
-      body = _nftDataValue(nftData, 'ContractUID');
+      if (_nftDataValue(nftData, 'Function') == "TokenDeploy()") {
+        body = _nftDataValue(nftData, 'ContractUID');
+        _broadcastNotification(
+          TransactionNotification(
+            identifier: transaction.hash,
+            transaction: transaction,
+            title: "Token Deployed",
+            body: body,
+            icon: Icons.toll,
+          ),
+        );
+        ref.read(tokenListProvider.notifier).reloadCurrentPage();
+      } else {
+        body = _nftDataValue(nftData, 'ContractUID');
+        _broadcastNotification(
+          TransactionNotification(
+            identifier: transaction.hash,
+            transaction: transaction,
+            title: "NFT Minted",
+            body: body,
+            icon: Icons.lightbulb_outline,
+          ),
+        );
+      }
     }
-    _broadcastNotification(
-      TransactionNotification(identifier: transaction.hash, transaction: transaction, title: "NFT Minted", body: body, icon: Icons.lightbulb_outline),
-    );
 
     kIsWeb ? ref.read(webSessionProvider.notifier).getNfts() : ref.read(sessionProvider.notifier).smartContractLoop(false);
   }
@@ -175,6 +206,150 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
     final nftData = _parseNftData(transaction);
 
     if (nftData != null) {
+      final function = _nftDataValue(nftData, "Function");
+
+      if (function == "TokenMint()") {
+        final amount = _nftDataValue(nftData, "Amount");
+        final ticker = _nftDataValue(nftData, "TokenTicker");
+
+        _broadcastNotification(
+          TransactionNotification(
+            identifier: "${transaction.hash}_outgoing",
+            transaction: transaction,
+            title: "Tokens Minted",
+            body: "$amount ${ticker != null ? '[$ticker]' : ''}",
+            icon: Icons.toll,
+          ),
+        );
+        return;
+      }
+
+      if (function == "TokenTransfer()") {
+        final amount = _nftDataValue(nftData, "Amount");
+        final ticker = _nftDataValue(nftData, "TokenTicker");
+
+        _broadcastNotification(
+          TransactionNotification(
+            identifier: "${transaction.hash}_outgoing",
+            transaction: transaction,
+            title: "Token Transfer",
+            body: "$amount ${ticker != null ? '[$ticker]' : ''}",
+            icon: Icons.toll,
+            color: AppColorVariant.Primary,
+          ),
+        );
+        return;
+      }
+
+      if (function == "TokenBurn()") {
+        final amount = _nftDataValue(nftData, "Amount");
+        final ticker = _nftDataValue(nftData, "TokenTicker");
+
+        _broadcastNotification(
+          TransactionNotification(
+            identifier: "${transaction.hash}_outgoing",
+            transaction: transaction,
+            title: "Token Burn",
+            body: "$amount ${ticker != null ? '[$ticker]' : ''}",
+            icon: Icons.toll,
+            color: AppColorVariant.Danger,
+          ),
+        );
+        return;
+      }
+
+      if (function == "TokenPause()") {
+        final isPause = _nftDataValue(nftData, "Pause") == "true";
+
+        _broadcastNotification(
+          TransactionNotification(
+            identifier: "${transaction.hash}_outgoing",
+            transaction: transaction,
+            title: "Token Pause",
+            body: isPause ? "Paused" : "Resumed",
+            icon: Icons.toll,
+          ),
+        );
+
+        final scId = _nftDataValue(nftData, "ContractUID");
+
+        if (scId != null) {
+          ref.invalidate(nftDetailWatcher(scId));
+          ref.read(pendingTokenPauseProvider.notifier).removeId(scId);
+        }
+        return;
+      }
+
+      if (function == "TokenBanAddress()") {
+        final address = _nftDataValue(nftData, "BanAddress");
+
+        _broadcastNotification(
+          TransactionNotification(
+            identifier: "${transaction.hash}_outgoing",
+            transaction: transaction,
+            title: "Token Ban Address",
+            body: address,
+            icon: Icons.toll,
+          ),
+        );
+
+        final scId = _nftDataValue(nftData, "ContractUID");
+
+        if (scId != null) {
+          ref.invalidate(nftDetailWatcher(scId));
+        }
+        return;
+      }
+
+      if (function == "TokenContractOwnerChange()") {
+        final address = _nftDataValue(nftData, "ToAddress");
+
+        _broadcastNotification(
+          TransactionNotification(
+            identifier: "${transaction.hash}_outgoing",
+            transaction: transaction,
+            title: "Token Change Ownership",
+            body: address,
+            icon: Icons.toll,
+          ),
+        );
+
+        final scId = _nftDataValue(nftData, "ContractUID");
+
+        if (scId != null) {
+          ref.invalidate(nftDetailWatcher(scId));
+          ref.read(transferredProvider.notifier).removeId(scId);
+          ref.read(tokenListProvider.notifier).reloadCurrentPage();
+        }
+        return;
+      }
+
+      if (function == "TokenVoteTopicCreate()") {
+        _broadcastNotification(
+          TransactionNotification(
+            identifier: "${transaction.hash}_outgoing",
+            transaction: transaction,
+            title: "Token Topic Created",
+            icon: FontAwesomeIcons.gavel,
+            color: AppColorVariant.Primary,
+          ),
+        );
+        return;
+      }
+
+      if (function == "TokenVoteTopicCast()") {
+        _broadcastNotification(
+          TransactionNotification(
+            identifier: "${transaction.hash}_outgoing",
+            transaction: transaction,
+            title: "Token Vote Cast",
+            icon: FontAwesomeIcons.gavel,
+            color: AppColorVariant.Primary,
+          ),
+        );
+        return;
+      }
+
       final evoState = _nftDataValue(nftData, "NewEvoState");
       if (evoState != null) {
         _broadcastNotification(

@@ -9,6 +9,9 @@ import 'package:path_provider/path_provider.dart';
 import '../core/services/explorer_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'package:image/image.dart' as IMG;
+import 'dart:convert' show base64Encode;
+
 import '../core/app_constants.dart';
 import '../core/dialogs.dart';
 import '../core/env.dart';
@@ -217,4 +220,17 @@ IconData iconFromPath(String path) {
     default:
       return FontAwesomeIcons.file;
   }
+}
+
+String? resizeImageAndBase64(String path, int size) {
+  final image = IMG.decodeImage(File(path).readAsBytesSync());
+
+  if (image != null) {
+    final thumbnail = IMG.copyResizeCropSquare(image, size: size);
+
+    final bytes = Uint8List.fromList(IMG.encodePng(thumbnail));
+    return base64Encode(bytes);
+  }
+
+  return null;
 }

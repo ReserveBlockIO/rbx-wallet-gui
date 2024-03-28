@@ -91,7 +91,7 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
       final bool connectedToMother = data['ConnectedToMother'].toString().toLowerCase() == 'true';
       final String blockchainVersion = data['BlockVersion'].toString();
 
-      final latestBlock = blockHeight > 0 ? await BridgeService().blockInfo(blockHeight) : null;
+      final latestBlock = blockHeight > 0 ? await BridgeService().blockInfo(blockHeight, state?.lastestBlock) : null;
 
       final prevBlockHeight = state?.blockHeight;
       final prevPeerCount = state?.peerCount;

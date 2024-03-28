@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/features/token/models/token_sc_feature.dart';
 
 import '../features/evolve/evolve.dart';
 import '../features/royalty/royalty.dart';
@@ -27,7 +28,8 @@ enum FeatureType {
   fractionalization,
   pair,
   soulBound,
-  // wrap,
+  wrap,
+  token,
   btcTokenization,
   notImplemented,
 }
@@ -62,13 +64,12 @@ abstract class Feature with _$Feature {
           type: FeatureType.multiAsset,
           data: MultiAsset.fromCompiler(f['FeatureFeatures']).toJson(),
         );
-      case Tokenization.compilerEnum:
-        print(f["FeatureFeatures"]);
-        return Feature(
-          type: FeatureType.btcTokenization,
-          data: {},
-        );
 
+      case TokenScFeature.compilerEnum:
+        return Feature(
+          type: FeatureType.token,
+          data: TokenScFeature.fromJson(f['FeatureFeatures']).toJson(),
+        );
       default:
         return Feature(type: FeatureType.notImplemented, data: {});
     }
@@ -219,6 +220,10 @@ abstract class Feature with _$Feature {
         return "Mint a physical or Real World Asset";
       case FeatureType.soulBound:
         return "Soul Bound";
+      case FeatureType.wrap:
+        return "Wrap";
+      case FeatureType.token:
+        return "Token";
       case FeatureType.btcTokenization:
         return "BTC Tokenization";
       case FeatureType.notImplemented:

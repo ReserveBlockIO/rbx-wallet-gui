@@ -35,13 +35,13 @@ class _WebChatNotifierState extends State<WebChatNotifier> {
   List<LatestChatMessage> messages = [];
 
   Future<void> fetch() async {
+
     if (Env.rbxNetworkDown) return;
 
     if (!kIsWeb) {
       return;
     }
 
-    print("CHAT FETCH");
     if (widget.address == null) {
       return;
     }

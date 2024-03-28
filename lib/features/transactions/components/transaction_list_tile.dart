@@ -159,6 +159,51 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                             ],
                           ),
                         ),
+                      if (widget.transaction.amount == 0)
+                        Builder(
+                          builder: (context) {
+                            double? amountOverride;
+                            String? ticker;
+                            Color amountColor = Colors.white;
+
+                            if (widget.transaction.type == 3) {
+                              final data = parseNftData(widget.transaction);
+                              if (data != null) {
+                                if (nftDataValue(data, 'Function') == "TokenTransfer()") {
+                                  amountOverride = double.tryParse(nftDataValue(data, "Amount") ?? '');
+                                  ticker = nftDataValue(data, "TokenTicker");
+                                } else if (nftDataValue(data, 'Function') == "TokenMint()") {
+                                  amountOverride = double.tryParse(nftDataValue(data, "Amount") ?? '');
+                                  ticker = nftDataValue(data, "TokenTicker");
+                                } else if (nftDataValue(data, 'Function') == "TokenBurn()") {
+                                  amountOverride = double.tryParse(nftDataValue(data, "Amount") ?? '');
+                                  ticker = nftDataValue(data, "TokenTicker");
+                                  amountColor = Colors.red.shade500;
+                                }
+                              }
+                            }
+
+                            if (amountOverride != null) {
+                              return RichText(
+                                text: TextSpan(
+                                  style: Theme.of(context).textTheme.bodyText2,
+                                  children: [
+                                    const TextSpan(text: "Amount: "),
+                                    TextSpan(
+                                      text: "$amountOverride ${ticker != null ? '[$ticker]' : ''}",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        color: amountColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+
+                            return SizedBox();
+                          },
+                        ),
                       const SizedBox(height: 4),
                       RichText(
                         text: TextSpan(

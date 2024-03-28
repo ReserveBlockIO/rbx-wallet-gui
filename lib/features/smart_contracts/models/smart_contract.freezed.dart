@@ -44,6 +44,7 @@ mixin _$SmartContract {
   bool get isCompiled => throw _privateConstructorUsedError;
   bool get isPublished => throw _privateConstructorUsedError;
   List<ScProperty> get properties => throw _privateConstructorUsedError;
+  TokenScFeature? get token => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -80,10 +81,12 @@ abstract class $SmartContractCopyWith<$Res> {
       String code,
       bool isCompiled,
       bool isPublished,
-      List<ScProperty> properties});
+      List<ScProperty> properties,
+      TokenScFeature? token});
 
   $WalletCopyWith<$Res> get owner;
   $AssetCopyWith<$Res>? get primaryAsset;
+  $TokenScFeatureCopyWith<$Res>? get token;
 }
 
 /// @nodoc
@@ -122,6 +125,7 @@ class _$SmartContractCopyWithImpl<$Res, $Val extends SmartContract>
     Object? isCompiled = null,
     Object? isPublished = null,
     Object? properties = null,
+    Object? token = freezed,
   }) {
     return _then(_value.copyWith(
       owner: null == owner
@@ -216,6 +220,10 @@ class _$SmartContractCopyWithImpl<$Res, $Val extends SmartContract>
           ? _value.properties
           : properties // ignore: cast_nullable_to_non_nullable
               as List<ScProperty>,
+      token: freezed == token
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
+              as TokenScFeature?,
     ) as $Val);
   }
 
@@ -236,6 +244,18 @@ class _$SmartContractCopyWithImpl<$Res, $Val extends SmartContract>
 
     return $AssetCopyWith<$Res>(_value.primaryAsset!, (value) {
       return _then(_value.copyWith(primaryAsset: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $TokenScFeatureCopyWith<$Res>? get token {
+    if (_value.token == null) {
+      return null;
+    }
+
+    return $TokenScFeatureCopyWith<$Res>(_value.token!, (value) {
+      return _then(_value.copyWith(token: value) as $Val);
     });
   }
 }
@@ -271,12 +291,15 @@ abstract class _$$_SmartContractCopyWith<$Res>
       String code,
       bool isCompiled,
       bool isPublished,
-      List<ScProperty> properties});
+      List<ScProperty> properties,
+      TokenScFeature? token});
 
   @override
   $WalletCopyWith<$Res> get owner;
   @override
   $AssetCopyWith<$Res>? get primaryAsset;
+  @override
+  $TokenScFeatureCopyWith<$Res>? get token;
 }
 
 /// @nodoc
@@ -313,6 +336,7 @@ class __$$_SmartContractCopyWithImpl<$Res>
     Object? isCompiled = null,
     Object? isPublished = null,
     Object? properties = null,
+    Object? token = freezed,
   }) {
     return _then(_$_SmartContract(
       owner: null == owner
@@ -406,6 +430,10 @@ class __$$_SmartContractCopyWithImpl<$Res>
           ? _value._properties
           : properties // ignore: cast_nullable_to_non_nullable
               as List<ScProperty>,
+      token: freezed == token
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
+              as TokenScFeature?,
     ));
   }
 }
@@ -436,7 +464,8 @@ class _$_SmartContract extends _SmartContract {
       this.code = "",
       this.isCompiled = false,
       this.isPublished = false,
-      final List<ScProperty> properties = const []})
+      final List<ScProperty> properties = const [],
+      this.token})
       : _rarities = rarities,
         _stats = stats,
         _royalties = royalties,
@@ -589,8 +618,14 @@ class _$_SmartContract extends _SmartContract {
   }
 
   @override
+  final TokenScFeature? token;
+
+  @override
   String toString() {
-    return 'SmartContract(owner: $owner, draftId: $draftId, id: $id, name: $name, minterName: $minterName, description: $description, thumbnail: $thumbnail, primaryAsset: $primaryAsset, rarities: $rarities, stats: $stats, royalties: $royalties, evolves: $evolves, tickets: $tickets, multiAssets: $multiAssets, tokenizations: $tokenizations, fractionals: $fractionals, pairs: $pairs, soulBounds: $soulBounds, includesBtcTokenization: $includesBtcTokenization, code: $code, isCompiled: $isCompiled, isPublished: $isPublished, properties: $properties)';
+
+    return 'SmartContract(owner: $owner, draftId: $draftId, id: $id, name: $name, minterName: $minterName, description: $description, thumbnail: $thumbnail, primaryAsset: $primaryAsset, rarities: $rarities, stats: $stats, royalties: $royalties, evolves: $evolves, tickets: $tickets, multiAssets: $multiAssets, tokenizations: $tokenizations, fractionals: $fractionals, pairs: $pairs, soulBounds: $soulBounds, code: $code, isCompiled: $isCompiled, isPublished: $isPublished, properties: $properties, token: $token)';
+
+
   }
 
   @override
@@ -633,7 +668,8 @@ class _$_SmartContract extends _SmartContract {
             (identical(other.isPublished, isPublished) ||
                 other.isPublished == isPublished) &&
             const DeepCollectionEquality()
-                .equals(other._properties, _properties));
+                .equals(other._properties, _properties) &&
+            (identical(other.token, token) || other.token == token));
   }
 
   @JsonKey(ignore: true)
@@ -662,7 +698,8 @@ class _$_SmartContract extends _SmartContract {
         code,
         isCompiled,
         isPublished,
-        const DeepCollectionEquality().hash(_properties)
+        const DeepCollectionEquality().hash(_properties),
+        token
       ]);
 
   @JsonKey(ignore: true)
@@ -703,7 +740,8 @@ abstract class _SmartContract extends SmartContract {
       final String code,
       final bool isCompiled,
       final bool isPublished,
-      final List<ScProperty> properties}) = _$_SmartContract;
+      final List<ScProperty> properties,
+      final TokenScFeature? token}) = _$_SmartContract;
   _SmartContract._() : super._();
 
   factory _SmartContract.fromJson(Map<String, dynamic> json) =
@@ -755,6 +793,8 @@ abstract class _SmartContract extends SmartContract {
   bool get isPublished;
   @override
   List<ScProperty> get properties;
+  @override
+  TokenScFeature? get token;
   @override
   @JsonKey(ignore: true)
   _$$_SmartContractCopyWith<_$_SmartContract> get copyWith =>

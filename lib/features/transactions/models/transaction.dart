@@ -64,9 +64,41 @@ class Transaction with _$Transaction {
             return "NFT Mint (Tokenized)";
           }
         }
-
         return "NFT Mint";
       case 3:
+        final data = parseNftData(this);
+        if (data != null) {
+          if (nftDataValue(data, 'Function') == "TokenMint()") {
+            return "Token Mint";
+          }
+
+          if (nftDataValue(data, 'Function') == "TokenTransfer()") {
+            return "Token Transfer";
+          }
+          if (nftDataValue(data, 'Function') == "TokenBurn()") {
+            return "Token Burn";
+          }
+
+          if (nftDataValue(data, 'Function') == "TokenContractOwnerChange()") {
+            return "Token Ownership Change";
+          }
+          if (nftDataValue(data, 'Function') == "TokenPause()") {
+            final isPause = nftDataValue(data, 'Pause') == "true";
+            return "Token ${isPause ? 'Pause' : 'Resume'}";
+          }
+
+          if (nftDataValue(data, 'Function') == "TokenBanAddress()") {
+            return "Token Ban Address";
+          }
+
+          if (nftDataValue(data, 'Function') == "TokenVoteTopicCast()") {
+            return "Token Vote Cast";
+          }
+          if (nftDataValue(data, 'Function') == "TokenVoteTopicCreate()") {
+            return "Token Topic Created";
+          }
+        }
+
         return "NFT Tx";
       case 4:
         return "NFT Burn";

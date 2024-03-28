@@ -41,11 +41,11 @@ class TopicDetail extends BaseComponent {
                   ],
                 ),
               ),
-              _DateCard(
+              DateCard(
                 label: "Topic Created",
                 value: topic.createdAtFormatted,
               ),
-              _DateCard(
+              DateCard(
                 label: "Voting Ends",
                 value: topic.endsAtFormatted,
               )
@@ -213,10 +213,10 @@ class _AdjudicatorDetailValue extends StatelessWidget {
   }
 }
 
-class _DateCard extends StatelessWidget {
+class DateCard extends StatelessWidget {
   final String label;
   final String value;
-  const _DateCard({
+  const DateCard({
     Key? key,
     required this.label,
     required this.value,

@@ -1,7 +1,12 @@
 import 'dart:convert';
 
 import 'package:collection/collection.dart';
+
+import 'package:rbx_wallet/features/token/models/token_details.dart';
+import 'package:rbx_wallet/utils/toast.dart';
+
 import '../../../utils/toast.dart';
+
 
 import '../../../core/models/paginated_response.dart';
 import '../../../core/services/base_service.dart';
@@ -13,12 +18,25 @@ import '../utils.dart';
 class NftService extends BaseService {
   NftService() : super(apiBasePathOverride: "/scapi/scv1");
 
-  Future<CliPaginatedResponse<Nft>> list(int page, {String search = ""}) async {
+  Future<CliPaginatedResponse<Nft>> list(
+    int page, {
+    String search = "",
+    bool forTokens = false,
+  }) async {
     if (page < 1) {
       page = 1;
     }
 
-    final url = search.isNotEmpty ? "/GetAllSmartContracts/$page/$search" : "/GetAllSmartContracts/$page";
+    late String url;
+
+    if (forTokens) {
+      // /{pageNumber}/{excludeToken?}/{tokensOnly?}/{**search}
+      url = search.isNotEmpty ? "/GetAllSmartContracts/$page/false/true/$search" : "/GetAllSmartContracts/$page/false/true";
+    } else {
+      url = search.isNotEmpty ? "/GetAllSmartContracts/$page/true/false/$search" : "/GetAllSmartContracts/$page/true/false";
+    }
+
+    // final params = forTokens ? {'tokensOnly': true} : {'excludeToken': true};
 
     final response = await getText(url, cleanPath: false);
     if (response == 'null') {
@@ -77,17 +95,39 @@ class NftService extends BaseService {
     }
   }
 
+  Future<String?> currentOwner(String id) async {
+    final stateHeader = await getText('/GetCurrentSCOwner/$id', cleanPath: false);
+    final stateData = jsonDecode(stateHeader);
+
+    return stateData['OwnerAddress'];
+  }
+
   Future<Nft?> retrieve(String id) async {
     try {
       final response = await getText('/GetSingleSmartContract/$id');
       final data = jsonDecode(response);
 
+      if (data == null) {
+        return null;
+      }
+
       Nft nft = Nft.fromJson(data[0]['SmartContract']);
       nft = nft.copyWith(code: data[0]['SmartContractCode'], currentOwner: data[0]['CurrentOwner']);
       nft = await setAssetPath(nft);
+
+      final stateHeader = await getText('/GetCurrentSCOwner/$id', cleanPath: false);
+      final stateData = jsonDecode(stateHeader);
+
+      if (stateData.containsKey("TokenDetails") && stateData['TokenDetails'] != null) {
+        final tokenDetails = TokenDetails.fromJson(stateData['TokenDetails']);
+        nft = nft.copyWith(tokenStateDetails: tokenDetails);
+      }
+
       return nft;
-    } catch (e) {
+    } catch (e, st) {
+      print("NFT Retrieve error");
       print(e);
+      print(st);
       return null;
     }
   }
@@ -131,6 +171,7 @@ class NftService extends BaseService {
             final data = jsonDecode(response);
             final d = data['SmartContractMain'];
             Nft nft = Nft.fromJson(d).copyWith(currentOwner: data['CurrentOwner']);
+
             nfts.add(nft);
           } catch (e) {
             print('problem loading nft from json');
@@ -154,6 +195,14 @@ class NftService extends BaseService {
           final data = jsonDecode(response);
           final d = data['SmartContractMain'];
           Nft nft = Nft.fromJson(d).copyWith(currentOwner: data['CurrentOwner']);
+          final stateHeader = await getText('/GetCurrentSCOwner/$scId', cleanPath: false);
+          final stateData = jsonDecode(stateHeader);
+
+          if (stateData.containsKey("TokenDetails") && stateData['TokenDetails'] != null) {
+            final tokenDetails = TokenDetails.fromJson(stateData['TokenDetails']);
+            nft = nft.copyWith(tokenStateDetails: tokenDetails);
+          }
+
           return nft;
         } catch (e) {
           print('problem loading nft from json');

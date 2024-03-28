@@ -11,6 +11,7 @@ class CreateTopicScreen extends BaseScreen {
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
       title: const Text("Create Topic"),
+      backgroundColor: Colors.black,
     );
   }
 

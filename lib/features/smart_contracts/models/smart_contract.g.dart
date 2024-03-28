@@ -66,6 +66,9 @@ _$_SmartContract _$$_SmartContractFromJson(Map<String, dynamic> json) =>
               ?.map((e) => ScProperty.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      token: json['token'] == null
+          ? null
+          : TokenScFeature.fromJson(json['token'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_SmartContractToJson(_$_SmartContract instance) =>
@@ -93,4 +96,5 @@ Map<String, dynamic> _$$_SmartContractToJson(_$_SmartContract instance) =>
       'isCompiled': instance.isCompiled,
       'isPublished': instance.isPublished,
       'properties': instance.properties,
+      'token': instance.token,
     };

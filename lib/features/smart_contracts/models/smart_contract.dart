@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/features/token/models/token_sc_feature.dart';
 import '../../sc_property/models/sc_property.dart';
 
 import '../../../core/app_constants.dart';
@@ -52,6 +53,7 @@ abstract class SmartContract with _$SmartContract {
     @Default(false) bool isCompiled,
     @Default(false) bool isPublished,
     @Default([]) List<ScProperty> properties,
+    TokenScFeature? token,
   }) = _SmartContract;
 
   factory SmartContract.fromJson(Map<String, dynamic> json) => _$SmartContractFromJson(json);
@@ -175,10 +177,11 @@ abstract class SmartContract with _$SmartContract {
       features.add(f);
     }
 
-    if (includesBtcTokenization) {
+
+    if (token != null) {
       final f = {
-        'FeatureName': Tokenization.compilerEnum,
-        'FeatureFeatures': {'AssetName': "bitcoin", 'AssetTicker': 'btc'}
+        'FeatureName': TokenScFeature.compilerEnum,
+        'FeatureFeatures': token!.toJson(),
       };
       features.add(f);
     }
