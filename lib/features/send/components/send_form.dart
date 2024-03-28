@@ -103,7 +103,7 @@ class SendForm extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     bool isWeb = kIsWeb;
-    bool isBtc = kIsWeb ? ref.watch(webSessionProvider).usingBtc : btcWebAccount != null;
+    bool isBtc = kIsWeb ? ref.watch(webSessionProvider).usingBtc : ref.watch(sessionProvider).btcSelected;
 
     const leadingWidth = 70.0;
 

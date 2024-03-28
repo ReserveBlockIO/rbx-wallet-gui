@@ -10,7 +10,7 @@ part 'tokenization.g.dart';
 class Tokenization with _$Tokenization {
   const Tokenization._();
 
-  static const int compilerEnum = 111; //TODO
+  static const int compilerEnum = 13;
 
   @JsonSerializable(explicitToJson: true)
   const factory Tokenization({

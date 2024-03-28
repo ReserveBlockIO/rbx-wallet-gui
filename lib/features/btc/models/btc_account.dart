@@ -22,6 +22,6 @@ class BtcAccount with _$BtcAccount {
   String get label {
     final start = address.substring(0, 5);
     final end = address.substring(address.length - 5, address.length);
-    return "$start.....$end";
+    return "${adnr != null ? '@$adnr | ' : ''}$start.....$end";
   }
 }

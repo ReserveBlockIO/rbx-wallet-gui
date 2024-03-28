@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$BtcAdnrTransferFormState {
   String? get fromBtcAddress => throw _privateConstructorUsedError;
+  String? get domainName => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $BtcAdnrTransferFormStateCopyWith<BtcAdnrTransferFormState> get copyWith =>
@@ -29,7 +30,7 @@ abstract class $BtcAdnrTransferFormStateCopyWith<$Res> {
           $Res Function(BtcAdnrTransferFormState) then) =
       _$BtcAdnrTransferFormStateCopyWithImpl<$Res, BtcAdnrTransferFormState>;
   @useResult
-  $Res call({String? fromBtcAddress});
+  $Res call({String? fromBtcAddress, String? domainName});
 }
 
 /// @nodoc
@@ -47,11 +48,16 @@ class _$BtcAdnrTransferFormStateCopyWithImpl<$Res,
   @override
   $Res call({
     Object? fromBtcAddress = freezed,
+    Object? domainName = freezed,
   }) {
     return _then(_value.copyWith(
       fromBtcAddress: freezed == fromBtcAddress
           ? _value.fromBtcAddress
           : fromBtcAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      domainName: freezed == domainName
+          ? _value.domainName
+          : domainName // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -66,7 +72,7 @@ abstract class _$$_BtcAdnrTransferFormStateCopyWith<$Res>
       __$$_BtcAdnrTransferFormStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? fromBtcAddress});
+  $Res call({String? fromBtcAddress, String? domainName});
 }
 
 /// @nodoc
@@ -82,11 +88,16 @@ class __$$_BtcAdnrTransferFormStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? fromBtcAddress = freezed,
+    Object? domainName = freezed,
   }) {
     return _then(_$_BtcAdnrTransferFormState(
       fromBtcAddress: freezed == fromBtcAddress
           ? _value.fromBtcAddress
           : fromBtcAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      domainName: freezed == domainName
+          ? _value.domainName
+          : domainName // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -95,14 +106,17 @@ class __$$_BtcAdnrTransferFormStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_BtcAdnrTransferFormState extends _BtcAdnrTransferFormState {
-  _$_BtcAdnrTransferFormState({this.fromBtcAddress}) : super._();
+  _$_BtcAdnrTransferFormState({this.fromBtcAddress, this.domainName})
+      : super._();
 
   @override
   final String? fromBtcAddress;
+  @override
+  final String? domainName;
 
   @override
   String toString() {
-    return 'BtcAdnrTransferFormState(fromBtcAddress: $fromBtcAddress)';
+    return 'BtcAdnrTransferFormState(fromBtcAddress: $fromBtcAddress, domainName: $domainName)';
   }
 
   @override
@@ -111,11 +125,13 @@ class _$_BtcAdnrTransferFormState extends _BtcAdnrTransferFormState {
         (other.runtimeType == runtimeType &&
             other is _$_BtcAdnrTransferFormState &&
             (identical(other.fromBtcAddress, fromBtcAddress) ||
-                other.fromBtcAddress == fromBtcAddress));
+                other.fromBtcAddress == fromBtcAddress) &&
+            (identical(other.domainName, domainName) ||
+                other.domainName == domainName));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, fromBtcAddress);
+  int get hashCode => Object.hash(runtimeType, fromBtcAddress, domainName);
 
   @JsonKey(ignore: true)
   @override
@@ -126,12 +142,15 @@ class _$_BtcAdnrTransferFormState extends _BtcAdnrTransferFormState {
 }
 
 abstract class _BtcAdnrTransferFormState extends BtcAdnrTransferFormState {
-  factory _BtcAdnrTransferFormState({final String? fromBtcAddress}) =
-      _$_BtcAdnrTransferFormState;
+  factory _BtcAdnrTransferFormState(
+      {final String? fromBtcAddress,
+      final String? domainName}) = _$_BtcAdnrTransferFormState;
   _BtcAdnrTransferFormState._() : super._();
 
   @override
   String? get fromBtcAddress;
+  @override
+  String? get domainName;
   @override
   @JsonKey(ignore: true)
   _$$_BtcAdnrTransferFormStateCopyWith<_$_BtcAdnrTransferFormState>

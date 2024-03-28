@@ -58,6 +58,13 @@ class Transaction with _$Transaction {
       case 1:
         return "Node";
       case 2:
+        final data = parseNftData(this);
+        if (data != null) {
+          if (nftDataValue(data, 'Function') == "TokenDeploy()") {
+            return "NFT Mint (Tokenized)";
+          }
+        }
+
         return "NFT Mint";
       case 3:
         return "NFT Tx";

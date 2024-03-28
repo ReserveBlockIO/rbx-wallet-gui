@@ -47,6 +47,7 @@ abstract class SmartContract with _$SmartContract {
     @Default([]) List<Fractional> fractionals,
     @Default([]) List<Pair> pairs,
     @Default([]) List<SoulBound> soulBounds,
+    @Default(false) includesBtcTokenization,
     @Default("") String code,
     @Default(false) bool isCompiled,
     @Default(false) bool isPublished,
@@ -139,15 +140,15 @@ abstract class SmartContract with _$SmartContract {
       features.add(Feature(type: FeatureType.soulBound, data: item.toJson()));
     }
 
+    if (includesBtcTokenization) {
+      features.add(Feature(type: FeatureType.btcTokenization));
+    }
+
     return features;
   }
 
   Map<String, dynamic> serializeForCompiler(String timezoneName) {
     final List<Map<String, dynamic>> features = [];
-    print("------------");
-
-    print(evolves);
-    print("------------");
 
     for (final r in royalties) {
       final f = {'FeatureName': Royalty.compilerEnum, 'FeatureFeatures': r.serializeForCompiler()};
@@ -173,6 +174,15 @@ abstract class SmartContract with _$SmartContract {
       final f = {'FeatureName': MultiAsset.compilerEnum, 'FeatureFeatures': m.serializeForCompiler(minterName)};
       features.add(f);
     }
+
+    if (includesBtcTokenization) {
+      final f = {
+        'FeatureName': Tokenization.compilerEnum,
+        'FeatureFeatures': {'AssetName': "bitcoin", 'AssetTicker': 'btc'}
+      };
+      features.add(f);
+    }
+
     Map<String, String>? propertiesOutput;
     if (properties.isNotEmpty) {
       propertiesOutput = {};
