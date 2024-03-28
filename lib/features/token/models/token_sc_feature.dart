@@ -21,13 +21,13 @@ class TokenScFeature with _$TokenScFeature {
   static const int compilerEnum = 13;
 
   const factory TokenScFeature({
-    @JsonKey(name: "TokenName") required String name,
-    @JsonKey(name: "TokenTicker") required String ticker,
-    @JsonKey(name: "TokenDecimalPlaces") required int decimalPlaces,
-    @JsonKey(name: "TokenSupply", toJson: supplyToJson) required double supply,
-    @JsonKey(name: "TokenBurnable") required bool burnable,
-    @JsonKey(name: "TokenMintable") required bool mintable,
-    @JsonKey(name: "TokenVoting") required bool voting,
+    @JsonKey(name: "TokenName") @Default("Unnamed") String name,
+    @JsonKey(name: "TokenTicker") @Default("unnamed") String ticker,
+    @JsonKey(name: "TokenDecimalPlaces") @Default(TOKEN_DEFAULT_DECIMAL_PLACES) int decimalPlaces,
+    @JsonKey(name: "TokenSupply", toJson: supplyToJson) @Default(0.0) double supply,
+    @JsonKey(name: "TokenBurnable") @Default(false) bool burnable,
+    @JsonKey(name: "TokenMintable") @Default(false) bool mintable,
+    @JsonKey(name: "TokenVoting") @Default(false) bool voting,
     @JsonKey(name: "TokenImageURL") String? imageUrl,
     @JsonKey(name: "TokenImageBase") String? imageBase64,
   }) = _TokenScFeature;

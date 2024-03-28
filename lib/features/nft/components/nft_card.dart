@@ -43,25 +43,25 @@ class NftCard extends BaseComponent {
   Future<void> _showDetails(BuildContext context, WidgetRef ref) async {
     ref.read(nftDetailProvider(nft.id).notifier).init();
 
-    final detail = await NftService().getNftData(nft.id);
+    // final detail = await NftService().getNftData(nft.id);
 
-    if (detail != null && detail.isToken) {
-      final tokenAccount = TokenAccount.fromNft(detail, ref);
-      final tokenFeature = TokenScFeature.fromNft(detail);
-      if (tokenAccount != null && tokenFeature != null) {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => TokenManagementScreen(
-              tokenAccount,
-              tokenFeature,
-              nft.id,
-              nft.currentOwner,
-            ),
-          ),
-        );
-        return;
-      }
-    }
+    // if (detail != null && detail.isToken) {
+    //   final tokenAccount = TokenAccount.fromNft(detail, ref);
+    //   final tokenFeature = TokenScFeature.fromNft(detail);
+    //   if (tokenAccount != null && tokenFeature != null) {
+    //     Navigator.of(context).push(
+    //       MaterialPageRoute(
+    //         builder: (_) => TokenManagementScreen(
+    //           tokenAccount,
+    //           tokenFeature,
+    //           nft.id,
+    //           nft.currentOwner,
+    //         ),
+    //       ),
+    //     );
+    //     return;
+    //   }
+    // }
 
     if (manageOnPress) {
       showModalBottomSheet(

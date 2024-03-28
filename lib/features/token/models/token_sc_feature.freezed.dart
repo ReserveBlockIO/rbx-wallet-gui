@@ -213,15 +213,24 @@ class __$$_TokenScFeatureCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_TokenScFeature extends _TokenScFeature {
   const _$_TokenScFeature(
-      {@JsonKey(name: "TokenName") required this.name,
-      @JsonKey(name: "TokenTicker") required this.ticker,
-      @JsonKey(name: "TokenDecimalPlaces") required this.decimalPlaces,
-      @JsonKey(name: "TokenSupply", toJson: supplyToJson) required this.supply,
-      @JsonKey(name: "TokenBurnable") required this.burnable,
-      @JsonKey(name: "TokenMintable") required this.mintable,
-      @JsonKey(name: "TokenVoting") required this.voting,
-      @JsonKey(name: "TokenImageURL") this.imageUrl,
-      @JsonKey(name: "TokenImageBase") this.imageBase64})
+      {@JsonKey(name: "TokenName")
+          this.name = "Unnamed",
+      @JsonKey(name: "TokenTicker")
+          this.ticker = "unnamed",
+      @JsonKey(name: "TokenDecimalPlaces")
+          this.decimalPlaces = TOKEN_DEFAULT_DECIMAL_PLACES,
+      @JsonKey(name: "TokenSupply", toJson: supplyToJson)
+          this.supply = 0.0,
+      @JsonKey(name: "TokenBurnable")
+          this.burnable = false,
+      @JsonKey(name: "TokenMintable")
+          this.mintable = false,
+      @JsonKey(name: "TokenVoting")
+          this.voting = false,
+      @JsonKey(name: "TokenImageURL")
+          this.imageUrl,
+      @JsonKey(name: "TokenImageBase")
+          this.imageBase64})
       : super._();
 
   factory _$_TokenScFeature.fromJson(Map<String, dynamic> json) =>
@@ -303,19 +312,19 @@ class _$_TokenScFeature extends _TokenScFeature {
 abstract class _TokenScFeature extends TokenScFeature {
   const factory _TokenScFeature(
       {@JsonKey(name: "TokenName")
-          required final String name,
+          final String name,
       @JsonKey(name: "TokenTicker")
-          required final String ticker,
+          final String ticker,
       @JsonKey(name: "TokenDecimalPlaces")
-          required final int decimalPlaces,
+          final int decimalPlaces,
       @JsonKey(name: "TokenSupply", toJson: supplyToJson)
-          required final double supply,
+          final double supply,
       @JsonKey(name: "TokenBurnable")
-          required final bool burnable,
+          final bool burnable,
       @JsonKey(name: "TokenMintable")
-          required final bool mintable,
+          final bool mintable,
       @JsonKey(name: "TokenVoting")
-          required final bool voting,
+          final bool voting,
       @JsonKey(name: "TokenImageURL")
           final String? imageUrl,
       @JsonKey(name: "TokenImageBase")

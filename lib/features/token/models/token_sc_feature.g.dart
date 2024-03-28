@@ -8,13 +8,14 @@ part of 'token_sc_feature.dart';
 
 _$_TokenScFeature _$$_TokenScFeatureFromJson(Map<String, dynamic> json) =>
     _$_TokenScFeature(
-      name: json['TokenName'] as String,
-      ticker: json['TokenTicker'] as String,
-      decimalPlaces: json['TokenDecimalPlaces'] as int,
-      supply: (json['TokenSupply'] as num).toDouble(),
-      burnable: json['TokenBurnable'] as bool,
-      mintable: json['TokenMintable'] as bool,
-      voting: json['TokenVoting'] as bool,
+      name: json['TokenName'] as String? ?? "Unnamed",
+      ticker: json['TokenTicker'] as String? ?? "unnamed",
+      decimalPlaces:
+          json['TokenDecimalPlaces'] as int? ?? TOKEN_DEFAULT_DECIMAL_PLACES,
+      supply: (json['TokenSupply'] as num?)?.toDouble() ?? 0.0,
+      burnable: json['TokenBurnable'] as bool? ?? false,
+      mintable: json['TokenMintable'] as bool? ?? false,
+      voting: json['TokenVoting'] as bool? ?? false,
       imageUrl: json['TokenImageURL'] as String?,
       imageBase64: json['TokenImageBase'] as String?,
     );

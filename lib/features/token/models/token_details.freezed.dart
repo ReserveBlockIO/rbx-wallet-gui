@@ -256,9 +256,9 @@ class __$$_TokenDetailsCopyWithImpl<$Res>
 class _$_TokenDetails extends _TokenDetails {
   const _$_TokenDetails(
       {@JsonKey(name: "TokenName")
-          required this.name,
+          this.name = "",
       @JsonKey(name: "TokenTicker")
-          required this.ticker,
+          this.ticker = "",
       @JsonKey(name: "StartingSupply")
           required this.startingSupply,
       @JsonKey(name: "CurrentSupply")
@@ -404,9 +404,9 @@ class _$_TokenDetails extends _TokenDetails {
 abstract class _TokenDetails extends TokenDetails {
   const factory _TokenDetails(
       {@JsonKey(name: "TokenName")
-          required final String name,
+          final String name,
       @JsonKey(name: "TokenTicker")
-          required final String ticker,
+          final String ticker,
       @JsonKey(name: "StartingSupply")
           required final double startingSupply,
       @JsonKey(name: "CurrentSupply")

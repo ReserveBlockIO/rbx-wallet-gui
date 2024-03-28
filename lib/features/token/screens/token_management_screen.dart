@@ -48,12 +48,20 @@ class TokenManagementScreen extends BaseScreen {
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
+    Uint8List? imageData;
+    if (token.imageBase64 != null && token.imageBase64!.isNotEmpty) {
+      try {
+        imageData = Base64Decoder().convert(token.imageBase64!);
+      } catch (e) {
+        print("base64 image error");
+      }
+    }
     return AppBar(
       backgroundColor: Colors.black54,
       title: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (token.imageBase64 != null && token.imageBase64!.isNotEmpty)
+          if (imageData != null)
             Padding(
               padding: const EdgeInsets.only(right: 8.0),
               child: Container(
@@ -66,7 +74,7 @@ class TokenManagementScreen extends BaseScreen {
                 child: Image(
                   image: CacheMemoryImageProvider(
                     tokenAccount.smartContractId,
-                    Base64Decoder().convert(token.imageBase64!),
+                    imageData,
                   ),
                   width: 32,
                   height: 32,

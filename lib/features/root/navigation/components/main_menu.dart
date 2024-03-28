@@ -242,18 +242,18 @@ class MainMenu extends BaseComponent {
                     },
                     isActive: tabsRouter.activeIndex == 9,
                   ),
-                  _NavButton(
-                    title: "Fungible Tokens",
-                    icon: Icons.toll,
-                    onPressed: () {
-                      if (tabsRouter.activeIndex == 13) {
-                        tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
-                      } else {
-                        tabsRouter.setActiveIndex(13);
-                      }
-                    },
-                    isActive: tabsRouter.activeIndex == 13,
-                  ),
+                  // _NavButton(
+                  //   title: "Fungible Tokens",
+                  //   icon: Icons.toll,
+                  //   onPressed: () {
+                  //     if (tabsRouter.activeIndex == 13) {
+                  //       tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
+                  //     } else {
+                  //       tabsRouter.setActiveIndex(13);
+                  //     }
+                  //   },
+                  //   isActive: tabsRouter.activeIndex == 13,
+                  // ),
                 ],
               ),
             ],

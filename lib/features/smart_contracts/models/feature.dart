@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -187,6 +189,8 @@ abstract class Feature with _$Feature {
         final sb = SoulBound.fromJson(data);
         return "${sb.ownerAddress} ${sb.beneficiaryAddress != null && sb.beneficiaryAddress!.isNotEmpty ? '(Beneficiary: ${sb.beneficiaryAddress})' : ''}";
 
+      case FeatureType.token:
+        return "Token";
       case FeatureType.btcTokenization:
         return "BTC Tokenization";
       default:

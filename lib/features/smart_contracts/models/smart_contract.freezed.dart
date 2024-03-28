@@ -622,10 +622,7 @@ class _$_SmartContract extends _SmartContract {
 
   @override
   String toString() {
-
-    return 'SmartContract(owner: $owner, draftId: $draftId, id: $id, name: $name, minterName: $minterName, description: $description, thumbnail: $thumbnail, primaryAsset: $primaryAsset, rarities: $rarities, stats: $stats, royalties: $royalties, evolves: $evolves, tickets: $tickets, multiAssets: $multiAssets, tokenizations: $tokenizations, fractionals: $fractionals, pairs: $pairs, soulBounds: $soulBounds, code: $code, isCompiled: $isCompiled, isPublished: $isPublished, properties: $properties, token: $token)';
-
-
+    return 'SmartContract(owner: $owner, draftId: $draftId, id: $id, name: $name, minterName: $minterName, description: $description, thumbnail: $thumbnail, primaryAsset: $primaryAsset, rarities: $rarities, stats: $stats, royalties: $royalties, evolves: $evolves, tickets: $tickets, multiAssets: $multiAssets, tokenizations: $tokenizations, fractionals: $fractionals, pairs: $pairs, soulBounds: $soulBounds, includesBtcTokenization: $includesBtcTokenization, code: $code, isCompiled: $isCompiled, isPublished: $isPublished, properties: $properties, token: $token)';
   }
 
   @override

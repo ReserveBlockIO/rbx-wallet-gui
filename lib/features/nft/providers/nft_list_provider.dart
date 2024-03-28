@@ -62,6 +62,7 @@ class NftListProvider extends StateNotifier<NftListModel> {
       return;
     }
     final data = await NftService().list(page, search: state.search);
+
     state = state.copyWith(data: data, page: page, currentSearch: state.search);
   }
 

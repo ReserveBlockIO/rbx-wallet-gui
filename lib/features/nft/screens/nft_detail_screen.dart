@@ -92,7 +92,7 @@ class NftDetailScreen extends BaseScreen {
       //         ),
       //       ),
       actions: [
-        if (nft != null)
+        if (nft != null && !nft.isToken)
           Center(
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -419,7 +419,6 @@ class NftDetailScreen extends BaseScreen {
                                   label: "Reveal Evolve Stages",
                                   variant: AppColorVariant.Dark,
                                   onPressed: () {
-
                                     showModalBottomSheet(
                                         context: context,
                                         isScrollControlled: true,

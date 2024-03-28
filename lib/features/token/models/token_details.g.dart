@@ -8,8 +8,8 @@ part of 'token_details.dart';
 
 _$_TokenDetails _$$_TokenDetailsFromJson(Map<String, dynamic> json) =>
     _$_TokenDetails(
-      name: json['TokenName'] as String,
-      ticker: json['TokenTicker'] as String,
+      name: json['TokenName'] as String? ?? "",
+      ticker: json['TokenTicker'] as String? ?? "",
       startingSupply: (json['StartingSupply'] as num).toDouble(),
       currentSupply: (json['CurrentSupply'] as num).toDouble(),
       decimalPlaces: json['DecimalPlaces'] as int,

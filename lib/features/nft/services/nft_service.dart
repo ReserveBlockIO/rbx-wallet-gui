@@ -7,7 +7,6 @@ import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../utils/toast.dart';
 
-
 import '../../../core/models/paginated_response.dart';
 import '../../../core/services/base_service.dart';
 import '../../../core/singletons.dart';
@@ -35,6 +34,9 @@ class NftService extends BaseService {
     } else {
       url = search.isNotEmpty ? "/GetAllSmartContracts/$page/true/false/$search" : "/GetAllSmartContracts/$page/true/false";
     }
+
+    // COMBINES NFTs and Tokens (for now...)
+    url = search.isNotEmpty ? "/GetAllSmartContracts/$page/true/$search" : "/GetAllSmartContracts/$page/false";
 
     // final params = forTokens ? {'tokensOnly': true} : {'excludeToken': true};
 
@@ -118,7 +120,7 @@ class NftService extends BaseService {
       final stateHeader = await getText('/GetCurrentSCOwner/$id', cleanPath: false);
       final stateData = jsonDecode(stateHeader);
 
-      if (stateData.containsKey("TokenDetails") && stateData['TokenDetails'] != null) {
+      if (stateData != null && stateData.containsKey("TokenDetails") && stateData['TokenDetails'] != null) {
         final tokenDetails = TokenDetails.fromJson(stateData['TokenDetails']);
         nft = nft.copyWith(tokenStateDetails: tokenDetails);
       }

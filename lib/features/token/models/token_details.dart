@@ -9,8 +9,8 @@ class TokenDetails with _$TokenDetails {
   const TokenDetails._();
 
   const factory TokenDetails({
-    @JsonKey(name: "TokenName") required String name,
-    @JsonKey(name: "TokenTicker") required String ticker,
+    @JsonKey(name: "TokenName") @Default("") String name,
+    @JsonKey(name: "TokenTicker") @Default("") String ticker,
     @JsonKey(name: "StartingSupply") required double startingSupply,
     @JsonKey(name: "CurrentSupply") required double currentSupply,
     @JsonKey(name: "DecimalPlaces") required int decimalPlaces,
