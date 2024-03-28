@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/web/components/web_ra_mode_switcher.dart';
+import '../../web/components/web_wallet_type_switcher.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/providers/web_session_provider.dart';
@@ -24,7 +24,7 @@ class WebSendScreen extends BaseScreen {
       shadowColor: Colors.transparent,
       backgroundColor: Colors.black,
       actions: [
-        WebRaModeSwitcher(),
+        WebWalletTypeSwitcher(),
       ],
     );
   }
@@ -34,8 +34,9 @@ class WebSendScreen extends BaseScreen {
     final keypair = ref.watch(webSessionProvider).keypair;
     final raKeypair = ref.watch(webSessionProvider).raKeypair;
     final wallet = ref.watch(webSessionProvider).currentWallet;
+    final btcWebAccount = ref.watch(webSessionProvider).btcKeypair;
 
-    if (keypair == null) {
+    if (keypair == null && raKeypair == null && btcWebAccount == null) {
       return const Center(child: WebNotWallet());
     }
 
@@ -46,6 +47,7 @@ class WebSendScreen extends BaseScreen {
           keypair: keypair,
           wallet: wallet,
           raKeypair: raKeypair,
+          btcWebAccount: btcWebAccount,
         ),
       ),
     );

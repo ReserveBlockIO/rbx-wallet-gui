@@ -39,6 +39,7 @@ mixin _$SmartContract {
   List<Fractional> get fractionals => throw _privateConstructorUsedError;
   List<Pair> get pairs => throw _privateConstructorUsedError;
   List<SoulBound> get soulBounds => throw _privateConstructorUsedError;
+  dynamic get includesBtcTokenization => throw _privateConstructorUsedError;
   String get code => throw _privateConstructorUsedError;
   bool get isCompiled => throw _privateConstructorUsedError;
   bool get isPublished => throw _privateConstructorUsedError;
@@ -76,6 +77,7 @@ abstract class $SmartContractCopyWith<$Res> {
       List<Fractional> fractionals,
       List<Pair> pairs,
       List<SoulBound> soulBounds,
+      dynamic includesBtcTokenization,
       String code,
       bool isCompiled,
       bool isPublished,
@@ -118,6 +120,7 @@ class _$SmartContractCopyWithImpl<$Res, $Val extends SmartContract>
     Object? fractionals = null,
     Object? pairs = null,
     Object? soulBounds = null,
+    Object? includesBtcTokenization = freezed,
     Object? code = null,
     Object? isCompiled = null,
     Object? isPublished = null,
@@ -197,6 +200,10 @@ class _$SmartContractCopyWithImpl<$Res, $Val extends SmartContract>
           ? _value.soulBounds
           : soulBounds // ignore: cast_nullable_to_non_nullable
               as List<SoulBound>,
+      includesBtcTokenization: freezed == includesBtcTokenization
+          ? _value.includesBtcTokenization
+          : includesBtcTokenization // ignore: cast_nullable_to_non_nullable
+              as dynamic,
       code: null == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
@@ -280,6 +287,7 @@ abstract class _$$_SmartContractCopyWith<$Res>
       List<Fractional> fractionals,
       List<Pair> pairs,
       List<SoulBound> soulBounds,
+      dynamic includesBtcTokenization,
       String code,
       bool isCompiled,
       bool isPublished,
@@ -323,6 +331,7 @@ class __$$_SmartContractCopyWithImpl<$Res>
     Object? fractionals = null,
     Object? pairs = null,
     Object? soulBounds = null,
+    Object? includesBtcTokenization = freezed,
     Object? code = null,
     Object? isCompiled = null,
     Object? isPublished = null,
@@ -402,6 +411,9 @@ class __$$_SmartContractCopyWithImpl<$Res>
           ? _value._soulBounds
           : soulBounds // ignore: cast_nullable_to_non_nullable
               as List<SoulBound>,
+      includesBtcTokenization: freezed == includesBtcTokenization
+          ? _value.includesBtcTokenization!
+          : includesBtcTokenization,
       code: null == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
@@ -448,6 +460,7 @@ class _$_SmartContract extends _SmartContract {
       final List<Fractional> fractionals = const [],
       final List<Pair> pairs = const [],
       final List<SoulBound> soulBounds = const [],
+      this.includesBtcTokenization = false,
       this.code = "",
       this.isCompiled = false,
       this.isPublished = false,
@@ -585,6 +598,9 @@ class _$_SmartContract extends _SmartContract {
 
   @override
   @JsonKey()
+  final dynamic includesBtcTokenization;
+  @override
+  @JsonKey()
   final String code;
   @override
   @JsonKey()
@@ -606,7 +622,10 @@ class _$_SmartContract extends _SmartContract {
 
   @override
   String toString() {
+
     return 'SmartContract(owner: $owner, draftId: $draftId, id: $id, name: $name, minterName: $minterName, description: $description, thumbnail: $thumbnail, primaryAsset: $primaryAsset, rarities: $rarities, stats: $stats, royalties: $royalties, evolves: $evolves, tickets: $tickets, multiAssets: $multiAssets, tokenizations: $tokenizations, fractionals: $fractionals, pairs: $pairs, soulBounds: $soulBounds, code: $code, isCompiled: $isCompiled, isPublished: $isPublished, properties: $properties, token: $token)';
+
+
   }
 
   @override
@@ -641,6 +660,8 @@ class _$_SmartContract extends _SmartContract {
             const DeepCollectionEquality().equals(other._pairs, _pairs) &&
             const DeepCollectionEquality()
                 .equals(other._soulBounds, _soulBounds) &&
+            const DeepCollectionEquality().equals(
+                other.includesBtcTokenization, includesBtcTokenization) &&
             (identical(other.code, code) || other.code == code) &&
             (identical(other.isCompiled, isCompiled) ||
                 other.isCompiled == isCompiled) &&
@@ -673,6 +694,7 @@ class _$_SmartContract extends _SmartContract {
         const DeepCollectionEquality().hash(_fractionals),
         const DeepCollectionEquality().hash(_pairs),
         const DeepCollectionEquality().hash(_soulBounds),
+        const DeepCollectionEquality().hash(includesBtcTokenization),
         code,
         isCompiled,
         isPublished,
@@ -714,6 +736,7 @@ abstract class _SmartContract extends SmartContract {
       final List<Fractional> fractionals,
       final List<Pair> pairs,
       final List<SoulBound> soulBounds,
+      final dynamic includesBtcTokenization,
       final String code,
       final bool isCompiled,
       final bool isPublished,
@@ -760,6 +783,8 @@ abstract class _SmartContract extends SmartContract {
   List<Pair> get pairs;
   @override
   List<SoulBound> get soulBounds;
+  @override
+  dynamic get includesBtcTokenization;
   @override
   String get code;
   @override

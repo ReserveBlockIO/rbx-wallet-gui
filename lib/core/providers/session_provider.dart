@@ -9,9 +9,19 @@ import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:intl/intl.dart';
 import 'package:process/process.dart';
 import 'package:process_run/shell.dart';
+
 import 'package:rbx_wallet/features/balance/models/balance.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service_v2.dart';
 import '../../features/token/providers/token_list_provider.dart';
+
+import '../../features/btc/models/btc_account.dart';
+import '../../features/btc/models/btc_account_sync_info.dart';
+import '../../features/btc/models/btc_address_type.dart';
+import '../../features/btc/models/btc_recommended_fees.dart';
+import '../../features/btc/providers/btc_account_list_provider.dart';
+import '../../features/btc/services/btc_fee_rate_service.dart';
+import '../../features/btc/services/btc_service.dart';
+
 import '../api_token_manager.dart';
 import '../utils.dart';
 import '../../features/chat/providers/chat_notification_provider.dart';
@@ -79,7 +89,15 @@ class SessionModel {
   final String timezoneName;
   final RemoteInfo? remoteInfo;
   final String? windowsLauncherPath;
+
   final List<Balance> balances;
+
+  final BtcAddressType btcAddressType;
+  final BtcAccount? currentBtcAccount;
+  final bool btcSelected;
+  final BtcAccountSyncInfo? btcAccountSyncInfo;
+  final BtcRecommendedFees? btcRecommendedFees;
+
 
   const SessionModel({
     this.currentWallet,
@@ -97,7 +115,15 @@ class SessionModel {
     this.timezoneName = "America/Los_Angeles",
     this.remoteInfo,
     this.windowsLauncherPath,
+
     this.balances = const [],
+
+    this.btcAddressType = BtcAddressType.segwit,
+    this.currentBtcAccount,
+    this.btcSelected = false,
+    this.btcAccountSyncInfo,
+    this.btcRecommendedFees,
+
   });
 
   SessionModel copyWith({
@@ -117,6 +143,11 @@ class SessionModel {
     RemoteInfo? remoteInfo,
     String? windowsLauncherPath,
     List<Balance>? balances,
+    BtcAddressType? btcAddressType,
+    BtcAccount? currentBtcAccount,
+    bool? btcSelected,
+    BtcAccountSyncInfo? btcAccountSyncInfo,
+    BtcRecommendedFees? btcRecommendedFees,
   }) {
     return SessionModel(
       startTime: startTime ?? this.startTime,
@@ -134,7 +165,15 @@ class SessionModel {
       timezoneName: timezoneName ?? this.timezoneName,
       remoteInfo: remoteInfo ?? this.remoteInfo,
       windowsLauncherPath: windowsLauncherPath ?? this.windowsLauncherPath,
+
       balances: balances ?? this.balances,
+
+      btcAddressType: btcAddressType ?? this.btcAddressType,
+      currentBtcAccount: currentBtcAccount ?? this.currentBtcAccount,
+      btcSelected: btcSelected ?? this.btcSelected,
+      btcAccountSyncInfo: btcAccountSyncInfo ?? this.btcAccountSyncInfo,
+      btcRecommendedFees: btcRecommendedFees ?? this.btcRecommendedFees,
+
     );
   }
 
@@ -209,6 +248,8 @@ class SessionProvider extends StateNotifier<SessionModel> {
     smartContractLoop(inLoop);
     checkGuiUpdateStatus(inLoop);
     ref.read(beaconListProvider.notifier).refresh();
+
+    updateBtcFeeRates();
 
     Future.delayed(const Duration(milliseconds: 300)).then((_) async {
       ref.read(walletInfoProvider.notifier).infoLoop(inLoop);
@@ -444,6 +485,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
       // await loadPeerInfo();
       loadTransactions();
       loadTopics();
+      btcLoop();
     }
 
     if (inLoop) {
@@ -659,7 +701,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   void setCurrentWallet(Wallet wallet) {
-    state = state.copyWith(currentWallet: wallet);
+    state = state.copyWith(currentWallet: wallet, btcSelected: false);
     singleton<Storage>().setString(Storage.CURRENT_WALLET_ADDRESS_KEY, wallet.address);
 
     final validators = ref.read(validatorListProvider);
@@ -669,6 +711,11 @@ class SessionProvider extends StateNotifier<SessionModel> {
     ref.read(currentValidatorProvider.notifier).set(currentValidator);
 
     setupChatListeners();
+  }
+
+  void setCurrentBtcAccount(BtcAccount account) {
+    state = state.copyWith(currentBtcAccount: account, btcSelected: true);
+    singleton<Storage>().setString(Storage.CURRENT_BTC_ACCOUNT_ADDRESS_KEY, account.address);
   }
 
   void setFilteringTransactions(bool val) {
@@ -881,6 +928,28 @@ class SessionProvider extends StateNotifier<SessionModel> {
     } catch (e) {
       print(e);
     }
+  }
+
+  Future<void> btcLoop() async {
+    final addressType = await BtcService().addressType();
+
+    if (addressType != state.btcAddressType) {
+      state = state.copyWith(btcAddressType: addressType);
+    }
+
+    ref.read(btcAccountListProvider.notifier).load();
+
+    final btcAccountSyncInfo = await BtcService().accountSyncInfo();
+    state = state.copyWith(btcAccountSyncInfo: btcAccountSyncInfo);
+
+    await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS_BTC));
+    btcLoop();
+  }
+
+  void updateBtcFeeRates() {
+    BtcFeeRateService().recommended().then((value) {
+      state = state.copyWith(btcRecommendedFees: value);
+    });
   }
 }
 

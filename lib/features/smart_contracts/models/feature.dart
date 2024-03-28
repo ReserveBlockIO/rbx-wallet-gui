@@ -30,6 +30,7 @@ enum FeatureType {
   soulBound,
   wrap,
   token,
+  btcTokenization,
   notImplemented,
 }
 
@@ -63,6 +64,7 @@ abstract class Feature with _$Feature {
           type: FeatureType.multiAsset,
           data: MultiAsset.fromCompiler(f['FeatureFeatures']).toJson(),
         );
+
       case TokenScFeature.compilerEnum:
         return Feature(
           type: FeatureType.token,
@@ -94,6 +96,8 @@ abstract class Feature with _$Feature {
           return "Pair/Wrap this smart contract with an existing NFT on or off this network";
         case FeatureType.soulBound:
           return "Create a non-transferrable smart contract bound to a perminent address";
+        case FeatureType.btcTokenization:
+          return "Tokenize BTC within a smart contract";
         default:
           break;
       }
@@ -110,6 +114,7 @@ abstract class Feature with _$Feature {
       case FeatureType.royalty:
       case FeatureType.evolution:
       case FeatureType.multiAsset:
+      case FeatureType.btcTokenization:
         // case FeatureType.tokenization:
         // case FeatureType.pair:
         // case FeatureType.fractionalization:
@@ -128,7 +133,8 @@ abstract class Feature with _$Feature {
       FeatureType.multiAsset,
       // FeatureType.tokenization,
       // FeatureType.fractionalization,
-      FeatureType.pair,
+      FeatureType.btcTokenization,
+      // FeatureType.pair,
       // FeatureType.soulBound,
       // FeatureType.ticket,
       // FeatureType.music,
@@ -137,6 +143,13 @@ abstract class Feature with _$Feature {
       // FeatureType.consumable,
       // FeatureType.wrap,
     ];
+  }
+
+  bool get canEdit {
+    if (type == FeatureType.btcTokenization) {
+      return false;
+    }
+    return true;
   }
 
   String get description {
@@ -173,6 +186,9 @@ abstract class Feature with _$Feature {
       case FeatureType.soulBound:
         final sb = SoulBound.fromJson(data);
         return "${sb.ownerAddress} ${sb.beneficiaryAddress != null && sb.beneficiaryAddress!.isNotEmpty ? '(Beneficiary: ${sb.beneficiaryAddress})' : ''}";
+
+      case FeatureType.btcTokenization:
+        return "BTC Tokenization";
       default:
         return "Not implemented";
     }
@@ -208,6 +224,8 @@ abstract class Feature with _$Feature {
         return "Wrap";
       case FeatureType.token:
         return "Token";
+      case FeatureType.btcTokenization:
+        return "BTC Tokenization";
       case FeatureType.notImplemented:
         return "Not implemented";
     }
@@ -239,6 +257,8 @@ abstract class Feature with _$Feature {
         return FontAwesomeIcons.leftRight;
       case FeatureType.soulBound:
         return FontAwesomeIcons.person;
+      case FeatureType.btcTokenization:
+        return FontAwesomeIcons.bitcoin;
 
       default:
         return Icons.star;

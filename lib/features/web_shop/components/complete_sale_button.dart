@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../core/app_constants.dart';
 import '../../../core/base_component.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/providers/web_session_provider.dart';
 import '../../../core/services/explorer_service.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../utils/toast.dart';
 import '../../transactions/models/web_transaction.dart';
 import '../providers/web_shop_bid_provider.dart';
-import '../../../utils/toast.dart';
 
 class CompleteSaleButton extends BaseComponent {
   final WebTransaction tx;
@@ -48,7 +49,7 @@ class CompleteSaleButton extends BaseComponent {
                 return;
               }
 
-              ref.read(webBidListProvider(0).notifier).buildSaleCompleteTx(nft, amount, myAddress!, keySign);
+              ref.read(webBidListProvider(0).notifier).buildSaleCompleteTx(nft, amount, myAddress, keySign);
             },
           );
         }

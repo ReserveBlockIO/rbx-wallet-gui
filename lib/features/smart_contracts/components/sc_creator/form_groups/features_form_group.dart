@@ -153,59 +153,60 @@ class _FeatureCard extends BaseComponent {
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              AppButton(
-                label: "Edit",
-                icon: Icons.edit,
-                onPressed: readOnly
-                    ? null
-                    : () {
-                        switch (feature.type) {
-                          case FeatureType.royalty:
-                            final royalty = Royalty.fromJson(feature.data);
-                            ref.read(royaltyFormProvider.notifier).setRoyalty(royalty);
-                            showEditModal(const RoyaltyModal());
-                            break;
-                          case FeatureType.evolution:
-                            final evolve = Evolve.fromJson(feature.data);
-                            ref.read(evolveFormProvider.notifier).setEvolve(evolve);
-                            showEditModal(const EvolveModal());
-                            break;
-                          case FeatureType.ticket:
-                            final ticket = Ticket.fromJson(feature.data);
-                            ref.read(ticketFormProvider.notifier).setTicket(ticket);
-                            showEditModal(const TicketModal());
-                            break;
-                          case FeatureType.multiAsset:
-                            final multiAsset = MultiAsset.fromJson(feature.data);
-                            ref.read(multiAssetFormProvider.notifier).setMultiAsset(multiAsset);
-                            showEditModal(const MultiAssetModal());
-                            break;
-                          case FeatureType.tokenization:
-                            final tokenization = Tokenization.fromJson(feature.data);
-                            ref.read(tokenizationFormProvider.notifier).setTokenization(tokenization);
-                            showEditModal(const TokenizationModal());
-                            break;
-                          case FeatureType.fractionalization:
-                            final fractional = Fractional.fromJson(feature.data);
-                            ref.read(fractionalFormProvider.notifier).setFractional(fractional);
-                            showEditModal(const FractionalModal());
-                            break;
-                          case FeatureType.pair:
-                            final pair = Pair.fromJson(feature.data);
-                            ref.read(pairFormProvider.notifier).setPair(pair);
-                            showEditModal(const PairModal());
-                            break;
-                          case FeatureType.soulBound:
-                            final soulBound = SoulBound.fromJson(feature.data);
-                            ref.read(soulBoundFormProvider.notifier).setSoulBound(soulBound);
-                            showEditModal(const SoulBoundModal());
-                            break;
-                          default:
-                            print("Not implemented");
-                            break;
-                        }
-                      },
-              ),
+              if (feature.canEdit)
+                AppButton(
+                  label: "Edit",
+                  icon: Icons.edit,
+                  onPressed: readOnly
+                      ? null
+                      : () {
+                          switch (feature.type) {
+                            case FeatureType.royalty:
+                              final royalty = Royalty.fromJson(feature.data);
+                              ref.read(royaltyFormProvider.notifier).setRoyalty(royalty);
+                              showEditModal(const RoyaltyModal());
+                              break;
+                            case FeatureType.evolution:
+                              final evolve = Evolve.fromJson(feature.data);
+                              ref.read(evolveFormProvider.notifier).setEvolve(evolve);
+                              showEditModal(const EvolveModal());
+                              break;
+                            case FeatureType.ticket:
+                              final ticket = Ticket.fromJson(feature.data);
+                              ref.read(ticketFormProvider.notifier).setTicket(ticket);
+                              showEditModal(const TicketModal());
+                              break;
+                            case FeatureType.multiAsset:
+                              final multiAsset = MultiAsset.fromJson(feature.data);
+                              ref.read(multiAssetFormProvider.notifier).setMultiAsset(multiAsset);
+                              showEditModal(const MultiAssetModal());
+                              break;
+                            case FeatureType.tokenization:
+                              final tokenization = Tokenization.fromJson(feature.data);
+                              ref.read(tokenizationFormProvider.notifier).setTokenization(tokenization);
+                              showEditModal(const TokenizationModal());
+                              break;
+                            case FeatureType.fractionalization:
+                              final fractional = Fractional.fromJson(feature.data);
+                              ref.read(fractionalFormProvider.notifier).setFractional(fractional);
+                              showEditModal(const FractionalModal());
+                              break;
+                            case FeatureType.pair:
+                              final pair = Pair.fromJson(feature.data);
+                              ref.read(pairFormProvider.notifier).setPair(pair);
+                              showEditModal(const PairModal());
+                              break;
+                            case FeatureType.soulBound:
+                              final soulBound = SoulBound.fromJson(feature.data);
+                              ref.read(soulBoundFormProvider.notifier).setSoulBound(soulBound);
+                              showEditModal(const SoulBoundModal());
+                              break;
+                            default:
+                              print("Not implemented");
+                              break;
+                          }
+                        },
+                ),
               const SizedBox(width: 6),
               AppButton(
                 label: "Remove",
@@ -248,6 +249,10 @@ class _FeatureCard extends BaseComponent {
                             final soulBound = SoulBound.fromJson(feature.data);
                             ref.read(createSmartContractProvider.notifier).removeSoulBound(soulBound);
                             break;
+                          case FeatureType.btcTokenization:
+                            ref.read(createSmartContractProvider.notifier).removeBtcTokenization();
+                            break;
+
                           default:
                             print("Not implemented");
                             break;

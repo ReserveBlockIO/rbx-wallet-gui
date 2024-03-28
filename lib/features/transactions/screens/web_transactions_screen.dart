@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/breakpoints.dart';
-import 'package:rbx_wallet/features/web/components/web_ra_mode_switcher.dart';
+import '../../../core/breakpoints.dart';
+import '../../../core/models/web_session_model.dart';
+import '../../btc_web/providers/btc_web_transaction_list_provider.dart';
+import '../../web/components/web_wallet_type_switcher.dart';
 import '../../../core/components/centered_loader.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/providers/web_session_provider.dart';
+import '../../btc_web/components/web_btc_transaction_list.dart';
 import '../../web/components/web_no_wallet.dart';
 import '../components/web_transaction_card.dart';
 import '../providers/web_transaction_list_provider.dart';
@@ -27,9 +30,17 @@ class WebTransactionScreen extends BaseScreen {
       backgroundColor: Colors.black,
       shadowColor: Colors.transparent,
       actions: [
-        WebRaModeSwitcher(),
+        WebWalletTypeSwitcher(),
         IconButton(
             onPressed: () {
+              if (ref.read(webSessionProvider).selectedWalletType == WalletType.btc) {
+                final address = ref.read(webSessionProvider).btcKeypair?.address;
+                if (address != null) {
+                  ref.read(btcWebTransactionListProvider(address).notifier).reload();
+                }
+                return;
+              }
+
               final address = ref.read(webSessionProvider).currentWallet?.address;
               if (address != null) {
                 ref.read(webTransactionListProvider(address).notifier).refresh();
@@ -42,7 +53,17 @@ class WebTransactionScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final address = ref.watch(webSessionProvider).currentWallet?.address;
+    final session = ref.watch(webSessionProvider);
+
+    if (session.selectedWalletType == WalletType.btc) {
+      if (session.btcKeypair == null) {
+        return const WebNotWallet();
+      }
+
+      return WebBtcTransactionList(address: session.btcKeypair!.address);
+    }
+
+    final address = session.currentWallet?.address;
 
     if (address == null) {
       return const WebNotWallet();
@@ -50,6 +71,12 @@ class WebTransactionScreen extends BaseScreen {
 
     final model = ref.watch(webTransactionListProvider(address));
     final transactions = model.transactions;
+
+    if (transactions.isEmpty) {
+      return Center(
+        child: Text("No Transactions found for $address."),
+      );
+    }
 
     return ListView.builder(
         itemCount: transactions.length,

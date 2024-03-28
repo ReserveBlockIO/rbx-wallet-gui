@@ -72,7 +72,7 @@ class AdnrList extends BaseComponent {
 
                   if (isPendingCreate) {
                     return const AppBadge(
-                      label: "Pending",
+                      label: "Creation Pending",
                       variant: AppColorVariant.Warning,
                     );
                   }

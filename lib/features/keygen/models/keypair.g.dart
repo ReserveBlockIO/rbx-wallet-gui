@@ -12,6 +12,7 @@ _$_Keypair _$$_KeypairFromJson(Map<String, dynamic> json) => _$_Keypair(
       public: json['public'] as String,
       email: json['email'] as String?,
       mneumonic: json['mneumonic'] as String?,
+      btcWif: json['btcWif'] as String?,
     );
 
 Map<String, dynamic> _$$_KeypairToJson(_$_Keypair instance) =>
@@ -21,4 +22,5 @@ Map<String, dynamic> _$$_KeypairToJson(_$_Keypair instance) =>
       'public': instance.public,
       'email': instance.email,
       'mneumonic': instance.mneumonic,
+      'btcWif': instance.btcWif,
     };

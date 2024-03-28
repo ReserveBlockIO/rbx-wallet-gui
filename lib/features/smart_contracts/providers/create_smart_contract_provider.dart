@@ -300,6 +300,16 @@ class CreateSmartContractProvider extends StateNotifier<SmartContract> {
     state = state.copyWith(properties: [...state.properties]..removeAt(index));
   }
 
+  // BTC
+
+  void addBtcTokenization() {
+    state = state.copyWith(includesBtcTokenization: true);
+  }
+
+  void removeBtcTokenization() {
+    state = state.copyWith(includesBtcTokenization: false);
+  }
+
   // Future<Asset> initAsset(String filePath) async {
   //   final name = filePath.split("/").last;
   //   final extension = name.split(".").last;

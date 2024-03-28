@@ -1,4 +1,4 @@
-import 'package:rbx_wallet/features/config/constants.dart';
+import '../features/config/constants.dart';
 
 import '../core/env.dart';
 

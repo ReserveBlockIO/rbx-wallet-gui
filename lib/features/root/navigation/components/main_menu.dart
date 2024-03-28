@@ -2,11 +2,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/theme/app_theme.dart';
 
 import '../../../../core/base_component.dart';
 import '../../../../core/providers/session_provider.dart';
 import '../../../../generated/assets.gen.dart';
 import '../../../../utils/toast.dart';
+
+import '../../../../features/btc/providers/btc_balance_provider.dart';
 
 class MainMenu extends BaseComponent {
   // ignoreing this because otherwise dartfix will try to make it a const which screws up rebuilds
@@ -20,6 +23,8 @@ class MainMenu extends BaseComponent {
     final tabsRouter = AutoTabsRouter.of(context);
 
     final totalBalance = ref.watch(sessionProvider).totalBalance;
+    final btcBalance = ref.watch(btcBalanceProvider);
+    final btcAccountSyncInfo = ref.watch(sessionProvider).btcAccountSyncInfo;
 
     return Scrollbar(
       controller: scrollController,
@@ -67,8 +72,8 @@ class MainMenu extends BaseComponent {
                   ),
                   Container(
                     color: Colors.black,
-                    child: const Center(
-                      child: _RotatingCube(),
+                    child: Center(
+                      child: _RotatingCube(btc: ref.watch(sessionProvider).btcSelected),
                     ),
                   ),
                   Container(
@@ -77,10 +82,32 @@ class MainMenu extends BaseComponent {
                       padding: const EdgeInsets.all(8.0).copyWith(top: 0),
                       child: Center(
                         child: Text(
-                          totalBalance != null ? "$totalBalance RBX" : "",
+                          totalBalance != null ? "$totalBalance RBX" : "0.0 RBX",
                           style: Theme.of(context).textTheme.caption!.copyWith(
                                 fontWeight: FontWeight.w600,
                               ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  // if (btcBalance > 0)
+                  Container(
+                    color: Colors.black,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0).copyWith(top: 0),
+                      child: Center(
+                        child: Tooltip(
+                          message: btcAccountSyncInfo != null
+                              ? "Last Sync: ${btcAccountSyncInfo.lastSyncFormatted}\nNext Sync: ${btcAccountSyncInfo.nextSyncFormatted}"
+                              : "",
+                          child: Text(
+                            "${btcBalance.toStringAsFixed(9)} BTC",
+                            style: Theme.of(context).textTheme.caption!.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color: Theme.of(context).colorScheme.btcOrange,
+                                ),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
                     ),
@@ -238,19 +265,26 @@ class MainMenu extends BaseComponent {
 }
 
 class _RotatingCube extends StatelessWidget {
+  final bool btc;
   const _RotatingCube({
-    Key? key,
-  }) : super(key: key);
+    required this.btc,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.black,
       width: 100,
-      child: Image.asset(
-        Assets.images.animatedCube.path,
-        scale: 1,
-      ),
+      child: btc
+          ? Image.asset(
+              Assets.images.animatedCubeBtc.path,
+              scale: 1,
+            )
+          : Image.asset(
+              Assets.images.animatedCube.path,
+              scale: 1,
+            ),
     );
   }
 }

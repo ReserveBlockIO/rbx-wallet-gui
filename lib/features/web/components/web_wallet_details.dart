@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../core/models/web_session_model.dart';
+import '../../keygen/models/keypair.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/theme/app_theme.dart';
 
@@ -14,8 +16,10 @@ class WebWalletDetails extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final wallet = ref.watch(webSessionProvider).currentWallet;
-    final usingRa = ref.watch(webSessionProvider).usingRa;
+    final session = ref.watch(webSessionProvider);
+    final wallet = session.currentWallet;
+    final usingRa = session.usingRa;
+    final selectedWalletType = session.selectedWalletType;
     // final keypair = sessionModel.keypair;
     // final wallet = sessionModel.currentWallet;
 
@@ -33,20 +37,57 @@ class WebWalletDetails extends BaseComponent {
           wallet.adnr != null && wallet.adnr!.isNotEmpty ? "${wallet.adnr} [${wallet.address}]" : wallet.address,
           style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 13, color: usingRa ? Colors.deepPurple.shade200 : Colors.white),
         ),
-        subtitle: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              "${wallet.balance} RBX",
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
-            SizedBox(width: 2),
-            Tooltip(
-              message: "Available: ${wallet.balance} RBX\nLocked: ${wallet.lockedBalance} RBX \nTotal: ${wallet.totalBalance} RBX",
-              child: Icon(Icons.help, color: Theme.of(context).colorScheme.secondary.withOpacity(0.7), size: 14),
-            ),
-          ],
-        ),
+        subtitle: Builder(builder: (context) {
+          if (selectedWalletType == WalletType.btc) {
+            if (session.btcBalanceInfo == null) {
+              return SizedBox();
+            }
+
+            final btcInfo = session.btcBalanceInfo!;
+
+            return Row(
+              children: [
+                Text(
+                  "${btcInfo.btcFinalBalance} BTC",
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                SizedBox(width: 2),
+                Tooltip(
+                  message: [
+                    "Balance: ${btcInfo.btcBalance} BTC",
+                    "Unconfirmed: ${btcInfo.btcUnconfirmedBalance} BTC",
+                    "Final: ${btcInfo.btcFinalBalance} BTC",
+                    "",
+                    "Sent: ${btcInfo.btcTotalSent} BTC",
+                    "Recieved: ${btcInfo.btcTotalRecieved} BTC"
+                  ].join('\n'),
+                  child: Icon(Icons.help, color: Theme.of(context).colorScheme.secondary.withOpacity(0.7), size: 14),
+                ),
+                SizedBox(width: 2),
+                InkWell(
+                    onTap: () {
+                      ref.read(webSessionProvider.notifier).refreshBtcBalanceInfo();
+                    },
+                    child: Icon(Icons.refresh, size: 14)),
+              ],
+            );
+          }
+
+          return Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "${wallet.balance} RBX",
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+              SizedBox(width: 2),
+              Tooltip(
+                message: "Available: ${wallet.balance} RBX\nLocked: ${wallet.lockedBalance} RBX \nTotal: ${wallet.totalBalance} RBX",
+                child: Icon(Icons.help, color: Theme.of(context).colorScheme.secondary.withOpacity(0.7), size: 14),
+              ),
+            ],
+          );
+        }),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -71,10 +112,26 @@ class WebWalletDetails extends BaseComponent {
                     cancelText: "Cancel",
                   );
                   if (confirmed == true) {
-                    if (usingRa) {
-                      showRaKeys(context, ref.read(webSessionProvider).raKeypair!);
-                    } else {
-                      showKeys(context, ref.read(webSessionProvider).keypair!, true);
+                    switch (session.selectedWalletType) {
+                      case WalletType.rbx:
+                        showKeys(context, ref.read(webSessionProvider).keypair!, true);
+
+                        break;
+                      case WalletType.ra:
+                        showKeys(context, ref.read(webSessionProvider).keypair!, true);
+                        break;
+                      case WalletType.btc:
+                        final account = ref.read(webSessionProvider).btcKeypair;
+                        if (account == null) return;
+
+                        final keypair = Keypair(
+                          private: account.privateKey,
+                          address: account.address,
+                          public: account.publicKey,
+                          mneumonic: account.mnemonic,
+                          btcWif: account.wif,
+                        );
+                        showKeys(context, keypair, true);
                     }
                   }
                 },

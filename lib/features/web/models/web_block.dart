@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/features/transactions/models/web_transaction.dart';
+import '../../transactions/models/web_transaction.dart';
 
 import '../../block/block.dart';
 

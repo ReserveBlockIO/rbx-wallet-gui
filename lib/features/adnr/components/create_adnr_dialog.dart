@@ -2,22 +2,22 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/dialogs.dart';
-import '../../../core/providers/web_session_provider.dart';
-import '../../../core/services/explorer_service.dart';
-import '../services/adnr_service.dart';
-import '../../raw/raw_service.dart';
-import '../../web/utils/raw_transaction.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/base_component.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../../core/services/explorer_service.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../utils/toast.dart';
 import '../../../utils/validation.dart';
 import '../../bridge/models/log_entry.dart';
 import '../../bridge/providers/log_provider.dart';
 import '../../global_loader/global_loading_provider.dart';
+import '../../raw/raw_service.dart';
+import '../../web/utils/raw_transaction.dart';
 import '../providers/adnr_pending_provider.dart';
+import '../services/adnr_service.dart';
 
 class CreateAdnrDialog extends BaseComponent {
   final String address;

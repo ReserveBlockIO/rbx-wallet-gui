@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/features/raw/raw_service.dart';
-import 'package:rbx_wallet/features/web/providers/web_ra_pending_funding_provider.dart';
-import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../core/app_constants.dart';
+import '../../../core/base_component.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../../raw/raw_service.dart';
+import '../providers/web_ra_pending_funding_provider.dart';
+import '../utils/raw_transaction.dart';
+import '../../../utils/toast.dart';
 
 class WebFundRaAccountButton extends BaseComponent {
   const WebFundRaAccountButton({

@@ -13,6 +13,7 @@ const _dangerColor = Color(0xFFBA2121);
 const _dangerBright = Color(0xFFFF0000);
 const _light = Color(0xFFFFFFFF);
 const _dark = Color(0xFF000000);
+const _btc = Color(0xfff7931a);
 
 const _textColorDark = Color(0xFF121212);
 const _textColorLight = Color(0xFFf6f6f6);
@@ -26,6 +27,7 @@ enum AppColorVariant {
   Danger,
   Light,
   Dark,
+  Btc,
 }
 
 enum AppSizeVariant {
@@ -73,6 +75,9 @@ extension CustomColorScheme on ColorScheme {
 
   Color get darkButtonBg => dark;
   Color get darkButtonFg => const Color(0xFFFFFFFF);
+
+  Color get btcOrange => _btc;
+  Color get onBtcOrange => Colors.white;
 }
 
 class AppTheme {
@@ -194,6 +199,8 @@ class AppTheme {
         return _colors.light;
       case AppColorVariant.Dark:
         return _colors.dark;
+      case AppColorVariant.Btc:
+        return _colors.btcOrange;
     }
   }
 }
@@ -202,6 +209,16 @@ List<BoxShadow> get glowingBox {
   return [
     BoxShadow(
       color: Color(0xFF82e4fb).withOpacity(0.15),
+      spreadRadius: 3,
+      blurRadius: 3,
+    ),
+  ];
+}
+
+List<BoxShadow> get glowingBoxBtc {
+  return [
+    BoxShadow(
+      color: Color(0xFFf7931a).withOpacity(0.25),
       spreadRadius: 3,
       blurRadius: 3,
     ),

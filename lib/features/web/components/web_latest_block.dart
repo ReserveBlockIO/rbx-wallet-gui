@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../core/env.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/centered_loader.dart';
@@ -11,6 +12,7 @@ class WebLatestBlock extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    if (Env.rbxNetworkDown) return SizedBox();
     final block = ref.watch(webLatestBlockProvider);
 
     if (block == null) {

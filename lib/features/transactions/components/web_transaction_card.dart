@@ -3,8 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/features/web/components/web_callback_button.dart';
+import '../../../core/components/buttons.dart';
+import '../../web/components/web_callback_button.dart';
 import '../../../core/components/badges.dart';
 import '../providers/transaction_signal_provider.dart';
 

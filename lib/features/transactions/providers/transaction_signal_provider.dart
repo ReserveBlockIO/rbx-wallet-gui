@@ -4,6 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_watcher.dart';
 import 'package:rbx_wallet/features/nft/providers/sale_provider.dart';
@@ -11,6 +12,11 @@ import 'package:rbx_wallet/features/token/providers/pending_token_pause_provider
 import 'package:rbx_wallet/features/token/providers/token_nfts_provider.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_listing_list_provider.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_shop_list_provider.dart';
+
+import '../../nft/providers/sale_provider.dart';
+import '../../web_shop/providers/web_listing_list_provider.dart';
+import '../../web_shop/providers/web_shop_list_provider.dart';
+
 import '../../../app.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/env.dart';
@@ -442,6 +448,56 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
             title: "Domain Name Transfered",
             body: body,
             color: AppColorVariant.Warning,
+            icon: Icons.move_down,
+          ),
+        );
+        return;
+      }
+
+
+      //BTC
+
+       if (function.contains('BtcAdnrCreate')) {
+        final name = _nftDataValue(nftData!, 'Name');
+        if (name == null) return;
+        body = "BTC Domain created for $name.rbx";
+        _broadcastNotification(
+          TransactionNotification(
+              identifier: transaction.hash,
+              transaction: transaction,
+              title: "BTC Domain Name Created",
+              body: body,
+              color: AppColorVariant.Btc,
+              icon: Icons.link),
+        );
+        return;
+      }
+      if (function.contains('BtcAdnrDelete')) {
+        final name = _nftDataValue(nftData!, 'Name');
+        if (name == null) return;
+        body = "BTC Domain deleted for $name";
+        _broadcastNotification(
+          TransactionNotification(
+              identifier: transaction.hash,
+              transaction: transaction,
+              title: "BTC Domain Name Deleted",
+              body: body,
+              color: AppColorVariant.Btc,
+              icon: Icons.delete_forever),
+        );
+        return;
+      }
+      if (function.contains('BtcAdnrTransfer')) {
+        final name = _nftDataValue(nftData!, 'Name');
+        if (name == null) return;
+        body = "RBX Domain transfer for $name";
+        _broadcastNotification(
+          TransactionNotification(
+            identifier: transaction.hash,
+            transaction: transaction,
+            title: "BTC Domain Name Transfered",
+            body: body,
+            color: AppColorVariant.Btc,
             icon: Icons.move_down,
           ),
         );

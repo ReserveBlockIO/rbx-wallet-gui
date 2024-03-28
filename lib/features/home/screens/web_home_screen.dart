@@ -1,9 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/features/payment/components/web_buy_rbx_button.dart';
-import 'package:rbx_wallet/features/web/components/web_ra_mode_switcher.dart';
+import '../../../core/app_constants.dart';
+import '../../btc_web/services/btc_web_service.dart';
+import '../../payment/components/web_buy_rbx_button.dart';
+import '../../web/components/web_wallet_type_switcher.dart';
 
 import '../../../core/dialogs.dart';
 import '../../web/components/web_wordmark.dart';
@@ -21,7 +22,7 @@ import '../../../generated/assets.gen.dart';
 import '../../root/web_dashboard_container.dart';
 import '../../web/components/web_latest_block.dart';
 import '../../web/components/web_wallet_details.dart';
-import 'package:rbx_wallet/features/payment/payment_utils.dart';
+import '../../payment/payment_utils.dart';
 
 import '../../payment/components/payment_iframe_container.dart' if (dart.library.io) '../../payment/components/payment_iframe_container_mock.dart';
 
@@ -51,7 +52,7 @@ class WebHomeScreen extends BaseScreen {
               padding: const EdgeInsets.only(left: 6.0),
               child: WebBuyRBXButton(),
             ),
-      actions: [WebRaModeSwitcher()],
+      actions: [WebWalletTypeSwitcher()],
     );
   }
 
@@ -314,6 +315,21 @@ class _Actions extends BaseComponent {
                       AutoRouter.of(context).replace(const WebAuthRouter());
                     },
                   ),
+
+                AppButton(
+                  label: "TEST BUTTON1",
+                  onPressed: () async {
+                    final btcWebService = BtcWebService();
+
+                    // await btcWebService.listTransactions("tb1qh0nx4epkftfz3gmztkg9qmcyez604q36snzg0n");
+
+                    const senderWif = "cPQ5kbnuj8YmBoCaFmsPsZENVykN1GGmF18mg6sEZsJPX2np6PRa";
+                    const senderAddress = "tb1qh0nx4epkftfz3gmztkg9qmcyez604q36snzg0n";
+                    const recipientAddress = "tb1q4lahda9feljf695q473z4m8m7xhgzv35n6226q";
+                    const amount = 0.000002;
+                    await btcWebService.sendTransaction(senderWif, senderAddress, recipientAddress, amount);
+                  },
+                ),
               ],
             ),
           ),

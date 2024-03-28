@@ -1,4 +1,4 @@
-import 'package:rbx_wallet/core/env.dart';
+import '../../core/env.dart';
 
 String? paymentUrl({
   String fiatType = "USD",

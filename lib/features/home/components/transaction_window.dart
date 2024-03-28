@@ -40,6 +40,7 @@ class TransactionWindow extends BaseComponent {
                     style: Theme.of(context).textTheme.headline5,
                   ),
                 )
+                //TODO: Replace with list view builder
               : SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

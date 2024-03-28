@@ -2,14 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/core/singletons.dart';
-import 'package:rbx_wallet/core/storage.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/keygen/models/ra_keypair.dart';
+import '../../../core/base_component.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../../core/singletons.dart';
+import '../../../core/storage.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../keygen/models/ra_keypair.dart';
 import 'package:rbx_wallet/features/keygen/services/keygen_service.dart'
     if (dart.library.io) 'package:rbx_wallet/features/keygen/services/keygen_service_mock.dart';
 import 'package:rbx_wallet/utils/toast.dart';

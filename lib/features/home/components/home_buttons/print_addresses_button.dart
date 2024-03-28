@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../reserve/providers/reserve_account_provider.dart';
 
 import '../../../../core/base_component.dart';
 import '../../../../core/components/buttons.dart';
@@ -8,6 +7,7 @@ import '../../../../core/providers/session_provider.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../bridge/models/log_entry.dart';
 import '../../../bridge/providers/log_provider.dart';
+import '../../../reserve/providers/reserve_account_provider.dart';
 import '../../../wallet/providers/wallet_list_provider.dart';
 
 class PrintAdressesButton extends BaseComponent {

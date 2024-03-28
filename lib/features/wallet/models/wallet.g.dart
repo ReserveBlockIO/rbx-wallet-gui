@@ -24,6 +24,7 @@ _$_Wallet _$$_WalletFromJson(Map<String, dynamic> json) => _$_Wallet(
       lockedBalance: (json['LockedBalance'] as num?)?.toDouble() ?? 0.0,
       totalBalance: (json['TotalBalance'] as num?)?.toDouble() ?? 0.0,
       isNetworkProtected: json['IsNetworkProtected'] as bool? ?? false,
+      btcWif: json['btcWif'] as String?,
     );
 
 Map<String, dynamic> _$$_WalletToJson(_$_Wallet instance) => <String, dynamic>{
@@ -43,4 +44,5 @@ Map<String, dynamic> _$$_WalletToJson(_$_Wallet instance) => <String, dynamic>{
       'LockedBalance': instance.lockedBalance,
       'TotalBalance': instance.totalBalance,
       'IsNetworkProtected': instance.isNetworkProtected,
+      'btcWif': instance.btcWif,
     };

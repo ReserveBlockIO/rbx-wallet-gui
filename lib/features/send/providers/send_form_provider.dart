@@ -2,6 +2,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../core/components/buttons.dart';
+import '../../btc/models/btc_fee_rate_preset.dart';
+import '../../btc/models/btc_recommended_fees.dart';
+import '../../btc/services/btc_service.dart';
+import '../../btc/utils.dart';
+import '../../btc_web/providers/btc_web_transaction_list_provider.dart';
+import '../../btc_web/services/btc_web_service.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../../../core/app_constants.dart';
 import '../../global_loader/global_loading_provider.dart';
 import '../../reserve/services/reserve_account_service.dart';
@@ -27,27 +36,31 @@ import '../../raw/raw_service.dart';
 class SendFormModel {
   final String amount;
   final String address;
-  // final Wallet? wallet;
   final bool isProcessing;
+  final BtcFeeRatePreset btcFeeRatePreset;
+  final int btcCustomFeeRate;
 
   const SendFormModel({
     this.amount = "",
     this.address = "",
-    // this.wallet,
     this.isProcessing = false,
+    this.btcFeeRatePreset = BtcFeeRatePreset.economy,
+    this.btcCustomFeeRate = 0,
   });
 
   SendFormModel copyWith({
     String? amount,
     String? address,
-    // Wallet? wallet,
     bool? isProcessing,
+    BtcFeeRatePreset? btcFeeRatePreset,
+    int? btcCustomFeeRate,
   }) {
     return SendFormModel(
       amount: amount ?? this.amount,
       address: address ?? this.address,
-      // wallet: wallet ?? this.wallet,
       isProcessing: isProcessing ?? this.isProcessing,
+      btcFeeRatePreset: btcFeeRatePreset ?? this.btcFeeRatePreset,
+      btcCustomFeeRate: btcCustomFeeRate ?? this.btcCustomFeeRate,
     );
   }
 }
@@ -64,13 +77,18 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
 
   late final TextEditingController amountController;
   late final TextEditingController addressController;
+  late final TextEditingController btcCustomFeeRateController;
 
   SendFormProvider(this.ref, [SendFormModel model = _initial]) : super(model) {
     amountController = TextEditingController(text: model.amount);
     addressController = TextEditingController(text: model.address);
+    btcCustomFeeRateController = TextEditingController(text: '');
 
     amountController.addListener(_updateState);
     addressController.addListener(_updateState);
+    btcCustomFeeRateController.addListener(_updateState);
+
+    setBtcFeeRatePreset(state.btcFeeRatePreset);
   }
 
   String get amount => amountController.value.text;
@@ -90,6 +108,43 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
 
     if (parsed <= 0) {
       return "The amount has to be a positive value";
+    }
+
+    final isBtc = kIsWeb ? ref.read(webSessionProvider).usingBtc : ref.read(sessionProvider).btcSelected;
+
+    if (isBtc) {
+      if (kIsWeb) {
+        final account = ref.read(webSessionProvider).btcKeypair;
+        if (account == null) {
+          return "No wallet selected";
+        }
+
+        if ((ref.read(webSessionProvider).btcBalanceInfo?.btcBalance ?? 0) < parsed) {
+          return "Not enough balance in BTC account";
+        }
+
+        if (parsed < BTC_MINIMUM_TX_AMOUNT) {
+          return "The minimum transaction acmount is $BTC_MINIMUM_TX_AMOUNT BTC";
+        }
+        return null;
+      } else {
+        final account = ref.read(sessionProvider).currentBtcAccount;
+        if (account == null) {
+          return "No wallet selected";
+        }
+
+        final feeRateInt = getFeeRate();
+        final btcFee = satashisToBtc(feeRateInt);
+        if (account.balance < (parsed + btcFee)) {
+          return "Not enough balance in BTC account";
+        }
+
+        if (parsed < BTC_MINIMUM_TX_AMOUNT) {
+          return "The minimum transaction acmount is $BTC_MINIMUM_TX_AMOUNT BTC";
+        }
+
+        return null;
+      }
     }
 
     if (kIsWeb) {
@@ -115,17 +170,39 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
   }
 
   String? addressValidator(String? value) {
+    final isBtc = kIsWeb ? ref.read(webSessionProvider).usingBtc : ref.read(sessionProvider).btcSelected;
+
+    if (isBtc) {
+      if (value == null || value.isEmpty) {
+        return "BTC Address required";
+      }
+      return null;
+    } else {
+      if (value == null || value.isEmpty) {
+        return "Address or RBX domain required";
+      }
+
+      return formValidatorRbxAddress(value, true);
+    }
+  }
+
+  String? btcCustomFeeRateValidator(String? value) {
     if (value == null) {
-      return "Address or RBX domain required";
+      return "Fee Rate Required";
     }
 
-    return formValidatorRbxAddress(value, true);
+    if ((int.tryParse(value) ?? 0) < 1) {
+      return "Invalid Fee Rate. Must be atleast 1 satoshi.";
+    }
+
+    return null;
   }
 
   void _updateState() {
     state = state.copyWith(
       amount: amountController.value.text,
-      address: amountController.value.text,
+      address: addressController.value.text,
+      btcCustomFeeRate: int.tryParse(btcCustomFeeRateController.text) ?? 0,
     );
   }
 
@@ -144,14 +221,291 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
     );
   }
 
+  void setBtcFeeRatePreset(BtcFeeRatePreset preset) async {
+    final recommendedFees = ref.read(sessionProvider).btcRecommendedFees ?? BtcRecommendedFees.fallback();
+
+    int fee = 0;
+
+    switch (state.btcFeeRatePreset) {
+      case BtcFeeRatePreset.custom:
+        fee = 0;
+        break;
+      case BtcFeeRatePreset.minimum:
+        fee = recommendedFees.minimumFee;
+        break;
+      case BtcFeeRatePreset.economy:
+        fee = recommendedFees.economyFee;
+        break;
+      case BtcFeeRatePreset.hour:
+        fee = recommendedFees.hourFee;
+        break;
+      case BtcFeeRatePreset.halfHour:
+        fee = recommendedFees.halfHourFee;
+        break;
+      case BtcFeeRatePreset.fastest:
+        fee = recommendedFees.fastestFee;
+        break;
+    }
+
+    state = state.copyWith(btcFeeRatePreset: preset, btcCustomFeeRate: fee);
+  }
+
+  int getFeeRate() {
+    int feeRateInt = 0;
+
+    if (state.btcFeeRatePreset == BtcFeeRatePreset.custom) {
+      feeRateInt = int.tryParse(btcCustomFeeRateController.text) ?? 0;
+    } else {
+      final recommendedFees = ref.read(sessionProvider).btcRecommendedFees ?? BtcRecommendedFees.fallback();
+
+      switch (state.btcFeeRatePreset) {
+        case BtcFeeRatePreset.custom:
+          feeRateInt = 0;
+          break;
+        case BtcFeeRatePreset.minimum:
+          feeRateInt = recommendedFees.minimumFee;
+          break;
+        case BtcFeeRatePreset.economy:
+          feeRateInt = recommendedFees.economyFee;
+          break;
+        case BtcFeeRatePreset.hour:
+          feeRateInt = recommendedFees.hourFee;
+          break;
+        case BtcFeeRatePreset.halfHour:
+          feeRateInt = recommendedFees.halfHourFee;
+          break;
+        case BtcFeeRatePreset.fastest:
+          feeRateInt = recommendedFees.fastestFee;
+          break;
+      }
+    }
+    return feeRateInt;
+  }
+
   Future<void> submit() async {
     String senderAddress = "";
     Wallet? currentWallet;
+
+    final isBtc = kIsWeb ? ref.read(webSessionProvider).usingBtc : ref.read(sessionProvider).btcSelected;
+
+    if (isBtc) {
+      if (kIsWeb) {
+        final account = ref.read(webSessionProvider).btcKeypair;
+        if (account == null) {
+          Toast.error("No BTC Wallet");
+          return;
+        }
+
+        final amountDouble = double.tryParse(amount);
+        if (amountDouble == null) {
+          Toast.error("Invalid amount");
+          return;
+        }
+
+        final balance = ref.read(webSessionProvider).btcBalanceInfo?.btcFinalBalance;
+        if (balance == null || balance < amountDouble) {
+          Toast.error("Not enough balance");
+          return;
+        }
+
+        final senderWif = account.wif;
+        senderAddress = account.address;
+
+        final confirmed = await ConfirmDialog.show(
+          title: "Please Confirm",
+          body: "Sending:\n$amount BTC\n\nTo:\n$address\n\nFrom:\n$senderAddress",
+          confirmText: "Send",
+          cancelText: "Cancel",
+        );
+
+        if (confirmed != true) {
+          return;
+        }
+
+        final transaction = await BtcWebService().sendTransaction(senderWif, senderAddress, address, amountDouble);
+
+        if (transaction == null) {
+          Toast.error();
+          return;
+        }
+
+        final txHash = transaction.hash;
+
+        Toast.message("$amount BTC has been sent to $address.");
+
+        ref.invalidate(btcWebTransactionListProvider(senderAddress));
+
+        Future.delayed(Duration(seconds: 2), () {
+          ref.read(webSessionProvider.notifier).refreshBtcBalanceInfo();
+        });
+
+        InfoDialog.show(
+            title: "Transaction Broadcasted",
+            buttonColorOverride: Color(0xfff7931a),
+            content: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 600),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextFormField(
+                    initialValue: txHash,
+                    readOnly: true,
+                    decoration: InputDecoration(
+                      label: Text(
+                        "Transaction Hash",
+                        style: TextStyle(
+                          color: Color(0xfff7931a),
+                        ),
+                      ),
+                      suffix: IconButton(
+                        icon: Icon(Icons.copy),
+                        onPressed: () async {
+                          await Clipboard.setData(ClipboardData(text: txHash));
+                          Toast.message("Transaction Hash copied to clipboard");
+                        },
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  AppButton(
+                    label: "Open in BTC Explorer",
+                    variant: AppColorVariant.Btc,
+                    type: AppButtonType.Text,
+                    onPressed: () {
+                      if (Env.isTestNet) {
+                        launchUrlString("https://live.blockcypher.com/btc-testnet/tx/$txHash/");
+                      } else {
+                        launchUrlString("https://live.blockcypher.com/btc/tx/$txHash/");
+                      }
+                    },
+                  )
+                ],
+              ),
+            ));
+
+        clear();
+
+        return;
+      } else {
+        int feeRateInt = getFeeRate();
+
+        final account = ref.read(sessionProvider).currentBtcAccount;
+        if (account == null) {
+          Toast.error("No wallet selected");
+          return;
+        }
+
+        final amountDouble = double.tryParse(amount);
+        if (amountDouble == null) {
+          Toast.error("Invalid amount");
+          return;
+        }
+
+        if (amountDouble < BTC_MINIMUM_TX_AMOUNT) {
+          Toast.error("The minimum transaction acmount is $BTC_MINIMUM_TX_AMOUNT BTC");
+          return;
+        }
+
+        double btcFee = satashisToBtc(feeRateInt);
+        if (account.balance < (amountDouble + btcFee)) {
+          Toast.error("Not enough balance in BTC account");
+          return;
+        }
+
+        final confirmed = await ConfirmDialog.show(
+          title: "Please Confirm",
+          body: "Sending:\n$amount BTC\n\nTo:\n$address\n\nFrom:\n${account.address}",
+          confirmText: "Send",
+          cancelText: "Cancel",
+        );
+
+        if (confirmed != true) {
+          return;
+        }
+
+        final result = await BtcService().sendTransaction(
+          fromAddress: account.address,
+          toAddress: address,
+          amount: amountDouble,
+          feeRate: feeRateInt,
+        );
+
+        if (result.success) {
+          clear();
+          final txHash = result.message;
+          final message = "BTC TX broadcasted with hash of $txHash";
+
+          ref.read(logProvider.notifier).append(
+                LogEntry(
+                  message: message,
+                  textToCopy: txHash,
+                  variant: AppColorVariant.Btc,
+                ),
+              );
+
+          Toast.message("$amount BTC has been sent to $address.");
+
+          InfoDialog.show(
+              title: "Transaction Broadcasted",
+              buttonColorOverride: Color(0xfff7931a),
+              content: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 600),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextFormField(
+                      initialValue: txHash,
+                      readOnly: true,
+                      decoration: InputDecoration(
+                        label: Text(
+                          "Transaction Hash",
+                          style: TextStyle(
+                            color: Color(0xfff7931a),
+                          ),
+                        ),
+                        suffix: IconButton(
+                          icon: Icon(Icons.copy),
+                          onPressed: () async {
+                            await Clipboard.setData(ClipboardData(text: txHash));
+                            Toast.message("Transaction Hash copied to clipboard");
+                          },
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 12,
+                    ),
+                    AppButton(
+                      label: "Open in BTC Explorer",
+                      variant: AppColorVariant.Btc,
+                      type: AppButtonType.Text,
+                      onPressed: () {
+                        if (Env.isTestNet) {
+                          launchUrlString("https://live.blockcypher.com/btc-testnet/tx/$txHash/");
+                        } else {
+                          launchUrlString("https://live.blockcypher.com/btc/tx/$txHash/");
+                        }
+                      },
+                    )
+                  ],
+                ),
+              ));
+        } else {
+          Toast.error(result.message);
+        }
+
+        return;
+      }
+    }
+
     if (!kIsWeb) {
       currentWallet = ref.read(sessionProvider).currentWallet;
       if (currentWallet == null) {
         Toast.error("No wallet selected");
-
         return;
       }
 

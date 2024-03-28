@@ -33,5 +33,6 @@ const _$FeatureTypeEnumMap = {
   FeatureType.soulBound: 'soulBound',
   FeatureType.wrap: 'wrap',
   FeatureType.token: 'token',
+  FeatureType.btcTokenization: 'btcTokenization',
   FeatureType.notImplemented: 'notImplemented',
 };

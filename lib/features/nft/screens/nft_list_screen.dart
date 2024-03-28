@@ -1,15 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/nft/services/nft_service.dart';
-import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
-import 'package:rbx_wallet/features/web/components/web_ra_mode_switcher.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/theme/app_theme.dart';
+import '../services/nft_service.dart';
+import '../../smart_contracts/services/smart_contract_service.dart';
+import '../../web/components/web_wallet_type_switcher.dart';
+import '../../../utils/toast.dart';
+import '../../../utils/validation.dart';
 
 import '../../../core/base_screen.dart';
 import '../components/nft_grid.dart';
@@ -39,7 +39,7 @@ class NftListScreen extends BaseScreen {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (kIsWeb) WebRaModeSwitcher(),
+            if (kIsWeb) WebWalletTypeSwitcher(),
             if (!kIsWeb)
               AppButton(
                 type: AppButtonType.Text,
