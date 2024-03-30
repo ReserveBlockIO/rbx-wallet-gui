@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/btc/screens/tokenize_btc_screen.dart';
 import 'package:rbx_wallet/features/hd/components/restore_hd_wallet_button.dart';
 import 'package:rbx_wallet/features/home/components/home_buttons/backup_button.dart';
 import 'package:rbx_wallet/features/home/components/home_buttons/encrypt_wallet_button.dart';
@@ -14,6 +18,8 @@ import 'package:rbx_wallet/features/home/components/home_buttons/restart_cli_but
 import 'package:rbx_wallet/features/home/components/home_buttons/show_debug_data_button.dart';
 import 'package:rbx_wallet/features/home/components/home_buttons/validating_check_button.dart';
 import 'package:rbx_wallet/features/home/components/home_buttons/verify_nft_ownership_button.dart';
+
+import '../../btc/screens/tokenized_btc_list_screen.dart';
 
 enum HomeButtonSection {
   general,
@@ -110,6 +116,18 @@ class _HomeButtonsState extends State<HomeButtons> {
                       RestartCliButton(),
                       PrintAdressesButton(),
                       const OpenDbFolderButton(),
+                      AppButton(
+                        label: "Tokenize BTC",
+                        variant: AppColorVariant.Btc,
+                        icon: FontAwesomeIcons.bitcoin,
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => TokenizeBtcListScreen(),
+                            ),
+                          );
+                        },
+                      )
                     ],
                   );
                 case HomeButtonSection.troubleshoot:

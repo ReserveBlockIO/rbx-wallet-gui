@@ -12,6 +12,7 @@ import 'package:process_run/shell.dart';
 
 import 'package:rbx_wallet/features/balance/models/balance.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service_v2.dart';
+import '../../features/btc/providers/tokenized_bitcoin_list_provider.dart';
 import '../../features/token/providers/token_list_provider.dart';
 
 import '../../features/btc/models/btc_account.dart';
@@ -98,7 +99,6 @@ class SessionModel {
   final BtcAccountSyncInfo? btcAccountSyncInfo;
   final BtcRecommendedFees? btcRecommendedFees;
 
-
   const SessionModel({
     this.currentWallet,
     this.startTime,
@@ -115,15 +115,12 @@ class SessionModel {
     this.timezoneName = "America/Los_Angeles",
     this.remoteInfo,
     this.windowsLauncherPath,
-
     this.balances = const [],
-
     this.btcAddressType = BtcAddressType.segwit,
     this.currentBtcAccount,
     this.btcSelected = false,
     this.btcAccountSyncInfo,
     this.btcRecommendedFees,
-
   });
 
   SessionModel copyWith({
@@ -173,7 +170,6 @@ class SessionModel {
       btcSelected: btcSelected ?? this.btcSelected,
       btcAccountSyncInfo: btcAccountSyncInfo ?? this.btcAccountSyncInfo,
       btcRecommendedFees: btcRecommendedFees ?? this.btcRecommendedFees,
-
     );
   }
 
@@ -941,6 +937,8 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
     final btcAccountSyncInfo = await BtcService().accountSyncInfo();
     state = state.copyWith(btcAccountSyncInfo: btcAccountSyncInfo);
+
+    ref.read(tokenizedBitcoinListProvider.notifier).refresh();
 
     await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS_BTC));
     btcLoop();

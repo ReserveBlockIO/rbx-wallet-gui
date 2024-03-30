@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:rbx_wallet/features/btc/models/tokenized_bitcoin.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/services/base_service.dart';
@@ -226,7 +229,7 @@ class BtcService extends BaseService {
     }
   }
 
-  Future<dynamic> deleteAdnr({
+  Future<String?> deleteAdnr({
     required String btcAddress,
   }) async {
     try {
@@ -244,6 +247,114 @@ class BtcService extends BaseService {
       print(e);
       print(st);
       Toast.error();
+      return null;
+    }
+  }
+
+  Future<String?> tokenizeBtc({
+    required String rbxAddress,
+    required String fileLocation,
+    String? name,
+    String? description,
+  }) async {
+    final params = {
+      "RBXAddress": rbxAddress,
+      "Name": name ?? "vBTC Token",
+      "Description": description ?? "vBTC Token",
+      "FileLocation": fileLocation,
+    };
+
+    print(params);
+
+    try {
+      final result = await postJson(
+        "/TokenizeBitcoin",
+        params: params,
+        cleanPath: false,
+        inspect: true,
+      );
+      print(jsonEncode(result));
+
+      final Map<String, dynamic> data = result['data'];
+
+      if (data.containsKey('Success') && data['Success'] == true) {
+        return data["Hash"];
+      }
+
+      Toast.error(result['Message']);
+
+      return null;
+    } catch (e) {
+      print(e);
+      Toast.error(e.toString());
+      return null;
+    }
+  }
+
+  Future<List<TokenizedBitcoin>> listTokenizedBitcoins() async {
+    try {
+      final result = await getJson("/GetTokenizedBTCList", cleanPath: false);
+
+      if (result.containsKey("Success") && result['Success'] == true) {
+        if (result['TokenizedList'] == 'NULL' || result['TokenizedList'] == null) {
+          return [];
+        }
+        if (result['TokenizedList']["Result"] == null) {
+          return [];
+        }
+
+        final List<TokenizedBitcoin> tokens = [];
+
+        for (final t in result['TokenizedList']["Result"]) {
+          tokens.add(TokenizedBitcoin.fromJson(t));
+        }
+
+        return tokens;
+      }
+
+      print(result['Message']);
+
+      return [];
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  Future<String?> generateTokenizedBitcoinAddress(String scUid) async {
+    try {
+      final result = await getJson("/GenerateTokenizedAddress/$scUid", cleanPath: false);
+
+      if (result.containsKey("Success") && result['Success'] == true) {
+        return result["Address"];
+      }
+
+      print(result['Message']);
+      Toast.error(result['Message']);
+      return null;
+    } catch (e) {
+      print(e);
+      Toast.error(e.toString());
+
+      return null;
+    }
+  }
+
+  Future<String?> revealTokenizedBitcoinPrivateKey(String scUid) async {
+    try {
+      final result = await getJson("/RevealPrivateKey/$scUid", cleanPath: false);
+
+      if (result.containsKey("Success") && result['Success'] == true) {
+        return "FakeAddress";
+      }
+
+      print(result['Message']);
+      Toast.error(result['Message']);
+      return null;
+    } catch (e) {
+      print(e);
+      Toast.error(e.toString());
+
       return null;
     }
   }
