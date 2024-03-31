@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/tokenize.dart';
 import 'package:rbx_wallet/features/token/models/token_sc_feature.dart';
 
 import '../features/evolve/evolve.dart';
@@ -72,6 +73,12 @@ abstract class Feature with _$Feature {
           type: FeatureType.token,
           data: TokenScFeature.fromJson(f['FeatureFeatures']).toJson(),
         );
+      case Tokenize.compilerEnum:
+        return Feature(
+          type: FeatureType.token,
+          data: Tokenize.fromJson(f['FeatureFeatures']).toJson(),
+        );
+
       default:
         return Feature(type: FeatureType.notImplemented, data: {});
     }
@@ -116,7 +123,7 @@ abstract class Feature with _$Feature {
       case FeatureType.royalty:
       case FeatureType.evolution:
       case FeatureType.multiAsset:
-      case FeatureType.btcTokenization:
+        // case FeatureType.btcTokenization:
         // case FeatureType.tokenization:
         // case FeatureType.pair:
         // case FeatureType.fractionalization:
@@ -135,7 +142,7 @@ abstract class Feature with _$Feature {
       FeatureType.multiAsset,
       // FeatureType.tokenization,
       // FeatureType.fractionalization,
-      FeatureType.btcTokenization,
+      // FeatureType.btcTokenization,
       // FeatureType.pair,
       // FeatureType.soulBound,
       // FeatureType.ticket,
@@ -190,6 +197,9 @@ abstract class Feature with _$Feature {
         return "${sb.ownerAddress} ${sb.beneficiaryAddress != null && sb.beneficiaryAddress!.isNotEmpty ? '(Beneficiary: ${sb.beneficiaryAddress})' : ''}";
 
       case FeatureType.token:
+        if (data.containsKey("AssetTicker") && data.containsKey('AssetName')) {
+          return "${data['AssetName']} [${data['AssetTicker']}]";
+        }
         return "Token";
       case FeatureType.btcTokenization:
         return "BTC Tokenization";

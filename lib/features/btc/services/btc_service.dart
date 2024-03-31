@@ -253,18 +253,20 @@ class BtcService extends BaseService {
 
   Future<String?> tokenizeBtc({
     required String rbxAddress,
-    required String fileLocation,
+    String? fileLocation,
     String? name,
     String? description,
   }) async {
-    final params = {
+    Map<String, dynamic> params = {
       "RBXAddress": rbxAddress,
       "Name": name ?? "vBTC Token",
       "Description": description ?? "vBTC Token",
-      "FileLocation": fileLocation,
+      // "FileLocation": fileLocation,
     };
 
-    print(params);
+    if (fileLocation != null) {
+      params['FileLocation'] = fileLocation;
+    }
 
     try {
       final result = await postJson(

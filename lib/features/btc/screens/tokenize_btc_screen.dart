@@ -43,11 +43,23 @@ class TokenizeBtcScreen extends BaseScreen {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Row(
+              children: [
+                Text("RBX Wallet: "),
+                Text(
+                  wallet.address,
+                  style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 6,
+            ),
             TextFormField(
               controller: formProvider.tokenNameController,
               decoration: InputDecoration(
                 label: Text(
-                  "Token Name",
+                  "Token Name (Optional)",
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.btcOrange,
                   ),
@@ -59,7 +71,7 @@ class TokenizeBtcScreen extends BaseScreen {
               controller: formProvider.tokenDescriptionController,
               decoration: InputDecoration(
                 label: Text(
-                  "Token Description",
+                  "Token Description (Optional)",
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.btcOrange,
                   ),
@@ -73,7 +85,7 @@ class TokenizeBtcScreen extends BaseScreen {
               height: 12,
             ),
             Text(
-              "Token Image",
+              "Token Image (Optional)",
               style: TextStyle(
                 fontSize: 16,
                 color: Theme.of(context).colorScheme.btcOrange,
