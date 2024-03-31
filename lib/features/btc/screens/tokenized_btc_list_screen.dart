@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
@@ -145,7 +146,7 @@ class TokenizeBtcListScreen extends BaseScreen {
                                             title: "Generate BTC Address",
                                             body: "Are you sure you want to generate this token's BTC address?",
                                             confirmText: "Generate",
-                                            cancelText: "Cance",
+                                            cancelText: "Cancel",
                                           );
                                           if (confirmed == true) {
                                             ref.read(globalLoadingProvider.notifier).start();
@@ -178,7 +179,111 @@ class TokenizeBtcListScreen extends BaseScreen {
                                           label: "Copy BTC Address",
                                           icon: Icons.copy,
                                           variant: AppColorVariant.Btc,
-                                          onPressed: () {},
+                                          onPressed: () async {
+                                            await Clipboard.setData(ClipboardData(text: token.btcAddress));
+                                            Toast.message("BTC Address copied to clipboard");
+                                          },
+                                        ),
+                                        SizedBox(
+                                          width: 6,
+                                        ),
+                                        AppButton(
+                                          label: "Reveal Private Key",
+                                          icon: Icons.remove_red_eye,
+                                          variant: AppColorVariant.Danger,
+                                          onPressed: () async {
+                                            final confirmed = await ConfirmDialog.show(
+                                              title: "Reveal BTC Private Key",
+                                              body:
+                                                  "Are you sure you want to reveal the private key of this BTC token? Once revealed, the token will become obsolete.",
+                                              confirmText: "Reveal",
+                                              cancelText: "Cancel",
+                                            );
+
+                                            if (confirmed == true) {
+                                              final privateKey = await BtcService().revealTokenizedBitcoinPrivateKey(token.smartContractUid);
+                                              if (privateKey == null) {
+                                                Toast.error();
+                                                return;
+                                              }
+
+                                              showDialog(
+                                                context: context,
+                                                barrierDismissible: false,
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    title: Text("BTC Private Key"),
+                                                    content: ConstrainedBox(
+                                                      constraints: BoxConstraints(maxWidth: 600),
+                                                      child: Column(
+                                                        mainAxisSize: MainAxisSize.min,
+                                                        children: [
+                                                          TextFormField(
+                                                            readOnly: true,
+                                                            decoration: InputDecoration(
+                                                              label: Text(
+                                                                "Private Key",
+                                                                style: TextStyle(color: Theme.of(context).colorScheme.btcOrange),
+                                                              ),
+                                                              suffixIcon: IconButton(
+                                                                icon: Icon(
+                                                                  Icons.copy,
+                                                                  color: Theme.of(context).colorScheme.btcOrange,
+                                                                ),
+                                                                onPressed: () async {
+                                                                  await Clipboard.setData(ClipboardData(text: privateKey));
+                                                                  Toast.message("BTC Private Key copied to clipboard");
+                                                                },
+                                                              ),
+                                                            ),
+                                                            initialValue: privateKey,
+                                                          ),
+                                                          TextFormField(
+                                                            readOnly: true,
+                                                            decoration: InputDecoration(
+                                                              label: Text(
+                                                                "Address",
+                                                                style: TextStyle(color: Theme.of(context).colorScheme.btcOrange),
+                                                              ),
+                                                              suffixIcon: IconButton(
+                                                                icon: Icon(
+                                                                  Icons.copy,
+                                                                  color: Theme.of(context).colorScheme.btcOrange,
+                                                                ),
+                                                                onPressed: () async {
+                                                                  await Clipboard.setData(ClipboardData(text: token.btcAddress));
+                                                                  Toast.message("BTC Address copied to clipboard");
+                                                                },
+                                                              ),
+                                                            ),
+                                                            initialValue: token.btcAddress,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    actions: [
+                                                      TextButton(
+                                                          onPressed: () async {
+                                                            final confirmed = await ConfirmDialog.show(
+                                                              title: "Confirm Close",
+                                                              body: "Have you copy and pasted your private key to a safe location?",
+                                                              confirmText: "Yes",
+                                                              cancelText: "No",
+                                                            );
+                                                            if (confirmed == true) {
+                                                              Navigator.of(context).pop();
+                                                            }
+                                                          },
+                                                          child: Text(
+                                                            "Close",
+                                                            style: TextStyle(color: Colors.white),
+                                                          ),)
+                                                    ],
+                                                  );
+                                                },
+                                              );
+                                            }
+                                          },
                                         ),
                                         SizedBox(
                                           width: 6,
