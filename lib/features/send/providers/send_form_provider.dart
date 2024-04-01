@@ -119,7 +119,9 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
           return "No wallet selected";
         }
 
-        if ((ref.read(webSessionProvider).btcBalanceInfo?.btcBalance ?? 0) < parsed) {
+        final btcBalance = ref.read(webSessionProvider).btcBalanceInfo?.btcFinalBalance ?? 0;
+
+        if (btcBalance < parsed) {
           return "Not enough balance in BTC account";
         }
 

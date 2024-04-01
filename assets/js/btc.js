@@ -45634,7 +45634,7 @@
     return wifToPrivateKey(child.toWIF(), network);
   };
   function hashSeed(seed) {
-    const seedBuffer = Buffer.from(seed, "hex");
+    const seedBuffer = Buffer.from(seed);
     const hashBuffer = bitcoin.crypto.sha256(seedBuffer);
     const hashHex = hashBuffer.toString("hex");
     return hashHex;
