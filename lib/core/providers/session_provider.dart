@@ -241,6 +241,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
     // mainLoop();
     mainLoop(inLoop);
+    btcLoop(inLoop);
     smartContractLoop(inLoop);
     checkGuiUpdateStatus(inLoop);
     ref.read(beaconListProvider.notifier).refresh();
@@ -481,7 +482,6 @@ class SessionProvider extends StateNotifier<SessionModel> {
       // await loadPeerInfo();
       loadTransactions();
       loadTopics();
-      btcLoop();
     }
 
     if (inLoop) {
@@ -926,7 +926,8 @@ class SessionProvider extends StateNotifier<SessionModel> {
     }
   }
 
-  Future<void> btcLoop() async {
+  Future<void> btcLoop([bool inLoop = false]) async {
+    print("BTC LOOP");
     final addressType = await BtcService().addressType();
 
     if (addressType != state.btcAddressType) {
@@ -940,8 +941,10 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
     ref.read(tokenizedBitcoinListProvider.notifier).refresh();
 
-    await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS_BTC));
-    btcLoop();
+    if (inLoop) {
+      await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS_BTC));
+      btcLoop(true);
+    }
   }
 
   void updateBtcFeeRates() {

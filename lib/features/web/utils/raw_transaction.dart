@@ -101,6 +101,12 @@ class RawTransaction {
       return null;
     }
 
+    if (verifyTransactionData['Result'] == "Fail") {
+      print("Transaction Not Verified");
+      print(verifyTransactionData['Message']);
+      return null;
+    }
+
     return txData;
   }
 

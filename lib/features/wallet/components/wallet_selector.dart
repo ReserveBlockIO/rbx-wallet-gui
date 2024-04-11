@@ -96,7 +96,7 @@ class WalletSelector extends BaseComponent {
                           ? truncatedLabel
                               ? currentWallet.label
                               : currentWallet.labelWithoutTruncation
-                          : "Wallet",
+                          : "VFX/BTC Wallet Addresses",
                       style: TextStyle(color: color),
                     ),
                   if (btcSelected)
@@ -105,7 +105,7 @@ class WalletSelector extends BaseComponent {
                           ? truncatedLabel
                               ? currentBtcAccount.label
                               : currentBtcAccount.address
-                          : "Wallet",
+                          : "VFX/BTC Wallet Addresses",
                       style: TextStyle(color: btcOrange),
                     ),
                   Icon(

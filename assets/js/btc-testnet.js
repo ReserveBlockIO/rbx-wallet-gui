@@ -38,6 +38,12 @@ function init() {
     }
 
 
+    window.btcSignMessage = function (wif, message) {
+        const result = keypairService.signMessage(wif, message);
+        return result;
+    }
+
+
     // ACCOUNTS
 
     window.btcAddressInfo = async function (address) {

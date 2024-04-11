@@ -25,6 +25,7 @@ class BtcService extends BaseService {
       }
       return type ?? BtcAddressType.segwit;
     } catch (e) {
+      print("GetDefaultAddressType");
       print(e);
       return BtcAddressType.segwit;
     }
@@ -44,6 +45,8 @@ class BtcService extends BaseService {
 
       return null;
     } catch (e) {
+      print("GetLastAccounySync");
+
       print(e);
       return null;
     }
@@ -63,6 +66,8 @@ class BtcService extends BaseService {
       print(result['Message']);
       return null;
     } catch (e) {
+      print("GetNewAddress");
+
       print(e);
       return null;
     }
@@ -77,6 +82,8 @@ class BtcService extends BaseService {
       print(result['Message']);
       return false;
     } catch (e) {
+      print("ImportPrivateKey");
+
       print(e);
       return false;
     }
@@ -89,6 +96,9 @@ class BtcService extends BaseService {
         cleanPath: false,
       );
       if (result["Success"] == true) {
+        if (result['BitcoinAccounts'] == null) {
+          return [];
+        }
         final accounts = result['BitcoinAccounts'] as List;
 
         return accounts.map((json) => BtcAccount.fromJson(json)).toList();
@@ -96,6 +106,8 @@ class BtcService extends BaseService {
       print(result['Message']);
       return [];
     } catch (e) {
+      print("GetBitcoinAccountList");
+
       print(e);
       return [];
     }
@@ -109,6 +121,9 @@ class BtcService extends BaseService {
       }
       return null;
     } catch (e) {
+      print("GetBitcoinAccount");
+      print(e);
+
       return null;
     }
   }
@@ -125,7 +140,6 @@ class BtcService extends BaseService {
         inspect: true,
         cleanPath: true,
       );
-      print(result);
 
       if (result['Success'] == true) {
         return BtcSendTxResult(
@@ -138,6 +152,8 @@ class BtcService extends BaseService {
         message: result['Message'] ?? "A Problem Occurred",
       );
     } catch (e) {
+      print("SendTransaction");
+      print(e);
       return BtcSendTxResult(
         success: false,
         message: e.toString(),
@@ -158,6 +174,7 @@ class BtcService extends BaseService {
 
       return [];
     } catch (e) {
+      print("GetAddressUTXOList");
       print(e);
       return [];
     }
@@ -176,6 +193,7 @@ class BtcService extends BaseService {
 
       return [];
     } catch (e) {
+      print("GetAddressTXList");
       print(e);
       return [];
     }

@@ -127,3 +127,8 @@ run_web_cors:
 run_cli_testnet:
 	/Applications/RBXWallet.app/Contents/Resources/RBXCore/ReserveBlockCore testnet enableapi gui
 
+
+
+
+update_js:
+	cp ./assets/js/btc.js ./build/flutter_assets/assets/js/btc.js

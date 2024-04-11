@@ -156,4 +156,10 @@ class BtcWebServiceImpl extends BtcWebServiceInterface {
       return null;
     }
   }
+
+  @override
+  Future<String> signMessage(String wif, String message) async {
+    final data = await js.context.callMethod('btcSignMessage', [wif, message]);
+    return data.toString();
+  }
 }

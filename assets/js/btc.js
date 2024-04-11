@@ -2277,8 +2277,8 @@
         throw new Error("Secure random number generation is not supported by this browser.\nUse Chrome, Firefox or Internet Explorer 11");
       }
       var Buffer2 = require_safe_buffer().Buffer;
-      var crypto2 = global.crypto || global.msCrypto;
-      if (crypto2 && crypto2.getRandomValues) {
+      var crypto3 = global.crypto || global.msCrypto;
+      if (crypto3 && crypto3.getRandomValues) {
         module.exports = randomBytes;
       } else {
         module.exports = oldBrowser;
@@ -2290,10 +2290,10 @@
         if (size > 0) {
           if (size > MAX_BYTES) {
             for (var generated = 0; generated < size; generated += MAX_BYTES) {
-              crypto2.getRandomValues(bytes.slice(generated, generated + MAX_BYTES));
+              crypto3.getRandomValues(bytes.slice(generated, generated + MAX_BYTES));
             }
           } else {
-            crypto2.getRandomValues(bytes);
+            crypto3.getRandomValues(bytes);
           }
         }
         if (typeof cb === "function") {
@@ -8950,7 +8950,7 @@
         verifySync: schnorrVerifySync
       };
       Point.BASE._setWindowSize(8);
-      var crypto2 = {
+      var crypto3 = {
         node: nodeCrypto,
         web: typeof self === "object" && "crypto" in self ? self.crypto : void 0
       };
@@ -8986,10 +8986,10 @@
           return numTo32b(num);
         },
         randomBytes: (bytesLength = 32) => {
-          if (crypto2.web) {
-            return crypto2.web.getRandomValues(new Uint8Array(bytesLength));
-          } else if (crypto2.node) {
-            const { randomBytes } = crypto2.node;
+          if (crypto3.web) {
+            return crypto3.web.getRandomValues(new Uint8Array(bytesLength));
+          } else if (crypto3.node) {
+            const { randomBytes } = crypto3.node;
             return Uint8Array.from(randomBytes(bytesLength));
           } else {
             throw new Error("The environment doesn't have randomBytes function");
@@ -9003,11 +9003,11 @@
           return cached;
         },
         sha256: async (...messages) => {
-          if (crypto2.web) {
-            const buffer = await crypto2.web.subtle.digest("SHA-256", concatBytes(...messages));
+          if (crypto3.web) {
+            const buffer = await crypto3.web.subtle.digest("SHA-256", concatBytes(...messages));
             return new Uint8Array(buffer);
-          } else if (crypto2.node) {
-            const { createHash } = crypto2.node;
+          } else if (crypto3.node) {
+            const { createHash } = crypto3.node;
             const hash = createHash("sha256");
             messages.forEach((m) => hash.update(m));
             return Uint8Array.from(hash.digest());
@@ -9016,13 +9016,13 @@
           }
         },
         hmacSha256: async (key, ...messages) => {
-          if (crypto2.web) {
-            const ckey = await crypto2.web.subtle.importKey("raw", key, { name: "HMAC", hash: { name: "SHA-256" } }, false, ["sign"]);
+          if (crypto3.web) {
+            const ckey = await crypto3.web.subtle.importKey("raw", key, { name: "HMAC", hash: { name: "SHA-256" } }, false, ["sign"]);
             const message = concatBytes(...messages);
-            const buffer = await crypto2.web.subtle.sign("HMAC", ckey, message);
+            const buffer = await crypto3.web.subtle.sign("HMAC", ckey, message);
             return new Uint8Array(buffer);
-          } else if (crypto2.node) {
-            const { createHmac } = crypto2.node;
+          } else if (crypto3.node) {
+            const { createHmac } = crypto3.node;
             const hash = createHmac("sha256", key);
             messages.forEach((m) => hash.update(m));
             return Uint8Array.from(hash.digest());
@@ -13634,9 +13634,9 @@
           if (w && w.length > 1) {
             const controlBlock = w[w.length - 1];
             const leafVersion = controlBlock[0] & types_1.TAPLEAF_VERSION_MASK;
-            const script2 = w[w.length - 2];
+            const script3 = w[w.length - 2];
             const leafHash = (0, bip341_1.tapleafHash)({
-              output: script2,
+              output: script3,
               version: leafVersion
             });
             return (0, bip341_1.rootHashFromPath)(controlBlock, leafHash);
@@ -13811,9 +13811,9 @@
               if (!(0, ecc_lib_1.getEccLib)().isXOnlyPoint(internalPubkey))
                 throw new TypeError("Invalid internalPubkey for p2tr witness");
               const leafVersion = controlBlock[0] & types_1.TAPLEAF_VERSION_MASK;
-              const script2 = witness[witness.length - 2];
+              const script3 = witness[witness.length - 2];
               const leafHash = (0, bip341_1.tapleafHash)({
-                output: script2,
+                output: script3,
                 version: leafVersion
               });
               const hash = (0, bip341_1.rootHashFromPath)(controlBlock, leafHash);
@@ -15244,9 +15244,9 @@
             "Decode Error: tapLeafScript bad leaf version in key 0x" + keyVal.key.toString("hex")
           );
         }
-        const script2 = keyVal.value.slice(0, -1);
+        const script3 = keyVal.value.slice(0, -1);
         const controlBlock = keyVal.key.slice(1);
-        return { controlBlock, script: script2, leafVersion };
+        return { controlBlock, script: script3, leafVersion };
       }
       exports.decode = decode;
       function encode(tScript) {
@@ -15525,23 +15525,23 @@
         let _offset = 8;
         const scriptLen = varuint.decode(keyVal.value, _offset);
         _offset += varuint.encodingLength(scriptLen);
-        const script2 = keyVal.value.slice(_offset);
-        if (script2.length !== scriptLen) {
+        const script3 = keyVal.value.slice(_offset);
+        if (script3.length !== scriptLen) {
           throw new Error("Decode Error: WITNESS_UTXO script is not proper length");
         }
         return {
-          script: script2,
+          script: script3,
           value
         };
       }
       exports.decode = decode;
       function encode(data) {
-        const { script: script2, value } = data;
-        const varintLen = varuint.encodingLength(script2.length);
-        const result = Buffer.allocUnsafe(8 + varintLen + script2.length);
+        const { script: script3, value } = data;
+        const varintLen = varuint.encodingLength(script3.length);
+        const result = Buffer.allocUnsafe(8 + varintLen + script3.length);
         tools_1.writeUInt64LE(result, value, 0);
-        varuint.encode(script2.length, result, 8);
-        script2.copy(result, 8 + varintLen);
+        varuint.encode(script3.length, result, 8);
+        script3.copy(result, 8 + varintLen);
         return {
           key: Buffer.from([typeFields_1.InputTypes.WITNESS_UTXO]),
           value: result
@@ -16834,9 +16834,9 @@
       var crypto_1 = require_crypto3();
       var payments2 = require_payments();
       function isPaymentFactory(payment) {
-        return (script2) => {
+        return (script3) => {
           try {
-            payment({ output: script2 });
+            payment({ output: script3 });
             return true;
           } catch (err) {
             return false;
@@ -16873,10 +16873,10 @@
         return buffer;
       }
       exports.witnessStackToScriptWitness = witnessStackToScriptWitness;
-      function pubkeyPositionInScript(pubkey, script2) {
+      function pubkeyPositionInScript(pubkey, script3) {
         const pubkeyHash = (0, crypto_1.hash160)(pubkey);
         const pubkeyXOnly = pubkey.slice(1, 33);
-        const decompiled = bscript.decompile(script2);
+        const decompiled = bscript.decompile(script3);
         if (decompiled === null)
           throw new Error("Unknown script error");
         return decompiled.findIndex((element) => {
@@ -16886,8 +16886,8 @@
         });
       }
       exports.pubkeyPositionInScript = pubkeyPositionInScript;
-      function pubkeyInScript(pubkey, script2) {
-        return pubkeyPositionInScript(pubkey, script2) !== -1;
+      function pubkeyInScript(pubkey, script3) {
+        return pubkeyPositionInScript(pubkey, script3) !== -1;
       }
       exports.pubkeyInScript = pubkeyInScript;
       function checkInputForSig(input, action) {
@@ -16980,8 +16980,8 @@
         return input && !!(input.tapInternalKey || input.tapMerkleRoot || input.tapLeafScript && input.tapLeafScript.length || input.tapBip32Derivation && input.tapBip32Derivation.length || input.witnessUtxo && (0, psbtutils_1.isP2TR)(input.witnessUtxo.script));
       }
       exports.isTaprootInput = isTaprootInput;
-      function isTaprootOutput(output, script2) {
-        return output && !!(output.tapInternalKey || output.tapTree || output.tapBip32Derivation && output.tapBip32Derivation.length || script2 && (0, psbtutils_1.isP2TR)(script2));
+      function isTaprootOutput(output, script3) {
+        return output && !!(output.tapInternalKey || output.tapTree || output.tapBip32Derivation && output.tapBip32Derivation.length || script3 && (0, psbtutils_1.isP2TR)(script3));
       }
       exports.isTaprootOutput = isTaprootOutput;
       function checkTaprootInputFields(inputData, newInputData, action) {
@@ -17001,8 +17001,8 @@
         const tapTree = newOutputData.tapTree || outputData.tapTree;
         if (tapInternalKey) {
           const { script: scriptPubkey } = outputData;
-          const script2 = getTaprootScripPubkey(tapInternalKey, tapTree);
-          if (scriptPubkey && !scriptPubkey.equals(script2))
+          const script3 = getTaprootScripPubkey(tapInternalKey, tapTree);
+          if (scriptPubkey && !scriptPubkey.equals(script3))
             throw new Error("Error adding output. Script or address missmatch.");
         }
       }
@@ -17182,12 +17182,12 @@
         });
         return (input.tapScriptSig || []).filter((tss) => tss.leafHash.equals(leafHash)).map((tss) => addPubkeyPositionInScript(tapLeaf.script, tss)).sort((t1, t2) => t2.positionInScript - t1.positionInScript).map((t) => t.signature);
       }
-      function addPubkeyPositionInScript(script2, tss) {
+      function addPubkeyPositionInScript(script3, tss) {
         return Object.assign(
           {
             positionInScript: (0, psbtutils_1.pubkeyPositionInScript)(
               tss.pubkey,
-              script2
+              script3
             )
           },
           tss
@@ -17416,8 +17416,8 @@
           const { address } = outputData;
           if (typeof address === "string") {
             const { network } = this.opts;
-            const script2 = (0, address_1.toOutputScript)(address, network);
-            outputData = Object.assign(outputData, { script: script2 });
+            const script3 = (0, address_1.toOutputScript)(address, network);
+            outputData = Object.assign(outputData, { script: script3 });
           }
           (0, bip371_1.checkTaprootOutputFields)(outputData, outputData, "addOutput");
           const c = this.__CACHE;
@@ -17479,18 +17479,18 @@
           throw new Error(`Cannot finalize input #${inputIndex}. Not Taproot.`);
         }
         _finalizeInput(inputIndex, input, finalScriptsFunc = getFinalScripts) {
-          const { script: script2, isP2SH, isP2WSH, isSegwit } = getScriptFromInput(
+          const { script: script3, isP2SH, isP2WSH, isSegwit } = getScriptFromInput(
             inputIndex,
             input,
             this.__CACHE
           );
-          if (!script2)
+          if (!script3)
             throw new Error(`No script found for input #${inputIndex}`);
           checkPartialSigSighashes(input);
           const { finalScriptSig, finalScriptWitness } = finalScriptsFunc(
             inputIndex,
             input,
-            script2,
+            script3,
             isSegwit,
             isP2SH,
             isP2WSH
@@ -17531,9 +17531,9 @@
         }
         getInputType(inputIndex) {
           const input = (0, utils_1.checkForInput)(this.data.inputs, inputIndex);
-          const script2 = getScriptFromUtxo(inputIndex, input, this.__CACHE);
+          const script3 = getScriptFromUtxo(inputIndex, input, this.__CACHE);
           const result = getMeaningfulScript(
-            script2,
+            script3,
             inputIndex,
             "input",
             input.redeemScript || redeemFromFinalScriptSig(input.finalScriptSig),
@@ -17594,7 +17594,7 @@
           let sighashCache;
           for (const pSig of mySigs) {
             const sig = bscript.signature.decode(pSig.signature);
-            const { hash, script: script2 } = sighashCache !== sig.hashType ? getHashForSig(
+            const { hash, script: script3 } = sighashCache !== sig.hashType ? getHashForSig(
               inputIndex,
               Object.assign({}, input, { sighashType: sig.hashType }),
               this.__CACHE,
@@ -17602,8 +17602,8 @@
             ) : { hash: hashCache, script: scriptCache };
             sighashCache = sig.hashType;
             hashCache = hash;
-            scriptCache = script2;
-            checkScriptForPubkey(pSig.pubkey, script2, "verify");
+            scriptCache = script3;
+            checkScriptForPubkey(pSig.pubkey, script3, "verify");
             results.push(validator(pSig.pubkey, hash, sig.signature));
           }
           return results.every((res) => res === true);
@@ -18061,14 +18061,14 @@
           return this.tx.toBuffer();
         }
       };
-      function canFinalize(input, script2, scriptType) {
+      function canFinalize(input, script3, scriptType) {
         switch (scriptType) {
           case "pubkey":
           case "pubkeyhash":
           case "witnesspubkeyhash":
             return hasSigs(1, input.partialSig);
           case "multisig":
-            const p2ms = payments2.p2ms({ output: script2 });
+            const p2ms = payments2.p2ms({ output: script3 });
             return hasSigs(p2ms.m, input.partialSig, p2ms.pubkeys);
           default:
             return false;
@@ -18140,8 +18140,8 @@
           }
         });
       }
-      function checkScriptForPubkey(pubkey, script2, action) {
-        if (!(0, psbtutils_1.pubkeyInScript)(pubkey, script2)) {
+      function checkScriptForPubkey(pubkey, script3, action) {
+        if (!(0, psbtutils_1.pubkeyInScript)(pubkey, script3)) {
           throw new Error(
             `Can not ${action} for this input with the key ${pubkey.toString("hex")}`
           );
@@ -18204,12 +18204,12 @@
         else if (key === "__FEE")
           return c.__FEE;
       }
-      function getFinalScripts(inputIndex, input, script2, isSegwit, isP2SH, isP2WSH) {
-        const scriptType = classifyScript(script2);
-        if (!canFinalize(input, script2, scriptType))
+      function getFinalScripts(inputIndex, input, script3, isSegwit, isP2SH, isP2WSH) {
+        const scriptType = classifyScript(script3);
+        if (!canFinalize(input, script3, scriptType))
           throw new Error(`Can not finalize input #${inputIndex}`);
         return prepareFinalScripts(
-          script2,
+          script3,
           scriptType,
           input.partialSig,
           isSegwit,
@@ -18217,10 +18217,10 @@
           isP2WSH
         );
       }
-      function prepareFinalScripts(script2, scriptType, partialSig, isSegwit, isP2SH, isP2WSH) {
+      function prepareFinalScripts(script3, scriptType, partialSig, isSegwit, isP2SH, isP2WSH) {
         let finalScriptSig;
         let finalScriptWitness;
-        const payment = getPayment(script2, scriptType, partialSig);
+        const payment = getPayment(script3, scriptType, partialSig);
         const p2wsh = !isP2WSH ? null : payments2.p2wsh({ redeem: payment });
         const p2sh = !isP2SH ? null : payments2.p2sh({ redeem: p2wsh || payment });
         if (isSegwit) {
@@ -18250,14 +18250,14 @@
       }
       function getHashAndSighashType(inputs, inputIndex, pubkey, cache, sighashTypes) {
         const input = (0, utils_1.checkForInput)(inputs, inputIndex);
-        const { hash, sighashType, script: script2 } = getHashForSig(
+        const { hash, sighashType, script: script3 } = getHashForSig(
           inputIndex,
           input,
           cache,
           false,
           sighashTypes
         );
-        checkScriptForPubkey(pubkey, script2, "sign");
+        checkScriptForPubkey(pubkey, script3, "sign");
         return {
           hash,
           sighashType
@@ -18352,8 +18352,8 @@
         return allHashes.flat();
       }
       function getPrevoutTaprootKey(inputIndex, input, cache) {
-        const { script: script2 } = getScriptAndAmountFromUtxo(inputIndex, input, cache);
-        return (0, psbtutils_1.isP2TR)(script2) ? script2.subarray(2, 34) : null;
+        const { script: script3 } = getScriptAndAmountFromUtxo(inputIndex, input, cache);
+        return (0, psbtutils_1.isP2TR)(script3) ? script3.subarray(2, 34) : null;
       }
       function trimTaprootSig(signature) {
         return signature.length === 64 ? signature : signature.subarray(0, 64);
@@ -18412,32 +18412,32 @@
           );
         }
       }
-      function getPayment(script2, scriptType, partialSig) {
+      function getPayment(script3, scriptType, partialSig) {
         let payment;
         switch (scriptType) {
           case "multisig":
-            const sigs = getSortedSigs(script2, partialSig);
+            const sigs = getSortedSigs(script3, partialSig);
             payment = payments2.p2ms({
-              output: script2,
+              output: script3,
               signatures: sigs
             });
             break;
           case "pubkey":
             payment = payments2.p2pk({
-              output: script2,
+              output: script3,
               signature: partialSig[0].signature
             });
             break;
           case "pubkeyhash":
             payment = payments2.p2pkh({
-              output: script2,
+              output: script3,
               pubkey: partialSig[0].pubkey,
               signature: partialSig[0].signature
             });
             break;
           case "witnesspubkeyhash":
             payment = payments2.p2wpkh({
-              output: script2,
+              output: script3,
               pubkey: partialSig[0].pubkey,
               signature: partialSig[0].signature
             });
@@ -18503,8 +18503,8 @@
         });
         return signers;
       }
-      function getSortedSigs(script2, partialSig) {
-        const p2ms = payments2.p2ms({ output: script2 });
+      function getSortedSigs(script3, partialSig) {
+        const p2ms = payments2.p2ms({ output: script3 });
         return p2ms.pubkeys.map((pk) => {
           return (partialSig.filter((ps) => {
             return ps.pubkey.equals(pk);
@@ -18612,8 +18612,8 @@
         return c[inputIndex];
       }
       function getScriptFromUtxo(inputIndex, input, cache) {
-        const { script: script2 } = getScriptAndAmountFromUtxo(inputIndex, input, cache);
-        return script2;
+        const { script: script3 } = getScriptAndAmountFromUtxo(inputIndex, input, cache);
+        return script3;
       }
       function getScriptAndAmountFromUtxo(inputIndex, input, cache) {
         if (input.witnessUtxo !== void 0) {
@@ -18634,9 +18634,9 @@
         }
       }
       function pubkeyInInput(pubkey, input, inputIndex, cache) {
-        const script2 = getScriptFromUtxo(inputIndex, input, cache);
+        const script3 = getScriptFromUtxo(inputIndex, input, cache);
         const { meaningfulScript } = getMeaningfulScript(
-          script2,
+          script3,
           inputIndex,
           "input",
           input.redeemScript,
@@ -18645,9 +18645,9 @@
         return (0, psbtutils_1.pubkeyInScript)(pubkey, meaningfulScript);
       }
       function pubkeyInOutput(pubkey, output, outputIndex, cache) {
-        const script2 = cache.__TX.outs[outputIndex].script;
+        const script3 = cache.__TX.outs[outputIndex].script;
         const { meaningfulScript } = getMeaningfulScript(
-          script2,
+          script3,
           outputIndex,
           "output",
           output.redeemScript,
@@ -18696,10 +18696,10 @@
       function isSigLike(buf) {
         return bscript.isCanonicalScriptSignature(buf);
       }
-      function getMeaningfulScript(script2, index, ioType, redeemScript, witnessScript) {
-        const isP2SH = (0, psbtutils_1.isP2SHScript)(script2);
+      function getMeaningfulScript(script3, index, ioType, redeemScript, witnessScript) {
+        const isP2SH = (0, psbtutils_1.isP2SHScript)(script3);
         const isP2SHP2WSH = isP2SH && redeemScript && (0, psbtutils_1.isP2WSHScript)(redeemScript);
-        const isP2WSH = (0, psbtutils_1.isP2WSHScript)(script2);
+        const isP2WSH = (0, psbtutils_1.isP2WSHScript)(script3);
         if (isP2SH && redeemScript === void 0)
           throw new Error("scriptPubkey is P2SH but redeemScript missing");
         if ((isP2WSH || isP2SHP2WSH) && witnessScript === void 0)
@@ -18709,37 +18709,37 @@
         let meaningfulScript;
         if (isP2SHP2WSH) {
           meaningfulScript = witnessScript;
-          checkRedeemScript(index, script2, redeemScript, ioType);
+          checkRedeemScript(index, script3, redeemScript, ioType);
           checkWitnessScript(index, redeemScript, witnessScript, ioType);
           checkInvalidP2WSH(meaningfulScript);
         } else if (isP2WSH) {
           meaningfulScript = witnessScript;
-          checkWitnessScript(index, script2, witnessScript, ioType);
+          checkWitnessScript(index, script3, witnessScript, ioType);
           checkInvalidP2WSH(meaningfulScript);
         } else if (isP2SH) {
           meaningfulScript = redeemScript;
-          checkRedeemScript(index, script2, redeemScript, ioType);
+          checkRedeemScript(index, script3, redeemScript, ioType);
         } else {
-          meaningfulScript = script2;
+          meaningfulScript = script3;
         }
         return {
           meaningfulScript,
           type: isP2SHP2WSH ? "p2sh-p2wsh" : isP2SH ? "p2sh" : isP2WSH ? "p2wsh" : "raw"
         };
       }
-      function checkInvalidP2WSH(script2) {
-        if ((0, psbtutils_1.isP2WPKH)(script2) || (0, psbtutils_1.isP2SHScript)(script2)) {
+      function checkInvalidP2WSH(script3) {
+        if ((0, psbtutils_1.isP2WPKH)(script3) || (0, psbtutils_1.isP2SHScript)(script3)) {
           throw new Error("P2WPKH or P2SH can not be contained within P2WSH");
         }
       }
-      function classifyScript(script2) {
-        if ((0, psbtutils_1.isP2WPKH)(script2))
+      function classifyScript(script3) {
+        if ((0, psbtutils_1.isP2WPKH)(script3))
           return "witnesspubkeyhash";
-        if ((0, psbtutils_1.isP2PKH)(script2))
+        if ((0, psbtutils_1.isP2PKH)(script3))
           return "pubkeyhash";
-        if ((0, psbtutils_1.isP2MS)(script2))
+        if ((0, psbtutils_1.isP2MS)(script3))
           return "multisig";
-        if ((0, psbtutils_1.isP2PK)(script2))
+        if ((0, psbtutils_1.isP2PK)(script3))
           return "pubkey";
         return "nonstandard";
       }
@@ -18757,14 +18757,14 @@
       exports.initEccLib = exports.Transaction = exports.opcodes = exports.Psbt = exports.Block = exports.script = exports.payments = exports.networks = exports.crypto = exports.address = void 0;
       var address = require_address();
       exports.address = address;
-      var crypto2 = require_crypto3();
-      exports.crypto = crypto2;
+      var crypto3 = require_crypto3();
+      exports.crypto = crypto3;
       var networks4 = require_networks2();
       exports.networks = networks4;
       var payments2 = require_payments();
       exports.payments = payments2;
-      var script2 = require_script();
-      exports.script = script2;
+      var script3 = require_script();
+      exports.script = script3;
       var block_1 = require_block();
       Object.defineProperty(exports, "Block", {
         enumerable: true,
@@ -40560,7 +40560,7 @@
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.BIP32Factory = void 0;
-      var crypto2 = require_crypto4();
+      var crypto3 = require_crypto4();
       var testecc_1 = require_testecc2();
       var base_1 = require_lib2();
       var sha256_1 = require_sha2562();
@@ -40672,7 +40672,7 @@
             return this.__PARENT_FINGERPRINT;
           }
           get identifier() {
-            return crypto2.hash160(this.publicKey);
+            return crypto3.hash160(this.publicKey);
           }
           get fingerprint() {
             return this.identifier.slice(0, 4);
@@ -40725,7 +40725,7 @@
               this.publicKey.copy(data, 0);
               data.writeUInt32BE(index, 33);
             }
-            const I = crypto2.hmacSHA512(this.chainCode, data);
+            const I = crypto3.hmacSHA512(this.chainCode, data);
             const IL = I.slice(0, 32);
             const IR = I.slice(32);
             if (!ecc3.isPrivate(IL))
@@ -40867,7 +40867,7 @@
           if (seed.length > 64)
             throw new TypeError("Seed should be at most 512 bits");
           network = network || BITCOIN;
-          const I = crypto2.hmacSHA512(Buffer.from("Bitcoin seed", "utf8"), seed);
+          const I = crypto3.hmacSHA512(Buffer.from("Bitcoin seed", "utf8"), seed);
           const IL = I.slice(0, 32);
           const IR = I.slice(32);
           return fromPrivateKey(IL, IR, network);
@@ -45789,6 +45789,17 @@
         throw new Error("Invalid private key");
       const keyPair = ECPair2.fromPrivateKey(privateKey, { network: this.network });
       return this.buildOutput(keyPair);
+    }
+    signMessage(senderWif, message) {
+      const keyPair = ECPair2.fromWIF(senderWif, this.network);
+      const toSignBuffer = Buffer.from(message, "utf-8");
+      const hash = bitcoin2.crypto.sha256(toSignBuffer);
+      const signatureBuffer = keyPair.sign(hash);
+      const derSignature = bitcoin2.script.signature.encode(signatureBuffer, 1);
+      const publicKeyBuffer = keyPair.publicKey;
+      const first = derSignature.toString("hex");
+      const second = publicKeyBuffer.toString("hex");
+      return `${first}.${second}`;
     }
   };
 

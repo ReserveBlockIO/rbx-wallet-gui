@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/btc_web/services/btc_web_service.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/base_component.dart';
@@ -22,9 +23,11 @@ import '../services/adnr_service.dart';
 class CreateAdnrDialog extends BaseComponent {
   final String address;
   final String? adnr;
+  final bool isBtc;
   const CreateAdnrDialog({
     required this.address,
     required this.adnr,
+    this.isBtc = false,
     Key? key,
   }) : super(key: key);
 
@@ -34,7 +37,7 @@ class CreateAdnrDialog extends BaseComponent {
     final formKey = GlobalKey<FormState>();
 
     return AlertDialog(
-      title: const Text("New RBX Domain"),
+      title: Text(isBtc ? "New BTC Domain" : "New RBX Domain"),
       content: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 400),
         child: Form(
@@ -43,9 +46,9 @@ class CreateAdnrDialog extends BaseComponent {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text("RBX Domains cost $ADNR_COST RBX."),
+              Text("${isBtc ? 'BTC' : 'RBX'} Domains cost $ADNR_COST RBX."),
               Text(
-                "Your domain must only contain letters and numbers and will automatically be appended with `.rbx` upon verification",
+                "Your domain must only contain letters and numbers and will automatically be appended with ${isBtc ? '`.btc`' : '`.rbx`'} upon verification",
                 style: Theme.of(context).textTheme.caption,
               ),
               TextFormField(
@@ -89,7 +92,7 @@ class CreateAdnrDialog extends BaseComponent {
               }
 
               final domainWithoutSuffix = controller.text;
-              final domain = "$domainWithoutSuffix.rbx";
+              final domain = "$domainWithoutSuffix.${isBtc ? 'btc' : 'rbx'}";
 
               ref.read(globalLoadingProvider.notifier).start();
 
@@ -97,16 +100,46 @@ class CreateAdnrDialog extends BaseComponent {
 
               if (!available) {
                 ref.read(globalLoadingProvider.notifier).complete();
-                Toast.error("This RBX Domain already exists");
+                Toast.error("This ${isBtc ? 'BTC' : 'RBX'} Domain already exists");
                 return;
               }
+              final btcAddress = isBtc ? ref.read(webSessionProvider).btcKeypair?.address : null;
+              if (isBtc && btcAddress == null) {
+                Toast.error("No BTC Address Found");
+                return;
+              }
+              final btcWif = ref.read(webSessionProvider).btcKeypair?.wif;
+              if (isBtc && btcWif == null) {
+                Toast.error("No BTC WIF Private Key Found");
+                return;
+              }
+
+              String? btcMessage;
+              String? btcSignature;
+
+              if (isBtc) {
+                // btcMessage = "1711996047";
+                btcMessage = (DateTime.now().millisecondsSinceEpoch / 1000).round().toString();
+                btcSignature = await BtcWebService().signMessage(ref.read(webSessionProvider).btcKeypair!.wif, btcMessage);
+                print("SIGNATURE: $btcSignature");
+              }
+
+              final data = isBtc
+                  ? {
+                      "Function": "BTCAdnrCreate()",
+                      "Name": domainWithoutSuffix,
+                      "BTCAddress": btcAddress,
+                      "Message": btcMessage,
+                      "Signature": btcSignature,
+                    }
+                  : {"Function": "AdnrCreate()", "Name": domainWithoutSuffix};
 
               final txData = await RawTransaction.generate(
                 keypair: ref.read(webSessionProvider).keypair!,
                 amount: ADNR_COST,
                 toAddress: "Adnr_Base",
                 txType: TxType.adnr,
-                data: {"Function": "AdnrCreate()", "Name": domainWithoutSuffix},
+                data: data,
               );
 
               ref.read(globalLoadingProvider.notifier).complete();
@@ -121,14 +154,13 @@ class CreateAdnrDialog extends BaseComponent {
               final confirmed = await ConfirmDialog.show(
                 title: "Valid Transaction",
                 body:
-                    "The RBX Domain transaction is valid.\nAre you sure you want to proceed?\n\nDomain: $domain\nAmount: $ADNR_COST RBX\nFee: $txFee RBX\nTotal: ${ADNR_COST + txFee} RBX",
+                    "The ${isBtc ? 'BTC' : 'RBX'} Domain transaction is valid.\nAre you sure you want to proceed?\n\nDomain: $domain\nAmount: $ADNR_COST RBX\nFee: $txFee RBX\nTotal: ${ADNR_COST + txFee} RBX",
                 confirmText: "Send",
                 cancelText: "Cancel",
               );
 
               if (confirmed != true) {
                 Navigator.of(context).pop();
-                Toast.message("Transaction Cancelled");
                 return;
               }
               ref.read(globalLoadingProvider.notifier).start();
@@ -138,7 +170,7 @@ class CreateAdnrDialog extends BaseComponent {
 
               if (tx != null && tx['Result'] == "Success") {
                 ref.read(adnrPendingProvider.notifier).addId(address, "create", "null");
-                Toast.message("RBX Domain Transaction has been broadcasted. See log for hash.");
+                Toast.message("${isBtc ? 'BTC' : 'RBX'} Domain Transaction has been broadcasted. See log for hash.");
                 Navigator.of(context).pop();
 
                 return;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/btc_web/components/web_btc_adnr_content.dart';
 import '../../../core/app_constants.dart';
 import '../../../core/base_screen.dart';
 import '../../../core/components/badges.dart';
@@ -41,6 +42,12 @@ class WebAdnrScreen extends BaseScreen {
     final keypair = session.keypair;
     final address = keypair?.address;
     final adnr = session.adnr;
+
+    final btcKeypair = session.usingBtc ? session.btcKeypair : null;
+
+    if (btcKeypair != null) {
+      return WebBtcAdnrContent(account: btcKeypair);
+    }
 
     if (keypair == null || address == null) {
       return const WebNotWallet();
