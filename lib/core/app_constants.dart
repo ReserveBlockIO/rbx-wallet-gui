@@ -1,7 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
-
-const APP_V = "5.0.0";
+const APP_V = "5.0.1";
 const APP_VERSION = "beta$APP_V";
 
 const ALLOW_PAYMENT = true;
