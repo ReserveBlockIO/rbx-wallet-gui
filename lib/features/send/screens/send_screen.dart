@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
 
 import '../../../core/base_screen.dart';
+import '../../../core/components/currency_segmented_button.dart';
+import '../../../core/providers/currency_segmented_button_provider.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../wallet/components/invalid_wallet.dart';
 import '../../wallet/components/wallet_selector.dart';
@@ -35,9 +39,18 @@ class SendScreen extends BaseScreen {
       return const InvalidWallet(message: "No wallet selected");
     }
 
-    return SendForm(
-      wallet: currentWallet,
-      btcAccount: currentBtcAccount,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 16.0),
+          child: CurrencySegementedButton(family: "SEND"),
+        ),
+        SendForm(
+          wallet: currentWallet,
+          btcAccount: currentBtcAccount,
+        ),
+      ],
     );
   }
 }

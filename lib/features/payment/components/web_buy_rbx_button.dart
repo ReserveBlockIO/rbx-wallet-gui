@@ -24,7 +24,7 @@ class WebBuyRBXButton extends BaseComponent {
     }
 
     return AppButton(
-      label: "Get \$RBX Now",
+      label: "Get \$VFX/\$BTC Now",
       variant: AppColorVariant.Success,
       onPressed: () async {
         if (Env.isTestNet) {

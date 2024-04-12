@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/components/currency_segmented_button.dart';
+import 'package:rbx_wallet/features/btc/models/btc_address_type.dart';
+import 'package:rbx_wallet/features/btc/providers/btc_account_list_provider.dart';
 import '../../../core/components/badges.dart';
 import '../../../core/theme/app_theme.dart';
 
@@ -29,107 +32,338 @@ class ReceiveScreen extends BaseScreen {
     );
   }
 
-  Future<void> _handleCopyAddress(Wallet wallet) async {
-    await Clipboard.setData(ClipboardData(text: wallet.address));
+  Future<void> _handleCopyAddress(String address) async {
+    await Clipboard.setData(ClipboardData(text: address));
     Toast.message("Address copied to clipboard");
   }
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final currentWallet = ref.watch(sessionProvider).currentWallet;
-    if (currentWallet == null) {
+    final session = ref.watch(sessionProvider);
+
+    final currentWallet = !session.btcSelected ? session.currentWallet : null;
+    final btcAccount = session.btcSelected ? session.currentBtcAccount : null;
+
+    if (currentWallet == null && btcAccount == null) {
       return const InvalidWallet(message: "No wallet selected");
     }
 
     return Column(
-      mainAxisSize: MainAxisSize.min,
       children: [
-        if (currentWallet.isReserved && !currentWallet.isNetworkProtected)
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: AppBadge(
-              label: 'Not Activated',
-              variant: AppColorVariant.Danger,
-            ),
-          ),
-        Container(
-          decoration: BoxDecoration(
-            boxShadow: glowingBox,
-            color: Colors.black,
-          ),
-          child: ListTile(
-            leading: const Icon(Icons.account_balance_wallet),
-            subtitle: Text(currentWallet.friendlyName ?? ""),
-            title: TextFormField(
-              initialValue: currentWallet.address,
-              decoration: const InputDecoration(
-                label: Text("Wallet Address"),
-              ),
-              style: const TextStyle(fontSize: 13),
-              readOnly: true,
-            ),
-            trailing: IconButton(
-              icon: const Icon(Icons.copy),
-              onPressed: () async {
-                if (currentWallet.isReserved && !currentWallet.isNetworkProtected) {
-                  Toast.error("This Reserve Account has not been activated yet.");
-                  return;
-                }
-                _handleCopyAddress(currentWallet);
-              },
-            ),
-          ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 16.0),
+          child: CurrencySegementedButton(family: "RECIEVE", includeAny: false),
         ),
-        const SizedBox(
-          height: 24,
-        ),
-        const Divider(),
-        const SizedBox(
-          height: 24,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            AppButton(
-              label: "Copy Address",
-              icon: Icons.copy,
-              onPressed: () {
-                _handleCopyAddress(currentWallet);
-              },
-            ),
-            AppButton(
-              label: "New Address",
-              icon: Icons.add,
-              onPressed: () async {
-                if (!await passwordRequiredGuard(context, ref)) return;
-                await ref.read(walletListProvider.notifier).create();
-              },
-            ),
-            AppButton(
-              label: "Import Private Key",
-              icon: Icons.upload,
-              onPressed: () async {
-                if (!await passwordRequiredGuard(context, ref)) return;
+        Builder(
+          builder: (context) {
+            if (currentWallet != null) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (currentWallet.isReserved && !currentWallet.isNetworkProtected)
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: AppBadge(
+                        label: 'Not Activated',
+                        variant: AppColorVariant.Danger,
+                      ),
+                    ),
+                  Container(
+                    decoration: BoxDecoration(
+                      boxShadow: glowingBox,
+                      color: Colors.black,
+                    ),
+                    child: ListTile(
+                      leading: const Icon(Icons.account_balance_wallet),
+                      subtitle: Text(currentWallet.friendlyName ?? ""),
+                      title: TextFormField(
+                        initialValue: currentWallet.address,
+                        decoration: const InputDecoration(
+                          label: Text("Wallet Address"),
+                        ),
+                        style: const TextStyle(fontSize: 13),
+                        readOnly: true,
+                      ),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.copy),
+                        onPressed: () async {
+                          if (currentWallet.isReserved && !currentWallet.isNetworkProtected) {
+                            Toast.error("This Reserve Account has not been activated yet.");
+                            return;
+                          }
+                          _handleCopyAddress(currentWallet.address);
+                        },
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  const Divider(),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      AppButton(
+                        label: "Copy Address",
+                        icon: Icons.copy,
+                        onPressed: () {
+                          _handleCopyAddress(currentWallet.address);
+                        },
+                      ),
+                      AppButton(
+                        label: "New Address",
+                        icon: Icons.add,
+                        onPressed: () async {
+                          if (!await passwordRequiredGuard(context, ref)) return;
+                          await ref.read(walletListProvider.notifier).create();
+                        },
+                      ),
+                      AppButton(
+                        label: "Import Private Key",
+                        icon: Icons.upload,
+                        onPressed: () async {
+                          if (!await passwordRequiredGuard(context, ref)) return;
 
-                PromptModal.show(
-                  title: "Import Wallet",
-                  validator: (String? value) => formValidatorNotEmpty(value, "Private Key"),
-                  labelText: "Private Key",
-                  onValidSubmission: (value) async {
-                    final resync = await ConfirmDialog.show(
-                      title: "Rescan Blocks?",
-                      body: "Would you like to rescan the chain to include any transactions relevant to this key?",
-                      confirmText: "Yes",
-                      cancelText: "No",
-                    );
+                          PromptModal.show(
+                            title: "Import Wallet",
+                            validator: (String? value) => formValidatorNotEmpty(value, "Private Key"),
+                            labelText: "Private Key",
+                            onValidSubmission: (value) async {
+                              final resync = await ConfirmDialog.show(
+                                title: "Rescan Blocks?",
+                                body: "Would you like to rescan the chain to include any transactions relevant to this key?",
+                                confirmText: "Yes",
+                                cancelText: "No",
+                              );
 
-                    await ref.read(walletListProvider.notifier).import(value, false, resync == true);
-                  },
-                );
-              },
-            ),
-          ],
-        )
+                              await ref.read(walletListProvider.notifier).import(value, false, resync == true);
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  )
+                ],
+              );
+            }
+
+            if (btcAccount != null) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      boxShadow: glowingBoxBtc,
+                      color: Colors.black,
+                    ),
+                    child: ListTile(
+                      leading: const Icon(Icons.account_balance_wallet),
+                      subtitle: Text(""),
+                      title: TextFormField(
+                        initialValue: btcAccount.address,
+                        decoration: InputDecoration(
+                          label: Text(
+                            "BTC Address",
+                            style: TextStyle(color: Theme.of(context).colorScheme.btcOrange),
+                          ),
+                        ),
+                        style: const TextStyle(fontSize: 13),
+                        readOnly: true,
+                      ),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.copy),
+                        onPressed: () async {
+                          _handleCopyAddress(btcAccount.address);
+                        },
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  const Divider(),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      AppButton(
+                        label: "Copy Address",
+                        icon: Icons.copy,
+                        variant: AppColorVariant.Btc,
+                        onPressed: () {
+                          _handleCopyAddress(btcAccount.address);
+                        },
+                      ),
+                      AppButton(
+                        label: "New Address",
+                        icon: Icons.add,
+                        variant: AppColorVariant.Btc,
+                        onPressed: () async {
+                          if (!await passwordRequiredGuard(context, ref)) return;
+
+                          final account = await ref.read(btcAccountListProvider.notifier).create();
+                          if (account == null) {
+                            Toast.error();
+                            return;
+                          }
+
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text("BTC Wallet Created"),
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text("Here are your BTC wallet details. Please ensure to back up your private key in a safe place."),
+                                    ),
+                                    ListTile(
+                                      leading: const Icon(Icons.account_balance_wallet),
+                                      title: TextFormField(
+                                        initialValue: account.address,
+                                        decoration: InputDecoration(
+                                            label: Text(
+                                          "Address",
+                                          style: TextStyle(color: Theme.of(context).colorScheme.btcOrange),
+                                        )),
+                                        readOnly: true,
+                                        style: const TextStyle(fontSize: 13),
+                                      ),
+                                    ),
+                                    ListTile(
+                                      leading: const Icon(Icons.security),
+                                      title: TextFormField(
+                                        initialValue: account.privateKey,
+                                        decoration: InputDecoration(
+                                          label: Text("Private Key", style: TextStyle(color: Theme.of(context).colorScheme.btcOrange)),
+                                        ),
+                                        style: const TextStyle(
+                                          fontSize: 13,
+                                        ),
+                                        readOnly: true,
+                                      ),
+                                      trailing: IconButton(
+                                        icon: Icon(
+                                          Icons.copy,
+                                          color: Theme.of(context).colorScheme.btcOrange,
+                                        ),
+                                        onPressed: () async {
+                                          await Clipboard.setData(ClipboardData(text: account.privateKey));
+                                          Toast.message("Private Key copied to clipboard");
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text(
+                                        "Done",
+                                        style: TextStyle(color: Theme.of(context).colorScheme.btcOrange),
+                                      ))
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      ),
+                      AppButton(
+                        label: "Import Private Key",
+                        icon: Icons.upload,
+                        variant: AppColorVariant.Btc,
+                        onPressed: () async {
+                          if (!await passwordRequiredGuard(context, ref)) return;
+                          final privateKeyController = TextEditingController();
+                          final List<String>? data = await showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text("Import BTC Private Key"),
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text("Paste in your BTC private key to import your account."),
+                                    ),
+                                    ListTile(
+                                      leading: const Icon(Icons.security),
+                                      title: TextFormField(
+                                        controller: privateKeyController,
+                                        decoration: InputDecoration(
+                                            label: Text(
+                                          "Private Key",
+                                          style: TextStyle(color: Theme.of(context).colorScheme.btcOrange),
+                                        )),
+                                        style: const TextStyle(fontSize: 13),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text(
+                                      "Cancel",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop([privateKeyController.text, "test"]);
+                                    },
+                                    child: Text(
+                                      "Import",
+                                      style: TextStyle(color: Theme.of(context).colorScheme.btcOrange),
+                                    ),
+                                  )
+                                ],
+                              );
+                            },
+                          );
+
+                          if (data != null) {
+                            if (data.length == 2) {
+                              final privateKey = data.first;
+                              const addressType = BtcAddressType.segwit;
+                              final success = await ref.read(btcAccountListProvider.notifier).importPrivateKey(privateKey, addressType);
+                              final btcAccountSyncInfo = ref.watch(sessionProvider).btcAccountSyncInfo;
+
+                              if (success) {
+                                if (btcAccountSyncInfo != null) {
+                                  Toast.message(
+                                      "Private Key Imported! Please wait until ${btcAccountSyncInfo.nextSyncFormatted} for the balance to sync.");
+                                } else {
+                                  Toast.message("Private Key Imported!");
+                                }
+                              } else {
+                                Toast.error();
+                              }
+                            }
+                          }
+                        },
+                      ),
+                    ],
+                  )
+                ],
+              );
+            }
+
+            return const InvalidWallet(message: "No wallet selected");
+          },
+        ),
       ],
     );
   }

@@ -22,7 +22,7 @@ class BasicPropertiesFormGroup extends BaseComponent {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          const FormGroupHeader("Baseline Properties", helpType: HelpType.baselineProperties),
+          const FormGroupHeader("Properties", helpType: HelpType.baselineProperties),
           _SmartContractName(model: model, provider: provider),
           _CreatorName(model: model, provider: provider),
           _Description(model: model, provider: provider)
@@ -42,7 +42,7 @@ class BasicPropertiesFormGroup extends BaseComponent {
         mainAxisSize: MainAxisSize.min,
         children: [
           const FormGroupHeader(
-            "Baseline Properties",
+            "Properties",
             helpType: HelpType.baselineProperties,
           ),
           Row(

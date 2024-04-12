@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rbx_wallet/core/providers/currency_segmented_button_provider.dart';
 import '../../../core/app_constants.dart';
 import '../../../core/models/web_session_model.dart';
 import '../../btc/models/btc_account.dart';
@@ -202,61 +203,67 @@ class SendForm extends BaseComponent {
                                       final allWallets = ref.watch(walletListProvider);
                                       final allBtcAccounts = ref.watch(btcAccountListProvider);
 
+                                      final currencyType = ref.watch(currencySegementedButtonProvider("SEND"));
+
                                       final list = <PopupMenuEntry<int>>[];
+                                      if (currencyType != CurrencyType.btc) {
+                                        for (final wallet in allWallets) {
+                                          final isSelected = !isBtc && currentWallet != null && wallet.address == currentWallet.address;
 
-                                      for (final wallet in allWallets) {
-                                        final isSelected = !isBtc && currentWallet != null && wallet.address == currentWallet.address;
+                                          final color =
+                                              wallet.isReserved ? Colors.deepPurple.shade200 : Theme.of(context).textTheme.bodyText1!.color!;
 
-                                        final color = wallet.isReserved ? Colors.deepPurple.shade200 : Theme.of(context).textTheme.bodyText1!.color!;
-
-                                        list.add(
-                                          PopupMenuItem(
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                if (isSelected)
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(right: 4.0),
-                                                    child: Icon(Icons.check),
+                                          list.add(
+                                            PopupMenuItem(
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  if (isSelected)
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(right: 4.0),
+                                                      child: Icon(Icons.check),
+                                                    ),
+                                                  Text(
+                                                    wallet.labelWithoutTruncation,
+                                                    style: TextStyle(color: color),
                                                   ),
-                                                Text(
-                                                  wallet.labelWithoutTruncation,
-                                                  style: TextStyle(color: color),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
+                                              onTap: () {
+                                                ref.read(sessionProvider.notifier).setCurrentWallet(wallet);
+                                              },
                                             ),
-                                            onTap: () {
-                                              ref.read(sessionProvider.notifier).setCurrentWallet(wallet);
-                                            },
-                                          ),
-                                        );
+                                          );
+                                        }
                                       }
 
-                                      for (final account in allBtcAccounts) {
-                                        final isSelected = isBtc && btcAccount != null && btcAccount!.address == account.address;
+                                      if (currencyType != CurrencyType.vfx) {
+                                        for (final account in allBtcAccounts) {
+                                          final isSelected = isBtc && btcAccount != null && btcAccount!.address == account.address;
 
-                                        final color = btcColor;
-                                        list.add(
-                                          PopupMenuItem(
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                if (isSelected)
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(right: 4.0),
-                                                    child: Icon(Icons.check),
+                                          final color = btcColor;
+                                          list.add(
+                                            PopupMenuItem(
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  if (isSelected)
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(right: 4.0),
+                                                      child: Icon(Icons.check),
+                                                    ),
+                                                  Text(
+                                                    account.address,
+                                                    style: TextStyle(color: color),
                                                   ),
-                                                Text(
-                                                  account.address,
-                                                  style: TextStyle(color: color),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
+                                              onTap: () {
+                                                ref.read(sessionProvider.notifier).setCurrentBtcAccount(account);
+                                              },
                                             ),
-                                            onTap: () {
-                                              ref.read(sessionProvider.notifier).setCurrentBtcAccount(account);
-                                            },
-                                          ),
-                                        );
+                                          );
+                                        }
                                       }
                                       return list;
                                     },

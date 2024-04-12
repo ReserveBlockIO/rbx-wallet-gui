@@ -1,10 +1,11 @@
 ENVIRONMENT_NAME=release_testnet
 STORAGE_PREFIX=release_testnet
 API_BASE_URL=http://localhost:17292/api/V1
-EXPLORER_API_BASE_URL=https://rbx-explorer-service-testnet.herokuapp.com/api
+EXPLORER_API_BASE_URL=https://testnet-data.rbx.network/api
 VALIDATOR_PORT=13338
 LAUNCH_CLI=true
 IS_TEST_NET=true
 HIDE_CLI_OUTPUT=false
 ALLOW_VALIDATING=true
 PAYMENT_DOMAIN=https://rbx.banxa-sandbox.com
+EXPLORER_WEBSITE_BASE_URL=https://testnet.rbx.network

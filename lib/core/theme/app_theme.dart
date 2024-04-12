@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import '../../utils/colors.dart';
 import '../../utils/html_helpers.dart';
 
-const _primaryColor = Color(0xFF031745);
+// const _primaryColor = Color(0xFF031745);
+const _primaryColor = Color(0xFF303030);
 const _secondaryColor = Color(0xFF82e4fb);
 const _successColor = Color(0xFF43ae52);
 const _infoColor = Color(0xFFc4c4c4);
@@ -56,7 +57,7 @@ extension CustomColorScheme on ColorScheme {
   Color get primaryButtonFg => const Color(0xFFFFFFFF);
 
   Color get secondaryButtonBg => secondary;
-  Color get secondaryButtonFg => const Color(0xFFFFFFFF);
+  Color get secondaryButtonFg => const Color(0xff000000);
 
   Color get infoButtonBg => info;
   Color get infoButtonFg => const Color(0xFFFFFFFF);
@@ -77,7 +78,7 @@ extension CustomColorScheme on ColorScheme {
   Color get darkButtonFg => const Color(0xFFFFFFFF);
 
   Color get btcOrange => _btc;
-  Color get onBtcOrange => Colors.white;
+  Color get onBtcOrange => Colors.black;
 }
 
 class AppTheme {

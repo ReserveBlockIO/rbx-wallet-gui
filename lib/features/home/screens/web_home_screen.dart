@@ -45,7 +45,7 @@ class WebHomeScreen extends BaseScreen {
       backgroundColor: Colors.black,
       shadowColor: Colors.transparent,
       centerTitle: true,
-      leadingWidth: 140,
+      leadingWidth: 180,
       leading: address == null || !ALLOW_PAYMENT
           ? SizedBox.shrink()
           : Padding(

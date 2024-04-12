@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
@@ -23,10 +24,10 @@ import '../../btc/screens/tokenized_btc_list_screen.dart';
 
 enum HomeButtonSection {
   general,
-  troubleshoot,
   security,
   nft,
   validator,
+  diagnose,
 }
 
 class HomeButtons extends StatefulWidget {
@@ -42,6 +43,7 @@ class _HomeButtonsState extends State<HomeButtons> {
 
   @override
   Widget build(BuildContext context) {
+    final tabsRouter = AutoTabsRouter.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -84,20 +86,20 @@ class _HomeButtonsState extends State<HomeButtons> {
               value: HomeButtonSection.general,
             ),
             ButtonSegment(
-              label: Text("Troubleshoot"),
-              value: HomeButtonSection.troubleshoot,
-            ),
-            ButtonSegment(
-              label: Text("Security"),
+              label: Text("Wallet Security"),
               value: HomeButtonSection.security,
             ),
             ButtonSegment(
-              label: Text("NFTs"),
+              label: Text("Tokens / NFTs"),
               value: HomeButtonSection.nft,
             ),
             ButtonSegment(
               label: Text("Validator"),
               value: HomeButtonSection.validator,
+            ),
+            ButtonSegment(
+              label: Text("Diagnose"),
+              value: HomeButtonSection.diagnose,
             ),
           ],
           selected: selection,
@@ -116,34 +118,20 @@ class _HomeButtonsState extends State<HomeButtons> {
                       RestartCliButton(),
                       PrintAdressesButton(),
                       const OpenDbFolderButton(),
-                      AppButton(
-                        label: "Tokenize BTC",
-                        variant: AppColorVariant.Btc,
-                        icon: FontAwesomeIcons.bitcoin,
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => TokenizeBtcListScreen(),
-                            ),
-                          );
-                        },
-                      )
+                      // AppButton(
+                      //   label: "Tokenize BTC",
+                      //   variant: AppColorVariant.Btc,
+                      //   icon: FontAwesomeIcons.bitcoin,
+                      //   onPressed: () {
+                      //     Navigator.of(context).push(
+                      //       MaterialPageRoute(
+                      //         builder: (context) => TokenizeBtcListScreen(),
+                      //       ),
+                      //     );
+                      //   },
+                      // )
                     ],
                   );
-                case HomeButtonSection.troubleshoot:
-                  return Wrap(
-                    spacing: 12,
-                    runSpacing: 12,
-                    alignment: WrapAlignment.spaceEvenly,
-                    children: [
-                      RestartCliButton(),
-                      const OpenDbFolderButton(),
-                      OpenLogButton(),
-                      ShowDebugDataButton(),
-                      ValidatingCheckButton(),
-                    ],
-                  );
-
                 case HomeButtonSection.security:
                   return Wrap(
                     spacing: 12,
@@ -153,8 +141,8 @@ class _HomeButtonsState extends State<HomeButtons> {
                       EncryptWalletButton(),
                       HdWalletButton(),
                       if (widget.includeRestoreHd) RestoreHdWalletButton(),
-                      ReserveAccountsButton(),
                       BackupButton(),
+                      ReserveAccountsButton(),
                     ],
                   );
                 case HomeButtonSection.nft:
@@ -166,8 +154,23 @@ class _HomeButtonsState extends State<HomeButtons> {
                       VerifyNftOwnershipButton(),
                       ImportMediaButton(),
                       BackupButton(),
+                      AppButton(
+                        label: "Beacons",
+                        onPressed: () {
+                          tabsRouter.setActiveIndex(12);
+                        },
+                      ),
+                      AppButton(
+                        label: "Mint Fungible",
+                        onPressed: () {},
+                      ),
+                      AppButton(
+                        label: "Token Voting",
+                        onPressed: () {},
+                      ),
                     ],
                   );
+
                 case HomeButtonSection.validator:
                   return Wrap(
                     spacing: 12,
@@ -176,7 +179,36 @@ class _HomeButtonsState extends State<HomeButtons> {
                     children: [
                       PrintValidatorsButton(),
                       ValidatingCheckButton(),
+                      AppButton(
+                        label: "Validator Pool",
+                        onPressed: () {
+                          tabsRouter.setActiveIndex(6);
+                        },
+                      ),
+                      AppButton(
+                        label: "Proposals & Voting",
+                        onPressed: () {
+                          tabsRouter.setActiveIndex(11);
+                        },
+                      ),
                       MotherButton(),
+                    ],
+                  );
+                case HomeButtonSection.diagnose:
+                  return Wrap(
+                    spacing: 12,
+                    runSpacing: 12,
+                    alignment: WrapAlignment.spaceEvenly,
+                    children: [
+                      RestartCliButton(),
+                      const OpenDbFolderButton(),
+                      OpenLogButton(),
+                      ShowDebugDataButton(),
+                      ValidatingCheckButton(),
+                      AppButton(
+                        label: "Mempool",
+                        onPressed: () {},
+                      ),
                     ],
                   );
               }

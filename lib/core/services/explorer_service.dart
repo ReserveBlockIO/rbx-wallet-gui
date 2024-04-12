@@ -227,4 +227,16 @@ class ExplorerService extends BaseService {
 
     return response['url'];
   }
+
+  Future<int?> validatorCount() async {
+    try {
+      final response = await getJson('/masternodes/', params: {'limit': 0}, inspect: true);
+
+      return response['count'];
+    } catch (e) {
+      print("Explorer masternodes");
+      print(e);
+      return null;
+    }
+  }
 }

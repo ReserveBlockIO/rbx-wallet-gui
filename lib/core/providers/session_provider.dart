@@ -952,6 +952,30 @@ class SessionProvider extends StateNotifier<SessionModel> {
       state = state.copyWith(btcRecommendedFees: value);
     });
   }
+
+  void toggleToVfxWallet() {
+    if (!state.btcSelected) {
+      return;
+    }
+    final wallets = ref.read(walletListProvider);
+    if (wallets.isNotEmpty) {
+      state = state.copyWith(btcSelected: false, currentWallet: wallets.first);
+    } else {
+      state = state.copyWith(btcSelected: false);
+    }
+  }
+
+  void toggleToBtcWallet() {
+    if (state.btcSelected) {
+      return;
+    }
+    final accounts = ref.read(btcAccountListProvider);
+    if (accounts.isNotEmpty) {
+      state = state.copyWith(btcSelected: true, currentBtcAccount: accounts.first);
+    } else {
+      state = state.copyWith(btcSelected: true);
+    }
+  }
 }
 
 final sessionProvider = StateNotifierProvider<SessionProvider, SessionModel>(

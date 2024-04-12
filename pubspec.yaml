@@ -107,6 +107,14 @@ flutter:
     - family: NotoColorEmoji
       fonts:
         - asset: assets/fonts/NotoColorEmoji-Regular.ttf
+    - family: Mukta
+      fonts:
+        - asset: assets/fonts/Mukta-Medium.ttf
+          weight: 500 
+        - asset: assets/fonts/Mukta-SemiBold.ttf
+          weight: 600 
+        - asset: assets/fonts/Mukta-Bold.ttf
+          weight: 700 
 
 flutter_gen:
   output: lib/generated

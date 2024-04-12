@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/home/components/home_buttons.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../../core/app_constants.dart';
 import '../../../core/components/buttons.dart';
@@ -52,7 +53,7 @@ class HomeScreen extends BaseScreen {
       title: const Text("Dashboard"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      leadingWidth: address == null || !ALLOW_PAYMENT ? null : 140,
+      leadingWidth: address == null || !ALLOW_PAYMENT ? null : 180,
       centerTitle: true,
       // leading: IconButton(
       //   onPressed: () {
@@ -68,23 +69,78 @@ class HomeScreen extends BaseScreen {
               padding: const EdgeInsets.only(left: 4.0),
               child: AppButton(
                 onPressed: () async {
-                  if (Env.isTestNet) {
-                    launchUrlString("https://testnet.rbx.network/faucet");
-                    return;
-                  }
+                  final String? type = await showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return ModalContainer(
+                          withDecor: false,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(boxShadow: glowingBox),
+                              child: Card(
+                                color: Colors.black,
+                                child: ListTile(
+                                  title: Text("Get \$VFX Now"),
+                                  onTap: () {
+                                    Navigator.of(context).pop("vfx");
+                                  },
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            Container(
+                              decoration: BoxDecoration(boxShadow: glowingBoxBtc),
+                              child: Card(
+                                color: Colors.black,
+                                child: ListTile(
+                                  title: Text("Get \$BTC Now"),
+                                  onTap: () {
+                                    Navigator.of(context).pop("btc");
+                                  },
+                                ),
+                              ),
+                            )
+                          ],
+                        );
+                      });
 
-                  final agreed = await PaymentTermsDialog.show(context);
+                  if (type == "vfx") {
+                    if (Env.isTestNet) {
+                      launchUrlString("https://testnet.rbx.network/faucet");
+                      return;
+                    }
 
-                  if (agreed != true) {
-                    return;
-                  }
+                    final agreed = await PaymentTermsDialog.show(context);
 
-                  final url = paymentUrl(amount: 5000, walletAddress: address);
-                  if (url != null) {
-                    launchUrl(Uri.parse(url));
+                    if (agreed != true) {
+                      return;
+                    }
+
+                    final url = paymentUrl(amount: 5000, walletAddress: address, currency: "RBX");
+                    if (url != null) {
+                      launchUrl(Uri.parse(url));
+                    }
+                  } else if (type == "btc") {
+                    if (Env.isTestNet) {
+                      launchUrlString("https://coinfaucet.eu/en/btc-testnet/");
+                      return;
+                    }
+
+                    final agreed = await PaymentTermsDialog.show(context);
+
+                    if (agreed != true) {
+                      return;
+                    }
+
+                    final url = paymentUrl(amount: 5000, walletAddress: address, currency: "BTC");
+                    if (url != null) {
+                      launchUrl(Uri.parse(url));
+                    }
                   }
                 },
-                label: "Get \$RBX Now",
+                label: "Get \$VFX/\$BTC Now",
                 variant: AppColorVariant.Success,
               ),
             ),

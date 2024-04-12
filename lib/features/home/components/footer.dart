@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/app_router.gr.dart';
@@ -28,6 +29,7 @@ class Footer extends BaseComponent {
                 children: [
                   Wrap(
                     spacing: 12.0,
+                    crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
                       IconButton(
                         iconSize: 16,
@@ -48,7 +50,16 @@ class Footer extends BaseComponent {
                           FontAwesomeIcons.github,
                           color: Colors.white,
                         ),
-                      )
+                      ),
+                      InkWell(
+                        onTap: () {
+                          launchUrlString("https://wiki.reserveblock.io/");
+                        },
+                        child: Text(
+                          "Wiki",
+                          style: TextStyle(color: Colors.white, fontSize: 12, decoration: TextDecoration.underline),
+                        ),
+                      ),
                     ],
                   ),
                   Text(

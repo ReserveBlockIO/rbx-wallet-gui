@@ -29,7 +29,7 @@ class ValidatorScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: const Text("Masternode"),
+      title: const Text("Validator"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
       actions: const [WalletSelector()],

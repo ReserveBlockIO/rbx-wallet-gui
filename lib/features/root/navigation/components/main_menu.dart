@@ -51,24 +51,43 @@ class MainMenu extends BaseComponent {
                   Container(
                     color: Colors.black,
                     child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Center(
-                        child: Image.asset(
-                          Assets.images.rbxWallet.path,
-                          width: 160,
-                          height: 27,
-                          fit: BoxFit.contain,
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                "Verified",
+                                style: TextStyle(
+                                  color: Colors.white.withOpacity(0.9),
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: 'Mukta',
+                                  letterSpacing: 2,
+                                ),
+                              ),
+                              Text(
+                                "X",
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.secondary,
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: 'Mukta',
+                                  letterSpacing: 2,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                        // child: Center(
+                        //     child: Text(
+                        //   "RBXWallet",
+                        //   style: Theme.of(context)
+                        //       .textTheme
+                        //       .headline4!
+                        //       .copyWith(color: Colors.white70, letterSpacing: 2),
+                        // )),
                         ),
-                      ),
-                      // child: Center(
-                      //     child: Text(
-                      //   "RBXWallet",
-                      //   style: Theme.of(context)
-                      //       .textTheme
-                      //       .headline4!
-                      //       .copyWith(color: Colors.white70, letterSpacing: 2),
-                      // )),
-                    ),
                   ),
                   Container(
                     color: Colors.black,
@@ -150,7 +169,7 @@ class MainMenu extends BaseComponent {
                   ),
                   if (!kIsWeb)
                     _NavButton(
-                      title: "Masternode",
+                      title: "Validator",
                       icon: Icons.check_circle,
                       onPressed: () {
                         tabsRouter.setActiveIndex(4);
@@ -158,32 +177,32 @@ class MainMenu extends BaseComponent {
                       isActive: tabsRouter.activeIndex == 4,
                     ),
 
-                  if (!kIsWeb)
-                    _NavButton(
-                      title: "Validator Pool",
-                      icon: Icons.wifi,
-                      onPressed: () {
-                        tabsRouter.setActiveIndex(6);
-                      },
-                      isActive: tabsRouter.activeIndex == 6,
-                    ),
-                  if (!kIsWeb)
-                    _NavButton(
-                      title: "Validator Voting",
-                      icon: Icons.how_to_vote,
-                      onPressed: () {
-                        tabsRouter.setActiveIndex(11);
-                      },
-                      isActive: tabsRouter.activeIndex == 11,
-                    ),
-                  _NavButton(
-                    title: "Beacons",
-                    icon: Icons.satellite_alt,
-                    onPressed: () {
-                      tabsRouter.setActiveIndex(12);
-                    },
-                    isActive: tabsRouter.activeIndex == 12,
-                  ),
+                  // if (!kIsWeb)
+                  //   _NavButton(
+                  //     title: "Validator Pool",
+                  //     icon: Icons.wifi,
+                  //     onPressed: () {
+                  //       tabsRouter.setActiveIndex(6);
+                  //     },
+                  //     isActive: tabsRouter.activeIndex == 6,
+                  //   ),
+                  // if (!kIsWeb)
+                  //   _NavButton(
+                  //     title: "Validator Voting",
+                  //     icon: Icons.how_to_vote,
+                  //     onPressed: () {
+                  //       tabsRouter.setActiveIndex(11);
+                  //     },
+                  //     isActive: tabsRouter.activeIndex == 11,
+                  //   ),
+                  // _NavButton(
+                  //   title: "Beacons",
+                  //   icon: Icons.satellite_alt,
+                  //   onPressed: () {
+                  //     tabsRouter.setActiveIndex(12);
+                  //   },
+                  //   isActive: tabsRouter.activeIndex == 12,
+                  // ),
 
                   _NavButton(
                     title: "RBX Domains",

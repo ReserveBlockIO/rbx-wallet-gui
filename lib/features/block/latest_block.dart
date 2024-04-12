@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/env.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../../core/theme/app_theme.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -133,6 +135,79 @@ class LatestBlock extends BaseComponent {
                 label: "Validated By",
                 value: latestBlock.validator,
                 mono: true,
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      launchUrlString(Env.explorerWebsiteBaseUrl);
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "VFX Explorer",
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: Theme.of(context).colorScheme.secondary,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 2,
+                        ),
+                        Transform.translate(
+                          offset: Offset(0, 1),
+                          child: Icon(
+                            Icons.open_in_new,
+                            size: 10,
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      if (Env.isTestNet) {
+                        launchUrlString("https://live.blockcypher.com/btc-testnet/");
+                      } else {
+                        launchUrlString("https://live.blockcypher.com/btc/");
+                      }
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "BTC Explorer",
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: Theme.of(context).colorScheme.btcOrange,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 2,
+                        ),
+                        Transform.translate(
+                          offset: Offset(0, 1),
+                          child: Icon(
+                            Icons.open_in_new,
+                            size: 10,
+                            color: Theme.of(context).colorScheme.btcOrange,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 4,
               ),
             ],
           ),

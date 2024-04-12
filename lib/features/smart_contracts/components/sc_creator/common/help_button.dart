@@ -90,7 +90,7 @@ class HelpButton extends StatelessWidget {
       case HelpType.ownerAddress:
         return "Owner Address";
       case HelpType.baselineProperties:
-        return "Baseline Properties";
+        return "Properties";
       case HelpType.minterName:
         return "Minter Name";
       case HelpType.primaryAsset:
