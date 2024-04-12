@@ -34,8 +34,12 @@ class WebWalletDetails extends BaseComponent {
       ),
       child: ListTile(
         title: SelectableText(
-          wallet.adnr != null && wallet.adnr!.isNotEmpty ? "${wallet.adnr} [${wallet.address}]" : wallet.address,
-          style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 13, color: usingRa ? Colors.deepPurple.shade200 : Colors.white),
+          wallet.adnr != null && wallet.adnr!.isNotEmpty
+              ? "${wallet.adnr} [${wallet.address}]"
+              : wallet.address,
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              fontSize: 13,
+              color: usingRa ? Colors.deepPurple.shade200 : Colors.white),
         ),
         subtitle: Builder(builder: (context) {
           if (selectedWalletType == WalletType.btc) {
@@ -61,12 +65,19 @@ class WebWalletDetails extends BaseComponent {
                     "Sent: ${btcInfo.btcTotalSent} BTC",
                     "Recieved: ${btcInfo.btcTotalRecieved} BTC"
                   ].join('\n'),
-                  child: Icon(Icons.help, color: Theme.of(context).colorScheme.secondary.withOpacity(0.7), size: 14),
+                  child: Icon(Icons.help,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .secondary
+                          .withOpacity(0.7),
+                      size: 14),
                 ),
                 SizedBox(width: 2),
                 InkWell(
                     onTap: () {
-                      ref.read(webSessionProvider.notifier).refreshBtcBalanceInfo();
+                      ref
+                          .read(webSessionProvider.notifier)
+                          .refreshBtcBalanceInfo();
                     },
                     child: Icon(Icons.refresh, size: 14)),
               ],
@@ -77,13 +88,19 @@ class WebWalletDetails extends BaseComponent {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                "${wallet.balance} RBX",
+                "${wallet.balance} VFX",
                 style: Theme.of(context).textTheme.bodySmall,
               ),
               SizedBox(width: 2),
               Tooltip(
-                message: "Available: ${wallet.balance} RBX\nLocked: ${wallet.lockedBalance} RBX \nTotal: ${wallet.totalBalance} RBX",
-                child: Icon(Icons.help, color: Theme.of(context).colorScheme.secondary.withOpacity(0.7), size: 14),
+                message:
+                    "Available: ${wallet.balance} VFX\nLocked: ${wallet.lockedBalance} VFX \nTotal: ${wallet.totalBalance} RBX",
+                child: Icon(Icons.help,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .secondary
+                        .withOpacity(0.7),
+                    size: 14),
               ),
             ],
           );
@@ -94,7 +111,8 @@ class WebWalletDetails extends BaseComponent {
             InkWell(
                 onTap: () async {
                   await Clipboard.setData(ClipboardData(text: wallet.address));
-                  Toast.message("Address ${wallet.address} copied to clipboard");
+                  Toast.message(
+                      "Address ${wallet.address} copied to clipboard");
                 },
                 child: const Padding(
                   padding: EdgeInsets.all(4.0),
@@ -114,11 +132,13 @@ class WebWalletDetails extends BaseComponent {
                   if (confirmed == true) {
                     switch (session.selectedWalletType) {
                       case WalletType.rbx:
-                        showKeys(context, ref.read(webSessionProvider).keypair!, true);
+                        showKeys(context, ref.read(webSessionProvider).keypair!,
+                            true);
 
                         break;
                       case WalletType.ra:
-                        showKeys(context, ref.read(webSessionProvider).keypair!, true);
+                        showKeys(context, ref.read(webSessionProvider).keypair!,
+                            true);
                         break;
                       case WalletType.btc:
                         final account = ref.read(webSessionProvider).btcKeypair;

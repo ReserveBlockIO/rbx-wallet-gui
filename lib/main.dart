@@ -25,12 +25,13 @@ void main() async {
   await Env.init();
   if (kIsWeb) {
     await Hive.initFlutter();
-    rbxBox = await Hive.openBox('RBX');
+    rbxBox = await Hive.openBox('VFX');
   }
   await initSingletons();
 
   if (!kIsWeb && Platform.isMacOS) {
-    await DesktopWindow.setWindowSize(const Size(DEFAULT_WIDTH, DEFAULT_HEIGHT));
+    await DesktopWindow.setWindowSize(
+        const Size(DEFAULT_WIDTH, DEFAULT_HEIGHT));
     await DesktopWindow.setMinWindowSize(const Size(MIN_WIDTH, MIN_HEIGHT));
   }
 
@@ -38,7 +39,7 @@ void main() async {
 
   if (!kIsWeb) {
     if (Platform.isWindows) {
-      registerProtocol('rbx');
+      registerProtocol('vfx');
     }
   }
 

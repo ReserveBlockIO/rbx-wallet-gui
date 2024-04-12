@@ -110,7 +110,9 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
       return "The amount has to be a positive value";
     }
 
-    final isBtc = kIsWeb ? ref.read(webSessionProvider).usingBtc : ref.read(sessionProvider).btcSelected;
+    final isBtc = kIsWeb
+        ? ref.read(webSessionProvider).usingBtc
+        : ref.read(sessionProvider).btcSelected;
 
     if (isBtc) {
       if (kIsWeb) {
@@ -119,7 +121,8 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
           return "No wallet selected";
         }
 
-        final btcBalance = ref.read(webSessionProvider).btcBalanceInfo?.btcFinalBalance ?? 0;
+        final btcBalance =
+            ref.read(webSessionProvider).btcBalanceInfo?.btcFinalBalance ?? 0;
 
         if (btcBalance < parsed) {
           return "Not enough balance in BTC account";
@@ -172,7 +175,9 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
   }
 
   String? addressValidator(String? value) {
-    final isBtc = kIsWeb ? ref.read(webSessionProvider).usingBtc : ref.read(sessionProvider).btcSelected;
+    final isBtc = kIsWeb
+        ? ref.read(webSessionProvider).usingBtc
+        : ref.read(sessionProvider).btcSelected;
 
     if (isBtc) {
       if (value == null || value.isEmpty) {
@@ -181,7 +186,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
       return null;
     } else {
       if (value == null || value.isEmpty) {
-        return "Address or RBX domain required";
+        return "Address or VFX domain required";
       }
 
       return formValidatorRbxAddress(value, true);
@@ -224,7 +229,8 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
   }
 
   void setBtcFeeRatePreset(BtcFeeRatePreset preset) async {
-    final recommendedFees = ref.read(sessionProvider).btcRecommendedFees ?? BtcRecommendedFees.fallback();
+    final recommendedFees = ref.read(sessionProvider).btcRecommendedFees ??
+        BtcRecommendedFees.fallback();
 
     int fee = 0;
 
@@ -258,7 +264,8 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
     if (state.btcFeeRatePreset == BtcFeeRatePreset.custom) {
       feeRateInt = int.tryParse(btcCustomFeeRateController.text) ?? 0;
     } else {
-      final recommendedFees = ref.read(sessionProvider).btcRecommendedFees ?? BtcRecommendedFees.fallback();
+      final recommendedFees = ref.read(sessionProvider).btcRecommendedFees ??
+          BtcRecommendedFees.fallback();
 
       switch (state.btcFeeRatePreset) {
         case BtcFeeRatePreset.custom:
@@ -288,7 +295,9 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
     String senderAddress = "";
     Wallet? currentWallet;
 
-    final isBtc = kIsWeb ? ref.read(webSessionProvider).usingBtc : ref.read(sessionProvider).btcSelected;
+    final isBtc = kIsWeb
+        ? ref.read(webSessionProvider).usingBtc
+        : ref.read(sessionProvider).btcSelected;
 
     if (isBtc) {
       if (kIsWeb) {
@@ -304,7 +313,8 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
           return;
         }
 
-        final balance = ref.read(webSessionProvider).btcBalanceInfo?.btcFinalBalance;
+        final balance =
+            ref.read(webSessionProvider).btcBalanceInfo?.btcFinalBalance;
         if (balance == null || balance < amountDouble) {
           Toast.error("Not enough balance");
           return;
@@ -315,7 +325,8 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
 
         final confirmed = await ConfirmDialog.show(
           title: "Please Confirm",
-          body: "Sending:\n$amount BTC\n\nTo:\n$address\n\nFrom:\n$senderAddress",
+          body:
+              "Sending:\n$amount BTC\n\nTo:\n$address\n\nFrom:\n$senderAddress",
           confirmText: "Send",
           cancelText: "Cancel",
         );
@@ -324,7 +335,8 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
           return;
         }
 
-        final transaction = await BtcWebService().sendTransaction(senderWif, senderAddress, address, amountDouble);
+        final transaction = await BtcWebService()
+            .sendTransaction(senderWif, senderAddress, address, amountDouble);
 
         if (transaction == null) {
           Toast.error();
@@ -378,9 +390,11 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
                     type: AppButtonType.Text,
                     onPressed: () {
                       if (Env.isTestNet) {
-                        launchUrlString("https://live.blockcypher.com/btc-testnet/tx/$txHash/");
+                        launchUrlString(
+                            "https://live.blockcypher.com/btc-testnet/tx/$txHash/");
                       } else {
-                        launchUrlString("https://live.blockcypher.com/btc/tx/$txHash/");
+                        launchUrlString(
+                            "https://live.blockcypher.com/btc/tx/$txHash/");
                       }
                     },
                   )
@@ -407,7 +421,8 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
         }
 
         if (amountDouble < BTC_MINIMUM_TX_AMOUNT) {
-          Toast.error("The minimum transaction acmount is $BTC_MINIMUM_TX_AMOUNT BTC");
+          Toast.error(
+              "The minimum transaction acmount is $BTC_MINIMUM_TX_AMOUNT BTC");
           return;
         }
 
@@ -419,7 +434,8 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
 
         final confirmed = await ConfirmDialog.show(
           title: "Please Confirm",
-          body: "Sending:\n$amount BTC\n\nTo:\n$address\n\nFrom:\n${account.address}",
+          body:
+              "Sending:\n$amount BTC\n\nTo:\n$address\n\nFrom:\n${account.address}",
           confirmText: "Send",
           cancelText: "Cancel",
         );
@@ -472,8 +488,10 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
                         suffix: IconButton(
                           icon: Icon(Icons.copy),
                           onPressed: () async {
-                            await Clipboard.setData(ClipboardData(text: txHash));
-                            Toast.message("Transaction Hash copied to clipboard");
+                            await Clipboard.setData(
+                                ClipboardData(text: txHash));
+                            Toast.message(
+                                "Transaction Hash copied to clipboard");
                           },
                         ),
                       ),
@@ -487,9 +505,11 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
                       type: AppButtonType.Text,
                       onPressed: () {
                         if (Env.isTestNet) {
-                          launchUrlString("https://live.blockcypher.com/btc-testnet/tx/$txHash/");
+                          launchUrlString(
+                              "https://live.blockcypher.com/btc-testnet/tx/$txHash/");
                         } else {
-                          launchUrlString("https://live.blockcypher.com/btc/tx/$txHash/");
+                          launchUrlString(
+                              "https://live.blockcypher.com/btc/tx/$txHash/");
                         }
                       },
                     )
@@ -511,8 +531,10 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
         return;
       }
 
-      if (currentWallet.isReserved && currentWallet.isNetworkProtected == false) {
-        Toast.error("You must activate your Reserve Account before proceeding.");
+      if (currentWallet.isReserved &&
+          currentWallet.isNetworkProtected == false) {
+        Toast.error(
+            "You must activate your Reserve Account before proceeding.");
         return;
       }
 
@@ -521,7 +543,8 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
       if (!guardWalletIsSynced(ref)) return;
       if (!guardWalletIsNotResyncing(ref)) return;
 
-      final addressIsValid = await BridgeService().validateSendToAddress(address.trim().replaceAll("\n", ""));
+      final addressIsValid = await BridgeService()
+          .validateSendToAddress(address.trim().replaceAll("\n", ""));
 
       if (!addressIsValid) {
         Toast.error("Invalid Address");
@@ -567,7 +590,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
 
     final confirmed = await ConfirmDialog.show(
       title: "Please Confirm",
-      body: "Sending:\n$amount RBX\n\nTo:\n$address\n\nFrom:\n$senderAddress",
+      body: "Sending:\n$amount VFX\n\nTo:\n$address\n\nFrom:\n$senderAddress",
       confirmText: "Send",
       cancelText: "Cancel",
     );
@@ -597,7 +620,8 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         );
 
-        int hours = (hoursString != null ? int.tryParse(hoursString) : 24) ?? 24;
+        int hours =
+            (hoursString != null ? int.tryParse(hoursString) : 24) ?? 24;
         if (hours < 24) {
           hours = 24;
         }
@@ -614,7 +638,8 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
 
         if (message != null) {
           final hash = message.replaceAll("Success! TX ID: ", "");
-          Toast.message("$amount RBX has been sent to $address. See dashboard for TX ID.");
+          Toast.message(
+              "$amount VFX has been sent to $address. See dashboard for TX ID.");
           ref.read(logProvider.notifier).append(
                 LogEntry(
                   message: message,
@@ -646,7 +671,8 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         );
 
-        unlockHours = (hoursString != null ? int.tryParse(hoursString) : 24) ?? 24;
+        unlockHours =
+            (hoursString != null ? int.tryParse(hoursString) : 24) ?? 24;
         if (unlockHours < 24) {
           unlockHours = 24;
         }
@@ -654,7 +680,9 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
 
       final amountDouble = double.parse(amount);
       final txData = await RawTransaction.generate(
-        keypair: ref.read(webSessionProvider).usingRa ? ref.read(webSessionProvider).raKeypair!.asKeypair : ref.read(webSessionProvider).keypair!,
+        keypair: ref.read(webSessionProvider).usingRa
+            ? ref.read(webSessionProvider).raKeypair!.asKeypair
+            : ref.read(webSessionProvider).keypair!,
         amount: amountDouble,
         toAddress: address,
         unlockHours: unlockHours,
@@ -673,20 +701,21 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
         final confirmed = await ConfirmDialog.show(
           title: "Valid Transaction",
           body:
-              "This transaction is valid and is ready to send.\nAre you sure you want to proceed?\n\nTo:$address\n\nAmount:$amountDouble RBX${txFee != null ? '\nTX Fee: $txFee RBX\nTotal:${amountDouble + txFee} RBX' : ''}",
+              "This transaction is valid and is ready to send.\nAre you sure you want to proceed?\n\nTo:$address\n\nAmount:$amountDouble VFX${txFee != null ? '\nTX Fee: $txFee VFX\nTotal:${amountDouble + txFee} RBX' : ''}",
           confirmText: "Send",
           cancelText: "Cancel",
         );
 
         if (confirmed == true) {
           ref.read(globalLoadingProvider.notifier).start();
-          final tx = await RawService().sendTransaction(transactionData: txData, execute: true, ref: ref);
+          final tx = await RawService().sendTransaction(
+              transactionData: txData, execute: true, ref: ref);
 
           ref.read(globalLoadingProvider.notifier).complete();
 
           if (tx != null) {
             if (tx['Result'] == "Success") {
-              Toast.message("$amount RBX sent to $address");
+              Toast.message("$amount VFX sent to $address");
               clear();
               return;
             }
@@ -705,9 +734,13 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
         state = state.copyWith(isProcessing: false);
 
         if (message != null) {
-          Toast.message("$amount RBX has been sent to $address. See dashboard for TX ID.");
+          Toast.message(
+              "$amount VFX has been sent to $address. See dashboard for TX ID.");
           ref.read(logProvider.notifier).append(
-                LogEntry(message: message, textToCopy: message.replaceAll("Success! TxId: ", ""), variant: AppColorVariant.Success),
+                LogEntry(
+                    message: message,
+                    textToCopy: message.replaceAll("Success! TxId: ", ""),
+                    variant: AppColorVariant.Success),
               );
           clear();
         }
@@ -720,6 +753,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
   }
 }
 
-final sendFormProvider = StateNotifierProvider<SendFormProvider, SendFormModel>((ref) {
+final sendFormProvider =
+    StateNotifierProvider<SendFormProvider, SendFormModel>((ref) {
   return SendFormProvider(ref);
 });

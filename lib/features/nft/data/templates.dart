@@ -11,7 +11,8 @@ import '../../smart_contracts/models/smart_contract_template.dart';
 import '../../smart_contracts/providers/create_smart_contract_provider.dart';
 import '../components/learn_more_content.dart';
 
-List<SmartContractTemplate> getSmartContractTemplates(BuildContext context, WidgetRef ref) {
+List<SmartContractTemplate> getSmartContractTemplates(
+    BuildContext context, WidgetRef ref) {
   final _provider = ref.read(createSmartContractProvider.notifier);
 
   void _createBaseline() {
@@ -31,7 +32,11 @@ List<SmartContractTemplate> getSmartContractTemplates(BuildContext context, Widg
         description: "",
       )
     ]);
-    final smartContract = SmartContract(owner: ref.read(sessionProvider).currentWallet!, name: "", description: "", evolves: [evolve]);
+    final smartContract = SmartContract(
+        owner: ref.read(sessionProvider).currentWallet!,
+        name: "",
+        description: "",
+        evolves: [evolve]);
 
     _provider.setSmartContract(smartContract);
   }
@@ -56,7 +61,8 @@ List<SmartContractTemplate> getSmartContractTemplates(BuildContext context, Widg
     SmartContractTemplate(
       name: "Baseline Smart Contract",
       color: Theme.of(context).colorScheme.primary,
-      description: "Create a baseline smart contract with an asset and metadata and mint it to the chain",
+      description:
+          "Create a baseline smart contract with an asset and metadata and mint it to the chain",
       images: [
         Assets.images.templateBasic1a.path,
         Assets.images.templateBasic2a.path,
@@ -68,12 +74,14 @@ List<SmartContractTemplate> getSmartContractTemplates(BuildContext context, Widg
         steps: [
           LearnMoreStep(
             title: "Metadata",
-            description: "Start by providing the name, minter, and description of the smart contract.",
+            description:
+                "Start by providing the name, minter, and description of the smart contract.",
             imagePath: Assets.images.tutBasic1.path,
           ),
           LearnMoreStep(
             title: "Primary Asset",
-            description: "Choose the primary asset for the smart contract. This can be an image, audio file, video, or any digital file.",
+            description:
+                "Choose the primary asset for the smart contract. This can be an image, audio file, video, or any digital file.",
             imagePath: Assets.images.tutBasic2.path,
           ),
           LearnMoreStep(
@@ -87,7 +95,8 @@ List<SmartContractTemplate> getSmartContractTemplates(BuildContext context, Widg
     ),
     SmartContractTemplate(
       name: "Evolving Smart Contract",
-      description: "Generate a smart contract that can evolve based on time or on-chain variables",
+      description:
+          "Generate a smart contract that can evolve based on time or on-chain variables",
       images: [
         Assets.images.templateEvolving1a.path,
         Assets.images.templateEvolving2a.path,
@@ -98,12 +107,14 @@ List<SmartContractTemplate> getSmartContractTemplates(BuildContext context, Widg
         steps: [
           LearnMoreStep(
             title: "Evolution Mode",
-            description: "Decide whether you want the evolution to be controlled by the issuer or by the owner of the NFT.",
+            description:
+                "Decide whether you want the evolution to be controlled by the issuer or by the owner of the NFT.",
             imagePath: Assets.images.tutEvolve1.path,
           ),
           LearnMoreStep(
             title: "Evolution Type",
-            description: "Configure whether you want the NFT to evolve automatically by date/time, block height, or only manually.",
+            description:
+                "Configure whether you want the NFT to evolve automatically by date/time, block height, or only manually.",
             imagePath: Assets.images.tutEvolve2.path,
           ),
           LearnMoreStep(
@@ -119,7 +130,8 @@ List<SmartContractTemplate> getSmartContractTemplates(BuildContext context, Widg
     ),
     SmartContractTemplate(
       name: "Royalty Smart Contract",
-      description: "Create a smart contract that includes a royalty that is enforced on-chain upon any trade",
+      description:
+          "Create a smart contract that includes a royalty that is enforced on-chain upon any trade",
       color: Theme.of(context).colorScheme.primary,
       images: [
         Assets.images.templateRoyalty1a.path,
@@ -131,12 +143,14 @@ List<SmartContractTemplate> getSmartContractTemplates(BuildContext context, Widg
         steps: [
           LearnMoreStep(
             title: "Royalty Type",
-            description: "Choose either a flat fee or percentage based royalty enforced by the on the chain upon any trade.",
+            description:
+                "Choose either a flat fee or percentage based royalty enforced by the on the chain upon any trade.",
             imagePath: Assets.images.tutRoyalty1.path,
           ),
           LearnMoreStep(
             title: "Amount & Address",
-            description: "Input the percentage amount to be paid to the RBX address defined in the next field.",
+            description:
+                "Input the percentage amount to be paid to the VFX address defined in the next field.",
             imagePath: Assets.images.tutRoyalty2.path,
           ),
           LearnMoreStep(

@@ -47,17 +47,24 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
 
   @override
   Widget build(BuildContext context) {
-    final Wallet? toWallet = ref.read(walletListProvider.notifier).getWallet(widget.transaction.toAddress);
+    final Wallet? toWallet = ref
+        .read(walletListProvider.notifier)
+        .getWallet(widget.transaction.toAddress);
 
-    final Wallet? fromWallet = ref.read(walletListProvider.notifier).getWallet(widget.transaction.fromAddress);
+    final Wallet? fromWallet = ref
+        .read(walletListProvider.notifier)
+        .getWallet(widget.transaction.fromAddress);
 
     final toMe = toWallet != null;
     final fromMe = fromWallet != null;
 
-    final bool canCallBack = widget.transaction.status == TransactionStatus.Reserved &&
-        fromMe &&
-        widget.transaction.amount <= 0 &&
-        (widget.transaction.unlockTime != null && widget.transaction.unlockTime! > (DateTime.now().millisecondsSinceEpoch / 1000));
+    final bool canCallBack =
+        widget.transaction.status == TransactionStatus.Reserved &&
+            fromMe &&
+            widget.transaction.amount <= 0 &&
+            (widget.transaction.unlockTime != null &&
+                widget.transaction.unlockTime! >
+                    (DateTime.now().millisecondsSinceEpoch / 1000));
 
     // bool canSettle = widget.transaction.type == TxType.nftSale && !fromMe;
     // if (canSettle) {
@@ -73,7 +80,9 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
     // final DateTime? callbackUntil = widget.transaction.unlockTime != null ?
 
     return Card(
-      margin: widget.compact ? EdgeInsets.zero : const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
+      margin: widget.compact
+          ? EdgeInsets.zero
+          : const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
       color: Colors.white.withOpacity(0.03),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -129,10 +138,14 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                           const SizedBox(
                             width: 4,
                           ),
-                          if (widget.transaction.status != TransactionStatus.Fail && widget.transaction.status != TransactionStatus.Pending)
+                          if (widget.transaction.status !=
+                                  TransactionStatus.Fail &&
+                              widget.transaction.status !=
+                                  TransactionStatus.Pending)
                             InkWell(
                               onTap: () async {
-                                final url = "${Env.baseExplorerUrl}transaction/${widget.transaction.hash}";
+                                final url =
+                                    "${Env.baseExplorerUrl}transaction/${widget.transaction.hash}";
                                 await launchUrl(Uri.parse(url));
                               },
                               child: const Icon(
@@ -150,9 +163,11 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                             children: [
                               const TextSpan(text: "Amount: "),
                               TextSpan(
-                                text: "${widget.transaction.amount} RBX",
+                                text: "${widget.transaction.amount} VFX",
                                 style: TextStyle(
-                                  color: widget.transaction.amount < 0 ? Colors.red.shade500 : Theme.of(context).colorScheme.success,
+                                  color: widget.transaction.amount < 0
+                                      ? Colors.red.shade500
+                                      : Theme.of(context).colorScheme.success,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -169,14 +184,20 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                             if (widget.transaction.type == 3) {
                               final data = parseNftData(widget.transaction);
                               if (data != null) {
-                                if (nftDataValue(data, 'Function') == "TokenTransfer()") {
-                                  amountOverride = double.tryParse(nftDataValue(data, "Amount") ?? '');
+                                if (nftDataValue(data, 'Function') ==
+                                    "TokenTransfer()") {
+                                  amountOverride = double.tryParse(
+                                      nftDataValue(data, "Amount") ?? '');
                                   ticker = nftDataValue(data, "TokenTicker");
-                                } else if (nftDataValue(data, 'Function') == "TokenMint()") {
-                                  amountOverride = double.tryParse(nftDataValue(data, "Amount") ?? '');
+                                } else if (nftDataValue(data, 'Function') ==
+                                    "TokenMint()") {
+                                  amountOverride = double.tryParse(
+                                      nftDataValue(data, "Amount") ?? '');
                                   ticker = nftDataValue(data, "TokenTicker");
-                                } else if (nftDataValue(data, 'Function') == "TokenBurn()") {
-                                  amountOverride = double.tryParse(nftDataValue(data, "Amount") ?? '');
+                                } else if (nftDataValue(data, 'Function') ==
+                                    "TokenBurn()") {
+                                  amountOverride = double.tryParse(
+                                      nftDataValue(data, "Amount") ?? '');
                                   ticker = nftDataValue(data, "TokenTicker");
                                   amountColor = Colors.red.shade500;
                                 }
@@ -190,7 +211,8 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                                   children: [
                                     const TextSpan(text: "Amount: "),
                                     TextSpan(
-                                      text: "$amountOverride ${ticker != null ? '[$ticker]' : ''}",
+                                      text:
+                                          "$amountOverride ${ticker != null ? '[$ticker]' : ''}",
                                       style: TextStyle(
                                         fontWeight: FontWeight.w600,
                                         color: amountColor,
@@ -230,7 +252,8 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                               TextSpan(
                                 text: widget.transaction.statusLabel,
                                 style: TextStyle(
-                                  color: widget.transaction.statusColor(context),
+                                  color:
+                                      widget.transaction.statusColor(context),
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -250,7 +273,11 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                                 style: Theme.of(context)
                                     .textTheme
                                     .caption!
-                                    .copyWith(color: widget.transaction.isToReserveAccount ? Colors.deepPurple.shade200 : null),
+                                    .copyWith(
+                                        color: widget
+                                                .transaction.isToReserveAccount
+                                            ? Colors.deepPurple.shade200
+                                            : null),
                               ),
                               const SizedBox(
                                 height: 4,
@@ -260,7 +287,11 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                                 style: Theme.of(context)
                                     .textTheme
                                     .caption!
-                                    .copyWith(color: widget.transaction.isFromReserveAccount ? Colors.deepPurple.shade200 : null),
+                                    .copyWith(
+                                        color: widget.transaction
+                                                .isFromReserveAccount
+                                            ? Colors.deepPurple.shade200
+                                            : null),
                               ),
                               const SizedBox(
                                 height: 4,
@@ -287,14 +318,16 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                                 showModalBottomSheet(
                                     context: context,
                                     builder: (context) {
-                                      return NftDataModal(widget.transaction.nftData);
+                                      return NftDataModal(
+                                          widget.transaction.nftData);
                                     });
                               },
                             ),
                           if (widget.transaction.type == 5) //NFT Sale
                             Builder(
                               builder: (context) {
-                                if (widget.transaction.status != TransactionStatus.Success) {
+                                if (widget.transaction.status !=
+                                    TransactionStatus.Success) {
                                   return SizedBox.shrink();
                                 }
                                 final data = parseNftData(widget.transaction);
@@ -307,27 +340,34 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                                     return SizedBox.shrink();
                                   }
 
-                                  final scId = nftDataValue(data, "ContractUID");
-                                  final purchaseKey = nftDataValue(data, "KeySign");
+                                  final scId =
+                                      nftDataValue(data, "ContractUID");
+                                  final purchaseKey =
+                                      nftDataValue(data, "KeySign");
                                   final amount = nftDataValue(data, "SoldFor");
 
                                   if (scId == null || purchaseKey == null) {
                                     return SizedBox.shrink();
                                   }
 
-                                  final canPress = ref.watch(pendingSaleProvider).contains(widget.transaction.hash);
+                                  final canPress = ref
+                                      .watch(pendingSaleProvider)
+                                      .contains(widget.transaction.hash);
 
                                   return Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 6.0),
                                     child: AppButton(
                                       label: "Complete Sale",
                                       variant: AppColorVariant.Success,
                                       onPressed: canPress
                                           ? null
                                           : () async {
-                                              final confirmed = await ConfirmDialog.show(
+                                              final confirmed =
+                                                  await ConfirmDialog.show(
                                                 title: "Complete Sale",
-                                                body: "Are you sure you want to complete the sale of $scId for $amount RBX?",
+                                                body:
+                                                    "Are you sure you want to complete the sale of $scId for $amount VFX?",
                                                 confirmText: "Complete Sale",
                                                 cancelText: "Cancel",
                                               );
@@ -336,9 +376,16 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                                                 return;
                                               }
 
-                                              final success = await SmartContractService().completeTransferSale(purchaseKey, scId);
+                                              final success =
+                                                  await SmartContractService()
+                                                      .completeTransferSale(
+                                                          purchaseKey, scId);
                                               if (success) {
-                                                ref.read(pendingSaleProvider.notifier).addHash(widget.transaction.hash);
+                                                ref
+                                                    .read(pendingSaleProvider
+                                                        .notifier)
+                                                    .addHash(widget
+                                                        .transaction.hash);
                                               }
                                             },
                                     ),
@@ -348,7 +395,8 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                                 return SizedBox.shrink();
                               },
                             ),
-                          if (widget.transaction.type == 10) //Reserve Transaction
+                          if (widget.transaction.type ==
+                              10) //Reserve Transaction
                             Builder(builder: (context) {
                               final data = parseNftData(widget.transaction);
                               if (data == null) {
@@ -364,12 +412,16 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                                 return SizedBox.shrink();
                               }
 
-                              final originalTx = ref.watch(transactionListProvider(TransactionListType.All)).lastWhereOrNull((t) => t.hash == hash);
+                              final originalTx = ref
+                                  .watch(transactionListProvider(
+                                      TransactionListType.All))
+                                  .lastWhereOrNull((t) => t.hash == hash);
                               if (originalTx == null) {
                                 return SizedBox.shrink();
                               }
                               return Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 6.0),
                                 child: AppButton(
                                   label: "Original TX",
                                   variant: AppColorVariant.Warning,
@@ -377,7 +429,10 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                                     showModalBottomSheet(
                                       context: context,
                                       builder: (context) {
-                                        return Container(color: Colors.black, child: TransactionListTile(originalTx));
+                                        return Container(
+                                            color: Colors.black,
+                                            child: TransactionListTile(
+                                                originalTx));
                                       },
                                     );
                                   },
@@ -396,8 +451,10 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                                 //   width: 6,
                                 // ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                                  child: CallbackButton(transaction: widget.transaction),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 6.0),
+                                  child: CallbackButton(
+                                      transaction: widget.transaction),
                                 ),
                               ],
                             ),
@@ -429,7 +486,7 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                           //         final confirmed = await ConfirmDialog.show(
                           //           title: "NFT Sale Validated",
                           //           body:
-                          //               "The sale for the NFT ($scId) has been validated. Would you like to finalize the transaction for $amount RBX?",
+                          //               "The sale for the NFT ($scId) has been validated. Would you like to finalize the transaction for $amount VFX?",
                           //           confirmText: "Complete",
                           //           cancelText: "Cancel",
                           //         );
@@ -495,7 +552,9 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                   Column(
                     children: [
                       IconButton(
-                        icon: Icon(_expanded ? Icons.arrow_drop_up_outlined : Icons.arrow_drop_down_outlined),
+                        icon: Icon(_expanded
+                            ? Icons.arrow_drop_up_outlined
+                            : Icons.arrow_drop_down_outlined),
                         onPressed: () {
                           setState(() {
                             _expanded = !_expanded;

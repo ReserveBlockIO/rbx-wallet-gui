@@ -31,9 +31,15 @@ class BtcAdnrList extends BaseComponent {
       itemBuilder: (context, index) {
         final account = accounts[index];
 
-        final isPendingCreate = ref.watch(adnrPendingProvider).contains("${account.address}.create.${account.adnr ?? 'null'}");
-        final isPendingBurn = ref.watch(adnrPendingProvider).contains("${account.address}.burn.${account.adnr ?? 'null'}");
-        final isPendingTransfer = ref.watch(adnrPendingProvider).contains("${account.address}.transfer.${account.adnr ?? 'null'}");
+        final isPendingCreate = ref
+            .watch(adnrPendingProvider)
+            .contains("${account.address}.create.${account.adnr ?? 'null'}");
+        final isPendingBurn = ref
+            .watch(adnrPendingProvider)
+            .contains("${account.address}.burn.${account.adnr ?? 'null'}");
+        final isPendingTransfer = ref
+            .watch(adnrPendingProvider)
+            .contains("${account.address}.transfer.${account.adnr ?? 'null'}");
         return Padding(
           padding: const EdgeInsets.only(bottom: 6.0),
           child: Container(
@@ -98,11 +104,14 @@ class BtcAdnrList extends BaseComponent {
                         }
 
                         if (ref.read(walletListProvider).isEmpty) {
-                          Toast.error("An RBX wallet is required for this functionality.");
+                          Toast.error(
+                              "An VFX wallet is required for this functionality.");
                           return;
                         }
 
-                        ref.read(btcAdnrCreateFormProvider.notifier).initWithData(
+                        ref
+                            .read(btcAdnrCreateFormProvider.notifier)
+                            .initWithData(
                               btcAddress: account.address,
                             );
 
@@ -122,14 +131,17 @@ class BtcAdnrList extends BaseComponent {
                       AppButton(
                         label: "Transfer",
                         onPressed: () async {
-                          if (!await passwordRequiredGuard(context, ref)) return;
+                          if (!await passwordRequiredGuard(context, ref))
+                            return;
                           if (!widgetGuardWalletIsSynced(ref)) {
                             return;
                           }
 
                           ref
                               .read(btcAdnrTransferFormProvider.notifier)
-                              .initWithFromBtcAddress(fromBtcAddress: account.address, domainName: account.adnr);
+                              .initWithFromBtcAddress(
+                                  fromBtcAddress: account.address,
+                                  domainName: account.adnr);
 
                           showModalBottomSheet(
                               context: context,
@@ -147,7 +159,7 @@ class BtcAdnrList extends BaseComponent {
                           final confirmed = await ConfirmDialog.show(
                             title: "Delete BTC Domain?",
                             body:
-                                "Are you sure you want to delete this BTC Domain?\n${ADNR_DELETE_COST == 0 ? 'There is no cost to delete and RBX Domain (aside from the TX fee).' : 'There is a cost of $ADNR_DELETE_COST RBX to delete an RBX Domain.'}\n\nOnce deleted, this ADNR will no longer be able to receive any transactions.",
+                                "Are you sure you want to delete this BTC Domain?\n${ADNR_DELETE_COST == 0 ? 'There is no cost to delete and VFX Domain (aside from the TX fee).' : 'There is a cost of $ADNR_DELETE_COST VFX to delete an RBX Domain.'}\n\nOnce deleted, this ADNR will no longer be able to receive any transactions.",
                             destructive: true,
                             cancelText: "Cancel",
                             confirmText: "Delete",
@@ -157,12 +169,19 @@ class BtcAdnrList extends BaseComponent {
                             return;
                           }
 
-                          final hash = await BtcService().deleteAdnr(btcAddress: account.address);
+                          final hash = await BtcService()
+                              .deleteAdnr(btcAddress: account.address);
                           if (hash != null) {
-                            ref.read(adnrPendingProvider.notifier).addId(account.address, "burn", account.adnr!);
+                            ref
+                                .read(adnrPendingProvider.notifier)
+                                .addId(account.address, "burn", account.adnr!);
                             Toast.message("TX broadcasted with hash of $hash");
                             ref.read(logProvider.notifier).append(
-                                  LogEntry(message: "BTC Domain Delete TX Sent: $hash", textToCopy: hash, variant: AppColorVariant.Btc),
+                                  LogEntry(
+                                      message:
+                                          "BTC Domain Delete TX Sent: $hash",
+                                      textToCopy: hash,
+                                      variant: AppColorVariant.Btc),
                                 );
                             return;
                           }
@@ -214,7 +233,8 @@ class TransferBtcAdnrModal extends BaseComponent {
             decoration: InputDecoration(
               label: Text(
                 "To BTC Address",
-                style: TextStyle(color: Theme.of(context).colorScheme.btcOrange),
+                style:
+                    TextStyle(color: Theme.of(context).colorScheme.btcOrange),
               ),
             ),
           ),
@@ -226,7 +246,7 @@ class TransferBtcAdnrModal extends BaseComponent {
             validator: formProvider.toRbxAddressValidator,
             decoration: InputDecoration(
               label: Text(
-                "To RBX Address",
+                "To VFX Address",
               ),
             ),
           ),
@@ -301,7 +321,8 @@ class CreateBtcAdnrModal extends BaseComponent {
             decoration: InputDecoration(
               label: Text(
                 "Domain Name",
-                style: TextStyle(color: Theme.of(context).colorScheme.btcOrange),
+                style:
+                    TextStyle(color: Theme.of(context).colorScheme.btcOrange),
               ),
             ),
           ),
@@ -309,8 +330,9 @@ class CreateBtcAdnrModal extends BaseComponent {
             height: 16,
           ),
           Text(
-            "Select RBX Address",
-            style: TextStyle(color: Theme.of(context).colorScheme.btcOrange, fontSize: 12),
+            "Select VFX Address",
+            style: TextStyle(
+                color: Theme.of(context).colorScheme.btcOrange, fontSize: 12),
           ),
           Text(
             "This wallet will control transfer/delete ownership over this new domain.",
@@ -330,7 +352,9 @@ class CreateBtcAdnrModal extends BaseComponent {
                   label: wallet.address,
                   icon: isSelected ? Icons.check : null,
                   variant: AppColorVariant.Light,
-                  type: isSelected ? AppButtonType.Elevated : AppButtonType.Outlined,
+                  type: isSelected
+                      ? AppButtonType.Elevated
+                      : AppButtonType.Outlined,
                   onPressed: () {
                     formProvider.setSelectedAddress(wallet.address);
                   },

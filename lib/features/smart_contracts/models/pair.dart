@@ -15,7 +15,7 @@ class Pair with _$Pair {
   @JsonSerializable(explicitToJson: true)
   const factory Pair({
     @Default("") String id,
-    @Default("RBX") String network,
+    @Default("VFX") String network,
     @Default("") String nftAddress,
     @Default("") String description,
     @Default("") String reason,

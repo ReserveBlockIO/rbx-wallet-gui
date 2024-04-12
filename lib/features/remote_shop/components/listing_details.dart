@@ -106,7 +106,9 @@ class ListingDetails extends BaseComponent {
                       nft: nft,
                       initialIndex: ref.watch(carouselMemoryProvider(nft.id)),
                       onPageChange: (i) {
-                        ref.read(carouselMemoryProvider(nft.id).notifier).update(i);
+                        ref
+                            .read(carouselMemoryProvider(nft.id).notifier)
+                            .update(i);
                       },
                     ),
                     _Features(nft: nft),
@@ -121,132 +123,161 @@ class ListingDetails extends BaseComponent {
               ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 600),
                 child: Center(
-                  child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Row(
+                  child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _Details(
-                          nft: nft,
-                          listing: listing,
-                        ),
-                        // TODO: Get back to sharing
-                        // AppButton(
-                        //   label: "Share Listing",
-                        //   icon: Icons.ios_share_rounded,
-                        //   variant: AppColorVariant.Light,
-                        //   type: AppButtonType.Text,
-                        //   onPressed: () async {
-                        //     await Clipboard.setData(ClipboardData(
-                        //         text:
-                        //             "${Env.appBaseUrl}/#dashboard/p2p/shop/${listing.}/collection/${listing.collectionId}/listing/${listing.id}"));
-                        //     Toast.message("Share url copied to clipboard");
-                        //   },
-                        // ),
-                      ],
-                    ),
-                    // const SizedBox(height: 8),
-                    // _NftDetails(nft: nft),
-                    const SizedBox(height: 16),
-                    _NftData(nft: nft, listing: listing),
-                    const SizedBox(height: 8),
-                    if (listing.canBid) IntrinsicWidth(child: _Auction(listing: listing)),
-                    if (listing.canBuyNow && listing.canBid) SizedBox(height: 16),
-                    if (listing.canBuyNow) IntrinsicWidth(child: _BuyNow(listing: listing)),
-                    const SizedBox(height: 16),
-                    if (listing.canBuyNow || listing.canBid) _Countdown(listing: listing),
-                    if (!listing.hasStarted && !listing.isGallery)
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            "Auction Upcoming",
-                            style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
-                          ),
-                          Text(
-                            "Begins: ${DateFormat.yMd().format(listing.startDate)} ${DateFormat("HH:mm").format(listing.startDate)}",
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ],
-                      ),
-                    if (listing.auction?.isAuctionOver == true)
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            "Auction Has Ended",
-                            style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
-                          ),
-                          if (listing.auction!.currentWinningAddress.isNotEmpty &&
-                              listing.auction!.currentWinningAddress != listing.addressOwner &&
-                              listing.auction!.isReserveMet)
-                            Padding(
-                              padding: const EdgeInsets.only(top: 16.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFF040f26),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      offset: Offset.zero,
-                                      blurRadius: 5,
-                                      color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
-                                      spreadRadius: 4,
-                                    )
-                                  ],
-                                ),
-                                child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    // child: SelectableText(
-                                    //   "Purchased by: ${listing.auction!.currentWinningAddress} for ${listing.auction!.currentBidPrice} RBX",
-                                    //   style: TextStyle(
-                                    //     fontSize: 16,
-                                    //   ),
-                                    // ),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        RichText(
-                                          text: TextSpan(style: TextStyle(fontSize: 16), children: [
-                                            TextSpan(text: "Purchased by: "),
-                                            TextSpan(
-                                              text: "${listing.auction!.currentWinningAddress} ",
-                                              style: TextStyle(
-                                                color: Theme.of(context).colorScheme.secondary,
-                                              ),
-                                            ),
-                                            TextSpan(text: "for "),
-                                            TextSpan(
-                                              text: "${listing.auction!.currentBidPrice} RBX",
-                                              style: TextStyle(
-                                                color: Theme.of(context).colorScheme.secondary,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ]),
-                                        ),
-                                        SizedBox(width: 8),
-                                        InkWell(
-                                          onTap: () async {
-                                            await Clipboard.setData(ClipboardData(text: listing.auction!.currentWinningAddress));
-                                            Toast.message("Address copied to clipboard");
-                                          },
-                                          child: Icon(
-                                            Icons.copy,
-                                            size: 16,
-                                          ),
-                                        ),
-                                      ],
-                                    )),
-                              ),
+                        Row(
+                          children: [
+                            _Details(
+                              nft: nft,
+                              listing: listing,
                             ),
-                          if (listing.floorPrice != null)
-                            Padding(
-                              padding: const EdgeInsets.only(top: 16.0),
-                              child: BidHistoryButton(listing: listing),
-                            )
-                        ],
-                      )
-                  ]),
+                            // TODO: Get back to sharing
+                            // AppButton(
+                            //   label: "Share Listing",
+                            //   icon: Icons.ios_share_rounded,
+                            //   variant: AppColorVariant.Light,
+                            //   type: AppButtonType.Text,
+                            //   onPressed: () async {
+                            //     await Clipboard.setData(ClipboardData(
+                            //         text:
+                            //             "${Env.appBaseUrl}/#dashboard/p2p/shop/${listing.}/collection/${listing.collectionId}/listing/${listing.id}"));
+                            //     Toast.message("Share url copied to clipboard");
+                            //   },
+                            // ),
+                          ],
+                        ),
+                        // const SizedBox(height: 8),
+                        // _NftDetails(nft: nft),
+                        const SizedBox(height: 16),
+                        _NftData(nft: nft, listing: listing),
+                        const SizedBox(height: 8),
+                        if (listing.canBid)
+                          IntrinsicWidth(child: _Auction(listing: listing)),
+                        if (listing.canBuyNow && listing.canBid)
+                          SizedBox(height: 16),
+                        if (listing.canBuyNow)
+                          IntrinsicWidth(child: _BuyNow(listing: listing)),
+                        const SizedBox(height: 16),
+                        if (listing.canBuyNow || listing.canBid)
+                          _Countdown(listing: listing),
+                        if (!listing.hasStarted && !listing.isGallery)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                "Auction Upcoming",
+                                style: TextStyle(
+                                    fontSize: 28, fontWeight: FontWeight.w700),
+                              ),
+                              Text(
+                                "Begins: ${DateFormat.yMd().format(listing.startDate)} ${DateFormat("HH:mm").format(listing.startDate)}",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ],
+                          ),
+                        if (listing.auction?.isAuctionOver == true)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                "Auction Has Ended",
+                                style: TextStyle(
+                                    fontSize: 28, fontWeight: FontWeight.w700),
+                              ),
+                              if (listing.auction!.currentWinningAddress
+                                      .isNotEmpty &&
+                                  listing.auction!.currentWinningAddress !=
+                                      listing.addressOwner &&
+                                  listing.auction!.isReserveMet)
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 16.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF040f26),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          offset: Offset.zero,
+                                          blurRadius: 5,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .secondary
+                                              .withOpacity(0.1),
+                                          spreadRadius: 4,
+                                        )
+                                      ],
+                                    ),
+                                    child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        // child: SelectableText(
+                                        //   "Purchased by: ${listing.auction!.currentWinningAddress} for ${listing.auction!.currentBidPrice} VFX",
+                                        //   style: TextStyle(
+                                        //     fontSize: 16,
+                                        //   ),
+                                        // ),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            RichText(
+                                              text: TextSpan(
+                                                  style:
+                                                      TextStyle(fontSize: 16),
+                                                  children: [
+                                                    TextSpan(
+                                                        text: "Purchased by: "),
+                                                    TextSpan(
+                                                      text:
+                                                          "${listing.auction!.currentWinningAddress} ",
+                                                      style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .secondary,
+                                                      ),
+                                                    ),
+                                                    TextSpan(text: "for "),
+                                                    TextSpan(
+                                                      text:
+                                                          "${listing.auction!.currentBidPrice} VFX",
+                                                      style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .secondary,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ]),
+                                            ),
+                                            SizedBox(width: 8),
+                                            InkWell(
+                                              onTap: () async {
+                                                await Clipboard.setData(
+                                                    ClipboardData(
+                                                        text: listing.auction!
+                                                            .currentWinningAddress));
+                                                Toast.message(
+                                                    "Address copied to clipboard");
+                                              },
+                                              child: Icon(
+                                                Icons.copy,
+                                                size: 16,
+                                              ),
+                                            ),
+                                          ],
+                                        )),
+                                  ),
+                                ),
+                              if (listing.floorPrice != null)
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 16.0),
+                                  child: BidHistoryButton(listing: listing),
+                                )
+                            ],
+                          )
+                      ]),
                 ),
               )
             ],
@@ -351,7 +382,8 @@ class _PreviewState extends State<_Preview> {
                     final fileType = fileTypeFromPath(path);
                     final extension = path.split(".").last.toLowerCase();
 
-                    final showThumbnail = fileType == "Image" || extension == "pdf";
+                    final showThumbnail =
+                        fileType == "Image" || extension == "pdf";
                     final icon = iconFromPath(path);
 
                     return Padding(
@@ -606,7 +638,8 @@ class _NftData extends StatelessWidget {
     required this.listing,
   });
 
-  TableRow buildDetailRow(BuildContext context, String label, String value, [bool copyValue = false]) {
+  TableRow buildDetailRow(BuildContext context, String label, String value,
+      [bool copyValue = false]) {
     final isMobile = BreakPoints.useMobileLayout(context);
 
     if (isMobile) {
@@ -688,8 +721,9 @@ class _NftData extends StatelessWidget {
               buildDetailRow(context, "Owner Address", nft.currentOwner, true),
               // buildDetailRow(context, "Minted On", nft.mintedAt),
               buildDetailRow(context, "Minted By", nft.minterName),
-              buildDetailRow(context, "Minter Address", nft.minterAddress, true),
-              buildDetailRow(context, "Chain", "RBX"),
+              buildDetailRow(
+                  context, "Minter Address", nft.minterAddress, true),
+              buildDetailRow(context, "Chain", "VFX"),
             ],
           ),
         ],
@@ -708,7 +742,8 @@ class _BuyNow extends BaseComponent {
       return SizedBox.shrink();
     }
 
-    final provider = ref.read(bidListProvider(listing.familyIdentifier).notifier);
+    final provider =
+        ref.read(bidListProvider(listing.familyIdentifier).notifier);
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -750,7 +785,8 @@ class _BuyNow extends BaseComponent {
             final success = await provider.buyNow(context, listing);
 
             if (success == true) {
-              Toast.message("Buy Now transaction sent successfully. Please wait for confirmation.");
+              Toast.message(
+                  "Buy Now transaction sent successfully. Please wait for confirmation.");
             } else {
               Toast.error();
             }
@@ -787,7 +823,7 @@ class _Price extends StatelessWidget {
           ),
         ),
         Text(
-          "$amount RBX",
+          "$amount VFX",
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -809,7 +845,8 @@ class _Auction extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentBids = ref.watch(bidListProvider(listing.familyIdentifier));
-    final provider = ref.read(bidListProvider(listing.familyIdentifier).notifier);
+    final provider =
+        ref.read(bidListProvider(listing.familyIdentifier).notifier);
 
     if (listing.floorPrice == null) {
       return SizedBox.shrink();
@@ -856,7 +893,8 @@ class _Auction extends BaseComponent {
 
                     final success = await provider.sendBid(context, listing);
                     if (success == true) {
-                      Toast.message("Bid sent. Please check the Bid History to see if it's been accepted or rejected.");
+                      Toast.message(
+                          "Bid sent. Please check the Bid History to see if it's been accepted or rejected.");
                     }
                   }),
               const SizedBox(width: 8),
@@ -869,7 +907,8 @@ class _Auction extends BaseComponent {
                   size: AppSizeVariant.Lg,
                   onPressed: () async {
                     if (!ref.read(connectedShopProvider).isConnected) {
-                      Toast.error("Warning: This shop is currently offline so the information may not be up to date.");
+                      Toast.error(
+                          "Warning: This shop is currently offline so the information may not be up to date.");
                     }
                     final auction = listing.auction!;
 
@@ -899,7 +938,8 @@ class BidHistoryButton extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final provider = ref.read(bidListProvider(listing.familyIdentifier).notifier);
+    final provider =
+        ref.read(bidListProvider(listing.familyIdentifier).notifier);
 
     return AppButton(
       label: "Bid History",
@@ -907,7 +947,8 @@ class BidHistoryButton extends BaseComponent {
       size: AppSizeVariant.Lg,
       onPressed: () async {
         if (!ref.read(connectedShopProvider).isConnected) {
-          Toast.error("Warning: This shop is currently offline so the information may not be up to date.");
+          Toast.error(
+              "Warning: This shop is currently offline so the information may not be up to date.");
           await Future.delayed(Duration(seconds: 3));
         }
 
@@ -963,7 +1004,7 @@ class _AuctionInfoDialogContent extends StatelessWidget {
                 style: labelStyle,
               ),
               Text(
-                "${auction.currentBidPrice} RBX",
+                "${auction.currentBidPrice} VFX",
                 style: valueStyle,
               )
             ],
@@ -975,7 +1016,7 @@ class _AuctionInfoDialogContent extends StatelessWidget {
           //       style: labelStyle,
           //     ),
           //     Text(
-          //       "${auction.maxBidPrice} RBX",
+          //       "${auction.maxBidPrice} VFX",
           //       style: valueStyle,
           //     )
           //   ],
@@ -987,7 +1028,7 @@ class _AuctionInfoDialogContent extends StatelessWidget {
                 style: labelStyle,
               ),
               Text(
-                "${auction.incrementAmount} RBX",
+                "${auction.incrementAmount} VFX",
                 style: valueStyle,
               )
             ],
@@ -1029,7 +1070,9 @@ class _Countdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: BreakPoints.useMobileLayout(context) ? CrossAxisAlignment.stretch : CrossAxisAlignment.center,
+      crossAxisAlignment: BreakPoints.useMobileLayout(context)
+          ? CrossAxisAlignment.stretch
+          : CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
         if (listing.isActive)
@@ -1158,7 +1201,9 @@ class __ThumbnailState extends State<_Thumbnail> {
                   await File(updatedFileName).delete();
                   await Future.delayed(Duration(milliseconds: 100));
                   FileImage(File(updatedFileName)).evict();
-                  widget.ref.read(thumbnailFetcherProvider.notifier).addToQueue(widget.scId, widget.fileNames, true);
+                  widget.ref
+                      .read(thumbnailFetcherProvider.notifier)
+                      .addToQueue(widget.scId, widget.fileNames, true);
                 },
               ),
               Text(

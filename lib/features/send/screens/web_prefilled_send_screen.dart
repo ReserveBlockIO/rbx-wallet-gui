@@ -27,7 +27,7 @@ class WebPrefilledSendScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: const Text("Send RBX"),
+      title: const Text("Send VFX"),
       shadowColor: Colors.transparent,
       backgroundColor: Colors.black,
     );
@@ -36,13 +36,17 @@ class WebPrefilledSendScreen extends BaseScreen {
   @override
   Widget body(BuildContext context, WidgetRef ref) {
     ref.read(sendFormProvider.notifier).addressController.text = toAddress;
-    ref.read(sendFormProvider.notifier).amountController.text = amount.toString();
+    ref.read(sendFormProvider.notifier).amountController.text =
+        amount.toString();
 
     final keypair = ref.watch(webSessionProvider).keypair;
     if (keypair == null) {
       return const Center(child: WebNotWallet());
     }
 
-    return Center(child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: 720), child: SendForm(keypair: keypair)));
+    return Center(
+        child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 720),
+            child: SendForm(keypair: keypair)));
   }
 }

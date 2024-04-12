@@ -9,7 +9,7 @@ part 'web_session_model.freezed.dart';
 part 'web_session_model.g.dart';
 
 enum WalletType {
-  rbx("rbx"),
+  rbx("vfx"),
   ra("ra"),
   btc("btc"),
   ;
@@ -45,7 +45,8 @@ abstract class WebSessionModel with _$WebSessionModel {
     BtcWebBalanceInfo? btcBalanceInfo,
   }) = _WebSessionModel;
 
-  factory WebSessionModel.fromJson(Map<String, dynamic> json) => _$WebSessionModelFromJson(json);
+  factory WebSessionModel.fromJson(Map<String, dynamic> json) =>
+      _$WebSessionModelFromJson(json);
 
   bool get usingRa {
     return selectedWalletType == WalletType.ra;

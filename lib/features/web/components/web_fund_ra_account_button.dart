@@ -20,7 +20,8 @@ class WebFundRaAccountButton extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final keypair = ref.watch(webSessionProvider).raKeypair;
-    final hasFunded = ref.watch(webRaPendingFundingProvider).contains(keypair?.address);
+    final hasFunded =
+        ref.watch(webRaPendingFundingProvider).contains(keypair?.address);
 
     if (keypair == null) {
       return SizedBox();
@@ -33,7 +34,8 @@ class WebFundRaAccountButton extends BaseComponent {
       onPressed: () async {
         final confirmed = await ConfirmDialog.show(
           title: "Fund Your Reserve Account",
-          body: "Would you like to send 5 RBX from ${ref.watch(webSessionProvider).keypair!.address}?",
+          body:
+              "Would you like to send 5 VFX from ${ref.watch(webSessionProvider).keypair!.address}?",
           confirmText: "Send",
           cancelText: "Cancel",
         );
@@ -54,12 +56,16 @@ class WebFundRaAccountButton extends BaseComponent {
             return;
           }
 
-          final tx = await RawService().sendTransaction(transactionData: txData, execute: true, widgetRef: ref);
+          final tx = await RawService().sendTransaction(
+              transactionData: txData, execute: true, widgetRef: ref);
           if (tx != null) {
             if (tx['Result'] == "Success") {
-              Toast.message("5 RBX sent to ${ref.read(webSessionProvider).raKeypair!.address}");
+              Toast.message(
+                  "5 VFX sent to ${ref.read(webSessionProvider).raKeypair!.address}");
               ref.read(globalLoadingProvider.notifier).complete();
-              ref.read(webRaPendingFundingProvider.notifier).addAddress(keypair.address);
+              ref
+                  .read(webRaPendingFundingProvider.notifier)
+                  .addAddress(keypair.address);
               return;
             }
           }

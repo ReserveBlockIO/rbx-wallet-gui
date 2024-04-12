@@ -40,7 +40,8 @@ class SmartContractWizardScreen extends BaseScreen {
       leading: IconButton(
           onPressed: () async {
             final confirmed = await ConfirmDialog.show(
-              title: "Are you sure you want to close the NFT collection Wizard?",
+              title:
+                  "Are you sure you want to close the NFT collection Wizard?",
               body: "All unsaved changes will be lost.",
               cancelText: "Cancel",
               confirmText: "Continue",
@@ -118,21 +119,25 @@ class SmartContractWizardScreen extends BaseScreen {
                   AppButton(
                     label: isMobile ? "Mint" : "Compile & Mint",
                     onPressed: () async {
-                      final wallet = kIsWeb ? ref.read(webSessionProvider).currentWallet : ref.read(sessionProvider).currentWallet;
+                      final wallet = kIsWeb
+                          ? ref.read(webSessionProvider).currentWallet
+                          : ref.read(sessionProvider).currentWallet;
                       if (wallet == null) {
                         Toast.error("No wallet selected.");
 
                         return;
                       }
 
-                      final amount = items.map((e) => e.entry.quantity).toList().sum;
+                      final amount =
+                          items.map((e) => e.entry.quantity).toList().sum;
                       if (amount < 1) {
                         return;
                       }
 
                       if (!kIsWeb) {
                         if (wallet.balance < MIN_RBX_FOR_SC_ACTION) {
-                          Toast.error("Not enough RBX balance to mint a smart contract.");
+                          Toast.error(
+                              "Not enough VFX balance to mint a smart contract.");
                           return;
                         }
                       }
@@ -148,7 +153,8 @@ class SmartContractWizardScreen extends BaseScreen {
                       if (confirmed == true) {
                         final extraConfirm = await ConfirmDialog.show(
                           title: "Confirm Address",
-                          body: "This will be minted by ${wallet.labelWithoutTruncation}",
+                          body:
+                              "This will be minted by ${wallet.labelWithoutTruncation}",
                           confirmText: "Compile & Mint",
                           cancelText: "Cancel",
                         );

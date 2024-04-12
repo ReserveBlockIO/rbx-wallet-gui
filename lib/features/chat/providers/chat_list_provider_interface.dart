@@ -14,7 +14,8 @@ import '../services/web_chat_service.dart';
 import '../../dst/services/dst_service.dart';
 import '../../../utils/toast.dart';
 
-abstract class ChatListProviderInterface extends StateNotifier<List<ChatMessage>> {
+abstract class ChatListProviderInterface
+    extends StateNotifier<List<ChatMessage>> {
   final Ref ref;
   final String identifier;
 
@@ -35,11 +36,13 @@ abstract class ChatListProviderInterface extends StateNotifier<List<ChatMessage>
   void handleMessages(List<ChatMessage>? messages) {
     if (messages != null) {
       if (messages.length > state.length) {
-        Future.delayed(Duration(milliseconds: 100)).then((value) => scrollToBottom());
+        Future.delayed(Duration(milliseconds: 100))
+            .then((value) => scrollToBottom());
       }
 
       for (final message in messages) {
-        final exists = state.firstWhereOrNull((m) => m.id == message.id) != null;
+        final exists =
+            state.firstWhereOrNull((m) => m.id == message.id) != null;
         if (!exists) {
           state = [...state, message];
         } else {
@@ -58,13 +61,18 @@ abstract class ChatListProviderInterface extends StateNotifier<List<ChatMessage>
     final str = singleton<Storage>().getString(storageKey);
     if (str != null) {
       final List<dynamic> data = jsonDecode(str);
-      final messages = data.map((m) => ChatMessage.fromJson(m)).toList().where((m) => !m.isThirdParty).toList();
+      final messages = data
+          .map((m) => ChatMessage.fromJson(m))
+          .toList()
+          .where((m) => !m.isThirdParty)
+          .toList();
       state = messages;
     }
   }
 
   void saveMessages() {
-    final data = state.where((m) => !m.isThirdParty).map((m) => m.toJson()).toList();
+    final data =
+        state.where((m) => !m.isThirdParty).map((m) => m.toJson()).toList();
     final str = jsonEncode(data);
     singleton<Storage>().setString(storageKey, str);
   }
@@ -76,7 +84,7 @@ abstract class ChatListProviderInterface extends StateNotifier<List<ChatMessage>
   }
 
   Future<void> resendMessage(String messageId) async {
-    if (identifier.startsWith("rbx://")) {
+    if (identifier.startsWith("vfx://")) {
       await ChatService().resendMessage(messageId, identifier);
     } else {
       final shop = await DstService().retreiveShop();
@@ -90,8 +98,9 @@ abstract class ChatListProviderInterface extends StateNotifier<List<ChatMessage>
   }
 
   Future<bool> deleteThread([String? thirdPartyIdentifier, int? shopId]) async {
-    final success =
-        thirdPartyIdentifier != null ? await WebChatService().deleteThread(thirdPartyIdentifier) : await ChatService().deleteChatThread(identifier);
+    final success = thirdPartyIdentifier != null
+        ? await WebChatService().deleteThread(thirdPartyIdentifier)
+        : await ChatService().deleteChatThread(identifier);
     await Future.delayed(Duration(milliseconds: 1000));
     // if (success) {
     singleton<Storage>().remove(storageKey);

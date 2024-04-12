@@ -22,7 +22,11 @@ class BidListProvider extends StateNotifier<List<Bid>> {
   late final int collectionId;
 
   BidListProvider(this.ref, this.identifier) : super([]) {
-    final parts = identifier.split("_").map((p) => int.tryParse(p)).where((p) => p != null).toList();
+    final parts = identifier
+        .split("_")
+        .map((p) => int.tryParse(p))
+        .where((p) => p != null)
+        .toList();
 
     if (parts.length != 2) {
       print("Invalid identifier $identifier");
@@ -52,7 +56,9 @@ class BidListProvider extends StateNotifier<List<Bid>> {
     final bids = [...myBids];
 
     for (final b in globalBids) {
-      final exists = bids.firstWhereOrNull((bid) => bid.bidSignature == b.bidSignature) != null;
+      final exists =
+          bids.firstWhereOrNull((bid) => bid.bidSignature == b.bidSignature) !=
+              null;
       if (!exists) {
         bids.add(b);
       }
@@ -80,7 +86,8 @@ class BidListProvider extends StateNotifier<List<Bid>> {
     }
 
     if (wallet.isValidating) {
-      if (wallet.balance < (amount + MIN_RBX_FOR_SC_ACTION + ASSURED_AMOUNT_TO_VALIDATE)) {
+      if (wallet.balance <
+          (amount + MIN_RBX_FOR_SC_ACTION + ASSURED_AMOUNT_TO_VALIDATE)) {
         Toast.error("Not enough balance since you are validating.");
         return false;
       }
@@ -101,7 +108,7 @@ class BidListProvider extends StateNotifier<List<Bid>> {
     final confirmed = await ConfirmDialog.show(
       context: context,
       title: "Buy Now",
-      body: "Are you sure you want to buy now for ${listing.buyNowPrice} RBX?",
+      body: "Are you sure you want to buy now for ${listing.buyNowPrice} VFX?",
       confirmText: "Buy Now",
       cancelText: "Cancel",
     );
@@ -152,13 +159,14 @@ class BidListProvider extends StateNotifier<List<Bid>> {
       return null;
     }
 
-    final minimumBid = listing.auction!.currentBidPrice + listing.auction!.incrementAmount;
+    final minimumBid =
+        listing.auction!.currentBidPrice + listing.auction!.incrementAmount;
 
     final amountStr = await PromptModal.show(
       title: "Place Bid",
       validator: (val) => formValidatorNumber(val, "Bid Amount"),
-      labelText: "Bid Amount (RBX)",
-      footer: "Must be greater than $minimumBid RBX",
+      labelText: "Bid Amount (VFX)",
+      footer: "Must be greater than $minimumBid VFX",
       confirmText: "Continue",
       cancelText: "Cancel",
     );
@@ -174,13 +182,15 @@ class BidListProvider extends StateNotifier<List<Bid>> {
     }
 
     if (amount <= listing.auction!.currentBidPrice) {
-      Toast.error("Your bid must be greater than the current highest bid (${listing.auction!.currentBidPrice} RBX)");
+      Toast.error(
+          "Your bid must be greater than the current highest bid (${listing.auction!.currentBidPrice} VFX)");
       return null;
     }
 
-    if (amount <= listing.auction!.currentBidPrice + listing.auction!.incrementAmount) {
+    if (amount <=
+        listing.auction!.currentBidPrice + listing.auction!.incrementAmount) {
       Toast.error(
-          "The minimum increment amount is ${listing.auction!.incrementAmount} RBX. A bid grater than ${listing.auction!.currentBidPrice + listing.auction!.incrementAmount} RBX is required.");
+          "The minimum increment amount is ${listing.auction!.incrementAmount} VFX. A bid grater than ${listing.auction!.currentBidPrice + listing.auction!.incrementAmount} VFX is required.");
       return null;
     }
 
@@ -192,7 +202,7 @@ class BidListProvider extends StateNotifier<List<Bid>> {
     //   body: "You can set the maximum amount you are willing to bid here.",
     //   initialValue: "$amount",
     //   validator: (val) => formValidatorNumber(val, "Bid Amount"),
-    //   labelText: "Bid Amount (RBX)",
+    //   labelText: "Bid Amount (VFX)",
     //   confirmText: "Continue",
     //   cancelText: "Cancel",
     // );
@@ -213,7 +223,8 @@ class BidListProvider extends StateNotifier<List<Bid>> {
     final confirmed = await ConfirmDialog.show(
       context: context,
       title: "Place Bid",
-      body: "Are you sure you want to place a bid of $amount RBX${amount != maxAmount ? ' with a max bid of $maxAmount RBX' : ''}?",
+      body:
+          "Are you sure you want to place a bid of $amount VFX${amount != maxAmount ? ' with a max bid of $maxAmount VFX' : ''}?",
       confirmText: "Place Bid",
       cancelText: "Cancel",
     );
@@ -248,6 +259,8 @@ class BidListProvider extends StateNotifier<List<Bid>> {
   }
 }
 
-final bidListProvider = StateNotifierProvider.family<BidListProvider, List<Bid>, String>((ref, identifier) {
+final bidListProvider =
+    StateNotifierProvider.family<BidListProvider, List<Bid>, String>(
+        (ref, identifier) {
   return BidListProvider(ref, identifier);
 });

@@ -41,17 +41,19 @@ class BidHistoryModal extends BaseComponent {
             (bid) {
               return ListTile(
                 leading: BidStatusIndicator(bid),
-                title: Text("${bid.bidAmount} RBX"),
+                title: Text("${bid.bidAmount} VFX"),
                 subtitle: SelectableText(bid.bidAddress),
                 trailing: Builder(builder: (context) {
-                  final currentAddress = ref.watch(sessionProvider).currentWallet?.address;
+                  final currentAddress =
+                      ref.watch(sessionProvider).currentWallet?.address;
                   final isBidder = currentAddress == bid.bidAddress;
 
                   if (isBidder && bid.bidStatus == BidStatus.Sent) {
                     return AppButton(
                       label: "Resend Bid",
                       onPressed: () async {
-                        final success = await RemoteShopService().resendBid(bid.id);
+                        final success =
+                            await RemoteShopService().resendBid(bid.id);
                         if (success) {
                           Toast.message("Bid Resent!");
                           Navigator.of(context).pop();

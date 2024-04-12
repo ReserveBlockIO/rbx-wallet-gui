@@ -50,7 +50,9 @@ class ScWizardRoyaltyDialog extends BaseComponent {
                     },
                     child: Text(
                       w.fullLabel,
-                      style: const TextStyle(color: Colors.white, decoration: TextDecoration.underline),
+                      style: const TextStyle(
+                          color: Colors.white,
+                          decoration: TextDecoration.underline),
                     ),
                   ),
                 )
@@ -80,7 +82,8 @@ class ScWizardRoyaltyDialog extends BaseComponent {
                     AppDropdown<RoyaltyType>(
                       label: "Royalty Type",
                       selectedValue: type,
-                      selectedLabel: type == RoyaltyType.percent ? "Percent" : "Fixed",
+                      selectedLabel:
+                          type == RoyaltyType.percent ? "Percent" : "Fixed",
                       onChange: (val) {
                         setState(() {
                           type = val;
@@ -105,9 +108,16 @@ class ScWizardRoyaltyDialog extends BaseComponent {
                           decoration: InputDecoration(
                               label: const Text("Amount"),
                               labelStyle: const TextStyle(color: Colors.white),
-                              suffix: Text(type == RoyaltyType.percent ? "%" : "RBX"),
-                              prefixIcon: HelpButton(type == RoyaltyType.percent ? HelpType.royaltyPercent : HelpType.royaltyFlat, subtle: true)),
-                          inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
+                              suffix: Text(
+                                  type == RoyaltyType.percent ? "%" : "VFX"),
+                              prefixIcon: HelpButton(
+                                  type == RoyaltyType.percent
+                                      ? HelpType.royaltyPercent
+                                      : HelpType.royaltyFlat,
+                                  subtle: true)),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(RegExp("[0-9.]"))
+                          ],
                           validator: (String? val) {
                             if (type == RoyaltyType.percent) {
                               return formPercentValidator(val);
@@ -126,7 +136,8 @@ class ScWizardRoyaltyDialog extends BaseComponent {
                         ? IconButton(
                             color: Colors.white,
                             onPressed: () {
-                              final address = ref.read(webSessionProvider).keypair?.address;
+                              final address =
+                                  ref.read(webSessionProvider).keypair?.address;
 
                               if (address != null) {
                                 addressController.text = address;

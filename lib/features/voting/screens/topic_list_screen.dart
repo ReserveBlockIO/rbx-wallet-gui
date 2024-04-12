@@ -42,7 +42,8 @@ class TopicListScreen extends BaseScreen {
               variant: AppColorVariant.Light,
               onPressed: () async {
                 if (!currentWalletIsValidating(ref)) {
-                  Toast.error("Your active wallet must be a validator to create a topic.");
+                  Toast.error(
+                      "Your active wallet must be a validator to create a topic.");
                   return;
                 }
 
@@ -53,14 +54,16 @@ class TopicListScreen extends BaseScreen {
                   return;
                 }
 
-                final balance = ref.read(sessionProvider).currentWallet?.balance;
+                final balance =
+                    ref.read(sessionProvider).currentWallet?.balance;
                 if (balance == null) {
                   Toast.error("A balance is required");
                   return;
                 }
 
                 if (balance < 1002) {
-                  Toast.error("Balance will not be sufficent to validate due to the cost of creating a topic (1 RBX + fee)");
+                  Toast.error(
+                      "Balance will not be sufficent to validate due to the cost of creating a topic (1 VFX + fee)");
                   return;
                 }
 

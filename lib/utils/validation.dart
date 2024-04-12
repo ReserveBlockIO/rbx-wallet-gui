@@ -11,11 +11,14 @@ bool isNumber(String number) {
 }
 
 bool isValidEmail(String email) {
-  return RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email);
+  return RegExp(
+          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+      .hasMatch(email);
 }
 
 bool isValidUrl(String url) {
-  var urlPattern = r"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$";
+  var urlPattern =
+      r"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$";
   return RegExp(urlPattern, caseSensitive: false).hasMatch(url);
 }
 
@@ -153,10 +156,10 @@ String? formValidatorDecName(String? value) {
 
 String? formValidatorRbxAddress(String? value, [bool allowAdnr = false]) {
   if (value == null || value.isEmpty) {
-    return allowAdnr ? "Address or RBX domain required" : "Address required";
+    return allowAdnr ? "Address or VFX domain required" : "Address required";
   }
 
-  if (allowAdnr && value.contains(".rbx")) {
+  if (allowAdnr && value.contains(".vfx")) {
     return null;
   }
 
@@ -228,5 +231,7 @@ String? formValidatorAlphaNumeric(String? value, String label) {
     return "$label is required.";
   }
 
-  return RegExp(r"^[a-zA-Z0-9]+$").hasMatch(value) ? null : "A DNR may only contain letters and numbers.";
+  return RegExp(r"^[a-zA-Z0-9]+$").hasMatch(value)
+      ? null
+      : "A DNR may only contain letters and numbers.";
 }

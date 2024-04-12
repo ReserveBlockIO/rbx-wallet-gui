@@ -68,8 +68,9 @@ class ReserveAccountOverviewScreen extends BaseScreen {
                         color: Colors.black,
                         child: ListTile(
                           title: SelectableText(wallet.address),
-                          subtitle: Row(mainAxisSize: MainAxisSize.min, children: [
-                            Text("Available: ${wallet.availableBalance} RBX"),
+                          subtitle:
+                              Row(mainAxisSize: MainAxisSize.min, children: [
+                            Text("Available: ${wallet.availableBalance} VFX"),
                             SizedBox(width: 4),
                             InkWell(
                               onTap: () {
@@ -93,7 +94,8 @@ class ReserveAccountOverviewScreen extends BaseScreen {
                                     type: AppButtonType.Text,
                                     variant: AppColorVariant.Warning,
                                     onPressed: () async {
-                                      final confirmed = await ConfirmDialog.show(
+                                      final confirmed =
+                                          await ConfirmDialog.show(
                                         title: "Recover Funds & NFTs",
                                         body:
                                             "This is a destructive function that will callback all pending transactions and NFTs and move everything to this recovery address:\n\n${wallet.recoveryAddress}",
@@ -118,7 +120,8 @@ class ReserveAccountOverviewScreen extends BaseScreen {
                                         await backupMedia(context, ref);
                                       }
 
-                                      provider.recoverAccount(context, wallet.address);
+                                      provider.recoverAccount(
+                                          context, wallet.address);
                                     },
                                   ),
                                   AppBadge(
@@ -129,7 +132,9 @@ class ReserveAccountOverviewScreen extends BaseScreen {
                               );
                             }
 
-                            if (ref.watch(pendingActivationProvider).contains(wallet.address)) {
+                            if (ref
+                                .watch(pendingActivationProvider)
+                                .contains(wallet.address)) {
                               return AppBadge(
                                 label: "Activation Pending",
                                 variant: AppColorVariant.Warning,
@@ -143,7 +148,8 @@ class ReserveAccountOverviewScreen extends BaseScreen {
                                 onPressed: () {
                                   InfoDialog.show(
                                     title: "Funds Required",
-                                    content: SelectableText("To activate, please send a minimum of 5 RBX to:\n\n${wallet.address}."),
+                                    content: SelectableText(
+                                        "To activate, please send a minimum of 5 VFX to:\n\n${wallet.address}."),
                                   );
                                 },
                               );
@@ -179,7 +185,10 @@ class _Top extends BaseComponent {
     return Column(children: [
       Text(
         "Reserve Accounts",
-        style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.white),
+        style: Theme.of(context)
+            .textTheme
+            .headlineMedium!
+            .copyWith(color: Colors.white),
       ),
       Padding(
         padding: const EdgeInsets.all(8.0),
@@ -205,19 +214,23 @@ class _Top extends BaseComponent {
                         color: Theme.of(context).colorScheme.secondary,
                       )),
                   TextSpan(
-                    text: "] is a Cold Storage and On-Chain Escrow Feature to keep your RBX Funds and your Digital Assets Safe.\n\n",
-                  ),
-                  TextSpan(
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
                     text:
-                        "This feature is separate from your RBX instant settlement address and enables both recovery and call-back on-chain escrow features that allows you to be able to recover funds and assets back to your Reserve Account in the event of theft, misplacement, or from a recipient that requires trustless escrow within 24 hours of occurrence or within a user pre-set defined time.\n\n",
+                        "] is a Cold Storage and On-Chain Escrow Feature to keep your VFX Funds and your Digital Assets Safe.\n\n",
                   ),
                   TextSpan(
-                    text: "These features are all on-chain and all peers are aware of their current state.\n",
+                    style:
+                        TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
+                    text:
+                        "This feature is separate from your VFX instant settlement address and enables both recovery and call-back on-chain escrow features that allows you to be able to recover funds and assets back to your Reserve Account in the event of theft, misplacement, or from a recipient that requires trustless escrow within 24 hours of occurrence or within a user pre-set defined time.\n\n",
+                  ),
+                  TextSpan(
+                    text:
+                        "These features are all on-chain and all peers are aware of their current state.\n",
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                   ),
                   TextSpan(
-                    text: "Note: Activating this feature requires a 5 RBX deposit, 4 of which will be burned upon activation.",
+                    text:
+                        "Note: Activating this feature requires a 5 VFX deposit, 4 of which will be burned upon activation.",
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -265,7 +278,10 @@ class _Top extends BaseComponent {
       Divider(),
       Text(
         "Existing Accounts",
-        style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white),
+        style: Theme.of(context)
+            .textTheme
+            .headlineSmall!
+            .copyWith(color: Colors.white),
       ),
       SizedBox(height: 3),
       if (wallets.isEmpty) Text("No Reserve Accounts")

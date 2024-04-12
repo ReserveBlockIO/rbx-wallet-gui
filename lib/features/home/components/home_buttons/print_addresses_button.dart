@@ -36,10 +36,11 @@ class PrintAdressesButton extends BaseComponent {
               for (final wallet in wallets) {
                 _log.append(LogEntry(
                     message: wallet.isReserved
-                        ? "${wallet.address} (Available: ${wallet.availableBalance} RBX)"
-                        : "${wallet.address} (${wallet.balance} RBX)",
+                        ? "${wallet.address} (Available: ${wallet.availableBalance} VFX)"
+                        : "${wallet.address} (${wallet.balance} VFX)",
                     variant: AppColorVariant.Success,
-                    colorOverride: wallet.isReserved ? Colors.deepPurple.shade200 : null,
+                    colorOverride:
+                        wallet.isReserved ? Colors.deepPurple.shade200 : null,
                     textToCopy: wallet.address,
                     trailing: wallet.isReserved
                         ? InkWell(
@@ -49,7 +50,9 @@ class PrintAdressesButton extends BaseComponent {
                               color: Colors.deepPurple.shade200,
                             ),
                             onTap: () {
-                              ref.read(reserveAccountProvider.notifier).showBalanceInfo(context, wallet);
+                              ref
+                                  .read(reserveAccountProvider.notifier)
+                                  .showBalanceInfo(context, wallet);
                             },
                           )
                         : null));

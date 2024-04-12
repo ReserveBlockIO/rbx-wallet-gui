@@ -22,7 +22,8 @@ class WebActivateRaButton extends BaseComponent {
   Widget build(BuildContext context, WidgetRef ref) {
     final keypair = ref.watch(webSessionProvider).raKeypair;
 
-    final hasActivated = ref.watch(webRaPendingActivationProvider).contains(keypair?.address);
+    final hasActivated =
+        ref.watch(webRaPendingActivationProvider).contains(keypair?.address);
 
     if (keypair == null) {
       return SizedBox();
@@ -43,7 +44,8 @@ class WebActivateRaButton extends BaseComponent {
 
         final confirmed = await ConfirmDialog.show(
           title: "Activate Reserve Account?",
-          body: "There is a cost of $RA_ACTIVATION_COST RBX to activate your reserve account which is burned.\n\nContinue?",
+          body:
+              "There is a cost of $RA_ACTIVATION_COST VFX to activate your reserve account which is burned.\n\nContinue?",
           confirmText: "Activate",
           cancelText: "Canacel",
         );
@@ -112,7 +114,10 @@ class WebActivateRaButton extends BaseComponent {
           return false;
         }
 
-        final signature = await RawTransaction.getSignature(message: hash, privateKey: keypair.private, publicKey: keypair.public);
+        final signature = await RawTransaction.getSignature(
+            message: hash,
+            privateKey: keypair.private,
+            publicKey: keypair.public);
         if (signature == null) {
           Toast.error("Signature generation failed.");
           loadingProvider.complete();
@@ -165,7 +170,9 @@ class WebActivateRaButton extends BaseComponent {
           if (tx['Result'] == "Success") {
             Toast.message("Activation transaction broadcasted");
             loadingProvider.complete();
-            ref.read(webRaPendingActivationProvider.notifier).addAddress(keypair.address);
+            ref
+                .read(webRaPendingActivationProvider.notifier)
+                .addAddress(keypair.address);
             return true;
           }
         }

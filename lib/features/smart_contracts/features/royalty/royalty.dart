@@ -30,7 +30,7 @@ class Royalty with _$Royalty {
       case RoyaltyType.percent:
         return "${amount * 100}%";
       case RoyaltyType.fixed:
-        return "$amount RBX";
+        return "$amount VFX";
     }
   }
 
@@ -66,7 +66,8 @@ class Royalty with _$Royalty {
     }
   }
 
-  factory Royalty.fromJson(Map<String, dynamic> json) => _$RoyaltyFromJson(json);
+  factory Royalty.fromJson(Map<String, dynamic> json) =>
+      _$RoyaltyFromJson(json);
 
   factory Royalty.fromCompiler(dynamic json) {
     return Royalty(

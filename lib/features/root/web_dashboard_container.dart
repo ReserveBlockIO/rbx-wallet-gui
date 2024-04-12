@@ -69,7 +69,7 @@ class _ContentWrapper extends BaseComponent {
               padding: EdgeInsets.all(4.0),
               child: Center(
                 child: Text(
-                  "RBX TESTNET",
+                  "VFX TESTNET",
                   style: TextStyle(
                     fontSize: 13,
                     letterSpacing: 2,
@@ -80,8 +80,14 @@ class _ContentWrapper extends BaseComponent {
               ),
             ),
           ),
-        if (kIsWeb) WebChatNotifier(ref: ref, address: ref.watch(webSessionProvider).keypair?.address),
-        if (!kIsWeb) WebChatNotifier(ref: ref, address: ref.watch(sessionProvider).currentWallet?.address),
+        if (kIsWeb)
+          WebChatNotifier(
+              ref: ref,
+              address: ref.watch(webSessionProvider).keypair?.address),
+        if (!kIsWeb)
+          WebChatNotifier(
+              ref: ref,
+              address: ref.watch(sessionProvider).currentWallet?.address),
         Expanded(
           child: Row(
             children: [
@@ -109,7 +115,7 @@ class _ContentWrapper extends BaseComponent {
             padding: EdgeInsets.all(4.0),
             child: Center(
               child: Text(
-                "RBX TESTNET",
+                "VFX TESTNET",
                 style: TextStyle(
                   fontSize: 13,
                   letterSpacing: 2,
@@ -120,7 +126,9 @@ class _ContentWrapper extends BaseComponent {
             ),
           ),
         ),
-      if (kIsWeb) WebChatNotifier(ref: ref, address: ref.watch(webSessionProvider).keypair!.address),
+      if (kIsWeb)
+        WebChatNotifier(
+            ref: ref, address: ref.watch(webSessionProvider).keypair!.address),
       Expanded(child: child),
     ]);
   }

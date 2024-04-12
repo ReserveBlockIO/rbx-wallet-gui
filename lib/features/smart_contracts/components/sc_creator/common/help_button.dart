@@ -70,11 +70,21 @@ class HelpButton extends StatelessWidget {
       visualDensity: mini ? VisualDensity.compact : VisualDensity.standard,
       icon: Icon(
         Icons.help,
-        color: color != null ? color! : Theme.of(context).colorScheme.secondary.withOpacity(subtle ? 0.7 : 1),
+        color: color != null
+            ? color!
+            : Theme.of(context)
+                .colorScheme
+                .secondary
+                .withOpacity(subtle ? 0.7 : 1),
         size: subtle ? 16 : 22,
       ),
       onPressed: () {
-        InfoDialog.show(title: _title, body: _body, closeText: "Close", icon: Icons.help, headerColor: Theme.of(context).colorScheme.secondary);
+        InfoDialog.show(
+            title: _title,
+            body: _body,
+            closeText: "Close",
+            icon: Icons.help,
+            headerColor: Theme.of(context).colorScheme.secondary);
       },
     );
   }
@@ -193,15 +203,15 @@ class HelpButton extends StatelessWidget {
       case HelpType.royaltyPercent:
         return "Type in the percent that will be paid to the address provided and is enforced on-chain upon any trade. This fee is remitted to the royalty holder upon transaction finality.";
       case HelpType.royaltyFlat:
-        return "Type in the amount of RBX that will be paid to the address provided and is enforced on-chain upon any trade. This fee is remitted to the royalty holder upon transaction finality.";
+        return "Type in the amount of VFX that will be paid to the address provided and is enforced on-chain upon any trade. This fee is remitted to the royalty holder upon transaction finality.";
       case HelpType.royaltyAddress:
-        return "Provide the RBX public address that the royalty will be paid to upon transaction finality.";
+        return "Provide the VFX public address that the royalty will be paid to upon transaction finality.";
       case HelpType.evolveMode:
         return "You decide how the evolution will be controlled.\n\nIssuer/Minter Controlled: The minter will be able to evolve/devolve the smart contract at any point.\n\nAutomated/Application Controlled: Automatically evolves based on time/date, on-chain variables, and/or application induced variables.";
       case HelpType.evolveType:
         return "Choose the variable type that can dynamically affect the evolution state.\n\nDate/Time: The smart contract will automatically evolve at a certain point of time.\n\nBlock Height: The smart contract will evolve when the chain reaches a particular block height.\n\nManual Only: The smart contract will not evolve unless manually told to by the issuer or user/application (depending on which mode is selected).";
       case HelpType.evolveBlockHeight:
-        return "The smart contract will evolve when the RBX chain reaches this block height.";
+        return "The smart contract will evolve when the VFX chain reaches this block height.";
       case HelpType.evolveStageName:
         return "Provide a name for this evolution stage.";
       case HelpType.evolveStageDescription:

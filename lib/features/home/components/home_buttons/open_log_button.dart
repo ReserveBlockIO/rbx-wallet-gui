@@ -26,15 +26,20 @@ class OpenLogButton extends BaseComponent {
 
         String cmd = "";
         if (Platform.isMacOS) {
-          appDocPath = appDocPath.replaceAll("/Documents", Env.isTestNet ? "/rbxtest" : "/rbx");
-          cmd = "open $appDocPath/Databases${Env.isTestNet ? 'TestNet' : ''}/rbxlog.txt";
+          appDocPath = appDocPath.replaceAll(
+              "/Documents", Env.isTestNet ? "/rbxtest" : "/vfx");
+          cmd =
+              "open $appDocPath/Databases${Env.isTestNet ? 'TestNet' : ''}/rbxlog.txt";
         } else {
           appDocDir = await getApplicationSupportDirectory();
 
           appDocPath = appDocDir.path;
 
-          appDocPath = appDocPath.replaceAll("\\Roaming\\com.example\\rbx_wallet_gui", "\\Local\\RBX${Env.isTestNet ? 'Test' : ''}");
-          cmd = "start $appDocPath\\Databases${Env.isTestNet ? 'TestNet' : ''}\\rbxlog.txt";
+          appDocPath = appDocPath.replaceAll(
+              "\\Roaming\\com.example\\rbx_wallet_gui",
+              "\\Local\\VFX${Env.isTestNet ? 'Test' : ''}");
+          cmd =
+              "start $appDocPath\\Databases${Env.isTestNet ? 'TestNet' : ''}\\rbxlog.txt";
         }
 
         shell.run(cmd);

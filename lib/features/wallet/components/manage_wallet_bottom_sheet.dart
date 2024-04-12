@@ -47,10 +47,13 @@ class ManageWalletBottomSheet extends BaseComponent {
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
                         final wallet = wallets[index];
-                        final isLast = index >= wallets.length - 1 && btcAccounts.isEmpty;
+                        final isLast =
+                            index >= wallets.length - 1 && btcAccounts.isEmpty;
                         final isFirst = index == 0;
 
-                        final color = wallet.isReserved ? Colors.deepPurple.shade200 : Colors.white;
+                        final color = wallet.isReserved
+                            ? Colors.deepPurple.shade200
+                            : Colors.white;
 
                         return Column(
                           mainAxisSize: MainAxisSize.min,
@@ -61,7 +64,9 @@ class ManageWalletBottomSheet extends BaseComponent {
                                 border: Border(
                                   bottom: BorderSide(
                                     width: isLast ? 0 : 1,
-                                    color: isLast ? Colors.transparent : Colors.white24,
+                                    color: isLast
+                                        ? Colors.transparent
+                                        : Colors.white24,
                                   ),
                                 ),
                               ),
@@ -69,18 +74,30 @@ class ManageWalletBottomSheet extends BaseComponent {
                                 padding: const EdgeInsets.only(bottom: 4),
                                 child: ListTile(
                                   // leading: Icon(Icons.account_balance_wallet_outlined, color: color),
-                                  leading:
-                                      !ref.watch(sessionProvider).btcSelected && wallet.address == ref.watch(sessionProvider).currentWallet?.address
-                                          ? IconButton(
-                                              onPressed: null,
-                                              icon: Icon(Icons.check_box_rounded, color: color),
-                                            )
-                                          : IconButton(
-                                              onPressed: () {
-                                                ref.read(sessionProvider.notifier).setCurrentWallet(wallet);
-                                              },
-                                              icon: Icon(Icons.check_box_outline_blank_outlined, color: color),
-                                            ),
+                                  leading: !ref
+                                              .watch(sessionProvider)
+                                              .btcSelected &&
+                                          wallet.address ==
+                                              ref
+                                                  .watch(sessionProvider)
+                                                  .currentWallet
+                                                  ?.address
+                                      ? IconButton(
+                                          onPressed: null,
+                                          icon: Icon(Icons.check_box_rounded,
+                                              color: color),
+                                        )
+                                      : IconButton(
+                                          onPressed: () {
+                                            ref
+                                                .read(sessionProvider.notifier)
+                                                .setCurrentWallet(wallet);
+                                          },
+                                          icon: Icon(
+                                              Icons
+                                                  .check_box_outline_blank_outlined,
+                                              color: color),
+                                        ),
                                   title: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
@@ -90,24 +107,32 @@ class ManageWalletBottomSheet extends BaseComponent {
                                       ),
                                       wallet.isReserved
                                           ? Text(
-                                              " [Available: ${wallet.availableBalance} RBX]",
+                                              " [Available: ${wallet.availableBalance} VFX]",
                                               style: TextStyle(color: color),
                                             )
                                           : Text(
-                                              " [${wallet.balance} RBX]",
+                                              " [${wallet.balance} VFX]",
                                               style: TextStyle(color: color),
                                             ),
-                                      if (wallet.isReserved || wallet.lockedBalance > 0)
+                                      if (wallet.isReserved ||
+                                          wallet.lockedBalance > 0)
                                         Padding(
-                                          padding: const EdgeInsets.only(left: 6.0),
+                                          padding:
+                                              const EdgeInsets.only(left: 6.0),
                                           child: InkWell(
                                             onTap: () {
-                                              ref.read(reserveAccountProvider.notifier).showBalanceInfo(context, wallet);
+                                              ref
+                                                  .read(reserveAccountProvider
+                                                      .notifier)
+                                                  .showBalanceInfo(
+                                                      context, wallet);
                                             },
                                             child: Icon(
                                               Icons.help,
                                               size: 14,
-                                              color: Theme.of(context).colorScheme.secondary,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary,
                                             ),
                                           ),
                                         ),
@@ -117,9 +142,14 @@ class ManageWalletBottomSheet extends BaseComponent {
                                             title: "Rename ${wallet.label}",
                                             validator: (_) => null,
                                             labelText: "Name",
-                                            initialValue: wallet.friendlyName ?? "",
+                                            initialValue:
+                                                wallet.friendlyName ?? "",
                                             onValidSubmission: (value) {
-                                              ref.read(walletDetailProvider(wallet).notifier).rename(value);
+                                              ref
+                                                  .read(walletDetailProvider(
+                                                          wallet)
+                                                      .notifier)
+                                                  .rename(value);
                                             },
                                           );
                                         },
@@ -135,7 +165,8 @@ class ManageWalletBottomSheet extends BaseComponent {
                                     children: [
                                       Text(wallet.address),
                                       Padding(
-                                        padding: const EdgeInsets.only(left: 6.0),
+                                        padding:
+                                            const EdgeInsets.only(left: 6.0),
                                         child: InkWell(
                                           child: const Icon(
                                             Icons.copy,
@@ -143,9 +174,11 @@ class ManageWalletBottomSheet extends BaseComponent {
                                           ),
                                           onTap: () async {
                                             await Clipboard.setData(
-                                              ClipboardData(text: wallet.address),
+                                              ClipboardData(
+                                                  text: wallet.address),
                                             );
-                                            Toast.message("Address copied to clipboard");
+                                            Toast.message(
+                                                "Address copied to clipboard");
                                           },
                                         ),
                                       ),
@@ -154,7 +187,8 @@ class ManageWalletBottomSheet extends BaseComponent {
                                   trailing: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      if (wallet.isReserved && wallet.isNetworkProtected)
+                                      if (wallet.isReserved &&
+                                          wallet.isNetworkProtected)
                                         Text(
                                           "Activated",
                                           style: TextStyle(color: color),
@@ -174,10 +208,14 @@ class ManageWalletBottomSheet extends BaseComponent {
                                             label: "Reveal Private Key",
                                             variant: AppColorVariant.Info,
                                             onPressed: () async {
-                                              if (!await passwordRequiredGuard(context, ref)) return;
+                                              if (!await passwordRequiredGuard(
+                                                  context, ref)) return;
 
-                                              final decryptedWallet =
-                                                  ref.read(walletListProvider).firstWhereOrNull((w) => w.address == wallet.address);
+                                              final decryptedWallet = ref
+                                                  .read(walletListProvider)
+                                                  .firstWhereOrNull((w) =>
+                                                      w.address ==
+                                                      wallet.address);
                                               if (decryptedWallet == null) {
                                                 return;
                                               }
@@ -185,28 +223,45 @@ class ManageWalletBottomSheet extends BaseComponent {
                                                 context: context,
                                                 builder: (context) {
                                                   return AlertDialog(
-                                                    title: const Text("Private Key"),
+                                                    title: const Text(
+                                                        "Private Key"),
                                                     content: Column(
-                                                      mainAxisSize: MainAxisSize.min,
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
                                                       children: [
                                                         ListTile(
-                                                          leading: const Icon(Icons.security),
+                                                          leading: const Icon(
+                                                              Icons.security),
                                                           title: SizedBox(
                                                             width: 500,
-                                                            child: TextFormField(
-                                                              initialValue: decryptedWallet.privateKey,
-                                                              decoration: const InputDecoration(
-                                                                label: Text("Private Key"),
+                                                            child:
+                                                                TextFormField(
+                                                              initialValue:
+                                                                  decryptedWallet
+                                                                      .privateKey,
+                                                              decoration:
+                                                                  const InputDecoration(
+                                                                label: Text(
+                                                                    "Private Key"),
                                                               ),
-                                                              style: const TextStyle(fontSize: 12),
+                                                              style:
+                                                                  const TextStyle(
+                                                                      fontSize:
+                                                                          12),
                                                               readOnly: true,
                                                             ),
                                                           ),
                                                           trailing: IconButton(
-                                                            icon: const Icon(Icons.copy),
-                                                            onPressed: () async {
-                                                              await Clipboard.setData(ClipboardData(text: decryptedWallet.privateKey));
-                                                              Toast.message("Private Key copied to clipboard");
+                                                            icon: const Icon(
+                                                                Icons.copy),
+                                                            onPressed:
+                                                                () async {
+                                                              await Clipboard.setData(
+                                                                  ClipboardData(
+                                                                      text: decryptedWallet
+                                                                          .privateKey));
+                                                              Toast.message(
+                                                                  "Private Key copied to clipboard");
                                                             },
                                                           ),
                                                         ),
@@ -214,7 +269,9 @@ class ManageWalletBottomSheet extends BaseComponent {
                                                         AppButton(
                                                           label: "Close",
                                                           onPressed: () {
-                                                            Navigator.of(context).pop();
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
                                                           },
                                                         )
                                                       ],
@@ -228,16 +285,24 @@ class ManageWalletBottomSheet extends BaseComponent {
                                         type: AppButtonType.Text,
                                         variant: AppColorVariant.Light,
                                         onPressed: () async {
-                                          final resync = await ConfirmDialog.show(
+                                          final resync =
+                                              await ConfirmDialog.show(
                                             title: "Rescan Blocks?",
-                                            body: "Would you like to rescan the chain to include any transactions relevant to this address?",
+                                            body:
+                                                "Would you like to rescan the chain to include any transactions relevant to this address?",
                                             confirmText: "Yes",
                                             cancelText: "No",
                                           );
                                           if (resync == true) {
-                                            final success = await BridgeService().rescanAddress(wallet.address);
+                                            final success =
+                                                await BridgeService()
+                                                    .rescanAddress(
+                                                        wallet.address);
                                             if (success) {
-                                              InfoDialog.show(title: "Rescan has started", body: "Updated TXs will show up shortly");
+                                              InfoDialog.show(
+                                                  title: "Rescan has started",
+                                                  body:
+                                                      "Updated TXs will show up shortly");
                                             } else {
                                               OverlayToast.error();
                                             }
@@ -249,16 +314,22 @@ class ManageWalletBottomSheet extends BaseComponent {
                                         variant: AppColorVariant.Danger,
                                         label: "Hide Account",
                                         onPressed: () async {
-                                          final confirmed = await ConfirmDialog.show(
+                                          final confirmed =
+                                              await ConfirmDialog.show(
                                             title: "Hide wallet?",
-                                            body: "Are you sure you want to hide this wallet from the GUI?",
+                                            body:
+                                                "Are you sure you want to hide this wallet from the GUI?",
                                             destructive: true,
                                             confirmText: "Hide",
                                             cancelText: "Cancel",
                                           );
 
                                           if (confirmed == true) {
-                                            ref.read(walletDetailProvider(wallet).notifier).delete();
+                                            ref
+                                                .read(
+                                                    walletDetailProvider(wallet)
+                                                        .notifier)
+                                                .delete();
                                           }
                                         },
                                       )
@@ -288,24 +359,38 @@ class ManageWalletBottomSheet extends BaseComponent {
                                 border: Border(
                                   bottom: BorderSide(
                                     width: isLast ? 0 : 1,
-                                    color: isLast ? Colors.transparent : Colors.white24,
+                                    color: isLast
+                                        ? Colors.transparent
+                                        : Colors.white24,
                                   ),
                                 ),
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.only(bottom: 8.0),
                                 child: ListTile(
-                                  leading: ref.watch(sessionProvider).btcSelected &&
-                                          account.address == ref.watch(sessionProvider).currentBtcAccount?.address
+                                  leading: ref
+                                              .watch(sessionProvider)
+                                              .btcSelected &&
+                                          account.address ==
+                                              ref
+                                                  .watch(sessionProvider)
+                                                  .currentBtcAccount
+                                                  ?.address
                                       ? IconButton(
                                           onPressed: null,
-                                          icon: Icon(Icons.check_box_rounded, color: btcOrange),
+                                          icon: Icon(Icons.check_box_rounded,
+                                              color: btcOrange),
                                         )
                                       : IconButton(
                                           onPressed: () {
-                                            ref.read(sessionProvider.notifier).setCurrentBtcAccount(account);
+                                            ref
+                                                .read(sessionProvider.notifier)
+                                                .setCurrentBtcAccount(account);
                                           },
-                                          icon: Icon(Icons.check_box_outline_blank_outlined, color: btcOrange),
+                                          icon: Icon(
+                                              Icons
+                                                  .check_box_outline_blank_outlined,
+                                              color: btcOrange),
                                         ),
                                   title: Row(
                                     children: [
@@ -324,7 +409,8 @@ class ManageWalletBottomSheet extends BaseComponent {
                                     children: [
                                       Text(account.address),
                                       Padding(
-                                        padding: const EdgeInsets.only(left: 6.0),
+                                        padding:
+                                            const EdgeInsets.only(left: 6.0),
                                         child: InkWell(
                                           child: const Icon(
                                             Icons.copy,
@@ -332,9 +418,11 @@ class ManageWalletBottomSheet extends BaseComponent {
                                           ),
                                           onTap: () async {
                                             await Clipboard.setData(
-                                              ClipboardData(text: account.address),
+                                              ClipboardData(
+                                                  text: account.address),
                                             );
-                                            Toast.message("Address copied to clipboard");
+                                            Toast.message(
+                                                "Address copied to clipboard");
                                           },
                                         ),
                                       ),
@@ -345,9 +433,12 @@ class ManageWalletBottomSheet extends BaseComponent {
                                     label: "Reveal Private Key",
                                     variant: AppColorVariant.Info,
                                     onPressed: () async {
-                                      if (!await passwordRequiredGuard(context, ref)) return;
+                                      if (!await passwordRequiredGuard(
+                                          context, ref)) return;
 
-                                      final a = await BtcService().retrieveAccount(account.address, omitPrivateKey: false);
+                                      final a = await BtcService()
+                                          .retrieveAccount(account.address,
+                                              omitPrivateKey: false);
                                       if (a == null) {
                                         Toast.error();
                                         return;
@@ -362,23 +453,33 @@ class ManageWalletBottomSheet extends BaseComponent {
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
                                                 ListTile(
-                                                  leading: const Icon(Icons.security),
+                                                  leading: const Icon(
+                                                      Icons.security),
                                                   title: SizedBox(
                                                     width: 500,
                                                     child: TextFormField(
-                                                      initialValue: a.privateKey,
-                                                      decoration: const InputDecoration(
-                                                        label: Text("Private Key"),
+                                                      initialValue:
+                                                          a.privateKey,
+                                                      decoration:
+                                                          const InputDecoration(
+                                                        label:
+                                                            Text("Private Key"),
                                                       ),
-                                                      style: const TextStyle(fontSize: 12),
+                                                      style: const TextStyle(
+                                                          fontSize: 12),
                                                       readOnly: true,
                                                     ),
                                                   ),
                                                   trailing: IconButton(
-                                                    icon: const Icon(Icons.copy),
+                                                    icon:
+                                                        const Icon(Icons.copy),
                                                     onPressed: () async {
-                                                      await Clipboard.setData(ClipboardData(text: a.privateKey));
-                                                      Toast.message("Private Key copied to clipboard");
+                                                      await Clipboard.setData(
+                                                          ClipboardData(
+                                                              text: a
+                                                                  .privateKey));
+                                                      Toast.message(
+                                                          "Private Key copied to clipboard");
                                                     },
                                                   ),
                                                 ),
@@ -466,14 +567,17 @@ class _WalletRestorerState extends State<WalletRestorer> {
   @override
   initState() {
     super.initState();
-    hiddenWallets = singleton<Storage>().getList(Storage.DELETED_WALLETS_KEY) ?? [];
+    hiddenWallets =
+        singleton<Storage>().getList(Storage.DELETED_WALLETS_KEY) ?? [];
     values = hiddenWallets.map((e) => false).toList();
   }
 
   @override
   Widget build(BuildContext context) {
     return hiddenWallets.isEmpty
-        ? InfoDialog.alert(context, title: 'No wallets to restore', body: "You don't have any hidden wallets.")
+        ? InfoDialog.alert(context,
+            title: 'No wallets to restore',
+            body: "You don't have any hidden wallets.")
         : Consumer(builder: (context, ref, child) {
             return AlertDialog(
               actionsAlignment: MainAxisAlignment.spaceBetween,
@@ -550,8 +654,10 @@ class _WalletRestorerState extends State<WalletRestorer> {
           });
   }
 
-  void restoreWallets(List<dynamic> nonRestoredWallets, BuildContext context, WidgetRef ref) {
-    singleton<Storage>().setList(Storage.DELETED_WALLETS_KEY, nonRestoredWallets);
+  void restoreWallets(
+      List<dynamic> nonRestoredWallets, BuildContext context, WidgetRef ref) {
+    singleton<Storage>()
+        .setList(Storage.DELETED_WALLETS_KEY, nonRestoredWallets);
     ref.read(sessionProvider.notifier).init(false);
     Navigator.of(context).pop();
   }

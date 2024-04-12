@@ -27,11 +27,13 @@ class WebTransactionCard extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var date1 = DateTime.fromMillisecondsSinceEpoch((tx.date.millisecondsSinceEpoch).round());
+    var date1 = DateTime.fromMillisecondsSinceEpoch(
+        (tx.date.millisecondsSinceEpoch).round());
     String date = DateFormat('MM-dd-yyyy hh:mm a').format(date1);
 
     if (tx.isPendingSettlement) {
-      final settlementDate = DateFormat('MM-dd-yyyy hh:mm a').format(tx.unlockTime!);
+      final settlementDate =
+          DateFormat('MM-dd-yyyy hh:mm a').format(tx.unlockTime!);
       date = "$date | Settlement Date: $settlementDate";
     }
 
@@ -45,11 +47,12 @@ class WebTransactionCard extends BaseComponent {
             : Theme.of(context).colorScheme.danger
         : Colors.white;
 
-    String text = tx.type == TxType.rbxTransfer ? "${tx.amount} RBX" : tx.typeLabel;
+    String text =
+        tx.type == TxType.rbxTransfer ? "${tx.amount} VFX" : tx.typeLabel;
 
     if (tx.callbackDetails != null) {
       final cb = tx.callbackDetails!;
-      text = "$text [${cb.amount} RBX from ${cb.toAddress}]";
+      text = "$text [${cb.amount} VFX from ${cb.toAddress}]";
     }
 
     return Padding(
@@ -78,7 +81,10 @@ class WebTransactionCard extends BaseComponent {
                         TextSpan(text: "From: "),
                         TextSpan(
                             text: "${tx.fromAddress}\n",
-                            style: TextStyle(color: tx.fromAddress.startsWith("xRBX") ? Colors.deepPurple.shade200 : Colors.white60)),
+                            style: TextStyle(
+                                color: tx.fromAddress.startsWith("xRBX")
+                                    ? Colors.deepPurple.shade200
+                                    : Colors.white60)),
                         TextSpan(text: date)
                       ],
                     ),
@@ -90,7 +96,10 @@ class WebTransactionCard extends BaseComponent {
                         TextSpan(text: "To: "),
                         TextSpan(
                             text: "${tx.toAddress}\n",
-                            style: TextStyle(color: tx.toAddress.startsWith("xRBX") ? Colors.deepPurple.shade200 : Colors.white60)),
+                            style: TextStyle(
+                                color: tx.toAddress.startsWith("xRBX")
+                                    ? Colors.deepPurple.shade200
+                                    : Colors.white60)),
                         TextSpan(text: date)
                       ],
                     ),
@@ -107,7 +116,9 @@ class WebTransactionCard extends BaseComponent {
                   AppButton(
                     label: "Original TX",
                     onPressed: () {
-                      AutoRouter.of(context).push(WebTransactionDetailScreenRoute(hash: tx.callbackHash!));
+                      AutoRouter.of(context).push(
+                          WebTransactionDetailScreenRoute(
+                              hash: tx.callbackHash!));
                     },
                   ),
                 WebCallbackButton(tx),
@@ -118,7 +129,8 @@ class WebTransactionCard extends BaseComponent {
               ],
             ),
             onTap: () {
-              AutoRouter.of(context).push(WebTransactionDetailScreenRoute(hash: tx.hash));
+              AutoRouter.of(context)
+                  .push(WebTransactionDetailScreenRoute(hash: tx.hash));
               // if (kDebugMode) {
               //   ref.read(transactionSignalProvider.notifier).insert(tx.toNative());
               // }

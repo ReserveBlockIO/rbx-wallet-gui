@@ -61,19 +61,20 @@ class MainMenu extends BaseComponent {
                                 style: TextStyle(
                                   color: Colors.white.withOpacity(0.9),
                                   fontSize: 32,
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: FontWeight.w400,
                                   fontFamily: 'Mukta',
-                                  letterSpacing: 2,
+                                  letterSpacing: 0,
                                 ),
                               ),
                               Text(
                                 "X",
                                 style: TextStyle(
-                                  color: Theme.of(context).colorScheme.secondary,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
                                   fontSize: 32,
                                   fontWeight: FontWeight.w700,
                                   fontFamily: 'Mukta',
-                                  letterSpacing: 2,
+                                  letterSpacing: 0,
                                 ),
                               ),
                             ],
@@ -92,7 +93,8 @@ class MainMenu extends BaseComponent {
                   Container(
                     color: Colors.black,
                     child: Center(
-                      child: _RotatingCube(btc: ref.watch(sessionProvider).btcSelected),
+                      child: _RotatingCube(
+                          btc: ref.watch(sessionProvider).btcSelected),
                     ),
                   ),
                   Container(
@@ -101,7 +103,9 @@ class MainMenu extends BaseComponent {
                       padding: const EdgeInsets.all(8.0).copyWith(top: 0),
                       child: Center(
                         child: Text(
-                          totalBalance != null ? "$totalBalance RBX" : "0.0 RBX",
+                          totalBalance != null
+                              ? "$totalBalance VFX"
+                              : "0.0 VFX",
                           style: Theme.of(context).textTheme.caption!.copyWith(
                                 fontWeight: FontWeight.w600,
                               ),
@@ -121,9 +125,13 @@ class MainMenu extends BaseComponent {
                               : "",
                           child: Text(
                             "${btcBalance.toStringAsFixed(9)} BTC",
-                            style: Theme.of(context).textTheme.caption!.copyWith(
+                            style: Theme.of(context)
+                                .textTheme
+                                .caption!
+                                .copyWith(
                                   fontWeight: FontWeight.w600,
-                                  color: Theme.of(context).colorScheme.btcOrange,
+                                  color:
+                                      Theme.of(context).colorScheme.btcOrange,
                                 ),
                             textAlign: TextAlign.center,
                           ),
@@ -136,7 +144,9 @@ class MainMenu extends BaseComponent {
                     icon: Icons.dashboard,
                     onPressed: () {
                       if (tabsRouter.activeIndex == 0) {
-                        tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
+                        tabsRouter
+                            .stackRouterOfIndex(tabsRouter.activeIndex)!
+                            .popUntilRoot();
                       } else {
                         tabsRouter.setActiveIndex(0);
                       }
@@ -205,7 +215,7 @@ class MainMenu extends BaseComponent {
                   // ),
 
                   _NavButton(
-                    title: "RBX Domains",
+                    title: "VFX Domains",
                     icon: Icons.link,
                     onPressed: () {
                       tabsRouter.setActiveIndex(10);
@@ -217,7 +227,8 @@ class MainMenu extends BaseComponent {
                     icon: Icons.receipt_long,
                     onPressed: () {
                       if (ref.read(sessionProvider).currentWallet == null) {
-                        Toast.error("A wallet is required to access this section.");
+                        Toast.error(
+                            "A wallet is required to access this section.");
                         return;
                       }
                       tabsRouter.setActiveIndex(8);
@@ -240,7 +251,8 @@ class MainMenu extends BaseComponent {
                     icon: Icons.lightbulb_outline,
                     onPressed: () {
                       if (ref.read(sessionProvider).currentWallet == null) {
-                        Toast.error("A wallet is required to access this section.");
+                        Toast.error(
+                            "A wallet is required to access this section.");
                         return;
                       }
                       tabsRouter.setActiveIndex(7);
@@ -254,7 +266,9 @@ class MainMenu extends BaseComponent {
                     icon: Icons.leak_add,
                     onPressed: () {
                       if (tabsRouter.activeIndex == 9) {
-                        tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
+                        tabsRouter
+                            .stackRouterOfIndex(tabsRouter.activeIndex)!
+                            .popUntilRoot();
                       } else {
                         tabsRouter.setActiveIndex(9);
                       }
@@ -324,7 +338,9 @@ class _NavButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textColor = isActive ? Theme.of(context).colorScheme.secondary : Theme.of(context).textTheme.bodyText1!.color;
+    final textColor = isActive
+        ? Theme.of(context).colorScheme.secondary
+        : Theme.of(context).textTheme.bodyText1!.color;
 
     return Container(
       decoration: const BoxDecoration(

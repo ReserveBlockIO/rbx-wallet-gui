@@ -30,7 +30,7 @@ class WebAdnrScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: const Text("RBX Domains"),
+      title: const Text("VFX Domains"),
       backgroundColor: Colors.black,
       shadowColor: Colors.transparent,
     );
@@ -54,14 +54,20 @@ class WebAdnrScreen extends BaseScreen {
     }
 
     final balance = session.balance ?? 0;
-    final isPendingCreate = ref.watch(adnrPendingProvider).contains("$address.create.${adnr ?? 'null'}");
-    final isPendingBurn = ref.watch(adnrPendingProvider).contains("$address.delete.${adnr ?? 'null'}");
-    final isPendingTransfer = ref.watch(adnrPendingProvider).contains("$address.transfer.${adnr ?? 'null'}");
+    final isPendingCreate = ref
+        .watch(adnrPendingProvider)
+        .contains("$address.create.${adnr ?? 'null'}");
+    final isPendingBurn = ref
+        .watch(adnrPendingProvider)
+        .contains("$address.delete.${adnr ?? 'null'}");
+    final isPendingTransfer = ref
+        .watch(adnrPendingProvider)
+        .contains("$address.transfer.${adnr ?? 'null'}");
 
     if (isPendingCreate) {
       return const Center(
         child: AppBadge(
-          label: "RBX Domain Pending",
+          label: "VFX Domain Pending",
           variant: AppColorVariant.Success,
         ),
       );
@@ -70,7 +76,7 @@ class WebAdnrScreen extends BaseScreen {
     if (isPendingTransfer) {
       return const Center(
         child: AppBadge(
-          label: "RBX Domain Transfer Pending",
+          label: "VFX Domain Transfer Pending",
           variant: AppColorVariant.Primary,
         ),
       );
@@ -79,7 +85,7 @@ class WebAdnrScreen extends BaseScreen {
     if (isPendingBurn) {
       return const Center(
         child: AppBadge(
-          label: "RBX Domain Delete Pending",
+          label: "VFX Domain Delete Pending",
           variant: AppColorVariant.Danger,
         ),
       );
@@ -101,7 +107,7 @@ class WebAdnrScreen extends BaseScreen {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const Text(
-                      "Create an RBX Domain as an alias to your wallet's address for receiving funds.",
+                      "Create an VFX Domain as an alias to your wallet's address for receiving funds.",
                       style: TextStyle(
                         fontSize: 17,
                       ),
@@ -111,7 +117,7 @@ class WebAdnrScreen extends BaseScreen {
                       height: 4,
                     ),
                     const Text(
-                      "RBX domains cost $ADNR_COST RBX plus the transaction fee.",
+                      "VFX domains cost $ADNR_COST VFX plus the transaction fee.",
                       textAlign: TextAlign.center,
                     ),
                     const Divider(),
@@ -120,7 +126,8 @@ class WebAdnrScreen extends BaseScreen {
                       variant: AppColorVariant.Success,
                       onPressed: () async {
                         if (balance < (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
-                          Toast.error("Not enough RBX in this wallet to create an RBX domain. $ADNR_COST RBX required (plus TX fee).");
+                          Toast.error(
+                              "Not enough VFX in this wallet to create an VFX domain. $ADNR_COST RBX required (plus TX fee).");
                           return;
                         }
 
@@ -159,7 +166,10 @@ class WebAdnrScreen extends BaseScreen {
                 children: [
                   Text(
                     adnr,
-                    style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.white),
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineMedium!
+                        .copyWith(color: Colors.white),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(
@@ -176,29 +186,41 @@ class WebAdnrScreen extends BaseScreen {
                       AppButton(
                         label: "Transfer",
                         onPressed: () async {
-                          if (balance < (ADNR_TRANSFER_COST + MIN_RBX_FOR_SC_ACTION)) {
-                            Toast.error("Not enough RBX in this wallet to create a transaction.");
+                          if (balance <
+                              (ADNR_TRANSFER_COST + MIN_RBX_FOR_SC_ACTION)) {
+                            Toast.error(
+                                "Not enough VFX in this wallet to create a transaction.");
                             return;
                           }
 
                           PromptModal.show(
                               contextOverride: context,
-                              title: "Transfer RBX Domain",
-                              body: "There is a cost of $ADNR_TRANSFER_COST RBX to transfer an RBX Domain.",
-                              validator: (value) => formValidatorRbxAddress(value, false),
+                              title: "Transfer VFX Domain",
+                              body:
+                                  "There is a cost of $ADNR_TRANSFER_COST VFX to transfer an VFX Domain.",
+                              validator: (value) =>
+                                  formValidatorRbxAddress(value, false),
                               labelText: "Address",
                               onValidSubmission: (toAddress) async {
-                                ref.read(globalLoadingProvider.notifier).start();
+                                ref
+                                    .read(globalLoadingProvider.notifier)
+                                    .start();
 
                                 final txData = await RawTransaction.generate(
-                                  keypair: ref.read(webSessionProvider).keypair!,
+                                  keypair:
+                                      ref.read(webSessionProvider).keypair!,
                                   amount: ADNR_TRANSFER_COST,
                                   toAddress: toAddress,
                                   txType: TxType.adnr,
-                                  data: {"Function": "AdnrTransfer()", "Name": adnr},
+                                  data: {
+                                    "Function": "AdnrTransfer()",
+                                    "Name": adnr
+                                  },
                                 );
 
-                                ref.read(globalLoadingProvider.notifier).complete();
+                                ref
+                                    .read(globalLoadingProvider.notifier)
+                                    .complete();
 
                                 if (txData == null) {
                                   Toast.error("Invalid transaction data.");
@@ -210,7 +232,7 @@ class WebAdnrScreen extends BaseScreen {
                                 final confirmed = await ConfirmDialog.show(
                                   title: "Valid Transaction",
                                   body:
-                                      "The RBX Domain transaction is valid.\nAre you sure you want to proceed?\n\nDomain: $adnr.rbx\nAmount: $ADNR_COST RBX\nFee: $txFee RBX\nTotal: ${ADNR_COST + txFee} RBX",
+                                      "The VFX Domain transaction is valid.\nAre you sure you want to proceed?\n\nDomain: $adnr.vfx\nAmount: $ADNR_COST VFX\nFee: $txFee RBX\nTotal: ${ADNR_COST + txFee} RBX",
                                   confirmText: "Send",
                                   cancelText: "Cancel",
                                 );
@@ -220,7 +242,9 @@ class WebAdnrScreen extends BaseScreen {
                                   return;
                                 }
 
-                                ref.read(globalLoadingProvider.notifier).start();
+                                ref
+                                    .read(globalLoadingProvider.notifier)
+                                    .start();
 
                                 final tx = await RawService().sendTransaction(
                                   transactionData: txData,
@@ -228,12 +252,17 @@ class WebAdnrScreen extends BaseScreen {
                                   widgetRef: ref,
                                 );
 
-                                ref.read(globalLoadingProvider.notifier).complete();
+                                ref
+                                    .read(globalLoadingProvider.notifier)
+                                    .complete();
 
                                 if (tx != null && tx['Result'] == "Success") {
-                                  ref.read(adnrPendingProvider.notifier).addId(address, "transfer", adnr);
+                                  ref
+                                      .read(adnrPendingProvider.notifier)
+                                      .addId(address, "transfer", adnr);
 
-                                  Toast.message("RBX Domain Transaction has been broadcasted. See log for hash.");
+                                  Toast.message(
+                                      "VFX Domain Transaction has been broadcasted. See log for hash.");
 
                                   return;
                                 }
@@ -246,15 +275,17 @@ class WebAdnrScreen extends BaseScreen {
                         label: "Delete",
                         variant: AppColorVariant.Danger,
                         onPressed: () async {
-                          if (balance < (ADNR_DELETE_COST + MIN_RBX_FOR_SC_ACTION)) {
-                            Toast.error("Not enough RBX in this wallet to create a transaction.");
+                          if (balance <
+                              (ADNR_DELETE_COST + MIN_RBX_FOR_SC_ACTION)) {
+                            Toast.error(
+                                "Not enough VFX in this wallet to create a transaction.");
                             return;
                           }
 
                           final confirmed = await ConfirmDialog.show(
-                            title: "Delete RBX Domain?",
+                            title: "Delete VFX Domain?",
                             body:
-                                "Are you sure you want to delete this RBX Domain?\n${ADNR_DELETE_COST == 0 ? 'There is no cost to delete and RBX Domain (aside from the TX fee).' : 'There is a cost of $ADNR_DELETE_COST RBX to delete an RBX Domain.'}\n\nOnce deleted, this ADNR will no longer be able to receive any transactions.",
+                                "Are you sure you want to delete this VFX Domain?\n${ADNR_DELETE_COST == 0 ? 'There is no cost to delete and VFX Domain (aside from the TX fee).' : 'There is a cost of $ADNR_DELETE_COST RBX to delete an RBX Domain.'}\n\nOnce deleted, this ADNR will no longer be able to receive any transactions.",
                             destructive: true,
                             cancelText: "Cancel",
                             confirmText: "Delete",
@@ -282,7 +313,7 @@ class WebAdnrScreen extends BaseScreen {
                             final confirmed = await ConfirmDialog.show(
                               title: "Valid Transaction",
                               body:
-                                  "The RBX Domain transaction is valid.\nAre you sure you want to proceed?\n\nDomain: $adnr.rbx\nAmount: $ADNR_COST RBX\nFee: $txFee RBX\nTotal: ${ADNR_COST + txFee} RBX",
+                                  "The VFX Domain transaction is valid.\nAre you sure you want to proceed?\n\nDomain: $adnr.vfx\nAmount: $ADNR_COST VFX\nFee: $txFee RBX\nTotal: ${ADNR_COST + txFee} RBX",
                               confirmText: "Send",
                               cancelText: "Cancel",
                             );
@@ -294,13 +325,19 @@ class WebAdnrScreen extends BaseScreen {
 
                             ref.read(globalLoadingProvider.notifier).start();
 
-                            final tx = await RawService().sendTransaction(transactionData: txData, execute: true, widgetRef: ref);
+                            final tx = await RawService().sendTransaction(
+                                transactionData: txData,
+                                execute: true,
+                                widgetRef: ref);
                             ref.read(globalLoadingProvider.notifier).complete();
 
                             if (tx != null && tx['Result'] == "Success") {
-                              ref.read(adnrPendingProvider.notifier).addId(address, "delete", adnr);
+                              ref
+                                  .read(adnrPendingProvider.notifier)
+                                  .addId(address, "delete", adnr);
 
-                              Toast.message("RBX Domain Transaction has been broadcasted. See log for hash.");
+                              Toast.message(
+                                  "VFX Domain Transaction has been broadcasted. See log for hash.");
                               return;
                             }
 
