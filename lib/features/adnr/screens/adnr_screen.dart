@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/components/currency_segmented_button.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 
@@ -28,62 +29,82 @@ class AdnrScreen extends BaseScreen {
   Widget body(BuildContext context, WidgetRef ref) {
     final isBtc = ref.watch(sessionProvider).btcSelected;
 
-    if (isBtc) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text(
-                  "Create an RBX BTC Domain as an alias to your BTC wallet address for receiving funds.",
-                  style: TextStyle(
-                    fontSize: 17,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: BtcAdnrList(),
-          )
-        ],
-      );
-    }
-
-    final wallets = ref.watch(walletListProvider).where((w) => !w.isReserved).toList();
-
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                "Create an RBX Domain as an alias to your wallet's address for receiving funds.",
-                style: TextStyle(
-                  fontSize: 17,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(
-                height: 4,
-              ),
-              const Text(
-                "RBX domains cost $ADNR_COST RBX plus the transaction fee.",
-                textAlign: TextAlign.center,
-              ),
-            ],
+          padding: const EdgeInsets.only(bottom: 16.0),
+          child: CurrencySegementedButton(
+            family: "ADNR",
+            includeAny: false,
           ),
         ),
-        Expanded(child: AdnrList(wallets: wallets)),
+        Expanded(
+          child: Builder(
+            builder: (context) {
+              if (isBtc) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Text(
+                            "Create an RBX BTC Domain as an alias to your BTC wallet address for receiving funds.",
+                            style: TextStyle(
+                              fontSize: 17,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: BtcAdnrList(),
+                    )
+                  ],
+                );
+              }
+
+              final wallets = ref
+                  .watch(walletListProvider)
+                  .where((w) => !w.isReserved)
+                  .toList();
+
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text(
+                          "Create an RBX Domain as an alias to your wallet's address for receiving funds.",
+                          style: TextStyle(
+                            fontSize: 17,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(
+                          height: 4,
+                        ),
+                        const Text(
+                          "RBX domains cost $ADNR_COST RBX plus the transaction fee.",
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(child: AdnrList(wallets: wallets)),
+                ],
+              );
+            },
+          ),
+        ),
       ],
     );
   }

@@ -20,7 +20,9 @@ class Toast {
         style: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,
-          fontFamily: kIsWeb && HtmlHelpers().getUserAgent().contains('OS 15_') ? '-apple-system' : null,
+          fontFamily: kIsWeb && HtmlHelpers().getUserAgent().contains('OS 15_')
+              ? '-apple-system'
+              : null,
         ),
       ),
       backgroundColor: Theme.of(context).colorScheme.success,
@@ -30,10 +32,12 @@ class Toast {
         onPressed: () {},
       ),
     );
+    rootScaffoldMessengerKey.currentState?.hideCurrentSnackBar();
     rootScaffoldMessengerKey.currentState?.showSnackBar(snackBar);
   }
 
-  static error([String message = "A problem occurred.", bool surpress = false]) {
+  static error(
+      [String message = "A problem occurred.", bool surpress = false]) {
     if (surpress) {
       print(message);
       return;
@@ -45,7 +49,9 @@ class Toast {
         message,
         style: TextStyle(
           color: Colors.white,
-          fontFamily: kIsWeb && HtmlHelpers().getUserAgent().contains('OS 15_') ? '-apple-system' : null,
+          fontFamily: kIsWeb && HtmlHelpers().getUserAgent().contains('OS 15_')
+              ? '-apple-system'
+              : null,
         ),
       ),
       backgroundColor: Theme.of(context).colorScheme.danger,
@@ -55,6 +61,7 @@ class Toast {
         onPressed: () {},
       ),
     );
+    rootScaffoldMessengerKey.currentState?.hideCurrentSnackBar();
     rootScaffoldMessengerKey.currentState?.showSnackBar(snackBar);
   }
 }
