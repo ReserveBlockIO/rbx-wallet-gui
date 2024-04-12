@@ -10,6 +10,9 @@
 class FontFamily {
   FontFamily._();
 
+  /// Font family: Mukta
+  static const String mukta = 'Mukta';
+
   /// Font family: NotoColorEmoji
   static const String notoColorEmoji = 'NotoColorEmoji';
 

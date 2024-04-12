@@ -178,7 +178,7 @@ class SessionModel {
     if (startTime == null) {
       return "-";
     }
-    return DateFormat('MM/dd – HH:mm').format(startTime!);
+    return DateFormat('MM/dd - HH:mm').format(startTime!);
   }
 
   bool get updateAvailable {
@@ -207,20 +207,19 @@ class SessionProvider extends StateNotifier<SessionModel> {
     final token =
         kDebugMode ? DEV_API_TOKEN : generateRandomString(32).toLowerCase();
 
-    ref
-        .read(logProvider.notifier)
-        .append(LogEntry(message: "Welcome to RBXWallet version $APP_VERSION"));
+    ref.read(logProvider.notifier).append(
+        LogEntry(message: "Welcome to VerifiedX Wallet version $APP_VERSION"));
 
     bool cliStarted = state.cliStarted;
     if (!cliStarted) {
       ref
           .read(logProvider.notifier)
-          .append(LogEntry(message: "Starting RBXCore..."));
+          .append(LogEntry(message: "Starting VFXCore..."));
       cliStarted = await _startCli(token);
     } else {
       ref
           .read(logProvider.notifier)
-          .append(LogEntry(message: "RBXCore already running."));
+          .append(LogEntry(message: "VFXCore already running."));
     }
 
     if (!cliStarted) {

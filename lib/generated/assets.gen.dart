@@ -96,6 +96,27 @@ class $AssetsEnvGen {
 class $AssetsFontsGen {
   const $AssetsFontsGen();
 
+  /// File path: assets/fonts/Mukta-Bold.ttf
+  String get muktaBold => 'assets/fonts/Mukta-Bold.ttf';
+
+  /// File path: assets/fonts/Mukta-ExtraBold.ttf
+  String get muktaExtraBold => 'assets/fonts/Mukta-ExtraBold.ttf';
+
+  /// File path: assets/fonts/Mukta-ExtraLight.ttf
+  String get muktaExtraLight => 'assets/fonts/Mukta-ExtraLight.ttf';
+
+  /// File path: assets/fonts/Mukta-Light.ttf
+  String get muktaLight => 'assets/fonts/Mukta-Light.ttf';
+
+  /// File path: assets/fonts/Mukta-Medium.ttf
+  String get muktaMedium => 'assets/fonts/Mukta-Medium.ttf';
+
+  /// File path: assets/fonts/Mukta-Regular.ttf
+  String get muktaRegular => 'assets/fonts/Mukta-Regular.ttf';
+
+  /// File path: assets/fonts/Mukta-SemiBold.ttf
+  String get muktaSemiBold => 'assets/fonts/Mukta-SemiBold.ttf';
+
   /// File path: assets/fonts/NotoColorEmoji-Regular.ttf
   String get notoColorEmojiRegular => 'assets/fonts/NotoColorEmoji-Regular.ttf';
 
@@ -103,7 +124,17 @@ class $AssetsFontsGen {
   String get robotoMonoRegular => 'assets/fonts/RobotoMono-Regular.ttf';
 
   /// List of all assets
-  List<String> get values => [notoColorEmojiRegular, robotoMonoRegular];
+  List<String> get values => [
+        muktaBold,
+        muktaExtraBold,
+        muktaExtraLight,
+        muktaLight,
+        muktaMedium,
+        muktaRegular,
+        muktaSemiBold,
+        notoColorEmojiRegular,
+        robotoMonoRegular
+      ];
 }
 
 class $AssetsHtmlGen {

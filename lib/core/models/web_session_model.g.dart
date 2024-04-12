@@ -64,7 +64,7 @@ Map<String, dynamic> _$$_WebSessionModelToJson(_$_WebSessionModel instance) =>
     };
 
 const _$WalletTypeEnumMap = {
-  WalletType.rbx: 'vfx',
+  WalletType.rbx: 'rbx',
   WalletType.ra: 'ra',
   WalletType.btc: 'btc',
 };
