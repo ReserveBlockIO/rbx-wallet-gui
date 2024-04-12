@@ -24,12 +24,15 @@ class PairFormProvider extends StateNotifier<Pair> {
     metadataUrlController = TextEditingController(text: model.metadataUrl);
   }
 
-  String? nftAddressValidator(String? value) => formValidatorNotEmpty(value, "NFT Address");
-  String? descriptionValidator(String? value) => formValidatorNotEmpty(value, "Description");
-  String? reasonValidator(String? value) => formValidatorNotEmpty(value, "Reason");
+  String? nftAddressValidator(String? value) =>
+      formValidatorNotEmpty(value, "NFT Address");
+  String? descriptionValidator(String? value) =>
+      formValidatorNotEmpty(value, "Description");
+  String? reasonValidator(String? value) =>
+      formValidatorNotEmpty(value, "Reason");
 
   List<String> get networkOptions => [
-        "RBX",
+        "VFX",
         "Etherium",
         "Solana",
         "Tezos",

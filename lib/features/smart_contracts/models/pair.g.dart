@@ -8,7 +8,7 @@ part of 'pair.dart';
 
 _$_Pair _$$_PairFromJson(Map<String, dynamic> json) => _$_Pair(
       id: json['id'] as String? ?? "",
-      network: json['network'] as String? ?? "RBX",
+      network: json['network'] as String? ?? "VFX",
       nftAddress: json['nftAddress'] as String? ?? "",
       description: json['description'] as String? ?? "",
       reason: json['reason'] as String? ?? "",

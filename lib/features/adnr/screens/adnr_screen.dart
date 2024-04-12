@@ -18,7 +18,7 @@ class AdnrScreen extends BaseScreen {
     final isBtc = ref.watch(sessionProvider).btcSelected;
 
     return AppBar(
-      title: Text(isBtc ? "RBX BTC Domain Service" : "RBX Domain Service"),
+      title: Text(isBtc ? "VFX BTC Domain Service" : "VFX Domain Service"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
       actions: const [WalletSelector()],
@@ -52,7 +52,7 @@ class AdnrScreen extends BaseScreen {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           const Text(
-                            "Create an RBX BTC Domain as an alias to your BTC wallet address for receiving funds.",
+                            "Create an VFX BTC Domain as an alias to your BTC wallet address for receiving funds.",
                             style: TextStyle(
                               fontSize: 17,
                             ),
@@ -83,7 +83,7 @@ class AdnrScreen extends BaseScreen {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         const Text(
-                          "Create an RBX Domain as an alias to your wallet's address for receiving funds.",
+                          "Create an VFX Domain as an alias to your wallet's address for receiving funds.",
                           style: TextStyle(
                             fontSize: 17,
                           ),
@@ -93,7 +93,7 @@ class AdnrScreen extends BaseScreen {
                           height: 4,
                         ),
                         const Text(
-                          "RBX domains cost $ADNR_COST RBX plus the transaction fee.",
+                          "VFX domains cost $ADNR_COST VFX plus the transaction fee.",
                           textAlign: TextAlign.center,
                         ),
                       ],

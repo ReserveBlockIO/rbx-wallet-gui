@@ -37,7 +37,7 @@ class CreateAdnrDialog extends BaseComponent {
     final formKey = GlobalKey<FormState>();
 
     return AlertDialog(
-      title: Text(isBtc ? "New BTC Domain" : "New RBX Domain"),
+      title: Text(isBtc ? "New BTC Domain" : "New VFX Domain"),
       content: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 400),
         child: Form(
@@ -46,18 +46,21 @@ class CreateAdnrDialog extends BaseComponent {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("${isBtc ? 'BTC' : 'RBX'} Domains cost $ADNR_COST RBX."),
+              Text("${isBtc ? 'BTC' : 'VFX'} Domains cost $ADNR_COST VFX."),
               Text(
-                "Your domain must only contain letters and numbers and will automatically be appended with ${isBtc ? '`.btc`' : '`.rbx`'} upon verification",
+                "Your domain must only contain letters and numbers and will automatically be appended with ${isBtc ? '`.btc`' : '`.vfx`'} upon verification",
                 style: Theme.of(context).textTheme.caption,
               ),
               TextFormField(
                 controller: controller,
-                validator: (value) => formValidatorAlphaNumeric(value, "Domain Name"),
+                validator: (value) =>
+                    formValidatorAlphaNumeric(value, "Domain Name"),
                 decoration: const InputDecoration(
                   label: Text("Domain Name"),
                 ),
-                inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]'))],
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]'))
+                ],
               ),
             ],
           ),
@@ -92,7 +95,7 @@ class CreateAdnrDialog extends BaseComponent {
               }
 
               final domainWithoutSuffix = controller.text;
-              final domain = "$domainWithoutSuffix.${isBtc ? 'btc' : 'rbx'}";
+              final domain = "$domainWithoutSuffix.${isBtc ? 'btc' : 'vfx'}";
 
               ref.read(globalLoadingProvider.notifier).start();
 
@@ -100,10 +103,13 @@ class CreateAdnrDialog extends BaseComponent {
 
               if (!available) {
                 ref.read(globalLoadingProvider.notifier).complete();
-                Toast.error("This ${isBtc ? 'BTC' : 'RBX'} Domain already exists");
+                Toast.error(
+                    "This ${isBtc ? 'BTC' : 'VFX'} Domain already exists");
                 return;
               }
-              final btcAddress = isBtc ? ref.read(webSessionProvider).btcKeypair?.address : null;
+              final btcAddress = isBtc
+                  ? ref.read(webSessionProvider).btcKeypair?.address
+                  : null;
               if (isBtc && btcAddress == null) {
                 Toast.error("No BTC Address Found");
                 return;
@@ -119,8 +125,11 @@ class CreateAdnrDialog extends BaseComponent {
 
               if (isBtc) {
                 // btcMessage = "1711996047";
-                btcMessage = (DateTime.now().millisecondsSinceEpoch / 1000).round().toString();
-                btcSignature = await BtcWebService().signMessage(ref.read(webSessionProvider).btcKeypair!.wif, btcMessage);
+                btcMessage = (DateTime.now().millisecondsSinceEpoch / 1000)
+                    .round()
+                    .toString();
+                btcSignature = await BtcWebService().signMessage(
+                    ref.read(webSessionProvider).btcKeypair!.wif, btcMessage);
                 print("SIGNATURE: $btcSignature");
               }
 
@@ -154,7 +163,7 @@ class CreateAdnrDialog extends BaseComponent {
               final confirmed = await ConfirmDialog.show(
                 title: "Valid Transaction",
                 body:
-                    "The ${isBtc ? 'BTC' : 'RBX'} Domain transaction is valid.\nAre you sure you want to proceed?\n\nDomain: $domain\nAmount: $ADNR_COST RBX\nFee: $txFee RBX\nTotal: ${ADNR_COST + txFee} RBX",
+                    "The ${isBtc ? 'BTC' : 'VFX'} Domain transaction is valid.\nAre you sure you want to proceed?\n\nDomain: $domain\nAmount: $ADNR_COST VFX\nFee: $txFee RBX\nTotal: ${ADNR_COST + txFee} RBX",
                 confirmText: "Send",
                 cancelText: "Cancel",
               );
@@ -165,12 +174,16 @@ class CreateAdnrDialog extends BaseComponent {
               }
               ref.read(globalLoadingProvider.notifier).start();
 
-              final tx = await RawService().sendTransaction(transactionData: txData, execute: true, widgetRef: ref);
+              final tx = await RawService().sendTransaction(
+                  transactionData: txData, execute: true, widgetRef: ref);
               ref.read(globalLoadingProvider.notifier).complete();
 
               if (tx != null && tx['Result'] == "Success") {
-                ref.read(adnrPendingProvider.notifier).addId(address, "create", "null");
-                Toast.message("${isBtc ? 'BTC' : 'RBX'} Domain Transaction has been broadcasted. See log for hash.");
+                ref
+                    .read(adnrPendingProvider.notifier)
+                    .addId(address, "create", "null");
+                Toast.message(
+                    "${isBtc ? 'BTC' : 'VFX'} Domain Transaction has been broadcasted. See log for hash.");
                 Navigator.of(context).pop();
 
                 return;
@@ -179,20 +192,25 @@ class CreateAdnrDialog extends BaseComponent {
               Toast.error();
             } else {
               ref.read(globalLoadingProvider.notifier).start();
-              final result = await AdnrService().createAdnr(address, controller.text);
+              final result =
+                  await AdnrService().createAdnr(address, controller.text);
               ref.read(globalLoadingProvider.notifier).complete();
 
               if (result.success) {
-                Toast.message("RBX Domain Transaction has been broadcasted. See log for hash.");
+                Toast.message(
+                    "VFX Domain Transaction has been broadcasted. See log for hash.");
                 if (result.hash != null) {
                   ref.read(logProvider.notifier).append(
                         LogEntry(
-                            message: "ADNR create transaction broadcasted. Tx Hash: ${result.hash}",
+                            message:
+                                "ADNR create transaction broadcasted. Tx Hash: ${result.hash}",
                             textToCopy: result.hash,
                             variant: AppColorVariant.Success),
                       );
 
-                  ref.read(adnrPendingProvider.notifier).addId(address, "create", adnr ?? "null");
+                  ref
+                      .read(adnrPendingProvider.notifier)
+                      .addId(address, "create", adnr ?? "null");
                 }
 
                 Navigator.of(context).pop();

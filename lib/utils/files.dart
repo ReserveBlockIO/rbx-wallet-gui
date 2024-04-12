@@ -50,11 +50,13 @@ Future<String> dbPath() async {
   String appDocPath = appDocDir.path;
 
   if (Platform.isMacOS) {
-    appDocPath = appDocPath.replaceAll("/Documents", Env.isTestNet ? "/rbxtest" : "/rbx");
+    appDocPath = appDocPath.replaceAll(
+        "/Documents", Env.isTestNet ? "/rbxtest" : "/vfx");
   } else {
     final winDir = await getApplicationSupportDirectory();
     appDocPath = winDir.path;
-    appDocPath = appDocPath.replaceAll("\\Roaming\\com.example\\rbx_wallet_gui", "\\Local\\${Env.isTestNet ? 'RBXTest' : 'RBX'}");
+    appDocPath = appDocPath.replaceAll("\\Roaming\\com.example\\rbx_wallet_gui",
+        "\\Local\\${Env.isTestNet ? 'RBXTest' : 'VFX'}");
   }
 
   return appDocPath;
@@ -77,12 +79,16 @@ Future<String> configPath() async {
   String path = appDocDir.path;
 
   if (Platform.isMacOS) {
-    path = path.replaceAll("/Documents", Env.isTestNet ? "/rbxtest/ConfigTestNet/config.txt" : "/rbx/Config/config.txt");
+    path = path.replaceAll(
+        "/Documents",
+        Env.isTestNet
+            ? "/rbxtest/ConfigTestNet/config.txt"
+            : "/vfx/Config/config.txt");
   } else {
     final winDir = await getApplicationSupportDirectory();
     path = winDir.path;
-    path = path.replaceAll(
-        "\\Roaming\\com.example\\rbx_wallet_gui", "\\Local\\${Env.isTestNet ? 'RBXTest\\ConfigTestNet\\config.txt' : 'RBX\\Config\\config.txt'}");
+    path = path.replaceAll("\\Roaming\\com.example\\rbx_wallet_gui",
+        "\\Local\\${Env.isTestNet ? 'RBXTest\\ConfigTestNet\\config.txt' : 'VFX\\Config\\config.txt'}");
   }
   return path;
 }
@@ -92,12 +98,16 @@ Future<String> startupProgressPath() async {
   String path = appDocDir.path;
 
   if (Platform.isMacOS) {
-    path = path.replaceAll("/Documents", Env.isTestNet ? "/rbxtest/DatabasesTestNet/statesynclog.txt" : "/rbx/Databases/statesynclog.txt");
+    path = path.replaceAll(
+        "/Documents",
+        Env.isTestNet
+            ? "/rbxtest/DatabasesTestNet/statesynclog.txt"
+            : "/vfx/Databases/statesynclog.txt");
   } else {
     final winDir = await getApplicationSupportDirectory();
     path = winDir.path;
     path = path.replaceAll("\\Roaming\\com.example\\rbx_wallet_gui",
-        "\\Local\\${Env.isTestNet ? 'RBXTest\\DatabasesTestNet\\statesynclog.txt' : 'RBX\\Databases\\statesynclog.txt'}");
+        "\\Local\\${Env.isTestNet ? 'RBXTest\\DatabasesTestNet\\statesynclog.txt' : 'VFX\\Databases\\statesynclog.txt'}");
   }
   return path;
 }
@@ -150,12 +160,19 @@ Future<Asset?> selectAsset(WidgetRef ref) async {
 
     if (fileSize > MAX_ASSET_BYTES) {
       // Toast.error("Max file size is 150MB.");
-      InfoDialog.show(title: "File is too large", body: "Max file size is 150MB.");
+      InfoDialog.show(
+          title: "File is too large", body: "Max file size is 150MB.");
       return null;
     }
 
-    if (MALWARE_FILE_EXTENSIONS.contains(extension) || ref.read(configProvider).rejectAssetExtensionTypes.contains(extension.toLowerCase())) {
-      InfoDialog.show(title: "Unsupported File", body: "This file extension (.$extension) is not permitted.");
+    if (MALWARE_FILE_EXTENSIONS.contains(extension) ||
+        ref
+            .read(configProvider)
+            .rejectAssetExtensionTypes
+            .contains(extension.toLowerCase())) {
+      InfoDialog.show(
+          title: "Unsupported File",
+          body: "This file extension (.$extension) is not permitted.");
       return null;
     }
 

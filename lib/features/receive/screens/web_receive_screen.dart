@@ -40,7 +40,9 @@ class WebReceiveScreen extends BaseScreen {
   }
 
   String generateLink(String address, double amount) {
-    return HtmlHelpers().getUrl().replaceAll("/receive", "/send/$address/$amount");
+    return HtmlHelpers()
+        .getUrl()
+        .replaceAll("/receive", "/send/$address/$amount");
   }
 
   Future<void> showRequestPrompt({
@@ -93,7 +95,10 @@ class WebReceiveScreen extends BaseScreen {
                         child: ListTile(
                           title: SelectableText(
                             address,
-                            style: TextStyle(color: usingRa ? Colors.deepPurple.shade200 : Colors.white),
+                            style: TextStyle(
+                                color: usingRa
+                                    ? Colors.deepPurple.shade200
+                                    : Colors.white),
                           ),
                           subtitle: Text("Your Address"),
                           leading: Icon(Icons.wallet),
@@ -126,7 +131,7 @@ class WebReceiveScreen extends BaseScreen {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          "Alternatively, you can receive funds to your RBX Domain.",
+                          "Alternatively, you can receive funds to your VFX Domain.",
                           style: Theme.of(context).textTheme.caption,
                         ),
                       ],
@@ -155,10 +160,14 @@ class WebReceiveScreen extends BaseScreen {
                       address: address,
                       onValidSubmission: (amount) async {
                         if (double.tryParse(amount) != null) {
-                          final value = adnr != null && adnr.isNotEmpty && !usingRa ? adnr : address;
+                          final value =
+                              adnr != null && adnr.isNotEmpty && !usingRa
+                                  ? adnr
+                                  : address;
                           final url = generateLink(value, double.parse(amount));
 
-                          await copyToClipboard(url, "Request funds link copied to clipboard");
+                          await copyToClipboard(
+                              url, "Request funds link copied to clipboard");
                         } else {
                           Toast.error("Invalid amount");
                         }
@@ -176,7 +185,10 @@ class WebReceiveScreen extends BaseScreen {
                       address: address,
                       onValidSubmission: (amount) async {
                         if (double.tryParse(amount) != null) {
-                          final value = adnr != null && adnr.isNotEmpty & !usingRa ? adnr : address;
+                          final value =
+                              adnr != null && adnr.isNotEmpty & !usingRa
+                                  ? adnr
+                                  : address;
                           final url = generateLink(value, double.parse(amount));
 
                           showDialog(

@@ -44,7 +44,8 @@ class RemoteShopCollectionScreen extends BaseScreen {
     if (shop == null) {
       return AppBar();
     }
-    final collection = shop.collections.firstWhereOrNull((c) => c.id == collectionId);
+    final collection =
+        shop.collections.firstWhereOrNull((c) => c.id == collectionId);
 
     if (collection == null) {
       return AppBar();
@@ -68,7 +69,7 @@ class RemoteShopCollectionScreen extends BaseScreen {
         Center(
             child: Tooltip(
           message: "My Balance",
-          child: Text("${balance.toStringAsFixed(5)} RBX"),
+          child: Text("${balance.toStringAsFixed(5)} VFX"),
         )),
         IconButton(
           onPressed: () {
@@ -101,13 +102,15 @@ class RemoteShopCollectionScreen extends BaseScreen {
       return Center(child: Text("Shop Error"));
     }
 
-    final collection = shop.collections.firstWhereOrNull((c) => c.id == collectionId);
+    final collection =
+        shop.collections.firstWhereOrNull((c) => c.id == collectionId);
 
     if (collection == null) {
       return Center(child: Text("Collection Error"));
     }
 
-    final validListings = collection.listings.where((l) => l.nft != null && !l.hide).toList();
+    final validListings =
+        collection.listings.where((l) => l.nft != null && !l.hide).toList();
 
     if (validListings.isEmpty) {
       return Column(
@@ -135,7 +138,9 @@ class RemoteShopCollectionScreen extends BaseScreen {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (index == 0) _Header(collection: collection),
-                  isExpanded ? ListingDetails(listing: listing) : ListingDetailsListTile(listing: listing),
+                  isExpanded
+                      ? ListingDetails(listing: listing)
+                      : ListingDetailsListTile(listing: listing),
                 ],
               );
             },
@@ -167,7 +172,10 @@ class _Header extends BaseComponent {
           Expanded(
             child: Text(
               collection.description,
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.white),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge!
+                  .copyWith(color: Colors.white),
               textAlign: TextAlign.start,
             ),
           ),

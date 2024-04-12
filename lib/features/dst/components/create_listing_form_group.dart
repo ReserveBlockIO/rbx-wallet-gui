@@ -35,7 +35,8 @@ class CreateListingFormGroup extends BaseComponent {
                       color: Colors.white.withOpacity(0.05),
                       margin: EdgeInsets.zero,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
                         child: _NFT(),
                       ),
                     ),
@@ -59,7 +60,8 @@ class CreateListingFormGroup extends BaseComponent {
                   if (model.enableAuction) ...[
                     Flexible(child: _FloorPrice()),
                     Flexible(child: _EnableReservePrice()),
-                    if (model.enableReservePrice) Flexible(child: _ReservePrice()),
+                    if (model.enableReservePrice)
+                      Flexible(child: _ReservePrice()),
                     if (model.isAuction && model.auctionStarted && model.exists)
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -216,7 +218,7 @@ class _BuyNow extends BaseComponent {
       inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
       validator: (value) => formValidatorNotEmpty(value, "Buy Now"),
       decoration: InputDecoration(
-        suffixText: "RBX",
+        suffixText: "VFX",
         label: const Text(
           "Buy Now Price",
           style: TextStyle(color: Colors.white),
@@ -242,7 +244,7 @@ class _FloorPrice extends BaseComponent {
       inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
       validator: (value) => formValidatorNotEmpty(value, "Floor Price"),
       decoration: InputDecoration(
-        suffixText: "RBX",
+        suffixText: "VFX",
         label: const Text(
           "Floor Price",
           style: TextStyle(color: Colors.white),
@@ -268,7 +270,7 @@ class _ReservePrice extends BaseComponent {
       inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
       validator: (value) => formValidatorNotEmpty(value, "Reserve Price"),
       decoration: InputDecoration(
-        suffixText: "RBX",
+        suffixText: "VFX",
         label: const Text(
           "Reserve Price",
           style: TextStyle(color: Colors.white),
@@ -297,7 +299,8 @@ class _NFT extends BaseComponent {
             Text("NFT:"),
             NftSelector(onSelect: (nft) {
               if (nft.isListed(ref)) {
-                Toast.error("This NFT is already listed. Please choose another");
+                Toast.error(
+                    "This NFT is already listed. Please choose another");
                 provider.clearNft();
 
                 return;
@@ -352,7 +355,8 @@ class _NFT extends BaseComponent {
             labelOverride: "Replace NFT",
             onSelect: (nft) {
               if (nft.isListed(ref)) {
-                Toast.error("This NFT is already listed. Please choose another");
+                Toast.error(
+                    "This NFT is already listed. Please choose another");
                 provider.clearNft();
                 return;
               }
@@ -365,7 +369,8 @@ class _NFT extends BaseComponent {
   }
 }
 
-Future<void> _showDatePicker(BuildContext context, WidgetRef ref, bool isStartDate) async {
+Future<void> _showDatePicker(
+    BuildContext context, WidgetRef ref, bool isStartDate) async {
   final _provider = ref.read(listingFormProvider.notifier);
   final _model = ref.read(listingFormProvider);
 
@@ -397,7 +402,8 @@ Future<void> _showDatePicker(BuildContext context, WidgetRef ref, bool isStartDa
   }
 }
 
-Future<void> _showTimePicker(BuildContext context, WidgetRef ref, bool isStartDate) async {
+Future<void> _showTimePicker(
+    BuildContext context, WidgetRef ref, bool isStartDate) async {
   final _provider = ref.read(listingFormProvider.notifier);
   final _model = ref.read(listingFormProvider);
 
@@ -410,7 +416,8 @@ Future<void> _showTimePicker(BuildContext context, WidgetRef ref, bool isStartDa
   final t = await showTimePicker(
     context: context,
     initialEntryMode: TimePickerEntryMode.input,
-    initialTime: TimeOfDay(hour: initialDateTime.hour, minute: initialDateTime.minute),
+    initialTime:
+        TimeOfDay(hour: initialDateTime.hour, minute: initialDateTime.minute),
     builder: (BuildContext context, Widget? child) {
       return Theme(
         data: ThemeData.dark().copyWith(

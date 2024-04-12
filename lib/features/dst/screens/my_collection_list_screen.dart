@@ -27,7 +27,8 @@ import '../providers/dec_shop_form_provider.dart';
 import '../providers/dec_shop_provider.dart';
 
 class MyCollectionsListScreen extends BaseScreen {
-  const MyCollectionsListScreen({Key? key}) : super(key: key, verticalPadding: 0, horizontalPadding: 0);
+  const MyCollectionsListScreen({Key? key})
+      : super(key: key, verticalPadding: 0, horizontalPadding: 0);
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
@@ -73,13 +74,18 @@ class MyCollectionsListScreen extends BaseScreen {
                     children: [
                       Text(
                         shop.name,
-                        style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.white),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium!
+                            .copyWith(color: Colors.white),
                       ),
                       SizedBox(
                         height: 12,
                       ),
                       Container(
-                        decoration: BoxDecoration(color: Colors.black38, borderRadius: BorderRadius.circular(4.0)),
+                        decoration: BoxDecoration(
+                            color: Colors.black38,
+                            borderRadius: BorderRadius.circular(4.0)),
                         child: Padding(
                           padding: const EdgeInsets.only(
                             left: 10,
@@ -122,7 +128,8 @@ class MyCollectionsListScreen extends BaseScreen {
                         type: AppButtonType.Outlined,
                         variant: AppColorVariant.Light,
                         onPressed: () async {
-                          await Clipboard.setData(ClipboardData(text: shop.url));
+                          await Clipboard.setData(
+                              ClipboardData(text: shop.url));
                           Toast.message("Shop URL copied to clipboard");
                         },
                       ),
@@ -138,7 +145,8 @@ class MyCollectionsListScreen extends BaseScreen {
                             icon: Icons.edit,
                             onPressed: () {
                               ref.read(decShopFormProvider.notifier).load(shop);
-                              AutoRouter.of(context).push(const CreateDecShopContainerScreenRoute());
+                              AutoRouter.of(context).push(
+                                  const CreateDecShopContainerScreenRoute());
                             },
                           ),
                           DecPublishShopButton(),
@@ -150,14 +158,16 @@ class MyCollectionsListScreen extends BaseScreen {
                               onPressed: () async {
                                 final confirmed = await ConfirmDialog.show(
                                   title: "Delete Shop",
-                                  body: "Are you sure you want to delete your unpublished shop?",
+                                  body:
+                                      "Are you sure you want to delete your unpublished shop?",
                                   destructive: true,
                                   confirmText: "Delete",
                                   cancelText: "Cancel",
                                 );
 
                                 if (confirmed == true) {
-                                  final success = await DstService().deleteShopLocally();
+                                  final success =
+                                      await DstService().deleteShopLocally();
                                   if (success) {
                                     for (final c in collections) {
                                       await DstService().deleteCollection(c);
@@ -165,7 +175,9 @@ class MyCollectionsListScreen extends BaseScreen {
 
                                     await Future.delayed(Duration(seconds: 1));
                                     ref.invalidate(decShopProvider);
-                                    ref.read(collectionListProvider.notifier).refresh();
+                                    ref
+                                        .read(collectionListProvider.notifier)
+                                        .refresh();
 
                                     Toast.message("Shop Deleted");
                                     // Navigator.of(context).pop();
@@ -182,27 +194,32 @@ class MyCollectionsListScreen extends BaseScreen {
                                 final confirmed = await ConfirmDialog.show(
                                   title: "Delete Shop",
                                   body:
-                                      "Are you sure you want to delete this shop from the network? There is a cost of $SHOP_DELETE_COST RBX plus TX fee to perform this operation.",
+                                      "Are you sure you want to delete this shop from the network? There is a cost of $SHOP_DELETE_COST VFX plus TX fee to perform this operation.",
                                   destructive: true,
                                   confirmText: "Delete",
                                   cancelText: "Cancel",
                                 );
 
                                 if (confirmed == true) {
-                                  final successRemote = await DstService().deleteShop();
+                                  final successRemote =
+                                      await DstService().deleteShop();
                                   if (successRemote) {
                                     Toast.message("Delete TX broadcasted.");
 
-                                    final success = await DstService().deleteShopLocally();
+                                    final success =
+                                        await DstService().deleteShopLocally();
                                     if (success) {
                                       for (final c in collections) {
                                         await DstService().deleteCollection(c);
                                       }
 
-                                      await Future.delayed(Duration(seconds: 1));
+                                      await Future.delayed(
+                                          Duration(seconds: 1));
 
                                       ref.invalidate(decShopProvider);
-                                      ref.read(collectionListProvider.notifier).refresh();
+                                      ref
+                                          .read(collectionListProvider.notifier)
+                                          .refresh();
                                       Toast.message("Shop Deleted.");
                                       // Navigator.of(context).pop();
                                       // ref.read(globalLoadingProvider.notifier).start();
@@ -249,7 +266,9 @@ class MyCollectionsListScreen extends BaseScreen {
                             height: 32,
                           )
                         ],
-                        if (shop != null && shop.isPublished && collections.isEmpty) ...[
+                        if (shop != null &&
+                            shop.isPublished &&
+                            collections.isEmpty) ...[
                           Text(
                             "Now you can create collections and then add listings to them.",
                             style: TextStyle(
@@ -273,8 +292,11 @@ class MyCollectionsListScreen extends BaseScreen {
                                   icon: Icons.add,
                                   variant: AppColorVariant.Success,
                                   onPressed: () async {
-                                    ref.read(storeFormProvider.notifier).clear();
-                                    AutoRouter.of(context).push(const CreateCollectionContainerScreenRoute());
+                                    ref
+                                        .read(storeFormProvider.notifier)
+                                        .clear();
+                                    AutoRouter.of(context).push(
+                                        const CreateCollectionContainerScreenRoute());
                                   },
                                 ),
                               )
@@ -312,7 +334,8 @@ class MyCollectionsListScreen extends BaseScreen {
                     variant: AppColorVariant.Success,
                     onPressed: () async {
                       ref.read(storeFormProvider.notifier).clear();
-                      AutoRouter.of(context).push(const CreateCollectionContainerScreenRoute());
+                      AutoRouter.of(context)
+                          .push(const CreateCollectionContainerScreenRoute());
                     },
                   )
                 ],
@@ -332,7 +355,8 @@ class DecShopButton extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final data = ref.watch(decShopProvider);
-    final addresses = ref.watch(walletListProvider).map((e) => e.address).toList();
+    final addresses =
+        ref.watch(walletListProvider).map((e) => e.address).toList();
 
     return data.when(
       loading: () => SizedBox(),
@@ -348,7 +372,8 @@ class DecShopButton extends BaseComponent {
                 variant: AppColorVariant.Light,
                 onPressed: () async {
                   ref.read(decShopFormProvider.notifier).clear();
-                  AutoRouter.of(context).push(const CreateDecShopContainerScreenRoute());
+                  AutoRouter.of(context)
+                      .push(const CreateDecShopContainerScreenRoute());
                 },
               ),
               SizedBox(
@@ -367,7 +392,7 @@ class DecShopButton extends BaseComponent {
                   final address = await PromptModal.show(
                     title: "Import Shop",
                     validator: formValidatorRbxAddress,
-                    labelText: "Your RBX Address",
+                    labelText: "Your VFX Address",
                   );
 
                   if (address != null) {
@@ -397,7 +422,8 @@ class DecShopButton extends BaseComponent {
           variant: AppColorVariant.Light,
           onPressed: () async {
             ref.read(decShopFormProvider.notifier).load(shop);
-            AutoRouter.of(context).push(const CreateDecShopContainerScreenRoute());
+            AutoRouter.of(context)
+                .push(const CreateDecShopContainerScreenRoute());
           },
         );
       },

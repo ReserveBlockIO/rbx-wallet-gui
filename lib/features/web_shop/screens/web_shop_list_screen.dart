@@ -27,14 +27,14 @@ class WebShopListScreen extends BaseScreen {
   ) async {
     String? url = await PromptModal.show(
       title: "Shop URL",
-      initialValue: "rbx://",
+      initialValue: "vfx://",
       validator: (value) {
         if (value == null || value.isEmpty) {
           return "Shop URL required";
         }
 
-        // if (!value.startsWith("rbx://")) {
-        //   return "Invalid URL. Must start with 'rbx://'";
+        // if (!value.startsWith("vfx://")) {
+        //   return "Invalid URL. Must start with 'vfx://'";
         // }
         return null;
       },
@@ -45,8 +45,8 @@ class WebShopListScreen extends BaseScreen {
       return null;
     }
 
-    if (!url.startsWith("rbx://")) {
-      url = "rbx://$url";
+    if (!url.startsWith("vfx://")) {
+      url = "vfx://$url";
     }
 
     return url.trim();
@@ -63,10 +63,12 @@ class WebShopListScreen extends BaseScreen {
 
     if (shop == null) return;
 
-    if (ref.read(walletInfoProvider) == null || !ref.read(walletInfoProvider)!.isChainSynced) {
+    if (ref.read(walletInfoProvider) == null ||
+        !ref.read(walletInfoProvider)!.isChainSynced) {
       final cont = await ConfirmDialog.show(
         title: "Wallet Not Synced",
-        body: "Since your wallet is not synced there may be some issues viewing the data in this shop. Continue anyway?",
+        body:
+            "Since your wallet is not synced there may be some issues viewing the data in this shop. Continue anyway?",
         confirmText: "Continue",
         cancelText: "Cancel",
       );
@@ -106,7 +108,9 @@ class WebShopListScreen extends BaseScreen {
               ),
         IconButton(
             onPressed: () {
-              ref.watch(webShopListProvider(WebShopListType.public).notifier).refresh();
+              ref
+                  .watch(webShopListProvider(WebShopListType.public).notifier)
+                  .refresh();
             },
             icon: Icon(Icons.refresh)),
       ],

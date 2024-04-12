@@ -25,11 +25,14 @@ import 'features/root/components/system_manager.dart';
 import 'features/transactions/components/notification_overlay.dart';
 import 'package:context_menus/context_menus.dart';
 
-final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
+    GlobalKey<ScaffoldMessengerState>();
 
 final GlobalKey<ScaffoldState> rootScaffoldKey = GlobalKey<ScaffoldState>();
 
-GlobalKey<NavigatorState> rootNavigatorKey = Env.isWeb ? singleton<WebRouter>().navigatorKey : singleton<AppRouter>().navigatorKey;
+GlobalKey<NavigatorState> rootNavigatorKey = Env.isWeb
+    ? singleton<WebRouter>().navigatorKey
+    : singleton<AppRouter>().navigatorKey;
 
 class App extends ConsumerWidget {
   const App({Key? key}) : super(key: key);
@@ -73,7 +76,8 @@ class AppContainer extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       scaffoldMessengerKey: rootScaffoldMessengerKey,
       theme: AppTheme.dark().themeData,
-      routeInformationParser: router.defaultRouteParser(includePrefixMatches: true),
+      routeInformationParser:
+          router.defaultRouteParser(includePrefixMatches: true),
       routerDelegate: AutoRouterDelegate(
         router,
         navigatorObservers: () => [AutoRouteObserver()],
@@ -145,11 +149,12 @@ class AppContainer extends ConsumerWidget {
                           ),
                           Text(
                             ref.watch(shopLoadingProvider)!,
-                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w400,
-                                ),
+                            style:
+                                Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w400,
+                                    ),
                           ),
                         ],
                       ),
@@ -161,7 +166,9 @@ class AppContainer extends ConsumerWidget {
                           child: Material(
                             color: Colors.transparent,
                             child: InkWell(
-                              onTap: () => ref.read(shopLoadingProvider.notifier).complete(),
+                              onTap: () => ref
+                                  .read(shopLoadingProvider.notifier)
+                                  .complete(),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
@@ -178,7 +185,7 @@ class AppContainer extends ConsumerWidget {
           ],
         );
       },
-      title: 'RBX Wallet',
+      title: 'VFX Wallet',
     );
   }
 }

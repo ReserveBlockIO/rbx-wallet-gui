@@ -23,7 +23,8 @@ abstract class BtcAdnrTransferFormState with _$BtcAdnrTransferFormState {
   }) = _BtcAdnrTransferFormState;
 }
 
-class BtcAdnrTransferFormProvider extends StateNotifier<BtcAdnrTransferFormState> {
+class BtcAdnrTransferFormProvider
+    extends StateNotifier<BtcAdnrTransferFormState> {
   final Ref ref;
   BtcAdnrTransferFormProvider(this.ref) : super(BtcAdnrTransferFormState());
 
@@ -32,7 +33,8 @@ class BtcAdnrTransferFormProvider extends StateNotifier<BtcAdnrTransferFormState
   final toBtcAddressController = TextEditingController();
   final toRbxAddressController = TextEditingController();
 
-  initWithFromBtcAddress({required String fromBtcAddress, required String? domainName}) {
+  initWithFromBtcAddress(
+      {required String fromBtcAddress, required String? domainName}) {
     state = state.copyWith(
       fromBtcAddress: fromBtcAddress,
       domainName: domainName,
@@ -48,7 +50,7 @@ class BtcAdnrTransferFormProvider extends StateNotifier<BtcAdnrTransferFormState
 
   String? toRbxAddressValidator(String? value) {
     if (value == null || value.isEmpty) {
-      return "To RBX address required.";
+      return "To VFX address required.";
     }
 
     return formValidatorRbxAddress(value);
@@ -78,9 +80,14 @@ class BtcAdnrTransferFormProvider extends StateNotifier<BtcAdnrTransferFormState
     ref.read(globalLoadingProvider.notifier).complete();
 
     if (hash != null) {
-      ref.read(adnrPendingProvider.notifier).addId(state.fromBtcAddress!, "transfer", state.domainName ?? 'null');
+      ref
+          .read(adnrPendingProvider.notifier)
+          .addId(state.fromBtcAddress!, "transfer", state.domainName ?? 'null');
       ref.read(logProvider.notifier).append(
-            LogEntry(message: "BTC Domain Create TX Sent: $hash", textToCopy: hash, variant: AppColorVariant.Btc),
+            LogEntry(
+                message: "BTC Domain Create TX Sent: $hash",
+                textToCopy: hash,
+                variant: AppColorVariant.Btc),
           );
       state = BtcAdnrTransferFormState();
       return true;
@@ -90,6 +97,7 @@ class BtcAdnrTransferFormProvider extends StateNotifier<BtcAdnrTransferFormState
   }
 }
 
-final btcAdnrTransferFormProvider = StateNotifierProvider<BtcAdnrTransferFormProvider, BtcAdnrTransferFormState>((ref) {
+final btcAdnrTransferFormProvider = StateNotifierProvider<
+    BtcAdnrTransferFormProvider, BtcAdnrTransferFormState>((ref) {
   return BtcAdnrTransferFormProvider(ref);
 });

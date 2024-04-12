@@ -171,7 +171,8 @@ class _TransactionDetails extends BaseComponent {
               child: Card(
                 color: Colors.black,
                 child: ListTile(
-                  title: SelectableText("${tx.toAddress} ${address == tx.toAddress ? '[ME]' : ''}"),
+                  title: SelectableText(
+                      "${tx.toAddress} ${address == tx.toAddress ? '[ME]' : ''}"),
                   subtitle: const Text("To"),
                   trailing: IconButton(
                     icon: const Icon(Icons.copy),
@@ -190,7 +191,8 @@ class _TransactionDetails extends BaseComponent {
               child: Card(
                 color: Colors.black,
                 child: ListTile(
-                  title: SelectableText("${tx.fromAddress} ${address == tx.fromAddress ? '[ME]' : ''}"),
+                  title: SelectableText(
+                      "${tx.fromAddress} ${address == tx.fromAddress ? '[ME]' : ''}"),
                   subtitle: const Text("From"),
                   trailing: IconButton(
                     icon: const Icon(Icons.copy),
@@ -209,7 +211,7 @@ class _TransactionDetails extends BaseComponent {
               child: Card(
                 color: Colors.black,
                 child: ListTile(
-                  title: Text("${tx.subTxAmount ?? tx.amount} RBX"),
+                  title: Text("${tx.subTxAmount ?? tx.amount} VFX"),
                   subtitle: const Text("Amount"),
                 ),
               ),
@@ -222,7 +224,7 @@ class _TransactionDetails extends BaseComponent {
               child: Card(
                 color: Colors.black,
                 child: ListTile(
-                  title: Text("${tx.fee} RBX"),
+                  title: Text("${tx.fee} VFX"),
                   subtitle: const Text("Fee"),
                 ),
               ),

@@ -13,7 +13,7 @@ class BalanceIndicator extends StatelessWidget {
     required this.value,
     required this.bgColor,
     required this.fgColor,
-    this.currencyLabel = "RBX",
+    this.currencyLabel = "VFX",
     this.withLabel = true,
   });
 
@@ -32,13 +32,18 @@ class BalanceIndicator extends StatelessWidget {
           ConstrainedBox(
             constraints: BoxConstraints(minWidth: 200),
             child: Container(
-              decoration: BoxDecoration(color: bgColor, borderRadius: BorderRadius.circular(4.0)),
+              decoration: BoxDecoration(
+                  color: bgColor, borderRadius: BorderRadius.circular(4.0)),
               child: Padding(
-                padding: const EdgeInsets.only(top: 1, left: 4, right: 4, bottom: 2),
+                padding:
+                    const EdgeInsets.only(top: 1, left: 4, right: 4, bottom: 2),
                 child: Text(
                   "$value $currencyLabel",
                   textAlign: TextAlign.right,
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(color: fgColor, fontSize: 14, fontWeight: FontWeight.w500),
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      color: fgColor,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500),
                 ),
               ),
             ),

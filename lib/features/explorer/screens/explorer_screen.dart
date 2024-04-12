@@ -29,7 +29,7 @@ class ExplorerScreenState extends BaseScreenState<ExplorerScreen> {
 
   Future<void> _init() async {
     // final webview = await WebviewWindow.create();
-    // webview.launch("https://rbx.network/");
+    // webview.launch("https://vfx.network/");
     // setState(() {
     //   _ready = true;
     // });

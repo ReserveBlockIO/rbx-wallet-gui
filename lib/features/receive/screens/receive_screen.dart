@@ -25,7 +25,7 @@ class ReceiveScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: const Text("Receive RBX"),
+      title: const Text("Receive VFX"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
       actions: const [WalletSelector()],
@@ -60,7 +60,8 @@ class ReceiveScreen extends BaseScreen {
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  if (currentWallet.isReserved && !currentWallet.isNetworkProtected)
+                  if (currentWallet.isReserved &&
+                      !currentWallet.isNetworkProtected)
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: AppBadge(
@@ -87,8 +88,10 @@ class ReceiveScreen extends BaseScreen {
                       trailing: IconButton(
                         icon: const Icon(Icons.copy),
                         onPressed: () async {
-                          if (currentWallet.isReserved && !currentWallet.isNetworkProtected) {
-                            Toast.error("This Reserve Account has not been activated yet.");
+                          if (currentWallet.isReserved &&
+                              !currentWallet.isNetworkProtected) {
+                            Toast.error(
+                                "This Reserve Account has not been activated yet.");
                             return;
                           }
                           _handleCopyAddress(currentWallet.address);
@@ -117,7 +120,8 @@ class ReceiveScreen extends BaseScreen {
                         label: "New Address",
                         icon: Icons.add,
                         onPressed: () async {
-                          if (!await passwordRequiredGuard(context, ref)) return;
+                          if (!await passwordRequiredGuard(context, ref))
+                            return;
                           await ref.read(walletListProvider.notifier).create();
                         },
                       ),
@@ -125,21 +129,26 @@ class ReceiveScreen extends BaseScreen {
                         label: "Import Private Key",
                         icon: Icons.upload,
                         onPressed: () async {
-                          if (!await passwordRequiredGuard(context, ref)) return;
+                          if (!await passwordRequiredGuard(context, ref))
+                            return;
 
                           PromptModal.show(
                             title: "Import Wallet",
-                            validator: (String? value) => formValidatorNotEmpty(value, "Private Key"),
+                            validator: (String? value) =>
+                                formValidatorNotEmpty(value, "Private Key"),
                             labelText: "Private Key",
                             onValidSubmission: (value) async {
                               final resync = await ConfirmDialog.show(
                                 title: "Rescan Blocks?",
-                                body: "Would you like to rescan the chain to include any transactions relevant to this key?",
+                                body:
+                                    "Would you like to rescan the chain to include any transactions relevant to this key?",
                                 confirmText: "Yes",
                                 cancelText: "No",
                               );
 
-                              await ref.read(walletListProvider.notifier).import(value, false, resync == true);
+                              await ref
+                                  .read(walletListProvider.notifier)
+                                  .import(value, false, resync == true);
                             },
                           );
                         },
@@ -167,7 +176,8 @@ class ReceiveScreen extends BaseScreen {
                         decoration: InputDecoration(
                           label: Text(
                             "BTC Address",
-                            style: TextStyle(color: Theme.of(context).colorScheme.btcOrange),
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.btcOrange),
                           ),
                         ),
                         style: const TextStyle(fontSize: 13),
@@ -204,9 +214,12 @@ class ReceiveScreen extends BaseScreen {
                         icon: Icons.add,
                         variant: AppColorVariant.Btc,
                         onPressed: () async {
-                          if (!await passwordRequiredGuard(context, ref)) return;
+                          if (!await passwordRequiredGuard(context, ref))
+                            return;
 
-                          final account = await ref.read(btcAccountListProvider.notifier).create();
+                          final account = await ref
+                              .read(btcAccountListProvider.notifier)
+                              .create();
                           if (account == null) {
                             Toast.error();
                             return;
@@ -222,16 +235,21 @@ class ReceiveScreen extends BaseScreen {
                                   children: [
                                     const Align(
                                       alignment: Alignment.centerLeft,
-                                      child: Text("Here are your BTC wallet details. Please ensure to back up your private key in a safe place."),
+                                      child: Text(
+                                          "Here are your BTC wallet details. Please ensure to back up your private key in a safe place."),
                                     ),
                                     ListTile(
-                                      leading: const Icon(Icons.account_balance_wallet),
+                                      leading: const Icon(
+                                          Icons.account_balance_wallet),
                                       title: TextFormField(
                                         initialValue: account.address,
                                         decoration: InputDecoration(
                                             label: Text(
                                           "Address",
-                                          style: TextStyle(color: Theme.of(context).colorScheme.btcOrange),
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .btcOrange),
                                         )),
                                         readOnly: true,
                                         style: const TextStyle(fontSize: 13),
@@ -242,7 +260,11 @@ class ReceiveScreen extends BaseScreen {
                                       title: TextFormField(
                                         initialValue: account.privateKey,
                                         decoration: InputDecoration(
-                                          label: Text("Private Key", style: TextStyle(color: Theme.of(context).colorScheme.btcOrange)),
+                                          label: Text("Private Key",
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .btcOrange)),
                                         ),
                                         style: const TextStyle(
                                           fontSize: 13,
@@ -252,11 +274,15 @@ class ReceiveScreen extends BaseScreen {
                                       trailing: IconButton(
                                         icon: Icon(
                                           Icons.copy,
-                                          color: Theme.of(context).colorScheme.btcOrange,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .btcOrange,
                                         ),
                                         onPressed: () async {
-                                          await Clipboard.setData(ClipboardData(text: account.privateKey));
-                                          Toast.message("Private Key copied to clipboard");
+                                          await Clipboard.setData(ClipboardData(
+                                              text: account.privateKey));
+                                          Toast.message(
+                                              "Private Key copied to clipboard");
                                         },
                                       ),
                                     ),
@@ -269,7 +295,10 @@ class ReceiveScreen extends BaseScreen {
                                       },
                                       child: Text(
                                         "Done",
-                                        style: TextStyle(color: Theme.of(context).colorScheme.btcOrange),
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .btcOrange),
                                       ))
                                 ],
                               );
@@ -282,7 +311,8 @@ class ReceiveScreen extends BaseScreen {
                         icon: Icons.upload,
                         variant: AppColorVariant.Btc,
                         onPressed: () async {
-                          if (!await passwordRequiredGuard(context, ref)) return;
+                          if (!await passwordRequiredGuard(context, ref))
+                            return;
                           final privateKeyController = TextEditingController();
                           final List<String>? data = await showDialog(
                             context: context,
@@ -294,7 +324,8 @@ class ReceiveScreen extends BaseScreen {
                                   children: [
                                     const Align(
                                       alignment: Alignment.centerLeft,
-                                      child: Text("Paste in your BTC private key to import your account."),
+                                      child: Text(
+                                          "Paste in your BTC private key to import your account."),
                                     ),
                                     ListTile(
                                       leading: const Icon(Icons.security),
@@ -303,7 +334,10 @@ class ReceiveScreen extends BaseScreen {
                                         decoration: InputDecoration(
                                             label: Text(
                                           "Private Key",
-                                          style: TextStyle(color: Theme.of(context).colorScheme.btcOrange),
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .btcOrange),
                                         )),
                                         style: const TextStyle(fontSize: 13),
                                       ),
@@ -322,11 +356,15 @@ class ReceiveScreen extends BaseScreen {
                                   ),
                                   TextButton(
                                     onPressed: () {
-                                      Navigator.of(context).pop([privateKeyController.text, "test"]);
+                                      Navigator.of(context).pop(
+                                          [privateKeyController.text, "test"]);
                                     },
                                     child: Text(
                                       "Import",
-                                      style: TextStyle(color: Theme.of(context).colorScheme.btcOrange),
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .btcOrange),
                                     ),
                                   )
                                 ],
@@ -338,8 +376,11 @@ class ReceiveScreen extends BaseScreen {
                             if (data.length == 2) {
                               final privateKey = data.first;
                               const addressType = BtcAddressType.segwit;
-                              final success = await ref.read(btcAccountListProvider.notifier).importPrivateKey(privateKey, addressType);
-                              final btcAccountSyncInfo = ref.watch(sessionProvider).btcAccountSyncInfo;
+                              final success = await ref
+                                  .read(btcAccountListProvider.notifier)
+                                  .importPrivateKey(privateKey, addressType);
+                              final btcAccountSyncInfo =
+                                  ref.watch(sessionProvider).btcAccountSyncInfo;
 
                               if (success) {
                                 if (btcAccountSyncInfo != null) {

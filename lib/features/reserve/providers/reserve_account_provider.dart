@@ -27,7 +27,8 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
   final Ref ref;
   Timer? timer;
 
-  ReserveAccountProvider(this.ref, [List<Wallet> model = const []]) : super(model);
+  ReserveAccountProvider(this.ref, [List<Wallet> model = const []])
+      : super(model);
 
   set(List<Wallet> wallets) {
     state = wallets.reversed.toList();
@@ -37,7 +38,8 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
     final password = await PromptModal.show(
       contextOverride: context,
       title: "Setup Reserve Account",
-      body: "Create a password to continue. You must remember this password as it will be required for any transaction with this Reserve Account.",
+      body:
+          "Create a password to continue. You must remember this password as it will be required for any transaction with this Reserve Account.",
       validator: (value) => formValidatorNotEmpty(value, "Password"),
       labelText: "Password",
       obscureText: true,
@@ -87,8 +89,12 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
     fundAccount(context, account);
   }
 
-  Future<void> fundAccount(BuildContext context, NewReserveAccount wallet) async {
-    final funders = ref.read(walletListProvider).where((w) => !w.isReserved && w.balance > (w.isValidating ? 1006 : 6)).toList();
+  Future<void> fundAccount(
+      BuildContext context, NewReserveAccount wallet) async {
+    final funders = ref
+        .read(walletListProvider)
+        .where((w) => !w.isReserved && w.balance > (w.isValidating ? 1006 : 6))
+        .toList();
     final fundingWallet = funders.isNotEmpty ? funders.first : null;
 
     if (fundingWallet != null) {
@@ -101,12 +107,13 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("You must now fund your Reserve Account with a minimum of 5 RBX. 4 RBX will be burned upon activation."),
+              Text(
+                  "You must now fund your Reserve Account with a minimum of 5 VFX. 4 VFX will be burned upon activation."),
               Text(""),
               SelectableText("Please send funds to ${wallet.address}"),
               Text(""),
               Text(
-                  "You have a wallet with a sufficient balance.\n\nWould you like to send 5 RBX from:\n${fundingWallet.address}\n[Balance: ${fundingWallet.balance} RBX]?"),
+                  "You have a wallet with a sufficient balance.\n\nWould you like to send 5 VFX from:\n${fundingWallet.address}\n[Balance: ${fundingWallet.balance} VFX]?"),
             ],
           ),
         ),
@@ -120,7 +127,8 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
         final confirmed = await ConfirmDialog.show(
           context: context,
           title: "Please Confirm",
-          body: "Sending:\n$amount RBX\n\nTo:\n${wallet.address}\n\nFrom:\n${fundingWallet.address}",
+          body:
+              "Sending:\n$amount VFX\n\nTo:\n${wallet.address}\n\nFrom:\n${fundingWallet.address}",
           confirmText: "Send",
           cancelText: "Cancel",
         );
@@ -137,12 +145,16 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
 
         if (message != null) {
           ref.read(logProvider.notifier).append(
-                LogEntry(message: message, textToCopy: message.replaceAll("Success! TxId: ", ""), variant: AppColorVariant.Success),
+                LogEntry(
+                    message: message,
+                    textToCopy: message.replaceAll("Success! TxId: ", ""),
+                    variant: AppColorVariant.Success),
               );
           await InfoDialog.show(
             contextOverride: context,
             title: "Funds Sent",
-            body: "$amount RBX has been sent to ${wallet.address}.\n\nPlease wait for transaction to reflect and then activate your Reserve Account.",
+            body:
+                "$amount VFX has been sent to ${wallet.address}.\n\nPlease wait for transaction to reflect and then activate your Reserve Account.",
           );
           // Navigator.of(context).pop();
         } else {
@@ -159,7 +171,8 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("You must now fund your Reserve Account with a minimum of 5 RBX."),
+                Text(
+                    "You must now fund your Reserve Account with a minimum of 5 VFX."),
                 Text(""),
                 Text("Please send funds to ${wallet.address}"),
                 Divider(),
@@ -167,7 +180,8 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
                   label: "Copy Address",
                   icon: Icons.copy,
                   onPressed: () async {
-                    await Clipboard.setData(ClipboardData(text: wallet.address));
+                    await Clipboard.setData(
+                        ClipboardData(text: wallet.address));
                     Toast.message("Address copied to clipboard.");
                   },
                 )
@@ -181,7 +195,8 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
     final restoreCode = await PromptModal.show(
       contextOverride: context,
       title: "Restore Code",
-      body: "Paste in your RESTORE CODE to import your existing Reserve Account.",
+      body:
+          "Paste in your RESTORE CODE to import your existing Reserve Account.",
       validator: (v) => null,
       labelText: "Restore Code",
     );
@@ -197,7 +212,8 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
     );
     if (password == null) return;
 
-    final account = await ReserveAccountService().restore(restoreCode: restoreCode, password: password);
+    final account = await ReserveAccountService()
+        .restore(restoreCode: restoreCode, password: password);
 
     if (account != null) {
       await ref.read(sessionProvider.notifier).loadWallets();
@@ -215,7 +231,8 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
     final recoveryPhrase = await PromptModal.show(
       contextOverride: context,
       title: "Restore Code",
-      body: "Paste in your RESTORE CODE to import the recovery account for this Reserve Account.",
+      body:
+          "Paste in your RESTORE CODE to import the recovery account for this Reserve Account.",
       validator: (v) => null,
       labelText: "Restore Code",
     );
@@ -232,17 +249,22 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
     );
     if (password == null || password.isEmpty) return;
 
-    final hash = await ReserveAccountService().recoverAccount(password: password, recoveryPhrase: recoveryPhrase, address: address);
+    final hash = await ReserveAccountService().recoverAccount(
+        password: password, recoveryPhrase: recoveryPhrase, address: address);
 
     if (hash != null) {
-      final w = ref.read(walletListProvider).firstWhereOrNull((e) => e.address == address);
+      final w = ref
+          .read(walletListProvider)
+          .firstWhereOrNull((e) => e.address == address);
 
       if (w != null) {
         ref.read(walletDetailProvider(w).notifier).delete();
 
         if (ref.read(sessionProvider).currentWallet?.address == address) {
           if (ref.read(walletListProvider).isNotEmpty) {
-            ref.read(sessionProvider.notifier).setCurrentWallet(ref.read(walletListProvider).first);
+            ref
+                .read(sessionProvider.notifier)
+                .setCurrentWallet(ref.read(walletListProvider).first);
           }
         }
       }
@@ -326,14 +348,15 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
     }
 
     if (wallet.availableBalance < 5) {
-      Toast.error("A minimum balance of 5 RBX is required to activate.");
+      Toast.error("A minimum balance of 5 VFX is required to activate.");
       return;
     }
 
     final confirmed = await ConfirmDialog.show(
       context: context,
       title: "Activate on Network?",
-      body: "There is a cost of 4 RBX (which is burned) plus TX fee to activate this Reserve Account on the network.  Continue?",
+      body:
+          "There is a cost of 4 VFX (which is burned) plus TX fee to activate this Reserve Account on the network.  Continue?",
       confirmText: "Activate Now",
       cancelText: "Cancel",
     );
@@ -356,7 +379,9 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
       );
 
       if (success) {
-        OverlayToast.message(message: 'Reserve Account activation transaction sent.\n\nPlease wait for it to reflect as "Activated".');
+        OverlayToast.message(
+            message:
+                'Reserve Account activation transaction sent.\n\nPlease wait for it to reflect as "Activated".');
         // Toast.message("Reserve Account publish transaction sent.");
         ref.read(pendingActivationProvider.notifier).addId(wallet.address);
       }
@@ -364,6 +389,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
   }
 }
 
-final reserveAccountProvider = StateNotifierProvider<ReserveAccountProvider, List<Wallet>>((ref) {
+final reserveAccountProvider =
+    StateNotifierProvider<ReserveAccountProvider, List<Wallet>>((ref) {
   return ReserveAccountProvider(ref);
 });

@@ -32,7 +32,7 @@ class TokenizeBtcScreen extends BaseScreen {
 
     if (wallet == null || wallet.isReserved) {
       return Center(
-        child: Text("Select an RBX Wallet is to proceed."),
+        child: Text("Select an VFX Wallet is to proceed."),
       );
     }
 
@@ -45,10 +45,11 @@ class TokenizeBtcScreen extends BaseScreen {
           children: [
             Row(
               children: [
-                Text("RBX Wallet: "),
+                Text("VFX Wallet: "),
                 Text(
                   wallet.address,
-                  style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+                  style:
+                      TextStyle(color: Theme.of(context).colorScheme.secondary),
                 ),
               ],
             ),

@@ -43,7 +43,9 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
   TransactionSignalProvider(this.ref) : super([]);
 
   List<String> get _addresses {
-    return kIsWeb ? ["${ref.read(webSessionProvider).keypair?.address}"] : ref.read(walletListProvider).map((w) => w.address).toList();
+    return kIsWeb
+        ? ["${ref.read(webSessionProvider).keypair?.address}"]
+        : ref.read(walletListProvider).map((w) => w.address).toList();
   }
 
   bool _hasAddress(String address) {
@@ -51,7 +53,10 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
   }
 
   void insert(Transaction transaction) {
-    final threshold = (DateTime.now().subtract(Duration(minutes: 5)).millisecondsSinceEpoch / 1000).round();
+    final threshold =
+        (DateTime.now().subtract(Duration(minutes: 5)).millisecondsSinceEpoch /
+                1000)
+            .round();
     if (transaction.timestamp < threshold) {
       return;
     }
@@ -74,7 +79,8 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
 
     switch (transaction.type) {
       case TxType.rbxTransfer:
-        _handleFundsTransfer(transaction, isOutgoing: isOutgoing, isIncoming: isIncoming);
+        _handleFundsTransfer(transaction,
+            isOutgoing: isOutgoing, isIncoming: isIncoming);
         break;
       case TxType.nftMint:
         _handleNftMint(transaction);
@@ -89,7 +95,8 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
         _handleAdnr(transaction);
         break;
       case TxType.nftTx:
-        _handleNftTx(transaction, isOutgoing: isOutgoing, isIncoming: isIncoming);
+        _handleNftTx(transaction,
+            isOutgoing: isOutgoing, isIncoming: isIncoming);
         break;
       case TxType.nftBurn:
         _handleNftBurn(transaction);
@@ -114,7 +121,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
           identifier: "${transaction.hash}_incoming",
           transaction: transaction,
           title: "Funds Received",
-          body: "${transaction.amount} RBX from ${transaction.fromAddress}",
+          body: "${transaction.amount} VFX from ${transaction.fromAddress}",
           icon: Icons.move_to_inbox,
         ),
       );
@@ -125,7 +132,8 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
           identifier: "${transaction.hash}_outgoing",
           transaction: transaction,
           title: "Funds Sent",
-          body: "${transaction.amount.toString().replaceAll('-', '')} RBX to ${transaction.toAddress}",
+          body:
+              "${transaction.amount.toString().replaceAll('-', '')} VFX to ${transaction.toAddress}",
           icon: Icons.outbox,
         ),
       );
@@ -134,7 +142,9 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
     if (kIsWeb) {
       final address = ref.read(webSessionProvider).keypair?.address;
       if (address != null) {
-        ref.read(webTransactionListProvider(address).notifier).checkForNew(address);
+        ref
+            .read(webTransactionListProvider(address).notifier)
+            .checkForNew(address);
       }
     }
   }
@@ -169,7 +179,9 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       }
     }
 
-    kIsWeb ? ref.read(webSessionProvider.notifier).getNfts() : ref.read(sessionProvider.notifier).smartContractLoop(false);
+    kIsWeb
+        ? ref.read(webSessionProvider.notifier).getNfts()
+        : ref.read(sessionProvider.notifier).smartContractLoop(false);
   }
 
   void _handleVoteTopic(Transaction transaction) {
@@ -180,7 +192,12 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       if (name == null) return;
       body = "Topic $name Created.";
       _broadcastNotification(
-        TransactionNotification(identifier: transaction.hash, transaction: transaction, title: "Topic Created", body: body, icon: Icons.how_to_vote),
+        TransactionNotification(
+            identifier: transaction.hash,
+            transaction: transaction,
+            title: "Topic Created",
+            body: body,
+            icon: Icons.how_to_vote),
       );
     }
   }
@@ -193,7 +210,12 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       if (topic == null) return;
       body = "Vote casted on $topic";
       _broadcastNotification(
-        TransactionNotification(identifier: transaction.hash, transaction: transaction, title: "Vote Casted", body: body, icon: Icons.how_to_vote),
+        TransactionNotification(
+            identifier: transaction.hash,
+            transaction: transaction,
+            title: "Vote Casted",
+            body: body,
+            icon: Icons.how_to_vote),
       );
     }
   }
@@ -360,7 +382,9 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
               body: "NFT evolved to state $evoState.",
               icon: Icons.change_circle),
         );
-        kIsWeb ? ref.read(webSessionProvider.notifier).getNfts() : ref.read(sessionProvider.notifier).smartContractLoop(false);
+        kIsWeb
+            ? ref.read(webSessionProvider.notifier).getNfts()
+            : ref.read(sessionProvider.notifier).smartContractLoop(false);
 
         return;
       }
@@ -395,7 +419,9 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       );
     }
 
-    kIsWeb ? ref.read(webSessionProvider.notifier).getNfts() : ref.read(sessionProvider.notifier).smartContractLoop(false);
+    kIsWeb
+        ? ref.read(webSessionProvider.notifier).getNfts()
+        : ref.read(sessionProvider.notifier).smartContractLoop(false);
   }
 
   void _handleAdnr(Transaction transaction) {
@@ -410,7 +436,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       if (function.contains('AdnrCreate')) {
         final name = _nftDataValue(nftData!, 'Name');
         if (name == null) return;
-        body = "RBX Domain created for $name.rbx";
+        body = "VFX Domain created for $name.vfx";
         _broadcastNotification(
           TransactionNotification(
               identifier: transaction.hash,
@@ -425,7 +451,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       if (function.contains('AdnrDelete')) {
         final name = _nftDataValue(nftData!, 'Name');
         if (name == null) return;
-        body = "RBX Domain deleted for $name";
+        body = "VFX Domain deleted for $name";
         _broadcastNotification(
           TransactionNotification(
               identifier: transaction.hash,
@@ -440,7 +466,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       if (function.contains('AdnrTransfer')) {
         final name = _nftDataValue(nftData!, 'Name');
         if (name == null) return;
-        body = "RBX Domain transfer for $name";
+        body = "VFX Domain transfer for $name";
         _broadcastNotification(
           TransactionNotification(
             identifier: transaction.hash,
@@ -454,13 +480,12 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
         return;
       }
 
-
       //BTC
 
-       if (function.contains('BtcAdnrCreate')) {
+      if (function.contains('BtcAdnrCreate')) {
         final name = _nftDataValue(nftData!, 'Name');
         if (name == null) return;
-        body = "BTC Domain created for $name.rbx";
+        body = "BTC Domain created for $name.vfx";
         _broadcastNotification(
           TransactionNotification(
               identifier: transaction.hash,
@@ -490,7 +515,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       if (function.contains('BtcAdnrTransfer')) {
         final name = _nftDataValue(nftData!, 'Name');
         if (name == null) return;
-        body = "RBX Domain transfer for $name";
+        body = "VFX Domain transfer for $name";
         _broadcastNotification(
           TransactionNotification(
             identifier: transaction.hash,
@@ -521,7 +546,9 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
         color: AppColorVariant.Danger,
       ),
     );
-    kIsWeb ? ref.read(webSessionProvider.notifier).getNfts() : ref.read(sessionProvider.notifier).smartContractLoop(false);
+    kIsWeb
+        ? ref.read(webSessionProvider.notifier).getNfts()
+        : ref.read(sessionProvider.notifier).smartContractLoop(false);
   }
 
   void _handleNftSale(Transaction transaction) async {
@@ -639,6 +666,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
   }
 }
 
-final transactionSignalProvider = StateNotifierProvider<TransactionSignalProvider, List<Transaction>>((ref) {
+final transactionSignalProvider =
+    StateNotifierProvider<TransactionSignalProvider, List<Transaction>>((ref) {
   return TransactionSignalProvider(ref);
 });

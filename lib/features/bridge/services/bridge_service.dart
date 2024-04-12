@@ -176,7 +176,7 @@ class BridgeService extends BaseService {
     }
 
     if (response ==
-        "This is not a valid RBX address to send to. Please verify again.") {
+        "This is not a valid VFX address to send to. Please verify again.") {
       Toast.error(response);
       return null;
     }
@@ -424,12 +424,12 @@ class BridgeService extends BaseService {
     String? filename;
     if (Platform.isMacOS) {
       if (osVersion.contains("macos_x64")) {
-        filename = "rbx-corecli-mac-intel.zip";
+        filename = "vfx-corecli-mac-intel.zip";
       } else {
-        filename = "rbx-corecli-mac-arm.zip";
+        filename = "vfx-corecli-mac-arm.zip";
       }
     } else if (Platform.isWindows) {
-      filename = "rbx-corecli-win7-x64.zip";
+      filename = "vfx-corecli-win7-x64.zip";
     }
 
     if (filename == null) {

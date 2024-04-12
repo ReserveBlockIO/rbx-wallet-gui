@@ -61,7 +61,7 @@ class RootContainer extends BaseComponent {
                       padding: EdgeInsets.all(4.0),
                       child: Center(
                         child: Text(
-                          "RBX TESTNET",
+                          "VFX TESTNET",
                           style: TextStyle(
                             fontSize: 12,
                             letterSpacing: 1,
@@ -73,7 +73,8 @@ class RootContainer extends BaseComponent {
                     ),
                   ),
                 if (ref.watch(walletInfoProvider) != null &&
-                    (ref.watch(walletInfoProvider)!.duplicateValidatorAddress || ref.watch(walletInfoProvider)!.duplicateValidatorIp))
+                    (ref.watch(walletInfoProvider)!.duplicateValidatorAddress ||
+                        ref.watch(walletInfoProvider)!.duplicateValidatorIp))
                   Container(
                     width: double.infinity,
                     color: Theme.of(context).colorScheme.danger,
@@ -82,12 +83,22 @@ class RootContainer extends BaseComponent {
                       child: Center(
                         child: Builder(builder: (context) {
                           String text = "";
-                          if (ref.watch(walletInfoProvider)!.duplicateValidatorAddress && ref.watch(walletInfoProvider)!.duplicateValidatorIp) {
-                            text = "Duplicate Address and IP is being used to validate.";
-                          } else if (ref.watch(walletInfoProvider)!.duplicateValidatorAddress) {
-                            text = "Duplicate Address is being used to validate.";
+                          if (ref
+                                  .watch(walletInfoProvider)!
+                                  .duplicateValidatorAddress &&
+                              ref
+                                  .watch(walletInfoProvider)!
+                                  .duplicateValidatorIp) {
+                            text =
+                                "Duplicate Address and IP is being used to validate.";
+                          } else if (ref
+                              .watch(walletInfoProvider)!
+                              .duplicateValidatorAddress) {
+                            text =
+                                "Duplicate Address is being used to validate.";
                           } else {
-                            text = "Duplicate IP Address is being used to validate.";
+                            text =
+                                "Duplicate IP Address is being used to validate.";
                           }
 
                           return Row(
@@ -129,7 +140,9 @@ class RootContainer extends BaseComponent {
                       ),
                     ),
                   ),
-                WebChatNotifier(ref: ref, address: ref.watch(sessionProvider).currentWallet?.address),
+                WebChatNotifier(
+                    ref: ref,
+                    address: ref.watch(sessionProvider).currentWallet?.address),
                 Expanded(
                   child: Row(
                     children: [

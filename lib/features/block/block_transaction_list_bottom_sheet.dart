@@ -6,7 +6,8 @@ import '../transactions/models/transaction.dart';
 
 class BlockTransactionListBottomSheet extends BaseComponent {
   final List<Transaction> transactions;
-  const BlockTransactionListBottomSheet({Key? key, required this.transactions}) : super(key: key);
+  const BlockTransactionListBottomSheet({Key? key, required this.transactions})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,7 +24,7 @@ class BlockTransactionListBottomSheet extends BaseComponent {
               return ListTile(
                 title: Text("${tx.fromAddress} => ${tx.toAddress}"),
                 subtitle: Text("Hash: ${tx.hash}"),
-                trailing: Text("${tx.amount} RBX"),
+                trailing: Text("${tx.amount} VFX"),
               );
             },
           ),

@@ -23,7 +23,8 @@ import '../components/create_collection_form_group .dart';
 import '../providers/dec_shop_form_provider.dart';
 
 class CreateDecShopContainerScreen extends BaseScreen {
-  const CreateDecShopContainerScreen({Key? key}) : super(key: key, verticalPadding: 0, horizontalPadding: 0);
+  const CreateDecShopContainerScreen({Key? key})
+      : super(key: key, verticalPadding: 0, horizontalPadding: 0);
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
@@ -31,12 +32,14 @@ class CreateDecShopContainerScreen extends BaseScreen {
     final model = ref.read(decShopFormProvider);
 
     return AppBar(
-      title: Text(model.id != 0 ? "Edit Auction House" : "Create Auction House"),
+      title:
+          Text(model.id != 0 ? "Edit Auction House" : "Create Auction House"),
       backgroundColor: Colors.black,
       leading: IconButton(
         onPressed: () async {
           final confirmed = await ConfirmDialog.show(
-            title: "Are you sure you want to close the shop ${model.id != 0 ? 'editing' : 'creation'} screen?",
+            title:
+                "Are you sure you want to close the shop ${model.id != 0 ? 'editing' : 'creation'} screen?",
             body: "All unsaved changes will be lost.",
             cancelText: "Cancel",
             confirmText: "Continue",
@@ -95,7 +98,8 @@ class CreateDecShopContainerScreen extends BaseScreen {
                   variant: AppColorVariant.Danger,
                   onPressed: () async {
                     final confirmed = await ConfirmDialog.show(
-                      title: "Are you sure you want to close the shop ${model.id != 0 ? 'editing' : 'creation'} screen?",
+                      title:
+                          "Are you sure you want to close the shop ${model.id != 0 ? 'editing' : 'creation'} screen?",
                       body: "All unsaved changes will be lost.",
                       cancelText: "Cancel",
                       confirmText: "Continue",
@@ -119,13 +123,15 @@ class CreateDecShopContainerScreen extends BaseScreen {
                       final confirmed = await ConfirmDialog.show(
                         title: "Publish Updates?",
                         body:
-                            "Your local changes were saved succesfully. Would you like to publish this to the network?${model.updateWillCost ? '\n\n1 RBX is required since you have already published within the past 24 hours.' : ''}",
+                            "Your local changes were saved succesfully. Would you like to publish this to the network?${model.updateWillCost ? '\n\n1 VFX is required since you have already published within the past 24 hours.' : ''}",
                       );
 
                       ref.invalidate(decShopProvider);
 
                       if (confirmed == true) {
-                        final success = model.id == 0 ? await DstService().publishShop() : await DstService().updateShop();
+                        final success = model.id == 0
+                            ? await DstService().publishShop()
+                            : await DstService().updateShop();
                         if (success) {
                           final shopUrl = model.url;
 
@@ -135,14 +141,17 @@ class CreateDecShopContainerScreen extends BaseScreen {
 
                           final confirmed = await ConfirmDialog.show(
                             title: "CLI Restart Required",
-                            body: "A CLI restart is required for this change to take effect. Would you like to restart now?",
+                            body:
+                                "A CLI restart is required for this change to take effect. Would you like to restart now?",
                             confirmText: "Restart",
                             cancelText: "Later",
                           );
 
                           if (confirmed == true) {
                             ref.read(globalLoadingProvider.notifier).start();
-                            await ref.read(sessionProvider.notifier).restartCli();
+                            await ref
+                                .read(sessionProvider.notifier)
+                                .restartCli();
                             ref.read(beaconListProvider.notifier).refresh();
                             ref.read(globalLoadingProvider.notifier).complete();
                           }

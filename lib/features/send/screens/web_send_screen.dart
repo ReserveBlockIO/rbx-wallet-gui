@@ -20,7 +20,7 @@ class WebSendScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: const Text("Send RBX"),
+      title: const Text("Send VFX"),
       shadowColor: Colors.transparent,
       backgroundColor: Colors.black,
       actions: [

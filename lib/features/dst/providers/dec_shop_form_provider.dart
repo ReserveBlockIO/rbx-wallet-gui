@@ -32,7 +32,7 @@ class DecShopFormProvider extends StateNotifier<DecShop> {
     nameController.text = decShop.name;
     descriptionController.text = decShop.description;
     // addressController.text = decShop.ownerAddress ?? '';
-    urlController.text = decShop.url.replaceAll("rbx://", "");
+    urlController.text = decShop.url.replaceAll("vfx://", "");
   }
 
   updateName(String name) {

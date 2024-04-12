@@ -16,13 +16,14 @@ Future<DecShop?> getNetworkShop({
   required String shopUrl,
   int attempt = 1,
 }) async {
-  if (!shopUrl.startsWith("rbx://")) {
-    shopUrl = "rbx://$shopUrl";
+  if (!shopUrl.startsWith("vfx://")) {
+    shopUrl = "vfx://$shopUrl";
   }
 
   print("Trying to get shop $shopUrl. Attempt # $attempt");
 
-  final response = await service.getText('/GetNetworkDecShopInfo/$shopUrl', cleanPath: false);
+  final response = await service.getText('/GetNetworkDecShopInfo/$shopUrl',
+      cleanPath: false);
   final data = jsonDecode(response);
   if (data['Success'] == true) {
     return DecShop.fromJson(data['DecShop']);
@@ -31,7 +32,8 @@ Future<DecShop?> getNetworkShop({
   if (attempt < MAX_ATTEMPTS) {
     print("Couldn't get data. Waiting 500ms");
     await Future.delayed(Duration(milliseconds: 500));
-    return await getNetworkShop(service: service, shopUrl: shopUrl, attempt: attempt + 1);
+    return await getNetworkShop(
+        service: service, shopUrl: shopUrl, attempt: attempt + 1);
   }
 
   print("Couldn't get network shop in $attempt attempts. Exiting.");
@@ -46,8 +48,8 @@ Future<bool> connectToShop({
   int attempt = 1,
 }) async {
   shopUrl = shopUrl.trim();
-  if (!shopUrl.startsWith("rbx://")) {
-    shopUrl = "rbx://$shopUrl";
+  if (!shopUrl.startsWith("vfx://")) {
+    shopUrl = "vfx://$shopUrl";
   }
 
   print("Trying to connect to shop $shopUrl. Attempt # $attempt");
@@ -99,7 +101,8 @@ Future<void> requestCollectionsAndListings({
   }
 }
 
-Future<ShopData?> getShopData({required RemoteShopService service, int attempt = 1}) async {
+Future<ShopData?> getShopData(
+    {required RemoteShopService service, int attempt = 1}) async {
   final response = await service.getText("/GetDecShopData", cleanPath: false);
   final data = jsonDecode(response);
 
@@ -118,10 +121,12 @@ Future<ShopData?> getShopData({required RemoteShopService service, int attempt =
   return null;
 }
 
-Future<bool> getNftAssets({required RemoteShopService service, required String scId}) async {
+Future<bool> getNftAssets(
+    {required RemoteShopService service, required String scId}) async {
   print("Requesting NFTAssets ($scId)");
   try {
-    final response = await service.getText("/GetNFTAssets/$scId", cleanPath: false);
+    final response =
+        await service.getText("/GetNFTAssets/$scId", cleanPath: false);
     return response == "true";
   } catch (e) {
     print(e);
@@ -129,7 +134,8 @@ Future<bool> getNftAssets({required RemoteShopService service, required String s
   }
 }
 
-Future<OrganizedShop> organizeShopData({required RemoteShopService service, required ShopData shopData}) async {
+Future<OrganizedShop> organizeShopData(
+    {required RemoteShopService service, required ShopData shopData}) async {
   final scIds = shopData.listings.map((l) => l.smartContractUid);
   final listingIds = shopData.listings.map((l) => l.id);
 
@@ -140,7 +146,9 @@ Future<OrganizedShop> organizeShopData({required RemoteShopService service, requ
       Nft? nft = await NftService().getNftData(scId);
       if (nft != null) {
         String thumbsPath = await assetsPath();
-        thumbsPath = Platform.isMacOS ? "$thumbsPath/${scId.replaceAll(':', '')}/thumbs" : "$thumbsPath\\${scId.replaceAll(':', '')}\\thumbs";
+        thumbsPath = Platform.isMacOS
+            ? "$thumbsPath/${scId.replaceAll(':', '')}/thumbs"
+            : "$thumbsPath\\${scId.replaceAll(':', '')}\\thumbs";
         nfts[scId] = nft.copyWith(thumbsPath: thumbsPath);
       }
     }
@@ -157,10 +165,13 @@ Future<OrganizedShop> organizeShopData({required RemoteShopService service, requ
             description: c.description,
             collectionLive: c.collectionLive,
             isDefault: c.isDefault,
-            listings: shopData.listings.where((l) => l.collectionId == c.id).map(
+            listings:
+                shopData.listings.where((l) => l.collectionId == c.id).map(
               (l) {
-                final a = shopData.auctions.firstWhereOrNull((a) => a.listingId == l.id && a.collectionId == c.id);
-                final bids = shopData.bids.where((b) => b.listingId == l.id).toList();
+                final a = shopData.auctions.firstWhereOrNull(
+                    (a) => a.listingId == l.id && a.collectionId == c.id);
+                final bids =
+                    shopData.bids.where((b) => b.listingId == l.id).toList();
 
                 bool reserveMet = false;
                 if (a != null && l.reservePrice != null) {

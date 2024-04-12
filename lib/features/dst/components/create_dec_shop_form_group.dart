@@ -56,17 +56,21 @@ class CreateDecShopFormGroup extends BaseComponent {
                       child: ListTile(
                         onTap: model.id == 0
                             ? () async {
-                                final address = await chooseAddress(context, ref, provider);
+                                final address =
+                                    await chooseAddress(context, ref, provider);
                                 if (address != null) {
                                   provider.updateAddress(address);
                                 }
                               }
                             : null,
                         title: Text("Owner's Address"),
-                        subtitle: Text(model.ownerAddress == null || model.ownerAddress!.isEmpty
+                        subtitle: Text(model.ownerAddress == null ||
+                                model.ownerAddress!.isEmpty
                             ? "Select an address from the list to be the shop owner."
                             : model.ownerAddress!),
-                        trailing: model.id == 0 ? Icon(Icons.folder_copy_outlined) : null,
+                        trailing: model.id == 0
+                            ? Icon(Icons.folder_copy_outlined)
+                            : null,
                       ),
                     ),
                   ),
@@ -101,7 +105,8 @@ class CreateDecShopFormGroup extends BaseComponent {
     );
   }
 
-  Future<String?> chooseAddress(BuildContext context, WidgetRef ref, DecShopFormProvider formProvider) async {
+  Future<String?> chooseAddress(BuildContext context, WidgetRef ref,
+      DecShopFormProvider formProvider) async {
     final wallets = ref.read(walletListProvider);
 
     final address = await showDialog(
@@ -134,7 +139,9 @@ class CreateDecShopFormGroup extends BaseComponent {
                           },
                           child: Text(
                             w.fullLabel,
-                            style: const TextStyle(color: Colors.white, decoration: TextDecoration.underline),
+                            style: const TextStyle(
+                                color: Colors.white,
+                                decoration: TextDecoration.underline),
                           ),
                         ),
                       )
@@ -184,7 +191,8 @@ class _DecUrl extends BaseComponent {
       controller: provider.urlController,
       onChanged: provider.updateUrl,
       inputFormatters: [
-        FilteringTextInputFormatter.allow(RegExp("^[A-Za-z][a-zA-Z0-9-.]{0,62}")),
+        FilteringTextInputFormatter.allow(
+            RegExp("^[A-Za-z][a-zA-Z0-9-.]{0,62}")),
       ],
       validator: (value) => formValidatorNotEmpty(value, "Shop Identifier"),
       decoration: InputDecoration(
@@ -192,7 +200,7 @@ class _DecUrl extends BaseComponent {
           "Shop Identifier",
           style: TextStyle(color: Colors.white),
         ),
-        prefixText: "rbx://",
+        prefixText: "vfx://",
         hintText: "MyShop",
       ),
     );

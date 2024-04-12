@@ -29,7 +29,9 @@ class NftDetailProvider extends StateNotifier<Nft?> {
   }
 
   Future<Nft?> _retrieve() async {
-    final nft = kIsWeb ? await ExplorerService().retrieveNft(id) : await NftService().retrieve(id);
+    final nft = kIsWeb
+        ? await ExplorerService().retrieveNft(id)
+        : await NftService().retrieve(id);
 
     return nft;
   }
@@ -98,7 +100,9 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     }
 
     if (mustBeOwner) {
-      Wallet? wallet = ref.read(walletListProvider).firstWhereOrNull((w) => w.address == state!.currentOwner);
+      Wallet? wallet = ref
+          .read(walletListProvider)
+          .firstWhereOrNull((w) => w.address == state!.currentOwner);
 
       if (wallet == null && mustBeOwner) {
         Toast.error("You are not the owner of this NFT.");
@@ -106,7 +110,9 @@ class NftDetailProvider extends StateNotifier<Nft?> {
         return false;
       }
 
-      wallet ??= ref.read(walletListProvider).firstWhereOrNull((w) => w.address == state!.minterAddress);
+      wallet ??= ref
+          .read(walletListProvider)
+          .firstWhereOrNull((w) => w.address == state!.minterAddress);
 
       if (wallet == null) {
         Toast.error("You are not the owner or minter of this NFT.");
@@ -114,7 +120,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       }
 
       if (wallet.balance < MIN_RBX_FOR_SC_ACTION) {
-        Toast.error("Not enough RBX do this action");
+        Toast.error("Not enough VFX do this action");
         return false;
       }
     }
@@ -186,7 +192,8 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       return false;
     }
 
-    final locator = await RawService().beaconUpload(id, toAddress, beaconSignature);
+    final locator =
+        await RawService().beaconUpload(id, toAddress, beaconSignature);
 
     if (locator == null) {
       Toast.error("Could not create beacon upload request.");
@@ -208,10 +215,17 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       return false;
     }
 
-    final nftTransferData = await txService.nftTransferData(id, toAddress, locator);
+    final nftTransferData =
+        await txService.nftTransferData(id, toAddress, locator);
     print("NFT Transfer data: $nftTransferData");
 
-    final unlockTimestamp = unlockHours != null ? (DateTime.now().add(Duration(hours: unlockHours)).millisecondsSinceEpoch / 1000).round() : null;
+    final unlockTimestamp = unlockHours != null
+        ? (DateTime.now()
+                    .add(Duration(hours: unlockHours))
+                    .millisecondsSinceEpoch /
+                1000)
+            .round()
+        : null;
 
     var txData = RawTransaction.buildTransaction(
         amount: 0.0,
@@ -249,7 +263,8 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       return null;
     }
 
-    final signature = await RawTransaction.getSignature(message: hash, privateKey: private, publicKey: public);
+    final signature = await RawTransaction.getSignature(
+        message: hash, privateKey: private, publicKey: public);
     if (signature == null) {
       Toast.error("Signature generation failed.");
       return false;
@@ -321,20 +336,25 @@ class NftDetailProvider extends StateNotifier<Nft?> {
 
     final message = id;
 
-    final signature = await RawTransaction.getSignature(message: message, privateKey: keypair.private, publicKey: keypair.public);
+    final signature = await RawTransaction.getSignature(
+        message: message,
+        privateKey: keypair.private,
+        publicKey: keypair.public);
     if (signature == null) {
       Toast.error("Signature generation failed.");
       return false;
     }
 
-    final isValid = await RawService().validateSignature(message, keypair.address, signature);
+    final isValid = await RawService()
+        .validateSignature(message, keypair.address, signature);
 
     if (!isValid) {
       Toast.error("Signature not valid");
       return false;
     }
 
-    final beaconAssets = await RawService().beaconAssets(id, locators, keypair.address, signature);
+    final beaconAssets = await RawService()
+        .beaconAssets(id, locators, keypair.address, signature);
 
     if (beaconAssets != true) {
       Toast.error("Assets Request failed.");
@@ -405,7 +425,10 @@ class NftDetailProvider extends StateNotifier<Nft?> {
         return false;
       }
 
-      final signature = await RawTransaction.getSignature(message: hash, privateKey: keypair.private, publicKey: keypair.public);
+      final signature = await RawTransaction.getSignature(
+          message: hash,
+          privateKey: keypair.private,
+          publicKey: keypair.public);
       if (signature == null) {
         Toast.error("Signature generation failed.");
         return false;
@@ -535,7 +558,8 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       return false;
     }
 
-    final signature = await RawTransaction.getSignature(message: hash, privateKey: keypair.private, publicKey: keypair.public);
+    final signature = await RawTransaction.getSignature(
+        message: hash, privateKey: keypair.private, publicKey: keypair.public);
     if (signature == null) {
       Toast.error("Signature generation failed.");
       return false;
@@ -604,6 +628,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
   }
 }
 
-final nftDetailProvider = StateNotifierProvider.family<NftDetailProvider, Nft?, String>(
+final nftDetailProvider =
+    StateNotifierProvider.family<NftDetailProvider, Nft?, String>(
   (ref, id) => NftDetailProvider(ref, id),
 );

@@ -59,7 +59,8 @@ class _SnapshotDownloaderState extends State<SnapshotDownloader> {
     final downloadDirectory = await getTemporaryDirectory();
     final path = "${downloadDirectory.path}/snapshot.zip";
 
-    Dio().download(widget.downloadUrl, path, onReceiveProgress: (value1, value2) {
+    Dio().download(widget.downloadUrl, path,
+        onReceiveProgress: (value1, value2) {
       setState(() {
         progress = value1;
         total = value2;
@@ -83,15 +84,19 @@ class _SnapshotDownloaderState extends State<SnapshotDownloader> {
     final dir = Directory(_dbPath);
 
     final date = DateTime.now();
-    String backupDirName = "${_dbPath.replaceAll('rbx', '').replaceAll('RBX', '')}\\RBX_BACKUP_${(date.microsecondsSinceEpoch / 1000).round()}";
+    String backupDirName =
+        "${_dbPath.replaceAll('vfx', '').replaceAll('VFX', '')}\\RBX_BACKUP_${(date.microsecondsSinceEpoch / 1000).round()}";
     if (Platform.isMacOS) {
-      backupDirName = backupDirName.toLowerCase().replaceAll("\\", '/').replaceAll('//', '/');
+      backupDirName = backupDirName
+          .toLowerCase()
+          .replaceAll("\\", '/')
+          .replaceAll('//', '/');
     }
     setState(() {
       backupDir = backupDirName;
     });
 
-    installLogAdd("Backing up current RBX folder as '$backupDirName'...");
+    installLogAdd("Backing up current VFX folder as '$backupDirName'...");
 
     await dir.rename(backupDirName);
     installLogAdd("Backed up.");

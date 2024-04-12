@@ -65,7 +65,7 @@ class _MotherChildListState extends State<MotherChildList> {
     //   itemBuilder: (context, index) {
     //     final child = children[index];
     //     final title = child.validatorName == child.address ? child.address : "${child.address} (${child.validatorName})";
-    //     final label = "IP: ${child.ipAddress} | Block Height: ${child.blockHeight} | Balance: ${child.balance} RBX";
+    //     final label = "IP: ${child.ipAddress} | Block Height: ${child.blockHeight} | Balance: ${child.balance} VFX";
     //     return Card(
     //       child: ListTile(
     //         title: Text(title),

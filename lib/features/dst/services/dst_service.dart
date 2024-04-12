@@ -274,7 +274,8 @@ class DstService extends BaseService {
 
   Future<bool> importShop(String address) async {
     try {
-      final response = await getText('/GetImportDecShopFromNetwork/$address', cleanPath: false);
+      final response = await getText('/GetImportDecShopFromNetwork/$address',
+          cleanPath: false);
       final data = jsonDecode(response);
 
       print("********");
@@ -358,13 +359,13 @@ class DstService extends BaseService {
 
   Future<bool> saveDecShop(DecShop decShop) async {
     // String url = decShop.url;
-    // if (!url.startsWith("rbx://")) {
-    //   url = "rbx://$url";
+    // if (!url.startsWith("vfx://")) {
+    //   url = "vfx://$url";
     // }
 
     final payload = {
       'Name': decShop.name.trim(),
-      'DecShopURL': decShop.url.trim().replaceAll("rbx://", ""),
+      'DecShopURL': decShop.url.trim().replaceAll("vfx://", ""),
       'Description': decShop.description.trim(),
       'OwnerAddress': decShop.ownerAddress,
       'DecShopHostingType': decShop.type,
@@ -412,7 +413,8 @@ class DstService extends BaseService {
 
   Future<List<Listing>> listListings(int collectionId) async {
     try {
-      final response = await getText("/GetCollectionListings/$collectionId", cleanPath: false);
+      final response = await getText("/GetCollectionListings/$collectionId",
+          cleanPath: false);
 
       if (response.isEmpty) {
         return [];

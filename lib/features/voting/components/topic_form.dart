@@ -37,7 +37,8 @@ class TopicForm extends BaseComponent {
                     children: [
                       Text(
                         "Category",
-                        style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary),
                       ),
                       DropdownButton<VoteTopicCategory>(
                         value: model.category,
@@ -69,7 +70,8 @@ class TopicForm extends BaseComponent {
                     children: [
                       Text(
                         "Voting Ends",
-                        style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary),
                       ),
                       DropdownButton<VotingDays>(
                         focusColor: Colors.transparent,
@@ -100,11 +102,12 @@ class TopicForm extends BaseComponent {
                   label: Text("Topic Name"),
                 ),
                 inputFormatters: [
-                  FilteringTextInputFormatter.deny(
-                      RegExp(r'(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])'))
+                  FilteringTextInputFormatter.deny(RegExp(
+                      r'(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])'))
                 ],
                 maxLength: 128,
-                buildCounter: (context, {int? currentLength, int? maxLength, bool? isFocused}) {
+                buildCounter: (context,
+                    {int? currentLength, int? maxLength, bool? isFocused}) {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -122,7 +125,8 @@ class TopicForm extends BaseComponent {
             const SizedBox(
               height: 16,
             ),
-            if (model.category == VoteTopicCategory.AdjVoteIn) const AdjVoteForm(),
+            if (model.category == VoteTopicCategory.AdjVoteIn)
+              const AdjVoteForm(),
             if (model.category != VoteTopicCategory.AdjVoteIn)
               TextFormField(
                   controller: provider.descriptionController,
@@ -131,14 +135,15 @@ class TopicForm extends BaseComponent {
                     label: Text("Topic Description"),
                   ),
                   inputFormatters: [
-                    FilteringTextInputFormatter.deny(
-                        RegExp(r'(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])'))
+                    FilteringTextInputFormatter.deny(RegExp(
+                        r'(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])'))
                   ],
                   minLines: 3,
                   maxLines: 6,
 
                   // maxLength: 1600,
-                  buildCounter: (context, {int? currentLength, int? maxLength, bool? isFocused}) {
+                  buildCounter: (context,
+                      {int? currentLength, int? maxLength, bool? isFocused}) {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -164,7 +169,10 @@ class TopicForm extends BaseComponent {
                   type: AppButtonType.Text,
                   variant: AppColorVariant.Light,
                   onPressed: () async {
-                    final confirmed = await ConfirmDialog.show(title: "Discard", body: "Are you sure you want to discard this new topic?");
+                    final confirmed = await ConfirmDialog.show(
+                        title: "Discard",
+                        body:
+                            "Are you sure you want to discard this new topic?");
 
                     if (confirmed == true) {
                       provider.clear();
@@ -178,7 +186,8 @@ class TopicForm extends BaseComponent {
                     if (!await passwordRequiredGuard(context, ref)) return;
                     final confirmed = await ConfirmDialog.show(
                       title: "Create Topic",
-                      body: "There is a cost of $VOTE_TOPIC_COST RBX to create a topic.",
+                      body:
+                          "There is a cost of $VOTE_TOPIC_COST VFX to create a topic.",
                       confirmText: "Create",
                       cancelText: "Cancel",
                     );
