@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../../core/theme/app_theme.dart';
 
 import '../../../../core/base_component.dart';
@@ -154,6 +155,14 @@ class MainMenu extends BaseComponent {
                     isActive: tabsRouter.activeIndex == 0,
                   ),
                   _NavButton(
+                    title: "Reserve Accounts",
+                    icon: Icons.security,
+                    onPressed: () {
+                      tabsRouter.setActiveIndex(14);
+                    },
+                    isActive: tabsRouter.activeIndex == 14,
+                  ),
+                  _NavButton(
                     title: "Send",
                     icon: Icons.outbox,
                     onPressed: () {
@@ -215,12 +224,22 @@ class MainMenu extends BaseComponent {
                   // ),
 
                   _NavButton(
-                    title: "VFX Domains",
+                    title: "VFX/BTC Domains",
                     icon: Icons.link,
                     onPressed: () {
                       tabsRouter.setActiveIndex(10);
                     },
                     isActive: tabsRouter.activeIndex == 10,
+                  ),
+                  _NavButton(
+                    title: "Tokenize Bitcoin",
+                    icon: FontAwesomeIcons.bitcoin,
+                    activeColorOverride:
+                        Theme.of(context).colorScheme.btcOrange,
+                    onPressed: () {
+                      tabsRouter.setActiveIndex(15);
+                    },
+                    isActive: tabsRouter.activeIndex == 15,
                   ),
                   _NavButton(
                     title: "Smart Contracts",
@@ -327,6 +346,7 @@ class _NavButton extends StatelessWidget {
   final Function() onPressed;
   final IconData icon;
   final bool isActive;
+  final Color? activeColorOverride;
 
   const _NavButton({
     Key? key,
@@ -334,12 +354,13 @@ class _NavButton extends StatelessWidget {
     required this.onPressed,
     required this.icon,
     this.isActive = false,
+    this.activeColorOverride,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final textColor = isActive
-        ? Theme.of(context).colorScheme.secondary
+        ? activeColorOverride ?? Theme.of(context).colorScheme.secondary
         : Theme.of(context).textTheme.bodyText1!.color;
 
     return Container(

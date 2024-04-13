@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/empty_router_widgets.dart';
+import 'package:rbx_wallet/features/btc/screens/tokenize_btc_screen.dart';
+import 'package:rbx_wallet/features/btc/screens/tokenized_btc_list_screen.dart';
 import 'package:rbx_wallet/features/token/screens/token_create_screen.dart';
 import 'package:rbx_wallet/features/token/screens/token_list_screen.dart';
 import '../features/chat/screens/buyer_chat_thread_list_screen.dart';
@@ -70,7 +72,8 @@ const List<AutoRoute> appRoutes = [
         page: EmptyRouterPage,
         children: [
           AutoRoute(path: "", page: HomeScreen),
-          AutoRoute(path: "reserve-accounts", page: ReserveAccountOverviewScreen),
+          AutoRoute(
+              path: "reserve-accounts", page: ReserveAccountOverviewScreen),
         ],
       ),
       AutoRoute(
@@ -161,11 +164,15 @@ const List<AutoRoute> appRoutes = [
           // AutoRoute(path: "shops/:url/collection/:collectionId", page: RemoteShopCollectionScreen),
           AutoRoute(path: "me", page: MyCollectionsListScreen),
           AutoRoute(path: ":collectionId", page: MyCollectionDetailScreen),
-          AutoRoute(path: "createCollection", page: CreateCollectionContainerScreen),
+          AutoRoute(
+              path: "createCollection", page: CreateCollectionContainerScreen),
           AutoRoute(path: "createDecShop", page: CreateDecShopContainerScreen),
           AutoRoute(path: ":listingId", page: ListingDetailScreen),
-          AutoRoute(path: ":listingId/auction", page: ListingAuctionDetailScreen),
-          AutoRoute(path: "createListing/:collectionId", page: CreateListingContainerScreen),
+          AutoRoute(
+              path: ":listingId/auction", page: ListingAuctionDetailScreen),
+          AutoRoute(
+              path: "createListing/:collectionId",
+              page: CreateListingContainerScreen),
         ],
       ),
       AutoRoute(
@@ -195,13 +202,37 @@ const List<AutoRoute> appRoutes = [
         ],
       ),
       AutoRoute(
+        path: "reserve-accounts",
+        name: "ReserveAccountsTabRouter",
+        page: EmptyRouterPage,
+        children: [
+          AutoRoute(
+            path: "",
+            name: "ReserveAccountOverviewScreenTab",
+            page: ReserveAccountOverviewScreen,
+          ),
+        ],
+      ),
+      AutoRoute(
+        path: "tokenize-btc",
+        name: "TokenizeBtcTabRouter",
+        page: EmptyRouterPage,
+        children: [
+          AutoRoute(
+            path: "",
+            page: TokenizeBtcListScreen,
+          ),
+        ],
+      ),
+      AutoRoute(
         path: "tokens",
         name: "TokenTabRouter",
         page: EmptyRouterPage,
         children: [
           AutoRoute(path: "", page: TokenListScreen),
           AutoRoute(path: "create", page: TokenCreateScreen),
-          AutoRoute(path: "create-topic/:scId/:address", page: CreateTokenTopicScreen)
+          AutoRoute(
+              path: "create-topic/:scId/:address", page: CreateTokenTopicScreen)
         ],
       ),
       // AutoRoute(
@@ -295,7 +326,9 @@ const List<AutoRoute> appRoutes = [
       AutoRoute(path: "shops/chat", page: BuyerChatThreadListScreen),
       AutoRoute(path: "shops/:url", page: RemoteShopDetailScreen),
       // AutoRoute(path: "shops/:url/chat", page: ShopChatScreen),
-      AutoRoute(path: "shops/:url/collection/:collectionId", page: RemoteShopCollectionScreen),
+      AutoRoute(
+          path: "shops/:url/collection/:collectionId",
+          page: RemoteShopCollectionScreen),
       AutoRoute(
         path: "third-party/shop/:shopId",
         // name: "WebShopDetailScreenRoute",
@@ -310,7 +343,8 @@ const List<AutoRoute> appRoutes = [
         page: WebCollectionDetailScreen,
       ),
       AutoRoute(
-        path: "third-party/shop/:shopId/collection/:collectionId/listing/:listingId",
+        path:
+            "third-party/shop/:shopId/collection/:collectionId/listing/:listingId",
         page: WebListingDetailScreen,
       ),
     ],

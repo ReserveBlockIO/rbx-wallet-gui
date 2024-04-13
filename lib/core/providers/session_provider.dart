@@ -762,7 +762,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
       return '';
     }
     if (Platform.isMacOS) {
-      return '/Applications/RBXWallet.app/Contents/Resources/RBXCore/ReserveBlockCore';
+      return '/Applications/VFXWallet.app/Contents/Resources/RBXCore/ReserveBlockCore';
     } else {
       if (state.windowsLauncherPath == null) {
         final appPath = Directory.current.path;
@@ -896,7 +896,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
         final shell = Shell(
           throwOnError: false,
           stdout: Env.hideCliOutput ? stdOutController.sink : null,
-          workingDirectory: "/Applications/RBXWallet.app/Contents/MacOS/",
+          workingDirectory: "/Applications/VFXWallet.app/Contents/MacOS/",
         );
         cmd = '"$cliPath" ${options.join(' ')}';
 

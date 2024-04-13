@@ -163,16 +163,16 @@ class _HomeButtonsState extends State<HomeButtons> {
                         label: "Mint Fungible",
                         icon: Icons.toll,
                         onPressed: () {
-                          Toast.message("Coming Soon!");
+                          tabsRouter.setActiveIndex(13);
                         },
                       ),
-                      AppButton(
-                        label: "Token Voting",
-                        icon: Icons.gavel_outlined,
-                        onPressed: () {
-                          Toast.message("Coming Soon!");
-                        },
-                      ),
+                      // AppButton(
+                      //   label: "Token Voting",
+                      //   icon: Icons.gavel_outlined,
+                      //   onPressed: () {
+                      //     Toast.message("Coming Soon!");
+                      //   },
+                      // ),
                     ],
                   );
 

@@ -32,7 +32,18 @@ class TokenizeBtcScreen extends BaseScreen {
 
     if (wallet == null || wallet.isReserved) {
       return Center(
-        child: Text("Select an VFX Wallet is to proceed."),
+        child: Column(
+          children: [
+            Text("Select an VFX Wallet is to proceed."),
+            SizedBox(
+              height: 8,
+            ),
+            WalletSelector(
+              withOptions: false,
+              truncatedLabel: false,
+            ),
+          ],
+        ),
       );
     }
 
@@ -46,10 +57,15 @@ class TokenizeBtcScreen extends BaseScreen {
             Row(
               children: [
                 Text("VFX Wallet: "),
-                Text(
-                  wallet.address,
-                  style:
-                      TextStyle(color: Theme.of(context).colorScheme.secondary),
+                // Text(
+                //   wallet.address,
+                //   style:
+                //       TextStyle(color: Theme.of(context).colorScheme.secondary),
+                // ),
+                WalletSelector(
+                  withOptions: false,
+                  truncatedLabel: false,
+                  headerHasCopy: false,
                 ),
               ],
             ),

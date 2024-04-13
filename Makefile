@@ -47,13 +47,15 @@ package_m1:
 	cd ../Core-CLI && git pull && cd /Users/tyler/prj/rbx/rbx-wallet-gui/
 	dotnet publish -c Release -r osx-arm64 ../Core-Cli/ --self-contained true -f net6.0 -p:PublishSingleFile=true
 	rm -f ./installers/exports/RBX-OSX-ARM-Installer.dmg
-	rm -rf ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
-	mkdir ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
-	cp -r ../Core-CLI/ReserveBlockCore/bin/Release/net6.0/osx-arm64/publish/ ./installers/resources/Runner/RBXWallet.app/Contents/Resources/RBXCore
-	cp -r ./installers/resources/BIP39/ ./installers/resources/Runner/RBXWallet.app/Contents/MacOS/BIP39	
-	appdmg ./installers/dmg/config.json ./installers/exports/RBX-OSX-ARM-Installer.dmg
+	rm -f ./installers/exports/VFX-OSX-ARM-Installer.dmg
+	rm -rf ./installers/resources/Runner/VFXWallet.app/Contents/Resources/RBXCore
+	mkdir ./installers/resources/Runner/VFXWallet.app/Contents/Resources/RBXCore
+	cp -r ../Core-CLI/ReserveBlockCore/bin/Release/net6.0/osx-arm64/publish/ ./installers/resources/Runner/VFXWallet.app/Contents/Resources/RBXCore
+	cp -r ./installers/resources/BIP39/ ./installers/resources/Runner/VFXWallet.app/Contents/MacOS/BIP39	
+	appdmg ./installers/dmg/config.json ./installers/exports/VFX-OSX-ARM-Installer.dmg
 	rm -f ./installers/exports/rbx-corecli-mac-arm.zip
-	cd ./installers/resources/Runner/RBXWallet.app/Contents/Resources/ && zip -r /Users/tyler/prj/rbx/rbx-wallet-gui/installers/exports/rbx-corecli-mac-arm.zip ./RBXCore/
+	rm -f ./installers/exports/vfx-corecli-mac-arm.zip
+	cd ./installers/resources/Runner/VFXWallet.app/Contents/Resources/ && zip -r /Users/tyler/prj/rbx/rbx-wallet-gui/installers/exports/vfx-corecli-mac-arm.zip ./RBXCore/
 	cd /Users/tyler/prj/rbx/rbx-wallet-gui/
 	open ./installers/exports/
 

@@ -40,6 +40,8 @@ class RootContainer extends BaseComponent {
       const VotingTabRouter(),
       const BeaconTabRouter(),
       const TokenTabRouter(),
+      const ReserveAccountsTabRouter(),
+      const TokenizeBtcTabRouter(),
       // if (kDebugMode) const DebugWebShopTabsRouter(),
     ];
 
