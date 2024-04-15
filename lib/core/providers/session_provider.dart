@@ -744,6 +744,10 @@ class SessionProvider extends StateNotifier<SessionModel> {
     state = state.copyWith(currentBtcAccount: account, btcSelected: true);
     singleton<Storage>()
         .setString(Storage.CURRENT_BTC_ACCOUNT_ADDRESS_KEY, account.address);
+
+    for (final family in ["SEND", "ADNR", "RECIEVE", "TRANSACTIONS"]) {
+      ref.invalidate(currencySegementedButtonProvider(family));
+    }
   }
 
   void setFilteringTransactions(bool val) {
