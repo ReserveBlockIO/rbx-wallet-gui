@@ -160,7 +160,7 @@ class _HomeButtonsState extends State<HomeButtons> {
                         },
                       ),
                       AppButton(
-                        label: "Mint Fungible",
+                        label: "Fungible Tokens",
                         icon: Icons.toll,
                         onPressed: () {
                           tabsRouter.setActiveIndex(13);

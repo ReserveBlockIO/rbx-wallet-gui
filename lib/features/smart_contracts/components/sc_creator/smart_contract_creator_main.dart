@@ -67,8 +67,7 @@ class SmartContractCreatorMain extends BaseComponent {
     if (_provider.shouldWarnEvo) {
       final shouldContinue = await ConfirmDialog.show(
         title: "Evolve stage(s) in the past",
-        body:
-            "One or more of your evolve stages will have already evolved at the time of minting.\n\nAre your sure you want to proceed?",
+        body: "One or more of your evolve stages will have already evolved at the time of minting.\n\nAre your sure you want to proceed?",
         confirmText: "Continue",
         cancelText: "Cancel",
       );
@@ -78,8 +77,7 @@ class SmartContractCreatorMain extends BaseComponent {
     }
 
     if (!kIsWeb) {
-      if (ref.read(sessionProvider).currentWallet!.balance <
-          MIN_RBX_FOR_SC_ACTION) {
+      if (ref.read(sessionProvider).currentWallet!.balance < MIN_RBX_FOR_SC_ACTION) {
         Toast.error("Not enough VFX balance to mint a smart contract.");
         return;
       }
@@ -115,8 +113,7 @@ class SmartContractCreatorMain extends BaseComponent {
       }
 
       if (amountInt > MAX_COMPILE_QUANTITY) {
-        Toast.error(
-            "The maxium number you can mint at one time is $MAX_COMPILE_QUANTITY.");
+        Toast.error("The maxium number you can mint at one time is $MAX_COMPILE_QUANTITY.");
         return;
       }
     }
@@ -151,9 +148,7 @@ class SmartContractCreatorMain extends BaseComponent {
       final dialogContext = await compileAnimation.future;
 
       if (kIsWeb) {
-        final success = await ref
-            .read(createSmartContractProvider.notifier)
-            .compileAndMintForWeb();
+        final success = await ref.read(createSmartContractProvider.notifier).compileAndMintForWeb();
 
         if (success) {
           await Future.delayed(const Duration(seconds: 3));
@@ -176,8 +171,7 @@ class SmartContractCreatorMain extends BaseComponent {
           CompiledSmartContract? sc;
 
           for (var i = 0; i < amountInt; i++) {
-            final _sc =
-                await ref.read(createSmartContractProvider.notifier).compile();
+            final _sc = await ref.read(createSmartContractProvider.notifier).compile();
             if (i == 0) {
               sc = _sc;
             }
@@ -186,8 +180,7 @@ class SmartContractCreatorMain extends BaseComponent {
           if (sc != null) {
             bool success = false;
             for (var i = 0; i < amountInt; i++) {
-              final _success =
-                  await ref.read(createSmartContractProvider.notifier).mint();
+              final _success = await ref.read(createSmartContractProvider.notifier).mint();
               if (i == 0) {
                 success = _success;
               }
@@ -201,16 +194,13 @@ class SmartContractCreatorMain extends BaseComponent {
               final completedDialogContext = await completeAnimation.future;
               await Future.delayed(const Duration(seconds: 3));
               Navigator.pop(completedDialogContext);
-              Toast.message(
-                  "Mint transaction sent successfully. Please wait until the the smart contract is minted on-chain.");
+              Toast.message("Mint transaction sent successfully. Please wait until the the smart contract is minted on-chain.");
 
               mintedComplete(sc.id, context, ref);
             } else {
               Navigator.pop(dialogContext);
               if (!kIsWeb) {
-                ref
-                    .read(sessionProvider.notifier)
-                    .setIsMintingOrCompiling(false);
+                ref.read(sessionProvider.notifier).setIsMintingOrCompiling(false);
               }
 
               Toast.error("A problem occurred minting this smart contract.");
@@ -334,7 +324,7 @@ class SmartContractCreatorMain extends BaseComponent {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                buildSaveButton(_model, ref),
+                // buildSaveButton(_model, ref),
                 buildCompileButton(ref, _model, context),
                 if (!_model.isCompiled) buildDeleteButton(_model, context, ref),
               ],
@@ -345,8 +335,7 @@ class SmartContractCreatorMain extends BaseComponent {
     );
   }
 
-  Widget buildDeleteButton(
-      SmartContract _model, BuildContext context, WidgetRef ref) {
+  Widget buildDeleteButton(SmartContract _model, BuildContext context, WidgetRef ref) {
     if (kIsWeb) return const SizedBox();
     return AppButton(
       label: "Delete",
@@ -361,8 +350,7 @@ class SmartContractCreatorMain extends BaseComponent {
     );
   }
 
-  AppButton buildCompileButton(
-      WidgetRef ref, SmartContract _model, BuildContext context) {
+  AppButton buildCompileButton(WidgetRef ref, SmartContract _model, BuildContext context) {
     return AppButton(
       label: "Compile & Mint",
       helpType: HelpType.compile,

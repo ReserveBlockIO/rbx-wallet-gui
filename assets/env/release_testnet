@@ -3,6 +3,7 @@ STORAGE_PREFIX=release_testnet
 API_BASE_URL=http://localhost:17292/api/V1
 EXPLORER_API_BASE_URL=https://testnet-data.rbx.network/api
 VALIDATOR_PORT=13338
+VALIDATOR_SECONDARY_PORT=13339
 LAUNCH_CLI=true
 IS_TEST_NET=true
 HIDE_CLI_OUTPUT=false

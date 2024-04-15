@@ -126,13 +126,11 @@ class Env {
   }
 
   static String get explorerApiBaseUrl {
-    return DotEnv.dotenv.env['EXPLORER_API_BASE_URL'] ??
-        'https://data.vfx.network/api';
+    return DotEnv.dotenv.env['EXPLORER_API_BASE_URL'] ?? 'https://data.vfx.network/api';
   }
 
   static String get explorerWebsiteBaseUrl {
-    return DotEnv.dotenv.env['EXPLORER_WEBSITE_BASE_URL'] ??
-        'https://vfx.network';
+    return DotEnv.dotenv.env['EXPLORER_WEBSITE_BASE_URL'] ?? 'https://vfx.network';
   }
 
   static bool get launchCli {
@@ -159,9 +157,12 @@ class Env {
     return DotEnv.dotenv.env['VALIDATOR_PORT'] ?? '3338';
   }
 
+  static String get validatorSecondaryPort {
+    return DotEnv.dotenv.env['VALIDATOR_SECONDARY_PORT'] ?? '3339';
+  }
+
   static String get portCheckerUrl {
-    return DotEnv.dotenv.env['PORT_CHECKER_URL'] ??
-        "https://us-central1-portpingr.cloudfunctions.net/pinger";
+    return DotEnv.dotenv.env['PORT_CHECKER_URL'] ?? "https://us-central1-portpingr.cloudfunctions.net/pinger";
   }
 
   static bool get hideCliOutput {
@@ -185,8 +186,7 @@ class Env {
   }
 
   static String get paymentEmbedUrl {
-    return DotEnv.dotenv.env['PAYMENT_EMBED_URL'] ??
-        "https://vfx-payment-integration.vercel.app/";
+    return DotEnv.dotenv.env['PAYMENT_EMBED_URL'] ?? "https://vfx-payment-integration.vercel.app/";
   }
 
   static String? get paymentDomain {

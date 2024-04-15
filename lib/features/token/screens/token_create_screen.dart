@@ -17,7 +17,7 @@ class TokenCreateScreen extends BaseScreen {
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
       backgroundColor: Colors.black54,
-      title: Text("Create Token"),
+      title: Text("Create Fungible Token"),
       actions: [
         WalletSelector(),
       ],

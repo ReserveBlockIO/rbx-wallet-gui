@@ -111,10 +111,10 @@ class StatusContainer extends BaseComponent {
                       content: Align(
                         alignment: Alignment.centerLeft,
                         child: InkWell(
-                          child: const Text(
+                          child: Text(
                             "View Metrics",
                             style: TextStyle(
-                              color: Colors.white,
+                              color: Theme.of(context).colorScheme.secondary,
                               decoration: TextDecoration.underline,
                               fontSize: 13,
                             ),

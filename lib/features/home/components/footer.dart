@@ -36,9 +36,9 @@ class Footer extends BaseComponent {
                         onPressed: () {
                           launchUrl(Uri.parse("https://discord.com/invite/PnS2HRETDh"));
                         },
-                        icon: const FaIcon(
+                        icon: FaIcon(
                           FontAwesomeIcons.discord,
-                          color: Colors.white,
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
                       ),
                       IconButton(
@@ -46,18 +46,18 @@ class Footer extends BaseComponent {
                         onPressed: () {
                           launchUrl(Uri.parse("https://github.com/ReserveBlockIO"));
                         },
-                        icon: const FaIcon(
+                        icon: FaIcon(
                           FontAwesomeIcons.github,
-                          color: Colors.white,
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
                       ),
                       InkWell(
                         onTap: () {
-                          launchUrlString("https://wiki.reserveblock.io/");
+                          launchUrlString("https://wiki.reserveblock.io/docs/introduction/what-is-rbx/");
                         },
                         child: Text(
                           "Wiki",
-                          style: TextStyle(color: Colors.white, fontSize: 12, decoration: TextDecoration.underline),
+                          style: TextStyle(color: Theme.of(context).colorScheme.secondary, fontSize: 12, decoration: TextDecoration.underline),
                         ),
                       ),
                     ],

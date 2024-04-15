@@ -60,7 +60,7 @@ class MainMenu extends BaseComponent {
                               Text(
                                 "Verified",
                                 style: TextStyle(
-                                  color: Colors.white.withOpacity(0.9),
+                                  color: Colors.white.withOpacity(0.7),
                                   fontSize: 32,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: 'Mukta',
@@ -70,8 +70,7 @@ class MainMenu extends BaseComponent {
                               Text(
                                 "X",
                                 style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
+                                  color: Theme.of(context).colorScheme.secondary,
                                   fontSize: 32,
                                   fontWeight: FontWeight.w700,
                                   fontFamily: 'Mukta',
@@ -94,8 +93,7 @@ class MainMenu extends BaseComponent {
                   Container(
                     color: Colors.black,
                     child: Center(
-                      child: _RotatingCube(
-                          btc: ref.watch(sessionProvider).btcSelected),
+                      child: _RotatingCube(btc: ref.watch(sessionProvider).btcSelected),
                     ),
                   ),
                   Container(
@@ -104,9 +102,7 @@ class MainMenu extends BaseComponent {
                       padding: const EdgeInsets.all(8.0).copyWith(top: 0),
                       child: Center(
                         child: Text(
-                          totalBalance != null
-                              ? "$totalBalance VFX"
-                              : "0.0 VFX",
+                          totalBalance != null ? "$totalBalance VFX" : "0.0 VFX",
                           style: Theme.of(context).textTheme.caption!.copyWith(
                                 fontWeight: FontWeight.w600,
                               ),
@@ -126,13 +122,9 @@ class MainMenu extends BaseComponent {
                               : "",
                           child: Text(
                             "${btcBalance.toStringAsFixed(9)} BTC",
-                            style: Theme.of(context)
-                                .textTheme
-                                .caption!
-                                .copyWith(
+                            style: Theme.of(context).textTheme.caption!.copyWith(
                                   fontWeight: FontWeight.w600,
-                                  color:
-                                      Theme.of(context).colorScheme.btcOrange,
+                                  color: Theme.of(context).colorScheme.btcOrange,
                                 ),
                             textAlign: TextAlign.center,
                           ),
@@ -145,9 +137,7 @@ class MainMenu extends BaseComponent {
                     icon: Icons.dashboard,
                     onPressed: () {
                       if (tabsRouter.activeIndex == 0) {
-                        tabsRouter
-                            .stackRouterOfIndex(tabsRouter.activeIndex)!
-                            .popUntilRoot();
+                        tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
                       } else {
                         tabsRouter.setActiveIndex(0);
                       }
@@ -234,8 +224,7 @@ class MainMenu extends BaseComponent {
                   _NavButton(
                     title: "Tokenize Bitcoin",
                     icon: FontAwesomeIcons.bitcoin,
-                    activeColorOverride:
-                        Theme.of(context).colorScheme.btcOrange,
+                    activeColorOverride: Theme.of(context).colorScheme.btcOrange,
                     onPressed: () {
                       tabsRouter.setActiveIndex(15);
                     },
@@ -246,14 +235,25 @@ class MainMenu extends BaseComponent {
                     icon: Icons.receipt_long,
                     onPressed: () {
                       if (ref.read(sessionProvider).currentWallet == null) {
-                        Toast.error(
-                            "A wallet is required to access this section.");
+                        Toast.error("A wallet is required to access this section.");
                         return;
                       }
                       tabsRouter.setActiveIndex(8);
                       tabsRouter.popTop();
                     },
                     isActive: tabsRouter.activeIndex == 8,
+                  ),
+                  _NavButton(
+                    title: "Fungible Tokens",
+                    icon: Icons.toll,
+                    onPressed: () {
+                      if (tabsRouter.activeIndex == 13) {
+                        tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
+                      } else {
+                        tabsRouter.setActiveIndex(13);
+                      }
+                    },
+                    isActive: tabsRouter.activeIndex == 13,
                   ),
 
                   // if (!kIsWeb)
@@ -270,8 +270,7 @@ class MainMenu extends BaseComponent {
                     icon: Icons.lightbulb_outline,
                     onPressed: () {
                       if (ref.read(sessionProvider).currentWallet == null) {
-                        Toast.error(
-                            "A wallet is required to access this section.");
+                        Toast.error("A wallet is required to access this section.");
                         return;
                       }
                       tabsRouter.setActiveIndex(7);
@@ -285,27 +284,13 @@ class MainMenu extends BaseComponent {
                     icon: Icons.leak_add,
                     onPressed: () {
                       if (tabsRouter.activeIndex == 9) {
-                        tabsRouter
-                            .stackRouterOfIndex(tabsRouter.activeIndex)!
-                            .popUntilRoot();
+                        tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
                       } else {
                         tabsRouter.setActiveIndex(9);
                       }
                     },
                     isActive: tabsRouter.activeIndex == 9,
                   ),
-                  // _NavButton(
-                  //   title: "Fungible Tokens",
-                  //   icon: Icons.toll,
-                  //   onPressed: () {
-                  //     if (tabsRouter.activeIndex == 13) {
-                  //       tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
-                  //     } else {
-                  //       tabsRouter.setActiveIndex(13);
-                  //     }
-                  //   },
-                  //   isActive: tabsRouter.activeIndex == 13,
-                  // ),
                 ],
               ),
             ],
@@ -359,9 +344,7 @@ class _NavButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textColor = isActive
-        ? activeColorOverride ?? Theme.of(context).colorScheme.secondary
-        : Theme.of(context).textTheme.bodyText1!.color;
+    final textColor = isActive ? activeColorOverride ?? Theme.of(context).colorScheme.secondary : Theme.of(context).textTheme.bodyText1!.color;
 
     return Container(
       decoration: const BoxDecoration(

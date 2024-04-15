@@ -52,10 +52,17 @@ class AdnrScreen extends BaseScreen {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           const Text(
-                            "Create an VFX BTC Domain as an alias to your BTC wallet address for receiving funds.",
+                            "Create a BTC Domain as an alias to your BTC wallet address for receiving funds.",
                             style: TextStyle(
                               fontSize: 17,
                             ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          const Text(
+                            "BTC domains cost $ADNR_COST VFX plus the transaction fee.",
                             textAlign: TextAlign.center,
                           ),
                         ],
@@ -68,10 +75,7 @@ class AdnrScreen extends BaseScreen {
                 );
               }
 
-              final wallets = ref
-                  .watch(walletListProvider)
-                  .where((w) => !w.isReserved)
-                  .toList();
+              final wallets = ref.watch(walletListProvider).where((w) => !w.isReserved).toList();
 
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -83,7 +87,7 @@ class AdnrScreen extends BaseScreen {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         const Text(
-                          "Create an VFX Domain as an alias to your wallet's address for receiving funds.",
+                          "Create a VFX Domain as an alias to your wallet's address for receiving funds.",
                           style: TextStyle(
                             fontSize: 17,
                           ),

@@ -33,7 +33,7 @@ class BackupButton extends BaseComponent {
                       children: [
                         ListTile(
                           title: const Text("Backup Keys"),
-                          subtitle: const Text("Export and save your keys to a text file."),
+                          subtitle: const Text("Export and save all your VFX and BTC private keys & addresses to a text file."),
                           leading: const Icon(Icons.wallet),
                           trailing: const Icon(Icons.chevron_right),
                           onTap: () async {
@@ -48,7 +48,7 @@ class BackupButton extends BaseComponent {
                         ),
                         ListTile(
                           title: const Text("Backup Media"),
-                          subtitle: const Text("Zip and export your media assets."),
+                          subtitle: const Text("Zip and export your NFT media assets."),
                           leading: const Icon(Icons.file_present),
                           trailing: const Icon(Icons.chevron_right),
                           onTap: () async {
