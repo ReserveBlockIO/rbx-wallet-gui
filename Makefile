@@ -127,7 +127,7 @@ run_web_cors:
 
 
 run_cli_testnet:
-	/Applications/RBXWallet.app/Contents/Resources/RBXCore/ReserveBlockCore testnet enableapi gui
+	/Applications/VFXWallet.app/Contents/Resources/RBXCore/ReserveBlockCore testnet enableapi gui
 
 
 

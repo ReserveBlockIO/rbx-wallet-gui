@@ -49,6 +49,7 @@ class ReceiveScreen extends BaseScreen {
     }
 
     return Column(
+      key: Key("RBX"),
       children: [
         Padding(
           padding: const EdgeInsets.only(bottom: 16.0),
@@ -161,6 +162,7 @@ class ReceiveScreen extends BaseScreen {
 
             if (btcAccount != null) {
               return Column(
+                key: Key("BTC"),
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(

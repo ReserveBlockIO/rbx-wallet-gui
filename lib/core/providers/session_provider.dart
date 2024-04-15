@@ -9,6 +9,7 @@ import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:intl/intl.dart';
 import 'package:process/process.dart';
 import 'package:process_run/shell.dart';
+import 'package:rbx_wallet/core/providers/currency_segmented_button_provider.dart';
 
 import 'package:rbx_wallet/features/balance/models/balance.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service_v2.dart';
@@ -733,6 +734,10 @@ class SessionProvider extends StateNotifier<SessionModel> {
     ref.read(currentValidatorProvider.notifier).set(currentValidator);
 
     setupChatListeners();
+
+    for (final family in ["SEND", "ADNR", "RECIEVE", "TRANSACTIONS"]) {
+      ref.invalidate(currencySegementedButtonProvider(family));
+    }
   }
 
   void setCurrentBtcAccount(BtcAccount account) {
@@ -1002,9 +1007,6 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   void toggleToVfxWallet() {
-    if (!state.btcSelected) {
-      return;
-    }
     final wallets = ref.read(walletListProvider);
     if (wallets.isNotEmpty) {
       state = state.copyWith(btcSelected: false, currentWallet: wallets.first);
@@ -1014,9 +1016,6 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   void toggleToBtcWallet() {
-    if (state.btcSelected) {
-      return;
-    }
     final accounts = ref.read(btcAccountListProvider);
     if (accounts.isNotEmpty) {
       state =
