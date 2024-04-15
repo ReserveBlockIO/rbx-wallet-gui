@@ -736,7 +736,9 @@ class SessionProvider extends StateNotifier<SessionModel> {
     setupChatListeners();
 
     for (final family in ["SEND", "ADNR", "RECIEVE", "TRANSACTIONS"]) {
-      ref.invalidate(currencySegementedButtonProvider(family));
+      ref
+          .read(currencySegementedButtonProvider(family).notifier)
+          .set(CurrencyType.vfx);
     }
   }
 
@@ -746,7 +748,9 @@ class SessionProvider extends StateNotifier<SessionModel> {
         .setString(Storage.CURRENT_BTC_ACCOUNT_ADDRESS_KEY, account.address);
 
     for (final family in ["SEND", "ADNR", "RECIEVE", "TRANSACTIONS"]) {
-      ref.invalidate(currencySegementedButtonProvider(family));
+      ref
+          .read(currencySegementedButtonProvider(family).notifier)
+          .set(CurrencyType.btc);
     }
   }
 
