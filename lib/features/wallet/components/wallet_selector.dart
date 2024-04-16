@@ -37,17 +37,13 @@ class WalletSelector extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final btcSelected = ref.watch(sessionProvider).btcSelected;
-    final currentWallet =
-        !btcSelected ? ref.watch(sessionProvider).currentWallet : null;
-    final currentBtcAccount =
-        btcSelected ? ref.watch(sessionProvider).currentBtcAccount : null;
+    final currentWallet = !btcSelected ? ref.watch(sessionProvider).currentWallet : null;
+    final currentBtcAccount = btcSelected ? ref.watch(sessionProvider).currentBtcAccount : null;
     // final List<dynamic> deleted = singleton<Storage>().getList(Storage.DELETED_WALLETS_KEY) ?? [];
 
     final allWallets = ref.watch(walletListProvider);
 
-    final color = currentWallet != null && currentWallet.isReserved
-        ? Colors.deepPurple.shade200
-        : Colors.white;
+    final color = currentWallet != null && currentWallet.isReserved ? Colors.deepPurple.shade200 : Colors.white;
 
     final btcOrange = Theme.of(context).colorScheme.btcOrange;
 
@@ -57,31 +53,37 @@ class WalletSelector extends BaseComponent {
       mainAxisSize: MainAxisSize.min,
       children: [
         if (currentWallet != null && headerHasCopy)
-          InkWell(
-            onTap: () async {
-              await Clipboard.setData(
-                ClipboardData(text: currentWallet.address),
-              );
-              Toast.message("${currentWallet.address} copied to clipboard");
-            },
-            child: Icon(
-              Icons.copy,
-              size: 12,
-              color: color,
+          Tooltip(
+            message: "Copy VFX Address",
+            child: InkWell(
+              onTap: () async {
+                await Clipboard.setData(
+                  ClipboardData(text: currentWallet.address),
+                );
+                Toast.message("${currentWallet.address} copied to clipboard");
+              },
+              child: Icon(
+                Icons.copy,
+                size: 12,
+                color: color,
+              ),
             ),
           ),
         if (currentBtcAccount != null && headerHasCopy)
-          InkWell(
-            onTap: () async {
-              await Clipboard.setData(
-                ClipboardData(text: currentBtcAccount.address),
-              );
-              Toast.message("${currentBtcAccount.address} copied to clipboard");
-            },
-            child: Icon(
-              Icons.copy,
-              size: 12,
-              color: btcOrange,
+          Tooltip(
+            message: "Copy BTC Address",
+            child: InkWell(
+              onTap: () async {
+                await Clipboard.setData(
+                  ClipboardData(text: currentBtcAccount.address),
+                );
+                Toast.message("${currentBtcAccount.address} copied to clipboard");
+              },
+              child: Icon(
+                Icons.copy,
+                size: 12,
+                color: btcOrange,
+              ),
             ),
           ),
         PopupMenuButton(
@@ -91,35 +93,38 @@ class WalletSelector extends BaseComponent {
             maxWidth: 8.0 * 56.0,
           ),
           child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (!btcSelected)
-                    Text(
-                      currentWallet != null
-                          ? truncatedLabel
-                              ? currentWallet.label
-                              : currentWallet.labelWithoutTruncation
-                          : "VFX/BTC Wallet Addresses",
-                      style: TextStyle(color: color),
+            child: Tooltip(
+              message: "Select Address",
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (!btcSelected)
+                      Text(
+                        currentWallet != null
+                            ? truncatedLabel
+                                ? currentWallet.label
+                                : currentWallet.labelWithoutTruncation
+                            : "VFX/BTC Wallet Addresses",
+                        style: TextStyle(color: color),
+                      ),
+                    if (btcSelected)
+                      Text(
+                        currentBtcAccount != null
+                            ? truncatedLabel
+                                ? currentBtcAccount.label
+                                : currentBtcAccount.address
+                            : "VFX/BTC Wallet Addresses",
+                        style: TextStyle(color: btcOrange),
+                      ),
+                    Icon(
+                      Icons.arrow_drop_down,
+                      size: 18,
+                      color: btcSelected ? btcOrange : color,
                     ),
-                  if (btcSelected)
-                    Text(
-                      currentBtcAccount != null
-                          ? truncatedLabel
-                              ? currentBtcAccount.label
-                              : currentBtcAccount.address
-                          : "VFX/BTC Wallet Addresses",
-                      style: TextStyle(color: btcOrange),
-                    ),
-                  Icon(
-                    Icons.arrow_drop_down,
-                    size: 18,
-                    color: btcSelected ? btcOrange : color,
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -162,24 +167,18 @@ class WalletSelector extends BaseComponent {
                               });
                         },
                       ),
-                      validator: (String? value) =>
-                          formValidatorNotEmpty(value, "Private Key"),
+                      validator: (String? value) => formValidatorNotEmpty(value, "Private Key"),
                       labelText: "Private Key",
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]'))
-                      ],
+                      inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]'))],
                       onValidSubmission: (value) async {
                         final resync = await ConfirmDialog.show(
                           title: "Rescan Blocks?",
-                          body:
-                              "Would you like to rescan the chain to include any transactions relevant to this key?",
+                          body: "Would you like to rescan the chain to include any transactions relevant to this key?",
                           confirmText: "Yes",
                           cancelText: "No",
                         );
 
-                        await ref
-                            .read(walletListProvider.notifier)
-                            .import(value, false, resync == true);
+                        await ref.read(walletListProvider.notifier).import(value, false, resync == true);
                       },
                     );
                   },
@@ -245,8 +244,7 @@ class WalletSelector extends BaseComponent {
                             children: [
                               const Align(
                                 alignment: Alignment.centerLeft,
-                                child: Text(
-                                    "Paste in your BTC private key to import your account."),
+                                child: Text("Paste in your BTC private key to import your account."),
                               ),
                               ListTile(
                                 leading: const Icon(Icons.security),
@@ -274,8 +272,7 @@ class WalletSelector extends BaseComponent {
                             ),
                             TextButton(
                               onPressed: () {
-                                Navigator.of(context)
-                                    .pop([privateKeyController.text, "test"]);
+                                Navigator.of(context).pop([privateKeyController.text, "test"]);
                               },
                               child: Text(
                                 "Import",
@@ -291,16 +288,12 @@ class WalletSelector extends BaseComponent {
                       if (data.length == 2) {
                         final privateKey = data.first;
                         const addressType = BtcAddressType.segwit;
-                        final success = await ref
-                            .read(btcAccountListProvider.notifier)
-                            .importPrivateKey(privateKey, addressType);
-                        final btcAccountSyncInfo =
-                            ref.watch(sessionProvider).btcAccountSyncInfo;
+                        final success = await ref.read(btcAccountListProvider.notifier).importPrivateKey(privateKey, addressType);
+                        final btcAccountSyncInfo = ref.watch(sessionProvider).btcAccountSyncInfo;
 
                         if (success) {
                           if (btcAccountSyncInfo != null) {
-                            Toast.message(
-                                "Private Key Imported! Please wait until ${btcAccountSyncInfo.nextSyncFormatted} for the balance to sync.");
+                            Toast.message("Private Key Imported! Please wait until ${btcAccountSyncInfo.nextSyncFormatted} for the balance to sync.");
                           } else {
                             Toast.message("Private Key Imported!");
                           }
@@ -329,9 +322,7 @@ class WalletSelector extends BaseComponent {
                   onTap: () async {
                     if (!await passwordRequiredGuard(context, ref)) return;
 
-                    final account = await ref
-                        .read(btcAccountListProvider.notifier)
-                        .create();
+                    final account = await ref.read(btcAccountListProvider.notifier).create();
                     if (account == null) {
                       Toast.error();
                       return;
@@ -347,12 +338,10 @@ class WalletSelector extends BaseComponent {
                             children: [
                               const Align(
                                 alignment: Alignment.centerLeft,
-                                child: Text(
-                                    "Here are your BTC wallet details. Please ensure to back up your private key in a safe place."),
+                                child: Text("Here are your BTC wallet details. Please ensure to back up your private key in a safe place."),
                               ),
                               ListTile(
-                                leading:
-                                    const Icon(Icons.account_balance_wallet),
+                                leading: const Icon(Icons.account_balance_wallet),
                                 title: TextFormField(
                                   initialValue: account.address,
                                   decoration: InputDecoration(
@@ -369,8 +358,7 @@ class WalletSelector extends BaseComponent {
                                 title: TextFormField(
                                   initialValue: account.privateKey,
                                   decoration: InputDecoration(
-                                    label: Text("Private Key",
-                                        style: TextStyle(color: btcOrange)),
+                                    label: Text("Private Key", style: TextStyle(color: btcOrange)),
                                   ),
                                   style: const TextStyle(
                                     fontSize: 13,
@@ -383,10 +371,8 @@ class WalletSelector extends BaseComponent {
                                     color: btcOrange,
                                   ),
                                   onPressed: () async {
-                                    await Clipboard.setData(ClipboardData(
-                                        text: account.privateKey));
-                                    Toast.message(
-                                        "Private Key copied to clipboard");
+                                    await Clipboard.setData(ClipboardData(text: account.privateKey));
+                                    Toast.message("Private Key copied to clipboard");
                                   },
                                 ),
                               ),
@@ -438,50 +424,39 @@ class WalletSelector extends BaseComponent {
             }
 
             for (final wallet in allWallets) {
-              final isSelected = currentWallet != null &&
-                  wallet.address == currentWallet.address;
+              final isSelected = currentWallet != null && wallet.address == currentWallet.address;
 
-              final color = wallet.isReserved
-                  ? Colors.deepPurple.shade200
-                  : Theme.of(context).textTheme.bodyText1!.color;
+              final color = wallet.isReserved ? Colors.deepPurple.shade200 : Theme.of(context).textTheme.bodyText1!.color;
 
               list.add(
                 PopupMenuItem(
-                  child: Row(
-                    children: [
-                      Icon(
-                        isSelected
-                            ? Icons.check_box_rounded
-                            : Icons.check_box_outline_blank_outlined,
-                        color: color,
-                      ),
-                      SizedBox(width: 6),
-                      Expanded(
-                        child: Text(
-                          truncatedLabel
-                              ? wallet.label
-                              : wallet.labelWithoutTruncation,
-                          style: TextStyle(
-                            color: color,
-                            decoration: isSelected
-                                ? TextDecoration.underline
-                                : TextDecoration.none,
+                  child: Tooltip(
+                    message: "${wallet.balance} VFX",
+                    child: Row(
+                      children: [
+                        Icon(
+                          isSelected ? Icons.check_box_rounded : Icons.check_box_outline_blank_outlined,
+                          color: color,
+                        ),
+                        SizedBox(width: 6),
+                        Expanded(
+                          child: Text(
+                            truncatedLabel ? wallet.label : wallet.labelWithoutTruncation,
+                            style: TextStyle(
+                              color: color,
+                              decoration: isSelected ? TextDecoration.underline : TextDecoration.none,
+                            ),
                           ),
                         ),
-                      ),
-                      InkWell(
-                        onTap: () async {
-                          await Clipboard.setData(
-                              ClipboardData(text: wallet.address));
-                          Toast.message(
-                              "${wallet.address} copied to clipboard");
-                        },
-                        child: SizedBox(
-                            width: 40,
-                            height: 20,
-                            child: Icon(Icons.copy, size: 15)),
-                      ),
-                    ],
+                        InkWell(
+                          onTap: () async {
+                            await Clipboard.setData(ClipboardData(text: wallet.address));
+                            Toast.message("${wallet.address} copied to clipboard");
+                          },
+                          child: SizedBox(width: 40, height: 20, child: Icon(Icons.copy, size: 15)),
+                        ),
+                      ],
+                    ),
                   ),
                   onTap: () {
                     ref.read(sessionProvider.notifier).setCurrentWallet(wallet);
@@ -499,48 +474,43 @@ class WalletSelector extends BaseComponent {
 
               list.add(
                 PopupMenuItem(
-                  child: Row(
-                    children: [
-                      Icon(
-                        isSelected
-                            ? Icons.check_box_rounded
-                            : Icons.check_box_outline_blank_outlined,
-                        color: btcOrange,
-                      ),
-                      SizedBox(width: 6),
-                      Expanded(
-                        child: Text(
-                          truncatedLabel ? account.label : account.address,
-                          style: TextStyle(
-                            color: btcOrange,
-                            decoration: isSelected
-                                ? TextDecoration.underline
-                                : TextDecoration.none,
+                  child: Tooltip(
+                    message: "${account.balance} BTC",
+                    child: Row(
+                      children: [
+                        Icon(
+                          isSelected ? Icons.check_box_rounded : Icons.check_box_outline_blank_outlined,
+                          color: btcOrange,
+                        ),
+                        SizedBox(width: 6),
+                        Expanded(
+                          child: Text(
+                            truncatedLabel ? account.label : account.address,
+                            style: TextStyle(
+                              color: btcOrange,
+                              decoration: isSelected ? TextDecoration.underline : TextDecoration.none,
+                            ),
                           ),
                         ),
-                      ),
-                      InkWell(
-                        onTap: () async {
-                          await Clipboard.setData(
-                              ClipboardData(text: account.address));
-                          Toast.message(
-                              "${account.address} copied to clipboard");
-                        },
-                        child: SizedBox(
-                            width: 40,
-                            height: 20,
-                            child: Icon(
-                              Icons.copy,
-                              size: 15,
-                              color: btcOrange,
-                            )),
-                      ),
-                    ],
+                        InkWell(
+                          onTap: () async {
+                            await Clipboard.setData(ClipboardData(text: account.address));
+                            Toast.message("${account.address} copied to clipboard");
+                          },
+                          child: SizedBox(
+                              width: 40,
+                              height: 20,
+                              child: Icon(
+                                Icons.copy,
+                                size: 15,
+                                color: btcOrange,
+                              )),
+                        ),
+                      ],
+                    ),
                   ),
                   onTap: () {
-                    ref
-                        .read(sessionProvider.notifier)
-                        .setCurrentBtcAccount(account);
+                    ref.read(sessionProvider.notifier).setCurrentBtcAccount(account);
                   },
                 ),
               );
@@ -602,8 +572,7 @@ class ReserveAccountDetails extends StatelessWidget {
                   Icons.copy,
                 ),
                 onPressed: () async {
-                  await Clipboard.setData(
-                      ClipboardData(text: account.restoreCode));
+                  await Clipboard.setData(ClipboardData(text: account.restoreCode));
                   Toast.message("Restore Code copied to clipboard");
                 },
               ),
@@ -619,8 +588,7 @@ class ReserveAccountDetails extends StatelessWidget {
                   label: "Copy All",
                   variant: AppColorVariant.Success,
                   onPressed: () async {
-                    await Clipboard.setData(
-                        ClipboardData(text: account.backupContents));
+                    await Clipboard.setData(ClipboardData(text: account.backupContents));
                     Toast.message("Reserve Account Data copied to clipboard");
                   },
                 ),
@@ -634,17 +602,11 @@ class ReserveAccountDetails extends StatelessWidget {
                       final date = DateTime.now();
                       final d = "${date.year}-${date.month}-${date.day}";
                       if (Platform.isMacOS) {
-                        await FileSaver.instance.saveAs(
-                            name: "xRBX Reserve Account Backup-$d",
-                            bytes: Uint8List.fromList(bytes),
-                            ext: 'txt',
-                            mimeType: MimeType.text);
+                        await FileSaver.instance
+                            .saveAs(name: "xRBX Reserve Account Backup-$d", bytes: Uint8List.fromList(bytes), ext: 'txt', mimeType: MimeType.text);
                       } else {
-                        final data = await FileSaver.instance.saveFile(
-                            name: "xRBX Reserve Account Backup-$d",
-                            bytes: Uint8List.fromList(bytes),
-                            ext: 'txt',
-                            mimeType: MimeType.text);
+                        final data = await FileSaver.instance
+                            .saveFile(name: "xRBX Reserve Account Backup-$d", bytes: Uint8List.fromList(bytes), ext: 'txt', mimeType: MimeType.text);
 
                         Toast.message("Saved to $data");
                       }
@@ -699,8 +661,7 @@ class ReserveAccountDetails extends StatelessWidget {
                   Icons.copy,
                 ),
                 onPressed: () async {
-                  await Clipboard.setData(
-                      ClipboardData(text: account.privateKey));
+                  await Clipboard.setData(ClipboardData(text: account.privateKey));
                   Toast.message("Private Key copied to clipboard");
                 },
               ),
@@ -709,8 +670,7 @@ class ReserveAccountDetails extends StatelessWidget {
               contentPadding: EdgeInsets.zero,
               title: TextFormField(
                 initialValue: account.recoveryAddress,
-                decoration:
-                    const InputDecoration(label: Text("Recovery Address")),
+                decoration: const InputDecoration(label: Text("Recovery Address")),
                 readOnly: true,
                 style: const TextStyle(fontSize: 13),
               ),
@@ -719,8 +679,7 @@ class ReserveAccountDetails extends StatelessWidget {
                   Icons.copy,
                 ),
                 onPressed: () async {
-                  await Clipboard.setData(
-                      ClipboardData(text: account.recoveryAddress));
+                  await Clipboard.setData(ClipboardData(text: account.recoveryAddress));
                   Toast.message("Recovery Address copied to clipboard");
                 },
               ),
@@ -740,8 +699,7 @@ class ReserveAccountDetails extends StatelessWidget {
                   Icons.copy,
                 ),
                 onPressed: () async {
-                  await Clipboard.setData(
-                      ClipboardData(text: account.recoveryPrivateKey));
+                  await Clipboard.setData(ClipboardData(text: account.recoveryPrivateKey));
                   Toast.message("Recovery Private Key copied to clipboard");
                 },
               ),
@@ -755,8 +713,7 @@ class ReserveAccountDetails extends StatelessWidget {
                 onPressed: () async {
                   final shouldClose = await ConfirmDialog.show(
                     title: "Backed up?",
-                    body:
-                        "Please confirm you have backed up your RESTORE CODE as well as your PASSWORD.",
+                    body: "Please confirm you have backed up your RESTORE CODE as well as your PASSWORD.",
                     confirmText: "I'm Backed Up",
                     cancelText: "Cancel",
                   );

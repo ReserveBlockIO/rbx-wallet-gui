@@ -105,6 +105,7 @@ class MainMenu extends BaseComponent {
                           totalBalance != null ? "$totalBalance VFX" : "0.0 VFX",
                           style: Theme.of(context).textTheme.caption!.copyWith(
                                 fontWeight: FontWeight.w600,
+                                color: Theme.of(context).colorScheme.secondary,
                               ),
                         ),
                       ),
@@ -127,6 +128,40 @@ class MainMenu extends BaseComponent {
                                   color: Theme.of(context).colorScheme.btcOrange,
                                 ),
                             textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    color: Colors.black,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0).copyWith(top: 0),
+                      child: Center(
+                        child: RichText(
+                          text: TextSpan(
+                            style: Theme.of(context).textTheme.caption!.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                            children: [
+                              TextSpan(
+                                text: "0.0",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              TextSpan(
+                                text: " ",
+                              ),
+                              TextSpan(
+                                text: "v",
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.secondary,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "BTC",
+                                style: TextStyle(color: Colors.white70),
+                              ),
+                            ],
                           ),
                         ),
                       ),

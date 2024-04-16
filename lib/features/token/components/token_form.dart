@@ -65,27 +65,33 @@ class TokenForm extends BaseComponent {
           SizedBox(
             height: 16,
           ),
-          Row(
-            children: [
-              Text(
-                "Token is Mintable:",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
+          GestureDetector(
+            onTap: () {
+              provider.setMintable(!model.mintable);
+              provider.supplyController.text = '0';
+            },
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 4.0),
+                  child: Checkbox(
+                      value: !model.mintable,
+                      onChanged: (val) {
+                        if (val != null) {
+                          provider.setMintable(!val);
+                          provider.supplyController.text = '0';
+                        }
+                      }),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 16.0),
-                child: Checkbox(
-                    value: model.mintable,
-                    onChanged: (val) {
-                      if (val != null) {
-                        provider.setMintable(val);
-                        provider.supplyController.text = '0';
-                      }
-                    }),
-              ),
-            ],
+                Text(
+                  "Token Has Fixed Supply:",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
           ),
           if (!model.mintable)
             TextFormField(

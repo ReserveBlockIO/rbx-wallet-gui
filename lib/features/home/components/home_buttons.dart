@@ -7,6 +7,7 @@ import 'package:rbx_wallet/features/home/components/home_buttons/backup_button.d
 import 'package:rbx_wallet/features/home/components/home_buttons/encrypt_wallet_button.dart';
 import 'package:rbx_wallet/features/home/components/home_buttons/hd_wallet_button.dart';
 import 'package:rbx_wallet/features/home/components/home_buttons/import_media_button.dart';
+import 'package:rbx_wallet/features/home/components/home_buttons/import_snapshot_button.dart';
 import 'package:rbx_wallet/features/home/components/home_buttons/mother_button.dart';
 import 'package:rbx_wallet/features/home/components/home_buttons/open_db_button.dart';
 import 'package:rbx_wallet/features/home/components/home_buttons/open_log_button.dart';
@@ -116,6 +117,7 @@ class _HomeButtonsState extends State<HomeButtons> {
                       RestartCliButton(),
                       PrintAdressesButton(),
                       const OpenDbFolderButton(),
+                      ImportSnapshotButton(),
                       // AppButton(
                       //   label: "Tokenize BTC",
                       //   variant: AppColorVariant.Btc,

@@ -34,8 +34,7 @@ class BtcAdnrCreateFormProvider extends StateNotifier<BtcAdnrCreateFormState> {
 
   final nameController = TextEditingController();
 
-  initWithData(
-      {required String btcAddress, String? selectedAddress, String name = ''}) {
+  initWithData({required String btcAddress, String? selectedAddress, String name = ''}) {
     state = state.copyWith(
       btcAddress: btcAddress,
       selectedAddress: selectedAddress,
@@ -83,19 +82,15 @@ class BtcAdnrCreateFormProvider extends StateNotifier<BtcAdnrCreateFormState> {
       return null;
     }
 
-    final wallet = ref
-        .read(walletListProvider)
-        .firstWhereOrNull((w) => w.address == state.selectedAddress);
+    final wallet = ref.read(walletListProvider).firstWhereOrNull((w) => w.address == state.selectedAddress);
 
     if (wallet == null) {
-      Toast.error(
-          "The VFX wallet that controls this BTC domain was not found. [${state.selectedAddress}]");
+      Toast.error("The VFX wallet that controls this BTC domain was not found. [${state.selectedAddress}]");
       return null;
     }
 
     if (wallet.balance < (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
-      Toast.error(
-          "Not enough VFX in your controlling wallet to delete an VFX domain. [${state.selectedAddress}]");
+      Toast.error("Not enough VFX in your controlling wallet to delete an VFX domain. [${state.selectedAddress}]");
       return null;
     }
 
@@ -112,14 +107,9 @@ class BtcAdnrCreateFormProvider extends StateNotifier<BtcAdnrCreateFormState> {
     ref.read(globalLoadingProvider.notifier).complete();
 
     if (hash != null) {
-      ref
-          .read(adnrPendingProvider.notifier)
-          .addId(state.btcAddress!, "create", 'null');
+      ref.read(adnrPendingProvider.notifier).addId(state.btcAddress!, "create", 'null');
       ref.read(logProvider.notifier).append(
-            LogEntry(
-                message: "BTC Domain Create TX Sent: $hash",
-                textToCopy: hash,
-                variant: AppColorVariant.Btc),
+            LogEntry(message: "BTC Domain Create TX Sent: $hash", textToCopy: hash, variant: AppColorVariant.Btc),
           );
       state = BtcAdnrCreateFormState();
       return true;
@@ -129,8 +119,6 @@ class BtcAdnrCreateFormProvider extends StateNotifier<BtcAdnrCreateFormState> {
   }
 }
 
-final btcAdnrCreateFormProvider =
-    StateNotifierProvider<BtcAdnrCreateFormProvider, BtcAdnrCreateFormState>(
-        (ref) {
+final btcAdnrCreateFormProvider = StateNotifierProvider<BtcAdnrCreateFormProvider, BtcAdnrCreateFormState>((ref) {
   return BtcAdnrCreateFormProvider(ref);
 });
