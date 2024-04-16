@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../sc_property/components/properties_manager.dart';
 
 import '../../../../core/app_constants.dart';
@@ -326,7 +327,7 @@ class SmartContractCreatorMain extends BaseComponent {
               children: [
                 // buildSaveButton(_model, ref),
                 buildCompileButton(ref, _model, context),
-                if (!_model.isCompiled) buildDeleteButton(_model, context, ref),
+                // if (!_model.isCompiled) buildDeleteButton(_model, context, ref),
               ],
             ),
           ),
@@ -350,20 +351,84 @@ class SmartContractCreatorMain extends BaseComponent {
     );
   }
 
-  AppButton buildCompileButton(WidgetRef ref, SmartContract _model, BuildContext context) {
-    return AppButton(
-      label: "Compile & Mint",
-      helpType: HelpType.compile,
-      variant: AppColorVariant.Success,
-      disabled: ref.watch(sessionProvider).isMintingOrCompiling,
-      onPressed: _model.isPublished
-          ? null
-          : () async {
-              if (!await passwordRequiredGuard(context, ref)) return;
-              compileAndMint(context, ref);
-            },
-      icon: Icons.computer,
-    );
+  Widget buildCompileButton(WidgetRef ref, SmartContract _model, BuildContext context) {
+    final disabled = ref.watch(sessionProvider).isMintingOrCompiling;
+    bool hovering = false;
+
+    return StatefulBuilder(builder: (context, setState) {
+      return MouseRegion(
+        onEnter: (_) {
+          setState(() {
+            hovering = true;
+          });
+        },
+        onExit: (_) {
+          setState(() {
+            hovering = false;
+          });
+        },
+        child: InkWell(
+          onTap: disabled || _model.isPublished
+              ? null
+              : () async {
+                  if (!await passwordRequiredGuard(context, ref)) return;
+                  compileAndMint(context, ref);
+                },
+          child: AnimatedContainer(
+            duration: Duration(milliseconds: 300),
+            decoration: BoxDecoration(
+              color: disabled ? Colors.white54 : Theme.of(context).colorScheme.secondary,
+              borderRadius: BorderRadius.circular(4.0),
+              border: Border.all(color: Theme.of(context).colorScheme.secondary.withOpacity(hovering ? 0.5 : 0.3), width: 1),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Theme.of(context).colorScheme.secondary.withOpacity(hovering ? 0.3 : 0.5),
+                  Theme.of(context).colorScheme.secondary.withOpacity(hovering ? 0.1 : 0.3),
+                ],
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black,
+                  blurRadius: 8,
+                )
+              ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12).copyWith(top: 9),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Transform.translate(
+                    offset: Offset(0, -2),
+                    child: Icon(
+                      FontAwesomeIcons.gear,
+                      size: 16,
+                      color: Colors.white70,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 4,
+                  ),
+                  Text(
+                    "Compile & Mint",
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Mukta',
+                      height: 1,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    });
   }
 
   Widget buildSaveButton(SmartContract _model, WidgetRef ref) {
