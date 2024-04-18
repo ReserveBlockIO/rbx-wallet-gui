@@ -49,19 +49,16 @@ class SendForm extends BaseComponent {
   });
 
   Future<void> _pasteAddress(SendFormProvider formProvider) async {
-    ClipboardData? clipboardData =
-        await Clipboard.getData(Clipboard.kTextPlain);
+    ClipboardData? clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
     if (clipboardData != null && clipboardData.text != null) {
-      final normalizedText =
-          clipboardData.text!.replaceAll(RegExp('[^a-zA-Z0-9]'), "");
+      final normalizedText = clipboardData.text!.replaceAll(RegExp('[^a-zA-Z0-9]'), "");
       formProvider.addressController.text = normalizedText;
     } else {
       Toast.error("Clipboard text is invalid");
     }
   }
 
-  Future<void> chooseAddress(BuildContext context, WidgetRef ref,
-      SendFormProvider formProvider) async {
+  Future<void> chooseAddress(BuildContext context, WidgetRef ref, SendFormProvider formProvider) async {
     final wallets = ref.read(walletListProvider);
 
     final address = await showDialog(
@@ -91,9 +88,7 @@ class SendForm extends BaseComponent {
                       },
                       child: Text(
                         w.fullLabel,
-                        style: const TextStyle(
-                            color: Colors.white,
-                            decoration: TextDecoration.underline),
+                        style: const TextStyle(color: Colors.white, decoration: TextDecoration.underline),
                       ),
                     ),
                   )
@@ -109,9 +104,7 @@ class SendForm extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     bool isWeb = kIsWeb;
-    bool isBtc = kIsWeb
-        ? ref.watch(webSessionProvider).usingBtc
-        : ref.watch(sessionProvider).btcSelected;
+    bool isBtc = kIsWeb ? ref.watch(webSessionProvider).usingBtc : ref.watch(sessionProvider).btcSelected;
 
     const leadingWidth = 70.0;
 
@@ -131,10 +124,7 @@ class SendForm extends BaseComponent {
     Color color = Colors.white;
 
     if (isBtc) {
-      balance = kIsWeb
-          ? ((ref.watch(webSessionProvider).btcBalanceInfo?.btcFinalBalance) ??
-              0.0)
-          : btcAccount!.balance;
+      balance = kIsWeb ? ((ref.watch(webSessionProvider).btcBalanceInfo?.btcFinalBalance) ?? 0.0) : btcAccount!.balance;
       color = btcColor;
     } else {
       balance = isWeb
@@ -146,9 +136,7 @@ class SendForm extends BaseComponent {
       color = wallet!.isReserved ? Colors.deepPurple.shade200 : Colors.white;
 
       if (kIsWeb) {
-        color = ref.watch(webSessionProvider).usingRa
-            ? Colors.deepPurple.shade200
-            : Colors.white;
+        color = ref.watch(webSessionProvider).usingRa ? Colors.deepPurple.shade200 : Colors.white;
       }
     }
 
@@ -176,9 +164,7 @@ class SendForm extends BaseComponent {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            if (!isBtc &&
-                                wallet!.isReserved &&
-                                !wallet!.isNetworkProtected)
+                            if (!isBtc && wallet!.isReserved && !wallet!.isNetworkProtected)
                               AppBadge(
                                 label: 'Not Activated',
                                 variant: AppColorVariant.Danger,
@@ -190,9 +176,7 @@ class SendForm extends BaseComponent {
                                   Flexible(
                                     child: Builder(builder: (context) {
                                       String address = "";
-                                      switch (ref
-                                          .watch(webSessionProvider)
-                                          .selectedWalletType) {
+                                      switch (ref.watch(webSessionProvider).selectedWalletType) {
                                         case WalletType.rbx:
                                           address = keypair!.address;
                                           break;
@@ -206,8 +190,7 @@ class SendForm extends BaseComponent {
                                       return Text(
                                         address,
                                         overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                            color: color, fontSize: 16),
+                                        style: TextStyle(color: color, fontSize: 16),
                                       );
                                     }),
                                   ),
@@ -216,32 +199,19 @@ class SendForm extends BaseComponent {
                                     color: Color(0xFF080808),
                                     constraints: BoxConstraints(maxWidth: 500),
                                     itemBuilder: (context) {
-                                      final currentWallet = ref
-                                          .watch(sessionProvider)
-                                          .currentWallet;
-                                      final allWallets =
-                                          ref.watch(walletListProvider);
-                                      final allBtcAccounts =
-                                          ref.watch(btcAccountListProvider);
+                                      final currentWallet = ref.watch(sessionProvider).currentWallet;
+                                      final allWallets = ref.watch(walletListProvider);
+                                      final allBtcAccounts = ref.watch(btcAccountListProvider);
 
-                                      final currencyType = ref.watch(
-                                          currencySegementedButtonProvider(
-                                              "SEND"));
+                                      final currencyType = ref.watch(currencySegementedButtonProvider("SEND"));
 
                                       final list = <PopupMenuEntry<int>>[];
                                       if (currencyType != CurrencyType.btc) {
                                         for (final wallet in allWallets) {
-                                          final isSelected = !isBtc &&
-                                              currentWallet != null &&
-                                              wallet.address ==
-                                                  currentWallet.address;
+                                          final isSelected = !isBtc && currentWallet != null && wallet.address == currentWallet.address;
 
-                                          final color = wallet.isReserved
-                                              ? Colors.deepPurple.shade200
-                                              : Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1!
-                                                  .color!;
+                                          final color =
+                                              wallet.isReserved ? Colors.deepPurple.shade200 : Theme.of(context).textTheme.bodyText1!.color!;
 
                                           list.add(
                                             PopupMenuItem(
@@ -250,24 +220,17 @@ class SendForm extends BaseComponent {
                                                 children: [
                                                   if (isSelected)
                                                     Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              right: 4.0),
+                                                      padding: const EdgeInsets.only(right: 4.0),
                                                       child: Icon(Icons.check),
                                                     ),
                                                   Text(
-                                                    wallet
-                                                        .labelWithoutTruncation,
-                                                    style:
-                                                        TextStyle(color: color),
+                                                    wallet.labelWithoutTruncation,
+                                                    style: TextStyle(color: color),
                                                   ),
                                                 ],
                                               ),
                                               onTap: () {
-                                                ref
-                                                    .read(sessionProvider
-                                                        .notifier)
-                                                    .setCurrentWallet(wallet);
+                                                ref.read(sessionProvider.notifier).setCurrentWallet(wallet);
                                               },
                                             ),
                                           );
@@ -276,10 +239,7 @@ class SendForm extends BaseComponent {
 
                                       if (currencyType != CurrencyType.vfx) {
                                         for (final account in allBtcAccounts) {
-                                          final isSelected = isBtc &&
-                                              btcAccount != null &&
-                                              btcAccount!.address ==
-                                                  account.address;
+                                          final isSelected = isBtc && btcAccount != null && btcAccount!.address == account.address;
 
                                           final color = btcColor;
                                           list.add(
@@ -289,24 +249,17 @@ class SendForm extends BaseComponent {
                                                 children: [
                                                   if (isSelected)
                                                     Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              right: 4.0),
+                                                      padding: const EdgeInsets.only(right: 4.0),
                                                       child: Icon(Icons.check),
                                                     ),
                                                   Text(
                                                     account.address,
-                                                    style:
-                                                        TextStyle(color: color),
+                                                    style: TextStyle(color: color),
                                                   ),
                                                 ],
                                               ),
                                               onTap: () {
-                                                ref
-                                                    .read(sessionProvider
-                                                        .notifier)
-                                                    .setCurrentBtcAccount(
-                                                        account);
+                                                ref.read(sessionProvider.notifier).setCurrentBtcAccount(account);
                                               },
                                             ),
                                           );
@@ -318,11 +271,8 @@ class SendForm extends BaseComponent {
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Text(
-                                          isBtc
-                                              ? btcAccount!.address
-                                              : wallet!.address,
-                                          style: TextStyle(
-                                              color: color, fontSize: 16),
+                                          isBtc ? btcAccount!.address : wallet!.address,
+                                          style: TextStyle(color: color, fontSize: 16),
                                         ),
                                         Icon(
                                           Icons.arrow_drop_down,
@@ -331,10 +281,7 @@ class SendForm extends BaseComponent {
                                               ? btcColor
                                               : wallet!.isReserved
                                                   ? Colors.deepPurple.shade200
-                                                  : Theme.of(context)
-                                                      .textTheme
-                                                      .bodyText1!
-                                                      .color!,
+                                                  : Theme.of(context).textTheme.bodyText1!.color!,
                                         ),
                                       ],
                                     ),
@@ -344,8 +291,7 @@ class SendForm extends BaseComponent {
                           ],
                         ),
                       ),
-                      !isBtc &&
-                              (wallet!.lockedBalance == 0 || wallet!.isReserved)
+                      !isBtc && (wallet!.lockedBalance == 0 || wallet!.isReserved)
                           ? Column(
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.end,
@@ -370,8 +316,7 @@ class SendForm extends BaseComponent {
                                   ),
                                   BalanceIndicator(
                                     label: "Total",
-                                    value:
-                                        wallet!.balance + wallet!.lockedBalance,
+                                    value: wallet!.balance + wallet!.lockedBalance,
                                     bgColor: Colors.green.shade700,
                                     fgColor: Colors.white,
                                   ),
@@ -409,8 +354,7 @@ class SendForm extends BaseComponent {
                                     ),
                                     BalanceIndicator(
                                       label: "Total",
-                                      value: wallet!.balance +
-                                          wallet!.lockedBalance,
+                                      value: wallet!.balance + wallet!.lockedBalance,
                                       bgColor: Colors.green.shade700,
                                       fgColor: Colors.white,
                                     ),
@@ -420,14 +364,11 @@ class SendForm extends BaseComponent {
                   ),
                 ),
                 ListTile(
-                  leading: isMobile
-                      ? null
-                      : const SizedBox(width: leadingWidth, child: Text("To:")),
+                  leading: isMobile ? null : const SizedBox(width: leadingWidth, child: Text("To:")),
                   title: TextFormField(
                     controller: formProvider.addressController,
                     validator: formProvider.addressValidator,
-                    decoration: const InputDecoration(
-                        hintText: "Recipient's Wallet Address"),
+                    decoration: const InputDecoration(hintText: "Recipient's Wallet Address"),
                     inputFormatters: [
                       FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9.]')),
                     ],
@@ -480,27 +421,18 @@ class SendForm extends BaseComponent {
                         ),
                 ),
                 ListTile(
-                  leading: isMobile
-                      ? null
-                      : const SizedBox(
-                          width: leadingWidth, child: Text("Amount:")),
+                  leading: isMobile ? null : const SizedBox(width: leadingWidth, child: Text("Amount:")),
                   title: TextFormField(
                     controller: formProvider.amountController,
                     validator: formProvider.amountValidator,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(RegExp("[0-9.]"))
-                    ],
-                    decoration: InputDecoration(
-                        hintText: "Amount of ${isBtc ? 'BTC' : 'VFX'} to send"),
-                    keyboardType:
-                        const TextInputType.numberWithOptions(decimal: true),
+                    inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
+                    decoration: InputDecoration(hintText: "Amount of ${isBtc ? 'BTC' : 'VFX'} to send"),
+                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
                   ),
                 ),
                 if (isBtc && !kIsWeb)
                   Consumer(builder: (context, ref, _) {
-                    final recommendedFees =
-                        ref.watch(sessionProvider).btcRecommendedFees ??
-                            BtcRecommendedFees.fallback();
+                    final recommendedFees = ref.watch(sessionProvider).btcRecommendedFees ?? BtcRecommendedFees.fallback();
 
                     int fee = 0;
 
@@ -534,8 +466,7 @@ class SendForm extends BaseComponent {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ListTile(
-                          leading: const SizedBox(
-                              width: leadingWidth, child: Text("Fee Rate:")),
+                          leading: const SizedBox(width: leadingWidth, child: Text("Fee Rate:")),
                           title: Row(
                             children: [
                               PopupMenuButton<BtcFeeRatePreset>(
@@ -556,8 +487,7 @@ class SendForm extends BaseComponent {
                                   children: [
                                     Text(
                                       formState.btcFeeRatePreset.label,
-                                      style: TextStyle(
-                                          fontSize: 16, color: btcColor),
+                                      style: TextStyle(fontSize: 16, color: btcColor),
                                     ),
                                     Icon(
                                       Icons.arrow_drop_down,
@@ -567,43 +497,30 @@ class SendForm extends BaseComponent {
                                   ],
                                 ),
                               ),
-                              if (formState.btcFeeRatePreset ==
-                                  BtcFeeRatePreset.custom)
+                              if (formState.btcFeeRatePreset == BtcFeeRatePreset.custom)
                                 Expanded(
                                   child: TextFormField(
-                                    controller:
-                                        formProvider.btcCustomFeeRateController,
-                                    validator:
-                                        formProvider.btcCustomFeeRateValidator,
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.allow(
-                                          RegExp("[0-9]"))
-                                    ],
-                                    decoration: InputDecoration(
-                                        hintText: "Fee rate in satoshis"),
-                                    keyboardType:
-                                        const TextInputType.numberWithOptions(
-                                            decimal: false),
+                                    controller: formProvider.btcCustomFeeRateController,
+                                    validator: formProvider.btcCustomFeeRateValidator,
+                                    inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9]"))],
+                                    decoration: InputDecoration(hintText: "Fee rate in satoshis"),
+                                    keyboardType: const TextInputType.numberWithOptions(decimal: false),
                                   ),
                                 ),
                             ],
                           ),
                         ),
-                        if (formState.btcFeeRatePreset !=
-                            BtcFeeRatePreset.custom)
+                        if (formState.btcFeeRatePreset != BtcFeeRatePreset.custom)
                           Padding(
-                            padding:
-                                const EdgeInsets.only(left: leadingWidth + 30),
+                            padding: const EdgeInsets.only(left: leadingWidth + 30),
                             child: Text(
                               "Fee Estimate: ~$feeEstimate SATS | ~$feeEstimateBtc BTC    ($fee SATS /byte | $feeBtc BTC /byte)",
                               style: Theme.of(context).textTheme.caption,
                             ),
                           ),
-                        if (formState.btcFeeRatePreset ==
-                            BtcFeeRatePreset.custom)
+                        if (formState.btcFeeRatePreset == BtcFeeRatePreset.custom)
                           Padding(
-                            padding:
-                                const EdgeInsets.only(left: leadingWidth + 30),
+                            padding: const EdgeInsets.only(left: leadingWidth + 30),
                             child: Text(
                               "Fee Estimate: ~${formState.btcCustomFeeRate * BTC_TX_EXPECTED_BYTES * BTC_SATOSHI_MULTIPLIER} BTC",
                               style: Theme.of(context).textTheme.caption,
@@ -634,17 +551,13 @@ class SendForm extends BaseComponent {
                         return AppButton(
                           label: "Send",
                           type: AppButtonType.Elevated,
-                          variant: AppColorVariant.Btc,
+                          variant: isBtc ? AppColorVariant.Btc : AppColorVariant.Primary,
                           processing: formState.isProcessing,
-                          disabled: !isBtc &&
-                              (wallet!.isReserved &&
-                                  !wallet!.isNetworkProtected),
+                          disabled: !isBtc && (wallet!.isReserved && !wallet!.isNetworkProtected),
                           onPressed: () async {
-                            if (!await passwordRequiredGuard(context, ref))
-                              return;
+                            if (!await passwordRequiredGuard(context, ref)) return;
 
-                            if (!formProvider.formKey.currentState!
-                                .validate()) {
+                            if (!formProvider.formKey.currentState!.validate()) {
                               return;
                             }
 

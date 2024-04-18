@@ -90,16 +90,16 @@ class Env {
       case _Environment.BlockExplorerTestNet:
       case _Environment.WebTestNet:
       case _Environment.WebLocalEnv:
-        return 'https://testnet.vfx.network/';
+        return 'https://testnet.rbx.network/';
       default:
-        return 'https://vfx.network/';
+        return 'https://rbx.network/';
     }
   }
 
   static String get appBaseUrl {
     switch (_env) {
       case _Environment.Release:
-        return 'https://wallet.vfx.network/';
+        return 'https://wallet.rbx.network/';
       case _Environment.MacTestNet:
       case _Environment.WinTestNet:
       case _Environment.ReleaseTestNet:
@@ -107,9 +107,9 @@ class Env {
       case _Environment.WebLocalEnv:
         return 'http://localhost:42069/';
       case _Environment.WebTestNet:
-        return 'https://test-wallet.vfx.network/';
+        return 'https://test-wallet.rbx.network/';
       default:
-        return 'https://wallet.vfx.network/';
+        return 'https://wallet.rbx.network/';
     }
   }
 
@@ -126,11 +126,11 @@ class Env {
   }
 
   static String get explorerApiBaseUrl {
-    return DotEnv.dotenv.env['EXPLORER_API_BASE_URL'] ?? 'https://data.vfx.network/api';
+    return DotEnv.dotenv.env['EXPLORER_API_BASE_URL'] ?? 'https://data.rbx.network/api';
   }
 
   static String get explorerWebsiteBaseUrl {
-    return DotEnv.dotenv.env['EXPLORER_WEBSITE_BASE_URL'] ?? 'https://vfx.network';
+    return DotEnv.dotenv.env['EXPLORER_WEBSITE_BASE_URL'] ?? 'https://rbx.network';
   }
 
   static bool get launchCli {
@@ -178,11 +178,11 @@ class Env {
   }
 
   static String get shopBaseUrl {
-    return DotEnv.dotenv.env['SHOP_BASE_URL'] ?? "https://wallet.vfx.network";
+    return DotEnv.dotenv.env['SHOP_BASE_URL'] ?? "https://wallet.rbx.network";
   }
 
   static String get shopApiUrl {
-    return DotEnv.dotenv.env['SHOP_API_URL'] ?? "https://data.vfx.network/api";
+    return DotEnv.dotenv.env['SHOP_API_URL'] ?? "https://data.rbx.network/api";
   }
 
   static String get paymentEmbedUrl {

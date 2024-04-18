@@ -85,10 +85,10 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
       },
     );
 
-    fundAccount(rootNavigatorKey.currentContext!, account);
+    fundAccount(rootNavigatorKey.currentContext!, account.address);
   }
 
-  Future<void> fundAccount(BuildContext context, NewReserveAccount wallet) async {
+  Future<void> fundAccount(BuildContext context, String walletAddress) async {
     final funders = ref.read(walletListProvider).where((w) => !w.isReserved && w.balance > (w.isValidating ? 1006 : 6)).toList();
     final fundingWallet = funders.isNotEmpty ? funders.first : null;
 
@@ -104,7 +104,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
             children: [
               Text("You must now fund your Reserve Account with a minimum of 5 VFX. 4 VFX will be burned upon activation."),
               Text(""),
-              SelectableText("Please send funds to ${wallet.address}"),
+              SelectableText("Please send funds to ${walletAddress}"),
               Text(""),
               Text(
                   "You have a wallet with a sufficient balance.\n\nWould you like to send 5 VFX from:\n${fundingWallet.address}\n[Balance: ${fundingWallet.balance} VFX]?"),
@@ -121,7 +121,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
         final confirmed = await ConfirmDialog.show(
           context: context,
           title: "Please Confirm",
-          body: "Sending:\n$amount VFX\n\nTo:\n${wallet.address}\n\nFrom:\n${fundingWallet.address}",
+          body: "Sending:\n$amount VFX\n\nTo:\n${walletAddress}\n\nFrom:\n${fundingWallet.address}",
           confirmText: "Send",
           cancelText: "Cancel",
         );
@@ -132,7 +132,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
 
         final message = await BridgeService().sendFunds(
           amount: amount,
-          to: wallet.address.trim().replaceAll("\n", ""),
+          to: walletAddress.replaceAll("\n", ""),
           from: fundingWallet.address,
         );
 
@@ -143,7 +143,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
           await InfoDialog.show(
             contextOverride: context,
             title: "Funds Sent",
-            body: "$amount VFX has been sent to ${wallet.address}.\n\nPlease wait for transaction to reflect and then activate your Reserve Account.",
+            body: "$amount VFX has been sent to ${walletAddress}.\n\nPlease wait for transaction to reflect and then activate your Reserve Account.",
           );
           // Navigator.of(context).pop();
         } else {
@@ -162,13 +162,13 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
               children: [
                 Text("You must now fund your Reserve Account with a minimum of 5 VFX."),
                 Text(""),
-                Text("Please send funds to ${wallet.address}"),
+                Text("Please send funds to ${walletAddress}"),
                 Divider(),
                 AppButton(
                   label: "Copy Address",
                   icon: Icons.copy,
                   onPressed: () async {
-                    await Clipboard.setData(ClipboardData(text: wallet.address));
+                    await Clipboard.setData(ClipboardData(text: walletAddress));
                     Toast.message("Address copied to clipboard.");
                   },
                 )

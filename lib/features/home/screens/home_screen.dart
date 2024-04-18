@@ -91,8 +91,7 @@ class HomeScreen extends BaseScreen {
                               height: 16,
                             ),
                             Container(
-                              decoration:
-                                  BoxDecoration(boxShadow: glowingBoxBtc),
+                              decoration: BoxDecoration(boxShadow: glowingBoxBtc),
                               child: Card(
                                 color: Colors.black,
                                 child: ListTile(
@@ -109,7 +108,7 @@ class HomeScreen extends BaseScreen {
 
                   if (type == "vfx") {
                     if (Env.isTestNet) {
-                      launchUrlString("https://testnet.vfx.network/faucet");
+                      launchUrlString("https://testnet.rbx.network/faucet");
                       return;
                     }
 
@@ -119,8 +118,7 @@ class HomeScreen extends BaseScreen {
                       return;
                     }
 
-                    final url = paymentUrl(
-                        amount: 5000, walletAddress: address, currency: "VFX");
+                    final url = paymentUrl(amount: 5000, walletAddress: address, currency: "VFX");
                     if (url != null) {
                       launchUrl(Uri.parse(url));
                     }
@@ -136,8 +134,7 @@ class HomeScreen extends BaseScreen {
                       return;
                     }
 
-                    final url = paymentUrl(
-                        amount: 5000, walletAddress: address, currency: "BTC");
+                    final url = paymentUrl(amount: 5000, walletAddress: address, currency: "BTC");
                     if (url != null) {
                       launchUrl(Uri.parse(url));
                     }

@@ -36,19 +36,12 @@ class AdnrList extends BaseComponent {
         final wallet = wallets[index];
 
         final adnrVerified = wallet.adnr != null;
-        final adnrLabel =
-            wallet.adnr == null ? "No Domain" : "@${wallet.adnr!}";
-        final isPendingCreate = ref
-            .watch(adnrPendingProvider)
-            .contains("${wallet.address}.create.${wallet.adnr ?? 'null'}");
+        final adnrLabel = wallet.adnr == null ? "No Domain" : "@${wallet.adnr!}";
+        final isPendingCreate = ref.watch(adnrPendingProvider).contains("${wallet.address}.create.${wallet.adnr ?? 'null'}");
 
-        final isPendingBurn = ref
-            .watch(adnrPendingProvider)
-            .contains("${wallet.address}.burn.${wallet.adnr ?? 'null'}");
+        final isPendingBurn = ref.watch(adnrPendingProvider).contains("${wallet.address}.burn.${wallet.adnr ?? 'null'}");
 
-        final isPendingTransfer = ref
-            .watch(adnrPendingProvider)
-            .contains("${wallet.address}.transfer.${wallet.adnr ?? 'null'}");
+        final isPendingTransfer = ref.watch(adnrPendingProvider).contains("${wallet.address}.transfer.${wallet.adnr ?? 'null'}");
 
         return Container(
           decoration: BoxDecoration(
@@ -95,10 +88,8 @@ class AdnrList extends BaseComponent {
                         if (!widgetGuardWalletIsSynced(ref)) {
                           return;
                         }
-                        if (wallet.balance <
-                            (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
-                          Toast.error(
-                              "Not enough VFX in this wallet to create an VFX domain. $ADNR_COST RBX required (plus TX fee).");
+                        if (wallet.balance < (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
+                          Toast.error("Not enough VFX in this wallet to create a VFX domain. $ADNR_COST RBX required (plus TX fee).");
                           return;
                         }
 
@@ -121,54 +112,35 @@ class AdnrList extends BaseComponent {
                           onPressed: !adnrVerified
                               ? null
                               : () async {
-                                  if (!await passwordRequiredGuard(
-                                      context, ref)) return;
+                                  if (!await passwordRequiredGuard(context, ref)) return;
                                   if (!widgetGuardWalletIsSynced(ref)) {
                                     return;
                                   }
-                                  if (wallet.balance <
-                                      (ADNR_TRANSFER_COST +
-                                          MIN_RBX_FOR_SC_ACTION)) {
-                                    Toast.error(
-                                        "Not enough VFX in this wallet to transfer an VFX domain. $ADNR_COST RBX required (plus TX fee).");
+                                  if (wallet.balance < (ADNR_TRANSFER_COST + MIN_RBX_FOR_SC_ACTION)) {
+                                    Toast.error("Not enough VFX in this wallet to transfer a VFX domain. $ADNR_COST RBX required (plus TX fee).");
                                     return;
                                   }
 
                                   PromptModal.show(
                                       contextOverride: context,
                                       title: "Transfer VFX Domain",
-                                      body:
-                                          "There is a cost of $ADNR_TRANSFER_COST VFX to transfer an VFX Domain.",
-                                      validator: (value) =>
-                                          formValidatorRbxAddress(value, false),
+                                      body: "There is a cost of $ADNR_TRANSFER_COST VFX to transfer a VFX Domain.",
+                                      validator: (value) => formValidatorRbxAddress(value, false),
                                       labelText: "Address",
                                       onValidSubmission: (toAddress) async {
-                                        final result = await AdnrService()
-                                            .transferAdnr(
-                                                wallet.address, toAddress);
+                                        final result = await AdnrService().transferAdnr(wallet.address, toAddress);
                                         if (result.success) {
-                                          Toast.message(
-                                              "VFX domain transfer transaction has been broadcasted. Check logs for tx hash");
+                                          Toast.message("VFX domain transfer transaction has been broadcasted. Check logs for tx hash");
 
                                           if (result.hash != null) {
-                                            ref
-                                                .read(logProvider.notifier)
-                                                .append(
+                                            ref.read(logProvider.notifier).append(
                                                   LogEntry(
-                                                      message:
-                                                          "VFX domain transfer transaction broadcasted. Tx Hash: ${result.hash}",
+                                                      message: "VFX domain transfer transaction broadcasted. Tx Hash: ${result.hash}",
                                                       textToCopy: result.hash,
-                                                      variant: AppColorVariant
-                                                          .Success),
+                                                      variant: AppColorVariant.Success),
                                                 );
 
-                                            ref
-                                                .read(adnrPendingProvider
-                                                    .notifier)
-                                                .addId(
-                                                    wallet.address,
-                                                    "transfer",
-                                                    wallet.adnr ?? "null");
+                                            ref.read(adnrPendingProvider.notifier).addId(wallet.address, "transfer", wallet.adnr ?? "null");
                                           }
 
                                           return;
@@ -186,16 +158,13 @@ class AdnrList extends BaseComponent {
                           // type: AppButtonType.Text,
                           variant: AppColorVariant.Danger,
                           onPressed: () async {
-                            if (!await passwordRequiredGuard(context, ref))
-                              return;
+                            if (!await passwordRequiredGuard(context, ref)) return;
                             if (!widgetGuardWalletIsSynced(ref)) {
                               return;
                             }
 
-                            if (wallet.balance <
-                                (ADNR_DELETE_COST + MIN_RBX_FOR_SC_ACTION)) {
-                              Toast.error(
-                                  "Not enough VFX in this wallet to delete an VFX domain.");
+                            if (wallet.balance < (ADNR_DELETE_COST + MIN_RBX_FOR_SC_ACTION)) {
+                              Toast.error("Not enough VFX in this wallet to delete a VFX domain.");
 
                               return;
                             }
@@ -210,24 +179,18 @@ class AdnrList extends BaseComponent {
                             );
 
                             if (confirmed == true) {
-                              final result = await AdnrService()
-                                  .deleteAdnr(wallet.address);
+                              final result = await AdnrService().deleteAdnr(wallet.address);
                               if (result.success) {
-                                Toast.message(
-                                    "VFX domain delete transaction has been broadcasted. Check logs for tx hash");
+                                Toast.message("VFX domain delete transaction has been broadcasted. Check logs for tx hash");
 
                                 if (result.hash != null) {
                                   ref.read(logProvider.notifier).append(
                                         LogEntry(
-                                            message:
-                                                "VFX domain delete transaction broadcasted. Tx Hash: ${result.hash}",
+                                            message: "VFX domain delete transaction broadcasted. Tx Hash: ${result.hash}",
                                             textToCopy: result.hash,
                                             variant: AppColorVariant.Success),
                                       );
-                                  ref.read(adnrPendingProvider.notifier).addId(
-                                      wallet.address,
-                                      "burn",
-                                      wallet.adnr ?? "null");
+                                  ref.read(adnrPendingProvider.notifier).addId(wallet.address, "burn", wallet.adnr ?? "null");
                                 }
                               }
                             }

@@ -39,10 +39,8 @@ class TokenizeBtcFormProvider extends StateNotifier<TokenizeBtcFormState> {
       return null;
     }
     final session = ref.read(sessionProvider);
-    if (session.currentWallet == null ||
-        session.btcSelected ||
-        session.currentWallet!.isReserved) {
-      Toast.error("Select an VFX Wallet is to proceed.");
+    if (session.currentWallet == null || session.btcSelected || session.currentWallet!.isReserved) {
+      Toast.error("Select a VFX Wallet is to proceed.");
       return null;
     }
 
@@ -77,8 +75,7 @@ class TokenizeBtcFormProvider extends StateNotifier<TokenizeBtcFormState> {
       Toast.message("Transaction Broadcasted with hash of $hash");
       ref.read(logProvider.notifier).append(
             LogEntry(
-              message:
-                  "BTC Tokenization Transaction Broadcasted with hash of $hash",
+              message: "BTC Tokenization Transaction Broadcasted with hash of $hash",
               textToCopy: hash,
               variant: AppColorVariant.Btc,
             ),
@@ -97,7 +94,6 @@ class TokenizeBtcFormProvider extends StateNotifier<TokenizeBtcFormState> {
   }
 }
 
-final tokenizeBtcFormProvider =
-    StateNotifierProvider<TokenizeBtcFormProvider, TokenizeBtcFormState>((ref) {
+final tokenizeBtcFormProvider = StateNotifierProvider<TokenizeBtcFormProvider, TokenizeBtcFormState>((ref) {
   return TokenizeBtcFormProvider(ref);
 });

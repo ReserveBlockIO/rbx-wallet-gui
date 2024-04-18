@@ -16,6 +16,7 @@ import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
 import 'package:rbx_wallet/features/nft/utils.dart';
+import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/components/badges.dart';
@@ -31,23 +32,22 @@ class TokenizeBtcListScreen extends BaseScreen {
     return AppBar(
       backgroundColor: Colors.black,
       title: Text("Tokenized Bitcoins"),
-      actions: [
-        // Padding(
-        //   padding: const EdgeInsets.only(right: 8.0),
-        //   child: AppButton(
-        //     label: "Tokenize BTC",
-        //     variant: AppColorVariant.Btc,
-        //     icon: FontAwesomeIcons.bitcoin,
-        //     onPressed: () {
-        //       Navigator.of(context).push(
-        //         MaterialPageRoute(
-        //           builder: (context) => TokenizeBtcScreen(),
-        //         ),
-        //       );
-        //     },
-        //   ),
-        // )
-      ],
+      actions: [WalletSelector()],
+      // Padding(
+      //   padding: const EdgeInsets.only(right: 8.0),
+      //   child: AppButton(
+      //     label: "Tokenize BTC",
+      //     variant: AppColorVariant.Btc,
+      //     icon: FontAwesomeIcons.bitcoin,
+      //     onPressed: () {
+      //       Navigator.of(context).push(
+      //         MaterialPageRoute(
+      //           builder: (context) => TokenizeBtcScreen(),
+      //         ),
+      //       );
+      //     },
+      //   ),
+      // )
     );
   }
 
@@ -102,20 +102,16 @@ class TokenizeBtcListScreen extends BaseScreen {
                           color: Colors.black,
                           child: ListTile(
                             title: Text(token.tokenName),
-                            subtitle: Text(token.btcAddress != null
-                                ? token.btcAddress!
-                                : "No BTC Address"),
+                            subtitle: Text(token.btcAddress != null ? token.btcAddress! : "No BTC Address"),
                             // leading: Icon(FontAwesomeIcons.bitcoin),
                             leading: FutureBuilder<Nft?>(
-                                future: NftService()
-                                    .retrieve(token.smartContractUid),
+                                future: NftService().retrieve(token.smartContractUid),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
                                     final nft = snapshot.data;
 
                                     if (nft != null) {
-                                      final path =
-                                          nft.currentEvolveAsset.localPath;
+                                      final path = nft.currentEvolveAsset.localPath;
                                       if (path != null) {
                                         return Image.file(
                                           File(path),
@@ -134,8 +130,7 @@ class TokenizeBtcListScreen extends BaseScreen {
                                 Builder(
                                   builder: (context) {
                                     if (token.btcAddress == null) {
-                                      if (pendingIds
-                                          .contains(token.smartContractUid)) {
+                                      if (pendingIds.contains(token.smartContractUid)) {
                                         return AppBadge(
                                           label: "BTC Address Pending",
                                           variant: AppColorVariant.Btc,
@@ -147,55 +142,31 @@ class TokenizeBtcListScreen extends BaseScreen {
                                         variant: AppColorVariant.Btc,
                                         icon: Icons.star,
                                         onPressed: () async {
-                                          final confirmed =
-                                              await ConfirmDialog.show(
+                                          final confirmed = await ConfirmDialog.show(
                                             title: "Generate BTC Address",
-                                            body:
-                                                "Are you sure you want to generate this token's BTC address?",
+                                            body: "Are you sure you want to generate this token's BTC address?",
                                             confirmText: "Generate",
                                             cancelText: "Cancel",
                                           );
                                           if (confirmed == true) {
-                                            ref
-                                                .read(globalLoadingProvider
-                                                    .notifier)
-                                                .start();
-                                            final address = await BtcService()
-                                                .generateTokenizedBitcoinAddress(
-                                                    token.smartContractUid);
-                                            ref
-                                                .read(globalLoadingProvider
-                                                    .notifier)
-                                                .complete();
+                                            ref.read(globalLoadingProvider.notifier).start();
+                                            final address = await BtcService().generateTokenizedBitcoinAddress(token.smartContractUid);
+                                            ref.read(globalLoadingProvider.notifier).complete();
 
                                             if (address == null) {
                                               return;
                                             }
 
-                                            Toast.message(
-                                                "BTC Address generated ($address)");
-                                            ref
-                                                .read(logProvider.notifier)
-                                                .append(
+                                            Toast.message("BTC Address generated ($address)");
+                                            ref.read(logProvider.notifier).append(
                                                   LogEntry(
-                                                    message:
-                                                        "BTC Address generated ($address)",
+                                                    message: "BTC Address generated ($address)",
                                                     textToCopy: address,
-                                                    variant:
-                                                        AppColorVariant.Btc,
+                                                    variant: AppColorVariant.Btc,
                                                   ),
                                                 );
-                                            ref
-                                                .read(
-                                                    tokenizedBitcoinListProvider
-                                                        .notifier)
-                                                .refresh();
-                                            ref
-                                                .read(
-                                                    btcPendingTokenizedAddressListProvider
-                                                        .notifier)
-                                                .addScId(
-                                                    token.smartContractUid);
+                                            ref.read(tokenizedBitcoinListProvider.notifier).refresh();
+                                            ref.read(btcPendingTokenizedAddressListProvider.notifier).addScId(token.smartContractUid);
                                           }
                                         },
                                       );
@@ -209,11 +180,8 @@ class TokenizeBtcListScreen extends BaseScreen {
                                           icon: Icons.copy,
                                           variant: AppColorVariant.Btc,
                                           onPressed: () async {
-                                            await Clipboard.setData(
-                                                ClipboardData(
-                                                    text: token.btcAddress));
-                                            Toast.message(
-                                                "BTC Address copied to clipboard");
+                                            await Clipboard.setData(ClipboardData(text: token.btcAddress));
+                                            Toast.message("BTC Address copied to clipboard");
                                           },
                                         ),
                                         SizedBox(
@@ -224,8 +192,7 @@ class TokenizeBtcListScreen extends BaseScreen {
                                           icon: Icons.remove_red_eye,
                                           variant: AppColorVariant.Danger,
                                           onPressed: () async {
-                                            final confirmed =
-                                                await ConfirmDialog.show(
+                                            final confirmed = await ConfirmDialog.show(
                                               title: "Reveal BTC Private Key",
                                               body:
                                                   "Are you sure you want to reveal the private key of this BTC token? Once revealed, the token will become obsolete.",
@@ -234,9 +201,7 @@ class TokenizeBtcListScreen extends BaseScreen {
                                             );
 
                                             if (confirmed == true) {
-                                              final privateKey = await BtcService()
-                                                  .revealTokenizedBitcoinPrivateKey(
-                                                      token.smartContractUid);
+                                              final privateKey = await BtcService().revealTokenizedBitcoinPrivateKey(token.smartContractUid);
                                               if (privateKey == null) {
                                                 Toast.error();
                                                 return;
@@ -247,85 +212,51 @@ class TokenizeBtcListScreen extends BaseScreen {
                                                 barrierDismissible: false,
                                                 builder: (context) {
                                                   return AlertDialog(
-                                                    title:
-                                                        Text("BTC Private Key"),
+                                                    title: Text("BTC Private Key"),
                                                     content: ConstrainedBox(
-                                                      constraints:
-                                                          BoxConstraints(
-                                                              maxWidth: 600),
+                                                      constraints: BoxConstraints(maxWidth: 600),
                                                       child: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
+                                                        mainAxisSize: MainAxisSize.min,
                                                         children: [
                                                           TextFormField(
                                                             readOnly: true,
-                                                            decoration:
-                                                                InputDecoration(
+                                                            decoration: InputDecoration(
                                                               label: Text(
                                                                 "Private Key",
-                                                                style: TextStyle(
-                                                                    color: Theme.of(
-                                                                            context)
-                                                                        .colorScheme
-                                                                        .btcOrange),
+                                                                style: TextStyle(color: Theme.of(context).colorScheme.btcOrange),
                                                               ),
-                                                              suffixIcon:
-                                                                  IconButton(
+                                                              suffixIcon: IconButton(
                                                                 icon: Icon(
                                                                   Icons.copy,
-                                                                  color: Theme.of(
-                                                                          context)
-                                                                      .colorScheme
-                                                                      .btcOrange,
+                                                                  color: Theme.of(context).colorScheme.btcOrange,
                                                                 ),
-                                                                onPressed:
-                                                                    () async {
-                                                                  await Clipboard.setData(
-                                                                      ClipboardData(
-                                                                          text:
-                                                                              privateKey));
-                                                                  Toast.message(
-                                                                      "BTC Private Key copied to clipboard");
+                                                                onPressed: () async {
+                                                                  await Clipboard.setData(ClipboardData(text: privateKey));
+                                                                  Toast.message("BTC Private Key copied to clipboard");
                                                                 },
                                                               ),
                                                             ),
-                                                            initialValue:
-                                                                privateKey,
+                                                            initialValue: privateKey,
                                                           ),
                                                           TextFormField(
                                                             readOnly: true,
-                                                            decoration:
-                                                                InputDecoration(
+                                                            decoration: InputDecoration(
                                                               label: Text(
                                                                 "Address",
-                                                                style: TextStyle(
-                                                                    color: Theme.of(
-                                                                            context)
-                                                                        .colorScheme
-                                                                        .btcOrange),
+                                                                style: TextStyle(color: Theme.of(context).colorScheme.btcOrange),
                                                               ),
-                                                              suffixIcon:
-                                                                  IconButton(
+                                                              suffixIcon: IconButton(
                                                                 icon: Icon(
                                                                   Icons.copy,
-                                                                  color: Theme.of(
-                                                                          context)
-                                                                      .colorScheme
-                                                                      .btcOrange,
+                                                                  color: Theme.of(context).colorScheme.btcOrange,
                                                                 ),
-                                                                onPressed:
-                                                                    () async {
-                                                                  await Clipboard.setData(
-                                                                      ClipboardData(
-                                                                          text:
-                                                                              token.btcAddress));
-                                                                  Toast.message(
-                                                                      "BTC Address copied to clipboard");
+                                                                onPressed: () async {
+                                                                  await Clipboard.setData(ClipboardData(text: token.btcAddress));
+                                                                  Toast.message("BTC Address copied to clipboard");
                                                                 },
                                                               ),
                                                             ),
-                                                            initialValue: token
-                                                                .btcAddress,
+                                                            initialValue: token.btcAddress,
                                                           ),
                                                         ],
                                                       ),
@@ -333,28 +264,19 @@ class TokenizeBtcListScreen extends BaseScreen {
                                                     actions: [
                                                       TextButton(
                                                         onPressed: () async {
-                                                          final confirmed =
-                                                              await ConfirmDialog
-                                                                  .show(
-                                                            title:
-                                                                "Confirm Close",
-                                                            body:
-                                                                "Have you copy and pasted your private key to a safe location?",
+                                                          final confirmed = await ConfirmDialog.show(
+                                                            title: "Confirm Close",
+                                                            body: "Have you copy and pasted your private key to a safe location?",
                                                             confirmText: "Yes",
                                                             cancelText: "No",
                                                           );
-                                                          if (confirmed ==
-                                                              true) {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
+                                                          if (confirmed == true) {
+                                                            Navigator.of(context).pop();
                                                           }
                                                         },
                                                         child: Text(
                                                           "Close",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white),
+                                                          style: TextStyle(color: Colors.white),
                                                         ),
                                                       )
                                                     ],
@@ -370,17 +292,12 @@ class TokenizeBtcListScreen extends BaseScreen {
                                         AppButton(
                                           label: "Transfer",
                                           onPressed: () async {
-                                            final nft = await NftService()
-                                                .retrieve(
-                                                    token.smartContractUid);
+                                            final nft = await NftService().retrieve(token.smartContractUid);
                                             if (nft == null) {
-                                              Toast.error(
-                                                  "Could not resolve nft from ${token.smartContractUid}");
+                                              Toast.error("Could not resolve nft from ${token.smartContractUid}");
                                               return;
                                             }
-                                            await initTransferNftProcess(
-                                                context, ref, nft,
-                                                backupRequired: true);
+                                            await initTransferNftProcess(context, ref, nft, backupRequired: true);
                                           },
                                         ),
                                       ],
@@ -389,10 +306,7 @@ class TokenizeBtcListScreen extends BaseScreen {
                                 ),
                                 IconButton(
                                     onPressed: () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (_) => NftDetailScreen(
-                                                  id: token.smartContractUid)));
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => NftDetailScreen(id: token.smartContractUid)));
                                     },
                                     icon: Icon(Icons.chevron_right))
                               ],
@@ -406,18 +320,13 @@ class TokenizeBtcListScreen extends BaseScreen {
                                     constraints: BoxConstraints(maxWidth: 600),
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text("Name: ${token.tokenName}"),
-                                        Text(
-                                            "Description: ${token.tokenDescription}"),
-                                        SelectableText(
-                                            "VFX Owner: ${token.rbxAddress}"),
-                                        SelectableText(
-                                            "BTC Address: ${token.btcAddress ?? '-'}"),
-                                        SelectableText(
-                                            "Smart Contract ID: ${token.smartContractUid}"),
+                                        Text("Description: ${token.tokenDescription}"),
+                                        SelectableText("VFX Owner: ${token.rbxAddress}"),
+                                        SelectableText("BTC Address: ${token.btcAddress ?? '-'}"),
+                                        SelectableText("Smart Contract ID: ${token.smartContractUid}"),
                                       ],
                                     ),
                                   );

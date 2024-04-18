@@ -28,7 +28,7 @@ class WebBuyRBXButton extends BaseComponent {
       variant: AppColorVariant.Success,
       onPressed: () async {
         if (Env.isTestNet) {
-          launchUrlString("https://testnet.vfx.network/faucet");
+          launchUrlString("https://testnet.rbx.network/faucet");
           return;
         }
 

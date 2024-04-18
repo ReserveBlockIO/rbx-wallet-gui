@@ -19,7 +19,7 @@ import 'env.dart';
 
 Future<bool> backupKeys(BuildContext context, WidgetRef ref) async {
   try {
-    final wallets = ref.read(walletListProvider);
+    final wallets = ref.read(walletListProvider).where((w) => !w.isReserved);
 
     String output = "";
 
@@ -57,17 +57,10 @@ Future<bool> backupKeys(BuildContext context, WidgetRef ref) async {
     final date = DateTime.now();
     final d = "${date.year}-${date.month}-${date.day}";
     if (Platform.isMacOS) {
-      await FileSaver.instance.saveAs(
-          name: "vfx-keys-backup-$d",
-          bytes: Uint8List.fromList(bytes),
-          ext: 'txt',
-          mimeType: MimeType.text);
+      await FileSaver.instance.saveAs(name: "vfx-keys-backup-$d", bytes: Uint8List.fromList(bytes), ext: 'txt', mimeType: MimeType.text);
     } else {
-      final data = await FileSaver.instance.saveFile(
-          name: "vfx-keys-backup-$d",
-          bytes: Uint8List.fromList(bytes),
-          ext: 'txt',
-          mimeType: MimeType.text);
+      final data =
+          await FileSaver.instance.saveFile(name: "vfx-keys-backup-$d", bytes: Uint8List.fromList(bytes), ext: 'txt', mimeType: MimeType.text);
       Toast.message("Saved to $data");
     }
 
@@ -99,8 +92,7 @@ Future<bool?> importMedia(BuildContext context, WidgetRef ref) async {
       if (filename.contains('/')) {
         final list = filename.split('/');
         if (filename.contains('thumbs')) {
-          filename = [list[list.length - 3], list[list.length - 2], list.last]
-              .join('/');
+          filename = [list[list.length - 3], list[list.length - 2], list.last].join('/');
         } else {
           filename = [list[list.length - 2], list.last].join('/');
         }
@@ -127,28 +119,22 @@ Future<bool?> importMedia(BuildContext context, WidgetRef ref) async {
 
 Future<bool> backupMedia(BuildContext context, WidgetRef ref) async {
   try {
-    Directory appDocDir = Platform.isMacOS
-        ? await getApplicationDocumentsDirectory()
-        : await getApplicationSupportDirectory();
+    Directory appDocDir = Platform.isMacOS ? await getApplicationDocumentsDirectory() : await getApplicationSupportDirectory();
 
     String rbxPath = appDocDir.path;
 
     final assetsFolderName = Env.isTestNet ? "AssetsTestNet" : "Assets";
 
     if (Platform.isMacOS) {
-      rbxPath =
-          rbxPath.replaceAll("/Documents", Env.isTestNet ? "/rbxtest" : "/vfx");
+      rbxPath = rbxPath.replaceAll("/Documents", Env.isTestNet ? "/rbxtest" : "/vfx");
     } else {
-      rbxPath = rbxPath.replaceAll("\\Roaming\\com.example\\rbx_wallet_gui",
-          "\\Local\\VFX${Env.isTestNet ? 'Test' : ''}");
+      rbxPath = rbxPath.replaceAll("\\Roaming\\com.example\\rbx_wallet_gui", "\\Local\\VFX${Env.isTestNet ? 'Test' : ''}");
     }
 
-    String inputPath =
-        "$rbxPath${Platform.isWindows ? '\\' : '/'}$assetsFolderName";
+    String inputPath = "$rbxPath${Platform.isWindows ? '\\' : '/'}$assetsFolderName";
 
-    final archive = Platform.isMacOS
-        ? createArchiveFromDirectory(Directory.fromUri(Uri.parse(inputPath)))
-        : createArchiveFromDirectory(Directory(inputPath));
+    final archive =
+        Platform.isMacOS ? createArchiveFromDirectory(Directory.fromUri(Uri.parse(inputPath))) : createArchiveFromDirectory(Directory(inputPath));
 
     var bytes = ZipEncoder().encode(archive);
     if (bytes == null) {
@@ -158,17 +144,10 @@ Future<bool> backupMedia(BuildContext context, WidgetRef ref) async {
     final date = DateTime.now();
     final d = "${date.year}-${date.month}-${date.day}";
     if (Platform.isMacOS) {
-      await FileSaver.instance.saveAs(
-          name: "vfx-media-backup-$d",
-          ext: "zip",
-          mimeType: MimeType.zip,
-          bytes: Uint8List.fromList(bytes));
+      await FileSaver.instance.saveAs(name: "vfx-media-backup-$d", ext: "zip", mimeType: MimeType.zip, bytes: Uint8List.fromList(bytes));
     } else {
-      final data = await FileSaver.instance.saveFile(
-          name: "vfx-media-backup-$d",
-          ext: "zip",
-          mimeType: MimeType.zip,
-          bytes: Uint8List.fromList(bytes));
+      final data =
+          await FileSaver.instance.saveFile(name: "vfx-media-backup-$d", ext: "zip", mimeType: MimeType.zip, bytes: Uint8List.fromList(bytes));
       Toast.message("Saved to $data");
     }
 
@@ -179,9 +158,7 @@ Future<bool> backupMedia(BuildContext context, WidgetRef ref) async {
   }
 }
 
-String generateRandomString(int len,
-    [String chars =
-        'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890']) {
+String generateRandomString(int len, [String chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890']) {
   var r = Random();
   return List.generate(len, (index) => chars[r.nextInt(chars.length)]).join();
 }

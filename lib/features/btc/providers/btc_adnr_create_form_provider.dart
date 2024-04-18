@@ -78,7 +78,7 @@ class BtcAdnrCreateFormProvider extends StateNotifier<BtcAdnrCreateFormState> {
     }
 
     if (state.selectedAddress == null) {
-      Toast.error("Selecting an VFX Address is required.");
+      Toast.error("Selecting a VFX Address is required.");
       return null;
     }
 
@@ -90,7 +90,7 @@ class BtcAdnrCreateFormProvider extends StateNotifier<BtcAdnrCreateFormState> {
     }
 
     if (wallet.balance < (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
-      Toast.error("Not enough VFX in your controlling wallet to delete an VFX domain. [${state.selectedAddress}]");
+      Toast.error("Not enough VFX in your controlling wallet to delete a VFX domain. [${state.selectedAddress}]");
       return null;
     }
 

@@ -21,8 +21,7 @@ class BtcService extends BaseService {
     try {
       final result = await getJson("/GetDefaultAddressType");
       if (result['Success'] == true) {
-        type = BtcAddressType.values
-            .firstWhereOrNull((t) => t.label == result['AddressType']);
+        type = BtcAddressType.values.firstWhereOrNull((t) => t.label == result['AddressType']);
       }
       return type ?? BtcAddressType.segwit;
     } catch (e) {
@@ -74,11 +73,9 @@ class BtcService extends BaseService {
     }
   }
 
-  Future<bool> importPrivateKey(
-      String privateKey, BtcAddressType addressType) async {
+  Future<bool> importPrivateKey(String privateKey, BtcAddressType addressType) async {
     try {
-      final result =
-          await getJson("/ImportPrivateKey/$privateKey/${addressType.value}");
+      final result = await getJson("/ImportPrivateKey/$privateKey/${addressType.value}");
       if (result["Success"] == true) {
         return true;
       }
@@ -116,11 +113,9 @@ class BtcService extends BaseService {
     }
   }
 
-  Future<BtcAccount?> retrieveAccount(String address,
-      {bool omitPrivateKey = true}) async {
+  Future<BtcAccount?> retrieveAccount(String address, {bool omitPrivateKey = true}) async {
     try {
-      final result =
-          await getJson("/GetBitcoinAccount/$address/$omitPrivateKey");
+      final result = await getJson("/GetBitcoinAccount/$address/$omitPrivateKey");
       if (result["Success"] == true) {
         return BtcAccount.fromJson(result['BitcoinAccount']);
       }
@@ -168,8 +163,7 @@ class BtcService extends BaseService {
 
   Future<List<BtcUtxo>> listUtxos(String address) async {
     try {
-      final result =
-          await getJson("/GetAddressUTXOList/$address", cleanPath: false);
+      final result = await getJson("/GetAddressUTXOList/$address", cleanPath: false);
 
       if (result['Success'] == true) {
         final items = (result['UTXOs'] ?? []) as List;
@@ -188,8 +182,7 @@ class BtcService extends BaseService {
 
   Future<List<BtcTransaction>> listTransactions(String address) async {
     try {
-      final result =
-          await getJson("/GetAddressTXList/$address", cleanPath: false);
+      final result = await getJson("/GetAddressTXList/$address", cleanPath: false);
 
       if (result['Success'] == true) {
         final items = (result['TXs'] ?? []) as List;
@@ -212,11 +205,7 @@ class BtcService extends BaseService {
     required String name,
   }) async {
     try {
-      final result = await getJson("/CreateAdnr/$address/$btcAddress/$name",
-          cleanPath: false);
-
-      print("BTC ADNR RESULT");
-      print(result);
+      final result = await getJson("/CreateAdnr/$address/$btcAddress/$name", cleanPath: false);
 
       if (result['Success'] == true) {
         if (result.containsKey('Hash')) {
@@ -240,9 +229,7 @@ class BtcService extends BaseService {
     required String toBtcAddress,
   }) async {
     try {
-      final result = await getJson(
-          "/TransferAdnr/$toRbxAddress/$fromBtcAddress/$toBtcAddress",
-          cleanPath: false);
+      final result = await getJson("/TransferAdnr/$toRbxAddress/$fromBtcAddress/$toBtcAddress", cleanPath: false);
 
       if (result['Result'] == "Success") {
         if (result.containsKey('Hash')) {
@@ -292,12 +279,8 @@ class BtcService extends BaseService {
       "RBXAddress": rbxAddress,
       "Name": name ?? "vBTC Token",
       "Description": description ?? "vBTC Token",
-      // "FileLocation": fileLocation,
+      "FileLocation": fileLocation,
     };
-
-    if (fileLocation != null) {
-      params['FileLocation'] = fileLocation;
-    }
 
     try {
       final result = await postJson(
@@ -306,19 +289,21 @@ class BtcService extends BaseService {
         cleanPath: false,
         inspect: true,
       );
-      print(jsonEncode(result));
 
       final Map<String, dynamic> data = result['data'];
 
       if (data.containsKey('Success') && data['Success'] == true) {
-        return data["Hash"];
+        if (data.containsKey("Hash")) {
+          return data["Hash"];
+        }
       }
 
-      Toast.error(result['Message']);
+      Toast.error(data['Message']);
 
       return null;
-    } catch (e) {
+    } catch (e, st) {
       print(e);
+      print(st);
       Toast.error(e.toString());
       return null;
     }
@@ -329,8 +314,7 @@ class BtcService extends BaseService {
       final result = await getJson("/GetTokenizedBTCList", cleanPath: false);
 
       if (result.containsKey("Success") && result['Success'] == true) {
-        if (result['TokenizedList'] == 'NULL' ||
-            result['TokenizedList'] == null) {
+        if (result['TokenizedList'] == 'NULL' || result['TokenizedList'] == null) {
           return [];
         }
         if (result['TokenizedList']["Result"] == null) {
@@ -357,8 +341,7 @@ class BtcService extends BaseService {
 
   Future<String?> generateTokenizedBitcoinAddress(String scUid) async {
     try {
-      final result =
-          await getJson("/GenerateTokenizedAddress/$scUid", cleanPath: false);
+      final result = await getJson("/GenerateTokenizedAddress/$scUid", cleanPath: false);
 
       if (result.containsKey("Success") && result['Success'] == true) {
         return result["Address"];
@@ -377,8 +360,7 @@ class BtcService extends BaseService {
 
   Future<String?> revealTokenizedBitcoinPrivateKey(String scUid) async {
     try {
-      final result =
-          await getJson("/RevealPrivateKey/$scUid", cleanPath: false);
+      final result = await getJson("/RevealPrivateKey/$scUid", cleanPath: false);
 
       if (result.containsKey("Success") && result['Success'] == true) {
         return "FakeAddress";

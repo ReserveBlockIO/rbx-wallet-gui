@@ -390,7 +390,6 @@ class CreateBtcAdnrModal extends BaseComponent {
                   final success = await formProvider.submit();
 
                   if (success == false) {
-                    Toast.error();
                     return;
                   }
 

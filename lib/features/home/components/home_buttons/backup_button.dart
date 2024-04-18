@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 
 import '../../../../core/base_component.dart';
 import '../../../../core/components/buttons.dart';
@@ -37,6 +39,9 @@ class BackupButton extends BaseComponent {
                           leading: const Icon(Icons.wallet),
                           trailing: const Icon(Icons.chevron_right),
                           onTap: () async {
+                            if (ref.read(walletListProvider).where((w) => w.isReserved).isNotEmpty) {
+                              await InfoDialog.show(title: "Notice", body: "Please note that Reserve/Protected Accounts will not be exported.");
+                            }
                             final success = await backupKeys(context, ref);
                             if (success == true) {
                               Navigator.of(context).pop();

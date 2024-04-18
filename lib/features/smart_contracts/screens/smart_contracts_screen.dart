@@ -72,8 +72,7 @@ class SmartContractsScreen extends BaseScreen {
                 BigButton(
                   title: "Create a Smart Contract & Mint",
                   iconData: Icons.create,
-                  body:
-                      "Start with a baseline smart contract and add customized features",
+                  body: "Start with a baseline smart contract and add customized features",
                   onPressed: () async {
                     if (!kDebugMode) {
                       if (!widgetGuardWalletIsSynced(ref)) {
@@ -82,32 +81,23 @@ class SmartContractsScreen extends BaseScreen {
                     }
 
                     if (ref.read(sessionProvider).btcSelected) {
-                      Toast.error(
-                          "Please choose an VFX wallet to begin creating a smart contract.");
+                      Toast.error("Please choose a VFX wallet to begin creating a smart contract.");
                       return;
                     }
 
-                    if (ref.read(sessionProvider).currentWallet?.isReserved ==
-                        true) {
-                      Toast.error(
-                          "Reserve Accounts cannot mint smart contracts");
+                    if (ref.read(sessionProvider).currentWallet?.isReserved == true) {
+                      Toast.error("Reserve Accounts cannot mint smart contracts");
                       return;
                     }
 
-                    ref
-                        .read(createSmartContractProvider.notifier)
-                        .clearSmartContract();
-                    final id = await AutoRouter.of(context)
-                        .push(const SmartContractCreatorContainerScreenRoute());
+                    ref.read(createSmartContractProvider.notifier).clearSmartContract();
+                    final id = await AutoRouter.of(context).push(const SmartContractCreatorContainerScreenRoute());
 
                     if (id != null) {
                       ref.read(nftDetailProvider("$id").notifier).init();
-                      ref
-                          .read(createSmartContractProvider.notifier)
-                          .clearSmartContract();
+                      ref.read(createSmartContractProvider.notifier).clearSmartContract();
 
-                      AutoRouter.of(context)
-                          .push(NftDetailScreenRoute(id: "$id"));
+                      AutoRouter.of(context).push(NftDetailScreenRoute(id: "$id"));
                     }
                   },
                 ),
@@ -123,10 +113,9 @@ class SmartContractsScreen extends BaseScreen {
                 BigButton(
                   title: "Launch IDE",
                   iconData: Icons.code,
-                  body:
-                      "Open the online IDE to write your own Trillium code for your smart contract",
+                  body: "Open the online IDE to write your own Trillium code for your smart contract",
                   onPressed: () {
-                    launchUrl(Uri.parse("https://trillium.vfx.network/"));
+                    launchUrl(Uri.parse("https://trillium.rbx.network/"));
                   },
                 ),
                 // BigButton(

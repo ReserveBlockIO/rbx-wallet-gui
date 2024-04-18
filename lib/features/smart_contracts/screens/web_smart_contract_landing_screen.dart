@@ -76,16 +76,13 @@ class WebSmartContractLandingScreen extends BaseScreen {
                   BigButton(
                     title: "Create a Smart Contract & Mint",
                     iconData: Icons.create,
-                    body:
-                        "Start with a baseline smart contract and add customized features",
+                    body: "Start with a baseline smart contract and add customized features",
                     onPressed: () {
                       if (ref.read(webSessionProvider).usingRa) {
-                        Toast.error(
-                            "Reserve Accounts cannot mint smart contracts.");
+                        Toast.error("Reserve Accounts cannot mint smart contracts.");
                         return;
                       }
-                      AutoRouter.of(context)
-                          .push(const WebCreateSmartContractScreenRoute());
+                      AutoRouter.of(context).push(const WebCreateSmartContractScreenRoute());
                     },
                   ),
                   BigButton(
@@ -94,13 +91,11 @@ class WebSmartContractLandingScreen extends BaseScreen {
                     body: "Mint multiple Smart Contracts into a collection",
                     onPressed: () {
                       if (ref.read(webSessionProvider).usingRa) {
-                        Toast.error(
-                            "Reserve Accounts cannot mint smart contracts.");
+                        Toast.error("Reserve Accounts cannot mint smart contracts.");
                         return;
                       }
 
-                      AutoRouter.of(context)
-                          .push(const WebBulkCreateScreenRoute());
+                      AutoRouter.of(context).push(const WebBulkCreateScreenRoute());
 
                       // AutoRouter.of(context).push(WebSmartContractWizardScreenRoute());
                       // Navigator.of(context).push(
@@ -111,21 +106,19 @@ class WebSmartContractLandingScreen extends BaseScreen {
                   BigButton(
                     title: "Launch IDE",
                     iconData: Icons.code,
-                    body:
-                        "Open the online IDE to write your own Trillium code for your smart contract",
+                    body: "Open the online IDE to write your own Trillium code for your smart contract",
                     onPressed: () async {
                       if (isMobile) {
                         final confirmed = await ConfirmDialog.show(
                             title: "Launch IDE on mobile?",
-                            body:
-                                "The IDE is optimized for larger screens. Would you like to proceed?",
+                            body: "The IDE is optimized for larger screens. Would you like to proceed?",
                             confirmText: "Launch IDE");
                         if (confirmed != true) {
                           return;
                         }
                       }
 
-                      launchUrl(Uri.parse("https://trillium.vfx.network/"));
+                      launchUrl(Uri.parse("https://trillium.rbx.network/"));
                     },
                   ),
                 ],

@@ -94,7 +94,7 @@ class WalletSelector extends BaseComponent {
           ),
           child: Center(
             child: Tooltip(
-              message: "Select Address",
+              message: (currentWallet == null && currentBtcAccount == null) ? "Create/Import Address" : "Current Wallet Address",
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(

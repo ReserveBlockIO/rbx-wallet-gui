@@ -18,7 +18,7 @@ class AdnrScreen extends BaseScreen {
     final isBtc = ref.watch(sessionProvider).btcSelected;
 
     return AppBar(
-      title: Text(isBtc ? "VFX BTC Domain Service" : "VFX Domain Service"),
+      title: Text(isBtc ? "BTC Domain Service" : "VFX Domain Service"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
       actions: const [WalletSelector()],

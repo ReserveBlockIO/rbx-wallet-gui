@@ -27,15 +27,9 @@ class WebBtcAdnrContent extends BaseComponent {
 
     final rbxBalance = session.balance ?? 0;
 
-    final isPendingCreate = ref
-        .watch(adnrPendingProvider)
-        .contains("$address.create.${adnr ?? 'null'}");
-    final isPendingBurn = ref
-        .watch(adnrPendingProvider)
-        .contains("$address.delete.${adnr ?? 'null'}");
-    final isPendingTransfer = ref
-        .watch(adnrPendingProvider)
-        .contains("$address.transfer.${adnr ?? 'null'}");
+    final isPendingCreate = ref.watch(adnrPendingProvider).contains("$address.create.${adnr ?? 'null'}");
+    final isPendingBurn = ref.watch(adnrPendingProvider).contains("$address.delete.${adnr ?? 'null'}");
+    final isPendingTransfer = ref.watch(adnrPendingProvider).contains("$address.transfer.${adnr ?? 'null'}");
 
     if (isPendingCreate) {
       return const Center(
@@ -99,8 +93,7 @@ class WebBtcAdnrContent extends BaseComponent {
                       variant: AppColorVariant.Btc,
                       onPressed: () async {
                         if (rbxBalance < (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
-                          Toast.error(
-                              "Not enough VFX in your wallet to create an VFX domain. $ADNR_COST RBX required (plus TX fee).");
+                          Toast.error("Not enough VFX in your wallet to create a VFX domain. $ADNR_COST RBX required (plus TX fee).");
                           return;
                         }
 

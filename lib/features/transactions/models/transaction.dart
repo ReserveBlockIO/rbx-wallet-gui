@@ -117,6 +117,30 @@ class Transaction with _$Transaction {
         }
         return "NFT Sale";
       case 6:
+        final data = parseNftData(this);
+        if (data != null) {
+          if (nftDataValue(data, "Function") == "AdnrCreate()") {
+            return "ADNR Create";
+          }
+          if (nftDataValue(data, "Function") == "AdnrTransfer()") {
+            return "ADNR Transfer";
+          }
+
+          if (nftDataValue(data, "Function") == "AdnrDelete()") {
+            return "ADNR Delete";
+          }
+
+          if (nftDataValue(data, "Function") == "BTCAdnrCreate()") {
+            return "BTC ADNR Create";
+          }
+          if (nftDataValue(data, "Function") == "BTCAdnrTransfer()") {
+            return "BTC ADNR Transfer";
+          }
+
+          if (nftDataValue(data, "Function") == "BTCAdnrDelete()") {
+            return "BTC ADNR Delete";
+          }
+        }
         return "ADNR";
       case 7:
         return "DST Registration";
