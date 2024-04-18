@@ -279,7 +279,7 @@ class BtcService extends BaseService {
       "RBXAddress": rbxAddress,
       "Name": name ?? "vBTC Token",
       "Description": description ?? "vBTC Token",
-      "FileLocation": fileLocation,
+      "FileLocation": fileLocation ?? "default",
     };
 
     try {

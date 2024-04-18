@@ -45,10 +45,10 @@ class TokenizeBtcFormProvider extends StateNotifier<TokenizeBtcFormState> {
     }
 
     final assetLocation = state.asset?.location;
-    if (assetLocation == null) {
-      Toast.error("Token Image is CURRENTLY required.");
-      return null;
-    }
+    // if (assetLocation == null) {
+    //   Toast.error("Token Image is CURRENTLY required.");
+    //   return null;
+    // }
 
     state = state.copyWith(isProcessing: true);
 
