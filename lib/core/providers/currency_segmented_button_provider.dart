@@ -7,15 +7,13 @@ enum CurrencyType {
 }
 
 class CurrencySegementedButtonProvider extends StateNotifier<CurrencyType> {
-  final String family;
-
-  CurrencySegementedButtonProvider(this.family) : super(CurrencyType.any);
+  CurrencySegementedButtonProvider() : super(CurrencyType.any);
 
   set(CurrencyType type) {
     state = type;
   }
 }
 
-final currencySegementedButtonProvider = StateNotifierProvider.family<CurrencySegementedButtonProvider, CurrencyType, String>((ref, family) {
-  return CurrencySegementedButtonProvider(family);
+final currencySegementedButtonProvider = StateNotifierProvider<CurrencySegementedButtonProvider, CurrencyType>((ref) {
+  return CurrencySegementedButtonProvider();
 });

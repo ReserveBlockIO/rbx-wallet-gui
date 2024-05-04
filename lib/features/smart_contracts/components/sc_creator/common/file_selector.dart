@@ -27,6 +27,7 @@ class FileSelector extends BaseComponent {
   final bool readOnly;
   final bool withAuthorName;
   final bool allowReplace;
+  final List<String>? allowedExtensions;
   const FileSelector({
     Key? key,
     this.transparentBackground = false,
@@ -36,16 +37,19 @@ class FileSelector extends BaseComponent {
     this.readOnly = false,
     this.withAuthorName = false,
     this.allowReplace = true,
+    this.allowedExtensions,
   }) : super(key: key);
 
   Future<void> _handleUpload(WidgetRef ref) async {
     FilePickerResult? result;
     if (!kIsWeb) {
       final Directory currentDir = Directory.current;
-      result = await FilePicker.platform.pickFiles();
+      result =
+          await FilePicker.platform.pickFiles(allowedExtensions: allowedExtensions, type: allowedExtensions != null ? FileType.custom : FileType.any);
       Directory.current = currentDir;
     } else {
-      result = await FilePicker.platform.pickFiles();
+      result =
+          await FilePicker.platform.pickFiles(allowedExtensions: allowedExtensions, type: allowedExtensions != null ? FileType.custom : FileType.any);
     }
 
     if (result == null) {

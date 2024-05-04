@@ -6,7 +6,8 @@ import '../../../../../generated/assets.gen.dart';
 
 class CompileAnimation extends StatefulWidget {
   final bool mint;
-  const CompileAnimation(this.mint, {Key? key}) : super(key: key);
+  final bool btc;
+  const CompileAnimation(this.mint, {Key? key, this.btc = false}) : super(key: key);
 
   @override
   State<CompileAnimation> createState() => _CompileAnimationState();
@@ -62,7 +63,7 @@ class _CompileAnimationState extends State<CompileAnimation> with TickerProvider
                       width: 100,
                       height: 100,
                       child: Image.asset(
-                        Assets.images.animatedCube.path,
+                        widget.btc ? Assets.images.animatedCubeBtc.path : Assets.images.animatedCube.path,
                         scale: 1,
                       ),
                     ),
@@ -85,7 +86,12 @@ class _CompileAnimationState extends State<CompileAnimation> with TickerProvider
 
 class CompileAnimationComplete extends StatefulWidget {
   final bool mint;
-  const CompileAnimationComplete(this.mint, {Key? key}) : super(key: key);
+  final bool btc;
+  const CompileAnimationComplete(
+    this.mint, {
+    Key? key,
+    this.btc = false,
+  }) : super(key: key);
 
   @override
   State<CompileAnimationComplete> createState() => _CompileAnimationCompleteState();
@@ -145,7 +151,7 @@ class _CompileAnimationCompleteState extends State<CompileAnimationComplete> wit
                   },
                   duration: const Duration(milliseconds: 500),
                   startIconColor: Colors.transparent,
-                  endIconColor: Theme.of(context).colorScheme.success,
+                  endIconColor: widget.btc ? Theme.of(context).colorScheme.btcOrange : Theme.of(context).colorScheme.success,
                   clockwise: false,
                 ),
                 Text(

@@ -203,7 +203,7 @@ class SendForm extends BaseComponent {
                                       final allWallets = ref.watch(walletListProvider);
                                       final allBtcAccounts = ref.watch(btcAccountListProvider);
 
-                                      final currencyType = ref.watch(currencySegementedButtonProvider("SEND"));
+                                      final currencyType = ref.watch(currencySegementedButtonProvider);
 
                                       final list = <PopupMenuEntry<int>>[];
                                       if (currencyType != CurrencyType.btc) {

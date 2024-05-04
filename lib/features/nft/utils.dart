@@ -23,8 +23,7 @@ import 'models/nft.dart';
 import 'package:collection/collection.dart';
 
 Future<Nft> setAssetPath(Nft nft) async {
-  final assetPath = await SmartContractService()
-      .getAssetPath(nft.id, nft.primaryAsset.fileName);
+  final assetPath = await SmartContractService().getAssetPath(nft.id, nft.primaryAsset.fileName);
 
   if (assetPath != null) {
     final a = nft.primaryAsset.copyWith(localPath: assetPath);
@@ -45,8 +44,7 @@ Future<Nft> setAssetPath(Nft nft) async {
       final List<EvolvePhase> stages = [];
       for (final stage in nft.evolutionPhases) {
         if (stage.asset != null) {
-          final p = await SmartContractService()
-              .getAssetPath(nft.id, stage.asset!.fileName);
+          final p = await SmartContractService().getAssetPath(nft.id, stage.asset!.fileName);
           final a = stage.asset!.copyWith(localPath: p);
           stages.add(stage.copyWith(asset: a));
         } else {
@@ -61,8 +59,12 @@ Future<Nft> setAssetPath(Nft nft) async {
 }
 
 Future<dynamic> initTransferNftProcess(
-    BuildContext context, WidgetRef ref, Nft nft,
-    {bool backupRequired = false}) async {
+  BuildContext context,
+  WidgetRef ref,
+  Nft nft, {
+  bool backupRequired = false,
+  String? titleOverride,
+}) async {
   final id = nft.id;
 
   final _provider = ref.read(nftDetailProvider(id).notifier);
@@ -72,8 +74,7 @@ Future<dynamic> initTransferNftProcess(
   String? fromAddress;
 
   if (nft.isListed(ref)) {
-    Toast.error(
-        "This NFT is listed in your auction house. Please remove the listing before transferring.");
+    Toast.error("This NFT is listed in your auction house. Please remove the listing before transferring.");
     return;
   }
 
@@ -82,9 +83,7 @@ Future<dynamic> initTransferNftProcess(
       return;
     }
 
-    Wallet? wallet = ref
-        .read(walletListProvider)
-        .firstWhereOrNull((w) => w.address == nft.currentOwner);
+    Wallet? wallet = ref.read(walletListProvider).firstWhereOrNull((w) => w.address == nft.currentOwner);
     if (wallet == null) {
       Toast.error("No wallet selected");
       return;
@@ -149,7 +148,7 @@ Future<dynamic> initTransferNftProcess(
 
   PromptModal.show(
     contextOverride: context,
-    title: "Transfer NFT",
+    title: titleOverride ?? "Transfer NFT",
     validator: (value) => formValidatorRbxAddress(value, true),
     labelText: "VFX Address",
     confirmText: "Continue",
@@ -184,8 +183,7 @@ Future<dynamic> initTransferNftProcess(
         PromptModal.show(
           contextOverride: context,
           title: "Backup URL ${backupRequired ? '' : '(Optional)'}",
-          body:
-              "Paste in a public URL to a hosted zipfile containing the assets.",
+          body: "Paste in a public URL to a hosted zipfile containing the assets.",
           validator: (value) {
             if (backupRequired) {
               if (value == null || value.trim().isEmpty) {
@@ -208,11 +206,7 @@ Future<dynamic> initTransferNftProcess(
             if (confirmed == true) {
               final success = reservePassword != null
                   ? await _provider.transferFromReserveAccount(
-                      toAddress: address,
-                      fromAddress: fromAddress!,
-                      password: reservePassword,
-                      backupUrl: url,
-                      delayHours: delayHours!)
+                      toAddress: address, fromAddress: fromAddress!, password: reservePassword, backupUrl: url, delayHours: delayHours!)
                   : await _provider.transfer(address, url);
 
               if (!success) {

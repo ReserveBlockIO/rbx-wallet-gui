@@ -30,16 +30,14 @@ class ReserveAccountOverviewScreen extends BaseScreen {
       title: Text("Reserve Accounts"),
       backgroundColor: Colors.black,
       actions: [
-        TextButton(
-          onPressed: () {
-            AutoRouter.of(context).push(const ManageReserveAccountsScreenRoute());
-          },
-          child: Text(
-            "Manage Reserve Accounts",
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.secondary,
-              decoration: TextDecoration.underline,
-            ),
+        Padding(
+          padding: const EdgeInsets.only(right: 8.0),
+          child: AppButton(
+            label: "Manage Reserve Accounts",
+            variant: AppColorVariant.Secondary,
+            onPressed: () {
+              AutoRouter.of(context).push(const ManageReserveAccountsScreenRoute());
+            },
           ),
         ),
       ],
@@ -102,17 +100,12 @@ class ReserveAccountOverviewScreen extends BaseScreen {
                   },
                 ),
               ),
-              TextButton(
+              AppButton(
+                label: "Manage Reserve Accounts",
+                variant: AppColorVariant.Secondary,
                 onPressed: () {
                   AutoRouter.of(context).push(const ManageReserveAccountsScreenRoute());
                 },
-                child: Text(
-                  "Manage Reserve Accounts",
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.secondary,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
               ),
             ],
           );

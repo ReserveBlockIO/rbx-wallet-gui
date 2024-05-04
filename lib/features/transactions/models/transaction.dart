@@ -159,8 +159,25 @@ class Transaction with _$Transaction {
             return "Reserve (Recover)";
           }
         }
-
         return "Reserve";
+      case 11:
+        return "Smart Contract Mint";
+      case 12:
+        return "Smart Contract TX";
+      case 13:
+        return "Smart Contract Burn";
+      case 14:
+        return "Fungible Token Mint";
+      case 15:
+        return "Fungible Token TX";
+      case 16:
+        return "Fungible Token Burn";
+      case 17:
+        return "Tokenization Mint";
+      case 18:
+        return "Tokenization TX";
+      case 19:
+        return "Tokenization Burn";
       default:
         return type.toString();
     }

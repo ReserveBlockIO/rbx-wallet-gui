@@ -34,7 +34,6 @@ class AdnrScreen extends BaseScreen {
         Padding(
           padding: const EdgeInsets.only(bottom: 16.0),
           child: CurrencySegementedButton(
-            family: "ADNR",
             includeAny: false,
           ),
         ),

@@ -205,3 +205,11 @@ const MALWARE_FILE_EXTENSIONS = [
   "lok",
   "xnt",
 ];
+
+const IMAGE_EXTENSIONS = [
+  'jpg',
+  'jpeg',
+  'gif',
+  'png',
+  'webp',
+];

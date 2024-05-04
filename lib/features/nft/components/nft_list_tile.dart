@@ -19,6 +19,7 @@ class NftListTile extends BaseComponent {
   final bool manageOnPress;
   final Function()? onPressedOverride;
   final bool showListedStatus;
+  final Widget? trailingOverride;
 
   const NftListTile(
     this.nft, {
@@ -26,6 +27,7 @@ class NftListTile extends BaseComponent {
     this.manageOnPress = false,
     this.onPressedOverride,
     this.showListedStatus = false,
+    this.trailingOverride,
   }) : super(key: key);
 
   Future<void> _showDetails(BuildContext context, WidgetRef ref) async {
@@ -133,7 +135,7 @@ class NftListTile extends BaseComponent {
                 ],
               ),
       ),
-      trailing: const Icon(Icons.chevron_right),
+      trailing: trailingOverride ?? const Icon(Icons.chevron_right),
     );
   }
 }

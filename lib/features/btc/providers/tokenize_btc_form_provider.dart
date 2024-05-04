@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -7,6 +9,7 @@ import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
 import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
 import 'package:rbx_wallet/features/btc/services/btc_service.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/compile_animation.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 part 'tokenize_btc_form_provider.freezed.dart';
@@ -18,6 +21,8 @@ abstract class TokenizeBtcFormState with _$TokenizeBtcFormState {
   factory TokenizeBtcFormState({
     @Default(false) bool isProcessing,
     Asset? asset,
+    String? vfxAddress,
+    @Default([]) List<Asset> additionalAssets,
   }) = _TokenizeBtcFormState;
 }
 
@@ -34,21 +39,84 @@ class TokenizeBtcFormProvider extends StateNotifier<TokenizeBtcFormState> {
     state = state.copyWith(asset: asset);
   }
 
+  setAddress(String address) {
+    state = state.copyWith(vfxAddress: address);
+  }
+
+  addAdditonalAsset(Asset asset) {
+    state = state.copyWith(additionalAssets: [
+      ...state.additionalAssets,
+      asset,
+    ]);
+  }
+
+  replaceAdditionalAsset(int index, Asset asset) {
+    state = state.copyWith(
+      additionalAssets: [...state.additionalAssets]
+        ..removeAt(index)
+        ..insert(index, asset),
+    );
+  }
+
+  removeAdditionalAsset(int index) {
+    state = state.copyWith(additionalAssets: [...state.additionalAssets]..removeAt(index));
+  }
+
+  void showCompileAnimation(
+    BuildContext context,
+    Completer<BuildContext> completer, [
+    bool mint = false,
+  ]) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      // barrierColor: Colors.transparent,
+      builder: (dialogContext) {
+        if (!completer.isCompleted) {
+          completer.complete(dialogContext);
+        }
+        return Center(
+            child: CompileAnimation(
+          mint,
+          btc: true,
+        ));
+      },
+    );
+  }
+
+  void showCompileComplete(
+    BuildContext context,
+    Completer<BuildContext> completer, [
+    bool mint = false,
+  ]) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      // barrierColor: Colors.transparent,
+      builder: (dialogContext) {
+        if (!completer.isCompleted) {
+          completer.complete(dialogContext);
+        }
+        return Center(
+            child: CompileAnimationComplete(
+          mint,
+          btc: true,
+        ));
+      },
+    );
+  }
+
   Future<bool?> submit() async {
     if (!formKey.currentState!.validate()) {
       return null;
     }
-    final session = ref.read(sessionProvider);
-    if (session.currentWallet == null || session.btcSelected || session.currentWallet!.isReserved) {
-      Toast.error("Select a VFX Wallet is to proceed.");
+
+    if (state.vfxAddress == null) {
+      Toast.error("A VFX Wallet with a balance is required to proceed.");
       return null;
     }
 
     final assetLocation = state.asset?.location;
-    // if (assetLocation == null) {
-    //   Toast.error("Token Image is CURRENTLY required.");
-    //   return null;
-    // }
 
     state = state.copyWith(isProcessing: true);
 
@@ -64,7 +132,7 @@ class TokenizeBtcFormProvider extends StateNotifier<TokenizeBtcFormState> {
     }
 
     final hash = await BtcService().tokenizeBtc(
-      rbxAddress: session.currentWallet!.address,
+      rbxAddress: state.vfxAddress!,
       fileLocation: assetLocation,
       name: tokenName,
       description: tokenDescription,

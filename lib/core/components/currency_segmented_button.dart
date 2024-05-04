@@ -7,13 +7,11 @@ import 'package:rbx_wallet/core/theme/app_theme.dart';
 import '../providers/currency_segmented_button_provider.dart';
 
 class CurrencySegementedButton extends BaseComponent {
-  final String family;
   final Function(CurrencyType)? onChange;
   final bool shouldToggleGlobal;
   final bool includeAny;
   const CurrencySegementedButton({
     super.key,
-    required this.family,
     this.onChange,
     this.includeAny = true,
     this.shouldToggleGlobal = true,
@@ -21,8 +19,8 @@ class CurrencySegementedButton extends BaseComponent {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final provider = ref.read(currencySegementedButtonProvider(family).notifier);
-    final state = ref.watch(currencySegementedButtonProvider(family));
+    final provider = ref.read(currencySegementedButtonProvider.notifier);
+    final state = ref.watch(currencySegementedButtonProvider);
 
     return SegmentedButton<CurrencyType>(
       multiSelectionEnabled: false,

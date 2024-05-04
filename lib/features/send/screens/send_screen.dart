@@ -33,10 +33,8 @@ class SendScreen extends BaseScreen {
   Widget body(BuildContext context, WidgetRef ref) {
     final isBtc = ref.watch(sessionProvider).btcSelected;
 
-    final currentWallet =
-        !isBtc ? ref.watch(sessionProvider).currentWallet : null;
-    final currentBtcAccount =
-        isBtc ? ref.watch(sessionProvider).currentBtcAccount : null;
+    final currentWallet = !isBtc ? ref.watch(sessionProvider).currentWallet : null;
+    final currentBtcAccount = isBtc ? ref.watch(sessionProvider).currentBtcAccount : null;
     if (currentWallet == null && currentBtcAccount == null) {
       return const InvalidWallet(message: "No wallet selected");
     }
@@ -46,7 +44,7 @@ class SendScreen extends BaseScreen {
       children: [
         Padding(
           padding: const EdgeInsets.only(bottom: 16.0),
-          child: CurrencySegementedButton(family: "SEND"),
+          child: CurrencySegementedButton(),
         ),
         SendForm(
           wallet: currentWallet,

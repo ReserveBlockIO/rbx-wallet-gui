@@ -32,8 +32,7 @@ class WebTransaction with _$WebTransaction {
     @JsonKey(name: "recovery_details") WebRecoveryDetails? recoveryDetails,
   }) = _WebTransaction;
 
-  factory WebTransaction.fromJson(Map<String, dynamic> json) =>
-      _$WebTransactionFromJson(json);
+  factory WebTransaction.fromJson(Map<String, dynamic> json) => _$WebTransactionFromJson(json);
 
   Transaction toNative() {
     return Transaction(
@@ -103,8 +102,7 @@ class WebTransaction with _$WebTransaction {
       case 3:
         if (nftDataValue('Function') == "Transfer()") {
           return "NFT Transfer";
-        } else if (["ChangeEvolveStateSpecific()", "Evolve()", "Devolve()"]
-            .contains(nftDataValue('Function'))) {
+        } else if (["ChangeEvolveStateSpecific()", "Evolve()", "Devolve()"].contains(nftDataValue('Function'))) {
           return "NFT Evolution";
         }
 
@@ -154,7 +152,24 @@ class WebTransaction with _$WebTransaction {
           return "Reserve (Recover)";
         }
         return "Reserve";
-
+      case 11:
+        return "Smart Contract Mint";
+      case 12:
+        return "Smart Contract TX";
+      case 13:
+        return "Smart Contract Burn";
+      case 14:
+        return "Fungible Token Mint";
+      case 15:
+        return "Fungible Token TX";
+      case 16:
+        return "Fungible Token Burn";
+      case 17:
+        return "Tokenization Mint";
+      case 18:
+        return "Tokenization TX";
+      case 19:
+        return "Tokenization Burn";
       default:
         return "-";
     }
@@ -214,9 +229,7 @@ class WebTransaction with _$WebTransaction {
       return null;
     }
 
-    return d.containsKey(key) && d[key] is List
-        ? d[key] as List<dynamic>
-        : null;
+    return d.containsKey(key) && d[key] is List ? d[key] as List<dynamic> : null;
   }
 
   bool get isPendingSettlement {

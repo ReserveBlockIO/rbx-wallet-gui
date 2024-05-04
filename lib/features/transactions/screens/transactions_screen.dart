@@ -44,7 +44,6 @@ class TransactionsScreen extends BaseScreen {
         Padding(
           padding: const EdgeInsets.only(bottom: 16.0),
           child: CurrencySegementedButton(
-            family: "TRANSACTIONS",
             includeAny: false,
           ),
         ),

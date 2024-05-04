@@ -4,12 +4,18 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/nft/components/nft_list_tile.dart';
+import 'package:rbx_wallet/features/nft/models/nft.dart';
+import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
+import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
+import 'package:rbx_wallet/features/nft/services/nft_service.dart';
+import 'package:rbx_wallet/features/nft/utils.dart';
 import 'package:rbx_wallet/features/reserve/providers/pending_activation_provider.dart';
 import 'package:rbx_wallet/features/reserve/providers/reserve_account_provider.dart';
 import 'package:rbx_wallet/features/reserve/screens/reserve_account_overview_screen.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 class ManageReserveAccountsScreen extends BaseScreen {
@@ -184,7 +190,72 @@ class ManageReserveAccountsScreen extends BaseScreen {
                                             },
                                           ),
                                           AppButton(
-                                            label: "Receive Funds",
+                                            label: "Manage Assets",
+                                            variant: AppColorVariant.Secondary,
+                                            onPressed: () async {
+                                              // ref.read(sessionProvider.notifier).setCurrentWallet(ra);
+                                              // tabsRouter.setActiveIndex(1);
+                                              final nfts = ref.read(nftListProvider).data.results;
+
+                                              final List<Nft> ownedNfts = [];
+
+                                              for (final nft in nfts) {
+                                                final n = await NftService().retrieve(nft.id);
+                                                if (n != null && n.currentOwner == ra.address) {
+                                                  ownedNfts.add(n);
+                                                }
+                                              }
+
+                                              if (ownedNfts.isEmpty) {
+                                                Toast.message("This account has no assets/NFTS.");
+                                                return;
+                                              }
+
+                                              showModalBottomSheet(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return ModalContainer(
+                                                      withDecor: false,
+                                                      children: [
+                                                        Text("Manage Assets"),
+                                                        ...ownedNfts
+                                                            .map(
+                                                              (nft) => NftListTile(nft, onPressedOverride: () {
+                                                                // initTransferNftProcess(context, ref, nft);
+                                                                Navigator.of(context)
+                                                                    .push(MaterialPageRoute(builder: (_) => NftDetailScreen(id: nft.id)));
+                                                              },
+                                                                  trailingOverride: Row(
+                                                                    mainAxisSize: MainAxisSize.min,
+                                                                    children: [
+                                                                      AppButton(
+                                                                        label: "Transfer",
+                                                                        variant: AppColorVariant.Secondary,
+                                                                        onPressed: () {
+                                                                          initTransferNftProcess(context, ref, nft);
+                                                                        },
+                                                                      ),
+                                                                      SizedBox(
+                                                                        width: 8,
+                                                                      ),
+                                                                      AppButton(
+                                                                        label: "View Details",
+                                                                        onPressed: () {
+                                                                          Navigator.of(context)
+                                                                              .push(MaterialPageRoute(builder: (_) => NftDetailScreen(id: nft.id)));
+                                                                        },
+                                                                      ),
+                                                                    ],
+                                                                  )),
+                                                            )
+                                                            .toList()
+                                                      ],
+                                                    );
+                                                  });
+                                            },
+                                          ),
+                                          AppButton(
+                                            label: "Receive Assets/Funds",
                                             variant: AppColorVariant.Secondary,
                                             onPressed: () {
                                               ref.read(sessionProvider.notifier).setCurrentWallet(ra);
