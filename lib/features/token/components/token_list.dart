@@ -35,11 +35,11 @@ class TokenList extends BaseComponent {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              "No Fungible Tokens",
+              "No Fungible Tokens with Supply",
               style: TextStyle(fontSize: 18),
             ),
             SizedBox(height: 8),
-            Text("You have no fungible tokens minted/transferred to any of your wallets."),
+            Text("You have no fungible tokens with supply in any of your wallets."),
             SizedBox(height: 16),
             AppButton(
               label: "Create Token",

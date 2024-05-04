@@ -173,6 +173,12 @@ class Transaction with _$Transaction {
       case 16:
         return "Fungible Token Burn";
       case 17:
+        final data = parseNftData(this);
+        if (data != null) {
+          if (nftDataValue(data, 'Function') == "TokenDeploy()") {
+            return "Tokenization Mint (Deploy)";
+          }
+        }
         return "Tokenization Mint";
       case 18:
         return "Tokenization TX";
