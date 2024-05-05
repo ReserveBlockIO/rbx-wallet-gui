@@ -169,6 +169,14 @@ class Transaction with _$Transaction {
       case 14:
         return "Fungible Token Mint";
       case 15:
+        final data = parseNftData(this);
+        if (data != null) {
+          if (nftDataValue(data, 'Function') == "TokenMint()") {
+            final amount = nftDataValue(data, 'Amount');
+            final ticker = nftDataValue(data, 'TokenTicker');
+            return "Fungible Token Mint${amount != null ? ' ($amount${ticker != null ? ' $ticker' : ''})' : ''}";
+          }
+        }
         return "Fungible Token TX";
       case 16:
         return "Fungible Token Burn";
@@ -176,12 +184,13 @@ class Transaction with _$Transaction {
         final data = parseNftData(this);
         if (data != null) {
           if (nftDataValue(data, 'Function') == "TokenDeploy()") {
-            return "Tokenization Mint (Deploy)";
+            return "Fungible Token Deploy";
           }
         }
         return "Tokenization Mint";
       case 18:
         return "Tokenization TX";
+
       case 19:
         return "Tokenization Burn";
       default:

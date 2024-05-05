@@ -22,6 +22,8 @@ class ManageTokenGrid extends BaseComponent {
   Widget body(BuildContext context, WidgetRef ref) {
     final TokenListModel _model = ref.watch(tokenListProvider);
 
+    final tokens = _model.data.results.where((t) => t.tokenDetails != null).toList();
+
     return Column(
       children: [
         Padding(
@@ -61,9 +63,9 @@ class ManageTokenGrid extends BaseComponent {
                 crossAxisSpacing: 8.0,
                 mainAxisSpacing: 8.0,
               ),
-              itemCount: _model.data.results.length,
+              itemCount: tokens.length,
               itemBuilder: (context, index) {
-                final nft = _model.data.results[index];
+                final nft = tokens[index];
 
                 return TokenCard(nft: nft);
               },
