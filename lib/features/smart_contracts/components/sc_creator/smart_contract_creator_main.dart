@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
 import '../../../sc_property/components/properties_manager.dart';
 
 import '../../../../core/app_constants.dart';
@@ -116,6 +117,28 @@ class SmartContractCreatorMain extends BaseComponent {
       if (amountInt > MAX_COMPILE_QUANTITY) {
         Toast.error("The maxium number you can mint at one time is $MAX_COMPILE_QUANTITY.");
         return;
+      }
+    }
+
+    if (!kIsWeb) {
+      final String? backupUrl = await PromptModal.show(
+        contextOverride: context,
+        title: "Backup URL (Optional)",
+        body: "Paste in a public URL to a hosted zipfile containing the assets.",
+        validator: (value) {
+          return null;
+        },
+        labelText: "URL (Optional)",
+        confirmText: "Continue",
+      );
+
+      if (backupUrl != null) {
+        ref.read(createSmartContractProvider.notifier).addProperty(
+              ScProperty(
+                name: BACKUP_URL_PROPERTY_NAME,
+                value: backupUrl,
+              ),
+            );
       }
     }
 

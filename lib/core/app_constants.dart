@@ -33,6 +33,8 @@ const BTC_SATOSHI_MULTIPLIER = 0.00000001;
 const BTC_TX_EXPECTED_BYTES = 140;
 const BTC_MINIMUM_TX_AMOUNT = 0.00001;
 
+const BACKUP_URL_PROPERTY_NAME = "MEDIA_BACKUP_URL";
+
 class TxType {
   static const int rbxTransfer = 0;
   static const int node = 1;

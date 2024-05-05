@@ -4,6 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/features/token/models/token_details.dart';
 import 'package:rbx_wallet/features/token/models/token_sc_feature.dart';
 import '../../../core/utils.dart';
@@ -38,11 +39,11 @@ propertiesFromJson(Map<String, dynamic>? properties) {
 
     ScPropertyType type = ScPropertyType.text;
 
-    if (isNumeric(value)) {
+    if (key == BACKUP_URL_PROPERTY_NAME) {
+      type = ScPropertyType.url;
+    } else if (isNumeric(value)) {
       type = ScPropertyType.number;
-    }
-
-    if (value.length == 7 && value.startsWith("#")) {
+    } else if (value.length == 7 && value.startsWith("#")) {
       type = ScPropertyType.color;
     }
 

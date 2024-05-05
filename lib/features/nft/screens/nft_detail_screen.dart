@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../../core/providers/web_session_provider.dart';
 import '../../bridge/providers/wallet_info_provider.dart';
@@ -861,12 +862,36 @@ class NftPropertiesWrap extends StatelessWidget {
                         );
                       case ScPropertyType.number:
                         return Icon(Icons.numbers);
+                      case ScPropertyType.url:
+                        return Icon(Icons.link);
                       default:
                         return Icon(Icons.text_fields);
                     }
                   }),
-                  title: Text(p.value),
-                  subtitle: Text(p.name),
+                  title: Builder(builder: (context) {
+                    if (p.name == BACKUP_URL_PROPERTY_NAME) {
+                      final url = p.value.replaceAll("https//", "https://").replaceAll("http//", 'http://');
+                      return Tooltip(
+                        message: url,
+                        child: InkWell(
+                          onTap: () {
+                            launchUrlString(url);
+                          },
+                          child: Text(
+                            "Open",
+                            style: TextStyle(decoration: TextDecoration.underline),
+                          ),
+                        ),
+                      );
+                    }
+                    return Text(p.value);
+                  }),
+                  subtitle: Builder(builder: (context) {
+                    if (p.name == BACKUP_URL_PROPERTY_NAME) {
+                      return Text("Media Backup URL");
+                    }
+                    return Text(p.name);
+                  }),
                 ),
               ),
             ),

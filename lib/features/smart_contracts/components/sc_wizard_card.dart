@@ -672,6 +672,11 @@ class ScWizedCard extends BaseComponent {
                                 Icons.numbers,
                                 size: 18,
                               );
+                            case ScPropertyType.url:
+                              return Icon(
+                                Icons.link,
+                                size: 18,
+                              );
                             case ScPropertyType.color:
                               return Icon(
                                 Icons.color_lens,

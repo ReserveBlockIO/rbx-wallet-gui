@@ -97,6 +97,8 @@ class PropertiesManager extends BaseComponent {
                                       return Icon(Icons.text_fields);
                                     case ScPropertyType.number:
                                       return Icon(Icons.numbers);
+                                    case ScPropertyType.url:
+                                      return Icon(Icons.link);
                                     case ScPropertyType.color:
                                       return Icon(Icons.color_lens);
                                   }

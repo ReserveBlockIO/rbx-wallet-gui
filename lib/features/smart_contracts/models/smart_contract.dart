@@ -177,7 +177,6 @@ abstract class SmartContract with _$SmartContract {
       features.add(f);
     }
 
-
     if (token != null) {
       final f = {
         'FeatureName': TokenScFeature.compilerEnum,

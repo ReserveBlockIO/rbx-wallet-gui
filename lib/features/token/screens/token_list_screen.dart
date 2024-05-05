@@ -48,7 +48,7 @@ class TokenListScreen extends BaseScreen {
             const TabBar(
               tabs: [
                 Tab(
-                  child: Text("Tokens"),
+                  child: Text("Tokens with Supply"),
                 ),
                 Tab(
                   child: Text("Manage Tokens"),

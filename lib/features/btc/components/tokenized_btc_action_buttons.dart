@@ -395,7 +395,7 @@ class TokenizedBtcActionButtons extends BaseComponent {
                           Card(
                             color: Colors.white10,
                             child: ListTile(
-                              title: Text("Transfer Shares"),
+                              title: Text("Transfer Amounts"),
                               leading: Icon(FontAwesomeIcons.btc),
                               subtitle: Text("Transfer a specific portion of the BTC within the token to another BTC address."),
                               trailing: Icon(Icons.chevron_right),
@@ -573,7 +573,7 @@ class _TransferSharesModal extends BaseComponent {
       withDecor: false,
       children: [
         Text(
-          "Transfer Shares",
+          "Transfer Amounts",
           style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white),
         ),
         SizedBox(
