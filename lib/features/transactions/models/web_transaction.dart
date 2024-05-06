@@ -165,9 +165,12 @@ class WebTransaction with _$WebTransaction {
       case 16:
         return "Fungible Token Burn";
       case 17:
-        if (nftDataValue('Function') == "TokenDeploy()") {
-          return "Tokenization Mint (Deploy)";
+        if (data != null) {
+          if (nftDataValue('Function') == "TokenDeploy()") {
+            return "Fungible Token Deploy";
+          }
         }
+
         return "Tokenization Mint";
       case 18:
         return "Tokenization TX";

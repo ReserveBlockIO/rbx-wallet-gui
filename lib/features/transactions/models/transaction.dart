@@ -68,34 +68,8 @@ class Transaction with _$Transaction {
       case 3:
         final data = parseNftData(this);
         if (data != null) {
-          if (nftDataValue(data, 'Function') == "TokenMint()") {
-            return "Token Mint";
-          }
-
-          if (nftDataValue(data, 'Function') == "TokenTransfer()") {
-            return "Token Transfer";
-          }
-          if (nftDataValue(data, 'Function') == "TokenBurn()") {
-            return "Token Burn";
-          }
-
-          if (nftDataValue(data, 'Function') == "TokenContractOwnerChange()") {
-            return "Token Ownership Change";
-          }
-          if (nftDataValue(data, 'Function') == "TokenPause()") {
-            final isPause = nftDataValue(data, 'Pause') == "true";
-            return "Token ${isPause ? 'Pause' : 'Resume'}";
-          }
-
-          if (nftDataValue(data, 'Function') == "TokenBanAddress()") {
-            return "Token Ban Address";
-          }
-
-          if (nftDataValue(data, 'Function') == "TokenVoteTopicCast()") {
-            return "Token Vote Cast";
-          }
-          if (nftDataValue(data, 'Function') == "TokenVoteTopicCreate()") {
-            return "Token Topic Created";
+          if (nftDataValue(data, 'Function') == "Transfer()") {
+            return "NFT Transfer";
           }
         }
 
@@ -171,13 +145,45 @@ class Transaction with _$Transaction {
       case 15:
         final data = parseNftData(this);
         if (data != null) {
+          final amount = nftDataValue(data, 'Amount');
+          final ticker = nftDataValue(data, 'TokenTicker');
           if (nftDataValue(data, 'Function') == "TokenMint()") {
-            final amount = nftDataValue(data, 'Amount');
-            final ticker = nftDataValue(data, 'TokenTicker');
             return "Fungible Token Mint${amount != null ? ' ($amount${ticker != null ? ' $ticker' : ''})' : ''}";
           }
+          if (nftDataValue(data, 'Function') == "TokenBurn()") {
+            return "Fungible Token Burn${amount != null ? ' ($amount${ticker != null ? ' $ticker' : ''})' : ''}";
+          }
+
+          if (nftDataValue(data, 'Function') == "TokenTransfer()") {
+            return "Fungible Token Transfer${amount != null ? ' ($amount${ticker != null ? ' $ticker' : ''})' : ''}";
+          }
+
+          if (nftDataValue(data, 'Function') == "TokenBurn()") {
+            return "Fungible Token Burn${amount != null ? ' ($amount${ticker != null ? ' $ticker' : ''})' : ''}";
+          }
+
+          if (nftDataValue(data, 'Function') == "TokenContractOwnerChange()") {
+            return "Fungible Token Ownership Change${ticker != null ? ' ($ticker)' : ''}";
+          }
+          if (nftDataValue(data, 'Function') == "TokenPause()") {
+            final isPause = nftDataValue(data, 'Pause') == "true";
+            return "Fungible Token ${isPause ? 'Pause' : 'Resume'}${ticker != null ? ' ($ticker)' : ''}";
+          }
+
+          if (nftDataValue(data, 'Function') == "TokenBanAddress()") {
+            return "Fungible Token Ban Address${ticker != null ? ' ($ticker)' : ''}";
+          }
+
+          if (nftDataValue(data, 'Function') == "TokenVoteTopicCast()") {
+            return "Fungible Token Vote Cast${ticker != null ? ' ($ticker)' : ''}";
+          }
+          if (nftDataValue(data, 'Function') == "TokenVoteTopicCreate()") {
+            return "Fungible Token Topic Created${ticker != null ? ' ($ticker)' : ''}";
+          }
         }
+
         return "Fungible Token TX";
+
       case 16:
         return "Fungible Token Burn";
       case 17:
