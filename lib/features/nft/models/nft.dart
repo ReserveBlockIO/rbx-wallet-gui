@@ -33,9 +33,12 @@ propertiesFromJson(Map<String, dynamic>? properties) {
   }
 
   final List<ScProperty> output = [];
+  print(properties.entries);
   for (final kv in properties.entries) {
+    print(kv);
     final key = kv.key;
-    final String value = kv.value;
+    final String? value = kv.value;
+    if (value == null) continue;
 
     ScPropertyType type = ScPropertyType.text;
 
