@@ -36,7 +36,7 @@ class NftService extends BaseService {
     }
 
     // COMBINES NFTs and Tokens (for now...)
-    url = search.isNotEmpty ? "/GetAllSmartContracts/$page/true/$search" : "/GetAllSmartContracts/$page/false";
+    // url = search.isNotEmpty ? "/GetAllSmartContracts/$page/true/$search" : "/GetAllSmartContracts/$page/false";
 
     // final params = forTokens ? {'tokensOnly': true} : {'excludeToken': true};
 

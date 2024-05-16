@@ -47,6 +47,8 @@ class TxType {
   static const int voteTopic = 8;
   static const int vote = 9;
   static const int reserve = 10;
+
+  static const int tokenMint = 17;
 }
 
 const DEFAULT_REJECTED_EXTENIONS = [

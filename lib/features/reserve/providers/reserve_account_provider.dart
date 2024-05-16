@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/app.dart';
+import 'package:rbx_wallet/features/reserve/providers/ra_auto_activate_provider.dart';
 import '../../nft/providers/transferred_provider.dart';
 import '../../wallet/providers/wallet_detail_provider.dart';
 import '../../../core/components/buttons.dart';
@@ -137,15 +138,38 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
         );
 
         if (message != null) {
+          final txHash = message.replaceAll("Success! TxId: ", "");
           ref.read(logProvider.notifier).append(
-                LogEntry(message: message, textToCopy: message.replaceAll("Success! TxId: ", ""), variant: AppColorVariant.Success),
+                LogEntry(message: message, textToCopy: txHash, variant: AppColorVariant.Success),
               );
           await InfoDialog.show(
             contextOverride: context,
             title: "Funds Sent",
-            body: "$amount VFX has been sent to ${walletAddress}.\n\nPlease wait for transaction to reflect and then activate your Reserve Account.",
+            body: "$amount VFX has been sent to $walletAddress.\n\nPlease wait for transaction to reflect and then activate your Reserve Account.",
           );
           // Navigator.of(context).pop();
+
+          final confirmed = await ConfirmDialog.show(
+            title: "Auto Activate?",
+            body: "Would you like to automatically activate this account once the funds are received?",
+            confirmText: "Yes",
+            cancelText: "No",
+          );
+
+          if (confirmed == true) {
+            final password = await PromptModal.show(
+              contextOverride: context,
+              title: "Password",
+              validator: (v) => null,
+              lines: 1,
+              obscureText: true,
+              labelText: "Password",
+            );
+
+            if (password != null) {
+              ref.read(reserveAccountAutoActivateProvider.notifier).add(txHash, walletAddress, password);
+            }
+          }
         } else {
           Toast.error();
         }

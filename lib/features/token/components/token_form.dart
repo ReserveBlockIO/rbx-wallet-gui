@@ -294,10 +294,7 @@ class TokenForm extends BaseComponent {
                     return;
                   }
 
-                  ref.read(globalLoadingProvider.notifier).start();
                   final success = await provider.submit();
-
-                  ref.read(globalLoadingProvider.notifier).complete();
 
                   if (success == true) {
                     await InfoDialog.show(

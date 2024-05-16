@@ -6,7 +6,6 @@ import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/file_selector.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
@@ -14,8 +13,6 @@ import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 import '../providers/tokenize_btc_form_provider.dart';
-
-const allowMedia = false;
 
 class TokenizeBtcScreen extends BaseScreen {
   const TokenizeBtcScreen({super.key});
@@ -33,12 +30,6 @@ class TokenizeBtcScreen extends BaseScreen {
   Widget body(BuildContext context, WidgetRef ref) {
     final formState = ref.watch(tokenizeBtcFormProvider);
     final formProvider = ref.read(tokenizeBtcFormProvider.notifier);
-
-    final wallets = ref.watch(walletListProvider).where((a) => a.balance > MIN_RBX_FOR_SC_ACTION && !a.isReserved);
-
-    final session = ref.watch(sessionProvider);
-
-    final showVfxAddressSelector = wallets.length > 1 || false; // hide this
 
     return SingleChildScrollView(
       child: Form(
@@ -96,39 +87,37 @@ class TokenizeBtcScreen extends BaseScreen {
             SizedBox(
               height: 12,
             ),
-            if (allowMedia) ...[
-              Text(
-                "Media (Optional)",
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Theme.of(context).colorScheme.btcOrange,
-                ),
+            Text(
+              "Media (Optional)",
+              style: TextStyle(
+                fontSize: 16,
+                color: Theme.of(context).colorScheme.btcOrange,
               ),
-              ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: formState.additionalAssets.length,
-                  itemBuilder: (context, index) {
-                    final asset = formState.additionalAssets[index];
-                    return FileSelector(
-                      key: Key("${index}_${asset.fileName}"),
-                      asset: asset,
-                      onChange: (a) {
-                        if (a != null) {
-                          formProvider.replaceAdditionalAsset(index, a);
-                        } else {
-                          formProvider.removeAdditionalAsset(index);
-                        }
-                      },
-                    );
-                  }),
-              FileSelector(
-                onChange: (a) {
-                  if (a != null) {
-                    formProvider.addAdditonalAsset(a);
-                  }
-                },
-              ),
-            ],
+            ),
+            ListView.builder(
+                shrinkWrap: true,
+                itemCount: formState.additionalAssets.length,
+                itemBuilder: (context, index) {
+                  final asset = formState.additionalAssets[index];
+                  return FileSelector(
+                    key: Key("${index}_${asset.fileName}"),
+                    asset: asset,
+                    onChange: (a) {
+                      if (a != null) {
+                        formProvider.replaceAdditionalAsset(index, a);
+                      } else {
+                        formProvider.removeAdditionalAsset(index);
+                      }
+                    },
+                  );
+                }),
+            FileSelector(
+              onChange: (a) {
+                if (a != null) {
+                  formProvider.addAdditonalAsset(a);
+                }
+              },
+            ),
             Divider(),
             Center(
               child: AppButton(

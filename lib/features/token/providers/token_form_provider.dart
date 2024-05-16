@@ -2,14 +2,18 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/utils.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
+import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/smart_contract.dart';
 import 'package:rbx_wallet/features/smart_contracts/services/smart_contract_service.dart';
 import 'package:rbx_wallet/features/token/constants.dart';
 import 'package:rbx_wallet/features/token/models/token_sc_feature.dart';
+import 'package:rbx_wallet/features/token/providers/auto_mint_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 import 'package:path_provider/path_provider.dart' as syspaths;
@@ -129,8 +133,10 @@ class TokenFormProvider extends StateNotifier<TokenScFeature> {
 
     final timezoneName = ref.read(sessionProvider).timezoneName;
     final payload = sc.serializeForCompiler(timezoneName);
+    ref.read(globalLoadingProvider.notifier).start();
 
     final csc = await SmartContractService().compileSmartContract(payload);
+    ref.read(globalLoadingProvider.notifier).complete();
 
     if (csc == null) {
       Toast.error();
@@ -143,8 +149,10 @@ class TokenFormProvider extends StateNotifier<TokenScFeature> {
       print("CSC not successful");
       return false;
     }
+    ref.read(globalLoadingProvider.notifier).start();
 
     final details = await SmartContractService().retrieve(csc.smartContract.id);
+    ref.read(globalLoadingProvider.notifier).complete();
 
     if (details == null) {
       Toast.error();
@@ -154,7 +162,30 @@ class TokenFormProvider extends StateNotifier<TokenScFeature> {
 
     final id = details.smartContract.id;
 
+    if (state.mintable) {
+      final premintAmount = await PromptModal.show(
+        title: "Pre Mint Initial Supply?",
+        validator: (v) {
+          return null;
+        },
+        labelText: "Supply",
+        inputFormatters: [
+          FilteringTextInputFormatter.allow(
+            RegExp("[0-9.]"),
+          ),
+        ],
+      );
+      final parsedPremintAmount = premintAmount != null ? double.tryParse(premintAmount) : null;
+
+      if (parsedPremintAmount != null) {
+        ref.read(autoMintProvider.notifier).add(id, currentWallet.address, parsedPremintAmount);
+      }
+    }
+    ref.read(globalLoadingProvider.notifier).start();
+
     final success = await SmartContractService().mint(id);
+    ref.read(globalLoadingProvider.notifier).complete();
+
     if (!success) {
       Toast.error();
       print("Mint error");

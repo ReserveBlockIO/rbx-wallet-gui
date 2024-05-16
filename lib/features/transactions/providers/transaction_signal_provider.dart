@@ -8,8 +8,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_watcher.dart';
 import 'package:rbx_wallet/features/nft/providers/sale_provider.dart';
+import 'package:rbx_wallet/features/reserve/providers/ra_auto_activate_provider.dart';
+import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
+import 'package:rbx_wallet/features/token/providers/auto_mint_provider.dart';
 import 'package:rbx_wallet/features/token/providers/pending_token_pause_provider.dart';
 import 'package:rbx_wallet/features/token/providers/token_nfts_provider.dart';
+import 'package:rbx_wallet/features/token/services/token_service.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_listing_list_provider.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_shop_list_provider.dart';
 
@@ -43,9 +47,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
   TransactionSignalProvider(this.ref) : super([]);
 
   List<String> get _addresses {
-    return kIsWeb
-        ? ["${ref.read(webSessionProvider).keypair?.address}"]
-        : ref.read(walletListProvider).map((w) => w.address).toList();
+    return kIsWeb ? ["${ref.read(webSessionProvider).keypair?.address}"] : ref.read(walletListProvider).map((w) => w.address).toList();
   }
 
   bool _hasAddress(String address) {
@@ -53,10 +55,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
   }
 
   void insert(Transaction transaction) {
-    final threshold =
-        (DateTime.now().subtract(Duration(minutes: 5)).millisecondsSinceEpoch /
-                1000)
-            .round();
+    final threshold = (DateTime.now().subtract(Duration(minutes: 5)).millisecondsSinceEpoch / 1000).round();
     if (transaction.timestamp < threshold) {
       return;
     }
@@ -79,10 +78,10 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
 
     switch (transaction.type) {
       case TxType.rbxTransfer:
-        _handleFundsTransfer(transaction,
-            isOutgoing: isOutgoing, isIncoming: isIncoming);
+        _handleFundsTransfer(transaction, isOutgoing: isOutgoing, isIncoming: isIncoming);
         break;
       case TxType.nftMint:
+      case TxType.tokenMint:
         _handleNftMint(transaction);
         break;
       case TxType.voteTopic:
@@ -95,8 +94,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
         _handleAdnr(transaction);
         break;
       case TxType.nftTx:
-        _handleNftTx(transaction,
-            isOutgoing: isOutgoing, isIncoming: isIncoming);
+        _handleNftTx(transaction, isOutgoing: isOutgoing, isIncoming: isIncoming);
         break;
       case TxType.nftBurn:
         _handleNftBurn(transaction);
@@ -125,6 +123,22 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
           icon: Icons.move_to_inbox,
         ),
       );
+
+      final autoActivateData = ref.read(reserveAccountAutoActivateProvider);
+      if (autoActivateData.containsKey(transaction.hash)) {
+        final data = autoActivateData[transaction.hash];
+        final String? address = data['address'];
+        final String? password = data['password'];
+
+        if (address != null && password != null) {
+          ReserveAccountService().publish(address: address, password: password).then((success) {
+            if (success) {
+              Toast.message("Reserve Account Auto Activation process initiated");
+            }
+          });
+        }
+        ref.read(reserveAccountAutoActivateProvider.notifier).remove(transaction.hash);
+      }
     }
     if (isOutgoing) {
       _broadcastNotification(
@@ -132,8 +146,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
           identifier: "${transaction.hash}_outgoing",
           transaction: transaction,
           title: "Funds Sent",
-          body:
-              "${transaction.amount.toString().replaceAll('-', '')} VFX to ${transaction.toAddress}",
+          body: "${transaction.amount.toString().replaceAll('-', '')} VFX to ${transaction.toAddress}",
           icon: Icons.outbox,
         ),
       );
@@ -142,9 +155,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
     if (kIsWeb) {
       final address = ref.read(webSessionProvider).keypair?.address;
       if (address != null) {
-        ref
-            .read(webTransactionListProvider(address).notifier)
-            .checkForNew(address);
+        ref.read(webTransactionListProvider(address).notifier).checkForNew(address);
       }
     }
   }
@@ -165,6 +176,31 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
           ),
         );
         ref.read(tokenListProvider.notifier).reloadCurrentPage();
+
+        final scId = _nftDataValue(nftData, 'ContractUID');
+        if (scId != null) {
+          final autoMintData = ref.read(autoMintProvider);
+
+          if (autoMintData.containsKey(scId)) {
+            final Map<String, dynamic>? data = autoMintData[scId];
+            if (data != null) {
+              if (data.containsKey('amount') && data.containsKey('fromAddress')) {
+                final double? amount = data['amount'];
+                final String? fromAddress = data['fromAddress'];
+
+                if (amount != null && fromAddress != null) {
+                  TokenService().mint(scId: scId, fromAddress: fromAddress, amount: amount).then((success) {
+                    if (success == true) {
+                      Toast.message("Token Auto Mint initiated. ($scId: $amount)");
+                    }
+                  });
+                }
+              }
+            }
+
+            ref.read(autoMintProvider.notifier).remove(scId);
+          }
+        }
       } else {
         body = _nftDataValue(nftData, 'ContractUID');
         _broadcastNotification(
@@ -179,9 +215,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       }
     }
 
-    kIsWeb
-        ? ref.read(webSessionProvider.notifier).getNfts()
-        : ref.read(sessionProvider.notifier).smartContractLoop(false);
+    kIsWeb ? ref.read(webSessionProvider.notifier).getNfts() : ref.read(sessionProvider.notifier).smartContractLoop(false);
   }
 
   void _handleVoteTopic(Transaction transaction) {
@@ -192,12 +226,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       if (name == null) return;
       body = "Topic $name Created.";
       _broadcastNotification(
-        TransactionNotification(
-            identifier: transaction.hash,
-            transaction: transaction,
-            title: "Topic Created",
-            body: body,
-            icon: Icons.how_to_vote),
+        TransactionNotification(identifier: transaction.hash, transaction: transaction, title: "Topic Created", body: body, icon: Icons.how_to_vote),
       );
     }
   }
@@ -210,12 +239,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       if (topic == null) return;
       body = "Vote casted on $topic";
       _broadcastNotification(
-        TransactionNotification(
-            identifier: transaction.hash,
-            transaction: transaction,
-            title: "Vote Casted",
-            body: body,
-            icon: Icons.how_to_vote),
+        TransactionNotification(identifier: transaction.hash, transaction: transaction, title: "Vote Casted", body: body, icon: Icons.how_to_vote),
       );
     }
   }
@@ -382,9 +406,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
               body: "NFT evolved to state $evoState.",
               icon: Icons.change_circle),
         );
-        kIsWeb
-            ? ref.read(webSessionProvider.notifier).getNfts()
-            : ref.read(sessionProvider.notifier).smartContractLoop(false);
+        kIsWeb ? ref.read(webSessionProvider.notifier).getNfts() : ref.read(sessionProvider.notifier).smartContractLoop(false);
 
         return;
       }
@@ -419,9 +441,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       );
     }
 
-    kIsWeb
-        ? ref.read(webSessionProvider.notifier).getNfts()
-        : ref.read(sessionProvider.notifier).smartContractLoop(false);
+    kIsWeb ? ref.read(webSessionProvider.notifier).getNfts() : ref.read(sessionProvider.notifier).smartContractLoop(false);
   }
 
   void _handleAdnr(Transaction transaction) {
@@ -546,9 +566,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
         color: AppColorVariant.Danger,
       ),
     );
-    kIsWeb
-        ? ref.read(webSessionProvider.notifier).getNfts()
-        : ref.read(sessionProvider.notifier).smartContractLoop(false);
+    kIsWeb ? ref.read(webSessionProvider.notifier).getNfts() : ref.read(sessionProvider.notifier).smartContractLoop(false);
   }
 
   void _handleNftSale(Transaction transaction) async {
@@ -666,7 +684,6 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
   }
 }
 
-final transactionSignalProvider =
-    StateNotifierProvider<TransactionSignalProvider, List<Transaction>>((ref) {
+final transactionSignalProvider = StateNotifierProvider<TransactionSignalProvider, List<Transaction>>((ref) {
   return TransactionSignalProvider(ref);
 });

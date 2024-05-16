@@ -344,6 +344,10 @@ class TokenDetailsContent extends StatelessWidget {
           label: "Circulating Supply",
           value: token.currentSupply.toString(),
         ),
+        _DetailRow(
+          label: "Max Supply",
+          value: token.mintable ? 'Infinite' : token.startingSupply.toString(),
+        ),
         if (!token.mintable && token.currentSupply < token.startingSupply)
           _DetailRow(
             label: "Burned",

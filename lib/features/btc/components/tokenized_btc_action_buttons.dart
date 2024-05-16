@@ -432,8 +432,9 @@ class TokenizedBtcActionButtons extends BaseComponent {
                     context,
                     ref,
                     nft,
-                    backupRequired: true,
+                    backupRequired: false,
                     titleOverride: "Transfer Token",
+                    isToken: true,
                   );
                 }
                 if (option == 2) {

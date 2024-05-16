@@ -13,6 +13,8 @@ import 'package:rbx_wallet/core/providers/currency_segmented_button_provider.dar
 
 import 'package:rbx_wallet/features/balance/models/balance.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service_v2.dart';
+import 'package:rbx_wallet/features/reserve/providers/ra_auto_activate_provider.dart';
+import 'package:rbx_wallet/features/token/providers/auto_mint_provider.dart';
 import '../../features/btc/providers/tokenized_bitcoin_list_provider.dart';
 import '../../features/token/providers/token_list_provider.dart';
 
@@ -937,7 +939,6 @@ class SessionProvider extends StateNotifier<SessionModel> {
   }
 
   Future<void> btcLoop([bool inLoop = false]) async {
-    print("BTC LOOP");
     final addressType = await BtcService().addressType();
 
     if (addressType != state.btcAddressType) {

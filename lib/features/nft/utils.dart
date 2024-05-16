@@ -64,6 +64,7 @@ Future<dynamic> initTransferNftProcess(
   Nft nft, {
   bool backupRequired = false,
   String? titleOverride,
+  bool isToken = false,
 }) async {
   final id = nft.id;
 
@@ -74,7 +75,7 @@ Future<dynamic> initTransferNftProcess(
   String? fromAddress;
 
   if (nft.isListed(ref)) {
-    Toast.error("This NFT is listed in your auction house. Please remove the listing before transferring.");
+    Toast.error("This ${isToken ? 'Token' : 'NFT'} is listed in your auction house. Please remove the listing before transferring.");
     return;
   }
 
@@ -148,7 +149,7 @@ Future<dynamic> initTransferNftProcess(
 
   PromptModal.show(
     contextOverride: context,
-    title: titleOverride ?? "Transfer NFT",
+    title: titleOverride ?? "Transfer ${isToken ? 'Token' : 'NFT'}",
     validator: (value) => formValidatorRbxAddress(value, true),
     labelText: "VFX Address",
     confirmText: "Continue",
@@ -167,7 +168,7 @@ Future<dynamic> initTransferNftProcess(
         if (success == true) {
           ref.read(transferredProvider.notifier).addId(id);
 
-          Toast.message("NFT Transfer sent successfully to $address!");
+          Toast.message("${isToken ? 'Token' : 'NFT'} Transfer sent successfully to $address!");
           Navigator.of(context).pop();
         } else {
           Toast.error();
@@ -199,7 +200,7 @@ Future<dynamic> initTransferNftProcess(
             final confirmed = await ConfirmDialog.show(
               title: "Confirm Transfer",
               body:
-                  "Please confirm you want to send the NFT to \"$address\".${reservePassword == null ? '\n\nIf this address is not correct, there will be no way to recover the ownership of the NFT.' : ''}",
+                  "Please confirm you want to send the ${isToken ? 'Token' : 'NFT'} to \"$address\".${reservePassword == null ? '\n\nIf this address is not correct, there will be no way to recover the ownership of the ${isToken ? 'Token' : 'NFT'}.' : ''}",
               confirmText: "Send",
             );
 
@@ -216,7 +217,7 @@ Future<dynamic> initTransferNftProcess(
               await InfoDialog.show(
                 title: "Transfer in Progress",
                 body:
-                    "Please ensure to keep your wallet open until this NFT transfer transaction appears in your transaction list.\n\nTo monitor the asset transfer progress, open your 'nftlog.txt' in your databases folder.",
+                    "Please ensure to keep your wallet open until this ${isToken ? 'Token' : 'NFT'} transfer transaction appears in your transaction list.\n\nTo monitor the asset transfer progress, open your 'nftlog.txt' in your databases folder.",
                 closeText: "Okay",
               );
 
