@@ -129,7 +129,7 @@ class TokenizedBtcDetailScreen extends BaseScreen {
                   ),
                   _DetailRow(
                     label: "Balance",
-                    value: "0.0 BTC",
+                    value: "${token.balance} BTC",
                   ),
                 ],
               ),
