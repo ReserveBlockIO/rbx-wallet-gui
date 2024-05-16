@@ -26,7 +26,7 @@ mixin _$TokenizedBitcoin {
   String get smartContractUid => throw _privateConstructorUsedError;
   @JsonKey(name: "RBXAddress")
   String get rbxAddress => throw _privateConstructorUsedError;
-  @JsonKey(name: "BTCAddress")
+  @JsonKey(name: "DepositAddress")
   String? get btcAddress => throw _privateConstructorUsedError;
   @JsonKey(name: "TokenName")
   String get tokenName => throw _privateConstructorUsedError;
@@ -53,7 +53,7 @@ abstract class $TokenizedBitcoinCopyWith<$Res> {
       {@JsonKey(name: "Id") double id,
       @JsonKey(name: "SmartContractUID") String smartContractUid,
       @JsonKey(name: "RBXAddress") String rbxAddress,
-      @JsonKey(name: "BTCAddress") String? btcAddress,
+      @JsonKey(name: "DepositAddress") String? btcAddress,
       @JsonKey(name: "TokenName") String tokenName,
       @JsonKey(name: "TokenDescription") String tokenDescription,
       @JsonKey(name: "SmartContractMainId") double smartContractMainId,
@@ -131,7 +131,7 @@ abstract class _$$_TokenizedBitcoinCopyWith<$Res>
       {@JsonKey(name: "Id") double id,
       @JsonKey(name: "SmartContractUID") String smartContractUid,
       @JsonKey(name: "RBXAddress") String rbxAddress,
-      @JsonKey(name: "BTCAddress") String? btcAddress,
+      @JsonKey(name: "DepositAddress") String? btcAddress,
       @JsonKey(name: "TokenName") String tokenName,
       @JsonKey(name: "TokenDescription") String tokenDescription,
       @JsonKey(name: "SmartContractMainId") double smartContractMainId,
@@ -202,7 +202,7 @@ class _$_TokenizedBitcoin extends _TokenizedBitcoin {
       {@JsonKey(name: "Id") required this.id,
       @JsonKey(name: "SmartContractUID") required this.smartContractUid,
       @JsonKey(name: "RBXAddress") required this.rbxAddress,
-      @JsonKey(name: "BTCAddress") this.btcAddress,
+      @JsonKey(name: "DepositAddress") this.btcAddress,
       @JsonKey(name: "TokenName") required this.tokenName,
       @JsonKey(name: "TokenDescription") required this.tokenDescription,
       @JsonKey(name: "SmartContractMainId") required this.smartContractMainId,
@@ -222,7 +222,7 @@ class _$_TokenizedBitcoin extends _TokenizedBitcoin {
   @JsonKey(name: "RBXAddress")
   final String rbxAddress;
   @override
-  @JsonKey(name: "BTCAddress")
+  @JsonKey(name: "DepositAddress")
   final String? btcAddress;
   @override
   @JsonKey(name: "TokenName")
@@ -299,7 +299,7 @@ abstract class _TokenizedBitcoin extends TokenizedBitcoin {
           required final String smartContractUid,
       @JsonKey(name: "RBXAddress")
           required final String rbxAddress,
-      @JsonKey(name: "BTCAddress")
+      @JsonKey(name: "DepositAddress")
           final String? btcAddress,
       @JsonKey(name: "TokenName")
           required final String tokenName,
@@ -324,7 +324,7 @@ abstract class _TokenizedBitcoin extends TokenizedBitcoin {
   @JsonKey(name: "RBXAddress")
   String get rbxAddress;
   @override
-  @JsonKey(name: "BTCAddress")
+  @JsonKey(name: "DepositAddress")
   String? get btcAddress;
   @override
   @JsonKey(name: "TokenName")

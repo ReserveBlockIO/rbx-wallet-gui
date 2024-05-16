@@ -11,6 +11,7 @@ import 'package:rbx_wallet/core/theme/app_theme.dart';
 
 import 'package:rbx_wallet/features/btc/screens/tokenize_btc_screen.dart';
 import 'package:rbx_wallet/features/btc/screens/tokenized_btc_detail_screen.dart';
+import 'package:rbx_wallet/features/faucet/screens/faucet_screen.dart';
 
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
@@ -102,6 +103,23 @@ class TokenizeBtcListScreen extends BaseScreen {
               );
             },
           ),
+        ),
+        Text(
+          "Need VFX?",
+          style: TextStyle(fontSize: 12),
+        ),
+        AppButton(
+          label: "Claim Now!",
+          type: AppButtonType.Text,
+          variant: AppColorVariant.Secondary,
+          underlined: true,
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => FaucetScreen(),
+              ),
+            );
+          },
         ),
         Divider(),
         Expanded(

@@ -842,8 +842,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
           pm.run(params).then((result) {
             ref.read(logProvider.notifier).append(LogEntry(message: "Command ran successfully."));
           });
-          print("PARAMS: $params");
-          print("***********");
+
           singleton<ApiTokenManager>().set(apiToken);
 
           await Future.delayed(const Duration(seconds: 3));

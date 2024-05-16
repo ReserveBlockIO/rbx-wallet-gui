@@ -232,3 +232,16 @@ String getExtensionFromMimeType(String mimeType) {
       return '';
   }
 }
+
+String? cleanPhoneNumber(String phoneNumber) {
+  String cleanedNumber = phoneNumber.replaceAll(RegExp(r'[^\d]'), '');
+  if (cleanedNumber.length >= 10) {
+    // Check if the number is valid
+    if (cleanedNumber.length == 10) {
+      // If it's a 10-digit number, add "+1" at the beginning
+      cleanedNumber = '+1$cleanedNumber';
+    }
+    return cleanedNumber;
+  }
+  return null;
+}

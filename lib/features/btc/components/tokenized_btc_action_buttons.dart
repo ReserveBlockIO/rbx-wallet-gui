@@ -42,53 +42,51 @@ class TokenizedBtcActionButtons extends BaseComponent {
 
     return Builder(
       builder: (context) {
-        if (!debuggingAddressExists) {
-          if (token.btcAddress == null) {
-            if (pendingIds.contains(token.smartContractUid)) {
-              return Center(
-                child: AppBadge(
-                  label: "BTC Address Pending",
-                  variant: AppColorVariant.Primary,
-                ),
-              );
-            }
-
+        if (token.btcAddress == null) {
+          if (pendingIds.contains(token.smartContractUid)) {
             return Center(
-              child: AppButton(
-                label: "Generate BTC Address",
+              child: AppBadge(
+                label: "BTC Address Pending",
                 variant: AppColorVariant.Primary,
-                icon: Icons.star,
-                onPressed: () async {
-                  final confirmed = await ConfirmDialog.show(
-                    title: "Generate BTC Address",
-                    body: "Are you sure you want to generate this token's BTC address?",
-                    confirmText: "Generate",
-                    cancelText: "Cancel",
-                  );
-                  if (confirmed == true) {
-                    ref.read(globalLoadingProvider.notifier).start();
-                    final address = await BtcService().generateTokenizedBitcoinAddress(token.smartContractUid);
-                    ref.read(globalLoadingProvider.notifier).complete();
-
-                    if (address == null) {
-                      return;
-                    }
-
-                    Toast.message("BTC Address generated ($address)");
-                    ref.read(logProvider.notifier).append(
-                          LogEntry(
-                            message: "BTC Address generated ($address)",
-                            textToCopy: address,
-                            variant: AppColorVariant.Primary,
-                          ),
-                        );
-                    ref.read(tokenizedBitcoinListProvider.notifier).refresh();
-                    ref.read(btcPendingTokenizedAddressListProvider.notifier).addScId(token.smartContractUid);
-                  }
-                },
               ),
             );
           }
+
+          return Center(
+            child: AppButton(
+              label: "Generate BTC Address",
+              variant: AppColorVariant.Primary,
+              icon: Icons.star,
+              onPressed: () async {
+                final confirmed = await ConfirmDialog.show(
+                  title: "Generate BTC Address",
+                  body: "Are you sure you want to generate this token's BTC address?",
+                  confirmText: "Generate",
+                  cancelText: "Cancel",
+                );
+                if (confirmed == true) {
+                  ref.read(globalLoadingProvider.notifier).start();
+                  final address = await BtcService().generateTokenizedBitcoinAddress(token.smartContractUid);
+                  ref.read(globalLoadingProvider.notifier).complete();
+
+                  if (address == null) {
+                    return;
+                  }
+
+                  Toast.message("BTC Address generated ($address)");
+                  ref.read(logProvider.notifier).append(
+                        LogEntry(
+                          message: "BTC Address generated ($address)",
+                          textToCopy: address,
+                          variant: AppColorVariant.Primary,
+                        ),
+                      );
+                  ref.read(tokenizedBitcoinListProvider.notifier).refresh();
+                  ref.read(btcPendingTokenizedAddressListProvider.notifier).addScId(token.smartContractUid);
+                }
+              },
+            ),
+          );
         }
 
         return Wrap(

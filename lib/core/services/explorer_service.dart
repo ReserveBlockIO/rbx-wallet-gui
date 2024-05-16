@@ -239,4 +239,68 @@ class ExplorerService extends BaseService {
       return null;
     }
   }
+
+  Future<double> faucetInfo() async {
+    try {
+      final response = await getJson('/faucet/request');
+      return response['max_amount'] ?? 0;
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  Future<String> faucetRequest(String phone, double amount, String address) async {
+    try {
+      final response = await postJson(
+        '/faucet/request/',
+        params: {
+          'phone': phone,
+          'amount': amount,
+          'address': address,
+        },
+        validateStatus: (status) {
+          return status != null && status < 500;
+        },
+      );
+
+      print(response);
+      final data = response['data'];
+
+      if (data['uuid'] != null) {
+        return data['uuid'];
+      }
+
+      throw Exception(data['message']);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<String> faucetVerify(
+    String uuid,
+    String code,
+  ) async {
+    try {
+      final response = await postJson(
+        '/faucet/verify/',
+        params: {
+          'uuid': uuid,
+          'verification_code': code,
+        },
+        validateStatus: (status) {
+          return status != null && status < 500;
+        },
+      );
+
+      final data = response['data'];
+
+      if (data['hash'] != null) {
+        return data['hash'];
+      }
+
+      throw Exception(data['message']);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 }

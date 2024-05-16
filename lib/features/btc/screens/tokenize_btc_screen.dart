@@ -15,6 +15,8 @@ import 'package:rbx_wallet/utils/toast.dart';
 
 import '../providers/tokenize_btc_form_provider.dart';
 
+const allowMedia = false;
+
 class TokenizeBtcScreen extends BaseScreen {
   const TokenizeBtcScreen({super.key});
 
@@ -94,37 +96,39 @@ class TokenizeBtcScreen extends BaseScreen {
             SizedBox(
               height: 12,
             ),
-            Text(
-              "Media (Optional)",
-              style: TextStyle(
-                fontSize: 16,
-                color: Theme.of(context).colorScheme.btcOrange,
+            if (allowMedia) ...[
+              Text(
+                "Media (Optional)",
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Theme.of(context).colorScheme.btcOrange,
+                ),
               ),
-            ),
-            ListView.builder(
-                shrinkWrap: true,
-                itemCount: formState.additionalAssets.length,
-                itemBuilder: (context, index) {
-                  final asset = formState.additionalAssets[index];
-                  return FileSelector(
-                    key: Key("${index}_${asset.fileName}"),
-                    asset: asset,
-                    onChange: (a) {
-                      if (a != null) {
-                        formProvider.replaceAdditionalAsset(index, a);
-                      } else {
-                        formProvider.removeAdditionalAsset(index);
-                      }
-                    },
-                  );
-                }),
-            FileSelector(
-              onChange: (a) {
-                if (a != null) {
-                  formProvider.addAdditonalAsset(a);
-                }
-              },
-            ),
+              ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: formState.additionalAssets.length,
+                  itemBuilder: (context, index) {
+                    final asset = formState.additionalAssets[index];
+                    return FileSelector(
+                      key: Key("${index}_${asset.fileName}"),
+                      asset: asset,
+                      onChange: (a) {
+                        if (a != null) {
+                          formProvider.replaceAdditionalAsset(index, a);
+                        } else {
+                          formProvider.removeAdditionalAsset(index);
+                        }
+                      },
+                    );
+                  }),
+              FileSelector(
+                onChange: (a) {
+                  if (a != null) {
+                    formProvider.addAdditonalAsset(a);
+                  }
+                },
+              ),
+            ],
             Divider(),
             Center(
               child: AppButton(
@@ -253,6 +257,8 @@ class TokenizeBtcScreen extends BaseScreen {
                       body: "Once this transaction reflects on chain, you'll be able to generate a BTC address to deposit BTC funds into.",
                     );
                     Navigator.of(context).pop();
+                  } else {
+                    Navigator.pop(dialogContext);
                   }
                 },
               ),
