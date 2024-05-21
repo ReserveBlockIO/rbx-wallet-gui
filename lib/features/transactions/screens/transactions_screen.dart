@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/components/currency_segmented_button.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/btc/components/btc_utxo_list.dart';
+import 'package:rbx_wallet/core/components/back_to_home_button.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/providers/session_provider.dart';
@@ -24,12 +25,7 @@ class TransactionsScreen extends BaseScreen {
       title: Text(isBtc ? "BTC Transactions" : "Your Transactions"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      leading: IconButton(
-        icon: const Icon(Icons.refresh),
-        onPressed: () {
-          ref.read(sessionProvider.notifier).loadTransactions();
-        },
-      ),
+      leading: BackToHomeButton(),
       actions: const [WalletSelector()],
     );
   }
@@ -53,27 +49,10 @@ class TransactionsScreen extends BaseScreen {
               if (isBtc) {
                 final btcColor = Theme.of(context).colorScheme.btcOrange;
 
-                if (btcAccount == null) {
-                  return Center(
-                    child: Text("No BTC Account Selected"),
-                  );
-                }
-
                 return DefaultTabController(
                   length: 2,
                   child: Column(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          btcAccount.address,
-                          style: TextStyle(
-                            color: btcColor,
-                            fontSize: 16,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
                       TabBar(
                         indicatorColor: btcColor,
                         tabs: [
@@ -88,10 +67,8 @@ class TransactionsScreen extends BaseScreen {
                       Expanded(
                         child: TabBarView(
                           children: [
-                            BtcTransactionList(
-                              address: btcAccount.address,
-                            ),
-                            BtcUtxoList(address: btcAccount.address),
+                            BtcTransactionList(),
+                            BtcUtxoList(),
                           ],
                         ),
                       )

@@ -202,16 +202,30 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
           }
         }
       } else {
-        body = _nftDataValue(nftData, 'ContractUID');
-        _broadcastNotification(
-          TransactionNotification(
-            identifier: transaction.hash,
-            transaction: transaction,
-            title: "NFT Minted",
-            body: body,
-            icon: Icons.lightbulb_outline,
-          ),
-        );
+        if (transaction.type == 17) {
+          body = _nftDataValue(nftData, 'ContractUID');
+          _broadcastNotification(
+            TransactionNotification(
+              color: AppColorVariant.Btc,
+              identifier: transaction.hash,
+              transaction: transaction,
+              title: "vBTC Tokenization Mint",
+              body: body,
+              icon: Icons.lightbulb_outline,
+            ),
+          );
+        } else {
+          body = _nftDataValue(nftData, 'ContractUID');
+          _broadcastNotification(
+            TransactionNotification(
+              identifier: transaction.hash,
+              transaction: transaction,
+              title: "NFT Minted",
+              body: body,
+              icon: Icons.lightbulb_outline,
+            ),
+          );
+        }
       }
     }
 

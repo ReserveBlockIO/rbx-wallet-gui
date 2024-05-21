@@ -24,11 +24,19 @@ class InfoDialog {
     IconData? icon,
     Color? headerColor = Colors.white,
     Color? buttonColorOverride,
+    bool withBackArrow = false,
   }) {
     return AlertDialog(
       title: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
+          if (withBackArrow)
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: Icon(Icons.navigate_before),
+            ),
           if (icon != null)
             Padding(
               padding: const EdgeInsets.only(right: 8.0),
@@ -82,6 +90,7 @@ class InfoDialog {
     Color? headerColor = Colors.white,
     BuildContext? contextOverride,
     Color? buttonColorOverride,
+    bool withBackArrow = false,
   }) async {
     final context = rootNavigatorKey.currentContext!;
 
@@ -95,7 +104,8 @@ class InfoDialog {
             closeText: closeText,
             icon: icon,
             headerColor: headerColor,
-            buttonColorOverride: buttonColorOverride);
+            buttonColorOverride: buttonColorOverride,
+            withBackArrow: withBackArrow);
       },
     );
   }

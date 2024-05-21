@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
+import 'package:rbx_wallet/core/components/back_to_home_button.dart';
 import 'package:rbx_wallet/features/reserve/models/new_reserve_account.dart';
 import 'package:rbx_wallet/features/reserve/screens/manage_reserve_accounts_screen.dart';
 import '../../../core/utils.dart';
@@ -29,6 +30,7 @@ class ReserveAccountOverviewScreen extends BaseScreen {
     return AppBar(
       title: Text("Reserve Accounts"),
       backgroundColor: Colors.black,
+      leading: BackToHomeButton(),
       actions: [
         Padding(
           padding: const EdgeInsets.only(right: 8.0),

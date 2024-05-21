@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rbx_wallet/features/btc/providers/tokenized_bitcoin_list_provider.dart';
 import '../../../../core/theme/app_theme.dart';
 
 import '../../../../core/base_component.dart';
@@ -26,6 +27,8 @@ class MainMenu extends BaseComponent {
     final totalBalance = ref.watch(sessionProvider).totalBalance;
     final btcBalance = ref.watch(btcBalanceProvider);
     final btcAccountSyncInfo = ref.watch(sessionProvider).btcAccountSyncInfo;
+
+    final vBtcBalance = ref.watch(tokenizedBitcoinListProvider).fold<double>(0.0, (previousValue, element) => previousValue + element.balance);
 
     return Scrollbar(
       controller: scrollController,
@@ -145,7 +148,7 @@ class MainMenu extends BaseComponent {
                                 ),
                             children: [
                               TextSpan(
-                                text: "0.0",
+                                text: "$vBtcBalance",
                                 style: TextStyle(color: Colors.white),
                               ),
                               TextSpan(

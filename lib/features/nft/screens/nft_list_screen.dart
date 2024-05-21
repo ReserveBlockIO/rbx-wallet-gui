@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/components/back_to_home_button.dart';
+
 import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/providers/session_provider.dart';
@@ -35,6 +37,7 @@ class NftListScreen extends BaseScreen {
       title: const Text("NFTs"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
+      leading: BackToHomeButton(),
       actions: [
         Row(
           mainAxisSize: MainAxisSize.min,

@@ -7,6 +7,7 @@ import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/token/components/manage_token_grid.dart';
 import 'package:rbx_wallet/features/token/components/token_list.dart';
+import 'package:rbx_wallet/core/components/back_to_home_button.dart';
 
 class TokenListScreen extends BaseScreen {
   const TokenListScreen({super.key})
@@ -22,6 +23,7 @@ class TokenListScreen extends BaseScreen {
       backgroundColor: Colors.black54,
       centerTitle: true,
       title: Text("Fungible Tokens"),
+      leading: BackToHomeButton(),
       actions: [
         Padding(
           padding: const EdgeInsets.only(right: 8.0),

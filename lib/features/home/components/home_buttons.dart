@@ -219,22 +219,36 @@ class _HomeButtonsState extends State<HomeButtons> {
                         icon: Icons.info,
                         onPressed: () async {
                           final data = await BridgeService().getMempool();
-                          if (data == null) {
-                            Toast.message("Your Mempool is currently empty.");
-                            return;
-                          }
+                          // if (data == null) {
+                          //   Toast.message("Your Mempool is currently empty.");
+                          //   return;
+                          // }
                           showModalBottomSheet(
                               context: context,
                               builder: (context) {
                                 return ModalContainer(
                                   withDecor: false,
+                                  withClose: true,
                                   children: [
-                                    TextFormField(
-                                      minLines: 3,
-                                      maxLines: 8,
-                                      initialValue: data,
-                                      readOnly: true,
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                      child: Text(
+                                        "Mempool",
+                                        style: TextStyle(fontSize: 20),
+                                      ),
                                     ),
+                                    data == null
+                                        ? Text(
+                                            "Mempool is empty.",
+                                            style: TextStyle(fontFamily: "RobotoMono"),
+                                          )
+                                        : TextFormField(
+                                            minLines: 3,
+                                            maxLines: 8,
+                                            initialValue: data,
+                                            readOnly: true,
+                                            style: TextStyle(fontFamily: "RobotoMono"),
+                                          ),
                                   ],
                                 );
                               });

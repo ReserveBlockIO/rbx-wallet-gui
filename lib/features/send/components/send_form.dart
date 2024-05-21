@@ -59,7 +59,14 @@ class SendForm extends BaseComponent {
   }
 
   Future<void> chooseAddress(BuildContext context, WidgetRef ref, SendFormProvider formProvider) async {
-    final wallets = ref.read(walletListProvider);
+    List<String> addresses = [];
+
+    if (ref.read(currencySegementedButtonProvider) == CurrencyType.btc || ref.read(currencySegementedButtonProvider) == CurrencyType.any) {
+      addresses.addAll(ref.read(btcAccountListProvider).map((a) => a.address));
+    }
+    if (ref.read(currencySegementedButtonProvider) == CurrencyType.vfx || ref.read(currencySegementedButtonProvider) == CurrencyType.any) {
+      addresses.addAll(ref.read(walletListProvider).map((a) => a.address));
+    }
 
     final address = await showDialog(
         context: context,
@@ -80,14 +87,14 @@ class SendForm extends BaseComponent {
             content: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: wallets
+              children: addresses
                   .map(
-                    (w) => TextButton(
+                    (a) => TextButton(
                       onPressed: () {
-                        Navigator.of(context).pop(w.address);
+                        Navigator.of(context).pop(a);
                       },
                       child: Text(
-                        w.fullLabel,
+                        a,
                         style: const TextStyle(color: Colors.white, decoration: TextDecoration.underline),
                       ),
                     ),

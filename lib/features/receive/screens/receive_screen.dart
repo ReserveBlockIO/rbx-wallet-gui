@@ -6,7 +6,7 @@ import 'package:rbx_wallet/features/btc/models/btc_address_type.dart';
 import 'package:rbx_wallet/features/btc/providers/btc_account_list_provider.dart';
 import '../../../core/components/badges.dart';
 import '../../../core/theme/app_theme.dart';
-
+import 'package:rbx_wallet/core/components/back_to_home_button.dart';
 import '../../../core/base_screen.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';
@@ -29,6 +29,7 @@ class ReceiveScreen extends BaseScreen {
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
       actions: const [WalletSelector()],
+      leading: BackToHomeButton(),
     );
   }
 

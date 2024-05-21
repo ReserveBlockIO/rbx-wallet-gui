@@ -21,7 +21,7 @@ class TokenizeBtcScreen extends BaseScreen {
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
       backgroundColor: Colors.black,
-      title: Text("Tokenize BTC"),
+      title: Text("Tokenize BTC (vBTC)"),
       actions: [WalletSelector()],
     );
   }

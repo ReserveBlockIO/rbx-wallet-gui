@@ -185,6 +185,14 @@ class Transaction with _$Transaction {
         return "Fungible Token TX";
 
       case 16:
+        final data = parseNftData(this);
+        if (data != null) {
+          final amount = nftDataValue(data, 'Amount');
+          final ticker = nftDataValue(data, 'TokenTicker');
+          if (nftDataValue(data, 'Function') == "TokenBurn()") {
+            return "Fungible Token Burn${amount != null ? ' ($amount${ticker != null ? ' $ticker' : ''})' : ''}";
+          }
+        }
         return "Fungible Token Burn";
       case 17:
         final data = parseNftData(this);

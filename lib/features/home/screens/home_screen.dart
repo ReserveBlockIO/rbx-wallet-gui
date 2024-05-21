@@ -8,15 +8,10 @@ import '../../../core/app_constants.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/theme/app_theme.dart';
-import '../components/home_buttons/import_media_button.dart';
-import '../components/home_buttons/verify_nft_ownership_button.dart';
+
 import '../../payment/payment_utils.dart';
 import '../../../core/env.dart';
-import '../../bridge/providers/wallet_info_provider.dart';
-import '../components/home_buttons/import_snapshot_button.dart';
-import '../components/home_buttons/mother_button.dart';
-import '../components/home_buttons/reserve_accounts_button.dart';
-import '../components/home_buttons/validating_check_button.dart';
+
 import 'package:rbx_wallet/features/keygen/components/keygen_cta.dart'
     if (dart.library.io) 'package:rbx_wallet/features/keygen/components/keygen_cta_mock.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
@@ -24,16 +19,7 @@ import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/providers/session_provider.dart';
-import '../../hd/components/restore_hd_wallet_button.dart';
-import '../components/home_buttons/backup_button.dart';
-import '../components/home_buttons/encrypt_wallet_button.dart';
-import '../components/home_buttons/hd_wallet_button.dart';
-import '../components/home_buttons/open_db_button.dart';
-import '../components/home_buttons/open_log_button.dart';
-import '../components/home_buttons/print_addresses_button.dart';
-import '../components/home_buttons/print_validators_button.dart';
-import '../components/home_buttons/restart_cli_button.dart';
-import '../components/home_buttons/show_debug_data_button.dart';
+
 import '../components/log_window.dart';
 import '../components/transaction_window.dart';
 import 'package:url_launcher/url_launcher.dart';

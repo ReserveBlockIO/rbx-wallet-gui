@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/btc/providers/btc_account_list_provider.dart';
 
 import '../../../../core/base_component.dart';
 import '../../../../core/components/buttons.dart';
@@ -38,9 +39,8 @@ class PrintAdressesButton extends BaseComponent {
                     message: wallet.isReserved
                         ? "${wallet.address} (Available: ${wallet.availableBalance} VFX)"
                         : "${wallet.address} (${wallet.balance} VFX)",
-                    variant: AppColorVariant.Success,
-                    colorOverride:
-                        wallet.isReserved ? Colors.deepPurple.shade200 : null,
+                    variant: AppColorVariant.Light,
+                    colorOverride: wallet.isReserved ? Colors.deepPurple.shade200 : null,
                     textToCopy: wallet.address,
                     trailing: wallet.isReserved
                         ? InkWell(
@@ -50,12 +50,18 @@ class PrintAdressesButton extends BaseComponent {
                               color: Colors.deepPurple.shade200,
                             ),
                             onTap: () {
-                              ref
-                                  .read(reserveAccountProvider.notifier)
-                                  .showBalanceInfo(context, wallet);
+                              ref.read(reserveAccountProvider.notifier).showBalanceInfo(context, wallet);
                             },
                           )
                         : null));
+              }
+
+              for (final b in ref.read(btcAccountListProvider)) {
+                _log.append(LogEntry(
+                  message: "${b.address} (${b.balance} BTC)",
+                  variant: AppColorVariant.Btc,
+                  textToCopy: b.address,
+                ));
               }
             },
     );

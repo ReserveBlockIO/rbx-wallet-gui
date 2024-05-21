@@ -8,6 +8,7 @@ import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/core/components/back_to_home_button.dart';
 
 import 'package:rbx_wallet/features/btc/screens/tokenize_btc_screen.dart';
 import 'package:rbx_wallet/features/btc/screens/tokenized_btc_detail_screen.dart';
@@ -30,8 +31,10 @@ class TokenizeBtcListScreen extends BaseScreen {
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
       backgroundColor: Colors.black,
-      title: Text("Tokenized Bitcoins"),
+      title: Text("Tokenized Bitcoin (vBTC)"),
       actions: [WalletSelector()],
+      leading: BackToHomeButton(),
+
       // Padding(
       //   padding: const EdgeInsets.only(right: 8.0),
       //   child: AppButton(

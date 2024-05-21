@@ -336,7 +336,7 @@ class TokenDetailsContent extends StatelessWidget {
           copyable: true,
         ),
         _DetailRow(
-          label: "${token.mintable ? 'Starting' : 'Fixed'} Supply",
+          label: token.mintable ? 'Initial Issuance' : 'Fixed Supply',
           value: "${token.startingSupply.toString()} ",
         ),
         // if (token.currentSupply > 0)
@@ -345,7 +345,7 @@ class TokenDetailsContent extends StatelessWidget {
           value: token.currentSupply.toString(),
         ),
         _DetailRow(
-          label: "Max Supply",
+          label: "Lifetime Cap",
           value: token.mintable ? 'Infinite' : token.startingSupply.toString(),
         ),
         if (!token.mintable && token.currentSupply < token.startingSupply)
