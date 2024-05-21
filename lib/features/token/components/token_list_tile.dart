@@ -171,8 +171,17 @@ class TokenListTile extends BaseComponent {
                             final tokenAccount = TokenAccount.fromNft(nft, ref);
                             final tokenFeature = TokenScFeature.fromNft(nft);
                             if (tokenAccount != null && tokenFeature != null) {
-                              Navigator.of(context)
-                                  .push(MaterialPageRoute(builder: (_) => TokenManagementScreen(tokenAccount, tokenFeature, nft.id, address)));
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) => TokenManagementScreenContainer(
+                                    nftId: tokenAccount.smartContractId,
+                                    address: address,
+                                    tokenAccount: tokenAccount,
+                                    tokenFeature: tokenFeature,
+                                    ref: ref,
+                                  ),
+                                ),
+                              );
                               return;
                             }
                           }

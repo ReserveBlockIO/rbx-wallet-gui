@@ -198,6 +198,7 @@ class NftService extends BaseService {
           final d = data['SmartContractMain'];
           Nft nft = Nft.fromJson(d).copyWith(currentOwner: data['CurrentOwner']);
           final stateHeader = await getText('/GetCurrentSCOwner/$scId', cleanPath: false);
+
           final stateData = jsonDecode(stateHeader);
 
           if (stateData.containsKey("TokenDetails") && stateData['TokenDetails'] != null) {

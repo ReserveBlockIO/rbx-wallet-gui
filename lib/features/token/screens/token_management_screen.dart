@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/components/centered_loader.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/cached_memory_image_provider.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
@@ -32,6 +35,77 @@ import '../components/burn_tokens_button.dart';
 import '../components/change_token_ownership_button.dart';
 import '../components/pause_token_button.dart';
 import '../components/transfer_tokens_button.dart';
+
+class TokenManagementScreenContainer extends StatefulWidget {
+  final String nftId;
+  final String address;
+  final TokenAccount? tokenAccount;
+  final TokenScFeature tokenFeature;
+  final WidgetRef ref;
+
+  const TokenManagementScreenContainer({
+    super.key,
+    required this.address,
+    required this.nftId,
+    required this.ref,
+    required this.tokenAccount,
+    required this.tokenFeature,
+  });
+
+  @override
+  State<TokenManagementScreenContainer> createState() => _TokenManagementScreenContainerState();
+}
+
+class _TokenManagementScreenContainerState extends State<TokenManagementScreenContainer> {
+  Timer? timer;
+  TokenAccount? tokenAccount;
+  TokenScFeature? tokenFeature;
+
+  @override
+  void initState() {
+    tokenAccount = widget.tokenAccount;
+    tokenFeature = widget.tokenFeature;
+    timer = Timer.periodic(const Duration(seconds: 10), (Timer t) => load());
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+
+    super.dispose();
+  }
+
+  Future<void> load() async {
+    final nft = await NftService().getNftData(widget.nftId);
+    if (nft != null && nft.isToken) {
+      final _tokenAccount = TokenAccount.fromNft(nft, widget.ref);
+      final _tokenFeature = TokenScFeature.fromNft(nft);
+
+      widget.ref.invalidate(nftDetailWatcher(nft.id));
+
+      setState(() {
+        tokenAccount = _tokenAccount;
+        tokenFeature = _tokenFeature;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (tokenAccount == null || tokenFeature == null) {
+      return CenteredLoader();
+    }
+
+    return TokenManagementScreen(
+      tokenAccount!,
+      tokenFeature!,
+      widget.nftId,
+      widget.address,
+    );
+  }
+}
 
 class TokenManagementScreen extends BaseScreen {
   final TokenAccount tokenAccount;
@@ -346,7 +420,7 @@ class TokenDetailsContent extends StatelessWidget {
         ),
         _DetailRow(
           label: "Lifetime Cap",
-          value: token.mintable ? 'Infinite' : token.startingSupply.toString(),
+          value: token.mintable ? 'Infinite' : (min(token.currentSupply, token.startingSupply)).toString(),
         ),
         if (!token.mintable && token.currentSupply < token.startingSupply)
           _DetailRow(
