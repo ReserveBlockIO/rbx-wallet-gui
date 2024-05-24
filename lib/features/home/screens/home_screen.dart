@@ -53,82 +53,7 @@ class HomeScreen extends BaseScreen {
           ? SizedBox()
           : Padding(
               padding: const EdgeInsets.only(left: 4.0),
-              child: AppButton(
-                onPressed: () async {
-                  final String? type = await showModalBottomSheet(
-                      context: context,
-                      builder: (context) {
-                        return ModalContainer(
-                          withDecor: false,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(boxShadow: glowingBox),
-                              child: Card(
-                                color: Colors.black,
-                                child: ListTile(
-                                  title: Text("Get \$VFX Now"),
-                                  onTap: () {
-                                    Navigator.of(context).pop("vfx");
-                                  },
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 16,
-                            ),
-                            Container(
-                              decoration: BoxDecoration(boxShadow: glowingBoxBtc),
-                              child: Card(
-                                color: Colors.black,
-                                child: ListTile(
-                                  title: Text("Get \$BTC Now"),
-                                  onTap: () {
-                                    Navigator.of(context).pop("btc");
-                                  },
-                                ),
-                              ),
-                            )
-                          ],
-                        );
-                      });
-
-                  if (type == "vfx") {
-                    if (Env.isTestNet) {
-                      launchUrlString("https://testnet.rbx.network/faucet");
-                      return;
-                    }
-
-                    final agreed = await PaymentTermsDialog.show(context);
-
-                    if (agreed != true) {
-                      return;
-                    }
-
-                    final url = paymentUrl(amount: 5000, walletAddress: address, currency: "VFX");
-                    if (url != null) {
-                      launchUrl(Uri.parse(url));
-                    }
-                  } else if (type == "btc") {
-                    if (Env.isTestNet) {
-                      launchUrlString("https://coinfaucet.eu/en/btc-testnet/");
-                      return;
-                    }
-
-                    final agreed = await PaymentTermsDialog.show(context);
-
-                    if (agreed != true) {
-                      return;
-                    }
-
-                    final url = paymentUrl(amount: 5000, walletAddress: address, currency: "BTC");
-                    if (url != null) {
-                      launchUrl(Uri.parse(url));
-                    }
-                  }
-                },
-                label: "Get \$VFX/\$BTC Now",
-                variant: AppColorVariant.Success,
-              ),
+              child: GetVfxButton(address: address),
             ),
       actions: const [WalletSelector()],
     );
@@ -165,6 +90,101 @@ class HomeScreen extends BaseScreen {
           ),
         ),
       ),
+    );
+  }
+}
+
+class GetVfxButton extends StatelessWidget {
+  final String address;
+  final bool vfxOnly;
+
+  const GetVfxButton({
+    super.key,
+    required this.address,
+    this.vfxOnly = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AppButton(
+      onPressed: () async {
+        String? type = vfxOnly ? 'vfx' : null;
+
+        if (!vfxOnly) {
+          type = await showModalBottomSheet(
+              context: context,
+              builder: (context) {
+                return ModalContainer(
+                  withDecor: false,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(boxShadow: glowingBox),
+                      child: Card(
+                        color: Colors.black,
+                        child: ListTile(
+                          title: Text("Get \$VFX Now"),
+                          onTap: () {
+                            Navigator.of(context).pop("vfx");
+                          },
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(boxShadow: glowingBoxBtc),
+                      child: Card(
+                        color: Colors.black,
+                        child: ListTile(
+                          title: Text("Get \$BTC Now"),
+                          onTap: () {
+                            Navigator.of(context).pop("btc");
+                          },
+                        ),
+                      ),
+                    )
+                  ],
+                );
+              });
+        }
+
+        if (type == "vfx") {
+          if (Env.isTestNet) {
+            launchUrlString("https://testnet.rbx.network/faucet");
+            return;
+          }
+
+          final agreed = await PaymentTermsDialog.show(context);
+
+          if (agreed != true) {
+            return;
+          }
+
+          final url = paymentUrl(amount: 5000, walletAddress: address, currency: "VFX");
+          if (url != null) {
+            launchUrl(Uri.parse(url));
+          }
+        } else if (type == "btc") {
+          if (Env.isTestNet) {
+            launchUrlString("https://coinfaucet.eu/en/btc-testnet/");
+            return;
+          }
+
+          final agreed = await PaymentTermsDialog.show(context);
+
+          if (agreed != true) {
+            return;
+          }
+
+          final url = paymentUrl(amount: 5000, walletAddress: address, currency: "BTC");
+          if (url != null) {
+            launchUrl(Uri.parse(url));
+          }
+        }
+      },
+      label: vfxOnly ? "Get \$VFX" : "Get \$VFX/\$BTC Now",
+      variant: AppColorVariant.Success,
     );
   }
 }

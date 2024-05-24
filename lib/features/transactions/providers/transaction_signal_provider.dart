@@ -470,6 +470,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       if (function.contains('AdnrCreate')) {
         final name = _nftDataValue(nftData!, 'Name');
         if (name == null) return;
+
         body = "VFX Domain created for $name.vfx";
         _broadcastNotification(
           TransactionNotification(
@@ -519,7 +520,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
       if (function.contains('BtcAdnrCreate')) {
         final name = _nftDataValue(nftData!, 'Name');
         if (name == null) return;
-        body = "BTC Domain created for $name.vfx";
+        body = "BTC Domain created for $name.btc";
         _broadcastNotification(
           TransactionNotification(
               identifier: transaction.hash,

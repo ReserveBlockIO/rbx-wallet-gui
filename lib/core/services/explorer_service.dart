@@ -250,14 +250,17 @@ class ExplorerService extends BaseService {
   }
 
   Future<String> faucetRequest(String phone, double amount, String address) async {
+    final params = {
+      'phone': phone,
+      'amount': amount,
+      'address': address,
+    };
+
+    print(params);
     try {
       final response = await postJson(
         '/faucet/request/',
-        params: {
-          'phone': phone,
-          'amount': amount,
-          'address': address,
-        },
+        params: params,
         validateStatus: (status) {
           return status != null && status < 500;
         },
@@ -270,8 +273,10 @@ class ExplorerService extends BaseService {
         return data['uuid'];
       }
 
+      Toast.error(data['message']);
       throw Exception(data['message']);
     } catch (e) {
+      Toast.error(e.toString());
       throw Exception(e);
     }
   }

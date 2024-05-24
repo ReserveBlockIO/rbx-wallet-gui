@@ -358,12 +358,64 @@ class BtcService extends BaseService {
     }
   }
 
-  Future<String?> revealTokenizedBitcoinPrivateKey(String scUid) async {
+  Future<String?> transferTokenCoin(String scUid, String toAddress, double amount) async {
+    final params = {
+      'SCUID': scUid,
+      'ToAddress': toAddress,
+      'Amount': amount,
+    };
     try {
-      final result = await getJson("/RevealPrivateKey/$scUid", cleanPath: false);
+      final result = await postJson("/TransferCoin", cleanPath: false, params: params);
 
       if (result.containsKey("Success") && result['Success'] == true) {
-        return "FakeAddress";
+        return result['Hash'];
+      }
+
+      print(result['Message']);
+      Toast.error(result['Message']);
+      return null;
+    } catch (e) {
+      print(e);
+      Toast.error(e.toString());
+
+      return null;
+    }
+  }
+
+  Future<String?> withdrawCoin(String scUid, String toAddress, String fromAddress, double amount) async {
+    final params = {
+      'SCUID': scUid,
+      'ToAddress': toAddress,
+      'FromAddress': fromAddress,
+      'Amount': amount,
+    };
+    try {
+      final result = await postJson("/WithdrawalCoin", cleanPath: false, params: params);
+
+      if (result.containsKey("Success") && result['Success'] == true) {
+        return result['Hash'];
+      }
+
+      print(result['Message']);
+      Toast.error(result['Message']);
+      return null;
+    } catch (e) {
+      print(e);
+      Toast.error(e.toString());
+
+      return null;
+    }
+  }
+
+  Future<String?> replaceByFee(String txId, int feeRate) async {
+    try {
+      final result = await getJson(
+        "/ReplaceByFee/$txId/$feeRate",
+        cleanPath: false,
+      );
+
+      if (result.containsKey("Success") && result['Success'] == true) {
+        return result['Hash'];
       }
 
       print(result['Message']);

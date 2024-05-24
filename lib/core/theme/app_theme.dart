@@ -216,6 +216,16 @@ List<BoxShadow> get glowingBox {
   ];
 }
 
+List<BoxShadow> get glowingBoxRa {
+  return [
+    BoxShadow(
+      color: Colors.deepPurple.shade200.withOpacity(0.15),
+      spreadRadius: 3,
+      blurRadius: 3,
+    ),
+  ];
+}
+
 List<BoxShadow> get glowingBoxBtc {
   return [
     BoxShadow(

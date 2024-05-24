@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -17,12 +18,14 @@ import 'package:rbx_wallet/features/faucet/screens/faucet_screen.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
+import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:collection/collection.dart';
 
 import '../providers/btc_pending_tokenized_address_list_provider.dart';
 import '../providers/tokenize_btc_form_provider.dart';
 import '../providers/tokenized_bitcoin_list_provider.dart';
+import 'tokenize_btc_onboarding_screen.dart';
 
 class TokenizeBtcListScreen extends BaseScreen {
   const TokenizeBtcListScreen({super.key});
@@ -91,12 +94,37 @@ class TokenizeBtcListScreen extends BaseScreen {
             variant: AppColorVariant.Btc,
             icon: FontAwesomeIcons.bitcoin,
             onPressed: () async {
-              final wallet = ref.read(walletListProvider).firstWhereOrNull((a) => a.balance > MIN_RBX_FOR_SC_ACTION && !a.isReserved);
+              Wallet? wallet =
+                  kDebugMode ? null : ref.read(walletListProvider).firstWhereOrNull((a) => a.balance > MIN_RBX_FOR_SC_ACTION && !a.isReserved);
+              ;
 
               if (wallet == null) {
-                InfoDialog.show(title: "VFX Address Required", body: "A VFX address with a balance is required to proceed.");
-                return;
+                final confirmContinue = await ConfirmDialog.show(
+                  title: "VFX Address with Balance Required",
+                  body: "A VFX address with a balance is required to proceed. Would you like to set this up now?",
+                  confirmText: "Yes",
+                  cancelText: "No",
+                );
+                if (confirmContinue != true) {
+                  return;
+                }
+
+                final popReason = await Navigator.of(context).push(MaterialPageRoute(builder: (_) => TokenizeBtcOnboardingScreen()));
+                if (popReason == TokenizeBtcOnboardPop.cancelled) {
+                  return;
+                }
+
+                wallet = ref.read(walletListProvider).firstWhereOrNull((a) => a.balance > MIN_RBX_FOR_SC_ACTION && !a.isReserved);
+
+                if (wallet == null) {
+                  InfoDialog.show(
+                    title: "VFX Address with Balance Required",
+                    body: "A VFX address with a balance is required to proceed.",
+                  );
+                  return;
+                }
               }
+
               ref.read(tokenizeBtcFormProvider.notifier).setAddress(wallet.address);
 
               Navigator.of(context).push(

@@ -102,19 +102,19 @@ class WalletListProvider extends StateNotifier<List<Wallet>> {
     }
   }
 
-  Future<void> create() async {
-    if (!guardWalletIsNotResyncing(ref)) return;
+  Future<Wallet?> create() async {
+    if (!guardWalletIsNotResyncing(ref)) return null;
 
     final data = await BridgeService().newAddress();
 
     if (data == null) {
       Toast.error("An error occurred");
-      return;
+      return null;
     }
     final json = jsonDecode(data);
     final privateKey = json[0]['PrivateKey'];
 
-    await import(privateKey, true);
+    return await import(privateKey, true);
   }
 
   // void saveAll() {

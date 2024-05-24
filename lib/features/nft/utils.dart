@@ -65,6 +65,7 @@ Future<dynamic> initTransferNftProcess(
   bool backupRequired = false,
   String? titleOverride,
   bool isToken = false,
+  String? prefillAddress,
 }) async {
   final id = nft.id;
 
@@ -149,6 +150,7 @@ Future<dynamic> initTransferNftProcess(
 
   PromptModal.show(
     contextOverride: context,
+    initialValue: prefillAddress ?? '',
     title: titleOverride ?? "Transfer ${isToken ? 'Token' : 'NFT'}",
     validator: (value) => formValidatorRbxAddress(value, true),
     labelText: "VFX Address",

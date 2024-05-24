@@ -411,7 +411,7 @@ class TokenDetailsContent extends StatelessWidget {
         ),
         _DetailRow(
           label: token.mintable ? 'Initial Issuance' : 'Fixed Supply',
-          value: "${token.startingSupply.toString()} ",
+          value: token.mintable ? "${token.startingSupply.toString()} " : "${(min(token.currentSupply, token.startingSupply))}",
         ),
         // if (token.currentSupply > 0)
         _DetailRow(

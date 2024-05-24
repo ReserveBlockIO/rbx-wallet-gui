@@ -289,7 +289,7 @@ class WalletSelector extends BaseComponent {
                         final privateKey = data.first;
                         const addressType = BtcAddressType.segwit;
                         final success = await ref.read(btcAccountListProvider.notifier).importPrivateKey(privateKey, addressType);
-                        final btcAccountSyncInfo = ref.watch(sessionProvider).btcAccountSyncInfo;
+                        final btcAccountSyncInfo = ref.read(sessionProvider).btcAccountSyncInfo;
 
                         if (success) {
                           if (btcAccountSyncInfo != null) {
