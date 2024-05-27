@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
+import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
@@ -28,232 +29,245 @@ class TokenizeBtcScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
+    return SingleChildScrollView(
+      child: TokenizeBtcForm(
+        onSuccess: () {
+          Navigator.of(context).pop();
+        },
+      ),
+    );
+  }
+}
+
+class TokenizeBtcForm extends BaseComponent {
+  final VoidCallback onSuccess;
+  const TokenizeBtcForm({super.key, required this.onSuccess});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     final formState = ref.watch(tokenizeBtcFormProvider);
     final formProvider = ref.read(tokenizeBtcFormProvider.notifier);
+    return Form(
+      key: formProvider.formKey,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 6,
+          ),
+          TextFormField(
+            controller: formProvider.tokenNameController,
+            decoration: InputDecoration(
+              label: Text(
+                "Token Name (Optional)",
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.btcOrange,
+                ),
+              ),
+              hintText: "vBTC Token",
+            ),
+          ),
+          TextFormField(
+            controller: formProvider.tokenDescriptionController,
+            decoration: InputDecoration(
+              label: Text(
+                "Token Description (Optional)",
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.btcOrange,
+                ),
+              ),
+              hintText: "vBTC Token",
+            ),
+            minLines: 3,
+            maxLines: 3,
+          ),
+          SizedBox(
+            height: 12,
+          ),
+          Text(
+            "Token Image (Optional)",
+            style: TextStyle(
+              fontSize: 16,
+              color: Theme.of(context).colorScheme.btcOrange,
+            ),
+          ),
+          FileSelector(
+            asset: formState.asset,
+            allowedExtensions: IMAGE_EXTENSIONS,
+            onChange: (a) {
+              formProvider.setAsset(a);
+            },
+          ),
+          SizedBox(
+            height: 12,
+          ),
+          Text(
+            "Media (Optional)",
+            style: TextStyle(
+              fontSize: 16,
+              color: Theme.of(context).colorScheme.btcOrange,
+            ),
+          ),
+          ListView.builder(
+              shrinkWrap: true,
+              itemCount: formState.additionalAssets.length,
+              itemBuilder: (context, index) {
+                final asset = formState.additionalAssets[index];
+                return FileSelector(
+                  key: Key("${index}_${asset.fileName}"),
+                  asset: asset,
+                  onChange: (a) {
+                    if (a != null) {
+                      formProvider.replaceAdditionalAsset(index, a);
+                    } else {
+                      formProvider.removeAdditionalAsset(index);
+                    }
+                  },
+                );
+              }),
+          FileSelector(
+            onChange: (a) {
+              if (a != null) {
+                formProvider.addAdditonalAsset(a);
+              }
+            },
+          ),
+          Divider(),
+          Center(
+            child: AppButton(
+              processing: formState.isProcessing,
+              label: "Compile & Mint",
+              variant: AppColorVariant.Btc,
+              onPressed: () async {
+                if (formState.vfxAddress == null) {
+                  Toast.error("A VFX address is required");
+                  return;
+                }
 
-    return SingleChildScrollView(
-      child: Form(
-        key: formProvider.formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 6,
-            ),
-            TextFormField(
-              controller: formProvider.tokenNameController,
-              decoration: InputDecoration(
-                label: Text(
-                  "Token Name (Optional)",
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.btcOrange,
-                  ),
-                ),
-                hintText: "vBTC Token",
-              ),
-            ),
-            TextFormField(
-              controller: formProvider.tokenDescriptionController,
-              decoration: InputDecoration(
-                label: Text(
-                  "Token Description (Optional)",
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.btcOrange,
-                  ),
-                ),
-                hintText: "vBTC Token",
-              ),
-              minLines: 3,
-              maxLines: 3,
-            ),
-            SizedBox(
-              height: 12,
-            ),
-            Text(
-              "Token Image (Optional)",
-              style: TextStyle(
-                fontSize: 16,
-                color: Theme.of(context).colorScheme.btcOrange,
-              ),
-            ),
-            FileSelector(
-              asset: formState.asset,
-              allowedExtensions: IMAGE_EXTENSIONS,
-              onChange: (a) {
-                formProvider.setAsset(a);
-              },
-            ),
-            SizedBox(
-              height: 12,
-            ),
-            Text(
-              "Media (Optional)",
-              style: TextStyle(
-                fontSize: 16,
-                color: Theme.of(context).colorScheme.btcOrange,
-              ),
-            ),
-            ListView.builder(
-                shrinkWrap: true,
-                itemCount: formState.additionalAssets.length,
-                itemBuilder: (context, index) {
-                  final asset = formState.additionalAssets[index];
-                  return FileSelector(
-                    key: Key("${index}_${asset.fileName}"),
-                    asset: asset,
-                    onChange: (a) {
-                      if (a != null) {
-                        formProvider.replaceAdditionalAsset(index, a);
-                      } else {
-                        formProvider.removeAdditionalAsset(index);
-                      }
-                    },
+                if (formState.isProcessing) {
+                  return;
+                }
+
+                final confirmed = await ConfirmDialog.show(
+                    title: "Compile & Mint?",
+                    cancelText: "Cancel",
+                    confirmText: "Compile & Mint",
+                    content: Consumer(builder: (context, ref, child) {
+                      final formState = ref.watch(tokenizeBtcFormProvider);
+                      final formProvider = ref.read(tokenizeBtcFormProvider.notifier);
+
+                      final wallets = ref.watch(walletListProvider).where((a) => a.balance > MIN_RBX_FOR_SC_ACTION && !a.isReserved);
+
+                      return ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 500),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("This transaction requires a network fee ~0.000028 VFX."),
+                            if (wallets.length == 1) Text("VFX Wallet: ${formState.vfxAddress}"),
+                            if (wallets.length > 1)
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: 12,
+                                  ),
+                                  Text("Change Wallet:"),
+                                  Row(
+                                    children: [
+                                      PopupMenuButton<String>(
+                                        onSelected: (address) {
+                                          formProvider.setAddress(address);
+                                        },
+                                        color: Color(0xFF080808),
+                                        constraints: const BoxConstraints(
+                                          minWidth: 2.0 * 56.0,
+                                          maxWidth: 8.0 * 56.0,
+                                        ),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text("VFX Address:"),
+                                            SizedBox(width: 4),
+                                            Text(
+                                              formState.vfxAddress ?? "None",
+                                              style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+                                            ),
+                                            Transform.translate(
+                                              offset: Offset(0, 2),
+                                              child: Icon(
+                                                Icons.arrow_drop_down,
+                                                size: 18,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        itemBuilder: (context) {
+                                          return wallets.map(
+                                            (w) {
+                                              return PopupMenuItem(
+                                                value: w.address,
+                                                child: Text(
+                                                  "${w.labelWithoutTruncation} (${w.balance} VFX)",
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                    color: w.address == formState.vfxAddress ? Theme.of(context).colorScheme.secondary : Colors.white,
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          ).toList();
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            SizedBox(
+                              height: 12,
+                            ),
+                            Text("Continue?")
+                          ],
+                        ),
+                      );
+                    }));
+
+                if (confirmed != true) {
+                  return;
+                }
+
+                final compileAnimation = Completer<BuildContext>();
+                formProvider.showCompileAnimation(context, compileAnimation);
+                final dialogContext = await compileAnimation.future;
+
+                await Future.delayed(Duration(seconds: 2));
+
+                final success = await formProvider.submit();
+
+                if (success == true) {
+                  Navigator.pop(dialogContext);
+                  final completeAnimation = Completer<BuildContext>();
+                  formProvider.showCompileComplete(context, completeAnimation);
+                  final completedDialogContext = await completeAnimation.future;
+                  await Future.delayed(const Duration(seconds: 3));
+                  Navigator.pop(completedDialogContext);
+                  await InfoDialog.show(
+                    title: "Transaction Broadcasted",
+                    body: "Once this transaction reflects on chain, you'll be able to deposit BTC funds in this vBTC token.",
                   );
-                }),
-            FileSelector(
-              onChange: (a) {
-                if (a != null) {
-                  formProvider.addAdditonalAsset(a);
+
+                  onSuccess();
+                } else {
+                  Navigator.pop(dialogContext);
                 }
               },
             ),
-            Divider(),
-            Center(
-              child: AppButton(
-                processing: formState.isProcessing,
-                label: "Compile & Mint",
-                variant: AppColorVariant.Btc,
-                onPressed: () async {
-                  if (formState.vfxAddress == null) {
-                    Toast.error("A VFX address is required");
-                    return;
-                  }
-
-                  if (formState.isProcessing) {
-                    return;
-                  }
-
-                  final confirmed = await ConfirmDialog.show(
-                      title: "Compile & Mint?",
-                      cancelText: "Cancel",
-                      confirmText: "Compile & Mint",
-                      content: Consumer(builder: (context, ref, child) {
-                        final formState = ref.watch(tokenizeBtcFormProvider);
-                        final formProvider = ref.read(tokenizeBtcFormProvider.notifier);
-
-                        final wallets = ref.watch(walletListProvider).where((a) => a.balance > MIN_RBX_FOR_SC_ACTION && !a.isReserved);
-
-                        return ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 500),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("This transaction requires a network fee ~0.000028 VFX."),
-                              if (wallets.length == 1) Text("VFX Wallet: ${formState.vfxAddress}"),
-                              if (wallets.length > 1)
-                                Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      height: 12,
-                                    ),
-                                    Text("Change Wallet:"),
-                                    Row(
-                                      children: [
-                                        PopupMenuButton<String>(
-                                          onSelected: (address) {
-                                            formProvider.setAddress(address);
-                                          },
-                                          color: Color(0xFF080808),
-                                          constraints: const BoxConstraints(
-                                            minWidth: 2.0 * 56.0,
-                                            maxWidth: 8.0 * 56.0,
-                                          ),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Text("VFX Address:"),
-                                              SizedBox(width: 4),
-                                              Text(
-                                                formState.vfxAddress ?? "None",
-                                                style: TextStyle(color: Theme.of(context).colorScheme.secondary),
-                                              ),
-                                              Transform.translate(
-                                                offset: Offset(0, 2),
-                                                child: Icon(
-                                                  Icons.arrow_drop_down,
-                                                  size: 18,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          itemBuilder: (context) {
-                                            return wallets.map(
-                                              (w) {
-                                                return PopupMenuItem(
-                                                  value: w.address,
-                                                  child: Text(
-                                                    "${w.labelWithoutTruncation} (${w.balance} VFX)",
-                                                    style: TextStyle(
-                                                      fontSize: 12,
-                                                      color:
-                                                          w.address == formState.vfxAddress ? Theme.of(context).colorScheme.secondary : Colors.white,
-                                                    ),
-                                                  ),
-                                                );
-                                              },
-                                            ).toList();
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              SizedBox(
-                                height: 12,
-                              ),
-                              Text("Continue?")
-                            ],
-                          ),
-                        );
-                      }));
-
-                  if (confirmed != true) {
-                    return;
-                  }
-
-                  final compileAnimation = Completer<BuildContext>();
-                  formProvider.showCompileAnimation(context, compileAnimation);
-                  final dialogContext = await compileAnimation.future;
-
-                  await Future.delayed(Duration(seconds: 2));
-
-                  final success = await formProvider.submit();
-
-                  if (success == true) {
-                    Navigator.pop(dialogContext);
-                    final completeAnimation = Completer<BuildContext>();
-                    formProvider.showCompileComplete(context, completeAnimation);
-                    final completedDialogContext = await completeAnimation.future;
-                    await Future.delayed(const Duration(seconds: 3));
-                    Navigator.pop(completedDialogContext);
-                    await InfoDialog.show(
-                      title: "Transaction Broadcasted",
-                      body: "Once this transaction reflects on chain, you'll be able to generate a BTC address to deposit BTC funds into.",
-                    );
-                    Navigator.of(context).pop();
-                  } else {
-                    Navigator.pop(dialogContext);
-                  }
-                },
-              ),
-            )
-          ],
-        ),
+          )
+        ],
       ),
     );
   }

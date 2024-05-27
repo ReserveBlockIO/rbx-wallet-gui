@@ -10,6 +10,7 @@ import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/components/back_to_home_button.dart';
+import 'package:rbx_wallet/features/btc/models/tokenized_bitcoin.dart';
 
 import 'package:rbx_wallet/features/btc/screens/tokenize_btc_screen.dart';
 import 'package:rbx_wallet/features/btc/screens/tokenized_btc_detail_screen.dart';
@@ -96,7 +97,6 @@ class TokenizeBtcListScreen extends BaseScreen {
             onPressed: () async {
               Wallet? wallet =
                   kDebugMode ? null : ref.read(walletListProvider).firstWhereOrNull((a) => a.balance > MIN_RBX_FOR_SC_ACTION && !a.isReserved);
-              ;
 
               if (wallet == null) {
                 final confirmContinue = await ConfirmDialog.show(
@@ -109,8 +109,17 @@ class TokenizeBtcListScreen extends BaseScreen {
                   return;
                 }
 
-                final popReason = await Navigator.of(context).push(MaterialPageRoute(builder: (_) => TokenizeBtcOnboardingScreen()));
-                if (popReason == TokenizeBtcOnboardPop.cancelled) {
+                final token = await Navigator.of(context).push(MaterialPageRoute(builder: (_) => TokenizeBtcOnboardingScreen()));
+                if (token == null) {
+                  return;
+                }
+
+                if (token is TokenizedBitcoin) {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => TokenizedBtcDetailScreen(tokenId: token.id),
+                    ),
+                  );
                   return;
                 }
 
@@ -135,23 +144,23 @@ class TokenizeBtcListScreen extends BaseScreen {
             },
           ),
         ),
-        Text(
-          "Need VFX?",
-          style: TextStyle(fontSize: 12),
-        ),
-        AppButton(
-          label: "Claim Now!",
-          type: AppButtonType.Text,
-          variant: AppColorVariant.Secondary,
-          underlined: true,
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => FaucetScreen(),
-              ),
-            );
-          },
-        ),
+        // Text(
+        //   "Need VFX?",
+        //   style: TextStyle(fontSize: 12),
+        // ),
+        // AppButton(
+        //   label: "Claim Now!",
+        //   type: AppButtonType.Text,
+        //   variant: AppColorVariant.Secondary,
+        //   underlined: true,
+        //   onPressed: () {
+        //     Navigator.of(context).push(
+        //       MaterialPageRoute(
+        //         builder: (context) => FaucetScreen(),
+        //       ),
+        //     );
+        //   },
+        // ),
         Divider(),
         Expanded(
           child: tokens.isEmpty
