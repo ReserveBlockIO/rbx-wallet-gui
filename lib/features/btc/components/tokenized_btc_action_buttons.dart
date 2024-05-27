@@ -395,9 +395,9 @@ class TokenizedBtcActionButtons extends BaseComponent {
                           Card(
                             color: Colors.white10,
                             child: ListTile(
-                              title: Text("Transfer BTC"),
+                              title: Text("Transfer Token Shares"),
                               leading: Icon(FontAwesomeIcons.btc),
-                              subtitle: Text("Transfer a specific portion of the BTC within the token to another BTC address."),
+                              subtitle: Text("Transfer a specific portion of the BTC within the token to another address."),
                               trailing: Icon(Icons.chevron_right),
                               onTap: () {
                                 Navigator.of(context).pop(2);
@@ -409,7 +409,7 @@ class TokenizedBtcActionButtons extends BaseComponent {
                             child: ListTile(
                               title: Text("Withdraw BTC"),
                               leading: Icon(FontAwesomeIcons.btc),
-                              subtitle: Text("Withdraw BTC..."),
+                              subtitle: Text("Transfer BTC to another BTC address"),
                               trailing: Icon(Icons.chevron_right),
                               onTap: () {
                                 Navigator.of(context).pop(3);
@@ -459,6 +459,7 @@ class TokenizedBtcActionButtons extends BaseComponent {
                     builder: (context) {
                       return _TransferSharesModal(
                         forWithdrawl: forWithdrawl,
+                        token: token,
                       );
                     },
                   );
@@ -468,14 +469,30 @@ class TokenizedBtcActionButtons extends BaseComponent {
                       title: forWithdrawl ? "Withdraw BTC" : "Transfer BTC",
                       body: forWithdrawl
                           ? "Are you sure you want to withdraw ${result.amount} BTC"
-                          : "Are you sure you want to transfer ${result.amount} BTC to ${result.toAddress}?",
+                          : "Are you sure you want to transfer ${result.amount} shares to ${result.toAddress}?",
                     );
 
                     if (confirmed != true) {
                       return;
                     }
 
-                    final txHash = await BtcService().transferTokenCoin(token.smartContractUid, result.toAddress, result.amount);
+                    late final String? txHash;
+
+                    if (option == 2) {
+                      txHash = await BtcService().transferTokenShares(
+                        token.smartContractUid,
+                        result.toAddress,
+                        result.amount,
+                      );
+                    } else {
+                      txHash = await BtcService().withdrawCoin(
+                        token.smartContractUid,
+                        result.toAddress,
+                        result.fromAddress ?? token.rbxAddress,
+                        result.amount,
+                      );
+                    }
+
                     final message = "BTC ${forWithdrawl ? "Withdrawl" : "Transfer"} TX Broadcasted successfully with hash for $txHash";
                     Toast.message(message);
 
@@ -486,7 +503,6 @@ class TokenizedBtcActionButtons extends BaseComponent {
                 }
 
                 if (option == 4) {
-                  //TODO choose RA wallet etc.
                   final nft = await NftService().retrieve(token.smartContractUid);
                   if (nft == null) {
                     Toast.error("Could not resolve nft from ${token.smartContractUid}");
@@ -671,17 +687,21 @@ class _TransferShareModalResponse {
 }
 
 class _TransferSharesModal extends BaseComponent {
+  final TokenizedBitcoin token;
   final bool forWithdrawl;
   const _TransferSharesModal({
     super.key,
+    required this.token,
     required this.forWithdrawl,
   });
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
     final TextEditingController toAddressController = TextEditingController();
-    final TextEditingController fromAddressController = TextEditingController();
+    final TextEditingController fromAddressController = TextEditingController(text: forWithdrawl ? '' : token.rbxAddress);
     final TextEditingController amountControlller = TextEditingController();
+
+    final color = forWithdrawl ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.btcOrange;
 
     return ModalContainer(
       withClose: true,
@@ -702,18 +722,19 @@ class _TransferSharesModal extends BaseComponent {
                 controller: toAddressController,
                 decoration: InputDecoration(
                   label: Text(
-                    "To BTC Address",
-                    style: TextStyle(color: Theme.of(context).colorScheme.btcOrange),
+                    forWithdrawl ? "To BTC Address" : "To VFX Address",
+                    style: TextStyle(color: color),
                   ),
                 ),
               ),
               if (forWithdrawl)
                 TextFormField(
                   controller: fromAddressController,
+                  readOnly: true,
                   decoration: InputDecoration(
                     label: Text(
-                      "From BTC Address",
-                      style: TextStyle(color: Theme.of(context).colorScheme.btcOrange),
+                      "From VFX Address",
+                      style: TextStyle(color: color),
                     ),
                   ),
                 ),
@@ -722,7 +743,7 @@ class _TransferSharesModal extends BaseComponent {
                 decoration: InputDecoration(
                   label: Text(
                     "Amount of BTC to Send",
-                    style: TextStyle(color: Theme.of(context).colorScheme.btcOrange),
+                    style: TextStyle(color: color),
                   ),
                 ),
                 inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
@@ -741,7 +762,7 @@ class _TransferSharesModal extends BaseComponent {
                   ),
                   AppButton(
                     label: forWithdrawl ? "Withdraw" : "Transfer",
-                    variant: AppColorVariant.Btc,
+                    variant: forWithdrawl ? AppColorVariant.Secondary : AppColorVariant.Btc,
                     onPressed: () {
                       final toAddress = toAddressController.text.trim();
                       if (toAddress.isEmpty) {
@@ -759,6 +780,10 @@ class _TransferSharesModal extends BaseComponent {
 
                       if (amount == null || amount <= 0) {
                         Toast.error("Invalid Amount");
+                        return;
+                      }
+                      if (amount < token.balance) {
+                        Toast.error("Not enough balance");
                         return;
                       }
                       final result = _TransferShareModalResponse(toAddress: toAddress, fromAddress: fromAddress, amount: amount);

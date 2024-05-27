@@ -358,7 +358,7 @@ class BtcService extends BaseService {
     }
   }
 
-  Future<String?> transferTokenCoin(String scUid, String toAddress, double amount) async {
+  Future<String?> transferTokenShares(String scUid, String toAddress, double amount) async {
     final params = {
       'SCUID': scUid,
       'ToAddress': toAddress,
