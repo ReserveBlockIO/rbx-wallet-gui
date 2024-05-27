@@ -95,10 +95,9 @@ class TokenizeBtcListScreen extends BaseScreen {
             variant: AppColorVariant.Btc,
             icon: FontAwesomeIcons.bitcoin,
             onPressed: () async {
-              Wallet? wallet =
-                  kDebugMode ? null : ref.read(walletListProvider).firstWhereOrNull((a) => a.balance > MIN_RBX_FOR_SC_ACTION && !a.isReserved);
+              Wallet? wallet = ref.read(walletListProvider).firstWhereOrNull((a) => a.balance > MIN_RBX_FOR_SC_ACTION && !a.isReserved);
 
-              if (wallet == null) {
+              if (wallet == null || tokens.isEmpty) {
                 final confirmContinue = await ConfirmDialog.show(
                   title: "VFX Address with Balance Required",
                   body: "A VFX address with a balance is required to proceed. Would you like to set this up now?",

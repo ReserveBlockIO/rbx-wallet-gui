@@ -409,7 +409,7 @@ class TokenizedBtcActionButtons extends BaseComponent {
                             child: ListTile(
                               title: Text("Withdraw BTC"),
                               leading: Icon(FontAwesomeIcons.btc),
-                              subtitle: Text("Transfer BTC to another BTC address"),
+                              subtitle: Text("Transfer BTC from this token to another BTC address."),
                               trailing: Icon(Icons.chevron_right),
                               onTap: () {
                                 Navigator.of(context).pop(3);
@@ -698,7 +698,7 @@ class _TransferSharesModal extends BaseComponent {
   @override
   Widget body(BuildContext context, WidgetRef ref) {
     final TextEditingController toAddressController = TextEditingController();
-    final TextEditingController fromAddressController = TextEditingController(text: forWithdrawl ? '' : token.rbxAddress);
+    final TextEditingController fromAddressController = TextEditingController(text: forWithdrawl ? token.rbxAddress : '');
     final TextEditingController amountControlller = TextEditingController();
 
     final color = forWithdrawl ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.btcOrange;
@@ -782,7 +782,9 @@ class _TransferSharesModal extends BaseComponent {
                         Toast.error("Invalid Amount");
                         return;
                       }
-                      if (amount < token.balance) {
+                      print("-----");
+
+                      if (amount > token.balance) {
                         Toast.error("Not enough balance");
                         return;
                       }

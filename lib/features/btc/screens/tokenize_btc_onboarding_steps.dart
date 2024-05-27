@@ -132,45 +132,51 @@ class _TransferBtcToVbtcStep extends BaseComponent {
                 );
               },
             ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: AppButton(
-                label: "Initiate Transfer",
-                onPressed: () async {
-                  if (!formKey.currentState!.validate()) {
-                    return;
-                  }
-                  final amountParsed = double.tryParse(controller.text.trim());
-                  if (amountParsed == null) {
-                    Toast.error("Invalid Amount");
-                    return;
-                  }
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AppButton(
+                  label: "Initiate Transfer",
+                  variant: AppColorVariant.Btc,
+                  onPressed: () async {
+                    if (!formKey.currentState!.validate()) {
+                      return;
+                    }
+                    final amountParsed = double.tryParse(controller.text.trim());
+                    if (amountParsed == null) {
+                      Toast.error("Invalid Amount");
+                      return;
+                    }
 
-                  if (amountParsed < state.btcAccount!.balance) {
-                    Toast.error("Not enough balance in BTC account to send $amountParsed BTC");
-                    return;
-                  }
+                    if (amountParsed < state.btcAccount!.balance) {
+                      Toast.error("Not enough balance in BTC account to send $amountParsed BTC");
+                      return;
+                    }
 
-                  final success = await provider.transferBtcToVbtc(amountParsed, fee);
+                    final success = await provider.transferBtcToVbtc(amountParsed, fee);
 
-                  if (success) {
-                    provider.setProcessingState(VBtcProcessingState.waitingForBtcToVbtcTransfer);
-                  }
-                },
+                    if (success) {
+                      provider.setProcessingState(VBtcProcessingState.waitingForBtcToVbtcTransfer);
+                    }
+                  },
+                ),
               ),
+            ),
+            SizedBox(
+              height: 32,
             ),
             Divider(),
             Text("Alternatively, you can send the BTC manually to your token's deposit address"),
             TextFormField(
-              initialValue: state.btcAccount!.address,
+              initialValue: state.tokenizedBtc!.btcAddress,
               readOnly: true,
               decoration: InputDecoration(
                 label: Text("BTC Address"),
                 suffix: IconButton(
                   icon: Icon(Icons.copy),
                   onPressed: () async {
-                    await Clipboard.setData(ClipboardData(text: state.btcAccount!.address));
-                    Toast.message("WIF private key copied to clipboard");
+                    await Clipboard.setData(ClipboardData(text: state.tokenizedBtc!.btcAddress));
+                    Toast.message("Address copied to clipboard!");
                   },
                 ),
               ),
@@ -178,14 +184,16 @@ class _TransferBtcToVbtcStep extends BaseComponent {
             SizedBox(
               height: 12,
             ),
-            AppButton(
-              label: "I've sent this manually!",
-              type: AppButtonType.Text,
-              underlined: true,
-              onPressed: () {
-                provider.setProcessingState(VBtcProcessingState.waitingForBtcToVbtcTransfer);
-              },
-              variant: AppColorVariant.Btc,
+            Center(
+              child: AppButton(
+                label: "I've sent this manually!",
+                type: AppButtonType.Text,
+                underlined: true,
+                onPressed: () {
+                  provider.setProcessingState(VBtcProcessingState.waitingForBtcToVbtcTransfer);
+                },
+                variant: AppColorVariant.Btc,
+              ),
             )
           ],
         ),

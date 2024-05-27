@@ -71,14 +71,20 @@ class TokenizeBtcOnboardingScreen extends BaseScreen {
               "All Done!",
               style: TextStyle(
                 fontSize: 24,
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.btcOrange,
+                fontWeight: FontWeight.w600,
               ),
             ),
             SizedBox(
-              height: 12,
+              height: 6,
+            ),
+            Text("Your vBTC token is ready and funded."),
+            SizedBox(
+              height: 24,
             ),
             AppButton(
               label: "View Token",
+              variant: AppColorVariant.Btc,
               onPressed: () {
                 final token = state.tokenizedBtc;
                 if (token == null) {
@@ -141,47 +147,45 @@ class TokenizeBtcOnboardingScreen extends BaseScreen {
               SizedBox(
                 height: 32,
               ),
-              Builder(
-                builder: (context) {
-                  switch (state.step) {
-                    case VBtcOnboardStep.createVfxWallet:
-                      return _CreateOrImportVfxWalletStep();
-                    case VBtcOnboardStep.faucetWithdrawl:
-                      return _FaucetWithdrawlStep();
-                    case VBtcOnboardStep.createOrImportBtcAccount:
-                      return _CreateOrImportBtcAccountStep();
-                    case VBtcOnboardStep.transferBtc:
-                      return _TransferBtcStep();
+              if (state.processingState == VBtcProcessingState.ready)
+                Builder(
+                  builder: (context) {
+                    switch (state.step) {
+                      case VBtcOnboardStep.createVfxWallet:
+                        return _CreateOrImportVfxWalletStep();
+                      case VBtcOnboardStep.faucetWithdrawl:
+                        return _FaucetWithdrawlStep();
+                      case VBtcOnboardStep.createOrImportBtcAccount:
+                        return _CreateOrImportBtcAccountStep();
+                      case VBtcOnboardStep.transferBtc:
+                        return _TransferBtcStep();
 
-                    case VBtcOnboardStep.tokenize:
-                      return _TokenizeBtcStep();
-                    case VBtcOnboardStep.transferBtcToVbtc:
-                      return _TransferBtcToVbtcStep();
-                  }
-                },
-              ),
+                      case VBtcOnboardStep.tokenize:
+                        return _TokenizeBtcStep();
+                      case VBtcOnboardStep.transferBtcToVbtc:
+                        return _TransferBtcToVbtcStep();
+                    }
+                  },
+                ),
               Builder(
                 builder: (context) {
                   switch (state.processingState) {
                     case VBtcProcessingState.ready:
                       return SizedBox.shrink();
                     default:
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            CenteredLoader(),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Text(
-                              state.processingStateMessage,
-                              style: TextStyle(fontSize: 18),
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
-                        ),
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          CenteredLoader(),
+                          SizedBox(
+                            height: 16,
+                          ),
+                          Text(
+                            state.processingStateMessage,
+                            style: TextStyle(fontSize: 18),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
                       );
                   }
                 },

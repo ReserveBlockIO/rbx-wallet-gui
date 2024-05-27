@@ -118,7 +118,7 @@ class TokenizedBtcDetailScreen extends BaseScreen {
                     withCopy: true,
                   ),
                   _DetailRow(
-                    label: "BTC Address",
+                    label: "BTC Deposit Address",
                     value: token.btcAddress ?? 'Not Generated',
                     withCopy: token.btcAddress != null,
                   ),

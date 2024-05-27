@@ -11,8 +11,10 @@ import 'package:rbx_wallet/features/btc/models/btc_account.dart';
 import 'package:rbx_wallet/features/btc/models/btc_fee_rate_preset.dart';
 import 'package:rbx_wallet/features/btc/models/tokenized_bitcoin.dart';
 import 'package:rbx_wallet/features/btc/providers/btc_account_list_provider.dart';
+import 'package:rbx_wallet/features/btc/providers/tokenize_btc_form_provider.dart';
 import 'package:rbx_wallet/features/btc/providers/tokenized_bitcoin_list_provider.dart';
 import 'package:rbx_wallet/features/btc/services/btc_service.dart';
+import 'package:rbx_wallet/features/smart_contracts/features/tokenization/tokenization_provider.dart';
 import 'package:rbx_wallet/features/transactions/models/transaction.dart';
 import 'package:rbx_wallet/features/transactions/providers/transaction_list_provider.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
@@ -155,16 +157,16 @@ class VBtcOnboardState {
         return "";
 
       case VBtcProcessingState.waitingForVfxTransfer:
-        return "Waiting for VFX Transfer to reflect.";
+        return "Waiting for VFX Transfer to reflect on-chain.";
 
       case VBtcProcessingState.waitingForBtcTransfer:
-        return "Waiting for BTC transfer to reflect.";
+        return "Waiting for BTC transfer to reflect on-chain.";
 
       case VBtcProcessingState.waitingForTokenization:
-        return "Waiting for vBTC Tokenization transaction to reflect.";
+        return "Waiting for vBTC Tokenization to compile.";
 
       case VBtcProcessingState.waitingForBtcToVbtcTransfer:
-        return "Waiting for BTC => vBTC transaction to reflect.";
+        return "Waiting for BTC to vBTC transaction to reflect on-chain.";
     }
   }
 }
@@ -214,7 +216,7 @@ class VBtcOnboard extends _$VBtcOnboard {
         final token = tokens.firstWhereOrNull((t) => t.rbxAddress == state.vfxWallet?.address);
         if (token != null) {
           Toast.message("Token Deployed!");
-          state = state.copyWith(step: VBtcOnboardStep.transferBtcToVbtc, processingState: VBtcProcessingState.ready);
+          state = state.copyWith(step: VBtcOnboardStep.transferBtcToVbtc, processingState: VBtcProcessingState.ready, tokenizedBtc: token);
 
           btcTokenizationListener?.close();
         }
@@ -269,10 +271,11 @@ class VBtcOnboard extends _$VBtcOnboard {
     } else {
       state = state.copyWith(vfxWallet: vfxWallet, step: VBtcOnboardStep.faucetWithdrawl);
     }
+    ref.read(tokenizeBtcFormProvider.notifier).setAddress(vfxWallet.address);
   }
 
   void setBtcAccount(BtcAccount account) {
-    if (account.balance >= 0) {
+    if (account.balance > 0) {
       state = state.copyWith(btcAccount: account, step: VBtcOnboardStep.tokenize);
     } else {
       state = state.copyWith(btcAccount: account, step: VBtcOnboardStep.transferBtc);
